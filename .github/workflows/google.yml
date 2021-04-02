@@ -54,4 +54,4 @@ jobs:
         --no-allow-unauthenticated \
         --ingress internal \
         --memory 1024Mi \
-        --labels=Type=$TAG
+        --labels=type=$TAG
