@@ -52,5 +52,6 @@ jobs:
         --platform managed \
         --region $GCP_ZONE \
         --no-allow-unauthenticated \
-        --memory 1024Mi
+        --ingress internal \
+        --memory 1024Mi \
         --labels=Type=$TAG
