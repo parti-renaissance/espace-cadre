@@ -2,9 +2,10 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
+    branches: [ master ]
     paths-ignore:
       - '.github/**'
-    branches: [ master ]
+
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
