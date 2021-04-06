@@ -6,7 +6,6 @@ const Audience = () => {
 
     useEffect(() => {
         $('#audienceCollapse').on('click', function () {
-            console.log("clicked audience collapse");
             $('#audience').toggle("hidden");
         });
     }, []);
@@ -14,7 +13,7 @@ const Audience = () => {
     return (
         <>
                 <div className="audience" id="audience">
-                    Audience Cible :
+                    <h3>Audience Cible</h3>
                     <div className="parts">
                         <div className="part">Contacts</div>
                         <div className="part">Geographie</div>

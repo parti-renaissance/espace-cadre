@@ -1,15 +1,15 @@
 .audience {
     flex: 1;
     padding: 20px;
-    background-color: green;
     .parts {
-        height: calc(100% - 20px);
-        background-color: greenyellow;
+        height: calc(100% - 40px);
+        border: solid 2px black;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         .part {
-            background-color: greenyellow;
+            height: 100%;
+            border: dashed 1px lightblue;
         }
     }
 }

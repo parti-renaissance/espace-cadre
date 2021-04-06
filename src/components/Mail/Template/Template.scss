@@ -1,11 +1,12 @@
 .templates {
     flex: 4;
     padding: 20px;
-    background-color: blue;
     display: flex;
     flex-direction: column;
     .header {
-        background-color: gray;
+        padding: 5px;
+        display: flex;
+        flex-direction: row;
     }
     .grapesjs {
         background-color: purple;
