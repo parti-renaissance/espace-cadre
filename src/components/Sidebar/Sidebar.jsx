@@ -27,7 +27,6 @@ const Sidebar = () => {
                     <li className="nav-item">
                         <Link
                             to="/"
-                            exact
                             className="nav-link text-dark"
                         >
                             <i className="fas fa-th-large mr-2 text-grey fa-fw"></i>
