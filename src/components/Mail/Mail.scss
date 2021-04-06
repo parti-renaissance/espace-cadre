@@ -1,0 +1,36 @@
+.mail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100vh;
+    .templates {
+        flex: 4;
+        padding: 20px;
+        background-color: blue;
+        display: flex;
+        flex-direction: column;
+        .header {
+            flex: 1;
+            background-color: gray;
+        }
+        .grapejs {
+            flex: 6;
+            background-color: purple;
+        }
+    }
+    .audience {
+        flex: 1;
+        padding: 20px;
+        background-color: green;
+        .parts {
+            height: 100%;
+            background-color: greenyellow;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            .contacts {
+                background-color: greenyellow;
+            }
+        }
+    }
+}

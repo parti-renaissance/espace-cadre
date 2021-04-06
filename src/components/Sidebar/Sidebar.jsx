@@ -48,6 +48,14 @@ const Sidebar = () => {
                             <i className="far fa-address-book mr-2 text-grey fa-fw"></i>
                             {' '}Contacts
                         </Link>
+                    </li><li className="nav-item">
+                        <Link
+                            to="/mail"
+                            className="nav-link text-dark"
+                        >
+                            <i className="far fa-address-book mr-2 text-grey fa-fw"></i>
+                            {' '}Mail
+                        </Link>
                     </li>
                 </ul>
             </div>
