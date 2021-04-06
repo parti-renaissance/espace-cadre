@@ -24,6 +24,21 @@
     justify-content: center;
     justify-content: space-between;
   }
+
 .panel__basic-actions {
     position: initial;
+}
+
+.editor-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    height: 300px;
+  }
+
+.panel__right {
+flex-basis: 230px;
+position: relative;
+overflow-y: auto;
 }
