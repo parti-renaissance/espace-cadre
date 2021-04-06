@@ -1,0 +1,26 @@
+// .audiencebar {
+//     min-width: 17rem;
+//     width: 17rem;
+//     height: 100vh;
+//     position: fixed;
+//     top: 0;
+//     left: calc(100% - 17rem);
+//     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+//     transition: all 0.4s;
+// }
+
+.audience {
+    flex: 1;
+    padding: 20px;
+    background-color: green;
+    .parts {
+        height: calc(100% - 20px);
+        background-color: greenyellow;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        .part {
+            background-color: greenyellow;
+        }
+    }
+}

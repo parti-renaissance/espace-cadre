@@ -8,6 +8,7 @@ const Sidebar = () => {
 
     useEffect(() => {
         $('#sidebarCollapse').on('click', function () {
+            console.log("clicked sidebar collapse");
             $('#sidebar, #content').toggleClass('active');
         });
     }, []);

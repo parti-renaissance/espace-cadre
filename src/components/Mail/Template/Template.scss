@@ -1,0 +1,13 @@
+.templates {
+    flex: 4;
+    padding: 20px;
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    .header {
+        background-color: gray;
+    }
+    .grapejs {
+        background-color: purple;
+    }
+}
