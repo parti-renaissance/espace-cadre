@@ -10,31 +10,23 @@ const panelsConf = {
         {
             id: 'commands',
             buttons: [
-              {
-                id: 'visibility',
-                active: true, // active by default
-                className: 'btn-toggle-borders',
-                label: 'Editor',
-                command: 'sw-visibility', // Built-in command
-              }, {
-                id: 'export',
-                className: 'btn-open-export',
-                label: 'Code',
-                command: 'export-template',
-                context: 'export-template', // For grouping context of buttons from the same panel
-              }, {
-                id: 'show-json',
-                className: 'btn-show-json',
-                label: 'JSON',
-                context: 'show-json',
-                command(editor) {
-                  editor.Modal.setTitle('Components JSON')
-                    .setContent(`<textarea style="width:100%; height: 250px;">
-                      ${JSON.stringify(editor.getComponents())}
-                    </textarea>`)
-                    .open();
-                },
-              }
+             {
+                id: 'deviceDesktop',
+                command: 'set-device-desktop',
+                className: 'fa fa-desktop',
+                attributes: {title: 'Desktop'},
+                active: 1,
+            }, {
+                id: 'deviceTablet',
+                command: 'set-device-tablet',
+                className: 'fa fa-tablet',
+                attributes: {title:'Tablet'},
+            }, {
+                id: 'deviceMobile',
+                command: 'set-device-mobile',
+                className: 'fa fa-mobile',
+                attributes: {title: 'Mobile'},
+            }
             ],
         },
         {
@@ -67,7 +59,19 @@ const panelsConf = {
                 className: 'fa fa-code',
                 command: expt,
                 attributes: { title: 'View code' }
-              },
+              }, {
+                id: 'show-json',
+                className: 'btn-show-json',
+                label: 'JSON',
+                context: 'show-json',
+                command(editor) {
+                  editor.Modal.setTitle('Components JSON')
+                    .setContent(`<textarea style="width:100%; height: 250px;">
+                      ${JSON.stringify(editor.getComponents())}
+                    </textarea>`)
+                    .open();
+                }
+              }
             ]
           },
           {
