@@ -53,7 +53,7 @@ jobs:
         --image eu.gcr.io/$PROJECT_ID/$IMAGE:$TAG \
         --platform managed \
         --region $GCP_ZONE \
-        --no-allow-unauthenticated \
-        --ingress internal \
         --memory 1024Mi \
-        --labels=type=$TAG
+        --labels=type=$TAG #\
+#        --no-allow-unauthenticated \
+#        --ingress internal \
