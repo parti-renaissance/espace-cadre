@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Contacts from './components/Contacts/Contacts';
 import Sidebar from './components/Sidebar/Sidebar';
+import Mail from './components/Mail/Mail';
 
 import './App.scss';
 
@@ -21,6 +22,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/contacts" component={Contacts} />
+          <Route path="/mail" component={Mail} />
         </Switch>
       </div>
     </>

@@ -1,0 +1,14 @@
+.templates {
+    flex: 4;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    .header {
+        padding: 5px;
+        display: flex;
+        flex-direction: row;
+    }
+    .grapesjs {
+        background-color: purple;
+    }
+}
