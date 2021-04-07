@@ -28,6 +28,7 @@ const Sidebar = () => {
                     <li className="nav-item">
                         <Link
                             to="/"
+                            exact
                             className="nav-link text-dark"
                         >
                             <i className="fas fa-th-large mr-2 text-grey fa-fw"></i>
@@ -53,7 +54,7 @@ const Sidebar = () => {
                             to="/mail"
                             className="nav-link text-dark"
                         >
-                            <i className="fas fa-envelope-open-text mr-2 text-grey fa-fw"></i>
+                            <i className="far fa-address-book mr-2 text-grey fa-fw"></i>
                             {' '}Mail
                         </Link>
                     </li>

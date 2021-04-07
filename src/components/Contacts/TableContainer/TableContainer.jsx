@@ -1,5 +1,3 @@
-import './TableContainer.scss';
-
 import {
     useTable,
     useGlobalFilter,
@@ -7,8 +5,10 @@ import {
     usePagination
 }
     from "react-table";
+
 import GlobalFilter from '../GlobalFilter';
-import { CSVLink } from "react-csv";
+
+import './TableContainer.scss';
 
 const TableContainer = ({ columns, data, defaultColumn }) => {
     const {
@@ -31,7 +31,7 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
         columns,
         data,
         defaultColumn,
-        initialState: { pageSize: 20 }
+        initialState: {pageSize: 20}
     },
         useGlobalFilter,
         useFilters,
@@ -43,18 +43,15 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
     return (
         <>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-            <div className="d-flex paginationTop">
-                <CSVLink
-                    data={data}
-                    filename={"contacts.csv"}
-                    className="btn btn-outline-info btn-sm mx-1"
-                    target="_blank">Export XLS
-                </CSVLink>
-                {' '}
-                <span style={{ borderLeft: "1px solid lightgrey", height: "2rem" }}></span>
-                {' '}
+            <div className="paginationTop">
+                <span className="p-2">
+                    Page{' '}
+                    <strong>
+                        {pageIndex + 1} of {pageOptions.length}
+                    </strong> {' '}
+                </span>
                 <select
-                    className="p-1 border rounded ml-1"
+                    className="p-1 border rounded"
                     value={pageSize}
                     onChange={e => setPageSize(Number(e.target.value))}
                 >
@@ -97,15 +94,6 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
                 </tbody>
             </table>
             <div className="paginationBottom">
-                <span className="mr-2">
-                    Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {pageOptions.length}
-                    </strong>
-                    {' '}
-                    <span style={{ borderLeft: "1px solid lightgrey", height: "1rem" }}></span>
-                    {' '}
-                </span>
                 <span>
                     Aller à la page: {' '}
                     <input
