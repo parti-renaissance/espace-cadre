@@ -15,6 +15,10 @@ const Template = () => {
                 </select>
                 <button className="btn-danger">Supprimer</button>
             </div>
+            <div class="objet">
+                <label>Objet de l'Email : &nbsp; </label>
+                <input placeholder="Objet"/>
+            </div>
             <Editor/>
         </div>
     )

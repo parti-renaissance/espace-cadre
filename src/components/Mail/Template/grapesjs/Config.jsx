@@ -54,80 +54,106 @@ const setBlocks = (blockManager) => {
       select: true,
       content: '<hr>',
       activate: true
+    });
+    blockManager.add("Button", {
+      id: 'Button',
+      label: 'Button',
+      attributes: { class: 'gjs-fonts gjs-f-button' },
+      content: '<a class="button" style="background-color: blue; color: white">Button</a>',
+      activate: true
+    });
+}
+
+const setPanels = (panels) => {
+  panels.addPanel({
+    id: 'options',
+    buttons: [
+      {
+        active: true,
+        id: swv,
+        className: 'fa fa-square-o',
+        command: swv,
+        context: swv,
+        attributes: { title: 'View components' }
+      },
+      {
+        id: prv,
+        className: 'fa fa-eye',
+        command: prv,
+        context: prv,
+        attributes: { title: 'Preview' }
+      },
+      {
+        id: ful,
+        className: 'fa fa-arrows-alt',
+        command: ful,
+        context: ful,
+        attributes: { title: 'Fullscreen' }
+      },
+      {
+        id: 'show-json',
+        className: 'btn-show-json',
+        label: 'JSON',
+        context: 'show-json',
+        command(editor) {
+          editor.Modal.setTitle('Components JSON')
+            .setContent(`<textarea style="width:100%; height: 250px;">
+              ${JSON.stringify(editor.getComponents())}
+            </textarea>`)
+            .open();
+        }
+      }, {
+        id: 'undo',
+        className: 'fa fa-undo',
+        command: 'undo',
+      }, {
+        id: 'redo',
+        className: 'fa fa-repeat',
+        command: 'redo',
+      }
+    ]
+  });
+  panels.addPanel({
+    id: 'views',
+    buttons: [
+      {
+        id: obl,
+        className: 'fa fa-th-large',
+        command: obl,
+        togglable: 0,
+        attributes: { title: 'Open Blocks' }
+      }
+    ]
   });
 }
 
-const setConfig = (editor) => {
-    editor.I18n.setLocale("fr");
-        editor.Panels.addPanel({
-            id: 'commands',
-            buttons: [
-            
-            ],
-        });
-        editor.Panels.addPanel(
-        {
-            id: 'options',
-            buttons: [
-              {
-                active: true,
-                id: swv,
-                className: 'fa fa-square-o',
-                command: swv,
-                context: swv,
-                attributes: { title: 'View components' }
-              },
-              {
-                id: prv,
-                className: 'fa fa-eye',
-                command: prv,
-                context: prv,
-                attributes: { title: 'Preview' }
-              },
-              {
-                id: ful,
-                className: 'fa fa-arrows-alt',
-                command: ful,
-                context: ful,
-                attributes: { title: 'Fullscreen' }
-              },
-              {
-                id: 'show-json',
-                className: 'btn-show-json',
-                label: 'JSON',
-                context: 'show-json',
-                command(editor) {
-                  editor.Modal.setTitle('Components JSON')
-                    .setContent(`<textarea style="width:100%; height: 250px;">
-                      ${JSON.stringify(editor.getComponents())}
-                    </textarea>`)
-                    .open();
-                }
-              }
-            ]
-          });
-          editor.Panels.addPanel({
-            id: 'views',
-            buttons: [
-              {
-                id: obl,
-                className: 'fa fa-th-large',
-                command: obl,
-                togglable: 0,
-                attributes: { title: 'Open Blocks' }
-              }
-            ]
-          });
+const setDevices = (editor) => {
+  editor.getConfig().showDevices = 0;
+  editor.Panels.addPanel({ id: "devices-c" }).get("buttons").add([
+      { id: "set-device-desktop", command: function(e) { return e.setDevice("Desktop") }, className: "fa fa-desktop", active: 1},
+      { id: "set-device-mobile", command: function(e) { return e.setDevice("Mobile portrait") }, className: "fa fa-mobile" },
+      ]);
+}
 
-        editor.getConfig().showDevices = 0;
-        editor.Panels.addPanel({ id: "devices-c" }).get("buttons").add([
-            { id: "set-device-desktop", command: function(e) { return e.setDevice("Desktop") }, className: "fa fa-desktop", active: 1},
-            { id: "set-device-tablet", command: function(e) { return e.setDevice("Tablet") }, className: "fa fa-tablet" },
-            { id: "set-device-mobile", command: function(e) { return e.setDevice("Mobile portrait") }, className: "fa fa-mobile" },
-            ]);
-        editor.Panels.render();
-        setBlocks(editor.BlockManager);
-        editor.Panels.getButton('views', 'open-blocks').set('active', true);
+const setConfig = (editor) => {
+  editor.I18n.setLocale("fr");
+  setPanels(editor.Panels);
+  setDevices(editor);
+  setBlocks(editor.BlockManager);
+  editor.Panels.render();
+  editor.Panels.getButton('views', 'open-blocks').set('active', true);
+  editor.Commands.add('undo', {
+    run(editor, sender) {
+      sender.set('active', 0);
+      editor.UndoManager.undo(1);
+    }
+  });
+  editor.Commands.add('redo', {
+    run(editor, sender) {
+      sender.set('active', 0);
+      editor.UndoManager.redo(1);
+    }
+  });
 };
 
 export default setConfig;
