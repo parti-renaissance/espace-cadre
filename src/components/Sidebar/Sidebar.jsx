@@ -35,10 +35,12 @@ const Sidebar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-dark">
+                        <Link 
+                            to="/"
+                            className="nav-link text-dark">
                             <i className="far fa-chart-bar mr-2 text-grey fa-fw"></i>
                             {' '}Analyse
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <Link

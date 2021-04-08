@@ -28,9 +28,6 @@ export const Contacts = () => {
         getContactsAndColumnsTitles()
     }, []);
 
-    // Set the columns headers
-    const columns = useMemo(() => COLUMNS, []);
-
     // Set the search input to every column
     const defaultColumn = useMemo(() => {
         return {

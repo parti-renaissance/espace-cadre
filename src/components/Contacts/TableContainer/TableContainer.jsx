@@ -32,7 +32,7 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
         columns,
         data,
         defaultColumn,
-        initialState: { pageSize: 20 }
+        initialState: { pageSize: 40 }
     },
         useGlobalFilter,
         useFilters,
