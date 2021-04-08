@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Template from './Template/Template'
 import Audience from './Audience/Audience'
 import "./Mail.scss"

@@ -2,9 +2,7 @@ import 'grapesjs/dist/css/grapes.min.css';
 import grapesjs from 'grapesjs';
 import "./Editor.scss";
 import { useEffect } from 'react';
-import panelsConf from './panelsConf';
 const swv = 'sw-visibility';
-const expt = 'export-template';
 const ful = 'fullscreen';
 const prv = 'preview';
 const obl = 'open-blocks';
@@ -148,17 +146,11 @@ const Editor = () => {
 
     return (
     <>
-        <div class="panel__top">
-            <div class="panel__basic-actions"></div>
+        <div className="panel__top">
+            <div className="panel__basic-actions"></div>
         </div>
         <div id="gjs" className="editor">
-        <table class="main-body">
-        <tr class="row">
-            <td class="main-body-cell">
-            <a>Hello</a>
-            </td>
-        </tr>
-</table>
+              Exemple de mail
         </div>
     </>
     )
