@@ -1,3 +1,4 @@
+import "./Config.scss";
 const swv = 'sw-visibility';
 const ful = 'fullscreen';
 const prv = 'preview';
@@ -17,12 +18,18 @@ const setBlocks = (blockManager) => {
         attributes: { class: "gjs-fonts gjs-f-text" },
         content: '<div data-gjs-type="text">Exemple de texte</div>',
     });
+    blockManager.add("centeredtext-block", {
+      id: 'centeredtext',
+      label: 'CenteredText',
+      attributes: { class: "gjs-fonts gjs-f-text" },
+      content: '<div data-gjs-type="text" style="marginLeft: auto; marginRight: auto;">Exemple de texte centré</div>',
+  });
     blockManager.add("image-block", {
         id: 'image',
         label: 'Image',
         attributes: { class: "gjs-fonts gjs-f-image" },
         select: true,
-        content: { type: 'image' },
+        content: { type: 'image', classes: ['imageClass'], activeOnRender: 1},
         activate: true,
     });
     blockManager.add("link-block", {
@@ -33,7 +40,7 @@ const setBlocks = (blockManager) => {
         content: {
           type: 'link',
           content: 'Link',
-          style: { color: '#d983a6' }
+          style: { color: '#1d5fd1' },
         },
         activate: true,
     });
@@ -60,6 +67,7 @@ const setBlocks = (blockManager) => {
       label: 'Button',
       attributes: { class: 'gjs-fonts gjs-f-button' },
       content: '<a class="button" style="background-color: blue; color: white">Button</a>',
+      style: { color: '#1d5fd1' },
       activate: true
     });
 }

@@ -3,6 +3,7 @@ import grapesjs from 'grapesjs';
 import { useEffect } from 'react';
 import setConfig from './Config';
 import "./Editor.scss";
+import "./Config.scss";
 
 const Editor = () => {
     useEffect(() => {
@@ -27,7 +28,6 @@ const Editor = () => {
             <div className="panel__basic-actions"></div>
         </div>
         <div id="gjs" className="editor">
-            
         </div>
     </>
     )
