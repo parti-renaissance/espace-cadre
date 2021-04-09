@@ -1,11 +1,7 @@
-import ReactDOM from 'react-dom';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-  ,
-  document.getElementById('root')
-);
+import store from './redux/store'
+import App from './App';
+
+ReactDOM.render(<App store={store}/>, document.getElementById('root'));

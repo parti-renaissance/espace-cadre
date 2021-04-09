@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 import $ from 'jquery';
 
-
 const Sidebar = () => {
-
     useEffect(() => {
         $('#sidebarCollapse').on('click', function () {
             console.log("clicked sidebar collapse");
@@ -35,7 +33,7 @@ const Sidebar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link 
+                        <Link
                             to="/"
                             className="nav-link text-dark">
                             <i className="far fa-chart-bar mr-2 text-grey fa-fw"></i>

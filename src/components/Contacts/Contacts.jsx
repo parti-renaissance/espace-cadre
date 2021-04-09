@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 
 import TableContainer from './TableContainer/TableContainer';
-import { COLUMNS } from './Columns';
 import ColumnFilter from './ColumnFilter';
 
 export const Contacts = () => {
