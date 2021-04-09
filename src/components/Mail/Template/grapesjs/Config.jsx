@@ -38,7 +38,7 @@ const setBlocks = (blockManager) => {
     label: 'Image',
     attributes: { class: "gjs-fonts gjs-f-image" },
     select: true,
-    content: { type: 'image', classes: ['imageClass'], activeOnRender: 1},
+    content: `<div style="display: flex; justify-content: space-between"><section><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/></section></div>`,
     activate: true,
   });
   blockManager.add("imageCentered", {
