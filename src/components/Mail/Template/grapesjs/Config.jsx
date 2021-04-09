@@ -1,4 +1,3 @@
-import "./Config.scss";
 const swv = 'sw-visibility';
 const ful = 'fullscreen';
 const prv = 'preview';
@@ -20,9 +19,9 @@ const setBlocks = (blockManager) => {
     });
     blockManager.add("centeredtext-block", {
       id: 'centeredtext',
-      label: 'CenteredText',
+      label: 'Texte centré',
       attributes: { class: "gjs-fonts gjs-f-text" },
-      content: '<div data-gjs-type="text" style="marginLeft: auto; marginRight: auto;">Exemple de texte centré</div>',
+      content: '<div style="display: flex; justify-content: space-between"><section></section><p>Texte centré</p><section></section></div>',
   });
     blockManager.add("image-block", {
         id: 'image',
@@ -54,9 +53,17 @@ const setBlocks = (blockManager) => {
         <div>Section2 texte</div></section></div>`,
         activate: true
     });
+    blockManager.add("imageCentered", {
+      id: 'imageCentered',
+      label: 'image centrée',
+      attributes: { class: "gjs-fonts gjs-f-image" },
+      select: true,
+      content: `<div style="display: flex; justify-content: space-between"><section></section><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/><section></section></div>`,
+      activate: true
+  });
     blockManager.add("Divider", {
       id: 'divider',
-      label: 'divider',
+      label: 'séparation',
       attributes: { class: "gjs-fonts gjs-f-divider gjs-block gjs-one-bg gjs-four-color-h" },
       select: true,
       content: '<hr>',
@@ -64,9 +71,17 @@ const setBlocks = (blockManager) => {
     });
     blockManager.add("Button", {
       id: 'Button',
-      label: 'Button',
+      label: 'Bouton',
       attributes: { class: 'gjs-fonts gjs-f-button' },
-      content: '<a class="button" style="background-color: blue; color: white">Button</a>',
+      content: '<div style="display: flex; justify-content: space-between"><a style="background-color: #1d5fd1; color: white">Bouton</a></div>',
+      style: { color: '#1d5fd1' },
+      activate: true
+    });
+    blockManager.add("ButtonCentered", {
+      id: 'ButtonCentered',
+      label: 'Bouton centré',
+      attributes: { class: 'gjs-fonts gjs-f-button' },
+      content: '<div style="display: flex; justify-content: space-between"><section></section><a class="button" style="background-color: #1d5fd1; color: white">Bouton</a><section></section></div>',
       style: { color: '#1d5fd1' },
       activate: true
     });

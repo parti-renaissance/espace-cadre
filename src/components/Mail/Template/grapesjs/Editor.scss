@@ -26,9 +26,15 @@
       margin-right: 80px;
   }
 
-  .gjs-pn-views-container {
-      width: 200px;
-  }
+.gjs-pn-views-container {
+    width: 200px;
+    margin-top: 45px;
+    height: calc(100% - 45px);
+}
+
+.gjs-blocks-c {
+    margin-top: -45px;
+}
 
 .panel__top {
     padding: 0;
@@ -48,8 +54,7 @@
     justify-content: start;
 }
 
-.imageClass {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-}
+// .gjs-pn-views-container {
+//     margin-top: 45px;
+//     height: calc(100% - 45px);
+// }
