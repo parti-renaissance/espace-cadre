@@ -4,87 +4,87 @@ const prv = 'preview';
 const obl = 'open-blocks';
 
 const setBlocks = (blockManager) => {
-    blockManager.add("section-block", {
-        id: 'Section',
-        label: '<b>Section</b>',
-        attributes: { class: "gjs-fonts gjs-f-b1 gjs-block gjs-one-bg gjs-four-color-h" },
-        content: `<section><h1>Bonjour,</h1>
-            <div>Ceci est un exemple de Mail</div></section>`,
-    });
-    blockManager.add("text-block", {
-        id: 'text',
-        label: 'Text',
-        attributes: { class: "gjs-fonts gjs-f-text" },
-        content: '<div data-gjs-type="text">Exemple de texte</div>',
-    });
-    blockManager.add("centeredtext-block", {
-      id: 'centeredtext',
-      label: 'Texte centré',
-      attributes: { class: "gjs-fonts gjs-f-text" },
-      content: '<div style="display: flex; justify-content: space-between"><section></section><p>Texte centré</p><section></section></div>',
+  blockManager.add("text-block", {
+    id: 'text',
+    label: 'Texte',
+    attributes: { class: "gjs-fonts gjs-f-text" },
+    content: '<div data-gjs-type="text">Exemple de texte</div>',
   });
-    blockManager.add("image-block", {
-        id: 'image',
-        label: 'Image',
-        attributes: { class: "gjs-fonts gjs-f-image" },
-        select: true,
-        content: { type: 'image', classes: ['imageClass'], activeOnRender: 1},
-        activate: true,
-    });
-    blockManager.add("link-block", {
-        id: 'link',
-        label: 'Link',
-        attributes: { class: "fa fa-link gjs-block gjs-one-bg gjs-four-color-h" },
-        select: true,
-        content: {
-          type: 'link',
-          content: 'Link',
-          style: { color: '#1d5fd1' },
-        },
-        activate: true,
-    });
-    blockManager.add("1/2 section", {
-        id: '1/2 section',
-        label: '1/2 Section',
-        attributes: { class: "gjs-fonts gjs-f-b2 gjs-block gjs-one-bg gjs-four-color-h" },
-        select: true,
-        content: `<div style="display: flex; justify-content: space-between"><section><h1>Section 1 titre</h1>
-        <div>Section1 texte</div></section><section><h1>Section 2 titre</h1>
-        <div>Section2 texte</div></section></div>`,
-        activate: true
-    });
-    blockManager.add("imageCentered", {
-      id: 'imageCentered',
-      label: 'image centrée',
-      attributes: { class: "gjs-fonts gjs-f-image" },
+  blockManager.add("centeredtext-block", {
+    id: 'centeredtext',
+    label: 'Texte centré',
+    attributes: { class: "gjs-fonts gjs-f-text" },
+    content: '<div style="display: flex; justify-content: space-between"><section></section><p>Texte centré</p><section></section></div>',
+  });
+  blockManager.add("section-block", {
+      id: 'Section',
+      label: '<b>Section</b>',
+      attributes: { class: "gjs-fonts gjs-f-b1 gjs-block gjs-one-bg gjs-four-color-h" },
+      content: `<section><h1>Bonjour,</h1>
+          <div>Ceci est un exemple de Mail</div></section>`,
+  });
+  blockManager.add("1/2 section", {
+      id: '1/2 section',
+      label: '1/2 Section',
+      attributes: { class: "gjs-fonts gjs-f-b2 gjs-block gjs-one-bg gjs-four-color-h" },
       select: true,
-      content: `<div style="display: flex; justify-content: space-between"><section></section><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/><section></section></div>`,
+      content: `<div style="display: flex; justify-content: space-between"><section><h1>Section 1 titre</h1>
+      <div>Section1 texte</div></section><section><h1>Section 2 titre</h1>
+      <div>Section2 texte</div></section></div>`,
       activate: true
   });
-    blockManager.add("Divider", {
-      id: 'divider',
-      label: 'séparation',
-      attributes: { class: "gjs-fonts gjs-f-divider gjs-block gjs-one-bg gjs-four-color-h" },
+  blockManager.add("image-block", {
+    id: 'image',
+    label: 'Image',
+    attributes: { class: "gjs-fonts gjs-f-image" },
+    select: true,
+    content: { type: 'image', classes: ['imageClass'], activeOnRender: 1},
+    activate: true,
+  });
+  blockManager.add("imageCentered", {
+    id: 'imageCentered',
+    label: 'image centrée',
+    attributes: { class: "gjs-fonts gjs-f-image" },
+    select: true,
+    content: `<div style="display: flex; justify-content: space-between"><section></section><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/><section></section></div>`,
+    activate: true
+  });
+  blockManager.add("link-block", {
+      id: 'link',
+      label: 'Link',
+      attributes: { class: "fa fa-link gjs-block gjs-one-bg gjs-four-color-h" },
       select: true,
-      content: '<hr>',
-      activate: true
-    });
-    blockManager.add("Button", {
-      id: 'Button',
-      label: 'Bouton',
-      attributes: { class: 'gjs-fonts gjs-f-button' },
-      content: '<div style="display: flex; justify-content: space-between"><a style="background-color: #1d5fd1; color: white">Bouton</a></div>',
-      style: { color: '#1d5fd1' },
-      activate: true
-    });
-    blockManager.add("ButtonCentered", {
-      id: 'ButtonCentered',
-      label: 'Bouton centré',
-      attributes: { class: 'gjs-fonts gjs-f-button' },
-      content: '<div style="display: flex; justify-content: space-between"><section></section><a class="button" style="background-color: #1d5fd1; color: white">Bouton</a><section></section></div>',
-      style: { color: '#1d5fd1' },
-      activate: true
-    });
+      content: {
+        type: 'link',
+        content: 'Link',
+        style: { color: '#1d5fd1' },
+      },
+      activate: true,
+  });
+  blockManager.add("Divider", {
+    id: 'divider',
+    label: 'séparation',
+    attributes: { class: "gjs-fonts gjs-f-divider gjs-block gjs-one-bg gjs-four-color-h" },
+    select: true,
+    content: '<hr>',
+    activate: true
+  });
+  blockManager.add("Button", {
+    id: 'Button',
+    label: 'Bouton',
+    attributes: { class: 'gjs-fonts gjs-f-button' },
+    content: '<div style="display: flex; justify-content: space-between"><a style="background-color: #1d5fd1; color: white">Bouton</a></div>',
+    style: { color: '#1d5fd1' },
+    activate: true
+  });
+  blockManager.add("ButtonCentered", {
+    id: 'ButtonCentered',
+    label: 'Bouton centré',
+    attributes: { class: 'gjs-fonts gjs-f-button' },
+    content: '<div style="display: flex; justify-content: space-between"><section></section><a class="button" style="background-color: #1d5fd1; color: white">Bouton</a><section></section></div>',
+    style: { color: '#1d5fd1' },
+    activate: true
+  });
 }
 
 const setPanels = (panels) => {
