@@ -4,7 +4,7 @@ import "./Template.scss";
 
 const Template = () => {
     return (
-        <div className="templates">
+        <div className="templates" style={{overflow : 'auto'}}>
             <h3>Mes Templates</h3>
             <div className="header">
                 <select className="custom-select">
