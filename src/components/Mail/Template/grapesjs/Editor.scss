@@ -1,12 +1,13 @@
 /* Let's highlight canvas boundaries */
 #gjs {
     border: 3px solid #444;
+    max-width: 800px;
+    min-width: 400px;
 }
 
 .gjs-cv-canvas__frames {
-    width: calc(100% - 300px);
-    margin-left: 100px;
-   
+    width: calc(100% - 150px);
+    margin-left: 5%;
 }
 
 .panel__top {
@@ -16,15 +17,15 @@
     position: initial;
     justify-content: center;
     justify-content: space-between;
-  }
+}
 
-  .gjs-cv-canvas {
-      padding: 20px;
-  }
+.gjs-cv-canvas {
+    padding: 20px;
+}
 
-  .gjs-pn-options {
-      margin-right: 80px;
-  }
+.gjs-pn-options {
+    margin-right: 80px;
+}
 
 .gjs-pn-views-container {
     width: 200px;
@@ -53,8 +54,3 @@
     display: flex;
     justify-content: start;
 }
-
-// .gjs-pn-views-container {
-//     margin-top: 45px;
-//     height: calc(100% - 45px);
-// }

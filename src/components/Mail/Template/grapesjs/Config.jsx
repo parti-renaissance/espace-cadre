@@ -153,7 +153,7 @@ const setPanels = (panels) => {
 const setDevices = (editor) => {
   editor.getConfig().showDevices = 0;
   editor.Panels.addPanel({ id: "devices-c" }).get("buttons").add([
-      { id: "set-device-desktop", command: function(e) { return e.setDevice("Desktop") }, className: "fa fa-desktop", active: 1},
+      { id: "set-device-desktop", command: function(e) { return e.setDevice("Desktop", '600px') }, className: "fa fa-desktop", active: 1},
       { id: "set-device-mobile", command: function(e) { return e.setDevice("Mobile portrait") }, className: "fa fa-mobile" },
       ]);
 }

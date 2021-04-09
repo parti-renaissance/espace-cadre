@@ -19,7 +19,7 @@ const Template = () => {
                 <label>Objet de l'Email : &nbsp; </label>
                 <input placeholder="Objet"/>
             </div>
-            <Editor/>
+                <Editor/>
         </div>
     )
 }
