@@ -44,13 +44,13 @@ export const Contacts = () => {
     return (
         <div>
             {loading ?
-                <div class="d-flex flex-column align-items-center justify-content-center">
+                <div className="d-flex flex-column align-items-center justify-content-center" style={{marginTop:"calc(100vh - 70vh)"}}>
                     <div className="row mb-2">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+                        <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
                         </div>
                     </div>
-                    <div class="row">
+                    <div className="row">
                         <strong>Page en cours de chargement</strong>
                     </div>
                 </div>
