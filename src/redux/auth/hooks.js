@@ -1,16 +1,14 @@
 import {useDispatch} from 'react-redux';
-
-import {OAUTH_CLIENT_ID, OAUTH_HOST} from '../../config';
 import {useHistory} from 'react-router-dom';
 import {useAsyncFn} from "react-use";
+
 import {login} from "../../services/networking/auth";
-import {userLoggedIn, userUpdateData} from "./slice";
 import {apiClient} from "../../services/networking/client";
+import {userLoggedIn, userUpdateData} from "./slice";
 
 export const useInitializeAuth = () => {
     return () => {
-        console.log('redirect to '+buildAuthorizationUrl());
-        window.location.href = buildAuthorizationUrl();
+        window.location.href = `${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${process.env.REACT_APP_OAUTH_CLIENT_ID}`;
     }
 }
 
@@ -33,8 +31,4 @@ export const useGetUserData = () => {
         const data = await apiClient.get('/me');
         dispatch(userUpdateData(data));
     });
-}
-
-function buildAuthorizationUrl() {
-    return `${OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${OAUTH_CLIENT_ID}`;
 }

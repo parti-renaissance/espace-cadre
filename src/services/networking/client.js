@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import {getAccessToken} from "../../redux/user/selectors";
-import store from '../../redux/store';
+import {store} from '../../redux/store';
 
 const API_BASE_URL = `${process.env.REACT_APP_OAUTH_HOST}/api`;
 
@@ -24,7 +24,6 @@ class ApiClient {
         }
 
         const result = await this.client.request(config);
-        console.log(result);
 
         return result.data;
     }

@@ -1,23 +1,22 @@
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import PropTypes from 'prop-types';
+import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux'
+import {PersistGate} from "redux-persist/integration/react";
 
+import {store, persistor} from "./redux/store";
 import Root from './components/Root/Root';
 
 import './App.scss';
 
-const App = (props) => {
+const App = () => {
     return (
-        <Provider store={props.store}>
-            <BrowserRouter>
-                <Root />
-            </BrowserRouter>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <BrowserRouter>
+                    <Root />
+                </BrowserRouter>
+            </PersistGate>
         </Provider>
     )
 }
 
 export default App;
-
-App.propTypes = {
-    store: PropTypes.object.isRequired,
-}

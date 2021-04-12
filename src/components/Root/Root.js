@@ -1,17 +1,14 @@
 import {useEffect} from "react";
 import {useSelector} from "react-redux";
-import {Route, Switch, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 import {getCurrentUser, isUserLogged} from "../../redux/user/selectors";
-
-import Sidebar from '../Sidebar/Sidebar';
-import Home from "../Home/Home";
-import Contacts from "../Contacts/Contacts";
-import Mail from "../Mail/Mail";
-import Auth from "../Auth/Auth";
 import {useGetUserData, useInitializeAuth} from "../../redux/auth/hooks";
 
-const Root = ({children}) => {
+import Sidebar from '../Sidebar/Sidebar';
+import Switch from "./Switch";
+
+const Root = () => {
     const isUserLoggedIn = useSelector(isUserLogged);
     const initializeAuth = useInitializeAuth();
     const {pathname} = useLocation();
@@ -47,17 +44,11 @@ const Root = ({children}) => {
                             {currentUser && <div>Hello {currentUser.firstName}!</div>}
                         </div>
 
-                        <Switch>
-                            <Route path="/" exact component={Home}/>
-                            <Route path="/contacts" component={Contacts}/>
-                            <Route path="/mail" component={Mail}/>
-                        </Switch>
+                        <Switch isUserLogged={isUserLoggedIn} />
                     </div>
                 </>
             :
-                <Switch>
-                    <Route path="/auth" component={Auth}/>
-                </Switch>
+                <Switch isUserLogged={isUserLoggedIn} />
             }
         </div>
     )
