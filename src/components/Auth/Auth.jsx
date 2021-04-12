@@ -1,9 +1,9 @@
-import {useEffect} from "react";
-import {useLocation} from "react-router-dom";
-import {useInitializeAuth, useRequestAccessToken} from "../../redux/auth/hooks";
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useInitializeAuth, useRequestAccessToken } from '../../redux/auth/hooks';
 
 const Auth = () => {
-    const {search} = useLocation();
+    const { search } = useLocation();
     const initializeAuth = useInitializeAuth();
     const [, requestAccessToken] = useRequestAccessToken();
 
@@ -18,7 +18,7 @@ const Auth = () => {
         }
     }, [code]);
 
-    return <div>Loading...</div>
-}
+    return <div>Loading...</div>;
+};
 
 export default Auth;

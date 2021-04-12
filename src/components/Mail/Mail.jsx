@@ -6,7 +6,7 @@ import "./Mail.scss"
 const Mail = () => {
     return (
         <div>
-             <button
+            <button
                 id="audienceCollapse"
                 type="button"
                 className="audiencebutton btn btn-light bg-blue rounded-pill shadow-sm mb-4"

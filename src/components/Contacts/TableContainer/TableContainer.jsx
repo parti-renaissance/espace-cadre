@@ -1,15 +1,17 @@
-import './TableContainer.scss';
-
+import React from 'react';
 import {
     useTable,
     useGlobalFilter,
     useFilters,
-    usePagination
+    usePagination,
 }
-    from "react-table";
+    from 'react-table';
+import { CSVLink } from 'react-csv';
+import PropTypes from 'prop-types';
 
 import GlobalFilter from '../GlobalFilter';
-import { CSVLink } from "react-csv";
+
+import './TableContainer.scss';
 
 const TableContainer = ({ columns, data, defaultColumn }) => {
     const {
@@ -32,12 +34,11 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
         columns,
         data,
         defaultColumn,
-        initialState: { pageSize: 40 }
+        initialState: { pageSize: 40 },
     },
-        useGlobalFilter,
-        useFilters,
-        usePagination
-    )
+    useGlobalFilter,
+    useFilters,
+    usePagination);
 
     const { globalFilter, pageIndex, pageSize } = state;
 
@@ -47,22 +48,28 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
             <div className="d-flex paginationTop">
                 <CSVLink
                     data={data}
-                    filename={"contacts.csv"}
+                    filename="contacts.csv"
                     className="btn btn-outline-info btn-sm mx-1"
-                    target="_blank">Export XLS
+                    target="_blank"
+                >
+                    Export XLS
                 </CSVLink>
                 {' '}
-                <span style={{ borderLeft: "1px solid lightgrey", height: "2rem" }}></span>
+                <span style={{ borderLeft: '1px solid lightgrey', height: '2rem' }} />
                 {' '}
                 <select
                     className="p-1 border rounded ml-1"
                     value={pageSize}
-                    onChange={e => setPageSize(Number(e.target.value))}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
                 >
                     {
-                        [40, 60, 100].map(pageSize => (
+                        [40, 60, 100].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>
-                                Afficher {pageSize} contacts
+                                Afficher
+                                {' '}
+                                {pageSize}
+                                {' '}
+                                contacts
                             </option>
                         ))
                     }
@@ -73,10 +80,11 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
                 {...getTableProps()}
             >
                 <thead className="text-center">
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>{column.render("Header")}
+                    {headerGroups.map((headerGroup, i) => (
+                        <tr {...headerGroup.getHeaderGroupProps()} key={i}>
+                            {headerGroup.headers.map((column, y) => (
+                                <th {...column.getHeaderProps()} key={`${i}-${y}`}>
+                                    {column.render('Header')}
                                     <div id="singleFilter">{column.canFilter ? column.render('Filter') : null}</div>
                                 </th>
                             ))}
@@ -85,30 +93,34 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
                 </thead>
 
                 <tbody {...getTableBodyProps()}>
-                    {page.map(row => {
-                        prepareRow(row)
+                    {page.map((row, i) => {
+                        prepareRow(row);
                         return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                                })}
+                            <tr {...row.getRowProps()} key={i}>
+                                {row.cells.map((cell, y) => <td {...cell.getCellProps()} key={`${i}-${y}`}>{cell.render('Cell')}</td>)}
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
             </table>
             <div className="paginationBottom">
-            <span className="mr-2">
-                    Page{' '}
+                <span className="mr-2">
+                    Page
+                    {' '}
                     <strong>
-                        {pageIndex + 1} of {pageOptions.length}
+                        {pageIndex + 1}
+                        {' '}
+                        of
+                        {pageOptions.length}
                     </strong>
                     {' '}
-                    <span style={{ borderLeft: "1px solid lightgrey", height: "1rem" }}></span>
+                    <span style={{ borderLeft: '1px solid lightgrey', height: '1rem' }} />
                     {' '}
                 </span>
                 <span>
-                    Aller à la page: {' '}
+                    Aller à la page:
+                    {' '}
+                    {' '}
                     <input
                         className="border rounded"
                         type="number"
@@ -118,7 +130,9 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
                             gotoPage(pageNumber);
                         }}
                     />
-                </span> {' '}
+                </span>
+                {' '}
+                {' '}
                 <button
                     type="button"
                     className="btn btn-light"
@@ -155,7 +169,13 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
                 </button>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default TableContainer
+export default TableContainer;
+
+TableContainer.propTypes = {
+    columns: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
+    defaultColumn: PropTypes.object.isRequired,
+}

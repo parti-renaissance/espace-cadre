@@ -1,22 +1,22 @@
-import axios from "axios";
+import axios from 'axios';
 
-import {getAccessToken} from "../../redux/user/selectors";
-import {store} from '../../redux/store';
+import { getAccessToken } from '../../redux/user/selectors';
+import { store } from '../../redux/store';
 
 const API_BASE_URL = `${process.env.REACT_APP_OAUTH_HOST}/api`;
 
 class ApiClient {
     constructor(baseURL) {
-        this.client = axios.create({baseURL})
+        this.client = axios.create({ baseURL });
     }
 
     async request(method, endpoint, data = null) {
         const config = {
-            method: method,
+            method,
             url: endpoint,
             headers: {
-                Authorization: `Bearer ${this.getAccessToken()}`
-            }
+                Authorization: `Bearer ${this.getAccessToken()}`,
+            },
         };
 
         if (['post', 'put', 'patch'].includes(method) && data) {

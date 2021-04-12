@@ -1,2 +1,2 @@
-export {default as reducer} from './slice';
+export { default as reducer } from './slice';
 export * from './slice';

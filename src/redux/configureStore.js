@@ -1,18 +1,18 @@
-import {configureStore as reduxConfigureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
-import {persistStore, persistReducer} from 'redux-persist'
+import { configureStore as reduxConfigureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import { PERSIST } from 'redux-persist/es/constants';
 import rootReducer from './reducers';
-import {PERSIST} from "redux-persist/es/constants";
 
 const configureStore = () => {
     const persistConfig = {
         key: 'root',
         whitelist: ['auth'],
         storage,
-    }
+    };
 
-    const persistedReducer = persistReducer(persistConfig, rootReducer)
+    const persistedReducer = persistReducer(persistConfig, rootReducer);
 
     const store = reduxConfigureStore({
         devTools: process.env.NODE_ENV !== 'production',
@@ -22,11 +22,11 @@ const configureStore = () => {
             },
         }),
         reducer: persistedReducer,
-    })
+    });
 
     const persistor = persistStore(store);
 
-    return { store, persistor }
-}
+    return { store, persistor };
+};
 
 export default configureStore;
