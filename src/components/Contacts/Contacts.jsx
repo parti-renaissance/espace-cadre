@@ -14,8 +14,11 @@ export const Contacts = () => {
         const getContactsAndColumnsTitles = async () => {
             setLoading(true);
             const response = await fetch("https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts/");
+            if (!response.ok) {
+                const message = `An error has occured: ${response.status}`;
+                throw new Error(message);
+            }
             const body = await response.json();
-
             const columnsTitle = (Object.keys(body[0]));
             const columns = columnsTitle.map((title, i) => {
                 const cleanTitle = title.replace('_', ' ');
