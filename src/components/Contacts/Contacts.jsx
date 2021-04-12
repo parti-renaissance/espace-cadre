@@ -43,11 +43,23 @@ export const Contacts = () => {
 
     return (
         <div>
-            {loading ? "Loading..." : <TableContainer
-                columns={columnsTitle}
-                data={data}
-                defaultColumn={defaultColumn}
-            />}
+            {loading ?
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <div className="row mb-2">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <strong>Page en cours de chargement</strong>
+                    </div>
+                </div>
+                :
+                <TableContainer
+                    columns={columnsTitle}
+                    data={data}
+                    defaultColumn={defaultColumn}
+                />}
         </div>
     )
 }
