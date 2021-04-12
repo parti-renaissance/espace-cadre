@@ -7,10 +7,12 @@ import ColumnFilter from './ColumnFilter';
 export const Contacts = () => {
     const [data, setData] = useState([]);
     const [columnsTitle, setColumnsTitle] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     // Get the data for the table
     useEffect(() => {
         const getContactsAndColumnsTitles = async () => {
+            setLoading(true);
             const response = await fetch("https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts/");
             const body = await response.json();
 
@@ -24,6 +26,7 @@ export const Contacts = () => {
             });
             setColumnsTitle(columns)
             setData(body)
+            setLoading(false);
         }
         getContactsAndColumnsTitles()
     }, []);
@@ -37,11 +40,11 @@ export const Contacts = () => {
 
     return (
         <div>
-            <TableContainer
+            {loading ? "Loading..." : <TableContainer
                 columns={columnsTitle}
                 data={data}
                 defaultColumn={defaultColumn}
-            />
+            />}
         </div>
     )
 }
