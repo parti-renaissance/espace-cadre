@@ -1,9 +1,15 @@
 import useAuth from '../../redux/auth/hooks';
+import {useEffect} from "react";
 
 const AuthProvider = ({children}) => {
-    const user = useAuth();
+    const {callback} = useAuth();
 
-    console.log(user);
+    useEffect(() => {
+        const user = callback();
+        console.log(user);
+    }, [callback])
+
+    console.log('here');
 
     return <>{children}</>
 }

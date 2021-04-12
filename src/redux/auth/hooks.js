@@ -1,32 +1,40 @@
-import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+
 import {OAUTH_CLIENT_ID, OAUTH_HOST} from '../../config';
-import {getCurrentUser} from '../user/selectors';
-import {useLocation} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+import {useAsyncFn} from "react-use";
+import {login} from "../../services/networking/auth";
+import {userLoggedIn, userUpdateData} from "./slice";
+import {apiClient} from "../../services/networking/client";
 
-const useAuth = () => {
-    const user = useSelector(getCurrentUser);
-
-    const {search} = useLocation();
-
-    const params = new URLSearchParams(search);
-    const code = params.get('code');
-
-    if (typeof code === 'string' && code.length > 0) {
-        console.log('get access token');
-        return null;
+export const useInitializeAuth = () => {
+    return () => {
+        console.log('redirect to '+buildAuthorizationUrl());
+        window.location.href = buildAuthorizationUrl();
     }
+}
 
-    if (user === null) {
-        console.log('redirect to ' + buildAuthorizationUrl());
-        //window.location.href = buildAuthorizationUrl();
-        return null;
-    }
+export const useRequestAccessToken = () => {
+    const dispatch = useDispatch();
+    const {push} = useHistory();
 
-    return user;
+    return useAsyncFn(async (code) => {
+        const data = await login(code);
+        dispatch(userLoggedIn(data));
+
+        push('');
+    });
+}
+
+export const useGetUserData = () => {
+    const dispatch = useDispatch();
+
+    return useAsyncFn(async () => {
+        const data = await apiClient.get('/me');
+        dispatch(userUpdateData(data));
+    });
 }
 
 function buildAuthorizationUrl() {
-    return `${OAUTH_HOST}?response_type=code&client_id=${OAUTH_CLIENT_ID}`;
+    return `${OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${OAUTH_CLIENT_ID}`;
 }
-
-export default useAuth;
