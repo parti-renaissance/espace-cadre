@@ -9,7 +9,7 @@ import {
 import { CSVLink } from 'react-csv';
 import PropTypes from 'prop-types';
 
-import GlobalFilter from '../GlobalFilter';
+import GlobalFilter from '../Filters/GlobalFilter';
 
 import './TableContainer.scss';
 
@@ -29,7 +29,7 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
         setPageSize,
         prepareRow,
         state,
-        setGlobalFilter,
+        setGlobalFilter
     } = useTable({
         columns,
         data,
@@ -76,10 +76,10 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
                 </select>
             </div>
             <table
-                className="table table-sm table-bordered table-striped table-hover"
+                className="table table-bordered table-striped"
                 {...getTableProps()}
             >
-                <thead className="text-center">
+                <thead>
                     {headerGroups.map((headerGroup, i) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={i}>
                             {headerGroup.headers.map((column, y) => (
@@ -111,6 +111,7 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
                         {pageIndex + 1}
                         {' '}
                         of
+                        {' '}
                         {pageOptions.length}
                     </strong>
                     {' '}
