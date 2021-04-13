@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Allow to search in a specific column
 const ColumnFilter = ({ column }) => {
     const { filterValue, setFilter } = column;
     return (
@@ -10,7 +11,7 @@ const ColumnFilter = ({ column }) => {
                 style={{ maxWidth: '20rem' }}
                 value={filterValue || ''}
                 onChange={(e) => setFilter(e.target.value)}
-                placeholder="Search"
+                placeholder="Search..."
             />
         </span>
     );

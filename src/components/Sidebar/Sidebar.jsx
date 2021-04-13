@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 const Sidebar = ({ currentUser }) => {
     useEffect(() => {
         $('#sidebarCollapse').on('click', () => {
-            console.log('clicked sidebar collapse');
             $('#sidebar, #content').toggleClass('active');
         });
     }, []);
