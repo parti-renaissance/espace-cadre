@@ -30,7 +30,7 @@ const Root = () => {
             {isUserLoggedIn
                 ? (
                     <>
-                        <Sidebar />
+                        <Sidebar currentUser={currentUser}/>
                         <div className="page-content p-3" id="content">
                             <div>
                                 <button
@@ -40,13 +40,6 @@ const Root = () => {
                                 >
                                     <i className="fa fa-bars" />
                                 </button>
-                                {currentUser && (
-                                    <div>
-                                        Hello
-                                        {currentUser.firstName}
-                                        !
-                                    </div>
-                                )}
                             </div>
 
                             <Switch isUserLogged={isUserLoggedIn} />
