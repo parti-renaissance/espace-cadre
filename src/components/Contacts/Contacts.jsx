@@ -16,7 +16,7 @@ const Contacts = () => {
             setError(false);
 
             try {
-                const response = await fetch('https://middleware-api-x44qrxc7fq-ew.a.run.app/contactss');
+                const response = await fetch('https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts');
 
                 const body = await response.json();
                 const columnsTitle = (Object.keys(body[0]));
