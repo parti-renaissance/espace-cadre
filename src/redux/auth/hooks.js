@@ -30,3 +30,9 @@ export const useGetUserData = () => {
         dispatch(userUpdateData(data));
     });
 };
+
+export const useRegenerateAccessToken = () => {
+    return () => {
+        console.log('Regenerate access token');
+    }
+}
