@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
+import Spinner from '../Spinner/Spinner';
+
 import TableContainer from './TableContainer/TableContainer';
 import ColumnFilter from './ColumnFilter';
 
@@ -48,16 +50,7 @@ const Contacts = () => {
             return <div className="alert alert-danger w-50" role="alert">Erreur dans le chargement de la page</div>
 
         } else if (loading && !error) {
-            return <div className="d-flex flex-column align-items-center justify-content-center" style={{ marginTop: "calc(100vh - 70vh)" }}>
-                <div className="row mb-2">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div className="row">
-                    <strong>Page en cours de chargement</strong>
-                </div>
-            </div>
+            return <Spinner />
         } else if (!loading && !error) {
             return < TableContainer
                 columns={columnsTitle}
