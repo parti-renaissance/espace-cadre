@@ -1,3 +1,4 @@
+import React from 'react';
 import 'grapesjs/dist/css/grapes.min.css';
 import Editor from "./grapesjs/Editor";
 import "./Template.scss";
@@ -15,11 +16,11 @@ const Template = () => {
                 </select>
                 <button className="btn-danger">Supprimer</button>
             </div>
-            <div class="objet">
-                <label>Objet de l'Email : &nbsp; </label>
+            <div className="objet">
+                <label>Objet de l&apos;Email : &nbsp; </label>
                 <input placeholder="Objet"/>
             </div>
-                <Editor/>
+            <Editor/>
         </div>
     )
 }

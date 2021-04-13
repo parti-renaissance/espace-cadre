@@ -1,31 +1,21 @@
-import { Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import Home from './components/Home/Home';
-import Contacts from './components/Contacts/Contacts';
-import Sidebar from './components/Sidebar/Sidebar';
-import Mail from './components/Mail/Mail';
+import { persistor, store } from './redux/store';
+import Root from './components/Root/Root';
 
 import './App.scss';
 
-const App = () => {
-  return (
-    <>
-      <Sidebar />
-      <div className="page-content p-3" id="content">
-        <button
-          id="sidebarCollapse"
-          type="button"
-          className="btn btn-light bg-white rounded-pill shadow-sm mb-4"
-        >
-          <i className="fa fa-bars"></i>
-        </button>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/contacts" component={Contacts} />
-          <Route path="/mail" component={Mail} />
-        </Switch>
-      </div>
-    </>
-  )
-}
+const App = () => (
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <BrowserRouter>
+                <Root />
+            </BrowserRouter>
+        </PersistGate>
+    </Provider>
+);
+
 export default App;

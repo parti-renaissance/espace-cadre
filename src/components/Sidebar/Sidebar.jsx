@@ -1,14 +1,12 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 import $ from 'jquery';
 
-
 const Sidebar = () => {
-
     useEffect(() => {
-        $('#sidebarCollapse').on('click', function () {
-            console.log("clicked sidebar collapse");
+        $('#sidebarCollapse').on('click', () => {
+            console.log('clicked sidebar collapse');
             $('#sidebar, #content').toggleClass('active');
         });
     }, []);
@@ -30,16 +28,19 @@ const Sidebar = () => {
                             to="/"
                             className="nav-link text-dark"
                         >
-                            <i className="fas fa-th-large mr-2 text-grey fa-fw"></i>
-                            {' '}Dashboard
+                            <i className="fas fa-th-large mr-2 text-grey fa-fw" />
+                            {' '}
+                            Dashboard
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link 
+                        <Link
                             to="/"
-                            className="nav-link text-dark">
-                            <i className="far fa-chart-bar mr-2 text-grey fa-fw"></i>
-                            {' '}Analyse
+                            className="nav-link text-dark"
+                        >
+                            <i className="far fa-chart-bar mr-2 text-grey fa-fw" />
+                            {' '}
+                            Analyse
                         </Link>
                     </li>
                     <li className="nav-item">
@@ -47,22 +48,25 @@ const Sidebar = () => {
                             to="/contacts"
                             className="nav-link text-dark"
                         >
-                            <i className="far fa-address-book mr-2 text-grey fa-fw"></i>
-                            {' '}Contacts
+                            <i className="far fa-address-book mr-2 text-grey fa-fw" />
+                            {' '}
+                            Contacts
                         </Link>
-                    </li><li className="nav-item">
+                    </li>
+                    <li className="nav-item">
                         <Link
                             to="/mail"
                             className="nav-link text-dark"
                         >
-                            <i className="fas fa-envelope-open-text mr-2 text-grey fa-fw"></i>
-                            {' '}Mail
+                            <i className="fas fa-envelope-open-text mr-2 text-grey fa-fw" />
+                            {' '}
+                            Mail
                         </Link>
                     </li>
                 </ul>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Sidebar;

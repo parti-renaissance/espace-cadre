@@ -1,27 +1,27 @@
 export const COLUMNS = [
     {
-        Header: "Nom",
-        accessor: "Nom",
+        Header: 'Nom',
+        accessor: 'Nom',
     },
     {
-        Header: "Prénom",
-        accessor: "Prénom",
+        Header: 'Prénom',
+        accessor: 'Prénom',
     },
     {
-        Header: "Genre",
-        accessor: "Genre",
+        Header: 'Genre',
+        accessor: 'Genre',
     },
     {
-        Header: "SMS/MMS",
-        accessor: "Abonné_tel",
+        Header: 'SMS/MMS',
+        accessor: 'Abonné_tel',
     },
     {
-        Header: "Statut (E-mail)",
-        accessor: "Abonné_email",
+        Header: 'Statut (E-mail)',
+        accessor: 'Abonné_email',
     },
     {
-        Header: "Code Postal",
-        accessor: "Code_postal",
+        Header: 'Code Postal',
+        accessor: 'Code_postal',
     },
     {
         Header: "Centres d'intérêts",

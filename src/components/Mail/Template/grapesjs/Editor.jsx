@@ -1,6 +1,6 @@
-import 'grapesjs/dist/css/grapes.min.css';
+import React, { useEffect } from 'react';
 import grapesjs from 'grapesjs';
-import { useEffect } from 'react';
+import 'grapesjs/dist/css/grapes.min.css';
 import setConfig from './Config';
 import "./Editor.scss";
 import "./Config.scss";
@@ -23,13 +23,13 @@ const Editor = () => {
     }, []);
 
     return (
-    <>
-        <div className="panel__top">
-            <div className="panel__basic-actions"></div>
-        </div>
-        <div id="gjs" className="editor">
-        </div>
-    </>
+        <>
+            <div className="panel__top">
+                <div className="panel__basic-actions"></div>
+            </div>
+            <div id="gjs" className="editor">
+            </div>
+        </>
     )
 }
 
