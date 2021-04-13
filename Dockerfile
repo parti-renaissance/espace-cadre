@@ -4,10 +4,18 @@ ARG NGINX_VERSION=1.19
 # Stage 1 - the build process
 #FROM node:${NODE_VERSION}-alpine AS react-build
 FROM node:${NODE_VERSION} AS react-build
-WORKDIR /app
 
+ARG OAUTH_HOST
+ARG OAUTH_CLIENT_ID
+
+WORKDIR /app
 COPY . ./
-RUN yarn install --production=true
+
+ENV REACT_APP_OAUTH_HOST=${OAUTH_HOST}
+ENV REACT_APP_OAUTH_CLIENT_ID=${OAUTH_CLIENT_ID}
+ENV NODE_ENV=production
+
+RUN yarn install
 RUN yarn build
 
 # Stage 2 - the production environment
