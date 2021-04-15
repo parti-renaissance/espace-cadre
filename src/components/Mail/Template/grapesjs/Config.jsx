@@ -1,3 +1,4 @@
+const juice = require('juice');
 const swv = 'sw-visibility';
 const ful = 'fullscreen';
 const prv = 'preview';
@@ -14,23 +15,23 @@ const setBlocks = (blockManager) => {
         id: 'centeredtext',
         label: 'Texte centré',
         attributes: { class: "gjs-fonts gjs-f-text" },
-        content: '<div style="display: flex; justify-content: space-between"><section></section><p>Texte centré</p><section></section></div>',
+        content: '<div style="display: flex; justify-content: space-between"><div></div><p>Texte centré</p><div></div></div>',
     });
     blockManager.add("section-block", {
         id: 'Section',
         label: '<b>Section</b>',
         attributes: { class: "gjs-fonts gjs-f-b1 gjs-block gjs-one-bg gjs-four-color-h" },
-        content: `<section><h1>Bonjour,</h1>
-          <div>Ceci est un exemple de Mail</div></section>`,
+        content: `<div><h1>Bonjour,</h1>
+          <div>Ceci est un exemple de Mail</div></div>`,
     });
     blockManager.add("1/2 section", {
         id: '1/2 section',
         label: '1/2 Section',
         attributes: { class: "gjs-fonts gjs-f-b2 gjs-block gjs-one-bg gjs-four-color-h" },
         select: true,
-        content: `<div style="display: flex; justify-content: space-between"><section><h1>Section 1 titre</h1>
-      <div>Section1 texte</div></section><section><h1>Section 2 titre</h1>
-      <div>Section2 texte</div></section></div>`,
+        content: `<div style="display: flex; justify-content: space-between"><div><h1>Section 1 titre</h1>
+      <div>Section1 texte</div></div><section><h1>Section 2 titre</h1>
+      <div>Section2 texte</div></div></div>`,
         activate: true
     });
     blockManager.add("image-block", {
@@ -38,7 +39,7 @@ const setBlocks = (blockManager) => {
         label: 'Image',
         attributes: { class: "gjs-fonts gjs-f-image" },
         select: true,
-        content: `<div style="display: flex; justify-content: space-between"><section><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/></section></div>`,
+        content: `<div style="display: flex; justify-content: space-between"><div><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/></div></div>`,
         activate: true,
     });
     blockManager.add("imageCentered", {
@@ -46,7 +47,7 @@ const setBlocks = (blockManager) => {
         label: 'image centrée',
         attributes: { class: "gjs-fonts gjs-f-image" },
         select: true,
-        content: `<div style="display: flex; justify-content: space-between"><section></section><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/><section></section></div>`,
+        content: `<div style="display: flex; justify-content: space-between"><div></div><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/><div></div></div>`,
         activate: true
     });
     blockManager.add("link-block", {
@@ -81,7 +82,7 @@ const setBlocks = (blockManager) => {
         id: 'ButtonCentered',
         label: 'Bouton centré',
         attributes: { class: 'gjs-fonts gjs-f-button' },
-        content: '<div style="display: flex; justify-content: space-between"><section></section><a class="button" style="background-color: #1d5fd1; color: white">Bouton</a><section></section></div>',
+        content: '<div style="display: flex; justify-content: space-between"><div></div><a class="button" style="background-color: #1d5fd1; color: white">Bouton</a><div></div></div>',
         style: { color: '#1d5fd1' },
         activate: true
     });
@@ -125,7 +126,34 @@ const setPanels = (panels) => {
             </textarea>`)
                         .open();
                 }
-            }, {
+            },
+            {
+                // Commande d'export de l'HTML du canvas
+                id: 'Export Code',
+                className: 'fa fa-code',
+                context: 'ExportCode',
+                command(editor) {
+                    let md = editor.Modal;
+                    let container = document.createElement("div");
+                    let codeViewer = editor && editor.CodeManager.getViewer('CodeMirror').clone();
+                    let viewer = codeViewer.editor;
+                    if (!viewer) {
+                        let txtarea = document.createElement('textarea');
+                        container.appendChild(txtarea);
+                        codeViewer.init(txtarea);
+                        viewer = codeViewer.editor;
+                        viewer.setOption('lineWrapping', 1);
+                    }
+                    md.setContent(container)
+                    const tmp =  editor.getHtml() + `<style>${editor.getCss()}</style>`;
+                    codeViewer.setContent(juice(tmp, []));
+                    console.log(juice(tmp, []))
+                    md.setTitle('Export Mail Code')
+                    md.open();
+                    viewer.refresh();
+                }
+            },
+            {
                 id: 'undo',
                 className: 'fa fa-undo',
                 command: 'undo',
