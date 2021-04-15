@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
-import Spinner from '../Spinner/Spinner';
-import TableContainer from './TableContainer/TableContainer';
+import Spinner from '../../Spinner/Spinner';
+import TableContainer from '../TableContainer/TableContainer';
 
-import ColumnFilter from './Filters/ColumnFilter';
-import SelectFilter from './Filters/SelectFilter';
-import MultiSelectFilter from './Filters/MultiSelectFilter';
+import ColumnFilter from '../Filters/ColumnFilter';
+import SelectFilter from '../Filters/SelectFilter';
+import MultiSelectFilter from '../Filters/MultiSelectFilter';
 
+import './Contacts.scss'
 
 const Contacts = () => {
     const [data, setData] = useState([]);
