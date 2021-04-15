@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Auth from '../Auth/Auth';
 import Home from '../Home/Home';
-import Contacts from '../Contacts/ContactsComponent/Contacts';
+import Contacts from '../ContactsPage/ContactsComponent/Contacts';
 import Mail from '../Mail/Mail';
 
 const Switch = ({ isUserLogged }) => (
