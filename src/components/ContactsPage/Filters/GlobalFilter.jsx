@@ -17,7 +17,6 @@ const GlobalFilter = ({ filter, setFilter }) => {
             {' '}
             {' '}
             <input
-                style={{ margin: '.5rem 1rem', maxWidth: '25rem' }}
                 className="form-control"
                 placeholder="Recherchez ici..."
                 value={value || ''}

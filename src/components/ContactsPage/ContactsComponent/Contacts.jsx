@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
-import Spinner from '../Spinner/Spinner';
-import TableContainer from './TableContainer/TableContainer';
+import './Contacts.scss'
+import Table from '../Table/Table';
+import InterestRendering from '../ColumnsContentRendering/InterestRendering';
+import BooleanRendering from '../ColumnsContentRendering/BooleanRendering';
 
-import ColumnFilter from './Filters/ColumnFilter';
-import SelectFilter from './Filters/SelectFilter';
-import MultiSelectFilter from './Filters/MultiSelectFilter';
+import ColumnFilter from '../Filters/ColumnFilter';
+import SelectFilter from '../Filters/SelectFilter';
+import MultiSelectFilter from '../Filters/MultiSelectFilter';
 
+import Spinner from '../../Spinner/Spinner';
 
 const Contacts = () => {
     const [data, setData] = useState([]);
@@ -22,12 +25,12 @@ const Contacts = () => {
 
             try {
                 const response = await fetch('https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts');
-
                 const body = await response.json();
                 const columnsTitle = (Object.keys(body[0]));
+
                 const columns = columnsTitle.map((title) => {
                     const cleanTitle = title.replace('_', ' ');
-                    // Display a specific filter depending of the column
+                    // Display a specific filter depending on the column
                     const typeOfFilter = () => {
                         if (title === "id") {
                             return "";
@@ -39,50 +42,21 @@ const Contacts = () => {
                             return ColumnFilter
                         }
                     }
+
+                    // Display a specific display depending on the content
                     let typeOfCell = () => {
                         // eslint-disable-next-line react/prop-types
                         return (props) => props.value || "";
                     }
                     if (title === "Centres_d'intérêt") {
                         typeOfCell = () => {
-                            return (props) => {
-                                // eslint-disable-next-line react/prop-types
-                                return props.value.map((el, index) => (
-                                    <>
-                                        <div key={index} className="badge badge-info">
-                                            {el}
-                                        </div> {' '}
-                                    </>)
-                                )
-                            }
+                            // eslint-disable-next-line react/display-name
+                            return (props) => <InterestRendering interest={props} />
                         };
-                    } else if (title === "Abonné_tel") {
+                    } else if (title === "Abonné_tel" || title === "Abonné_email") {
                         typeOfCell = () => {
-                            return (props) => {
-                                // eslint-disable-next-line react/prop-types
-                                if(props.value) {
-                                // eslint-disable-next-line react/prop-types
-                                    console.log(props.value)
-                                    return <input type="checkbox" checked readOnly/>;
-                                } else {
-                                    return  <input type="checkbox" readOnly/>
-                                }
-                            }
-                        };
-                    }
-
-                    else if (title === "Abonné_email") {
-                        typeOfCell = () => {
-                            return (props) => {
-                                // eslint-disable-next-line react/prop-types
-                                if(props.value) {
-                                // eslint-disable-next-line react/prop-types
-                                    console.log(props.value)
-                                    return <input type="checkbox" checked readOnly/>;
-                                } else {
-                                    return  <input type="checkbox" readOnly/>
-                                }
-                            }
+                            // eslint-disable-next-line react/display-name
+                            return (props) => <BooleanRendering bool={props} />
                         };
                     }
 
@@ -116,8 +90,8 @@ const Contacts = () => {
 
         } else if (loading && !error) {
             return <Spinner />
-        } else if (!loading && !error) {
-            return < TableContainer
+        } else {
+            return < Table
                 columns={columnsTitle}
                 data={data}
                 defaultColumn={defaultColumn}

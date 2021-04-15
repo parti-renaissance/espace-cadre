@@ -8,7 +8,6 @@ const ColumnFilter = ({ column }) => {
         <span>
             <input
                 className="form-control"
-                style={{ maxWidth: '20rem' }}
                 value={filterValue || ''}
                 onChange={(e) => setFilter(e.target.value)}
                 placeholder="Search..."

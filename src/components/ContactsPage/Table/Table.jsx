@@ -4,14 +4,13 @@ import {
     useGlobalFilter,
     useFilters,
     usePagination,
-}
-    from 'react-table';
+} from 'react-table';
 import { CSVLink } from 'react-csv';
 import PropTypes from 'prop-types';
 
 import GlobalFilter from '../Filters/GlobalFilter';
 
-import './TableContainer.scss';
+import './Table.scss';
 
 const TableContainer = ({ columns, data, defaultColumn }) => {
     const {
