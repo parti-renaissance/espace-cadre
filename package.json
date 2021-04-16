@@ -24,7 +24,7 @@
     "react-redux": "7.2.3",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
-    "react-select": "^4.3.0",
+    "react-select": "4.3.0",
     "react-table": "7.6.3",
     "react-use": "17.2.3",
     "redux": "4.0.5",
