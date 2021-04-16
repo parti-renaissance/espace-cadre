@@ -37,7 +37,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint './src/**/*' --ignore-path .gitignore",
+    "lint": "eslint './src/**/*.{js,jsx}' --ignore-path .gitignore",
     "lint:fix": "yarn run lint -- --fix"
   },
   "eslintConfig": {
