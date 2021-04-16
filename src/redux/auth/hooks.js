@@ -4,7 +4,7 @@ import { useAsyncFn } from 'react-use';
 
 import login from '../../services/networking/auth';
 import { apiClient } from '../../services/networking/client';
-import { userLoggedIn, userUpdateData } from './slice';
+import {userLoggedIn, userUpdateData} from './slice';
 
 export const useInitializeAuth = () => () => {
     window.location.href = `${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${process.env.REACT_APP_OAUTH_CLIENT_ID}`;

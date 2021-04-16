@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { getAccessToken } from '../../redux/user/selectors';
 import { store } from '../../redux/store';
+import {userLogout} from "../../redux/auth";
 
 const API_BASE_URL = `${process.env.REACT_APP_OAUTH_HOST}/api`;
 
@@ -23,9 +24,12 @@ class ApiClient {
             config.data = data;
         }
 
-        const result = await this.client.request(config);
-
-        return result.data;
+        try {
+            const result = await this.client.request(config);
+            return result.data
+        } catch (error) {
+            handleHttpError(error);
+        }
     }
 
     get(endpoint) {
@@ -38,3 +42,11 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
+
+function handleHttpError(error) {
+    if (error.response.status === 401) {
+        store.dispatch(userLogout());
+    }
+
+    throw error;
+}
