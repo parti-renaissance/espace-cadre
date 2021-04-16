@@ -6,7 +6,7 @@
     "@reduxjs/toolkit": "1.5.1",
     "@testing-library/dom": "7.30.2",
     "@testing-library/jest-dom": "5.11.10",
-    "@testing-library/react": "11.2.5",
+    "@testing-library/react": "11.2.6",
     "@testing-library/user-event": "12.8.3",
     "axios": "0.21.1",
     "bootstrap": "4.6.0",
