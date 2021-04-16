@@ -1,6 +1,6 @@
 #gjs {
-    border: 3px solid #444;
-    max-width: 850px;
+    border: none;//3px solid #444;
+    max-width: 875px;
     min-width: 500px;
 }
 
@@ -20,6 +20,7 @@
 .gjs-cv-canvas {
     padding: 20px;
 }
+
 
 .gjs-pn-options {
     margin-right: 80px;
@@ -50,4 +51,20 @@
 .gjs-pn-buttons {
     display: flex;
     justify-content: flex-start;
+}
+
+// Change background Color Of Editor
+.gjs-one-bg {
+    background-color: #696969;
+}
+
+// Change Color of texte icones when not selected
+.gjs-two-color {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+// Change Color of texte icones when selected
+.gjs-four-color,
+.gjs-four-color-h:hover {
+  color: rgba(255, 255, 255, 0.7);
 }

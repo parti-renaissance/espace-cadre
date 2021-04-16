@@ -4,26 +4,32 @@ const swv = 'sw-visibility';
 const ful = 'fullscreen';
 const prv = 'preview';
 const obl = 'open-blocks';
+const osm = 'open-sm';
+const otm = 'open-tm';
 
 const setBlocks = (blockManager) => {
     blockManager.add('text-block', {
         id: 'text',
         label: 'Texte',
         attributes: { class: 'gjs-fonts gjs-f-text' },
-        content: '<div data-gjs-type="text">Exemple de texte</div>',
+        content: '<div data-gjs-type="text"> Exemple de bloc texte : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquam quam sit amet eros mattis.</div>',
     });
     blockManager.add('centeredtext-block', {
         id: 'centeredtext',
         label: 'Texte centré',
         attributes: { class: 'gjs-fonts gjs-f-text' },
-        content: '<div style="display: flex; justify-content: space-between"><div></div><p>Texte centré</p><div></div></div>',
+        content: '<div style="display: flex; justify-content: space-between"><div></div><p>Votre Texte Centré</p><div></div></div>',
     });
     blockManager.add('section-block', {
         id: 'Section',
         label: '<b>Section</b>',
-        attributes: { class: 'gjs-fonts gjs-f-b1 gjs-block gjs-one-bg gjs-four-color-h' },
-        content: `<div><h1>Bonjour,</h1>
-          <div>Ceci est un exemple de Mail</div></div>`,
+        attributes: { class: 'gjs-fonts gjs-f-b1' },
+        content: `<table style="display :flex">
+        <tr>
+          <td style="display : flex"><div><h1>Bonjour,</h1>
+          <div>Ceci est un exemple de Mail</div></td>
+        </tr>
+        </table></div>`,
     });
     blockManager.add('1/2 section', {
         id: '1/2 section',
@@ -83,7 +89,7 @@ const setBlocks = (blockManager) => {
         id: 'ButtonCentered',
         label: 'Bouton centré',
         attributes: { class: 'gjs-fonts gjs-f-button' },
-        content: '<div style="display: flex; justify-content: space-between"><div></div><a class="button" style="background-color: #1d5fd1; color: white">Bouton</a><div></div></div>',
+        content: '<div style="display: flex; justify-content: space-between"><div></div><a class="button" style="background-color: #1d5fd1; color: white; display:flex; align-items:center; justify-content:center;">Bouton</a><div></div></div>',
         style: { color: '#1d5fd1' },
         activate: true,
     });
@@ -168,6 +174,7 @@ const setPanels = (panels) => {
             },
         ],
     });
+    // Add buttons for panel selection
     panels.addPanel({
         id: 'views',
         buttons: [
@@ -175,8 +182,20 @@ const setPanels = (panels) => {
                 id: obl,
                 className: 'fa fa-th-large',
                 command: obl,
-                togglable: 0,
+                togglable: 1,
                 attributes: { title: 'Open Blocks' },
+            },
+            {
+                id: osm,
+                command: osm,
+                className: 'fa fa-paint-brush',
+                togglable: 1,
+                attributes: { title: 'Style Manager' },
+            },
+            {
+                id: otm,
+                command: otm,
+                className: 'fa fa-cog',
             },
         ],
     });

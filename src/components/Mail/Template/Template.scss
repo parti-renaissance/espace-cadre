@@ -15,4 +15,19 @@
         padding: 10px;
 
     }
+    .button_fields {
+        border-radius: 4px;
+    }
+    .button_fields:active {
+        box-shadow: 0 5px #666;
+        transform: translateY(0.5px);
+      }
+      .modalstyle  {
+        background-color: '#fff';
+        border-radius: 5;
+        max-Width: 500px;
+        min-Height: 300px;
+        margin: 'auto';
+        padding: 30;
+      }
 }
