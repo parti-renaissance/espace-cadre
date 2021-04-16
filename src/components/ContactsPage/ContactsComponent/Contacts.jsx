@@ -7,6 +7,7 @@ import BooleanRendering from '../ColumnsContentRendering/BooleanRendering';
 
 import ColumnFilter from '../Filters/ColumnFilter';
 import SelectFilter from '../Filters/SelectFilter';
+import BooleanSelectFilter from '../Filters/BooleanSelectFilter';
 import MultiSelectFilter from '../Filters/MultiSelectFilter';
 
 import Spinner from '../../Spinner/Spinner';
@@ -36,8 +37,10 @@ const Contacts = () => {
                             return "";
                         } else if (title === 'Genre') {
                             return SelectFilter;
+                        } else if (title === 'Abonné_email' || title === "Abonné_tel") {
+                            return BooleanSelectFilter;
                         } else if (title === "Centres_d'intérêt") {
-                            return <MultiSelectFilter />
+                            return <MultiSelectFilter/>
                         } else {
                             return ColumnFilter
                         }
@@ -91,6 +94,8 @@ const Contacts = () => {
         } else if (loading && !error) {
             return <Spinner />
         } else {
+            console.log(columnsTitle)
+            console.log(data)
             return < Table
                 columns={columnsTitle}
                 data={data}

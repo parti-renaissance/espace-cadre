@@ -3,14 +3,13 @@ table {
     text-align: center;
 
     th {
-        max-width: 20rem;
-
-        input {
+        input,
+        select {
             min-width: 6rem;
         }
 
-        select {
-            min-width: 5rem;
+        &:last-child {
+            min-width: 30rem;
         }
     }
 

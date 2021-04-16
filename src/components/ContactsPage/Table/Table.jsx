@@ -12,7 +12,7 @@ import GlobalFilter from '../Filters/GlobalFilter';
 
 import './Table.scss';
 
-const TableContainer = ({ columns, data, defaultColumn }) => {
+const Table = ({ columns, data, defaultColumn }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -172,9 +172,9 @@ const TableContainer = ({ columns, data, defaultColumn }) => {
     );
 };
 
-export default TableContainer;
+export default Table;
 
-TableContainer.propTypes = {
+Table.propTypes = {
     columns: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
     defaultColumn: PropTypes.object.isRequired,
