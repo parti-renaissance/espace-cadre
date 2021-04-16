@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 const InterestRendering = ({ interest }) => {
     return interest.value.map((element, index) => (
-        <div key={index}>
-            <div className="badge badge-info">
+        <span key={index}>
+            <span className="badge badge-info">
                 {element}
-            </div> {' '}
-        </div>
+            </span> {' '}
+        </span>
     )
     )
 };

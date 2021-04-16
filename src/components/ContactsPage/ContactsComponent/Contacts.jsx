@@ -7,6 +7,7 @@ import BooleanRendering from '../ColumnsContentRendering/BooleanRendering';
 
 import ColumnFilter from '../Filters/ColumnFilter';
 import SelectFilter from '../Filters/SelectFilter';
+import BooleanSelectFilter from '../Filters/BooleanSelectFilter';
 import MultiSelectFilter from '../Filters/MultiSelectFilter';
 
 import Spinner from '../../Spinner/Spinner';
@@ -26,8 +27,7 @@ const Contacts = () => {
             try {
                 const response = await fetch('https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts');
                 const body = await response.json();
-                const columnsTitle = (Object.keys(body[0]));
-
+                const columnsTitle = (Object.keys(body['contacts'][0]));
                 const columns = columnsTitle.map((title) => {
                     const cleanTitle = title.replace('_', ' ');
                     // Display a specific filter depending on the column
@@ -36,8 +36,10 @@ const Contacts = () => {
                             return "";
                         } else if (title === 'Genre') {
                             return SelectFilter;
+                        } else if (title === 'Abonné_email' || title === "Abonné_tel") {
+                            return BooleanSelectFilter;
                         } else if (title === "Centres_d'intérêt") {
-                            return <MultiSelectFilter />
+                            return <MultiSelectFilter/>
                         } else {
                             return ColumnFilter
                         }
@@ -69,7 +71,7 @@ const Contacts = () => {
                 });
                 
                 setColumnsTitle(columns);
-                setData(body);
+                setData(body.contacts);
                 setLoading(false);
             } catch (error) {
                 setError(true);
