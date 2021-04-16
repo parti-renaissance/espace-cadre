@@ -1,34 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useState ,useEffect } from "react";
 import Select from 'react-select'
 
 
 // A multiselect dropdown
 const MultiSelectFilter = () => {
-    //const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([]);
     try {
         useEffect(() => {
             const categoriesTitle = async () => {
+                let newArray = [];
                 const response = await fetch('https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts');
                 const body = await response.json();
-                body.map(element => {
-                    let newArray = element;
-                    console.log(newArray['Centres_d\'intérêt']);
+                body['interests_choices'].map(element => {
+                    newArray.push({
+                        value: element,
+                        label: element
+                    });
+                    setCategories(newArray);
                 });
             }
             categoriesTitle();
-
-            /*const Array = () => {
-                let newArray = [];
-                categories.map(el => {
-                    newArray.push({
-                        value: el,
-                        label: el
-                    })
-                })
-                setOptions(newArray);
-            };
-            Array();*/
-
         }, []);
 
     } catch(error) {
@@ -38,7 +29,7 @@ const MultiSelectFilter = () => {
     return (
         <div>
             {
-                <Select isMulti /*options={categories}*//>
+                <Select isMulti options={categories}/>
             }
         </div>
     );
