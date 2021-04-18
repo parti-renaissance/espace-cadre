@@ -30,7 +30,7 @@ const Root = () => {
             {isUserLoggedIn
                 ? (
                     <>
-                        <Sidebar currentUser={currentUser || {}}/>
+                        <Sidebar currentUser={currentUser || {}} />
                         <div className="page-content p-3" id="content">
                             <div>
                                 <button

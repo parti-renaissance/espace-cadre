@@ -19,5 +19,5 @@ const ColumnFilter = ({ column }) => {
 export default ColumnFilter;
 
 ColumnFilter.propTypes = {
-    column: PropTypes.object.isRequired,
-}
+    column: PropTypes.objectOf(Object).isRequired,
+};

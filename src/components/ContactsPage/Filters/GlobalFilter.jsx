@@ -1,6 +1,7 @@
+/* eslint-disable no-shadow,react/require-default-props */
 import React, { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // Allow to search in every column of the table
 const GlobalFilter = ({ filter, setFilter }) => {
@@ -34,4 +35,4 @@ export default GlobalFilter;
 GlobalFilter.propTypes = {
     filter: PropTypes.string,
     setFilter: PropTypes.func.isRequired,
-}
+};

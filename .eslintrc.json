@@ -6,6 +6,7 @@
     },
     "extends": [
         "eslint:recommended",
+        "airbnb",
         "plugin:react/recommended"
     ],
     "parserOptions": {
@@ -19,9 +20,11 @@
         "react"
     ],
     "rules": {
+        "no-console": "off",
         "indent": ["error", 4],
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
-        "no-param-reassign": [2, {"props": false}]
+        "no-param-reassign": [2, {"props": false}],
+        "react/jsx-one-expression-per-line": [0]
     }
 }
