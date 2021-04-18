@@ -7,6 +7,11 @@ import { apiClient } from '../../services/networking/client';
 import { userLoggedIn, userUpdateData } from './slice';
 
 export const useInitializeAuth = () => () => {
+    if (process.env.NODE_ENV !== 'production' && !process.env.REACT_APP_OAUTH_HOST) {
+        window.location.href = '/auth?code=fake_authorization_code';
+        return;
+    }
+
     window.location.href = `${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${process.env.REACT_APP_OAUTH_CLIENT_ID}`;
 };
 
