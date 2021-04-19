@@ -1,19 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading,react/no-array-index-key */
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
     useTable,
     useGlobalFilter,
     useFilters,
     usePagination,
 } from 'react-table';
-import { CSVLink } from 'react-csv';
-import PropTypes from 'prop-types';
-
+import ExportCSV from '../ExportToExcel/ExportCSV';
 import GlobalFilter from '../Filters/GlobalFilter';
 
 import './Table.scss';
 
 const Table = ({ columns, data, defaultColumn }) => {
+    const fileName = 'Contacts';
     const {
         getTableProps,
         getTableBodyProps,
@@ -39,21 +40,15 @@ const Table = ({ columns, data, defaultColumn }) => {
     useGlobalFilter,
     useFilters,
     usePagination);
-
     const { globalFilter, pageIndex, pageSize } = state;
-
     return (
         <>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             <div className="d-flex paginationTop">
-                <CSVLink
-                    data={data}
-                    filename="contacts.csv"
-                    className="btn btn-outline-info btn-sm mx-1"
-                    target="_blank"
-                >
-                    Export XLS
-                </CSVLink>
+                <ExportCSV
+                    csvData={data}
+                    fileName={fileName}
+                />
                 {' '}
                 <span style={{ borderLeft: '1px solid lightgrey', height: '2rem' }} />
                 {' '}

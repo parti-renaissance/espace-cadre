@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow,react/prop-types,react/display-name */
 import React, { useState, useEffect, useMemo } from 'react';
 
-import './Contacts.scss';
 import Table from '../Table/Table';
 import InterestRendering from '../ColumnsContentRendering/InterestRendering';
 import BooleanRendering from '../ColumnsContentRendering/BooleanRendering';
@@ -13,6 +12,8 @@ import MultiSelectFilter from '../Filters/MultiSelectFilter';
 
 import Spinner from '../../Spinner/Spinner';
 import { apiClientProxy } from '../../../services/networking/client';
+
+import './Contacts.scss';
 
 const Contacts = () => {
     const [data, setData] = useState([]);
