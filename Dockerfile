@@ -17,7 +17,7 @@ ENV REACT_APP_OAUTH_CLIENT_ID=${OAUTH_CLIENT_ID}
 ENV REACT_APP_INTERNAL_APP_ID=${INTERNAL_APP_ID}
 ENV NODE_ENV=production
 
-RUN yarn install
+RUN yarn install --production=false
 RUN yarn build
 
 # Stage 2 - the production environment
