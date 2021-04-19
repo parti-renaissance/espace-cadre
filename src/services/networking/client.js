@@ -28,7 +28,7 @@ class ApiClient {
             method,
             url: endpoint,
             headers: {
-                Authorization: `Bearer ${this.getAccessToken()}`,
+                Authorization: `Bearer ${ApiClient.getAccessToken()}`,
             },
         };
 
