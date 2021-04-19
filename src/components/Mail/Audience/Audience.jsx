@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
-import "./Audience.scss";
+import './Audience.scss';
 
 const Audience = () => {
     useEffect(() => {
-        $('#audienceCollapse').on('click', function () {
-            $('#audience').toggle("hidden");
+        $('#audienceCollapse').on('click', () => {
+            $('#audience').toggle('hidden');
         });
     }, []);
 
@@ -23,7 +23,7 @@ const Audience = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Audience;

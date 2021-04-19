@@ -1,10 +1,10 @@
 import 'grapesjs/dist/css/grapes.min.css';
 import grapesjs from 'grapesjs';
-import React from 'react'
-import { useEffect } from 'react';
-import setConfig from './Config';
-import "./Editor.scss";
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import setConfig from './Config';
+import './Editor.scss';
 
 const Editor = (props) => {
     useEffect(() => {
@@ -23,8 +23,8 @@ const Editor = (props) => {
                         color: 'rgb(111, 119, 125)',
                         margin: 0,
                         padding: 0,
-                    }
-                }
+                    },
+                },
             },
             height: '100%',
             width: '100%',
@@ -36,16 +36,16 @@ const Editor = (props) => {
                 sectors: [{
                     name: 'Typography',
                     open: false,
-                    buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-align', 'text-shadow']
+                    buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-align', 'text-shadow'],
                 }],
             },
             panels: {
-                defaults: []
-            }
+                defaults: [],
+            },
         });
         editor.on('storage:start', () => {
-            var inlinehtml = editor.getHtml();
-            var inlinecss = editor.getCss();
+            const inlinehtml = editor.getHtml();
+            const inlinecss = editor.getCss();
             props.onChange(inlinehtml, inlinecss);
         });
         setConfig(editor);
@@ -55,19 +55,16 @@ const Editor = (props) => {
         <>
 
             <div className="panel__top">
-        
-                <div className="panel__basic-actions"></div>
+
+                <div className="panel__basic-actions" />
             </div>
 
-            <div id="style-manager-container"></div>
-            <div id="gjs" className="editor">
-            
-            </div>
-
+            <div id="style-manager-container" />
+            <div id="gjs" className="editor" />
 
         </>
-    )
-}
+    );
+};
 
 export default Editor;
 

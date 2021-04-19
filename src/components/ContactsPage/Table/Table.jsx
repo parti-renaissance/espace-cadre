@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading,react/no-array-index-key */
 import React from 'react';
 import {
     useTable,
@@ -28,7 +29,7 @@ const Table = ({ columns, data, defaultColumn }) => {
         setPageSize,
         prepareRow,
         state,
-        setGlobalFilter
+        setGlobalFilter,
     } = useTable({
         columns,
         data,
@@ -62,13 +63,9 @@ const Table = ({ columns, data, defaultColumn }) => {
                     onChange={(e) => setPageSize(Number(e.target.value))}
                 >
                     {
-                        [40, 60, 100].map((pageSize) => (
-                            <option key={pageSize} value={pageSize}>
-                                Afficher
-                                {' '}
-                                {pageSize}
-                                {' '}
-                                contacts
+                        [40, 60, 100].map((size) => (
+                            <option key={size} value={size}>
+                                Afficher {size} contacts
                             </option>
                         ))
                     }
@@ -76,6 +73,7 @@ const Table = ({ columns, data, defaultColumn }) => {
             </div>
             <table
                 className="table table-bordered table-striped"
+                id="contacts-table"
                 {...getTableProps()}
             >
                 <thead>
@@ -175,7 +173,7 @@ const Table = ({ columns, data, defaultColumn }) => {
 export default Table;
 
 Table.propTypes = {
-    columns: PropTypes.array.isRequired,
-    data: PropTypes.array.isRequired,
-    defaultColumn: PropTypes.object.isRequired,
-}
+    columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    defaultColumn: PropTypes.objectOf(Object).isRequired,
+};

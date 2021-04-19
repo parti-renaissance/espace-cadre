@@ -1,35 +1,32 @@
-import React,  { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import 'grapesjs/dist/css/grapes.min.css';
-import Editor from "./grapesjs/Editor";
-import "./Template.scss";
+import Editor from './grapesjs/Editor';
+import './Template.scss';
 
 const Template = () => {
-
     // Set State elements
-    const [html, setHtml] = useState("");
-    const [css, setCss] = useState("");
+    const [html, setHtml] = useState('');
+    const [css, setCss] = useState('');
     // eslint-disable-next-line no-unused-vars
-    const [template, setTemplate] = useState("");
-    const [mailObjet, setObjet] = useState("");
+    const [template, setTemplate] = useState('');
+    const [mailObjet, setObjet] = useState('');
 
     // Handle CSS HTML change
-    function handleChange (htmlChanged, cssChanged) {
+    function handleChange(htmlChanged, cssChanged) {
         setHtml(htmlChanged);
         setCss(cssChanged);
-        
-
     }
 
     // Handle mail object change
     const handleObj = (event) => {
         setObjet(event.target.value);
-    }
+    };
 
     // Handle Template select change
-    /*const handleTemplate = (event) => {
+    /* const handleTemplate = (event) => {
         setTemplate(event.target.value);
-    }*/
+    } */
 
     // Actions on mail object change
     useEffect(() => {
@@ -51,10 +48,8 @@ const Template = () => {
 
     }, [template]);
 
-
-
     return (
-        <div className="templates" style={{overflow : 'auto'}}>
+        <div className="templates" style={{ overflow: 'auto' }}>
             <h3>Mes Templates</h3>
             <div className="header">
                 <select className="custom-select">
@@ -63,15 +58,17 @@ const Template = () => {
                     <option value="2">Template 2</option>
                     <option value="3">Template 3</option>
                 </select>
-                <button className="btn-danger">Supprimer</button>
+                <button className="btn-danger" type="button">Supprimer</button>
             </div>
             <div className="objet">
-                <label>Objet de l&apos;Email : &nbsp; </label>
-                <input placeholder="Objet" onChange={handleObj}/>
+                <label htmlFor="email-subject-input">
+                    Objet de l&apos;Email&nbsp;:&nbsp;
+                    <input placeholder="Objet" onChange={handleObj} id="email-subject-input" />
+                </label>
             </div>
-            <Editor onChange={handleChange}/>
+            <Editor onChange={handleChange} />
         </div>
-    )
-}
+    );
+};
 
 export default Template;

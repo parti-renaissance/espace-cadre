@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 import $ from 'jquery';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const Sidebar = ({ currentUser }) => {
     useEffect(() => {
@@ -20,11 +20,16 @@ const Sidebar = ({ currentUser }) => {
                     </div>
                 </div>
                 {
-                    currentUser &&
-                    <div className="ml-3 mb-4">
-                        <i className="fas fa-user pr-3 d-inline"></i>
-                        <p className="text-gray d-inline">Bienvenue {currentUser.firstName}</p>
-                    </div>
+                    currentUser
+                    && (
+                        <div className="ml-3 mb-4">
+                            <i className="fas fa-user pr-3 d-inline" />
+                            <p className="text-gray d-inline">
+                                Bienvenue&nbsp;
+                                {currentUser.firstName}
+                            </p>
+                        </div>
+                    )
                 }
                 <p className="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Stratégie</p>
 
@@ -78,5 +83,5 @@ const Sidebar = ({ currentUser }) => {
 export default Sidebar;
 
 Sidebar.propTypes = {
-    currentUser: PropTypes.object.isRequired
+    currentUser: PropTypes.objectOf(Object).isRequired,
 };
