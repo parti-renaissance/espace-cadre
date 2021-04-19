@@ -29,8 +29,7 @@ const Editor = (props) => {
             height: '100%',
             width: '100%',
             storageManager: false,
-            blockManager: {
-            },
+            blockManager: {},
             styleManager: {
                 appendTo: '#style-manager-container',
                 sectors: [{
@@ -43,25 +42,28 @@ const Editor = (props) => {
                 defaults: [],
             },
         });
-        editor.on('storage:start', () => {
-            const inlinehtml = editor.getHtml();
-            const inlinecss = editor.getCss();
-            props.onChange(inlinehtml, inlinecss);
-        });
+
         setConfig(editor);
+
+        editor
+            .on('storage:start', () => {
+                const inlinehtml = editor.getHtml();
+                const inlinecss = editor.getCss();
+                props.onChange(inlinehtml, inlinecss);
+            })
+            .on('load', () => {
+                editor.Panels.getButton('views', 'open-blocks').set('active', true);
+            });
     }, []);
 
     return (
         <>
-
             <div className="panel__top">
-
                 <div className="panel__basic-actions" />
             </div>
 
             <div id="style-manager-container" />
             <div id="gjs" className="editor" />
-
         </>
     );
 };

@@ -198,7 +198,6 @@ const setConfig = (editor) => {
     setDevices(editor);
     setBlocks(editor.BlockManager);
     editor.Panels.render();
-    editor.Panels.getButton('views', 'open-blocks').set('active', true);
     editor.Commands.add('undo', {
         run(localEditor, sender) {
             sender.set('active', 0);
