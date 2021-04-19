@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useAsyncFn } from 'react-use';
 
 import login from '../../services/networking/auth';
-import apiClient from '../../services/networking/client';
+import { apiClient } from '../../services/networking/client';
 import { userLoggedIn, userUpdateData } from './slice';
 
 export const useInitializeAuth = () => () => {
