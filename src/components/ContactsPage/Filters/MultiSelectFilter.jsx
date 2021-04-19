@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
+import { apiClientProxy } from '../../../services/networking/client';
 
 // A multiselect dropdown
 const MultiSelectFilter = () => {
@@ -8,8 +9,7 @@ const MultiSelectFilter = () => {
         useEffect(() => {
             const categoriesTitle = async () => {
                 const newArray = [];
-                const response = await fetch('https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts');
-                const body = await response.json();
+                const body = await apiClientProxy.get('/contacts');
                 body.interests_choices.forEach((element) => {
                     newArray.push({
                         value: element,

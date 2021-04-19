@@ -12,6 +12,7 @@ import BooleanSelectFilter from '../Filters/BooleanSelectFilter';
 import MultiSelectFilter from '../Filters/MultiSelectFilter';
 
 import Spinner from '../../Spinner/Spinner';
+import { apiClientProxy } from '../../../services/networking/client';
 
 const Contacts = () => {
     const [data, setData] = useState([]);
@@ -26,8 +27,7 @@ const Contacts = () => {
             setError(false);
 
             try {
-                const response = await fetch('https://middleware-api-x44qrxc7fq-ew.a.run.app/contacts');
-                const body = await response.json();
+                const body = await apiClientProxy.get('/contacts');
                 const columnsTitle = (Object.keys(body.contacts[0]));
                 const columns = columnsTitle.map((title) => {
                     const cleanTitle = title.replace('_', ' ');

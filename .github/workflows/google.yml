@@ -40,6 +40,7 @@ jobs:
         docker build \
           --build-arg OAUTH_HOST=${{ secrets.OAUTH_HOST }} \
           --build-arg OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }} \
+          --build-arg INTERNAL_APP_ID=${{ secrets.INTERNAL_APP_ID }} \
           --tag "eu.gcr.io/$PROJECT_ID/$IMAGE:$TAG" \
           .
 

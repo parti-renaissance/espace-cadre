@@ -50,6 +50,5 @@ class ApiClient {
     }
 }
 
-const apiClient = new ApiClient(API_BASE_URL);
-
-export default apiClient;
+export const apiClient = new ApiClient(API_BASE_URL);
+export const apiClientProxy = new ApiClient(`${API_BASE_URL}/v3/internal/${process.env.REACT_APP_INTERNAL_APP_ID}`);
