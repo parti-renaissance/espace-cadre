@@ -1,19 +1,43 @@
 /* eslint-disable react/jsx-props-no-spreading,react/no-array-index-key */
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
     useTable,
     useGlobalFilter,
     useFilters,
     usePagination,
 } from 'react-table';
-import { CSVLink } from 'react-csv';
-import PropTypes from 'prop-types';
-
+import { useExportData } from 'react-table-plugins';
+import * as XLSX from 'xlsx';
 import GlobalFilter from '../Filters/GlobalFilter';
 
 import './Table.scss';
 
 const Table = ({ columns, data, defaultColumn }) => {
+    function getExportFileBlob({
+        // eslint-disable-next-line no-shadow
+        columns, data, fileName,
+    }) {
+        const header = columns.map((c) => c.exportValue);
+        const compatibleData = data.map((row) => {
+            const obj = {};
+            header.forEach((col, index) => {
+                obj[col] = row[index];
+            });
+            return obj;
+        });
+
+        const wb = XLSX.utils.book_new();
+        const ws1 = XLSX.utils.json_to_sheet(compatibleData, {
+            header,
+        });
+        XLSX.utils.book_append_sheet(wb, ws1, 'React Table Data');
+        XLSX.writeFile(wb, `${fileName}.xlsx`);
+
+        // Returning false as downloading of file is already taken care of
+        return false;
+    }
     const {
         getTableProps,
         getTableBodyProps,
@@ -30,30 +54,33 @@ const Table = ({ columns, data, defaultColumn }) => {
         prepareRow,
         state,
         setGlobalFilter,
+        exportData,
     } = useTable({
         columns,
         data,
         defaultColumn,
         initialState: { pageSize: 40 },
+        getExportFileBlob,
     },
     useGlobalFilter,
     useFilters,
-    usePagination);
-
+    usePagination,
+    useExportData);
     const { globalFilter, pageIndex, pageSize } = state;
 
     return (
         <>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             <div className="d-flex paginationTop">
-                <CSVLink
-                    data={data}
-                    filename="contacts.csv"
+                <button
+                    type="button"
+                    onClick={() => {
+                        exportData('xlsx', false);
+                    }}
                     className="btn btn-outline-info btn-sm mx-1"
-                    target="_blank"
                 >
-                    Export XLS
-                </CSVLink>
+                    Export as XLSX
+                </button>
                 {' '}
                 <span style={{ borderLeft: '1px solid lightgrey', height: '2rem' }} />
                 {' '}
