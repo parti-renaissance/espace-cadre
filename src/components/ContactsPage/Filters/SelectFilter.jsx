@@ -18,7 +18,7 @@ const SelectFilter = ({
 
     return (
         <select
-            value={filterValue}
+            value={filterValue || ''}
             onChange={(e) => {
                 setFilter(e.target.value || undefined);
             }}

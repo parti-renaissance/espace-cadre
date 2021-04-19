@@ -55,6 +55,7 @@ const Table = ({ columns, data, defaultColumn }) => {
         state,
         setGlobalFilter,
         exportData,
+        setAllFilters,
     } = useTable({
         columns,
         data,
@@ -80,6 +81,16 @@ const Table = ({ columns, data, defaultColumn }) => {
                     className="btn btn-outline-info btn-sm mx-1"
                 >
                     Export as XLSX
+                </button>
+                {' '}
+                <span style={{ borderLeft: '1px solid lightgrey', height: '2rem' }} />
+                {' '}
+                <button
+                    type="button"
+                    className="btn btn-outline-info btn-sm mx-1"
+                    onClick={() => setAllFilters([])}
+                >
+                    Réinitialiser les filtres
                 </button>
                 {' '}
                 <span style={{ borderLeft: '1px solid lightgrey', height: '2rem' }} />
