@@ -39,7 +39,7 @@ const Contacts = () => {
                         } else if (title === 'Abonné_email' || title === "Abonné_tel") {
                             return BooleanSelectFilter;
                         } else if (title === "Centres_d'intérêt") {
-                            return <MultiSelectFilter/>
+                            return <MultiSelectFilter interests={body}/>
                         } else {
                             return ColumnFilter
                         }

@@ -10,7 +10,6 @@ const SelectFilter = ({ column: { filterValue, setFilter, preFilteredRows, id },
         })
         return [...options.values()]
     }, [id, preFilteredRows])
-
     return (
         <select
             value={filterValue}
