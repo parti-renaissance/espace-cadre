@@ -55,10 +55,14 @@ const Contacts = () => {
                         typeOfCell = () => (props) => <BooleanRendering bool={props} />;
                     }
 
+                    // Specific hook for multiselect
+                    const includeSome = () => (title === "Centres_d'intérêt" ? 'includesSome' : null);
+
                     return {
                         Header: cleanTitle,
                         accessor: title,
                         Filter: typeOfFilter(),
+                        filter: includeSome(),
                         Cell: typeOfCell(),
                     };
                 });
