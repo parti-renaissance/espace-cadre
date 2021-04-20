@@ -41,7 +41,7 @@ const Contacts = () => {
                         } if (title === 'Abonné_email' || title === 'Abonné_tel') {
                             return BooleanSelectFilter;
                         } if (title === "Centres_d'intérêt") {
-                            return <MultiSelectFilter />;
+                            return MultiSelectFilter;
                         }
                         return ColumnFilter;
                     };

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { apiClientProxy } from '../../../services/networking/client';
 
 // A multiselect dropdown
-const MultiSelectFilter = () => {
+const MultiSelectFilter = ({ column: { setFilter } }) => {
     const [categories, setCategories] = useState([]);
     try {
         useEffect(() => {
@@ -29,9 +30,16 @@ const MultiSelectFilter = () => {
             <Select
                 isMulti
                 options={categories}
+                onChange={(data) => {
+                    setFilter(data.map((el) => el.value) || undefined);
+                }}
             />
         </div>
     );
 };
 
 export default MultiSelectFilter;
+
+MultiSelectFilter.propTypes = {
+    column: PropTypes.objectOf(Object).isRequired,
+};
