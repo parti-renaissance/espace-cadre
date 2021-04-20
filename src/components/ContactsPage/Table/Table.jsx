@@ -14,7 +14,7 @@ import GlobalFilter from '../Filters/GlobalFilter';
 
 import './Table.scss';
 
-const Table = ({ columns, data, defaultColumn }) => {
+const Table = ({ columns, data }) => {
     function getExportFileBlob({
         // eslint-disable-next-line no-shadow
         columns, data, fileName,
@@ -43,7 +43,6 @@ const Table = ({ columns, data, defaultColumn }) => {
         initialState: { pageSize: 40 },
         data,
         columns,
-        defaultColumn,
         getExportFileBlob,
     },
     useGlobalFilter,
@@ -215,5 +214,4 @@ export default Table;
 Table.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
-    defaultColumn: PropTypes.objectOf(Object).isRequired,
 };
