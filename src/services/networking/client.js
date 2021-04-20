@@ -46,7 +46,15 @@ class ApiClient {
     }
 
     get(endpoint) {
-        return this.request('GET', endpoint);
+        return this.request('get', endpoint);
+    }
+
+    put(endpoint, data) {
+        return this.request('put', endpoint, data);
+    }
+
+    post(endpoint, data) {
+        return this.request('post', endpoint, data);
     }
 }
 

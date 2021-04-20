@@ -6,32 +6,18 @@ import PropTypes from 'prop-types';
 import setConfig from './Config';
 import './Editor.scss';
 
+const juice = require('juice');
+
 const Editor = (props) => {
     useEffect(() => {
         const editor = grapesjs.init({
             container: '#gjs',
             fromElement: true,
-            plugins: ['gjs-preset-newsletter'],
-            pluginsOpts: {
-                'gjs-preset-newsletter': {
-                    modalLabelExport: 'Copy the code and use it wherever you want',
-                    codeViewerTheme: 'material',
-                    cellStyle: {
-                        'font-size': '12px',
-                        'font-weight': 300,
-                        'vertical-align': 'top',
-                        color: 'rgb(111, 119, 125)',
-                        margin: 0,
-                        padding: 0,
-                    },
-                },
-            },
             height: '100%',
             width: '100%',
             storageManager: false,
             blockManager: {},
             styleManager: {
-                appendTo: '#style-manager-container',
                 sectors: [{
                     name: 'Typography',
                     open: false,
@@ -47,9 +33,9 @@ const Editor = (props) => {
 
         editor
             .on('storage:start', () => {
-                const inlinehtml = editor.getHtml();
-                const inlinecss = editor.getCss();
-                props.onChange(inlinehtml, inlinecss);
+                const tmp = `${editor.getHtml()}<style>${editor.getCss()}</style>`;
+                const templateSave = juice(tmp, []);
+                props.onChange(templateSave);
             })
             .on('load', () => {
                 editor.Panels.getButton('views', 'open-blocks').set('active', true);
@@ -61,8 +47,6 @@ const Editor = (props) => {
             <div className="panel__top">
                 <div className="panel__basic-actions" />
             </div>
-
-            <div id="style-manager-container" />
             <div id="gjs" className="editor" />
         </>
     );

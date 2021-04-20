@@ -11,7 +11,7 @@ const Audience = () => {
 
     return (
         <>
-            <div className="audience" id="audience">
+            <div className="audience" id="audience" style={{ display: 'none' }}>
                 <h3>Audience Cible</h3>
                 <div className="parts">
                     <div className="part">Contacts</div>
