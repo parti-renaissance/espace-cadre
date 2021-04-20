@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow,react/prop-types,react/display-name */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Table from '../Table/Table';
 import InterestRendering from '../ColumnsContentRendering/InterestRendering';
@@ -55,10 +55,14 @@ const Contacts = () => {
                         typeOfCell = () => (props) => <BooleanRendering bool={props} />;
                     }
 
+                    // Specific hook for multiselect
+                    const includeSome = () => (title === "Centres_d'intérêt" ? 'includesSome' : null);
+
                     return {
                         Header: cleanTitle,
                         accessor: title,
                         Filter: typeOfFilter(),
+                        filter: includeSome(),
                         Cell: typeOfCell(),
                     };
                 });
@@ -73,11 +77,6 @@ const Contacts = () => {
         getContactsAndColumnsTitles();
     }, []);
 
-    // Set the search input to every column
-    const defaultColumn = useMemo(() => ({
-        Filter: ColumnFilter,
-    }), []);
-
     // Handle error on fetch, async loading with spinner and rendering when loaded
     const content = () => {
         if (error) {
@@ -89,7 +88,6 @@ const Contacts = () => {
             <Table
                 columns={columnsTitle}
                 data={data}
-                defaultColumn={defaultColumn}
             />
         );
     };
