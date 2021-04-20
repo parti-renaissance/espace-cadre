@@ -26,7 +26,10 @@ const MultiSelectFilter = () => {
 
     return (
         <div>
-            <Select isMulti options={categories} />
+            <Select
+                isMulti
+                options={categories}
+            />
         </div>
     );
 };

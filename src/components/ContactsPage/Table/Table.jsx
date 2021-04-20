@@ -38,11 +38,30 @@ const Table = ({ columns, data, defaultColumn }) => {
         // Returning false as downloading of file is already taken care of
         return false;
     }
+
+    const tableInstance = useTable({
+        initialState: { pageSize: 40 },
+        data,
+        columns,
+        defaultColumn,
+        getExportFileBlob,
+    },
+    useGlobalFilter,
+    useFilters,
+    usePagination,
+    useExportData);
+
     const {
+        state: { globalFilter, pageIndex, pageSize },
         getTableProps,
         getTableBodyProps,
         headerGroups,
         page,
+        prepareRow,
+        setPageSize,
+        setGlobalFilter,
+        setAllFilters,
+        exportData,
         nextPage,
         previousPage,
         canNextPage,
@@ -50,24 +69,7 @@ const Table = ({ columns, data, defaultColumn }) => {
         pageOptions,
         gotoPage,
         pageCount,
-        setPageSize,
-        prepareRow,
-        state,
-        setGlobalFilter,
-        exportData,
-        setAllFilters,
-    } = useTable({
-        columns,
-        data,
-        defaultColumn,
-        initialState: { pageSize: 40 },
-        getExportFileBlob,
-    },
-    useGlobalFilter,
-    useFilters,
-    usePagination,
-    useExportData);
-    const { globalFilter, pageIndex, pageSize } = state;
+    } = tableInstance;
 
     return (
         <>
@@ -120,7 +122,7 @@ const Table = ({ columns, data, defaultColumn }) => {
                             {headerGroup.headers.map((column, y) => (
                                 <th {...column.getHeaderProps()} key={`${i}-${y}`}>
                                     {column.render('Header')}
-                                    <div id="singleFilter">{column.canFilter ? column.render('Filter') : null}</div>
+                                    <div id="singleFilter">{column.render('Filter')}</div>
                                 </th>
                             ))}
                         </tr>
