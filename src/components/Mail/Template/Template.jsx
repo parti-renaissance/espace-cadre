@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import 'grapesjs/dist/css/grapes.min.css';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import { apiClient } from '../../../services/networking/client';
+
 import Editor from './grapesjs/Editor';
 import './Template.scss';
 
@@ -11,17 +14,20 @@ const Template = () => {
     // const [userTempList, setUserTempList] = useState(""):
     const [template, setTemplate] = useState({ label: '', content: '' });
     const [mailObjet, setObjet] = useState('');
+    const [show, setShow] = useState(false);
 
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     // Handle CSS HTML change
-    function handleChangeContent(saveTemplate) {
-        if (typeof (saveTemplate) === 'object') return;
-        setTemplate((prevstate) => ({ ...prevstate, content: saveTemplate }));
+    function handleChangeContent(objectTemplate) {
+        if (typeof (objectTemplate) === 'object') return;
+        setTemplate((prevstate) => ({ ...prevstate, content: objectTemplate }));
     }
 
     // eslint-disable-next-line no-unused-vars
-    function handleChangeLabel(saveTemplate) {
-        if (typeof (saveTemplate) === 'object') return;
-        setTemplate((prevstate) => ({ ...prevstate, label: saveTemplate }));
+    function handleChangeLabel(labelTemplate) {
+        if (typeof (labelTemplate) === 'object') return;
+        setTemplate((prevstate) => ({ ...prevstate, label: labelTemplate }));
     }
 
     // Handle mail object change
@@ -35,15 +41,13 @@ const Template = () => {
     };
 
     // Sauvegarder template
-    const saveTemplate = () => {
+    async function saveTemplate() {
         if (template.content === '' || template.label === '') {
             return;
         }
-        const registered = async () => {
-            await apiClient.post('/v3/email_templates', template);
-        };
-        console.log(`J'ai enregistré ? : ${registered}`);
-    };
+        await apiClient.post('/v3/email_templates', template);
+        handleShow();
+    }
 
     useEffect(() => {
     }, []);
@@ -55,8 +59,7 @@ const Template = () => {
 
     // Actions on template Select
     useEffect(() => {
-        console.log(`Content : ${template.content}`);
-        console.log(`Label : ${template.label}`);
+
     }, [template]);
 
     return (
@@ -71,7 +74,6 @@ const Template = () => {
                 </select>
                 <button className="btn-danger button_fields" type="button">Supprimer</button>
             </div>
-
             <div className="objet">
 
                 <label htmlFor="email-subject-input">
@@ -86,6 +88,22 @@ const Template = () => {
                 <button className="btn-success button_fields" onClick={saveTemplate} type="button">Save Template</button>
             </div>
             <Editor onChange={handleChangeContent} />
+
+            {show && (
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Template Sauvegardé</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Votre Template a bien été enregistré.
+                        Vous pouvez poursuivre
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={handleClose}>
+                            Fermer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
         </div>
     );
 };
