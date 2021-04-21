@@ -145,7 +145,7 @@ const setPanels = (panels) => {
                 command(editor) {
                     const md = editor.Modal;
                     const container = document.createElement('div');
-                    const codeViewer = editor && editor.CodeManager.getViewer('CodeMirror').clone();
+                    const codeViewer = editor.CodeManager.getViewer('CodeMirror').clone();
                     let viewer = codeViewer.editor;
                     if (!viewer) {
                         const txtarea = document.createElement('textarea');
