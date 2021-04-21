@@ -1,7 +1,22 @@
-table {
-    margin: 0.5rem 0 0 0.3rem;
-    text-align: center;
+@import "../../../style/main";
 
+//**************************
+// Style for table
+//**************************
+
+// Global style for Table container
+.tableContainer {
+    overflow: scroll;
+}
+
+// Style for table
+.table {
+    border-radius: 15px !important;
+    background-color: $whiteCorner;
+
+    .badge.badge-info {
+        margin-right: 0.2rem;
+    }
     th {
         input,
         select {
@@ -18,12 +33,72 @@ table {
     }
 }
 
+//****************************
+// Style for filters
+//****************************
+
+// Reset button for filters
+#filterButton {
+    font-family: "Poppins", sans-serif;
+    color: $blueCorner;
+    height: 32px;
+    margin: 4px 0 4px 4px;
+    padding: 4px;
+    border-radius: 20px !important;
+    background-color: $whiteCorner;
+
+    span {
+        padding: 10px;
+    }
+
+    i {
+        padding: 3px;
+    }
+
+    @media (max-width: 768px) {
+        display: block;
+    }
+}
+
+#downloadButton {
+    font-family: "Poppins", sans-serif;
+    color: $blueCorner;
+    background-color: $whiteCorner;
+    height: 32px;
+    padding: 0 16px;
+}
+
+// String search filter
 #singleFilter {
     margin-top: 0.5rem;
 }
 
-#contacts-table {
-    .badge.badge-info {
+// Number of line to display in table
+.lineCount {
+    color: $blackCorner;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    margin: 8px 8px 8px 2px;
+
+    span {
         margin-right: 3px;
+        padding: 2px;
+    }
+
+    select {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 18px;
+        background-color: $whiteCorner;
+        border-radius: 12px;
+        border: none;
+        padding: 4px;
+    }
+
+    @media (max-width: 768px) {
+        display: block;
     }
 }

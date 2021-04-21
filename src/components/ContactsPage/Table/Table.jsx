@@ -10,7 +10,7 @@ import {
 } from 'react-table';
 import { useExportData } from 'react-table-plugins';
 import * as XLSX from 'xlsx';
-import GlobalFilter from '../Filters/GlobalFilter';
+import GlobalFilter from '../Filters/GlobalFilter/GlobalFilter';
 
 import './Table.scss';
 
@@ -71,48 +71,42 @@ const Table = ({ columns, data }) => {
     } = tableInstance;
 
     return (
-        <>
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-            <div className="d-flex paginationTop">
-                <button
-                    type="button"
-                    onClick={() => {
-                        exportData('xlsx', false);
-                    }}
-                    className="btn btn-outline-info btn-sm mx-1"
-                >
-                    Export as XLSX
-                </button>
-                {' '}
-                <span style={{ borderLeft: '1px solid lightgrey', height: '2rem' }} />
-                {' '}
-                <button
-                    type="button"
-                    className="btn btn-outline-info btn-sm mx-1"
-                    onClick={() => setAllFilters([])}
-                >
-                    Réinitialiser les filtres
-                </button>
-                {' '}
-                <span style={{ borderLeft: '1px solid lightgrey', height: '2rem' }} />
-                {' '}
-                <select
-                    className="p-1 border rounded ml-1"
-                    value={pageSize}
-                    onChange={(e) => setPageSize(Number(e.target.value))}
-                >
-                    {
-                        [40, 60, 100].map((size) => (
-                            <option key={size} value={size}>
-                                Afficher {size} contacts
-                            </option>
-                        ))
-                    }
-                </select>
+        <div className="container-fluid tableContainer">
+            <div className="row">
+                <div className="col-md-8">
+                    <GlobalFilter
+                        filter={globalFilter}
+                        setFilter={setGlobalFilter}
+                    />
+                    <button
+                        type="button"
+                        className="btn"
+                        id="filterButton"
+                        onClick={() => setAllFilters([])}
+                    >
+                        <span>Réinitialiser les filtres</span>
+                        <i className="fas fa-filter" />
+                    </button>
+                </div>
+                <div className="lineCount col-md-4">
+                    <span>Lignes par page</span>
+                    <select
+                        value={pageSize}
+                        onChange={(e) => setPageSize(Number(e.target.value))}
+                    >
+                        {
+                            [40, 60, 100].map((size) => (
+                                <option key={size} value={size}>
+                                    {size}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </div>
             </div>
+
             <table
-                className="table table-bordered table-striped"
-                id="contacts-table"
+                className="table table-bordered"
                 {...getTableProps()}
             >
                 <thead>
@@ -139,7 +133,18 @@ const Table = ({ columns, data }) => {
                     })}
                 </tbody>
             </table>
-            <div className="paginationBottom">
+            <div className="row">
+                <button
+                    type="button"
+                    onClick={() => {
+                        exportData('xlsx', false);
+                    }}
+                    className="btn"
+                    id="downloadButton"
+                >
+                    <i className="fas fa-download" />
+                    Export as XLSX
+                </button>
                 <span className="mr-2">
                     Page
                     {' '}
@@ -154,7 +159,7 @@ const Table = ({ columns, data }) => {
                     <span style={{ borderLeft: '1px solid lightgrey', height: '1rem' }} />
                     {' '}
                 </span>
-                <span>
+                {/* <span>
                     Aller à la page:
                     {' '}
                     {' '}
@@ -167,7 +172,7 @@ const Table = ({ columns, data }) => {
                             gotoPage(pageNumber);
                         }}
                     />
-                </span>
+                    </span> */}
                 {' '}
                 {' '}
                 <button
@@ -205,7 +210,7 @@ const Table = ({ columns, data }) => {
                     {'>>'}
                 </button>
             </div>
-        </>
+        </div>
     );
 };
 

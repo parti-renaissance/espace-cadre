@@ -24,10 +24,9 @@ const Contacts = () => {
     // Get the data for the table
     useEffect(() => {
         const getContactsAndColumnsTitles = async () => {
-            setLoading(true);
-            setError(false);
-
             try {
+                setLoading(true);
+                setError(false);
                 const body = await apiClientProxy.get('/contacts');
                 const columnsTitle = (Object.keys(body.contacts[0]));
                 const columns = columnsTitle.map((title) => {

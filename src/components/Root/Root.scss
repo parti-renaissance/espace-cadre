@@ -1,0 +1,23 @@
+@import "../../style/main";
+
+#sidebarCollapse {
+    background-color: $whiteCorner;
+    padding: 8px 16px;
+    margin: 0 0 50px 10px;
+    border-radius: 32px;
+    border: none;
+}
+
+#burgerIcon {
+    color: $greyCorner3;
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+}
+
+#menuButtonText {
+    font-family: "Poppins", sans-serif;
+    color: $greyCorner3;
+    font-weight: 400;
+    font-style: normal;
+}

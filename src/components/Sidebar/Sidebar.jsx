@@ -16,7 +16,7 @@ const Sidebar = ({ currentUser }) => {
             <div className="vertical-nav bg-white" id="sidebar">
                 <div className="py-4 px-3 mb-4 bg-light">
                     <div className="media d-flex align-items-center">
-                        <h4 className="m-0">CRM</h4>
+                        <h4 className="m-0" id="data">Data<span id="corner">Corner</span></h4>
                     </div>
                 </div>
                 {
