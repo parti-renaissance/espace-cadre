@@ -81,7 +81,7 @@ const Contacts = () => {
     const content = () => {
         if (error) {
             return <div className="alert alert-danger w-50" role="alert">Erreur dans le chargement de la page</div>;
-        } if (loading && !error) {
+        } if (loading) {
             return <Spinner />;
         }
         return (
