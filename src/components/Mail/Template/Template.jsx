@@ -71,7 +71,7 @@ const Template = () => {
         const status = userTempList.some((item) => (item.label === template.label));
 
         if (status) {
-            await apiClient.put('/v3/email_templates', template);
+            await apiClient.put(`/v3/email_templates/${template.selected.uuid}`, template);
             LoadTemplate();
         } else {
             await apiClient.post('/v3/email_templates', template);
@@ -97,13 +97,17 @@ const Template = () => {
     }, []);
 
     // Actions on template Select
-    useEffect(async () => {
-        if (template.selected.uuid !== undefined && (template.selected !== '1')) {
-            const result = await apiClient.get(`/v3/email_templates/${template.selected.uuid}`);
-            setTemplate((prevstate) => (
-                { ...prevstate, content: result.content, label: result.label }));
-            setContent(result.content);
+    useEffect(() => {
+        async function loadOnSelect() {
+            if (template.selected.uuid !== undefined && (template.selected !== '1')) {
+                const result = await apiClient.get(`/v3/email_templates/${template.selected.uuid}`);
+                setTemplate((prevstate) => (
+                    { ...prevstate, content: result.content, label: result.label }));
+                setContent(result.content);
+            }
         }
+
+        loadOnSelect();
     }, [template.selected]);
 
     useEffect(() => {
