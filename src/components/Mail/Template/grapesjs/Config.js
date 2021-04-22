@@ -93,7 +93,7 @@ const setBlocks = (blockManager) => {
         id: 'Button',
         label: 'Bouton',
         attributes: { class: 'gjs-fonts gjs-f-button' },
-        content: '<div style="display: flex; justify-content: space-between"><a style="background-color: #1d5fd1; color: white">Bouton</a></div>',
+        content: '<div style="display: flex; justify-content: space-between"><a style="background-color: #1d5fd1; color: white; padding : 8px 16px 8px 16px; border-radius : 8px">Bouton</a></div>',
         style: { color: '#1d5fd1' },
         activate: true,
     });

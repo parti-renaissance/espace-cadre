@@ -11,7 +11,15 @@ import './Template.scss';
 const Template = () => {
     // Set State elements
     // eslint-disable-next-line no-unused-vars
-    const [mailObjet, setObjet] = useState('');
+    const [mailObjet, setObjet] = useState({
+        type: 'candidate',
+        label: '',
+        subject: '',
+        content: '',
+    });
+    const [mailUuid, setMailUuid] = useState('');
+    const [synch, setSynch] = useState('');
+
     const [userTempList, setUserTempList] = useState([]);
     const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
     const [content, setContent] = useState('');
@@ -33,6 +41,7 @@ const Template = () => {
     function handleChangeContent(objectTemplate) {
         if (typeof (objectTemplate) === 'object') return;
         setTemplate((prevstate) => ({ ...prevstate, content: objectTemplate }));
+        setObjet((prevstate) => ({ ...prevstate, content: objectTemplate }));
     }
 
     // Handle Select Template
@@ -55,7 +64,11 @@ const Template = () => {
 
     // Handle mail object change
     const handleObj = (event) => {
-        setObjet(event.target.value);
+        setObjet((prevstate) => ({
+            ...prevstate,
+            subject: event.target.value,
+            label: event.target.value,
+        }));
     };
 
     // Handle Template select change
@@ -113,6 +126,46 @@ const Template = () => {
     useEffect(() => {
     }, [userTempList]);
 
+    useEffect(() => {
+        setTemplate((prevstate) => ({ ...prevstate, content: template.content }));
+    }, [template.content]);
+
+    async function sendMail() {
+        console.log("C'est partit pour l'envois...");
+        console.log(`Préparation des données... ${JSON.stringify(mailObjet)}`);
+        const response = await apiClient.post('/v3/adherent_messages', mailObjet);
+        setMailUuid(response.uuid);
+    }
+    // Send mailer , timeout . Faire modals
+    useEffect(() => {
+        function setCheck() {
+            setSynch(false);
+            let repeat = 0;
+            const checkSynch = setInterval(async () => {
+                async function synchStatus() {
+                    const statusReq = await apiClient.get(`/v3/adherent_messages/${mailUuid}`);
+                    if (statusReq.synchronized === true
+                        && (statusReq.recipient_count > 0)) return true;
+                    return false;
+                }
+                repeat += 1;
+                if (repeat === 5) {
+                    console.log("replace par showmodal d'erreur time out");
+                    clearInterval(checkSynch);
+                }
+                const res = await synchStatus();
+                if (res === true) {
+                    const send = await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
+                    console.log(`SEND : ${send}`);
+                    clearInterval(checkSynch);
+                }
+            }, 2500);
+        }
+        if (mailUuid !== '') {
+            setCheck();
+        }
+    }, [mailUuid]);
+
     return (
         <div className="templates" style={{ overflow: 'auto' }}>
             <h3>Mes Templates</h3>
@@ -138,7 +191,7 @@ const Template = () => {
                 </label>
 
                 <button className="btn-success button_fields" onClick={saveTemplate} type="button">Sauvegarder</button>
-                &nbsp;<button className="btn-primary button_fields" type="button">Envoyer le Mail</button>
+                &nbsp;<button className="btn-primary button_fields" type="button" onClick={sendMail}>Envoyer le Mail</button>
             </div>
             <Editor onChange={handleChangeContent} loadingContent={content} />
 

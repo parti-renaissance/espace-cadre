@@ -168,9 +168,7 @@ const Editor = (props) => {
 
     return (
         <>
-            <div className="panel__top">
-                <div className="panel__basic-actions" />
-            </div>
+            <div className="panel__basic-actions" />
             <div id="gjs" className="editor" />
         </>
     );
