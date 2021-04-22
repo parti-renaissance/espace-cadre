@@ -1,11 +1,10 @@
 #gjs {
     border: none;//3px solid #444;
-    max-width: 875px;
-    min-width: 500px;
 }
 
 .gjs-cv-canvas__frames {
-    width: calc(100% - 150px);
+    width: 600px;
+
     margin-left: 5%;
 }
 
@@ -27,8 +26,8 @@
 }
 
 .gjs-pn-views-container {
-    width: 200px;
-    margin-top: 45px;
+    width: 275px;
+    margin-top: 41px;
     height: calc(100% - 45px);
 }
 
@@ -50,21 +49,23 @@
 
 .gjs-pn-buttons {
     display: flex;
+    margin-bottom: -0.75px;
     justify-content: flex-start;
 }
 
 // Change background Color Of Editor
 .gjs-one-bg {
-    background-color: #696969;
+//    background-color: #696969;
+    background-color: #FFFFFF;
 }
 
 // Change Color of texte icones when not selected
 .gjs-two-color {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(80, 71, 71, 0.808);
   }
 
 // Change Color of texte icones when selected
 .gjs-four-color,
 .gjs-four-color-h:hover {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(0, 0, 0);
 }

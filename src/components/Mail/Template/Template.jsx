@@ -11,24 +11,47 @@ import './Template.scss';
 const Template = () => {
     // Set State elements
     // eslint-disable-next-line no-unused-vars
-    // const [userTempList, setUserTempList] = useState(""):
-    const [template, setTemplate] = useState({ label: '', content: '' });
     const [mailObjet, setObjet] = useState('');
+    const [userTempList, setUserTempList] = useState([]);
+    const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
+    const [content, setContent] = useState('');
     const [show, setShow] = useState(false);
+    const [showDel, setDel] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleCloseDel = () => setDel(false);
+    const handleShowDel = () => setDel(true);
+
+    async function LoadTemplate() {
+        const result = await apiClient.get('/v3/email_templates');
+        setUserTempList(result.items);
+    }
+
     // Handle CSS HTML change
     function handleChangeContent(objectTemplate) {
         if (typeof (objectTemplate) === 'object') return;
         setTemplate((prevstate) => ({ ...prevstate, content: objectTemplate }));
     }
 
-    // eslint-disable-next-line no-unused-vars
-    function handleChangeLabel(labelTemplate) {
-        if (typeof (labelTemplate) === 'object') return;
-        setTemplate((prevstate) => ({ ...prevstate, label: labelTemplate }));
-    }
+    // Handle Select Template
+    const handleSelected = (event) => {
+        if (event.target.value === '1') {
+            setTemplate((prevstate) => ({
+                ...prevstate,
+                selected: event.target.value,
+                label: 'Nouveau',
+            }));
+        } else {
+            const labeltmp = userTempList.find((tplt) => (tplt.uuid === event.target.value));
+            setTemplate((prevstate) => ({
+                ...prevstate,
+                selected: userTempList.find((tplt) => (tplt.uuid === event.target.value)),
+                label: labeltmp.label,
+            }));
+        }
+    };
 
     // Handle mail object change
     const handleObj = (event) => {
@@ -45,34 +68,63 @@ const Template = () => {
         if (template.content === '' || template.label === '') {
             return;
         }
-        await apiClient.post('/v3/email_templates', template);
+        const status = userTempList.some((item) => (item.label === template.label));
+
+        if (status) {
+            await apiClient.put(`/v3/email_templates/${template.selected.uuid}`, template);
+            LoadTemplate();
+        } else {
+            await apiClient.post('/v3/email_templates', template);
+            LoadTemplate();
+        }
         handleShow();
     }
 
+    async function deleteTemplate() {
+        if (template.selected !== '1') {
+            await apiClient.delete(`/v3/email_templates/${template.selected.uuid}`);
+            setContent('clear');
+            setTemplate((prevstate) => ({
+                ...prevstate, label: '', content: '', selected: '',
+            }));
+            LoadTemplate();
+            handleCloseDel();
+        }
+    }
+
     useEffect(() => {
+        LoadTemplate();
     }, []);
-
-    // Actions on mail object change
-    useEffect(() => {
-
-    }, [mailObjet]);
 
     // Actions on template Select
     useEffect(() => {
+        async function loadOnSelect() {
+            if (template.selected.uuid !== undefined && (template.selected !== '1')) {
+                const result = await apiClient.get(`/v3/email_templates/${template.selected.uuid}`);
+                setTemplate((prevstate) => (
+                    { ...prevstate, content: result.content, label: result.label }));
+                setContent(result.content);
+            }
+        }
 
-    }, [template]);
+        loadOnSelect();
+    }, [template.selected]);
+
+    useEffect(() => {
+    }, [userTempList]);
 
     return (
         <div className="templates" style={{ overflow: 'auto' }}>
             <h3>Mes Templates</h3>
             <div className="header">
-                <select className="custom-select" id="basic" onChange={handleTemplate}>
-                    <option defaultValue="0" value="0">Selection du Template</option>
-                    <option value="Template 1">Template 1</option>
-                    <option value="Template 2">Template 2</option>
-                    <option value="Template 3">Template 3</option>
+                <select className="custom-select" id="basic" value={template.selected.uuid} onChange={handleSelected}>
+                    <option value="1">Selection du Template</option>
+                    {userTempList !== 0 && userTempList.map((tmplte) => (
+                        <option value={tmplte.uuid} key={tmplte.label}>{tmplte.label}</option>
+                    ))}
                 </select>
-                <button className="btn-danger button_fields" type="button">Supprimer</button>
+                <button className="btn-danger button_fields" type="button" onClick={handleShowDel}>Supprimer</button>&nbsp;
+
             </div>
             <div className="objet">
 
@@ -81,13 +133,14 @@ const Template = () => {
                     <input placeholder="Objet" onChange={handleObj} id="email-subject-input" />
                 </label>
                 <label htmlFor="template_name">&nbsp;Nom du Template &nbsp;
-                    <input placeholder={template.label} onChange={handleTemplate} id="template_name" />
+                    <input placeholder={template.label} onChange={handleTemplate} id="template_name" value={template.label} />
                     &nbsp;
                 </label>
 
-                <button className="btn-success button_fields" onClick={saveTemplate} type="button">Save Template</button>
+                <button className="btn-success button_fields" onClick={saveTemplate} type="button">Sauvegarder</button>
+                &nbsp;<button className="btn-primary button_fields" type="button">Envoyer le Mail</button>
             </div>
-            <Editor onChange={handleChangeContent} />
+            <Editor onChange={handleChangeContent} loadingContent={content} />
 
             {show && (
                 <Modal show={show} onHide={handleClose}>
@@ -104,6 +157,26 @@ const Template = () => {
                     </Modal.Footer>
                 </Modal>
             )}
+
+            {showDel && (
+                <Modal show={showDel} onHide={handleCloseDel}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Suppression du Template</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Êtes vous sûr de vouloir supprimer ce template ?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseDel}>
+                            Annuler
+                        </Button>
+                        <Button variant="primary" onClick={deleteTemplate}>
+                            Confirmer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
+
         </div>
     );
 };
