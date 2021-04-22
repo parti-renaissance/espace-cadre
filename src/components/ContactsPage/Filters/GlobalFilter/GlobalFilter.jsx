@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 import PropTypes from 'prop-types';
+import './GlobalFilter.scss';
 
 // Allow to search in every column of the table
 const GlobalFilter = ({ filter, setFilter }) => {
@@ -13,20 +14,16 @@ const GlobalFilter = ({ filter, setFilter }) => {
     }, 500);
 
     return (
-        <span style={{ margin: '1rem' }}>
-            Recherche dans l&apos;ensemble des contacts:
-            {' '}
-            {' '}
-            <input
-                className="form-control"
-                placeholder="Recherchez ici..."
-                value={value || ''}
-                onChange={(e) => {
-                    setValue(e.target.value);
-                    onChangeDelay(e.target.value);
-                }}
-            />
-        </span>
+        <input
+            id="globalFilter"
+            type="text"
+            placeholder="Recherche"
+            value={value || ''}
+            onChange={(e) => {
+                setValue(e.target.value);
+                onChangeDelay(e.target.value);
+            }}
+        />
     );
 };
 

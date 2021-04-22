@@ -8,6 +8,8 @@ import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
 import Sidebar from '../Sidebar/Sidebar';
 import Switch from './Switch';
 
+import './Root.scss';
+
 const Root = () => {
     const isUserLoggedIn = useSelector(isUserLogged);
     const initializeAuth = useInitializeAuth();
@@ -32,16 +34,20 @@ const Root = () => {
                     <>
                         <Sidebar currentUser={currentUser || {}} />
                         <div className="page-content p-3" id="content">
-                            <div>
-                                <button
-                                    id="sidebarCollapse"
-                                    type="button"
-                                    className="btn btn-light bg-white rounded-pill shadow-sm mb-4"
+                            <button
+                                id="sidebarCollapse"
+                                type="button"
+                            >
+                                <i
+                                    id="burgerIcon"
+                                    className="fa fa-bars"
+                                />
+                                <span
+                                    id="menuButtonText"
                                 >
-                                    <i className="fa fa-bars" />
-                                </button>
-                            </div>
-
+                                    Menu
+                                </span>
+                            </button>
                             <Switch isUserLogged={isUserLoggedIn} />
                         </div>
                     </>

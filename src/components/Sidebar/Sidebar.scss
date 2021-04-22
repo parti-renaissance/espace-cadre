@@ -1,4 +1,33 @@
-/* Sidebar */
+@import "../../style/main";
+
+//**************************
+// Style for SIDEBAR
+//**************************
+
+// Sidebar
+#sidebar {
+    background-color: #f9f9f9;
+}
+
 li:hover {
     background-color: #e6e7e9;
+}
+
+// Style for logo
+#data {
+    color: $blueCorner;
+    font-family: "Poppins", sans-serif;
+    font-style: italic;
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 300;
+}
+
+#corner {
+    color: $blackCorner;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 36px;
 }
