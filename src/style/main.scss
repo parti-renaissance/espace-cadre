@@ -1,16 +1,16 @@
-// This file is intended to ONLY centralize (@import) other files
+// This file is intended to ONLY @import other files
 
 //***************************
 // Fonts
 //***************************
-@import './helpers/fonts';
+@import "./helpers/fonts";
 
 //***************************
 // Variables
 //***************************
-@import './helpers/variables';
+@import "./helpers/variables";
 
 //***************************
-// Buttons
+// DOM Elements
 //***************************
-@import './basics/buttons';
+@import "./DOMElements/basics";

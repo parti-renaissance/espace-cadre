@@ -2,6 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './SelectFilter.scss';
+
 // Render a select to filter inside a column
 const SelectFilter = ({
     column: {
@@ -22,7 +24,6 @@ const SelectFilter = ({
             onChange={(e) => {
                 setFilter(e.target.value || undefined);
             }}
-            className="form-control"
         >
             <option value="">Tous</option>
             {options.map((option, i) => (

@@ -16,6 +16,8 @@
     }
     .button_fields {
         border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
     }
     .button_fields:active {
         box-shadow: 0 5px #666;
@@ -23,7 +25,9 @@
       }
       .modalstyle  {
         background-color: '#fff';
-        border-radius: 5;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
         max-Width: 500px;
         min-Height: 300px;
         margin: 'auto';

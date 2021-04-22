@@ -5,10 +5,10 @@ import Table from '../Table/Table';
 import InterestRendering from '../ColumnsContentRendering/InterestRendering';
 import BooleanRendering from '../ColumnsContentRendering/BooleanRendering';
 
-import ColumnFilter from '../Filters/ColumnFilter';
-import SelectFilter from '../Filters/SelectFilter';
-import BooleanSelectFilter from '../Filters/BooleanSelectFilter';
-import MultiSelectFilter from '../Filters/MultiSelectFilter';
+import ColumnFilter from '../Filters/ColumnFilter/ColumnFilter';
+import SelectFilter from '../Filters/SelectFilter/SelectFilter';
+import BooleanSelectFilter from '../Filters/BooleanSelectFilter/BooleanSelectFilter';
+import MultiSelectFilter from '../Filters/MultiSelectFilter/MultiSelectFilter';
 
 import Spinner from '../../Spinner/Spinner';
 import { apiClientProxy } from '../../../services/networking/client';

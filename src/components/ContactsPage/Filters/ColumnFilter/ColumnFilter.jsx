@@ -7,7 +7,7 @@ const ColumnFilter = ({ column }) => {
     return (
         <span>
             <input
-                className="form-control"
+                type="text"
                 value={filterValue || ''}
                 onChange={(e) => setFilter(e.target.value)}
                 placeholder="Search..."
