@@ -73,7 +73,7 @@ const Table = ({ columns, data }) => {
     return (
         <div className="container-fluid tableContainer">
             <div className="row">
-                <div className="col-md-8">
+                <div className="aboveFilter">
                     <GlobalFilter
                         filter={globalFilter}
                         setFilter={setGlobalFilter}
@@ -88,11 +88,21 @@ const Table = ({ columns, data }) => {
                         <i className="fas fa-filter" />
                     </button>
                 </div>
-                <div className="lineCount col-md-4">
-                    <span>Lignes par page</span>
+                <div className="downloadLineCount">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            exportData('xlsx', false);
+                        }}
+                        className="btn"
+                        id="downloadButton"
+                    >
+                        <i className="fas fa-download" />
+                    </button>
                     <select
                         value={pageSize}
                         onChange={(e) => setPageSize(Number(e.target.value))}
+                        className="lineCount"
                     >
                         {
                             [40, 60, 100].map((size) => (
@@ -106,7 +116,7 @@ const Table = ({ columns, data }) => {
             </div>
 
             <table
-                className="table table-bordered"
+                className="table"
                 {...getTableProps()}
             >
                 <thead>
@@ -115,7 +125,7 @@ const Table = ({ columns, data }) => {
                             {headerGroup.headers.map((column, y) => (
                                 <th {...column.getHeaderProps()} key={`${i}-${y}`}>
                                     {column.render('Header')}
-                                    <div id="singleFilter">{column.render('Filter')}</div>
+                                    <div>{column.render('Filter')}</div>
                                 </th>
                             ))}
                         </tr>
@@ -134,17 +144,6 @@ const Table = ({ columns, data }) => {
                 </tbody>
             </table>
             <div className="row">
-                <button
-                    type="button"
-                    onClick={() => {
-                        exportData('xlsx', false);
-                    }}
-                    className="btn"
-                    id="downloadButton"
-                >
-                    <i className="fas fa-download" />
-                    Export as XLSX
-                </button>
                 <span className="mr-2">
                     Page
                     {' '}
