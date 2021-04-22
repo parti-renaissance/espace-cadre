@@ -49,6 +49,10 @@ class ApiClient {
         return this.request('get', endpoint);
     }
 
+    delete(endpoint) {
+        return this.request('delete', endpoint);
+    }
+
     put(endpoint, data) {
         return this.request('put', endpoint, data);
     }

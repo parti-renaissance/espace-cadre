@@ -36,18 +36,22 @@ const setBlocks = (blockManager) => {
         label: '1/2 Section',
         attributes: { class: 'gjs-fonts gjs-f-b2 gjs-block gjs-one-bg gjs-four-color-h' },
         select: true,
-        content: `<div style="display: flex; justify-content: space-between"><div><h1>Section 1 titre</h1>
-      <div>Section1 texte</div></div><section><h1>Section 2 titre</h1>
-      <div>Section2 texte</div></div></div>`,
+        content: `<table style="height: 150px;  margin: 0 auto 10px auto;   padding: 5px 5px 5px 5px ;width: 100%">
+        <tr>
+          <td style="padding: 0; margin: 0; vertical-align: 'top'; width: 50%"></td>
+          <td style="padding: 0; margin: 0; vertical-align: 'top'; width: 50%"></td>
+        </tr>
+        </table>`,
         activate: true,
     });
-    blockManager.add('image-block', {
-        id: 'image',
+    blockManager.add('image', {
         label: 'Image',
         attributes: { class: 'gjs-fonts gjs-f-image' },
-        select: true,
-        content: '<div style="display: flex; justify-content: space-between"><div><img style="width: 50px"src="https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png"/></div></div>',
-        activate: true,
+        content: {
+            type: 'image',
+            style: { color: 'black', height: '150px', width: '150px' },
+            activeOnRender: 1,
+        },
     });
     blockManager.add('imageCentered', {
         id: 'imageCentered',
@@ -71,11 +75,19 @@ const setBlocks = (blockManager) => {
     });
     blockManager.add('Divider', {
         id: 'divider',
-        label: 'séparation',
+        label: 'Divider',
         attributes: { class: 'gjs-fonts gjs-f-divider gjs-block gjs-one-bg gjs-four-color-h' },
-        select: true,
-        content: '<hr>',
-        activate: true,
+        content: `<table style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+        <tr>
+          <td class="divider"></td>
+        </tr>
+      </table>
+      <style>
+      .divider {
+        background-color: rgba(0, 0, 0, 0.1);
+        height: 1px;
+      }
+      </style>`,
     });
     blockManager.add('Button', {
         id: 'Button',
@@ -100,7 +112,6 @@ const setPanels = (panels) => {
         id: 'options',
         buttons: [
             {
-                active: true,
                 id: swv,
                 className: 'fa fa-square-o',
                 command: swv,
