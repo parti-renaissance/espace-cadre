@@ -30,40 +30,28 @@ const Contacts = () => {
                 const body = await apiClientProxy.get('/contacts');
                 const columnsTitle = (Object.keys(body.contacts[0]));
                 const columns = columnsTitle.map((title) => {
-                    const cleanTitle = title.replace('_', ' ');
-                    // Display a specific filter depending on the column
-                    const typeOfFilter = () => {
-                        if (title === 'id') {
-                            return '';
-                        } if (title === 'Genre') {
-                            return SelectFilter;
-                        } if (title === 'Abonné_email' || title === 'Abonné_tel') {
-                            return BooleanSelectFilter;
-                        } if (title === "Centres_d'intérêt") {
-                            return MultiSelectFilter;
-                        }
-                        return ColumnFilter;
+                    const columnDef = {
+                        Header: title.replace('_', ' '),
+                        accessor: title,
+                        Filter: '',
                     };
 
-                    // Display a specific display depending on the content
-                    let typeOfCell = () => (props) => props.value || '';
-
-                    if (title === "Centres_d'intérêt") {
-                        typeOfCell = () => (props) => <InterestRendering interest={props} />;
-                    } else if (title === 'Abonné_tel' || title === 'Abonné_email') {
-                        typeOfCell = () => (props) => <BooleanRendering bool={props} />;
+                    if (['Genre'].indexOf(title) !== -1) {
+                        columnDef.Filter = SelectFilter;
+                    } else if (['Abonné_email', 'Abonné_tel'].indexOf(title) !== -1) {
+                        columnDef.Filter = BooleanSelectFilter;
+                        columnDef.Cell = (props) => <BooleanRendering bool={props} />;
+                    } else if (["Centres_d'intérêt"].indexOf(title) !== -1) {
+                        columnDef.Filter = MultiSelectFilter;
+                        columnDef.filter = 'includesSome';
+                        columnDef.Cell = (props) => <InterestRendering interest={props} />;
+                        columnDef.interests = body.interests_choices;
+                    } else if (['id'].indexOf(title) === -1) {
+                        // default Filter
+                        columnDef.Filter = ColumnFilter;
                     }
 
-                    // Specific hook for multiselect
-                    const includeSome = () => (title === "Centres_d'intérêt" ? 'includesSome' : null);
-
-                    return {
-                        Header: cleanTitle,
-                        accessor: title,
-                        Filter: typeOfFilter(),
-                        filter: includeSome(),
-                        Cell: typeOfCell(),
-                    };
+                    return columnDef;
                 });
 
                 setColumnsTitle(columns);

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import { apiClientProxy } from '../../../../services/networking/client';
 
 import './MultiSelectFilter.scss';
 
 // A multiselect dropdown
-const MultiSelectFilter = ({ column: { setFilter } }) => {
+const MultiSelectFilter = ({ column: { setFilter, interests } }) => {
     const [categories, setCategories] = useState([]);
 
     const customStyles = {
@@ -22,24 +21,13 @@ const MultiSelectFilter = ({ column: { setFilter } }) => {
             textTransform: 'uppercase',
         }),
     };
-    try {
-        useEffect(() => {
-            const categoriesTitle = async () => {
-                const newArray = [];
-                const body = await apiClientProxy.get('/contacts');
-                body.interests_choices.forEach((element) => {
-                    newArray.push({
-                        value: element,
-                        label: element,
-                    });
-                    setCategories(newArray);
-                });
-            };
-            categoriesTitle();
-        }, []);
-    } catch (error) {
-        console.error(error);
-    }
+
+    useEffect(() => {
+        setCategories(interests.map((element) => ({
+            value: element,
+            label: element,
+        })));
+    }, []);
 
     return (
         <div>
