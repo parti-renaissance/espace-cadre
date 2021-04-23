@@ -2,6 +2,7 @@
 import 'grapesjs/dist/css/grapes.min.css';
 import grapesjs from 'grapesjs';
 import React, { useState, useEffect } from 'react';
+import mlplugin from 'grapesjs-preset-newsletter';
 import PropTypes from 'prop-types';
 
 import setConfig from './Config';
@@ -17,6 +18,7 @@ const Editor = (props) => {
     }, [props.loadingContent]);
 
     useEffect(() => {
+        grapesjs.plugins.add(mlplugin);
         const editor = grapesjs.init({
             container: '#gjs',
             fromElement: true,
@@ -24,6 +26,7 @@ const Editor = (props) => {
             width: '100%',
             storageManager: false,
             blockManager: {},
+            plugins: ['gjs-preset-newsletter'],
             styleManager: {
                 sectors: [{
                     name: 'Typography',
@@ -154,7 +157,6 @@ const Editor = (props) => {
             editor.DomComponents.clear();
         }
         setConfig(editor);
-
         editor
             .on('storage:start', () => {
                 const tmp = `${editor.getHtml()}<style>${editor.getCss()}</style>`;
@@ -168,9 +170,7 @@ const Editor = (props) => {
 
     return (
         <>
-            <div className="panel__top">
-                <div className="panel__basic-actions" />
-            </div>
+            <div className="panel__basic-actions" />
             <div id="gjs" className="editor" />
         </>
     );

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import 'grapesjs/dist/css/grapes.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import { apiClient } from '../../../services/networking/client';
 
 import Editor from './grapesjs/Editor';
@@ -11,18 +12,28 @@ import './Template.scss';
 const Template = () => {
     // Set State elements
     // eslint-disable-next-line no-unused-vars
-    const [mailObjet, setObjet] = useState('');
+    const [mailObjet, setObjet] = useState({
+        type: 'candidate',
+        label: '',
+        subject: '',
+        content: '',
+    });
+    const [mailUuid, setMailUuid] = useState('');
+
     const [userTempList, setUserTempList] = useState([]);
     const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
     const [content, setContent] = useState('');
     const [show, setShow] = useState(false);
     const [showDel, setDel] = useState(false);
+    const [showSend, setSend] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleCloseDel = () => setDel(false);
     const handleShowDel = () => setDel(true);
+    const handleShowSend = () => setSend(true);
 
     async function LoadTemplate() {
         const result = await apiClient.get('/v3/email_templates');
@@ -33,6 +44,7 @@ const Template = () => {
     function handleChangeContent(objectTemplate) {
         if (typeof (objectTemplate) === 'object') return;
         setTemplate((prevstate) => ({ ...prevstate, content: objectTemplate }));
+        setObjet((prevstate) => ({ ...prevstate, content: objectTemplate }));
     }
 
     // Handle Select Template
@@ -55,7 +67,11 @@ const Template = () => {
 
     // Handle mail object change
     const handleObj = (event) => {
-        setObjet(event.target.value);
+        setObjet((prevstate) => ({
+            ...prevstate,
+            subject: event.target.value,
+            label: event.target.value,
+        }));
     };
 
     // Handle Template select change
@@ -113,6 +129,51 @@ const Template = () => {
     useEffect(() => {
     }, [userTempList]);
 
+    useEffect(() => {
+        setTemplate((prevstate) => ({ ...prevstate, content: template.content }));
+    }, [template.content]);
+
+    async function sendMail() {
+        if (mailObjet.label === '' || mailObjet.content === '') return;
+        handleShowSend();
+        const response = await apiClient.post('/v3/adherent_messages', mailObjet);
+        setMailUuid(response.uuid);
+    }
+    // Send mailer
+    useEffect(() => {
+        function setCheck() {
+            let repeat = 0;
+            const checkSynch = setInterval(async () => {
+                async function synchStatus() {
+                    const statusReq = await apiClient.get(`/v3/adherent_messages/${mailUuid}`);
+                    if (statusReq.synchronized === true
+                        && (statusReq.recipient_count > 0)) return true;
+                    return false;
+                }
+                repeat += 1;
+                if (repeat === 5) {
+                    setSuccess('échoué.');
+                    setTimeout(setSend(false), 3000);
+                    clearInterval(checkSynch);
+                }
+                const res = await synchStatus();
+                if (res === true) {
+                    await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
+                    setSuccess('réussi.');
+                    setTimeout(setSend(false), 3000);
+                    clearInterval(checkSynch);
+                }
+            }, 2500);
+        }
+        if (mailUuid !== '') {
+            setCheck();
+        }
+    }, [mailUuid]);
+
+    useEffect(() => {
+
+    }, [success]);
+
     return (
         <div className="templates" style={{ overflow: 'auto' }}>
             <h3>Mes Templates</h3>
@@ -123,22 +184,28 @@ const Template = () => {
                         <option value={tmplte.uuid} key={tmplte.label}>{tmplte.label}</option>
                     ))}
                 </select>
-                <button className="btn-danger button_fields" type="button" onClick={handleShowDel}>Supprimer</button>&nbsp;
+                    &nbsp;
+                <button
+                    className="button_fields button_form"
+                    type="button"
+                    onClick={() => { if (Object.keys(template.selected).length !== 0 && template.selected !== '1') handleShowDel(); }}
+                >Supprimer
+                </button>
 
             </div>
             <div className="objet">
 
                 <label htmlFor="email-subject-input">
                     Objet de l&apos;Email&nbsp;:&nbsp;
-                    <input placeholder="Objet" onChange={handleObj} id="email-subject-input" />
+                    <input placeholder="Objet" className="input" onChange={handleObj} id="email-subject-input" />
                 </label>
                 <label htmlFor="template_name">&nbsp;Nom du Template &nbsp;
-                    <input placeholder={template.label} onChange={handleTemplate} id="template_name" value={template.label} />
+                    <input placeholder={template.label} onChange={handleTemplate} id="template_name" value={template.label} className="input" />
                     &nbsp;
                 </label>
+                <button className="button_fields button_form" onClick={saveTemplate} type="button">&nbsp;<i className="fa fa-floppy-o" />&nbsp;Sauvegarder</button>
+                &nbsp;<button className=" button_fields button_form" type="button" onClick={sendMail}>&nbsp;<i className="fa fa-paper-plane-o" />&nbsp;Envoyer le Mail&nbsp;</button>
 
-                <button className="btn-success button_fields" onClick={saveTemplate} type="button">Sauvegarder</button>
-                &nbsp;<button className="btn-primary button_fields" type="button">Envoyer le Mail</button>
             </div>
             <Editor onChange={handleChangeContent} loadingContent={content} />
 
@@ -177,6 +244,32 @@ const Template = () => {
                 </Modal>
             )}
 
+            {showSend && (
+                <Modal show={showSend} backdrop="static" closeButton="false">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Veuillez patienter pendant l&#39;envois du mail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </Modal.Body>
+                </Modal>
+            )}
+
+            {success && (
+                <Modal show={success} onHide={() => { setSuccess(false); }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Envois du Mail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>L&#39;envois de votre mail a {success}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => { setSuccess(false); }}>
+                            Fermer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
         </div>
     );
 };

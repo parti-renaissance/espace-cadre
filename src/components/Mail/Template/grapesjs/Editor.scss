@@ -1,3 +1,5 @@
+@import "../../../../style/main.scss";
+
 #gjs {
     border: none;//3px solid #444;
 }
@@ -5,7 +7,7 @@
 .gjs-cv-canvas__frames {
     width: 600px;
 
-    margin-left: 5%;
+    margin-left: 18%;
 }
 
 .panel__top {

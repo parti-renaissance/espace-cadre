@@ -5890,10 +5890,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
 
-grapesjs-preset-newsletter@0.2.20:
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/grapesjs-preset-newsletter/-/grapesjs-preset-newsletter-0.2.20.tgz#d6b83c1f13e0e95bd87dddcc01c6095a19852c65"
-  integrity sha512-rffUeuznf9Saig+kIUddmGfhWwbLjxdaqAYf6Hoge4b0sfT8knOS4mQXJBdRsSROfzuRhFe6ybRHm4yC32lHxA==
+grapesjs-preset-newsletter@^0.2.21:
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/grapesjs-preset-newsletter/-/grapesjs-preset-newsletter-0.2.21.tgz#2448daa89d92a0299f09695abe7e5fdbdbf462e9"
+  integrity sha512-6nxNKaooIQgr9e5tTEUc9KxyCtqH60P4ldoq/5+OyMMEBZNKCOUxpcNudhlCpP8HWCU60ZjXeXGPl/t3jlWYgA==
   dependencies:
     juice "^4.1.1"
 
