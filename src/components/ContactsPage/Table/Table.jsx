@@ -116,7 +116,7 @@ const Table = ({ columns, data }) => {
             </div>
 
             <table
-                className="table"
+                className="table table-responsive"
                 {...getTableProps()}
             >
                 <thead>
@@ -155,9 +155,6 @@ const Table = ({ columns, data }) => {
                             {' '}
                             {pageOptions.length}
                         </strong>
-                        {' '}
-                        <span style={{ borderLeft: '1px solid lightgrey', height: '1rem' }} />
-                        {' '}
                     </span>
                 </div>
                 {/* <span>

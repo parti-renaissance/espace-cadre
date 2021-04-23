@@ -36,12 +36,6 @@
     }
 }
 
-// Bottom container
-.bottomContainer {
-    display: flex;
-    justify-content: space-between;
-}
-
 // Page count below the table
 .pageCountBottom {
     color: $greyCorner3;
@@ -51,6 +45,7 @@
 // Navigation buttons below the table
 .pageNav {
     position: fixed;
+    margin-top: 10px;
     bottom: 12px;
     right: 10px;
 
