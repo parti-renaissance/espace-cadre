@@ -173,7 +173,6 @@ const Editor = (props) => {
             editor.DomComponents.clear();
         }
         setConfig(editor);
-
         editor
             .on('storage:start', () => {
                 const tmp = `${editor.getHtml()}<style>${editor.getCss()}</style>`;

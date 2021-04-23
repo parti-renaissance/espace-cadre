@@ -175,7 +175,6 @@ const setPanels = (panels) => {
                     md.setContent(container);
                     const tmp = `${editor.getHtml()}<style>${editor.getCss()}</style>`;
                     codeViewer.setContent(juice(tmp, []));
-                    console.log(juice(tmp, []));
                     md.setTitle('Export Mail Code');
                     md.open();
                     viewer.refresh();

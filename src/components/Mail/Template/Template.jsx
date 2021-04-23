@@ -4,7 +4,6 @@ import 'grapesjs/dist/css/grapes.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import Toast from 'react-bootstrap/Toast';
 import { apiClient } from '../../../services/networking/client';
 
 import Editor from './grapesjs/Editor';
@@ -141,8 +140,6 @@ const Template = () => {
     async function sendMail() {
         if (mailObjet.label === '' || mailObjet.content === '') return;
         handleShowSend();
-        console.log("C'est partit pour l'envois...");
-        console.log(`Préparation des données... ${JSON.stringify(mailObjet)}`);
         const response = await apiClient.post('/v3/adherent_messages', mailObjet);
         setMailUuid(response.uuid);
     }
@@ -165,10 +162,9 @@ const Template = () => {
                 }
                 const res = await synchStatus();
                 if (res === true) {
-                    const send = await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
+                    await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
                     setSuccess('réussi.');
                     setTimeout(handleCloseSend(), 3000);
-                    console.log(`SEND : ${send}`);
                     clearInterval(checkSynch);
                 }
             }, 2500);
@@ -192,7 +188,13 @@ const Template = () => {
                         <option value={tmplte.uuid} key={tmplte.label}>{tmplte.label}</option>
                     ))}
                 </select>
-                &nbsp;<button className="button_fields button_form" type="button" onClick={handleShowDel}>Supprimer</button>
+                    &nbsp;
+                <button
+                    className="button_fields button_form"
+                    type="button"
+                    onClick={() => { if (Object.keys(template.selected).length !== 0 && template.selected !== '1') handleShowDel(); }}
+                >Supprimer
+                </button>
 
             </div>
             <div className="objet">
