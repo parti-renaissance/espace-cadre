@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Sidebar.scss';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -24,7 +24,7 @@ const Sidebar = ({ currentUser }) => {
                     && (
                         <div className="ml-3 mb-4">
                             <i className="fas fa-user pr-3 d-inline" />
-                            <p className="text-gray d-inline">
+                            <p className="welcome text-gray d-inline">
                                 Bienvenue&nbsp;
                                 {currentUser.firstName}
                             </p>
@@ -34,45 +34,53 @@ const Sidebar = ({ currentUser }) => {
                 <p className="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Stratégie</p>
 
                 <ul className="nav flex-column bg-white mb-0">
-                    <li className="nav-item">
-                        <Link
+                    {/* <li className="nav-item">
+                        <NavLink
                             to="/"
+                            exact
                             className="nav-link text-dark"
+                            activeClassName="active"
                         >
                             <i className="fas fa-th-large mr-2 text-grey fa-fw" />
                             {' '}
-                            Dashboard
-                        </Link>
+                            <span>Dashboard</span>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link
+                        <NavLink
+                            exact
                             to="/"
                             className="nav-link text-dark"
+                            activeClassName="active"
                         >
                             <i className="far fa-chart-bar mr-2 text-grey fa-fw" />
                             {' '}
-                            Analyse
-                        </Link>
-                    </li>
+                            <span>Analyse</span>
+                        </NavLink>
+                    </li> */}
                     <li className="nav-item">
-                        <Link
+                        <NavLink
+                            exact
                             to="/contacts"
                             className="nav-link text-dark"
+                            activeClassName="active"
                         >
-                            <i className="far fa-address-book mr-2 text-grey fa-fw" />
+                            <i className="fas fa-users mr-2 text-grey fa-lg" />
                             {' '}
-                            Contacts
-                        </Link>
+                            <span>Contacts</span>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link
+                        <NavLink
+                            exact
                             to="/mail"
                             className="nav-link text-dark"
+                            activeClassName="active"
                         >
-                            <i className="fas fa-envelope-open-text mr-2 text-grey fa-fw" />
+                            <i className="far fa-paper-plane mr-2 text-grey fa-lg" />
                             {' '}
-                            Mail
-                        </Link>
+                            <span>Messagerie</span>
+                        </NavLink>
                     </li>
                 </ul>
             </div>
