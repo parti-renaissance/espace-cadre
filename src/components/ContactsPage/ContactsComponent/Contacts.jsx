@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Table from '../Table/Table';
-import InterestRendering from '../ColumnsContentRendering/InterestRendering';
+import InterestRendering from '../ColumnsContentRendering/InterestRendering/InterestRendering';
 import BooleanRendering from '../ColumnsContentRendering/BooleanRendering';
 
 import ColumnFilter from '../Filters/ColumnFilter/ColumnFilter';

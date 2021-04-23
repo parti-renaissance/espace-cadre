@@ -40,7 +40,7 @@ const Table = ({ columns, data }) => {
     }
 
     const tableInstance = useTable({
-        initialState: { pageSize: 40 },
+        initialState: { pageSize: 20 },
         data,
         columns,
         getExportFileBlob,
@@ -105,7 +105,7 @@ const Table = ({ columns, data }) => {
                         className="lineCount"
                     >
                         {
-                            [40, 60, 100].map((size) => (
+                            [20, 40, 60, 100].map((size) => (
                                 <option key={size} value={size}>
                                     {size}
                                 </option>
@@ -124,7 +124,7 @@ const Table = ({ columns, data }) => {
                         <tr {...headerGroup.getHeaderGroupProps()} key={i}>
                             {headerGroup.headers.map((column, y) => (
                                 <th {...column.getHeaderProps()} key={`${i}-${y}`}>
-                                    {column.render('Header')}
+                                    <span>{column.render('Header')}</span>
                                     <div>{column.render('Filter')}</div>
                                 </th>
                             ))}
