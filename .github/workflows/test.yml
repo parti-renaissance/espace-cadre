@@ -8,7 +8,6 @@ on:
 
 jobs:
   test:
-    name: Test, lint, performance checks
     runs-on: ubuntu-latest
 
     steps:

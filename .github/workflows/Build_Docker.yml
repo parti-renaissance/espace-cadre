@@ -1,48 +1,47 @@
 name: Build and Publish Docker Image
 
-# If Push on master
 on:
-  push:
-    branches:
-      - master
+  workflow_run:
+    workflows: ["Test, lint, performance checks"]
+    branches: ['master', 'new-registry']
+    types: ['completed']
 
-# General Environments variables
 env:
-  # Google Cloud Env
-  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-
-  # Image Env
   IMAGE: data-corner
-  TAG: staging
+  TAG: ${{ github.sha }}
 
 jobs:
   Build:
     name: Build
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment: "${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/new-registry' ? 'staging' : 'production' }}"
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
-    # Setup gcloud CLI
-    - name: Set up Cloud credentials
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
+      # Setup gcloud CLI
+      - name: Set up Cloud credentials
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID_TMP }}
+          service_account_key: ${{ secrets.GCP_SA_KEY_TMP }}
+          export_default_credentials: true
 
-    - run: gcloud --quiet auth configure-docker
+      - run: gcloud --quiet auth configure-docker
 
-    - name: Build
-      run: |-
-        docker build \
-          --build-arg OAUTH_HOST=${{ secrets.OAUTH_HOST }} \
-          --build-arg OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }} \
-          --build-arg INTERNAL_APP_ID=${{ secrets.INTERNAL_APP_ID }} \
-          --tag "eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG" \
-          .
+      - name: Build
+        run: |-
+          docker build \
+            --build-arg OAUTH_HOST=${{ secrets.OAUTH_HOST }} \
+            --build-arg OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }} \
+            --build-arg INTERNAL_APP_ID=${{ secrets.INTERNAL_APP_ID }} \
+            --tag "eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:${{ github.sha }}" \
+            --tag "eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:latest" \
+            .
 
-    - name: Publish
-      run: docker push eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG
+      - name: Publish
+        run: docker push eu.gcr.io/$GCP_PROJECT_ID/$IMAGE --all-tags
