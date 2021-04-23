@@ -17,9 +17,10 @@
     background-color: $whiteCorner;
 
     th {
+        text-align: center;
         input,
         select {
-            min-width: 6rem;
+            min-width: 7rem;
         }
 
         &:last-child {
@@ -29,6 +30,7 @@
 
     td {
         max-width: 20rem;
+        text-align: center;
     }
 }
 
