@@ -11,13 +11,15 @@
 
 // Style for table
 .table {
-    border-radius: 15px !important;
-    -moz-border-radius: 15px !important;
-    -webkit-border-radius: 15px !important;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
     background-color: $whiteCorner;
 
     th {
         text-align: center;
+        border-top: none !important;
+
         input,
         select {
             min-width: 7rem;
@@ -34,6 +36,43 @@
     }
 }
 
+// Bottom container
+.bottomContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+// Page count below the table
+.pageCountBottom {
+    color: $greyCorner3;
+    margin: 0 0 12px 18px;
+}
+
+// Navigation buttons below the table
+.pageNav {
+    position: fixed;
+    bottom: 12px;
+    right: 10px;
+
+    button {
+        font-family: "Poppins", sans-serif;
+        color: $greyCorner3;
+        background-color: $whiteCorner;
+        border-radius: 12px;
+        -moz-border-radius: 12px;
+        -webkit-border-radius: 12px;
+        margin-bottom: 12px;
+    }
+}
+
+.pageCountBottom,
+.pageNav {
+    @media (max-width: 768px) {
+        text-align: center;
+        justify-content: space-evenly;
+    }
+}
+
 //****************************
 // Style for filters
 //****************************
@@ -45,9 +84,9 @@
     height: 32px;
     margin: 4px 0 4px 4px;
     padding: 4px;
-    border-radius: 20px !important;
-    -moz-border-radius: 20px !important;
-    -webkit-border-radius: 20px !important;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
     background-color: $whiteCorner;
 
     span {
@@ -60,35 +99,37 @@
 
     @media (max-width: 768px) {
         display: block;
+        margin: 4px 0px;
     }
 }
+
+// Container for filters (global search & reset) above the table
 .aboveFilter {
     margin-left: 18px;
 }
 
+// Container for download button & select to choose the number of line
 .downloadLineCount {
     margin: 19px 0 4px 18px;
 }
 
+// Button to download the contacts selection
 #downloadButton {
-    font-family: "Poppins", sans-serif;
-    color: $blueCorner;
-    background-color: $whiteCorner;
-    height: 32px;
     margin-right: 4px;
     padding: 0 16px;
-    border-radius: 12px;
-    -moz-border-radius: 12px;
-    -webkit-border-radius: 12px;
 }
 
 // Number of line to display in table
 .lineCount {
+    padding: 0 12px;
+}
+
+#downloadButton,
+.lineCount {
     font-family: "Poppins", sans-serif;
     color: $blueCorner;
     background-color: $whiteCorner;
-    height: 30px;
-    padding: 0 12px;
+    height: 32px;
     border-radius: 12px;
     -moz-border-radius: 12px;
     -webkit-border-radius: 12px;
