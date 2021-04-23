@@ -33,10 +33,6 @@ const Template = () => {
 
     const handleCloseDel = () => setDel(false);
     const handleShowDel = () => setDel(true);
-
-    const handleCloseSend = () => {
-        setSend(false);
-    };
     const handleShowSend = () => setSend(true);
 
     async function LoadTemplate() {
@@ -157,14 +153,14 @@ const Template = () => {
                 repeat += 1;
                 if (repeat === 5) {
                     setSuccess('échoué.');
-                    setTimeout(handleCloseSend(), 3000);
+                    setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
                 }
                 const res = await synchStatus();
                 if (res === true) {
                     await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
                     setSuccess('réussi.');
-                    setTimeout(handleCloseSend(), 3000);
+                    setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
                 }
             }, 2500);
