@@ -7,18 +7,20 @@ const obl = 'open-blocks';
 const osm = 'open-sm';
 const otm = 'open-tm';
 
-const setBlocks = (blockManager) => {
+/* const setBlocks = (blockManager) => {
     blockManager.add('text-block', {
         id: 'text',
         label: 'Texte',
         attributes: { class: 'gjs-fonts gjs-f-text' },
-        content: '<div data-gjs-type="text"> Exemple de bloc texte : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquam quam sit amet eros mattis.</div>',
+        content: '<div data-gjs-type="text"> Exemple de bloc texte : Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit. Aenean aliquam quam sit amet eros mattis.</div>',
     });
     blockManager.add('centeredtext-block', {
         id: 'centeredtext',
         label: 'Texte centré',
         attributes: { class: 'gjs-fonts gjs-f-text' },
-        content: '<div style="display: flex; justify-content: space-between"><div></div><p>Votre Texte Centré</p><div></div></div>',
+        content: '<div style="display: flex; justify-content: space-between">
+        <div></div><p>Votre Texte Centré</p><div></div></div>',
     });
     blockManager.add('section-block', {
         id: 'Section',
@@ -36,7 +38,8 @@ const setBlocks = (blockManager) => {
         label: '1/2 Section',
         attributes: { class: 'gjs-fonts gjs-f-b2 gjs-block gjs-one-bg gjs-four-color-h' },
         select: true,
-        content: `<table style="height: 150px;  margin: 0 auto 10px auto;   padding: 5px 5px 5px 5px ;width: 100%">
+        content: `<table style="height: 150px;
+        margin: 0 auto 10px auto; padding: 5px 5px 5px 5px ;width: 100%">
         <tr>
           <td style="padding: 0; margin: 0; vertical-align: 'top'; width: 50%"></td>
           <td style="padding: 0; margin: 0; vertical-align: 'top'; width: 50%"></td>
@@ -93,7 +96,9 @@ const setBlocks = (blockManager) => {
         id: 'Button',
         label: 'Bouton',
         attributes: { class: 'gjs-fonts gjs-f-button' },
-        content: '<div style="display: flex; justify-content: space-between"><a style="background-color: #1d5fd1; color: white; padding : 8px 16px 8px 16px; border-radius : 8px">Bouton</a></div>',
+        content: '<div style="display: flex; justify-content: space-between">
+        <a style="background-color: #1d5fd1; color: white;
+        padding : 8px 16px 8px 16px; border-radius : 8px">Bouton</a></div>',
         style: { color: '#1d5fd1' },
         activate: true,
     });
@@ -101,11 +106,13 @@ const setBlocks = (blockManager) => {
         id: 'ButtonCentered',
         label: 'Bouton centré',
         attributes: { class: 'gjs-fonts gjs-f-button' },
-        content: '<div style="display: flex; justify-content: space-between"><div></div><a class="button" style="background-color: #1d5fd1; color: white; display:flex; align-items:center; justify-content:center;">Bouton</a><div></div></div>',
+        content: '<div style="display: flex; justify-content: space-between">
+        <div></div><a class="button" style="background-color: #1d5fd1; color: white;
+        display:flex; align-items:center; justify-content:center;">Bouton</a><div></div></div>',
         style: { color: '#1d5fd1' },
         activate: true,
     });
-};
+}; */
 
 const setPanels = (panels) => {
     panels.addPanel({
@@ -212,21 +219,23 @@ const setPanels = (panels) => {
     });
 };
 
-const setDevices = (editor) => {
+/* const setDevices = (editor) => {
     editor.getConfig().showDevices = 0;
     editor.Panels.addPanel({ id: 'devices-c' }).get('buttons').add([
         {
-            id: 'set-device-desktop', command(e) { return e.setDevice('Desktop', '600px'); }, className: 'fa fa-desktop', active: 1,
+            id: 'set-device-desktop', command(e) {
+                return e.setDevice('Desktop', '600px'); }, className: 'fa fa-desktop', active: 1,
         },
-        { id: 'set-device-mobile', command(e) { return e.setDevice('Mobile portrait'); }, className: 'fa fa-mobile' },
+        { id: 'set-device-mobile', command(e) {
+            return e.setDevice('Mobile portrait'); }, className: 'fa fa-mobile' },
     ]);
-};
+}; */
 
 const setConfig = (editor) => {
     editor.I18n.setLocale('fr');
     setPanels(editor.Panels);
-    setDevices(editor);
-    setBlocks(editor.BlockManager);
+    // setDevices(editor);
+    // setBlocks(editor.BlockManager);
     editor.Panels.render();
     editor.Commands.add('undo', {
         run(localEditor, sender) {

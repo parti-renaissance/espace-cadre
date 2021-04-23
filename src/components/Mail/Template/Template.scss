@@ -1,8 +1,17 @@
+@import "../../../style/main.scss";
+
 .templates {
     flex: 4;
     padding: 20px;
     display: flex;
     flex-direction: column;
+
+    .input {
+        background-color: white;
+    }
+    .h3 {
+        color: #1A334D;
+    }
 
     .header {
         padding: 5px;
@@ -20,7 +29,7 @@
         -webkit-border-radius: 4px;
     }
     .button_fields:active {
-        box-shadow: 0 5px #666;
+        box-shadow: 0 1.75px #666;
         transform: translateY(0.5px);
       }
       .modalstyle  {
@@ -32,5 +41,13 @@
         min-Height: 300px;
         margin: 'auto';
         padding: 30;
+      }
+      .button_form {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        padding:1.75px 2.5px;
+        border-radius: 100px;
+        color:white;
+        border-style: none;
+        background-color: #18599e;
       }
 }

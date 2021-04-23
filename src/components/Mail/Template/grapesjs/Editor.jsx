@@ -2,6 +2,7 @@
 import 'grapesjs/dist/css/grapes.min.css';
 import grapesjs from 'grapesjs';
 import React, { useState, useEffect } from 'react';
+import mlplugin from 'grapesjs-preset-newsletter';
 import PropTypes from 'prop-types';
 
 import setConfig from './Config';
@@ -17,6 +18,23 @@ const Editor = (props) => {
     }, [props.loadingContent]);
 
     useEffect(() => {
+        /* const editor = grapesjs.init({
+            height: '100%',
+            // noticeOnUnload: 0,
+            storageManager: {
+                autoload: 0,
+            },
+            assetManager: {
+                upload: 0,
+                uploadText: 'Uploading is not available in this demo',
+            },
+            container: '#gjs',
+            fromElement: true,
+            plugins: ['gjs-preset-newsletter'],
+
+        });
+    }, [content]); */
+        grapesjs.plugins.add(mlplugin);
         const editor = grapesjs.init({
             container: '#gjs',
             fromElement: true,
@@ -24,6 +42,7 @@ const Editor = (props) => {
             width: '100%',
             storageManager: false,
             blockManager: {},
+            plugins: ['gjs-preset-newsletter'],
             styleManager: {
                 sectors: [{
                     name: 'Typography',

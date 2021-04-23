@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import 'grapesjs/dist/css/grapes.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+import Toast from 'react-bootstrap/Toast';
 import { apiClient } from '../../../services/networking/client';
 
 import Editor from './grapesjs/Editor';
@@ -18,19 +20,25 @@ const Template = () => {
         content: '',
     });
     const [mailUuid, setMailUuid] = useState('');
-    const [synch, setSynch] = useState('');
 
     const [userTempList, setUserTempList] = useState([]);
     const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
     const [content, setContent] = useState('');
     const [show, setShow] = useState(false);
     const [showDel, setDel] = useState(false);
+    const [showSend, setSend] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleCloseDel = () => setDel(false);
     const handleShowDel = () => setDel(true);
+
+    const handleCloseSend = () => {
+        setSend(false);
+    };
+    const handleShowSend = () => setSend(true);
 
     async function LoadTemplate() {
         const result = await apiClient.get('/v3/email_templates');
@@ -131,15 +139,16 @@ const Template = () => {
     }, [template.content]);
 
     async function sendMail() {
+        if (mailObjet.label === '' || mailObjet.content === '') return;
+        handleShowSend();
         console.log("C'est partit pour l'envois...");
         console.log(`Préparation des données... ${JSON.stringify(mailObjet)}`);
         const response = await apiClient.post('/v3/adherent_messages', mailObjet);
         setMailUuid(response.uuid);
     }
-    // Send mailer , timeout . Faire modals
+    // Send mailer
     useEffect(() => {
         function setCheck() {
-            setSynch(false);
             let repeat = 0;
             const checkSynch = setInterval(async () => {
                 async function synchStatus() {
@@ -150,12 +159,15 @@ const Template = () => {
                 }
                 repeat += 1;
                 if (repeat === 5) {
-                    console.log("replace par showmodal d'erreur time out");
+                    setSuccess('échoué.');
+                    setTimeout(handleCloseSend(), 3000);
                     clearInterval(checkSynch);
                 }
                 const res = await synchStatus();
                 if (res === true) {
                     const send = await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
+                    setSuccess('réussi.');
+                    setTimeout(handleCloseSend(), 3000);
                     console.log(`SEND : ${send}`);
                     clearInterval(checkSynch);
                 }
@@ -165,6 +177,10 @@ const Template = () => {
             setCheck();
         }
     }, [mailUuid]);
+
+    useEffect(() => {
+
+    }, [success]);
 
     return (
         <div className="templates" style={{ overflow: 'auto' }}>
@@ -176,22 +192,22 @@ const Template = () => {
                         <option value={tmplte.uuid} key={tmplte.label}>{tmplte.label}</option>
                     ))}
                 </select>
-                <button className="btn-danger button_fields" type="button" onClick={handleShowDel}>Supprimer</button>&nbsp;
+                &nbsp;<button className="button_fields button_form" type="button" onClick={handleShowDel}>Supprimer</button>
 
             </div>
             <div className="objet">
 
                 <label htmlFor="email-subject-input">
                     Objet de l&apos;Email&nbsp;:&nbsp;
-                    <input placeholder="Objet" onChange={handleObj} id="email-subject-input" />
+                    <input placeholder="Objet" className="input" onChange={handleObj} id="email-subject-input" />
                 </label>
                 <label htmlFor="template_name">&nbsp;Nom du Template &nbsp;
-                    <input placeholder={template.label} onChange={handleTemplate} id="template_name" value={template.label} />
+                    <input placeholder={template.label} onChange={handleTemplate} id="template_name" value={template.label} className="input" />
                     &nbsp;
                 </label>
+                <button className="button_fields button_form" onClick={saveTemplate} type="button">&nbsp;<i className="fa fa-floppy-o" />&nbsp;Sauvegarder</button>
+                &nbsp;<button className=" button_fields button_form" type="button" onClick={sendMail}>&nbsp;<i className="fa fa-paper-plane-o" />&nbsp;Envoyer le Mail&nbsp;</button>
 
-                <button className="btn-success button_fields" onClick={saveTemplate} type="button">Sauvegarder</button>
-                &nbsp;<button className="btn-primary button_fields" type="button" onClick={sendMail}>Envoyer le Mail</button>
             </div>
             <Editor onChange={handleChangeContent} loadingContent={content} />
 
@@ -230,6 +246,32 @@ const Template = () => {
                 </Modal>
             )}
 
+            {showSend && (
+                <Modal show={showSend} backdrop="static" closeButton="false">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Veuillez patienter pendant l&#39;envois du mail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </Modal.Body>
+                </Modal>
+            )}
+
+            {success && (
+                <Modal show={success} onHide={() => { setSuccess(false); }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Envois du Mail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>L&#39;envois de votre mail a {success}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => { setSuccess(false); }}>
+                            Fermer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
         </div>
     );
 };
