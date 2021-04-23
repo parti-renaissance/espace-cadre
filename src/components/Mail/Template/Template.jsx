@@ -124,10 +124,9 @@ const Template = () => {
                     ))}
                 </select>
                 <button className="btn-danger button_fields" type="button" onClick={handleShowDel}>Supprimer</button>&nbsp;
-
             </div>
-            <div className="objet">
 
+            <div className="objet">
                 <label htmlFor="email-subject-input">
                     Objet de l&apos;Email&nbsp;:&nbsp;
                     <input placeholder="Objet" onChange={handleObj} id="email-subject-input" />
@@ -176,7 +175,6 @@ const Template = () => {
                     </Modal.Footer>
                 </Modal>
             )}
-
         </div>
     );
 };

@@ -1,12 +1,56 @@
-#gjs {
-    border: none;//3px solid #444;
-}
+//.gjs-cv-canvas__frames {
+//    //width: 600px;
+//    //top: 50%;  /* position the top  edge of the element at the middle of the parent */
+//    //left: 50%; /* position the left edge of the element at the middle of the parent */
+//    //
+//    //transform: translate(-50%, -50%);
+//}
 
-.gjs-cv-canvas__frames {
-    width: 600px;
+//.panel__top {
+//    padding: 0;
+//    width: 100%;
+//    display: flex;
+//    position: initial;
+//    justify-content: space-between;
+//}
 
-    margin-left: 5%;
-}
+//.gjs-cv-canvas {
+//    padding: 20px;
+//}
+
+
+//.gjs-pn-options {
+//    margin-right: 80px;
+//}
+//
+//.gjs-pn-views-container {
+//    width: 275px;
+//    margin-top: 41px;
+//    height: calc(100% - 45px);
+//}
+//
+//.gjs-blocks-c {
+//    margin-top: -45px;
+//}
+//
+//.panel__top {
+//    padding: 0;
+//    width: 100%;
+//    display: flex;
+//    position: initial;
+//    justify-content: space-between;
+//}
+//
+//.panel__basic-actions {
+//    position: initial;
+//}
+//
+//.gjs-pn-buttons {
+//    display: flex;
+//    margin-bottom: -0.75px;
+//    justify-content: flex-start;
+//}
+//
 
 .panel__top {
     padding: 0;
@@ -15,54 +59,19 @@
     position: initial;
     justify-content: space-between;
 }
-
-.gjs-cv-canvas {
-    padding: 20px;
-}
-
-
-.gjs-pn-options {
-    margin-right: 80px;
-}
-
-.gjs-pn-views-container {
-    width: 275px;
-    margin-top: 41px;
-    height: calc(100% - 45px);
-}
-
-.gjs-blocks-c {
-    margin-top: -45px;
-}
-
-.panel__top {
-    padding: 0;
-    width: 100%;
-    display: flex;
-    position: initial;
-    justify-content: space-between;
-}
-
 .panel__basic-actions {
     position: initial;
 }
 
-.gjs-pn-buttons {
-    display: flex;
-    margin-bottom: -0.75px;
-    justify-content: flex-start;
-}
-
 // Change background Color Of Editor
 .gjs-one-bg {
-//    background-color: #696969;
     background-color: #FFFFFF;
 }
 
 // Change Color of texte icones when not selected
 .gjs-two-color {
     color: rgba(80, 71, 71, 0.808);
-  }
+}
 
 // Change Color of texte icones when selected
 .gjs-four-color,
