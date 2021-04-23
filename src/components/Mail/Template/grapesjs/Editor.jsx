@@ -18,22 +18,6 @@ const Editor = (props) => {
     }, [props.loadingContent]);
 
     useEffect(() => {
-        /* const editor = grapesjs.init({
-            height: '100%',
-            // noticeOnUnload: 0,
-            storageManager: {
-                autoload: 0,
-            },
-            assetManager: {
-                upload: 0,
-                uploadText: 'Uploading is not available in this demo',
-            },
-            container: '#gjs',
-            fromElement: true,
-            plugins: ['gjs-preset-newsletter'],
-
-        });
-    }, [content]); */
         grapesjs.plugins.add(mlplugin);
         const editor = grapesjs.init({
             container: '#gjs',
