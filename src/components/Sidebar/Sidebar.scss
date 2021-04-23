@@ -9,8 +9,17 @@
     background-color: #f9f9f9;
 }
 
-li:hover {
-    background-color: #e6e7e9;
+// Style when nav item is active
+.active {
+    color: $blueCorner;
+    font-weight: 500;
+}
+
+li,
+.welcome {
+    font-size: 14px;
+    line-height: 21px;
+    font-family: "Poppins", sans-serif;
 }
 
 // Style for logo
