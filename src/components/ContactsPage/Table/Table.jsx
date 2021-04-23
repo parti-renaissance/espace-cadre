@@ -143,21 +143,23 @@ const Table = ({ columns, data }) => {
                     })}
                 </tbody>
             </table>
-            <div className="row">
-                <span className="mr-2">
-                    Page
-                    {' '}
-                    <strong>
-                        {pageIndex + 1}
+            <div className="row bottomContainer">
+                <div className="pageCountBottom">
+                    <span>
+                        Page
                         {' '}
-                        of
+                        <strong>
+                            {pageIndex + 1}
+                            {' '}
+                            of
+                            {' '}
+                            {pageOptions.length}
+                        </strong>
                         {' '}
-                        {pageOptions.length}
-                    </strong>
-                    {' '}
-                    <span style={{ borderLeft: '1px solid lightgrey', height: '1rem' }} />
-                    {' '}
-                </span>
+                        <span style={{ borderLeft: '1px solid lightgrey', height: '1rem' }} />
+                        {' '}
+                    </span>
+                </div>
                 {/* <span>
                     Aller à la page:
                     {' '}
@@ -174,40 +176,42 @@ const Table = ({ columns, data }) => {
                     </span> */}
                 {' '}
                 {' '}
-                <button
-                    type="button"
-                    className="btn btn-light"
-                    onClick={() => gotoPage(0)}
-                    disabled={!canPreviousPage}
-                >
-                    {'<<'}
-                </button>
-                {' '}
-                <button
-                    type="button"
-                    className="btn btn-light mr-2"
-                    onClick={() => previousPage()}
-                    disabled={!canPreviousPage}
-                >
-                    Previous page
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-light"
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                >
-                    Next page
-                </button>
-                {' '}
-                <button
-                    type="button"
-                    className="btn btn-light"
-                    onClick={() => gotoPage(pageCount - 1)}
-                    disabled={!canNextPage}
-                >
-                    {'>>'}
-                </button>
+                <div className="pageNav">
+                    <button
+                        type="button"
+                        className="btn mr-1"
+                        onClick={() => gotoPage(0)}
+                        disabled={!canPreviousPage}
+                    >
+                        {'<<'}
+                    </button>
+                    {' '}
+                    <button
+                        type="button"
+                        className="btn mr-1"
+                        onClick={() => previousPage()}
+                        disabled={!canPreviousPage}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        type="button"
+                        className="btn mr-1"
+                        onClick={() => nextPage()}
+                        disabled={!canNextPage}
+                    >
+                        Next
+                    </button>
+                    {' '}
+                    <button
+                        type="button"
+                        className="btn"
+                        onClick={() => gotoPage(pageCount - 1)}
+                        disabled={!canNextPage}
+                    >
+                        {'>>'}
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -3,8 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const InterestRendering = ({ interest }) => interest.value.map((element, index) => (
-    <span key={index}>
-        <span className="badge badge-info">
+    <span key={index} className="badge badge-primary mr-2">
+        <span>
             {element}
         </span>
     </span>
