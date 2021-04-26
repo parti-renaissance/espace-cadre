@@ -19,6 +19,7 @@ const Template = () => {
         content: '',
     });
     const [mailUuid, setMailUuid] = useState('');
+    const [message, setMessage] = useState('');
 
     const [userTempList, setUserTempList] = useState([]);
     const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
@@ -152,16 +153,18 @@ const Template = () => {
                 }
                 repeat += 1;
                 if (repeat === 5) {
-                    setSuccess('échoué.');
-                    setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
+                    setTimeout(setSend(false), 3000);
+                    setSuccess(true);
+                    setMessage('échoué.');
                 }
                 const res = await synchStatus();
                 if (res === true) {
-                    await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
-                    setSuccess('réussi.');
-                    setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
+                    setTimeout(setSend(false), 3000);
+                    await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
+                    setSuccess(true);
+                    setMessage('réussi.');
                 }
             }, 2500);
         }
@@ -227,7 +230,7 @@ const Template = () => {
 
             {showDel && (
                 <Modal show={showDel} onHide={handleCloseDel}>
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>Suppression du Template</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -246,8 +249,8 @@ const Template = () => {
 
             {showSend && (
                 <Modal show={showSend} backdrop="static" closeButton="false">
-                    <Modal.Header closeButton>
-                        <Modal.Title>Veuillez patienter pendant l&#39;envois du mail</Modal.Title>
+                    <Modal.Header>
+                        <Modal.Title>Veuillez patienter pendant l&#39;envoi du mail</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Spinner animation="border" role="status">
@@ -259,10 +262,10 @@ const Template = () => {
 
             {success && (
                 <Modal show={success} onHide={() => { setSuccess(false); }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Envois du Mail</Modal.Title>
+                    <Modal.Header>
+                        <Modal.Title>Envoi du Mail</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>L&#39;envois de votre mail a {success}</Modal.Body>
+                    <Modal.Body>L&#39;envoi de votre mail a {message}</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => { setSuccess(false); }}>
                             Fermer
