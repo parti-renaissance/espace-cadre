@@ -153,18 +153,18 @@ const Template = () => {
                 }
                 repeat += 1;
                 if (repeat === 5) {
+                    clearInterval(checkSynch);
                     setTimeout(setSend(false), 3000);
                     setSuccess(true);
                     setMessage('échoué.');
-                    clearInterval(checkSynch);
                 }
                 const res = await synchStatus();
                 if (res === true) {
+                    clearInterval(checkSynch);
                     setTimeout(setSend(false), 3000);
                     await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
                     setSuccess(true);
                     setMessage('réussi.');
-                    clearInterval(checkSynch);
                 }
             }, 2500);
         }
