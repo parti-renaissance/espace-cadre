@@ -47,7 +47,7 @@ const Sidebar = () => {
                     <li>
                         <NavLink
                             exact
-                            to="/"
+                            to="/contacts"
                             className="nav-link"
                             activeClassName="active"
                         >
