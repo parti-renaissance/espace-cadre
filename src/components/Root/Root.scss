@@ -1,11 +1,28 @@
 @import "../../style/main";
 
+.topNavContainer {
+    margin-left: 4px;
+}
+
+.welcomeContainer {
+    display: inline-flex;
+    margin: 4px 40px 0px auto;
+}
+
+.fa-user {
+    margin-top: 5px;
+}
+
 #sidebarCollapse {
     background-color: $whiteCorner;
-    padding: 8px 16px;
-    margin: 0 0 50px 16px;
-    border-radius: 32px;
+    height: 32px;
+    width: 87px;
+    padding: 4px 6px;
+    margin: 0 0 50px 32px;
     border: none;
+    border-radius: 16px;
+    -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
 }
 
 #burgerIcon {

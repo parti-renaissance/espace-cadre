@@ -11,14 +11,15 @@
 
 // Style for table
 .table {
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+    border-radius: 16px;
+    -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
     background-color: $whiteCorner;
 
     th {
+        font-size: 12px;
         text-align: center;
-        border-top: none !important;
+        border: none !important;
 
         input,
         select {
@@ -31,40 +32,44 @@
     }
 
     td {
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
         max-width: 20rem;
-        text-align: center;
+        vertical-align: middle !important;
+        border-top: 1px solid $greyBg !important;
+
+        span {
+            margin-left: 12px;
+        }
+    }
+
+    // Cancel the 12 px margin-left apply to all others span (cf line 43)
+    tr > td:last-child span {
+        margin-left: 0;
     }
 }
 
 // Page count below the table
 .pageCountBottom {
     color: $greyCorner3;
-    margin: 0 0 12px 18px;
+    font-weight: normal;
+    margin: 6px 0 0 18px;
 }
 
 // Navigation buttons below the table
 .pageNav {
-    position: fixed;
-    margin-top: 10px;
-    bottom: 12px;
-    right: 10px;
+    margin-left: auto;
+    margin-right: 18px;
 
     button {
         font-family: "Poppins", sans-serif;
         color: $greyCorner3;
         background-color: $whiteCorner;
-        border-radius: 12px;
-        -moz-border-radius: 12px;
-        -webkit-border-radius: 12px;
+        border-radius: 16px;
+        -moz-border-radius: 16px;
+        -webkit-border-radius: 16px;
         margin-bottom: 12px;
-    }
-}
-
-.pageCountBottom,
-.pageNav {
-    @media (max-width: 768px) {
-        text-align: center;
-        justify-content: space-evenly;
     }
 }
 
@@ -79,9 +84,9 @@
     height: 32px;
     margin: 4px 0 4px 4px;
     padding: 4px;
-    border-radius: 20px;
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
+    border-radius: 16px;
+    -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
     background-color: $whiteCorner;
 
     span {
@@ -125,7 +130,7 @@
     color: $blueCorner;
     background-color: $whiteCorner;
     height: 32px;
-    border-radius: 12px;
-    -moz-border-radius: 12px;
-    -webkit-border-radius: 12px;
+    border-radius: 16px;
+    -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
 }
