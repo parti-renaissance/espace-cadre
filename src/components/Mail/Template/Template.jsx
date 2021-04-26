@@ -19,6 +19,7 @@ const Template = () => {
         content: '',
     });
     const [mailUuid, setMailUuid] = useState('');
+    const [message, setMessage] = useState('');
 
     const [userTempList, setUserTempList] = useState([]);
     const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
@@ -152,14 +153,16 @@ const Template = () => {
                 }
                 repeat += 1;
                 if (repeat === 5) {
-                    setSuccess('échoué.');
+                    setSuccess(true);
+                    setMessage('échoué.');
                     setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
                 }
                 const res = await synchStatus();
                 if (res === true) {
                     await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
-                    setSuccess('réussi.');
+                    setSuccess(true);
+                    setMessage('réussi.');
                     setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
                 }
@@ -227,7 +230,7 @@ const Template = () => {
 
             {showDel && (
                 <Modal show={showDel} onHide={handleCloseDel}>
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>Suppression du Template</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -262,7 +265,7 @@ const Template = () => {
                     <Modal.Header closeButton>
                         <Modal.Title>Envois du Mail</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>L&#39;envois de votre mail a {success}</Modal.Body>
+                    <Modal.Body>L&#39;envois de votre mail a {message}</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => { setSuccess(false); }}>
                             Fermer
