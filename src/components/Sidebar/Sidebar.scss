@@ -9,17 +9,30 @@
     background-color: #f9f9f9;
 }
 
-// Style when nav item is active
-.active {
-    color: $blueCorner;
+li {
+    font-family: "Poppins", sans-serif;
     font-weight: 500;
-}
-
-li,
-.welcome {
     font-size: 14px;
     line-height: 21px;
-    font-family: "Poppins", sans-serif;
+
+    .fa-users {
+        margin-right: 10px;
+    }
+
+    .fa-paper-plane {
+        margin-right: 14px;
+    }
+
+    span,
+    i {
+        color: $greyCorner3;
+    }
+
+    // Style when nav item is active
+    .active {
+        color: $blueCorner;
+        font-weight: 700;
+    }
 }
 
 // Style for logo

@@ -1,9 +1,17 @@
-@import '../../../../style//main.scss';
+@import "../../../../style//main.scss";
 
-/*.badge span {
-    padding: 4px;
-    font-family: "Poppins", sans-serif;
-    text-transform: uppercase;
-    background-color: $greyBg;
+.interestsBadge {
     color: $blueCorner;
-}*/
+    font-weight: normal;
+    background-color: $greyBg;
+    display: inline-block;
+    margin: 2px;
+    padding: 4px 6px;
+    border-radius: 16px;
+    -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
+}
+
+span span:empty {
+    display: hidden;
+}

@@ -15,9 +15,10 @@ import GlobalFilter from '../Filters/GlobalFilter/GlobalFilter';
 import './Table.scss';
 
 const Table = ({ columns, data }) => {
+    // Handle export button logic
     function getExportFileBlob({
         // eslint-disable-next-line no-shadow
-        columns, data, fileName,
+        columns, data,
     }) {
         const header = columns.map((c) => c.exportValue);
         const compatibleData = data.map((row) => {
@@ -32,9 +33,8 @@ const Table = ({ columns, data }) => {
         const ws1 = XLSX.utils.json_to_sheet(compatibleData, {
             header,
         });
-        XLSX.utils.book_append_sheet(wb, ws1, 'React Table Data');
-        XLSX.writeFile(wb, `${fileName}.xlsx`);
-
+        XLSX.utils.book_append_sheet(wb, ws1, 'Contacts table');
+        XLSX.writeFile(wb, 'Contacts.xlsx');
         // Returning false as downloading of file is already taken care of
         return false;
     }
@@ -137,13 +137,13 @@ const Table = ({ columns, data }) => {
                         prepareRow(row);
                         return (
                             <tr {...row.getRowProps()} key={i}>
-                                {row.cells.map((cell, y) => <td {...cell.getCellProps()} key={`${i}-${y}`}>{cell.render('Cell')}</td>)}
+                                {row.cells.map((cell, y) => <td {...cell.getCellProps()} key={`${i}-${y}`}><span>{cell.render('Cell')}</span></td>)}
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
-            <div className="row bottomContainer">
+            <div className="row">
                 <div className="pageCountBottom">
                     <span>
                         Page
@@ -170,9 +170,10 @@ const Table = ({ columns, data }) => {
                             gotoPage(pageNumber);
                         }}
                     />
-                    </span> */}
+                    </span>
                 {' '}
                 {' '}
+                */}
                 <div className="pageNav">
                     <button
                         type="button"

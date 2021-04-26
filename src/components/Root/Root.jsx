@@ -34,20 +34,34 @@ const Root = () => {
                     <>
                         <Sidebar currentUser={currentUser || {}} />
                         <div className="page-content p-3" id="content">
-                            <button
-                                id="sidebarCollapse"
-                                type="button"
-                            >
-                                <i
-                                    id="burgerIcon"
-                                    className="fa fa-bars"
-                                />
-                                <span
-                                    id="menuButtonText"
+                            <div className="row mt-4 topNavContainer">
+                                <button
+                                    id="sidebarCollapse"
+                                    type="button"
                                 >
-                                    Menu
-                                </span>
-                            </button>
+                                    <i
+                                        id="burgerIcon"
+                                        className="fa fa-bars"
+                                    />
+                                    <span
+                                        id="menuButtonText"
+                                    >
+                                        Menu
+                                    </span>
+                                </button>
+                                {
+                                    currentUser
+                                    && (
+                                        <div className="welcomeContainer">
+                                            <i className="fas fa-user pr-3" />
+                                            <span className="welcome">
+                                                Bienvenue&nbsp;
+                                                {currentUser.firstName}
+                                            </span>
+                                        </div>
+                                    )
+                                }
+                            </div>
                             <Switch isUserLogged={isUserLoggedIn} />
                         </div>
                     </>
