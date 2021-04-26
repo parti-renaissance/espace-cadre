@@ -153,17 +153,17 @@ const Template = () => {
                 }
                 repeat += 1;
                 if (repeat === 5) {
+                    setTimeout(setSend(false), 3000);
                     setSuccess(true);
                     setMessage('échoué.');
-                    setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
                 }
                 const res = await synchStatus();
                 if (res === true) {
+                    setTimeout(setSend(false), 3000);
                     await apiClient.post(`/v3/adherent_messages/${mailUuid}/send`);
                     setSuccess(true);
                     setMessage('réussi.');
-                    setTimeout(setSend(false), 3000);
                     clearInterval(checkSynch);
                 }
             }, 2500);
@@ -249,8 +249,8 @@ const Template = () => {
 
             {showSend && (
                 <Modal show={showSend} backdrop="static" closeButton="false">
-                    <Modal.Header closeButton>
-                        <Modal.Title>Veuillez patienter pendant l&#39;envois du mail</Modal.Title>
+                    <Modal.Header>
+                        <Modal.Title>Veuillez patienter pendant l&#39;envoi du mail</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Spinner animation="border" role="status">
@@ -262,10 +262,10 @@ const Template = () => {
 
             {success && (
                 <Modal show={success} onHide={() => { setSuccess(false); }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Envois du Mail</Modal.Title>
+                    <Modal.Header>
+                        <Modal.Title>Envoi du Mail</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>L&#39;envois de votre mail a {message}</Modal.Body>
+                    <Modal.Body>L&#39;envoi de votre mail a {message}</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => { setSuccess(false); }}>
                             Fermer
