@@ -23,7 +23,6 @@ const Sidebar = () => {
                     {/* <li>
                         <NavLink
                             to="/"
-                            exact
                             className="nav-link"
                             activeClassName="active"
                         >
@@ -34,7 +33,6 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <NavLink
-                            exact
                             to="/"
                             className="nav-link"
                             activeClassName="active"
@@ -46,10 +44,9 @@ const Sidebar = () => {
                     </li> */}
                     <li>
                         <NavLink
-                            exact
                             to="/contacts"
                             className="nav-link"
-                            activeClassName="active"
+                            activeClassName="selected"
                         >
                             <i className="fas fa-users fa-lg" />
                             {' '}
@@ -58,10 +55,9 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <NavLink
-                            exact
                             to="/mail"
                             className="nav-link"
-                            activeClassName="active"
+                            activeClassName="selected"
                         >
                             <i className="far fa-paper-plane fa-lg" />
                             {' '}

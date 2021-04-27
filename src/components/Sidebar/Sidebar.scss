@@ -29,9 +29,10 @@ li {
     }
 
     // Style when nav item is active
-    .active {
+    .selected i,
+    .selected span {
         color: $blueCorner;
-        font-weight: 700;
+        font-weight: 600;
     }
 }
 
