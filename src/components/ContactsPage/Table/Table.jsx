@@ -54,6 +54,7 @@ const Table = ({ columns, data }) => {
         state: { globalFilter, pageIndex, pageSize },
         getTableProps,
         getTableBodyProps,
+        preGlobalFilteredRows,
         headerGroups,
         page,
         prepareRow,
@@ -77,6 +78,7 @@ const Table = ({ columns, data }) => {
                     <GlobalFilter
                         filter={globalFilter}
                         setFilter={setGlobalFilter}
+                        count={preGlobalFilteredRows}
                     />
                     <button
                         type="button"
