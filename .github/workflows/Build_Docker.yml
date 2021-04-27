@@ -44,6 +44,7 @@ jobs:
           --build-arg OAUTH_HOST=${{ secrets.OAUTH_HOST }} \
           --build-arg OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }} \
           --build-arg INTERNAL_APP_ID=${{ secrets.INTERNAL_APP_ID }} \
+          --build-arg SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
           --tag "eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG" \
           .
 
