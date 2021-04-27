@@ -13,12 +13,12 @@ const Switch = ({ isUserLogged }) => (
             ? (
                 <>
                     <Route path="/" exact component={Home} />
-                    <Route path="/contacts" component={Contacts} />
-                    <Route path="/mail" component={Mail} />
+                    <Route path="/contacts" exact component={Contacts} />
+                    <Route path="/mail" exact component={Mail} />
                 </>
             )
             : (
-                <Route path="/auth" component={Auth} />
+                <Route path="/auth" exact component={Auth} />
             )}
     </ReactRouterSwitch>
 );
