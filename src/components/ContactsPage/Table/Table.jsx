@@ -55,6 +55,7 @@ const Table = ({ columns, data }) => {
         getTableProps,
         getTableBodyProps,
         preGlobalFilteredRows,
+        rows,
         headerGroups,
         page,
         prepareRow,
@@ -145,7 +146,7 @@ const Table = ({ columns, data }) => {
                     })}
                 </tbody>
             </table>
-            <div className="row">
+            <div className="row bottomContainer">
                 <div className="pageCountBottom">
                     <span>
                         Page
@@ -176,6 +177,10 @@ const Table = ({ columns, data }) => {
                 {' '}
                 {' '}
                 */}
+                <span className="contactsCount">
+                    Affichage de {pageSize} contacts sur {rows.length}
+                </span>
+
                 <div className="pageNav">
                     <button
                         type="button"

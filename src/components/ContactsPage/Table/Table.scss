@@ -7,6 +7,7 @@
 // Global style for Table container
 .tableContainer {
     overflow: scroll;
+    font-family: "Poppins", sans-serif;
 }
 
 // Style for table
@@ -50,20 +51,26 @@
     }
 }
 
+.bottomContainer {
+    font-size: 14px;
+}
+
 // Page count below the table
 .pageCountBottom {
     color: $greyCorner3;
-    font-weight: normal;
     margin: 6px 0 0 18px;
+}
+
+.contactsCount {
+    color: $greyCorner3;
+    margin: 6px auto;
 }
 
 // Navigation buttons below the table
 .pageNav {
-    margin-left: auto;
     margin-right: 18px;
 
     button {
-        font-family: "Poppins", sans-serif;
         color: $greyCorner3;
         background-color: $whiteCorner;
         border-radius: 16px;
@@ -79,7 +86,6 @@
 
 // Reset button for filters
 #filterButton {
-    font-family: "Poppins", sans-serif;
     color: $blueCorner;
     height: 32px;
     margin: 4px 0 4px 4px;
@@ -126,7 +132,6 @@
 
 #downloadButton,
 .lineCount {
-    font-family: "Poppins", sans-serif;
     color: $blueCorner;
     background-color: $whiteCorner;
     height: 32px;

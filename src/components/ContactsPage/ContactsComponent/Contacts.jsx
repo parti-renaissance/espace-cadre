@@ -23,6 +23,10 @@ const Contacts = () => {
 
     // Get the data for the table
     useEffect(() => {
+        /* Variable used for cleanup the component when unmount.
+         Avoid memory leak causing weird behaviour */
+        let isActive = true;
+
         const getContactsAndColumnsTitles = async () => {
             try {
                 setLoading(true);
@@ -53,15 +57,28 @@ const Contacts = () => {
 
                     return columnDef;
                 });
-
-                setColumnsTitle(columns);
-                setData(body.contacts);
-                setLoading(false);
+                if (isActive) {
+                    /* Update state only if the user is still on the page
+                    In other words, if the component is still mounted
+                    */
+                    setColumnsTitle(columns);
+                    setData(body.contacts);
+                    setLoading(false);
+                }
             } catch (error) {
-                setError(true);
+                if (isActive) {
+                    setError(true);
+                }
             }
         };
         getContactsAndColumnsTitles();
+
+        return () => {
+            /* Component unmount when exiting the page.
+            Component state is not updated, no memory leak
+            */
+            isActive = false;
+        };
     }, []);
 
     // Handle error on fetch, async loading with spinner and rendering when loaded
