@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import mlplugin from 'grapesjs-preset-newsletter';
 import PropTypes from 'prop-types';
 
-import setConfig from './Config';
+//import setConfig from './Config';
 import './Editor.scss';
 
 const juice = require('juice');
