@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useInitializeAuth, useRequestAccessToken } from '../../redux/auth/hooks';
+import Spinner from '../Spinner/Spinner';
 
 const Auth = () => {
     const { search } = useLocation();
@@ -18,7 +19,7 @@ const Auth = () => {
         }
     }, [code]);
 
-    return <div>Loading...</div>;
+    return <Spinner />;
 };
 
 export default Auth;
