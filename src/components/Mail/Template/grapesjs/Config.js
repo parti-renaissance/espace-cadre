@@ -115,7 +115,6 @@ const setConfig = (editor) => {
     editor.I18n.setLocale('fr');
     setPanels(editor.Panels);
     editor.Panels.render();
-    editor.Panels.getButton('views', 'open-blocks').set('active', true);
     editor.Commands.add('undo', {
         run(localEditor, sender) {
             sender.set('active', 0);
