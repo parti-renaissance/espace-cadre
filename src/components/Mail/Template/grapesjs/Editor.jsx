@@ -156,7 +156,7 @@ const Editor = (props) => {
         } else if (props.loadingContent === 'clear') {
             editor.DomComponents.clear();
         }
-        setConfig(editor);
+//        setConfig(editor);
         editor
             .on('storage:start', () => {
                 const tmp = `${editor.getHtml()}<style>${editor.getCss()}</style>`;
