@@ -1,10 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 import 'grapesjs/dist/css/grapes.min.css';
 import grapesjs from 'grapesjs';
-import React, { useState, useEffect } from 'react';
-import mlplugin from 'grapesjs-preset-newsletter';
+import React, { useEffect, useState } from 'react';
+import nlPlugin from 'grapesjs-preset-newsletter';
 import PropTypes from 'prop-types';
 
+import { apiClient } from '../../../../services/networking/client';
 import setConfig from './Config';
 import './Editor.scss';
 
@@ -18,7 +19,7 @@ const Editor = (props) => {
     }, [props.loadingContent]);
 
     useEffect(() => {
-        grapesjs.plugins.add(mlplugin);
+        grapesjs.plugins.add(nlPlugin);
         const editor = grapesjs.init({
             container: '#gjs',
             fromElement: true,
@@ -27,6 +28,16 @@ const Editor = (props) => {
             storageManager: false,
             blockManager: {},
             plugins: ['gjs-preset-newsletter'],
+            assetManager: {
+                uploadFile: async (e) => {
+                    const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+                    const formData = new FormData();
+                    formData.append('upload', files[0]);
+
+                    const response = await apiClient.post('/v3/upload/adherent_message', formData, { 'Content-type': 'multipart/form-data' });
+                    editor.AssetManager.add(response.url);
+                },
+            },
             styleManager: {
                 sectors: [{
                     name: 'Typography',
@@ -151,12 +162,15 @@ const Editor = (props) => {
                 defaults: [],
             },
         });
+
         if (props.loadingContent !== '' && props.loadingContent !== 'clear') {
             editor.setComponents(props.loadingContent);
         } else if (props.loadingContent === 'clear') {
             editor.DomComponents.clear();
         }
+
         setConfig(editor);
+
         editor
             .on('storage:start', () => {
                 const tmp = `${editor.getHtml()}<style>${editor.getCss()}</style>`;
