@@ -23,12 +23,15 @@ class ApiClient {
         return selectorGetAccessToken(store.getState());
     }
 
-    async request(method, endpoint, data = null) {
+    async request(method, endpoint, data = null, headers = {}) {
         const config = {
             method,
             url: endpoint,
             headers: {
-                Authorization: `Bearer ${ApiClient.getAccessToken()}`,
+                ...{
+                    Authorization: `Bearer ${ApiClient.getAccessToken()}`,
+                },
+                ...headers,
             },
         };
 
@@ -45,20 +48,20 @@ class ApiClient {
         }
     }
 
-    get(endpoint) {
-        return this.request('get', endpoint);
+    get(endpoint, headers = {}) {
+        return this.request('get', endpoint, headers);
     }
 
-    delete(endpoint) {
-        return this.request('delete', endpoint);
+    delete(endpoint, headers = {}) {
+        return this.request('delete', endpoint, headers);
     }
 
-    put(endpoint, data) {
-        return this.request('put', endpoint, data);
+    put(endpoint, data, headers = {}) {
+        return this.request('put', endpoint, data, headers);
     }
 
-    post(endpoint, data) {
-        return this.request('post', endpoint, data);
+    post(endpoint, data, headers = {}) {
+        return this.request('post', endpoint, data, headers);
     }
 }
 
