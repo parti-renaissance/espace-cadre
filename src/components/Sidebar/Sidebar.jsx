@@ -20,31 +20,22 @@ const Sidebar = () => {
                 </div>
 
                 <ul className="nav flex-column bg-white mb-0">
-                    {/* <li>
+                    <li>
                         <NavLink
                             to="/"
+                            exact
                             className="nav-link"
-                            activeClassName="active"
+                            activeClassName="selected"
                         >
-                            <i className="fas fa-th-large mr-2 text-grey fa-fw" />
+                            <i className="fas fa-th-large fa-lg" />
                             {' '}
                             <span>Dashboard</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink
-                            to="/"
-                            className="nav-link"
-                            activeClassName="active"
-                        >
-                            <i className="far fa-chart-bar mr-2 text-grey fa-fw" />
-                            {' '}
-                            <span>Analyse</span>
-                        </NavLink>
-                    </li> */}
-                    <li>
-                        <NavLink
                             to="/contacts"
+                            exact
                             className="nav-link"
                             activeClassName="selected"
                         >
@@ -56,6 +47,7 @@ const Sidebar = () => {
                     <li>
                         <NavLink
                             to="/mail"
+                            exact
                             className="nav-link"
                             activeClassName="selected"
                         >
