@@ -125,6 +125,9 @@ const Template = () => {
         }
 
         loadOnSelect();
+        return () => {
+
+        };
     }, [template.selected]);
 
     useEffect(() => {

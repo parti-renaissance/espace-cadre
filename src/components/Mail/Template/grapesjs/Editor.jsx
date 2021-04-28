@@ -1,8 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 import 'grapesjs/dist/css/grapes.min.css';
 import grapesjs from 'grapesjs';
+// eslint-disable-next-line no-unused-vars
+import ckeditor from 'ckeditor';
 import React, { useEffect, useState } from 'react';
 import nlPlugin from 'grapesjs-preset-newsletter';
+import ckePlugin from 'grapesjs-plugin-ckeditor';
 import PropTypes from 'prop-types';
 
 import { apiClient } from '../../../../services/networking/client';
@@ -20,6 +23,7 @@ const Editor = (props) => {
 
     useEffect(() => {
         grapesjs.plugins.add(nlPlugin);
+        grapesjs.plugins.add(ckePlugin);
         const editor = grapesjs.init({
             container: '#gjs',
             fromElement: true,
@@ -27,7 +31,14 @@ const Editor = (props) => {
             width: '100%',
             storageManager: false,
             blockManager: {},
-            plugins: ['gjs-preset-newsletter'],
+            plugins: ['gjs-preset-newsletter', 'gjs-plugin-ckeditor'],
+            pluginsOpts: {
+                'gjs-plugin-ckeditor': {
+                    options: {
+                        language: 'fr',
+                    },
+                },
+            },
             assetManager: {
                 uploadFile: async (e) => {
                     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
@@ -170,7 +181,6 @@ const Editor = (props) => {
         }
 
         setConfig(editor);
-
         editor
             .on('storage:start', () => {
                 const tmp = `${editor.getHtml()}<style>${editor.getCss()}</style>`;
@@ -178,8 +188,30 @@ const Editor = (props) => {
                 props.onChange(templateSave);
             })
             .on('load', () => {
+                console.log('charged');
                 editor.Panels.getButton('views', 'open-blocks').set('active', true);
             });
+        editor.on('load', () => {
+            const styleManager = editor.StyleManager;
+            const fontProperty = styleManager.getProperty('Typography', 'font-family');
+            let list = [];
+            fontProperty.set('list', list);
+            list = [
+                fontProperty.addOption({ value: "'Oswald', sans-serif", name: 'Oswald' }),
+                fontProperty.addOption({ value: 'Helvetica Neue,Helvetica,Arial,sans-serif', name: 'Helvetica' }),
+                fontProperty.addOption({ value: 'sans-serif', name: 'sans-serif' }),
+                fontProperty.addOption({ value: 'Times New Roman', name: 'Times New Roman' }),
+                fontProperty.addOption({ value: 'Arial Black', name: 'Arial Black' }),
+                fontProperty.addOption({ value: 'Tahoma', name: 'Tahoma' }),
+                fontProperty.addOption({ value: 'Verdana, Geneva, sans-serif', name: 'Verdana' }),
+                fontProperty.addOption({ value: 'Courier New Courier, monospace', name: 'Courier New Courier' }),
+                fontProperty.addOption({ value: "'Lato', sans-serif", name: 'Lato' }),
+                fontProperty.addOption({ value: "'Open Sans', sans-serif", name: 'Open Sans' }),
+                fontProperty.addOption({ value: "'Montserrat', sans-serif", name: 'Montserrat' }),
+            ];
+            fontProperty.set('list', list);
+            styleManager.render();
+        });
     }, [content]);
 
     return (
