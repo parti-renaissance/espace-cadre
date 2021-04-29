@@ -3,15 +3,9 @@
 .interestsBadge {
     color: $blueCorner;
     font-weight: normal;
-    background-color: $greyBg;
+    background-color: $greyCornerBg;
     display: inline-block;
     margin: 2px;
     padding: 4px 6px;
-    border-radius: 16px;
-    -moz-border-radius: 16px;
-    -webkit-border-radius: 16px;
-}
-
-span span:empty {
-    display: hidden;
+    @include borderRadius(16px);
 }
