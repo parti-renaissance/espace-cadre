@@ -4,6 +4,7 @@ import 'grapesjs/dist/css/grapes.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+
 import { apiClient } from '../../../services/networking/client';
 
 import Editor from './grapesjs/Editor';
@@ -25,6 +26,7 @@ const Template = () => {
     const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
     const [content, setContent] = useState('');
     const [show, setShow] = useState(false);
+    const [showSave, setShowSave] = useState(false);
     const [showDel, setDel] = useState(false);
     const [showSend, setSend] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -33,7 +35,14 @@ const Template = () => {
     const handleShow = () => setShow(true);
 
     const handleCloseDel = () => setDel(false);
-    const handleShowDel = () => setDel(true);
+    const handleShowDel = () => {
+        if (mailObjet.label === '' || mailObjet.content === '') return;
+        setDel(true);
+    };
+
+    const handleCloseSave = () => setShowSave(false);
+    const handleShowSave = () => setShowSave(true);
+
     const handleShowSend = () => setSend(true);
 
     async function LoadTemplate() {
@@ -48,13 +57,13 @@ const Template = () => {
         setObjet((prevstate) => ({ ...prevstate, content: objectTemplate }));
     }
 
-    // Handle Select Template
+    // Handle Select Template (changement dans champs nom)
     const handleSelected = (event) => {
         if (event.target.value === '1') {
             setTemplate((prevstate) => ({
                 ...prevstate,
                 selected: event.target.value,
-                label: 'Nouveau',
+                label: 'Default',
             }));
         } else {
             const labeltmp = userTempList.find((tplt) => (tplt.uuid === event.target.value));
@@ -82,9 +91,10 @@ const Template = () => {
 
     // Sauvegarder template
     async function saveTemplate() {
-        if (template.content === '' || template.label === '') {
+        if (template.content === '' || template.label === 'Default') {
             return;
         }
+        handleCloseSave();
         const status = userTempList.some((item) => (item.label === template.label));
 
         if (status) {
@@ -95,18 +105,6 @@ const Template = () => {
             LoadTemplate();
         }
         handleShow();
-    }
-
-    async function deleteTemplate() {
-        if (template.selected !== '1') {
-            await apiClient.delete(`/v3/email_templates/${template.selected.uuid}`);
-            setContent('clear');
-            setTemplate((prevstate) => ({
-                ...prevstate, label: '', content: '', selected: '',
-            }));
-            LoadTemplate();
-            handleCloseDel();
-        }
     }
 
     useEffect(() => {
@@ -136,6 +134,7 @@ const Template = () => {
 
     async function sendMail() {
         if (mailObjet.label === '' || mailObjet.content === '') return;
+        handleCloseDel();
         handleShowSend();
         const response = await apiClient.post('/v3/adherent_messages', mailObjet);
         setMailUuid(response.uuid);
@@ -179,38 +178,64 @@ const Template = () => {
 
     return (
         <div className="templates" style={{ overflow: 'auto' }}>
-            <h3>Mes Templates</h3>
-            <div className="header">
-                <select className="custom-select" id="basic" value={template.selected.uuid} onChange={handleSelected}>
-                    <option value="1">Selection du Template</option>
-                    {userTempList !== 0 && userTempList.map((tmplte) => (
-                        <option value={tmplte.uuid} key={tmplte.label}>{tmplte.label}</option>
-                    ))}
-                </select>
-                    &nbsp;
-                <button
-                    className="button_fields button_form"
-                    type="button"
-                    onClick={() => { if (Object.keys(template.selected).length !== 0 && template.selected !== '1') handleShowDel(); }}
-                >Supprimer
-                </button>
+            <h3>Messagerie</h3>
+            <div className="main_fields">
+                <div className="header">
+                    <div className="object_div">
+                        <input placeholder="Objet de votre Mail" className="object_input" onChange={handleObj} id="email-subject-input" />
+                    </div>
+                    <div className="select_div">
+                        <select className="custom-select select_input rounded" id="basic" value={template.selected.uuid} onChange={handleSelected}>
+                            <option value="1">Nouveau Template</option>
+                            {userTempList !== 0 && userTempList.map((tmplte) => (
+                                <option value={tmplte.uuid} key={tmplte.label}>{tmplte.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
+                </div>
+                <div className="objet">
+                    <div className="send_div">
+                        <button className="send_btn buttons btn-block" type="button" onClick={handleShowDel}><i className="fa fa-paper-plane-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Envoyer Mail</span></button>
+                    </div>
+                    <div className="register_div">
+                        <button className="register_btn buttons btn-block" onClick={handleShowSave} type="button"><i className="fa fa-floppy-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Enregistrer Modifications</span></button>
+                    </div>
+                </div>
             </div>
-            <div className="objet">
-
-                <label htmlFor="email-subject-input">
-                    Objet de l&apos;Email&nbsp;:&nbsp;
-                    <input placeholder="Objet" className="input" onChange={handleObj} id="email-subject-input" />
-                </label>
-                <label htmlFor="template_name">&nbsp;Nom du Template &nbsp;
-                    <input placeholder={template.label} onChange={handleTemplate} id="template_name" value={template.label} className="input" />
-                    &nbsp;
-                </label>
-                <button className="button_fields button_form" onClick={saveTemplate} type="button">&nbsp;<i className="fa fa-floppy-o" />&nbsp;Sauvegarder</button>
-                &nbsp;<button className=" button_fields button_form" type="button" onClick={sendMail}>&nbsp;<i className="fa fa-paper-plane-o" />&nbsp;Envoyer le Mail&nbsp;</button>
-
+            <div className="editor_div">
+                <Editor onChange={handleChangeContent} loadingContent={content} />
             </div>
-            <Editor onChange={handleChangeContent} loadingContent={content} />
+
+            {showSave && (
+                <Modal show={showSave} onHide={handleCloseSave}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Enregistrement des Modifications</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h6 style={{
+                            display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%',
+                        }}
+                        >
+                            Créer ou modifier la Template
+                        </h6>
+                        <input
+                            style={{
+                                textAlign: 'center', flexDirection: 'row', justifyContent: 'center', width: '100%',
+                            }}
+                            placeholder={template.label}
+                            onChange={handleTemplate}
+                            value={template.label}
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className="register_modal" onClick={saveTemplate}>
+                            Enregistrer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
 
             {show && (
                 <Modal show={show} onHide={handleClose}>
@@ -231,16 +256,16 @@ const Template = () => {
             {showDel && (
                 <Modal show={showDel} onHide={handleCloseDel}>
                     <Modal.Header>
-                        <Modal.Title>Suppression du Template</Modal.Title>
+                        <Modal.Title>Confirmation</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Êtes vous sûr de vouloir supprimer ce template ?
+                        Êtes-vous sûr de vouloir envoyer le mail ?
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseDel}>
                             Annuler
                         </Button>
-                        <Button variant="primary" onClick={deleteTemplate}>
+                        <Button variant="primary" onClick={sendMail}>
                             Confirmer
                         </Button>
                     </Modal.Footer>
