@@ -4,8 +4,6 @@ import grapesjs from 'grapesjs';
 // eslint-disable-next-line no-unused-vars
 import ckeditor from 'ckeditor';
 import React, { useEffect, useState } from 'react';
-import nlPlugin from 'grapesjs-preset-newsletter';
-import ckePlugin from 'grapesjs-plugin-ckeditor';
 import PropTypes from 'prop-types';
 
 import { apiClient } from '../../../../services/networking/client';
@@ -22,8 +20,6 @@ const Editor = (props) => {
     }, [props.loadingContent]);
 
     useEffect(() => {
-        grapesjs.plugins.add(nlPlugin);
-        grapesjs.plugins.add(ckePlugin);
         const editor = grapesjs.init({
             container: '#gjs',
             fromElement: true,
@@ -31,15 +27,6 @@ const Editor = (props) => {
             width: '100%',
             storageManager: false,
             blockManager: {},
-            plugins: ['gjs-plugin-ckeditor'],
-            pluginsOpts: {
-                'gjs-plugin-ckeditor': {
-                  position: 'center',
-                  options: {
-                    language: 'en',
-                  }
-                }
-              },
             assetManager: {
                 uploadFile: async (e) => {
                     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
@@ -184,12 +171,12 @@ const Editor = (props) => {
         const textType = comps.getType('text');
 
         comps.addType('text', {
-          model: textType.model,
-          view: textType.view.extend({
-            events: {
-              click: 'onActive',
-            },
-          }),
+            model: textType.model,
+            view: textType.view.extend({
+                events: {
+                    click: 'onActive',
+                },
+            }),
         });
         setConfig(editor);
         editor
@@ -201,29 +188,31 @@ const Editor = (props) => {
             .on('load', () => {
                 editor.Panels.getButton('views', 'open-blocks').set('active', true);
             });
-        /* editor.on('load', () => {
-            const styleManager = editor.StyleManager;
-            const fontProperty = styleManager.getProperty('Typography', 'font-family');
-            let list = [];
-            fontProperty.set('list', list);
-            list = [
-                fontProperty.addOption({ value: "'Oswald', sans-serif", name: 'Oswald' }),
-                fontProperty.addOption({ value: 'Helvetica Neue,Helvetica,Arial,sans-serif',
-                name: 'Helvetica' }),
-                fontProperty.addOption({ value: 'sans-serif', name: 'sans-serif' }),
-                fontProperty.addOption({ value: 'Times New Roman', name: 'Times New Roman' }),
-                fontProperty.addOption({ value: 'Arial Black', name: 'Arial Black' }),
-                fontProperty.addOption({ value: 'Tahoma', name: 'Tahoma' }),
-                fontProperty.addOption({ value: 'Verdana, Geneva, sans-serif', name: 'Verdana' }),
-                fontProperty.addOption({ value: 'Courier New Courier, monospace',
-                name: 'Courier New Courier' }),
-                fontProperty.addOption({ value: "'Lato', sans-serif", name: 'Lato' }),
-                fontProperty.addOption({ value: "'Open Sans', sans-serif", name: 'Open Sans' }),
-                fontProperty.addOption({ value: "'Montserrat', sans-serif", name: 'Montserrat' }),
-            ];
-            fontProperty.set('list', list);
-            styleManager.render();
-        }); */
+        editor.on('load', () => {
+            const prop = editor.StyleManager.getProperty('typography', 'font-family');
+            prop.set('options', [
+                { value: 'Roboto, Arial, sans-serif', name: 'Roboto' },
+                { value: "'Oswald', sans-serif", name: 'Oswald' },
+                { value: 'Helvetica Neue,Helvetica,Arial,sans-serif', name: 'Helvetica' },
+                { value: 'sans-serif', name: 'sans-serif' },
+                { value: 'Times New Roman', name: 'Times New Roman' },
+                { value: 'Arial Black', name: 'Arial Black' },
+                { value: "'Avenir Book', Avenir", name: 'Avenir Book' },
+                { value: "'Avenir Medium', Avenir", name: 'Avenir Medium' },
+                { value: "'Avenir Roman', Avenir", name: 'Avenir Roman' },
+                { value: "'Montserrat', sans-serif", name: 'Montserrat' },
+                { value: "'Merriweather', sans-serif", name: 'Merriweather' },
+                { value: "'Oswald', sans-serif", name: 'Oswald' },
+                { value: "'Shadows Into Light', cursive", name: 'Shadows Into Light' },
+                { value: "'Pacifico', cursive", name: 'Pacifico' },
+                { value: 'Tahoma', name: 'Tahoma' },
+                { value: 'Verdana, Geneva, sans-serif', name: 'Verdana' },
+                { value: 'Courier New Courier, monospace', name: 'Courier New Courier' },
+                { value: "'Lato', sans-serif", name: 'Lato' },
+                { value: "'Open Sans', sans-serif", name: 'Open Sans' },
+                { value: "'Montserrat', sans-serif", name: 'Montserrat' },
+            ]);
+        });
     }, [content]);
 
     return (
