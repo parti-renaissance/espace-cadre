@@ -31,14 +31,15 @@ const Editor = (props) => {
             width: '100%',
             storageManager: false,
             blockManager: {},
-            plugins: ['gjs-preset-newsletter', 'gjs-plugin-ckeditor'],
+            plugins: ['gjs-plugin-ckeditor'],
             pluginsOpts: {
                 'gjs-plugin-ckeditor': {
-                    options: {
-                        language: 'fr',
-                    },
-                },
-            },
+                  position: 'center',
+                  options: {
+                    language: 'en',
+                  }
+                }
+              },
             assetManager: {
                 uploadFile: async (e) => {
                     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
@@ -179,7 +180,17 @@ const Editor = (props) => {
         } else if (props.loadingContent === 'clear') {
             editor.DomComponents.clear();
         }
+        const comps = editor.DomComponents;
+        const textType = comps.getType('text');
 
+        comps.addType('text', {
+          model: textType.model,
+          view: textType.view.extend({
+            events: {
+              click: 'onActive',
+            },
+          }),
+        });
         setConfig(editor);
         editor
             .on('storage:start', () => {
@@ -188,30 +199,31 @@ const Editor = (props) => {
                 props.onChange(templateSave);
             })
             .on('load', () => {
-                console.log('charged');
                 editor.Panels.getButton('views', 'open-blocks').set('active', true);
             });
-        editor.on('load', () => {
+        /* editor.on('load', () => {
             const styleManager = editor.StyleManager;
             const fontProperty = styleManager.getProperty('Typography', 'font-family');
             let list = [];
             fontProperty.set('list', list);
             list = [
                 fontProperty.addOption({ value: "'Oswald', sans-serif", name: 'Oswald' }),
-                fontProperty.addOption({ value: 'Helvetica Neue,Helvetica,Arial,sans-serif', name: 'Helvetica' }),
+                fontProperty.addOption({ value: 'Helvetica Neue,Helvetica,Arial,sans-serif',
+                name: 'Helvetica' }),
                 fontProperty.addOption({ value: 'sans-serif', name: 'sans-serif' }),
                 fontProperty.addOption({ value: 'Times New Roman', name: 'Times New Roman' }),
                 fontProperty.addOption({ value: 'Arial Black', name: 'Arial Black' }),
                 fontProperty.addOption({ value: 'Tahoma', name: 'Tahoma' }),
                 fontProperty.addOption({ value: 'Verdana, Geneva, sans-serif', name: 'Verdana' }),
-                fontProperty.addOption({ value: 'Courier New Courier, monospace', name: 'Courier New Courier' }),
+                fontProperty.addOption({ value: 'Courier New Courier, monospace',
+                name: 'Courier New Courier' }),
                 fontProperty.addOption({ value: "'Lato', sans-serif", name: 'Lato' }),
                 fontProperty.addOption({ value: "'Open Sans', sans-serif", name: 'Open Sans' }),
                 fontProperty.addOption({ value: "'Montserrat', sans-serif", name: 'Montserrat' }),
             ];
             fontProperty.set('list', list);
             styleManager.render();
-        });
+        }); */
     }, [content]);
 
     return (
