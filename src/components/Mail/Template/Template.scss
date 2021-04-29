@@ -115,15 +115,12 @@
             box-shadow: 0 1.75px #666;
           }
     }
-
     .editor_div {
         height: 100%;
     }
       .modalstyle  {
         background-color: '#fff';
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
+        @include borderRadius(5px);
         max-Width: 500px;
         min-Height: 300px;
         margin: 'auto';

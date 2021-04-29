@@ -12,9 +12,7 @@
 
 // Style for table
 .table {
-    border-radius: 16px;
-    -moz-border-radius: 16px;
-    -webkit-border-radius: 16px;
+    @include borderRadius(16px);
     background-color: $whiteCorner;
 
     th {
@@ -38,7 +36,7 @@
         line-height: 18px;
         max-width: 20rem;
         vertical-align: middle !important;
-        border-top: 1px solid $greyBg !important;
+        border-top: 1px solid $greyCornerBg !important;
 
         span {
             margin-left: 12px;
@@ -73,9 +71,7 @@
     button {
         color: $greyCorner3;
         background-color: $whiteCorner;
-        border-radius: 16px;
-        -moz-border-radius: 16px;
-        -webkit-border-radius: 16px;
+        @include borderRadius(16px);
         margin-bottom: 12px;
     }
 }
@@ -90,9 +86,7 @@
     height: 32px;
     margin: 4px 0 4px 4px;
     padding: 4px;
-    border-radius: 16px;
-    -moz-border-radius: 16px;
-    -webkit-border-radius: 16px;
+    @include borderRadius(16px);
     background-color: $whiteCorner;
 
     span {
@@ -135,7 +129,5 @@
     color: $blueCorner;
     background-color: $whiteCorner;
     height: 32px;
-    border-radius: 16px;
-    -moz-border-radius: 16px;
-    -webkit-border-radius: 16px;
+    @include borderRadius(16px);
 }
