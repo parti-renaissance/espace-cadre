@@ -2,7 +2,6 @@
 import 'grapesjs/dist/css/grapes.min.css';
 import grapesjs from 'grapesjs';
 // eslint-disable-next-line no-unused-vars
-import ckeditor from 'ckeditor';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
