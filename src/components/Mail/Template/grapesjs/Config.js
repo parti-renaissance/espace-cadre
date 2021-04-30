@@ -7,6 +7,102 @@ const obl = 'open-blocks';
 const osm = 'open-sm';
 const otm = 'open-tm';
 
+const setBlocks = (blockManager) => {
+    blockManager.add('1 Section', {
+        label: '1 Section',
+        attributes: { class: 'gjs-fonts gjs-f-b1' },
+        content: `<table style="height: 150px; margin: 0 auto 10px auto; padding: 5px 5px 5px 5px; width: 100%">
+          <tr>
+            <td style="padding: 0; margin: 0; vertical-align : top"></td>
+          </tr>
+          </table>`,
+    });
+    blockManager.add('1/2 Section', {
+        label: '1/2 Section',
+        attributes: { class: 'gjs-fonts gjs-f-b2' },
+        content: `<table  style="height: 150px; margin: 0 auto 10px auto; padding: 5px 5px 5px 5px; width: 100%">
+          <tr>
+            <td style="padding: 0; margin: 0; vertical-align : top; width: 50%"></td>
+            <td style="padding: 0; margin: 0; vertical-align : top; width: 50%"></td>
+          </tr>
+          </table>`,
+    });
+    blockManager.add('1/3 Section', {
+        label: '1/3 Section',
+        attributes: { class: 'gjs-fonts gjs-f-b3' },
+        content: `<table style="height: 150px; margin: 0 auto 10px auto; padding: 5px 5px 5px 5px; width: 100%">
+          <tr>
+            <td style="padding: 0; margin: 0; vertical-align : top; width: 33.3333%"></td>
+            <td style="padding: 0; margin: 0; vertical-align : top; width: 33.3333%"></td>
+            <td style="padding: 0; margin: 0; vertical-align : top; width: 33.3333%"></td>
+          </tr>
+          </table>`,
+    });
+    blockManager.add('3/7 Section', {
+        label: '3/7 Section',
+        attributes: { class: 'gjs-fonts gjs-f-b37' },
+        content: `<table style="height: 150px; margin: 0 auto 10px auto; padding: 5px 5px 5px 5px; width: 100%">
+          <tr>
+            <td style="padding: 0; margin: 0; vertical-align : top; width:30%"></td>
+            <td style="padding: 0; margin: 0; vertical-align : top; width:70%"></td>
+          </tr>
+          </table>`,
+    });
+    blockManager.add('button', {
+        label: 'Bouton',
+        content: '<a class="button">Button</a>',
+        attributes: { class: 'gjs-fonts gjs-f-button' },
+    });
+    blockManager.add('divider', {
+        label: 'Séparateur',
+        content: `<table style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+          <tr>
+            <td class="divider"></td>
+          </tr>
+        </table>
+        <style>
+        .divider {
+          background-color: rgba(0, 0, 0, 0.1);
+          height: 1px;
+        }
+        </style>`,
+        attributes: { class: 'gjs-fonts gjs-f-divider' },
+    });
+    blockManager.add('text', {
+        label: 'Texte',
+        attributes: { class: 'gjs-fonts gjs-f-text' },
+        content: {
+            type: 'text',
+            content: 'Insert your text here',
+            style: { padding: '10px' },
+            activeOnRender: 1,
+        },
+    });
+    blockManager.add('text-sect', {
+        label: 'Section Texte',
+        content: '<h1 class="heading">Insert title here</h1><p class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>',
+        attributes: { class: 'gjs-fonts gjs-f-h1p' },
+    });
+    blockManager.add('image', {
+        label: 'Image',
+        attributes: { class: 'gjs-fonts gjs-f-image' },
+        content: {
+            type: 'image',
+            style: { color: 'black', height: '175px', width: '200px' },
+            activeOnRender: 1,
+        },
+    });
+    blockManager.add('link', {
+        label: 'Lien',
+        attributes: { class: 'fa fa-link' },
+        content: {
+            type: 'link',
+            content: 'Link',
+            style: { color: '#3b97e3' },
+        },
+    });
+};
+
 const setPanels = (panels) => {
     panels.addPanel({
         id: 'options',
@@ -111,9 +207,32 @@ const setPanels = (panels) => {
     });
 };
 
+const setDevices = (editor) => {
+    editor.getConfig().showDevices = 0;
+    editor.Panels.addPanel({ id: 'devices-c' }).get('buttons').add([
+        {
+            id: 'set-device-desktop',
+            command(e) {
+                return e.setDevice('Desktop', '600px');
+            },
+            className: 'fa fa-desktop',
+            active: 1,
+        },
+        {
+            id: 'set-device-mobile',
+            command(e) {
+                return e.setDevice('Mobile portrait');
+            },
+            className: 'fa fa-mobile',
+        },
+    ]);
+};
+
 const setConfig = (editor) => {
     editor.I18n.setLocale('fr');
     setPanels(editor.Panels);
+    setDevices(editor);
+    setBlocks(editor.BlockManager);
     editor.Panels.render();
     editor.Commands.add('undo', {
         run(localEditor, sender) {
