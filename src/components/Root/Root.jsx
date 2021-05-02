@@ -8,8 +8,6 @@ import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
 import Sidebar from '../Sidebar/Sidebar';
 import Switch from './Switch';
 
-import './Root.scss';
-
 const Root = () => {
     const isUserLoggedIn = useSelector(isUserLogged);
     const initializeAuth = useInitializeAuth();

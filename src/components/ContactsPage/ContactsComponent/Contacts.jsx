@@ -13,8 +13,6 @@ import MultiSelectFilter from '../Filters/MultiSelectFilter/MultiSelectFilter';
 import Spinner from '../../Spinner/Spinner';
 import { apiClientProxy } from '../../../services/networking/client';
 
-import './Contacts.scss';
-
 const Contacts = () => {
     const [data, setData] = useState([]);
     const [columnsTitle, setColumnsTitle] = useState([]);
