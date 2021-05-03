@@ -199,10 +199,10 @@ const Template = () => {
                 </div>
                 <div className="objet">
                     <div className="send_div">
-                        <button className="send_btn buttons btn-block" type="button" onClick={handleShowDel}><i className="fa fa-paper-plane-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Envoyer Mail</span></button>
+                        <button className="send_btn buttons btn-block" type="button" onClick={handleShowDel}><i className="fa fa-paper-plane-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Envoyer</span></button>
                     </div>
                     <div className="register_div">
-                        <button className="register_btn buttons btn-block" onClick={handleShowSave} type="button"><i className="fa fa-floppy-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Enregistrer Modifications</span></button>
+                        <button className="register_btn buttons btn-block" onClick={handleShowSave} type="button"><i className="fa fa-floppy-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Enregistrer</span></button>
                     </div>
                 </div>
             </div>
