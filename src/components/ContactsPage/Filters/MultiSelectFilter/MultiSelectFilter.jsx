@@ -21,10 +21,12 @@ const MultiSelectFilter = ({ column: { setFilter, interests } }) => {
     };
 
     useEffect(() => {
-        setCategories(interests.map((element) => ({
-            value: element,
-            label: element,
-        })));
+        if (interests) {
+            setCategories(interests.map((element) => ({
+                value: element,
+                label: element,
+            })));
+        }
     }, []);
 
     return (

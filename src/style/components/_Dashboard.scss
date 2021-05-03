@@ -1,0 +1,10 @@
+.dashboardContainer {
+    padding: 10px 0;
+}
+
+.dashboardRow {
+    background-color: $whiteCorner;
+    margin: 10px auto !important;
+    padding: 10px;
+    @include borderRadius(16px);
+}
