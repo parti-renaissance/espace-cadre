@@ -171,20 +171,32 @@ const Template = () => {
         }
     }, [mailUuid]);
 
-    useEffect(() => {
-
-    }, [success]);
-
     return (
-        <div className="templates" style={{ overflow: 'auto' }}>
-            <h3>Messagerie</h3>
-            <div className="main_fields">
-                <div className="header">
-                    <div className="object_div">
-                        <input placeholder="Objet de votre Mail" className="object_input" onChange={handleObj} id="email-subject-input" />
+        <div className="container-fluid templates">
+            <div className="headerContainer">
+                <div className="row headerRowObjet">
+                    <div className="col-md-7">
+                        <input
+                            placeholder="Objet de votre Mail"
+                            className="object_input"
+                            onChange={handleObj}
+                            id="email-subject-input"
+                        />
                     </div>
-                    <div className="select_div">
-                        <select className="custom-select select_input rounded" id="basic" value={template.selected.uuid} onChange={handleSelected}>
+                    <div className="col-md-5">
+                        <button
+                            className="send_btn"
+                            type="button"
+                            onClick={handleShowDel}
+                        >
+                            <i className="fa fa-paper-plane-o" />{' '}
+                            <span>Envoyer Mail</span>
+                        </button>
+                    </div>
+                </div>
+                <div className="row headerRowTemplate">
+                    <div className="col-md-7">
+                        <select id="basic" value={template.selected.uuid} onChange={handleSelected}>
                             <option value="1">Nouveau Template</option>
                             {userTempList !== 0 && userTempList.map((tmplte) => (
                                 <option value={tmplte.uuid} key={tmplte.label}>{tmplte.label}
@@ -192,19 +204,21 @@ const Template = () => {
                             ))}
                         </select>
                     </div>
-
-                </div>
-                <div className="objet">
-                    <div className="send_div">
-                        <button className="send_btn buttons btn-block" type="button" onClick={handleShowDel}><i className="fa fa-paper-plane-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Envoyer Mail</span></button>
-                    </div>
-                    <div className="register_div">
-                        <button className="register_btn buttons btn-block" onClick={handleShowSave} type="button"><i className="fa fa-floppy-o" /><span className="hidden-sm hidden-xs">&nbsp;&nbsp;&nbsp;Enregistrer Modifications</span></button>
+                    <div className="col-md-5">
+                        <button
+                            className="register_btn"
+                            onClick={handleShowSave}
+                            type="button"
+                        >
+                            <i className="fa fa-floppy-o" />{' '}
+                            <span>Enregistrer</span>
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <Editor />
+            <div className="editor">
+                <Editor />
+            </div>
 
             {showSave && (
                 <Modal show={showSave} onHide={handleCloseSave}>
