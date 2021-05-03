@@ -10,7 +10,6 @@ import {
     Legend,
 } from 'recharts';
 import PropTypes from 'prop-types';
-import './DownloadsCountComponent.scss';
 
 function DownloadsCountComponent({ title, data }) {
     return (

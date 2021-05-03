@@ -10,7 +10,6 @@ import {
     Legend,
 } from 'recharts';
 import PropTypes from 'prop-types';
-import './ActiveUsersComponent.scss';
 
 function ActiveUsersComponent({ title, data }) {
     return (
