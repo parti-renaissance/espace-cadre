@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import 'grapesjs/dist/css/grapes.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
 import { apiClient } from '../../../services/networking/client';
 
-import Editor from './grapesjs/Editor';
+import Editor from './Editor';
+import { useTemplateContent } from '../../../redux/template/hooks';
 
 const Template = () => {
     // Set State elements
@@ -23,7 +23,7 @@ const Template = () => {
 
     const [userTempList, setUserTempList] = useState([]);
     const [template, setTemplate] = useState({ label: '', content: '', selected: {} });
-    const [content, setContent] = useState('');
+    const { content, setContent } = useTemplateContent();
     const [show, setShow] = useState(false);
     const [showSave, setShowSave] = useState(false);
     const [showDel, setDel] = useState(false);
@@ -47,13 +47,6 @@ const Template = () => {
     async function LoadTemplate() {
         const result = await apiClient.get('/v3/email_templates');
         setUserTempList(result.items);
-    }
-
-    // Handle CSS HTML change
-    function handleChangeContent(objectTemplate) {
-        if (typeof (objectTemplate) === 'object') return;
-        setTemplate((prevstate) => ({ ...prevstate, content: objectTemplate }));
-        setObjet((prevstate) => ({ ...prevstate, content: objectTemplate }));
     }
 
     // Handle Select Template (changement dans champs nom)
@@ -90,19 +83,23 @@ const Template = () => {
 
     // Sauvegarder template
     async function saveTemplate() {
-        if (template.content === '' || template.label === 'Default') {
+        if (!content || template.label === 'Default') {
             return;
         }
         handleCloseSave();
-        const status = userTempList.some((item) => (item.label === template.label));
+
+        const status = userTempList.some((item) => (item.label === userTempList.label));
+
+        const requestBody = { label: template.label, content: JSON.stringify(content) };
 
         if (status) {
-            await apiClient.put(`/v3/email_templates/${template.selected.uuid}`, template);
+            await apiClient.put(`/v3/email_templates/${template.selected.uuid}`, requestBody);
             LoadTemplate();
         } else {
-            await apiClient.post('/v3/email_templates', template);
+            await apiClient.post('/v3/email_templates', requestBody);
             LoadTemplate();
         }
+
         handleShow();
     }
 
@@ -115,9 +112,9 @@ const Template = () => {
         async function loadOnSelect() {
             if (template.selected.uuid !== undefined && (template.selected !== '1')) {
                 const result = await apiClient.get(`/v3/email_templates/${template.selected.uuid}`);
-                setTemplate((prevstate) => (
-                    { ...prevstate, content: result.content, label: result.label }));
-                setContent(result.content);
+                setTemplate((prevstate) => ({ ...prevstate, label: result.label }));
+
+                setContent(JSON.parse(result.content));
             }
         }
 
@@ -206,9 +203,8 @@ const Template = () => {
                     </div>
                 </div>
             </div>
-            <div className="editor_div">
-                <Editor onChange={handleChangeContent} loadingContent={content} />
-            </div>
+
+            <Editor />
 
             {showSave && (
                 <Modal show={showSave} onHide={handleCloseSave}>
