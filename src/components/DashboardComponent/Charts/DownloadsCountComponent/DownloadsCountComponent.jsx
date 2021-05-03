@@ -15,7 +15,7 @@ function DownloadsCountComponent({ title, data }) {
     return (
         <div className="areaChartContainer">
             <div className="title">{title}</div>
-            <ResponsiveContainer width="95%" height={400}>
+            <ResponsiveContainer width="100%" height={400}>
                 <AreaChart
                     data={data}
                     margin={{
@@ -38,8 +38,11 @@ function DownloadsCountComponent({ title, data }) {
                         tickMargin={8}
                         interval={4}
                     />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                    />
+                    <CartesianGrid strokeDasharray=".08" />
                     <Tooltip
                         contentStyle={{
                             background: '#fff',
@@ -47,17 +50,25 @@ function DownloadsCountComponent({ title, data }) {
                             borderRadius: '16px',
                         }}
                         labelStyle={{
-                            color: '#0049C6',
+                            color: '#1A334D',
                             fontFamily: 'Poppins',
+                            fontWeight: 'bold',
+                            padding: '2px 5px',
+                            textAlign: 'left',
                         }}
                         itemStyle={{
                             fontFamily: 'Poppins',
                             color: '#0049C6',
                             padding: '2px 5px',
+                            textAlign: 'left',
+                        }}
+                        cursor={{
+                            stroke: '#0049C6',
+                            strokeWidth: 0.5,
                         }}
                     />
                     <Legend
-                        verticalAlign="top"
+                        verticalAlign="bottom"
                         height={36}
                         layout="horizontal"
                     />
