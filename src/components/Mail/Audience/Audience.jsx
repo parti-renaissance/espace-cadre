@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
-import './Audience.scss';
 
 const Audience = () => {
     useEffect(() => {

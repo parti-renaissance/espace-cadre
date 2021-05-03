@@ -2,8 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './SelectFilter.scss';
-
 // Render a select to filter inside a column
 const SelectFilter = ({
     column: {

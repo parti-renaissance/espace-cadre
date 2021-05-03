@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './BooleanRendering.scss';
 
 function BooleanRendering({ bool }) {
     return bool.value

@@ -12,8 +12,6 @@ import { useExportData } from 'react-table-plugins';
 import * as XLSX from 'xlsx';
 import GlobalFilter from '../Filters/GlobalFilter/GlobalFilter';
 
-import './Table.scss';
-
 const Table = ({ columns, data }) => {
     // Handle export button logic
     function getExportFileBlob({

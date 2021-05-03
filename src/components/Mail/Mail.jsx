@@ -1,6 +1,5 @@
 import React from 'react';
 import Template from './Template/Template';
-import './Mail.scss';
 
 const Mail = () => (
     <div>

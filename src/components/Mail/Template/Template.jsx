@@ -8,7 +8,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import { apiClient } from '../../../services/networking/client';
 
 import Editor from './grapesjs/Editor';
-import './Template.scss';
 
 const Template = () => {
     // Set State elements

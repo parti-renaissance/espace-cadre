@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 import PropTypes from 'prop-types';
-import './GlobalFilter.scss';
 
 // Allow to search in every column of the table
 const GlobalFilter = ({ filter, setFilter, count }) => {

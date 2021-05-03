@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 
 import { apiClient } from '../../../../services/networking/client';
 import setConfig from './Config';
-import './Editor.scss';
 
 const juice = require('juice');
 
