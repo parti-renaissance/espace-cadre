@@ -184,7 +184,7 @@ const Template = () => {
             <div className="main_fields">
                 <div className="header">
                     <div className="object_div">
-                        <input placeholder="Objet de votre Mail" className="object_input" onChange={handleObj} id="email-subject-input" />
+                        <input placeholder="Objet du Mail" className="object_input" onChange={handleObj} id="email-subject-input" />
                     </div>
                     <div className="select_div">
                         <select className="custom-select select_input rounded" id="basic" value={template.selected.uuid} onChange={handleSelected}>
