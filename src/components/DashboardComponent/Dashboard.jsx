@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiClientProxy } from '../../services/networking/client';
 import ActiveUsersComponent from './Charts/ActiveUsersComponent/ActiveUsersComponent';
 import DownloadsCountComponent from './Charts/DownloadsCountComponent/DownloadsCountComponent';
 
@@ -11,43 +11,27 @@ const Dashboard = () => {
     useEffect(() => {
         let isActive = true;
 
-        function getDownloadCount() {
-            return axios.get('https://app-du-milieu-x44qrxc7fq-ew.a.run.app/jemengage/downloads', {
-                headers: {
-                    'X-USER-UUID': '6156224e-855b-5dd2-872f-cf5d748eb69a',
-                },
-            });
-        }
+        const getDashboardDatas = async () => {
+            try {
+                const getDownloadCount = await apiClientProxy.get('/jemengage/downloads');
+                const getActiveUsers = await apiClientProxy.get('jemengage/users');
+                const getAdherentsCount = await apiClientProxy.get('/adherents');
 
-        function getActiveUsers() {
-            return axios.get('https://app-du-milieu-x44qrxc7fq-ew.a.run.app/jemengage/users', {
-                headers: {
-                    'X-USER-UUID': '6156224e-855b-5dd2-872f-cf5d748eb69a',
-                },
-            });
-        }
-
-        function getAdherentsCount() {
-            return axios.get('https://app-du-milieu-x44qrxc7fq-ew.a.run.app/adherents', {
-                headers: {
-                    'X-USER-UUID': '6156224e-855b-5dd2-872f-cf5d748eb69a',
-                },
-            });
-        }
-
-        Promise.all([getDownloadCount(), getActiveUsers(), getAdherentsCount()])
-            .then((results) => {
                 if (isActive) {
-                    setDownloadCount(results[0].data.downloads);
-                    setActiveUsers(results[1].data.downloads);
-                    setAdherentsCount(results[2].data);
+                    setDownloadCount(getDownloadCount.downloads);
+                    setActiveUsers(getActiveUsers.users);
+                    setAdherentsCount(getAdherentsCount);
                 }
-            })
-            .catch((error) => console.log(error));
+            } catch (error) {
+                if (isActive) {
+                    console.log(error);
+                }
+            }
+        };
+        getDashboardDatas();
 
         // Cleanup function
         return () => {
-            console.log('unmount');
             isActive = false;
         };
     }, []);
@@ -78,17 +62,6 @@ const Dashboard = () => {
                     />
                 </div>
             </div>
-            {/* <div className="row dashboardRow">
-                <div className="col">
-                    <LineChartComponent
-                        title="Evolution du nombre d'utilisateurs actifs" />
-                </div>
-            </div>
-            <div className="row dashboardRow">
-                <div className="col">
-                    <LineChartComponent data={data} title="Evolution du nombre d'adhérents" />
-                </div>
-            </div> */}
         </div>
     );
 };
