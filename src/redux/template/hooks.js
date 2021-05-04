@@ -12,5 +12,5 @@ export const useTemplateContent = () => {
         dispatch(updateTemplate(body));
     };
 
-    return { content, setContent };
+    return [content, setContent];
 };

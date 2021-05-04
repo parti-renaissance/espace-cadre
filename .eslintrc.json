@@ -25,6 +25,13 @@
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
         "no-param-reassign": [2, {"props": false}],
-        "react/jsx-one-expression-per-line": [0]
+        "react/jsx-one-expression-per-line": [0],
+        "max-len": ["error", {
+            "code": 120,
+            "ignoreRegExpLiterals": true,
+            "ignoreTemplateLiterals": true,
+            "ignoreStrings": true,
+            "ignoreTrailingComments": true
+        }]
     }
 }

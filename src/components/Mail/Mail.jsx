@@ -1,12 +1,8 @@
 import React from 'react';
-import Template from './Template/Template';
+import Template from './Template';
 
 const Mail = () => (
-    <div>
-        <div className="mail">
-            <Template />
-        </div>
-    </div>
+    <Template />
 );
 
 export default Mail;

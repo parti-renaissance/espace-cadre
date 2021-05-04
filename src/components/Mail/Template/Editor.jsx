@@ -1,42 +1,35 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import EmailEditor from 'react-email-editor';
+
 import { useTemplateContent } from '../../../redux/template/hooks';
 
 const Editor = () => {
     const emailEditorRef = useRef(null);
-
-    const { content, setContent } = useTemplateContent();
+    const [, setContent] = useTemplateContent();
 
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
             if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
-                if (content) {
-                    emailEditorRef.current.editor.loadDesign(content);
-                }
-
-                emailEditorRef.current.addEventListener('design:updated', () => emailEditorRef.current.exportHtml((event) => {
-                    setContent(event.design);
-                }));
+                emailEditorRef.current.addEventListener(
+                    'design:updated',
+                    () => emailEditorRef.current.exportHtml(setContent),
+                );
 
                 clearInterval(timer);
             }
         }, 500);
     }, [emailEditorRef]);
 
-    useEffect(() => {
-        if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor && content) {
-            emailEditorRef.current.editor.loadDesign(content);
-        }
-    }, [content]);
-
     return (
         <EmailEditor
+            minHeight="85vh"
             ref={emailEditorRef}
             projectId={18093}
             onLoad={onLoadEditor}
             options={{
                 locale: 'fr-FR',
                 safeHtml: true,
+                templateId: 41208,
                 tools: {
                     menu: {
                         enabled: false,

@@ -7,7 +7,7 @@ import { userLogout } from '../../redux/auth';
 const API_BASE_URL = `${process.env.REACT_APP_OAUTH_HOST}/api`;
 
 function handleHttpError(error) {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status && error.response.status === 401) {
         store.dispatch(userLogout());
     }
 

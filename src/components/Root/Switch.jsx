@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Auth from '../Auth/Auth';
 import Dashboard from '../DashboardComponent/Dashboard';
 import Contacts from '../ContactsPage/ContactsComponent/Contacts';
-import Mail from '../Mail/Mail';
+import Mail from '../Mail';
 
 const Switch = ({ isUserLogged }) => (
     <ReactRouterSwitch>

@@ -12,40 +12,39 @@ body{
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.4s;
     z-index: 50;
+
+    &.active {
+        margin-left: -17rem;
+    }
 }
 
 .page-content {
     width: calc(100% - 17rem);
     margin-left: 17rem;
     transition: all 0.4s;
-}
 
-/* for toggle behavior */
-#sidebar.active {
-    margin-left: -17rem;
-}
-
-#content.active {
-    width: 100%;
-    margin: 0 1rem;
+    &.active {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 @media (max-width: 768px) {
     #sidebar {
         margin-left: -17rem;
+
+        &.active {
+            margin-left: 0;
+        }
     }
 
-    #sidebar.active {
-        margin-left: 0;
-    }
-
-    #content {
+    .page-content {
         width: 100%;
-        margin: 0;
-    }
+        margin-left: 0;
 
-    #content.active {
-        margin-left: 17rem;
-        width: calc(100% - 17rem);
+        &.active {
+            width: calc(100% - 17rem);
+            margin-left: 17rem;
+        }
     }
 }
