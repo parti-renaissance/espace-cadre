@@ -11,6 +11,7 @@ const ColumnFilter = ({ column }) => {
                 value={filterValue || ''}
                 onChange={(e) => setFilter(e.target.value)}
                 placeholder="Search..."
+                className="inputFilter"
             />
         </span>
     );
