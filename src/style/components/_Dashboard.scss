@@ -5,6 +5,6 @@
 .dashboardRow {
     background-color: $whiteCorner;
     margin: 10px auto !important;
-    padding: 10px;
+    padding: 10px 0;
     @include borderRadius(16px);
 }
