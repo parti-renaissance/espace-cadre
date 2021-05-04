@@ -95,9 +95,9 @@ const Contacts = () => {
     };
 
     return (
-        <div>
+        <>
             {content()}
-        </div>
+        </>
     );
 };
 

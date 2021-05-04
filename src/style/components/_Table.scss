@@ -81,40 +81,25 @@
 // Reset button for filters
 #filterButton {
     color: $blueCorner;
-    height: 32px;
-    margin: 4px 0 4px 4px;
-    padding: 4px;
-    @include borderRadius(6px);
+    height: 38px;
     background-color: $whiteCorner;
+    @include borderRadius(6px);
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     span {
-        padding: 10px;
-    }
-
-    i {
-        padding: 3px;
-    }
-
-    @media (max-width: 768px) {
-        display: block;
-        margin: 4px 0px;
+        margin-right: 10px;
     }
 }
 
 // Container for filters (global search & reset) above the table
-.aboveFilter {
-    margin-left: 18px;
-}
-
-// Container for download button & select to choose the number of line
+.aboveFilter,
 .downloadLineCount {
-    margin: 19px 0 4px 18px;
+    margin-bottom: 16px;
 }
-
 // Button to download the contacts selection
 #downloadButton {
-    margin-right: 4px;
-    padding: 0 16px;
+    margin-right: 10px;
 }
 
 // Number of line to display in table
@@ -126,6 +111,6 @@
 .lineCount {
     color: $blueCorner;
     background-color: $whiteCorner;
-    height: 32px;
+    height: 38px;
     @include borderRadius(6px);
 }

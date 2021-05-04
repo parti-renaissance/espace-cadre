@@ -71,9 +71,9 @@ const Table = ({ columns, data }) => {
     } = tableInstance;
 
     return (
-        <div className="container-fluid tableContainer">
+        <div className="tableContainer">
             <div className="row">
-                <div className="aboveFilter">
+                <div className="col-md-12 aboveFilter">
                     <GlobalFilter
                         filter={globalFilter}
                         setFilter={setGlobalFilter}
@@ -89,7 +89,7 @@ const Table = ({ columns, data }) => {
                         <i className="fas fa-filter" />
                     </button>
                 </div>
-                <div className="downloadLineCount">
+                <div className="col-md-12 downloadLineCount">
                     <button
                         type="button"
                         onClick={() => {

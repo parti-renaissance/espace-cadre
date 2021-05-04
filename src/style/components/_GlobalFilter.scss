@@ -1,15 +1,17 @@
 #globalFilter {
-    font-family: "Poppins", sans-serif;
     color: $greyCorner3;
-    background-color: $whiteCorner;
-    border: none;
-    font-weight: 500;
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
-    width: 354px;
-    height: 32px;
+    font-weight: 500;
     padding: 8px 16px;
-    margin: 20px 0 12px 0;
-    outline: none;
-
+    margin-right: 10px;
+    width: 354px;
+    height: 38px;
+    background-color: $whiteCorner;
     @include borderRadius(6px);
+
+
+    @media (max-width: 882px) {
+        margin-bottom: 16px;
+    }
 }
