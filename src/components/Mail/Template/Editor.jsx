@@ -10,7 +10,11 @@ const Editor = () => {
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
             if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
-                emailEditorRef.current.addEventListener(
+                emailEditorRef.current.editor.addEventListener('design:loaded', () => {
+                    emailEditorRef.current.editor.setBodyValues({ contentWidth: '600px' });
+                });
+
+                emailEditorRef.current.editor.addEventListener(
                     'design:updated',
                     () => emailEditorRef.current.exportHtml(setContent),
                 );
@@ -24,12 +28,12 @@ const Editor = () => {
         <EmailEditor
             minHeight="85vh"
             ref={emailEditorRef}
-            projectId={18093}
+            projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
             onLoad={onLoadEditor}
             options={{
                 locale: 'fr-FR',
                 safeHtml: true,
-                templateId: 41208,
+                templateId: process.env.REACT_APP_UNLAYER_TEMPLATE_ID,
                 tools: {
                     menu: {
                         enabled: false,

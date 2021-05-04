@@ -2,51 +2,60 @@ name: Build and Publish Docker Image
 
 # If Push on master
 on:
-  push:
-    branches:
-      - master
-  release:
-    types:
-      - published
+    push:
+        branches:
+            - master
+    release:
+        types:
+            - published
 
 # General Environments variables
 env:
-  # Google Cloud Env
-  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+    # Google Cloud Env
+    GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+    GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
 
-  # Image Env
-  IMAGE: data-corner
-  TAG: staging
+    # Image Env
+    IMAGE: data-corner
+    TAG: staging
 
 jobs:
-  Build:
-    name: Build
-    runs-on: ubuntu-latest
+    Build:
+        name: Build
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
 
-    # Setup gcloud CLI
-    - name: Set up Cloud credentials
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
+            # Setup gcloud CLI
+            -   name: Set up Cloud credentials
+                uses: google-github-actions/setup-gcloud@master
+                with:
+                    project_id: ${{ secrets.GCP_PROJECT_ID }}
+                    service_account_key: ${{ secrets.GCP_SA_KEY }}
+                    export_default_credentials: true
 
-    - run: gcloud --quiet auth configure-docker
+            -   run: gcloud --quiet auth configure-docker
 
-    - name: Build
-      run: |-
-        docker build \
-          --build-arg OAUTH_HOST=${{ secrets.OAUTH_HOST }} \
-          --build-arg OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }} \
-          --build-arg INTERNAL_APP_ID=${{ secrets.INTERNAL_APP_ID }} \
-          --build-arg SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
-          --tag "eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG" \
-          .
+            -   name: Build
+                env:
+                    ENV_1: REACT_APP_OAUTH_HOST
+                    ENV_2: REACT_APP_OAUTH_CLIENT_ID
+                    ENV_3: REACT_APP_INTERNAL_APP_ID
+                    ENV_4: REACT_APP_SENTRY_DSN
+                    ENV_5: REACT_APP_UNLAYER_PROJECT_ID
+                    ENV_6: REACT_APP_UNLAYER_TEMPLATE_ID
+                run: |-
+                    echo "" > .env.production
+                    echo "${{ env.ENV_1 }}=${{ secrets[env.ENV_1] }}" >> .env.production
+                    echo "${{ env.ENV_2 }}=${{ secrets[env.ENV_2] }}" >> .env.production
+                    echo "${{ env.ENV_3 }}=${{ secrets[env.ENV_3] }}" >> .env.production
+                    echo "${{ env.ENV_4 }}=${{ secrets[env.ENV_4] }}" >> .env.production
+                    echo "${{ env.ENV_5 }}=${{ secrets[env.ENV_5] }}" >> .env.production
+                    echo "${{ env.ENV_6 }}=${{ secrets[env.ENV_6] }}" >> .env.production
 
-    - name: Publish
-      run: docker push eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG
+                    docker build --tag "eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG" .
+
+            -   name: Publish
+                run: docker push eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG

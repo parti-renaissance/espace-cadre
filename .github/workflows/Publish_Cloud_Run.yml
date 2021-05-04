@@ -3,7 +3,7 @@ name: Deploy to Cloud Run
 on:
   workflow_run:
     workflows: ["Build and Publish Docker Image"]
-    types: 
+    types:
       - completed
 
 # General Environments variables
@@ -38,4 +38,4 @@ jobs:
         --platform managed \
         --region $GCP_ZONE \
         --memory 1024Mi \
-        --labels=type=$TAG #\
+        --labels=type=$TAG
