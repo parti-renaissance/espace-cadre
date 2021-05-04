@@ -1,9 +1,40 @@
 #sidebarCollapse {
+    color: $greyCorner3;
     background-color: $whiteCorner;
+    margin-right: 10px;
     height: 32px;
     width: 87px;
     padding: 4px 6px;
     border: none;
-    color: $greyCorner3;
-    @include borderRadius(16px);
+    @include borderRadius(6px);
+}
+
+.container {
+    margin-top: 16px;
+}
+
+.headerRow {
+    margin-bottom: 16px;
+    
+    .menuText,
+    .pageTitle,
+    .welcomeMessage {
+        font-family: "Poppins, sans-serif";
+    }
+    .menuText {
+        font-weight: 600;
+    }
+
+    .pageTitle {
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 48px;
+        vertical-align: middle;
+    }
+
+    .welcomeMessage {
+        font-weight: 500;
+        line-height: 21px;
+        margin-top: 14px;
+    }
 }
