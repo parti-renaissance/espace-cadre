@@ -1,0 +1,26 @@
+.spin-loader i {
+    -webkit-animation: spinload 1.1s infinite linear;
+    animation: spinload 1.1s infinite linear;
+}
+
+@-webkit-keyframes spinload {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinload {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}

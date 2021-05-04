@@ -1,36 +1,9 @@
-.topNavContainer {
-    margin-left: 4px;
-}
-
-.welcomeContainer {
-    display: inline-flex;
-    margin: 4px 40px 0px auto;
-}
-
-.fa-user {
-    margin-top: 3px;
-}
-
 #sidebarCollapse {
     background-color: $whiteCorner;
     height: 32px;
     width: 87px;
     padding: 4px 6px;
-    margin: 0 0 50px 32px;
     border: none;
+    color: $greyCorner3;
     @include borderRadius(16px);
-}
-
-#burgerIcon {
-    color: $greyCorner3;
-    width: 10px;
-    height: 10px;
-    margin-right: 8px;
-}
-
-#menuButtonText {
-    font-family: "Poppins", sans-serif;
-    color: $greyCorner3;
-    font-weight: 400;
-    font-style: normal;
 }
