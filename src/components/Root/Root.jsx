@@ -14,6 +14,7 @@ const Root = () => {
     const { pathname } = useLocation();
     const currentUser = useSelector(getCurrentUser);
     const [, updateUserData] = useGetUserData();
+    let content;
 
     useEffect(() => {
         if (isUserLoggedIn) {
@@ -25,34 +26,38 @@ const Root = () => {
         }
     }, [isUserLoggedIn]);
 
+    if (pathname === '/') {
+        content = <span className="pageTitle">Dashboard</span>;
+    } else if (pathname === '/contacts') {
+        content = <span className="pageTitle">Contacts</span>;
+    } else if (pathname === '/mail') {
+        content = <span className="pageTitle">Messagerie</span>;
+    }
+
     return (
         <div>
             {isUserLoggedIn
                 ? (
                     <>
                         <Sidebar currentUser={currentUser || {}} />
-
-                        <div className="page-content p-3" id="content">
-                            <div className="row mb-2 topNavContainer">
-                                <div className="col">
-                                    <button id="sidebarCollapse" type="button">
-                                        <i className="fa fa-bars mr-2" />
-                                        Menu
-                                    </button>
-                                </div>
-
-                                {currentUser && (
-                                    <div className="col text-right">
-                                        <i className="fas fa-user pr-2" />
-                                        Bienvenue {currentUser.firstName}
+                        <div className="page-content" id="content">
+                            <div className="container">
+                                <div className="row headerRow">
+                                    <div className="col">
+                                        <button id="sidebarCollapse" type="button">
+                                            <i className="fa fa-bars mr-2" />
+                                            <span className="menuText">Menu</span>
+                                        </button>
+                                        {content}
                                     </div>
-                                )}
-                            </div>
-
-                            <div className="row">
-                                <div className="col">
-                                    <Switch isUserLogged={isUserLoggedIn} />
+                                    {currentUser && (
+                                        <div className="col text-md-right welcomeMessage">
+                                            <i className="fas fa-user pr-2" />
+                                            <span>Bienvenue {currentUser.firstName}</span>
+                                        </div>
+                                    )}
                                 </div>
+                                <Switch isUserLogged={isUserLoggedIn} />
                             </div>
                         </div>
                     </>

@@ -82,9 +82,9 @@ const Dashboard = () => {
     }
 
     return (
-        <div>
+        <>
             {content}
-        </div>
+        </>
     );
 };
 

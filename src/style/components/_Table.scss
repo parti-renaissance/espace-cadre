@@ -10,7 +10,7 @@
 
 // Style for table
 .table {
-    @include borderRadius(16px);
+    @include borderRadius(6px);
     background-color: $whiteCorner;
 
     th {
@@ -69,7 +69,7 @@
     button {
         color: $greyCorner3;
         background-color: $whiteCorner;
-        @include borderRadius(16px);
+        @include borderRadius(6px);
         margin-bottom: 12px;
     }
 }
@@ -84,7 +84,7 @@
     height: 32px;
     margin: 4px 0 4px 4px;
     padding: 4px;
-    @include borderRadius(16px);
+    @include borderRadius(6px);
     background-color: $whiteCorner;
 
     span {
@@ -127,5 +127,5 @@
     color: $blueCorner;
     background-color: $whiteCorner;
     height: 32px;
-    @include borderRadius(16px);
+    @include borderRadius(6px);
 }

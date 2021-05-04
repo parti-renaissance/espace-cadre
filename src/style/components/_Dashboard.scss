@@ -1,10 +1,11 @@
 .dashboardContainer {
-    padding: 10px 0;
+    padding: 0;
 }
 
 .dashboardRow {
     background-color: $whiteCorner;
     margin: 10px auto !important;
     padding: 10px 0;
-    @include borderRadius(16px);
+    @include borderRadius(6px);
+    overflow: scroll;
 }
