@@ -41,7 +41,7 @@ const Root = () => {
                     <>
                         <Sidebar currentUser={currentUser || {}} />
                         <div className="page-content" id="content">
-                            <div className="container">
+                            <div className="container-fluid">
                                 <div className="row headerRow">
                                     <div className="col">
                                         <button id="sidebarCollapse" type="button">
