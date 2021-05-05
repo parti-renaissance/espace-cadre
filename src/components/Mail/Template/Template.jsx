@@ -97,7 +97,7 @@ const Template = () => {
             // eslint-disable-next-line no-restricted-syntax
             for (const [key, value] of Object.entries(item)) {
                 if (key === 'label') {
-                    opts.push({ label: `${value}`, value: `${item.uuid}` });
+                    opts.push({ label: value, value: item.uuid });
                 }
             }
         });
