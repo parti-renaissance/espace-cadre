@@ -113,7 +113,7 @@ const Template = () => {
     }, []);
 
     const createTemplate = async (bodyreq) => apiClient.post('/v3/email_templates', bodyreq);
-    const updateTemplate = async (bodyreq) => apiClient.put(`/v3/email_templates/${template.infos_curr_tplt.value}`, bodyreq);
+    const updateTemplate = async (bodyreq, id) => apiClient.put(`/v3/email_templates/${id}`, bodyreq);
 
     const handleClickSaveButton = async () => {
         setButtonSave((state) => ({ ...state, ...{ isLoading: true } }));
@@ -131,7 +131,7 @@ const Template = () => {
         if (exist === undefined || exist.value === exist.label) {
             templateStatusResponse = await createTemplate(bodyreq);
         } else {
-            templateStatusResponse = await updateTemplate(bodyreq);
+            templateStatusResponse = await updateTemplate(bodyreq, template.infos_curr_tplt.value);
         }
         // eslint-disable-next-line no-plusplus
         if (templateStatusResponse.uuid !== '') {
