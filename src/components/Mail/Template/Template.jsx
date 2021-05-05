@@ -141,7 +141,9 @@ const Template = () => {
     let saveButton;
 
     if (buttonSave.state === 'save') {
-        const disableState = (template.current_template === '' || template.content_template !== '') || buttonSave.isLoading;
+        const disableState = (template.current_template === ''
+        || content === null)
+        || buttonSave.isLoading;
         saveButton = (
             <button
                 className={`btn btn-primary ${disableState ? 'disabled' : null}`}
@@ -157,11 +159,13 @@ const Template = () => {
     }
 
     const handleCreateOption = (newEntry) => {
-        setOpts((state) => ({
-            ...state,
-            options: [...state.options, { label: newEntry, value: newEntry }],
-            length: state.length + 1,
-        }));
+        if (optselect.options.length !== 0) {
+            setOpts((state) => ({
+                ...state,
+                options: [...state.options, { label: newEntry, value: newEntry }],
+                length: state.length + 1,
+            }));
+        }
         setTemplate((state) => ({ ...state, current_template: newEntry }));
     };
 
