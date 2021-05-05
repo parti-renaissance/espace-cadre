@@ -118,14 +118,6 @@ const Template = () => {
         }
     }, [content]);
 
-    useEffect(() => {
-
-    }, [optselect]);
-
-    useEffect(() => {
-
-    }, [template.content_template]);
-
     const createTemplate = async (bodyreq) => apiClient.post('/v3/email_templates', bodyreq);
     const updateTemplate = async (bodyreq) => apiClient.put(`/v3/email_templates/${template.ids.value}`, bodyreq);
 
@@ -144,8 +136,11 @@ const Template = () => {
                 if (option.label === template.ids.label) return true;
                 return false;
             });
-            if (exist.value === exist.label) templateStatusResponse = await createTemplate(bodyreq);
-            else templateStatusResponse = await updateTemplate(bodyreq);
+            if (exist === undefined || exist.value === exist.label) {
+                templateStatusResponse = await createTemplate(bodyreq);
+            } else {
+                templateStatusResponse = await updateTemplate(bodyreq);
+            }
             // eslint-disable-next-line no-plusplus
             if (++callCount >= 10 || (templateStatusResponse.uuid !== '')) {
                 clearInterval(timer);
