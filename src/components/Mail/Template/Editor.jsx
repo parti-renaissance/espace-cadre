@@ -1,11 +1,11 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import EmailEditor from 'react-email-editor';
 
 import { useTemplateContent } from '../../../redux/template/hooks';
 
 const Editor = () => {
     const emailEditorRef = useRef(null);
-    const [, setContent] = useTemplateContent();
+    const [content, setContent] = useTemplateContent();
 
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
@@ -16,13 +16,21 @@ const Editor = () => {
 
                 emailEditorRef.current.editor.addEventListener(
                     'design:updated',
-                    () => emailEditorRef.current.exportHtml(setContent),
+                    () => emailEditorRef.current.exportHtml(
+                        (event) => setContent({ design: event.design, chunks: event.chunks }),
+                    ),
                 );
 
                 clearInterval(timer);
             }
         }, 500);
     }, [emailEditorRef]);
+
+    useEffect(() => {
+        if (content && content.design) {
+            emailEditorRef.current.loadDesign(content.design);
+        }
+    }, [content]);
 
     return (
         <EmailEditor
