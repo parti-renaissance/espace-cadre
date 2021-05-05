@@ -22,10 +22,7 @@ const Editor = () => {
         }, 500);
     }, [emailEditorRef]);
 
-    // Chargement si un template existant est sélectionné
     useEffect(() => {
-        console.log('useEffect');
-
         if (content && content.design) {
             emailEditorRef.current.loadDesign(content.design);
         }

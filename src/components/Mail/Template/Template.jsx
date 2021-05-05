@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-// Utilisation de creatable pour le select
 import CreatableSelect from 'react-select/creatable';
 import Editor from './Editor';
 import { useTemplateContent } from '../../../redux/template/hooks';
@@ -10,7 +9,6 @@ import Loader from '../../Loader';
 const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: false };
 const EMAIL_INITIAL_STATE = { synchronized: false };
 
-// Déclaration des variables par défault.
 const TEMPLATE_INITIAL_STATE = { content_template: '', ids: '' };
 const BUTTON_SAVE_INITIAL_STATE = { state: 'save', isLoading: false };
 const OPTIONS_INITIAL_STATE = { options: [{ label: 'Ajoutez vos options', value: '0', isDisabled: true }], length: 0 };
@@ -21,7 +19,6 @@ const Template = () => {
     const [content, setContent] = useTemplateContent();
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
 
-    // Template chargé / Bouton de Sauvegarde / Liste d'options du bouton déroulant
     const [template, setTemplate] = useState(TEMPLATE_INITIAL_STATE);
     const [buttonSave, setButtonSave] = useState(BUTTON_SAVE_INITIAL_STATE);
     const [optselect, setOpts] = useState(OPTIONS_INITIAL_STATE);
@@ -116,7 +113,9 @@ const Template = () => {
     }, []);
 
     useEffect(() => {
-        if (content && 'design' in content) setTemplate((state) => ({ ...state, content_template: content.design }));
+        if (content && content.design) {
+            setTemplate((state) => ({ ...state, content_template: content.design }));
+        }
     }, [content]);
 
     useEffect(() => {
@@ -137,11 +136,9 @@ const Template = () => {
             content: JSON.stringify(content.design),
         };
 
-        // Check saved
         let callCount = 0;
         const timer = setInterval(async () => {
             // eslint-disable-next-line array-callback-return
-
             let templateStatusResponse = null;
             const exist = optselect.options.find((option) => {
                 if (option.label === template.ids.label) return true;
@@ -153,7 +150,6 @@ const Template = () => {
             if (++callCount >= 10 || (templateStatusResponse.uuid !== '')) {
                 clearInterval(timer);
                 setOpts(optselect.options.map((item) => {
-                    console.log(JSON.stringify(item));
                     if (item.label !== templateStatusResponse.label) return item;
                     return { ...item, value: templateStatusResponse.uuid };
                 }));
@@ -190,7 +186,7 @@ const Template = () => {
     };
 
     const LoadingT = async () => {
-        if (template.ids !== '') {
+        if (template.ids !== '' && template.ids.value !== undefined) {
             const result = await apiClient.get(`/v3/email_templates/${template.ids.value}`);
             setContent({ ...content, ...{ design: JSON.parse(result.content) } });
         }
@@ -198,8 +194,8 @@ const Template = () => {
 
     const handleSelectChange = (selected) => {
         if (selected !== null) {
-            setTemplate((state) => ({ ...state, ids: selected }));
             LoadingT();
+            setTemplate((state) => ({ ...state, ids: selected }));
         } else setTemplate((state) => ({ ...state, ids: '' }));
     };
 
@@ -254,14 +250,11 @@ const Template = () => {
         <div>
             <div className="mb-3 text-right row justify-content-end">
                 <div className="col-6 form-inline">
-                    <CreatableSelect // Select pour le template
-                        style={{
-                            width: '50%',
-                        }}
+                    <CreatableSelect
                         className="col mr-3"
                         isClearable
                         onCreateOption={handleCreateOption}
-                        onChange={handleSelectChange} // Call LoadTemplate
+                        onChange={handleSelectChange}
                         options={optselect.options}
                         formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
                         value={template.ids}
