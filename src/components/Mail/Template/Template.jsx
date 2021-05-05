@@ -142,7 +142,13 @@ const Template = () => {
         const timer = setInterval(async () => {
             // eslint-disable-next-line array-callback-return
 
-            const templateStatusResponse = await createTemplate(bodyreq);
+            let templateStatusResponse = null;
+            const exist = optselect.options.find((option) => {
+                if (option.label === template.ids.label) return true;
+                return false;
+            });
+            if (exist.value === exist.label) templateStatusResponse = await createTemplate(bodyreq);
+            else templateStatusResponse = await updateTemplate(bodyreq);
             // eslint-disable-next-line no-plusplus
             if (++callCount >= 10 || (templateStatusResponse.uuid !== '')) {
                 clearInterval(timer);
@@ -186,14 +192,15 @@ const Template = () => {
     const LoadingT = async () => {
         if (template.ids !== '') {
             const result = await apiClient.get(`/v3/email_templates/${template.ids.value}`);
-
             setContent({ ...content, ...{ design: JSON.parse(result.content) } });
         }
     };
 
     const handleSelectChange = (selected) => {
-        setTemplate((state) => ({ ...state, ids: selected }));
-        LoadingT();
+        if (selected !== null) {
+            setTemplate((state) => ({ ...state, ids: selected }));
+            LoadingT();
+        } else setTemplate((state) => ({ ...state, ids: '' }));
     };
 
     let sendButton;
