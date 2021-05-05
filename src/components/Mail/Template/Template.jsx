@@ -159,7 +159,7 @@ const Template = () => {
     }
 
     const handleCreateOption = (newEntry) => {
-        if (optselect.options !== []) {
+        if (optselect.options.length !== 0) {
             setOpts((state) => ({
                 ...state,
                 options: [...state.options, { label: newEntry, value: newEntry }],
