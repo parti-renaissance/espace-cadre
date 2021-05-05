@@ -12,13 +12,13 @@ const Sidebar = () => {
     return (
         <>
             <div className="vertical-nav bg-white" id="sidebar">
-                <div className="py-4 px-3 mb-4 bg-light">
-                    <div className="media d-flex align-items-center">
-                        <h4 className="m-0" id="data">Data<span id="corner">Corner</span></h4>
+                <div className="logoContainer">
+                    <div>
+                        <h4 id="data">Data<span id="corner">Corner</span></h4>
                     </div>
                 </div>
 
-                <ul className="nav flex-column bg-white mb-0">
+                <ul>
                     <li>
                         <NavLink
                             to="/"
@@ -26,9 +26,9 @@ const Sidebar = () => {
                             className="nav-link"
                             activeClassName="selected"
                         >
-                            <i className="fas fa-th-large fa-lg" />
+                            <i className="fas fa-th-large" />
                             {' '}
-                            <span>Dashboard</span>
+                            <span id="dashboardItem">Dashboard</span>
                         </NavLink>
                     </li>
                     <li>
@@ -38,7 +38,7 @@ const Sidebar = () => {
                             className="nav-link"
                             activeClassName="selected"
                         >
-                            <i className="fas fa-users fa-lg" />
+                            <i className="fas fa-users" />
                             {' '}
                             <span>Contacts</span>
                         </NavLink>
@@ -50,9 +50,9 @@ const Sidebar = () => {
                             className="nav-link"
                             activeClassName="selected"
                         >
-                            <i className="far fa-paper-plane fa-lg" />
+                            <i className="far fa-paper-plane" />
                             {' '}
-                            <span>Messagerie</span>
+                            <span id="messagerie">Messagerie</span>
                         </NavLink>
                     </li>
                 </ul>
