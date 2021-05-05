@@ -1,25 +1,20 @@
-import React, {
-    useCallback, useEffect, useRef, useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import EmailEditor from 'react-email-editor';
-
-import PropTypes from 'prop-types';
 
 import { useTemplateContent } from '../../../redux/template/hooks';
 
-const Editor = (props) => {
+const Editor = () => {
     const emailEditorRef = useRef(null);
     const [content, setContent] = useTemplateContent();
-
-    // Template chargé
-    //    const [loaded, setLoaded] = useState('');
 
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
             if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
                 emailEditorRef.current.addEventListener(
                     'design:updated',
-                    () => emailEditorRef.current.exportHtml(setContent),
+                    () => emailEditorRef.current.exportHtml(
+                        (event) => setContent({ design: event.design, chunks: event.chunks }),
+                    ),
                 );
 
                 clearInterval(timer);
@@ -27,16 +22,13 @@ const Editor = (props) => {
         }, 500);
     }, [emailEditorRef]);
 
-    /*useEffect(() => {
-        setContent();
-        setLoaded(props.loadedT);
-    }, []);*/
-
     // Chargement si un template existant est sélectionné
     useEffect(() => {
-        console.log(emailEditorRef);
-        console.log(content);
-    //        if (loaded !== '') emailEditorRef.current.loadDesign(JSON.stringify(loaded));
+        console.log('useEffect');
+
+        if (content && content.design) {
+            emailEditorRef.current.loadDesign(content.design);
+        }
     }, [content]);
 
     return (
@@ -67,8 +59,3 @@ const Editor = (props) => {
 };
 
 export default Editor;
-
-Editor.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    loadedT: PropTypes.string.isRequired,
-};

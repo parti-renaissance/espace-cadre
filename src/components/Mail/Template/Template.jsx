@@ -18,7 +18,7 @@ const OPTIONS_INITIAL_STATE = { options: [{ label: 'Ajoutez vos options', value:
 const Template = () => {
     const [emailSubject, setEmailSubject] = useState('');
     const [buttonState, setButtonState] = useState(BUTTON_INITIAL_STATE);
-    const [content, setContent ] = useTemplateContent();
+    const [content, setContent] = useTemplateContent();
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
 
     // Template chargé / Bouton de Sauvegarde / Liste d'options du bouton déroulant
@@ -142,8 +142,8 @@ const Template = () => {
         const timer = setInterval(async () => {
             // eslint-disable-next-line array-callback-return
 
-          const templateStatusResponse = await createTemplate(bodyreq);
-                       // eslint-disable-next-line no-plusplus
+            const templateStatusResponse = await createTemplate(bodyreq);
+            // eslint-disable-next-line no-plusplus
             if (++callCount >= 10 || (templateStatusResponse.uuid !== '')) {
                 clearInterval(timer);
                 setOpts(optselect.options.map((item) => {
@@ -186,8 +186,8 @@ const Template = () => {
     const LoadingT = async () => {
         if (template.ids !== '') {
             const result = await apiClient.get(`/v3/email_templates/${template.ids.value}`);
-            console.log(  JSON.parse(result.content));
-            setContent((state) => ({ ...state, ...{ design: JSON.parse(result.content) } }));
+
+            setContent({ ...content, ...{ design: JSON.parse(result.content) } });
         }
     };
 
