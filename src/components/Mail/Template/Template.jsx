@@ -141,11 +141,10 @@ const Template = () => {
     let saveButton;
 
     if (buttonSave.state === 'save') {
-        console.log((template.current_template === ''
+        const disableState = (template.current_template === ''
         || template.content_template !== ''
         || content.design !== null)
-        || buttonSave.isLoading);
-        const disableState = (template.current_template === '' || template.content_template !== '') || buttonSave.isLoading;
+        || buttonSave.isLoading;
         saveButton = (
             <button
                 className={`btn btn-primary ${disableState ? 'disabled' : null}`}
