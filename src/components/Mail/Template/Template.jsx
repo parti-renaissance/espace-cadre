@@ -142,7 +142,7 @@ const Template = () => {
 
     if (buttonSave.state === 'save') {
         const disableState = (template.current_template === ''
-        || content !== null)
+        || content === null)
         || buttonSave.isLoading;
         saveButton = (
             <button
@@ -159,11 +159,13 @@ const Template = () => {
     }
 
     const handleCreateOption = (newEntry) => {
-        setOpts((state) => ({
-            ...state,
-            options: [...state.options, { label: newEntry, value: newEntry }],
-            length: state.length + 1,
-        }));
+        if (optselect.options !== []) {
+            setOpts((state) => ({
+                ...state,
+                options: [...state.options, { label: newEntry, value: newEntry }],
+                length: state.length + 1,
+            }));
+        }
         setTemplate((state) => ({ ...state, current_template: newEntry }));
     };
 
