@@ -9,7 +9,7 @@ import Loader from '../../Loader';
 const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: false };
 const EMAIL_INITIAL_STATE = { synchronized: false };
 
-const TEMPLATE_INITIAL_STATE = { content_template: '', infos_curr_tplt: '' };
+const TEMPLATE_INITIAL_STATE = { content_template: '', current_template: '' };
 const BUTTON_SAVE_INITIAL_STATE = { state: 'save', isLoading: false };
 const OPTIONS_INITIAL_STATE = { options: [{ label: 'Ajoutez vos options', value: '0', isDisabled: true }], length: 0 };
 
@@ -94,12 +94,7 @@ const Template = () => {
         const result = await apiClient.get('/v3/email_templates');
         const opts = [];
         result.items.forEach((item) => {
-            // eslint-disable-next-line no-restricted-syntax
-            for (const [key, value] of Object.entries(item)) {
-                if (key === 'label') {
-                    opts.push({ label: value, value: item.uuid });
-                }
-            }
+            opts.push({ label: item.label, value: item.uuid });
         });
         setOpts((state) => ({
             ...state,
@@ -118,20 +113,20 @@ const Template = () => {
     const handleClickSaveButton = async () => {
         setButtonSave((state) => ({ ...state, ...{ isLoading: true } }));
         const bodyreq = {
-            label: template.infos_curr_tplt.label,
+            label: template.current_template.label,
             content: JSON.stringify(content.design),
         };
 
         // eslint-disable-next-line array-callback-return
         let templateStatusResponse = null;
         const exist = optselect.options.find((option) => {
-            if (option.label === template.infos_curr_tplt.label) return true;
+            if (option.label === template.current_template.label) return true;
             return false;
         });
         if (exist === undefined || exist.value === exist.label) {
             templateStatusResponse = await createTemplate(bodyreq);
         } else {
-            templateStatusResponse = await updateTemplate(bodyreq, template.infos_curr_tplt.value);
+            templateStatusResponse = await updateTemplate(bodyreq, template.current_template.value);
         }
         // eslint-disable-next-line no-plusplus
         if (templateStatusResponse.uuid !== '') {
@@ -146,7 +141,7 @@ const Template = () => {
     let saveButton;
 
     if (buttonSave.state === 'save') {
-        const disableState = (template.infos_curr_tplt === '' || template.content_template === '') || buttonSave.isLoading;
+        const disableState = (template.current_template === '' || template.content_template !== '') || buttonSave.isLoading;
         saveButton = (
             <button
                 className={`btn btn-primary ${disableState ? 'disabled' : null}`}
@@ -167,12 +162,12 @@ const Template = () => {
             options: [...state.options, { label: newEntry, value: newEntry }],
             length: state.length + 1,
         }));
-        setTemplate((state) => ({ ...state, infos_curr_tplt: newEntry }));
+        setTemplate((state) => ({ ...state, current_template: newEntry }));
     };
 
     const loadingTemplate = async () => {
-        if (template.infos_curr_tplt !== '' && template.infos_curr_tplt.value !== undefined) {
-            const result = await apiClient.get(`/v3/email_templates/${template.infos_curr_tplt.value}`);
+        if (template.current_template !== '' && template.current_template.value !== undefined) {
+            const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
             setContent({ ...content, ...{ design: JSON.parse(result.content) } });
         }
     };
@@ -180,9 +175,9 @@ const Template = () => {
     const handleSelectChange = (selected) => {
         if (selected !== null) {
             loadingTemplate();
-            setTemplate((state) => ({ ...state, infos_curr_tplt: selected }));
+            setTemplate((state) => ({ ...state, current_template: selected }));
         } else {
-            setTemplate((state) => ({ ...state, infos_curr_tplt: '' }));
+            setTemplate((state) => ({ ...state, current_template: '' }));
         }
     };
 
@@ -244,7 +239,7 @@ const Template = () => {
                         onChange={handleSelectChange}
                         options={optselect.options}
                         formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
-                        value={template.infos_curr_tplt}
+                        value={template.current_template}
                         placeholder="Choisissez votre Template ou créer en un nouveau"
                     />
                     {saveButton}
