@@ -116,7 +116,6 @@ const Template = () => {
             label: template.current_template.label,
             content: JSON.stringify(content.design),
         };
-
         // eslint-disable-next-line array-callback-return
         let templateStatusResponse = null;
         const exist = optselect.options.find((option) => {
@@ -141,8 +140,10 @@ const Template = () => {
     let saveButton;
 
     if (buttonSave.state === 'save') {
-        const disableState = (template.current_template === ''
-        || content === null)
+        const disableState = (
+            template.current_template === ''
+            || template.current_template.label === undefined
+            || content === null)
         || buttonSave.isLoading;
         saveButton = (
             <button
