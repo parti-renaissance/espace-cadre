@@ -10,10 +10,6 @@ const Editor = () => {
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
             if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
-                emailEditorRef.current.editor.addEventListener('design:loaded', () => {
-                    emailEditorRef.current.editor.setBodyValues({ contentWidth: '600px' });
-                });
-
                 emailEditorRef.current.editor.addEventListener(
                     'design:updated',
                     () => emailEditorRef.current.exportHtml(
