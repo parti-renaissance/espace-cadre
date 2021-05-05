@@ -9,10 +9,10 @@ import { useTemplateContent } from '../../../redux/template/hooks';
 
 const Editor = (props) => {
     const emailEditorRef = useRef(null);
-    const [, setContent] = useTemplateContent();
+    const [content, setContent] = useTemplateContent();
 
     // Template chargé
-    const [loaded, setLoaded] = useState('');
+    //    const [loaded, setLoaded] = useState('');
 
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
@@ -27,15 +27,17 @@ const Editor = (props) => {
         }, 500);
     }, [emailEditorRef]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         setContent();
         setLoaded(props.loadedT);
-    }, []);
+    }, []);*/
 
     // Chargement si un template existant est sélectionné
     useEffect(() => {
-        if (Object.entries(loaded).length !== 0) console.log('CHARGER LES TEMPLATES');
-    }, [loaded]);
+        console.log(emailEditorRef);
+        console.log(content);
+    //        if (loaded !== '') emailEditorRef.current.loadDesign(JSON.stringify(loaded));
+    }, [content]);
 
     return (
         <EmailEditor
@@ -68,5 +70,5 @@ export default Editor;
 
 Editor.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    loadedT: PropTypes.object.isRequired,
+    loadedT: PropTypes.string.isRequired,
 };

@@ -11,14 +11,14 @@ const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: fals
 const EMAIL_INITIAL_STATE = { synchronized: false };
 
 // Déclaration des variables par défault.
-const TEMPLATE_INITIAL_STATE = { content_template: {}, name: '', uuid: '' };
+const TEMPLATE_INITIAL_STATE = { content_template: '', ids: '' };
 const BUTTON_SAVE_INITIAL_STATE = { state: 'save', isLoading: false };
 const OPTIONS_INITIAL_STATE = { options: [{ label: 'Ajoutez vos options', value: '0', isDisabled: true }], length: 0 };
 
 const Template = () => {
     const [emailSubject, setEmailSubject] = useState('');
     const [buttonState, setButtonState] = useState(BUTTON_INITIAL_STATE);
-    const [content] = useTemplateContent();
+    const [content, setContent ] = useTemplateContent();
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
 
     // Template chargé / Bouton de Sauvegarde / Liste d'options du bouton déroulant
@@ -100,7 +100,7 @@ const Template = () => {
             // eslint-disable-next-line no-restricted-syntax
             for (const [key, value] of Object.entries(item)) {
                 if (key === 'label') {
-                    opts.push({ label: `${value}`, value: `${value}` });
+                    opts.push({ label: `${value}`, value: `${item.uuid}` });
                 }
             }
         });
@@ -125,28 +125,31 @@ const Template = () => {
 
     useEffect(() => {
 
-    }, [template]);
+    }, [template.content_template]);
 
-    const saveTemplate = async (bodyreq) => apiClient.post('/v3/email_templates', bodyreq);
+    const createTemplate = async (bodyreq) => apiClient.post('/v3/email_templates', bodyreq);
+    const updateTemplate = async (bodyreq) => apiClient.put(`/v3/email_templates/${template.ids.value}`, bodyreq);
 
     const handleClickSaveButton = async () => {
         setButtonSave((state) => ({ ...state, ...{ isLoading: true } }));
         const bodyreq = {
-            label: template.name.label,
+            label: template.ids.label,
             content: JSON.stringify(content.design),
         };
 
         // Check saved
         let callCount = 0;
         const timer = setInterval(async () => {
-            const templateStatusResponse = await saveTemplate(bodyreq);
+            // eslint-disable-next-line array-callback-return
 
-            // eslint-disable-next-line no-plusplus
+          const templateStatusResponse = await createTemplate(bodyreq);
+                       // eslint-disable-next-line no-plusplus
             if (++callCount >= 10 || (templateStatusResponse.uuid !== '')) {
                 clearInterval(timer);
                 setOpts(optselect.options.map((item) => {
+                    console.log(JSON.stringify(item));
                     if (item.label !== templateStatusResponse.label) return item;
-                    return { ...item, uuid: templateStatusResponse.uuid };
+                    return { ...item, value: templateStatusResponse.uuid };
                 }));
                 setButtonSave((state) => ({ ...state, ...{ state: 'confirme', isLoading: false } }));
             }
@@ -156,7 +159,7 @@ const Template = () => {
     let saveButton;
 
     if (buttonSave.state === 'save') {
-        const disableState = (template.name === '' || template.content_template === {}) || buttonSave.isLoading;
+        const disableState = (template.ids === '' || template.content_template === '') || buttonSave.isLoading;
         saveButton = (
             <button
                 className={`btn btn-primary ${disableState ? 'disabled' : null}`}
@@ -177,18 +180,19 @@ const Template = () => {
             options: [...state.options, { label: newEntry, value: newEntry }],
             length: state.length + 1,
         }));
-        setTemplate((state) => ({ ...state, name: newEntry }));
+        setTemplate((state) => ({ ...state, ids: newEntry }));
     };
 
     const LoadingT = async () => {
-        if (template.uuid !== '') {
-            const result = await apiClient.get(`/v3/email_templates/${template.uuid}`);
-            setTemplate((state) => ({ ...state, content_template: result.content }));
+        if (template.ids !== '') {
+            const result = await apiClient.get(`/v3/email_templates/${template.ids.value}`);
+            console.log(  JSON.parse(result.content));
+            setContent((state) => ({ ...state, ...{ design: JSON.parse(result.content) } }));
         }
     };
 
     const handleSelectChange = (selected) => {
-        setTemplate((state) => ({ ...state, name: selected }));
+        setTemplate((state) => ({ ...state, ids: selected }));
         LoadingT();
     };
 
@@ -253,7 +257,7 @@ const Template = () => {
                         onChange={handleSelectChange} // Call LoadTemplate
                         options={optselect.options}
                         formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
-                        value={template.name}
+                        value={template.ids}
                         placeholder="Choisissez votre Template ou créer en un nouveau"
                     />
                     {saveButton}
@@ -271,7 +275,7 @@ const Template = () => {
                 </div>
             </div>
 
-            <Editor loadedT={template.content_template} />
+            <Editor />
         </div>
     );
 };
