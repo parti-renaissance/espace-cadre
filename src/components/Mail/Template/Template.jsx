@@ -9,7 +9,7 @@ import Loader from '../../Loader';
 const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: false };
 const EMAIL_INITIAL_STATE = { synchronized: false };
 
-const TEMPLATE_INITIAL_STATE = { content_template: '', ids: '' };
+const TEMPLATE_INITIAL_STATE = { content_template: '', infos_curr_tplt: '' };
 const BUTTON_SAVE_INITIAL_STATE = { state: 'save', isLoading: false };
 const OPTIONS_INITIAL_STATE = { options: [{ label: 'Ajoutez vos options', value: '0', isDisabled: true }], length: 0 };
 
@@ -90,7 +90,7 @@ const Template = () => {
         }, 2000);
     };
 
-    async function LoadTemplates() {
+    async function loadTemplates() {
         const result = await apiClient.get('/v3/email_templates');
         const opts = [];
         result.items.forEach((item) => {
@@ -109,54 +109,44 @@ const Template = () => {
     }
 
     useEffect(() => {
-        LoadTemplates();
+        loadTemplates();
     }, []);
 
-    useEffect(() => {
-        if (content && content.design) {
-            setTemplate((state) => ({ ...state, content_template: content.design }));
-        }
-    }, [content]);
-
     const createTemplate = async (bodyreq) => apiClient.post('/v3/email_templates', bodyreq);
-    const updateTemplate = async (bodyreq) => apiClient.put(`/v3/email_templates/${template.ids.value}`, bodyreq);
+    const updateTemplate = async (bodyreq) => apiClient.put(`/v3/email_templates/${template.infos_curr_tplt.value}`, bodyreq);
 
     const handleClickSaveButton = async () => {
         setButtonSave((state) => ({ ...state, ...{ isLoading: true } }));
         const bodyreq = {
-            label: template.ids.label,
+            label: template.infos_curr_tplt.label,
             content: JSON.stringify(content.design),
         };
 
-        let callCount = 0;
-        const timer = setInterval(async () => {
-            // eslint-disable-next-line array-callback-return
-            let templateStatusResponse = null;
-            const exist = optselect.options.find((option) => {
-                if (option.label === template.ids.label) return true;
-                return false;
-            });
-            if (exist === undefined || exist.value === exist.label) {
-                templateStatusResponse = await createTemplate(bodyreq);
-            } else {
-                templateStatusResponse = await updateTemplate(bodyreq);
-            }
-            // eslint-disable-next-line no-plusplus
-            if (++callCount >= 10 || (templateStatusResponse.uuid !== '')) {
-                clearInterval(timer);
-                setOpts(optselect.options.map((item) => {
-                    if (item.label !== templateStatusResponse.label) return item;
-                    return { ...item, value: templateStatusResponse.uuid };
-                }));
-                setButtonSave((state) => ({ ...state, ...{ state: 'confirme', isLoading: false } }));
-            }
-        }, 2000);
+        // eslint-disable-next-line array-callback-return
+        let templateStatusResponse = null;
+        const exist = optselect.options.find((option) => {
+            if (option.label === template.infos_curr_tplt.label) return true;
+            return false;
+        });
+        if (exist === undefined || exist.value === exist.label) {
+            templateStatusResponse = await createTemplate(bodyreq);
+        } else {
+            templateStatusResponse = await updateTemplate(bodyreq);
+        }
+        // eslint-disable-next-line no-plusplus
+        if (templateStatusResponse.uuid !== '') {
+            setOpts(optselect.options.map((item) => {
+                if (item.label !== templateStatusResponse.label) return item;
+                return { ...item, value: templateStatusResponse.uuid };
+            }));
+            setButtonSave((state) => ({ ...state, ...{ state: 'confirme', isLoading: false } }));
+        }
     };
 
     let saveButton;
 
     if (buttonSave.state === 'save') {
-        const disableState = (template.ids === '' || template.content_template === '') || buttonSave.isLoading;
+        const disableState = (template.infos_curr_tplt === '' || template.content_template === '') || buttonSave.isLoading;
         saveButton = (
             <button
                 className={`btn btn-primary ${disableState ? 'disabled' : null}`}
@@ -177,21 +167,23 @@ const Template = () => {
             options: [...state.options, { label: newEntry, value: newEntry }],
             length: state.length + 1,
         }));
-        setTemplate((state) => ({ ...state, ids: newEntry }));
+        setTemplate((state) => ({ ...state, infos_curr_tplt: newEntry }));
     };
 
-    const LoadingT = async () => {
-        if (template.ids !== '' && template.ids.value !== undefined) {
-            const result = await apiClient.get(`/v3/email_templates/${template.ids.value}`);
+    const loadingTemplate = async () => {
+        if (template.infos_curr_tplt !== '' && template.infos_curr_tplt.value !== undefined) {
+            const result = await apiClient.get(`/v3/email_templates/${template.infos_curr_tplt.value}`);
             setContent({ ...content, ...{ design: JSON.parse(result.content) } });
         }
     };
 
     const handleSelectChange = (selected) => {
         if (selected !== null) {
-            LoadingT();
-            setTemplate((state) => ({ ...state, ids: selected }));
-        } else setTemplate((state) => ({ ...state, ids: '' }));
+            loadingTemplate();
+            setTemplate((state) => ({ ...state, infos_curr_tplt: selected }));
+        } else {
+            setTemplate((state) => ({ ...state, infos_curr_tplt: '' }));
+        }
     };
 
     let sendButton;
@@ -252,7 +244,7 @@ const Template = () => {
                         onChange={handleSelectChange}
                         options={optselect.options}
                         formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
-                        value={template.ids}
+                        value={template.infos_curr_tplt}
                         placeholder="Choisissez votre Template ou créer en un nouveau"
                     />
                     {saveButton}
