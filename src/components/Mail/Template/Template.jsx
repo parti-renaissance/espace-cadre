@@ -134,7 +134,7 @@ const Template = () => {
                 if (item.label !== templateStatusResponse.label) return item;
                 return { ...item, value: templateStatusResponse.uuid };
             }));
-            setButtonSave((state) => ({ ...state, ...{ state: 'confirme', isLoading: false } }));
+            setButtonSave((state) => ({ ...state, ...{ state: 'save', isLoading: false } }));
         }
     };
 
