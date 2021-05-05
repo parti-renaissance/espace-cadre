@@ -142,7 +142,6 @@ const Template = () => {
 
     if (buttonSave.state === 'save') {
         const disableState = (template.current_template === ''
-        || template.content_template !== ''
         || content !== null)
         || buttonSave.isLoading;
         saveButton = (
