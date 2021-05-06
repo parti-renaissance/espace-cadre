@@ -36,5 +36,6 @@ jobs:
         gcloud run deploy $C_RUN_NAME \
         --image eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG \
         --platform managed \
+        --allow-unauthenticated \
         --region $GCP_ZONE \
         --memory 1024Mi
