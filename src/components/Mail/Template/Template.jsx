@@ -180,7 +180,7 @@ const Template = () => {
             }
             break;
         case 'create-option':
-            if (optselect.options.length !== 0) {
+            if (optselect && optselect.options.length !== 0) {
                 setOpts((state) => ({
                     ...state,
                     options: [...state.options, { label: selected.label, value: selected.label }],
