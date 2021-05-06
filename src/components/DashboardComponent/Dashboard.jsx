@@ -4,6 +4,7 @@ import { apiClientProxy } from '../../services/networking/client';
 
 import ActiveUsersComponent from './Charts/ActiveUsersComponent/ActiveUsersComponent';
 import DownloadsCountComponent from './Charts/DownloadsCountComponent/DownloadsCountComponent';
+import MapComponent from './Map/MapComponent';
 import Spinner from '../Spinner/Spinner';
 
 const Dashboard = () => {
@@ -61,6 +62,11 @@ const Dashboard = () => {
                         </div>
                     </div>
                 )}
+                <div className="row dashboardRow">
+                    <div className="col">
+                        <MapComponent />
+                    </div>
+                </div>
                 <div className="row dashboardRow">
                     <div className="col">
                         <DownloadsCountComponent
