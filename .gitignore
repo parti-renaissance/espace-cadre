@@ -3,7 +3,7 @@ node_modules/
 .env*.local
 .eslintcache
 .yarn-integrity
-
+*.DS_Store 
 # Logs
 logs
 *.log
