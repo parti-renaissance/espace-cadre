@@ -33,7 +33,7 @@ jobs:
 
     - name : Deploy Cloud Run
       run : |-
-        gcloud run deploy $IMAGE \
+        gcloud run deploy $C_RUN_NAME \
         --image eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG \
         --platform managed \
         --region $GCP_ZONE \
