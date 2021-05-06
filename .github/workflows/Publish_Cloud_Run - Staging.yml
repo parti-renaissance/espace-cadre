@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Staging - Deploy to Cloud Run
 
 on:
   workflow_run:
@@ -14,7 +14,8 @@ env:
 
   # Image Env
   IMAGE: data-corner
-  TAG: staging
+  TAG: build
+  C_RUN_NAME: data-corner-staging
 
 jobs:
   Deploy:
@@ -33,9 +34,8 @@ jobs:
 
     - name : Deploy Cloud Run
       run : |-
-        gcloud run deploy $IMAGE \
+        gcloud run deploy $C_RUN_NAME \
         --image eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG \
         --platform managed \
         --region $GCP_ZONE \
-        --memory 1024Mi \
-        --labels=type=$TAG
+        --memory 1024Mi
