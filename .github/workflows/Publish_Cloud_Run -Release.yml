@@ -1,10 +1,9 @@
-name: Deploy to Cloud Run
+name: Prod - Deploy to Cloud Run
 
 on:
-  workflow_run:
-    workflows: ["Build and Publish Docker Image"]
+  release:
     types:
-      - completed
+      - released
 
 # General Environments variables
 env:
@@ -14,7 +13,8 @@ env:
 
   # Image Env
   IMAGE: data-corner
-  TAG: staging
+  TAG: build
+  C_RUN_NAME: data-corner
 
 jobs:
   Deploy:
@@ -37,5 +37,4 @@ jobs:
         --image eu.gcr.io/$GCP_PROJECT_ID/$IMAGE:$TAG \
         --platform managed \
         --region $GCP_ZONE \
-        --memory 1024Mi \
-        --labels=type=$TAG
+        --memory 1024Mi
