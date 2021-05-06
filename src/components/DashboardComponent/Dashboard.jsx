@@ -4,12 +4,15 @@ import { apiClientProxy } from '../../services/networking/client';
 
 import ActiveUsersComponent from './Charts/ActiveUsersComponent/ActiveUsersComponent';
 import DownloadsCountComponent from './Charts/DownloadsCountComponent/DownloadsCountComponent';
+import MapComponent from './Map/MapComponent';
+
 import Spinner from '../Spinner/Spinner';
 
 const Dashboard = () => {
     const [downloadCount, setDownloadCount] = useState();
     const [activeUsers, setActiveUsers] = useState();
     const [adherentsCount, setAdherentsCount] = useState();
+    const [mapData, setMapData] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     let content;
@@ -25,11 +28,13 @@ const Dashboard = () => {
                 const getDownloadCount = await apiClientProxy.get('/jemengage/downloads');
                 const getActiveUsers = await apiClientProxy.get('jemengage/users');
                 const getAdherentsCount = await apiClientProxy.get('/adherents');
+                const getMapData = await apiClientProxy.get('/jemengage/survey');
 
                 if (isActive) {
                     setDownloadCount(getDownloadCount.downloads);
                     setActiveUsers(getActiveUsers.users);
                     setAdherentsCount(getAdherentsCount);
+                    setMapData(getMapData);
                     setLoading(false);
                 }
             } catch (er) {
@@ -54,14 +59,20 @@ const Dashboard = () => {
         content = (
             <div className="container dashboardContainer">
                 {adherentsCount && (
-                    <div className="row dashboardRow">
+                    <div className="row row-with-background">
                         <div className="col text-center">
                             La région {adherentsCount.zoneName} compte
                             {' '}{adherentsCount.adherentCount} adhérents
                         </div>
                     </div>
                 )}
-                <div className="row dashboardRow">
+
+                <div className="row">
+                    <div className="col">
+                        {mapData && <MapComponent mapData={mapData} />}
+                    </div>
+                </div>
+                <div className="row row-with-background">
                     <div className="col">
                         <DownloadsCountComponent
                             title="Évolution du nombre de téléchargements quotidien de l'application"
@@ -69,7 +80,7 @@ const Dashboard = () => {
                         />
                     </div>
                 </div>
-                <div className="row dashboardRow">
+                <div className="row row-with-background">
                     <div className="col">
                         <ActiveUsersComponent
                             title="Évolution du nombre d'utilisateurs actifs"

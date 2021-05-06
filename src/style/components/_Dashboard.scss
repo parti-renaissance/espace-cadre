@@ -2,10 +2,9 @@
     padding: 0;
 }
 
-.dashboardRow {
+.row-with-background {
     background-color: $whiteCorner;
     margin: 10px auto !important;
     padding: 10px 0;
     @include borderRadius(6px);
-    overflow: scroll;
 }
