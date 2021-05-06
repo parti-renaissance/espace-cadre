@@ -159,17 +159,6 @@ const Template = () => {
         );
     }
 
-    const handleCreateOption = (newEntry) => {
-        if (optselect.options.length !== 0) {
-            setOpts((state) => ({
-                ...state,
-                options: [...state.options, { label: newEntry, value: newEntry }],
-                length: state.length + 1,
-            }));
-        }
-        setTemplate((state) => ({ ...state, current_template: newEntry }));
-    };
-
     const loadingTemplate = async () => {
         if (template.current_template !== '' && template.current_template.value !== undefined) {
             const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
@@ -177,12 +166,34 @@ const Template = () => {
         }
     };
 
-    const handleSelectChange = (selected) => {
-        if (selected !== null) {
-            loadingTemplate();
+    useEffect(() => {
+        if (template.current_template !== '' && template.current_template.value !== template.current_template.label) loadingTemplate();
+    }, [template.current_template]);
+
+    const handleSelectChange = (selected, action) => {
+        switch (action.action) {
+        case 'select-option':
+            if (selected !== null) {
+                setTemplate((state) => ({ ...state, current_template: selected }));
+            } else {
+                setTemplate((state) => ({ ...state, current_template: '' }));
+            }
+            break;
+        case 'create-option':
+            if (optselect && optselect.options.length !== 0) {
+                setOpts((state) => ({
+                    ...state,
+                    options: [...state.options, { label: selected.label, value: selected.label }],
+                    length: state.length + 1,
+                }));
+            }
             setTemplate((state) => ({ ...state, current_template: selected }));
-        } else {
+            break;
+        case 'clear':
             setTemplate((state) => ({ ...state, current_template: '' }));
+            break;
+        default:
+            console.log('Sorry, we are out.');
         }
     };
 
@@ -240,7 +251,6 @@ const Template = () => {
                     <CreatableSelect
                         className="col mr-3"
                         isClearable
-                        onCreateOption={handleCreateOption}
                         onChange={handleSelectChange}
                         options={optselect.options}
                         formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
