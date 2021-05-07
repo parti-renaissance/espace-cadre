@@ -41,18 +41,16 @@ const Root = () => {
                     <>
                         <Sidebar currentUser={currentUser || {}} />
                         <div className="page-content" id="content">
-                            <div className="container-fluid">
-                                <div className="row headerRow">
-                                    <div className="col">
-                                        <button id="sidebarCollapse" type="button">
-                                            <i className="fa fa-bars mr-2" />
-                                            <span className="menuText">Menu</span>
-                                        </button>
-                                        {content}
-                                    </div>
+                            <div className="container-fluid mt-3">
+                                <div className="row d-flex headerRow pl-3 mb-3">
+                                    <button id="sidebarCollapse" className="mr-3 mt-1" type="button">
+                                        <i className="fa fa-bars mr-2" />
+                                        <span className="menuText">Menu</span>
+                                    </button>
+                                    {content}
                                     {currentUser && (
-                                        <div className="col text-md-right welcomeMessage">
-                                            <i className="fas fa-user pr-2" />
+                                        <div className="welcomeMessage ml-md-auto mr-3 mt-3">
+                                            <i className="fas fa-user mr-2" />
                                             <span>Bienvenue {currentUser.firstName}</span>
                                         </div>
                                     )}
