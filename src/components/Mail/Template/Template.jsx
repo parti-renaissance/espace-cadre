@@ -129,9 +129,12 @@ const Template = () => {
         }
         // eslint-disable-next-line no-plusplus
         if (templateStatusResponse.uuid !== '') {
-            setOpts(optselect.options.map((item) => {
-                if (item.label !== templateStatusResponse.label) return item;
-                return { ...item, value: templateStatusResponse.uuid };
+            const optupdated = optselect.options.findIndex((option) => option.label === templateStatusResponse.label);
+            const save = [...optselect.options];
+            save[optupdated] = { ...save[optupdated], uuid: templateStatusResponse.uuid };
+            setOpts((state) => ({
+                ...state,
+                options: save,
             }));
             setButtonSave((state) => ({ ...state, ...{ state: 'confirme', isLoading: false } }));
         }
@@ -169,6 +172,12 @@ const Template = () => {
     useEffect(() => {
         if (template.current_template !== '' && template.current_template.value !== template.current_template.label) loadingTemplate();
     }, [template.current_template]);
+
+    useEffect(() => {
+        if (buttonSave.state === 'confirme') {
+            setButtonSave((state) => ({ ...state, ...{ state: 'save' } }));
+        }
+    }, [buttonSave.state]);
 
     const handleSelectChange = (selected, action) => {
         switch (action.action) {
