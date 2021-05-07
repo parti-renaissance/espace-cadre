@@ -80,24 +80,17 @@
 }
 
 // Page count below the table
+.contactsCount,
 .pageCountBottom {
     color: $greyCorner3;
-    margin: 6px 0 0 18px;
-}
-
-.contactsCount {
-    color: $greyCorner3;
-    margin: 6px auto;
 }
 
 // Navigation buttons below the table
 .pageNav {
-    margin-right: 18px;
-
     button {
         color: $greyCorner3;
+        height: 34px;
         background-color: $whiteCorner;
         @include borderRadius(6px);
-        margin-bottom: 12px;
     }
 }

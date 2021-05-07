@@ -141,8 +141,8 @@ const Table = ({ columns, data }) => {
                     })}
                 </tbody>
             </table>
-            <div className="row bottomContainer">
-                <div className="pageCountBottom">
+            <div className="row bottomContainer pl-3 pr-3 mb-3 d-flex justify-content-center justify-content-sm-between">
+                <div className="pageCountBottom mr-3 mb-3 my-auto">
                     <span>
                         Page
                         {' '}
@@ -155,24 +155,7 @@ const Table = ({ columns, data }) => {
                         </strong>
                     </span>
                 </div>
-                {/* <span>
-                    Aller à la page:
-                    {' '}
-                    {' '}
-                    <input
-                        className="border rounded"
-                        type="number"
-                        defaultValue={pageIndex + 1}
-                        onChange={(e) => {
-                            const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-                            gotoPage(pageNumber);
-                        }}
-                    />
-                    </span>
-                {' '}
-                {' '}
-                */}
-                <span className="contactsCount">
+                <span className="contactsCount my-auto">
                     Affichage de {pageSize} contacts sur {rows.length}
                 </span>
 
@@ -185,7 +168,6 @@ const Table = ({ columns, data }) => {
                     >
                         {'<<'}
                     </button>
-                    {' '}
                     <button
                         type="button"
                         className="btn mr-1"
@@ -202,7 +184,6 @@ const Table = ({ columns, data }) => {
                     >
                         Next
                     </button>
-                    {' '}
                     <button
                         type="button"
                         className="btn"
