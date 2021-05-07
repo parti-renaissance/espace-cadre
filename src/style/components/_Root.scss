@@ -1,19 +1,10 @@
-.container-fluid {
-    margin-top: 16px;
-}
-
 .headerRow {
-    margin-bottom: 16px;
-
     #sidebarCollapse {
         color: $greyCorner3;
         background-color: $whiteCorner;
-        margin-right: 10px;
         height: 34px;
         width: 87px;
         border: none;
-        vertical-align: super;
-
         @include borderRadius(6px);
     }
 
@@ -23,22 +14,18 @@
         font-family: "Poppins", sans-serif;
     }
     .menuText {
-        font-weight: 600;
         font-size: 12px;
-        line-height: 18px;
+        font-weight: 600;
         vertical-align: text-bottom;
     }
 
     .pageTitle {
         font-size: 32px;
         font-weight: 600;
-        line-height: 48px;
     }
 
     .welcomeMessage {
-        font-weight: 500;
         font-size: 14px;
-        line-height: 21px;
-        padding-top: 12px;
+        font-weight: 500;
     }
 }

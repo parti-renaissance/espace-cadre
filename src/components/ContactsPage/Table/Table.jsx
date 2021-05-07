@@ -72,48 +72,45 @@ const Table = ({ columns, data }) => {
 
     return (
         <div className="tableContainer">
-            <div className="row">
-                <div className="col-md-12 aboveFilter">
-                    <GlobalFilter
-                        filter={globalFilter}
-                        setFilter={setGlobalFilter}
-                        count={preGlobalFilteredRows}
-                    />
-                    <button
-                        type="button"
-                        className="btn"
-                        id="filterButton"
-                        onClick={() => setAllFilters([])}
-                    >
-                        <span>Réinitialiser les filtres</span>
-                        <i className="fas fa-filter" />
-                    </button>
-                </div>
-                <div className="col-md-12 downloadLineCount">
-                    <button
-                        type="button"
-                        onClick={() => {
-                            exportData('xlsx', false);
-                        }}
-                        className="btn"
-                        id="downloadButton"
-                    >
-                        <i className="fas fa-download" />
-                    </button>
-                    <select
-                        value={pageSize}
-                        onChange={(e) => setPageSize(Number(e.target.value))}
-                        className="lineCount"
-                    >
-                        {
-                            [20, 40, 60, 100].map((size) => (
-                                <option key={size} value={size}>
-                                    {size}
-                                </option>
-                            ))
-                        }
-                    </select>
-                </div>
+            <div className="row aboveTableRow pl-3">
+                <GlobalFilter
+                    filter={globalFilter}
+                    setFilter={setGlobalFilter}
+                    count={preGlobalFilteredRows}
+                    className="globalFilter"
+                />
+                <button
+                    type="button"
+                    className="btn mr-3 mb-3"
+                    id="filterButton"
+                    onClick={() => setAllFilters([])}
+                >
+                    <span>Réinitialiser les filtres</span>
+                    <i className="fas fa-filter" />
+                </button>
+                <button
+                    type="button"
+                    onClick={() => {
+                        exportData('xlsx', false);
+                    }}
+                    className="btn mr-3"
+                    id="downloadButton"
+                >
+                    <i className="fas fa-download" />
+                </button>
+                <select
+                    value={pageSize}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                    className="lineCount mb-3"
+                >
+                    {
+                        [20, 40, 60, 100].map((size) => (
+                            <option key={size} value={size}>
+                                {size}
+                            </option>
+                        ))
+                    }
+                </select>
             </div>
 
             <table
@@ -144,8 +141,8 @@ const Table = ({ columns, data }) => {
                     })}
                 </tbody>
             </table>
-            <div className="row bottomContainer">
-                <div className="pageCountBottom">
+            <div className="row bottomContainer pl-3 pr-3 mb-3 d-flex justify-content-center justify-content-sm-between">
+                <div className="pageCountBottom mr-3 mb-3 my-auto">
                     <span>
                         Page
                         {' '}
@@ -158,24 +155,7 @@ const Table = ({ columns, data }) => {
                         </strong>
                     </span>
                 </div>
-                {/* <span>
-                    Aller à la page:
-                    {' '}
-                    {' '}
-                    <input
-                        className="border rounded"
-                        type="number"
-                        defaultValue={pageIndex + 1}
-                        onChange={(e) => {
-                            const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-                            gotoPage(pageNumber);
-                        }}
-                    />
-                    </span>
-                {' '}
-                {' '}
-                */}
-                <span className="contactsCount">
+                <span className="contactsCount my-auto">
                     Affichage de {pageSize} contacts sur {rows.length}
                 </span>
 
@@ -188,7 +168,6 @@ const Table = ({ columns, data }) => {
                     >
                         {'<<'}
                     </button>
-                    {' '}
                     <button
                         type="button"
                         className="btn mr-1"
@@ -205,7 +184,6 @@ const Table = ({ columns, data }) => {
                     >
                         Next
                     </button>
-                    {' '}
                     <button
                         type="button"
                         className="btn"
