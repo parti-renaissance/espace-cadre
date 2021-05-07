@@ -1,127 +1,16 @@
-.templates {
-    flex: 4;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+.rowAboveEditor {
+    color: $greyCorner3;
+    font-family: "Poppins", sans-serif;
+    background-color: $whiteCorner;
+    @include borderRadius(6px);
+}
 
-    .input {
-        background-color: white;
-        width: 100%;
-    }
-
-    .register_modal {
-        background: #0049C6;
-        border-radius: 32px;
-    }
-
-    .main_fields {
-        flex-direction: row;
-        display: flex;
-        height: 25%;
-    }
-
-    .header {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .object_div {
-            height: 50%;
-            display: flex;
-            position: relative;
-
-
-            .object_input {
-                top : 25%;
-                display: flex;
-                position: absolute;
-                background-color: white;
-                width: 100%;
-            }
-        }
-
-
-        .select_div {
-            border-radius:32px;
-            height: 50%;
-            display: flex;
-            position: relative;
-
-
-            .select_input {
-                top: 25%;
-                display: flex;
-                position: absolute;
-                background-color: white;
-                width: 100%;
-                border-radius: 32px !important;
-            }
-        }
-    }
-
-    .objet {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .register_div {
-            height: 50%;
-            display: flex;
-            position: relative;
-            .register_btn {
-                position: relative;
-                top: 50%;
-                left: 50%;
-                white-space: normal !important;
-                transform: translate(-50%, -50%);
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-                border-radius: 32px;
-                color:white;
-                width: 45%;
-                height: 45%;
-                border-style: none;
-                background-color: #0049C6;
-            }
-        }
-        .send_div {
-            height: 50%;
-            position: relative;
-        .send_btn {
-            position: relative;
-            top: 50%;
-            left: 50%;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            transform: translate(-50%, -50%);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            border-radius: 32px;
-            color:white;
-            width: 45%;
-            height: 45%;
-            border-style: none;
-            background-color: #16BD5D;
-            }
-        }
-        .buttons {
-            border-radius: 16px;
-            -moz-border-radius: 16px;
-            -webkit-border-radius: 16px;
-        }
-        .buttons:active {
-            box-shadow: 0 1.75px #666;
-          }
-    }
-    .editor_div {
-        height: 100%;
-    }
-      .modalstyle  {
-        background-color: '#fff';
-        @include borderRadius(5px);
-        max-Width: 500px;
-        min-Height: 300px;
-        margin: 'auto';
-        padding: 30;
-      }
+.templateSaveButton,
+.sendEmailButton {
+    color: $whiteCorner;
+    background-color: $blueCorner;
+    height: 38px;
+    @include borderRadius(6px);
+    overflow: hidden;
+    width: 100%;
 }
