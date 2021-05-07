@@ -136,7 +136,7 @@ const Template = () => {
                 ...state,
                 options: save,
             }));
-            setButtonSave((state) => ({ ...state, ...{ state: 'confirme', isLoading: false } }));
+            setButtonSave((state) => ({ ...state, ...{ isLoading: false } }));
         }
     };
 
@@ -172,12 +172,6 @@ const Template = () => {
     useEffect(() => {
         if (template.current_template !== '' && template.current_template.value !== template.current_template.label) loadingTemplate();
     }, [template.current_template]);
-
-    useEffect(() => {
-        if (buttonSave.state === 'confirme') {
-            setButtonSave((state) => ({ ...state, ...{ state: 'save' } }));
-        }
-    }, [buttonSave.state]);
 
     const handleSelectChange = (selected, action) => {
         switch (action.action) {
