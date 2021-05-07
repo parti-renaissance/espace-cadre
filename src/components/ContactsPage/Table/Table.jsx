@@ -72,48 +72,45 @@ const Table = ({ columns, data }) => {
 
     return (
         <div className="tableContainer">
-            <div className="row">
-                <div className="col-md-12 aboveFilter">
-                    <GlobalFilter
-                        filter={globalFilter}
-                        setFilter={setGlobalFilter}
-                        count={preGlobalFilteredRows}
-                    />
-                    <button
-                        type="button"
-                        className="btn"
-                        id="filterButton"
-                        onClick={() => setAllFilters([])}
-                    >
-                        <span>Réinitialiser les filtres</span>
-                        <i className="fas fa-filter" />
-                    </button>
-                </div>
-                <div className="col-md-12 downloadLineCount">
-                    <button
-                        type="button"
-                        onClick={() => {
-                            exportData('xlsx', false);
-                        }}
-                        className="btn"
-                        id="downloadButton"
-                    >
-                        <i className="fas fa-download" />
-                    </button>
-                    <select
-                        value={pageSize}
-                        onChange={(e) => setPageSize(Number(e.target.value))}
-                        className="lineCount"
-                    >
-                        {
-                            [20, 40, 60, 100].map((size) => (
-                                <option key={size} value={size}>
-                                    {size}
-                                </option>
-                            ))
-                        }
-                    </select>
-                </div>
+            <div className="row aboveTableRow pl-3">
+                <GlobalFilter
+                    filter={globalFilter}
+                    setFilter={setGlobalFilter}
+                    count={preGlobalFilteredRows}
+                    className="globalFilter"
+                />
+                <button
+                    type="button"
+                    className="btn mr-3 mb-3"
+                    id="filterButton"
+                    onClick={() => setAllFilters([])}
+                >
+                    <span>Réinitialiser les filtres</span>
+                    <i className="fas fa-filter" />
+                </button>
+                <button
+                    type="button"
+                    onClick={() => {
+                        exportData('xlsx', false);
+                    }}
+                    className="btn mr-3"
+                    id="downloadButton"
+                >
+                    <i className="fas fa-download" />
+                </button>
+                <select
+                    value={pageSize}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                    className="lineCount mb-3"
+                >
+                    {
+                        [20, 40, 60, 100].map((size) => (
+                            <option key={size} value={size}>
+                                {size}
+                            </option>
+                        ))
+                    }
+                </select>
             </div>
 
             <table

@@ -1,3 +1,31 @@
+//****************************
+// Style for filters
+//****************************
+
+// "Réinitialiser les filtres" bouton
+#filterButton {
+    color: $blueCorner;
+    height: 38px;
+    background-color: $whiteCorner;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include borderRadius(6px);
+
+    span {
+        margin-right: 10px;
+    }
+}
+
+// Style for download button and select to choose the number of lines in table
+#downloadButton,
+.lineCount {
+    color: $blueCorner;
+    background-color: $whiteCorner;
+    height: 38px;
+    @include borderRadius(6px);
+}
+
+
 //**************************
 // Style for table
 //**************************
@@ -72,45 +100,4 @@
         @include borderRadius(6px);
         margin-bottom: 12px;
     }
-}
-
-//****************************
-// Style for filters
-//****************************
-
-// Reset button for filters
-#filterButton {
-    color: $blueCorner;
-    height: 38px;
-    background-color: $whiteCorner;
-    @include borderRadius(6px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    span {
-        margin-right: 10px;
-    }
-}
-
-// Container for filters (global search & reset) above the table
-.aboveFilter,
-.downloadLineCount {
-    margin-bottom: 16px;
-}
-// Button to download the contacts selection
-#downloadButton {
-    margin-right: 10px;
-}
-
-// Number of line to display in table
-.lineCount {
-    padding: 0 12px;
-}
-
-#downloadButton,
-.lineCount {
-    color: $blueCorner;
-    background-color: $whiteCorner;
-    height: 38px;
-    @include borderRadius(6px);
 }
