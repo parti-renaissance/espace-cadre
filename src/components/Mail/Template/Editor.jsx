@@ -29,29 +29,32 @@ const Editor = () => {
     }, [content]);
 
     return (
-        <EmailEditor
-            minHeight="85vh"
-            ref={emailEditorRef}
-            projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
-            onLoad={onLoadEditor}
-            options={{
-                locale: 'fr-FR',
-                safeHtml: true,
-                templateId: process.env.REACT_APP_UNLAYER_TEMPLATE_ID,
-                tools: {
-                    menu: {
-                        enabled: false,
+        <div className="emailEditor">
+            <EmailEditor
+                minHeight="85vh"
+                ref={emailEditorRef}
+                projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
+                onLoad={onLoadEditor}
+                options={{
+                    locale: 'fr-FR',
+                    safeHtml: true,
+                    templateId: process.env.REACT_APP_UNLAYER_TEMPLATE_ID,
+                    tools: {
+                        menu: {
+                            enabled: false,
+                        },
                     },
-                },
-                features: {
-                    preheaderText: false,
-                    textEditor: {
-                        tables: true,
-                        emojis: false,
+                    features: {
+                        preheaderText: false,
+                        textEditor: {
+                            tables: true,
+                            emojis: false,
+                        },
                     },
-                },
-            }}
-        />
+                }}
+            />
+        </div>
+
     );
 };
 

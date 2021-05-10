@@ -150,14 +150,14 @@ const Template = () => {
         || buttonSave.isLoading;
         saveButton = (
             <button
-                className={`btn btn-primary ${disableState ? 'disabled' : null}`}
+                className={`btn ${disableState ? 'disabled' : null}  templateSaveButton`}
                 type="button"
                 onClick={disableState ? null : handleClickSaveButton}
             >
                 <span className="mr-2">
                     {buttonSave.isLoading ? <Loader /> : <i className="fa fa-save" />}
                 </span>
-                Sauvegarder le Template
+                Sauvegarder
             </button>
         );
     }
@@ -206,7 +206,7 @@ const Template = () => {
         const disableState = !content || buttonState.isLoading || !emailSubject;
         sendButton = (
             <button
-                className={`btn btn-primary ${disableState ? 'disabled' : null}`}
+                className={`btn ${disableState ? 'disabled' : null} sendEmailButton`}
                 type="button"
                 onClick={disableState ? null : handleClickSendButton}
                 onMouseEnter={() => setButtonState((state) => ({ ...state, ...{ inputError: !emailSubject } }))}
@@ -220,7 +220,12 @@ const Template = () => {
         );
     } else if (buttonState.state === 'confirme') {
         sendButton = (
-            <button className="btn btn-success" type="button" onClick={handleClickConfirmButton} disabled={!email.recipient_count || email.recipient_count < 1}>
+            <button
+                className="btn sendEmailButton"
+                type="button"
+                onClick={handleClickConfirmButton}
+                disabled={!email.recipient_count || email.recipient_count < 1}
+            >
                 <span className="mr-2">
                     {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
                 </span>
@@ -229,7 +234,7 @@ const Template = () => {
         );
     } else if (buttonState.state === 'success') {
         sendButton = (
-            <button className="btn btn-outline-success" type="button" disabled>
+            <button className="btn btn-outline-success sendEmailButton" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-check" />
                 </span>
@@ -238,7 +243,7 @@ const Template = () => {
         );
     } else if (buttonState.state === 'error') {
         sendButton = (
-            <button className="btn btn-outline-danger" type="button" disabled>
+            <button className="btn btn-outline-danger sendEmailButton" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-bomb" />
                 </span>
@@ -248,33 +253,36 @@ const Template = () => {
     }
 
     return (
-        <div>
-            <div className="mb-3 text-right row justify-content-end">
-                <div className="col-6 form-inline">
+        <div className="container-fluid messagerieContainer">
+            <div className="row rowAboveEditor py-3 px-1 mb-3">
+                <div className="col-12 col-md-8 mb-3">
                     <CreatableSelect
-                        className="col mr-3"
+                        className="messagerieSelect"
                         isClearable
                         onChange={handleSelectChange}
                         options={optselect.options}
                         formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
                         value={template.current_template}
-                        placeholder="Choisissez votre Template ou créer en un nouveau"
+                        placeholder="Créez ou choisissez un template"
                     />
+                </div>
+                <div className="col-12 col-md-4 mb-3">
                     {saveButton}
                 </div>
-                <div className="col-6 form-inline justify-content-end">
+                <div className="col-12 col-md-8 mb-3 mb-md-0 mailObject">
                     <input
                         type="text"
-                        className={`form-control col mr-3 ${buttonState.inputError ? 'is-invalid' : ''}`}
+                        className={`form-control ${buttonState.inputError ? 'is-invalid' : ''}`}
                         placeholder="Objet du mail"
                         required
                         value={emailSubject}
                         onChange={(event) => setEmailSubject(event.target.value)}
                     />
+                </div>
+                <div className="col-12 col-md-4 mb-md-0">
                     {sendButton}
                 </div>
             </div>
-
             <Editor />
         </div>
     );
