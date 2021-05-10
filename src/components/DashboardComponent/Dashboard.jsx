@@ -57,7 +57,7 @@ const Dashboard = () => {
         content = <Spinner />;
     } else {
         content = (
-            <div className="container dashboardContainer">
+            <div className="container dashboard-container">
                 {adherentsCount && (
                     <div className="row row-with-background">
                         <div className="col text-center">

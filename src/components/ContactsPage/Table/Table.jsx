@@ -71,18 +71,17 @@ const Table = ({ columns, data }) => {
     } = tableInstance;
 
     return (
-        <div className="tableContainer">
+        <div className="table-container">
             <div className="row aboveTableRow pl-3">
                 <GlobalFilter
                     filter={globalFilter}
                     setFilter={setGlobalFilter}
                     count={preGlobalFilteredRows}
-                    className="globalFilter"
                 />
                 <button
                     type="button"
                     className="btn mr-3 mb-3"
-                    id="filterButton"
+                    id="filter-button"
                     onClick={() => setAllFilters([])}
                 >
                     <span>Réinitialiser les filtres</span>
@@ -94,14 +93,14 @@ const Table = ({ columns, data }) => {
                         exportData('xlsx', false);
                     }}
                     className="btn mr-3"
-                    id="downloadButton"
+                    id="download-button"
                 >
                     <i className="fas fa-download" />
                 </button>
                 <select
                     value={pageSize}
                     onChange={(e) => setPageSize(Number(e.target.value))}
-                    className="lineCount mb-3"
+                    className="line-count mb-3"
                 >
                     {
                         [20, 40, 60, 100].map((size) => (
@@ -141,8 +140,8 @@ const Table = ({ columns, data }) => {
                     })}
                 </tbody>
             </table>
-            <div className="row bottomContainer pl-3 pr-3 mb-3 d-flex justify-content-center justify-content-sm-between">
-                <div className="pageCountBottom mr-3 mb-3 my-auto">
+            <div className="row bottom-container pl-3 pr-3 mb-3 d-flex justify-content-center justify-content-sm-between">
+                <div className="page-count-bottom mr-3 mb-3 my-auto">
                     <span>
                         Page
                         {' '}
@@ -155,7 +154,7 @@ const Table = ({ columns, data }) => {
                         </strong>
                     </span>
                 </div>
-                <span className="contactsCount my-auto">
+                <span className="contacts-count my-auto">
                     Affichage de {pageSize} contacts sur {rows.length}
                 </span>
 

@@ -1,5 +1,5 @@
-.headerRow {
-    #sidebarCollapse {
+.header-row {
+    #sidebar-collapse {
         color: $greyCorner3;
         background-color: $whiteCorner;
         height: 34px;
@@ -8,23 +8,23 @@
         @include borderRadius(6px);
     }
 
-    .menuText,
-    .pageTitle,
-    .welcomeMessage {
+    .menu-text,
+    .page-title,
+    .welcome-message {
         font-family: "Poppins", sans-serif;
     }
-    .menuText {
+    .menu-text {
         font-size: 12px;
         font-weight: 600;
         vertical-align: text-bottom;
     }
 
-    .pageTitle {
+    .page-title {
         font-size: 32px;
         font-weight: 600;
     }
 
-    .welcomeMessage {
+    .welcome-message {
         font-size: 14px;
         font-weight: 500;
     }
