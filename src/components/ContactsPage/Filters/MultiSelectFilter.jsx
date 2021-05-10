@@ -5,12 +5,13 @@ import Select from 'react-select';
 // A multiselect dropdown
 const MultiSelectFilter = ({ column: { setFilter, interests } }) => {
     const [categories, setCategories] = useState([]);
-
     const customStyles = {
         control: (provided) => ({
             ...provided,
             minHeight: '30px',
             height: '30px',
+            border: '0.5px solid #D5E0EC',
+            borderRadius: '6px',
         }),
 
         valueContainer: (provided) => ({
