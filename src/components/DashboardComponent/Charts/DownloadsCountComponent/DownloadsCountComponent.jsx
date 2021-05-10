@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 function DownloadsCountComponent({ title, data }) {
     return (
-        <div className="areaChartContainer">
+        <div className="area-chart-container">
             <div className="title">{title}</div>
             <ResponsiveContainer width="100%" height={400}>
                 <AreaChart

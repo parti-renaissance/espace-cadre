@@ -5,6 +5,7 @@ import {
 import PropTypes from 'prop-types';
 
 function MapComponent({ mapData }) {
+    console.log(mapData);
     return (
         <MapContainer
             center={[48.893051, 2.350518]}
