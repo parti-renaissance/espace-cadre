@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading,react/no-array-index-key */
+/* eslint-disable react/jsx-props-no-spreading,no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
     useTable,
     useGlobalFilter,
@@ -10,14 +9,12 @@ import {
 } from 'react-table';
 import { useExportData } from 'react-table-plugins';
 import * as XLSX from 'xlsx';
-import GlobalFilter from '../Filters/GlobalFilter/GlobalFilter';
+
+import GlobalFilter from '../Filters/GlobalFilter';
 
 const Table = ({ columns, data }) => {
     // Handle export button logic
-    function getExportFileBlob({
-        // eslint-disable-next-line no-shadow
-        columns, data,
-    }) {
+    function getExportFileBlob({ columns, data }) {
         const header = columns.map((c) => c.exportValue);
         const compatibleData = data.map((row) => {
             const obj = {};
@@ -142,17 +139,7 @@ const Table = ({ columns, data }) => {
             </table>
             <div className="row bottom-container pl-3 pr-3 mb-3 d-flex justify-content-center justify-content-sm-between">
                 <div className="page-count-bottom mr-3 mb-3 my-auto">
-                    <span>
-                        Page
-                        {' '}
-                        <strong>
-                            {pageIndex + 1}
-                            {' '}
-                            of
-                            {' '}
-                            {pageOptions.length}
-                        </strong>
-                    </span>
+                    <span>Page <strong>{pageIndex + 1} of {pageOptions.length}</strong></span>
                 </div>
                 <span className="contacts-count my-auto">
                     Affichage de {pageSize} contacts sur {rows.length}

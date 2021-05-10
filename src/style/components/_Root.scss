@@ -1,22 +1,24 @@
 .header-row {
+    font-family: "Poppins", sans-serif;
+
     #sidebar-collapse {
         color: $greyCorner3;
         background-color: $whiteCorner;
         height: 34px;
         width: 87px;
+        vertical-align: text-bottom;
         border: none;
         @include borderRadius(6px);
-    }
 
-    .menu-text,
-    .page-title,
-    .welcome-message {
-        font-family: "Poppins", sans-serif;
-    }
-    .menu-text {
-        font-size: 12px;
-        font-weight: 600;
-        vertical-align: text-bottom;
+        i {
+            vertical-align: middle;
+        }
+
+        .menu-text {
+            font-size: 12px;
+            font-weight: 600;
+            vertical-align: text-bottom;
+        }
     }
 
     .page-title {

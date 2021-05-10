@@ -10,7 +10,6 @@ const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: fals
 const EMAIL_INITIAL_STATE = { synchronized: false };
 
 const TEMPLATE_INITIAL_STATE = { content_template: '', current_template: '' };
-const BUTTON_SAVE_INITIAL_STATE = { state: 'save', isLoading: false };
 const OPTIONS_INITIAL_STATE = { options: [{ label: 'Ajoutez vos options', value: '0', isDisabled: true }], length: 0 };
 
 const Template = () => {
@@ -20,7 +19,7 @@ const Template = () => {
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
 
     const [template, setTemplate] = useState(TEMPLATE_INITIAL_STATE);
-    const [buttonSave, setButtonSave] = useState(BUTTON_SAVE_INITIAL_STATE);
+    const [isLoadingTemplateButton, setIsLoadingTemplateButton] = useState(false);
     const [optselect, setOpts] = useState(OPTIONS_INITIAL_STATE);
 
     const resetEmailState = () => {
@@ -111,7 +110,7 @@ const Template = () => {
     const updateTemplate = async (bodyreq, id) => apiClient.put(`/v3/email_templates/${id}`, bodyreq);
 
     const handleClickSaveButton = async () => {
-        setButtonSave((state) => ({ ...state, ...{ isLoading: true } }));
+        setIsLoadingTemplateButton(true);
         const bodyreq = {
             label: template.current_template.label,
             content: JSON.stringify(content.design),
@@ -136,31 +135,27 @@ const Template = () => {
                 ...state,
                 options: save,
             }));
-            setButtonSave((state) => ({ ...state, ...{ isLoading: false } }));
+            setIsLoadingTemplateButton(false);
         }
     };
 
-    let saveButton;
+    const templateButtonDisableState = template.current_template === ''
+        || template.current_template.label === undefined
+        || content === null
+        || isLoadingTemplateButton;
 
-    if (buttonSave.state === 'save') {
-        const disableState = (
-            template.current_template === ''
-            || template.current_template.label === undefined
-            || content === null)
-        || buttonSave.isLoading;
-        saveButton = (
-            <button
-                className={`btn ${disableState ? 'disabled' : null}  template-save-button`}
-                type="button"
-                onClick={disableState ? null : handleClickSaveButton}
-            >
-                <span className="mr-2">
-                    {buttonSave.isLoading ? <Loader /> : <i className="fa fa-save" />}
-                </span>
-                Sauvegarder
-            </button>
-        );
-    }
+    const saveButton = (
+        <button
+            className={`btn ${templateButtonDisableState && 'disabled'}  template-save-button`}
+            type="button"
+            onClick={templateButtonDisableState ? null : handleClickSaveButton}
+        >
+            <span className="mr-2">
+                {isLoadingTemplateButton ? <Loader /> : <i className="fa fa-save" />}
+            </span>
+            Sauvegarder
+        </button>
+    );
 
     const loadingTemplate = async () => {
         if (template.current_template !== '' && template.current_template.value !== undefined) {

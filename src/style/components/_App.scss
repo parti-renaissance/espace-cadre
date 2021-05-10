@@ -1,5 +1,5 @@
 body{
-    background-color: #F0F1F3;
+    background-color: $greyCornerBg;
 }
 
 .vertical-nav {
@@ -47,4 +47,8 @@ body{
             margin-left: 17rem;
         }
     }
+}
+
+ul {
+    list-style: none;
 }
