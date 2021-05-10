@@ -2,10 +2,11 @@ import React from 'react';
 import {
     MapContainer, TileLayer, Marker,
 } from 'react-leaflet';
+import L from 'leaflet';
 import PropTypes from 'prop-types';
 
 function MapComponent({ mapData }) {
-    console.log(mapData);
+    L.Icon.Default.imagePath = 'images/';
     return (
         <MapContainer
             center={[48.893051, 2.350518]}
