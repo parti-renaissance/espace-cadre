@@ -6,4 +6,4 @@ Le projet Data Corner s'efforce de respecter les meilleures pratiques en matièr
 | DeepScan | [![DeepScan grade](https://deepscan.io/api/teams/13704/projects/16722/branches/363999/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13704&pid=16722&bid=363999)|
 | CodeQL |[![CodeQL](https://github.com/EnMarche/Data-Corner/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EnMarche/Data-Corner/actions/workflows/codeql-analysis.yml)|
 | CodeFactor| [![CodeFactor](https://www.codefactor.io/repository/github/enmarche/data-corner/badge)](https://www.codefactor.io/repository/github/enmarche/data-corner)|
-| Lint |[![Test, lint, performance checks](https://github.com/EnMarche/Data-Corner/actions/workflows/test.yml/badge.svg)](https://github.com/EnMarche/Data-Corner/actions/workflows/test.yml)|
+| CI/CD |[![CI & CD](https://github.com/EnMarche/Data-Corner/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/EnMarche/Data-Corner/actions/workflows/ci-cd.yaml)|

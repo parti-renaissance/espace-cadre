@@ -1,17 +1,17 @@
-/* eslint-disable no-shadow,react/prop-types,react/display-name */
+/* eslint-disable no-shadow,react/display-name */
 import React, { useState, useEffect } from 'react';
 
-import Table from '../Table/Table';
-import InterestRendering from '../ColumnsContentRendering/InterestRendering/InterestRendering';
-import BooleanRendering from '../ColumnsContentRendering/BooleanRendering/BooleanRendering';
+import Table from './Table/Table';
+import InterestRendering from './ColumnsContentRendering/InterestRendering';
+import BooleanRendering from './ColumnsContentRendering/BooleanRendering';
 
-import ColumnFilter from '../Filters/ColumnFilter/ColumnFilter';
-import SelectFilter from '../Filters/SelectFilter/SelectFilter';
-import BooleanSelectFilter from '../Filters/BooleanSelectFilter/BooleanSelectFilter';
-import MultiSelectFilter from '../Filters/MultiSelectFilter/MultiSelectFilter';
+import ColumnFilter from './Filters/ColumnFilter';
+import SelectFilter from './Filters/SelectFilter';
+import BooleanSelectFilter from './Filters/BooleanSelectFilter';
+import MultiSelectFilter from './Filters/MultiSelectFilter';
 
-import Spinner from '../../Spinner/Spinner';
-import { apiClientProxy } from '../../../services/networking/client';
+import Spinner from '../Spinner/Spinner';
+import { apiClientProxy } from '../../services/networking/client';
 
 const Contacts = () => {
     const [data, setData] = useState([]);

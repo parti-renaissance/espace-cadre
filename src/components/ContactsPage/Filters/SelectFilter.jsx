@@ -1,4 +1,4 @@
-/* eslint-disable react/no-array-index-key,no-shadow */
+/* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -22,12 +22,12 @@ const SelectFilter = ({
             onChange={(e) => {
                 setFilter(e.target.value || undefined);
             }}
-            className="table-select"
+            className="select-style"
         >
             <option value="">Tous</option>
             {options.map((option, i) => (
                 <option key={i} value={option}>
-                    {option ? 'Oui' : 'Non'}
+                    {option}
                 </option>
             ))}
         </select>

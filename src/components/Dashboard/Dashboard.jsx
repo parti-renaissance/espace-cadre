@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { apiClientProxy } from '../../services/networking/client';
 
-import ActiveUsersComponent from './Charts/ActiveUsersComponent/ActiveUsersComponent';
-import DownloadsCountComponent from './Charts/DownloadsCountComponent/DownloadsCountComponent';
+import ActiveUsers from './Charts/ActiveUsers';
+import DownloadsCount from './Charts/DownloadsCount';
 import MapComponent from './Map/MapComponent';
-
 import Spinner from '../Spinner/Spinner';
 
 const Dashboard = () => {
@@ -74,7 +73,7 @@ const Dashboard = () => {
                 </div>
                 <div className="row row-with-background">
                     <div className="col">
-                        <DownloadsCountComponent
+                        <DownloadsCount
                             title="Évolution du nombre de téléchargements quotidien de l'application"
                             data={downloadCount}
                         />
@@ -82,7 +81,7 @@ const Dashboard = () => {
                 </div>
                 <div className="row row-with-background">
                     <div className="col">
-                        <ActiveUsersComponent
+                        <ActiveUsers
                             title="Évolution du nombre d'utilisateurs actifs"
                             data={activeUsers}
                         />

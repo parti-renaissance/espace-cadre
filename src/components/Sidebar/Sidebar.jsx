@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
 
+import { MENU } from '../../Routes';
+
 const Sidebar = () => {
     useEffect(() => {
         $('#sidebar-collapse').on('click', () => {
@@ -18,43 +20,15 @@ const Sidebar = () => {
                     </div>
                 </div>
 
-                <ul className="nav-items-ul">
-                    <li>
-                        <NavLink
-                            to="/"
-                            exact
-                            className="nav-link"
-                            activeClassName="selected"
-                        >
-                            <i className="fas fa-th-large" />
-                            {' '}
-                            <span id="dashboard-item">Dashboard</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/contacts"
-                            exact
-                            className="nav-link"
-                            activeClassName="selected"
-                        >
-                            <i className="fas fa-users" />
-                            {' '}
-                            <span>Contacts</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/mail"
-                            exact
-                            className="nav-link"
-                            activeClassName="selected"
-                        >
-                            <i className="far fa-paper-plane" />
-                            {' '}
-                            <span id="messagerie">Messagerie</span>
-                        </NavLink>
-                    </li>
+                <ul>
+                    {MENU.map((item, index) => (
+                        <li key={index}>
+                            <NavLink to={item.url()} exact className="nav-link">
+                                {item.icon && <i className={`${item.icon}`} />}
+                                {item.label}
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </>
