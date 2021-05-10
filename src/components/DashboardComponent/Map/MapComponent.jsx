@@ -8,7 +8,7 @@ function MapComponent({ mapData }) {
     return (
         <MapContainer
             center={[48.893051, 2.350518]}
-            zoom={16}
+            zoom={5}
         >
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

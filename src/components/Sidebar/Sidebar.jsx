@@ -18,7 +18,7 @@ const Sidebar = () => {
                     </div>
                 </div>
 
-                <ul>
+                <ul className="navItemsUl">
                     <li>
                         <NavLink
                             to="/"
