@@ -47,7 +47,7 @@ const Contacts = () => {
                         columnDef.Filter = MultiSelectFilter;
                         columnDef.filter = 'includesSome';
                         columnDef.Cell = (props) => <InterestRendering interest={props} />;
-                        columnDef.interests = body.interests_choices;
+                        columnDef.interests = body.interestsChoices;
                     } else if (['id'].indexOf(title) === -1) {
                         // default Filter
                         columnDef.Filter = ColumnFilter;
