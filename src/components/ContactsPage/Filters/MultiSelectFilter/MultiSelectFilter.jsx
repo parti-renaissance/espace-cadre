@@ -7,13 +7,33 @@ const MultiSelectFilter = ({ column: { setFilter, interests } }) => {
     const [categories, setCategories] = useState([]);
 
     const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            minHeight: '30px',
+            height: '30px',
+        }),
+
+        valueContainer: (provided) => ({
+            ...provided,
+            height: '30px',
+            padding: '0 6px',
+        }),
+
+        input: (provided) => ({
+            ...provided,
+            margin: '0px',
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            height: '30px',
+        }),
         menu: (provided) => ({
             ...provided,
             fontSize: '12px',
             fontFamily: ['Poppins', 'sans-serif'],
             textAlign: 'center',
             padding: '6px 12px',
-            borderRadius: '12px',
+            borderRadius: '6px',
             border: 'none',
             outline: 'none',
             textTransform: 'uppercase',
