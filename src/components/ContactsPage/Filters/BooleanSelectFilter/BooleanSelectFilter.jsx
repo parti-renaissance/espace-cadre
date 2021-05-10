@@ -22,7 +22,7 @@ const SelectFilter = ({
             onChange={(e) => {
                 setFilter(e.target.value || undefined);
             }}
-            className="tableSelect"
+            className="table-select"
         >
             <option value="">Tous</option>
             {options.map((option, i) => (

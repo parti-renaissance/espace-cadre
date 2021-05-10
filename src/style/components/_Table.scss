@@ -3,7 +3,7 @@
 //****************************
 
 // "Réinitialiser les filtres" bouton
-#filterButton {
+#filter-button {
     color: $blueCorner;
     height: 38px;
     background-color: $whiteCorner;
@@ -17,8 +17,8 @@
 }
 
 // Style for download button and select to choose the number of lines in table
-#downloadButton,
-.lineCount {
+#download-button,
+.line-count {
     color: $blueCorner;
     background-color: $whiteCorner;
     height: 38px;
@@ -31,7 +31,7 @@
 //**************************
 
 // Global style for Table container
-.tableContainer {
+.table-container {
     overflow: scroll;
     font-family: "Poppins", sans-serif;
 }
@@ -75,13 +75,13 @@
     }
 }
 
-.bottomContainer {
+.bottom-container {
     font-size: 14px;
 }
 
 // Page count below the table
-.contactsCount,
-.pageCountBottom {
+.contacts-count,
+.page-count-bottom {
     color: $greyCorner3;
 }
 

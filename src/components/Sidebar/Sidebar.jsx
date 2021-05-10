@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 const Sidebar = () => {
     useEffect(() => {
-        $('#sidebarCollapse').on('click', () => {
+        $('#sidebar-collapse').on('click', () => {
             $('#sidebar, #content').toggleClass('active');
         });
     }, []);
@@ -12,7 +12,7 @@ const Sidebar = () => {
     return (
         <>
             <div className="vertical-nav bg-white" id="sidebar">
-                <div className="logoContainer">
+                <div className="logo-container">
                     <div>
                         <h4 id="data">Data<span id="corner">Corner</span></h4>
                     </div>
@@ -28,7 +28,7 @@ const Sidebar = () => {
                         >
                             <i className="fas fa-th-large" />
                             {' '}
-                            <span id="dashboardItem">Dashboard</span>
+                            <span id="dashboard-item">Dashboard</span>
                         </NavLink>
                     </li>
                     <li>

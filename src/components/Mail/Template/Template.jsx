@@ -150,7 +150,7 @@ const Template = () => {
         || buttonSave.isLoading;
         saveButton = (
             <button
-                className={`btn ${disableState ? 'disabled' : null}  templateSaveButton`}
+                className={`btn ${disableState ? 'disabled' : null}  template-save-button`}
                 type="button"
                 onClick={disableState ? null : handleClickSaveButton}
             >
@@ -206,7 +206,7 @@ const Template = () => {
         const disableState = !content || buttonState.isLoading || !emailSubject;
         sendButton = (
             <button
-                className={`btn ${disableState ? 'disabled' : null} sendEmailButton`}
+                className={`btn ${disableState ? 'disabled' : null} send-email-button`}
                 type="button"
                 onClick={disableState ? null : handleClickSendButton}
                 onMouseEnter={() => setButtonState((state) => ({ ...state, ...{ inputError: !emailSubject } }))}
@@ -221,7 +221,7 @@ const Template = () => {
     } else if (buttonState.state === 'confirme') {
         sendButton = (
             <button
-                className="btn sendEmailButton"
+                className="btn send-email-button"
                 type="button"
                 onClick={handleClickConfirmButton}
                 disabled={!email.recipient_count || email.recipient_count < 1}
@@ -234,7 +234,7 @@ const Template = () => {
         );
     } else if (buttonState.state === 'success') {
         sendButton = (
-            <button className="btn btn-outline-success sendEmailButton" type="button" disabled>
+            <button className="btn btn-outline-success send-email-button" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-check" />
                 </span>
@@ -243,7 +243,7 @@ const Template = () => {
         );
     } else if (buttonState.state === 'error') {
         sendButton = (
-            <button className="btn btn-outline-danger sendEmailButton" type="button" disabled>
+            <button className="btn btn-outline-danger send-email-button" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-bomb" />
                 </span>
@@ -254,7 +254,7 @@ const Template = () => {
 
     return (
         <div className="container-fluid messagerieContainer">
-            <div className="row rowAboveEditor py-3 px-1 mb-3">
+            <div className="row row-above-editor py-3 px-1 mb-3">
                 <div className="col-12 col-md-8 mb-3">
                     <CreatableSelect
                         className="messagerieSelect"

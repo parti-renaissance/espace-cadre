@@ -1,12 +1,12 @@
-.rowAboveEditor {
+.row-above-editor {
     color: $greyCorner3;
     font-family: "Poppins", sans-serif;
     background-color: $whiteCorner;
     @include borderRadius(6px);
 }
 
-.templateSaveButton,
-.sendEmailButton {
+.template-save-button,
+.send-email-button {
     color: $whiteCorner;
     background-color: $blueCorner;
     height: 38px;

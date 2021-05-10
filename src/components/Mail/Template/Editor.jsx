@@ -29,7 +29,7 @@ const Editor = () => {
     }, [content]);
 
     return (
-        <div className="emailEditor">
+        <div className="email-editor">
             <EmailEditor
                 minHeight="85vh"
                 ref={emailEditorRef}
