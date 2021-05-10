@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 
-import Loader from './components/Loader';
+import Spinner from './components/Spinner/Spinner';
 
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Contacts = lazy(() => import('./components/ContactsPage'));
@@ -49,7 +49,7 @@ const Routes = () => {
     }), [history]);
 
     return (
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<Spinner />}>
             <Switch>
                 <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />
                 <Route path={PATHS.CONTACTS.route} exact component={Contacts} />
