@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 function ActiveUsersComponent({ title, data }) {
     return (
-        <div className="areaChartContainer">
+        <div className="area-chart-container">
             <div className="title">{title}</div>
             <ResponsiveContainer width="95%" height={400}>
                 <AreaChart
