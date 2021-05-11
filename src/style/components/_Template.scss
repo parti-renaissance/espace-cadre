@@ -14,4 +14,9 @@
     @include borderRadius(6px);
     overflow: hidden;
     width: 100%;
+
+    &:hover {
+        color: $whiteCorner;
+        background-color: $messagerieButtonHover;
+    }
 }
