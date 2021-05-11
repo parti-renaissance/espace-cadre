@@ -15,3 +15,7 @@ input {
         line-height: 18px;
     }
 }
+
+.dc-container {
+    @include dc-container();
+}
