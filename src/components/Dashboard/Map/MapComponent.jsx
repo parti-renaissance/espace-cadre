@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    MapContainer, TileLayer, Marker,
+    MapContainer, TileLayer, Marker, Popup,
 } from 'react-leaflet';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
@@ -18,7 +18,13 @@ function MapComponent({ mapData }) {
             />
 
             {mapData.map((data) => (
-                <Marker key={data.id} position={[data.latitude, data.longitude]} />
+                <Marker key={data.id} position={[data.latitude, data.longitude]}>
+                    <Popup>
+                        <strong>Nom du sondage:</strong> {data.jecoute_survey.name} <br />
+                        <strong>Nom du répondant:</strong> {data.jecoute_survey.author_id} <br />
+                        <strong>Répondu le:</strong> {data.jecoute_survey.created_at}
+                    </Popup>
+                </Marker>
             ))}
         </MapContainer>
     );
