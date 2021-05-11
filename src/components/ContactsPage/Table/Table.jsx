@@ -77,7 +77,7 @@ const Table = ({ columns, data }) => {
                 />
                 <button
                     type="button"
-                    className="btn mr-3 mb-3"
+                    className="dc-container btn mr-3 mb-3"
                     id="filter-button"
                     onClick={() => setAllFilters([])}
                 >
@@ -89,7 +89,7 @@ const Table = ({ columns, data }) => {
                     onClick={() => {
                         exportData('xlsx', false);
                     }}
-                    className="btn mr-3"
+                    className="btn dc-container mr-3"
                     id="download-button"
                 >
                     <i className="fas fa-download" />
@@ -97,7 +97,7 @@ const Table = ({ columns, data }) => {
                 <select
                     value={pageSize}
                     onChange={(e) => setPageSize(Number(e.target.value))}
-                    className="line-count mb-3"
+                    className="line-count dc-container mb-3"
                 >
                     {
                         [20, 40, 60, 100].map((size) => (
@@ -110,7 +110,7 @@ const Table = ({ columns, data }) => {
             </div>
 
             <table
-                className="table table-responsive"
+                className="table table-responsive dc-container"
                 {...getTableProps()}
             >
                 <thead>
@@ -145,7 +145,7 @@ const Table = ({ columns, data }) => {
                     Affichage de {pageSize} contacts sur {rows.length}
                 </span>
 
-                <div className="pageNav">
+                <div className="pageNav dc-container">
                     <button
                         type="button"
                         className="btn mr-1"

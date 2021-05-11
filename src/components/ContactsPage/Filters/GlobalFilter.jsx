@@ -15,7 +15,7 @@ const GlobalFilter = ({ filter, setFilter, count }) => {
     return (
         <input
             id="global-filter"
-            className="mr-3 mb-3"
+            className="dc-container mr-3 mb-3"
             type="text"
             placeholder={`Chercher: ${countLength} contacts...`}
             value={value || ''}

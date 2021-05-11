@@ -58,7 +58,7 @@ const Dashboard = () => {
         content = (
             <div className="container dashboard-container">
                 {adherentsCount && (
-                    <div className="row row-with-background">
+                    <div className="row row-with-background dc-container">
                         <div className="col text-center">
                             La région {adherentsCount.zoneName} compte
                             {' '}{adherentsCount.adherentCount} adhérents
@@ -71,7 +71,7 @@ const Dashboard = () => {
                         {mapData && <MapComponent mapData={mapData} />}
                     </div>
                 </div>
-                <div className="row row-with-background">
+                <div className="row row-with-background dc-container">
                     <div className="col">
                         <DownloadsCount
                             title="Évolution du nombre de téléchargements quotidien de l'application"
@@ -79,7 +79,7 @@ const Dashboard = () => {
                         />
                     </div>
                 </div>
-                <div className="row row-with-background">
+                <div className="row row-with-background dc-container">
                     <div className="col">
                         <ActiveUsers
                             title="Évolution du nombre d'utilisateurs actifs"

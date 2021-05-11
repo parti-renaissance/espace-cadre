@@ -7,6 +7,4 @@
     width: 354px;
     height: 38px;
     background-color: $whiteCorner;
-    @include borderRadius(6px);
-    @include boxShadow();
 }

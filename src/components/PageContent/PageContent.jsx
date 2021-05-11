@@ -16,7 +16,7 @@ const PageContent = ({ children, currentUser }) => {
         <div className="page-content" id="content">
             <div className="container-fluid mt-3">
                 <div className="row d-flex header-row pl-3 mb-3">
-                    <button id="sidebar-collapse" className="mr-3 mt-2" type="button">
+                    <button id="sidebar-collapse" className="dc-container mr-3 mt-2" type="button">
                         <i className="fa fa-bars mr-2" />
                         <span className="menu-text">Menu</span>
                     </button>

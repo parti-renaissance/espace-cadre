@@ -2,8 +2,6 @@
     color: $greyCorner3;
     font-family: "Poppins", sans-serif;
     background-color: $whiteCorner;
-    @include boxShadow();
-    @include borderRadius(6px);
 }
 
 .template-save-button,
@@ -11,9 +9,9 @@
     color: $whiteCorner;
     background-color: $blueCorner;
     height: 38px;
-    @include borderRadius(6px);
     overflow: hidden;
     width: 100%;
+    @include borderRadius(6px);
 
     &:hover {
         color: $whiteCorner;

@@ -249,7 +249,7 @@ const Template = () => {
 
     return (
         <div className="container-fluid messagerieContainer">
-            <div className="row row-above-editor py-3 px-1 mb-3">
+            <div className="row row-above-editor dc-container py-3 px-1 mb-3">
                 <div className="col-12 col-md-8 mb-3">
                     <CreatableSelect
                         className="messagerieSelect"
