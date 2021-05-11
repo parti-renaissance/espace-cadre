@@ -9,6 +9,7 @@
         vertical-align: text-bottom;
         border: none;
         @include borderRadius(6px);
+        @include boxShadow();
 
         i {
             vertical-align: middle;

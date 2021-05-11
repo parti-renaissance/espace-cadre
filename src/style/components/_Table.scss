@@ -10,6 +10,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     @include borderRadius(6px);
+    @include boxShadow();
 
     span {
         margin-right: 10px;
@@ -23,6 +24,7 @@
     background-color: $whiteCorner;
     height: 38px;
     @include borderRadius(6px);
+    @include boxShadow();
 }
 
 
@@ -38,8 +40,9 @@
 
 // Style for table
 .table {
-    @include borderRadius(6px);
     background-color: $whiteCorner;
+    @include borderRadius(6px);
+    @include boxShadow();
 
     th {
         font-size: 12px;
@@ -92,5 +95,6 @@
         height: 34px;
         background-color: $whiteCorner;
         @include borderRadius(6px);
+        @include boxShadow();
     }
 }
