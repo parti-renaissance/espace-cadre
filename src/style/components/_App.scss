@@ -11,7 +11,7 @@ body{
     left: 0;
     transition: all 0.4s;
     z-index: 50;
-    @include boxShadow();
+    @include boxShadow(0 1px 1px 0 rgba(0, 11, 52, 0.12));
 
     &.active {
         margin-left: -17rem;

@@ -146,7 +146,7 @@ const Template = () => {
 
     const saveButton = (
         <button
-            className={`btn ${templateButtonDisableState && 'disabled'}  template-save-button`}
+            className={`btn ${templateButtonDisableState && 'disabled'}  template-save-button dc-container`}
             type="button"
             onClick={templateButtonDisableState ? null : handleClickSaveButton}
         >
@@ -201,7 +201,7 @@ const Template = () => {
         const disableState = !content || buttonState.isLoading || !emailSubject;
         sendButton = (
             <button
-                className={`btn ${disableState ? 'disabled' : null} send-email-button`}
+                className={`btn ${disableState ? 'disabled' : null} send-email-button dc-container`}
                 type="button"
                 onClick={disableState ? null : handleClickSendButton}
                 onMouseEnter={() => setButtonState((state) => ({ ...state, ...{ inputError: !emailSubject } }))}
@@ -216,7 +216,7 @@ const Template = () => {
     } else if (buttonState.state === 'confirme') {
         sendButton = (
             <button
-                className="btn send-email-button"
+                className="btn send-email-button dc-container"
                 type="button"
                 onClick={handleClickConfirmButton}
                 disabled={!email.recipient_count || email.recipient_count < 1}
@@ -229,7 +229,7 @@ const Template = () => {
         );
     } else if (buttonState.state === 'success') {
         sendButton = (
-            <button className="btn btn-outline-success send-email-button" type="button" disabled>
+            <button className="btn btn-outline-success send-email-button dc-container" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-check" />
                 </span>
@@ -238,7 +238,7 @@ const Template = () => {
         );
     } else if (buttonState.state === 'error') {
         sendButton = (
-            <button className="btn btn-outline-danger send-email-button" type="button" disabled>
+            <button className="btn btn-outline-danger send-email-button dc-container" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-bomb" />
                 </span>

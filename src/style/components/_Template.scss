@@ -11,10 +11,10 @@
     height: 38px;
     overflow: hidden;
     width: 100%;
-    @include borderRadius(6px);
 
     &:hover {
         color: $whiteCorner;
-        background-color: $messagerieButtonHover;
+        background-color: $blueCornerHover;
+        @include boxShadow(none);
     }
 }
