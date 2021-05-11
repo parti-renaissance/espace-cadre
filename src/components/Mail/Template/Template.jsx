@@ -160,7 +160,7 @@ const Template = () => {
     const loadingTemplate = async () => {
         if (template.current_template !== '' && template.current_template.value !== undefined) {
             const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
-            setContent({ ...content, ...{ design: JSON.parse(result.content) } });
+            setContent({ ...content, ...{ design: JSON.parse(result.content), externalUpdate: true } });
         }
     };
 

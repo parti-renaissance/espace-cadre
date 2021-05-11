@@ -10,12 +10,12 @@ const Editor = () => {
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
             if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
-                emailEditorRef.current.editor.addEventListener(
-                    'design:updated',
-                    () => emailEditorRef.current.exportHtml(
-                        (event) => setContent({ design: event.design, chunks: event.chunks }),
-                    ),
+                const callback = () => emailEditorRef.current.exportHtml(
+                    (event) => setContent({ design: event.design, chunks: event.chunks, externalUpdate: false }),
                 );
+
+                emailEditorRef.current.editor.addEventListener('design:updated', callback);
+                emailEditorRef.current.editor.addEventListener('design:loaded', callback);
 
                 clearInterval(timer);
             }
@@ -23,7 +23,7 @@ const Editor = () => {
     }, [emailEditorRef]);
 
     useEffect(() => {
-        if (content && content.design) {
+        if (content && content.design && content.externalUpdate) {
             emailEditorRef.current.loadDesign(content.design);
         }
     }, [content]);
