@@ -4,6 +4,7 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
+import DateFormat from '../../DateFormat';
 
 function MapComponent({ mapData }) {
     L.Icon.Default.imagePath = 'images/';
@@ -21,8 +22,7 @@ function MapComponent({ mapData }) {
                 <Marker key={data.id} position={[data.latitude, data.longitude]}>
                     <Popup>
                         <strong>Nom du sondage:</strong> {data.jecoute_survey.name} <br />
-                        <strong>Nom du répondant:</strong> {data.jecoute_survey.author_id} <br />
-                        <strong>Répondu le:</strong> {data.jecoute_survey.created_at}
+                        <strong>Répondu le:</strong> <DateFormat date={data.jecoute_survey.created_at} />
                     </Popup>
                 </Marker>
             ))}
