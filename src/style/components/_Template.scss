@@ -1,20 +1,22 @@
 .row-above-editor {
     color: $greyCorner3;
-    font-family: "Poppins", sans-serif;
     background-color: $whiteCorner;
 }
 
 .template-save-button,
-.send-email-button {
+.send-email-button,
+.disabled:hover
+{
     color: $whiteCorner;
     background-color: $blueCorner;
     height: 38px;
     overflow: hidden;
     width: 100%;
+}
 
-    &:hover {
-        color: $whiteCorner;
-        background-color: $blueCornerHover;
-        @include boxShadow(none);
-    }
+.template-save-button:hover:not(.disabled),
+.send-email-button:hover:not(.disabled) {
+    color: $whiteCorner;
+    background-color: $blueCornerHover;
+    @include boxShadow(none);
 }
