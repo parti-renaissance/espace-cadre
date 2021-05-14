@@ -4,6 +4,7 @@ import { apiClientProxy } from '../../services/networking/client';
 
 import ActiveUsers from './Charts/ActiveUsers';
 import DownloadsCount from './Charts/DownloadsCount';
+import TextChart from './Charts/TextChart';
 import MapComponent from './Map/MapComponent';
 import Spinner from '../Spinner/Spinner';
 
@@ -15,7 +16,6 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     let content;
-
     useEffect(() => {
         let isActive = true;
 
@@ -57,14 +57,7 @@ const Dashboard = () => {
     } else {
         content = (
             <div className="container dashboard-container">
-                {adherentsCount && (
-                    <div className="row row-with-background dc-container">
-                        <div className="col text-center">
-                            La région {adherentsCount.zoneName} compte
-                            {' '}{adherentsCount.adherentCount} adhérents
-                        </div>
-                    </div>
-                )}
+                {adherentsCount && <TextChart adherentsCount={adherentsCount} />}
 
                 <div className="row">
                     <div className="col">
