@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ActiveUsers from '../components/Dashboard/Charts/ActiveUsers';
+import ActiveUsers from './ActiveUsers';
 
 const data = [
     { date: '16/04', unique_user: 4, days_users: 56 },
