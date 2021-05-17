@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
-import ActiveUsers from './ActiveUsers';
+import { render } from '@testing-library/react';
+import ActiveUsers from '../components/Dashboard/Charts/ActiveUsers';
 
 const data = [
     { date: '16/04', unique_user: 4, days_users: 56 },
@@ -9,10 +9,8 @@ const data = [
     { date: '19/04', unique_user: 10, days_users: 42 },
 ];
 
-afterEach(cleanup);
-
 describe('ActiveUsers graph', () => {
-    it('renders without crashing', () => {
+    test('renders without crashing', () => {
         render(<ActiveUsers
             title="Évolution du nombre d'utilisateurs actifs"
             data={data}
