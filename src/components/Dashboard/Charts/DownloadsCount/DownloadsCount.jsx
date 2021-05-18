@@ -11,11 +11,11 @@ import {
 } from 'recharts';
 import PropTypes from 'prop-types';
 
-function ActiveUsers({ title, data }) {
+function DownloadsCount({ title, data }) {
     return (
-        <div className="area-chart-container">
+        <div className="area-chart-container with-background">
             <div className="title">{title}</div>
-            <ResponsiveContainer width="95%" height={400}>
+            <ResponsiveContainer width="100%" height={250}>
                 <AreaChart
                     data={data}
                     margin={{
@@ -23,7 +23,7 @@ function ActiveUsers({ title, data }) {
                     }}
                 >
                     <defs>
-                        <linearGradient id="colorUnique" x1="0" y1="0" x2="0" y2="1">
+                        <linearGradient id="colorQuotidien" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
                             <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                         </linearGradient>
@@ -73,17 +73,17 @@ function ActiveUsers({ title, data }) {
                         layout="horizontal"
                     />
                     <Area
-                        name="Utilisateurs uniques"
+                        name="Téléchargements"
                         type="monotone"
                         dataKey="unique_user"
                         stroke="#8884d8"
                         fillOpacity={1}
-                        fill="url(#colorUnique)"
+                        fill="url(#colorQuotidien)"
                     />
                     <Area
-                        name="Total sur les 7 derniers jours"
+                        name="Cumul sur la période"
                         type="monotone"
-                        dataKey="7days_users"
+                        dataKey="cumsum"
                         stroke="#82ca9d"
                         fillOpacity={1}
                         fill="url(#colorCumul)"
@@ -94,13 +94,13 @@ function ActiveUsers({ title, data }) {
     );
 }
 
-export default ActiveUsers;
+export default DownloadsCount;
 
-ActiveUsers.defaultProps = {
+DownloadsCount.defaultProps = {
     data: [],
 };
 
-ActiveUsers.propTypes = {
+DownloadsCount.propTypes = {
     title: PropTypes.string.isRequired,
     data: PropTypes.arrayOf(PropTypes.object),
 };

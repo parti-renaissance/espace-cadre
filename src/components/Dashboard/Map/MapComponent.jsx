@@ -9,15 +9,16 @@ function MapComponent({ mapData }) {
     L.Icon.Default.imagePath = 'images/';
     return (
         <MapContainer
-            center={[48.893051, 2.350518]}
-            zoom={5}
+            center={[mapData.latitude, mapData.longitude]}
+            zoom={8}
+            className="dc-container"
         >
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
             />
 
-            {mapData.map((data) => (
+            {mapData.survey_datas.map((data) => (
                 <Marker key={data.id} position={[data.latitude, data.longitude]}>
                     <Popup>
                         <strong>Nom du sondage:</strong> {data.survey.name} <br />
@@ -32,5 +33,10 @@ function MapComponent({ mapData }) {
 export default MapComponent;
 
 MapComponent.propTypes = {
-    mapData: PropTypes.arrayOf(Object).isRequired,
+    mapData: PropTypes.shape({
+        zone_name: PropTypes.string,
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        survey_datas: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
 };

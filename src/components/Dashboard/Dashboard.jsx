@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 import { apiClientProxy } from '../../services/networking/client';
 
-import ActiveUsers from './Charts/ActiveUsers';
-import DownloadsCount from './Charts/DownloadsCount';
-import TextChart from './Charts/TextChart';
+import ActiveUsers from './Charts/ActiveUsers/ActiveUsers';
+import DownloadsCount from './Charts/DownloadsCount/DownloadsCount';
+import DownloadsRatios from './Charts/DownloadsRatios/DownloadsRatios';
 import MapComponent from './Map/MapComponent';
 import Spinner from '../Spinner/Spinner';
 
 const Dashboard = () => {
     const [downloadCount, setDownloadCount] = useState();
     const [activeUsers, setActiveUsers] = useState();
-    const [adherentsCount, setAdherentsCount] = useState();
+    const [downloadsRatios, setdownloadsRatios] = useState();
     const [mapData, setMapData] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -26,13 +26,13 @@ const Dashboard = () => {
 
                 const getDownloadCount = await apiClientProxy.get('/jemengage/downloads');
                 const getActiveUsers = await apiClientProxy.get('jemengage/users');
-                const getAdherentsCount = await apiClientProxy.get('/adherents');
+                const getDownloadsRatios = await apiClientProxy.get('/jemengage/downloadsRatios');
                 const getMapData = await apiClientProxy.get('/jemengage/survey');
 
                 if (isActive) {
                     setDownloadCount(getDownloadCount.downloads);
                     setActiveUsers(getActiveUsers.users);
-                    setAdherentsCount(getAdherentsCount);
+                    setdownloadsRatios(getDownloadsRatios.downloads);
                     setMapData(getMapData);
                     setLoading(false);
                 }
@@ -57,27 +57,32 @@ const Dashboard = () => {
     } else {
         content = (
             <div className="container dashboard-container">
-                {adherentsCount && <TextChart adherentsCount={adherentsCount} />}
-
-                <div className="row">
-                    <div className="col">
+                <div className="row mb-3">
+                    <div className="col-lg-6 left-chart">
+                        <div className="col-md-12 with-background dc-container">
+                            <DownloadsCount
+                                title="Téléchargements"
+                                data={downloadCount}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-lg-6 right-chart">
+                        <div className="col-md-12 with-background dc-container">
+                            <ActiveUsers
+                                title="Utilisateurs"
+                                data={activeUsers}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="row mb-3">
+                    <div className="col map-col">
                         {mapData && <MapComponent mapData={mapData} />}
                     </div>
                 </div>
-                <div className="row row-with-background dc-container">
+                <div className="row mb-3 with-background dc-container">
                     <div className="col">
-                        <DownloadsCount
-                            title="Évolution du nombre de téléchargements quotidien de l'application"
-                            data={downloadCount}
-                        />
-                    </div>
-                </div>
-                <div className="row row-with-background dc-container">
-                    <div className="col">
-                        <ActiveUsers
-                            title="Évolution du nombre d'utilisateurs actifs"
-                            data={activeUsers}
-                        />
+                        {downloadsRatios && <DownloadsRatios data={downloadsRatios} />}
                     </div>
                 </div>
             </div>
