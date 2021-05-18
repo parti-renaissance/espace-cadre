@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { apiClientProxy } from '../../services/networking/client';
 
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers';
+import TextChart from './Charts/TextChart/TextChart';
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount';
 import DownloadsRatios from './Charts/DownloadsRatios/DownloadsRatios';
 import MapComponent from './Map/MapComponent';
@@ -11,6 +12,7 @@ import Spinner from '../Spinner/Spinner';
 const Dashboard = () => {
     const [downloadCount, setDownloadCount] = useState();
     const [activeUsers, setActiveUsers] = useState();
+    const [adherentsCount, setAdherentsCount] = useState();
     const [downloadsRatios, setdownloadsRatios] = useState();
     const [mapData, setMapData] = useState();
     const [loading, setLoading] = useState(false);
@@ -26,12 +28,14 @@ const Dashboard = () => {
 
                 const getDownloadCount = await apiClientProxy.get('/jemengage/downloads');
                 const getActiveUsers = await apiClientProxy.get('jemengage/users');
+                const getAdherentsCount = await apiClientProxy.get('/adherents');
                 const getDownloadsRatios = await apiClientProxy.get('/jemengage/downloadsRatios');
                 const getMapData = await apiClientProxy.get('/jemengage/survey');
 
                 if (isActive) {
                     setDownloadCount(getDownloadCount.downloads);
                     setActiveUsers(getActiveUsers.users);
+                    setAdherentsCount(getAdherentsCount);
                     setdownloadsRatios(getDownloadsRatios.downloads);
                     setMapData(getMapData);
                     setLoading(false);
@@ -57,6 +61,7 @@ const Dashboard = () => {
     } else {
         content = (
             <div className="container dashboard-container">
+                {adherentsCount && <TextChart adherentsCount={adherentsCount} />}
                 <div className="row mb-3">
                     <div className="col-lg-6 left-chart">
                         <div className="col-md-12 with-background dc-container">
@@ -75,14 +80,14 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row mb-3">
-                    <div className="col map-col">
-                        {mapData && <MapComponent mapData={mapData} />}
-                    </div>
-                </div>
                 <div className="row mb-3 with-background dc-container">
                     <div className="col">
                         {downloadsRatios && <DownloadsRatios title="Nombre de téléchargements pour 1000 adhérents" data={downloadsRatios} />}
+                    </div>
+                </div>
+                <div className="row mb-3">
+                    <div className="col map-col">
+                        {mapData && <MapComponent mapData={mapData} />}
                     </div>
                 </div>
             </div>

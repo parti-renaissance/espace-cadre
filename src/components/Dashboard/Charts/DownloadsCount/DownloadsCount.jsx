@@ -73,7 +73,7 @@ function DownloadsCount({ title, data }) {
                         layout="horizontal"
                     />
                     <Area
-                        name="Téléchargements"
+                        name="Téléchargements par jour"
                         type="monotone"
                         dataKey="unique_user"
                         stroke="#8884d8"

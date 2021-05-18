@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function TextChart({ adherentsCount }) {
     const { zoneName, adherentCount } = adherentsCount;
     return (
-        <div className="row dashboard-row with-background dc-container">
+        <div className="row with-background dc-container p-2">
             <div className="col text-center">
                 La région {zoneName} compte
                 {' '}{adherentCount} adhérents
