@@ -73,7 +73,7 @@ function ActiveUsers({ title, data }) {
                         layout="horizontal"
                     />
                     <Area
-                        name="Utilisateurs uniques"
+                        name="Utilisateurs par jour"
                         type="monotone"
                         dataKey="unique_user"
                         stroke="#8884d8"
@@ -81,7 +81,7 @@ function ActiveUsers({ title, data }) {
                         fill="url(#colorUnique)"
                     />
                     <Area
-                        name="Total sur le dernier mois"
+                        name="Utilisateurs cumulés sur le dernier mois"
                         type="monotone"
                         dataKey="7days_users"
                         stroke="#82ca9d"
