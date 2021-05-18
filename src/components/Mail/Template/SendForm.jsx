@@ -24,7 +24,13 @@ const SendForm = () => {
 
     useEffect(resetEmailState, [content]);
 
-    const handleClickConfirmButton = async () => {
+    const handleSendEmail = async (test = false) => {
+        if (test) {
+            await apiClient.post(`/v3/adherent_messages/${email.uuid}/send-test`);
+
+            return;
+        }
+
         if (!email.synchronized || email.recipient_count < 1) {
             throw new Error('Send not allowed');
         }
@@ -50,9 +56,9 @@ const SendForm = () => {
             content: clearBody(content.chunks.body),
         };
 
-        // if (email.uuid) {
-        //     return apiClient.put(`/v3/adherent_messages/${email.uuid}`, body);
-        // }
+        if (email.uuid) {
+            return apiClient.put(`/v3/adherent_messages/${email.uuid}`, body);
+        }
 
         return apiClient.post('/v3/adherent_messages', body);
     };
@@ -68,8 +74,14 @@ const SendForm = () => {
 
         // step 2: check email status
         let callCount = 0;
+        const emailUuid = response.uuid || email.uuid;
+
+        if (!emailUuid) {
+            return;
+        }
+
         const timer = setInterval(async () => {
-            const emailStatusResponse = await getEmailStatus(response.uuid);
+            const emailStatusResponse = await getEmailStatus(emailUuid);
 
             // eslint-disable-next-line no-plusplus
             if (++callCount >= 10 || (emailStatusResponse.synchronized === true)) {
@@ -86,7 +98,7 @@ const SendForm = () => {
         const disableState = !content || buttonState.isLoading || !emailSubject;
         sendButton = (
             <button
-                className={`btn ${disableState ? 'disabled' : null} send-email-button dc-container`}
+                className={`btn ${disableState ? 'disabled' : null} btn-dc-primary btn-block`}
                 type="button"
                 onClick={disableState ? null : handleClickSendButton}
                 onMouseEnter={() => setButtonState((state) => ({ ...state, ...{ inputError: !emailSubject } }))}
@@ -95,26 +107,41 @@ const SendForm = () => {
                 <span className="mr-2">
                     {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
                 </span>
-                Envoyer e-mail
+                Préparer l’envoi
             </button>
         );
     } else if (buttonState.state === 'confirme') {
         sendButton = (
-            <button
-                className="btn send-email-button dc-container"
-                type="button"
-                onClick={handleClickConfirmButton}
-                disabled={!email.recipient_count || email.recipient_count < 1}
-            >
-                <span className="mr-2">
-                    {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
-                </span>
-                Confirmer l&apos;envoi (contact{email.recipient_count > 1 && 's'}: {email.recipient_count})
-            </button>
+            <>
+                <div className="btn-group btn-block" role="group">
+                    <button
+                        className="btn btn-dc-primary"
+                        type="button"
+                        onClick={() => handleSendEmail()}
+                        disabled={!email.recipient_count || email.recipient_count < 1}
+                    >
+                        <span className="mr-2">
+                            {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
+                        </span>
+                        Envoyer
+                    </button>
+
+                    <button
+                        type="button"
+                        className="btn btn-dc-outline-primary text-nowrap"
+                        onClick={() => handleSendEmail(true)}
+                    >
+                        M’envoyer un test
+                    </button>
+                </div>
+                <div className="text-center font-weight-light mt-2">
+                    {email.recipient_count} contact{email.recipient_count > 1 && 's'}
+                </div>
+            </>
         );
     } else if (buttonState.state === 'success') {
         sendButton = (
-            <button className="btn btn-outline-success send-email-button dc-container" type="button" disabled>
+            <button className="btn btn-outline-success btn-block" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-check" />
                 </span>
@@ -123,7 +150,7 @@ const SendForm = () => {
         );
     } else if (buttonState.state === 'error') {
         sendButton = (
-            <button className="btn btn-outline-danger send-email-button dc-container" type="button" disabled>
+            <button className="btn btn-outline-danger btn-block" type="button" disabled>
                 <span className="mr-2">
                     <i className="fa fa-bomb" />
                 </span>
@@ -144,7 +171,7 @@ const SendForm = () => {
                     onChange={(event) => setEmailSubject(event.target.value)}
                 />
             </div>
-            <div className="col-12 col-md-4 mb-md-0">
+            <div className="col-12 col-md-4 mb-md-0 no-gutters">
                 {sendButton}
             </div>
         </div>

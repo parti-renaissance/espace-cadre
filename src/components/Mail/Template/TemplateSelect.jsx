@@ -5,7 +5,7 @@ import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
 
 const TEMPLATE_INITIAL_STATE = { content_template: '', current_template: '' };
-const OPTIONS_INITIAL_STATE = { options: [{ label: 'Ajoutez vos options', value: '0', isDisabled: true }], length: 0 };
+const OPTIONS_INITIAL_STATE = { options: [] };
 
 const TemplateSelect = () => {
     const [content, setContent] = useTemplateContent();
@@ -27,7 +27,6 @@ const TemplateSelect = () => {
                 setOpts((state) => ({
                     ...state,
                     options: [...state.options, { label: selected.label, value: selected.label }],
-                    length: state.length + 1,
                 }));
             }
             setTemplate((state) => ({ ...state, current_template: selected }));
@@ -78,8 +77,9 @@ const TemplateSelect = () => {
 
     const saveButton = (
         <button
-            className={`btn ${templateButtonDisableState && 'disabled'}  template-save-button dc-container`}
+            className="btn btn-dc-primary btn-block"
             type="button"
+            disabled={templateButtonDisableState}
             onClick={templateButtonDisableState ? null : handleClickSaveButton}
         >
             <span className="mr-2">
@@ -98,7 +98,6 @@ const TemplateSelect = () => {
         setOpts((state) => ({
             ...state,
             options: state.options.concat(opts),
-            length: state.length + 1,
         }));
     }
 
@@ -123,10 +122,10 @@ const TemplateSelect = () => {
         <div className="row mb-3">
             <div className="col-12 col-md-8">
                 <CreatableSelect
-                    className="messagerieSelect"
                     isClearable
                     onChange={handleSelectChange}
                     options={optselect.options}
+                    noOptionsMessage={() => 'Aucun template'}
                     formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
                     value={template.current_template}
                     placeholder="Créez ou choisissez un template"
