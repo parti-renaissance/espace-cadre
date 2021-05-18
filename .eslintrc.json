@@ -5,10 +5,20 @@
         "es6": true,
         "jest": true
     },
+    "plugins": [
+        "react",
+        "testing-library",
+        "jest-dom"
+    ],
     "extends": [
+        "react-app",
+        "react-app/jest",
         "eslint:recommended",
         "airbnb",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:testing-library/recommended",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -17,9 +27,6 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "plugins": [
-        "react"
-    ],
     "rules": {
         "no-console": "off",
         "indent": ["error", 4],
