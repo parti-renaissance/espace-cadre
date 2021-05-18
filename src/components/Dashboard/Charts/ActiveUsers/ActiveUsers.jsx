@@ -81,7 +81,7 @@ function ActiveUsers({ title, data }) {
                         fill="url(#colorUnique)"
                     />
                     <Area
-                        name="Total sur les 7 derniers jours"
+                        name="Total sur le dernier mois"
                         type="monotone"
                         dataKey="7days_users"
                         stroke="#82ca9d"

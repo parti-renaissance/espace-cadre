@@ -80,14 +80,6 @@ function DownloadsCount({ title, data }) {
                         fillOpacity={1}
                         fill="url(#colorQuotidien)"
                     />
-                    <Area
-                        name="Cumul sur la période"
-                        type="monotone"
-                        dataKey="cumsum"
-                        stroke="#82ca9d"
-                        fillOpacity={1}
-                        fill="url(#colorCumul)"
-                    />
                 </AreaChart>
             </ResponsiveContainer>
         </div>
