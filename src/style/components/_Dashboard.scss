@@ -2,8 +2,11 @@
     padding: 0;
 }
 
-.row-with-background {
-    background-color: $whiteCorner;
+.dashboard-row {
     margin: 10px auto !important;
     padding: 10px 0;
+
+    &.with-background {
+        background-color: $whiteCorner !important;
+    }
 }

@@ -11,6 +11,7 @@ function MapComponent({ mapData }) {
         <MapContainer
             center={[48.893051, 2.350518]}
             zoom={5}
+            className="dc-container"
         >
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

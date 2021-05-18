@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
 
 function ActiveUsers({ title, data }) {
     return (
-        <div className="area-chart-container">
+        <div className="area-chart-container with-background">
             <div className="title">{title}</div>
-            <ResponsiveContainer width="95%" height={400}>
+            <ResponsiveContainer width="100%" height={400}>
                 <AreaChart
                     data={data}
                     margin={{
