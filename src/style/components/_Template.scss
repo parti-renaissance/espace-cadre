@@ -2,21 +2,3 @@
     color: $greyCorner3;
     background-color: $whiteCorner;
 }
-
-.template-save-button,
-.send-email-button,
-.disabled:hover
-{
-    color: $whiteCorner;
-    background-color: $blueCorner;
-    height: 38px;
-    overflow: hidden;
-    width: 100%;
-}
-
-.template-save-button:hover:not(.disabled),
-.send-email-button:hover:not(.disabled) {
-    color: $whiteCorner;
-    background-color: $blueCornerHover;
-    @include boxShadow(none);
-}

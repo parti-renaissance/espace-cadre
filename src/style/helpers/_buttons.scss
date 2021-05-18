@@ -1,0 +1,37 @@
+.btn {
+    &-dc {
+        &-primary {
+            color: $whiteCorner;
+            background-color: $blueCorner;
+
+            &:hover {
+                &:not(.disabled),
+                &:not(:disabled) {
+                    color: $whiteCorner;
+                    background-color: $blueCornerHover;
+                }
+            }
+        }
+
+        &-outline {
+            &-primary {
+                color: $blueCorner;
+                border-color: $blueCorner;
+
+                &:hover {
+                    &:not(.disabled),
+                    &:not(:disabled) {
+                        color: $whiteCorner;
+                        background-color: $blueCornerHover;
+                    }
+                }
+            }
+        }
+    }
+
+    &.disabled {
+        &:hover {
+            opacity: .50;
+        }
+    }
+}
