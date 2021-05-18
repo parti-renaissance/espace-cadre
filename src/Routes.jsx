@@ -12,7 +12,7 @@ const PATHS = {
     DASHBOARD: {
         route: '/',
         url: () => '/',
-        label: 'Dashboard',
+        label: 'Vue d\'ensemble',
         icon: 'fas fa-th-large',
     },
     CONTACTS: {

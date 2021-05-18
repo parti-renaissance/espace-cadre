@@ -15,7 +15,7 @@ function ActiveUsers({ title, data }) {
     return (
         <div className="area-chart-container with-background">
             <div className="title">{title}</div>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={250}>
                 <AreaChart
                     data={data}
                     margin={{
