@@ -67,7 +67,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className="row row-container mb-3">
-                    <div className="col-lg-6 left-chart">
+                    <div className="col-lg-6 left-chart mb-3 mb-lg-0">
                         <div className="col-md-12 with-background dc-container">
                             {downloadCount && (
                                 <DownloadsCount
@@ -80,7 +80,6 @@ const Dashboard = () => {
                         <div className="col-md-12 with-background dc-container">
                             {activeUsers && (
                                 <ActiveUsers
-                                    title="Utilisateurs"
                                     data={activeUsers}
                                 />
                             )}
