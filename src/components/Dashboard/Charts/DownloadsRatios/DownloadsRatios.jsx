@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 function DownloadsRatios({ data }) {
     const count = data[data.length - 1].downloadsPer1000;
     return (
-        <div className="ratio-chart-container">
+        <div>
             <div className="row p-3">
                 <span className="count-bubble">{count}</span>
                 <div className="col pl-0">

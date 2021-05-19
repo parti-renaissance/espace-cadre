@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 function ActiveUsers({ data }) {
     const count = data[data.length - 1].rolling_seven_users;
     return (
-        <div className="area-chart-container with-background">
+        <div className="with-background">
             <div className="row p-3">
                 <span className="count-bubble">{count}</span>
                 <div className="col pl-0">
