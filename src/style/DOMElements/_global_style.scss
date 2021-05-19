@@ -20,3 +20,32 @@ input {
 .dc-container {
     @include dc-container();
 }
+
+.count-bubble {
+    color: $blueCorner;
+    font-weight: 600;
+    font-size: 18px;
+    background-color: $blueBubble;
+    padding: 8px;
+    @include borderRadius(6px);
+}
+
+.chart-title {
+    color: $blackCorner;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.chart-subtitle {
+    color: $greyCorner3;
+    font-size:12px;
+    font-weight: 400;
+    margin-left: 8px;
+}
+
+.legend-chart {
+    color: $blueCorner;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 16px 16px 16px 32px;
+}

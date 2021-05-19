@@ -69,18 +69,21 @@ const Dashboard = () => {
                 <div className="row row-container mb-3">
                     <div className="col-lg-6 left-chart">
                         <div className="col-md-12 with-background dc-container">
-                            <DownloadsCount
-                                title="Téléchargements"
-                                data={downloadCount}
-                            />
+                            {downloadCount && (
+                                <DownloadsCount
+                                    data={downloadCount}
+                                />
+                            )}
                         </div>
                     </div>
                     <div className="col-lg-6 right-chart">
                         <div className="col-md-12 with-background dc-container">
-                            <ActiveUsers
-                                title="Utilisateurs"
-                                data={activeUsers}
-                            />
+                            {activeUsers && (
+                                <ActiveUsers
+                                    title="Utilisateurs"
+                                    data={activeUsers}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
