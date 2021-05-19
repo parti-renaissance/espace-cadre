@@ -61,12 +61,12 @@ const Dashboard = () => {
     } else {
         content = (
             <div className="container">
-                <div className="row row-container">
+                <div className="row">
                     <div className="col">
                         {adherentsCount && <TextChart adherentsCount={adherentsCount} />}
                     </div>
                 </div>
-                <div className="row row-container mb-3">
+                <div className="row mb-3">
                     <div className="col-lg-6 left-chart mb-3 mb-lg-0">
                         <div className="col-md-12 with-background dc-container">
                             {downloadCount && (
@@ -86,9 +86,9 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row row-container mb-3 with-background dc-container">
+                <div className="row mb-3 with-background dc-container">
                     <div className="col">
-                        {downloadsRatios && <DownloadsRatios data={downloadsRatios} />}
+                        {downloadsRatios && <DownloadsRatios title="Nombre de téléchargements pour 1000 adhérents" data={downloadsRatios} />}
                     </div>
                 </div>
                 <div className="row mb-3">
