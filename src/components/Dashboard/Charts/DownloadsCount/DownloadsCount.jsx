@@ -72,6 +72,7 @@ function DownloadsCount({ data }) {
                         />
                         <Area
                             type="monotone"
+                            name="Téléchargements par jour"
                             dataKey="unique_user"
                             stroke="#0049C6"
                             fillOpacity={1}
