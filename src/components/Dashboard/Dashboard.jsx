@@ -88,7 +88,7 @@ const Dashboard = () => {
                 </div>
                 <div className="row row-container mb-3 with-background dc-container">
                     <div className="col">
-                        {downloadsRatios && <DownloadsRatios title="Nombre de téléchargements pour 1000 adhérents" data={downloadsRatios} />}
+                        {downloadsRatios && <DownloadsRatios data={downloadsRatios} />}
                     </div>
                 </div>
                 <div className="row mb-3">
