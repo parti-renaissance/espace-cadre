@@ -60,9 +60,13 @@ const Dashboard = () => {
         content = <Spinner />;
     } else {
         content = (
-            <div className="container dashboard-container">
-                {adherentsCount && <TextChart adherentsCount={adherentsCount} />}
-                <div className="row mb-3">
+            <div className="container">
+                <div className="row row-container">
+                    <div className="col">
+                        {adherentsCount && <TextChart adherentsCount={adherentsCount} />}
+                    </div>
+                </div>
+                <div className="row row-container mb-3">
                     <div className="col-lg-6 left-chart">
                         <div className="col-md-12 with-background dc-container">
                             <DownloadsCount
@@ -80,15 +84,13 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row mb-3 with-background dc-container">
+                <div className="row row-container mb-3 with-background dc-container">
                     <div className="col">
                         {downloadsRatios && <DownloadsRatios title="Nombre de téléchargements pour 1000 adhérents" data={downloadsRatios} />}
                     </div>
                 </div>
                 <div className="row mb-3">
-                    <div className="col map-col">
-                        {mapData && <MapComponent mapData={mapData} />}
-                    </div>
+                    {mapData && <MapComponent mapData={mapData} />}
                 </div>
             </div>
         );

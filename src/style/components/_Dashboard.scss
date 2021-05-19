@@ -1,25 +1,19 @@
-.dashboard-container {
-    padding: 0;
-}
-
 .with-background {
     background-color: $whiteCorner !important;
 }
 
+.left-chart {
+    padding-left: 0;
+    padding-right: 0;
+}
 
+.right-chart {
+    padding-left: 0;
+    padding-right: 0;
+}
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
     .left-chart {
-        padding-left: 0;
-        padding-right: 8px;
-    }
-    
-    .right-chart {
-        padding-left: 8px;
-        padding-right: 0;
-    }
-
-    .map-col {
-        padding: 0;
+        padding-right: 16px;
     }
 }
