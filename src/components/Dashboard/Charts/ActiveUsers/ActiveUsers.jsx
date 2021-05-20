@@ -44,10 +44,20 @@ function ActiveUsers({ data }) {
                             angle={-14}
                             tickMargin={8}
                             interval={4}
+                            style={{
+                                color: '#717BA0',
+                                fontFamily: 'roboto',
+                                fontSize: '12px',
+                            }}
                         />
                         <YAxis
                             axisLine={false}
                             tickLine={false}
+                            style={{
+                                color: '#717BA0',
+                                fontFamily: 'roboto',
+                                fontSize: '12px',
+                            }}
                         />
                         <CartesianGrid strokeDasharray=".08" />
                         <Tooltip
@@ -57,6 +67,7 @@ function ActiveUsers({ data }) {
                                 borderRadius: '16px',
                             }}
                             labelStyle={{
+                                fontSize: '14px',
                                 color: '#1A334D',
                                 fontFamily: 'Poppins',
                                 fontWeight: 'bold',
@@ -64,8 +75,8 @@ function ActiveUsers({ data }) {
                                 textAlign: 'left',
                             }}
                             itemStyle={{
+                                fontSize: '14px',
                                 fontFamily: 'Poppins',
-                                color: '#0049C6',
                                 padding: '2px 5px',
                                 textAlign: 'left',
                             }}
