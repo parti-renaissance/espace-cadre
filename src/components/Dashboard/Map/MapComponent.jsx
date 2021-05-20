@@ -30,7 +30,7 @@ function MapComponent({ mapData }) {
                     <Marker key={data.id} position={[data.latitude, data.longitude]}>
                         <Popup>
                             <strong>Nom du sondage:</strong> {data.survey.name} <br />
-                            <strong>Répondu le:</strong> {data.survey.created_at}
+                            <strong>Répondu le:</strong> {data.posted_at}
                         </Popup>
                     </Marker>
                 ))}

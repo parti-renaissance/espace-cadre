@@ -40,19 +40,30 @@ function DownloadsCount({ data }) {
                             angle={-14}
                             tickMargin={8}
                             interval={4}
+                            style={{
+                                color: '#717BA0',
+                                fontFamily: 'roboto',
+                                fontSize: '12px',
+                            }}
                         />
                         <YAxis
                             axisLine={false}
                             tickLine={false}
+                            style={{
+                                color: '#717BA0',
+                                fontFamily: 'roboto',
+                                fontSize: '12px',
+                            }}
                         />
                         <CartesianGrid strokeDasharray=".08" />
                         <Tooltip
                             contentStyle={{
                                 background: '#fff',
                                 borderColor: '#F0F1F3',
-                                borderRadius: '16px',
+                                borderRadius: '6px',
                             }}
                             labelStyle={{
+                                fontSize: '14px',
                                 color: '#1A334D',
                                 fontFamily: 'Poppins',
                                 fontWeight: 'bold',
@@ -60,8 +71,8 @@ function DownloadsCount({ data }) {
                                 textAlign: 'left',
                             }}
                             itemStyle={{
+                                fontSize: '14px',
                                 fontFamily: 'Poppins',
-                                color: '#0049C6',
                                 padding: '2px 5px',
                                 textAlign: 'left',
                             }}

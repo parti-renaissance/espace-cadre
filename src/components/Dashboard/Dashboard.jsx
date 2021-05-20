@@ -61,6 +61,11 @@ const Dashboard = () => {
     } else {
         content = (
             <div className="container">
+                {mapData && (
+                    <div className="row mb-3">
+                        <div className="zone-name-title">Candidat &gt; {mapData.zone_name}</div>
+                    </div>
+                )}
                 <div className="row">
                     <div className="col">
                         {adherentsCount && <TextChart adherentsCount={adherentsCount} />}
@@ -88,7 +93,7 @@ const Dashboard = () => {
                 </div>
                 <div className="row mb-3 with-background dc-container">
                     <div className="col">
-                        {downloadsRatios && <DownloadsRatios title="Nombre de téléchargements pour 1000 adhérents" data={downloadsRatios} />}
+                        {downloadsRatios && <DownloadsRatios data={downloadsRatios} />}
                     </div>
                 </div>
                 <div className="row mb-3">

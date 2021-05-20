@@ -17,10 +17,12 @@ input {
     }
 }
 
+// Add box-shadow and border-radius
 .dc-container {
     @include dc-container();
 }
 
+// Bubble with number inside above chart on Vue d'ensemble page
 .count-bubble {
     color: $blueCorner;
     font-weight: 600;
@@ -30,12 +32,14 @@ input {
     @include borderRadius(6px);
 }
 
+// Title above chart on Vue d'ensemble page
 .chart-title {
     color: $blackCorner;
     font-weight: 600;
     margin-left: 8px;
 }
 
+// Subtitle above chart on Vue d'ensemble page
 .chart-subtitle {
     color: $greyCorner3;
     font-size:12px;
@@ -43,8 +47,8 @@ input {
     margin-left: 8px;
 }
 
+// legend below chart on Vue d'ensemble page
 .legend-chart {
-    color: $blueCorner;
     font-size: 12px;
     font-weight: 400;
     margin: 16px 16px 16px 32px;
