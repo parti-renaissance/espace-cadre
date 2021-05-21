@@ -1,23 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import Loader from '../../../Loader';
+import { apiClientProxy } from '../../../../services/networking/client';
+import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks';
 
-function TextChart({ adherentsCount }) {
-    const { zoneName, adherentCount } = adherentsCount;
+function TextChart() {
+    const [dashboardAdherents, setDashboardAdherents] = useDashboardAdherentCache();
+
+    useEffect(async () => {
+        if (dashboardAdherents === null) {
+            setDashboardAdherents(await apiClientProxy.get('/adherents'));
+        }
+    }, []);
+
     return (
         <div className="row with-background dc-container p-2 mb-3">
             <div className="col text-center">
-                La région {zoneName} compte
-                {' '}{adherentCount} adhérents
+                {dashboardAdherents !== null ? <>La région {dashboardAdherents.zoneName} compte {dashboardAdherents.adherentCount} adhérents</> : <Loader />}
             </div>
         </div>
     );
 }
 
 export default TextChart;
-
-TextChart.propTypes = {
-    adherentsCount: PropTypes.shape({
-        adherentCount: PropTypes.number,
-        zoneName: PropTypes.string,
-    }).isRequired,
-};
