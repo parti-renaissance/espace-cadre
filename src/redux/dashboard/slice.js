@@ -24,10 +24,13 @@ const dashboardSlice = createSlice({
         updateDownloadsRatio(state, action) {
             state.jemengage_downloads_ratio = action.payload;
         },
+        updateSurvey(state, action) {
+            state.jemengage_survey = action.payload;
+        },
     },
 });
 
 export const {
-    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio,
+    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio, updateSurvey,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
