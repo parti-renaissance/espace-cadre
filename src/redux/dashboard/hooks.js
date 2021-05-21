@@ -1,7 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { useDispatch, useSelector } from 'react-redux';
-import { getDashboardAdherents, getDashboardUsers, getDashboardDownloads } from './selectors';
-import { updateAdherents, updateUsers, updateDownloads } from './slice';
+import {
+    getDashboardAdherents, getDashboardUsers, getDashboardDownloads, getDashboardDownloadsRatio,
+} from './selectors';
+import {
+    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio,
+} from './slice';
 
 export const useDashboardAdherentCache = () => {
     const dispatch = useDispatch();
@@ -31,4 +35,14 @@ export const useDashboardDownloadsCache = () => {
     const setDashboardDownloads = (body) => dispatch(updateDownloads(body));
 
     return [dashboardDownloads, setDashboardDownloads];
+};
+
+export const useDashboardDownloadsRatioCache = () => {
+    const dispatch = useDispatch();
+
+    const dashboardDownloadsRatio = useSelector(getDashboardDownloadsRatio);
+
+    const setDashboardDownloadsRatio = (body) => dispatch(updateDownloadsRatio(body));
+
+    return [dashboardDownloadsRatio, setDashboardDownloadsRatio];
 };

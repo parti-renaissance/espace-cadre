@@ -5,7 +5,7 @@ import React from 'react';
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers';
 import TextChart from './Charts/TextChart/TextChart';
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount';
-// import DownloadsRatios from './Charts/DownloadsRatios/DownloadsRatios';
+import DownloadsRatios from './Charts/DownloadsRatios/DownloadsRatios';
 // import MapComponent from './Map/MapComponent';
 // import Spinner from '../Spinner/Spinner';
 // import Loader from '../Loader';
@@ -82,11 +82,11 @@ const Dashboard = () => (
                 </div>
             </div>
         </div>
-        {/* <div className="row mb-3 with-background dc-container">
-                    <div className="col">
-                        {downloadsRatios && <DownloadsRatios data={downloadsRatios} />}
-                    </div>
-                </div> */}
+        <div className="row mb-3 with-background dc-container">
+            <div className="col">
+                <DownloadsRatios />
+            </div>
+        </div>
         {/* <div className="row mb-3">
                     {mapData && <MapComponent mapData={mapData} />}
                 </div> */}
