@@ -15,8 +15,11 @@ const dashboardSlice = createSlice({
         updateAdherents(state, action) {
             state.adherents = action.payload;
         },
+        updateUsers(state, action) {
+            state.jemengage_users = action.payload;
+        },
     },
 });
 
-export const { updateAdherents } = dashboardSlice.actions;
+export const { updateAdherents, updateUsers } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
