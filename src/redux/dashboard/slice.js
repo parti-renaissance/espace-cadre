@@ -18,8 +18,11 @@ const dashboardSlice = createSlice({
         updateUsers(state, action) {
             state.jemengage_users = action.payload;
         },
+        updateDownloads(state, action) {
+            state.jemengage_downloads = action.payload;
+        },
     },
 });
 
-export const { updateAdherents, updateUsers } = dashboardSlice.actions;
+export const { updateAdherents, updateUsers, updateDownloads } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
