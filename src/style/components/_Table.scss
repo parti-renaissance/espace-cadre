@@ -8,7 +8,6 @@
     height: 38px;
     background-color: $whiteCorner;
     overflow: hidden;
-    text-overflow: ellipsis;
 
     span {
         margin-right: 10px;
@@ -27,11 +26,6 @@
 //**************************
 // Style for table
 //**************************
-
-// Global style for Table container
-.table-container {
-    overflow: scroll;
-}
 
 // Style for table
 .table {
