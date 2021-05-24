@@ -29,7 +29,7 @@ const Dashboard = () => (
                 <DownloadsRatios />
             </div>
         </div>
-        <div className="row mb-3 witch-background dc-container">
+        <div className="row mb-3 with-background dc-container">
             <div className="col p-0">
                 <MapComponent />
             </div>
