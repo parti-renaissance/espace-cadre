@@ -52,7 +52,7 @@ function MapComponent() {
                         ))}
                     </MapContainer>
                 </div>
-            ) : <Loader />}
+            ) : <div className="text-center"><Loader /></div>}
         </>
     );
 }

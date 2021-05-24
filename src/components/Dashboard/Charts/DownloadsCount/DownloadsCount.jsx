@@ -112,7 +112,7 @@ function DownloadsCount() {
                         <li className="legend-chart">Téléchargements par jour </li>
                     </div>
                 </div>
-            ) : <Loader />}
+            ) : <div className="text-center"><Loader /></div>}
         </>
     );
 }

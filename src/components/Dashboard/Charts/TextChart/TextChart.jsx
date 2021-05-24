@@ -24,7 +24,7 @@ function TextChart() {
             <div className="col text-center">
                 {dashboardAdherents !== null
                     ? <>La région {dashboardAdherents.zoneName} compte {dashboardAdherents.adherentCount} adhérents</>
-                    : <Loader />}
+                    : <div className="text-center"><Loader /></div>}
             </div>
         </div>
     );

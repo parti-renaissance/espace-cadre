@@ -127,7 +127,7 @@ function ActiveUsers() {
                         <li className="legend-chart" style={{ color: '#82ca9d' }}>Utilisateurs cumulés sur 7 jours</li>
                     </div>
                 </div>
-            ) : <Loader />}
+            ) : <div className="text-center"><Loader /></div>}
         </>
     );
 }

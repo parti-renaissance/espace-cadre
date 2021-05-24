@@ -124,7 +124,7 @@ function DownloadsRatios() {
                     <li className="legend-chart" style={{ color: '#82ca9d' }}>Au national</li>
                 </div>
             </div>
-        ) : <Loader />}
+        ) : <div className="text-center"><Loader /></div>}
         </>
     );
 }
