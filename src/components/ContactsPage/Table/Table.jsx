@@ -145,10 +145,10 @@ const Table = ({ columns, data }) => {
                     Affichage de {pageSize} contacts sur {rows.length}
                 </span>
 
-                <div className="pageNav dc-container">
+                <div className="pageNav">
                     <button
                         type="button"
-                        className="btn mr-1"
+                        className="btn mr-1 dc-container"
                         onClick={() => gotoPage(0)}
                         disabled={!canPreviousPage}
                     >
@@ -156,7 +156,7 @@ const Table = ({ columns, data }) => {
                     </button>
                     <button
                         type="button"
-                        className="btn mr-1"
+                        className="btn mr-1 dc-container"
                         onClick={() => previousPage()}
                         disabled={!canPreviousPage}
                     >
@@ -164,7 +164,7 @@ const Table = ({ columns, data }) => {
                     </button>
                     <button
                         type="button"
-                        className="btn mr-1"
+                        className="btn mr-1 dc-container"
                         onClick={() => nextPage()}
                         disabled={!canNextPage}
                     >
@@ -172,7 +172,7 @@ const Table = ({ columns, data }) => {
                     </button>
                     <button
                         type="button"
-                        className="btn"
+                        className="btn dc-container"
                         onClick={() => gotoPage(pageCount - 1)}
                         disabled={!canNextPage}
                     >
