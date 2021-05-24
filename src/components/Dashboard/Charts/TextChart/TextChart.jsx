@@ -8,8 +8,12 @@ function TextChart() {
 
     useEffect(() => {
         const getDashboardAdherents = async () => {
-            if (dashboardAdherents === null) {
-                setDashboardAdherents(await apiClientProxy.get('/adherents'));
+            try {
+                if (dashboardAdherents === null) {
+                    setDashboardAdherents(await apiClientProxy.get('/adherents'));
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
         getDashboardAdherents();

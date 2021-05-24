@@ -11,8 +11,12 @@ function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();
     useEffect(() => {
         const getSurvey = async () => {
-            if (dashboardSurvey === null) {
-                setDashboardSurvey(await apiClientProxy.get('/jemengage/survey'));
+            try {
+                if (dashboardSurvey === null) {
+                    setDashboardSurvey(await apiClientProxy.get('/jemengage/survey'));
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
         getSurvey();

@@ -16,8 +16,12 @@ function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();
     useEffect(() => {
         const getDownloads = async () => {
-            if (dashboardDownloads === null) {
-                setDashboardDownloads(await apiClientProxy.get('/jemengage/downloads'));
+            try {
+                if (dashboardDownloads === null) {
+                    setDashboardDownloads(await apiClientProxy.get('/jemengage/downloads'));
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
         getDownloads();

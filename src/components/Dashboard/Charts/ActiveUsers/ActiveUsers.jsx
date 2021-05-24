@@ -17,8 +17,12 @@ function ActiveUsers() {
 
     useEffect(() => {
         const getDashboardUsers = async () => {
-            if (dashboardUsers === null) {
-                setDashboardUsers(await apiClientProxy.get('/jemengage/users'));
+            try {
+                if (dashboardUsers === null) {
+                    setDashboardUsers(await apiClientProxy.get('/jemengage/users'));
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
         getDashboardUsers();

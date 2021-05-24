@@ -16,8 +16,12 @@ function DownloadsRatios() {
     const [dashboardDownloadsRatio, setDashboardDownloadsRatio] = useDashboardDownloadsRatioCache();
     useEffect(() => {
         const getDownloads = async () => {
-            if (dashboardDownloadsRatio === null) {
-                setDashboardDownloadsRatio(await apiClientProxy.get('/jemengage/downloadsRatios'));
+            try {
+                if (dashboardDownloadsRatio === null) {
+                    setDashboardDownloadsRatio(await apiClientProxy.get('/jemengage/downloadsRatios'));
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
         getDownloads();
