@@ -69,7 +69,24 @@
     font-size: 14px;
 }
 
-// Page count below the table
+.page-size {
+    color: $blueCorner;
+}
+
+.contacts-count {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media(min-width: 992px) {
+    .contacts-count {
+    position: absolute;
+    right: 16px 
+    }
+}
+
+
+// Pages and contacts count
 .contacts-count,
 .page-count-bottom {
     color: $greyCorner3;
