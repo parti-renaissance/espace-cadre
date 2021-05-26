@@ -97,7 +97,7 @@ const Table = ({ columns, data }) => {
                 <select
                     value={pageSize}
                     onChange={(e) => setPageSize(Number(e.target.value))}
-                    className="line-count dc-container mb-3"
+                    className="line-count dc-container mr-3 mb-3"
                 >
                     {
                         [20, 40, 60, 100].map((size) => (
@@ -107,6 +107,11 @@ const Table = ({ columns, data }) => {
                         ))
                     }
                 </select>
+                <div className="contacts-count mb-3 mt-lg-2">
+                    <p>
+                        <span className="page-size">{pageSize}</span> sur {rows.length} contacts
+                    </p>
+                </div>
             </div>
 
             <table
@@ -141,10 +146,6 @@ const Table = ({ columns, data }) => {
                 <div className="page-count-bottom mr-3 mb-3 my-auto">
                     <span>Page <strong>{pageIndex + 1} of {pageOptions.length}</strong></span>
                 </div>
-                <span className="contacts-count my-auto">
-                    Affichage de {pageSize} contacts sur {rows.length}
-                </span>
-
                 <div className="pageNav">
                     <button
                         type="button"
