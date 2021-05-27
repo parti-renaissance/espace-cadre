@@ -77,11 +77,11 @@ function EmailCampaign() {
                                     <div className="text-below-info-number">Emails</div>
                                 </div>
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{emailCampaignReports.campagnes[0].nbOuvertures}</div>
+                                    <div className="info-number">{Number((emailCampaignReports.campagnes[0].txOuverture).toFixed(2))}</div>
                                     <div className="text-below-info-number">Ouvertures</div>
                                 </div>
                                 <div className="col flash-card">
-                                    <div className="info-number">{emailCampaignReports.campagnes[0].nbCliques}</div>
+                                    <div className="info-number">{Number((emailCampaignReports.campagnes[0].txClique).toFixed(2))}</div>
                                     <div className="text-below-info-number">Clics</div>
                                 </div>
                             </div>
@@ -95,11 +95,11 @@ function EmailCampaign() {
                                     <div className="text-below-info-number">Emails</div>
                                 </div>
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{emailCampaignReports.campagnes[1].nbOuvertures}</div>
+                                    <div className="info-number">{Number((emailCampaignReports.campagnes[1].txOuverture).toFixed(2))}</div>
                                     <div className="text-below-info-number">Ouvertures</div>
                                 </div>
                                 <div className="col flash-card">
-                                    <div className="info-number">{emailCampaignReports.campagnes[1].nbCliques}</div>
+                                    <div className="info-number">{Number((emailCampaignReports.campagnes[1].txClique).toFixed(2))}</div>
                                     <div className="text-below-info-number">Clics</div>
                                 </div>
                             </div>
