@@ -65,7 +65,7 @@ function EmailCampaign() {
                     </>
                 )
                 : <div className="with-background text-center"><Loader /></div>}
-            {emailCampaignReports !== null
+            {emailCampaignReports !== null && emailCampaignReports.campagnes.length > 0
                 ? (
                     <div className="row">
                         <div className="col-12 col-lg with-background dc-container mr-lg-3 medium-card">
@@ -106,7 +106,13 @@ function EmailCampaign() {
                         </div>
                     </div>
                 )
-                : <div className="with-background text-center"><Loader /></div>}
+                : (
+                    <div className="row">
+                        <div className="col with-background dc-container text-center mb-3">
+                            <Loader />
+                        </div>
+                    </div>
+                )}
         </>
     );
 }
