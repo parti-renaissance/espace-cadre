@@ -109,7 +109,7 @@ function DownloadsCount() {
                         </ResponsiveContainer>
                     </div>
                     <div className="row">
-                        <li className="legend-chart">Téléchargements par jour </li>
+                        <li className="legend-chart" style={{ color: '#0049C6' }}>Téléchargements par jour </li>
                     </div>
                 </div>
             ) : <div className="text-center"><Loader /></div>}
