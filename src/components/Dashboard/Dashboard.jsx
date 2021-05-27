@@ -1,12 +1,17 @@
 import React from 'react';
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers';
-import TextChart from './Charts/TextChart/TextChart';
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount';
 import DownloadsRatios from './Charts/DownloadsRatios/DownloadsRatios';
+import EmailCampaign from './Charts/EmailCampaign/EmailCampaign';
 import MapComponent from './Map/MapComponent';
+import TextChart from './Charts/TextChart/TextChart';
 
 const Dashboard = () => (
     <div className="container">
+        <EmailCampaign />
+        <div className="row">
+            <p className="title"><i className="fas fa-mobile mr-2" />Application mobile</p>
+        </div>
         <div className="row">
             <div className="col">
                 <TextChart />

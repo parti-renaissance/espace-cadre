@@ -6,6 +6,7 @@ const initialState = {
     jemengage_downloads: null,
     jemengage_downloads_ratio: null,
     jemengage_survey: null,
+    emailCampaign: null,
 };
 
 const dashboardSlice = createSlice({
@@ -27,10 +28,13 @@ const dashboardSlice = createSlice({
         updateSurvey(state, action) {
             state.jemengage_survey = action.payload;
         },
+        updateEmailCampaign(state, action) {
+            state.emailCampaign = action.payload;
+        },
     },
 });
 
 export const {
-    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio, updateSurvey,
+    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio, updateSurvey, updateEmailCampaign,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

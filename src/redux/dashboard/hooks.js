@@ -1,10 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    getDashboardAdherents, getDashboardUsers, getDashboardDownloads, getDashboardDownloadsRatio, getDashboardSurvey,
+    getDashboardAdherents,
+    getDashboardUsers,
+    getDashboardDownloads,
+    getDashboardDownloadsRatio,
+    getDashboardSurvey,
+    getEmailCampaign,
 } from './selectors';
 import {
-    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio, updateSurvey,
+    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio, updateSurvey, updateEmailCampaign,
 } from './slice';
 
 export const useDashboardAdherentCache = () => {
@@ -55,4 +60,14 @@ export const useDashboardSurveyCache = () => {
     const setDashboardSurvey = (body) => dispatch(updateSurvey(body));
 
     return [dashboardSurvey, setDashboardSurvey];
+};
+
+export const useEmailCampaignCache = () => {
+    const dispatch = useDispatch();
+
+    const emailCampaign = useSelector(getEmailCampaign);
+
+    const setEmailCampaign = (body) => dispatch(updateEmailCampaign(body));
+
+    return [emailCampaign, setEmailCampaign];
 };
