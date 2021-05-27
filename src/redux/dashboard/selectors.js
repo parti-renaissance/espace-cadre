@@ -5,3 +5,4 @@ export const getDashboardDownloads = (state) => state.dashboard.jemengage_downlo
 export const getDashboardDownloadsRatio = (state) => state.dashboard.jemengage_downloads_ratio;
 export const getDashboardSurvey = (state) => state.dashboard.jemengage_survey;
 export const getEmailCampaign = (state) => state.dashboard.emailCampaign;
+export const getEmailCampaignReports = (state) => state.dashboard.emailCampaignReports;

@@ -7,9 +7,16 @@ import {
     getDashboardDownloadsRatio,
     getDashboardSurvey,
     getEmailCampaign,
+    getEmailCampaignReports,
 } from './selectors';
 import {
-    updateAdherents, updateUsers, updateDownloads, updateDownloadsRatio, updateSurvey, updateEmailCampaign,
+    updateAdherents,
+    updateUsers,
+    updateDownloads,
+    updateDownloadsRatio,
+    updateSurvey,
+    updateEmailCampaign,
+    updateEmailCampaignReports,
 } from './slice';
 
 export const useDashboardAdherentCache = () => {
@@ -70,4 +77,14 @@ export const useEmailCampaignCache = () => {
     const setEmailCampaign = (body) => dispatch(updateEmailCampaign(body));
 
     return [emailCampaign, setEmailCampaign];
+};
+
+export const useEmailCampaignReportsCache = () => {
+    const dispatch = useDispatch();
+
+    const emailCampaignReports = useSelector(getEmailCampaignReports);
+
+    const setEmailCampaignReports = (body) => dispatch(updateEmailCampaignReports(body));
+
+    return [emailCampaignReports, setEmailCampaignReports];
 };
