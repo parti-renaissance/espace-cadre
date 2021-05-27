@@ -74,7 +74,7 @@ function EmailCampaign() {
             {emailCampaignReports !== null && emailCampaignReports.campagnes.length > 0
                 ? (
                     <div className="row">
-                        <div className="col-12 col-lg with-background dc-container mr-lg-3 medium-card">
+                        <div className="col-12 col-lg mr-lg-3 with-background dc-container medium-card">
                             <p className="headline">{emailCampaignReports.campagnes[0].titre}</p>
                             <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[0].date}, par {emailCampaignReports.campagnes[0].auteur}</p>
                             <div className="row p-3">
@@ -92,7 +92,7 @@ function EmailCampaign() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-lg with-background dc-container mr-lg-3 medium-card">
+                        <div className="col-12 col-lg with-background dc-container medium-card">
                             <p className="headline">{emailCampaignReports.campagnes[1].titre}</p>
                             <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[1].date}, par {emailCampaignReports.campagnes[1].auteur}</p>
                             <div className="row p-3">
