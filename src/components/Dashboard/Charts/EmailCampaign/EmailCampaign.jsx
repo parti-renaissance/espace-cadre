@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { apiClientProxy } from '../../../../services/networking/client';
-// import Loader from '../../../Loader';
+import Loader from '../../../Loader';
 import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks';
 
 function EmailCampaign() {
@@ -19,33 +19,78 @@ function EmailCampaign() {
         getEmailCampaign();
     }, []);
     return (
-        <div className="mb-3">
+        <>
+            {emailCampaign !== null
+                ? (
+                    <>
+                        <div className="row">
+                            <p className="mail-title"><i className="fas fa-envelope mr-2" />Campagnes d&apos;emails</p>
+                        </div>
+                        <div className="row mb-3">
+                            <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
+                                <div className="main-info">{emailCampaign.local.nb_campagnes}</div>
+                                <div className="main-text">Campagnes</div>
+                                <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
+                            </div>
+                            <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
+                                <div className="main-info">{emailCampaign.local.tx_ouverture}</div>
+                                <div className="main-text">Ouvertures</div>
+                                <div className="secondary-text">{emailCampaign.national.tx_ouverture} au national</div>
+                            </div>
+                            <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
+                                <div className="main-info">{emailCampaign.local.tx_clique}</div>
+                                <div className="main-text">Clics</div>
+                                <div className="secondary-text">{emailCampaign.national.tx_clique} au national</div>
+                            </div>
+                            <div className="col mr-0 mb-3 mb-md-0 with-background dc-container little-card">
+                                <div className="main-info">{emailCampaign.local.tx_desabonnement}</div>
+                                <div className="main-text">Désabonnements</div>
+                                <div className="secondary-text">{emailCampaign.national.tx_desabonnement} au national</div>
+                            </div>
+                        </div>
+                    </>
+                )
+                : <div className="with-background text-center"><Loader /></div>}
+            {/*
             <div className="row">
-                <p className="mail-title">Campagnes d&apos;emails</p>
-            </div>
-            <div className="row">
-                <div className="col mr-1 with-background dc-container little-card">
-                    <span className="main-info">14</span> <br />
-                    <span className="main-text">Campagnes</span><br />
-                    <span className="secondary-text">Envoyées en 2021</span>
+                <div className="col-12 col-lg with-background dc-container mr-lg-3 medium-card">
+                    <p className="headline">Participez au dévoilement de notre programme</p>
+                    <p className="subtitle-text-card">Le 24/05/2021 via DataCorner, par Laurent Saint-Martin</p>
+                    <div className="row p-3">
+                        <div className="col flash-card mr-3">
+                            <div className="info-number">1800</div>
+                            <div className="text-below-info-number">Contacts</div>
+                        </div>
+                        <div className="col flash-card mr-3">
+                            <div className="info-number">16,2%</div>
+                            <div className="text-below-info-number">Ouvertures</div>
+                        </div>
+                        <div className="col flash-card">
+                            <div className="info-number">3,7%</div>
+                            <div className="text-below-info-number">Clics</div>
+                        </div>
+                    </div>
                 </div>
-                <div className="col mr-1 with-background dc-container little-card">
-                    <span className="main-info">28,7%</span> <br />
-                    <span className="main-text">Ouvertures</span><br />
-                    <span className="secondary-text">23,8% au national</span>
+                <div className="col-12 col-lg with-background dc-container medium-card">
+                    <p className="headline">Comment est votre Blanquer ?</p>
+                    <p className="subtitle-text-card">Le 07/11/2021 via l&apos;espace candidat, par Mathilde Sarda</p>
+                    <div className="row p-3">
+                        <div className="col flash-card mr-3">
+                            <div className="info-number">1800</div>
+                            <div className="text-below-info-number">Contacts</div>
+                        </div>
+                        <div className="col flash-card mr-3">
+                            <div className="info-number">16,2%</div>
+                            <div className="text-below-info-number">Ouvertures</div>
+                        </div>
+                        <div className="col flash-card">
+                            <div className="info-number">3,7%</div>
+                            <div className="text-below-info-number">Clics</div>
+                        </div>
+                    </div>
                 </div>
-                <div className="col mr-1 with-background dc-container little-card">
-                    <span className="main-info">5,4%</span> <br />
-                    <span className="main-text">Clics</span><br />
-                    <span className="secondary-text">3,7% au national</span>
-                </div>
-                <div className="col mr-1 with-background dc-container little-card">
-                    <span className="main-info">0,4%</span> <br />
-                    <span className="main-text">Désabonnements</span><br />
-                    <span className="secondary-text">0,2% au national</span>
-                </div>
-            </div>
-        </div>
+            </div> */}
+        </>
     );
 }
 

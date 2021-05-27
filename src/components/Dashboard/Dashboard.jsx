@@ -10,7 +10,7 @@ const Dashboard = () => (
     <div className="container">
         <EmailCampaign />
         <div className="row">
-            <p className="title">Application mobile</p>
+            <p className="title"><i className="fas fa-mobile mr-2" />Application mobile</p>
         </div>
         <div className="row">
             <div className="col">
