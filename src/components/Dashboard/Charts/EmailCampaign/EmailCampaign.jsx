@@ -47,19 +47,19 @@ function EmailCampaign() {
                                 <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.txOuverture * 100}%</div>
+                                <div className="main-info">{Number((emailCampaign.local.txOuverture * 100).toFixed(2))}%</div>
                                 <div className="main-text">Ouvertures</div>
-                                <div className="secondary-text">{emailCampaign.national.txOuverture * 100}% au national</div>
+                                <div className="secondary-text">{Number((emailCampaign.national.txOuverture * 100).toFixed(2))}% au national</div>
                             </div>
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.txClique * 100}%</div>
+                                <div className="main-info">{Number((emailCampaign.local.txClique * 100).toFixed(2))}%</div>
                                 <div className="main-text">Clics</div>
-                                <div className="secondary-text">{emailCampaign.national.txClique * 100}% au national</div>
+                                <div className="secondary-text">{Number((emailCampaign.national.txClique * 100).toFixed(2))}% au national</div>
                             </div>
                             <div className="col mr-0 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.txDesabonnement * 100}%</div>
+                                <div className="main-info">{Number((emailCampaign.local.txDesabonnement * 100).toFixed(2))}%</div>
                                 <div className="main-text">Désabonnements</div>
-                                <div className="secondary-text">{emailCampaign.national.txDesabonnement * 100}% au national</div>
+                                <div className="secondary-text">{Number((emailCampaign.national.txDesabonnement * 100).toFixed(2))}% au national</div>
                             </div>
                         </div>
                     </>
