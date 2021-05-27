@@ -92,24 +92,26 @@ function EmailCampaign() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-lg with-background dc-container medium-card">
-                            <p className="headline">{emailCampaignReports.campagnes[1].titre}</p>
-                            <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[1].date}, par {emailCampaignReports.campagnes[1].auteur}</p>
-                            <div className="row p-3">
-                                <div className="col flash-card mr-3">
-                                    <div className="info-number">{emailCampaignReports.campagnes[1].nbEmails}</div>
-                                    <div className="text-below-info-number">Emails</div>
-                                </div>
-                                <div className="col flash-card mr-3">
-                                    <div className="info-number">{Number((emailCampaignReports.campagnes[1].txOuverture).toFixed(2))}</div>
-                                    <div className="text-below-info-number">Ouvertures</div>
-                                </div>
-                                <div className="col flash-card">
-                                    <div className="info-number">{Number((emailCampaignReports.campagnes[1].txClique).toFixed(2))}</div>
-                                    <div className="text-below-info-number">Clics</div>
+                        {emailCampaignReports.campagnes[1] && (
+                            <div className="col-12 col-lg with-background dc-container medium-card">
+                                <p className="headline">{emailCampaignReports.campagnes[1].titre}</p>
+                                <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[1].date}, par {emailCampaignReports.campagnes[1].auteur}</p>
+                                <div className="row p-3">
+                                    <div className="col flash-card mr-3">
+                                        <div className="info-number">{emailCampaignReports.campagnes[1].nbEmails}</div>
+                                        <div className="text-below-info-number">Emails</div>
+                                    </div>
+                                    <div className="col flash-card mr-3">
+                                        <div className="info-number">{Number((emailCampaignReports.campagnes[1].txOuverture).toFixed(2))}</div>
+                                        <div className="text-below-info-number">Ouvertures</div>
+                                    </div>
+                                    <div className="col flash-card">
+                                        <div className="info-number">{Number((emailCampaignReports.campagnes[1].txClique).toFixed(2))}</div>
+                                        <div className="text-below-info-number">Clics</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 )
                 : (
