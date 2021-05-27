@@ -42,24 +42,24 @@ function EmailCampaign() {
                         </div>
                         <div className="row mb-3">
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.nb_campagnes}</div>
+                                <div className="main-info">{emailCampaign.local.nbCampagnes}</div>
                                 <div className="main-text">Campagnes</div>
                                 <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.tx_ouverture * 100}%</div>
+                                <div className="main-info">{emailCampaign.local.txOuverture * 100}%</div>
                                 <div className="main-text">Ouvertures</div>
-                                <div className="secondary-text">{emailCampaign.national.tx_ouverture * 100}% au national</div>
+                                <div className="secondary-text">{emailCampaign.national.txOuverture * 100}% au national</div>
                             </div>
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.tx_clique * 100}%</div>
+                                <div className="main-info">{emailCampaign.local.txClique * 100}%</div>
                                 <div className="main-text">Clics</div>
-                                <div className="secondary-text">{emailCampaign.national.tx_clique * 100}% au national</div>
+                                <div className="secondary-text">{emailCampaign.national.txClique * 100}% au national</div>
                             </div>
                             <div className="col mr-0 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.tx_desabonnement * 100}%</div>
+                                <div className="main-info">{emailCampaign.local.txDesabonnement * 100}%</div>
                                 <div className="main-text">Désabonnements</div>
-                                <div className="secondary-text">{emailCampaign.national.tx_desabonnement * 100}% au national</div>
+                                <div className="secondary-text">{emailCampaign.national.txDesabonnement * 100}% au national</div>
                             </div>
                         </div>
                     </>
@@ -73,15 +73,15 @@ function EmailCampaign() {
                             <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[0].date}, par {emailCampaignReports.campagnes[0].auteur}</p>
                             <div className="row p-3">
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{emailCampaignReports.campagnes[0].nb_emails}</div>
+                                    <div className="info-number">{emailCampaignReports.campagnes[0].nbEmails}</div>
                                     <div className="text-below-info-number">Emails</div>
                                 </div>
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{emailCampaignReports.campagnes[0].nb_ouvertures}</div>
+                                    <div className="info-number">{emailCampaignReports.campagnes[0].nbOuvertures}</div>
                                     <div className="text-below-info-number">Ouvertures</div>
                                 </div>
                                 <div className="col flash-card">
-                                    <div className="info-number">{emailCampaignReports.campagnes[0].nb_cliques}</div>
+                                    <div className="info-number">{emailCampaignReports.campagnes[0].nbCliques}</div>
                                     <div className="text-below-info-number">Clics</div>
                                 </div>
                             </div>
@@ -91,15 +91,15 @@ function EmailCampaign() {
                             <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[1].date}, par {emailCampaignReports.campagnes[1].auteur}</p>
                             <div className="row p-3">
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{emailCampaignReports.campagnes[1].nb_emails}</div>
+                                    <div className="info-number">{emailCampaignReports.campagnes[1].nbEmails}</div>
                                     <div className="text-below-info-number">Emails</div>
                                 </div>
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{emailCampaignReports.campagnes[1].nb_ouvertures}</div>
+                                    <div className="info-number">{emailCampaignReports.campagnes[1].nbOuvertures}</div>
                                     <div className="text-below-info-number">Ouvertures</div>
                                 </div>
                                 <div className="col flash-card">
-                                    <div className="info-number">{emailCampaignReports.campagnes[1].nb_cliques}</div>
+                                    <div className="info-number">{emailCampaignReports.campagnes[1].nbCliques}</div>
                                     <div className="text-below-info-number">Clics</div>
                                 </div>
                             </div>
