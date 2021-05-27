@@ -5,7 +5,6 @@ import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks';
 
 function EmailCampaign() {
     const [emailCampaign, setEmailCampaign] = useEmailCampaignCache();
-    console.log(emailCampaign);
     useEffect(() => {
         const getEmailCampaign = async () => {
             try {
@@ -28,24 +27,24 @@ function EmailCampaign() {
                         </div>
                         <div className="row mb-3">
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.nb_campagnes}</div>
+                                <div className="main-info">{emailCampaign.local.nb_campagnes * 100}%</div>
                                 <div className="main-text">Campagnes</div>
                                 <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.tx_ouverture}</div>
+                                <div className="main-info">{emailCampaign.local.tx_ouverture * 100}%</div>
                                 <div className="main-text">Ouvertures</div>
-                                <div className="secondary-text">{emailCampaign.national.tx_ouverture} au national</div>
+                                <div className="secondary-text">{emailCampaign.national.tx_ouverture * 100}% au national</div>
                             </div>
                             <div className="col mr-3 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.tx_clique}</div>
+                                <div className="main-info">{emailCampaign.local.tx_clique * 100}%</div>
                                 <div className="main-text">Clics</div>
-                                <div className="secondary-text">{emailCampaign.national.tx_clique} au national</div>
+                                <div className="secondary-text">{emailCampaign.national.tx_clique * 100}% au national</div>
                             </div>
                             <div className="col mr-0 mb-3 mb-md-0 with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.tx_desabonnement}</div>
+                                <div className="main-info">{emailCampaign.local.tx_desabonnement * 100}%</div>
                                 <div className="main-text">Désabonnements</div>
-                                <div className="secondary-text">{emailCampaign.national.tx_desabonnement} au national</div>
+                                <div className="secondary-text">{emailCampaign.national.tx_desabonnement * 100}% au national</div>
                             </div>
                         </div>
                     </>
