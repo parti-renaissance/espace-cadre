@@ -43,7 +43,7 @@ function EmailCampaign() {
                         <div className="row">
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
                                 <div className="main-info">{emailCampaign.local.nbCampagnes}</div>
-                                <div className="main-text">Campagnes</div>
+                                <div className="main-text">{emailCampaign.local.nbCampagnes <= 1 ? 'Campagne' : 'Campagnes'}</div>
                                 <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
