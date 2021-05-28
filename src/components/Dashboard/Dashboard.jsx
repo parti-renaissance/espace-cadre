@@ -8,14 +8,14 @@ import TextChart from './Charts/TextChart/TextChart';
 
 const Dashboard = () => (
     <div className="container">
-        <EmailCampaign />
-        <div className="row">
-            <p className="title"><i className="fas fa-mobile mr-2" />Application mobile</p>
-        </div>
-        <div className="row">
-            <div className="col">
+        <div className="row mb-3">
+            <div className="col p-0">
                 <TextChart />
             </div>
+        </div>
+        <EmailCampaign />
+        <div className="row">
+            <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" className="ml-2 mr-2" />Application mobile</p>
         </div>
         <div className="row mb-3">
             <div className="col-lg-6 left-chart mb-3 mb-lg-0">

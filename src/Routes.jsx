@@ -29,7 +29,7 @@ const PATHS = {
         route: '/mail',
         url: () => '/mail',
         label: 'Messagerie',
-        icon: 'far fa-paper-plane',
+        icon: 'fas fa-paper-plane',
     },
 };
 

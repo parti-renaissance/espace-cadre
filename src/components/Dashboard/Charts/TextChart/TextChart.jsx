@@ -20,13 +20,11 @@ function TextChart() {
     }, []);
 
     return (
-        <div className="row with-background dc-container p-2 mb-3">
-            <div className="col text-center">
-                {dashboardAdherents !== null
-                    ? <>La région {dashboardAdherents.zoneName} compte {dashboardAdherents.adherentCount} adhérents</>
-                    : <div className="text-center"><Loader /></div>}
-            </div>
-        </div>
+        <>
+            {dashboardAdherents !== null
+                ? <div className="headline-dashboard">Candidat &gt; {dashboardAdherents.zoneName} ({dashboardAdherents.adherentCount} adhérents)</div>
+                : <Loader />}
+        </>
     );
 }
 

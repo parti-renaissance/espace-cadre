@@ -37,13 +37,13 @@ function EmailCampaign() {
             {emailCampaign !== null
                 ? (
                     <>
-                        <div className="row">
-                            <p className="mail-title"><i className="fas fa-envelope mr-2" />Campagnes d&apos;emails</p>
+                        <div className="row mb-3">
+                            <p className="mail-title"><img src="images/mail.svg" alt="mail-logo" className="ml-2 mr-2" />Campagnes d&apos;emails</p>
                         </div>
                         <div className="row">
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
                                 <div className="main-info">{emailCampaign.local.nbCampagnes}</div>
-                                <div className="main-text">Campagnes</div>
+                                <div className="main-text">Campagne{emailCampaign.local.nbCampagnes > 1 && 's'}</div>
                                 <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
@@ -74,13 +74,13 @@ function EmailCampaign() {
             {emailCampaignReports !== null && emailCampaignReports.campagnes.length > 0
                 ? (
                     <div className="row">
-                        <div className="col-12 col-lg mr-lg-3 with-background dc-container medium-card">
+                        <div className="col-12 col-lg mr-lg-3 with-background dc-container big-card">
                             <p className="headline">{emailCampaignReports.campagnes[0].titre}</p>
                             <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[0].date}, par {emailCampaignReports.campagnes[0].auteur}</p>
                             <div className="row p-3">
                                 <div className="col flash-card mr-3">
                                     <div className="info-number">{emailCampaignReports.campagnes[0].nbEmails}</div>
-                                    <div className="text-below-info-number">Emails</div>
+                                    <div className="text-below-info-number">Email{emailCampaignReports.campagnes[0].nbEmailsEmails > 1 && 's'}</div>
                                 </div>
                                 <div className="col flash-card mr-3">
                                     <div className="info-number">{Number((emailCampaignReports.campagnes[0].txOuverture * 100).toFixed(2))}%</div>
@@ -93,13 +93,13 @@ function EmailCampaign() {
                             </div>
                         </div>
                         {emailCampaignReports.campagnes[1] && (
-                            <div className="col-12 col-lg with-background dc-container medium-card">
+                            <div className="col-12 col-lg with-background dc-container big-card">
                                 <p className="headline">{emailCampaignReports.campagnes[1].titre}</p>
                                 <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[1].date}, par {emailCampaignReports.campagnes[1].auteur}</p>
                                 <div className="row p-3">
                                     <div className="col flash-card mr-3">
                                         <div className="info-number">{emailCampaignReports.campagnes[1].nbEmails}</div>
-                                        <div className="text-below-info-number">Emails</div>
+                                        <div className="text-below-info-number">Email{emailCampaignReports.campagnes[1].nbEmailsEmails > 1 && 's'}</div>
                                     </div>
                                     <div className="col flash-card mr-3">
                                         <div className="info-number">{Number((emailCampaignReports.campagnes[1].txOuverture * 100).toFixed(2))}%</div>
