@@ -43,7 +43,7 @@ function EmailCampaign() {
                         <div className="row">
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
                                 <div className="main-info">{emailCampaign.local.nbCampagnes}</div>
-                                <div className="main-text">{emailCampaign.local.nbCampagnes <= 1 ? 'Campagne' : 'Campagnes'}</div>
+                                <div className="main-text">Campagne{emailCampaign.local.nbCampagnes > 1 && 's'}</div>
                                 <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
@@ -80,7 +80,7 @@ function EmailCampaign() {
                             <div className="row p-3">
                                 <div className="col flash-card mr-3">
                                     <div className="info-number">{emailCampaignReports.campagnes[0].nbEmails}</div>
-                                    <div className="text-below-info-number">{emailCampaignReports.campagnes[0].nbEmailsEmails <= 1 ? 'Email' : 'Emails'}</div>
+                                    <div className="text-below-info-number">Email{emailCampaignReports.campagnes[0].nbEmailsEmails > 1 && 's'}</div>
                                 </div>
                                 <div className="col flash-card mr-3">
                                     <div className="info-number">{Number((emailCampaignReports.campagnes[0].txOuverture * 100).toFixed(2))}%</div>
@@ -99,7 +99,7 @@ function EmailCampaign() {
                                 <div className="row p-3">
                                     <div className="col flash-card mr-3">
                                         <div className="info-number">{emailCampaignReports.campagnes[1].nbEmails}</div>
-                                        <div className="text-below-info-number">{emailCampaignReports.campagnes[1].nbEmails <= 1 ? 'Email' : 'Emails'}</div>
+                                        <div className="text-below-info-number">Email{emailCampaignReports.campagnes[1].nbEmailsEmails > 1 && 's'}</div>
                                     </div>
                                     <div className="col flash-card mr-3">
                                         <div className="info-number">{Number((emailCampaignReports.campagnes[1].txOuverture * 100).toFixed(2))}%</div>
