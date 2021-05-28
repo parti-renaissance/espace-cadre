@@ -38,12 +38,12 @@ function EmailCampaign() {
                 ? (
                     <>
                         <div className="row">
-                            <p className="mail-title"><i className="fas fa-envelope mr-2" />Campagnes d&apos;emails</p>
+                            <p className="mail-title"><img src="images/mail.svg" alt="mail-logo" /> Campagnes d&apos;emails</p>
                         </div>
                         <div className="row">
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
                                 <div className="main-info">{emailCampaign.local.nbCampagnes}</div>
-                                <div className="main-text">Campagne(s)</div>
+                                <div className="main-text">Campagnes</div>
                                 <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
