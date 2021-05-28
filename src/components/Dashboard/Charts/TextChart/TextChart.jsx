@@ -23,7 +23,7 @@ function TextChart() {
         <>
             {dashboardAdherents !== null
                 ? <div className="headline-dashboard">Candidat &gt; {dashboardAdherents.zoneName} ({dashboardAdherents.adherentCount} adhérents)</div>
-                : <div><Loader /></div>}
+                : <Loader />}
         </>
     );
 }

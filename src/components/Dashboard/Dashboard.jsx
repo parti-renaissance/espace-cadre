@@ -15,7 +15,7 @@ const Dashboard = () => (
         </div>
         <EmailCampaign />
         <div className="row">
-            <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" /> Application mobile</p>
+            <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" className="ml-2 mr-2" />Application mobile</p>
         </div>
         <div className="row mb-3">
             <div className="col-lg-6 left-chart mb-3 mb-lg-0">

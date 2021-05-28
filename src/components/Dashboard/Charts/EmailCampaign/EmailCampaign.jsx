@@ -37,8 +37,8 @@ function EmailCampaign() {
             {emailCampaign !== null
                 ? (
                     <>
-                        <div className="row">
-                            <p className="mail-title"><img src="images/mail.svg" alt="mail-logo" /> Campagnes d&apos;emails</p>
+                        <div className="row mb-3">
+                            <p className="mail-title"><img src="images/mail.svg" alt="mail-logo" className="ml-2 mr-2" />Campagnes d&apos;emails</p>
                         </div>
                         <div className="row">
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
@@ -74,7 +74,7 @@ function EmailCampaign() {
             {emailCampaignReports !== null && emailCampaignReports.campagnes.length > 0
                 ? (
                     <div className="row">
-                        <div className="col-12 col-lg mr-lg-3 with-background dc-container medium-card">
+                        <div className="col-12 col-lg mr-lg-3 with-background dc-container big-card">
                             <p className="headline">{emailCampaignReports.campagnes[0].titre}</p>
                             <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[0].date}, par {emailCampaignReports.campagnes[0].auteur}</p>
                             <div className="row p-3">
@@ -93,7 +93,7 @@ function EmailCampaign() {
                             </div>
                         </div>
                         {emailCampaignReports.campagnes[1] && (
-                            <div className="col-12 col-lg with-background dc-container medium-card">
+                            <div className="col-12 col-lg with-background dc-container big-card">
                                 <p className="headline">{emailCampaignReports.campagnes[1].titre}</p>
                                 <p className="subtitle-text-card">Le {emailCampaignReports.campagnes[1].date}, par {emailCampaignReports.campagnes[1].auteur}</p>
                                 <div className="row p-3">
