@@ -7,6 +7,8 @@ function EmailCampaign() {
     const [emailCampaign, setEmailCampaign] = useEmailCampaignCache();
     const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache();
 
+    const convertToPercent = (valueToConvert) => `${Number((valueToConvert * 100).toFixed(2))}%`;
+
     useEffect(() => {
         const getEmailCampaign = async () => {
             try {
@@ -44,22 +46,22 @@ function EmailCampaign() {
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
                                 <div className="main-info">{emailCampaign.local.nbCampagnes}</div>
                                 <div className="main-text">Campagne{emailCampaign.local.nbCampagnes > 1 && 's'}</div>
-                                <div className="secondary-text">Envoyées en {new Date().getFullYear()}</div>
+                                <div className="secondary-text">Envoyée{emailCampaign.local.nbCampagnes > 1 && 's'} en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
-                                <div className="main-info">{Number((emailCampaign.local.txOuverture * 100).toFixed(2))}%</div>
+                                <div className="main-info">{convertToPercent(emailCampaign.local.txOuverture)}</div>
                                 <div className="main-text">Ouvertures</div>
-                                <div className="secondary-text">{Number((emailCampaign.national.txOuverture * 100).toFixed(2))}% au national</div>
+                                <div className="secondary-text">{convertToPercent(emailCampaign.national.txOuverture)} au national</div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
-                                <div className="main-info">{Number((emailCampaign.local.txClique * 100).toFixed(2))}%</div>
+                                <div className="main-info">{convertToPercent(emailCampaign.local.txClique)}</div>
                                 <div className="main-text">Clics</div>
-                                <div className="secondary-text">{Number((emailCampaign.national.txClique * 100).toFixed(2))}% au national</div>
+                                <div className="secondary-text">{convertToPercent(emailCampaign.national.txClique)} au national</div>
                             </div>
                             <div className="col-12 col-md mb-0 mb-3 with-background dc-container little-card">
-                                <div className="main-info">{Number((emailCampaign.local.txDesabonnement * 100).toFixed(2))}%</div>
+                                <div className="main-info">{convertToPercent(emailCampaign.local.txDesabonnement)}</div>
                                 <div className="main-text">Désabonnements</div>
-                                <div className="secondary-text">{Number((emailCampaign.national.txDesabonnement * 100).toFixed(2))}% au national</div>
+                                <div className="secondary-text">{convertToPercent(emailCampaign.national.txDesabonnement)} au national</div>
                             </div>
                         </div>
                     </>
@@ -80,14 +82,14 @@ function EmailCampaign() {
                             <div className="row p-3">
                                 <div className="col flash-card mr-3">
                                     <div className="info-number">{emailCampaignReports.campagnes[0].nbEmails}</div>
-                                    <div className="text-below-info-number">Email{emailCampaignReports.campagnes[0].nbEmailsEmails > 1 && 's'}</div>
+                                    <div className="text-below-info-number">Email{emailCampaignReports.campagnes[0].nbEmails > 1 && 's'}</div>
                                 </div>
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{Number((emailCampaignReports.campagnes[0].txOuverture * 100).toFixed(2))}%</div>
+                                    <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[0].txOuverture)}</div>
                                     <div className="text-below-info-number">Ouvertures</div>
                                 </div>
                                 <div className="col flash-card">
-                                    <div className="info-number">{Number((emailCampaignReports.campagnes[0].txClique * 100).toFixed(2))}%</div>
+                                    <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[0].txClique)}</div>
                                     <div className="text-below-info-number">Clics</div>
                                 </div>
                             </div>
@@ -99,14 +101,14 @@ function EmailCampaign() {
                                 <div className="row p-3">
                                     <div className="col flash-card mr-3">
                                         <div className="info-number">{emailCampaignReports.campagnes[1].nbEmails}</div>
-                                        <div className="text-below-info-number">Email{emailCampaignReports.campagnes[1].nbEmailsEmails > 1 && 's'}</div>
+                                        <div className="text-below-info-number">Email{emailCampaignReports.campagnes[1].nbEmails > 1 && 's'}</div>
                                     </div>
                                     <div className="col flash-card mr-3">
-                                        <div className="info-number">{Number((emailCampaignReports.campagnes[1].txOuverture * 100).toFixed(2))}%</div>
+                                        <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[1].txOuverture)}</div>
                                         <div className="text-below-info-number">Ouvertures</div>
                                     </div>
                                     <div className="col flash-card">
-                                        <div className="info-number">{Number((emailCampaignReports.campagnes[1].txClique * 100).toFixed(2))}%</div>
+                                        <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[1].txClique)}</div>
                                         <div className="text-below-info-number">Clics</div>
                                     </div>
                                 </div>

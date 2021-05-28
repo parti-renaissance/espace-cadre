@@ -22,7 +22,7 @@ function TextChart() {
     return (
         <>
             {dashboardAdherents !== null
-                ? <div className="headline-dashboard">Candidat &gt; {dashboardAdherents.zoneName} ({dashboardAdherents.adherentCount} adhérents)</div>
+                ? <div className="headline-dashboard">Candidat &gt; {dashboardAdherents.zoneName} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})</div>
                 : <Loader />}
         </>
     );
