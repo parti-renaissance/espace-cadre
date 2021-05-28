@@ -80,7 +80,7 @@ function EmailCampaign() {
                             <div className="row p-3">
                                 <div className="col flash-card mr-3">
                                     <div className="info-number">{emailCampaignReports.campagnes[0].nbEmails}</div>
-                                    <div className="text-below-info-number">Emails</div>
+                                    <div className="text-below-info-number">{emailCampaignReports.campagnes[0].nbEmailsEmails <= 1 ? 'Email' : 'Emails'}</div>
                                 </div>
                                 <div className="col flash-card mr-3">
                                     <div className="info-number">{Number((emailCampaignReports.campagnes[0].txOuverture * 100).toFixed(2))}%</div>
@@ -99,7 +99,7 @@ function EmailCampaign() {
                                 <div className="row p-3">
                                     <div className="col flash-card mr-3">
                                         <div className="info-number">{emailCampaignReports.campagnes[1].nbEmails}</div>
-                                        <div className="text-below-info-number">Emails</div>
+                                        <div className="text-below-info-number">{emailCampaignReports.campagnes[1].nbEmails <= 1 ? 'Email' : 'Emails'}</div>
                                     </div>
                                     <div className="col flash-card mr-3">
                                         <div className="info-number">{Number((emailCampaignReports.campagnes[1].txOuverture * 100).toFixed(2))}%</div>
