@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useEmailCampaignCache, useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks';
+import ConvertToPercent from '../../../ConvertToPercent/ConvertToPercent';
 
 function EmailCampaign() {
     const [emailCampaign, setEmailCampaign] = useEmailCampaignCache();
     const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache();
-
-    const convertToPercent = (valueToConvert) => `${Number((valueToConvert * 100).toFixed(2))}%`;
 
     useEffect(() => {
         const getEmailCampaign = async () => {
@@ -49,19 +48,33 @@ function EmailCampaign() {
                                 <div className="secondary-text">Envoyée{emailCampaign.local.nbCampagnes > 1 && 's'} en {new Date().getFullYear()}</div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
-                                <div className="main-info">{convertToPercent(emailCampaign.local.txOuverture)}</div>
+                                <div className="main-info">
+                                    <ConvertToPercent valueToConvert={emailCampaign.local.txOuverture} />
+                                </div>
                                 <div className="main-text">Ouvertures</div>
-                                <div className="secondary-text">{convertToPercent(emailCampaign.national.txOuverture)} au national</div>
+                                <div className="secondary-text">
+                                    <ConvertToPercent valueToConvert={emailCampaign.national.txOuverture} /> au national
+                                </div>
                             </div>
                             <div className="col-12 col-md mb-3 mr-md-3 with-background dc-container little-card">
-                                <div className="main-info">{convertToPercent(emailCampaign.local.txClique)}</div>
+                                <div className="main-info">
+                                    <ConvertToPercent valueToConvert={emailCampaign.local.txClique} />
+                                </div>
                                 <div className="main-text">Clics</div>
-                                <div className="secondary-text">{convertToPercent(emailCampaign.national.txClique)} au national</div>
+                                <div className="secondary-text">
+                                    <ConvertToPercent valueToConvert={emailCampaign.national.txClique} /> au national
+                                </div>
                             </div>
                             <div className="col-12 col-md mb-0 mb-3 with-background dc-container little-card">
-                                <div className="main-info">{convertToPercent(emailCampaign.local.txDesabonnement)}</div>
+                                <div className="main-info">
+                                    <ConvertToPercent valueToConvert={emailCampaign.local.txDesabonnement} />
+                                </div>
                                 <div className="main-text">Désabonnements</div>
-                                <div className="secondary-text">{convertToPercent(emailCampaign.national.txDesabonnement)} au national</div>
+                                <div className="secondary-text">
+                                    <ConvertToPercent
+                                        valueToConvert={emailCampaign.national.txDesabonnement}
+                                    /> au national
+                                </div>
                             </div>
                         </div>
                     </>
@@ -85,11 +98,17 @@ function EmailCampaign() {
                                     <div className="text-below-info-number">Email{emailCampaignReports.campagnes[0].nbEmails > 1 && 's'}</div>
                                 </div>
                                 <div className="col flash-card mr-3">
-                                    <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[0].txOuverture)}</div>
+                                    <div className="info-number">
+                                        <ConvertToPercent
+                                            valueToConvert={emailCampaignReports.campagnes[0].txOuverture}
+                                        />
+                                    </div>
                                     <div className="text-below-info-number">Ouvertures</div>
                                 </div>
                                 <div className="col flash-card">
-                                    <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[0].txClique)}</div>
+                                    <div className="info-number">
+                                        <ConvertToPercent valueToConvert={emailCampaignReports.campagnes[0].txClique} />
+                                    </div>
                                     <div className="text-below-info-number">Clics</div>
                                 </div>
                             </div>
@@ -104,11 +123,19 @@ function EmailCampaign() {
                                         <div className="text-below-info-number">Email{emailCampaignReports.campagnes[1].nbEmails > 1 && 's'}</div>
                                     </div>
                                     <div className="col flash-card mr-3">
-                                        <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[1].txOuverture)}</div>
+                                        <div className="info-number">
+                                            <ConvertToPercent
+                                                valueToConvert={emailCampaignReports.campagnes[1].txOuverture}
+                                            />
+                                        </div>
                                         <div className="text-below-info-number">Ouvertures</div>
                                     </div>
                                     <div className="col flash-card">
-                                        <div className="info-number">{convertToPercent(emailCampaignReports.campagnes[1].txClique)}</div>
+                                        <div className="info-number">
+                                            <ConvertToPercent
+                                                valueToConvert={emailCampaignReports.campagnes[1].txClique}
+                                            />
+                                        </div>
                                         <div className="text-below-info-number">Clics</div>
                                     </div>
                                 </div>
