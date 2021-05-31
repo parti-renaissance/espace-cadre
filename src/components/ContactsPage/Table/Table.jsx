@@ -108,7 +108,7 @@ const Table = ({ columns, data }) => {
                     }
                 </select>
                 <div className="contacts-count mb-3 mt-lg-2">
-                    <span className="page-size">{pageSize}</span> sur {rows.length} contacts
+                    <span className="page-size">{rows.length}</span> sur {data.length} contacts
                 </div>
             </div>
 
