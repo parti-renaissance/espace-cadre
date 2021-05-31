@@ -29,7 +29,7 @@ function MapComponent() {
                     <div className="row p-3">
                         <span className="count-bubble ml-3">{ dashboardSurvey.survey_datas.length }</span>
                         <div className="col pl-0">
-                            <div className="chart-title">Questionnaires remplis</div>
+                            <div className="chart-title">Questionnaire{ dashboardSurvey.survey_datas.length > 1 && 's' } rempli{ dashboardSurvey.survey_datas.length > 1 && 's' }</div>
                             <div className="chart-subtitle">Répartition géographique dans votre région</div>
                         </div>
                     </div>

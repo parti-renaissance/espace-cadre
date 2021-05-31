@@ -33,7 +33,7 @@ function DownloadsCount() {
                     <div className="row p-3">
                         <span className="count-bubble">{dashboardDownloads.downloads[dashboardDownloads.downloads.length - 1].cumsum}</span>
                         <div className="col pl-0">
-                            <div className="chart-title">Téléchargements</div>
+                            <div className="chart-title">Téléchargement{dashboardDownloads.downloads[dashboardDownloads.downloads.length - 1].cumsum > 1 && 's'}</div>
                             <div className="chart-subtitle">De l&apos;application Je m&apos;engage sur les stores Android et Apple</div>
                         </div>
                     </div>
