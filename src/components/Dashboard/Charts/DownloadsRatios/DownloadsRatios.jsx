@@ -30,7 +30,7 @@ function DownloadsRatios() {
         <>{dashboardDownloadsRatio !== null ? (
             <div>
                 <div className="row p-3">
-                    <span className="count-bubble">{dashboardDownloadsRatio.downloads[dashboardDownloadsRatio.downloads.length - 1].downloadsPer1000}</span>
+                    <span className="count-bubble">{(dashboardDownloadsRatio.downloads[dashboardDownloadsRatio.downloads.length - 1].downloadsPer1000).toFixed(2)}</span>
                     <div className="col pl-0">
                         <div className="chart-title">Nombre de téléchargements pour 1000 adhérents</div>
                         <div className="chart-subtitle">De l&apos;application Je m&apos;engage sur les stores Android et Apple</div>
