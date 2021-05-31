@@ -30,6 +30,7 @@
 // Style for table
 .table {
     background-color: $whiteCorner;
+    @include borderRadius(6px);
 
     th {
         font-size: 12px;
