@@ -113,7 +113,7 @@ const Table = ({ columns, data }) => {
             </div>
 
             <table
-                className="table table-responsive dc-container"
+                className="table table-responsive"
                 {...getTableProps()}
             >
                 <thead>
