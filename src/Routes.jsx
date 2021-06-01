@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 
-import Spinner from './components/Spinner/Spinner';
+import Spinner from './components/Loaders/Spinner';
 
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Contacts = lazy(() => import('./components/ContactsPage'));

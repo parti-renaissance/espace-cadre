@@ -9,7 +9,7 @@ import {
     Tooltip,
 } from 'recharts';
 import { apiClientProxy } from '../../../../services/networking/client';
-import Loader from '../../../Loader';
+import Loader from '../../../Loaders/Loader';
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks';
 
 function ActiveUsers() {

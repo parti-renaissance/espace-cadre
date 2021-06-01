@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Loader from '../../../Loader';
+import OneLineLoader from '../../../Loaders/OneLineLoader';
 import { apiClientProxy } from '../../../../services/networking/client';
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks';
 
@@ -23,7 +23,7 @@ function TextChart() {
         <>
             {dashboardAdherents !== null
                 ? <div className="headline-dashboard">Candidat &gt; {dashboardAdherents.zoneName} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})</div>
-                : <Loader />}
+                : <OneLineLoader /> }
         </>
     );
 }

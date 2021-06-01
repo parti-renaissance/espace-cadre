@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import { useDashboardDownloadsCache } from '../../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../../services/networking/client';
-import Loader from '../../../Loader';
+import Loader from '../../../Loaders/Loader';
 
 function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();

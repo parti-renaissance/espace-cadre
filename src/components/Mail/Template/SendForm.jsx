@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import Loader from '../../Loader';
+import Loader from '../../Loaders/Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
 

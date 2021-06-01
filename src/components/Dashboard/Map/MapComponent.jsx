@@ -5,7 +5,7 @@ import {
 import L from 'leaflet';
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../services/networking/client';
-import Loader from '../../Loader';
+import Loader from '../../Loaders/Loader';
 
 function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();

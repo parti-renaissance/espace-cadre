@@ -10,7 +10,8 @@ import SelectFilter from './Filters/SelectFilter';
 import BooleanSelectFilter from './Filters/BooleanSelectFilter';
 import MultiSelectFilter from './Filters/MultiSelectFilter';
 
-import Spinner from '../Spinner/Spinner';
+import ContactsTableLoader from '../Loaders/ContactsTableLoader';
+
 import { apiClientProxy } from '../../services/networking/client';
 import { useContactsCache } from '../../redux/contacts/hooks';
 
@@ -87,7 +88,7 @@ const Contacts = () => {
             return <div className="alert alert-danger w-50" role="alert">Erreur dans le chargement de la page</div>;
         }
         if (loading) {
-            return <Spinner />;
+            return <ContactsTableLoader />;
         }
         return (contacts !== null && <Table columns={columnsTitle} data={contacts.contacts} />);
     };

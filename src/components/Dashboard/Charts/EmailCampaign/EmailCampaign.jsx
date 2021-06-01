@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { apiClientProxy } from '../../../../services/networking/client';
-import Loader from '../../../Loader';
+import Loader from '../../../Loaders/Loader';
 import { useEmailCampaignCache, useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks';
 import ConvertToPercent from '../../../ConvertToPercent/ConvertToPercent';
 

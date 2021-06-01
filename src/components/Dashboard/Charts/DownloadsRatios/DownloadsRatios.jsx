@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import { useDashboardDownloadsRatioCache } from '../../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../../services/networking/client';
-import Loader from '../../../Loader';
+import Loader from '../../../Loaders/Loader';
 
 function DownloadsRatios() {
     const [dashboardDownloadsRatio, setDashboardDownloadsRatio] = useDashboardDownloadsRatioCache();
