@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading,no-shadow */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
     useTable,
@@ -11,10 +11,15 @@ import { useExportData } from 'react-table-plugins';
 import * as XLSX from 'xlsx';
 
 import GlobalFilter from '../Filters/GlobalFilter';
+import Loader from '../../Loader';
 
 const Table = ({ columns, data }) => {
+    const [loading, setLoading] = useState(false);
+
     // Handle export button logic
     function getExportFileBlob({ columns, data }) {
+        setLoading(true);
+        console.log('Début', loading);
         const header = columns.map((c) => c.exportValue);
         const compatibleData = data.map((row) => {
             const obj = {};
@@ -29,6 +34,8 @@ const Table = ({ columns, data }) => {
             header,
         });
         XLSX.utils.book_append_sheet(wb, ws1, 'Contacts table');
+        setLoading(false);
+        console.log('Fin', loading);
         XLSX.writeFile(wb, 'Contacts.xlsx');
         // Returning false as downloading of file is already taken care of
         return false;
@@ -92,7 +99,7 @@ const Table = ({ columns, data }) => {
                     className="btn dc-container mr-3"
                     id="download-button"
                 >
-                    <i className="fas fa-download" />
+                    {loading ? <Loader /> : <i className="fas fa-download" />}
                 </button>
                 <select
                     value={pageSize}
