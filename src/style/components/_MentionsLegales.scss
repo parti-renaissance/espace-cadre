@@ -1,0 +1,23 @@
+.mentionsLegales {
+    position: absolute;
+    bottom: 16px;
+
+    .version,
+    .mentionLegalesList a {
+        color: $mentionsLegales;
+        font-size: 10px;
+    }
+
+    .version{
+        font-weight: 600;
+        margin: 0 0 10px 32px;
+    }
+
+    .mentionLegalesList {
+        padding-left: 32px;
+
+        a {
+            font-weight: 400;
+        }
+    }
+}
