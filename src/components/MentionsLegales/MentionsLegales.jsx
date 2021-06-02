@@ -3,7 +3,8 @@ import React from 'react';
 function MentionsLegales() {
     return (
         <div className="mentionsLegales">
-            <div className="version">Version 0.1.12</div>
+            <div className="version">DataCorner@<strong>{process.env.REACT_APP_VERSION}</strong></div>
+
             <ul className="mentionLegalesList">
                 <li>
                     <a href="https://donnees.en-marche.fr/">
