@@ -36,6 +36,7 @@ function MapComponent() {
                     <MapContainer
                         center={[dashboardSurvey.latitude, dashboardSurvey.longitude]}
                         zoom={8}
+                        className="leaflet-container-dashboard"
                     >
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

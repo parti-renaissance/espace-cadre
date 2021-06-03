@@ -5,6 +5,7 @@ import Spinner from './components/Spinner/Spinner';
 
 const Auth = lazy(() => import('./components/Auth'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
+const Polygone = lazy(() => import('./components/Polygone'));
 const Contacts = lazy(() => import('./components/ContactsPage'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
@@ -19,6 +20,12 @@ const PATHS = {
         url: () => '/',
         label: 'Vue d\'ensemble',
         icon: 'fas fa-th-large',
+    },
+    POLYGONE: {
+        route: '/polygone',
+        url: () => '/polygone',
+        label: 'Polygone',
+        icon: 'fas fa-map',
     },
     CONTACTS: {
         route: '/contacts',
@@ -42,6 +49,7 @@ const PATHS = {
 
 export const MENU = [
     PATHS.DASHBOARD,
+    PATHS.POLYGONE,
     PATHS.CONTACTS,
     PATHS.MESSAGERIE,
 ];
@@ -60,6 +68,7 @@ const Routes = () => {
             <Switch>
                 <Route path={PATHS.AUTH.route} exact component={Auth} />
                 <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />
+                <Route path={PATHS.POLYGONE.route} exact component={Polygone} />
                 <Route path={PATHS.CONTACTS.route} exact component={Contacts} />
                 <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
                 <Route path={PATHS.MAIL.route} exact component={Mail} />
