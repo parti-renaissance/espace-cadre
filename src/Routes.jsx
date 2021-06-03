@@ -5,10 +5,10 @@ import Spinner from './components/Spinner/Spinner';
 
 const Auth = lazy(() => import('./components/Auth'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
-const Polygone = lazy(() => import('./components/Polygone'));
 const Contacts = lazy(() => import('./components/ContactsPage'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
+const Elections = lazy(() => import('./components/Elections'));
 
 const PATHS = {
     AUTH: {
@@ -20,12 +20,6 @@ const PATHS = {
         url: () => '/',
         label: 'Vue d\'ensemble',
         icon: 'fas fa-th-large',
-    },
-    POLYGONE: {
-        route: '/polygone',
-        url: () => '/polygone',
-        label: 'Polygone',
-        icon: 'fas fa-map',
     },
     CONTACTS: {
         route: '/contacts',
@@ -45,13 +39,23 @@ const PATHS = {
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
+    ELECTIONS: {
+        route: '/elections',
+        url: () => '/elections',
+        label: 'Elections',
+        icon: 'fas fa-map',
+    },
+    AUTH: {
+        route: '/auth',
+        url: () => '/auth',
+    },
 };
 
 export const MENU = [
     PATHS.DASHBOARD,
-    PATHS.POLYGONE,
     PATHS.CONTACTS,
     PATHS.MESSAGERIE,
+    PATHS.ELECTIONS,
 ];
 
 const Routes = () => {
@@ -68,10 +72,11 @@ const Routes = () => {
             <Switch>
                 <Route path={PATHS.AUTH.route} exact component={Auth} />
                 <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />
-                <Route path={PATHS.POLYGONE.route} exact component={Polygone} />
                 <Route path={PATHS.CONTACTS.route} exact component={Contacts} />
                 <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
                 <Route path={PATHS.MAIL.route} exact component={Mail} />
+                <Route path={PATHS.ELECTIONS.route} exact component={Elections} />
+                <Route path={PATHS.AUTH.route} exact component={Auth} />
             </Switch>
         </Suspense>
     );
