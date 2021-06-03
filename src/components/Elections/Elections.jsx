@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    MapContainer, Polygon, TileLayer, LayersControl, FeatureGroup,
+    MapContainer, Polygon, TileLayer, LayersControl, FeatureGroup, Tooltip,
 } from 'react-leaflet';
 import coordinates from './data.json';
 import Spinner from '../Spinner/Spinner';
@@ -29,7 +29,9 @@ const Elections = () => {
                                         key={departement.properties.nom}
                                         pathOptions={{ color: '#0049C6', weight: '0.5' }}
                                         positions={departement.geometry.coordinates}
-                                    />
+                                    >
+                                        <Tooltip sticky>{departement.properties.nom}</Tooltip>
+                                    </Polygon>
                                 ))}
                             </FeatureGroup>
                         </LayersControl.Overlay>
