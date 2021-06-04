@@ -1,0 +1,19 @@
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.messagerie-send-email {
+    font-size: 14px;
+    font-weight: 600;
+    color: $blue2Corner;
+    background-color: $whiteCorner;
+    padding: 4px 16px;
+    border: none;
+    border-radius: 79px;
+    @include boxShadow(0 1px 1px 0 rgba(0, 11, 52, 0.12));
+
+    .send-mail-button-text {
+        margin-right: 8px;
+    }
+}
