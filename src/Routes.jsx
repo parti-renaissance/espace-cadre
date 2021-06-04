@@ -3,13 +3,17 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 
 import Spinner from './components/Spinner/Spinner';
 
+const Auth = lazy(() => import('./components/Auth'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Contacts = lazy(() => import('./components/ContactsPage'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
-const Auth = lazy(() => import('./components/Auth'));
-/* const Mail = lazy(() => import('./components/Mail')); */
+const Mail = lazy(() => import('./components/Mail'));
 
 const PATHS = {
+    AUTH: {
+        route: '/auth',
+        url: () => '/auth',
+    },
     DASHBOARD: {
         route: '/',
         url: () => '/',
@@ -28,23 +32,18 @@ const PATHS = {
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
-    AUTH: {
-        route: '/auth',
-        url: () => '/auth',
-    },
-    /* MAIL: {
+    MAIL: {
         route: '/mail',
         url: () => '/mail',
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
-    }, */
+    },
 };
 
 export const MENU = [
     PATHS.DASHBOARD,
     PATHS.CONTACTS,
     PATHS.MESSAGERIE,
-    /* PATHS.MAIL, */
 ];
 
 const Routes = () => {
@@ -59,11 +58,11 @@ const Routes = () => {
     return (
         <Suspense fallback={<Spinner />}>
             <Switch>
+                <Route path={PATHS.AUTH.route} exact component={Auth} />
                 <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />
                 <Route path={PATHS.CONTACTS.route} exact component={Contacts} />
                 <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
-                <Route path={PATHS.AUTH.route} exact component={Auth} />
-                {/* <Route path={PATHS.MAIL.route} exact component={Mail} /> */}
+                <Route path={PATHS.MAIL.route} exact component={Mail} />
             </Switch>
         </Suspense>
     );

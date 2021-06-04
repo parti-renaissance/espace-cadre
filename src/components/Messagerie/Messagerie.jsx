@@ -1,8 +1,10 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { MENU } from '../../Routes';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaign from '../Dashboard/Charts/SentEmailCampaign';
+
+import Mail from '../Mail/Mail';
 
 function Messagerie() {
     const { pathname } = useLocation();
@@ -20,10 +22,12 @@ function Messagerie() {
                     {pageTitle && <span className="page-title">{pageTitle}</span>}
                 </div>
                 <div className="col">
-                    <button type="button" className="messagerie-send-email">
-                        <span className="send-mail-button-text">Envoyer un email</span>
-                        <img src="images/arrow-right.svg" alt="right arrow" />
-                    </button>
+                    <Link to="/Mail">
+                        <button type="button" className="messagerie-send-email">
+                            <span className="send-mail-button-text">Envoyer un email</span>
+                            <img src="images/arrow-right.svg" alt="right arrow" />
+                        </button>
+                    </Link>
                 </div>
             </div>
             <KpiEmailCampaign />
