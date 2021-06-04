@@ -4,8 +4,6 @@ import { MENU } from '../../Routes';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaign from '../Dashboard/Charts/SentEmailCampaign';
 
-import Mail from '../Mail/Mail';
-
 function Messagerie() {
     const { pathname } = useLocation();
     const pathIndex = MENU.findIndex((path) => path.route === pathname);

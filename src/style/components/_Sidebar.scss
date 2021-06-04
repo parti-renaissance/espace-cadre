@@ -1,6 +1,10 @@
 #sidebar {
     background-color: #f9f9f9;
 
+    .brand-link {
+        text-decoration: none;
+    }
+
     .logo-container {
         display: flex;
         margin: 24px 16px 24px 32px;
