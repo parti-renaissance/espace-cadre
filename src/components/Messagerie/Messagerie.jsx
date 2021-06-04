@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { MENU } from '../../Routes';
-import EmailCampaign from '../Dashboard/Charts/EmailCampaign/EmailCampaign';
+import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
+import SentEmailCampaign from '../Dashboard/Charts/SentEmailCampaign';
 
 function Messagerie() {
     const { pathname } = useLocation();
@@ -11,6 +12,7 @@ function Messagerie() {
     if (pathIndex !== -1) {
         pageTitle = MENU[pathIndex].label || null;
     }
+
     return (
         <div className="container">
             <div className="row">
@@ -24,7 +26,8 @@ function Messagerie() {
                     </button>
                 </div>
             </div>
-            <EmailCampaign />
+            <KpiEmailCampaign />
+            <SentEmailCampaign />
         </div>
     );
 }

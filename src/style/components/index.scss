@@ -4,9 +4,9 @@
 @import "BooleanSelectFilter";
 @import "ColumnFilter";
 @import "Dashboard";
-@import "EmailCampaign";
 @import "GlobalFilter";
 @import "InterestRendering";
+@import "KpiEmailCampaign";
 @import "Loader";
 @import "Mail";
 @import "MapComponent";
@@ -15,6 +15,7 @@
 @import "MultiSelectFilter";
 @import "Root";
 @import "SelectFilter";
+@import "SentEmailCampaign";
 @import "Sidebar";
 @import "Table";
 @import "Template";
