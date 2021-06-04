@@ -16,9 +16,9 @@ const Sidebar = () => {
         <>
             <div className="vertical-nav bg-white" id="sidebar">
                 <div className="logo-container">
-                    <div>
-                        <h4 id="data">Data<span id="corner">Corner</span></h4>
-                    </div>
+                    <img src="images/bar-chart.svg" alt="bar chart" className="bar-chart-logo" />
+                    <div className="logo-text">DataCorner</div>
+                    <span className="beta-bubble">beta</span>
                 </div>
 
                 <ul id="main-nav">
