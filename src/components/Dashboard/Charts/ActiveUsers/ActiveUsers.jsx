@@ -35,7 +35,7 @@ function ActiveUsers() {
                     <div className="row p-3">
                         <span className="count-bubble">{dashboardUsers.users[dashboardUsers.users.length - 1].rolling_seven_users}</span>
                         <div className="col pl-0">
-                            <div className="chart-title">Utilisateur{dashboardUsers.users[dashboardUsers.users.length - 1].rolling_seven_users > 1 && 's'}</div>
+                            <div className="chart-title">Utilisateur{dashboardUsers.users[dashboardUsers.users.length - 1].rolling_seven_users > 1 && 's'} lors des 28 derniers jours</div>
                             <div className="chart-subtitle">Actifs sur l&apos;application Je m&apos;engage</div>
                         </div>
                     </div>
