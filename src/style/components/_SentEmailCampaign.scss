@@ -1,3 +1,13 @@
+@media(max-width: 576px) {
+    .flash-card-row {
+        padding-bottom: 0 !important;
+        .flash-card {
+            border: none !important;
+            padding-left: 0 !important;
+        }
+    }
+}
+
 // Big size cards
 .campaign-list-component {
     .big-card {
