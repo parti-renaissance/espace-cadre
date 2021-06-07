@@ -27,6 +27,12 @@
                 color: $blueCorner;
                 font-size: 16px;
                 font-weight: 600;
+
+                .parenthese-info {
+                    font-weight: 400;
+                    color: $greyCorner3;
+                    margin-left: 2px;
+                }
             }
 
             .text-below-info-number {

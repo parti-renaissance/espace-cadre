@@ -38,18 +38,21 @@ function SentEmailCampaignList() {
                                             <ConvertToPercent
                                                 valueToConvert={el.txOuverture}
                                             />
+                                            <span className="parenthese-info">({el.nbOuvertures})</span>
                                         </div>
                                         <div className="text-below-info-number">Ouvertures</div>
                                     </div>
                                     <div className="col flash-card mr-2">
                                         <div className="info-number">
                                             <ConvertToPercent valueToConvert={el.txClique} />
+                                            <span className="parenthese-info">({el.nbCliques})</span>
                                         </div>
                                         <div className="text-below-info-number">Clics</div>
                                     </div>
                                     <div className="col flash-card">
                                         <div className="info-number">
                                             <ConvertToPercent valueToConvert={el.txDesabonnement} />
+                                            <span className="parenthese-info">({el.nbDesabonnements})</span>
                                         </div>
                                         <div className="text-below-info-number">Désabonnements</div>
                                     </div>
