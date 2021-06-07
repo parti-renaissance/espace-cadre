@@ -29,7 +29,6 @@ const PATHS = {
     MESSAGERIE: {
         route: '/messagerie',
         url: () => '/messagerie',
-        label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
     MAIL: {

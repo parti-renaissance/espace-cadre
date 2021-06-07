@@ -20,7 +20,7 @@ const PageContent = ({ children, currentUser }) => {
                         <span className="menu-text">Menu</span>
                     </button>
 
-                    {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
+                    {pageTitle && <span className="page-title">{pageTitle}</span>}
 
                     {currentUser && (
                         <div className="welcome-message ml-sm-auto mr-3 mt-3">

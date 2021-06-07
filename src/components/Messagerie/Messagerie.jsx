@@ -1,23 +1,14 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { MENU } from '../../Routes';
+import { Link } from 'react-router-dom';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
 
 function Messagerie() {
-    const { pathname } = useLocation();
-    const pathIndex = MENU.findIndex((path) => path.route === pathname);
-    let pageTitle;
-
-    if (pathIndex !== -1) {
-        pageTitle = MENU[pathIndex].label || null;
-    }
-
     return (
         <div className="container">
             <div className="row mb-3">
                 <div className="col-12 p-0 col-md">
-                    {pageTitle && <span className="page-title">{pageTitle}</span>}
+                    <span className="page-title">Messagerie</span>
                 </div>
                 <div className="col-12 p-0 col-md mail-button-container">
                     <Link to="/Mail" className="button-link">
