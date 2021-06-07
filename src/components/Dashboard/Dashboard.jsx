@@ -2,7 +2,7 @@ import React from 'react';
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers';
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount';
 import DownloadsRatios from './Charts/DownloadsRatios/DownloadsRatios';
-import EmailCampaign from './Charts/EmailCampaign/EmailCampaign';
+import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign';
 import MapComponent from './Map/MapComponent';
 import TextChart from './Charts/TextChart/TextChart';
 
@@ -13,7 +13,10 @@ const Dashboard = () => (
                 <TextChart />
             </div>
         </div>
-        <EmailCampaign />
+        <div className="row mb-3">
+            <p className="mail-title"><img src="images/mail.svg" alt="mail-logo" className="ml-2 mr-2" />Campagnes d&apos;emails</p>
+        </div>
+        <KpiEmailCampaign />
         <div className="row">
             <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" className="ml-2 mr-2" />Application mobile</p>
         </div>

@@ -1,0 +1,52 @@
+// Big size cards
+.campaign-list-component {
+    .big-card {
+        padding-top: 16px;
+        margin-bottom: 16px;
+
+        .headline {
+            color: $blackCorner;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .subtitle-text-card {
+            color: $greyCorner3;
+            font-size: 12px;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        .flash-card {
+            border: solid 1px $greyCornerBg;
+            padding: 16px;
+            @include borderRadius(6px);
+
+            .info-number {
+                color: $blueCorner;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .text-below-info-number {
+                font-size: 12px;
+                font-weight: 400;
+                color: $greyCorner3;
+            }
+        }
+    }
+
+    @media(min-width: 992px) {
+        // Pair
+        .campaign-list-col:nth-child(even) {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        // Impair
+        .campaign-list-col:nth-child(odd) {
+            padding-left: 0;
+        }
+    }
+}

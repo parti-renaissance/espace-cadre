@@ -1,12 +1,16 @@
 #sidebar {
     background-color: #f9f9f9;
 
+    .brand-link {
+        text-decoration: none;
+    }
+
     .logo-container {
         display: flex;
         margin: 24px 16px 24px 32px;
 
         .bar-chart-logo {
-            color: $blueCorner;
+            color: $blue2Corner;
             margin-right: 2px;
         }
 
@@ -19,8 +23,8 @@
         .beta-bubble {
             color: $blackCorner;
             text-transform: uppercase;
-            font-size: 6px;
-            height: 9px;
+            font-size: 8px;
+            height: 12px;
             font-weight: 500;
             background-color: $blueBubble;
             margin-left: 2px;
