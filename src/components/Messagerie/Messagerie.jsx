@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { MENU } from '../../Routes';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
-import SentEmailCampaign from '../Dashboard/Charts/SentEmailCampaign';
+import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
 
 function Messagerie() {
     const { pathname } = useLocation();
@@ -15,21 +15,29 @@ function Messagerie() {
 
     return (
         <div className="container">
-            <div className="row">
-                <div className="col">
+            <div className="row mb-3">
+                <div className="col-12 p-0 col-md">
                     {pageTitle && <span className="page-title">{pageTitle}</span>}
                 </div>
-                <div className="col">
-                    <Link to="/Mail">
-                        <button type="button" className="messagerie-send-email">
-                            <span className="send-mail-button-text">Envoyer un email</span>
+                <div className="col-12 p-0 col-md mail-button-container">
+                    <Link to="/Mail" className="button-link">
+                        <button type="button" className="messagerie-mail-button">
+                            <span className="button-text">Envoyer un email</span>
                             <img src="images/arrow-right.svg" alt="right arrow" />
                         </button>
                     </Link>
                 </div>
             </div>
-            <KpiEmailCampaign />
-            <SentEmailCampaign />
+            <div className="row messagerie-kpi mb-3">
+                <div className="col-12 p-0 kpi-title">En quelques chiffres</div>
+                <div className="col-12 kpi-component">
+                    <KpiEmailCampaign />
+                </div>
+            </div>
+            <div className="col-12 p-0 campaign-list-title">Vos dernières campagnes</div>
+            <div className="row campaign-list-component">
+                <SentEmailCampaignList />
+            </div>
         </div>
     );
 }
