@@ -1,3 +1,13 @@
+@media(max-width: 576px) {
+    .flash-card-row {
+        padding-bottom: 0 !important;
+        .flash-card {
+            border: none !important;
+            padding-left: 0 !important;
+        }
+    }
+}
+
 // Big size cards
 .campaign-list-component {
     .big-card {
@@ -27,6 +37,12 @@
                 color: $blueCorner;
                 font-size: 16px;
                 font-weight: 600;
+
+                .parenthese-info {
+                    font-weight: 400;
+                    color: $greyCorner3;
+                    margin-left: 2px;
+                }
             }
 
             .text-below-info-number {

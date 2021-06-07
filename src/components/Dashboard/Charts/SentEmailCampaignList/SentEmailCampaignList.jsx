@@ -24,35 +24,36 @@ function SentEmailCampaignList() {
             {emailCampaignReports !== null && emailCampaignReports.campagnes.length > 0
                 ? (
                     emailCampaignReports.campagnes.map((el, index) => (
-                        <div className="col-md-6 campaign-list-col" key={index + 1}>
-                            <div className="col-lg-12 with-background dc-container big-card">
-                                <p className="headline">{el.titre}</p>
-                                <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
-                                <div className="row p-3">
-                                    <div className="col flash-card mr-2">
-                                        <div className="info-number">{el.nbEmails}</div>
-                                        <div className="text-below-info-number">Email{el.nbEmails > 1 && 's'}</div>
+                        <div className="col-12 with-background dc-container big-card" key={index + 1}>
+                            <p className="headline">{el.titre}</p>
+                            <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
+                            <div className="row p-3 flash-card-row">
+                                <div className="col-5 col-sm flash-card mr-2">
+                                    <div className="info-number">{el.nbEmails}</div>
+                                    <div className="text-below-info-number">Email{el.nbEmails > 1 && 's'}</div>
+                                </div>
+                                <div className="col-5 col-sm flash-card mr-2">
+                                    <div className="info-number">
+                                        <ConvertToPercent
+                                            valueToConvert={el.txOuverture}
+                                        />
+                                        <span className="parenthese-info">({el.nbOuvertures})</span>
                                     </div>
-                                    <div className="col flash-card mr-2">
-                                        <div className="info-number">
-                                            <ConvertToPercent
-                                                valueToConvert={el.txOuverture}
-                                            />
-                                        </div>
-                                        <div className="text-below-info-number">Ouvertures</div>
+                                    <div className="text-below-info-number">Ouvertures</div>
+                                </div>
+                                <div className="col-5 col-sm flash-card mr-2">
+                                    <div className="info-number">
+                                        <ConvertToPercent valueToConvert={el.txClique} />
+                                        <span className="parenthese-info">({el.nbCliques})</span>
                                     </div>
-                                    <div className="col flash-card mr-2">
-                                        <div className="info-number">
-                                            <ConvertToPercent valueToConvert={el.txClique} />
-                                        </div>
-                                        <div className="text-below-info-number">Clics</div>
+                                    <div className="text-below-info-number">Clics</div>
+                                </div>
+                                <div className="col-5 col-sm flash-card">
+                                    <div className="info-number">
+                                        <ConvertToPercent valueToConvert={el.txDesabonnement} />
+                                        <span className="parenthese-info">({el.nbDesabonnements})</span>
                                     </div>
-                                    <div className="col flash-card">
-                                        <div className="info-number">
-                                            <ConvertToPercent valueToConvert={el.txDesabonnement} />
-                                        </div>
-                                        <div className="text-below-info-number">Désabonnements</div>
-                                    </div>
+                                    <div className="text-below-info-number">Désabonnements</div>
                                 </div>
                             </div>
                         </div>
