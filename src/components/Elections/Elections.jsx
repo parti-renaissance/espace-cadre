@@ -1,52 +1,32 @@
 import React, { useState } from 'react';
 import {
-    MapContainer, Polygon, TileLayer, LayersControl, FeatureGroup, Tooltip,
+    MapContainer, TileLayer, GeoJSON,
 } from 'react-leaflet';
-import coordinates from './data.json';
+import coordinates from './data2.json';
 import Spinner from '../Spinner/Spinner';
 
 const Elections = () => {
     const [geoData] = useState(coordinates.features);
     const center = [48.863344411573, 2.3508413205563];
 
+    const onEachFeature = (feature, layer) => {
+        const tooltip = `${feature.properties.nom}`;
+        layer.bindPopup(tooltip);
+    };
+
     return (
         <>
             {geoData.length > 0 ? (
                 <MapContainer
                     center={center}
-                    zoom="11"
+                    zoom="7"
                     className="leaflet-container-polygone"
                 >
-                    <LayersControl position="topright">
-                        <TileLayer
-                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
-                        />
-                        <LayersControl.Overlay checked name="Présidentielles 2017">
-                            <FeatureGroup>
-                                {geoData.map((departement) => (
-                                    <Polygon
-                                        key={departement.properties.nom}
-                                        pathOptions={{ color: '#0049C6', weight: '0.5' }}
-                                        positions={departement.geometry.coordinates}
-                                    >
-                                        <Tooltip sticky>{departement.properties.nom}</Tooltip>
-                                    </Polygon>
-                                ))}
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay name="Présidentielles 2021">
-                            <FeatureGroup>
-                                {geoData.map((departement) => (
-                                    <Polygon
-                                        key={departement.properties.nom}
-                                        pathOptions={{ color: 'red', weight: '0.5' }}
-                                        positions={departement.geometry.coordinates}
-                                    />
-                                ))}
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                    </LayersControl>
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+                    />
+                    <GeoJSON data={geoData} onEachFeature={onEachFeature} />
                 </MapContainer>
             ) : <Spinner />}
         </>
