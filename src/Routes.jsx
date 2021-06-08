@@ -45,10 +45,6 @@ const PATHS = {
         label: 'Elections',
         icon: 'fas fa-map',
     },
-    AUTH: {
-        route: '/auth',
-        url: () => '/auth',
-    },
 };
 
 export const MENU = [
@@ -76,7 +72,6 @@ const Routes = () => {
                 <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
                 <Route path={PATHS.MAIL.route} exact component={Mail} />
                 <Route path={PATHS.ELECTIONS.route} exact component={Elections} />
-                <Route path={PATHS.AUTH.route} exact component={Auth} />
             </Switch>
         </Suspense>
     );

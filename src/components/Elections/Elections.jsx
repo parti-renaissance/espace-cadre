@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    MapContainer, TileLayer, GeoJSON,
+    MapContainer, TileLayer, GeoJSON, LayersControl,
 } from 'react-leaflet';
 import coordinates from './data2.json';
 import Spinner from '../Spinner/Spinner';
@@ -19,14 +19,18 @@ const Elections = () => {
             {geoData.length > 0 ? (
                 <MapContainer
                     center={center}
-                    zoom="7"
+                    zoom="5"
                     className="leaflet-container-polygone"
                 >
-                    <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
-                    />
-                    <GeoJSON data={geoData} onEachFeature={onEachFeature} />
+                    <LayersControl position="topright">
+                        <TileLayer
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+                        />
+                        <LayersControl.Overlay checked name="Présidentielles 2021">
+                            <GeoJSON data={geoData} onEachFeature={onEachFeature} />
+                        </LayersControl.Overlay>
+                    </LayersControl>
                 </MapContainer>
             ) : <Spinner />}
         </>
