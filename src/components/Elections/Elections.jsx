@@ -3,7 +3,7 @@ import {
     MapContainer, TileLayer, GeoJSON, LayersControl,
 } from 'react-leaflet';
 import ListOfElections from './components/ListOfElections';
-import coordinates from './data/departements_v3.json';
+import coordinates from './data/departements_v4.json';
 import Spinner from '../Spinner/Spinner';
 
 const Elections = () => {
@@ -15,7 +15,7 @@ const Elections = () => {
             {geoData.length > 0 ? (
                 <MapContainer
                     center={center}
-                    zoom="5"
+                    zoom="6"
                     className="leaflet-container-polygone"
                 >
                     <LayersControl position="topright">
