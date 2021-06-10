@@ -4,11 +4,10 @@
             color: $whiteCorner;
             background-color: $blueCorner;
 
-            &:hover {
-                &:not(.disabled),
-                &:not(:disabled) {
+            &:not(.disabled),
+            &:not(:disabled) {
+                &:hover{
                     color: $whiteCorner;
-                    background-color: $blueCornerHover;
                 }
             }
         }
@@ -21,17 +20,17 @@
                 &:hover {
                     &:not(.disabled),
                     &:not(:disabled) {
-                        color: $whiteCorner;
-                        background-color: $blueCornerHover;
+                        color: $blueCorner;
                     }
                 }
             }
         }
     }
 
-    &.disabled {
+    &.disabled,
+    &:disabled {
         &:hover {
-            opacity: .50;
+            cursor: not-allowed;
         }
     }
 }
