@@ -7,6 +7,7 @@ const Auth = lazy(() => import('./components/Auth'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Contacts = lazy(() => import('./components/ContactsPage'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
+const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
 
 const PATHS = {
@@ -32,6 +33,12 @@ const PATHS = {
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
+    ELECTIONS: {
+        route: '/elections',
+        url: () => '/elections',
+        label: 'Elections',
+        icon: 'fas fa-map',
+    },
     MAIL: {
         route: '/mail',
         url: () => '/mail',
@@ -44,6 +51,7 @@ export const MENU = [
     PATHS.DASHBOARD,
     PATHS.CONTACTS,
     PATHS.MESSAGERIE,
+    PATHS.ELECTIONS,
 ];
 
 const Routes = () => {
@@ -62,7 +70,8 @@ const Routes = () => {
                 <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />
                 <Route path={PATHS.CONTACTS.route} exact component={Contacts} />
                 <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
-                <Route path={PATHS.MAIL.route} exact component={Elections} />
+                <Route path={PATHS.MAIL.route} exact component={Mail} />
+                <Route path={PATHS.ELECTIONS.route} exact component={Elections} />
             </Switch>
         </Suspense>
     );
