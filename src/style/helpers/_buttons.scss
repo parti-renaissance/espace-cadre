@@ -8,7 +8,6 @@
                 &:not(.disabled),
                 &:not(:disabled) {
                     color: $whiteCorner;
-                    background-color: $blueCornerHover;
                 }
             }
         }
