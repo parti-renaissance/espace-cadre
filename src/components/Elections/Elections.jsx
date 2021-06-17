@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Papa from 'papaparse';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import hoverResults from './data/regions.csv';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ieWh3eSJ9.LxKs_dipHMNZ-JdTkyKEMQ';
 
@@ -11,6 +13,7 @@ export default () => {
     const [lng] = useState(2.213749);
     const [lat] = useState(46.227638);
     const [zoom] = useState(6);
+    const [csvData, setCsvData] = useState();
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -22,24 +25,35 @@ export default () => {
             zoom,
         });
 
-        map.current.on('load', () => {
-            map.current.on('mousemove', (e) => {
-                const departementsFromMapbox = map.current.queryRenderedFeatures(e.point, {
-                    layers: ['departementsdata'],
-                });
-
-                if (departementsFromMapbox.length > 0) {
-                    document.getElementById('pd').innerHTML = `<div>${departementsFromMapbox[0].properties.elections} infos</div>`;
-                } else {
-                    document.getElementById('pd').innerHTML = '<div>Survolez la carte pour afficher des informations</div>';
-                }
-            });
+        Papa.parse(hoverResults, {
+            delimiter: ',',
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete(results) {
+                setCsvData(results);
+            },
         });
-    });
+    }, []);
+
+    useEffect(() => {
+        if (csvData !== undefined) {
+            map.current.on('load', () => {
+                console.log(csvData);
+                csvData.data.forEach((row) => {
+                    map.current.setFeatureState({
+                        source: 'larem.dgdcc9o1',
+                        sourceLayer: 'larem.dgdcc9o1',
+                        id: row.region,
+                    });
+                });
+            });
+        }
+    }, [csvData]);
+
     return (
         <div>
             <div ref={mapContainer} className="map-container" />
-            <div className="map-overlay" id="features"><h2>Cartes des élections</h2><div id="pd"><p>Survolez la carte</p></div></div>
         </div>
     );
 };
