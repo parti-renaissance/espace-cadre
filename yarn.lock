@@ -10323,10 +10323,10 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-multi-select-component@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-4.0.1.tgz#089ff7ccb953f7c70596e9b15016f5a48bdaa344"
-  integrity sha512-4VcYmc4TvWVQP1tdzE+z6guPPCDzVPqwVdrvLNnOnCuZM9a0sz5RYBKV2SOyywgwRuYvS/YdvUhrp/2J0Llc8g==
+react-multi-select-component@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-4.0.2.tgz#16c9844f0d222e8ba9a2cdced72f4232a201b6cc"
+  integrity sha512-/GQ9y66+Hy+Y25I2il2qVe2b6ophFDnxVuaSgBUJdJCOLcyVfcDEwJ7mNM4z3kuk6luSgwY9VYPO7ngn5XCzgw==
 
 react-overlays@^5.0.0:
   version "5.0.0"
