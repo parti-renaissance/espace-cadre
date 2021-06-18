@@ -85,12 +85,13 @@ function Elections() {
                 });
 
                 const props = regionsFromMapbox[0];
-                // eslint-disable-next-line react/prop-types
-                const data = regionsCsv.data.filter((el) => (el.region === props.properties.code));
-                popup
-                    .setLngLat(e.lngLat)
-                    .setHTML(data.map((el) => (
-                        `
+                if (props !== undefined) {
+                    // eslint-disable-next-line react/prop-types
+                    const data = regionsCsv.data.filter((el) => (el.region === props.properties.code));
+                    popup
+                        .setLngLat(e.lngLat)
+                        .setHTML(data.map((el) => (
+                            `
                                 <table class="table table-stripe">
                                     <thead>
                                         <tr>
@@ -122,7 +123,8 @@ function Elections() {
                                     </tbody>
                                 </table>
                             `
-                    ))).addTo(map.current);
+                        ))).addTo(map.current);
+                }
             });
         }
     }, [regionsCsv]);
@@ -138,12 +140,13 @@ function Elections() {
                     layers: ['departements'],
                 });
                 const props = departementsFromMapbox[0];
-                // eslint-disable-next-line react/prop-types
-                const data = departementsCsv.data.filter((el) => (el.departement === props.properties.code));
-                popup
-                    .setLngLat(e.lngLat)
-                    .setHTML(data.map((el) => (
-                        `
+                if (props !== undefined) {
+                    // eslint-disable-next-line react/prop-types
+                    const data = departementsCsv.data.filter((el) => (el.departement === props.properties.code));
+                    popup
+                        .setLngLat(e.lngLat)
+                        .setHTML(data.map((el) => (
+                            `
                                 <table class="table table-stripe">
                                     <thead>
                                         <tr>
@@ -175,8 +178,9 @@ function Elections() {
                                     </tbody>
                                 </table>
                             `
-                    )))
-                    .addTo(map.current);
+                        )))
+                        .addTo(map.current);
+                }
             });
         }
     }, [departementsCsv]);
@@ -184,8 +188,10 @@ function Elections() {
     const handleChange = (e) => {
         if (e.target.value === 'Régions') {
             setActiveLayer(LAYER_REGION);
+            map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
         } else if (e.target.value === 'Départements') {
             setActiveLayer(LAYER_DEPARTMENT);
+            map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
         }
     };
     return (
