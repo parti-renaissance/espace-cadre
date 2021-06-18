@@ -6,11 +6,13 @@ import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions.csv';
 import departements from './data/departements.csv';
+import cantons from './data/cantons.csv';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ieWh3eSJ9.LxKs_dipHMNZ-JdTkyKEMQ';
 
 const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
+const LAYER_CANTONS = 'cantons';
 
 function Elections() {
     const mapContainer = useRef(null);
@@ -20,9 +22,10 @@ function Elections() {
     const [zoom] = useState(5);
     const [regionsCsv, setRegionsCsv] = useState();
     const [departementsCsv, setDepartementsCsv] = useState();
+    const [cantonsCsv, setCantonsCsv] = useState();
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
-    const layers = ['Régions', 'Départements'];
+    const layers = ['Régions', 'Départements', 'Cantons'];
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -55,6 +58,17 @@ function Elections() {
                 setDepartementsCsv(results);
             },
         });
+
+        // Convert cantons csv to JSON
+        Papa.parse(cantons, {
+            delimiter: ',',
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete(results) {
+                setCantonsCsv(results);
+            },
+        });
     }, []);
 
     // Wait for the map to be loaded and display layer visibility to none
@@ -63,6 +77,7 @@ function Elections() {
             setMapLoaded(true);
             map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
             map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
+            map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
         });
     }, [map]);
 
@@ -85,6 +100,7 @@ function Elections() {
                 });
 
                 const props = regionsFromMapbox[0];
+                console.log('regionsCsv', regionsCsv);
                 if (props !== undefined) {
                     // eslint-disable-next-line react/prop-types
                     const data = regionsCsv.data.filter((el) => (el.region === props.properties.code));
@@ -185,12 +201,76 @@ function Elections() {
         }
     }, [departementsCsv]);
 
+    // Display cantons on the map
+    useEffect(() => {
+        if (cantonsCsv !== undefined) {
+            const popup = new mapboxgl.Popup();
+
+            map.current.on('click', (e) => {
+                map.current.getCanvas().style.cursor = 'pointer';
+                const cantonsFromMapbox = map.current.queryRenderedFeatures(e.point, {
+                    layers: ['cantons'],
+                });
+                const props = cantonsFromMapbox[0];
+                console.log('cantons', props);
+                console.log('cantonsCsv', cantonsCsv);
+                if (props !== undefined) {
+                    // eslint-disable-next-line react/prop-types
+                    const data = cantonsCsv.data.filter((el) => (el.code_canton === props.properties.code));
+                    popup
+                        .setLngLat(e.lngLat)
+                        .setHTML(data.map((el) => (
+                            `
+                                <table class="table table-stripe">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                Année
+                                            </th>
+                                            <th scope="col">
+                                                Nom de la liste
+                                            </th>
+                                            <th scope="col">
+                                                Tour
+                                            </th>
+                                            <th scope="col">
+                                                votants
+                                            </th>
+                                            <th scope="col">
+                                            Voix
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>${el.annee}</td>
+                                            <td>${el.nom_liste}</td>
+                                            <td>${el.tour}</td>
+                                            <td>${el.votants}</td>
+                                            <td>${el.voix}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            `
+                        )))
+                        .addTo(map.current);
+                }
+            });
+        }
+    }, [cantonsCsv]);
+
     const handleChange = (e) => {
         if (e.target.value === 'Régions') {
             setActiveLayer(LAYER_REGION);
             map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
+            map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
         } else if (e.target.value === 'Départements') {
             setActiveLayer(LAYER_DEPARTMENT);
+            map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
+            map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
+        } else if (e.target.value === 'Cantons') {
+            setActiveLayer(LAYER_CANTONS);
+            map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
             map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
         }
     };
