@@ -7,7 +7,7 @@ import hoverResults from './data/regions.csv';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ieWh3eSJ9.LxKs_dipHMNZ-JdTkyKEMQ';
 
-export default () => {
+function Elections() {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng] = useState(2.213749);
@@ -39,13 +39,55 @@ export default () => {
     useEffect(() => {
         if (csvData !== undefined) {
             map.current.on('load', () => {
-                console.log(csvData);
-                csvData.data.forEach((row) => {
-                    map.current.setFeatureState({
-                        source: 'larem.dgdcc9o1',
-                        sourceLayer: 'larem.dgdcc9o1',
-                        id: row.region,
+                const popup = new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: false,
+                });
+
+                map.current.on('click', (e) => {
+                    map.current.getCanvas().style.cursor = 'pointer';
+                    const regionsFromMapbox = map.current.queryRenderedFeatures(e.point, {
+                        layers: ['regions-test'],
                     });
+                    const props = regionsFromMapbox[0];
+                    console.log('csv', csvData);
+                    console.log('props', props);
+                    // eslint-disable-next-line react/prop-types
+                    const data = csvData.data.filter((el) => (el.region === props.properties.code));
+                    popup.setLngLat(e.lngLat).setHTML(data.map((el) => (
+                        `
+                            <table class="table table-stripe">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            Année
+                                        </th>
+                                        <th scope="col">
+                                            Nom de la liste
+                                        </th>
+                                        <th scope="col">
+                                            Tour
+                                        </th>
+                                        <th scope="col">
+                                            votants
+                                        </th>
+                                        <th scope="col">
+                                           Voix
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>${1}</th>
+                                        <td>${el.annee}</td>
+                                        <td>${el.nom_liste}</td>
+                                        <td>${el.tour}</td>
+                                        <td>${el.votants}</td>
+                                        <td>${el.voix}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `))).addTo(map.current);
                 });
             });
         }
@@ -56,4 +98,6 @@ export default () => {
             <div ref={mapContainer} className="map-container" />
         </div>
     );
-};
+}
+
+export default Elections;
