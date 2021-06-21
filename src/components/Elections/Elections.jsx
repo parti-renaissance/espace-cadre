@@ -16,15 +16,15 @@ const LAYER_CANTONS = 'cantons';
 const LAYERS_TYPES = [
     {
         code: LAYER_REGION,
-        label: 'Présidentielles',
+        label: 'Régions',
     },
     {
         code: LAYER_DEPARTMENT,
-        label: 'Départementales',
+        label: 'Départements',
     },
     {
         code: LAYER_CANTONS,
-        label: 'Législatives',
+        label: 'Cantons',
     },
 ];
 const ELECTION_TYPE_PRESIDENTIALS = 'Présidentielles';
@@ -126,24 +126,27 @@ function Elections() {
 
             map.current.on('click', (e) => {
                 map.current.getCanvas().style.cursor = 'pointer';
+                // Get the region layer from mapbox
                 const regionsFromMapbox = map.current.queryRenderedFeatures(e.point, {
                     layers: ['regions'],
                 });
-
                 const props = regionsFromMapbox[0];
                 if (props !== undefined) {
+                    // Get all data for the selected layer
                     // eslint-disable-next-line react/prop-types
                     const data = regionsCsv.data.filter((el) => (el.region === props.properties.code));
-                    console.log(electionType);
+                    // Get all data for the selected election type
                     popup
                         .setLngLat(e.lngLat)
                         .setHTML(data
                             .filter((val) => val.election === electionType)
-                            .map((el) => (
-                                `
+                            .map((el) => `
                                 <table class="table table-stripe">
                                     <thead>
                                         <tr>
+                                            <th scope="col">
+                                                Election
+                                            </th>
                                             <th scope="col">
                                                 Année
                                             </th>
@@ -163,6 +166,7 @@ function Elections() {
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td>${el.election}</td>
                                             <td>${el.annee}</td>
                                             <td>${el.nom_liste}</td>
                                             <td>${el.tour}</td>
@@ -171,12 +175,12 @@ function Elections() {
                                         </tr>
                                     </tbody>
                                 </table>
-                            `
-                            ))).addTo(map.current);
+                            `))
+                        .addTo(map.current);
                 }
             });
         }
-    }, [regionsCsv]);
+    }, [regionsCsv, electionType]);
 
     // Display departements on the map
     useEffect(() => {
@@ -194,11 +198,16 @@ function Elections() {
                     const data = departementsCsv.data.filter((el) => (el.departement === props.properties.code));
                     popup
                         .setLngLat(e.lngLat)
-                        .setHTML(data.map((el) => (
-                            `
+                        .setHTML(data
+                            .filter((val) => val.election === electionType)
+                            .map((el) => (
+                                `
                                 <table class="table table-stripe">
                                     <thead>
                                         <tr>
+                                            <th scope="col">
+                                                Election
+                                            </th>
                                             <th scope="col">
                                                 Année
                                             </th>
@@ -218,6 +227,7 @@ function Elections() {
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td>${el.election}</td>
                                             <td>${el.annee}</td>
                                             <td>${el.nom_liste}</td>
                                             <td>${el.tour}</td>
@@ -227,12 +237,12 @@ function Elections() {
                                     </tbody>
                                 </table>
                             `
-                        )))
+                            )))
                         .addTo(map.current);
                 }
             });
         }
-    }, [departementsCsv]);
+    }, [departementsCsv, electionType]);
 
     // Display cantons on the map
     useEffect(() => {
@@ -250,11 +260,16 @@ function Elections() {
                     const data = cantonsCsv.data.filter((el) => (el.code_canton === props.properties.code));
                     popup
                         .setLngLat(e.lngLat)
-                        .setHTML(data.map((el) => (
-                            `
+                        .setHTML(data
+                            .filter((val) => val.election === electionType)
+                            .map((el) => (
+                                `
                                 <table class="table table-stripe">
                                     <thead>
                                         <tr>
+                                            <th scope="col">
+                                                Election
+                                            </th>
                                             <th scope="col">
                                                 Année
                                             </th>
@@ -274,6 +289,7 @@ function Elections() {
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td>${el.election}</td>
                                             <td>${el.annee}</td>
                                             <td>${el.nom_liste}</td>
                                             <td>${el.tour}</td>
@@ -283,12 +299,12 @@ function Elections() {
                                     </tbody>
                                 </table>
                             `
-                        )))
+                            )))
                         .addTo(map.current);
                 }
             });
         }
-    }, [cantonsCsv]);
+    }, [cantonsCsv, electionType]);
 
     /* ******************
     * FILTERS
