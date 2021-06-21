@@ -17,9 +17,6 @@ const LAYER_CANTONS = 'cantons';
 function Elections() {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [lng] = useState(2.213749);
-    const [lat] = useState(46.227638);
-    const [zoom] = useState(5);
     const [regionsCsv, setRegionsCsv] = useState();
     const [departementsCsv, setDepartementsCsv] = useState();
     const [cantonsCsv, setCantonsCsv] = useState();
@@ -33,41 +30,8 @@ function Elections() {
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/larem/ckps60m1405ic17qb2olzlahx',
-            center: [lng, lat],
-            zoom,
-        });
-
-        // Convert region csv to JSON
-        Papa.parse(regions, {
-            delimiter: ',',
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete(results) {
-                setRegionsCsv(results);
-            },
-        });
-
-        // Convert departements csv to JSON
-        Papa.parse(departements, {
-            delimiter: ',',
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete(results) {
-                setDepartementsCsv(results);
-            },
-        });
-
-        // Convert cantons csv to JSON
-        Papa.parse(cantons, {
-            delimiter: ',',
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete(results) {
-                setCantonsCsv(results);
-            },
+            center: [2.213749, 46.227638],
+            zoom: 5,
         });
     }, []);
 
@@ -81,10 +45,43 @@ function Elections() {
         });
     }, [map]);
 
-    // Once the map is loaded, set region as default layer
+    // Once the map is loaded, set region as default layer and prepare csv data
     useEffect(() => {
         if (mapLoaded) {
             map.current.setLayoutProperty(activeLayer, 'visibility', 'visible');
+
+            // Convert region csv to JSON
+            Papa.parse(regions, {
+                delimiter: ',',
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete(results) {
+                    setRegionsCsv(results);
+                },
+            });
+
+            // Convert departements csv to JSON
+            Papa.parse(departements, {
+                delimiter: ',',
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete(results) {
+                    setDepartementsCsv(results);
+                },
+            });
+
+            // Convert cantons csv to JSON
+            Papa.parse(cantons, {
+                delimiter: ',',
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete(results) {
+                    setCantonsCsv(results);
+                },
+            });
         }
     }, [activeLayer, mapLoaded]);
 
@@ -100,10 +97,10 @@ function Elections() {
                 });
 
                 const props = regionsFromMapbox[0];
-                console.log('regionsCsv', regionsCsv);
                 if (props !== undefined) {
                     // eslint-disable-next-line react/prop-types
                     const data = regionsCsv.data.filter((el) => (el.region === props.properties.code));
+                    console.log(data);
                     popup
                         .setLngLat(e.lngLat)
                         .setHTML(data.map((el) => (
@@ -212,8 +209,6 @@ function Elections() {
                     layers: ['cantons'],
                 });
                 const props = cantonsFromMapbox[0];
-                console.log('cantons', props);
-                console.log('cantonsCsv', cantonsCsv);
                 if (props !== undefined) {
                     // eslint-disable-next-line react/prop-types
                     const data = cantonsCsv.data.filter((el) => (el.code_canton === props.properties.code));
@@ -276,7 +271,7 @@ function Elections() {
     };
     return (
         <div>
-            <select className="mb-3" onChange={handleChange}>
+            <select className="mb-3 mr-3" onChange={handleChange}>
                 {layers.map((layer, i) => <option key={i + 1} value={layer}>{layer}</option>)}
             </select>
             <div ref={mapContainer} className="map-container" />
