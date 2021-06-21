@@ -13,6 +13,42 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ie
 const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
 const LAYER_CANTONS = 'cantons';
+const LAYERS_TYPES = [
+    {
+        code: LAYER_REGION,
+        label: 'Présidentielles',
+    },
+    {
+        code: LAYER_DEPARTMENT,
+        label: 'Départementales',
+    },
+    {
+        code: LAYER_CANTONS,
+        label: 'Législatives',
+    },
+];
+const ELECTION_TYPE_PRESIDENTIALS = 'Présidentielles';
+const ELECTION_TYPE_DEPARTMENTALS = 'Départementales';
+const ELECTION_TYPE_LEGISLATIVES = 'Législatives';
+const ELECTION_TYPE_EUROPEANS = 'Européennes';
+const ELECTIONS_TYPES = [
+    {
+        code: ELECTION_TYPE_PRESIDENTIALS,
+        label: 'Présidentielles',
+    },
+    {
+        code: ELECTION_TYPE_DEPARTMENTALS,
+        label: 'Départementales',
+    },
+    {
+        code: ELECTION_TYPE_LEGISLATIVES,
+        label: 'Législatives',
+    },
+    {
+        code: ELECTION_TYPE_EUROPEANS,
+        label: 'Européennes',
+    },
+];
 
 function Elections() {
     const mapContainer = useRef(null);
@@ -22,7 +58,7 @@ function Elections() {
     const [cantonsCsv, setCantonsCsv] = useState();
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
-    const layers = ['Régions', 'Départements', 'Cantons'];
+    const [electionType, setElectionType] = useState(ELECTION_TYPE_PRESIDENTIALS);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -39,9 +75,7 @@ function Elections() {
     useEffect(() => {
         map.current.on('load', () => {
             setMapLoaded(true);
-            map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
-            map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
-            map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
+            LAYERS_TYPES.map((el) => map.current.setLayoutProperty(el.code, 'visibility', 'none'));
         });
     }, [map]);
 
@@ -100,11 +134,13 @@ function Elections() {
                 if (props !== undefined) {
                     // eslint-disable-next-line react/prop-types
                     const data = regionsCsv.data.filter((el) => (el.region === props.properties.code));
-                    console.log(data);
+                    console.log(electionType);
                     popup
                         .setLngLat(e.lngLat)
-                        .setHTML(data.map((el) => (
-                            `
+                        .setHTML(data
+                            .filter((val) => val.election === electionType)
+                            .map((el) => (
+                                `
                                 <table class="table table-stripe">
                                     <thead>
                                         <tr>
@@ -136,7 +172,7 @@ function Elections() {
                                     </tbody>
                                 </table>
                             `
-                        ))).addTo(map.current);
+                            ))).addTo(map.current);
                 }
             });
         }
@@ -254,25 +290,37 @@ function Elections() {
         }
     }, [cantonsCsv]);
 
-    const handleChange = (e) => {
-        if (e.target.value === 'Régions') {
+    /* ******************
+    * FILTERS
+    ****************** */
+    // Handle the behaviour for the layer select
+    const handleLayer = (e) => {
+        if (e.target.value === 'regions') {
             setActiveLayer(LAYER_REGION);
             map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
             map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
-        } else if (e.target.value === 'Départements') {
+        } else if (e.target.value === 'departements') {
             setActiveLayer(LAYER_DEPARTMENT);
             map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
             map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
-        } else if (e.target.value === 'Cantons') {
+        } else if (e.target.value === 'cantons') {
             setActiveLayer(LAYER_CANTONS);
             map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
             map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
         }
     };
+
     return (
         <div>
-            <select className="mb-3 mr-3" onChange={handleChange}>
-                {layers.map((layer, i) => <option key={i + 1} value={layer}>{layer}</option>)}
+            <select className="mb-3 mr-3" onChange={handleLayer}>
+                {LAYERS_TYPES.map((layer, i) => <option key={i + 1} value={layer.code}>{layer.label}</option>)}
+            </select>
+            <select name="elections_list" onChange={(e) => setElectionType(e.target.value)}>
+                {ELECTIONS_TYPES.map((election, i) => (
+                    <option key={i + 1} value={election.code}>
+                        {election.label}
+                    </option>
+                ))}
             </select>
             <div ref={mapContainer} className="map-container" />
         </div>
