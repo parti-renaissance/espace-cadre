@@ -49,6 +49,18 @@ const ELECTIONS_TYPES = [
         label: 'Européennes',
     },
 ];
+const FIRST_ROUND = '1er tour';
+const SECOND_ROUND = '2e tour';
+const ROUNDS = [
+    {
+        code: FIRST_ROUND,
+        label: '1er tour',
+    },
+    {
+        code: SECOND_ROUND,
+        label: '2e tour',
+    },
+];
 
 function Elections() {
     const mapContainer = useRef(null);
@@ -59,6 +71,7 @@ function Elections() {
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [electionType, setElectionType] = useState(ELECTION_TYPE_PRESIDENTIALS);
+    const [roundInfo, setRoundInfo] = useState(FIRST_ROUND);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -139,9 +152,9 @@ function Elections() {
                     popup
                         .setLngLat(e.lngLat)
                         .setHTML(data
-                            .filter((val) => val.election === electionType)
+                            .filter((val) => val.election === electionType && val.tour === roundInfo.charAt(0))
                             .map((el) => `
-                                <table class="table table-stripe">
+                                <table class="table elections-table">
                                     <thead>
                                         <tr>
                                             <th scope="col">
@@ -151,16 +164,13 @@ function Elections() {
                                                 Année
                                             </th>
                                             <th scope="col">
-                                                Nom de la liste
+                                                Liste
                                             </th>
                                             <th scope="col">
                                                 Tour
                                             </th>
                                             <th scope="col">
-                                                votants
-                                            </th>
-                                            <th scope="col">
-                                            Voix
+                                                Voix
                                             </th>
                                         </tr>
                                     </thead>
@@ -170,7 +180,6 @@ function Elections() {
                                             <td>${el.annee}</td>
                                             <td>${el.nom_liste}</td>
                                             <td>${el.tour}</td>
-                                            <td>${el.votants}</td>
                                             <td>${el.voix}</td>
                                         </tr>
                                     </tbody>
@@ -180,7 +189,7 @@ function Elections() {
                 }
             });
         }
-    }, [regionsCsv, electionType]);
+    }, [regionsCsv, electionType, roundInfo]);
 
     // Display departements on the map
     useEffect(() => {
@@ -199,10 +208,10 @@ function Elections() {
                     popup
                         .setLngLat(e.lngLat)
                         .setHTML(data
-                            .filter((val) => val.election === electionType)
+                            .filter((val) => val.election === electionType && val.tour === roundInfo.charAt(0))
                             .map((el) => (
                                 `
-                                <table class="table table-stripe">
+                                <table class="table elections-table">
                                     <thead>
                                         <tr>
                                             <th scope="col">
@@ -212,16 +221,13 @@ function Elections() {
                                                 Année
                                             </th>
                                             <th scope="col">
-                                                Nom de la liste
+                                               Liste
                                             </th>
                                             <th scope="col">
                                                 Tour
                                             </th>
                                             <th scope="col">
-                                                votants
-                                            </th>
-                                            <th scope="col">
-                                            Voix
+                                                Voix
                                             </th>
                                         </tr>
                                     </thead>
@@ -231,7 +237,6 @@ function Elections() {
                                             <td>${el.annee}</td>
                                             <td>${el.nom_liste}</td>
                                             <td>${el.tour}</td>
-                                            <td>${el.votants}</td>
                                             <td>${el.voix}</td>
                                         </tr>
                                     </tbody>
@@ -242,7 +247,7 @@ function Elections() {
                 }
             });
         }
-    }, [departementsCsv, electionType]);
+    }, [departementsCsv, electionType, roundInfo]);
 
     // Display cantons on the map
     useEffect(() => {
@@ -261,10 +266,10 @@ function Elections() {
                     popup
                         .setLngLat(e.lngLat)
                         .setHTML(data
-                            .filter((val) => val.election === electionType)
+                            .filter((val) => val.election === electionType && val.tour === roundInfo.charAt(0))
                             .map((el) => (
                                 `
-                                <table class="table table-stripe">
+                                <table class="table elections-table">
                                     <thead>
                                         <tr>
                                             <th scope="col">
@@ -274,16 +279,13 @@ function Elections() {
                                                 Année
                                             </th>
                                             <th scope="col">
-                                                Nom de la liste
+                                                Liste
                                             </th>
                                             <th scope="col">
                                                 Tour
                                             </th>
                                             <th scope="col">
-                                                votants
-                                            </th>
-                                            <th scope="col">
-                                            Voix
+                                                Voix
                                             </th>
                                         </tr>
                                     </thead>
@@ -293,7 +295,6 @@ function Elections() {
                                             <td>${el.annee}</td>
                                             <td>${el.nom_liste}</td>
                                             <td>${el.tour}</td>
-                                            <td>${el.votants}</td>
                                             <td>${el.voix}</td>
                                         </tr>
                                     </tbody>
@@ -304,7 +305,7 @@ function Elections() {
                 }
             });
         }
-    }, [cantonsCsv, electionType]);
+    }, [cantonsCsv, electionType, roundInfo]);
 
     /* ******************
     * FILTERS
@@ -331,12 +332,16 @@ function Elections() {
             <select className="mb-3 mr-3" onChange={handleLayer}>
                 {LAYERS_TYPES.map((layer, i) => <option key={i + 1} value={layer.code}>{layer.label}</option>)}
             </select>
-            <select name="elections_list" onChange={(e) => setElectionType(e.target.value)}>
+            <select className="mr-3" onChange={(e) => setElectionType(e.target.value)}>
                 {ELECTIONS_TYPES.map((election, i) => (
                     <option key={i + 1} value={election.code}>
                         {election.label}
                     </option>
                 ))}
+            </select>
+            <select onChange={(e) => setRoundInfo(e.target.value)}>
+                {ROUNDS.map((round, i) => <option key={i + 1} value={round.code}> {round.label}</option>)}
+
             </select>
             <div ref={mapContainer} className="map-container" />
         </div>
