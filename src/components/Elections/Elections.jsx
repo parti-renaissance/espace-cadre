@@ -64,6 +64,29 @@ const ROUNDS = [
     },
 ];
 
+const NUANCE = 'Nuance';
+const LIST = 'Liste';
+const ROUND = 'Tour';
+const VOTE = 'Voix';
+const TABLE_TITLE = [
+    {
+        code: NUANCE,
+        label: 'Nuance',
+    },
+    {
+        code: LIST,
+        label: 'Liste',
+    },
+    {
+        code: ROUND,
+        label: 'Tour',
+    },
+    {
+        code: VOTE,
+        label: 'Voix',
+    },
+];
+
 function Elections() {
     const mapContainer = useRef(null);
     const map = useRef(null);
@@ -145,7 +168,17 @@ function Elections() {
         const popup = new mapboxgl.Popup();
         popup
             .setLngLat(currentPoint.lngLat)
-            .setHTML(renderToString(data.map((element, i) => <ElectionTable key={i + 1} row={element} />)))
+            .setHTML(`
+                <div class="elections-title">${data[0].election} ${data[0].annee}</div>
+                <table class="table elections-table">
+                    <thead>
+                        <tr>
+                            ${renderToString(TABLE_TITLE.map((title, i) => <th scope="col" key={i + 1}>{title.label}</th>))}
+                        </tr>
+                    </thead>
+                    ${renderToString(data.map((element, i) => <ElectionTable key={i + 1} row={element} />))}
+                </table>
+            `)
             .addTo(map.current);
     }, [currentPoint]);
 
