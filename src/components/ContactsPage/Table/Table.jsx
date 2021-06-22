@@ -113,7 +113,7 @@ const Table = ({ columns, data }) => {
             </div>
 
             <table
-                className="table table-responsive"
+                className="table table-responsive contacts-table"
                 {...getTableProps()}
             >
                 <thead>

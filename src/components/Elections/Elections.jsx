@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
+import { renderToString } from 'react-dom/server';
 import Papa from 'papaparse';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
@@ -7,12 +8,61 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions.csv';
 import departements from './data/departements.csv';
 import cantons from './data/cantons.csv';
+import ElectionTable from './ElectionTable';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ieWh3eSJ9.LxKs_dipHMNZ-JdTkyKEMQ';
 
 const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
 const LAYER_CANTONS = 'cantons';
+const LAYERS_TYPES = [
+    {
+        code: LAYER_REGION,
+        label: 'Régions',
+    },
+    {
+        code: LAYER_DEPARTMENT,
+        label: 'Départements',
+    },
+    {
+        code: LAYER_CANTONS,
+        label: 'Cantons',
+    },
+];
+const ELECTION_TYPE_PRESIDENTIALS = 'Présidentielles';
+const ELECTION_TYPE_DEPARTMENTALS = 'Départementales';
+const ELECTION_TYPE_LEGISLATIVES = 'Législatives';
+const ELECTION_TYPE_EUROPEANS = 'Européennes';
+const ELECTIONS_TYPES = [
+    {
+        code: ELECTION_TYPE_PRESIDENTIALS,
+        label: 'Présidentielles',
+    },
+    {
+        code: ELECTION_TYPE_DEPARTMENTALS,
+        label: 'Départementales',
+    },
+    {
+        code: ELECTION_TYPE_LEGISLATIVES,
+        label: 'Législatives',
+    },
+    {
+        code: ELECTION_TYPE_EUROPEANS,
+        label: 'Européennes',
+    },
+];
+const FIRST_ROUND = '1er tour';
+const SECOND_ROUND = '2e tour';
+const ROUNDS = [
+    {
+        code: FIRST_ROUND,
+        label: '1er tour',
+    },
+    {
+        code: SECOND_ROUND,
+        label: '2e tour',
+    },
+];
 
 function Elections() {
     const mapContainer = useRef(null);
@@ -22,7 +72,39 @@ function Elections() {
     const [cantonsCsv, setCantonsCsv] = useState();
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
-    const layers = ['Régions', 'Départements', 'Cantons'];
+    const [currentPoint, setCurrentPoint] = useState();
+    const [electionType, setElectionType] = useState(ELECTION_TYPE_PRESIDENTIALS);
+    const [roundInfo, setRoundInfo] = useState(FIRST_ROUND);
+
+    const findZoneData = (code) => {
+        let dataCsv;
+        let filter;
+
+        switch (activeLayer) {
+        case LAYER_DEPARTMENT:
+            dataCsv = departementsCsv;
+            filter = (element) => element.departement === code;
+            break;
+        case LAYER_CANTONS:
+            dataCsv = cantonsCsv;
+            filter = (element) => element.code_canton === code;
+            break;
+        default:
+            dataCsv = regionsCsv;
+            filter = (element) => element.region === code;
+            break;
+        }
+
+        return dataCsv.data.filter(
+            (element) => filter(element)
+                && element.election === electionType
+                && element.tour === roundInfo.charAt(0),
+        );
+    };
+
+    const switchLayer = () => {
+        LAYERS_TYPES.map((el) => map.current.setLayoutProperty(el.code, 'visibility', el.code === activeLayer ? 'visible' : 'none'));
+    };
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -37,19 +119,41 @@ function Elections() {
 
     // Wait for the map to be loaded and display layer visibility to none
     useEffect(() => {
-        map.current.on('load', () => {
-            setMapLoaded(true);
-            map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
-            map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
-            map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
-        });
+        map.current.getCanvas().style.cursor = 'pointer';
+
+        map.current.on('load', () => setMapLoaded(true));
+        map.current.on('click', (event) => setCurrentPoint({ point: event.point, lngLat: event.lngLat }));
     }, [map]);
+
+    useEffect(() => {
+        if (!currentPoint || !mapLoaded) {
+            return;
+        }
+
+        const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] });
+
+        if (!Array.isArray(propsFromMapbox) || !propsFromMapbox.length) {
+            return;
+        }
+
+        const data = findZoneData(propsFromMapbox[0].properties.code);
+
+        if (!data.length) {
+            return;
+        }
+
+        const popup = new mapboxgl.Popup();
+        popup
+            .setLngLat(currentPoint.lngLat)
+            .setHTML(renderToString(data.map((element, i) => <ElectionTable key={i + 1} row={element} />)))
+            .addTo(map.current);
+    }, [currentPoint]);
+
+    useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
 
     // Once the map is loaded, set region as default layer and prepare csv data
     useEffect(() => {
         if (mapLoaded) {
-            map.current.setLayoutProperty(activeLayer, 'visibility', 'visible');
-
             // Convert region csv to JSON
             Papa.parse(regions, {
                 delimiter: ',',
@@ -61,7 +165,7 @@ function Elections() {
                 },
             });
 
-            // Convert departements csv to JSON
+            // Convert departments csv to JSON
             Papa.parse(departements, {
                 delimiter: ',',
                 download: true,
@@ -83,197 +187,24 @@ function Elections() {
                 },
             });
         }
-    }, [activeLayer, mapLoaded]);
+    }, [mapLoaded]);
 
-    // Display region on the map
-    useEffect(() => {
-        if (regionsCsv !== undefined) {
-            const popup = new mapboxgl.Popup();
-
-            map.current.on('click', (e) => {
-                map.current.getCanvas().style.cursor = 'pointer';
-                const regionsFromMapbox = map.current.queryRenderedFeatures(e.point, {
-                    layers: ['regions'],
-                });
-
-                const props = regionsFromMapbox[0];
-                if (props !== undefined) {
-                    // eslint-disable-next-line react/prop-types
-                    const data = regionsCsv.data.filter((el) => (el.region === props.properties.code));
-                    console.log(data);
-                    popup
-                        .setLngLat(e.lngLat)
-                        .setHTML(data.map((el) => (
-                            `
-                                <table class="table table-stripe">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">
-                                                Année
-                                            </th>
-                                            <th scope="col">
-                                                Nom de la liste
-                                            </th>
-                                            <th scope="col">
-                                                Tour
-                                            </th>
-                                            <th scope="col">
-                                                votants
-                                            </th>
-                                            <th scope="col">
-                                            Voix
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>${el.annee}</td>
-                                            <td>${el.nom_liste}</td>
-                                            <td>${el.tour}</td>
-                                            <td>${el.votants}</td>
-                                            <td>${el.voix}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            `
-                        ))).addTo(map.current);
-                }
-            });
-        }
-    }, [regionsCsv]);
-
-    // Display departements on the map
-    useEffect(() => {
-        if (departementsCsv !== undefined) {
-            const popup = new mapboxgl.Popup();
-
-            map.current.on('click', (e) => {
-                map.current.getCanvas().style.cursor = 'pointer';
-                const departementsFromMapbox = map.current.queryRenderedFeatures(e.point, {
-                    layers: ['departements'],
-                });
-                const props = departementsFromMapbox[0];
-                if (props !== undefined) {
-                    // eslint-disable-next-line react/prop-types
-                    const data = departementsCsv.data.filter((el) => (el.departement === props.properties.code));
-                    popup
-                        .setLngLat(e.lngLat)
-                        .setHTML(data.map((el) => (
-                            `
-                                <table class="table table-stripe">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">
-                                                Année
-                                            </th>
-                                            <th scope="col">
-                                                Nom de la liste
-                                            </th>
-                                            <th scope="col">
-                                                Tour
-                                            </th>
-                                            <th scope="col">
-                                                votants
-                                            </th>
-                                            <th scope="col">
-                                            Voix
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>${el.annee}</td>
-                                            <td>${el.nom_liste}</td>
-                                            <td>${el.tour}</td>
-                                            <td>${el.votants}</td>
-                                            <td>${el.voix}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            `
-                        )))
-                        .addTo(map.current);
-                }
-            });
-        }
-    }, [departementsCsv]);
-
-    // Display cantons on the map
-    useEffect(() => {
-        if (cantonsCsv !== undefined) {
-            const popup = new mapboxgl.Popup();
-
-            map.current.on('click', (e) => {
-                map.current.getCanvas().style.cursor = 'pointer';
-                const cantonsFromMapbox = map.current.queryRenderedFeatures(e.point, {
-                    layers: ['cantons'],
-                });
-                const props = cantonsFromMapbox[0];
-                if (props !== undefined) {
-                    // eslint-disable-next-line react/prop-types
-                    const data = cantonsCsv.data.filter((el) => (el.code_canton === props.properties.code));
-                    popup
-                        .setLngLat(e.lngLat)
-                        .setHTML(data.map((el) => (
-                            `
-                                <table class="table table-stripe">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">
-                                                Année
-                                            </th>
-                                            <th scope="col">
-                                                Nom de la liste
-                                            </th>
-                                            <th scope="col">
-                                                Tour
-                                            </th>
-                                            <th scope="col">
-                                                votants
-                                            </th>
-                                            <th scope="col">
-                                            Voix
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>${el.annee}</td>
-                                            <td>${el.nom_liste}</td>
-                                            <td>${el.tour}</td>
-                                            <td>${el.votants}</td>
-                                            <td>${el.voix}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            `
-                        )))
-                        .addTo(map.current);
-                }
-            });
-        }
-    }, [cantonsCsv]);
-
-    const handleChange = (e) => {
-        if (e.target.value === 'Régions') {
-            setActiveLayer(LAYER_REGION);
-            map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
-            map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
-        } else if (e.target.value === 'Départements') {
-            setActiveLayer(LAYER_DEPARTMENT);
-            map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
-            map.current.setLayoutProperty(LAYER_CANTONS, 'visibility', 'none');
-        } else if (e.target.value === 'Cantons') {
-            setActiveLayer(LAYER_CANTONS);
-            map.current.setLayoutProperty(LAYER_DEPARTMENT, 'visibility', 'none');
-            map.current.setLayoutProperty(LAYER_REGION, 'visibility', 'none');
-        }
-    };
     return (
         <div>
-            <select className="mb-3 mr-3" onChange={handleChange}>
-                {layers.map((layer, i) => <option key={i + 1} value={layer}>{layer}</option>)}
+            <select className="mb-3 mr-3" onChange={(e) => setActiveLayer(e.target.value)}>
+                {LAYERS_TYPES.map((layer, i) => <option key={i + 1} value={layer.code}>{layer.label}</option>)}
             </select>
+            <select className="mr-3" onChange={(e) => setElectionType(e.target.value)}>
+                {ELECTIONS_TYPES.map((election, i) => (
+                    <option key={i + 1} value={election.code}>
+                        {election.label}
+                    </option>
+                ))}
+            </select>
+            <select onChange={(e) => setRoundInfo(e.target.value)}>
+                {ROUNDS.map((round, i) => <option key={i + 1} value={round.code}> {round.label}</option>)}
+            </select>
+
             <div ref={mapContainer} className="map-container" />
         </div>
     );
