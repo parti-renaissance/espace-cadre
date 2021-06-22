@@ -1,0 +1,25 @@
+.election-modal-content {
+    padding: 32px 32px 0;
+    color: $blackCorner;
+
+    .candidat-name {
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .candidat-nuance {
+        font-weight: 400;
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+
+    .candidat-resultat {
+        font-size: 14px;
+        font-weight: 400;
+        margin-bottom: 16px;
+
+        .resultat-span {
+            font-weight: 600;
+        }
+    }
+}
