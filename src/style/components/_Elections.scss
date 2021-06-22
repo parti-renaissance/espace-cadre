@@ -1,24 +1,25 @@
 .map-container {
   width: 100%;
-  height: 100vh;
+  height: 90vh;
 }
 
 #map-overlay {
   font-family: "Poppins", sans-serif;
-  background: #ffffff;
+  color: $blackCorner;
+  background: $whiteCorner;
   position: absolute;
   z-index: 1;
   width: 350px;
   height: 700px;
-  top: 10%;
+  top: 5%;
   right: 8px;
   @include borderRadius(6px);
 
   .elections-title {
-    text-align: center;
+    color: $blueCorner;
     font-size: 24px;
     font-weight: 600;
-    color: $blueCorner;
+    text-align: center;
     margin: 32px 0;
   }
 
@@ -37,8 +38,6 @@
 
     .flash-div {
       font-size: 16px;
-      font-family: "Poppins", sans-serif;
-      color: $blackCorner;
       font-weight: 400;
 
       .flash-span {

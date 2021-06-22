@@ -141,7 +141,6 @@ function Elections() {
         if (!data.length) {
             return;
         }
-        console.log(data);
         document.getElementById('map-overlay').innerHTML = `
                 <div class="row">
                     <div class="col-10 elections-title">${data[0].election} ${data[0].annee}</div>
