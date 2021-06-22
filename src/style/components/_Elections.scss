@@ -4,9 +4,23 @@
 }
 
 .mapboxgl-popup-content {
-  width: 430px;
+  width: 300px;
   max-height: 300px;
   overflow-y: scroll;
+}
+
+.elections-table,
+.elections-title {
+  font-family: "Poppins", sans-serif;
+
+}
+
+.elections-title {
+  text-align: center;
+  margin: 16px 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: $blueCorner;
 }
 
 .elections-table {
