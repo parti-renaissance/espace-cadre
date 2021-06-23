@@ -1,30 +1,50 @@
 .map-container {
-    width: 100%;
-    height: 100vh;
+  width: 100%;
+  height: 90vh;
 }
 
-.mapboxgl-popup-content {
-  width: 340px;
-  max-height: 300px;
-  overflow-y: scroll;
-}
-
-.elections-table,
-.elections-title {
+#map-overlay {
   font-family: "Poppins", sans-serif;
+  color: $blackCorner;
+  background: $whiteCorner;
+  position: absolute;
+  z-index: 1;
+  width: 350px;
+  top: 5%;
+  right: 8px;
+  @include borderRadius(6px);
 
-}
+  .elections-title {
+    color: $blueCorner;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin: 32px 0;
+  }
 
-.elections-title {
-  text-align: center;
-  margin: 16px 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: $blueCorner;
-}
+  #close-modal {
+    position: absolute;
+    font-size: 18px;
+    top: 10px;
+    right: 10px;
+  }
 
-.elections-table {
-  th {
-    border: none;
+  .flash-info {
+    background-color: $greyCornerBg;
+    padding: 32px;
+    margin-bottom: 32px;
+
+    .flash-div:first-child {
+      margin-bottom: 16px;
+    }
+
+    .flash-div {
+      font-size: 16px;
+      font-weight: 400;
+
+      .flash-span {
+        font-weight: 600;
+      }
+    }
   }
 }

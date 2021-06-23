@@ -2,13 +2,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import Papa from 'papaparse';
+import $ from 'jquery';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions.csv';
 import departements from './data/departements.csv';
 import cantons from './data/cantons.csv';
-import ElectionTable from './ElectionTable';
+import ElectionModal from './ElectionModal';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ieWh3eSJ9.LxKs_dipHMNZ-JdTkyKEMQ';
 
@@ -61,29 +62,6 @@ const ROUNDS = [
     {
         code: SECOND_ROUND,
         label: '2e tour',
-    },
-];
-
-const NUANCE = 'Nuance';
-const LIST = 'Liste';
-const ROUND = 'Tour';
-const VOTE = 'Voix';
-const TABLE_TITLE = [
-    {
-        code: NUANCE,
-        label: 'Nuance',
-    },
-    {
-        code: LIST,
-        label: 'Liste',
-    },
-    {
-        code: ROUND,
-        label: 'Tour',
-    },
-    {
-        code: VOTE,
-        label: 'Voix',
     },
 ];
 
@@ -145,7 +123,13 @@ function Elections() {
         map.current.getCanvas().style.cursor = 'pointer';
 
         map.current.on('load', () => setMapLoaded(true));
-        map.current.on('click', (event) => setCurrentPoint({ point: event.point, lngLat: event.lngLat }));
+        map.current.on('click', (event) => {
+            setCurrentPoint({ point: event.point, lngLat: event.lngLat });
+        });
+
+        $('#map-overlay').on('click', '#close-modal', () => {
+            $('#map-overlay').empty();
+        });
     }, [map]);
 
     useEffect(() => {
@@ -165,21 +149,21 @@ function Elections() {
             return;
         }
 
-        const popup = new mapboxgl.Popup();
-        popup
-            .setLngLat(currentPoint.lngLat)
-            .setHTML(`
-                <div class="elections-title">${data[0].election} ${data[0].annee}</div>
-                <table class="table elections-table">
-                    <thead>
-                        <tr>
-                            ${renderToString(TABLE_TITLE.map((title, i) => <th scope="col" key={i + 1}>{title.label}</th>))}
-                        </tr>
-                    </thead>
-                    ${renderToString(data.map((element, i) => <ElectionTable key={i + 1} row={element} />))}
-                </table>
-            `)
-            .addTo(map.current);
+        const modalContent = document.getElementById('map-overlay');
+        modalContent.innerHTML = `
+                <div class="row">
+                    <div class="col-10 elections-title">${data[0].election} ${data[0].annee}</div>
+                    <div id="close-modal">x</div>
+                </div>
+                <div class="flash-info">
+                    <div class="flash-div"><span class="flash-span">${data[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
+                    <div class="flash-div">Taux de participation: <span class="flash-span">${data[0].participationPourcent}%</span></div>
+                    <div class="flash-div">Votes blancs ou nuls: <span class="flash-span">${data[0].blancsNulsPourcent}%</span></div>
+                </div>
+                <div>
+                    ${renderToString(data.sort((a, b) => b.voix - a.voix).slice(0, 3).map((element, i) => <ElectionModal key={i + 1} row={element} />))}
+                </div>
+            `;
     }, [currentPoint]);
 
     useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
@@ -237,8 +221,9 @@ function Elections() {
             <select onChange={(e) => setRoundInfo(e.target.value)}>
                 {ROUNDS.map((round, i) => <option key={i + 1} value={round.code}> {round.label}</option>)}
             </select>
-
-            <div ref={mapContainer} className="map-container" />
+            <div ref={mapContainer} className="map-container">
+                <div id="map-overlay" />
+            </div>
         </div>
     );
 }
