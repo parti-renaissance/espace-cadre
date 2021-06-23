@@ -151,10 +151,8 @@ function Elections() {
 
         const modalContent = document.getElementById('map-overlay');
         modalContent.innerHTML = `
-                <div class="row">
-                    <div class="col-10 elections-title">${data[0].election} ${data[0].annee}</div>
-                    <div id="close-modal">x</div>
-                </div>
+                <div class="elections-title">${data[0].election} ${data[0].annee}</div>
+                <div id="close-modal">x</div>
                 <div class="flash-info">
                     <div class="flash-div"><span class="flash-span">${data[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
                     <div class="flash-div">Taux de participation: <span class="flash-span">${data[0].participationPourcent}%</span></div>
