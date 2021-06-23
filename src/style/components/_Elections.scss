@@ -9,8 +9,11 @@
   background: $whiteCorner;
   position: absolute;
   z-index: 1;
-  width: 350px;
-  top: 5%;
+  max-height: 800px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 330px;
+  top: 8px;
   right: 8px;
   @include borderRadius(6px);
 
