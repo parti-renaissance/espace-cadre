@@ -75,6 +75,7 @@ function Elections() {
     const [currentPoint, setCurrentPoint] = useState();
     const [electionType, setElectionType] = useState(ELECTION_TYPE_PRESIDENTIALS);
     const [roundInfo, setRoundInfo] = useState(FIRST_ROUND);
+    const [openPopup, setOpenPopup] = useState(false);
 
     const findZoneData = (code) => {
         let dataCsv;
@@ -122,7 +123,10 @@ function Elections() {
         map.current.getCanvas().style.cursor = 'pointer';
 
         map.current.on('load', () => setMapLoaded(true));
-        map.current.on('click', (event) => setCurrentPoint({ point: event.point, lngLat: event.lngLat }));
+        map.current.on('click', (event) => {
+            setOpenPopup(true);
+            setCurrentPoint({ point: event.point, lngLat: event.lngLat });
+        });
     }, [map]);
 
     useEffect(() => {
@@ -141,7 +145,9 @@ function Elections() {
         if (!data.length) {
             return;
         }
-        document.getElementById('map-overlay').innerHTML = `
+
+        const modalContent = document.getElementById('map-overlay');
+        modalContent.innerHTML = `
                 <div class="row">
                     <div class="col-10 elections-title">${data[0].election} ${data[0].annee}</div>
                 </div>
@@ -212,7 +218,7 @@ function Elections() {
                 {ROUNDS.map((round, i) => <option key={i + 1} value={round.code}> {round.label}</option>)}
             </select>
             <div ref={mapContainer} className="map-container">
-                <div id="map-overlay" />
+                <div id="map-overlay" style={openPopup ? null : { display: 'none' }} />
             </div>
         </div>
     );
