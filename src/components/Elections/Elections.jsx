@@ -7,8 +7,8 @@ import $ from 'jquery';
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions_v3.csv';
-import departements from './data/departements_v3.csv';
-import cantons from './data/cantons_v2.csv';
+import departements from './data/departements_v4.csv';
+import cantons from './data/cantons_v4.csv';
 import ElectionModal from './ElectionModal';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ieWh3eSJ9.LxKs_dipHMNZ-JdTkyKEMQ';
