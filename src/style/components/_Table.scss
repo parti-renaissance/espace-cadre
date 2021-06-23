@@ -8,7 +8,6 @@
     height: 38px;
     background-color: $whiteCorner;
     overflow: hidden;
-    text-overflow: ellipsis;
 
     span {
         margin-right: 10px;
@@ -28,14 +27,10 @@
 // Style for table
 //**************************
 
-// Global style for Table container
-.table-container {
-    overflow: scroll;
-}
-
 // Style for table
-.table {
+.contacts-table {
     background-color: $whiteCorner;
+    @include borderRadius(6px);
 
     th {
         font-size: 12px;
@@ -75,7 +70,24 @@
     font-size: 14px;
 }
 
-// Page count below the table
+.page-size {
+    color: $blueCorner;
+}
+
+.contacts-count {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media(min-width: 992px) {
+    .contacts-count {
+    position: absolute;
+    right: 16px 
+    }
+}
+
+
+// Pages and contacts count
 .contacts-count,
 .page-count-bottom {
     color: $greyCorner3;

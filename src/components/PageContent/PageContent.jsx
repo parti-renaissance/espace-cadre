@@ -7,7 +7,6 @@ const PageContent = ({ children, currentUser }) => {
     const { pathname } = useLocation();
     const pathIndex = MENU.findIndex((path) => path.route === pathname);
     let pageTitle;
-
     if (pathIndex !== -1) {
         pageTitle = MENU[pathIndex].label || null;
     }
@@ -21,7 +20,7 @@ const PageContent = ({ children, currentUser }) => {
                         <span className="menu-text">Menu</span>
                     </button>
 
-                    {pageTitle && <span className="page-title">{pageTitle}</span>}
+                    {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
 
                     {currentUser && (
                         <div className="welcome-message ml-sm-auto mr-3 mt-3">

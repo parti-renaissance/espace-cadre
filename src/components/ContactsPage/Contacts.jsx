@@ -12,12 +12,13 @@ import MultiSelectFilter from './Filters/MultiSelectFilter';
 
 import Spinner from '../Spinner/Spinner';
 import { apiClientProxy } from '../../services/networking/client';
+import { useContactsCache } from '../../redux/contacts/hooks';
 
 const Contacts = () => {
-    const [data, setData] = useState([]);
     const [columnsTitle, setColumnsTitle] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [contacts, setContacts] = useContactsCache();
 
     // Get the data for the table
     useEffect(() => {
@@ -27,10 +28,12 @@ const Contacts = () => {
 
         const getContactsAndColumnsTitles = async () => {
             try {
-                setLoading(true);
                 setError(false);
-                const body = await apiClientProxy.get('/contacts');
-                const columnsTitle = (Object.keys(body.contacts[0]));
+                setLoading(true);
+                if (contacts === null) {
+                    setContacts(await apiClientProxy.get('/contacts'));
+                }
+                const columnsTitle = (Object.keys(contacts.contacts[0]));
                 const columns = columnsTitle.map((title) => {
                     const columnDef = {
                         Header: title.replace('_', ' '),
@@ -47,7 +50,7 @@ const Contacts = () => {
                         columnDef.Filter = MultiSelectFilter;
                         columnDef.filter = 'includesSome';
                         columnDef.Cell = (props) => <InterestRendering interest={props} />;
-                        columnDef.interests = body.interestsChoices;
+                        columnDef.interests = contacts.interestsChoices;
                     } else if (['id'].indexOf(title) === -1) {
                         // default Filter
                         columnDef.Filter = ColumnFilter;
@@ -57,10 +60,9 @@ const Contacts = () => {
                 });
                 if (isActive) {
                     /* Update state only if the user is still on the page
-                    In other words, if the component is still mounted
-                    */
+                        In other words, if the component is still mounted
+                        */
                     setColumnsTitle(columns);
-                    setData(body.contacts);
                     setLoading(false);
                 }
             } catch (error) {
@@ -77,21 +79,17 @@ const Contacts = () => {
             */
             isActive = false;
         };
-    }, []);
+    }, [contacts]);
 
     // Handle error on fetch, async loading with spinner and rendering when loaded
     const content = () => {
         if (error) {
             return <div className="alert alert-danger w-50" role="alert">Erreur dans le chargement de la page</div>;
-        } if (loading) {
+        }
+        if (loading) {
             return <Spinner />;
         }
-        return (
-            <Table
-                columns={columnsTitle}
-                data={data}
-            />
-        );
+        return (contacts !== null && <Table columns={columnsTitle} data={contacts.contacts} />);
     };
 
     return (

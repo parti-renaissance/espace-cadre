@@ -1,13 +1,18 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import TextChart from './TextChart';
 
-const adherentsCount = {
-    adherentCount: 125185,
-    zoneName: 'Île-de-France',
-};
-
 test('renders with the correct text and unmount correctly', () => {
-    render(<TextChart adherentsCount={adherentsCount} />);
-    expect(screen.getByText(`La région ${adherentsCount.zoneName} compte ${adherentsCount.adherentCount} adhérents`)).toBeInTheDocument();
+    render(
+        <Provider store={configureStore()({
+            dashboard: {
+                adherents: null,
+            },
+        })}
+        >
+            <TextChart />
+        </Provider>,
+    );
 });

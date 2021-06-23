@@ -3,12 +3,18 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 
 import Spinner from './components/Spinner/Spinner';
 
+const Auth = lazy(() => import('./components/Auth'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Contacts = lazy(() => import('./components/ContactsPage'));
-const Auth = lazy(() => import('./components/Auth'));
+const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
+const Elections = lazy(() => import('./components/Elections/Elections'));
 
 const PATHS = {
+    AUTH: {
+        route: '/auth',
+        url: () => '/auth',
+    },
     DASHBOARD: {
         route: '/',
         url: () => '/',
@@ -21,22 +27,31 @@ const PATHS = {
         label: 'Contacts',
         icon: 'fas fa-users',
     },
-    AUTH: {
-        route: '/auth',
-        url: () => '/auth',
+    MESSAGERIE: {
+        route: '/messagerie',
+        url: () => '/messagerie',
+        label: 'Messagerie',
+        icon: 'fas fa-paper-plane',
+    },
+    ELECTIONS: {
+        route: '/elections',
+        url: () => '/elections',
+        label: 'Elections',
+        icon: 'fas fa-map',
     },
     MAIL: {
         route: '/mail',
         url: () => '/mail',
         label: 'Messagerie',
-        icon: 'far fa-paper-plane',
+        icon: 'fas fa-paper-plane',
     },
 };
 
 export const MENU = [
     PATHS.DASHBOARD,
     PATHS.CONTACTS,
-    PATHS.MAIL,
+    PATHS.MESSAGERIE,
+    PATHS.ELECTIONS,
 ];
 
 const Routes = () => {
@@ -51,10 +66,12 @@ const Routes = () => {
     return (
         <Suspense fallback={<Spinner />}>
             <Switch>
+                <Route path={PATHS.AUTH.route} exact component={Auth} />
                 <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />
                 <Route path={PATHS.CONTACTS.route} exact component={Contacts} />
-                <Route path={PATHS.AUTH.route} exact component={Auth} />
+                <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
                 <Route path={PATHS.MAIL.route} exact component={Mail} />
+                <Route path={PATHS.ELECTIONS.route} exact component={Elections} />
             </Switch>
         </Suspense>
     );

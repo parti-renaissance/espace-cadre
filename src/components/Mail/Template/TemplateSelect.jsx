@@ -120,7 +120,7 @@ const TemplateSelect = () => {
 
     return (
         <div className="row mb-3">
-            <div className="col-12 col-md-8">
+            <div className="col-12 col-md-8 mb-3 mb-md-0">
                 <CreatableSelect
                     isClearable
                     onChange={handleSelectChange}

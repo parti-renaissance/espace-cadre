@@ -90,6 +90,8 @@ jobs:
                     echo "${{ env.ENV_5 }}=${{ secrets[env.ENV_5] }}" >> .env.production
                     echo "${{ env.ENV_6 }}=${{ secrets[env.ENV_6] }}" >> .env.production
 
+                    echo "REACT_APP_VERSION=${GITHUB_SHA::7}" >> .env.production
+
             -   name: Build & Publish
                 run: |-
                     gcloud --quiet auth configure-docker
@@ -138,6 +140,8 @@ jobs:
                     echo "${{ env.ENV_5 }}=${{ secrets[env.ENV_5] }}" >> .env.production
                     echo "${{ env.ENV_6 }}=${{ secrets[env.ENV_6] }}" >> .env.production
 
+                    echo "REACT_APP_VERSION=${{ github.event.release.tag_name }}" >> .env.production
+
             -   name: Build & Publish
                 run: |-
                     gcloud --quiet auth configure-docker
@@ -152,19 +156,13 @@ jobs:
         environment: staging
 
         steps:
-            -   name: Set up Cloud credentials
-                uses: google-github-actions/setup-gcloud@master
+            -   name: Deploy to Cloud Run
+                uses: google-github-actions/deploy-cloudrun@main
                 with:
-                    project_id: ${{ secrets.GCP_PROJECT_ID }}
-                    service_account_key: ${{ secrets.GCP_SA_KEY }}
-                    export_default_credentials: true
-
-            -   name: Deploy Cloud Run
-                run: |-
-                    gcloud run deploy ${{ secrets.CLOUD_RUN_NAME }}-staging \
-                        --image eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest \
-                        --platform managed \
-                        --region ${{ secrets.GCP_ZONE }}
+                    service: ${{ secrets.CLOUD_RUN_NAME }}-staging
+                    image: eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest
+                    credentials: ${{ secrets.GCP_SA_KEY }}
+                    region: ${{ secrets.GCP_ZONE }}
 
     DeployProduction:
         name: Deploy PRODUCTION 🚀
@@ -173,16 +171,10 @@ jobs:
         environment: production
 
         steps:
-            -   name: Set up Cloud credentials
-                uses: google-github-actions/setup-gcloud@master
+            -   name: Deploy to Cloud Run
+                uses: google-github-actions/deploy-cloudrun@main
                 with:
-                    project_id: ${{ secrets.GCP_PROJECT_ID }}
-                    service_account_key: ${{ secrets.GCP_SA_KEY }}
-                    export_default_credentials: true
-
-            -   name: Deploy Cloud Run
-                run: |-
-                    gcloud run deploy ${{ secrets.CLOUD_RUN_NAME }} \
-                        --image eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.event.release.tag_name }} \
-                        --platform managed \
-                        --region ${{ secrets.GCP_ZONE }}
+                    service: ${{ secrets.CLOUD_RUN_NAME }}
+                    image: eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.event.release.tag_name }}
+                    credentials: ${{ secrets.GCP_SA_KEY }}
+                    region: ${{ secrets.GCP_ZONE }}
