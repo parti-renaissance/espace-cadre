@@ -161,7 +161,7 @@ function Elections() {
                     <div class="flash-div">Votes blancs ou nuls: <span class="flash-span">${data[0].blancsNulsPourcent}%</span></div>
                 </div>
                 <div>
-                    ${renderToString(data.sort((a, b) => b.voix - a.voix).slice(0, 3).map((element, i) => <ElectionModal key={i + 1} row={element} />))}
+                    ${renderToString(data.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />))}
                 </div>
             `;
     }, [currentPoint]);
