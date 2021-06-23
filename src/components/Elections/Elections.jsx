@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import Papa from 'papaparse';
+import $ from 'jquery';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -75,7 +76,6 @@ function Elections() {
     const [currentPoint, setCurrentPoint] = useState();
     const [electionType, setElectionType] = useState(ELECTION_TYPE_PRESIDENTIALS);
     const [roundInfo, setRoundInfo] = useState(FIRST_ROUND);
-    const [openPopup, setOpenPopup] = useState(false);
 
     const findZoneData = (code) => {
         let dataCsv;
@@ -124,8 +124,11 @@ function Elections() {
 
         map.current.on('load', () => setMapLoaded(true));
         map.current.on('click', (event) => {
-            setOpenPopup(true);
             setCurrentPoint({ point: event.point, lngLat: event.lngLat });
+        });
+
+        $('#map-overlay').on('click', '#close-modal', () => {
+            $('#map-overlay').empty();
         });
     }, [map]);
 
@@ -150,6 +153,7 @@ function Elections() {
         modalContent.innerHTML = `
                 <div class="row">
                     <div class="col-10 elections-title">${data[0].election} ${data[0].annee}</div>
+                    <div id="close-modal">x</div>
                 </div>
                 <div class="flash-info">
                     <div class="flash-div"><span class="flash-span">${data[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
@@ -218,7 +222,7 @@ function Elections() {
                 {ROUNDS.map((round, i) => <option key={i + 1} value={round.code}> {round.label}</option>)}
             </select>
             <div ref={mapContainer} className="map-container">
-                <div id="map-overlay" style={openPopup ? null : { display: 'none' }} />
+                <div id="map-overlay" />
             </div>
         </div>
     );
