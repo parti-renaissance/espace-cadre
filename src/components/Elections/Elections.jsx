@@ -127,6 +127,7 @@ function Elections() {
             setCurrentPoint({ point: event.point, lngLat: event.lngLat });
         });
 
+        // Close the modal on click
         $('#map-overlay').on('click', '#close-modal', () => {
             $('#map-overlay').empty();
         });

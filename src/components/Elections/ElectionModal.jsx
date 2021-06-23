@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const ElectionModal = ({
     row: {
-        voix, nomNuance, liste, voixPourcent,
+        voix, nomNuance, liste, voixPourcent, codeCouleur,
     },
 }) => (
     <div className="election-modal-content">
@@ -13,9 +13,9 @@ const ElectionModal = ({
         <div className="candidat-resultat">{voix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} voix - <span className="resultat-span">{voixPourcent}%</span></div>
         <div className="progress" style={{ height: '8px' }}>
             <div
-                className="progress-bar bg-success"
+                className="progress-bar"
                 role="progressbar"
-                style={{ width: `${voixPourcent}%` }}
+                style={{ width: `${voixPourcent}%`, backgroundColor: `${codeCouleur}` }}
                 aria-valuenow={voixPourcent}
                 aria-valuemin="0"
                 aria-valuemax="100"
