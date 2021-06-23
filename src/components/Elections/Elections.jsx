@@ -7,7 +7,7 @@ import $ from 'jquery';
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions_v3.csv';
-import departements from './data/departements_v4.csv';
+import departements from './data/departements_v5.csv';
 import cantons from './data/cantons_v4.csv';
 import ElectionModal from './ElectionModal';
 
