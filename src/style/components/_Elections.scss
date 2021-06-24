@@ -1,6 +1,6 @@
 .map-container {
   width: 100%;
-  height: 90vh;
+  height: 85vh;
 }
 
 #map-overlay {
@@ -9,7 +9,7 @@
   background: $whiteCorner;
   position: absolute;
   z-index: 1;
-  max-height: 800px;
+  max-height: 730px;
   overflow-y: auto;
   overflow-x: hidden;
   width: 330px;
