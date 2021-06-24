@@ -226,11 +226,16 @@ function Elections() {
         if (electionData[activeLayer] === undefined) {
             return [];
         }
-
-        return electionData[activeLayer].map((code) => ({
-            code,
-            label: code.replace('|', ' - '),
-        }));
+        return electionData[activeLayer].map((code) => {
+            const labelParts = code.split('|');
+            const codeParts = [...labelParts];
+            labelParts[2] = ELECTION_ROUND_LABELS[labelParts[2]];
+            codeParts[0] = _.findKey(ELECTION_LABELS, (label) => label === codeParts[0]);
+            return {
+                code: codeParts.join('|'),
+                label: labelParts.join(' - '),
+            };
+        });
     };
 
     return (
@@ -239,12 +244,11 @@ function Elections() {
 
             <ElectionTypeFilter
                 choices={getElectionTypes()}
-                value={`${ELECTION_LABELS[filterValues.electionType]}|${filterValues.electionYear}|${filterValues.electionRound}`}
+                value={`${filterValues.electionType}|${filterValues.electionYear}|${filterValues.electionRound}`}
                 onChange={(e) => setFilterValues(() => {
-                    const value = e.target.value.split('|', 3);
-
+                    const value = e.target.value.split('|');
                     return {
-                        electionType: _.findKey(ELECTION_LABELS, (label) => label === value[0]),
+                        electionType: value[0],
                         electionYear: value[1],
                         electionRound: value[2],
                     };
