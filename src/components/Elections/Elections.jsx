@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import Papa from 'papaparse';
 import $ from 'jquery';
-// eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import _ from 'lodash';
+// eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions_v3.csv';

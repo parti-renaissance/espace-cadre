@@ -9,7 +9,7 @@ const ElectionTypeFilter = ({ onChange, choices, value }) => (
         disabled={!choices.length}
     >
         <option>Type d&apos;élection</option>
-        {choices.length && choices.map((election, i) => (
+        {choices.length > 0 && choices.map((election, i) => (
             <option key={i + 1} value={election.code}>
                 {election.label}
             </option>
