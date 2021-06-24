@@ -4,12 +4,15 @@ import { renderToString } from 'react-dom/server';
 import Papa from 'papaparse';
 import $ from 'jquery';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
+import _ from 'lodash';
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions_v3.csv';
 import departements from './data/departements_v5.csv';
 import cantons from './data/cantons_v4.csv';
 import ElectionModal from './ElectionModal';
+import LayerFilter from './Filter/LayerFilter';
+import ElectionTypeFilter from './Filter/ElectionTypeFilter';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ieWh3eSJ9.LxKs_dipHMNZ-JdTkyKEMQ';
 
@@ -30,52 +33,41 @@ const LAYERS_TYPES = [
         label: 'Cantons',
     },
 ];
-const ELECTION_TYPE_PRESIDENTIALS = 'Présidentielles';
-const ELECTION_TYPE_DEPARTMENTALS = 'Départementales';
-const ELECTION_TYPE_LEGISLATIVES = 'Législatives';
+const ELECTION_TYPE_PRESIDENTIAL = 'presidential';
+const ELECTION_TYPE_DEPARTMENTAL = 'departmental';
+const ELECTION_TYPE_LEGISLATIVE = 'legislative';
+const ELECTION_TYPE_REGIONAL = 'regional';
 const ELECTION_TYPE_EUROPEANS = 'Européennes';
-const ELECTIONS_TYPES = [
-    {
-        code: ELECTION_TYPE_PRESIDENTIALS,
-        label: 'Présidentielles',
-    },
-    {
-        code: ELECTION_TYPE_DEPARTMENTALS,
-        label: 'Départementales',
-    },
-    {
-        code: ELECTION_TYPE_LEGISLATIVES,
-        label: 'Législatives',
-    },
-    {
-        code: ELECTION_TYPE_EUROPEANS,
-        label: 'Européennes',
-    },
-];
-const FIRST_ROUND = '1er tour';
-const SECOND_ROUND = '2e tour';
-const ROUNDS = [
-    {
-        code: FIRST_ROUND,
-        label: '1er tour',
-    },
-    {
-        code: SECOND_ROUND,
-        label: '2e tour',
-    },
-];
+
+const ELECTION_LABELS = {};
+ELECTION_LABELS[ELECTION_TYPE_PRESIDENTIAL] = 'Présidentielles';
+ELECTION_LABELS[ELECTION_TYPE_DEPARTMENTAL] = 'Départementales';
+ELECTION_LABELS[ELECTION_TYPE_LEGISLATIVE] = 'Législatives';
+ELECTION_LABELS[ELECTION_TYPE_REGIONAL] = 'Régionales';
+ELECTION_LABELS[ELECTION_TYPE_EUROPEANS] = 'Européennes';
+
+const ELECTION_ROUND_FIRST = '1';
+const ELECTION_ROUND_SECOND = '2';
+
+const ELECTION_ROUND_LABELS = {};
+ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] = '1er tour';
+ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND] = '2e tour';
 
 function Elections() {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [regionsCsv, setRegionsCsv] = useState();
-    const [departementsCsv, setDepartementsCsv] = useState();
+    const [departmentCsv, setDepartmentsCsv] = useState();
     const [cantonsCsv, setCantonsCsv] = useState();
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
-    const [electionType, setElectionType] = useState(ELECTION_TYPE_PRESIDENTIALS);
-    const [roundInfo, setRoundInfo] = useState(FIRST_ROUND);
+    const [electionData, setElectionData] = useState({});
+    const [filterValues, setFilterValues] = useState({
+        electionType: ELECTION_TYPE_PRESIDENTIAL,
+        electionRound: ELECTION_ROUND_FIRST,
+        electionYear: '2017',
+    });
 
     const findZoneData = (code) => {
         let dataCsv;
@@ -83,7 +75,7 @@ function Elections() {
 
         switch (activeLayer) {
         case LAYER_DEPARTMENT:
-            dataCsv = departementsCsv;
+            dataCsv = departmentCsv;
             filter = (element) => element.departement === code;
             break;
         case LAYER_CANTONS:
@@ -96,15 +88,31 @@ function Elections() {
             break;
         }
 
+        const electionType = ELECTION_LABELS[filterValues.electionType];
+
         return dataCsv.data.filter(
             (element) => filter(element)
                 && element.election === electionType
-                && element.tour === roundInfo.charAt(0),
+                && element.annee === filterValues.electionYear
+                && element.tour === filterValues.electionRound,
         );
     };
 
     const switchLayer = () => {
         LAYERS_TYPES.map((el) => map.current.setLayoutProperty(el.code, 'visibility', el.code === activeLayer ? 'visible' : 'none'));
+    };
+
+    const updateElectionData = (layer, data) => {
+        const keys = [];
+        data.forEach((item) => {
+            keys.push(`${item.election}|${item.annee}|${item.tour}`);
+        });
+
+        setElectionData((state) => {
+            state[layer] = _.uniq(keys);
+
+            return state;
+        });
     };
 
     useEffect(() => {
@@ -145,12 +153,10 @@ function Elections() {
         }
         const data = findZoneData(propsFromMapbox[0].properties.code);
 
-        if (!data.length) {
-            return;
-        }
-
         const modalContent = document.getElementById('map-overlay');
-        modalContent.innerHTML = `
+
+        if (data.length) {
+            modalContent.innerHTML = `
                 <div class="elections-title">${data[0].election} ${data[0].annee}</div>
                 <div id="close-modal">x</div>
                 <div class="flash-info">
@@ -162,6 +168,15 @@ function Elections() {
                     ${renderToString(data.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />))}
                 </div>
             `;
+        } else {
+            modalContent.innerHTML = `
+                <div class="elections-title">${ELECTION_LABELS[filterValues.electionType]} ${filterValues.electionYear}</div>
+                <div id="close-modal">x</div>
+                <div class="flash-info">
+                    <div class="flash-div"><span class="flash-span">Aucune donnée</span></div>
+                </div>
+            `;
+        }
     }, [currentPoint]);
 
     useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
@@ -176,6 +191,7 @@ function Elections() {
                 header: true,
                 skipEmptyLines: true,
                 complete(results) {
+                    updateElectionData(LAYER_REGION, results.data);
                     setRegionsCsv(results);
                 },
             });
@@ -187,7 +203,8 @@ function Elections() {
                 header: true,
                 skipEmptyLines: true,
                 complete(results) {
-                    setDepartementsCsv(results);
+                    updateElectionData(LAYER_DEPARTMENT, results.data);
+                    setDepartmentsCsv(results);
                 },
             });
 
@@ -198,27 +215,42 @@ function Elections() {
                 header: true,
                 skipEmptyLines: true,
                 complete(results) {
+                    updateElectionData(LAYER_CANTONS, results.data);
                     setCantonsCsv(results);
                 },
             });
         }
     }, [mapLoaded]);
 
+    const getElectionTypes = () => {
+        if (electionData[activeLayer] === undefined) {
+            return [];
+        }
+
+        return electionData[activeLayer].map((code) => ({
+            code,
+            label: code.replace('|', ' - '),
+        }));
+    };
+
     return (
         <div>
-            <select className="mb-3 mr-3" onChange={(e) => setActiveLayer(e.target.value)}>
-                {LAYERS_TYPES.map((layer, i) => <option key={i + 1} value={layer.code}>{layer.label}</option>)}
-            </select>
-            <select className="mr-3" onChange={(e) => setElectionType(e.target.value)}>
-                {ELECTIONS_TYPES.map((election, i) => (
-                    <option key={i + 1} value={election.code}>
-                        {election.label}
-                    </option>
-                ))}
-            </select>
-            <select onChange={(e) => setRoundInfo(e.target.value)}>
-                {ROUNDS.map((round, i) => <option key={i + 1} value={round.code}> {round.label}</option>)}
-            </select>
+            <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
+
+            <ElectionTypeFilter
+                choices={getElectionTypes()}
+                value={`${ELECTION_LABELS[filterValues.electionType]}|${filterValues.electionYear}|${filterValues.electionRound}`}
+                onChange={(e) => setFilterValues(() => {
+                    const value = e.target.value.split('|', 3);
+
+                    return {
+                        electionType: _.findKey(ELECTION_LABELS, (label) => label === value[0]),
+                        electionYear: value[1],
+                        electionRound: value[2],
+                    };
+                })}
+            />
+
             <div ref={mapContainer} className="map-container">
                 <div id="map-overlay" />
             </div>
