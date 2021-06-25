@@ -10,6 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import regions from './data/regions_v7.csv';
 import departements from './data/departements_v7.csv';
 import cantons from './data/cantons_v7.csv';
+import circonscriptions from './data/circonscriptions_v7.csv';
 import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
 import ElectionTypeFilter from './Filter/ElectionTypeFilter';
@@ -19,6 +20,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2twcW9wYWp6MW54MDJwcXF4em1ie
 const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
 const LAYER_CANTONS = 'cantons';
+const LAYER_CIRCONSCRIPTIONS = 'circonscriptions';
 const LAYERS_TYPES = [
     {
         code: LAYER_REGION,
@@ -31,6 +33,10 @@ const LAYERS_TYPES = [
     {
         code: LAYER_CANTONS,
         label: 'Cantons',
+    },
+    {
+        code: LAYER_CIRCONSCRIPTIONS,
+        label: 'Circonscriptions',
     },
 ];
 const ELECTION_TYPE_PRESIDENTIAL = 'presidential';
@@ -59,6 +65,7 @@ function Elections() {
     const [regionsCsv, setRegionsCsv] = useState();
     const [departmentCsv, setDepartmentsCsv] = useState();
     const [cantonsCsv, setCantonsCsv] = useState();
+    const [circonscriptionsCsv, setCirconscriptionsCsv] = useState();
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
@@ -82,6 +89,10 @@ function Elections() {
             dataCsv = cantonsCsv;
             filter = (element) => element.codeCanton === code;
             break;
+        case LAYER_CIRCONSCRIPTIONS:
+            dataCsv = circonscriptionsCsv;
+            filter = (element) => element.codeCirco === code;
+            break;
         default:
             dataCsv = regionsCsv;
             filter = (element) => element.region === code;
@@ -98,10 +109,12 @@ function Elections() {
         );
     };
 
+    // Display only the choosen layer
     const switchLayer = () => {
         LAYERS_TYPES.map((el) => map.current.setLayoutProperty(el.code, 'visibility', el.code === activeLayer ? 'visible' : 'none'));
     };
 
+    // Get all differents elections which are in csv files
     const updateElectionData = (layer, data) => {
         const keys = [];
         data.forEach((item) => {
@@ -110,7 +123,6 @@ function Elections() {
 
         setElectionData((state) => {
             state[layer] = _.uniq(keys);
-
             return state;
         });
     };
@@ -217,6 +229,17 @@ function Elections() {
                 complete(results) {
                     updateElectionData(LAYER_CANTONS, results.data);
                     setCantonsCsv(results);
+                },
+            });
+            // Convert circonscriptions csv to JSON
+            Papa.parse(circonscriptions, {
+                delimiter: ',',
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete(results) {
+                    updateElectionData(LAYER_CIRCONSCRIPTIONS, results.data);
+                    setCirconscriptionsCsv(results);
                 },
             });
         }
