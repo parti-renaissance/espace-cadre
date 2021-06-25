@@ -7,9 +7,9 @@ import _ from 'lodash';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import regions from './data/regions_v3.csv';
-import departements from './data/departements_v5.csv';
-import cantons from './data/cantons_v4.csv';
+import regions from './data/regions_v7.csv';
+import departements from './data/departements_v7.csv';
+import cantons from './data/cantons_v7.csv';
 import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
 import ElectionTypeFilter from './Filter/ElectionTypeFilter';
