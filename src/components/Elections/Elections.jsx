@@ -80,7 +80,7 @@ function Elections() {
             break;
         case LAYER_CANTONS:
             dataCsv = cantonsCsv;
-            filter = (element) => element.code_canton === code;
+            filter = (element) => element.codeCanton === code;
             break;
         default:
             dataCsv = regionsCsv;
@@ -171,10 +171,9 @@ function Elections() {
             `;
         } else {
             modalContent.innerHTML = `
-                <div class="elections-title">${ELECTION_LABELS[filterValues.electionType]} ${filterValues.electionYear}</div>
                 <div id="close-modal">x</div>
-                <div class="flash-info">
-                    <div class="flash-div"><span class="flash-span">Aucune donnée</span></div>
+                <div class="no-data">
+                    <div class="flash-div"><span class="flash-span">Sélectionnez une élection</span></div>
                 </div>
             `;
         }
