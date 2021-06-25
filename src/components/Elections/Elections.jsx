@@ -157,7 +157,8 @@ function Elections() {
 
         if (data.length) {
             modalContent.innerHTML = `
-                <div class="elections-title">${data[0].election} ${data[0].annee}</div>
+                <div class="elections-area">${data[0].nom}</div>
+                <div class="election-name">${data[0].election} ${data[0].annee}</div>
                 <div id="close-modal">x</div>
                 <div class="flash-info">
                     <div class="flash-div"><span class="flash-span">${data[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
