@@ -43,14 +43,14 @@ const ELECTION_TYPE_PRESIDENTIAL = 'presidential';
 const ELECTION_TYPE_DEPARTMENTAL = 'departmental';
 const ELECTION_TYPE_LEGISLATIVE = 'legislative';
 const ELECTION_TYPE_REGIONAL = 'regional';
-const ELECTION_TYPE_EUROPEANS = 'Européennes';
+const ELECTION_TYPE_EUROPEAN = 'european';
 
 const ELECTION_LABELS = {};
 ELECTION_LABELS[ELECTION_TYPE_PRESIDENTIAL] = 'Présidentielles';
 ELECTION_LABELS[ELECTION_TYPE_DEPARTMENTAL] = 'Départementales';
 ELECTION_LABELS[ELECTION_TYPE_LEGISLATIVE] = 'Législatives';
 ELECTION_LABELS[ELECTION_TYPE_REGIONAL] = 'Régionales';
-ELECTION_LABELS[ELECTION_TYPE_EUROPEANS] = 'Européennes';
+ELECTION_LABELS[ELECTION_TYPE_EUROPEAN] = 'Européennes';
 
 const ELECTION_ROUND_FIRST = '1';
 const ELECTION_ROUND_SECOND = '2';
@@ -69,7 +69,8 @@ function Elections() {
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
-    const [electionData, setElectionData] = useState({});
+    const [electionData, setElectionData] = useState({ ready: false, layers: [] });
+    const [readyStatus, setReadyStatus] = useState(false);
     const [filterValues, setFilterValues] = useState({
         electionType: ELECTION_TYPE_PRESIDENTIAL,
         electionRound: ELECTION_ROUND_FIRST,
@@ -141,11 +142,13 @@ function Elections() {
             if (item.codeCouleur !== '') {
                 const electionType = _.findKey(ELECTION_LABELS, (label) => label === item.election);
                 const zoneIdentifier = `${item[zoneKey]}|${electionType}|${item.annee}|${item.tour}`;
+                const votes = parseFloat(item.voixPourcent);
+
                 if (colors[zoneIdentifier] === undefined) {
-                    colors[zoneIdentifier] = { color: item.codeCouleur, votes: parseFloat(item.voixPourcent) };
-                } else if (colors[zoneIdentifier].votes < parseFloat(item.voixPourcent)) {
+                    colors[zoneIdentifier] = { color: item.codeCouleur, votes };
+                } else if (colors[zoneIdentifier].votes < votes) {
                     colors[zoneIdentifier].color = item.codeCouleur;
-                    colors[zoneIdentifier].votes = item.voixPourcent;
+                    colors[zoneIdentifier].votes = votes;
                 }
             }
         });
@@ -155,26 +158,33 @@ function Elections() {
                 electionTypes: _.uniq(keys),
                 colors,
             };
+
+            state.layers.push(layer);
+
             return state;
         });
+
+        setReadyStatus(electionData.layers.length === LAYERS_TYPES.length);
     };
 
     useEffect(() => {
         if (mapLoaded && electionData[activeLayer] !== undefined) {
-            console.log(electionData[activeLayer].colors);
             map.current.queryRenderedFeatures({ layers: [activeLayer] }).forEach((feature) => {
                 const zoneIdentifier = `${feature.properties.code}|${filterValues.electionType}|${filterValues.electionYear}|${filterValues.electionRound}`;
-                console.log(zoneIdentifier);
-                console.log(electionData[activeLayer]);
+
                 if (electionData[activeLayer].colors[zoneIdentifier] !== undefined) {
-                    map.current
-                        .removeFeatureState(feature);
-                    map.current
-                        .setFeatureState(feature, { color: electionData[activeLayer].colors[zoneIdentifier].color });
+                    console.log(feature.properties);
+
+                    if (feature.properties.code === '53') {
+                        map.current.setFeatureState(
+                            feature,
+                            { color: electionData[activeLayer].colors[zoneIdentifier].color },
+                        );
+                    }
                 }
             });
         }
-    }, [mapLoaded, activeLayer, filterValues]);
+    }, [readyStatus, activeLayer, filterValues]);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
