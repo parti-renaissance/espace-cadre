@@ -117,15 +117,64 @@ function Elections() {
     // Get all differents elections which are in csv files
     const updateElectionData = (layer, data) => {
         const keys = [];
+        const colors = {};
+        let zoneKey;
+
+        switch (layer) {
+        case LAYER_DEPARTMENT:
+            zoneKey = 'departement';
+            break;
+        case LAYER_CANTONS:
+            zoneKey = 'codeCanton';
+            break;
+        case LAYER_CIRCONSCRIPTIONS:
+            zoneKey = 'circonscription';
+            break;
+        default:
+            zoneKey = 'region';
+            break;
+        }
+
         data.forEach((item) => {
-            keys.push(`${item.election}|${item.annee}|${item.tour}`);
+            const identifier = `${item.election}|${item.annee}|${item.tour}`;
+            keys.push(identifier);
+            if (item.codeCouleur !== '') {
+                const electionType = _.findKey(ELECTION_LABELS, (label) => label === item.election);
+                const zoneIdentifier = `${item[zoneKey]}|${electionType}|${item.annee}|${item.tour}`;
+                if (colors[zoneIdentifier] === undefined) {
+                    colors[zoneIdentifier] = { color: item.codeCouleur, votes: parseFloat(item.voixPourcent) };
+                } else if (colors[zoneIdentifier].votes < parseFloat(item.voixPourcent)) {
+                    colors[zoneIdentifier].color = item.codeCouleur;
+                    colors[zoneIdentifier].votes = item.voixPourcent;
+                }
+            }
         });
 
         setElectionData((state) => {
-            state[layer] = _.uniq(keys);
+            state[layer] = {
+                electionTypes: _.uniq(keys),
+                colors,
+            };
             return state;
         });
     };
+
+    useEffect(() => {
+        if (mapLoaded && electionData[activeLayer] !== undefined) {
+            console.log(electionData[activeLayer].colors);
+            map.current.queryRenderedFeatures({ layers: [activeLayer] }).forEach((feature) => {
+                const zoneIdentifier = `${feature.properties.code}|${filterValues.electionType}|${filterValues.electionYear}|${filterValues.electionRound}`;
+                console.log(zoneIdentifier);
+                console.log(electionData[activeLayer]);
+                if (electionData[activeLayer].colors[zoneIdentifier] !== undefined) {
+                    map.current
+                        .removeFeatureState(feature);
+                    map.current
+                        .setFeatureState(feature, { color: electionData[activeLayer].colors[zoneIdentifier].color });
+                }
+            });
+        }
+    }, [mapLoaded, activeLayer, filterValues]);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -160,11 +209,11 @@ function Elections() {
 
         const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] });
 
+        console.log('propsFromMapbox', propsFromMapbox);
         if (!Array.isArray(propsFromMapbox) || !propsFromMapbox.length) {
             return;
         }
         const data = findZoneData(propsFromMapbox[0].properties.code);
-
         const modalContent = document.getElementById('map-overlay');
 
         if (data.length) {
@@ -249,7 +298,7 @@ function Elections() {
         if (electionData[activeLayer] === undefined) {
             return [];
         }
-        return electionData[activeLayer].map((code) => {
+        return electionData[activeLayer].electionTypes.map((code) => {
             const labelParts = code.split('|');
             const codeParts = [...labelParts];
             labelParts[2] = ELECTION_ROUND_LABELS[labelParts[2]];
