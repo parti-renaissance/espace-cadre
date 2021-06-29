@@ -3,7 +3,7 @@
         color: $greyCorner3;
         background-color: $whiteCorner;
         height: 34px;
-        width: 87px;
+        width: 40px;
         vertical-align: text-bottom;
         border: none;
 
@@ -23,8 +23,67 @@
         font-weight: 600;
     }
 
-    .welcome-message {
-        font-size: 14px;
-        font-weight: 500;
+    // Dropdown to display user and his roles
+    .dropdown {        
+        .dropdown-toggle {
+            text-align: left;
+            padding: 16px;
+            width: 268px;
+            border: 1px solid rgba(26, 51, 77, 0.1);
+            @include borderRadius(6px);
+
+            &::after {
+                margin-left: 64px;
+                vertical-align: 12px;
+            }
+
+            &:hover {
+                background-color: #fff;
+                border: 1px solid fff;
+                @include borderRadius(6px);
+                border: 1px solid rgba(19, 92, 235, 0.25);
+    
+            }
+
+            .profile-id {
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .profile-info {
+                font-size: 10px;
+                font-weight: 400;
+                color: $greyCornerProfile;
+            }
+        }
+
+        .dropdown-menu {
+            width: 268px ;
+            border: 1px solid rgba(19, 92, 235, 0.25);
+            padding: 16px 16px 8px;
+
+            .dropdown-item:not(:last-child) {
+                padding: 8px 16px;
+                margin-bottom: 8px;
+                width: 236px;
+                background-color: #F7F9FC;
+                @include borderRadius(6px);
+            }
+
+            .dropdown-item:last-child {
+                padding-left: 14px;
+            }
+
+            .profile-role {
+                color: $blackCorner;
+                font-size: 14px;
+                font-weight: 400;
+            }
+
+            .profile-place {
+                color: $blackCorner;
+                font-size: 10px;
+                font-weight: 400;
+            }
+        }
     }
 }
