@@ -6,6 +6,7 @@ import { getUserScopes } from '../../redux/user/selectors';
 
 function Scopes({ currentUser }) {
     const userScopes = useSelector(getUserScopes);
+
     function parseName(name) {
         if (name === 'candidate') {
             return 'Candidat';

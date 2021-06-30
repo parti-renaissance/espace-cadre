@@ -2,16 +2,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { MENU } from '../../Routes';
 import Scopes from '../Scopes';
+import { getCurrentUser } from '../../redux/user/selectors';
 
-const PageContent = ({ children, currentUser }) => {
+const PageContent = ({ children }) => {
     const { pathname } = useLocation();
     const pathIndex = MENU.findIndex((path) => path.route === pathname);
     let pageTitle;
     if (pathIndex !== -1) {
         pageTitle = MENU[pathIndex].label || null;
     }
+    const currentUser = useSelector(getCurrentUser);
 
     return (
         <div className="page-content" id="content">
@@ -35,5 +38,4 @@ export default PageContent;
 
 PageContent.propTypes = {
     children: PropTypes.instanceOf(Object).isRequired,
-    currentUser: PropTypes.instanceOf(Object).isRequired,
 };
