@@ -24,7 +24,7 @@
     }
 
     // Dropdown to display user and his roles
-    .dropdown {        
+    .dropdown {      
         .dropdown-toggle {
             text-align: left;
             padding: 16px;
@@ -33,13 +33,12 @@
             @include borderRadius(6px);
 
             &::after {
-                margin-left: 64px;
-                vertical-align: 12px;
+                display: none;
             }
 
             &:hover {
-                background-color: #fff;
-                border: 1px solid fff;
+                background-color: $whiteCorner;
+                border: 1px solid $whiteCorner;
                 @include borderRadius(6px);
                 border: 1px solid rgba(19, 92, 235, 0.25);
     
@@ -54,6 +53,11 @@
                 font-weight: 400;
                 color: $greyCornerProfile;
             }
+
+            .caret-dropdown {
+                margin-left: 77px;
+                vertical-align: 11px;
+            }
         }
 
         .dropdown-menu {
@@ -61,7 +65,7 @@
             border: 1px solid rgba(19, 92, 235, 0.25);
             padding: 16px 16px 8px;
 
-            .dropdown-item:not(:last-child) {
+            .dropdown-item {
                 padding: 8px 16px;
                 margin-bottom: 8px;
                 width: 236px;
@@ -85,5 +89,10 @@
                 font-weight: 400;
             }
         }
+    }
+
+    .show {
+        background-color: $whiteCorner;
+        @include borderRadius(6px);
     }
 }
