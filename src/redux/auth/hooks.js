@@ -4,7 +4,7 @@ import { useAsyncFn } from 'react-use';
 
 import login from '../../services/networking/auth';
 import { apiClient } from '../../services/networking/client';
-import { userLoggedIn, userUpdateData } from './slice';
+import { userLoggedIn, userUpdateData, userUpdateScopes } from './slice';
 
 export const useInitializeAuth = () => () => {
     if (process.env.NODE_ENV !== 'production' && !process.env.REACT_APP_OAUTH_HOST) {
@@ -33,5 +33,8 @@ export const useGetUserData = () => {
     return useAsyncFn(async () => {
         const data = await apiClient.get('/me');
         dispatch(userUpdateData(data));
+
+        const scopes = await apiClient.get('/v3/profile/me/scopes');
+        dispatch(userUpdateScopes(scopes));
     });
 };

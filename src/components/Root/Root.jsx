@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { getCurrentUser, isUserLogged } from '../../redux/user/selectors';
+import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors';
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
 
 import Sidebar from '../Sidebar/Sidebar';
@@ -14,6 +14,7 @@ const Root = ({ children }) => {
     const initializeAuth = useInitializeAuth();
     const { pathname } = useLocation();
     const currentUser = useSelector(getCurrentUser);
+    const userScopes = useSelector(getUserScopes);
     const [, updateUserData] = useGetUserData();
 
     useEffect(() => {
@@ -29,7 +30,7 @@ const Root = ({ children }) => {
     return (
         <>
             <Sidebar />
-            <PageContent currentUser={currentUser || {}}>{children}</PageContent>
+            <PageContent currentUser={currentUser || {}} scopes={userScopes || []}>{children}</PageContent>
         </>
     );
 };
