@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { MENU } from '../../Routes';
 import Scopes from '../Scopes';
 
-const PageContent = ({ children, currentUser, scopes }) => {
+const PageContent = ({ children, currentUser }) => {
     const { pathname } = useLocation();
     const pathIndex = MENU.findIndex((path) => path.route === pathname);
     let pageTitle;
@@ -22,7 +22,7 @@ const PageContent = ({ children, currentUser, scopes }) => {
                     </button>
                     {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
                     <div className="ml-sm-auto mr-3 mt-3">
-                        <Scopes currentUser={currentUser} scopes={scopes} />
+                        <Scopes currentUser={currentUser} />
                     </div>
                 </div>
                 {children}
@@ -36,5 +36,4 @@ export default PageContent;
 PageContent.propTypes = {
     children: PropTypes.instanceOf(Object).isRequired,
     currentUser: PropTypes.instanceOf(Object).isRequired,
-    scopes: PropTypes.instanceOf(Array).isRequired,
 };

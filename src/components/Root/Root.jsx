@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors';
+import {
+    getCurrentUser, getCurrentScope, isUserLogged, getUserScopes,
+} from '../../redux/user/selectors';
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
 
 import Sidebar from '../Sidebar/Sidebar';
@@ -14,8 +16,9 @@ const Root = ({ children }) => {
     const initializeAuth = useInitializeAuth();
     const { pathname } = useLocation();
     const currentUser = useSelector(getCurrentUser);
-    const userScopes = useSelector(getUserScopes);
+    const currentScope = useSelector(getCurrentScope);
     const [, updateUserData] = useGetUserData();
+    const userScopes = useSelector(getUserScopes);
 
     useEffect(() => {
         if (isUserLoggedIn) {
@@ -27,10 +30,14 @@ const Root = ({ children }) => {
         }
     }, [isUserLoggedIn]);
 
+    if (currentUser && userScopes && currentScope === null) {
+        return <h1>Page intermédiaire</h1>;
+    }
+
     return (
         <>
             <Sidebar />
-            <PageContent currentUser={currentUser || {}} scopes={userScopes || []}>{children}</PageContent>
+            <PageContent currentUser={currentUser || {}}>{children}</PageContent>
         </>
     );
 };
