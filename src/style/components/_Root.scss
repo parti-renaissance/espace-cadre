@@ -24,7 +24,7 @@
     }
 
     // Dropdown to display user and his roles
-    .dropdown {      
+    .dropdown {    
         .dropdown-toggle {
             text-align: left;
             padding: 16px;
@@ -36,18 +36,19 @@
                 display: none;
             }
 
-            &:hover {
+            &:hover,
+            &:focus {
                 background-color: $whiteCorner;
                 border: 1px solid $whiteCorner;
                 @include borderRadius(6px);
                 border: 1px solid rgba(19, 92, 235, 0.25);
-    
             }
 
             .profile-id {
                 font-size: 14px;
                 font-weight: 600;
             }
+            
             .profile-info {
                 font-size: 10px;
                 font-weight: 400;
@@ -60,10 +61,15 @@
             }
         }
 
+        // Make the rotation for the caret
+        .dropdown-toggle[aria-expanded='true'] > .caret-dropdown {
+            transform: rotate(-180deg);
+        }
+
         .dropdown-menu {
             width: 268px ;
             border: 1px solid rgba(19, 92, 235, 0.25);
-            padding: 16px 16px 8px;
+            padding: 16px;
 
             .dropdown-item {
                 padding: 8px 16px;
@@ -73,8 +79,12 @@
                 @include borderRadius(6px);
             }
 
+            .dropdown-item:first-child {
+                padding-left: 16px;
+            }
+
             .dropdown-item:last-child {
-                padding-left: 14px;
+                margin-bottom: 0;
             }
 
             .profile-role {
