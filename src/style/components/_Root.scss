@@ -38,10 +38,10 @@
 
             &:hover,
             &:focus {
-                background-color: $whiteCorner;
                 border: 1px solid $whiteCorner;
-                @include borderRadius(6px);
                 border: 1px solid rgba(19, 92, 235, 0.25);
+                outline: none;
+                @include borderRadius(6px);
             }
 
             .profile-id {
@@ -68,8 +68,12 @@
 
         .dropdown-menu {
             width: 268px ;
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
             border: 1px solid rgba(19, 92, 235, 0.25);
             padding: 16px;
+            margin-top: 4px;
 
             .dropdown-item {
                 padding: 8px 16px;

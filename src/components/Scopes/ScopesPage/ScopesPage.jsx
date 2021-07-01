@@ -1,15 +1,20 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors';
+import {
+    updateCurrentScope,
+} from '../../../redux/auth/slice';
 
 function ScopesPage() {
     const userScopes = useSelector(getUserScopes);
     const currentUser = useSelector(getCurrentUser);
+    const dispatch = useDispatch();
 
     function handleClick(scope) {
-        console.log(scope);
+        dispatch(updateCurrentScope(scope));
     }
 
     return (
@@ -26,10 +31,10 @@ function ScopesPage() {
             {userScopes.length > 0 && (
                 <div className="row secondary-scope-card-container">
                     {userScopes.map((userScope, index) => (
-                        <div className="secondary-card" key={index + 1} value={userScope} onClick={() => handleClick(userScope)}>
+                        <Link to="/" className="secondary-card" key={index + 1} value={userScope} onClick={() => handleClick(userScope)}>
                             <div className="role">{userScope.code}</div>
                             <div className="zone">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}
