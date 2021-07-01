@@ -68,8 +68,9 @@
             margin-bottom: 16px;
             background-color: $whiteCorner;
             margin-right: 16px;
+            cursor: pointer;
             @include borderRadius(6px);
-            
+
             .role {
                 font-size: 28px;
                 font-weight: 600;
