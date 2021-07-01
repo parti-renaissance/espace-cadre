@@ -10,15 +10,16 @@ import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
 
 import Sidebar from '../Sidebar/Sidebar';
 import PageContent from '../PageContent';
+import ScopesPage from '../Scopes/ScopesPage';
 
 const Root = ({ children }) => {
-    const isUserLoggedIn = useSelector(isUserLogged);
     const initializeAuth = useInitializeAuth();
     const { pathname } = useLocation();
+    const isUserLoggedIn = useSelector(isUserLogged);
     const currentUser = useSelector(getCurrentUser);
     const currentScope = useSelector(getCurrentScope);
-    const [, updateUserData] = useGetUserData();
     const userScopes = useSelector(getUserScopes);
+    const [, updateUserData] = useGetUserData();
 
     useEffect(() => {
         if (isUserLoggedIn) {
@@ -31,13 +32,13 @@ const Root = ({ children }) => {
     }, [isUserLoggedIn]);
 
     if (currentUser && userScopes && currentScope === null) {
-        return <h1>Page intermédiaire</h1>;
+        return <ScopesPage />;
     }
 
     return (
         <>
             <Sidebar />
-            <PageContent currentUser={currentUser || {}}>{children}</PageContent>
+            <PageContent>{children}</PageContent>
         </>
     );
 };

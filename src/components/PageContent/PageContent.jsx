@@ -2,10 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { MENU } from '../../Routes';
 import Scopes from '../Scopes';
-import { getCurrentUser } from '../../redux/user/selectors';
 
 const PageContent = ({ children }) => {
     const { pathname } = useLocation();
@@ -14,7 +12,6 @@ const PageContent = ({ children }) => {
     if (pathIndex !== -1) {
         pageTitle = MENU[pathIndex].label || null;
     }
-    const currentUser = useSelector(getCurrentUser);
 
     return (
         <div className="page-content" id="content">
@@ -25,7 +22,7 @@ const PageContent = ({ children }) => {
                     </button>
                     {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
                     <div className="ml-sm-auto mr-3 mt-3">
-                        <Scopes currentUser={currentUser} />
+                        <Scopes />
                     </div>
                 </div>
                 {children}

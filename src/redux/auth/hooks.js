@@ -38,7 +38,7 @@ export const useGetUserData = () => {
 
         const scopes = await apiClient.get('/v3/profile/me/scopes');
         dispatch(userUpdateScopes(scopes));
-        if (scopes.length > 0) {
+        if (scopes.length === 1) {
             dispatch(updateCurrentScope(scopes[0]));
         }
     });

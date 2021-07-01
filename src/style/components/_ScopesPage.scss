@@ -1,0 +1,97 @@
+.scopes-page-container {
+    height: 400px;
+    width: 100vw;
+    background-color: $blue2Corner;
+
+    .logo-title-container {
+        display: flex;
+        justify-content: center;
+        padding-top: 107px;
+        margin-bottom: 13px;
+        
+        .page-logo {
+            width: 48px;
+            margin-right: 4px;
+        }
+    
+        .page-title {
+            color: $whiteCorner;
+            font-size: 48px;
+            font-weight: 600;
+        }
+
+        .beta {
+            font-size: 16px;
+            font-weight: 600;
+            height: 26px;
+            color: $whiteCorner;
+            background-color: $blackCorner;
+            padding: 2px 3px 0; 
+            margin: 0 0 25px 10px;
+            @include borderRadius(4px);
+        }
+    }  
+
+    .main-scope-card {
+        margin: 0 auto;
+        padding: 16px;
+        margin-bottom: 90px;
+        border: 1px solid #D5E0EC;
+        max-width: 250px;
+        @include borderRadius(6px);
+
+        .main-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: $whiteCorner;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-card-role {
+            font-size: 10px;
+            font-weight: 400;
+            color: $whiteCorner;
+            padding: 0;
+        }
+    }
+
+    .secondary-scope-card-container {
+        display: flex;
+        justify-content: center;
+        color: $whiteCorner;
+
+        .secondary-card {
+            width: 300px;
+            height: 150px;
+            padding: 16px;
+            margin-bottom: 16px;
+            background-color: $whiteCorner;
+            margin-right: 16px;
+            @include borderRadius(6px);
+            
+            .role {
+                font-size: 28px;
+                font-weight: 600;
+                color: $blue2Corner;
+            }
+
+            .zone {
+                font-size: 16px;
+                font-weight: 600;
+                color: $blackCorner;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .secondary-card {
+                display: block;
+                margin-bottom: 16px;
+
+                &:nth-child(odd) {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+} 

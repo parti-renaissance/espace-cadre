@@ -1,11 +1,11 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getUserScopes } from '../../redux/user/selectors';
+import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 
-function Scopes({ currentUser }) {
+function Scopes() {
     const userScopes = useSelector(getUserScopes);
+    const currentUser = useSelector(getCurrentUser);
 
     function parseName(name) {
         if (name === 'candidate') {
@@ -44,7 +44,3 @@ function Scopes({ currentUser }) {
 }
 
 export default Scopes;
-
-Scopes.propTypes = {
-    currentUser: PropTypes.instanceOf(Object).isRequired,
-};
