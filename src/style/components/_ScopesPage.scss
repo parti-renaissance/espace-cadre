@@ -33,9 +33,8 @@
     }  
 
     .main-scope-card {
-        margin: 0 auto;
+        margin: 0 auto 84px;
         padding: 16px;
-        margin-bottom: 84px;
         border: 1px solid #D5E0EC;
         max-width: 250px;
         @include borderRadius(6px);
