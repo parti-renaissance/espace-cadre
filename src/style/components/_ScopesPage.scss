@@ -35,7 +35,7 @@
     .main-scope-card {
         margin: 0 auto;
         padding: 16px;
-        margin-bottom: 90px;
+        margin-bottom: 84px;
         border: 1px solid #D5E0EC;
         max-width: 250px;
         @include borderRadius(6px);
@@ -59,7 +59,7 @@
     .secondary-scope-card-container {
         display: flex;
         justify-content: center;
-        color: $whiteCorner;
+        flex-wrap: wrap;
 
         .secondary-card {
             width: 300px;
@@ -67,10 +67,10 @@
             padding: 16px;
             margin-bottom: 16px;
             background-color: $whiteCorner;
-            margin-right: 16px;
             cursor: pointer;
             text-decoration: none;
             @include borderRadius(6px);
+
 
             .role {
                 font-size: 28px;
@@ -83,15 +83,10 @@
                 font-weight: 600;
                 color: $blackCorner;
             }
-        }
 
-        @media (max-width: 576px) {
-            .secondary-card {
-                display: block;
-                margin-bottom: 16px;
-
-                &:nth-child(odd) {
-                    margin-right: 0;
+            @media (min-width: 570px) {
+                &:not(:last-child) {
+                    margin-right: 16px;
                 }
             }
         }
