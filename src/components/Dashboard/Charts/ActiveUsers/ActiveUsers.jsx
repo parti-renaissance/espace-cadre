@@ -8,18 +8,23 @@ import {
     YAxis,
     Tooltip,
 } from 'recharts';
+import { useSelector } from 'react-redux';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks';
+import {
+    getCurrentScope,
+} from '../../../../redux/user/selectors';
 
 function ActiveUsers() {
     const [dashboardUsers, setDashboardUsers] = useDashboardUsersCache();
-
+    const currentScope = useSelector(getCurrentScope);
     useEffect(() => {
         const getDashboardUsers = async () => {
             try {
                 if (dashboardUsers === null) {
-                    setDashboardUsers(await apiClientProxy.get('/jemengage/users'));
+                    const encodedScope = btoa(JSON.stringify(currentScope));
+                    setDashboardUsers(await apiClientProxy.get(`/jemengage/users?scope=${encodedScope}`));
                 }
             } catch (error) {
                 console.log(error);

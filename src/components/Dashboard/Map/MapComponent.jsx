@@ -3,17 +3,24 @@ import {
     MapContainer, TileLayer, Marker, Popup,
 } from 'react-leaflet';
 import L from 'leaflet';
+import { useSelector } from 'react-redux';
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../services/networking/client';
 import Loader from '../../Loader';
+import {
+    getCurrentScope,
+} from '../../../redux/user/selectors';
 
 function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();
+    const currentScope = useSelector(getCurrentScope);
+
     useEffect(() => {
         const getSurvey = async () => {
             try {
                 if (dashboardSurvey === null) {
-                    setDashboardSurvey(await apiClientProxy.get('/jemengage/survey'));
+                    const encodedScope = btoa(JSON.stringify(currentScope));
+                    setDashboardSurvey(await apiClientProxy.get(`/jemengage/survey?scope=${encodedScope}`));
                 }
             } catch (error) {
                 console.log(error);
