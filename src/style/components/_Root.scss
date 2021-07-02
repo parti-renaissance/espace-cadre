@@ -27,20 +27,17 @@
     .dropdown {    
         .dropdown-toggle {
             text-align: left;
-            padding: 16px;
             width: 268px;
             border: 1px solid rgba(26, 51, 77, 0.1);
+            padding: 16px;
             @include borderRadius(6px);
 
             &::after {
                 display: none;
             }
 
-            &:hover,
-            &:focus {
-                border: 1px solid $whiteCorner;
+            &:hover {
                 border: 1px solid rgba(19, 92, 235, 0.25);
-                outline: none;
                 @include borderRadius(6px);
             }
 
@@ -56,19 +53,23 @@
             }
 
             .caret-dropdown {
-                margin-left: 77px;
-                vertical-align: 11px;
+                vertical-align: -10px;
             }
         }
 
         // Make the rotation for the caret
-        .dropdown-toggle[aria-expanded='true'] > .caret-dropdown {
+        .dropdown-toggle[aria-expanded='true'] > .caret-col {
             transform: rotate(-180deg);
+        }
+
+        .dropdown-toggle[aria-expanded='true'] {
+            border: 1px solid rgba(19, 92, 235, 0.25);
+            box-shadow: none;
         }
 
         .dropdown-menu {
             width: 268px ;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             overflow-x: hidden;
             border: 1px solid rgba(19, 92, 235, 0.25);
@@ -81,6 +82,10 @@
                 width: 236px;
                 background-color: #F7F9FC;
                 @include borderRadius(6px);
+
+                &:hover {
+                    background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #F7F9FC;
+                }
             }
 
             .dropdown-item:first-child {
