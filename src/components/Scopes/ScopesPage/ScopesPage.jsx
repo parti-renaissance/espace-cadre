@@ -7,7 +7,6 @@ import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors';
 import {
     updateCurrentScope,
 } from '../../../redux/auth/slice';
-import ParseName from '../ParseName';
 
 function ScopesPage() {
     const userScopes = useSelector(getUserScopes);
@@ -33,7 +32,7 @@ function ScopesPage() {
                 <div className="row secondary-scope-card-container">
                     {userScopes.map((userScope, index) => (
                         <Link className="secondary-card" to="/" key={index + 1} value={userScope} onClick={() => handleClick(userScope)}>
-                            <div className="role"><ParseName name={userScope.code} /></div>
+                            <div className="role">{userScope.name}</div>
                             <div className="zone">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</div>
                         </Link>
                     ))}

@@ -9,7 +9,6 @@ import {
 import {
     updateCurrentScope,
 } from '../../redux/auth/slice';
-import ParseName from './ParseName';
 
 function Scopes() {
     const currentUser = useSelector(getCurrentUser);
@@ -29,7 +28,7 @@ function Scopes() {
                         <div className="row">
                             <div className="col-10 info-col">
                                 <span className="profile-id">{currentUser.firstName} {currentUser.lastName}</span> <br />
-                                <span className="profile-info"> <ParseName name={currentScope.code} /> &gt; {currentScope.zones[0].name} {`(${currentScope.zones[0].code})`}</span>
+                                <span className="profile-info">{currentScope.name} &gt; {currentScope.zones[0].name} {`(${currentScope.zones[0].code})`}</span>
                             </div>
                             <div className="col-2 caret-col">
                                 <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
@@ -43,7 +42,7 @@ function Scopes() {
                         {userScopes.length > 1 && <Dropdown.Divider />}
                         {userScopes.filter((el) => el !== currentScope).map((userScope, i) => (
                             <Dropdown.Item href="#/action-2" key={i + 1} onClick={() => handleClick(userScope)}>
-                                <span className="profile-role"><ParseName name={userScope.code} /></span> <br />
+                                <span className="profile-role">{userScope.name}</span> <br />
                                 <span className="profile-place">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
                             </Dropdown.Item>
                         ))}
