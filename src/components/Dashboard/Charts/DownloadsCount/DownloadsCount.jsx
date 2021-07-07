@@ -8,30 +8,26 @@ import {
     YAxis,
     Tooltip,
 } from 'recharts';
-import { useSelector } from 'react-redux';
 import { useDashboardDownloadsCache } from '../../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
-import {
-    getCurrentScope,
-} from '../../../../redux/user/selectors';
 
 function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();
-    const currentScope = useSelector(getCurrentScope);
+
     useEffect(() => {
         const getDownloads = async () => {
             try {
                 if (dashboardDownloads === null) {
-                    const encodedScope = btoa(JSON.stringify(currentScope));
-                    setDashboardDownloads(await apiClientProxy.get(`/jemengage/downloads?scope=${encodedScope}`));
+                    setDashboardDownloads(await apiClientProxy.get('/jemengage/downloads'));
                 }
             } catch (error) {
                 console.log(error);
             }
         };
         getDownloads();
-    }, []);
+    }, [dashboardDownloads]);
+
     return (
         <>
             {dashboardDownloads !== null ? (

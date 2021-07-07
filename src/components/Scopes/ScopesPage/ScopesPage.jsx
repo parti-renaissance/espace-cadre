@@ -1,21 +1,13 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors';
-import {
-    updateCurrentScope,
-} from '../../../redux/auth/slice';
+import { useUserScope } from '../../../redux/user/hooks';
 
 function ScopesPage() {
     const userScopes = useSelector(getUserScopes);
     const currentUser = useSelector(getCurrentUser);
-    const dispatch = useDispatch();
-
-    function handleClick(scope) {
-        dispatch(updateCurrentScope(scope));
-    }
+    const [, updateCurrentScope] = useUserScope();
 
     return (
         <div className="scopes-page-container">
@@ -31,7 +23,13 @@ function ScopesPage() {
             {userScopes.length > 0 && (
                 <div className="row secondary-scope-card-container">
                     {userScopes.map((userScope, index) => (
-                        <Link className="secondary-card" to="/" key={index + 1} value={userScope} onClick={() => handleClick(userScope)}>
+                        <Link
+                            className="secondary-card"
+                            to="/"
+                            key={index + 1}
+                            value={userScope}
+                            onClick={() => updateCurrentScope(userScope)}
+                        >
                             <div className="role">{userScope.name}</div>
                             <div className="zone">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</div>
                         </Link>

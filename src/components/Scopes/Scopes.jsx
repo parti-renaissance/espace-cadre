@@ -1,23 +1,18 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-    getCurrentUser,
-    getCurrentScope,
-    getUserScopes,
-} from '../../redux/user/selectors';
-import {
-    updateCurrentScope,
-} from '../../redux/auth/slice';
+import { useSelector } from 'react-redux';
+import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
+import { useUserScope } from '../../redux/user/hooks';
 
 function Scopes() {
     const currentUser = useSelector(getCurrentUser);
-    const currentScope = useSelector(getCurrentScope);
+    const [currentScope, updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
-    const dispatch = useDispatch();
 
-    function handleClick(scope) {
-        dispatch(updateCurrentScope(scope));
+    let zone = null;
+
+    if (currentScope && currentScope.zones !== undefined && currentScope.zones.length) {
+        zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code})`;
     }
 
     return (
@@ -28,7 +23,7 @@ function Scopes() {
                         <div className="row">
                             <div className="col-10 info-col">
                                 <span className="profile-id">{currentUser.firstName} {currentUser.lastName}</span> <br />
-                                <span className="profile-info">{currentScope.name} &gt; {currentScope.zones[0].name} {`(${currentScope.zones[0].code})`}</span>
+                                <span className="profile-info">{currentScope.name}{zone && ` > ${zone}`}</span>
                             </div>
                             <div className="col-2 caret-col">
                                 <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
@@ -36,12 +31,14 @@ function Scopes() {
                         </div>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item href="https://en-marche.fr/">
+                        <Dropdown.Item href={process.env.REACT_APP_OAUTH_HOST}>
                             <span className="profile-role">Retour sur en-marche.fr</span>
                         </Dropdown.Item>
+
                         {userScopes.length > 1 && <Dropdown.Divider />}
-                        {userScopes.filter((el) => el !== currentScope).map((userScope, i) => (
-                            <Dropdown.Item href="#/action-2" key={i + 1} onClick={() => handleClick(userScope)}>
+
+                        {userScopes.filter((el) => el.code !== currentScope.code).map((userScope, i) => (
+                            <Dropdown.Item key={i + 1} onClick={() => updateCurrentScope(userScope)}>
                                 <span className="profile-role">{userScope.name}</span> <br />
                                 <span className="profile-place">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
                             </Dropdown.Item>

@@ -8,31 +8,26 @@ import {
     YAxis,
     Tooltip,
 } from 'recharts';
-import { useSelector } from 'react-redux';
 import { useDashboardDownloadsRatioCache } from '../../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
-import {
-    getCurrentScope,
-} from '../../../../redux/user/selectors';
 
 function DownloadsRatios() {
     const [dashboardDownloadsRatio, setDashboardDownloadsRatio] = useDashboardDownloadsRatioCache();
-    const currentScope = useSelector(getCurrentScope);
 
     useEffect(() => {
         const getDownloads = async () => {
             try {
                 if (dashboardDownloadsRatio === null) {
-                    const encodedScope = btoa(JSON.stringify(currentScope));
-                    setDashboardDownloadsRatio(await apiClientProxy.get(`/jemengage/downloadsRatios?scope=${encodedScope}`));
+                    setDashboardDownloadsRatio(await apiClientProxy.get('/jemengage/downloadsRatios'));
                 }
             } catch (error) {
                 console.log(error);
             }
         };
         getDownloads();
-    }, []);
+    }, [dashboardDownloadsRatio]);
+
     return (
         <>{dashboardDownloadsRatio !== null ? (
             <div>

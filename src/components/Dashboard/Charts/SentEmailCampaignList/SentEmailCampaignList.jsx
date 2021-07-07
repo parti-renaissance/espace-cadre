@@ -1,30 +1,24 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks';
 import ConvertToPercent from '../../../ConvertToPercent/ConvertToPercent';
-import {
-    getCurrentScope,
-} from '../../../../redux/user/selectors';
 
 function SentEmailCampaignList() {
     const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache();
-    const currentScope = useSelector(getCurrentScope);
 
     useEffect(() => {
         const getEmailCampaignReports = async () => {
             try {
                 if (emailCampaignReports === null) {
-                    const encodedScope = btoa(JSON.stringify(currentScope));
-                    setEmailCampaignReports(await apiClientProxy.get(`/mailCampaign/reports?scope=${encodedScope}`));
+                    setEmailCampaignReports(await apiClientProxy.get('/mailCampaign/reports'));
                 }
             } catch (error) {
                 console.log(error);
             }
         };
         getEmailCampaignReports();
-    }, []);
+    }, [emailCampaignReports]);
 
     return (
         <>
