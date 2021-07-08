@@ -3,17 +3,20 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors';
+import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors';
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
 
 import Sidebar from '../Sidebar/Sidebar';
 import PageContent from '../PageContent';
+import ScopesPage from '../Scopes/ScopesPage';
+import { useUserScope } from '../../redux/user/hooks';
 
 const Root = ({ children }) => {
-    const isUserLoggedIn = useSelector(isUserLogged);
     const initializeAuth = useInitializeAuth();
     const { pathname } = useLocation();
+    const isUserLoggedIn = useSelector(isUserLogged);
     const currentUser = useSelector(getCurrentUser);
+    const [currentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
     const [, updateUserData] = useGetUserData();
 
@@ -27,10 +30,14 @@ const Root = ({ children }) => {
         }
     }, [isUserLoggedIn]);
 
+    if (currentUser && userScopes && currentScope === null) {
+        return <ScopesPage />;
+    }
+
     return (
         <>
             <Sidebar />
-            <PageContent currentUser={currentUser || {}} scopes={userScopes || []}>{children}</PageContent>
+            <PageContent>{children}</PageContent>
         </>
     );
 };

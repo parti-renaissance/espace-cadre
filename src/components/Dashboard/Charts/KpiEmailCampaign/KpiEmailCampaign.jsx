@@ -18,7 +18,7 @@ function KpiEmailCampaign() {
             }
         };
         getEmailCampaign();
-    }, []);
+    }, [emailCampaign]);
 
     return (
         <>

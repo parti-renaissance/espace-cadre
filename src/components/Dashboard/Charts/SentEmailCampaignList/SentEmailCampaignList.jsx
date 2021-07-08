@@ -6,6 +6,7 @@ import ConvertToPercent from '../../../ConvertToPercent/ConvertToPercent';
 
 function SentEmailCampaignList() {
     const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache();
+
     useEffect(() => {
         const getEmailCampaignReports = async () => {
             try {
@@ -17,7 +18,7 @@ function SentEmailCampaignList() {
             }
         };
         getEmailCampaignReports();
-    }, []);
+    }, [emailCampaignReports]);
 
     return (
         <>

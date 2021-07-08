@@ -1,35 +1,46 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
+import { useUserScope } from '../../redux/user/hooks';
 
-function Scopes({ currentUser, scopes }) {
-    function parseName(name) {
-        if (name === 'candidate') {
-            return 'Candidat';
-        } if (name === 'deputy') {
-            return 'Député';
-        } if (name === 'senator') {
-            return 'Sénateur';
-        }
-        return 'Référent';
+function Scopes() {
+    const currentUser = useSelector(getCurrentUser);
+    const [currentScope, updateCurrentScope] = useUserScope();
+    const userScopes = useSelector(getUserScopes);
+
+    let zone = null;
+
+    if (currentScope && currentScope.zones !== undefined && currentScope.zones.length) {
+        zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code})`;
     }
+
     return (
         <div>
-            {currentUser && scopes.length > 0 && (
+            {currentUser && userScopes.length > 0 && (
                 <Dropdown>
                     <Dropdown.Toggle variant="">
-                        <span className="profile-id">{currentUser.firstName} {currentUser.lastName}</span> <br />
-                        <span className="profile-info"> {parseName(scopes[0].code)} &gt; {scopes[0].zones[0].name} {`(${scopes[0].zones[0].code})`}</span>
-                        <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
+                        <div className="row">
+                            <div className="col-10 info-col">
+                                <span className="profile-id">{currentUser.firstName} {currentUser.lastName}</span> <br />
+                                <span className="profile-info">{currentScope.name}{zone && ` > ${zone}`}</span>
+                            </div>
+                            <div className="col-2 caret-col">
+                                <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
+                            </div>
+                        </div>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item href="https://en-marche.fr/">
+                        <Dropdown.Item href={process.env.REACT_APP_OAUTH_HOST}>
                             <span className="profile-role">Retour sur en-marche.fr</span>
                         </Dropdown.Item>
-                        {scopes.slice(1).map((role, i) => (
-                            <Dropdown.Item href="#/action-2" key={i + 1}>
-                                <span className="profile-role">{parseName(role.code)}</span> <br />
-                                <span className="profile-place">{role.zones[0].name} {`(${role.zones[0].code})`}</span>
+
+                        {userScopes.length > 1 && <Dropdown.Divider />}
+
+                        {userScopes.filter((el) => el.code !== currentScope.code).map((userScope, i) => (
+                            <Dropdown.Item key={i + 1} onClick={() => updateCurrentScope(userScope)}>
+                                <span className="profile-role">{userScope.name}</span> <br />
+                                <span className="profile-place">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
                             </Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
@@ -40,8 +51,3 @@ function Scopes({ currentUser, scopes }) {
 }
 
 export default Scopes;
-
-Scopes.propTypes = {
-    currentUser: PropTypes.instanceOf(Object).isRequired,
-    scopes: PropTypes.instanceOf(Array).isRequired,
-};

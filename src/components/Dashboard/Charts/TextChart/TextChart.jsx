@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import Loader from '../../../Loader';
 import { apiClientProxy } from '../../../../services/networking/client';
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks';
+import { useUserScope } from '../../../../redux/user/hooks';
 
 function TextChart() {
     const [dashboardAdherents, setDashboardAdherents] = useDashboardAdherentCache();
+    const [currentScope] = useUserScope();
 
     useEffect(() => {
         const getDashboardAdherents = async () => {
@@ -17,12 +19,12 @@ function TextChart() {
             }
         };
         getDashboardAdherents();
-    }, []);
+    }, [dashboardAdherents]);
 
     return (
         <>
             {dashboardAdherents !== null
-                ? <div className="headline-dashboard">Candidat &gt; {dashboardAdherents.zoneName} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})</div>
+                ? <div className="headline-dashboard">{currentScope.name} &gt; {dashboardAdherents.zoneName} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})</div>
                 : <Loader />}
         </>
     );

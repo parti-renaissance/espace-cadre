@@ -14,6 +14,7 @@ import Loader from '../../../Loader';
 
 function DownloadsRatios() {
     const [dashboardDownloadsRatio, setDashboardDownloadsRatio] = useDashboardDownloadsRatioCache();
+
     useEffect(() => {
         const getDownloads = async () => {
             try {
@@ -25,7 +26,8 @@ function DownloadsRatios() {
             }
         };
         getDownloads();
-    }, []);
+    }, [dashboardDownloadsRatio]);
+
     return (
         <>{dashboardDownloadsRatio !== null ? (
             <div>

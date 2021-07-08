@@ -9,6 +9,7 @@ import Loader from '../../Loader';
 
 function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();
+
     useEffect(() => {
         const getSurvey = async () => {
             try {
@@ -20,8 +21,10 @@ function MapComponent() {
             }
         };
         getSurvey();
-    }, []);
+    }, [dashboardSurvey]);
+
     L.Icon.Default.imagePath = 'images/';
+
     return (
         <>
             {dashboardSurvey !== null ? (

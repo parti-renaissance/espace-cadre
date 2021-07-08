@@ -14,6 +14,7 @@ import Loader from '../../../Loader';
 
 function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();
+
     useEffect(() => {
         const getDownloads = async () => {
             try {
@@ -25,7 +26,8 @@ function DownloadsCount() {
             }
         };
         getDownloads();
-    }, []);
+    }, [dashboardDownloads]);
+
     return (
         <>
             {dashboardDownloads !== null ? (

@@ -26,7 +26,7 @@ function ActiveUsers() {
             }
         };
         getDashboardUsers();
-    }, []);
+    }, [dashboardUsers]);
 
     return (
         <>

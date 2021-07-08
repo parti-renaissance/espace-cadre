@@ -35,6 +35,9 @@ const dashboardSlice = createSlice({
         updateEmailCampaignReports(state, action) {
             state.emailCampaignReports = action.payload;
         },
+        resetStatsState() {
+            return initialState;
+        },
     },
 });
 
@@ -46,5 +49,6 @@ export const {
     updateSurvey,
     updateEmailCampaign,
     updateEmailCampaignReports,
+    resetStatsState,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

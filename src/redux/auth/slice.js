@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isUserLogged: false,
     user: null,
-    scopes: null,
+    scopes: [],
+    currentScope: null,
     tokens: null,
 };
 
@@ -21,6 +22,9 @@ const authSlice = createSlice({
         userUpdateScopes(state, action) {
             state.scopes = action.payload;
         },
+        updateCurrentScope(state, action) {
+            state.currentScope = action.payload;
+        },
         userLogout() {
             return initialState;
         },
@@ -28,6 +32,6 @@ const authSlice = createSlice({
 });
 
 export const {
-    userLoggedIn, userUpdateData, userLogout, userUpdateScopes,
+    userLoggedIn, userUpdateData, userLogout, userUpdateScopes, updateCurrentScope,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -7,6 +7,7 @@ import TextChart from './TextChart';
 test('renders with the correct text and unmount correctly', () => {
     render(
         <Provider store={configureStore()({
+            auth: {},
             dashboard: {
                 adherents: null,
             },

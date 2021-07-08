@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getAccessToken as selectorGetAccessToken } from '../../redux/user/selectors';
+import { getAccessToken as selectorGetAccessToken, getCurrentScope } from '../../redux/user/selectors';
 import { store } from '../../redux/store';
 import { userLogout } from '../../redux/auth';
 
@@ -23,6 +23,10 @@ class ApiClient {
         return selectorGetAccessToken(store.getState());
     }
 
+    static getUserScope() {
+        return getCurrentScope(store.getState());
+    }
+
     async request(method, endpoint, data = null, headers = {}) {
         const config = {
             method,
@@ -37,6 +41,12 @@ class ApiClient {
 
         if (['post', 'put', 'patch'].includes(method) && data) {
             config.data = data;
+        }
+
+        const userScope = ApiClient.getUserScope();
+
+        if (userScope) {
+            config.params = { scope: userScope.code };
         }
 
         try {
