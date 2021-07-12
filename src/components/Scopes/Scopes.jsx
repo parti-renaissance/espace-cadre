@@ -14,7 +14,6 @@ function Scopes() {
     if (currentScope && currentScope.zones !== undefined && currentScope.zones.length) {
         zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code})`;
     }
-
     return (
         <div>
             {currentUser && userScopes.length > 0 && (

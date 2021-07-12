@@ -31,7 +31,12 @@ function ScopesPage() {
                             onClick={() => updateCurrentScope(userScope)}
                         >
                             <div className="role">{userScope.name}</div>
-                            <div className="zone">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</div>
+                            {
+                                userScope.zones.length > 1
+                                    ? <div className="zone">{userScope.zones.map((el, i) => <div key={i + 1}>{el.name} ({el.code})</div>)}</div>
+                                    : <div className="zone">{userScope.zones[0].name} ({userScope.zones[0].code})</div>
+                            }
+
                         </Link>
                     ))}
                 </div>
