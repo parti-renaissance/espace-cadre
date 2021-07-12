@@ -22,9 +22,9 @@ function SentEmailCampaignList() {
 
     return (
         <>
-            {emailCampaignReports !== null && emailCampaignReports.campagnes.length > 0
+            {emailCampaignReports !== null && emailCampaignReports[0].campagnes.length > 0
                 ? (
-                    emailCampaignReports.campagnes.map((el, index) => (
+                    emailCampaignReports[0].campagnes.map((el, index) => (
                         <div className="col-12 with-background dc-container big-card" key={index + 1}>
                             <p className="headline">{el.titre}</p>
                             <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
