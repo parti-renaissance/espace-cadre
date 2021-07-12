@@ -39,7 +39,12 @@ function Scopes() {
                         {userScopes.filter((el) => el.code !== currentScope.code).map((userScope, i) => (
                             <Dropdown.Item key={i + 1} onClick={() => updateCurrentScope(userScope)}>
                                 <span className="profile-role">{userScope.name}</span> <br />
-                                <span className="profile-place">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
+
+                                {
+                                    userScope.zones.length > 1
+                                        ? <span className="profile-place">{userScope.zones.map((el, index) => <div key={index + 1}>{el.name} ({el.code})</div>)}</span>
+                                        : <span className="profile-place">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
+                                }
                             </Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
