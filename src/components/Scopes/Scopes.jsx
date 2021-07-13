@@ -12,8 +12,13 @@ function Scopes() {
     let zone = null;
 
     if (currentScope && currentScope.zones !== undefined && currentScope.zones.length) {
-        zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code})`;
+        if (currentScope.zones.length === 1) {
+            zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code})`;
+        } else {
+            zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code}) + ${currentScope.zones.slice(1).length} zone${currentScope.zones.slice(1).length > 1 ? 's' : ''}`;
+        }
     }
+
     return (
         <div>
             {currentUser && userScopes.length > 0 && (
@@ -42,7 +47,7 @@ function Scopes() {
 
                                 {
                                     userScope.zones.length > 1
-                                        ? <span className="profile-place">{userScope.zones.map((el, index) => <div key={index + 1}>{el.name} ({el.code})</div>)}</span>
+                                        ? <span className="profile-place">{`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length} zone{userScope.zones.slice(1).length > 1 && 's'}</span>
                                         : <span className="profile-place">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
                                 }
                             </Dropdown.Item>

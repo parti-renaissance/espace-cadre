@@ -33,7 +33,11 @@ function ScopesPage() {
                             <div className="role">{userScope.name}</div>
                             {
                                 userScope.zones.length > 1
-                                    ? <div className="zone">{userScope.zones.map((el, i) => <div key={i + 1}>{el.name} ({el.code})</div>)}</div>
+                                    ? (
+                                        <>
+                                            <div className="zone">{`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length} zone{userScope.zones.slice(1).length > 1 && 's'}</div>
+                                        </>
+                                    )
                                     : <div className="zone">{userScope.zones[0].name} ({userScope.zones[0].code})</div>
                             }
 
