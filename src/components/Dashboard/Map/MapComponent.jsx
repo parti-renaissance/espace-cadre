@@ -6,14 +6,16 @@ import L from 'leaflet';
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../services/networking/client';
 import Loader from '../../Loader';
+import { useUserScope } from '../../../redux/user/hooks';
 
 function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();
+    const [currentScope] = useUserScope();
 
     useEffect(() => {
         const getSurvey = async () => {
             try {
-                if (dashboardSurvey === null) {
+                if (dashboardSurvey === null && currentScope) {
                     setDashboardSurvey(await apiClientProxy.get('/jemengage/survey'));
                 }
             } catch (error) {

@@ -11,14 +11,16 @@ import {
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks';
+import { useUserScope } from '../../../../redux/user/hooks';
 
 function ActiveUsers() {
     const [dashboardUsers, setDashboardUsers] = useDashboardUsersCache();
+    const [currentScope] = useUserScope();
 
     useEffect(() => {
         const getDashboardUsers = async () => {
             try {
-                if (dashboardUsers === null) {
+                if (dashboardUsers === null && currentScope) {
                     setDashboardUsers(await apiClientProxy.get('/jemengage/users'));
                 }
             } catch (error) {

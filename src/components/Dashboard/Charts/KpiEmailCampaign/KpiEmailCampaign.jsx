@@ -3,14 +3,16 @@ import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks';
 import ConvertToPercent from '../../../ConvertToPercent/ConvertToPercent';
+import { useUserScope } from '../../../../redux/user/hooks';
 
 function KpiEmailCampaign() {
     const [emailCampaign, setEmailCampaign] = useEmailCampaignCache();
+    const [currentScope] = useUserScope();
 
     useEffect(() => {
         const getEmailCampaign = async () => {
             try {
-                if (emailCampaign === null) {
+                if (emailCampaign === null && currentScope) {
                     setEmailCampaign(await apiClientProxy.get('/mailCampaign/reportsRatios'));
                 }
             } catch (error) {

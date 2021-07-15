@@ -8,6 +8,7 @@ describe('ActiveUsers graph', () => {
     test('renders without crashing', () => {
         render(
             <Provider store={configureStore()({
+                auth: {},
                 dashboard: {
                     jemengage_users: null,
                 },

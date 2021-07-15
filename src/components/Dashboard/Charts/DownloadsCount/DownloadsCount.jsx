@@ -11,14 +11,16 @@ import {
 import { useDashboardDownloadsCache } from '../../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
+import { useUserScope } from '../../../../redux/user/hooks';
 
 function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();
+    const [currentScope] = useUserScope();
 
     useEffect(() => {
         const getDownloads = async () => {
             try {
-                if (dashboardDownloads === null) {
+                if (dashboardDownloads === null && currentScope) {
                     setDashboardDownloads(await apiClientProxy.get('/jemengage/downloads'));
                 }
             } catch (error) {
