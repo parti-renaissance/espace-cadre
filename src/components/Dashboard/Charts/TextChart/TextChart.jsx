@@ -11,7 +11,7 @@ function TextChart() {
     useEffect(() => {
         const getDashboardAdherents = async () => {
             try {
-                if (dashboardAdherents === null) {
+                if (dashboardAdherents === null && currentScope) {
                     setDashboardAdherents(await apiClientProxy.get('/adherents'));
                 }
             } catch (error) {
