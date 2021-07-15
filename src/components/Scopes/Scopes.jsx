@@ -6,30 +6,19 @@ import { useUserScope } from '../../redux/user/hooks';
 
 function Scopes() {
     const currentUser = useSelector(getCurrentUser);
-    const [currentScope, updateCurrentScope] = useUserScope();
+    const [updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
 
-    let zone = null;
-
-    if (currentScope && currentScope.zones !== undefined && currentScope.zones.length) {
-        if (currentScope.zones.length === 1) {
-            zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code})`;
-        } else {
-            zone = `${currentScope.zones[0].name} (${currentScope.zones[0].code}) + ${currentScope.zones.slice(1).length} zone${currentScope.zones.slice(1).length > 1 ? 's' : ''}`;
-        }
-    }
-
     return (
-        <div>
+        <div className="scopes-container" style={{ marginTop: '3px' }}>
             {currentUser && userScopes.length > 0 && (
                 <Dropdown>
                     <Dropdown.Toggle variant="">
                         <div className="row">
-                            <div className="col-10 info-col">
+                            <div className="col-10">
                                 <span className="profile-id">{currentUser.firstName} {currentUser.lastName}</span> <br />
-                                <span className="profile-info">{currentScope.name}{zone && ` > ${zone}`}</span>
                             </div>
-                            <div className="col-2 caret-col">
+                            <div className="col-2">
                                 <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
                             </div>
                         </div>
@@ -41,7 +30,7 @@ function Scopes() {
 
                         {userScopes.length > 1 && <Dropdown.Divider />}
 
-                        {userScopes.filter((el) => el.code !== currentScope.code).map((userScope, i) => (
+                        {userScopes.map((userScope, i) => (
                             <Dropdown.Item key={i + 1} onClick={() => updateCurrentScope(userScope)}>
                                 <span className="profile-role">{userScope.name}</span> <br />
 
