@@ -6,7 +6,8 @@ import { useUserScope } from '../../redux/user/hooks';
 
 function Scopes() {
     const currentUser = useSelector(getCurrentUser);
-    const [updateCurrentScope] = useUserScope();
+    // eslint-disable-next-line no-unused-vars
+    const [currentScope, updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
 
     return (
