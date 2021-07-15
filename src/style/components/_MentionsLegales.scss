@@ -3,13 +3,18 @@
     bottom: 16px;
 
     .version,
-    .mentionLegalesList a {
+    .mentionLegalesList a,
+    .signature {
         color: $mentionsLegales;
         font-size: 10px;
     }
 
     .version{
         margin: 0 0 10px 32px;
+    }
+
+    .signature {
+        margin: 0 32px;
     }
 
     .mentionLegalesList {
