@@ -4,7 +4,6 @@ function MentionsLegales() {
     return (
         <div className="mentionsLegales">
             <div className="version">DataCorner@<strong>{process.env.REACT_APP_VERSION}</strong></div>
-
             <ul className="mentionLegalesList">
                 <li>
                     <a href="https://donnees.en-marche.fr/">
@@ -32,6 +31,7 @@ function MentionsLegales() {
                     </a>
                 </li>
             </ul>
+            <div className="signature">Designé et assemblé par le Pôle Tech & Innovation</div>
         </div>
     );
 }
