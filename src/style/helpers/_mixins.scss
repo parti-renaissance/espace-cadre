@@ -12,5 +12,5 @@
 
 @mixin dc-container {
     @include borderRadius(6px);
-    @include boxShadow(0 1px 1px 0 rgba(0, 11, 52, 0.12));
+    @include boxShadow(0 1px 1px 0 rgba(0, 0, 0, 0.04));
 }

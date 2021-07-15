@@ -21,7 +21,7 @@ const PageContent = ({ children }) => {
                         <img src="images/list.svg" alt="Menu button" />
                     </button>
                     {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
-                    <div className="ml-sm-auto mr-3 mt-3">
+                    <div className="ml-sm-auto mr-3 mt-1">
                         <Scopes />
                     </div>
                 </div>
