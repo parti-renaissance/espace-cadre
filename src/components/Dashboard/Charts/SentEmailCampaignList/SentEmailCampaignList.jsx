@@ -15,7 +15,7 @@ function SentEmailCampaignList() {
         const getEmailCampaignReports = async () => {
             try {
                 if (emailCampaignReports === null) {
-                    setEmailCampaignReports(await apiClientProxy.get('/mailCampaign/reportss'));
+                    setEmailCampaignReports(await apiClientProxy.get('/mailCampaign/reports'));
                 }
             } catch (error) {
                 setHasError(true);
@@ -72,9 +72,7 @@ function SentEmailCampaignList() {
         }
         if (hasError) {
             return (
-                <div className="with-background w-100" style={{ borderRadius: '6px' }}>
-                    <ErrorComponent errorMessage={errorMessage} />
-                </div>
+                <ErrorComponent errorMessage={errorMessage} />
             );
         }
         return (
