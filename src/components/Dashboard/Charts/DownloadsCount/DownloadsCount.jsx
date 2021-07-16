@@ -30,9 +30,9 @@ function DownloadsCount() {
         getDownloads();
     }, [dashboardDownloads]);
 
-    return (
-        <>
-            {dashboardDownloads !== null ? (
+    const dashboardDownloadsContent = () => {
+        if (dashboardDownloads !== null && dashboardDownloads.downloads.length > 0) {
+            return (
                 <div className="with-background">
                     <div className="row p-3">
                         <span className="count-bubble">{dashboardDownloads.totalDownloads}</span>
@@ -116,8 +116,17 @@ function DownloadsCount() {
                         <li className="legend-chart" style={{ color: '#0049C6' }}>Téléchargements par jour </li>
                     </div>
                 </div>
-            ) : <div className="text-center"><Loader /></div>}
-        </>
+            );
+        } if (dashboardDownloads !== null && dashboardDownloads.downloads.length === 0) {
+            return <div className="with-background chart-error">Les données de téléchargement de l&apos;app sont indisponibles</div>;
+        }
+        return <div className="text-center"><Loader /></div>;
+    };
+
+    return (
+        <div>
+            {dashboardDownloadsContent()}
+        </div>
     );
 }
 
