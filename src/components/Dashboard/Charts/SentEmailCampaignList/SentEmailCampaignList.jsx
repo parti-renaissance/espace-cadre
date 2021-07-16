@@ -9,7 +9,7 @@ import SentEmailCampaignListTitle from './SentEmailCampaignListTitle';
 function SentEmailCampaignList() {
     const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache();
     const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getEmailCampaignReports = async () => {
@@ -68,11 +68,13 @@ function SentEmailCampaignList() {
                 </>
             );
         } if (emailCampaignReports !== null && emailCampaignReports[0].campagnes.length === 0) {
-            return <div className="col with-background dc-container text-center mb-3">Aucune campagne à afficher</div>;
+            return <div className="col with-background dc-container text-center mb-3" style={{ padding: '6px' }}>Aucune campagne à afficher</div>;
         }
         if (hasError) {
             return (
-                <ErrorComponent errorMessage={errorMessage} />
+                <div className="w-100">
+                    <ErrorComponent errorMessage={errorMessage} />
+                </div>
             );
         }
         return (

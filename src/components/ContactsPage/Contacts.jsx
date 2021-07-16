@@ -87,11 +87,7 @@ const Contacts = () => {
     // Handle error on fetch, async loading with spinner and rendering when loaded
     const content = () => {
         if (hasError) {
-            return (
-                <div className="with-background table-error" style={{ borderRadius: '6px' }}>
-                    <ErrorComponent errorMessage={errorMessage} />
-                </div>
-            );
+            return <ErrorComponent errorMessage={errorMessage} />;
         }
         if (loading) {
             return <Spinner />;

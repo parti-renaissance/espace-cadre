@@ -9,7 +9,7 @@ function TextChart() {
     const [dashboardAdherents, setDashboardAdherents] = useDashboardAdherentCache();
     const [currentScope] = useUserScope();
     const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getDashboardAdherents = async () => {

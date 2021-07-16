@@ -18,7 +18,7 @@ function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();
     const [currentScope] = useUserScope();
     const [hasError, setHasError] = useState();
-    const [errorMessage, setErrorMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getDownloads = async () => {

@@ -13,7 +13,7 @@ function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();
     const [currentScope] = useUserScope();
     const [hasError, setHasError] = useState();
-    const [errorMessage, setErrorMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getSurvey = async () => {
