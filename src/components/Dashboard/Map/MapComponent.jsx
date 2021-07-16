@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     MapContainer, TileLayer, Marker, Popup,
 } from 'react-leaflet';
@@ -7,10 +7,13 @@ import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../services/networking/client';
 import Loader from '../../Loader';
 import { useUserScope } from '../../../redux/user/hooks';
+import ErrorComponent from '../../ErrorComponent/ErrorComponent';
 
 function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();
     const [currentScope] = useUserScope();
+    const [hasError, setHasError] = useState();
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const getSurvey = async () => {
@@ -19,7 +22,8 @@ function MapComponent() {
                     setDashboardSurvey(await apiClientProxy.get('/jemengage/survey'));
                 }
             } catch (error) {
-                console.log(error);
+                setHasError(true);
+                setErrorMessage(error);
             }
         };
         getSurvey();
@@ -27,9 +31,9 @@ function MapComponent() {
 
     L.Icon.Default.imagePath = 'images/';
 
-    return (
-        <>
-            {dashboardSurvey !== null ? (
+    const dashboardSurveyContent = () => {
+        if (dashboardSurvey !== null) {
+            return (
                 <div className="with-background dc-container w-100">
                     <div className="row p-3">
                         <span className="count-bubble ml-3">{ dashboardSurvey.survey_datas.length }</span>
@@ -57,7 +61,16 @@ function MapComponent() {
                         ))}
                     </MapContainer>
                 </div>
-            ) : <div className="text-center"><Loader /></div>}
+            );
+        } if (hasError) {
+            return <ErrorComponent errorMessage={errorMessage} />;
+        }
+        return <div className="text-center"><Loader /></div>;
+    };
+
+    return (
+        <>
+            {dashboardSurveyContent()}
         </>
     );
 }

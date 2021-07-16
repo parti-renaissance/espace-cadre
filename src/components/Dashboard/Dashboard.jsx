@@ -32,11 +32,6 @@ const Dashboard = () => (
                 </div>
             </div>
         </div>
-        {/* <div className="row mb-3 with-background dc-container">
-            <div className="col">
-                <DownloadsRatios />
-            </div>
-        </div> */}
         <div className="row mb-3 with-background dc-container">
             <div className="col p-0">
                 <MapComponent />

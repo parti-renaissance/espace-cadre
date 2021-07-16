@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     ResponsiveContainer,
     AreaChart,
@@ -12,10 +12,13 @@ import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks';
 import { useUserScope } from '../../../../redux/user/hooks';
+import ErrorComponent from '../../../ErrorComponent/ErrorComponent';
 
 function ActiveUsers() {
     const [dashboardUsers, setDashboardUsers] = useDashboardUsersCache();
     const [currentScope] = useUserScope();
+    const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getDashboardUsers = async () => {
@@ -24,16 +27,15 @@ function ActiveUsers() {
                     setDashboardUsers(await apiClientProxy.get('/jemengage/users'));
                 }
             } catch (error) {
-                console.log(error);
+                setHasError(true);
+                setErrorMessage(error);
             }
         };
         getDashboardUsers();
     }, [dashboardUsers]);
 
-    console.log(dashboardUsers);
-
     const dashboardUsersContent = () => {
-        if (dashboardUsers !== undefined && dashboardUsers !== null && dashboardUsers.users.length > 0) {
+        if (dashboardUsers !== null && dashboardUsers.users.length > 0) {
             return (
                 <div className="with-background">
                     <div className="row p-3">
@@ -132,8 +134,10 @@ function ActiveUsers() {
                     </div>
                 </div>
             );
-        } if (dashboardUsers !== undefined && dashboardUsers !== null && dashboardUsers.users.length === 0) {
-            return <div className="with-background chart-error">Les données du nombre d&apos;utilisateurs actifs de l&apos;app sont indisponibles</div>;
+        } if (dashboardUsers !== null && dashboardUsers.users.length === 0) {
+            return <div className="with-background chart-error">Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées</div>;
+        } if (hasError) {
+            return <ErrorComponent errorMessage={errorMessage} />;
         }
         return <div className="text-center"><Loader /></div>;
     };
