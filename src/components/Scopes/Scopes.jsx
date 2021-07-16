@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
 
@@ -9,6 +10,16 @@ function Scopes() {
     // eslint-disable-next-line no-unused-vars
     const [currentScope, updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
+    const history = useHistory();
+
+    const redirect = () => {
+        history.push('/');
+    };
+
+    const handleChange = (userScope) => {
+        updateCurrentScope(userScope);
+        redirect();
+    };
 
     return (
         <div className="scopes-container" style={{ marginTop: '3px' }}>
@@ -32,7 +43,10 @@ function Scopes() {
                         {userScopes.length > 1 && <Dropdown.Divider />}
 
                         {userScopes.map((userScope, i) => (
-                            <Dropdown.Item key={i + 1} onClick={() => updateCurrentScope(userScope)}>
+                            <Dropdown.Item
+                                key={i + 1}
+                                onClick={() => handleChange(userScope)}
+                            >
                                 <span className="profile-role">{userScope.name}</span> <br />
 
                                 {
