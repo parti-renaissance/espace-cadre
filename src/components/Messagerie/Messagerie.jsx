@@ -25,7 +25,6 @@ function Messagerie() {
                     <KpiEmailCampaign />
                 </div>
             </div>
-            <div className="col-12 p-0 campaign-list-title">Vos dernières campagnes</div>
             <div className="row campaign-list-component">
                 <SentEmailCampaignList />
             </div>
