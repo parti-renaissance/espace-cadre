@@ -30,9 +30,11 @@ function ActiveUsers() {
         getDashboardUsers();
     }, [dashboardUsers]);
 
-    return (
-        <>
-            {dashboardUsers !== null ? (
+    console.log(dashboardUsers);
+
+    const dashboardUsersContent = () => {
+        if (dashboardUsers !== undefined && dashboardUsers !== null && dashboardUsers.users.length > 0) {
+            return (
                 <div className="with-background">
                     <div className="row p-3">
                         <span className="count-bubble">{dashboardUsers.users[dashboardUsers.users.length - 1].rolling_seven_users}</span>
@@ -129,7 +131,15 @@ function ActiveUsers() {
                         <li className="legend-chart" style={{ color: '#82ca9d' }}>Utilisateurs cumulés sur 7 jours</li>
                     </div>
                 </div>
-            ) : <div className="text-center"><Loader /></div>}
+            );
+        } if (dashboardUsers !== undefined && dashboardUsers !== null && dashboardUsers.users.length === 0) {
+            return <div className="with-background chart-error">Les données du nombre d&apos;utilisateurs actifs de l&apos;app sont indisponibles</div>;
+        }
+        return <div className="text-center"><Loader /></div>;
+    };
+    return (
+        <>
+            {dashboardUsersContent()}
         </>
     );
 }
