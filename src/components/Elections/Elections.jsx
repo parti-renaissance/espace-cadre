@@ -270,7 +270,6 @@ function Elections() {
             };
         });
     };
-
     return (
         <div>
             <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
