@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@reduxjs/toolkit": "1.6.0",
+    "@reduxjs/toolkit": "1.6.1",
     "@sentry/react": "^6.9.0",
     "@sentry/tracing": "6.9.0",
     "@testing-library/dom": "8.1.0",
