@@ -15,12 +15,14 @@ import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
 import ElectionTypeFilter from './Filter/ElectionTypeFilter';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2tyMmFqaTQ2MXRlYjJybngyMTk2d3J1dyJ9.1WkJDF2Fu7UMwz6nx9Z7cg';
+mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2tyMmF1MDFuMG56azJxcW1uNzhwMWJnYSJ9.stsGC87gjUjGu2dOgj9F0g';
 
 const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
 const LAYER_CANTONS = 'cantons';
 const LAYER_CIRCONSCRIPTIONS = 'circonscriptions';
+const LAYER_COMMUNES = 'communes';
+const LAYER_POLLING_STATION = 'bureaux_de_vote';
 const LAYERS_TYPES = [
     {
         code: LAYER_REGION,
@@ -37,6 +39,14 @@ const LAYERS_TYPES = [
     {
         code: LAYER_CIRCONSCRIPTIONS,
         label: 'Circonscriptions',
+    },
+    {
+        code: LAYER_COMMUNES,
+        label: 'Communes',
+    },
+    {
+        code: LAYER_POLLING_STATION,
+        label: 'Bureaux de vote',
     },
 ];
 const ELECTION_TYPE_PRESIDENTIAL = 'presidential';
