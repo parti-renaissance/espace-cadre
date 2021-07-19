@@ -35,7 +35,7 @@ function DownloadsCount() {
             {dashboardDownloads !== null ? (
                 <div className="with-background">
                     <div className="row p-3">
-                        <span className="count-bubble">{dashboardDownloads.downloads[dashboardDownloads.downloads.length - 1].cumsum}</span>
+                        <span className="count-bubble">{dashboardDownloads.totalDownloads}</span>
                         <div className="col pl-0">
                             <div className="chart-title">Téléchargement{dashboardDownloads.downloads[dashboardDownloads.downloads.length - 1].cumsum > 1 && 's'} lors des 28 derniers jours</div>
                             <div className="chart-subtitle">De l&apos;application Je m&apos;engage sur les stores Android et Apple</div>
