@@ -13,9 +13,6 @@ const Dashboard = () => (
                 <TextChart />
             </div>
         </div>
-        <div className="row mb-3">
-            <p className="mail-title"><img src="images/mail.svg" alt="mail-logo" className="ml-2 mr-2" />Campagnes d&apos;emails</p>
-        </div>
         <KpiEmailCampaign />
         <div className="row">
             <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" className="ml-2 mr-2" />Application mobile</p>
@@ -32,11 +29,6 @@ const Dashboard = () => (
                 </div>
             </div>
         </div>
-        {/* <div className="row mb-3 with-background dc-container">
-            <div className="col">
-                <DownloadsRatios />
-            </div>
-        </div> */}
         <div className="row mb-3 with-background dc-container">
             <div className="col p-0">
                 <MapComponent />

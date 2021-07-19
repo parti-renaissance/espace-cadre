@@ -13,12 +13,14 @@ import MultiSelectFilter from './Filters/MultiSelectFilter';
 import Spinner from '../Spinner/Spinner';
 import { apiClientProxy } from '../../services/networking/client';
 import { useContactsCache } from '../../redux/contacts/hooks';
+import ErrorComponent from '../ErrorComponent/ErrorComponent';
 
 const Contacts = () => {
     const [columnsTitle, setColumnsTitle] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [contacts, setContacts] = useContactsCache();
+    const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Get the data for the table
     useEffect(() => {
@@ -28,7 +30,7 @@ const Contacts = () => {
 
         const getContactsAndColumnsTitles = async () => {
             try {
-                setError(false);
+                setHasError(false);
                 setLoading(true);
                 if (contacts === null) {
                     setContacts(await apiClientProxy.get('/contacts'));
@@ -67,7 +69,8 @@ const Contacts = () => {
                 }
             } catch (error) {
                 if (isActive) {
-                    setError(true);
+                    setHasError(true);
+                    setErrorMessage(error);
                 }
             }
         };
@@ -83,8 +86,8 @@ const Contacts = () => {
 
     // Handle error on fetch, async loading with spinner and rendering when loaded
     const content = () => {
-        if (error) {
-            return <div className="alert alert-danger w-50" role="alert">Erreur dans le chargement de la page</div>;
+        if (hasError) {
+            return <ErrorComponent errorMessage={errorMessage} />;
         }
         if (loading) {
             return <Spinner />;

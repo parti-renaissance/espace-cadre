@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     ResponsiveContainer,
     AreaChart,
@@ -12,10 +12,13 @@ import { useDashboardDownloadsCache } from '../../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useUserScope } from '../../../../redux/user/hooks';
+import ErrorComponent from '../../../ErrorComponent/ErrorComponent';
 
 function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();
     const [currentScope] = useUserScope();
+    const [hasError, setHasError] = useState();
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getDownloads = async () => {
@@ -24,15 +27,16 @@ function DownloadsCount() {
                     setDashboardDownloads(await apiClientProxy.get('/jemengage/downloads'));
                 }
             } catch (error) {
-                console.log(error);
+                setHasError(true);
+                setErrorMessage(error);
             }
         };
         getDownloads();
     }, [dashboardDownloads]);
 
-    return (
-        <>
-            {dashboardDownloads !== null ? (
+    const dashboardDownloadsContent = () => {
+        if (dashboardDownloads !== null && dashboardDownloads.downloads.length > 0) {
+            return (
                 <div className="with-background">
                     <div className="row p-3">
                         <span className="count-bubble">{dashboardDownloads.totalDownloads}</span>
@@ -116,8 +120,19 @@ function DownloadsCount() {
                         <li className="legend-chart" style={{ color: '#0049C6' }}>Téléchargements par jour </li>
                     </div>
                 </div>
-            ) : <div className="text-center"><Loader /></div>}
-        </>
+            );
+        } if (dashboardDownloads !== null && dashboardDownloads.downloads.length === 0) {
+            return <div className="with-background chart-error">Les données de téléchargement de l&apos;app sont indisponibles</div>;
+        } if (hasError) {
+            return <ErrorComponent errorMessage={errorMessage} />;
+        }
+        return <div className="text-center"><Loader /></div>;
+    };
+
+    return (
+        <div>
+            {dashboardDownloadsContent()}
+        </div>
     );
 }
 
