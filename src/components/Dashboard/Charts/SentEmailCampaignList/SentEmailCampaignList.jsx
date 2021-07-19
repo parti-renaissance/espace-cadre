@@ -26,11 +26,14 @@ function SentEmailCampaignList() {
     }, [emailCampaignReports]);
 
     const emailCampaignsContent = () => {
-        if (emailCampaignReports !== null && emailCampaignReports[0].campagnes.length > 0) {
+        const campaignsExist = emailCampaignReports && emailCampaignReports.map((item) => (item.campagnes.length > 0));
+        const noCampaign = emailCampaignReports && emailCampaignReports.map((item) => (item.campagnes.length === 0));
+
+        if (emailCampaignReports !== null && campaignsExist.some((val) => val)) {
             return (
                 <>
                     <SentEmailCampaignListTitle />
-                    {emailCampaignReports[0].campagnes.map((el, index) => (
+                    {emailCampaignReports.map((item) => item.campagnes.map((el, index) => (
                         <div className="col-12 with-background dc-container big-card" key={index + 1}>
                             <p className="headline">{el.titre}</p>
                             <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
@@ -64,11 +67,16 @@ function SentEmailCampaignList() {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    )))}
                 </>
             );
-        } if (emailCampaignReports !== null && emailCampaignReports[0].campagnes.length === 0) {
-            return <div className="col with-background dc-container text-center mb-3" style={{ padding: '6px' }}>Aucune campagne à afficher</div>;
+        } if (emailCampaignReports !== null && noCampaign.every((val) => val)) {
+            return (
+                <>
+                    <SentEmailCampaignListTitle />
+                    <div className="col with-background dc-container text-center mb-3" style={{ padding: '6px' }}>Aucune campagne à afficher</div>
+                </>
+            );
         }
         if (hasError) {
             return (
@@ -79,7 +87,6 @@ function SentEmailCampaignList() {
         }
         return (
             <>
-                <SentEmailCampaignListTitle />
                 <div className="col with-background dc-container text-center mb-3">
                     <Loader />
                 </div>
