@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
-import { renderToString } from 'react-dom/server';
+// import { renderToString } from 'react-dom/server';
 import $ from 'jquery';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import ElectionModal from './ElectionModal';
+// import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
+import { apiClientProxy } from '../../services/networking/client';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
@@ -86,6 +87,7 @@ function Elections() {
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
     const [selectedElection, setSelectedElection] = useState('');
+    const [participation, setParticipation] = useState([]);
 
     // Display only the choosen layer
     const switchLayer = () => {
@@ -118,6 +120,13 @@ function Elections() {
         });
     }, [map]);
 
+    useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
+
+    // Store in local state the election selected by the user
+    const handleSelectedElection = (e) => {
+        setSelectedElection(e.target.value);
+    };
+
     useEffect(() => {
         if (!currentPoint || !mapLoaded) {
             return;
@@ -125,48 +134,19 @@ function Elections() {
 
         const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] });
 
-        if (!Array.isArray(propsFromMapbox) || !propsFromMapbox.length) {
-            return;
-        }
-        const data = findZoneData(propsFromMapbox[0].properties.code);
-
-        const modalContent = document.getElementById('map-overlay');
-
-        if (data.length) {
-            modalContent.innerHTML = `
-                <div class="elections-area">${data[0].nom}</div>
-                <div class="election-name">${data[0].election} ${data[0].annee}</div>
-                <div id="close-modal">x</div>
-                <div class="flash-info">
-                    <div class="flash-div"><span class="flash-span">${data[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
-                    <div class="flash-div">Taux de participation: <span class="flash-span">${data[0].participationPourcent}%</span></div>
-                    <div class="flash-div">Votes blancs ou nuls: <span class="flash-span">${data[0].blancsNulsPourcent}%</span></div>
-                </div>
-                <div>
-                    ${renderToString(data.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />))}
-                </div>
-            `;
-        } else {
-            modalContent.innerHTML = `
-                <div id="close-modal">x</div>
-                <div class="no-data">
-                    <div class="flash-div"><span class="flash-span">Sélectionnez une élection</span></div>
-                </div>
-            `;
-        }
-    }, [currentPoint]);
-
-    useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
-
-    const handleSelectedElection = (e) => {
-        setSelectedElection(e.target.value);
-    };
-
-    useEffect(() => {
-        console.log(selectedElection);
-    }, [selectedElection]);
-
-    console.log(activeLayer);
+        const getParticipation = async () => {
+            if (selectedElection !== '') {
+                try {
+                    const electionAndYear = selectedElection.substr(0, selectedElection.indexOf('-'));
+                    const getTour = (selectedElection.split('-')[1]).slice(1, 2);
+                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${propsFromMapbox[0].properties.code}&election=${electionAndYear}&tour=${getTour}`));
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        getParticipation();
+    }, [currentPoint, participation]);
 
     return (
         <div>
@@ -175,7 +155,7 @@ function Elections() {
                 className="mb-3"
                 onChange={handleSelectedElection}
             >
-                <option>Type d&apos;élection</option>
+                <option>Sélectionnez une élection</option>
                 {ELECTIONS_LIST.map((election, index) => <option key={index + 1} value={election}>{election}</option>)}
             </select>
             <div ref={mapContainer} className="map-container">
