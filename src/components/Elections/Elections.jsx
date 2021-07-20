@@ -15,7 +15,7 @@ import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
 import ElectionTypeFilter from './Filter/ElectionTypeFilter';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2tyMmF1MDFuMG56azJxcW1uNzhwMWJnYSJ9.stsGC87gjUjGu2dOgj9F0g';
+mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2tyMmFqaTQ2MXRlYjJybngyMTk2d3J1dyJ9.1WkJDF2Fu7UMwz6nx9Z7cg';
 
 const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
