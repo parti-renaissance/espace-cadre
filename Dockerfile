@@ -1,5 +1,5 @@
-ARG NODE_VERSION=14
-ARG NGINX_VERSION=1.20
+ARG NODE_VERSION=16
+ARG NGINX_VERSION=1.21
 
 # Stage 1 - the build process
 FROM node:${NODE_VERSION}-alpine AS react-build
