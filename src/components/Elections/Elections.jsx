@@ -17,12 +17,12 @@ import ElectionTypeFilter from './Filter/ElectionTypeFilter';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
-const LAYER_REGION = 'regions';
-const LAYER_DEPARTMENT = 'departements';
-const LAYER_CANTONS = 'cantons';
-const LAYER_CIRCONSCRIPTIONS = 'circonscriptions';
-const LAYER_COMMUNES = 'communes';
-const LAYER_POLLING_STATION = 'bureaux_de_vote';
+const LAYER_REGION = 'region';
+const LAYER_DEPARTMENT = 'departement';
+const LAYER_CANTONS = 'canton';
+const LAYER_CIRCONSCRIPTIONS = 'circonscription';
+const LAYER_COMMUNES = 'commune';
+const LAYER_POLLING_STATION = 'bureau';
 const LAYERS_TYPES = [
     {
         code: LAYER_REGION,
