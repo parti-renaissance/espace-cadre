@@ -13,7 +13,6 @@ import cantons from './data/cantons_v7.csv';
 import circonscriptions from './data/circonscriptions_v7.csv';
 import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
-import ElectionTypeFilter from './Filter/ElectionTypeFilter';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
@@ -70,20 +69,20 @@ ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] = '1er tour';
 ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND] = '2e tour';
 
 const ELECTIONS_LIST = [
-    'Européennes - 2014',
-    'Départementales - 2015 - 1er tour',
-    'Départementales - 2015 - 2e tour',
-    'Régionales - 2015 - 1er tour',
-    'Régionales - 2015 - 2e tour',
-    'Présidentielles - 2017 - 1er tour',
-    'Présidentielles - 2017 - 2e tour',
-    'Législatives - 2017 - 1er tour',
-    'Législatives - 2017 - 2e tour',
-    'Européennes - 2019',
-    'Municipales - 2020 - 1er tour',
-    'Municipales - 2020 - 2e tour',
-    'Régionales - 2021 - 1er tour',
-    'Régionales - 2021 - 2e tour',
+    'Européennes 2014',
+    `Départementales 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
+    `Départementales 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
+    `Régionales 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
+    `Régionales 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
+    `Présidentielles 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
+    `Présidentielles 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
+    `Législatives 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
+    `Législatives 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
+    'Européennes 2019',
+    `Municipales 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
+    `Municipales 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
+    `Régionales 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
+    `Régionales 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
 ];
 
 function Elections() {
@@ -97,6 +96,7 @@ function Elections() {
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
     const [electionData, setElectionData] = useState({});
+    const [selectedElection, setSelectedElection] = useState('');
 
     const findZoneData = (code) => {
         let dataCsv;
@@ -267,10 +267,24 @@ function Elections() {
         }
     }, [mapLoaded]);
 
+    const handleSelectedElection = (e) => {
+        setSelectedElection(e.target.value);
+    };
+
+    useEffect(() => {
+        console.log(selectedElection);
+    }, [selectedElection]);
+
     return (
         <div>
             <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
-            <ElectionTypeFilter electionList={ELECTIONS_LIST} />
+            <select
+                className="mb-3"
+                onChange={handleSelectedElection}
+            >
+                <option>Type d&apos;élection</option>
+                {ELECTIONS_LIST.map((election, index) => <option key={index + 1} value={election}>{election}</option>)}
+            </select>
             <div ref={mapContainer} className="map-container">
                 <div id="map-overlay" />
             </div>
