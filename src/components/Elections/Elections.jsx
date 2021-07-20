@@ -9,11 +9,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
 
-<<<<<<< HEAD
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
-=======
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2tyMmFqaTQ2MXRlYjJybngyMTk2d3J1dyJ9.1WkJDF2Fu7UMwz6nx9Z7cg';
->>>>>>> Update Elections.jsx
 
 const LAYER_REGION = 'region';
 const LAYER_DEPARTMENT = 'departement';
