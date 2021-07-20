@@ -1,30 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const ElectionTypeFilter = ({ onChange, choices, value }) => (
-    <select
-        className="mr-3"
-        value={value}
-        onChange={choices.length ? onChange : null}
-        disabled={!choices.length}
-    >
-        <option>Type d&apos;élection</option>
-        {choices.length > 0 && choices.map((election, i) => (
-            <option key={i + 1} value={election.code}>
-                {election.label}
-            </option>
-        ))}
-    </select>
-);
+const ElectionTypeFilter = ({ electionList }) => {
+    const [selectedElection, setSelectedElection] = useState('');
+
+    const handleSelectedElection = (e) => {
+        setSelectedElection(e.target.value);
+    };
+
+    console.log(selectedElection);
+
+    return (
+        <select
+            className="mr-3"
+            value={selectedElection}
+            onChange={handleSelectedElection}
+        >
+            <option>Type d&apos;élection</option>
+            {electionList && electionList.map((election, index) => (
+                <option
+                    key={index + 1}
+                    value={election}
+                >
+                    {election}
+                </option>
+            ))}
+        </select>
+    );
+};
 
 export default ElectionTypeFilter;
 
 ElectionTypeFilter.propTypes = {
-    onChange: PropTypes.func.isRequired,
-    choices: PropTypes.instanceOf(Object).isRequired,
-    value: PropTypes.string,
-};
-
-ElectionTypeFilter.defaultProps = {
-    value: null,
+    electionList: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
 };
