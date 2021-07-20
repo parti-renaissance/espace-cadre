@@ -1,16 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
-import Papa from 'papaparse';
 import $ from 'jquery';
-import _ from 'lodash';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import regions from './data/regions_v7.csv';
-import departements from './data/departements_v7.csv';
-import cantons from './data/cantons_v7.csv';
-import circonscriptions from './data/circonscriptions_v7.csv';
 import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
 
@@ -88,65 +82,14 @@ const ELECTIONS_LIST = [
 function Elections() {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [regionsCsv, setRegionsCsv] = useState();
-    const [departmentCsv, setDepartmentsCsv] = useState();
-    const [cantonsCsv, setCantonsCsv] = useState();
-    const [circonscriptionsCsv, setCirconscriptionsCsv] = useState();
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
-    const [electionData, setElectionData] = useState({});
     const [selectedElection, setSelectedElection] = useState('');
-
-    const findZoneData = (code) => {
-        let dataCsv;
-        let filter;
-
-        switch (activeLayer) {
-        case LAYER_DEPARTMENT:
-            dataCsv = departmentCsv;
-            filter = (element) => element.departement === code;
-            break;
-        case LAYER_CANTONS:
-            dataCsv = cantonsCsv;
-            filter = (element) => element.codeCanton === code;
-            break;
-        case LAYER_CIRCONSCRIPTIONS:
-            dataCsv = circonscriptionsCsv;
-            filter = (element) => element.codeCirco === code;
-            break;
-        default:
-            dataCsv = regionsCsv;
-            filter = (element) => element.region === code;
-            break;
-        }
-
-        const electionType = ELECTION_LABELS[filterValues.electionType];
-
-        return dataCsv.data.filter(
-            (element) => filter(element)
-                && element.election === electionType
-                && element.annee === filterValues.electionYear
-                && element.tour === filterValues.electionRound,
-        );
-    };
 
     // Display only the choosen layer
     const switchLayer = () => {
         LAYERS_TYPES.map((el) => map.current.setLayoutProperty(el.code, 'visibility', el.code === activeLayer ? 'visible' : 'none'));
-    };
-
-    // Get all differents elections which are in csv files
-    const updateElectionData = (layer, data) => {
-        const keys = [];
-        data.forEach((item) => {
-            keys.push(`${item.election}|${item.annee}|${item.tour}`);
-        });
-
-        setElectionData((state) => {
-            state[layer] = _.uniq(keys);
-            return state;
-        });
     };
 
     useEffect(() => {
@@ -215,58 +158,6 @@ function Elections() {
 
     useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
 
-    // Once the map is loaded, set region as default layer and prepare csv data
-    useEffect(() => {
-        if (mapLoaded) {
-            // Convert region csv to JSON
-            Papa.parse(regions, {
-                delimiter: ',',
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete(results) {
-                    updateElectionData(LAYER_REGION, results.data);
-                    setRegionsCsv(results);
-                },
-            });
-
-            // Convert departments csv to JSON
-            Papa.parse(departements, {
-                delimiter: ',',
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete(results) {
-                    updateElectionData(LAYER_DEPARTMENT, results.data);
-                    setDepartmentsCsv(results);
-                },
-            });
-
-            // Convert cantons csv to JSON
-            Papa.parse(cantons, {
-                delimiter: ',',
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete(results) {
-                    updateElectionData(LAYER_CANTONS, results.data);
-                    setCantonsCsv(results);
-                },
-            });
-            // Convert circonscriptions csv to JSON
-            Papa.parse(circonscriptions, {
-                delimiter: ',',
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete(results) {
-                    updateElectionData(LAYER_CIRCONSCRIPTIONS, results.data);
-                    setCirconscriptionsCsv(results);
-                },
-            });
-        }
-    }, [mapLoaded]);
-
     const handleSelectedElection = (e) => {
         setSelectedElection(e.target.value);
     };
@@ -274,6 +165,8 @@ function Elections() {
     useEffect(() => {
         console.log(selectedElection);
     }, [selectedElection]);
+
+    console.log(activeLayer);
 
     return (
         <div>
