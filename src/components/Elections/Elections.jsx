@@ -15,7 +15,7 @@ import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
 import ElectionTypeFilter from './Filter/ElectionTypeFilter';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2tyMmFqaTQ2MXRlYjJybngyMTk2d3J1dyJ9.1WkJDF2Fu7UMwz6nx9Z7cg';
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
 const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
