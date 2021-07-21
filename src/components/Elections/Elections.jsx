@@ -10,6 +10,7 @@ import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
 import ElectionModal from './ElectionModal';
 import Loader from '../Loader';
+import ConvertToPercent from '../ConvertToPercent/ConvertToPercent';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
@@ -145,7 +146,10 @@ function Elections() {
                 }
             } catch (error) {
                 if (!isCancelled) {
-                    console.log(error);
+                    const modalContent = document.getElementById('map-overlay');
+                    modalContent.innerHTML = `
+                        <div class="modal-error">Aucune donnée à afficher</div>
+                    `;
                 }
             }
         };
@@ -160,22 +164,26 @@ function Elections() {
     useEffect(() => {
         const modalContent = document.getElementById('map-overlay');
 
-        if (participation.length > 0) {
-            modalContent.innerHTML = `
-                            <div class="elections-area">${zone}</div>
-                            <div class="election-name">${participation[0].election}</div>
-                            <div id="close-modal">x</div>
-                            <div class="flash-info">
-                                <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
-                                <div class="flash-div">Votants: <span class="flash-span">${participation[0].votants.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}</span></div>
-                                <div class="flash-div">Votes exprimés: <span class="flash-span">${participation[0].exprimes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}</span></div>
-                            </div>
-                            <div>
-                            <div>
-                                ${results.length > 0 ? renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />)) : renderToString(<div className="text-center"><Loader /></div>)}
-                            </div>
-                            </div>
-                        `;
+        try {
+            if (participation.length > 0) {
+                modalContent.innerHTML = `
+                                <div class="elections-area">${zone}</div>
+                                <div class="election-name">${participation[0].election}</div>
+                                <div id="close-modal">x</div>
+                                <div class="flash-info">
+                                    <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
+                                    <div class="flash-div">Taux de participation: <span class="flash-span">${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}</span></div>
+                                    <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
+                                </div>
+                                <div>
+                                <div>
+                                    ${results.length > 0 ? renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />)) : renderToString(<div className="text-center"><Loader /></div>)}
+                                </div>
+                                </div>
+                            `;
+            }
+        } catch (error) {
+            modalContent.innerHTML = '<div>No data to display</div>';
         }
     }, [participation, results]);
 
