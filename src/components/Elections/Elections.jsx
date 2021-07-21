@@ -5,7 +5,6 @@ import $ from 'jquery';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-// import ElectionModal from './ElectionModal';
 import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
 import ElectionModal from './ElectionModal';
@@ -168,7 +167,7 @@ function Elections() {
             if (participation.length > 0) {
                 modalContent.innerHTML = `
                                 <div class="elections-area">${zone}</div>
-                                <div class="election-name">${participation[0].election}</div>
+                                <div class="election-name">${participation[0].election} - ${participation[0].tour === 1 ? ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] : ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}</div>
                                 <div id="close-modal">x</div>
                                 <div class="flash-info">
                                     <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
@@ -177,7 +176,7 @@ function Elections() {
                                 </div>
                                 <div>
                                 <div>
-                                    ${results.length > 0 ? renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />)) : renderToString(<div className="text-center"><Loader /></div>)}
+                                    ${results.length > 0 ? renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />)) : renderToString(<div className="text-center"><Loader /></div>)}
                                 </div>
                                 </div>
                             `;
