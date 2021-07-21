@@ -9,6 +9,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
 import ElectionModal from './ElectionModal';
+import Loader from '../Loader';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
@@ -81,7 +82,7 @@ function Elections() {
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
-    const [selectedElection, setSelectedElection] = useState('');
+    const [selectedElection, setSelectedElection] = useState(ELECTIONS_LIST[5]);
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
     const [zone, setZone] = useState();
@@ -125,6 +126,8 @@ function Elections() {
     };
 
     useEffect(() => {
+        let isCancelled = false;
+
         if (!currentPoint || !mapLoaded) {
             return;
         }
@@ -133,23 +136,31 @@ function Elections() {
         setZone(propsFromMapbox[0].properties.nom);
 
         const getParticipation = async () => {
-            if (selectedElection !== '') {
-                try {
+            try {
+                if (!isCancelled) {
                     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
                     const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
                     setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${propsFromMapbox[0].properties.code}&election=${electionAndYear}&tour=${getTour}`));
                     setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${propsFromMapbox[0].properties.code}&election=${electionAndYear}&tour=${getTour}`));
-                } catch (error) {
+                }
+            } catch (error) {
+                if (!isCancelled) {
                     console.log(error);
                 }
             }
         };
         getParticipation();
+
+        // eslint-disable-next-line consistent-return
+        return () => {
+            isCancelled = true;
+        };
     }, [currentPoint]);
 
     useEffect(() => {
         const modalContent = document.getElementById('map-overlay');
-        if (participation.length > 0 && results.length > 0) {
+
+        if (participation.length > 0) {
             modalContent.innerHTML = `
                             <div class="elections-area">${zone}</div>
                             <div class="election-name">${participation[0].election}</div>
@@ -161,15 +172,8 @@ function Elections() {
                             </div>
                             <div>
                             <div>
-                                ${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />))}
+                                ${results.length > 0 ? renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} />)) : renderToString(<div className="text-center"><Loader /></div>)}
                             </div>
-                            </div>
-                        `;
-        } else {
-            modalContent.innerHTML = `
-                            <div id="close-modal">x</div>
-                            <div class="no-data">
-                                <div class="flash-div"><span class="flash-span">Sélectionnez une élection</span></div>
                             </div>
                         `;
         }
@@ -181,6 +185,7 @@ function Elections() {
             <select
                 className="mb-3"
                 onChange={handleSelectedElection}
+                value={selectedElection}
             >
                 <option>Sélectionnez une élection</option>
                 {ELECTIONS_LIST.map((election, index) => <option key={index + 1} value={election}>{election}</option>)}
