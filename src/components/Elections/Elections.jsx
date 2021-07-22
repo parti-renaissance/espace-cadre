@@ -188,6 +188,15 @@ function Elections() {
             modalContent.innerHTML = '<div class="modal-error">Aucune donnée à afficher</div>';
         }
     }, [participation, results]);
+
+    useEffect(() => {
+        if (activeLayer === 'bureau' || activeLayer === 'commune') {
+            modalContent.innerHTML = '<div class="modal-error">Zoomer sur la carte pour afficher les périmètres</div>';
+        } else {
+            $('#map-overlay').empty();
+        }
+    }, [activeLayer]);
+
     return (
         <div>
             <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
