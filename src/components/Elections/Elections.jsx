@@ -134,11 +134,11 @@ function Elections() {
         }
 
         const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] });
-        setZone(propsFromMapbox[0].properties.nom);
 
         const getParticipation = async () => {
             try {
                 if (!isCancelled) {
+                    setZone(propsFromMapbox[0].properties.nom);
                     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
                     const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
                     modalContent.innerHTML = `
