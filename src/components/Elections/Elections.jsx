@@ -86,6 +86,7 @@ function Elections() {
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
     const [zone, setZone] = useState();
+    const modalContent = document.getElementById('map-overlay');
 
     // Display only the choosen layer
     const switchLayer = () => {
@@ -140,15 +141,17 @@ function Elections() {
                 if (!isCancelled) {
                     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
                     const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
+                    modalContent.innerHTML = `
+                        <div class="modal-error text-center">
+                                ${renderToString(<Loader />)}
+                        </div>
+                    `;
                     setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${propsFromMapbox[0].properties.code}&election=${electionAndYear}&tour=${getTour}`));
                     setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${propsFromMapbox[0].properties.code}&election=${electionAndYear}&tour=${getTour}`));
                 }
             } catch (error) {
                 if (!isCancelled) {
-                    const modalContent = document.getElementById('map-overlay');
-                    modalContent.innerHTML = `
-                        <div class="modal-error">Aucune donnée à afficher</div>
-                    `;
+                    modalContent.innerHTML = '<div class="modal-error">Aucune donnée à afficher</div>';
                 }
             }
         };
@@ -161,8 +164,6 @@ function Elections() {
     }, [currentPoint]);
 
     useEffect(() => {
-        const modalContent = document.getElementById('map-overlay');
-
         try {
             if (participation.length > 0) {
                 modalContent.innerHTML = `
@@ -182,10 +183,9 @@ function Elections() {
                             `;
             }
         } catch (error) {
-            modalContent.innerHTML = '<div>No data to display</div>';
+            modalContent.innerHTML = '<div class="modal-error">Aucune donnée à afficher</div>';
         }
     }, [participation, results]);
-
     return (
         <div>
             <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
