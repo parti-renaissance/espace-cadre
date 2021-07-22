@@ -74,6 +74,8 @@ const ELECTIONS_LIST = [
     `${ELECTION_TYPE_MUNICIPAL} 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
     `${ELECTION_TYPE_REGIONAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
     `${ELECTION_TYPE_REGIONAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
+    `${ELECTION_TYPE_DEPARTMENTAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
+    `${ELECTION_TYPE_DEPARTMENTAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
 ];
 
 function Elections() {
@@ -186,6 +188,15 @@ function Elections() {
             modalContent.innerHTML = '<div class="modal-error">Aucune donnée à afficher</div>';
         }
     }, [participation, results]);
+
+    useEffect(() => {
+        if (activeLayer === 'bureau' || activeLayer === 'commune') {
+            modalContent.innerHTML = '<div class="modal-error">Zoomer sur la carte pour afficher les périmètres</div>';
+        } else {
+            $('#map-overlay').empty();
+        }
+    }, [activeLayer]);
+
     return (
         <div>
             <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
