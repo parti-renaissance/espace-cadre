@@ -90,6 +90,8 @@ function Elections() {
     const [zone, setZone] = useState();
     const [code, setCode] = useState();
     const modalContent = document.getElementById('map-overlay');
+    const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
+    const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
 
     // Display only the choosen layer
     const switchLayer = () => {
@@ -143,8 +145,6 @@ function Elections() {
                         { layers: [activeLayer] });
                     setZone(propsFromMapbox[0].properties.nom);
                     setCode(propsFromMapbox[0].properties.code);
-                    const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
-                    const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
 
                     modalContent.innerHTML = `
                         <div class="modal-error text-center">
@@ -166,7 +166,7 @@ function Elections() {
         return () => {
             isCancelled = true;
         };
-    }, [currentPoint, code, zone]);
+    }, [currentPoint]);
 
     useEffect(() => {
         try {
