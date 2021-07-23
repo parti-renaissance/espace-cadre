@@ -88,6 +88,7 @@ function Elections() {
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
     const [zone, setZone] = useState();
+    const [code, setCode] = useState();
     const modalContent = document.getElementById('map-overlay');
 
     // Display only the choosen layer
@@ -135,21 +136,23 @@ function Elections() {
             return;
         }
 
-        const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] });
-
         const getParticipation = async () => {
             try {
                 if (!isCancelled) {
+                    const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point,
+                        { layers: [activeLayer] });
                     setZone(propsFromMapbox[0].properties.nom);
+                    setCode(propsFromMapbox[0].properties.code);
                     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
                     const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
+
                     modalContent.innerHTML = `
                         <div class="modal-error text-center">
                                 ${renderToString(<Loader />)}
                         </div>
                     `;
-                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${propsFromMapbox[0].properties.code}&election=${electionAndYear}&tour=${getTour}`));
-                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${propsFromMapbox[0].properties.code}&election=${electionAndYear}&tour=${getTour}`));
+                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${code}&election=${electionAndYear}&tour=${getTour}`));
+                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${code}&election=${electionAndYear}&tour=${getTour}`));
                 }
             } catch (error) {
                 if (!isCancelled) {
@@ -163,7 +166,7 @@ function Elections() {
         return () => {
             isCancelled = true;
         };
-    }, [currentPoint]);
+    }, [currentPoint, code, zone]);
 
     useEffect(() => {
         try {
@@ -198,7 +201,7 @@ function Elections() {
     }, [activeLayer]);
 
     return (
-        <div>
+        <>
             <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
             <select
                 className="mb-3"
@@ -211,7 +214,7 @@ function Elections() {
             <div ref={mapContainer} className="map-container">
                 <div id="map-overlay" />
             </div>
-        </div>
+        </>
     );
 }
 
