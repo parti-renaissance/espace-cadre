@@ -88,7 +88,6 @@ function Elections() {
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
     const [zone, setZone] = useState();
-    const [code, setCode] = useState();
     const modalContent = document.getElementById('map-overlay');
     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
     const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
@@ -96,6 +95,11 @@ function Elections() {
     // Display only the choosen layer
     const switchLayer = () => {
         LAYERS_TYPES.map((el) => map.current.setLayoutProperty(el.code, 'visibility', el.code === activeLayer ? 'visible' : 'none'));
+    };
+
+    // Store in local state the election selected by the user
+    const handleSelectedElection = (e) => {
+        setSelectedElection(e.target.value);
     };
 
     useEffect(() => {
@@ -109,7 +113,10 @@ function Elections() {
         });
     }, []);
 
-    // Wait for the map to be loaded and display layer visibility to none
+    // Change layer
+    useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
+
+    // Indicate map is loaded and close modal on click
     useEffect(() => {
         map.current.getCanvas().style.cursor = 'pointer';
 
@@ -124,13 +131,6 @@ function Elections() {
         });
     }, [map]);
 
-    useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
-
-    // Store in local state the election selected by the user
-    const handleSelectedElection = (e) => {
-        setSelectedElection(e.target.value);
-    };
-
     useEffect(() => {
         let isCancelled = false;
 
@@ -144,15 +144,15 @@ function Elections() {
                     const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point,
                         { layers: [activeLayer] });
                     setZone(propsFromMapbox[0].properties.nom);
-                    setCode(propsFromMapbox[0].properties.code);
+                    const codeZone = propsFromMapbox[0].properties.code;
 
                     modalContent.innerHTML = `
                         <div class="modal-error text-center">
                                 ${renderToString(<Loader />)}
                         </div>
                     `;
-                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${code}&election=${electionAndYear}&tour=${getTour}`));
-                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${code}&election=${electionAndYear}&tour=${getTour}`));
+                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${getTour}`));
+                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${getTour}`));
                 }
             } catch (error) {
                 if (!isCancelled) {
