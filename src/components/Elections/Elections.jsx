@@ -60,7 +60,7 @@ ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] = '1er tour';
 ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND] = '2e tour';
 
 const ELECTIONS_LIST = [
-    `${ELECTION_TYPE_EUROPEAN} 2014`,
+    `${ELECTION_TYPE_EUROPEAN} 2014 - Tour unique`,
     `${ELECTION_TYPE_DEPARTMENTAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
     `${ELECTION_TYPE_DEPARTMENTAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
     `${ELECTION_TYPE_REGIONAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
@@ -69,7 +69,7 @@ const ELECTIONS_LIST = [
     `${ELECTION_TYPE_PRESIDENTIAL} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
     `${ELECTION_TYPE_LEGISLATIVE} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
     `${ELECTION_TYPE_LEGISLATIVE} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_EUROPEAN} 2019`,
+    `${ELECTION_TYPE_EUROPEAN} 2019 - Tour unique`,
     `${ELECTION_TYPE_MUNICIPAL} 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
     `${ELECTION_TYPE_MUNICIPAL} 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
     `${ELECTION_TYPE_REGIONAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
@@ -87,11 +87,10 @@ function Elections() {
     const [selectedElection, setSelectedElection] = useState(ELECTIONS_LIST[5]);
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
-    const [colors, setColors] = useState([]);
     const [zone, setZone] = useState();
+    const [tour, setTour] = useState(1);
     const modalContent = document.getElementById('map-overlay');
     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
-    const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
 
     // Display only the choosen layer
     const switchLayer = () => {
@@ -103,9 +102,15 @@ function Elections() {
         setSelectedElection(e.target.value);
     };
 
-    // Get data from color endpoint
-    const getColors = async () => {
-        setColors(await apiClientProxy.get(`/election/colors?maillage=${activeLayer}&election=${electionAndYear}&tour=${getTour}`));
+    // Get election tour. Else condition is mandatory for europeennes which have a unique tour
+    const getTourFunction = () => {
+        if (selectedElection.includes(ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST])) {
+            setTour(1);
+        } else if (selectedElection.includes(ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND])) {
+            setTour(2);
+        } else {
+            setTour(1);
+        }
     };
 
     useEffect(() => {
@@ -117,13 +122,7 @@ function Elections() {
             center: [2.213749, 46.227638],
             zoom: 5,
         });
-
-        getColors();
     }, []);
-
-    useEffect(() => {
-        console.log(colors);
-    }, [colors]);
 
     // Change layer
     useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
@@ -142,6 +141,10 @@ function Elections() {
             $('#map-overlay').empty();
         });
     }, [map]);
+
+    useEffect(() => {
+        getTourFunction();
+    }, [selectedElection]);
 
     // Fetch participation and results endpoints
     useEffect(() => {
@@ -164,8 +167,8 @@ function Elections() {
                                 ${renderToString(<Loader />)}
                         </div>
                     `;
-                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${getTour}`));
-                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${getTour}`));
+                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${tour}`));
+                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${tour}`));
                 }
             } catch (error) {
                 if (!isCancelled) {
