@@ -60,7 +60,7 @@ ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] = '1er tour';
 ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND] = '2e tour';
 
 const ELECTIONS_LIST = [
-    `${ELECTION_TYPE_EUROPEAN} 2014`,
+    `${ELECTION_TYPE_EUROPEAN} 2014 - Tour unique`,
     `${ELECTION_TYPE_DEPARTMENTAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
     `${ELECTION_TYPE_DEPARTMENTAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
     `${ELECTION_TYPE_REGIONAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
@@ -69,7 +69,7 @@ const ELECTIONS_LIST = [
     `${ELECTION_TYPE_PRESIDENTIAL} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
     `${ELECTION_TYPE_LEGISLATIVE} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
     `${ELECTION_TYPE_LEGISLATIVE} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_EUROPEAN} 2019`,
+    `${ELECTION_TYPE_EUROPEAN} 2019 - Tour unique`,
     `${ELECTION_TYPE_MUNICIPAL} 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
     `${ELECTION_TYPE_MUNICIPAL} 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
     `${ELECTION_TYPE_REGIONAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
@@ -88,9 +88,9 @@ function Elections() {
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
     const [zone, setZone] = useState();
+    const [tour, setTour] = useState(1);
     const modalContent = document.getElementById('map-overlay');
     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
-    const getTour = ((selectedElection.split('-')[1]).slice(1, 2)).trim();
 
     // Display only the choosen layer
     const switchLayer = () => {
@@ -100,6 +100,17 @@ function Elections() {
     // Store in local state the election selected by the user
     const handleSelectedElection = (e) => {
         setSelectedElection(e.target.value);
+    };
+
+    // Get election tour. Else condition is mandatory for europeennes which have a unique tour
+    const getTourFunction = () => {
+        if (selectedElection.includes(ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST])) {
+            setTour(1);
+        } else if (selectedElection.includes(ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND])) {
+            setTour(2);
+        } else {
+            setTour(1);
+        }
     };
 
     useEffect(() => {
@@ -132,6 +143,11 @@ function Elections() {
     }, [map]);
 
     useEffect(() => {
+        getTourFunction();
+    }, [selectedElection]);
+
+    // Fetch participation and results endpoints
+    useEffect(() => {
         let isCancelled = false;
 
         if (!currentPoint || !mapLoaded) {
@@ -151,8 +167,8 @@ function Elections() {
                                 ${renderToString(<Loader />)}
                         </div>
                     `;
-                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${getTour}`));
-                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${getTour}`));
+                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${tour}`));
+                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${tour}`));
                 }
             } catch (error) {
                 if (!isCancelled) {
@@ -168,9 +184,10 @@ function Elections() {
         };
     }, [currentPoint]);
 
+    // Populate modal when participation and results data are ready
     useEffect(() => {
         try {
-            if (participation.length > 0) {
+            if (participation.length > 0 && results.length > 0) {
                 modalContent.innerHTML = `
                                 <div class="elections-area">${zone}</div>
                                 <div class="election-name">${participation[0].election} - ${participation[0].tour === 1 ? ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] : ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}</div>
@@ -182,7 +199,7 @@ function Elections() {
                                 </div>
                                 <div>
                                 <div>
-                                    ${results.length > 0 ? renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />)) : renderToString(<div className="text-center"><Loader /></div>)}
+                                    ${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}
                                 </div>
                                 </div>
                             `;
@@ -192,6 +209,7 @@ function Elections() {
         }
     }, [participation, results]);
 
+    // Commune and bureau layers only appear at zoomlevel 7 and 9. User must zoom in map
     useEffect(() => {
         if (activeLayer === 'bureau' || activeLayer === 'commune') {
             modalContent.innerHTML = '<div class="modal-error">Zoomer sur la carte pour afficher les périmètres</div>';
@@ -208,7 +226,6 @@ function Elections() {
                 onChange={handleSelectedElection}
                 value={selectedElection}
             >
-                <option>Sélectionnez une élection</option>
                 {ELECTIONS_LIST.map((election, index) => <option key={index + 1} value={election}>{election}</option>)}
             </select>
             <div ref={mapContainer} className="map-container">
