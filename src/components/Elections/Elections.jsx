@@ -200,6 +200,23 @@ function Elections() {
         }
     }, [activeLayer]);
 
+    useEffect(() => {
+        const getColors = async () => {
+            setColors(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${code}&election=${electionAndYear}&tour=${getTour}`));
+        };
+        getColors();
+
+        if (!mapLoaded) {
+            return;
+        }
+
+        if (mapLoaded) {
+            map.current.queryRenderedFeatures({ layers: [activeLayer] }).forEach((feature) => {
+
+            });
+        }
+    }, [colors]);
+
     return (
         <>
             <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
