@@ -87,6 +87,7 @@ function Elections() {
     const [selectedElection, setSelectedElection] = useState(ELECTIONS_LIST[5]);
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
+    const [colors, setColors] = useState([]);
     const [zone, setZone] = useState();
     const modalContent = document.getElementById('map-overlay');
     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
@@ -102,6 +103,11 @@ function Elections() {
         setSelectedElection(e.target.value);
     };
 
+    // Get data from color endpoint
+    const getColors = async () => {
+        setColors(await apiClientProxy.get(`/election/colors?maillage=${activeLayer}&election=${electionAndYear}&tour=${getTour}`));
+    };
+
     useEffect(() => {
         if (map.current) return; // initialize map only once
         // Display the map
@@ -111,7 +117,13 @@ function Elections() {
             center: [2.213749, 46.227638],
             zoom: 5,
         });
+
+        getColors();
     }, []);
+
+    useEffect(() => {
+        console.log(colors);
+    }, [colors]);
 
     // Change layer
     useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
@@ -131,6 +143,7 @@ function Elections() {
         });
     }, [map]);
 
+    // Fetch participation and results endpoints
     useEffect(() => {
         let isCancelled = false;
 
@@ -168,9 +181,10 @@ function Elections() {
         };
     }, [currentPoint]);
 
+    // Populate modal when participation and results data are ready
     useEffect(() => {
         try {
-            if (participation.length > 0) {
+            if (participation.length > 0 && results.length > 0) {
                 modalContent.innerHTML = `
                                 <div class="elections-area">${zone}</div>
                                 <div class="election-name">${participation[0].election} - ${participation[0].tour === 1 ? ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] : ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}</div>
@@ -182,7 +196,7 @@ function Elections() {
                                 </div>
                                 <div>
                                 <div>
-                                    ${results.length > 0 ? renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />)) : renderToString(<div className="text-center"><Loader /></div>)}
+                                    ${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}
                                 </div>
                                 </div>
                             `;
@@ -192,6 +206,7 @@ function Elections() {
         }
     }, [participation, results]);
 
+    // Commune and bureau layers only appear at zoomlevel 7 and 9. User must zoom in map
     useEffect(() => {
         if (activeLayer === 'bureau' || activeLayer === 'commune') {
             modalContent.innerHTML = '<div class="modal-error">Zoomer sur la carte pour afficher les périmètres</div>';
@@ -199,23 +214,6 @@ function Elections() {
             $('#map-overlay').empty();
         }
     }, [activeLayer]);
-
-    useEffect(() => {
-        const getColors = async () => {
-            setColors(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${code}&election=${electionAndYear}&tour=${getTour}`));
-        };
-        getColors();
-
-        if (!mapLoaded) {
-            return;
-        }
-
-        if (mapLoaded) {
-            map.current.queryRenderedFeatures({ layers: [activeLayer] }).forEach((feature) => {
-
-            });
-        }
-    }, [colors]);
 
     return (
         <>
