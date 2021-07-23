@@ -223,7 +223,6 @@ function Elections() {
                 onChange={handleSelectedElection}
                 value={selectedElection}
             >
-                <option>Sélectionnez une élection</option>
                 {ELECTIONS_LIST.map((election, index) => <option key={index + 1} value={election}>{election}</option>)}
             </select>
             <div ref={mapContainer} className="map-container">
