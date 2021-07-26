@@ -52,6 +52,18 @@ const Editor = () => {
                     locale: 'fr-FR',
                     safeHtml: true,
                     templateId,
+                    tools: {
+                        button: {enabled: true},
+                        divider: {enabled: true},
+                        form: {enabled: true},
+                        heading: {enabled: true},
+                        image: {enabled: true},
+                        menu: {enabled: true},
+                        social: {enabled: true},
+                        text: {enabled: true},
+                        timer: {enabled: true},
+                        video: {enabled: true}
+                    },
                     features: {
                         preheaderText: false,
                         textEditor: {
