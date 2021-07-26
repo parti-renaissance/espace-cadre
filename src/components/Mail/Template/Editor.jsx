@@ -62,7 +62,7 @@ const Editor = () => {
                         social: { enabled: true },
                         text: { enabled: true },
                         timer: { enabled: true },
-                        video: { enabled: true }
+                        video: { enabled: true },
                     },
                     features: {
                         preheaderText: false,
