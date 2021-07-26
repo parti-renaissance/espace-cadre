@@ -82,6 +82,8 @@ jobs:
                     ENV_5: REACT_APP_UNLAYER_PROJECT_ID
                     ENV_6: REACT_APP_UNLAYER_TEMPLATE_ID
                     ENV_7: REACT_APP_MAPBOX
+                    ENV_8: DEEP
+                    ENV_9: IA_KEY
                 run: |-
                     echo "" > .env.production
                     echo "${{ env.ENV_1 }}=${{ secrets[env.ENV_1] }}" >> .env.production
@@ -91,6 +93,8 @@ jobs:
                     echo "${{ env.ENV_5 }}=${{ secrets[env.ENV_5] }}" >> .env.production
                     echo "${{ env.ENV_6 }}=${{ secrets[env.ENV_6] }}" >> .env.production
                     echo "${{ env.ENV_7 }}=${{ secrets[env.ENV_7] }}" >> .env.production
+                    echo "${{ env.ENV_8 }}=${{ secrets[env.ENV_8] }}" >> .env.production
+                    echo "${{ env.ENV_9 }}=${{ secrets[env.ENV_9] }}" >> .env.production
 
                     echo "REACT_APP_VERSION=${GITHUB_SHA::7}" >> .env.production
 
@@ -134,6 +138,8 @@ jobs:
                     ENV_5: REACT_APP_UNLAYER_PROJECT_ID
                     ENV_6: REACT_APP_UNLAYER_TEMPLATE_ID
                     ENV_7: REACT_APP_MAPBOX
+                    ENV_8: DEEP
+                    ENV_9: IA_KEY
                 run: |-
                     echo "" > .env.production
                     echo "${{ env.ENV_1 }}=${{ secrets[env.ENV_1] }}" >> .env.production
@@ -143,6 +149,8 @@ jobs:
                     echo "${{ env.ENV_5 }}=${{ secrets[env.ENV_5] }}" >> .env.production
                     echo "${{ env.ENV_6 }}=${{ secrets[env.ENV_6] }}" >> .env.production
                     echo "${{ env.ENV_7 }}=${{ secrets[env.ENV_7] }}" >> .env.production
+                    echo "${{ env.ENV_8 }}=${{ secrets[env.ENV_8] }}" >> .env.production
+                    echo "${{ env.ENV_9 }}=${{ secrets[env.ENV_9] }}" >> .env.production
 
                     echo "REACT_APP_VERSION=${{ github.event.release.tag_name }}" >> .env.production
 
