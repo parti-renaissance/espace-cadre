@@ -52,11 +52,11 @@ const Editor = () => {
                     locale: 'fr-FR',
                     safeHtml: true,
                     templateId,
-                    tools: {
+                    {/*tools: {
                         menu: {
                             enabled: false,
                         },
-                    },
+                    },*/}
                     features: {
                         preheaderText: false,
                         textEditor: {
