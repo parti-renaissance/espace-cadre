@@ -3,9 +3,7 @@ import React, {
 } from 'react';
 import EmailEditor from 'react-email-editor';
 import { useUserScope } from '../../../redux/user/hooks';
-
 import { useTemplateContent } from '../../../redux/template/hooks';
-import Loader from '../../Loader';
 
 const Editor = () => {
     const emailEditorRef = useRef(null);
@@ -36,51 +34,45 @@ const Editor = () => {
 
     const getTemplateId = () => {
         if (currentScope && currentScope.code === 'referent') {
-            setTemplateId(process.env.REACT_APP_UNLAYER_REFERENT_TEMPLATE_ID);
+            setTemplateId(60354);
         } else if (currentScope && currentScope.code === 'deputy') {
-            setTemplateId(process.env.REACT_APP_UNLAYER_DEPUTY_TEMPLATE_ID);
+            setTemplateId(60376);
         } else if (currentScope && currentScope.code === 'senator') {
-            setTemplateId(process.env.REACT_APP_UNLAYER_SENATOR_TEMPLATE_ID);
+            setTemplateId(60355);
+        } else {
+            setTemplateId(41208);
         }
-        setTemplateId(process.env.REACT_APP_UNLAYER_DEFAULT_TEMPLATE_ID);
     };
-
     useEffect(() => {
-        setTemplateId(getTemplateId());
+        getTemplateId();
     }, []);
 
     return (
         <div className="email-editor">
-            {templateId ? (
-                <EmailEditor
-                    minHeight="85vh"
-                    ref={emailEditorRef}
-                    projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
-                    onLoad={onLoadEditor}
-                    options={{
-                        locale: 'fr-FR',
-                        safeHtml: true,
-                        templateId,
-                        tools: {
-                            menu: {
-                                enabled: false,
-                            },
+            <EmailEditor
+                minHeight="85vh"
+                ref={emailEditorRef}
+                projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
+                onLoad={onLoadEditor}
+                options={{
+                    locale: 'fr-FR',
+                    safeHtml: true,
+                    templateId,
+                    tools: {
+                        menu: {
+                            enabled: false,
                         },
-                        features: {
-                            preheaderText: false,
-                            textEditor: {
-                                tables: true,
-                                emojis: false,
-                            },
+                    },
+                    features: {
+                        preheaderText: false,
+                        textEditor: {
+                            tables: true,
+                            emojis: false,
                         },
-                    }}
-                />
+                    },
+                }}
+            />
             )
-                : (
-                    <div className="with-background dc-container text-center">
-                        <Loader />
-                    </div>
-                )}
         </div>
 
     );
