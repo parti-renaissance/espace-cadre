@@ -9,6 +9,7 @@ describe('Behaviour for template block', () => {
     test('When the user arrives on the page, save and send buttons are disabled', () => {
         render(
             <Provider store={configureStore()({
+                auth: {},
                 template: {
                     content: null,
                 },

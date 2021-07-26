@@ -51,7 +51,6 @@ const TemplateSelect = () => {
         // eslint-disable-next-line array-callback-return
         let templateStatusResponse = null;
         const exist = optselect.options.find((option) => option.label === template.current_template.label);
-
         if (exist === undefined || exist.value === exist.label) {
             templateStatusResponse = await createTemplate(bodyreq);
         } else {
