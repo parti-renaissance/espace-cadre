@@ -80,10 +80,9 @@ jobs:
                     ENV_3: REACT_APP_INTERNAL_APP_ID
                     ENV_4: REACT_APP_SENTRY_DSN
                     ENV_5: REACT_APP_UNLAYER_PROJECT_ID
-                    ENV_6: REACT_APP_UNLAYER_TEMPLATE_ID
-                    ENV_7: REACT_APP_MAPBOX
-                    ENV_8: DEEP
-                    ENV_9: IA_KEY
+                    ENV_6: REACT_APP_MAPBOX
+                    ENV_7: DEEP
+                    ENV_8: IA_KEY
                 run: |-
                     echo "" > .env.production
                     echo "${{ env.ENV_1 }}=${{ secrets[env.ENV_1] }}" >> .env.production
@@ -136,10 +135,9 @@ jobs:
                     ENV_3: REACT_APP_INTERNAL_APP_ID
                     ENV_4: REACT_APP_SENTRY_DSN
                     ENV_5: REACT_APP_UNLAYER_PROJECT_ID
-                    ENV_6: REACT_APP_UNLAYER_TEMPLATE_ID
-                    ENV_7: REACT_APP_MAPBOX
-                    ENV_8: DEEP
-                    ENV_9: IA_KEY
+                    ENV_6: REACT_APP_MAPBOX
+                    ENV_7: DEEP
+                    ENV_8: IA_KEY
                 run: |-
                     echo "" > .env.production
                     echo "${{ env.ENV_1 }}=${{ secrets[env.ENV_1] }}" >> .env.production

@@ -9,7 +9,16 @@ const Editor = () => {
     const emailEditorRef = useRef(null);
     const [content, setContent] = useTemplateContent();
     const [currentScope] = useUserScope();
-    const [templateId, setTemplateId] = useState(41208);
+    const [templateId] = useState(() => {
+        if (currentScope && currentScope.code === 'referent') {
+            return 60354;
+        } if (currentScope && currentScope.code === 'deputy') {
+            return 60376;
+        } if (currentScope && currentScope.code === 'senator') {
+            return 60355;
+        }
+        return 41208;
+    });
 
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
@@ -31,21 +40,6 @@ const Editor = () => {
             emailEditorRef.current.loadDesign(content.design);
         }
     }, [content]);
-
-    const getTemplateId = () => {
-        if (currentScope && currentScope.code === 'referent') {
-            setTemplateId(60354);
-        } else if (currentScope && currentScope.code === 'deputy') {
-            setTemplateId(60376);
-        } else if (currentScope && currentScope.code === 'senator') {
-            setTemplateId(60355);
-        } else {
-            setTemplateId(41208);
-        }
-    };
-    useEffect(() => {
-        getTemplateId();
-    }, []);
 
     return (
         <div className="email-editor">
@@ -72,9 +66,7 @@ const Editor = () => {
                     },
                 }}
             />
-            )
         </div>
-
     );
 };
 
