@@ -31,6 +31,7 @@ function TextGenerator() {
 
     return (
         <div className="container-fluid">
+            <div className="with-background dc-container p-3 mb-3">Le créateur d&apos;éléments de langage utilise l&apos;intelligence artificielle pour générer automatiquement des contenus sur la thématique de votre choix</div>
             {!hasError ? (
                 <div className="row">
                     <div className="col-lg-6 mb-3">
