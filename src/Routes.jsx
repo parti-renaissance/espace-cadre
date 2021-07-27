@@ -59,7 +59,7 @@ export const MENU = [
     PATHS.CONTACTS,
     PATHS.MESSAGERIE,
     PATHS.ELECTIONS,
-    PATHS.TEXTGEN,
+    // PATHS.TEXTGEN,
 ];
 
 const Routes = () => {
