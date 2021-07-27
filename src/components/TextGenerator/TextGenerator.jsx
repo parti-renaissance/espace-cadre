@@ -31,9 +31,10 @@ function TextGenerator() {
 
     return (
         <div className="container-fluid">
+            <div className="with-background dc-container p-3 mb-3">Le créateur d&apos;éléments de langage utilise l&apos;intelligence artificielle pour générer automatiquement des contenus sur la thématique de votre choix</div>
             {!hasError ? (
                 <div className="row">
-                    <div className="col-12 col-lg-6 mb-3">
+                    <div className="col-lg-6 mb-3">
                         <label htmlFor="myText">Votre texte:</label>
                         <textarea
                             className="form-control"
@@ -44,9 +45,10 @@ function TextGenerator() {
                             placeholder="Écrivez ici"
                         />
                     </div>
-                    <div className="col-12 col-lg-6">
+                    <div className="col-lg-6 mb-3">
                         <label htmlFor="suggestedText">Texte généré:</label>
                         <textarea className="form-control" id="suggestedText" rows="20" value={cleanedData} readOnly />
+
                     </div>
                 </div>
             ) : <ErrorComponent errorMessage={errorMessage} />}
