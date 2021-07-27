@@ -2,7 +2,6 @@
 import React, {
     useState, useEffect,
 } from 'react';
-import $ from 'jquery';
 import { useDebounce } from 'use-debounce';
 import { apiClientProxy } from '../../services/networking/client';
 import ErrorComponent from '../ErrorComponent/ErrorComponent';
@@ -18,7 +17,6 @@ function TextGenerator() {
         try {
             if (debouncedSearchTerm !== '') {
                 setTextGenerated(JSON.stringify(await apiClientProxy.get(`/textGenerator?text=${debouncedSearchTerm}`)));
-                $('.bar').css('display', 'none');
             }
         } catch (error) {
             console.log(error);
@@ -47,11 +45,6 @@ function TextGenerator() {
                         />
                     </div>
                     <div className="col-12 col-lg-6">
-                        {debouncedSearchTerm && (
-                            <div className="bar mb-3">
-                                <div className="in" />
-                            </div>
-                        )}
                         <label htmlFor="suggestedText">Texte suggéré:</label>
                         <textarea className="form-control" id="suggestedText" rows="20" value={textGenerated} readOnly />
                     </div>
