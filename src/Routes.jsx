@@ -9,6 +9,7 @@ const Contacts = lazy(() => import('./components/ContactsPage'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
+const TextGenerator = lazy(() => import('./components/TextGenerator/TextGenerator'));
 
 const PATHS = {
     AUTH: {
@@ -45,6 +46,12 @@ const PATHS = {
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
+    TEXTGEN: {
+        route: '/textGenerator',
+        url: () => '/textGenerator',
+        label: 'Créateur d\'EDL',
+        icon: 'fas fa-brain',
+    },
 };
 
 export const MENU = [
@@ -52,6 +59,7 @@ export const MENU = [
     PATHS.CONTACTS,
     PATHS.MESSAGERIE,
     PATHS.ELECTIONS,
+    PATHS.TEXTGEN,
 ];
 
 const Routes = () => {
@@ -72,6 +80,7 @@ const Routes = () => {
                 <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
                 <Route path={PATHS.MAIL.route} exact component={Mail} />
                 <Route path={PATHS.ELECTIONS.route} exact component={Elections} />
+                <Route path={PATHS.TEXTGEN.route} exact component={TextGenerator} />
             </Switch>
         </Suspense>
     );
