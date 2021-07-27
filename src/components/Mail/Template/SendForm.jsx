@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
+import { useUserScope } from '../../../redux/user/hooks';
 
 const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: false };
 const EMAIL_INITIAL_STATE = { synchronized: false };
@@ -12,6 +13,7 @@ const SendForm = () => {
     const [emailSubject, setEmailSubject] = useState('');
     const [buttonState, setButtonState] = useState(BUTTON_INITIAL_STATE);
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
+    const [currentScope] = useUserScope();
 
     const resetEmailState = () => {
         setEmail((state) => ({ ...state, ...EMAIL_INITIAL_STATE }));
@@ -47,10 +49,9 @@ const SendForm = () => {
             setButtonState((state) => ({ ...state, ...{ state: 'error', isLoading: false } }));
         }
     };
-
     const editEmail = async () => {
         const body = {
-            type: 'candidate',
+            type: currentScope.code,
             label: `DataCorner: ${emailSubject}`,
             subject: emailSubject,
             content: clearBody(content.chunks.body),
