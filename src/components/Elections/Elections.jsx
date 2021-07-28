@@ -78,18 +78,6 @@ const ELECTIONS_LIST = [
     `${ELECTION_TYPE_DEPARTMENTAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
 ];
 
-// Lambda pour convertir un code couleur Hexadécimal en RGB
-const hexToRgb = (hex) => (hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-    (m, r, g, b) => `#${r}${r}${g}${g}${b}${b}`)
-    .substring(1).match(/.{2}/g)
-    .map((x) => parseInt(x, 16)));
-
-// Fonction wrapper de la Lambda
-function properRGB(hexcode) {
-    const arrByte = hexToRgb(hexcode);
-    return `rgb(${arrByte[0]},${arrByte[1]},${arrByte[2]})`;
-}
-
 function Elections() {
     const mapContainer = useRef(null);
     const map = useRef(null);
@@ -152,28 +140,10 @@ function Elections() {
 
         map.current.on('load', () => {
             setMapLoaded(true);
+
             map.current.addSource('larem_regions', {
                 type: 'vector',
                 url: 'mapbox://larem.dgdcc9o1',
-            });
-
-            const matchExpression = ['match', ['get', 'code']];
-
-            colors.forEach((row) => {
-                const color = properRGB(row.code_couleur);
-                matchExpression.push(row.codeRegion, color);
-            });
-
-            matchExpression.push('rgba(0, 0, 0)');
-
-            map.current.addLayer({
-                id: 'regions-join',
-                type: 'fill',
-                source: 'larem_regions',
-                'source-layer': 'regions-7do7w1',
-                paint: {
-                    'fill-color': matchExpression,
-                },
             });
         });
         map.current.on('click', (event) => {
@@ -185,6 +155,31 @@ function Elections() {
             $('#map-overlay').empty();
         });
     }, [map]);
+
+    useEffect(() => {
+        map.current.on('load', () => {
+            if (colors.length > 0) {
+                const matchExpression = ['match', ['get', 'code']];
+
+                colors.forEach((row) => {
+                    const color = row.code_couleur;
+                    matchExpression.push(row.code, color);
+                });
+
+                matchExpression.push('rgb(0, 0, 0)');
+                console.log(matchExpression);
+                map.current.addLayer({
+                    id: 'regions-join',
+                    type: 'fill',
+                    source: 'larem_regions',
+                    'source-layer': 'regions-7do7w1',
+                    paint: {
+                        'fill-color': matchExpression,
+                    },
+                });
+            }
+        });
+    }, [colors, selectedElection]);
 
     useEffect(() => {
         getTourFunction();
