@@ -87,10 +87,15 @@ function Elections() {
     const [selectedElection, setSelectedElection] = useState(ELECTIONS_LIST[5]);
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
+    const [colors, setColors] = useState([]);
     const [zone, setZone] = useState();
     const [tour, setTour] = useState(1);
     const modalContent = document.getElementById('map-overlay');
     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
+
+    const getColors = async () => {
+        setColors(await apiClientProxy.get(`/election/colors?maillage=${activeLayer}&election=${electionAndYear}&tour=${tour}`));
+    };
 
     // Display only the choosen layer
     const switchLayer = () => {
@@ -122,6 +127,8 @@ function Elections() {
             center: [2.213749, 46.227638],
             zoom: 5,
         });
+
+        getColors();
     }, []);
 
     // Change layer
