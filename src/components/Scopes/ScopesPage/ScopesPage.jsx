@@ -8,6 +8,7 @@ function ScopesPage() {
     const userScopes = useSelector(getUserScopes);
     const currentUser = useSelector(getCurrentUser);
     const [, updateCurrentScope] = useUserScope();
+    const filteredScopes = userScopes.filter((scope) => scope.apps.filter((el) => el === 'data_corner') && scope.code !== 'candidate');
 
     return (
         <div className="scopes-page-container">
@@ -18,11 +19,11 @@ function ScopesPage() {
             </div>
             <div className="row main-scope-card">
                 <div className="col-12 main-card-title">{currentUser.firstName} {currentUser.lastName}</div>
-                <div className="col-12 main-card-role">{userScopes.length} rôles</div>
+                <div className="col-12 main-card-role">{filteredScopes.length} rôles</div>
             </div>
-            {userScopes.length > 0 && (
+            {filteredScopes.length > 0 && (
                 <div className="row secondary-scope-card-container">
-                    {userScopes.map((userScope, index) => (
+                    {filteredScopes.map((userScope, index) => (
                         <Link
                             className="secondary-card"
                             to="/"
