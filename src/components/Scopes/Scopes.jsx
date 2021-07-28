@@ -11,6 +11,8 @@ function Scopes() {
     const [currentScope, updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
     const history = useHistory();
+    const filteredScopes = userScopes.filter((scope) => scope.apps.filter((el) => el === 'data_corner') && scope.code !== 'candidate');
+
     const redirect = () => {
         history.push('/');
     };
@@ -22,7 +24,7 @@ function Scopes() {
 
     return (
         <div className="scopes-container" style={{ marginTop: '3px' }}>
-            {currentUser && userScopes.length > 0 && (
+            {currentUser && filteredScopes.length > 0 && (
                 <Dropdown>
                     <Dropdown.Toggle variant="">
                         <div className="row">
@@ -39,9 +41,9 @@ function Scopes() {
                             <span className="profile-role">Retour sur en-marche.fr</span>
                         </Dropdown.Item>
 
-                        {userScopes.length > 1 && <Dropdown.Divider />}
+                        {filteredScopes.length > 1 && <Dropdown.Divider />}
 
-                        {userScopes.map((userScope, i) => (
+                        {filteredScopes.map((userScope, i) => (
                             <Dropdown.Item
                                 key={i + 1}
                                 onClick={() => handleChange(userScope)}
