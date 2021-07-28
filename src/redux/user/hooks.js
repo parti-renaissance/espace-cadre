@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentScope } from './selectors';
 import { updateCurrentScope } from '../auth';
 import { resetStatsState } from '../dashboard';
+import { resetContactsState } from '../contacts';
 
 export const useUserScope = () => {
     const userScope = useSelector(getCurrentScope);
@@ -11,5 +12,6 @@ export const useUserScope = () => {
     return [userScope, (scope) => {
         dispatch(updateCurrentScope(scope));
         dispatch(resetStatsState());
+        dispatch(resetContactsState());
     }];
 };

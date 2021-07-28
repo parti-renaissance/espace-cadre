@@ -7,8 +7,11 @@ const dashboardSlice = createSlice({
         updateContacts(state, action) {
             return action.payload;
         },
+        resetContactsState() {
+            return null;
+        },
     },
 });
 
-export const { updateContacts } = dashboardSlice.actions;
+export const { updateContacts, resetContactsState } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
