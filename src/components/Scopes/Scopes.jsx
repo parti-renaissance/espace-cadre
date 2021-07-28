@@ -11,7 +11,6 @@ function Scopes() {
     const [currentScope, updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
     const history = useHistory();
-
     const redirect = () => {
         history.push('/');
     };
@@ -46,6 +45,7 @@ function Scopes() {
                             <Dropdown.Item
                                 key={i + 1}
                                 onClick={() => handleChange(userScope)}
+                                style={{ backgroundColor: (userScope.code === currentScope.code ? '#D9EAFF' : '#F7F9FC') }}
                             >
                                 <span className="profile-role">{userScope.name}</span> <br />
 
