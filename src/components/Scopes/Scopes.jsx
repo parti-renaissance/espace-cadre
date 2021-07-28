@@ -11,7 +11,7 @@ function Scopes() {
     const [currentScope, updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
     const history = useHistory();
-    const filteredScopes = userScopes.filter((scope) => scope.apps.filter((el) => el === 'data_corner') && scope.code !== 'candidate');
+    const filteredScopes = userScopes.filter((scope) => scope.apps.filter((el) => el === 'data_corner'));
 
     const redirect = () => {
         history.push('/');
