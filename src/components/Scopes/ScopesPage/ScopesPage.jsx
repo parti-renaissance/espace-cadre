@@ -8,7 +8,7 @@ function ScopesPage() {
     const userScopes = useSelector(getUserScopes);
     const currentUser = useSelector(getCurrentUser);
     const [, updateCurrentScope] = useUserScope();
-    const filteredScopes = userScopes.filter((scope) => scope.apps.filter((el) => el === 'data_corner'));
+    const filteredScopes = userScopes.filter((scope) => scope.apps.includes('data_corner'));
 
     return (
         <div className="scopes-page-container">
