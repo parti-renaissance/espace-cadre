@@ -118,7 +118,7 @@ function Elections() {
         // Display the map
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/larem/ckrn8pkjv149618nk61tg650e',
+            style: 'mapbox://styles/larem/ckrnfdgxd3iav17mvubs87e55',
             center: [2.213749, 46.227638],
             zoom: 5,
         });
