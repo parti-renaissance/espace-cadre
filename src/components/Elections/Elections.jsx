@@ -78,6 +78,27 @@ const ELECTIONS_LIST = [
     `${ELECTION_TYPE_DEPARTMENTAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
 ];
 
+const layerDatas = [
+    {
+        id: 'region',
+        source: 'region',
+        sourceLayer: 'regions-7do7w1',
+        url: 'mapbox://larem.dgdcc9o1',
+    },
+    {
+        id: 'department',
+        source: 'department',
+        sourceLayer: 'departements-ayh3jo',
+        url: 'mapbox://larem.5ok8gzcd',
+    },
+    {
+        id: 'canton',
+        source: 'canton',
+        sourceLayer: 'cantons-4p6z8w',
+        url: 'mapbox://larem.3tggesy3',
+    },
+];
+
 function Elections() {
     const mapContainer = useRef(null);
     const map = useRef(null);
@@ -92,6 +113,7 @@ function Elections() {
     const [tour, setTour] = useState(1);
     const modalContent = document.getElementById('map-overlay');
     const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
+    const layerToDisplay = layerDatas.filter((layer) => layer.id === activeLayer);
 
     const getColors = async () => {
         setColors(await apiClientProxy.get(`/election/colors?maillage=${activeLayer}&election=${electionAndYear}&tour=${tour}`));
@@ -127,8 +149,6 @@ function Elections() {
             center: [2.213749, 46.227638],
             zoom: 5,
         });
-
-        getColors();
     }, []);
 
     // Change layer
@@ -140,12 +160,12 @@ function Elections() {
 
         map.current.on('load', () => {
             setMapLoaded(true);
-
-            map.current.addSource('larem_regions', {
+            map.current.addSource(activeLayer, {
                 type: 'vector',
-                url: 'mapbox://larem.dgdcc9o1',
+                url: layerToDisplay[0].url,
             });
         });
+
         map.current.on('click', (event) => {
             setCurrentPoint({ point: event.point, lngLat: event.lngLat });
         });
@@ -167,19 +187,20 @@ function Elections() {
                 });
 
                 matchExpression.push('rgb(0, 0, 0)');
-                console.log(matchExpression);
+
                 map.current.addLayer({
-                    id: 'regions-join',
+                    id: layerToDisplay[0].id,
                     type: 'fill',
-                    source: 'larem_regions',
-                    'source-layer': 'regions-7do7w1',
+                    source: layerToDisplay[0].source,
+                    'source-layer': layerToDisplay[0].sourceLayer,
                     paint: {
                         'fill-color': matchExpression,
+                        'fill-opacity': 0.8,
                     },
                 });
             }
         });
-    }, [colors, selectedElection]);
+    }, [colors]);
 
     useEffect(() => {
         getTourFunction();
@@ -250,6 +271,8 @@ function Elections() {
 
     // Commune and bureau layers only appear at zoomlevel 7 and 9. User must zoom in map
     useEffect(() => {
+        getColors();
+
         if (activeLayer === 'bureau' || activeLayer === 'commune') {
             modalContent.innerHTML = '<div class="modal-error">Zoomer sur la carte pour afficher les périmètres</div>';
         } else {
