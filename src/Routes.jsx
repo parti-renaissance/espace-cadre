@@ -1,5 +1,9 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, {
+    Suspense, lazy, useEffect, useState,
+} from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
+import { apiClient } from './services/networking/client';
+import { useUserScope } from './redux/user/hooks';
 
 import Spinner from './components/Spinner/Spinner';
 
@@ -64,6 +68,23 @@ export const MENU = [
 
 const Routes = () => {
     const history = useHistory();
+    const [currentScope] = useUserScope();
+    const [authorizedPage, setAuthorizedPage] = useState(currentScope);
+
+    const getAuthorizedPage = async () => {
+        try {
+            if (currentScope.code) setAuthorizedPage(await apiClient.get(`/v3/profile/me/scope/${currentScope.code}`));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getAuthorizedPage();
+    }, [currentScope]);
+
+    console.log('currentScope', currentScope);
+    console.log('authorizedPage', authorizedPage.features);
 
     useEffect(() => history.listen((_, action) => {
         if (action === 'PUSH') {
