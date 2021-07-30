@@ -160,9 +160,20 @@ function Elections() {
 
         map.current.on('load', () => {
             setMapLoaded(true);
-            map.current.addSource(activeLayer, {
+
+            map.current.addSource('region', {
                 type: 'vector',
-                url: layerToDisplay[0].url,
+                url: 'mapbox://larem.dgdcc9o1',
+            });
+
+            map.current.addSource('department', {
+                type: 'vector',
+                url: 'mapbox://larem.5ok8gzcd',
+            });
+
+            map.current.addSource('canton', {
+                type: 'vector',
+                url: 'mapbox://larem.3tggesy3',
             });
         });
 
@@ -188,6 +199,11 @@ function Elections() {
 
                 matchExpression.push('rgb(0, 0, 0)');
 
+                console.log('activeLayer', activeLayer);
+                console.log('layerToDisplay', layerToDisplay);
+                console.log('colors', colors);
+                console.log(map.current.getSource('canton'));
+
                 map.current.addLayer({
                     id: layerToDisplay[0].id,
                     type: 'fill',
@@ -200,7 +216,7 @@ function Elections() {
                 });
             }
         });
-    }, [colors]);
+    }, [colors, activeLayer]);
 
     useEffect(() => {
         getTourFunction();
