@@ -160,10 +160,6 @@ function Elections() {
 
         map.current.on('load', () => {
             setMapLoaded(true);
-            map.current.addSource(activeLayer, {
-                type: 'vector',
-                url: layerToDisplay[0].url,
-            });
         });
 
         map.current.on('click', (event) => {
@@ -188,6 +184,10 @@ function Elections() {
 
                 matchExpression.push('rgb(0, 0, 0)');
 
+                console.log('activeLayer', activeLayer);
+                console.log('layerToDisplay', layerToDisplay);
+                console.log('colors', colors);
+                console.log(map.current.getSource('canton'));
                 map.current.addLayer({
                     id: layerToDisplay[0].id,
                     type: 'fill',
@@ -198,9 +198,10 @@ function Elections() {
                         'fill-opacity': 0.8,
                     },
                 });
+                console.log('getLayer', map.current.getLayer('canton'));
             }
         });
-    }, [colors]);
+    }, [colors, activeLayer]);
 
     useEffect(() => {
         getTourFunction();
@@ -272,6 +273,22 @@ function Elections() {
     // Commune and bureau layers only appear at zoomlevel 7 and 9. User must zoom in map
     useEffect(() => {
         getColors();
+        map.current.on('load', () => {
+            map.current.addSource('region', {
+                type: 'vector',
+                url: 'mapbox://larem.dgdcc9o1',
+            });
+
+            map.current.addSource('department', {
+                type: 'vector',
+                url: 'mapbox://larem.5ok8gzcd',
+            });
+
+            map.current.addSource('canton', {
+                type: 'vector',
+                url: 'mapbox://larem.3tggesy3',
+            });
+        });
 
         if (activeLayer === 'bureau' || activeLayer === 'commune') {
             modalContent.innerHTML = '<div class="modal-error">Zoomer sur la carte pour afficher les périmètres</div>';
