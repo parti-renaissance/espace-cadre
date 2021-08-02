@@ -69,7 +69,7 @@ export const MENU = [
 const Routes = () => {
     const history = useHistory();
     const [currentScope] = useUserScope();
-    const [authorizedPage, setAuthorizedPage] = useState(currentScope);
+    const [authorizedPage, setAuthorizedPage] = useState([]);
 
     const getAuthorizedPage = async () => {
         try {
@@ -83,8 +83,9 @@ const Routes = () => {
         getAuthorizedPage();
     }, [currentScope]);
 
-    console.log('currentScope', currentScope);
-    console.log('authorizedPage', authorizedPage.features);
+    useEffect(() => {
+        console.log('authorizedPage', authorizedPage.features && authorizedPage.features);
+    }, [authorizedPage]);
 
     useEffect(() => history.listen((_, action) => {
         if (action === 'PUSH') {
@@ -96,11 +97,11 @@ const Routes = () => {
         <Suspense fallback={<Spinner />}>
             <Switch>
                 <Route path={PATHS.AUTH.route} exact component={Auth} />
-                <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />
-                <Route path={PATHS.CONTACTS.route} exact component={Contacts} />
-                <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />
-                <Route path={PATHS.MAIL.route} exact component={Mail} />
-                <Route path={PATHS.ELECTIONS.route} exact component={Elections} />
+                {authorizedPage.features && authorizedPage.features.includes('dashboard') && <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />}
+                {authorizedPage.features && authorizedPage.features.includes('contacts') && <Route path={PATHS.CONTACTS.route} exact component={Contacts} />}
+                {authorizedPage.features && authorizedPage.features.includes('messages') && <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />}
+                {authorizedPage.features && authorizedPage.features.includes('messages') && <Route path={PATHS.MAIL.route} exact component={Mail} />}
+                {authorizedPage.features && authorizedPage.features.includes('elections') && <Route path={PATHS.ELECTIONS.route} exact component={Elections} />}
                 <Route path={PATHS.TEXTGEN.route} exact component={TextGenerator} />
             </Switch>
         </Suspense>
