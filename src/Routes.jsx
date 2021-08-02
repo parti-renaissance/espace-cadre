@@ -14,6 +14,7 @@ const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
 const TextGenerator = lazy(() => import('./components/TextGenerator/TextGenerator'));
+const NoMatch = lazy(() => import('./components/NoMatch/NoMatch'));
 
 const PATHS = {
     AUTH: {
@@ -91,6 +92,9 @@ const Routes = () => {
                 {authorizedPage && authorizedPage.includes('messages') && <Route path={PATHS.MAIL.route} exact component={Mail} />}
                 {authorizedPage && authorizedPage.includes('elections') && <Route path={PATHS.ELECTIONS.route} exact component={Elections} />}
                 <Route path={PATHS.TEXTGEN.route} exact component={TextGenerator} />
+                <Route path="*">
+                    <NoMatch />
+                </Route>
             </Switch>
         </Suspense>
     );
