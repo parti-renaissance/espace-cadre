@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import $ from 'jquery';
+import { useSelector } from 'react-redux';
 import MentionsLegales from '../MentionsLegales/MentionsLegales';
+import { getAuthorizedPages } from '../../redux/user/selectors';
 
 import { MENU } from '../../Routes';
 
 const Sidebar = () => {
+    const authorizedPage = useSelector(getAuthorizedPages);
+    const filteredMenu = MENU.filter((item) => authorizedPage.includes(item.id));
+
     useEffect(() => {
         $('#sidebar-collapse').on('click', () => {
             $('#sidebar, #content').toggleClass('active');
@@ -24,7 +29,7 @@ const Sidebar = () => {
                 </Link>
 
                 <ul id="main-nav">
-                    {MENU.map((item, index) => (
+                    {filteredMenu.map((item, index) => (
                         <li key={index}>
                             <NavLink to={item.url()} exact className="nav-link">
                                 {item.icon && <i className={`${item.icon}`} />}

@@ -1,10 +1,10 @@
 import React, {
-    Suspense, lazy, useEffect, useState,
+    Suspense, lazy, useEffect,
 } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
-import { apiClient } from './services/networking/client';
-import { useUserScope } from './redux/user/hooks';
+import { useSelector } from 'react-redux';
 
+import { getAuthorizedPages } from './redux/user/selectors';
 import Spinner from './components/Spinner/Spinner';
 
 const Auth = lazy(() => import('./components/Auth'));
@@ -21,34 +21,39 @@ const PATHS = {
         url: () => '/auth',
     },
     DASHBOARD: {
+        id: 'dashboard',
         route: '/',
         url: () => '/',
         label: 'Vue d\'ensemble',
         icon: 'fas fa-th-large',
     },
     CONTACTS: {
+        id: 'contacts',
         route: '/contacts',
         url: () => '/contacts',
         label: 'Contacts',
         icon: 'fas fa-users',
     },
     MESSAGERIE: {
+        id: 'messages',
         route: '/messagerie',
         url: () => '/messagerie',
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
-    ELECTIONS: {
-        route: '/elections',
-        url: () => '/elections',
-        label: 'Elections',
-        icon: 'fas fa-map',
-    },
     MAIL: {
+        id: 'messages',
         route: '/mail',
         url: () => '/mail',
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
+    },
+    ELECTIONS: {
+        id: 'elections',
+        route: '/elections',
+        url: () => '/elections',
+        label: 'Elections',
+        icon: 'fas fa-map',
     },
     TEXTGEN: {
         route: '/textGenerator',
@@ -68,24 +73,7 @@ export const MENU = [
 
 const Routes = () => {
     const history = useHistory();
-    const [currentScope] = useUserScope();
-    const [authorizedPage, setAuthorizedPage] = useState([]);
-
-    const getAuthorizedPage = async () => {
-        try {
-            if (currentScope.code) setAuthorizedPage(await apiClient.get(`/v3/profile/me/scope/${currentScope.code}`));
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        getAuthorizedPage();
-    }, [currentScope]);
-
-    useEffect(() => {
-        console.log('authorizedPage', authorizedPage.features && authorizedPage.features);
-    }, [authorizedPage]);
+    const authorizedPage = useSelector(getAuthorizedPages);
 
     useEffect(() => history.listen((_, action) => {
         if (action === 'PUSH') {
@@ -97,11 +85,11 @@ const Routes = () => {
         <Suspense fallback={<Spinner />}>
             <Switch>
                 <Route path={PATHS.AUTH.route} exact component={Auth} />
-                {authorizedPage.features && authorizedPage.features.includes('dashboard') && <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />}
-                {authorizedPage.features && authorizedPage.features.includes('contacts') && <Route path={PATHS.CONTACTS.route} exact component={Contacts} />}
-                {authorizedPage.features && authorizedPage.features.includes('messages') && <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />}
-                {authorizedPage.features && authorizedPage.features.includes('messages') && <Route path={PATHS.MAIL.route} exact component={Mail} />}
-                {authorizedPage.features && authorizedPage.features.includes('elections') && <Route path={PATHS.ELECTIONS.route} exact component={Elections} />}
+                {authorizedPage && authorizedPage.includes('dashboard') && <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />}
+                {authorizedPage && authorizedPage.includes('contacts') && <Route path={PATHS.CONTACTS.route} exact component={Contacts} />}
+                {authorizedPage && authorizedPage.includes('messages') && <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />}
+                {authorizedPage && authorizedPage.includes('messages') && <Route path={PATHS.MAIL.route} exact component={Mail} />}
+                {authorizedPage && authorizedPage.includes('elections') && <Route path={PATHS.ELECTIONS.route} exact component={Elections} />}
                 <Route path={PATHS.TEXTGEN.route} exact component={TextGenerator} />
             </Switch>
         </Suspense>
