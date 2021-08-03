@@ -3,7 +3,8 @@ import { renderToString } from 'react-dom/server';
 import $ from 'jquery';
 import _ from 'lodash';
 import qs from 'qs';
-import mapboxgl from 'mapbox-gl';
+// eslint-disable-next-line import/no-unresolved
+import mapboxgl from '!mapbox-gl';
 import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
 import ElectionModal from './ElectionModal';
