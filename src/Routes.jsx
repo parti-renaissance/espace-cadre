@@ -13,7 +13,7 @@ const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
 const TextGenerator = lazy(() => import('./components/TextGenerator/TextGenerator'));
-const NoMatch = lazy(() => import('./components/NoMatch/NoMatch'));
+const NoMatch = lazy(() => import('./components/NoMatch'));
 
 export const PATHS = {
     AUTH: {
@@ -73,27 +73,22 @@ export const MENU = [
 
 const COMPONENTS = [
     {
-        key: 'dashboard',
         path: PATHS.DASHBOARD,
         component: Dashboard,
     },
     {
-        key: 'contacts',
         path: PATHS.CONTACTS,
         component: Contacts,
     },
     {
-        key: 'messages',
         path: PATHS.MESSAGERIE,
         component: Messagerie,
     },
     {
-        key: 'messages',
         path: PATHS.MAIL,
         component: Mail,
     },
     {
-        key: 'elections',
         path: PATHS.ELECTIONS,
         component: Elections,
     },
@@ -115,7 +110,7 @@ const Routes = () => {
 
     if (authorizedPage.length) {
         COMPONENTS.forEach((component, index) => {
-            if (authorizedPage.includes(component.key)) {
+            if (authorizedPage.includes(component.path.id)) {
                 routes.push(<Route key={index + 1} path={component.path.route} exact component={component.component} />);
             }
         });

@@ -10,7 +10,7 @@ import { useUserScope } from '../../redux/user/hooks';
 import Sidebar from '../Sidebar/Sidebar';
 import PageContent from '../PageContent';
 import ScopesPage from '../Scopes/ScopesPage';
-import BootPage from '../BootPage/BootPage';
+import BootPage from '../BootPage';
 import { PATHS } from '../../Routes';
 import Auth from '../Auth';
 
