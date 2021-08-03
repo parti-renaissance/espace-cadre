@@ -108,7 +108,7 @@ const Routes = () => {
         <Route key={-1} path={PATHS.TEXTGEN.route} exact component={TextGenerator} />,
     ];
 
-    if (authorizedPage.length) {
+    if (authorizedPage && authorizedPage.length > 0) {
         COMPONENTS.forEach((component, index) => {
             if (authorizedPage.includes(component.path.id)) {
                 routes.push(<Route key={index + 1} path={component.path.route} exact component={component.component} />);
