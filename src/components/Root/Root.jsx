@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 
 import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors';
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
+import { useUserScope } from '../../redux/user/hooks';
 
 import Sidebar from '../Sidebar/Sidebar';
 import PageContent from '../PageContent';
 import ScopesPage from '../Scopes/ScopesPage';
-import { useUserScope } from '../../redux/user/hooks';
+import BootPage from '../BootPage/BootPage';
+import { PATHS } from '../../Routes';
+import Auth from '../Auth';
 
 const Root = ({ children }) => {
     const initializeAuth = useInitializeAuth();
@@ -25,12 +28,18 @@ const Root = ({ children }) => {
             if (currentUser === null) {
                 updateUserData();
             }
-        } else if (pathname !== '/auth') {
+        } else if (pathname !== PATHS.AUTH.route) {
             initializeAuth();
         }
     }, [isUserLoggedIn]);
 
-    if (currentUser && userScopes && currentScope === null) {
+    if (pathname === PATHS.AUTH.route) {
+        return <Auth />;
+    }
+    if (!currentUser || userScopes.length === 0) {
+        return <BootPage />;
+    }
+    if (userScopes && currentScope === null) {
         return <ScopesPage />;
     }
 

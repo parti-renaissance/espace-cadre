@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { getAuthorizedPages } from './redux/user/selectors';
 import Spinner from './components/Spinner/Spinner';
 
-const Auth = lazy(() => import('./components/Auth'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Contacts = lazy(() => import('./components/ContactsPage'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
@@ -16,7 +15,7 @@ const Elections = lazy(() => import('./components/Elections/Elections'));
 const TextGenerator = lazy(() => import('./components/TextGenerator/TextGenerator'));
 const NoMatch = lazy(() => import('./components/NoMatch/NoMatch'));
 
-const PATHS = {
+export const PATHS = {
     AUTH: {
         route: '/auth',
         url: () => '/auth',
@@ -72,6 +71,34 @@ export const MENU = [
     // PATHS.TEXTGEN,
 ];
 
+const COMPONENTS = [
+    {
+        key: 'dashboard',
+        path: PATHS.DASHBOARD,
+        component: Dashboard,
+    },
+    {
+        key: 'contacts',
+        path: PATHS.CONTACTS,
+        component: Contacts,
+    },
+    {
+        key: 'messages',
+        path: PATHS.MESSAGERIE,
+        component: Messagerie,
+    },
+    {
+        key: 'messages',
+        path: PATHS.MAIL,
+        component: Mail,
+    },
+    {
+        key: 'elections',
+        path: PATHS.ELECTIONS,
+        component: Elections,
+    },
+];
+
 const Routes = () => {
     const history = useHistory();
     const authorizedPage = useSelector(getAuthorizedPages);
@@ -82,19 +109,23 @@ const Routes = () => {
         }
     }), [history]);
 
+    const routes = [
+        <Route key={-1} path={PATHS.TEXTGEN.route} exact component={TextGenerator} />,
+    ];
+
+    if (authorizedPage.length) {
+        COMPONENTS.forEach((component, index) => {
+            if (authorizedPage.includes(component.key)) {
+                routes.push(<Route key={index + 1} path={component.path.route} exact component={component.component} />);
+            }
+        });
+        routes.push(<Route key={-2} component={NoMatch} />);
+    }
+
     return (
         <Suspense fallback={<Spinner />}>
             <Switch>
-                <Route path={PATHS.AUTH.route} exact component={Auth} />
-                {authorizedPage && authorizedPage.includes('dashboard') && <Route path={PATHS.DASHBOARD.route} exact component={Dashboard} />}
-                {authorizedPage && authorizedPage.includes('contacts') && <Route path={PATHS.CONTACTS.route} exact component={Contacts} />}
-                {authorizedPage && authorizedPage.includes('messages') && <Route path={PATHS.MESSAGERIE.route} exact component={Messagerie} />}
-                {authorizedPage && authorizedPage.includes('messages') && <Route path={PATHS.MAIL.route} exact component={Mail} />}
-                {authorizedPage && authorizedPage.includes('elections') && <Route path={PATHS.ELECTIONS.route} exact component={Elections} />}
-                <Route path={PATHS.TEXTGEN.route} exact component={TextGenerator} />
-                <Route path="*">
-                    <NoMatch />
-                </Route>
+                {routes}
             </Switch>
         </Suspense>
     );
