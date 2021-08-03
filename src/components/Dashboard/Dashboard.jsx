@@ -1,7 +1,6 @@
 import React from 'react';
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers';
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount';
-// import DownloadsRatios from './Charts/DownloadsRatios/DownloadsRatios';
 import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign';
 import MapComponent from './Map/MapComponent';
 import TextChart from './Charts/TextChart/TextChart';

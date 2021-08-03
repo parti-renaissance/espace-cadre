@@ -30,7 +30,7 @@
         "jsx-a11y/control-has-associated-label": [0],
         "react/no-array-index-key": [0],
         "max-len": ["error", {
-            "code": 120,
+            "code": 150,
             "ignoreRegExpLiterals": true,
             "ignoreTemplateLiterals": true,
             "ignoreStrings": true,
