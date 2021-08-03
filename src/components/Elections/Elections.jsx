@@ -1,50 +1,59 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import $ from 'jquery';
-// eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
-import mapboxgl from '!mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import _ from 'lodash';
+import qs from 'qs';
+import mapboxgl from 'mapbox-gl';
 import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
 import ElectionModal from './ElectionModal';
 import Loader from '../Loader';
 import ConvertToPercent from '../ConvertToPercent/ConvertToPercent';
 
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
-const LAYER_REGION = 'region';
-const LAYER_DEPARTMENT = 'departement';
-const LAYER_CANTONS = 'canton';
-const LAYER_CIRCONSCRIPTIONS = 'circonscription';
-const LAYER_COMMUNES = 'commune';
-const LAYER_POLLING_STATION = 'bureau';
-const LAYERS_TYPES = [
-    {
-        code: LAYER_REGION,
-        label: 'Régions',
-    },
-    {
-        code: LAYER_DEPARTMENT,
-        label: 'Départements',
-    },
-    {
-        code: LAYER_CANTONS,
-        label: 'Cantons',
-    },
-    {
-        code: LAYER_CIRCONSCRIPTIONS,
-        label: 'Circonscriptions',
-    },
-    {
-        code: LAYER_COMMUNES,
-        label: 'Communes',
-    },
-    {
-        code: LAYER_POLLING_STATION,
-        label: 'Bureaux de vote',
-    },
-];
+const LAYER_REGION = 'regions';
+const LAYER_DEPARTMENT = 'departements';
+const LAYER_CANTONS = 'cantons';
+const LAYER_CIRCONSCRIPTIONS = 'circonscriptions';
+// const LAYER_COMMUNES = 'communes';
+// const LAYER_POLLING_STATION = 'bureaux-vote';
+
+const LAYERS_TYPES = {};
+
+LAYERS_TYPES[LAYER_REGION] = {
+    code: LAYER_REGION,
+    label: 'Régions',
+    code2: 'region',
+};
+LAYERS_TYPES[LAYER_DEPARTMENT] = {
+    code: LAYER_DEPARTMENT,
+    label: 'Départements',
+    code2: 'departement',
+};
+LAYERS_TYPES[LAYER_CANTONS] = {
+    code: LAYER_CANTONS,
+    label: 'Cantons',
+    code2: 'canton',
+};
+LAYERS_TYPES[LAYER_CIRCONSCRIPTIONS] = {
+    code: LAYER_CIRCONSCRIPTIONS,
+    label: 'Circonscriptions',
+    code2: 'circonscription',
+};
+// LAYERS_TYPES[LAYER_COMMUNES] = {
+//     code: LAYER_COMMUNES,
+//     label: 'Communes',
+//     code2: 'commune',
+// };
+// LAYERS_TYPES[LAYER_POLLING_STATION] = {
+//     code: LAYER_POLLING_STATION,
+//     label: 'Bureaux de vote',
+//     code2: 'bureau',
+// };
+
 const ELECTION_TYPE_PRESIDENTIAL = 'Présidentielles';
 const ELECTION_TYPE_DEPARTMENTAL = 'Départementales';
 const ELECTION_TYPE_LEGISLATIVE = 'Législatives';
@@ -59,93 +68,98 @@ const ELECTION_ROUND_LABELS = {};
 ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] = '1er tour';
 ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND] = '2e tour';
 
-const ELECTIONS_LIST = [
-    `${ELECTION_TYPE_EUROPEAN} 2014 - Tour unique`,
-    `${ELECTION_TYPE_DEPARTMENTAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
-    `${ELECTION_TYPE_DEPARTMENTAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_REGIONAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
-    `${ELECTION_TYPE_REGIONAL} 2015 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_PRESIDENTIAL} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
-    `${ELECTION_TYPE_PRESIDENTIAL} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_LEGISLATIVE} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
-    `${ELECTION_TYPE_LEGISLATIVE} 2017 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_EUROPEAN} 2019 - Tour unique`,
-    `${ELECTION_TYPE_MUNICIPAL} 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
-    `${ELECTION_TYPE_MUNICIPAL} 2020 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_REGIONAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
-    `${ELECTION_TYPE_REGIONAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
-    `${ELECTION_TYPE_DEPARTMENTAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST]}`,
-    `${ELECTION_TYPE_DEPARTMENTAL} 2021 - ${ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}`,
+const ELECTION_TYPES = [
+    {
+        label: ELECTION_TYPE_EUROPEAN,
+        year: 2014,
+        rounds: 1,
+    },
+    {
+        label: ELECTION_TYPE_DEPARTMENTAL,
+        year: 2015,
+        rounds: 2,
+    },
+    {
+        label: ELECTION_TYPE_REGIONAL,
+        year: 2015,
+        rounds: 2,
+    },
+    {
+        label: ELECTION_TYPE_PRESIDENTIAL,
+        year: 2017,
+        rounds: 2,
+    },
+    {
+        label: ELECTION_TYPE_LEGISLATIVE,
+        year: 2017,
+        rounds: 2,
+    },
+    {
+        label: ELECTION_TYPE_EUROPEAN,
+        year: 2019,
+        rounds: 1,
+    },
+    {
+        label: ELECTION_TYPE_MUNICIPAL,
+        year: 2020,
+        rounds: 2,
+    },
+    {
+        label: ELECTION_TYPE_REGIONAL,
+        year: 2021,
+        rounds: 2,
+    },
+    {
+        label: ELECTION_TYPE_DEPARTMENTAL,
+        year: 2021,
+        rounds: 2,
+    },
 ];
 
-const layerDatas = [
-    {
-        id: 'region',
-        source: 'region',
-        sourceLayer: 'regions-7do7w1',
-        url: 'mapbox://larem.dgdcc9o1',
-    },
-    {
-        id: 'department',
-        source: 'department',
-        sourceLayer: 'departements-ayh3jo',
-        url: 'mapbox://larem.5ok8gzcd',
-    },
-    {
-        id: 'canton',
-        source: 'canton',
-        sourceLayer: 'cantons-4p6z8w',
-        url: 'mapbox://larem.3tggesy3',
-    },
-];
-
-function Elections() {
+const Elections = () => {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [activeLayer, setActiveLayer] = useState(LAYER_REGION);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [currentPoint, setCurrentPoint] = useState();
-    const [selectedElection, setSelectedElection] = useState(ELECTIONS_LIST[5]);
     const [participation, setParticipation] = useState([]);
     const [results, setResults] = useState([]);
-    const [colors, setColors] = useState([]);
     const [zone, setZone] = useState();
-    const [tour, setTour] = useState(1);
-    const modalContent = document.getElementById('map-overlay');
-    const electionAndYear = (selectedElection.substr(0, selectedElection.indexOf('-'))).trim();
-    const layerToDisplay = layerDatas.filter((layer) => layer.id === activeLayer);
+    const [filterValues, setFilterValues] = useState({
+        election: ELECTION_TYPE_PRESIDENTIAL,
+        year: 2017,
+        round: 1,
+    });
 
-    const getColors = async () => {
-        setColors(await apiClientProxy.get(`/election/colors?maillage=${activeLayer}&election=${electionAndYear}&tour=${tour}`));
-    };
+    const modalContent = document.getElementById('map-overlay');
+
+    const getColors = async () => apiClientProxy.get(`/election/colors?${qs.stringify({
+        maillage: LAYERS_TYPES[activeLayer].code2,
+        election: `${filterValues.election} ${filterValues.year}`,
+        tour: filterValues.round,
+    })}`);
 
     // Display only the choosen layer
     const switchLayer = () => {
-        LAYERS_TYPES.map((el) => map.current.setLayoutProperty(el.code, 'visibility', el.code === activeLayer ? 'visible' : 'none'));
-    };
-
-    // Store in local state the election selected by the user
-    const handleSelectedElection = (e) => {
-        setSelectedElection(e.target.value);
-    };
-
-    // Get election tour. Else condition is mandatory for europeennes which have a unique tour
-    const getTourFunction = () => {
-        if (selectedElection.includes(ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST])) {
-            setTour(1);
-        } else if (selectedElection.includes(ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND])) {
-            setTour(2);
-        } else {
-            setTour(1);
-        }
+        Object.entries(LAYERS_TYPES).map(
+            (line) => map.current.setLayoutProperty(
+                line[1].code,
+                'visibility',
+                line[1].code === activeLayer ? 'visible' : 'none',
+            ),
+        );
     };
 
     useEffect(() => {
-        if (map.current) return; // initialize map only once
+        // initialize map only once
+        if (map.current) {
+            return;
+        }
+
         // Display the map
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/larem/ckq7vwlpl8ott17n6jol1mvhd',
+            style: 'mapbox://styles/larem/ckrusz9vq2qh017pkq1nb13gz',
             center: [2.213749, 46.227638],
             zoom: 5,
         });
@@ -173,39 +187,31 @@ function Elections() {
     }, [map]);
 
     useEffect(() => {
-        map.current.on('load', () => {
-            if (colors.length > 0) {
-                const matchExpression = ['match', ['get', 'code']];
-
-                colors.forEach((row) => {
-                    const color = row.code_couleur;
-                    matchExpression.push(row.code, color);
-                });
-
-                matchExpression.push('rgb(0, 0, 0)');
-
-                console.log('activeLayer', activeLayer);
-                console.log('layerToDisplay', layerToDisplay);
-                console.log('colors', colors);
-                console.log(map.current.getSource('canton'));
-                map.current.addLayer({
-                    id: layerToDisplay[0].id,
-                    type: 'fill',
-                    source: layerToDisplay[0].source,
-                    'source-layer': layerToDisplay[0].sourceLayer,
-                    paint: {
-                        'fill-color': matchExpression,
-                        'fill-opacity': 0.8,
-                    },
-                });
-                console.log('getLayer', map.current.getLayer('canton'));
+        const callback = async () => {
+            if (!mapLoaded) {
+                return;
             }
-        });
-    }, [colors, activeLayer]);
 
-    useEffect(() => {
-        getTourFunction();
-    }, [selectedElection]);
+            const colors = await getColors();
+            const sortedColors = {};
+
+            colors.forEach((color) => {
+                if (sortedColors[color.code_couleur] === undefined) {
+                    sortedColors[color.code_couleur] = [];
+                }
+
+                sortedColors[color.code_couleur].push(`${color.code}`);
+            });
+
+            map.current.queryRenderedFeatures({ layers: [activeLayer] }).forEach((feature) => {
+                map.current.setFeatureState(
+                    feature,
+                    { color: _.findKey(sortedColors, (codes) => codes.indexOf(feature.properties.code) !== -1) },
+                );
+            });
+        };
+        callback();
+    }, [mapLoaded, activeLayer, filterValues]);
 
     // Fetch participation and results endpoints
     useEffect(() => {
@@ -218,18 +224,24 @@ function Elections() {
         const getParticipation = async () => {
             try {
                 if (!isCancelled) {
-                    const propsFromMapbox = map.current.queryRenderedFeatures(currentPoint.point,
-                        { layers: [activeLayer] });
-                    setZone(propsFromMapbox[0].properties.nom);
-                    const codeZone = propsFromMapbox[0].properties.code;
+                    const propsFromMapbox = map.current.queryRenderedFeatures(
+                        currentPoint.point,
+                        { layers: [activeLayer] },
+                    );
 
-                    modalContent.innerHTML = `
-                        <div class="modal-error text-center">
-                                ${renderToString(<Loader />)}
-                        </div>
-                    `;
-                    setParticipation(await apiClientProxy.get(`/election/participation?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${tour}`));
-                    setResults(await apiClientProxy.get(`/election/results?maillage=${activeLayer}&code_zone=${codeZone}&election=${electionAndYear}&tour=${tour}`));
+                    setZone(propsFromMapbox[0].properties.nom);
+
+                    modalContent.innerHTML = `<div class="modal-error text-center">${renderToString(<Loader />)}</div>`;
+
+                    const query = qs.stringify({
+                        maillage: LAYERS_TYPES[activeLayer].code2,
+                        code_zone: propsFromMapbox[0].properties.code,
+                        election: `${filterValues.election} ${filterValues.year}`,
+                        tour: filterValues.round,
+                    });
+
+                    setParticipation(await apiClientProxy.get(`/election/participation?${query}`));
+                    setResults(await apiClientProxy.get(`/election/results?${query}`));
                 }
             } catch (error) {
                 if (!isCancelled) {
@@ -250,68 +262,65 @@ function Elections() {
         try {
             if (participation.length > 0 && results.length > 0) {
                 modalContent.innerHTML = `
-                                <div class="elections-area">${zone}</div>
-                                <div class="election-name">${participation[0].election} - ${participation[0].tour === 1 ? ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] : ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}</div>
-                                <div id="close-modal">x</div>
-                                <div class="flash-info">
-                                    <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
-                                    <div class="flash-div">Taux de participation: <span class="flash-span">${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}</span></div>
-                                    <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
-                                </div>
-                                <div>
-                                <div>
-                                    ${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}
-                                </div>
-                                </div>
-                            `;
+                    <div class="elections-area">${zone}</div>
+                    <div class="election-name">${participation[0].election} - ${participation[0].tour === 1 ? ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] : ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}</div>
+                    <div id="close-modal">x</div>
+                    <div class="flash-info">
+                        <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
+                        <div class="flash-div">Taux de participation: <span class="flash-span">${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}</span></div>
+                        <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
+                    </div>
+                    <div>
+                    <div>
+                        ${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}
+                    </div>
+                    </div>
+                `;
             }
         } catch (error) {
             modalContent.innerHTML = '<div class="modal-error">Aucune donnée à afficher</div>';
         }
     }, [participation, results]);
 
-    // Commune and bureau layers only appear at zoomlevel 7 and 9. User must zoom in map
-    useEffect(() => {
-        getColors();
-        map.current.on('load', () => {
-            map.current.addSource('region', {
-                type: 'vector',
-                url: 'mapbox://larem.dgdcc9o1',
-            });
+    const electionSelectRows = [];
 
-            map.current.addSource('department', {
-                type: 'vector',
-                url: 'mapbox://larem.5ok8gzcd',
-            });
+    ELECTION_TYPES.forEach((election) => {
+        const value = `${election.label}_${election.year}`;
+        const label = `${election.label} ${election.year} - `;
 
-            map.current.addSource('canton', {
-                type: 'vector',
-                url: 'mapbox://larem.3tggesy3',
-            });
-        });
+        electionSelectRows.push(<option key={`${value}_1`} value={`${value}_1`}>{`${label}${election.rounds === 1 ? 'Tour unique' : '1er tour'}`}</option>);
 
-        if (activeLayer === 'bureau' || activeLayer === 'commune') {
-            modalContent.innerHTML = '<div class="modal-error">Zoomer sur la carte pour afficher les périmètres</div>';
-        } else {
-            $('#map-overlay').empty();
+        if (election.rounds === 2) {
+            electionSelectRows.push(<option key={`${value}_2`} value={`${value}_2`}>{`${label}2er tour`}</option>);
         }
-    }, [activeLayer]);
+    });
 
     return (
         <>
-            <LayerFilter choices={LAYERS_TYPES} onChange={(e) => setActiveLayer(e.target.value)} />
+            <LayerFilter
+                choices={Object.entries(LAYERS_TYPES).map((line) => line[1])}
+                onChange={(e) => setActiveLayer(e.target.value)}
+            />
+
             <select
                 className="mb-3"
-                onChange={handleSelectedElection}
-                value={selectedElection}
-            >
-                {ELECTIONS_LIST.map((election, index) => <option key={index + 1} value={election}>{election}</option>)}
+                onChange={(event) => {
+                    const parts = event.target.value.split('_');
+                    setFilterValues({
+                        election: parts[0],
+                        year: parts[1],
+                        round: parts[2],
+                    });
+                }}
+                value={`${filterValues.election}_${filterValues.year}_${filterValues.round}`}
+            >{electionSelectRows}
             </select>
+
             <div ref={mapContainer} className="map-container">
                 <div id="map-overlay" />
             </div>
         </>
     );
-}
+};
 
 export default Elections;
