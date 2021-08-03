@@ -9,7 +9,7 @@ import { MENU } from '../../Routes';
 
 const Sidebar = () => {
     const authorizedPage = useSelector(getAuthorizedPages);
-    const filteredMenu = MENU.filter((item) => authorizedPage.includes(item.id));
+    const filteredMenu = MENU.filter((item) => authorizedPage && authorizedPage.includes(item.id));
 
     useEffect(() => {
         $('#sidebar-collapse').on('click', () => {
@@ -27,7 +27,6 @@ const Sidebar = () => {
                         <span className="beta-bubble">beta</span>
                     </div>
                 </Link>
-
                 <ul id="main-nav">
                     {filteredMenu.map((item, index) => (
                         <li key={index}>
