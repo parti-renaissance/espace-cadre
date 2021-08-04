@@ -3,3 +3,12 @@
 @import "helpers";
 @import "DOMElements";
 @import "components";
+
+body {
+    color: $blackCorner;
+    background-color: $greyCornerBg;
+
+    ul {
+        list-style: none;
+    }
+}

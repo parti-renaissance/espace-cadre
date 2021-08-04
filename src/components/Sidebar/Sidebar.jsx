@@ -13,13 +13,13 @@ const Sidebar = () => {
 
     useEffect(() => {
         $('#sidebar-collapse-button').on('click', () => {
-            $('#sidebar, #content').toggleClass('active');
+            $('#sidebar, #page-content').toggleClass('active');
         });
     }, []);
 
     return (
         <>
-            <div className="vertical-nav bg-white" id="sidebar">
+            <div id="sidebar">
                 <Link to="/" className="brand-link">
                     <div className="logo-container">
                         <img src="images/bar-chart.svg" alt="bar chart" className="bar-chart-logo" />
