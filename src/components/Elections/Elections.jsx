@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import $ from 'jquery';
-import _ from 'lodash';
 import qs from 'qs';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
@@ -19,8 +18,8 @@ const LAYER_REGION = 'regions';
 const LAYER_DEPARTMENT = 'departements';
 const LAYER_CANTONS = 'cantons';
 const LAYER_CIRCONSCRIPTIONS = 'circonscriptions';
-// const LAYER_COMMUNES = 'communes';
-// const LAYER_POLLING_STATION = 'bureaux-vote';
+const LAYER_COMMUNES = 'communes';
+const LAYER_POLLING_STATION = 'bureaux';
 
 const LAYERS_TYPES = {};
 
@@ -44,16 +43,16 @@ LAYERS_TYPES[LAYER_CIRCONSCRIPTIONS] = {
     label: 'Circonscriptions',
     code2: 'circonscription',
 };
-// LAYERS_TYPES[LAYER_COMMUNES] = {
-//     code: LAYER_COMMUNES,
-//     label: 'Communes',
-//     code2: 'commune',
-// };
-// LAYERS_TYPES[LAYER_POLLING_STATION] = {
-//     code: LAYER_POLLING_STATION,
-//     label: 'Bureaux de vote',
-//     code2: 'bureau',
-// };
+LAYERS_TYPES[LAYER_COMMUNES] = {
+    code: LAYER_COMMUNES,
+    label: 'Communes',
+    code2: 'commune',
+};
+LAYERS_TYPES[LAYER_POLLING_STATION] = {
+    code: LAYER_POLLING_STATION,
+    label: 'Bureaux de vote',
+    code2: 'bureau',
+};
 
 const ELECTION_TYPE_PRESIDENTIAL = 'Présidentielles';
 const ELECTION_TYPE_DEPARTMENTAL = 'Départementales';
@@ -134,12 +133,6 @@ const Elections = () => {
 
     const modalContent = document.getElementById('map-overlay');
 
-    const getColors = async () => apiClientProxy.get(`/election/colors?${qs.stringify({
-        maillage: LAYERS_TYPES[activeLayer].code2,
-        election: `${filterValues.election} ${filterValues.year}`,
-        tour: filterValues.round,
-    })}`);
-
     // Display only the choosen layer
     const switchLayer = () => {
         Object.entries(LAYERS_TYPES).map(
@@ -160,9 +153,8 @@ const Elections = () => {
         // Display the map
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/larem/ckrusz9vq2qh017pkq1nb13gz',
-            center: [2.213749, 46.227638],
-            zoom: 5,
+            style: 'mapbox://styles/larem/ckrwb7jwrbcav19o1city8z3h',
+            minZoom: 5,
         });
     }, []);
 
@@ -173,13 +165,9 @@ const Elections = () => {
     useEffect(() => {
         map.current.getCanvas().style.cursor = 'pointer';
 
-        map.current.on('load', () => {
-            setMapLoaded(true);
-        });
+        map.current.on('load', () => setMapLoaded(true));
 
-        map.current.on('click', (event) => {
-            setCurrentPoint({ point: event.point, lngLat: event.lngLat });
-        });
+        map.current.on('click', (event) => setCurrentPoint({ point: event.point, lngLat: event.lngLat }));
 
         // Close the modal on click
         $('#map-overlay').on('click', '#close-modal', () => {
@@ -188,30 +176,15 @@ const Elections = () => {
     }, [map]);
 
     useEffect(() => {
-        const callback = async () => {
-            if (!mapLoaded) {
-                return;
-            }
+        if (!mapLoaded) {
+            return;
+        }
 
-            const colors = await getColors();
-            const sortedColors = {};
-
-            colors.forEach((color) => {
-                if (sortedColors[color.code_couleur] === undefined) {
-                    sortedColors[color.code_couleur] = [];
-                }
-
-                sortedColors[color.code_couleur].push(`${color.code}`);
-            });
-
-            map.current.queryRenderedFeatures({ layers: [activeLayer] }).forEach((feature) => {
-                map.current.setFeatureState(
-                    feature,
-                    { color: _.findKey(sortedColors, (codes) => codes.indexOf(feature.properties.code) !== -1) },
-                );
-            });
-        };
-        callback();
+        map.current.setPaintProperty(activeLayer, 'fill-color', [
+            'coalesce',
+            ['get', `${filterValues.election.charAt(0)}_${filterValues.year}_${filterValues.round}`],
+            '#dbdbdb',
+        ]);
     }, [mapLoaded, activeLayer, filterValues]);
 
     // Fetch participation and results endpoints
