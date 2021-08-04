@@ -1,21 +1,11 @@
-.header-row {
-    #sidebar-collapse {
+    #sidebar-collapse-button {
         color: $greyCorner3;
         background-color: $whiteCorner;
         height: 34px;
         width: 40px;
         vertical-align: text-bottom;
         border: none;
-
-        i {
-            vertical-align: middle;
-        }
-
-        .menu-text {
-            font-size: 12px;
-            font-weight: 600;
-            vertical-align: text-bottom;
-        }
+        margin-right: 16px;
     }
 
     .page-title {
@@ -97,4 +87,3 @@
             }
         }
     }
-}

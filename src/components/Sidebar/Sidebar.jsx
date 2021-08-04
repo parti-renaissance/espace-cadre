@@ -12,7 +12,7 @@ const Sidebar = () => {
     const filteredMenu = MENU.filter((item) => authorizedPage && authorizedPage.includes(item.id));
 
     useEffect(() => {
-        $('#sidebar-collapse').on('click', () => {
+        $('#sidebar-collapse-button').on('click', () => {
             $('#sidebar, #content').toggleClass('active');
         });
     }, []);

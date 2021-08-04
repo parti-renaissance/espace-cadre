@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
+import { Container, Grid, Box } from '@material-ui/core';
 import { MENU } from '../../Routes';
 import Scopes from '../Scopes';
 
@@ -15,18 +16,24 @@ const PageContent = ({ children }) => {
 
     return (
         <div className="page-content" id="content">
-            <div className="container-fluid mt-3">
-                <div className="row d-flex header-row pl-3 mb-3">
-                    <button id="sidebar-collapse" className="dc-container mr-3 mt-2" type="button">
-                        <img src="images/list.svg" alt="Menu button" />
-                    </button>
-                    {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
-                    <div className="ml-sm-auto mr-3 mt-1">
+            <Container maxWidth="xl">
+                <Grid container justifyContent="space-between">
+                    <Box mb={1}>
+                        <button
+                            id="sidebar-collapse-button"
+                            className="dc-container"
+                            type="button"
+                        >
+                            <img src="images/list.svg" alt="Menu button" />
+                        </button>
+                        {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
+                    </Box>
+                    <Box mb={2}>
                         <Scopes />
-                    </div>
-                </div>
+                    </Box>
+                </Grid>
                 {children}
-            </div>
+            </Container>
         </div>
     );
 };
