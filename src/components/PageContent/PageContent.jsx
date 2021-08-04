@@ -16,7 +16,7 @@ const PageContent = ({ children }) => {
 
     return (
         <div id="page-content">
-            <Container maxWidth="xl" disableGutters>
+            <Container maxWidth="xl">
                 <Grid container justifyContent="space-between">
                     <Box mb={1}>
                         <button

@@ -27,7 +27,11 @@ function TextChart() {
 
     const dashboardAdherentsContent = () => {
         if (dashboardAdherents !== null) {
-            return (<div className="headline-dashboard">{currentScope.name} &gt; {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})</div>);
+            return (
+                <div className="headline-dashboard">{currentScope.name} &gt;
+                    {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})
+                </div>
+            );
         } if (hasError) {
             return (
                 <ErrorComponent errorMessage={errorMessage} />
