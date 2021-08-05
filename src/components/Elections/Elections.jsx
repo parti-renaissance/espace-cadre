@@ -183,7 +183,7 @@ const Elections = () => {
         map.current.setPaintProperty(activeLayer, 'fill-color', [
             'coalesce',
             ['get', `${filterValues.election.charAt(0)}_${filterValues.year}_${filterValues.round}`],
-            '#dbdbdb',
+            'rgba(0,0,0,0)',
         ]);
     }, [mapLoaded, activeLayer, filterValues]);
 
@@ -233,24 +233,40 @@ const Elections = () => {
 
     // Populate modal when participation and results data are ready
     useEffect(() => {
+        if (!modalContent) {
+            return;
+        }
+
         try {
-            if (participation.length > 0 && results.length > 0) {
-                modalContent.innerHTML = `
-                    <div class="elections-area">${zone}</div>
-                    <div class="election-name">${participation[0].election} - ${participation[0].tour === 1 ? ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] : ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}</div>
-                    <div id="close-modal">x</div>
-                    <div class="flash-info">
-                        <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
-                        <div class="flash-div">Taux de participation: <span class="flash-span">${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}</span></div>
-                        <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
-                    </div>
-                    <div>
-                    <div>
-                        ${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}
-                    </div>
-                    </div>
-                `;
+            const contentParts = [
+                `<div class="elections-area">${zone}</div>`,
+                `<div class="election-name">${filterValues.election} ${filterValues.year} - ${filterValues.round === 1 ? ELECTION_ROUND_LABELS[ELECTION_ROUND_FIRST] : ELECTION_ROUND_LABELS[ELECTION_ROUND_SECOND]}</div>`,
+                '<div id="close-modal">x</div>',
+            ];
+
+            if (participation.length || results.length) {
+                if (participation.length) {
+                    contentParts.push(`
+                        <div class="flash-info">
+                            <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
+                            <div class="flash-div">
+                                Taux de participation: 
+                                <span class="flash-span">
+                                    ${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}
+                                </span>
+                            </div>
+                            <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
+                        </div>`);
+                }
+
+                if (results.length) {
+                    contentParts.push(`<div>${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}</div>`);
+                }
+            } else {
+                contentParts.push('<div class="flash-info"><div class="modal-error">Aucune donnée à afficher</div></div>');
             }
+
+            modalContent.innerHTML = contentParts.join('');
         } catch (error) {
             modalContent.innerHTML = '<div class="modal-error">Aucune donnée à afficher</div>';
         }
