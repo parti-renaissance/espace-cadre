@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Grid } from '@material-ui/core';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks';
@@ -34,15 +35,21 @@ function SentEmailCampaignList() {
                 <>
                     <SentEmailCampaignListTitle />
                     {emailCampaignReports.map((item) => item.campagnes.map((el, index) => (
-                        <div className="col-12 with-background dc-container big-card" key={index + 1}>
-                            <p className="headline">{el.titre}</p>
-                            <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
-                            <div className="row p-3 flash-card-row">
-                                <div className="col-5 col-sm flash-card mr-2">
+                        <Grid container className="with-background dc-container big-card" key={index + 1}>
+                            <Grid container className="title-row">
+                                <Grid item xs={12}>
+                                    <p className="headline">{el.titre}</p>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
+                                </Grid>
+                            </Grid>
+                            <Grid container className="flash-card-row">
+                                <Grid item xs={5} sm={2} className="flash-card">
                                     <div className="info-number">{el.nbEmails}</div>
                                     <div className="text-below-info-number">Email{el.nbEmails > 1 && 's'}</div>
-                                </div>
-                                <div className="col-5 col-sm flash-card mr-2">
+                                </Grid>
+                                <Grid item xs={5} sm={2} className="flash-card">
                                     <div className="info-number">
                                         <ConvertToPercent
                                             valueToConvert={el.txOuverture}
@@ -50,23 +57,23 @@ function SentEmailCampaignList() {
                                         <span className="parenthese-info">({el.nbOuvertures})</span>
                                     </div>
                                     <div className="text-below-info-number">Ouvertures</div>
-                                </div>
-                                <div className="col-5 col-sm flash-card mr-2">
+                                </Grid>
+                                <Grid item xs={5} sm={2} className="flash-card">
                                     <div className="info-number">
                                         <ConvertToPercent valueToConvert={el.txClique} />
                                         <span className="parenthese-info">({el.nbCliques})</span>
                                     </div>
                                     <div className="text-below-info-number">Clics</div>
-                                </div>
-                                <div className="col-5 col-sm flash-card">
+                                </Grid>
+                                <Grid item xs={5} sm={2} className="flash-card">
                                     <div className="info-number">
                                         <ConvertToPercent valueToConvert={el.txDesabonnement} />
                                         <span className="parenthese-info">({el.nbDesabonnements})</span>
                                     </div>
                                     <div className="text-below-info-number">Désabonnements</div>
-                                </div>
-                            </div>
-                        </div>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     )))}
                 </>
             );
@@ -93,7 +100,6 @@ function SentEmailCampaignList() {
             </>
         );
     };
-
     return (
         <>
             {emailCampaignsContent()}

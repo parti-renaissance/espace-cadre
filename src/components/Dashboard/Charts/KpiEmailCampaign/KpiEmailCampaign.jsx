@@ -36,14 +36,14 @@ function KpiEmailCampaign() {
                 <>
                     <EmailCampaignTitle />
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
+                        <Grid item xs={12} sm={6} lg={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
                                 <Box className="main-info">{emailCampaign.local.nbCampagnes}</Box>
                                 <Box className="main-text">Campagne{emailCampaign.local.nbCampagnes > 1 && 's'}</Box>
                                 <Box className="secondary-text">Envoyée{emailCampaign.local.nbCampagnes > 1 && 's'} en {new Date().getFullYear()}</Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
+                        <Grid item xs={12} sm={6} lg={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
                                 <Box className="main-info">
                                     <ConvertToPercent valueToConvert={emailCampaign.local.txOuverture} />
@@ -54,7 +54,7 @@ function KpiEmailCampaign() {
                                 </Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
+                        <Grid item xs={12} sm={6} lg={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
                                 <Box className="main-info">
                                     <ConvertToPercent valueToConvert={emailCampaign.local.txClique} />
@@ -65,7 +65,7 @@ function KpiEmailCampaign() {
                                 </Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
+                        <Grid item xs={12} sm={6} lg={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
                                 <Box className="main-info">
                                     <ConvertToPercent valueToConvert={emailCampaign.local.txDesabonnement} />
