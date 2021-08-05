@@ -22,6 +22,11 @@ input {
     @include dc-container();
 }
 
+// Add white background color
+.with-background {
+    background-color: $whiteCorner !important;
+}
+
 // Bubble with number inside above chart on Vue d'ensemble page
 .count-bubble {
     color: $blueCorner;
@@ -36,7 +41,6 @@ input {
 .chart-title {
     color: $blackCorner;
     font-weight: 600;
-    margin-left: 8px;
 }
 
 // Subtitle above chart on Vue d'ensemble page
@@ -44,7 +48,6 @@ input {
     color: $greyCorner3;
     font-size:12px;
     font-weight: 400;
-    margin-left: 8px;
 }
 
 // legend below chart on Vue d'ensemble page

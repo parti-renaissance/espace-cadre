@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Box } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers';
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount';
 import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign';
@@ -9,25 +9,21 @@ import TextChart from './Charts/TextChart/TextChart';
 const Dashboard = () => (
     <Container maxWidth="xl" fixed>
         <Grid container>
-            <Box mb={2}>
-                <TextChart />
-            </Box>
+            <TextChart />
             <KpiEmailCampaign />
             <Grid item xs={12}>
-                <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" className="ml-2 mr-2" />Application mobile</p>
+                <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" />Application mobile</p>
             </Grid>
             <Grid container>
-                <Grid item xs={12} lg={6}>
-                    <Box className="with-background dc-container">
+                <Grid item xs={12} md={6} style={{ marginBottom: '16px' }}>
+                    <Grid item className="with-background dc-container downloadsCount-grid" style={{ padding: '16px', marginRight: '16px' }}>
                         <DownloadsCount />
-                    </Box>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} lg={6}>
-                    <Box className="right-chart">
-                        <div className="with-background dc-container">
-                            <ActiveUsers />
-                        </div>
-                    </Box>
+                <Grid item xs={12} md={6}>
+                    <Grid item className="with-background dc-container" style={{ padding: '16px', marginRight: '16px' }}>
+                        <ActiveUsers />
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={12} className="with-background dc-container">

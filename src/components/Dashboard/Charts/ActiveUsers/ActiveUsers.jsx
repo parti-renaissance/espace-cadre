@@ -37,7 +37,7 @@ function ActiveUsers() {
     const dashboardUsersContent = () => {
         if (dashboardUsers !== null && dashboardUsers.users.length > 0) {
             return (
-                <div className="with-background">
+                <div>
                     <div className="row p-3">
                         <span className="count-bubble">{dashboardUsers.totalUsers}</span>
                         <div className="col pl-0">
