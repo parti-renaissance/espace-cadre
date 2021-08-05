@@ -3,6 +3,7 @@ import {
     MapContainer, TileLayer, Marker, Popup,
 } from 'react-leaflet';
 import L from 'leaflet';
+import { Grid, Box } from '@material-ui/core';
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../services/networking/client';
 import Loader from '../../Loader';
@@ -34,14 +35,14 @@ function MapComponent() {
     const dashboardSurveyContent = () => {
         if (dashboardSurvey !== null) {
             return (
-                <div className="with-background dc-container w-100">
-                    <div className="row p-3">
-                        <span className="count-bubble ml-3">{ dashboardSurvey.survey_datas.length }</span>
-                        <div className="col pl-0">
-                            <div className="chart-title">Questionnaire{ dashboardSurvey.survey_datas.length > 1 && 's' } rempli{ dashboardSurvey.survey_datas.length > 1 && 's' }</div>
-                            <div className="chart-subtitle">Répartition géographique dans votre région</div>
-                        </div>
-                    </div>
+                <>
+                    <Grid container style={{ padding: '16px' }}>
+                        <span className="count-bubble">{ dashboardSurvey.survey_datas.length }</span>
+                        <Grid item>
+                            <Box className="chart-title">Questionnaire{ dashboardSurvey.survey_datas.length > 1 && 's' } rempli{ dashboardSurvey.survey_datas.length > 1 && 's' }</Box>
+                            <Box className="chart-subtitle">Répartition géographique dans votre région</Box>
+                        </Grid>
+                    </Grid>
                     <MapContainer
                         center={[dashboardSurvey.latitude, dashboardSurvey.longitude]}
                         zoom={8}
@@ -60,12 +61,12 @@ function MapComponent() {
                             </Marker>
                         ))}
                     </MapContainer>
-                </div>
+                </>
             );
         } if (hasError) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
-        return <div className="text-center"><Loader /></div>;
+        return <Box style={{ textAlign: 'center' }}><Loader /></Box>;
     };
 
     return (

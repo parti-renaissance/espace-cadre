@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Grid,
+    Grid, Box,
 } from '@material-ui/core';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
@@ -35,47 +35,47 @@ function KpiEmailCampaign() {
             return (
                 <>
                     <EmailCampaignTitle />
-                    <Grid container>
-                        <Grid item xs={12} md={6} lg={3} className="email-card-container">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
-                                <div className="main-info">{emailCampaign.local.nbCampagnes}</div>
-                                <div className="main-text">Campagne{emailCampaign.local.nbCampagnes > 1 && 's'}</div>
-                                <div className="secondary-text">Envoyée{emailCampaign.local.nbCampagnes > 1 && 's'} en {new Date().getFullYear()}</div>
+                                <Box className="main-info">{emailCampaign.local.nbCampagnes}</Box>
+                                <Box className="main-text">Campagne{emailCampaign.local.nbCampagnes > 1 && 's'}</Box>
+                                <Box className="secondary-text">Envoyée{emailCampaign.local.nbCampagnes > 1 && 's'} en {new Date().getFullYear()}</Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} md={6} lg={3} className="email-card-container">
+                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
-                                <div className="main-info">
+                                <Box className="main-info">
                                     <ConvertToPercent valueToConvert={emailCampaign.local.txOuverture} />
-                                </div>
-                                <div className="main-text">Ouvertures</div>
-                                <div className="secondary-text">
+                                </Box>
+                                <Box className="main-text">Ouvertures</Box>
+                                <Box className="secondary-text">
                                     <ConvertToPercent valueToConvert={emailCampaign.national.txOuverture} /> au national
-                                </div>
+                                </Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} md={6} lg={3} className="email-card-container">
+                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
-                                <div className="main-info">
+                                <Box className="main-info">
                                     <ConvertToPercent valueToConvert={emailCampaign.local.txClique} />
-                                </div>
-                                <div className="main-text">Clics</div>
-                                <div className="secondary-text">
+                                </Box>
+                                <Box className="main-text">Clics</Box>
+                                <Box className="secondary-text">
                                     <ConvertToPercent valueToConvert={emailCampaign.national.txClique} /> au national
-                                </div>
+                                </Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} md={6} lg={3} className="email-card-container">
+                        <Grid item xs={12} sm={6} md={3} className="email-card-container">
                             <Grid item className="with-background dc-container little-card">
-                                <div className="main-info">
+                                <Box className="main-info">
                                     <ConvertToPercent valueToConvert={emailCampaign.local.txDesabonnement} />
-                                </div>
-                                <div className="main-text">Désabonnements</div>
-                                <div className="secondary-text">
+                                </Box>
+                                <Box className="main-text">Désabonnements</Box>
+                                <Box className="secondary-text">
                                     <ConvertToPercent
                                         valueToConvert={emailCampaign.national.txDesabonnement}
                                     /> au national
-                                </div>
+                                </Box>
                             </Grid>
                         </Grid>
                     </Grid>

@@ -39,11 +39,9 @@ function DownloadsCount() {
         if (dashboardDownloads !== null && dashboardDownloads.downloads.length > 0) {
             return (
                 <>
-                    <Grid container spacing={1}>
-                        <Grid item xs={1}>
-                            <span className="count-bubble">{dashboardDownloads.totalDownloads}</span>
-                        </Grid>
-                        <Grid item xs={11}>
+                    <Grid container style={{ padding: '16px' }}>
+                        <span className="count-bubble">{dashboardDownloads.totalDownloads}</span>
+                        <Grid item>
                             <div className="chart-title">Téléchargement{dashboardDownloads.downloads[dashboardDownloads.downloads.length - 1].cumsum > 1 && 's'} lors des 28 derniers jours</div>
                             <div className="chart-subtitle">De l&apos;application Je m&apos;engage sur les stores Android et Apple</div>
                         </Grid>
@@ -117,9 +115,11 @@ function DownloadsCount() {
                             />
                         </AreaChart>
                     </ResponsiveContainer>
-                    <div className="row">
-                        <li className="legend-chart" style={{ color: '#0049C6' }}>Téléchargements par jour </li>
-                    </div>
+                    <Grid container>
+                        <Grid item>
+                            <li className="legend-chart" style={{ color: '#0049C6' }}>Téléchargements par jour </li>
+                        </Grid>
+                    </Grid>
                 </>
             );
         } if (dashboardDownloads !== null && dashboardDownloads.downloads.length === 0) {
@@ -127,7 +127,7 @@ function DownloadsCount() {
         } if (hasError) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
-        return <div className="text-center"><Loader /></div>;
+        return <div style={{ textAlign: 'center' }}><Loader /></div>;
     };
 
     return (

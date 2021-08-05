@@ -1,17 +1,12 @@
-// Section title (email img + title)
-.mail-title {
-    color: $greyCorner3;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 0;
-}
-
 .email-card-container {
+    &:last-child {
+        margin-bottom: 16px;
+    }
+    
     // Small cards for email campaigns
     .little-card {
         padding: 16px;
-        margin-bottom: 16px;
-    
+
         // big figure at top of little card
         .main-info {
             font-size: 40px;
@@ -32,8 +27,4 @@
             color: $greyCorner3;
         }
     }   
-    
-    @media (min-width: 992px) {
-        padding-right: 16px;
-    }
 }

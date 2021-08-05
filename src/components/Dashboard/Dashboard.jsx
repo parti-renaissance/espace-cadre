@@ -7,21 +7,21 @@ import MapComponent from './Map/MapComponent';
 import TextChart from './Charts/TextChart/TextChart';
 
 const Dashboard = () => (
-    <Container maxWidth="xl" fixed>
+    <Container maxWidth="lg">
         <Grid container>
             <TextChart />
             <KpiEmailCampaign />
             <Grid item xs={12}>
                 <p className="title"><img src="images/smartphone.svg" alt="smartphone-logo" />Application mobile</p>
             </Grid>
-            <Grid container>
-                <Grid item xs={12} md={6} style={{ marginBottom: '16px' }}>
-                    <Grid item className="with-background dc-container downloadsCount-grid" style={{ padding: '16px', marginRight: '16px' }}>
+            <Grid container spacing={2} style={{ marginBottom: '8px' }}>
+                <Grid item xs={12} lg={6}>
+                    <Grid item className="with-background dc-container downloadsCount-grid">
                         <DownloadsCount />
                     </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <Grid item className="with-background dc-container" style={{ padding: '16px', marginRight: '16px' }}>
+                <Grid item xs={12} lg={6}>
+                    <Grid item className="with-background dc-container">
                         <ActiveUsers />
                     </Grid>
                 </Grid>

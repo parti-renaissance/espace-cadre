@@ -30,9 +30,9 @@ function TextChart() {
         if (dashboardAdherents !== null) {
             return (
                 <Box mb={2}>
-                    <div className="headline-dashboard">{currentScope.name} &gt;
+                    <Box className="headline-dashboard">{currentScope.name} &gt;
                         {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})
-                    </div>
+                    </Box>
                 </Box>
             );
         } if (hasError) {

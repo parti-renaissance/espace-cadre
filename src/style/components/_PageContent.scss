@@ -4,6 +4,10 @@
     transition: all 0.4s;
     margin-top: 1rem;
 
+    .pageContent-container {
+        padding: 0 16px;
+    }
+
     &.active {
         width: 100%;
         margin-left: 0;
