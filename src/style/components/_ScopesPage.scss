@@ -101,8 +101,8 @@
                 color: $blackCorner;
             }
 
-            @media (min-width: 570px) {
-                &:not(:last-child) {
+            @media (min-width: 600px) {
+                &:not(odd) {
                     margin-right: 16px;
                 }
             }

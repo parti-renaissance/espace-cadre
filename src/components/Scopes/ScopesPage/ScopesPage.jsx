@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Container, Grid, Box } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors';
 import { useUserScope } from '../../../redux/user/hooks';
 
@@ -11,18 +12,22 @@ function ScopesPage() {
     const filteredScopes = userScopes.filter((scope) => scope.apps.includes('data_corner'));
 
     return (
-        <div className="scopes-page-container">
-            <div className="row logo-title-container">
+        <Container maxWidth="xl" className="scopes-page-container">
+            <Grid container className="logo-title-container">
                 <img src="images/bar-chart-scopes.svg" alt="Logo data corner" className="page-logo" />
                 <span className="page-title">DataCorner</span>
                 <span className="beta">BÊTA</span>
-            </div>
-            <div className="row main-scope-card">
-                <div className="col-12 main-card-title">{currentUser.firstName} {currentUser.lastName}</div>
-                <div className="col-12 main-card-role">{filteredScopes.length} rôles</div>
-            </div>
+            </Grid>
+            <Grid container className="main-scope-card">
+                <Grid item xs={12}>
+                    <div className="col-12 main-card-title">{currentUser.firstName} {currentUser.lastName}</div>
+                </Grid>
+                <Grid item xs={12}>
+                    <div className="col-12 main-card-role">{filteredScopes.length} rôles</div>
+                </Grid>
+            </Grid>
             {filteredScopes.length > 0 && (
-                <div className="row secondary-scope-card-container">
+                <Grid container className="secondary-scope-card-container">
                     {filteredScopes.map((userScope, index) => (
                         <Link
                             className="secondary-card"
@@ -31,22 +36,22 @@ function ScopesPage() {
                             value={userScope}
                             onClick={() => updateCurrentScope(userScope)}
                         >
-                            <div className="role">{userScope.name}</div>
+                            <Box className="role">{userScope.name}</Box>
                             {
                                 userScope.zones.length > 1
                                     ? (
                                         <>
-                                            <div className="zone">{`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length} zone{userScope.zones.slice(1).length > 1 && 's'}</div>
+                                            <Box className="zone">{`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length} zone{userScope.zones.slice(1).length > 1 && 's'}</Box>
                                         </>
                                     )
-                                    : <div className="zone">{userScope.zones[0].name} ({userScope.zones[0].code})</div>
+                                    : <Box className="zone">{userScope.zones[0].name} ({userScope.zones[0].code})</Box>
                             }
 
                         </Link>
                     ))}
-                </div>
+                </Grid>
             )}
-        </div>
+        </Container>
     );
 }
 
