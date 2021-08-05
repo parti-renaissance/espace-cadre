@@ -2,6 +2,7 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Grid, Box } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
 
@@ -23,7 +24,7 @@ function Scopes() {
     };
 
     return (
-        <div className="scopes-container" style={{ marginTop: '3px' }}>
+        <Grid className="scopes-container" style={{ marginTop: '3px' }}>
             {currentUser && filteredScopes.length > 0 && (
                 <Dropdown>
                     <Dropdown.Toggle variant="">
@@ -38,7 +39,7 @@ function Scopes() {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item href={process.env.REACT_APP_OAUTH_HOST}>
-                            <span className="profile-role">Retour sur en-marche.fr</span>
+                            <Box component="span" className="profile-role">Retour sur en-marche.fr</Box>
                         </Dropdown.Item>
 
                         {filteredScopes.length > 1 && <Dropdown.Divider />}
@@ -61,7 +62,7 @@ function Scopes() {
                     </Dropdown.Menu>
                 </Dropdown>
             )}
-        </div>
+        </Grid>
     );
 }
 
