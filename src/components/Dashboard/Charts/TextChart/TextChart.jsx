@@ -31,7 +31,7 @@ function TextChart() {
             return (
                 <Box mb={2}>
                     <Box className="headline-dashboard">{currentScope.name} &gt;
-                        {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})
+                        {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} ({dashboardAdherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} adhérent{dashboardAdherents.adherentCount > 1 && 's'})
                     </Box>
                 </Box>
             );
