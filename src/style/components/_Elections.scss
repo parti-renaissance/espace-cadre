@@ -1,3 +1,13 @@
+.map-help {
+  color: $blackCorner;
+  font-size: 12px;
+  margin: 16px 0;
+
+  @media (min-width: 992px) {
+    margin-top: 9px;
+  }
+}
+
 .map-container {
   width: 100%;
   height: 85vh;
