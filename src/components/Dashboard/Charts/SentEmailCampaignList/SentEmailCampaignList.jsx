@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks';
@@ -45,32 +45,40 @@ function SentEmailCampaignList() {
                                 </Grid>
                             </Grid>
                             <Grid container className="flash-card-row">
-                                <Grid item xs={5} sm={2} className="flash-card">
-                                    <div className="info-number">{el.nbEmails}</div>
-                                    <div className="text-below-info-number">Email{el.nbEmails > 1 && 's'}</div>
+                                <Grid item xs={5} sm={3} className="flash-card">
+                                    <Grid item className="flash-card-item">
+                                        <div className="info-number">{el.nbEmails}</div>
+                                        <div className="text-below-info-number">Email{el.nbEmails > 1 && 's'}</div>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={5} sm={2} className="flash-card">
-                                    <div className="info-number">
-                                        <ConvertToPercent
-                                            valueToConvert={el.txOuverture}
-                                        />
-                                        <span className="parenthese-info">({el.nbOuvertures})</span>
-                                    </div>
-                                    <div className="text-below-info-number">Ouvertures</div>
+                                <Grid item xs={5} sm={3} className="flash-card">
+                                    <Grid item className="flash-card-item">
+                                        <div className="info-number">
+                                            <ConvertToPercent
+                                                valueToConvert={el.txOuverture}
+                                            />
+                                            <span className="parenthese-info">({el.nbOuvertures})</span>
+                                        </div>
+                                        <div className="text-below-info-number">Ouvertures</div>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={5} sm={2} className="flash-card">
-                                    <div className="info-number">
-                                        <ConvertToPercent valueToConvert={el.txClique} />
-                                        <span className="parenthese-info">({el.nbCliques})</span>
-                                    </div>
-                                    <div className="text-below-info-number">Clics</div>
+                                <Grid item xs={5} sm={3} className="flash-card">
+                                    <Grid item className="flash-card-item">
+                                        <div className="info-number">
+                                            <ConvertToPercent valueToConvert={el.txClique} />
+                                            <span className="parenthese-info">({el.nbCliques})</span>
+                                        </div>
+                                        <div className="text-below-info-number">Clics</div>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={5} sm={2} className="flash-card">
-                                    <div className="info-number">
-                                        <ConvertToPercent valueToConvert={el.txDesabonnement} />
-                                        <span className="parenthese-info">({el.nbDesabonnements})</span>
-                                    </div>
-                                    <div className="text-below-info-number">Désabonnements</div>
+                                <Grid item xs={5} sm={3} className="flash-card">
+                                    <Grid item className="flash-card-item">
+                                        <div className="info-number">
+                                            <ConvertToPercent valueToConvert={el.txDesabonnement} />
+                                            <span className="parenthese-info">({el.nbDesabonnements})</span>
+                                        </div>
+                                        <div className="text-below-info-number">Désabonnements</div>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -81,22 +89,24 @@ function SentEmailCampaignList() {
             return (
                 <>
                     <SentEmailCampaignListTitle />
-                    <div className="col with-background dc-container text-center mb-3" style={{ padding: '6px' }}>Aucune campagne à afficher</div>
+                    <Box className="with-background dc-container" style={{ textAlign: 'center', padding: '6px' }}>
+                        Aucune campagne à afficher
+                    </Box>
                 </>
             );
         }
         if (hasError) {
             return (
-                <div className="w-100">
+                <Box>
                     <ErrorComponent errorMessage={errorMessage} />
-                </div>
+                </Box>
             );
         }
         return (
             <>
-                <div className="col with-background dc-container text-center mb-3">
+                <Box className="with-background dc-container" style={{ textAlign: 'center' }}>
                     <Loader />
-                </div>
+                </Box>
             </>
         );
     };

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Grid } from '@material-ui/core';
+import { Grid, Container } from '@material-ui/core';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
 
 function Messagerie() {
     return (
-        <Container maxWidth="lg" style={{ marginBottom: '16px' }}>
+        <Container maxWidth="lg">
             <Grid container justifyContent="space-between">
                 <Grid item>
                     <span className="page-title">Messagerie</span>
