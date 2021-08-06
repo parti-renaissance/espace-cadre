@@ -212,24 +212,20 @@ const Elections = () => {
             '<div id="close-modal">x</div>',
         ];
 
-        if (participation.length || results.length) {
-            if (participation.length) {
-                contentParts.push(`
-                    <div class="flash-info">
-                        <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
-                        <div class="flash-div">
-                            Taux de participation: 
-                            <span class="flash-span">
-                                ${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}
-                            </span>
-                        </div>
-                        <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
-                    </div>`);
-            }
+        if (participation.length && results.length) {
+            contentParts.push(`
+                <div class="flash-info">
+                    <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
+                    <div class="flash-div">
+                        Taux de participation: 
+                        <span class="flash-span">
+                            ${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}
+                        </span>
+                    </div>
+                    <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
+                </div>`);
 
-            if (results.length) {
-                contentParts.push(`<div>${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}</div>`);
-            }
+            contentParts.push(`<div>${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}</div>`);
         } else {
             contentParts.push('<div class="flash-info"><div class="modal-error">Aucune donnée à afficher</div></div>');
         }
