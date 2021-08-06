@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+import {
+    Grid, Button, TextField, ButtonGroup, Box,
+} from '@material-ui/core';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
@@ -49,6 +52,7 @@ const SendForm = () => {
             setButtonState((state) => ({ ...state, ...{ state: 'error', isLoading: false } }));
         }
     };
+
     const editEmail = async () => {
         const body = {
             type: currentScope.code,
@@ -98,84 +102,92 @@ const SendForm = () => {
     if (buttonState.state === 'send') {
         const disableState = !content || buttonState.isLoading || !emailSubject;
         sendButton = (
-            <button
-                className={`btn ${disableState ? 'disabled' : null} btn-dc-primary btn-block`}
-                type="button"
+            <Button
+                className={`material-button ${disableState ? 'disabled' : null} btn btn-dc-primary`}
                 onClick={disableState ? null : handleClickSendButton}
                 onMouseEnter={() => setButtonState((state) => ({ ...state, ...{ inputError: !emailSubject } }))}
                 onMouseLeave={() => setButtonState((state) => ({ ...state, ...{ inputError: false } }))}
+                style={{ height: '38px' }}
             >
-                <span className="mr-2">
+                <Box component="span" style={{ marginRight: '8px' }}>
                     {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
-                </span>
+                </Box>
                 Préparer l’envoi
-            </button>
+            </Button>
         );
     } else if (buttonState.state === 'confirme') {
         sendButton = (
             <>
-                <div className="btn-group btn-block" role="group">
-                    <button
-                        className="btn btn-dc-primary"
+                <ButtonGroup style={{ width: '100%', height: '38px !important' }}>
+                    <Button
+                        className="material-button btn btn-dc-primary"
                         type="button"
                         onClick={() => handleSendEmail()}
                         disabled={!email.recipient_count || email.recipient_count < 1}
                     >
-                        <span className="mr-2">
+                        <Box component="span" style={{ marginRight: '8px' }}>
                             {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
-                        </span>
+                        </Box>
                         Envoyer
-                    </button>
-
-                    <button
+                    </Button>
+                    <Button
                         type="button"
-                        className="btn btn-dc-outline-primary text-nowrap"
+                        className="btn btn-dc-outline-primary"
                         onClick={() => handleSendEmail(true)}
+                        style={{
+                            color: '#0049C6',
+                            border: '1px solid #0049C6',
+                            borderLeft: '0',
+                            background: 'white',
+                            width: '100%',
+                        }}
                     >
                         M’envoyer un test
-                    </button>
-                </div>
-                <div className="text-center font-weight-light mt-2">
-                    {email.recipient_count} contact{email.recipient_count > 1 && 's'}
-                </div>
+                    </Button>
+                </ButtonGroup>
+                <Grid container>
+                    <Grid item style={{ margin: '8px auto 0' }}>
+                        {email.recipient_count} contact{email.recipient_count > 1 && 's'}
+                    </Grid>
+                </Grid>
             </>
         );
     } else if (buttonState.state === 'success') {
         sendButton = (
-            <button className="btn btn-outline-success btn-block" type="button" disabled>
-                <span className="mr-2">
+            <Button container className="btn" type="button" disabled style={{ width: '100%', border: '1px solid #28A745', color: '#28A745' }}>
+                <Box component="span" style={{ marginRight: '8px' }}>
                     <i className="fa fa-check" />
-                </span>
+                </Box>
                 E-mail envoyé 🎉
-            </button>
+            </Button>
         );
     } else if (buttonState.state === 'error') {
         sendButton = (
-            <button className="btn btn-outline-danger btn-block" type="button" disabled>
-                <span className="mr-2">
+            <Button className="btn" type="button" disabled style={{ width: '100%', border: '1px solid #DC3545', color: '#DC3545' }}>
+                <Box component="span" style={{ marginRight: '8px' }}>
                     <i className="fa fa-bomb" />
-                </span>
+                </Box>
                 Une erreur est survenue
-            </button>
+            </Button>
         );
     }
 
     return (
-        <div className="row">
-            <div className="col-12 col-md-8 mb-3 mb-md-0 mailObject">
-                <input
-                    type="text"
-                    className={`form-control ${buttonState.inputError ? 'is-invalid' : ''}`}
-                    placeholder="Objet du mail"
-                    required
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={8} style={{ paddingTop: '0' }}>
+                <TextField
+                    label="Objet du mail"
+                    error={buttonState.inputError}
+                    style={{ width: '100%' }}
+                    size="small"
                     value={emailSubject}
                     onChange={(event) => setEmailSubject(event.target.value)}
                 />
-            </div>
-            <div className="col-12 col-md-4 mb-md-0 no-gutters">
+            </Grid>
+            <Grid item xs={12} sm={4}>
                 {sendButton}
-            </div>
-        </div>
+            </Grid>
+        </Grid>
     );
 };
 

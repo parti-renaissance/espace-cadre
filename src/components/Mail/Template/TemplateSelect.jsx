@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
+import {
+    Grid, Button, Box,
+} from '@material-ui/core';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
@@ -75,17 +78,19 @@ const TemplateSelect = () => {
         || isLoadingTemplateButton;
 
     const saveButton = (
-        <button
-            className="btn btn-dc-primary btn-block"
-            type="button"
+        <Button
+            className="btn material-button"
             disabled={templateButtonDisableState}
+            style={{
+                padding: '7px',
+            }}
             onClick={templateButtonDisableState ? null : handleClickSaveButton}
         >
-            <span className="mr-2">
+            <Box component="span" style={{ marginRight: '8px' }}>
                 {isLoadingTemplateButton ? <Loader /> : <i className="fa fa-save" />}
-            </span>
+            </Box>
             Sauvegarder
-        </button>
+        </Button>
     );
 
     async function loadTemplates() {
@@ -118,8 +123,8 @@ const TemplateSelect = () => {
     }, []);
 
     return (
-        <div className="row mb-3">
-            <div className="col-12 col-md-8 mb-3 mb-md-0">
+        <Grid container style={{ marginBottom: '8px' }} spacing={2}>
+            <Grid item xs={12} sm={8}>
                 <CreatableSelect
                     isClearable
                     onChange={handleSelectChange}
@@ -129,11 +134,11 @@ const TemplateSelect = () => {
                     value={template.current_template}
                     placeholder="Créez ou choisissez un template"
                 />
-            </div>
-            <div className="col-12 col-md-4">
+            </Grid>
+            <Grid item xs={12} sm={4}>
                 {saveButton}
-            </div>
-        </div>
+            </Grid>
+        </Grid>
     );
 };
 

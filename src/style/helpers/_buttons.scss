@@ -34,3 +34,8 @@
         }
     }
 }
+
+.MuiButtonBase-root:disabled {
+    cursor: not-allowed !important;
+    pointer-events: auto !important;
+}
