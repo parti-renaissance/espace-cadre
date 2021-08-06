@@ -248,25 +248,31 @@ const Elections = () => {
 
     return (
         <>
-            <LayerFilter
-                choices={Object.entries(LAYERS_TYPES).map((line) => ({ code: line[0], label: line[1] }))}
-                onChange={(e) => setActiveLayer(e.target.value)}
-            />
-
-            <select
-                className="mb-3"
-                onChange={(event) => {
-                    const parts = event.target.value.split('_');
-                    setFilterValues({
-                        election: parts[0],
-                        year: parts[1],
-                        round: parts[2],
-                    });
-                }}
-                value={`${filterValues.election}_${filterValues.year}_${filterValues.round}`}
-            >{electionSelectRows}
-            </select>
-
+            <div className="row">
+                <div className="col-auto pr-md-0">
+                    <LayerFilter
+                        choices={Object.entries(LAYERS_TYPES).map((line) => ({ code: line[0], label: line[1] }))}
+                        onChange={(e) => setActiveLayer(e.target.value)}
+                    />
+                </div>
+                <div className="col-auto pl-md-0 mb-sm-3 mb-md-0">
+                    <select
+                        onChange={(event) => {
+                            const parts = event.target.value.split('_');
+                            setFilterValues({
+                                election: parts[0],
+                                year: parts[1],
+                                round: parts[2],
+                            });
+                        }}
+                        value={`${filterValues.election}_${filterValues.year}_${filterValues.round}`}
+                    >{electionSelectRows}
+                    </select>
+                </div>
+                <div className="col-auto map-help">
+                    Aidez-nous à améliorer cette carte en écrivant à <a href="mailto:techsupport@en-marche.fr">techsupport@en-marche.fr</a>
+                </div>
+            </div>
             <div ref={mapContainer} className="map-container">
                 <div id="map-overlay" />
             </div>
