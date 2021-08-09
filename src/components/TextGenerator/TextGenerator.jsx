@@ -3,6 +3,7 @@ import React, {
     useState, useEffect,
 } from 'react';
 import { useDebounce } from 'use-debounce';
+import { Container, Grid, Box } from '@material-ui/core';
 import { apiClientProxy } from '../../services/networking/client';
 import ErrorComponent from '../ErrorComponent/ErrorComponent';
 
@@ -30,29 +31,38 @@ function TextGenerator() {
     }, [debouncedSearchTerm]);
 
     return (
-        <div className="container-fluid">
-            <div className="with-background dc-container p-3 mb-3">Le créateur d&apos;éléments de langage utilise l&apos;intelligence artificielle pour générer automatiquement des contenus sur la thématique de votre choix</div>
+        <Container maxWidth="xl">
+            <Box
+                className="with-background dc-container"
+                style={{ padding: '16px', marginBottom: '16px' }}
+            >
+                Le créateur d&apos;éléments de langage utilise l&apos;intelligence artificielle pour générer automatiquement des contenus sur la thématique de votre choix
+            </Box>
             {!hasError ? (
-                <div className="row">
-                    <div className="col-lg-6 mb-3">
-                        <label htmlFor="myText">Votre texte:</label>
-                        <textarea
-                            className="form-control"
-                            id="myText"
-                            rows="20"
-                            value={text}
-                            onChange={(e) => setText(e.target.value)}
-                            placeholder="Écrivez ici"
-                        />
-                    </div>
-                    <div className="col-lg-6 mb-3">
-                        <label htmlFor="suggestedText">Texte généré:</label>
-                        <textarea className="form-control" id="suggestedText" rows="20" value={cleanedData} readOnly />
+                <Grid container>
+                    <Grid item xs={12} sm={6}>
+                        <Grid item style={{ marginRight: '16px' }}>
+                            <label htmlFor="myText">Votre texte:</label>
+                            <textarea
+                                className="form-control"
+                                id="myText"
+                                rows="20"
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
+                                placeholder="Écrivez ici"
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Grid item>
+                            <label htmlFor="suggestedText">Texte généré:</label>
+                            <textarea className="form-control" id="suggestedText" rows="20" value={cleanedData} readOnly />
 
-                    </div>
-                </div>
+                        </Grid>
+                    </Grid>
+                </Grid>
             ) : <ErrorComponent errorMessage={errorMessage} />}
-        </div>
+        </Container>
     );
 }
 
