@@ -2,21 +2,32 @@ import React from 'react';
 import {
     useLocation, Link,
 } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 
 function NoMatch() {
     const location = useLocation();
 
     return (
-        <div className="container">
-            <div className="row with-background dc-container text-center p-3 ">
-                <div className="col-12">
+        <Grid className="container">
+            <Grid
+                container
+                className="with-background dc-container"
+                style={{ padding: '16px', textAlign: 'center' }}
+            >
+                <Grid item xs={12}>
                     L&apos;URL recherchée <strong>{location.pathname}</strong> n&apos;existe pas ou vous n&apos;avez pas les droits pour y accéder
-                </div>
-                <div className="col-12">
-                    <Link to="/" className="btn btn-primary mt-3">Retournez à l&apos;accueil</Link>
-                </div>
-            </div>
-        </div>
+                </Grid>
+                <Grid item xs={12}>
+                    <Link
+                        to="/"
+                        className="btn"
+                        style={{ color: 'white', marginTop: '16px', background: '#0049C6' }}
+                    >
+                        Retournez à l&apos;accueil
+                    </Link>
+                </Grid>
+            </Grid>
+        </Grid>
 
     );
 }
