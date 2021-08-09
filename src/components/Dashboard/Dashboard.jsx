@@ -26,7 +26,7 @@ const Dashboard = () => (
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={12} className="with-background dc-container">
+            <Grid item xs={12} className="with-background dc-container" style={{ marginBottom: '16px' }}>
                 <MapComponent />
             </Grid>
         </Grid>
