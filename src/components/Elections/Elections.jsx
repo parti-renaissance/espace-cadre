@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import $ from 'jquery';
 import qs from 'qs';
+import { Grid, Box } from '@material-ui/core';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import LayerFilter from './Filter/LayerFilter';
@@ -248,14 +249,14 @@ const Elections = () => {
 
     return (
         <>
-            <div className="row">
-                <div className="col-auto pr-md-0">
+            <Grid container style={{ marginBottom: '8px' }}>
+                <Grid item>
                     <LayerFilter
                         choices={Object.entries(LAYERS_TYPES).map((line) => ({ code: line[0], label: line[1] }))}
                         onChange={(e) => setActiveLayer(e.target.value)}
                     />
-                </div>
-                <div className="col-auto pl-md-0 mb-sm-3 mb-md-0">
+                </Grid>
+                <Grid item>
                     <select
                         onChange={(event) => {
                             const parts = event.target.value.split('_');
@@ -268,14 +269,16 @@ const Elections = () => {
                         value={`${filterValues.election}_${filterValues.year}_${filterValues.round}`}
                     >{electionSelectRows}
                     </select>
-                </div>
-                <div className="col-auto map-help">
-                    Aidez-nous à améliorer cette carte en écrivant à <a href="mailto:techsupport@en-marche.fr">techsupport@en-marche.fr</a>
-                </div>
-            </div>
-            <div ref={mapContainer} className="map-container">
-                <div id="map-overlay" />
-            </div>
+                </Grid>
+                <Grid item>
+                    <Box className="map-help">
+                        Aidez-nous à améliorer cette carte en écrivant à <a href="mailto:techsupport@en-marche.fr">techsupport@en-marche.fr</a>
+                    </Box>
+                </Grid>
+            </Grid>
+            <Grid ref={mapContainer} item className="map-container">
+                <Box id="map-overlay" />
+            </Grid>
         </>
     );
 };

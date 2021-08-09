@@ -1,12 +1,22 @@
+.layer-select {
+  margin: 0 16px 16px 0;
+
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+  }
+}
+
 .map-help {
   color: $blackCorner;
   font-size: 12px;
-  margin: 16px 0;
-
-  @media (min-width: 992px) {
-    margin-top: 9px;
+  margin: 16px 0 8px;
+  
+  @media (min-width: 1200px) {
+    margin: 9px 0 0 16px;
   }
 }
+
+
 
 .map-container {
   width: 100%;
