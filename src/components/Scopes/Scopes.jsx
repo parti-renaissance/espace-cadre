@@ -24,18 +24,18 @@ function Scopes() {
     };
 
     return (
-        <Grid className="scopes-container" style={{ marginTop: '3px' }}>
+        <Grid className="scopes-container">
             {currentUser && filteredScopes.length > 0 && (
                 <Dropdown>
                     <Dropdown.Toggle variant="">
-                        <div className="row">
-                            <div className="col-10">
-                                <span className="profile-id">{currentUser.firstName} {currentUser.lastName}</span> <br />
-                            </div>
-                            <div className="col-2">
+                        <Grid container>
+                            <Grid item xs={10}>
+                                <Box component="span" className="profile-id">{currentUser.firstName} {currentUser.lastName}</Box> <br />
+                            </Grid>
+                            <Grid item xs={2} style={{ textAlign: 'right' }}>
                                 <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item href={process.env.REACT_APP_OAUTH_HOST}>

@@ -20,10 +20,10 @@ function ScopesPage() {
             </Grid>
             <Grid container className="main-scope-card">
                 <Grid item xs={12}>
-                    <div className="col-12 main-card-title">{currentUser.firstName} {currentUser.lastName}</div>
+                    <Box className="main-card-title">{currentUser.firstName} {currentUser.lastName}</Box>
                 </Grid>
                 <Grid item xs={12}>
-                    <div className="col-12 main-card-role">{filteredScopes.length} rôles</div>
+                    <Box className="main-card-role">{filteredScopes.length} rôles</Box>
                 </Grid>
             </Grid>
             {filteredScopes.length > 0 && (
