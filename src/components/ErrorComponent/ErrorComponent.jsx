@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { Box } from '@material-ui/core';
 
 function ErrorComponent({ errorMessage }) {
     return (
-        <div className="with-background" style={{ borderRadius: '6px' }}>
-            <div className="chart-error text-danger text-center">{errorMessage && errorMessage.message}</div>
-        </div>
+        <Box className="with-background error-box">
+            <div className="chart-error">{errorMessage && errorMessage.message}</div>
+        </Box>
     );
 }
 

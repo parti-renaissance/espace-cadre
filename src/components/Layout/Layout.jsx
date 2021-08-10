@@ -14,7 +14,7 @@ import BootPage from '../BootPage';
 import { PATHS } from '../../Routes';
 import Auth from '../Auth';
 
-const Root = ({ children }) => {
+const Layout = ({ children }) => {
     const initializeAuth = useInitializeAuth();
     const { pathname } = useLocation();
     const isUserLoggedIn = useSelector(isUserLogged);
@@ -51,8 +51,8 @@ const Root = ({ children }) => {
     );
 };
 
-export default Root;
+export default Layout;
 
-Root.propTypes = {
+Layout.propTypes = {
     children: PropTypes.instanceOf(Object).isRequired,
 };

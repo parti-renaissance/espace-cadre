@@ -8,6 +8,7 @@ import {
     YAxis,
     Tooltip,
 } from 'recharts';
+import { Grid } from '@material-ui/core';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks';
@@ -37,15 +38,15 @@ function ActiveUsers() {
     const dashboardUsersContent = () => {
         if (dashboardUsers !== null && dashboardUsers.users.length > 0) {
             return (
-                <div className="with-background">
-                    <div className="row p-3">
+                <>
+                    <Grid container style={{ padding: '16px' }}>
                         <span className="count-bubble">{dashboardUsers.totalUsers}</span>
-                        <div className="col pl-0">
+                        <Grid item>
                             <div className="chart-title">Utilisateur{dashboardUsers.users[dashboardUsers.users.length - 1].rolling_seven_users > 1 && 's'} lors des 28 derniers jours</div>
                             <div className="chart-subtitle">Actifs sur l&apos;application Je m&apos;engage</div>
-                        </div>
-                    </div>
-                    <div className="row">
+                        </Grid>
+                    </Grid>
+                    <Grid container>
                         <ResponsiveContainer width="100%" height={250}>
                             <AreaChart
                                 data={dashboardUsers.users}
@@ -127,19 +128,23 @@ function ActiveUsers() {
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
-                    </div>
-                    <div className="row">
-                        <li className="legend-chart" style={{ color: '#0049C6' }}>Utilisateurs par jour</li>
-                        <li className="legend-chart" style={{ color: '#82ca9d' }}>Utilisateurs cumulés sur 7 jours</li>
-                    </div>
-                </div>
+                    </Grid>
+                    <Grid container>
+                        <Grid item>
+                            <li className="legend-chart" style={{ color: '#0049C6' }}>Utilisateurs par jour</li>
+                        </Grid>
+                        <Grid item>
+                            <li className="legend-chart" style={{ color: '#82ca9d' }}>Utilisateurs cumulés sur 7 jours</li>
+                        </Grid>
+                    </Grid>
+                </>
             );
         } if (dashboardUsers !== null && dashboardUsers.users.length === 0) {
             return <div className="with-background chart-error">Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées</div>;
         } if (hasError) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
-        return <div className="text-center"><Loader /></div>;
+        return <div style={{ textAlign: 'center' }}><Loader /></div>;
     };
     return (
         <>

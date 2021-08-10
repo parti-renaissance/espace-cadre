@@ -23,12 +23,17 @@
             .button-text {
                 margin-right: 8px;
             }
+
+            @media (max-width: 430px) {
+                margin-bottom: 16px;
+            }
         }
     }
 }
 
 .messagerie-kpi {
     background-color: rgba(19, 92, 235, 0.05);
+    margin-bottom: 16px;
     @include borderRadius(6px);
 
     .kpi-title {

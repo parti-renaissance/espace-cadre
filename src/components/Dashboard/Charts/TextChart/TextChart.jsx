@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Box } from '@material-ui/core';
 import Loader from '../../../Loader';
 import { apiClientProxy } from '../../../../services/networking/client';
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks';
@@ -27,7 +28,13 @@ function TextChart() {
 
     const dashboardAdherentsContent = () => {
         if (dashboardAdherents !== null) {
-            return (<div className="headline-dashboard">{currentScope.name} &gt; {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} ({dashboardAdherents.adherentCount} adhérent{dashboardAdherents.adherentCount > 1 && 's'})</div>);
+            return (
+                <Box mb={2}>
+                    <Box className="headline-dashboard">{currentScope.name} &gt;
+                        {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} ({dashboardAdherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} adhérent{dashboardAdherents.adherentCount > 1 && 's'})
+                    </Box>
+                </Box>
+            );
         } if (hasError) {
             return (
                 <ErrorComponent errorMessage={errorMessage} />

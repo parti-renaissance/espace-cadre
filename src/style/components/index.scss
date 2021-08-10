@@ -1,4 +1,3 @@
-@import "App";
 @import "Audience";
 @import "BooleanRendering";
 @import "BooleanSelectFilter";
@@ -6,6 +5,7 @@
 @import "Dashboard";
 @import "Elections";
 @import "ElectionModal";
+@import "ErrorComponent";
 @import "GlobalFilter";
 @import "InterestRendering";
 @import "KpiEmailCampaign";
@@ -15,7 +15,8 @@
 @import "MentionsLegales";
 @import "Messagerie";
 @import "MultiSelectFilter";
-@import "Root";
+@import "PageContent";
+@import "Scopes";
 @import "ScopesPage";
 @import "SelectFilter";
 @import "SentEmailCampaign";

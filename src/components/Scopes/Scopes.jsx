@@ -2,6 +2,7 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Grid, Box } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
 
@@ -23,22 +24,22 @@ function Scopes() {
     };
 
     return (
-        <div className="scopes-container" style={{ marginTop: '3px' }}>
+        <Grid className="scopes-container">
             {currentUser && filteredScopes.length > 0 && (
                 <Dropdown>
                     <Dropdown.Toggle variant="">
-                        <div className="row">
-                            <div className="col-10">
-                                <span className="profile-id">{currentUser.firstName} {currentUser.lastName}</span> <br />
-                            </div>
-                            <div className="col-2">
+                        <Grid container>
+                            <Grid item xs={10}>
+                                <Box component="span" className="profile-id">{currentUser.firstName} {currentUser.lastName}</Box> <br />
+                            </Grid>
+                            <Grid item xs={2} style={{ textAlign: 'right' }}>
                                 <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item href={process.env.REACT_APP_OAUTH_HOST}>
-                            <span className="profile-role">Retour sur en-marche.fr</span>
+                            <Box component="span" className="profile-role">Retour sur en-marche.fr</Box>
                         </Dropdown.Item>
 
                         {filteredScopes.length > 1 && <Dropdown.Divider />}
@@ -61,7 +62,7 @@ function Scopes() {
                     </Dropdown.Menu>
                 </Dropdown>
             )}
-        </div>
+        </Grid>
     );
 }
 
