@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    columnsTitle: null,
-    contacts: null,
+    columnsTitle: [],
+    contacts: [],
 };
 
 const dashboardSlice = createSlice({
