@@ -1,83 +1,40 @@
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 import {
-    Grid, FormControl, InputLabel, MenuItem, Select, Input, Checkbox, ListItemText,
+    Grid,
 } from '@material-ui/core';
-import { useColumnsTitleCache } from '../../../redux/contacts/hooks';
+import InterestFilter from './InterestsFilter';
+import SelectFilter from './SelectFilter';
+import TextFilter from './TextFilter';
 
-function FiltersBlock() {
-    const [columnsTitle] = useColumnsTitleCache();
+function FiltersBlock({ columnsTitle }) {
     const filteredColumnsTitle = columnsTitle && columnsTitle.filter((columnTitle) => 'filter' in columnTitle);
-    const [gender, setGender] = useState([]);
-    const [interests, setInterests] = useState([]);
 
-    const handleInterestsChange = (event) => {
-        setInterests(event.target.value);
-    };
-
-    const handleGenderChange = (event) => {
-        setGender(event.target.value);
-    };
-
-    const filtersContent = filteredColumnsTitle && filteredColumnsTitle.map((column) => {
+    const filtersContent = filteredColumnsTitle && filteredColumnsTitle.map((column, index) => {
         if (column.key === 'interests' && column.filter.type === 'select') {
-            const selectOptions = Object.keys(column.filter.options.choices);
-
-            return (
-                <FormControl className="contacts-select">
-                    <InputLabel id="contacts-mutiple-select">{column.label}</InputLabel>
-                    <Select
-                        labelId="contacts-mutiple-select"
-                        id="contacts-mutiple-checkbox"
-                        multiple
-                        value={interests}
-                        onChange={handleInterestsChange}
-                        input={<Input />}
-                        renderValue={(selected) => selected.join(', ')}
-                    >
-                        {selectOptions.map((option) => (
-                            <MenuItem key={option} value={option}>
-                                <Checkbox checked={interests.indexOf(option) > -1} />
-                                <ListItemText primary={option} />
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            );
+            return <InterestFilter column={column} key={index} />;
         }
         if (column.filter.type === 'select') {
-            const selectOptions = Object.values(column.filter.options.choices);
+            return <SelectFilter column={column} key={index} />;
+        }
+        if (column.filter.type === 'text') {
             return (
-                <FormControl className="contacts-select">
-                    <InputLabel id="contacts-single-select">{column.label}</InputLabel>
-                    <Select
-                        labelId="contacts-single-select"
-                        id="contacts-single-select-outlined"
-                        value={gender}
-                        onChange={handleGenderChange}
-                        label={column.label}
-                    >
-                        {
-                            selectOptions.map((option, index) => (
-                                <MenuItem value={option} key={index}>
-                                    <em>{option.charAt(0).toUpperCase() + option.slice(1)}</em>
-                                </MenuItem>
-                            ))
-                        }
-
-                    </Select>
-                </FormControl>
+                <TextFilter column={column} key={index} />
             );
         }
     });
-
+    console.log(columnsTitle);
     return (
-        <Grid item xs={12} className="with-background dc-container filters-block-container">
-            <div>
-                {filtersContent}
-            </div>
+        <Grid container className="with-background dc-container filters-block-container">
+            {filtersContent}
         </Grid>
     );
 }
 
 export default FiltersBlock;
+
+FiltersBlock.propTypes = {
+    columnsTitle: PropTypes.arrayOf(Object).isRequired,
+};

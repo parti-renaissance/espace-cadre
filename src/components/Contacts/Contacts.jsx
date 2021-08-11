@@ -23,13 +23,9 @@ function Contacts() {
 
     return (
         <Container maxWidth="xl" className="contacts-container">
+            <FiltersBlock columnsTitle={columnsTitle} />
             <Grid container>
-                <FiltersBlock />
-            </Grid>
-            <Grid container className="with-background dc-container contacts-table">
-                <Grid item xs={12}>
-                    <TableHeadComponent columnsTitle={columnsTitle} />
-                </Grid>
+                <TableHeadComponent columnsTitle={columnsTitle} />
             </Grid>
         </Container>
     );

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 function TableHeadComponent({ columnsTitle }) {
     return (
-        <TableHead className="contacts-mui-table">
+        <TableHead className="with-background dc-container contacts-mui-table">
             <TableRow>
                 <TableCell padding="checkbox">
                     <Checkbox />
