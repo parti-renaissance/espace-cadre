@@ -25,7 +25,7 @@ function FiltersBlock({ columnsTitle }) {
             );
         }
     });
-    console.log(columnsTitle);
+
     return (
         <Grid container className="with-background dc-container filters-block-container">
             {filtersContent}
