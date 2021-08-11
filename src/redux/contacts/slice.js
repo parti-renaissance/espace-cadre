@@ -1,17 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+    columnsTitle: null,
+    contacts: null,
+};
+
 const dashboardSlice = createSlice({
     name: 'contacts',
-    initialState: null,
+    initialState,
     reducers: {
+        updateColumnsTitle(state, action) {
+            state.columnsTitle = action.payload;
+        },
         updateContacts(state, action) {
-            return action.payload;
+            state.contacts = action.payload;
         },
         resetContactsState() {
-            return null;
+            return initialState;
         },
     },
 });
 
-export const { updateContacts, resetContactsState } = dashboardSlice.actions;
+export const { updateColumnsTitle, updateContacts, resetContactsState } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

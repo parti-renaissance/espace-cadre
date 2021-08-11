@@ -1,7 +1,17 @@
 /* eslint-disable import/prefer-default-export */
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from './selectors';
-import { updateContacts } from './slice';
+import { getColumnsTitle, getContacts } from './selectors';
+import { updateColumnsTitle, updateContacts } from './slice';
+
+export const useColumnsTitleCache = () => {
+    const dispatch = useDispatch();
+
+    const columnsTitle = useSelector(getColumnsTitle);
+
+    const setColumnsTitle = (body) => dispatch(updateColumnsTitle(body));
+
+    return [columnsTitle, setColumnsTitle];
+};
 
 export const useContactsCache = () => {
     const dispatch = useDispatch();
