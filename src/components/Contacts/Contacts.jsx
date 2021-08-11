@@ -6,7 +6,7 @@ import { useColumnsTitleCache } from '../../redux/contacts/hooks';
 import FiltersBlock from './FiltersBlock';
 import TableHeadComponent from './TableHeadComponent/TableHeadComponent';
 
-function ContactsV2() {
+function Contacts() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
 
     const getColumnsTitle = async () => {
@@ -35,4 +35,4 @@ function ContactsV2() {
     );
 }
 
-export default ContactsV2;
+export default Contacts;

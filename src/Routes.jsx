@@ -8,8 +8,7 @@ import { getAuthorizedPages } from './redux/user/selectors';
 import Spinner from './components/Spinner/Spinner';
 
 const Dashboard = lazy(() => import('./components/Dashboard'));
-// const Contacts = lazy(() => import('./components/ContactsPage'));
-const Contacts = lazy(() => import('./components/ContactsPageV2'));
+const Contacts = lazy(() => import('./components/Contacts'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
