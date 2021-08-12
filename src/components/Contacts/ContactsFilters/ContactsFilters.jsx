@@ -11,7 +11,8 @@ import TextFilter from './TextFilter';
 import Loader from '../../Loader';
 import BooleanFilter from './BooleanFilter';
 
-function FiltersBlock({ columnsTitle }) {
+function ContactsFilters({ columnsTitle }) {
+    // Si la colonne n'a pas de clé filtre, elle n'apparait pas dans le bloc de filtre
     const filteredColumnsTitle = columnsTitle && columnsTitle.filter((columnTitle) => 'filter' in columnTitle);
 
     const filtersContent = filteredColumnsTitle && filteredColumnsTitle.map((column, index) => {
@@ -41,8 +42,8 @@ function FiltersBlock({ columnsTitle }) {
     );
 }
 
-export default FiltersBlock;
+export default ContactsFilters;
 
-FiltersBlock.propTypes = {
+ContactsFilters.propTypes = {
     columnsTitle: PropTypes.arrayOf(Object).isRequired,
 };

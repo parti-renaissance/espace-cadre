@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Grid, FormControl, InputLabel, MenuItem, Select, Input, Checkbox, ListItemText,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { useInterestsCache } from '../../../../redux/contacts/hooks';
 
-function InterestFilter({ column }) {
-    const [interests, setInterests] = useState([]);
+function InterestFilter(props) {
+    const [interests, setInterests] = useInterestsCache();
+    const { column } = props;
     const selectOptions = Object.entries(column.filter.options.choices);
 
     const handleInterestsChange = (event) => {
         setInterests(event.target.value);
     };
-
-    console.log(interests);
 
     return (
         <Grid item>
