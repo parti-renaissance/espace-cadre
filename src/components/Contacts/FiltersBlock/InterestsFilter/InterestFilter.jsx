@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 
 function InterestFilter({ column }) {
     const [interests, setInterests] = useState([]);
-    const selectOptions = Object.keys(column.filter.options.choices);
+    const selectOptions = Object.entries(column.filter.options.choices);
 
     const handleInterestsChange = (event) => {
         setInterests(event.target.value);
     };
+
+    console.log(interests);
 
     return (
         <Grid item>
@@ -26,9 +28,9 @@ function InterestFilter({ column }) {
                     renderValue={(selected) => selected.join(', ')}
                 >
                     {selectOptions.map((option) => (
-                        <MenuItem key={option} value={option}>
-                            <Checkbox checked={interests.indexOf(option) > -1} />
-                            <ListItemText primary={option} />
+                        <MenuItem key={option} value={option[0]}>
+                            <Checkbox checked={interests.indexOf(option[0]) > -1} />
+                            <ListItemText primary={option[1]} />
                         </MenuItem>
                     ))}
                 </Select>

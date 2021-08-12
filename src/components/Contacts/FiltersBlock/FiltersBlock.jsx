@@ -8,6 +8,8 @@ import {
 import InterestFilter from './InterestsFilter';
 import SelectFilter from './SelectFilter';
 import TextFilter from './TextFilter';
+import Loader from '../../Loader';
+import BooleanFilter from './BooleanFilter';
 
 function FiltersBlock({ columnsTitle }) {
     const filteredColumnsTitle = columnsTitle && columnsTitle.filter((columnTitle) => 'filter' in columnTitle);
@@ -19,11 +21,17 @@ function FiltersBlock({ columnsTitle }) {
         if (column.filter.type === 'select') {
             return <SelectFilter column={column} key={index} />;
         }
-        if (column.filter.type === 'text') {
+        if (column.filter.type === 'text' || column.filter.type === 'string') {
             return (
                 <TextFilter column={column} key={index} />
             );
         }
+        if (column.filter.type === 'boolean') {
+            return (
+                <BooleanFilter column={column} key={index} />
+            );
+        }
+        return <Loader key={index} />;
     });
 
     return (

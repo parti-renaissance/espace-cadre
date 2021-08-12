@@ -5,11 +5,11 @@ import {
 import PropTypes from 'prop-types';
 
 function SelectFilter({ column }) {
-    const [gender, setGender] = useState('');
-    const selectOptions = Object.values(column.filter.options.choices);
+    const [value, setValue] = useState('');
+    const selectOptions = Object.entries(column.filter.options.choices);
 
-    const handleGenderChange = (event) => {
-        setGender(event.target.value);
+    const handleChange = (event) => {
+        setValue(event.target.value);
     };
 
     return (
@@ -19,14 +19,14 @@ function SelectFilter({ column }) {
                 <Select
                     labelId="contacts-single-select"
                     id="contacts-single-select-outlined"
-                    value={gender}
-                    onChange={handleGenderChange}
+                    value={value}
+                    onChange={handleChange}
                     label={column.label}
                 >
                     {
                         selectOptions.map((option, index) => (
-                            <MenuItem value={option} key={index}>
-                                <em>{option.charAt(0).toUpperCase() + option.slice(1)}</em>
+                            <MenuItem value={option[0]} key={index}>
+                                {option[1]}
                             </MenuItem>
                         ))
                     }
