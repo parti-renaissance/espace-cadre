@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Grid, FormControl, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { useEmailCache, usePhoneCache } from '../../../../redux/contacts/hooks';
 
 function BooleanFilter({ column }) {
-    const [value, setValue] = useState('');
+    const [phone, setPhone] = usePhoneCache();
+    const [email, setEmail] = useEmailCache();
 
     const handleChange = (event) => {
-        setValue(event.target.value);
+        if (column.key === 'subscribedEmail') {
+            setEmail({ subscribedEmail: event.target.value });
+        } else {
+            setPhone({ subscribedPhone: event.target.value });
+        }
     };
 
     return (
@@ -18,7 +24,7 @@ function BooleanFilter({ column }) {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={value}
+                    value={column.key === 'subscribedEmail' ? email.subscribedEmail : phone.subscribedPhone}
                     onChange={handleChange}
                 >
                     <MenuItem value>Oui</MenuItem>
