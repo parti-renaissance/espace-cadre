@@ -7,6 +7,7 @@ import ContactsFilters from './ContactsFilters';
 import TableHeadComponent from './TableHeadComponent/TableHeadComponent';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
+import Filter from './ContactsFilters/Filter';
 
 function Contacts() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
@@ -24,6 +25,9 @@ function Contacts() {
     };
 
     useEffect(() => {
+        if (columnsTitle.length) {
+            return;
+        }
         getColumnsTitle();
     }, []);
 
@@ -35,7 +39,7 @@ function Contacts() {
         if (columnsTitle.length > 0) {
             return (
                 <>
-                    <ContactsFilters columnsTitle={columnsTitle} />
+                    <Filter columns={columnsTitle.filter((column) => column.filter !== undefined)} onSubmit={(filters) => console.log(filters)} />
                     <Grid container>
                         <TableHeadComponent columnsTitle={columnsTitle} />
                     </Grid>
