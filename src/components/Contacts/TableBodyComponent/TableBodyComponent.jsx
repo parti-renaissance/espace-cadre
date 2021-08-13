@@ -3,9 +3,11 @@ import React from 'react';
 import {
     TableBody, TableRow, TableCell,
 } from '@material-ui/core';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 function TableBodyComponent({ columnsTitle, contacts }) {
-    const { metadata, items } = contacts;
+    const { items } = contacts;
 
     return (
         <TableBody>
@@ -16,6 +18,14 @@ function TableBodyComponent({ columnsTitle, contacts }) {
 
                         if (column.type === 'trans') {
                             value = column.messages[value];
+                        }
+
+                        if (column.type === 'boolean') {
+                            if (value) {
+                                value = <CheckIcon style={{ color: 'green' }} />;
+                            } else {
+                                value = <ClearIcon style={{ color: 'red' }} />;
+                            }
                         }
 
                         return (
