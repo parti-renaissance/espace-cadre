@@ -3,7 +3,7 @@ import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Factory from '../../Filter/Factory';
 
-const Filter = ({ columns, onSubmit }) => {
+const Filters = ({ columns, onSubmit }) => {
     const [filters, setFilters] = useState({});
 
     const factory = new Factory();
@@ -48,9 +48,9 @@ const Filter = ({ columns, onSubmit }) => {
     );
 };
 
-Filter.propTypes = {
+Filters.propTypes = {
     columns: PropTypes.arrayOf(Object).isRequired,
     onSubmit: PropTypes.func.isRequired,
 };
 
-export default Filter;
+export default Filters;

@@ -9,7 +9,7 @@ import TableHeadComponent from './TableHeadComponent';
 import TableBodyComponent from './TableBodyComponent';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
-import Filter from './ContactsFilters/Filter';
+import Filter from './Filters';
 
 function Contacts() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
