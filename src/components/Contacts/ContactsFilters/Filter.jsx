@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Factory from '../../Filter/Factory';
 
 const Filter = ({ columns, onSubmit }) => {
-    const [filters, setFilters] = useState({
-        first_name: 'Dimitri',
-    });
+    const [filters, setFilters] = useState({});
 
     const factory = new Factory();
 
@@ -31,13 +29,17 @@ const Filter = ({ columns, onSubmit }) => {
         }
     });
 
-    console.log(filters);
+    console.log(columns);
 
     return (
         <form onSubmit={(event) => { event.preventDefault(); onSubmit(filters); }}>
             <div className="with-background dc-container filters-block-container">
                 {filterElements}
-                <button type="submit">Filtrer</button>
+                <Button
+                    type="submit"
+                    className="button-filter"
+                >Filtrer
+                </Button>
             </div>
         </form>
     );

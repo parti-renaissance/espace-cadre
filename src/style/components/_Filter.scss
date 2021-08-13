@@ -1,0 +1,22 @@
+.filters-block-container {
+    margin-bottom: 16px;
+    padding: 16px;
+
+    .filter-basic-style {
+        margin-right: 16px;
+        min-width: 120px;
+        max-width: 300px;
+    }
+
+    .button-filter {
+        color: $whiteCorner;
+        background: $blueCorner;
+        margin-top: 16px;
+        display: block;
+
+        &:hover {
+            background: $blueCornerHover;
+
+        }
+    }
+}

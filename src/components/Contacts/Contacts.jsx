@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { apiClient } from '../../services/networking/client';
-import { useColumnsTitleCache, useInterestsCache } from '../../redux/contacts/hooks';
-import ContactsFilters from './ContactsFilters';
+import { useColumnsTitleCache } from '../../redux/contacts/hooks';
 import TableHeadComponent from './TableHeadComponent/TableHeadComponent';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
@@ -11,7 +10,6 @@ import Filter from './ContactsFilters/Filter';
 
 function Contacts() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
-    const [interests] = useInterestsCache();
     const [hasError, setHasError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -30,10 +28,6 @@ function Contacts() {
         }
         getColumnsTitle();
     }, []);
-
-    useEffect(() => {
-        console.log(interests);
-    }, [interests]);
 
     const ContactsContent = () => {
         if (columnsTitle.length > 0) {
