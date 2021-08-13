@@ -29,8 +29,6 @@ const Filter = ({ columns, onSubmit }) => {
         }
     });
 
-    console.log(columns);
-
     return (
         <form onSubmit={(event) => { event.preventDefault(); onSubmit(filters); }}>
             <div className="with-background dc-container filters-block-container">

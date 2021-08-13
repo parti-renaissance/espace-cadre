@@ -1,21 +1,26 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import {
+    Container, TableContainer, Paper, Table,
+} from '@material-ui/core';
 import { apiClient } from '../../services/networking/client';
-import { useColumnsTitleCache } from '../../redux/contacts/hooks';
-import TableHeadComponent from './TableHeadComponent/TableHeadComponent';
+import { useColumnsTitleCache, useContactsCache } from '../../redux/contacts/hooks';
+import TableHeadComponent from './TableHeadComponent';
+import TableBodyComponent from './TableBodyComponent';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
 import Filter from './ContactsFilters/Filter';
 
 function Contacts() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
+    const [contacts, setContacts] = useContactsCache();
     const [hasError, setHasError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const getColumnsTitle = async () => {
         try {
             setColumnsTitle(await apiClient.get('v3/adherents/columns'));
+            setContacts(await apiClient.get('v3/adherents'));
         } catch (error) {
             setHasError(true);
             setErrorMessage(error);
@@ -34,9 +39,12 @@ function Contacts() {
             return (
                 <>
                     <Filter columns={columnsTitle.filter((column) => column.filter !== undefined)} onSubmit={(filters) => console.log(filters)} />
-                    <Grid container>
-                        <TableHeadComponent columnsTitle={columnsTitle} />
-                    </Grid>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHeadComponent columnsTitle={columnsTitle} />
+                            <TableBodyComponent contacts={contacts} columnsTitle={columnsTitle} />
+                        </Table>
+                    </TableContainer>
                 </>
             );
         }
