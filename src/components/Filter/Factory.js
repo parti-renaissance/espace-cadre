@@ -5,10 +5,11 @@ class Factory {
         this.factoryMapper = new FactoryMapper();
     }
 
-    create(type, column, value, onChange) {
+    create(props) {
+        const { type } = props;
         const factory = this.factoryMapper.factory(type);
 
-        return factory && factory.create({ column, value, onChange });
+        return factory && factory.create(props);
     }
 }
 

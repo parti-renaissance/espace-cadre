@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Factory from '../../Filter/Factory';
 
 const Filter = ({ columns, onSubmit }) => {
@@ -9,12 +10,12 @@ const Filter = ({ columns, onSubmit }) => {
 
     const filterElements = [];
 
-    columns.map((column) => {
-        const filter = factory.create(
-            column.filter.type || 'text',
+    columns.forEach((column) => {
+        const filter = factory.create({
+            type: column.filter.type || 'text',
             column,
-            filters[column.key] || null,
-            (event) => {
+            value: filters[column.key] || '',
+            onChange: (event) => {
                 setFilters((prevState) => {
                     const newState = { ...prevState };
                     newState[column.key] = event.target.value;
@@ -22,12 +23,16 @@ const Filter = ({ columns, onSubmit }) => {
                     return newState;
                 });
             },
-        );
+        });
 
         if (filter) {
             filterElements.push(filter);
         }
     });
+
+    if (!filterElements.length) {
+        return null;
+    }
 
     return (
         <form onSubmit={(event) => { event.preventDefault(); onSubmit(filters); }}>
@@ -41,6 +46,11 @@ const Filter = ({ columns, onSubmit }) => {
             </div>
         </form>
     );
+};
+
+Filter.propTypes = {
+    columns: PropTypes.arrayOf(Object).isRequired,
+    onSubmit: PropTypes.func.isRequired,
 };
 
 export default Filter;

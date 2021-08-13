@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 function SelectFilter({ column }) {
     const [value, setValue] = useState('');
-    const selectOptions = Object.entries(column.filter.options.choices);
+    const selectOptions = Object.entries(column.messages);
 
     const handleChange = (event) => {
         setValue(event.target.value);

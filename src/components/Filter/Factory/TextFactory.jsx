@@ -1,15 +1,17 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import Text from '../Field/Text';
+import { TextField } from '@material-ui/core';
 
 class TextFactory {
     getType() {
         return 'string';
     }
 
-    create({ column, onChange, value }) {
+    create(props) {
+        const { column, onChange, value } = props;
+
         return (
-            <Text
+            <TextField
                 label={column.label}
                 value={value}
                 key={column.key}

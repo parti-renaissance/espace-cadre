@@ -8,7 +8,7 @@ import { useInterestsCache } from '../../../../redux/contacts/hooks';
 function InterestFilter(props) {
     const [interests, setInterests] = useInterestsCache();
     const { column } = props;
-    const selectOptions = Object.entries(column.filter.options.choices);
+    const selectOptions = Object.entries(column.messages);
 
     const handleInterestsChange = (event) => {
         setInterests(event.target.value);

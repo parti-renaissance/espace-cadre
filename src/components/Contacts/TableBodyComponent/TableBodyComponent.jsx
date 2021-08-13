@@ -9,22 +9,21 @@ function TableBodyComponent({ columnsTitle, contacts }) {
 
     return (
         <TableBody>
-            {items && items.map((adherent, index) => {
-                columnsTitle.map((column) => {
-                    console.log('Mix', adherent[column.key]);
-                    return (
-                        <TableRow key={index}>
-                            <TableCell component="th" scope="row">
-                                {adherent[column.key]}
-                            </TableCell>
-                            <TableCell align="right">
-                                {adherent[column.key]}
-                            </TableCell>
-                        </TableRow>
+            {items && items.map((adherent, index) => (
+                <TableRow key={index}>
+                    {columnsTitle.map((column, i) => {
+                        let value = adherent[column.key];
 
-                    );
-                });
-            })}
+                        if (column.type === 'trans') {
+                            value = column.messages[value];
+                        }
+
+                        return (
+                            <TableCell key={`${index}-${i}`}>{value}</TableCell>
+                        );
+                    })}
+                </TableRow>
+            ))}
 
         </TableBody>
     );
