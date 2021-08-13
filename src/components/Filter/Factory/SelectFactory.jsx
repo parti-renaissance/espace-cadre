@@ -19,7 +19,7 @@ class SelectFactory {
                 key={column.key}
                 label={column.label}
                 onChange={onChange}
-                className="filter-basic-style"
+                className="filter-basic-style select-factory"
                 value={selectValue}
                 multiple={multiple}
                 renderValue={(selected) => {

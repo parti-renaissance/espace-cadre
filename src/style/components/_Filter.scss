@@ -8,6 +8,16 @@
         max-width: 300px;
     }
 
+    .select-factory:last-of-type {
+        margin-top: 16px;
+    }
+
+    .select-factory {
+        @media (min-width: 600px) {
+            margin-top: 16px;
+        }
+    }
+
     .button-filter {
         color: $whiteCorner;
         background: $blueCorner;
