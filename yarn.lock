@@ -10240,15 +10240,10 @@ react-is@^16.13.1, react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-i
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-"react-is@^16.8.0 || ^17.0.0":
+"react-is@^16.8.0 || ^17.0.0", react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
-
-react-is@^17.0.1:
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
-  integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
 react-leaflet@^3.2.1:
   version "3.2.1"
@@ -10579,10 +10574,10 @@ recharts-scale@^0.4.4:
   dependencies:
     decimal.js-light "^2.4.1"
 
-recharts@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.1.0.tgz#1d54110b992f8a0149ed0bea0e140a359ab42d35"
-  integrity sha512-Eq2AlhaLmYL8DMNXkGMAylgGvNmHFdb6BDmN3pAK31s9ty4P9ApYrpKJ1eW3222nayQxoaMJHxcxoaswo5AuqA==
+recharts@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.1.2.tgz#ceeb01e53fb46da0d946a1e0f82d783ddf5b9d06"
+  integrity sha512-rwFQT6T4imhLzD1kYtg9ql8YOesbFRdSwZi95KWgi5udbBdLGRCR4SgaPO8kf0URHcC23mdRbLLTMYCnXng7zQ==
   dependencies:
     "@types/d3-scale" "^3.0.0"
     "@types/d3-shape" "^2.0.0"
