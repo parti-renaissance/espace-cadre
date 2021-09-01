@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {
     Container, TableContainer, Paper, Table,
 } from '@material-ui/core';
+import qs from 'qs';
 import { apiClient } from '../../services/networking/client';
 import { useColumnsTitleCache, useContactsCache } from '../../redux/contacts/hooks';
 import TableHeadComponent from './TableHeadComponent';
@@ -34,11 +35,17 @@ function Contacts() {
         getColumnsTitle();
     }, []);
 
+    const handleSubmit = async (filters) => {
+        const query = qs.stringify(filters);
+
+        setContacts(await apiClient.get(`v3/adherents?${query}`));
+    };
+
     const ContactsContent = () => {
         if (columnsTitle.length > 0) {
             return (
                 <>
-                    <Filter columns={columnsTitle.filter((column) => column.filter !== undefined)} onSubmit={(filters) => console.log(filters)} />
+                    <Filter columns={columnsTitle.filter((column) => column.filter !== undefined)} onSubmit={(filters) => handleSubmit(filters)} />
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHeadComponent columnsTitle={columnsTitle} />
