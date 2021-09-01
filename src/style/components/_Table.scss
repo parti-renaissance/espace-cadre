@@ -1,0 +1,16 @@
+.contacts-mui-table {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+
+.interests-bubble {
+    background-color: $interestsBubble;
+    padding: 1px 8px;
+    color: $blueCorner;
+    @include borderRadius(16px);
+
+    &:not(:last-child) {
+        margin-right: 4px;
+    }
+}

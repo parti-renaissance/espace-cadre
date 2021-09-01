@@ -18,7 +18,7 @@ function TableBodyComponent({ columnsTitle, contacts }) {
 
                         if (column.type === 'trans' || column.type === 'array|trans') {
                             if (Array.isArray(value)) {
-                                value = value.map((el) => column.messages[el]);
+                                value = value.map((el, ind) => column.messages[el] !== undefined && <span key={ind} className="interests-bubble">{column.messages[el]}</span>);
                             } else {
                                 value = column.messages[value];
                             }
