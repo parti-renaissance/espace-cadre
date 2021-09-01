@@ -11,7 +11,7 @@ class SelectFactory {
 
     create(props) {
         const { column, onChange, value } = props;
-        const multiple = !!column.filter.options.multiple;
+        const multiple = column.filter.options && !!column.filter.options.multiple;
         const selectValue = multiple && !Array.isArray(value) ? [value].filter((element) => element !== '') : value;
 
         return (
@@ -24,13 +24,13 @@ class SelectFactory {
                 multiple={multiple}
                 renderValue={(selected) => {
                     if (Array.isArray(selected)) {
-                        return `${column.filter.options.choices[selected[0]]}${selected.length > 1 ? ` +${selected.length - 1}` : ''}`;
+                        return `${column.messages[selected[0]]}${selected.length > 1 ? ` +${selected.length - 1}` : ''}`;
                     }
 
-                    return column.filter.options.choices[selected];
+                    return column.messages[selected];
                 }}
             >
-                {Object.entries(column.filter.options.choices).map((option) => (
+                {Object.entries(column.messages).map((option) => (
                     <MenuItem key={option[0]} value={option[0]}>
                         {multiple && <Checkbox checked={value.indexOf(option[0]) > -1} />}
                         <ListItemText primary={option[1]} />

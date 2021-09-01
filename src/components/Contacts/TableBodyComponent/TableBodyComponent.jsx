@@ -16,8 +16,12 @@ function TableBodyComponent({ columnsTitle, contacts }) {
                     {columnsTitle.map((column, i) => {
                         let value = adherent[column.key];
 
-                        if (column.type === 'trans') {
-                            value = column.messages[value];
+                        if (column.type === 'trans' || column.type === 'array|trans') {
+                            if (Array.isArray(value)) {
+                                value = value.map((el) => column.messages[el]);
+                            } else {
+                                value = column.messages[value];
+                            }
                         }
 
                         if (column.type === 'boolean') {
