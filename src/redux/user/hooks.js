@@ -7,14 +7,14 @@ import { resetContactsState } from '../contacts';
 import { apiClient } from '../../services/networking/client';
 
 export const useUserScope = () => {
-    const userScope = useSelector(getCurrentScope);
+    const currentScope = useSelector(getCurrentScope);
     const dispatch = useDispatch();
 
-    return [userScope, async (scope) => {
+    return [currentScope, async (scope) => {
         const authorizedPage = await apiClient.get(`/v3/profile/me/scope/${scope.code}`);
 
-        dispatch(updateAuthorizedPages(authorizedPage.features));
         dispatch(updateCurrentScope(scope));
+        dispatch(updateAuthorizedPages(authorizedPage.features));
         dispatch(resetStatsState());
         dispatch(resetContactsState());
     }];
