@@ -33,7 +33,7 @@ function MapComponent() {
     L.Icon.Default.imagePath = 'images/';
 
     const dashboardSurveyContent = () => {
-        if (dashboardSurvey !== null) {
+        if (dashboardSurvey) {
             return (
                 <>
                     <Grid container style={{ padding: '16px' }}>
@@ -55,8 +55,8 @@ function MapComponent() {
                         {dashboardSurvey.survey_datas.map((data) => (
                             <Marker key={data.id} position={[data.latitude, data.longitude]}>
                                 <Popup>
-                                    <strong>Nom du sondage:</strong> {data.survey.name} <br />
-                                    <strong>Répondu le:</strong> {data.posted_at}
+                                    <strong>Nom du sondage:</strong> {data.data_survey.survey.name} <br />
+                                    <strong>Répondu le:</strong> {data.data_survey.posted_at}
                                 </Popup>
                             </Marker>
                         ))}
