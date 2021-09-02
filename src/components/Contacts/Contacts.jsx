@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import {
-    Container, TableContainer, Paper, Table,
+    Container, TableContainer, Paper, Table, TablePagination,
 } from '@material-ui/core';
 import qs from 'qs';
 import { apiClient } from '../../services/networking/client';
@@ -17,6 +17,8 @@ function Contacts() {
     const [contacts, setContacts] = useContactsCache();
     const [hasError, setHasError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const getColumnsTitle = async () => {
         try {
@@ -37,8 +39,16 @@ function Contacts() {
 
     const handleSubmit = async (filters) => {
         const query = qs.stringify(filters);
-
         setContacts(await apiClient.get(`v3/adherents?${query}`));
+    };
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     };
 
     const ContactsContent = () => {
@@ -49,9 +59,21 @@ function Contacts() {
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHeadComponent columnsTitle={columnsTitle} />
-                            <TableBodyComponent contacts={contacts} columnsTitle={columnsTitle} />
+                            <TableBodyComponent contacts={contacts} columnsTitle={columnsTitle} page={page} rowsPerPage={rowsPerPage} />
                         </Table>
                     </TableContainer>
+                    {contacts.metadata && (
+                        <TablePagination
+                            rowsPerPageOptions={[25, 50, 100]}
+                            labelRowsPerPage="Lignes par page:"
+                            component="div"
+                            count={contacts.items.length}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            rowsPerPage={rowsPerPage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    )}
                 </>
             );
         }
@@ -64,7 +86,6 @@ function Contacts() {
             </div>
         );
     };
-
     return (
         <Container maxWidth="xl" className="contacts-container">
             {ContactsContent()}
