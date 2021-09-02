@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import $ from 'jquery';
 import qs from 'qs';
 import { Grid, Box } from '@material-ui/core';
+import sanitizeHtml from 'sanitize-html';
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import LayerFilter from './Filter/LayerFilter';
@@ -214,7 +215,7 @@ const Elections = () => {
         ];
 
         if (participation.length && results.length) {
-            contentParts.push(`
+            sanitizeHtml(contentParts.push(`
                 <div class="flash-info">
                     <div class="flash-div"><span class="flash-span">${participation[0].inscrits.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} inscrits</span></div>
                     <div class="flash-div">
@@ -224,11 +225,11 @@ const Elections = () => {
                         </span>
                     </div>
                     <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
-                </div>`);
+                </div>`));
 
-            contentParts.push(`<div>${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}</div>`);
+            sanitizeHtml(contentParts.push(`<div>${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}</div>`));
         } else {
-            contentParts.push('<div class="flash-info"><div class="modal-error">Aucune donnée à afficher</div></div>');
+            sanitizeHtml(contentParts.push('<div class="flash-info"><div class="modal-error">Aucune donnée à afficher</div></div>'));
         }
 
         modalContent.innerHTML = contentParts.join('');
