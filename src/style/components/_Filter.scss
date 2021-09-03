@@ -1,32 +1,41 @@
 .filters-block-container {
-    margin-bottom: 16px;
-    padding: 16px;
+    margin: 16px 0;
 
     .filter-basic-style {
-        margin-right: 16px;
-        min-width: 120px;
-        max-width: 300px;
+        height: 39px;
+        background: $whiteCorner;
+        @include borderRadius(8px);
     }
 
-    .select-factory:last-of-type {
-        margin-top: 16px;
+    .MuiFormControl-root {
+        width: 100%;
     }
 
-    .select-factory {
-        @media (min-width: 600px) {
-            margin-top: 16px;
-        }
+    .MuiOutlinedInput-notchedOutline {
+        border: none;
+    }
+
+    .MuiInputBase-input,
+    #simple-select {
+        font-weight: 400;
+        font-size: 14px;
+    }
+
+    .MuiSelect-select:focus {
+        background: $whiteCorner;
+        @include borderRadius(8px);
     }
 
     .button-filter {
+        font-family: "Poppins", sans-serif;
+        text-transform: uppercase;
         color: $whiteCorner;
-        background: $blueCorner;
-        margin-top: 16px;
+        background: $blackButton;
         display: block;
+        @include borderRadius(8px);
 
         &:hover {
-            background: $blueCornerHover;
-
+            background: #5C5D5F;
         }
     }
 }

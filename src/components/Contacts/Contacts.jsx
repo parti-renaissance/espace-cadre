@@ -86,6 +86,7 @@ function Contacts() {
             </div>
         );
     };
+
     return (
         <Container maxWidth="xl" className="contacts-container">
             {ContactsContent()}
