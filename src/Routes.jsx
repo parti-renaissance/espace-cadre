@@ -30,7 +30,7 @@ export const PATHS = {
         id: 'contacts',
         route: '/contacts',
         url: () => '/contacts',
-        label: 'Contacts',
+        label: 'Adhérents',
         icon: 'fas fa-users',
     },
     MESSAGERIE: {
