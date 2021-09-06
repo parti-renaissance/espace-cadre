@@ -68,8 +68,15 @@ function Contacts() {
                     />
                     <TableContainer component={Paper}>
                         <Table>
-                            <TableHeadComponent columnsTitle={columnsTitle} />
-                            <TableBodyComponent contacts={contacts} columnsTitle={columnsTitle} page={page} rowsPerPage={rowsPerPage} />
+                            <TableHeadComponent
+                                columnsTitle={columnsTitle}
+                            />
+                            <TableBodyComponent
+                                contacts={contacts}
+                                columnsTitle={columnsTitle}
+                                page={page}
+                                rowsPerPage={rowsPerPage}
+                            />
                         </Table>
                     </TableContainer>
                     {contacts.metadata && (

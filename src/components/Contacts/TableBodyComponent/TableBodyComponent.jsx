@@ -16,7 +16,7 @@ function TableBodyComponent({
             {items && items
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((adherent, index) => (
-                    <TableRow key={index}>
+                    <TableRow key={index} hover>
                         {columnsTitle.map((column, i) => {
                             let value = adherent[column.key];
 

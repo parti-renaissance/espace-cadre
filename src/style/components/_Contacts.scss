@@ -1,3 +1,10 @@
 .contacts-container {
     padding: 0 !important;
 }
+
+.MuiTypography-root,
+.MuiInputBase-root {
+    font-family: 'Poppins', sans-serif !important;
+    font-style: 13px !important;
+    color: #4B5563 !important;
+}

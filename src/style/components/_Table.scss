@@ -3,7 +3,6 @@
     overflow-y: hidden;
 }
 
-
 .interests-bubble {
     background-color: $interestsBubble;
     padding: 1px 8px;
@@ -13,4 +12,25 @@
     &:not(:last-child) {
         margin-right: 4px;
     }
+}
+
+.MuiPaper-elevation1 {
+    box-shadow: none !important;
+}
+
+.MuiTableCell-root {
+    font-family: "Poppins", sans-serif !important;
+    font-size: 12px !important;
+}
+
+.MuiTableRow-hover {
+    &:hover {
+        background: #F9FAFB !important;
+    }
+}
+
+.MuiTableCell-head {
+    font-weight: 600 !important;
+    color: $gray800 !important;
+    min-width: 110px !important;
 }
