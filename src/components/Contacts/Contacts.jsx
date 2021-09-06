@@ -37,9 +37,15 @@ function Contacts() {
         getColumnsTitle();
     }, []);
 
+    // Send request with params to filter contacts
     const handleSubmit = async (filters) => {
         const query = qs.stringify(filters);
         setContacts(await apiClient.get(`v3/adherents?${query}`));
+    };
+
+    // Reset filters and get initial contacts
+    const handleReset = async () => {
+        setContacts(await apiClient.get('v3/adherents'));
     };
 
     const handleChangePage = (event, newPage) => {
@@ -55,7 +61,11 @@ function Contacts() {
         if (columnsTitle.length > 0) {
             return (
                 <>
-                    <Filter columns={columnsTitle.filter((column) => column.filter !== undefined)} onSubmit={(filters) => handleSubmit(filters)} />
+                    <Filter
+                        columns={columnsTitle.filter((column) => column.filter !== undefined)}
+                        onSubmit={(filters) => handleSubmit(filters)}
+                        onClick={() => handleReset()}
+                    />
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHeadComponent columnsTitle={columnsTitle} />

@@ -20,22 +20,36 @@
         font-weight: 400;
         font-size: 14px;
     }
+    
+    .MuiInputLabel-shrink {
+        display: none;
+    } 
 
     .MuiSelect-select:focus {
         background: $whiteCorner;
         @include borderRadius(8px);
     }
 
-    .button-filter {
+    .button-filter,
+    .reset-adherents-filters {
         font-family: "Poppins", sans-serif;
         text-transform: uppercase;
+    }
+
+    .button-filter {
         color: $whiteCorner;
         background: $blackButton;
-        display: block;
+        margin-right: 16px;
         @include borderRadius(8px);
 
         &:hover {
             background: #5C5D5F;
         }
+    }
+
+    .reset-adherents-filters {
+        color: $blackButton;
+        border: 1px solid $blackButton;
+        @include borderRadius(8px);
     }
 }

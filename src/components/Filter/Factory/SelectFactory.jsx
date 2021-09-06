@@ -16,7 +16,7 @@ class SelectFactory {
 
         return (
             <Grid item xs={12} sm={6} md={4} lg>
-                <FormControl variant="outlined" size="small" shrink="false">
+                <FormControl variant="outlined" size="small">
                     <InputLabel id="simple-select">{column.label}</InputLabel>
                     <Select
                         labelId="simple-select"
@@ -32,12 +32,14 @@ class SelectFactory {
                             return column.messages[selected];
                         }}
                     >
-                        <MenuItem value="">
-                            <em>Aucune</em>
-                        </MenuItem>
+                        {!multiple && (
+                            <MenuItem value="">
+                                <ListItemText primary="Aucun" />
+                            </MenuItem>
+                        )}
                         {Object.entries(column.messages).map((option) => (
                             <MenuItem key={option[0]} value={option[0]}>
-                                {multiple && <Checkbox checked={value.indexOf(option[0]) > -1} />}
+                                {multiple && <Checkbox checked={value.indexOf(option[0]) > -1} color="primary" />}
                                 <ListItemText primary={option[1]} />
                             </MenuItem>
                         ))}
