@@ -12,7 +12,6 @@ const Contacts = lazy(() => import('./components/ContactsPage'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
-const TextGenerator = lazy(() => import('./components/TextGenerator/TextGenerator'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
 
 export const PATHS = {
@@ -55,12 +54,6 @@ export const PATHS = {
         label: 'Elections',
         icon: 'fas fa-map',
     },
-    TEXTGEN: {
-        route: '/textGenerator',
-        url: () => '/textGenerator',
-        label: 'Créateur d\'EDL',
-        icon: 'fas fa-brain',
-    },
 };
 
 export const MENU = [
@@ -68,7 +61,6 @@ export const MENU = [
     PATHS.CONTACTS,
     PATHS.MESSAGERIE,
     PATHS.ELECTIONS,
-    // PATHS.TEXTGEN,
 ];
 
 const COMPONENTS = [
@@ -97,16 +89,13 @@ const COMPONENTS = [
 const Routes = () => {
     const history = useHistory();
     const authorizedPage = useSelector(getAuthorizedPages);
+    const routes = [];
 
     useEffect(() => history.listen((_, action) => {
         if (action === 'PUSH') {
             window.scrollTo(0, 0);
         }
     }), [history]);
-
-    const routes = [
-        <Route key={-1} path={PATHS.TEXTGEN.route} exact component={TextGenerator} />,
-    ];
 
     if (authorizedPage && authorizedPage.length > 0) {
         COMPONENTS.forEach((component, index) => {
