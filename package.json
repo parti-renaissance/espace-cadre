@@ -40,7 +40,6 @@
     "redux-persist": "6.0.0",
     "sass": "^1.39.0",
     "typescript": "4.4.2",
-    "use-debounce": "^7.0.0",
     "web-vitals": "2.1.0",
     "xlsx": "^0.17.1"
   },
