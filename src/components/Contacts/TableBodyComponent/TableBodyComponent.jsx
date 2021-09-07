@@ -7,14 +7,13 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
 function TableBodyComponent({
-    columnsTitle, contacts, rowsPerPage, page,
+    columnsTitle, contacts,
 }) {
     const { items } = contacts;
 
     return (
         <TableBody>
             {items && items
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((adherent, index) => (
                     <TableRow key={index} hover>
                         {columnsTitle.map((column, i) => {

@@ -17,44 +17,41 @@ function Contacts() {
     const [contacts, setContacts] = useContactsCache();
     const [hasError, setHasError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
-
-    const getColumnsTitle = async () => {
-        try {
-            setColumnsTitle(await apiClient.get('v3/adherents/columns'));
-            setContacts(await apiClient.get('v3/adherents'));
-        } catch (error) {
-            setHasError(true);
-            setErrorMessage(error);
-        }
-    };
+    const [filters, setFilters] = useState({ page: 1 });
+    const [rowsPerPage] = useState(100);
 
     useEffect(() => {
         if (columnsTitle.length) {
             return;
         }
-        getColumnsTitle();
-    }, []);
+        const getColumnsTitle = async () => {
+            try {
+                setColumnsTitle(await apiClient.get('v3/adherents/columns'));
+            } catch (error) {
+                setHasError(true);
+                setErrorMessage(error);
+            }
+        };
 
-    // Send request with params to filter contacts
-    const handleSubmit = async (filters) => {
-        const query = qs.stringify(filters);
-        setContacts(await apiClient.get(`v3/adherents?${query}`));
-    };
+        getColumnsTitle();
+    }, [columnsTitle]);
+
+    useEffect(() => {
+        const getContacts = async () => {
+            try {
+                const query = qs.stringify(filters);
+                setContacts(await apiClient.get(`v3/adherents?${query}`));
+            } catch (error) {
+                setHasError(true);
+                setErrorMessage(error);
+            }
+        };
+        getContacts();
+    }, [filters]);
 
     // Reset filters and get initial contacts
-    const handleReset = async () => {
-        setContacts(await apiClient.get('v3/adherents'));
-    };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
+    const handleReset = () => {
+        setFilters({ page: 1 });
     };
 
     const ContactsContent = () => {
@@ -63,8 +60,9 @@ function Contacts() {
                 <>
                     <Filter
                         columns={columnsTitle.filter((column) => column.filter !== undefined)}
-                        onSubmit={(filters) => handleSubmit(filters)}
-                        onClick={() => handleReset()}
+                        values={filters}
+                        onSubmit={(newFilters) => setFilters({ ...newFilters, ...{ page: 1 } })}
+                        onResetClick={handleReset}
                     />
                     <TableContainer component={Paper}>
                         <Table>
@@ -74,21 +72,18 @@ function Contacts() {
                             <TableBodyComponent
                                 contacts={contacts}
                                 columnsTitle={columnsTitle}
-                                page={page}
-                                rowsPerPage={rowsPerPage}
                             />
                         </Table>
                     </TableContainer>
                     {contacts.metadata && (
                         <TablePagination
-                            rowsPerPageOptions={[25, 50, 100]}
+                            rowsPerPageOptions={[100]}
                             labelRowsPerPage="Lignes par page:"
                             component="div"
-                            count={contacts.items.length}
-                            page={page}
-                            onPageChange={handleChangePage}
+                            count={contacts.metadata.total_items}
+                            page={filters.page - 1}
+                            onPageChange={(event, page) => setFilters((prevState) => ({ ...prevState, ...{ page: page + 1 } }))}
                             rowsPerPage={rowsPerPage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     )}
                 </>
