@@ -30,6 +30,7 @@
 
                 .flash-card-item {
                     padding: 16px 16px 16px 0;
+                    
                     @include borderRadius(6px);
 
                     .info-number {

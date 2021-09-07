@@ -64,28 +64,30 @@ function Contacts() {
                         onSubmit={(newFilters) => setFilters({ ...newFilters, ...{ page: 1 } })}
                         onResetClick={handleReset}
                     />
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHeadComponent
-                                columnsTitle={columnsTitle}
+                    <Paper>
+                        <TableContainer className="table-container">
+                            <Table stickyHeader>
+                                <TableHeadComponent
+                                    columnsTitle={columnsTitle}
+                                />
+                                <TableBodyComponent
+                                    contacts={contacts}
+                                    columnsTitle={columnsTitle}
+                                />
+                            </Table>
+                        </TableContainer>
+                        {contacts.metadata && (
+                            <TablePagination
+                                rowsPerPageOptions={[100]}
+                                labelRowsPerPage="Lignes par page:"
+                                component="div"
+                                count={contacts.metadata.total_items}
+                                page={filters.page - 1}
+                                onPageChange={(event, page) => setFilters((prevState) => ({ ...prevState, ...{ page: page + 1 } }))}
+                                rowsPerPage={rowsPerPage}
                             />
-                            <TableBodyComponent
-                                contacts={contacts}
-                                columnsTitle={columnsTitle}
-                            />
-                        </Table>
-                    </TableContainer>
-                    {contacts.metadata && (
-                        <TablePagination
-                            rowsPerPageOptions={[100]}
-                            labelRowsPerPage="Lignes par page:"
-                            component="div"
-                            count={contacts.metadata.total_items}
-                            page={filters.page - 1}
-                            onPageChange={(event, page) => setFilters((prevState) => ({ ...prevState, ...{ page: page + 1 } }))}
-                            rowsPerPage={rowsPerPage}
-                        />
-                    )}
+                        )}
+                    </Paper>
                 </>
             );
         }

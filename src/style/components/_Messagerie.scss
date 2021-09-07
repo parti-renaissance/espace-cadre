@@ -18,6 +18,7 @@
             padding: 4px 16px;
             border: none;
             border-radius: 79px;
+
             @include boxShadow(0 1px 1px 0 rgba(0, 11, 52, 0.12));
 
             .button-text {
@@ -34,6 +35,7 @@
 .messagerie-kpi {
     background-color: rgba(19, 92, 235, 0.05);
     margin-bottom: 16px;
+    
     @include borderRadius(6px);
 
     .kpi-title {

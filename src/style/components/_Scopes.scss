@@ -9,6 +9,7 @@
             width: 268px;
             height: 34px;
             border: none;
+
             @include dc-container();
 
             &::after {
@@ -38,6 +39,7 @@
             border: none;
             padding: 16px;
             margin-top: 4px;
+
             @include dc-container();
 
             .dropdown-item {
@@ -45,6 +47,7 @@
                 margin-bottom: 8px;
                 width: 236px;
                 background-color: #F7F9FC;
+                
                 @include borderRadius(6px);
 
                 &:hover {

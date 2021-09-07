@@ -4,6 +4,7 @@
     .filter-basic-style {
         height: 39px;
         background: $whiteCorner;
+
         @include borderRadius(8px);
     }
 
@@ -27,6 +28,7 @@
 
     .MuiSelect-select:focus {
         background: $whiteCorner;
+
         @include borderRadius(8px);
     }
 
@@ -38,18 +40,24 @@
 
     .button-filter {
         color: $whiteCorner;
-        background: $blackButton;
+        background: $gray700;
         margin-right: 16px;
+
         @include borderRadius(8px);
 
         &:hover {
-            background: #5C5D5F;
+            background: $gray600;
         }
     }
 
-    .reset-adherents-filters {
-        color: $blackButton;
-        border: 1px solid $blackButton;
+    .reset-button-filters {
+        color: $gray700;
+        border: 1px solid $gray300;
+        
         @include borderRadius(8px);
+
+        &:hover {
+            background: $gray200;
+        }
     }
 }

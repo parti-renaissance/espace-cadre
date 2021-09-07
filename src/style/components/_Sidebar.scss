@@ -42,6 +42,7 @@
             background-color: $blueBubble;
             margin-left: 2px;
             padding: 1px 3px;
+            
             @include borderRadius(4px);
         }
     }

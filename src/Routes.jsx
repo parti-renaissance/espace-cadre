@@ -28,8 +28,8 @@ export const PATHS = {
     },
     CONTACTS: {
         id: 'contacts',
-        route: '/contacts',
-        url: () => '/contacts',
+        route: '/adherents',
+        url: () => '/adherents',
         label: 'Adhérents',
         icon: 'fas fa-users',
     },

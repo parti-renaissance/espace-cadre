@@ -50,7 +50,7 @@ const Filters = ({
                     <Grid container>
                         <Button type="submit" className="button-filter">Filtrer</Button>
                         <Button
-                            className="reset-adherents-filters"
+                            className="reset-button-filters"
                             onClick={() => {
                                 setFilters({});
                                 onResetClick();
