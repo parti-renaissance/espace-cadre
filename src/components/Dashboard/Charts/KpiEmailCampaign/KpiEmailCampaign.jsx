@@ -13,8 +13,7 @@ import ErrorComponent from '../../../ErrorComponent/ErrorComponent';
 function KpiEmailCampaign() {
     const [emailCampaign, setEmailCampaign] = useEmailCampaignCache();
     const [currentScope] = useUserScope();
-    const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const getEmailCampaign = async () => {
@@ -23,7 +22,6 @@ function KpiEmailCampaign() {
                     setEmailCampaign(await apiClientProxy.get('/mailCampaign/reportsRatios'));
                 }
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
@@ -81,7 +79,7 @@ function KpiEmailCampaign() {
                     </Grid>
                 </>
             );
-        } if (hasError) {
+        } if (errorMessage) {
             return (
                 <div className="mb-3">
                     <ErrorComponent errorMessage={errorMessage} />

@@ -18,8 +18,7 @@ import ErrorComponent from '../../../ErrorComponent/ErrorComponent';
 function DownloadsCount() {
     const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache();
     const [currentScope] = useUserScope();
-    const [hasError, setHasError] = useState();
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const getDownloads = async () => {
@@ -28,7 +27,6 @@ function DownloadsCount() {
                     setDashboardDownloads(await apiClientProxy.get('/jemengage/downloads'));
                 }
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
@@ -124,7 +122,7 @@ function DownloadsCount() {
             );
         } if (dashboardDownloads !== null && dashboardDownloads.downloads.length === 0) {
             return <div className="with-background chart-error">Les données de téléchargement de l&apos;app sont indisponibles</div>;
-        } if (hasError) {
+        } if (errorMessage) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
         return <div style={{ textAlign: 'center' }}><Loader /></div>;
