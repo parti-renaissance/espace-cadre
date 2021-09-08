@@ -6,7 +6,7 @@
 
             &:not(.disabled),
             &:not(:disabled) {
-                &:hover{
+                &:hover {
                     color: $whiteCorner;
                 }
             }

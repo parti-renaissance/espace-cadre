@@ -1,9 +1,9 @@
 .email-card-container {
-    
+
     &:last-child {
         margin-bottom: 16px;
     }
-    
+
     // Small cards for email campaigns
     .little-card {
         padding: 16px;
@@ -15,17 +15,19 @@
             text-align: left;
             color: $blueCorner;
         }
+
         // Main text below main-info
         .main-text {
             font-size: 16px;
             font-weight: 600;
             color: $blackCorner;
         }
+
         // Secondary text below main-text
         .secondary-text {
             font-size: 12px;
             font-weight: 400;
             color: $greyCorner3;
         }
-    }   
+    }
 }

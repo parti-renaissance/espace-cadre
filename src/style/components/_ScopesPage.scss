@@ -28,6 +28,7 @@
             background-color: $blackCorner;
             padding: 1px 3px 0;
             margin: 6px 0 27px 5px;
+
             @include borderRadius(4px);
         }
 
@@ -36,26 +37,26 @@
                 width: 48px;
                 margin-top: 12px;
             }
-        
+
             .page-title {
                 font-size: 48px;
             }
-    
+
             .beta {
                 font-size: 16px;
                 height: 26px;
-                padding: 2px 3px 0; 
+                padding: 2px 3px 0;
                 margin-left: 10px;
             }
         }
-        
-    }  
+    }
 
     .main-scope-card {
         margin: 0 auto 84px;
         padding: 16px;
         border: 1px solid #D5E0EC;
         max-width: 250px;
+
         @include borderRadius(6px);
 
         .main-card-title {
@@ -87,6 +88,7 @@
             background-color: $whiteCorner;
             cursor: pointer;
             text-decoration: none;
+
             @include borderRadius(6px);
 
             .role {
@@ -108,4 +110,4 @@
             }
         }
     }
-} 
+}

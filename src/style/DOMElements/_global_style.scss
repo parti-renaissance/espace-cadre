@@ -2,19 +2,12 @@ body {
     font-family: "Poppins", sans-serif;
 }
 
-select,
-input {
+select {
     padding: 6px 12px;
     border: none;
     outline: none;
-    @include borderRadius(6px);
 
-    option {
-        text-transform: uppercase;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 18px;
-    }
+    @include borderRadius(6px);
 }
 
 // Add box-shadow and border-radius
@@ -35,6 +28,7 @@ input {
     background-color: $blueBubble;
     padding: 8px;
     margin-right: 8px;
+
     @include borderRadius(6px);
 }
 

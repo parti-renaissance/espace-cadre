@@ -1,62 +1,61 @@
 // Big size cards
-    .big-card {
-        margin-bottom: 16px;
+.big-card {
+    margin-bottom: 16px;
 
-        .title-row {
-            padding: 16px 16px 0;
+    .title-row {
+        padding: 16px 16px 0;
 
-            .headline {
-                color: $blackCorner;
-                font-size: 16px;
-                font-weight: 600;
-                margin-bottom: 2px;
-            }
-
-            .subtitle-text-card {
-                color: $greyCorner3;
-                font-size: 12px;
-                font-weight: 400;
-                margin-bottom: 0;
-            }
+        .headline {
+            color: $blackCorner;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
         }
 
-        .flash-card-row {
-            padding: 16px;
-            
-            .flash-card {
-                &:not(:last-child) {
-                    padding-right: 8px;
-                }
-
-                .flash-card-item {
-                    padding: 16px 16px 16px 0;
-                    @include borderRadius(6px);
-
-                    .info-number {
-                        color: $blueCorner;
-                        font-size: 16px;
-                        font-weight: 600;
-                    }
-    
-                    .parenthese-info {
-                        font-weight: 400;
-                        color: $greyCorner3;
-                        margin-left: 2px;
-                    }
-    
-                    .text-below-info-number {
-                        font-size: 12px;
-                        font-weight: 400;
-                        color: $greyCorner3;
-                    }
-
-                    @media (min-width: 768px) {
-                        border: solid 1px $greyCornerBg;
-                        padding-left: 16px;
-                    }
-                }
-
-            }
-
+        .subtitle-text-card {
+            color: $greyCorner3;
+            font-size: 12px;
+            font-weight: 400;
+            margin-bottom: 0;
         }
     }
+
+    .flash-card-row {
+        padding: 16px;
+
+        .flash-card {
+            &:not(:last-child) {
+                padding-right: 8px;
+            }
+
+            .flash-card-item {
+                padding: 16px 16px 16px 0;
+
+                @include borderRadius(6px);
+
+                .info-number {
+                    color: $blueCorner;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+
+                .parenthese-info {
+                    font-weight: 400;
+                    color: $greyCorner3;
+                    margin-left: 2px;
+                }
+
+                .text-below-info-number {
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: $greyCorner3;
+                }
+
+                @media (min-width: 768px) {
+                    border: solid 1px $greyCornerBg;
+                    padding-left: 16px;
+                }
+            }
+        }
+    }
+}

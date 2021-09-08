@@ -8,7 +8,7 @@ import { getAuthorizedPages } from './redux/user/selectors';
 import Spinner from './components/Spinner/Spinner';
 
 const Dashboard = lazy(() => import('./components/Dashboard'));
-const Contacts = lazy(() => import('./components/ContactsPage'));
+const Adherents = lazy(() => import('./components/Adherents'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
@@ -26,11 +26,11 @@ export const PATHS = {
         label: 'Vue d\'ensemble',
         icon: 'fas fa-th-large',
     },
-    CONTACTS: {
+    ADHERENTS: {
         id: 'contacts',
-        route: '/contacts',
-        url: () => '/contacts',
-        label: 'Contacts',
+        route: '/adherents',
+        url: () => '/adherents',
+        label: 'Adhérents',
         icon: 'fas fa-users',
     },
     MESSAGERIE: {
@@ -58,7 +58,7 @@ export const PATHS = {
 
 export const MENU = [
     PATHS.DASHBOARD,
-    PATHS.CONTACTS,
+    PATHS.ADHERENTS,
     PATHS.MESSAGERIE,
     PATHS.ELECTIONS,
 ];
@@ -69,8 +69,8 @@ const COMPONENTS = [
         component: Dashboard,
     },
     {
-        path: PATHS.CONTACTS,
-        component: Contacts,
+        path: PATHS.ADHERENTS,
+        component: Adherents,
     },
     {
         path: PATHS.MESSAGERIE,

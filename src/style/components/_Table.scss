@@ -1,103 +1,45 @@
-//****************************
-// Style for filters
-//****************************
+.contacts-mui-table {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 
-// "Réinitialiser les filtres" bouton
-#filter-button {
+.interests-bubble {
+    background-color: $interestsBubble;
+    padding: 1px 8px;
     color: $blueCorner;
-    height: 38px;
-    background-color: $whiteCorner;
-    overflow: hidden;
 
-    span {
-        margin-right: 10px;
+    @include borderRadius(16px);
+
+    &:not(:last-child) {
+        margin-right: 4px;
     }
 }
 
-// Style for download button and select to choose the number of lines in table
-#download-button,
-.line-count {
-    color: $blueCorner;
-    background-color: $whiteCorner;
-    height: 38px;
+.MuiPaper-elevation1 {
+    box-shadow: none !important;
 }
 
+.table-container {
+    @include borderRadius(12px);
+}
 
-//**************************
-// Style for table
-//**************************
+.MuiTableCell-root {
+    font-family: "Poppins", sans-serif !important;
+    font-size: 12px !important;
+}
 
-// Style for table
-.contacts-table {
-    background-color: $whiteCorner;
-    @include borderRadius(6px);
+.MuiTableCell-stickyHeader {
+    background: $whiteCorner !important;
+}
 
-    th {
-        font-size: 12px;
-        text-align: center;
-        border: none !important;
-
-        input,
-        select {
-            min-width: 7rem;
-        }
-
-        &:last-child {
-            min-width: 30rem;
-        }
-    }
-
-    td {
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 18px;
-        max-width: 20rem;
-        vertical-align: middle !important;
-        border-top: 1px solid $greyCornerBg !important;
-
-        span {
-            margin-left: 12px;
-        }
-    }
-
-    // Cancel the 12 px margin-left apply to all others span (cf line 43)
-    tr > td:last-child span {
-        margin-left: 0;
+.MuiTableRow-hover {
+    &:hover {
+        background: #F9FAFB !important;
     }
 }
 
-.bottom-container {
-    font-size: 14px;
-}
-
-.page-size {
-    color: $blueCorner;
-}
-
-.contacts-count {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-@media (min-width: 992px) {
-    .contacts-count {
-    position: absolute;
-    right: 16px 
-    }
-}
-
-
-// Pages and contacts count
-.contacts-count,
-.page-count-bottom {
-    color: $greyCorner3;
-}
-
-// Navigation buttons below the table
-.pageNav {
-    button {
-        color: $greyCorner3;
-        height: 34px;
-        background-color: $whiteCorner;
-    }
+.MuiTableCell-head {
+    font-weight: 600 !important;
+    color: $gray800 !important;
+    min-width: 110px !important;
 }
