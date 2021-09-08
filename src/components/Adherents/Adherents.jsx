@@ -1,24 +1,21 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import {
     Container, TableContainer, Paper, Table, TablePagination,
 } from '@material-ui/core';
 import qs from 'qs';
 import { apiClient } from '../../services/networking/client';
-import { useColumnsTitleCache, useContactsCache } from '../../redux/contacts/hooks';
 import TableHeadComponent from './TableHeadComponent';
 import TableBodyComponent from './TableBodyComponent';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
 import Filter from './Filters';
+import { useColumnsTitleCache } from '../../redux/contacts/hooks';
 
-function Contacts() {
+function Adherents() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
-    const [contacts, setContacts] = useContactsCache();
-    const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [contacts, setContacts] = useState([]);
+    const [errorMessage, setErrorMessage] = useState();
     const [filters, setFilters] = useState({ page: 1 });
-    const [rowsPerPage] = useState(100);
 
     useEffect(() => {
         if (columnsTitle.length) {
@@ -28,7 +25,6 @@ function Contacts() {
             try {
                 setColumnsTitle(await apiClient.get('v3/adherents/columns'));
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
@@ -39,21 +35,15 @@ function Contacts() {
     useEffect(() => {
         const getContacts = async () => {
             try {
-                const query = qs.stringify(filters);
-                setContacts(await apiClient.get(`v3/adherents?${query}`));
+                setContacts(await apiClient.get(`v3/adherents?${qs.stringify(filters)}`));
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
         getContacts();
     }, [filters]);
 
-    const handleReset = () => {
-        setFilters({ page: 1 });
-    };
-
-    const ContactsContent = () => {
+    const renderContent = () => {
         if (columnsTitle.length > 0) {
             return (
                 <>
@@ -61,18 +51,13 @@ function Contacts() {
                         columns={columnsTitle.filter((column) => column.filter !== undefined)}
                         values={filters}
                         onSubmit={(newFilters) => setFilters({ ...newFilters, ...{ page: 1 } })}
-                        onResetClick={handleReset}
+                        onResetClick={() => { setFilters({ page: 1 }); }}
                     />
                     <Paper>
                         <TableContainer className="table-container">
                             <Table stickyHeader>
-                                <TableHeadComponent
-                                    columnsTitle={columnsTitle}
-                                />
-                                <TableBodyComponent
-                                    contacts={contacts}
-                                    columnsTitle={columnsTitle}
-                                />
+                                <TableHeadComponent columnsTitle={columnsTitle} />
+                                <TableBodyComponent contacts={contacts} columnsTitle={columnsTitle} />
                             </Table>
                         </TableContainer>
                         {contacts.metadata && (
@@ -80,17 +65,17 @@ function Contacts() {
                                 rowsPerPageOptions={[100]}
                                 labelRowsPerPage="Lignes par page:"
                                 component="div"
-                                count={contacts.metadata.total_items}
+                                count={contacts.metadata.total_items || 0}
                                 page={filters.page - 1}
                                 onPageChange={(event, page) => setFilters((prevState) => ({ ...prevState, ...{ page: page + 1 } }))}
-                                rowsPerPage={rowsPerPage}
+                                rowsPerPage={contacts.metadata.items_per_page}
                             />
                         )}
                     </Paper>
                 </>
             );
         }
-        if (hasError) {
+        if (errorMessage) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
         return (
@@ -100,11 +85,7 @@ function Contacts() {
         );
     };
 
-    return (
-        <Container maxWidth="xl" className="contacts-container">
-            {ContactsContent()}
-        </Container>
-    );
+    return <Container maxWidth="xl" className="contacts-container">{renderContent()}</Container>;
 }
 
-export default Contacts;
+export default Adherents;

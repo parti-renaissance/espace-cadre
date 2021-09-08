@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    TableHead, TableRow, TableCell,
-} from '@material-ui/core';
+import { TableHead, TableRow, TableCell } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 function TableHeadComponent({ columnsTitle }) {
@@ -9,11 +7,7 @@ function TableHeadComponent({ columnsTitle }) {
         <TableHead className="with-background dc-container contacts-mui-table">
             <TableRow>
                 {columnsTitle && columnsTitle.map((columnTitle) => (
-                    <TableCell
-                        key={columnTitle.key}
-                    >
-                        {columnTitle.label}
-                    </TableCell>
+                    <TableCell key={columnTitle.key}>{columnTitle.label}</TableCell>
                 ))}
             </TableRow>
         </TableHead>

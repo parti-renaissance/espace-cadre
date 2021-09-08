@@ -2,18 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     columnsTitle: [],
-    contacts: [],
 };
 
-const dashboardSlice = createSlice({
-    name: 'contacts',
+const adherentsSlice = createSlice({
+    name: 'adherents',
     initialState,
     reducers: {
         updateColumnsTitle(state, action) {
             state.columnsTitle = action.payload;
-        },
-        updateContacts(state, action) {
-            state.contacts = action.payload;
         },
         resetContactsState() {
             return initialState;
@@ -23,7 +19,7 @@ const dashboardSlice = createSlice({
 
 export const {
     updateColumnsTitle,
-    updateContacts,
     resetContactsState,
-} = dashboardSlice.actions;
-export default dashboardSlice.reducer;
+} = adherentsSlice.actions;
+
+export default adherentsSlice.reducer;
