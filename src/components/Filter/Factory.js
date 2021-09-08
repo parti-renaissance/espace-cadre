@@ -5,8 +5,7 @@ class Factory {
         this.factoryMapper = new FactoryMapper();
     }
 
-    create(props) {
-        const { type } = props;
+    create(type, props) {
         const factory = this.factoryMapper.factory(type);
 
         return factory && factory.create(props);

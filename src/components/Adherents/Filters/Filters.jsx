@@ -11,8 +11,7 @@ const Filters = ({
     const filterElements = [];
 
     columns.forEach((column) => {
-        const filter = factory.create({
-            type: column.filter.type || 'text',
+        const filter = factory.create(column.filter.type || 'text', {
             column,
             value: filters[column.key] || '',
             onChange: (event) => {
@@ -26,7 +25,7 @@ const Filters = ({
         });
 
         if (filter) {
-            filterElements.push(filter);
+            filterElements.push(<Grid key={column.key} item xs={12} sm={6} md={4} lg>{filter}</Grid>);
         }
     });
 
