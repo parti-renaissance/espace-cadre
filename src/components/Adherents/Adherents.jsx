@@ -9,11 +9,11 @@ import TableBodyComponent from './TableBodyComponent';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
 import Filter from './Filters';
-import { useColumnsTitleCache } from '../../redux/contacts/hooks';
+import { useColumnsTitleCache } from '../../redux/adherents/hooks';
 
 function Adherents() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
-    const [contacts, setContacts] = useState([]);
+    const [adherents, setAdherents] = useState([]);
     const [errorMessage, setErrorMessage] = useState();
     const [filters, setFilters] = useState({ page: 1 });
 
@@ -33,14 +33,14 @@ function Adherents() {
     }, [columnsTitle]);
 
     useEffect(() => {
-        const getContacts = async () => {
+        const getAdherents = async () => {
             try {
-                setContacts(await apiClient.get(`v3/adherents?${qs.stringify(filters)}`));
+                setAdherents(await apiClient.get(`v3/adherents?${qs.stringify(filters)}`));
             } catch (error) {
                 setErrorMessage(error);
             }
         };
-        getContacts();
+        getAdherents();
     }, [filters]);
 
     const renderContent = () => {
@@ -57,18 +57,18 @@ function Adherents() {
                         <TableContainer className="table-container">
                             <Table stickyHeader>
                                 <TableHeadComponent columnsTitle={columnsTitle} />
-                                <TableBodyComponent contacts={contacts} columnsTitle={columnsTitle} />
+                                <TableBodyComponent adherents={adherents} columnsTitle={columnsTitle} />
                             </Table>
                         </TableContainer>
-                        {contacts.metadata && (
+                        {adherents.metadata && (
                             <TablePagination
                                 rowsPerPageOptions={[100]}
                                 labelRowsPerPage="Lignes par page:"
                                 component="div"
-                                count={contacts.metadata.total_items || 0}
+                                count={adherents.metadata.total_items || 0}
                                 page={filters.page - 1}
                                 onPageChange={(event, page) => setFilters((prevState) => ({ ...prevState, ...{ page: page + 1 } }))}
-                                rowsPerPage={contacts.metadata.items_per_page}
+                                rowsPerPage={adherents.metadata.items_per_page}
                             />
                         )}
                     </Paper>
@@ -85,7 +85,7 @@ function Adherents() {
         );
     };
 
-    return <Container maxWidth="xl" className="contacts-container">{renderContent()}</Container>;
+    return <Container maxWidth="xl" className="adherents-container">{renderContent()}</Container>;
 }
 
 export default Adherents;
