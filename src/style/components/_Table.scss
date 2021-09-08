@@ -29,6 +29,10 @@
     font-size: 12px !important;
 }
 
+.MuiTableCell-stickyHeader {
+    background: $whiteCorner !important;
+}
+
 .MuiTableRow-hover {
     &:hover {
         background: #F9FAFB !important;

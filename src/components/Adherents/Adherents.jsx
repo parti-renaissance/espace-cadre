@@ -49,7 +49,6 @@ function Contacts() {
         getContacts();
     }, [filters]);
 
-    // Reset filters and get initial contacts
     const handleReset = () => {
         setFilters({ page: 1 });
     };

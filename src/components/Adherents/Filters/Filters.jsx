@@ -7,9 +7,7 @@ const Filters = ({
     columns, onSubmit, onResetClick, values,
 }) => {
     const [filters, setFilters] = useState(values);
-
     const factory = new Factory();
-
     const filterElements = [];
 
     columns.forEach((column) => {
