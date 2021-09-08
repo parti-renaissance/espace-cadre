@@ -12,7 +12,6 @@ select {
 
 // Add box-shadow and border-radius
 .dc-container {
-
     @include dc-container();
 }
 
@@ -29,7 +28,7 @@ select {
     background-color: $blueBubble;
     padding: 8px;
     margin-right: 8px;
-    
+
     @include borderRadius(6px);
 }
 
