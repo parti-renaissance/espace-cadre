@@ -21,10 +21,10 @@
         font-weight: 400;
         font-size: 14px;
     }
-    
+
     .MuiInputLabel-shrink {
         display: none;
-    } 
+    }
 
     .MuiSelect-select:focus {
         background: $whiteCorner;
@@ -53,7 +53,7 @@
     .reset-button-filters {
         color: $gray700;
         border: 1px solid $gray300;
-        
+
         @include borderRadius(8px);
 
         &:hover {

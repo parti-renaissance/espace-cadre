@@ -2,7 +2,7 @@
     margin-top: 2px;
 
     // Dropdown to display user and his roles
-    .dropdown { 
+    .dropdown {
         .dropdown-toggle {
             text-align: left;
             background-color: $whiteCorner;
@@ -32,7 +32,7 @@
         }
 
         .dropdown-menu {
-            width: 268px ;
+            width: 268px;
             max-height: 400px;
             overflow-y: auto;
             overflow-x: hidden;
@@ -47,7 +47,7 @@
                 margin-bottom: 8px;
                 width: 236px;
                 background-color: #F7F9FC;
-                
+
                 @include borderRadius(6px);
 
                 &:hover {

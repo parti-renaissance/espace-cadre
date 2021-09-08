@@ -37,20 +37,19 @@
                 width: 48px;
                 margin-top: 12px;
             }
-        
+
             .page-title {
                 font-size: 48px;
             }
-    
+
             .beta {
                 font-size: 16px;
                 height: 26px;
-                padding: 2px 3px 0; 
+                padding: 2px 3px 0;
                 margin-left: 10px;
             }
         }
-        
-    }  
+    }
 
     .main-scope-card {
         margin: 0 auto 84px;
@@ -89,7 +88,7 @@
             background-color: $whiteCorner;
             cursor: pointer;
             text-decoration: none;
-            
+
             @include borderRadius(6px);
 
             .role {
@@ -111,4 +110,4 @@
             }
         }
     }
-} 
+}
