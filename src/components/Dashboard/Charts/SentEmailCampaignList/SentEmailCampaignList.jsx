@@ -9,8 +9,7 @@ import SentEmailCampaignListTitle from './SentEmailCampaignListTitle';
 
 function SentEmailCampaignList() {
     const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache();
-    const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const getEmailCampaignReports = async () => {
@@ -19,7 +18,6 @@ function SentEmailCampaignList() {
                     setEmailCampaignReports(await apiClientProxy.get('/mailCampaign/reports'));
                 }
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
@@ -95,7 +93,7 @@ function SentEmailCampaignList() {
                 </>
             );
         }
-        if (hasError) {
+        if (errorMessage) {
             return (
                 <Box>
                     <ErrorComponent errorMessage={errorMessage} />

@@ -18,8 +18,7 @@ import ErrorComponent from '../../../ErrorComponent/ErrorComponent';
 function ActiveUsers() {
     const [dashboardUsers, setDashboardUsers] = useDashboardUsersCache();
     const [currentScope] = useUserScope();
-    const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const getDashboardUsers = async () => {
@@ -28,7 +27,6 @@ function ActiveUsers() {
                     setDashboardUsers(await apiClientProxy.get('/jemengage/users'));
                 }
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
@@ -141,7 +139,7 @@ function ActiveUsers() {
             );
         } if (dashboardUsers !== null && dashboardUsers.users.length === 0) {
             return <div className="with-background chart-error">Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées</div>;
-        } if (hasError) {
+        } if (errorMessage) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
         return <div style={{ textAlign: 'center' }}><Loader /></div>;

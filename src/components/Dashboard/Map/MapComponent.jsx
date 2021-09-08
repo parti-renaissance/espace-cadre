@@ -13,8 +13,7 @@ import ErrorComponent from '../../ErrorComponent/ErrorComponent';
 function MapComponent() {
     const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache();
     const [currentScope] = useUserScope();
-    const [hasError, setHasError] = useState();
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const getSurvey = async () => {
@@ -23,7 +22,6 @@ function MapComponent() {
                     setDashboardSurvey(await apiClientProxy.get('/jemengage/survey'));
                 }
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
@@ -63,7 +61,7 @@ function MapComponent() {
                     </MapContainer>
                 </>
             );
-        } if (hasError) {
+        } if (errorMessage) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
         return <Box style={{ textAlign: 'center' }}><Loader /></Box>;

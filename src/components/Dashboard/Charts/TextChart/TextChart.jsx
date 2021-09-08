@@ -9,8 +9,7 @@ import ErrorComponent from '../../../ErrorComponent/ErrorComponent';
 function TextChart() {
     const [dashboardAdherents, setDashboardAdherents] = useDashboardAdherentCache();
     const [currentScope] = useUserScope();
-    const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const getDashboardAdherents = async () => {
@@ -19,7 +18,6 @@ function TextChart() {
                     setDashboardAdherents(await apiClientProxy.get('/adherents'));
                 }
             } catch (error) {
-                setHasError(true);
                 setErrorMessage(error);
             }
         };
@@ -35,7 +33,7 @@ function TextChart() {
                     </Box>
                 </Box>
             );
-        } if (hasError) {
+        } if (errorMessage) {
             return (
                 <ErrorComponent errorMessage={errorMessage} />
             );
