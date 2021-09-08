@@ -11,7 +11,7 @@ const adherentsSlice = createSlice({
         updateColumnsTitle(state, action) {
             state.columnsTitle = action.payload;
         },
-        resetContactsState() {
+        resetAdherentsState() {
             return initialState;
         },
     },
@@ -19,7 +19,7 @@ const adherentsSlice = createSlice({
 
 export const {
     updateColumnsTitle,
-    resetContactsState,
+    resetAdherentsState,
 } = adherentsSlice.actions;
 
 export default adherentsSlice.reducer;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentScope } from './selectors';
 import { updateCurrentScope, updateAuthorizedPages } from '../auth';
 import { resetStatsState } from '../dashboard';
-import { resetContactsState } from '../contacts';
+import { resetAdherentsState } from '../adherents';
 import { apiClient } from '../../services/networking/client';
 
 export const useUserScope = () => {
@@ -16,6 +16,6 @@ export const useUserScope = () => {
         dispatch(updateCurrentScope(scope));
         dispatch(updateAuthorizedPages(authorizedPage.features));
         dispatch(resetStatsState());
-        dispatch(resetContactsState());
+        dispatch(resetAdherentsState());
     }];
 };

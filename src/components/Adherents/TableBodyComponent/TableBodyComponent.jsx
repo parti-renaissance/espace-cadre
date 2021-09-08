@@ -4,8 +4,8 @@ import { TableBody, TableRow, TableCell } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
-function TableBodyComponent({ columnsTitle, contacts }) {
-    const { items } = contacts;
+function TableBodyComponent({ columnsTitle, adherents }) {
+    const { items } = adherents;
 
     return (
         <TableBody>
