@@ -2,7 +2,9 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Grid, Box } from '@material-ui/core';
+import {
+    Grid, Box, Button, Menu, MenuItem, Divider,
+} from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
 
@@ -13,6 +15,15 @@ function Scopes() {
     const userScopes = useSelector(getUserScopes);
     const history = useHistory();
     const filteredScopes = userScopes.filter((scope) => scope.apps.includes('data_corner'));
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const redirect = () => {
         history.push('/');
@@ -25,6 +36,28 @@ function Scopes() {
 
     return (
         <Grid className="scopes-container">
+            <Button onClick={handleClick}>{currentUser.firstName} {currentUser.lastName}</Button>
+            <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem onClick={handleClose}>
+                    <a href={process.env.REACT_APP_OAUTH_HOST}>Retour sur en-marche.fr</a>
+                </MenuItem>
+                <Divider />
+                {filteredScopes.map((userScope, i) => (
+                    <MenuItem onClick={handleClose} key={i}><span className="profile-role">{userScope.name}</span> <br />
+                        {
+                            userScope.zones.length > 1
+                                ? <span className="profile-place">{`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length} zone{userScope.zones.slice(1).length > 1 && 's'}</span>
+                                : <span className="profile-place">{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
+                        }
+                    </MenuItem>
+                ))}
+            </Menu>
             {currentUser && filteredScopes.length > 0 && (
                 <Dropdown>
                     <Dropdown.Toggle variant="">
