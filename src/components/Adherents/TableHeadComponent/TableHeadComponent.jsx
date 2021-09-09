@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function TableHeadComponent({ columnsTitle }) {
     return (
-        <TableHead id="sticky-tableHead">
+        <TableHead>
             <TableRow>
                 {columnsTitle && columnsTitle.map((columnTitle) => (
                     <TableCell key={columnTitle.key}>{columnTitle.label}</TableCell>
