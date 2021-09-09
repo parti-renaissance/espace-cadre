@@ -55,7 +55,7 @@ function Adherents() {
                     />
                     <Paper>
                         <TableContainer className="table-container">
-                            <Table stickyHeader>
+                            <Table>
                                 <TableHeadComponent columnsTitle={columnsTitle} />
                                 <TableBodyComponent adherents={adherents} columnsTitle={columnsTitle} />
                             </Table>

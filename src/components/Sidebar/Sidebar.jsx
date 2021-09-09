@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { useSelector } from 'react-redux';
 import MentionsLegales from '../MentionsLegales/MentionsLegales';
 import { getAuthorizedPages } from '../../redux/user/selectors';
+import Scopes from '../Scopes';
 
 import { MENU } from '../../Routes';
 
@@ -27,6 +28,7 @@ const Sidebar = () => {
                         <span className="beta-bubble">beta</span>
                     </div>
                 </Link>
+                <Scopes />
                 <ul id="main-nav">
                     {filteredMenu.map((item, index) => (
                         <li key={index}>

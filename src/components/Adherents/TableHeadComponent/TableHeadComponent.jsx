@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function TableHeadComponent({ columnsTitle }) {
     return (
-        <TableHead className="with-background dc-container contacts-mui-table">
+        <TableHead>
             <TableRow>
                 {columnsTitle && columnsTitle.map((columnTitle) => (
                     <TableCell key={columnTitle.key}>{columnTitle.label}</TableCell>

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { Container, Grid, Box } from '@material-ui/core';
 import { MENU } from '../../Routes';
-import Scopes from '../Scopes';
 
 const PageContent = ({ children }) => {
     const { pathname } = useLocation();
@@ -27,9 +26,6 @@ const PageContent = ({ children }) => {
                             <img src="images/list.svg" alt="Menu button" />
                         </button>
                         {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
-                    </Box>
-                    <Box mb={2}>
-                        <Scopes />
                     </Box>
                 </Grid>
                 {children}

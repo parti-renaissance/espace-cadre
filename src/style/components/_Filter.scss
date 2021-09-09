@@ -18,8 +18,11 @@
 
     .MuiInputBase-input,
     #simple-select {
+        font-family: 'Poppins', sans-serif !important;
+        font-style: 13px !important;
         font-weight: 400;
         font-size: 14px;
+        margin-top: 2px;
     }
 
     .MuiInputLabel-shrink {
