@@ -1,14 +1,41 @@
 .adherents-container {
     padding: 0 !important;
+    margin-bottom: 16px;
 }
 
-.table-container {
-    max-height: 70vh;
+.interests-bubble {
+    background-color: $interestsBubble;
+    padding: 1px 8px;
+    color: $blueCorner;
+
+    @include borderRadius(12px);
+
+    &:not(:last-child) {
+        margin-right: 4px;
+    }
 }
 
-.MuiTypography-root,
-.MuiInputBase-root {
-    font-family: 'Poppins', sans-serif !important;
-    font-style: 13px !important;
-    color: #4B5563 !important;
+.MuiPaper-elevation1 {
+    box-shadow: none !important;
+}
+
+.MuiPaper-rounded {
+    @include borderRadius(12px !important);
+}
+
+.MuiTableCell-root {
+    font-family: "Poppins", sans-serif !important;
+    font-size: 12px !important;
+}
+
+.MuiTableRow-hover {
+    &:hover {
+        background: #F9FAFB !important;
+    }
+}
+
+.MuiTableCell-head {
+    font-weight: 600 !important;
+    color: $gray800 !important;
+    min-width: 110px !important;
 }

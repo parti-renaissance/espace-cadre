@@ -5,12 +5,11 @@
     .dropdown {
         .dropdown-toggle {
             text-align: left;
-            background-color: $whiteCorner;
-            width: 268px;
+            background-color: $gray100;
+            width: 240px;
+            margin: 0 15.5px;
             height: 34px;
             border: none;
-
-            @include dc-container();
 
             &::after {
                 display: none;
@@ -37,10 +36,9 @@
             overflow-y: auto;
             overflow-x: hidden;
             border: none;
-            padding: 16px;
+            padding: 0 16px 16px;
             margin-top: 4px;
-
-            @include dc-container();
+            transform: translate(2px, 53px) !important;
 
             .dropdown-item {
                 padding: 8px 16px;
