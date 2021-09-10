@@ -1,77 +1,13 @@
-.scopes-container {
-    margin-top: 2px;
+.MuiMenuItem-root {
+    &:first-child {
+        width: 230px !important;
+    }
 
-    // Dropdown to display user and his roles
-    .dropdown {
-        .dropdown-toggle {
-            text-align: left;
-            background-color: $gray100;
-            width: 240px;
-            margin: 0 15.5px;
-            height: 34px;
-            border: none;
+    &:not(:first-child) {
+        padding: 0 !important;
+    }
 
-            &::after {
-                display: none;
-            }
-
-            &:hover {
-                background: linear-gradient(0deg, rgba(26, 51, 77, 0.05), rgba(26, 51, 77, 0.05)), #FFFFFF;
-            }
-
-            .profile-id {
-                font-size: 14px;
-                font-weight: 600;
-            }
-        }
-
-        // Make the rotation for the caret
-        .dropdown-toggle[aria-expanded='true'] .caret-dropdown {
-            transform: rotate(-180deg);
-        }
-
-        .dropdown-menu {
-            width: 268px;
-            max-height: 400px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            border: none;
-            padding: 0 16px 16px;
-            margin-top: 4px;
-            transform: translate(2px, 53px) !important;
-
-            .dropdown-item {
-                padding: 8px 16px;
-                margin-bottom: 8px;
-                width: 236px;
-                background-color: #F7F9FC;
-
-                @include borderRadius(6px);
-
-                &:hover {
-                    background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), #F7F9FC;
-                }
-            }
-
-            .dropdown-item:first-child {
-                padding-left: 16px;
-            }
-
-            .dropdown-item:last-child {
-                margin-bottom: 0;
-            }
-
-            .profile-role {
-                color: $blackCorner;
-                font-size: 14px;
-                font-weight: 400;
-            }
-
-            .profile-place {
-                color: $blackCorner;
-                font-size: 10px;
-                font-weight: 400;
-            }
-        }
+    &:not(:last-child) {
+        margin-bottom: 8px !important;
     }
 }
