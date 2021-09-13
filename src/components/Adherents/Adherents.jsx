@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Container, TableContainer, Paper, Table, TablePagination,
+    Container, TableContainer, Paper, Table, TablePagination, makeStyles, createStyles,
 } from '@material-ui/core';
 import qs from 'qs';
 import { apiClient } from '../../services/networking/client';
@@ -11,11 +11,45 @@ import Loader from '../Loader';
 import Filter from './Filters';
 import { useColumnsTitleCache } from '../../redux/adherents/hooks';
 
+const useStyles = makeStyles((theme) => createStyles({
+    tableContainer: {
+        fontFamily: 'Poppins, sans-serif',
+        fontSize: '12px',
+        borderRadius: '12px',
+        height: '70vh',
+    },
+    adherentsContainer: {
+        padding: '0',
+        marginBottom: '16px',
+    },
+    '@global': {
+        '.MuiPaper-elevation1': {
+            boxShadow: 'none',
+        },
+        '.MuiPaper-rounded': {
+            borderRadius: '12px',
+        },
+        '.MuiTableCell-head': {
+            fontSize: '12px',
+            fontWeight: '600',
+            background: theme.colorPalette.whiteCorner,
+            color: theme.colorPalette.gray800,
+            minWidth: '110px',
+        },
+        '.MuiTableRow-hover': {
+            '&:hover': {
+                backgroundColor: `${theme.colorPalette.gray100} !important`,
+            },
+        },
+    },
+}));
+
 function Adherents() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
     const [adherents, setAdherents] = useState([]);
     const [errorMessage, setErrorMessage] = useState();
     const [filters, setFilters] = useState({ page: 1 });
+    const classes = useStyles();
 
     useEffect(() => {
         if (columnsTitle.length) {
@@ -54,8 +88,8 @@ function Adherents() {
                         onResetClick={() => { setFilters({ page: 1 }); }}
                     />
                     <Paper>
-                        <TableContainer className="table-container">
-                            <Table>
+                        <TableContainer className={classes.tableContainer}>
+                            <Table stickyHeader>
                                 <TableHeadComponent columnsTitle={columnsTitle} />
                                 <TableBodyComponent adherents={adherents} columnsTitle={columnsTitle} />
                             </Table>
@@ -85,7 +119,7 @@ function Adherents() {
         );
     };
 
-    return <Container maxWidth="xl" className="adherents-container">{renderContent()}</Container>;
+    return <Container maxWidth="xl" className={classes.adherentsContainer}>{renderContent()}</Container>;
 }
 
 export default Adherents;
