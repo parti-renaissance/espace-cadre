@@ -1,11 +1,26 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { TableBody, TableRow, TableCell } from '@material-ui/core';
+import {
+    TableBody, TableRow, TableCell, makeStyles, createStyles,
+} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
+const useStyles = makeStyles((theme) => createStyles({
+    interestsBubble: {
+        backgroundColor: theme.colorPalette.interestsBubble,
+        padding: '1px 8px',
+        color: theme.colorPalette.blueCorner,
+        borderRadius: '12px',
+        '&:not(:last-child)': {
+            marginRight: '4px',
+        },
+    },
+}));
+
 function TableBodyComponent({ columnsTitle, adherents }) {
     const { items } = adherents;
+    const classes = useStyles();
 
     return (
         <TableBody>
@@ -16,7 +31,7 @@ function TableBodyComponent({ columnsTitle, adherents }) {
 
                         if (column.type === 'trans' || column.type === 'array|trans') {
                             if (Array.isArray(value)) {
-                                value = value.map((el, ind) => column.messages[el] !== undefined && <span key={ind} className="interests-bubble">{column.messages[el]}</span>);
+                                value = value.map((el, ind) => column.messages[el] !== undefined && <span key={ind} className={classes.interestsBubble}>{column.messages[el]}</span>);
                             } else {
                                 value = column.messages[value];
                             }

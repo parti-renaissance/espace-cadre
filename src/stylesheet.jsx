@@ -1,7 +1,7 @@
 import { createTheme } from '@material-ui/core';
 
 export const colorPalette = {
-// White
+    // White
     whiteCorner: '#fff',
 
     // Black
