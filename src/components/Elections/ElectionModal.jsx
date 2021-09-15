@@ -1,17 +1,38 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LinearProgress, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
-    linearProgress: {
+    electionModalContent: {
+        padding: '0 32px 32px',
+        color: 'black',
+    },
+    candidatName: {
+        fontWeight: '600',
+        fontSize: '18px',
+    },
+    candidatNuance: {
+        fontWeight: '400',
+        fontSize: '16px',
+        marginBottom: '16px',
+    },
+    candidatResultat: {
+        fontSize: '14px',
+        fontWeight: '400',
+        marginBottom: '16px',
+    },
+    resultatSpan: {
+        fontWeight: '600',
+    },
+    progress: {
         height: '8px',
         borderRadius: '12px',
+        background: '#F3F4F6',
     },
-    '@global': {
-        '.MuiLinearProgress-barColorPrimary': {
-            // Find a way to dynamically change the color of progressBar. Need to use the code_couleur prop as background style property
-        },
+    progressBar: {
+        height: '8px',
+        borderRadius: '12px',
     },
 });
 
@@ -23,25 +44,21 @@ const ElectionModal = ({
     const classes = useStyles();
 
     return (
-        <div className="election-modal-content">
-            <div className="candidat-name">{prenom} {nom}</div>
-            <div className="candidat-nuance">{nuance}</div>
-            <div className="candidat-resultat">{voix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} voix - <span className="resultat-span">{((voix / exprimes) * 100).toFixed(2)}%</span></div>
-            <div className="progress" style={{ height: '8px' }}>
+        <div className={classes.electionModalContent}>
+            <div className={classes.candidatName}>{prenom} {nom}</div>
+            <div className={classes.candidatNuance}>{nuance}</div>
+            <div className={classes.candidatResultat}>
+                {voix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} voix - <span className={classes.resultatSpan}>{((voix / exprimes) * 100).toFixed(2)}%</span>
+            </div>
+            <div className={classes.progress}>
                 <div
-                    className="progress-bar"
-                    role="progressbar"
-                    style={{ width: `${(voix / exprimes) * 100}%`, backgroundColor: `${code_couleur}` }}
-                    aria-valuenow={(voix / exprimes) * 100}
-                    aria-valuemin="0"
-                    aria-valuemax="100"
+                    className={classes.progressBar}
+                    style={{
+                        background: `${code_couleur}`,
+                        width: `${(voix / exprimes) * 100}%`,
+                    }}
                 />
             </div>
-            <LinearProgress
-                variant="determinate"
-                value={(voix / exprimes) * 100}
-                className={classes.linearProgress}
-            />
         </div>
     );
 };
