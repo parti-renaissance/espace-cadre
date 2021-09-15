@@ -69,6 +69,10 @@ function Scopes() {
         history.push('/');
     };
 
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     const handleChange = (userScope) => {
         updateCurrentScope(userScope);
         setAnchorEl(null);
@@ -88,7 +92,7 @@ function Scopes() {
                         keepMounted
                         elevation={0}
                         open={Boolean(anchorEl)}
-                        onClose={handleChange}
+                        onClose={handleClose}
                         style={{ top: '50px' }}
                     >
                         <MenuItem className={classes.menuItem}>
