@@ -32,6 +32,11 @@ export const colorPalette = {
     greenCorner: '#008000',
 };
 
+export const typography = {
+    fontFamily: 'Poppins',
+};
+
 export const theme = createTheme({
     colorPalette,
+    typography,
 });
