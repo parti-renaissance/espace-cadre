@@ -13,7 +13,7 @@
         }
 
         .subtitle-text-card {
-            color: $greyCorner3;
+            color: $grayCorner3;
             font-size: 12px;
             font-weight: 400;
             margin-bottom: 0;
@@ -41,18 +41,18 @@
 
                 .parenthese-info {
                     font-weight: 400;
-                    color: $greyCorner3;
+                    color: $grayCorner3;
                     margin-left: 2px;
                 }
 
                 .text-below-info-number {
                     font-size: 12px;
                     font-weight: 400;
-                    color: $greyCorner3;
+                    color: $grayCorner3;
                 }
 
                 @media (min-width: 768px) {
-                    border: solid 1px $greyCornerBg;
+                    border: solid 1px $grayCornerBg;
                     padding-left: 16px;
                 }
             }
