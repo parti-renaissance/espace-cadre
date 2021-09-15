@@ -16,6 +16,18 @@ const useStyles = makeStyles((theme) => createStyles({
             marginRight: '4px',
         },
     },
+    head: {
+        fontSize: '12px',
+        fontWeight: '600',
+        background: theme.colorPalette.whiteCorner,
+        color: theme.colorPalette.gray800,
+        minWidth: '110px',
+    },
+    hoverBackground: {
+        '&:hover': {
+            background: `${theme.colorPalette.gray100} !important`,
+        },
+    },
 }));
 
 function TableBodyComponent({ columnsTitle, adherents }) {
@@ -25,7 +37,7 @@ function TableBodyComponent({ columnsTitle, adherents }) {
     return (
         <TableBody>
             {items && items.map((adherent, index) => (
-                <TableRow key={index} hover>
+                <TableRow key={index} hover classes={{ hover: classes.hoverBackground }}>
                     {columnsTitle.map((column, i) => {
                         let value = adherent[column.key];
 
@@ -46,7 +58,7 @@ function TableBodyComponent({ columnsTitle, adherents }) {
                         }
 
                         return (
-                            <TableCell key={`${index}-${i}`}>{value}</TableCell>
+                            <TableCell key={`${index}-${i}`} classes={{ head: classes.head }}>{value}</TableCell>
                         );
                     })}
                 </TableRow>
