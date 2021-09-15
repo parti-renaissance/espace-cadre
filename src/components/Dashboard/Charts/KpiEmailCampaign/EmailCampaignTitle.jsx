@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => createStyles({
     gridItem: {
         marginBottom: '16px',
-        color: theme.colorPalette.grayCorner3,
+        color: theme.palette.grayCorner3,
         fontSize: '20px',
         fontWeight: '700',
     },

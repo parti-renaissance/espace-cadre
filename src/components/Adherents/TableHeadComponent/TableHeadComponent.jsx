@@ -8,8 +8,8 @@ const useStyles = makeStyles((theme) => createStyles({
     head: {
         fontSize: '12px',
         fontWeight: '600',
-        background: theme.colorPalette.whiteCorner,
-        color: theme.colorPalette.gray800,
+        background: theme.palette.whiteCorner,
+        color: theme.palette.gray800,
         minWidth: '110px',
     },
 }));

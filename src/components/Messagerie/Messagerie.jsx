@@ -7,6 +7,11 @@ import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
 
 const useStyles = makeStyles((theme) => createStyles({
+    root: {
+        '&:hover': {
+            backgroundColor: theme.palette.whiteCorner,
+        },
+    },
     pageTitle: {
         fontSize: '32px',
         fontWeight: '600',
@@ -21,8 +26,8 @@ const useStyles = makeStyles((theme) => createStyles({
     messagerieMailButton: {
         fontSize: '14px',
         fontWeight: '600',
-        color: theme.colorPalette.blue2Corner,
-        backgroundColor: theme.colorPalette.whiteCorner,
+        color: theme.palette.blue2Corner,
+        backgroundColor: theme.palette.whiteCorner,
         marginBottom: '10px',
         padding: '4px 16px',
         border: 'none',
@@ -35,7 +40,7 @@ const useStyles = makeStyles((theme) => createStyles({
         borderRadius: '6px',
     },
     kpiTitle: {
-        color: theme.colorPalette.blackCorner,
+        color: theme.palette.blackCorner,
         fontSize: '20px',
         fontWeight: '600',
         margin: '16px',
@@ -58,7 +63,9 @@ function Messagerie() {
                     <Link to="/Mail" className={classes.buttonLink}>
                         <Button
                             type="button"
+                            disableRipple
                             className={classes.messagerieMailButton}
+                            classes={{ root: classes.root }}
                             endIcon={<img src="images/arrow-right.svg" alt="right arrow" />}
                         >
                             Envoyer un email

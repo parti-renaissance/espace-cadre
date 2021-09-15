@@ -2,30 +2,47 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-    Grid, Button, Menu, MenuItem, Divider, makeStyles,
+    Grid, Button, Menu, MenuItem, Divider, makeStyles, createStyles,
 } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => createStyles({
+    root: {
+        '&:first-child': {
+            width: '240px',
+        },
+
+        '&:not(:first-child)': {
+            padding: '0',
+        },
+
+        '&:not(:last-child)': {
+            marginBottom: '8px',
+        },
+    },
+    menuPaper: {
+        marginTop: '50px',
+        background: theme.palette.whiteCorner,
+        width: '240px',
+    },
     scopeButton: {
-        background: '#F3F4F6',
+        background: theme.palette.gray100,
         margin: '0 15.5px 16px',
         width: '240px',
         height: '34px',
         justifyContent: 'space-between',
         padding: '0 12px',
         '&:hover': {
-            background: '#E5E7EB',
+            background: theme.palette.gray200,
         },
     },
     menuItem: {
-        fontFamily: 'Poppins',
         color: 'black',
         fontSize: '14px',
         fontWeight: '400',
         padding: '8px 16px',
-        width: '200px',
+        width: '210px',
         backgroundColor: '#F7F9FC',
         borderRadius: '6px',
         '&:hover': {
@@ -34,7 +51,7 @@ const useStyles = makeStyles({
     },
     divider: {
         margin: '8px 0',
-        color: '#E9ECEF',
+        color: theme.palette.gray100,
     },
     profilePlace: {
         fontSize: '10px',
@@ -49,7 +66,7 @@ const useStyles = makeStyles({
         fontWeight: '600',
         textTransform: 'capitalize',
     },
-});
+}));
 
 function Scopes() {
     const currentUser = useSelector(getCurrentUser);
@@ -90,12 +107,14 @@ function Scopes() {
                     <Menu
                         anchorEl={anchorEl}
                         keepMounted
-                        elevation={0}
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
-                        style={{ top: '50px' }}
+                        classes={{ paper: classes.menuPaper }}
                     >
-                        <MenuItem className={classes.menuItem}>
+                        <MenuItem
+                            classes={{ root: classes.root }}
+                            className={classes.menuItem}
+                        >
                             <a
                                 href={process.env.REACT_APP_OAUTH_HOST}
                                 className={classes.returnButton}
@@ -110,6 +129,7 @@ function Scopes() {
                                 key={i}
                                 onClick={() => handleChange(userScope)}
                                 disableGutters
+                                classes={{ root: classes.root }}
                             >
                                 <span
                                     style={{ backgroundColor: (userScope.code === currentScope.code ? '#D9EAFF' : '#F7F9FC') }}

@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => createStyles({
     title: {
         fontSize: '20px',
         fontWeight: '700',
-        color: theme.colorPalette.grayCorner3,
+        margin: '0 0 15px 8px',
+        color: theme.palette.grayCorner3,
     },
     phoneImg: {
         verticalAlign: 'middle',

@@ -22,9 +22,6 @@ const useStyles = makeStyles({
         padding: '0',
         marginBottom: '16px',
     },
-    paper: {
-        boxShadow: 'none',
-    },
     rounded: {
         borderRadius: '12px',
     },
@@ -73,7 +70,7 @@ function Adherents() {
                         onSubmit={(newFilters) => setFilters({ ...newFilters, ...{ page: 1 } })}
                         onResetClick={() => { setFilters({ page: 1 }); }}
                     />
-                    <Paper classes={{ elevation1: classes.paper, rounded: classes.rounded }}>
+                    <Paper classes={{ rounded: classes.rounded }}>
                         <TableContainer className={classes.tableContainer}>
                             <Table stickyHeader>
                                 <TableHeadComponent columnsTitle={columnsTitle} />

@@ -8,9 +8,9 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme) => createStyles({
     interestsBubble: {
-        backgroundColor: theme.colorPalette.interestsBubble,
+        backgroundColor: theme.palette.interestsBubble,
         padding: '1px 8px',
-        color: theme.colorPalette.blueCorner,
+        color: theme.palette.blueCorner,
         borderRadius: '12px',
         '&:not(:last-child)': {
             marginRight: '4px',
@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => createStyles({
     head: {
         fontSize: '12px',
         fontWeight: '600',
-        background: theme.colorPalette.whiteCorner,
-        color: theme.colorPalette.gray800,
+        background: theme.palette.whiteCorner,
+        color: theme.palette.gray800,
         minWidth: '110px',
     },
     hoverBackground: {
         '&:hover': {
-            background: `${theme.colorPalette.gray100} !important`,
+            background: `${theme.palette.gray100} !important`,
         },
     },
 }));

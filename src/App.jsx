@@ -9,7 +9,7 @@ import Layout from './components/Layout';
 import Routes from './Routes';
 
 import './style/index.scss';
-import { theme } from './stylesheet';
+import theme from './stylesheet';
 
 const App = () => (
     <Provider store={store}>
