@@ -3,7 +3,7 @@ import {
     Button, Grid, makeStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import Factory from '../../Filter/Factory';
+import Factory from './FiltersFactory/Factory';
 
 const useStyles = makeStyles({
     filtersContainer: {
@@ -11,22 +11,22 @@ const useStyles = makeStyles({
     },
 });
 
-const Filters = ({
-    columns, onSubmit, onResetClick, values,
+const FiltersForm = ({
+    filters, onSubmit, onReset, values,
 }) => {
-    const [filters, setFilters] = useState(values);
+    const [localValues, setLocalValues] = useState(values);
     const factory = new Factory();
     const filterElements = [];
     const classes = useStyles();
 
-    columns.forEach((column) => {
+    filters.forEach((column) => {
         const filter = factory.create(column.filter.type || 'text', {
             column,
-            value: filters[column.key] || '',
+            value: localValues[column.key] || '',
             onChange: (event) => {
-                setFilters((prevState) => {
+                setLocalValues((prevState) => {
                     const newState = { ...prevState };
-                    newState[column.key] = event.target.value;
+                    newState[column.key] = event;
 
                     return newState;
                 });
@@ -34,7 +34,7 @@ const Filters = ({
         });
 
         if (filter) {
-            filterElements.push(<Grid key={column.key} item xs={12} sm={6} md={4} lg>{filter}</Grid>);
+            filterElements.push(<Grid key={column.key} item xs={12} sm={6} md={3}>{filter}</Grid>);
         }
     });
 
@@ -46,7 +46,7 @@ const Filters = ({
         <>
             <form onSubmit={(event) => {
                 event.preventDefault();
-                onSubmit(filters);
+                onSubmit(localValues);
             }}
             >
                 <div className="filters-block-container">
@@ -58,8 +58,8 @@ const Filters = ({
                         <Button
                             className="reset-button-filters"
                             onClick={() => {
-                                setFilters({});
-                                onResetClick();
+                                setLocalValues({});
+                                onReset();
                             }}
                         >Réinitialiser
                         </Button>
@@ -70,11 +70,11 @@ const Filters = ({
     );
 };
 
-Filters.propTypes = {
-    columns: PropTypes.arrayOf(Object).isRequired,
+FiltersForm.propTypes = {
+    filters: PropTypes.arrayOf(Object).isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onResetClick: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
     values: PropTypes.objectOf(Object).isRequired,
 };
 
-export default Filters;
+export default FiltersForm;

@@ -8,7 +8,7 @@ import TableHeadComponent from './TableHeadComponent';
 import TableBodyComponent from './TableBodyComponent';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
-import Filter from './Filters';
+import DynamicFilters from '../Filters/DynamicFilters';
 import { useColumnsTitleCache } from '../../redux/adherents/hooks';
 
 const useStyles = makeStyles({
@@ -63,11 +63,10 @@ function Adherents() {
         if (columnsTitle.length > 0) {
             return (
                 <>
-                    <Filter
-                        columns={columnsTitle.filter((column) => column.filter !== undefined)}
+                    <DynamicFilters
                         values={filters}
                         onSubmit={(newFilters) => setFilters({ ...newFilters, ...{ page: 1 } })}
-                        onResetClick={() => { setFilters({ page: 1 }); }}
+                        onReset={() => { setFilters({ page: 1 }); }}
                     />
                     <Paper classes={{ rounded: classes.rounded }}>
                         <TableContainer className={classes.tableContainer}>
