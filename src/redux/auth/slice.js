@@ -16,6 +16,7 @@ const authSlice = createSlice({
         userLoggedIn(state, action) {
             state.tokens = action.payload;
             state.isUserLogged = true;
+            state.appVersion = process.env.REACT_APP_VERSION;
         },
         userUpdateData(state, action) {
             state.user = action.payload;
