@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Container, TableContainer, Paper, Table, TablePagination, makeStyles, createStyles,
+    Container, TableContainer, Paper, Table, TablePagination, makeStyles,
 } from '@material-ui/core';
 import qs from 'qs';
 import { apiClient } from '../../services/networking/client';
@@ -11,9 +11,8 @@ import Loader from '../Loader';
 import Filter from './Filters';
 import { useColumnsTitleCache } from '../../redux/adherents/hooks';
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles({
     tableContainer: {
-        fontFamily: 'Poppins, sans-serif',
         fontSize: '12px',
         borderRadius: '12px',
         height: '70vh',
@@ -22,27 +21,10 @@ const useStyles = makeStyles((theme) => createStyles({
         padding: '0',
         marginBottom: '16px',
     },
-    '@global': {
-        '.MuiPaper-elevation1': {
-            boxShadow: 'none',
-        },
-        '.MuiPaper-rounded': {
-            borderRadius: '12px',
-        },
-        '.MuiTableCell-head': {
-            fontSize: '12px',
-            fontWeight: '600',
-            background: theme.colorPalette.whiteCorner,
-            color: theme.colorPalette.gray800,
-            minWidth: '110px',
-        },
-        '.MuiTableRow-hover': {
-            '&:hover': {
-                backgroundColor: `${theme.colorPalette.gray100} !important`,
-            },
-        },
+    rounded: {
+        borderRadius: '12px',
     },
-}));
+});
 
 function Adherents() {
     const [columnsTitle, setColumnsTitle] = useColumnsTitleCache();
@@ -87,7 +69,7 @@ function Adherents() {
                         onSubmit={(newFilters) => setFilters({ ...newFilters, ...{ page: 1 } })}
                         onResetClick={() => { setFilters({ page: 1 }); }}
                     />
-                    <Paper>
+                    <Paper classes={{ rounded: classes.rounded }}>
                         <TableContainer className={classes.tableContainer}>
                             <Table stickyHeader>
                                 <TableHeadComponent columnsTitle={columnsTitle} />

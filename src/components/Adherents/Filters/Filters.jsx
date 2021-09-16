@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Grid } from '@material-ui/core';
+import {
+    Button, Grid, makeStyles,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Factory from '../../Filter/Factory';
+
+const useStyles = makeStyles({
+    filtersContainer: {
+        marginBottom: '10px',
+    },
+});
 
 const Filters = ({
     columns, onSubmit, onResetClick, values,
@@ -9,6 +17,7 @@ const Filters = ({
     const [filters, setFilters] = useState(values);
     const factory = new Factory();
     const filterElements = [];
+    const classes = useStyles();
 
     columns.forEach((column) => {
         const filter = factory.create(column.filter.type || 'text', {
@@ -41,7 +50,7 @@ const Filters = ({
             }}
             >
                 <div className="filters-block-container">
-                    <Grid container spacing={2} style={{ marginBottom: '10px' }}>
+                    <Grid container spacing={2} className={classes.filtersContainer}>
                         {filterElements}
                     </Grid>
                     <Grid container>

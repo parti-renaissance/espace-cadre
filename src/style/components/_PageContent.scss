@@ -14,13 +14,14 @@
     }
 
     #sidebar-collapse-button {
-        color: $greyCorner3;
+        color: $grayCorner3;
         background-color: $whiteCorner;
         height: 34px;
         width: 40px;
         vertical-align: text-bottom;
         border: none;
         margin-right: 16px;
+        cursor: pointer;
     }
 
     .page-title {

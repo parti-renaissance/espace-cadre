@@ -8,12 +8,24 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme) => createStyles({
     interestsBubble: {
-        backgroundColor: theme.colorPalette.interestsBubble,
+        backgroundColor: theme.palette.interestsBubble,
         padding: '1px 8px',
-        color: theme.colorPalette.blueCorner,
+        color: theme.palette.blueCorner,
         borderRadius: '12px',
         '&:not(:last-child)': {
             marginRight: '4px',
+        },
+    },
+    head: {
+        fontSize: '12px',
+        fontWeight: '600',
+        background: theme.palette.whiteCorner,
+        color: theme.palette.gray800,
+        minWidth: '110px',
+    },
+    hoverBackground: {
+        '&:hover': {
+            background: `${theme.palette.gray100} !important`,
         },
     },
 }));
@@ -25,7 +37,7 @@ function TableBodyComponent({ columnsTitle, adherents }) {
     return (
         <TableBody>
             {items && items.map((adherent, index) => (
-                <TableRow key={index} hover>
+                <TableRow key={index} hover classes={{ hover: classes.hoverBackground }}>
                     {columnsTitle.map((column, i) => {
                         let value = adherent[column.key];
 
@@ -46,7 +58,7 @@ function TableBodyComponent({ columnsTitle, adherents }) {
                         }
 
                         return (
-                            <TableCell key={`${index}-${i}`}>{value}</TableCell>
+                            <TableCell key={`${index}-${i}`} classes={{ head: classes.head }}>{value}</TableCell>
                         );
                     })}
                 </TableRow>

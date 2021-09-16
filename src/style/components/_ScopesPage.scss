@@ -1,6 +1,8 @@
 .scopes-page-container {
     height: 400px;
     width: 100vw;
+    padding: 0 !important;
+    margin: 0 !important;
     background-color: $blue2Corner;
 
     .logo-title-container {
@@ -81,8 +83,8 @@
         flex-wrap: wrap;
 
         .secondary-card {
-            width: 300px;
-            height: 150px;
+            width: 250px;
+            height: 110px;
             padding: 16px;
             margin-bottom: 16px;
             background-color: $whiteCorner;

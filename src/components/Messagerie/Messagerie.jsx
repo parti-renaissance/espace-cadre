@@ -1,33 +1,86 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Container } from '@material-ui/core';
+import {
+    Grid, Container, Button, makeStyles, createStyles,
+} from '@material-ui/core';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
 
+const useStyles = makeStyles((theme) => createStyles({
+    root: {
+        '&:hover': {
+            backgroundColor: theme.palette.whiteCorner,
+        },
+    },
+    pageTitle: {
+        fontSize: '32px',
+        fontWeight: '600',
+    },
+    mailButtonContainer: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },
+    buttonLink: {
+        marginTop: '6px',
+    },
+    messagerieMailButton: {
+        fontSize: '14px',
+        fontWeight: '600',
+        color: theme.palette.blue2Corner,
+        backgroundColor: theme.palette.whiteCorner,
+        marginBottom: '10px',
+        padding: '4px 16px',
+        border: 'none',
+        borderRadius: '79px',
+        textTransform: 'none',
+    },
+    messagerieKpi: {
+        backgroundColor: 'rgba(19, 92, 235, 0.05)',
+        marginBottom: '16px',
+        borderRadius: '6px',
+    },
+    kpiTitle: {
+        color: theme.palette.blackCorner,
+        fontSize: '20px',
+        fontWeight: '600',
+        margin: '16px',
+    },
+    kpiComponent: {
+        padding: '0 32px',
+    },
+}));
+
 function Messagerie() {
+    const classes = useStyles();
+
     return (
         <Container maxWidth="lg">
             <Grid container justifyContent="space-between">
                 <Grid item>
-                    <span className="page-title">Messagerie</span>
+                    <span className={classes.pageTitle}>Messagerie</span>
                 </Grid>
-                <Grid item className="mail-button-container">
-                    <Link to="/Mail" className="button-link">
-                        <button type="button" className="messagerie-mail-button">
-                            <span className="button-text">Envoyer un email</span>
-                            <img src="images/arrow-right.svg" alt="right arrow" />
-                        </button>
+                <Grid item className={classes.mailButtonContainer}>
+                    <Link to="/Mail" className={classes.buttonLink}>
+                        <Button
+                            type="button"
+                            disableRipple
+                            className={classes.messagerieMailButton}
+                            classes={{ root: classes.root }}
+                            endIcon={<img src="images/arrow-right.svg" alt="right arrow" />}
+                        >
+                            Envoyer un email
+                        </Button>
                     </Link>
                 </Grid>
             </Grid>
-            <Grid container className="messagerie-kpi">
+            <Grid container className={classes.messagerieKpi}>
                 <Grid container>
-                    <Grid item xs={12} className="kpi-title">
+                    <Grid item xs={12} className={classes.kpiTitle}>
                         En quelques chiffres
                     </Grid>
                 </Grid>
                 <Grid container>
-                    <Grid item xs={12} className="kpi-component">
+                    <Grid item xs={12} className={classes.kpiComponent}>
                         <KpiEmailCampaign />
                     </Grid>
                 </Grid>

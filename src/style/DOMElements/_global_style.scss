@@ -3,6 +3,8 @@ body {
 }
 
 select {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
     padding: 6px 12px;
     border: none;
     outline: none;
@@ -40,7 +42,7 @@ select {
 
 // Subtitle above chart on Vue d'ensemble page
 .chart-subtitle {
-    color: $greyCorner3;
+    color: $grayCorner3;
     font-size: 12px;
     font-weight: 400;
 }
