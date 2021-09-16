@@ -12,11 +12,9 @@ const useStyles = makeStyles((theme) => createStyles({
         '&:first-child': {
             width: '240px',
         },
-
         '&:not(:first-child)': {
             padding: '0',
         },
-
         '&:not(:last-child)': {
             marginBottom: '8px',
         },
@@ -61,7 +59,6 @@ const useStyles = makeStyles((theme) => createStyles({
         color: 'black',
     },
     activeScope: {
-        fontFamily: 'Poppins',
         fontSize: '14px',
         fontWeight: '600',
         textTransform: 'capitalize',

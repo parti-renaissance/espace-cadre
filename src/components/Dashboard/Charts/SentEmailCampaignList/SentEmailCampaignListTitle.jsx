@@ -1,9 +1,19 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles, createStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => createStyles({
+    campaignListTitle: {
+        color: theme.palette.blackCorner,
+        fontWeight: '600',
+        fontSize: '20px',
+        marginBottom: '16px',
+    },
+}));
 
 function SentEmailCampaignListTitle() {
+    const classes = useStyles();
     return (
-        <Grid container className="campaign-list-title">
+        <Grid container className={classes.campaignListTitle}>
             <Grid item xs={12}>
                 Vos dernières campagnes
             </Grid>

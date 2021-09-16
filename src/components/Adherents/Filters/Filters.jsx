@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import {
-    Button, Grid, makeStyles, createStyles,
+    Button, Grid, makeStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Factory from '../../Filter/Factory';
 
-const useStyles = makeStyles(() => createStyles({
+const useStyles = makeStyles({
     filtersContainer: {
         marginBottom: '10px',
     },
-}));
+});
 
 const Filters = ({
     columns, onSubmit, onResetClick, values,

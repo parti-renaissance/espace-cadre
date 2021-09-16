@@ -13,7 +13,6 @@ import { useColumnsTitleCache } from '../../redux/adherents/hooks';
 
 const useStyles = makeStyles({
     tableContainer: {
-        fontFamily: 'Poppins, sans-serif',
         fontSize: '12px',
         borderRadius: '12px',
         height: '70vh',
