@@ -1,4 +1,4 @@
-import { configureStore as reduxConfigureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore as reduxConfigureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore, PERSIST } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createReduxEnhancer } from '@sentry/react';
@@ -16,7 +16,7 @@ const configureStore = () => {
 
     const store = reduxConfigureStore({
         devTools: process.env.NODE_ENV !== 'production',
-        middleware: getDefaultMiddleware({
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware({
             serializableCheck: {
                 ignoredActions: [PERSIST], // see https://github.com/rt2zz/redux-persist/issues/988#issuecomment-529575333
             },
