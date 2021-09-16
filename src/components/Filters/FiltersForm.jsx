@@ -23,10 +23,10 @@ const FiltersForm = ({
         const filter = factory.create(column.filter.type || 'text', {
             column,
             value: localValues[column.key] || '',
-            onChange: (event) => {
+            onChange: (value) => {
                 setLocalValues((prevState) => {
                     const newState = { ...prevState };
-                    newState[column.key] = event.target.value;
+                    newState[column.key] = value;
 
                     return newState;
                 });

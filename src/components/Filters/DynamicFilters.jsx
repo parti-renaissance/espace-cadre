@@ -16,7 +16,14 @@ const DynamicFilters = ({ values, onSubmit, onReset }) => {
 
         const getColumnsTitle = async () => {
             try {
-                setFilters(await apiClient.get('v3/adherents/columns'));
+                const filtersResults = (await apiClient.get('v3/adherents/columns'));
+                filtersResults.push({
+                    key: 'birthdate',
+                    label: 'Date de naissance',
+                    filter: { type: 'date_interval' },
+                    options: null,
+                });
+                setFilters(filtersResults);
             } catch (error) {
                 setErrorMessage(error);
             }
