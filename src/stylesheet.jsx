@@ -40,10 +40,10 @@ const theme = createTheme({
             disableElevation: true,
         },
         MuiPaper: {
-            elevation: '0',
+            elevation: 0,
         },
         MuiMenu: {
-            elevation: '0',
+            elevation: 0,
         },
     },
 });
