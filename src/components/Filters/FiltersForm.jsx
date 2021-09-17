@@ -26,7 +26,7 @@ const FiltersForm = ({
             onChange: (event) => {
                 setLocalValues((prevState) => {
                     const newState = { ...prevState };
-                    newState[column.key] = event;
+                    newState[column.key] = event.target.value;
 
                     return newState;
                 });
