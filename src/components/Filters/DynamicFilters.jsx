@@ -16,7 +16,7 @@ const DynamicFilters = ({ values, onSubmit, onReset }) => {
 
         const getColumnsTitle = async () => {
             try {
-                const filtersResults = (await apiClient.get('v3/adherents/columns'));
+                const filtersResults = (await apiClient.get('v3/adherents/filters'));
                 filtersResults.push({
                     key: 'birthdate',
                     label: 'Date de naissance',
@@ -40,7 +40,7 @@ const DynamicFilters = ({ values, onSubmit, onReset }) => {
         if (filters.length > 0) {
             return (
                 <FiltersForm
-                    filters={filters.filter((column) => column.filter !== undefined)}
+                    filters={filters}
                     values={values}
                     onSubmit={onSubmit}
                     onReset={onReset}

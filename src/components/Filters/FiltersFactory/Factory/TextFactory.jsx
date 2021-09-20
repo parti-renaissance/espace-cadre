@@ -1,6 +1,17 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        border: 'none',
+    },
+    filterBasicStyle: {
+        height: '39px',
+        background: theme.palette.whiteCorner,
+        borderRadius: '8px',
+    },
+}));
 
 class TextFactory {
     getType() {
@@ -8,17 +19,18 @@ class TextFactory {
     }
 
     create(props) {
-        const { column, onChange, value } = props;
-
+        const { filter, onChange, value } = props;
+        const classes = useStyles();
         return (
             <TextField
-                placeholder={column.label}
+                placeholder={filter.label}
                 variant="outlined"
                 value={value}
                 size="small"
-                key={column.key}
-                onChange={onChange}
-                className="filter-basic-style"
+                key={filter.code}
+                onChange={(e) => onChange(e.target.value)}
+                className={classes.filterBasicStyle}
+                classes={{ root: classes.root }}
             />
         );
     }
