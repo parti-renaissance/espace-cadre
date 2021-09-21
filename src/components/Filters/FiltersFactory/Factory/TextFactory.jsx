@@ -3,13 +3,10 @@ import React from 'react';
 import { TextField, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        border: 'none',
-    },
     filterBasicStyle: {
-        height: '39px',
         background: theme.palette.whiteCorner,
         borderRadius: '8px',
+        width: '100%',
     },
 }));
 
@@ -23,10 +20,10 @@ class TextFactory {
 
         return (
             <TextField
-                placeholder={filter.label}
                 variant="outlined"
+                size="small"
+                label={filter.label}
                 value={value}
-                size="medium"
                 onChange={(e) => onChange(e.target.value)}
                 className={classes.filterBasicStyle}
                 classes={{ root: classes.root }}

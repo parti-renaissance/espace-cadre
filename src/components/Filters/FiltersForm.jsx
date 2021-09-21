@@ -57,7 +57,7 @@ const FiltersForm = ({
         });
 
         if (filterElement) {
-            filterElements.push(<Grid key={filter.code} item xs={12} md={6}>{filterElement}</Grid>);
+            filterElements.push(<Grid key={filter.code} item xs={12} sm={6} md={6} lg={4}>{filterElement}</Grid>);
         }
     });
 

@@ -34,7 +34,7 @@ class SelectFactory {
         return (
             <FormControl
                 variant="outlined"
-                size="medium"
+                size="small"
                 classes={{ root: classes.root }}
             >
                 <InputLabel id="simple-select">{filter.label}</InputLabel>
@@ -44,7 +44,6 @@ class SelectFactory {
                     className={classes.filterBasicStyle}
                     classes={{ root: classes.select }}
                     value={selectValue}
-                    size="small"
                     multiple={multiple}
                     renderValue={(selected) => {
                         if (Array.isArray(selected)) {

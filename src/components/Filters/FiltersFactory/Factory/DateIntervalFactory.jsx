@@ -28,6 +28,7 @@ class DateIntervalFactory {
                         disableToolbar
                         inputVariant="outlined"
                         variant="inline"
+                        size="small"
                         label={`${filter.label} du`}
                         format="dd/MM/yyyy"
                         value={value === '' || value.start === undefined ? null : value.start}
@@ -42,6 +43,7 @@ class DateIntervalFactory {
                         disableToolbar
                         inputVariant="outlined"
                         variant="inline"
+                        size="small"
                         label={`${filter.label} au`}
                         format="dd/MM/yyyy"
                         value={value === '' || value.end === undefined ? null : value.end}
