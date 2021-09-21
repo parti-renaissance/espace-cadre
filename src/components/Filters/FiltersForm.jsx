@@ -1,15 +1,38 @@
 import React, { useState } from 'react';
 import {
-    Button, Grid, makeStyles,
+    Button, createStyles, Grid, makeStyles, Box,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Factory from './FiltersFactory/Factory';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => createStyles({
+    boxContainer: {
+        marginTop: '16px',
+    },
     filtersContainer: {
         marginBottom: '10px',
     },
-});
+    buttonContainer: {
+        marginBottom: '16px',
+    },
+    buttonFilter: {
+        color: theme.palette.whiteCorner,
+        background: `${theme.palette.gray700}`,
+        marginRight: '16px',
+        borderRadius: '8px',
+        '&:hover': {
+            background: theme.palette.gray600,
+        },
+    },
+    resetButtonFilters: {
+        color: theme.palette.gray700,
+        border: `1px solid ${theme.palette.gray300}`,
+        borderRadius: '8px',
+        '&:hover': {
+            background: theme.palette.gray200,
+        },
+    },
+}));
 
 const FiltersForm = ({
     filters, onSubmit, onReset, values,
@@ -19,22 +42,22 @@ const FiltersForm = ({
     const filterElements = [];
     const classes = useStyles();
 
-    filters.forEach((column) => {
-        const filter = factory.create(column.filter.type || 'text', {
-            column,
-            value: localValues[column.key] || '',
-            onChange: (event) => {
+    filters.forEach((filter) => {
+        const filterElement = factory.create(filter.type || 'text', {
+            filter,
+            value: localValues[filter.code] || '',
+            onChange: (value) => {
                 setLocalValues((prevState) => {
                     const newState = { ...prevState };
-                    newState[column.key] = event.target.value;
+                    newState[filter.code] = value;
 
                     return newState;
                 });
             },
         });
 
-        if (filter) {
-            filterElements.push(<Grid key={column.key} item xs={12} sm={6} md={3}>{filter}</Grid>);
+        if (filterElement) {
+            filterElements.push(<Grid key={filter.code} item xs={12} md={6}>{filterElement}</Grid>);
         }
     });
 
@@ -43,20 +66,25 @@ const FiltersForm = ({
     }
 
     return (
-        <>
+        <Box className={classes.boxContainer}>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 onSubmit(localValues);
             }}
             >
-                <div className="filters-block-container">
+                <div>
                     <Grid container spacing={2} className={classes.filtersContainer}>
                         {filterElements}
                     </Grid>
-                    <Grid container>
-                        <Button type="submit" className="button-filter">Filtrer</Button>
+                    <Grid container className={classes.buttonContainer}>
                         <Button
-                            className="reset-button-filters"
+                            type="submit"
+                            className={classes.buttonFilter}
+
+                        >Filtrer
+                        </Button>
+                        <Button
+                            className={classes.resetButtonFilters}
                             onClick={() => {
                                 setLocalValues({});
                                 onReset();
@@ -66,7 +94,7 @@ const FiltersForm = ({
                     </Grid>
                 </div>
             </form>
-        </>
+        </Box>
     );
 };
 
