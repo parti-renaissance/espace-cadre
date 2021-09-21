@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 class TextFactory {
     getType() {
-        return 'string';
+        return 'text';
     }
 
     create({ filter, onChange, value }) {
