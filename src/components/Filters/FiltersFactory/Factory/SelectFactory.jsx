@@ -26,11 +26,11 @@ class SelectFactory {
         return 'select';
     }
 
-    create(props) {
-        const { filter, onChange, value } = props;
+    create({ filter, onChange, value }) {
         const multiple = filter.options && !!filter.options.multiple;
         const selectValue = multiple && !Array.isArray(value) ? [value].filter((element) => element !== '') : value;
         const classes = useStyles();
+
         return (
             <FormControl
                 variant="outlined"

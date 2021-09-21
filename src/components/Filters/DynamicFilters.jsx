@@ -40,9 +40,11 @@ const DynamicFilters = ({ values, onSubmit, onReset }) => {
                 />
             );
         }
+
         if (errorMessage) {
             return <ErrorComponent errorMessage={errorMessage} />;
         }
+
         return (
             <div style={{ textAlign: 'center' }} className="with-background dc-container">
                 <Loader />
@@ -50,11 +52,7 @@ const DynamicFilters = ({ values, onSubmit, onReset }) => {
         );
     };
 
-    return (
-        <>
-            {dynamicFiltersContent()}
-        </>
-    );
+    return dynamicFiltersContent();
 };
 
 export default DynamicFilters;

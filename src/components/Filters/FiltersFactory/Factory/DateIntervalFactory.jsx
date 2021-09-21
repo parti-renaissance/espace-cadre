@@ -1,8 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import {
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles, Grid } from '@material-ui/core';
 import { format } from 'date-fns';
 

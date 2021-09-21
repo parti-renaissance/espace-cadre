@@ -18,8 +18,7 @@ class TextFactory {
         return 'string';
     }
 
-    create(props) {
-        const { filter, onChange, value } = props;
+    create({ filter, onChange, value }) {
         const classes = useStyles();
 
         return (
@@ -28,7 +27,6 @@ class TextFactory {
                 variant="outlined"
                 value={value}
                 size="medium"
-                key={filter.code}
                 onChange={(e) => onChange(e.target.value)}
                 className={classes.filterBasicStyle}
                 classes={{ root: classes.root }}

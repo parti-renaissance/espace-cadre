@@ -10,7 +10,6 @@ import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
 import DynamicFilters from '../Filters/DynamicFilters';
 import { useColumnsTitleCache } from '../../redux/adherents/hooks';
-import 'date-fns';
 
 const useStyles = makeStyles({
     tableContainer: {

@@ -1,24 +1,21 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import {
-    makeStyles, Grid, TextField,
-} from '@material-ui/core';
+import { makeStyles, Grid, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    agePicker: {
+    integerInterval: {
         background: theme.palette.whiteCorner,
         width: '100%',
         borderRadius: '8px',
     },
 }));
 
-class DateIntervalFactory {
+class IntegerIntervalFactory {
     getType() {
         return 'integer_interval';
     }
 
-    create(props) {
-        const { filter, onChange, value } = props;
+    create({ filter, onChange, value }) {
         const classes = useStyles();
 
         return (
@@ -28,9 +25,10 @@ class DateIntervalFactory {
                         label={`${filter.label} minimum`}
                         type="number"
                         variant="outlined"
-                        className={classes.agePicker}
+                        value={value === '' || (typeof value === 'object' && value.min === undefined) ? '' : value.min}
+                        className={classes.integerInterval}
                         onChange={(e) => {
-                            onChange({ ...value, ...{ min: e.target.value } });
+                            onChange({ ...value, ...{ min: parseInt(e.target.value, 10) } });
                         }}
                     />
                 </Grid>
@@ -39,9 +37,10 @@ class DateIntervalFactory {
                         label={`${filter.label} maximum`}
                         type="number"
                         variant="outlined"
-                        className={classes.agePicker}
+                        className={classes.integerInterval}
+                        value={value === '' || (typeof value === 'object' && value.max === undefined) ? '' : value.max}
                         onChange={(e) => {
-                            onChange({ ...value, ...{ max: e.target.value } });
+                            onChange({ ...value, ...{ max: parseInt(e.target.value, 10) } });
                         }}
                     />
                 </Grid>
@@ -50,4 +49,4 @@ class DateIntervalFactory {
     }
 }
 
-export default DateIntervalFactory;
+export default IntegerIntervalFactory;
