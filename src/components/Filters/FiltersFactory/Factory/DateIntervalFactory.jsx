@@ -25,6 +25,7 @@ class DateIntervalFactory {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <KeyboardDatePicker
+                        openTo="year"
                         disableToolbar
                         inputVariant="outlined"
                         variant="inline"
@@ -40,6 +41,7 @@ class DateIntervalFactory {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <KeyboardDatePicker
+                        openTo="year"
                         disableToolbar
                         inputVariant="outlined"
                         variant="inline"
