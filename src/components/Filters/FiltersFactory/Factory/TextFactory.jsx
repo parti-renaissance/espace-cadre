@@ -21,7 +21,7 @@ class TextFactory {
         return (
             <TextField
                 variant="outlined"
-                size="medium"
+                size="small"
                 label={filter.label}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}

@@ -20,10 +20,11 @@ class IntegerIntervalFactory {
 
         return (
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         label={`${filter.label} minimum`}
                         type="number"
+                        size="small"
                         variant="outlined"
                         value={value === '' || (typeof value === 'object' && value.min === undefined) ? '' : value.min}
                         className={classes.integerInterval}
@@ -32,10 +33,11 @@ class IntegerIntervalFactory {
                         }}
                     />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         label={`${filter.label} maximum`}
                         type="number"
+                        size="small"
                         variant="outlined"
                         className={classes.integerInterval}
                         value={value === '' || (typeof value === 'object' && value.max === undefined) ? '' : value.max}
