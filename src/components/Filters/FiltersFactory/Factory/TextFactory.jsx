@@ -21,12 +21,13 @@ class TextFactory {
     create(props) {
         const { filter, onChange, value } = props;
         const classes = useStyles();
+
         return (
             <TextField
                 placeholder={filter.label}
                 variant="outlined"
                 value={value}
-                size="small"
+                size="medium"
                 key={filter.code}
                 onChange={(e) => onChange(e.target.value)}
                 className={classes.filterBasicStyle}

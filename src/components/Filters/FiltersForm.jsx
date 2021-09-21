@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import {
-    Button, createStyles, Grid, makeStyles,
+    Button, createStyles, Grid, makeStyles, Box,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Factory from './FiltersFactory/Factory';
 
 const useStyles = makeStyles((theme) => createStyles({
+    boxContainer: {
+        marginTop: '16px',
+    },
     filtersContainer: {
         marginBottom: '10px',
     },
@@ -54,7 +57,7 @@ const FiltersForm = ({
         });
 
         if (filterElement) {
-            filterElements.push(<Grid key={filter.code} item xs={12} lg={6}>{filterElement}</Grid>);
+            filterElements.push(<Grid key={filter.code} item xs={12} md={6}>{filterElement}</Grid>);
         }
     });
 
@@ -62,9 +65,8 @@ const FiltersForm = ({
         return null;
     }
 
-    console.log(localValues);
     return (
-        <>
+        <Box className={classes.boxContainer}>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 onSubmit(localValues);
@@ -92,7 +94,7 @@ const FiltersForm = ({
                     </Grid>
                 </div>
             </form>
-        </>
+        </Box>
     );
 };
 

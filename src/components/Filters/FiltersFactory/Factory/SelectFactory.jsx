@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => createStyles({
         width: '100%',
     },
     filterBasicStyle: {
-        height: '40px',
         background: theme.palette.whiteCorner,
         borderRadius: '8px',
     },
@@ -19,10 +18,6 @@ const useStyles = makeStyles((theme) => createStyles({
             background: theme.palette.whiteCorner,
             borderRadius: '8px',
         },
-    },
-    label: {
-        marginTop: '1px',
-        fontSize: '14px',
     },
 }));
 
@@ -36,14 +31,13 @@ class SelectFactory {
         const multiple = filter.options && !!filter.options.multiple;
         const selectValue = multiple && !Array.isArray(value) ? [value].filter((element) => element !== '') : value;
         const classes = useStyles();
-
         return (
             <FormControl
                 variant="outlined"
-                size="small"
+                size="medium"
                 classes={{ root: classes.root }}
             >
-                <InputLabel id="simple-select" className={classes.label}>{filter.label}</InputLabel>
+                <InputLabel id="simple-select">{filter.label}</InputLabel>
                 <Select
                     labelId="simple-select"
                     onChange={(e) => onChange(e.target.value)}
@@ -60,11 +54,11 @@ class SelectFactory {
                         return filter.options.choices[selected];
                     }}
                 >
-                    {/* {!multiple && (
+                    {!multiple && filter.code === 'gender' && (
                         <MenuItem value="">
                             <ListItemText primary="Aucun" />
                         </MenuItem>
-                    )} */}
+                    )}
                     {Object.entries(filter.options.choices).map((option) => (
                         <MenuItem key={option[0]} value={option[0]}>
                             {multiple && <Checkbox checked={value !== null && value.indexOf(option[0]) > -1} color="primary" />}
