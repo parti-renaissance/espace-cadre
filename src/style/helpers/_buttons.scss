@@ -26,16 +26,4 @@
             }
         }
     }
-
-    &.disabled,
-    &:disabled {
-        &:hover {
-            cursor: not-allowed;
-        }
-    }
-}
-
-.MuiButtonBase-root:disabled {
-    cursor: not-allowed !important;
-    pointer-events: auto !important;
 }

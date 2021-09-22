@@ -9,10 +9,26 @@ import { useTemplateContent } from '../../../redux/template/hooks';
 import { useUserScope } from '../../../redux/user/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
+    sendFormPaper: {
+        padding: '16px',
+        marginBottom: '16px',
+        borderRadius: '12px',
+    },
+    mailObject: {
+        width: '100%',
+        border: `1px solid ${theme.palette.gray200}`,
+        borderRadius: '8px',
+    },
     materialButton: {
         width: '100%',
+        color: `${theme.palette.whiteCorner}`,
         backgroundColor: theme.palette.blueCorner,
-        color: theme.palette.whiteCorner,
+        '&:hover': {
+            background: theme.palette.blueCornerHover,
+        },
+    },
+    planeIcon: {
+        marginRight: '8px',
     },
 }));
 
@@ -111,18 +127,22 @@ const SendForm = () => {
     if (buttonState.state === 'send') {
         const disableState = !content || buttonState.isLoading || !emailSubject;
         sendButton = (
-            <Button
-                className={`${classes.materialButton} ${disableState ? 'disabled' : null} btn btn-dc-primary`}
-                onClick={disableState ? null : handleClickSendButton}
+            <Box
                 onMouseEnter={() => setButtonState((state) => ({ ...state, ...{ inputError: !emailSubject } }))}
                 onMouseLeave={() => setButtonState((state) => ({ ...state, ...{ inputError: false } }))}
-                style={{ height: '38px' }}
             >
-                <Box component="span" style={{ marginRight: '8px' }}>
-                    {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
-                </Box>
-                Préparer l’envoi
-            </Button>
+                <Button
+                    className={`${classes.materialButton} btn-dc-primary`}
+                    onClick={disableState ? null : handleClickSendButton}
+                    disabled={!!disableState}
+                    size="large"
+                >
+                    <Box className={classes.planeIcon}>
+                        {buttonState.isLoading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
+                    </Box>
+                    Préparer l’envoi
+                </Button>
+            </Box>
         );
     } else if (buttonState.state === 'confirme') {
         sendButton = (
@@ -131,6 +151,7 @@ const SendForm = () => {
                     <Button
                         className={`${classes.materialButton} btn btn-dc-primary`}
                         type="button"
+                        size="large"
                         onClick={() => handleSendEmail()}
                         disabled={!email.recipient_count || email.recipient_count < 1}
                     >
@@ -143,6 +164,7 @@ const SendForm = () => {
                         type="button"
                         className="btn btn-dc-outline-primary"
                         onClick={() => handleSendEmail(true)}
+                        size="large"
                         style={{
                             color: '#0049C6',
                             border: '1px solid #0049C6',
@@ -163,7 +185,14 @@ const SendForm = () => {
         );
     } else if (buttonState.state === 'success') {
         sendButton = (
-            <Button container className="btn" type="button" disabled style={{ width: '100%', border: '1px solid #28A745', color: '#28A745' }}>
+            <Button
+                container
+                size="large"
+                className="btn"
+                type="button"
+                disabled
+                style={{ width: '100%', border: '1px solid #28A745', color: '#28A745' }}
+            >
                 <Box component="span" style={{ marginRight: '8px' }}>
                     <i className="fa fa-check" />
                 </Box>
@@ -172,7 +201,13 @@ const SendForm = () => {
         );
     } else if (buttonState.state === 'error') {
         sendButton = (
-            <Button className="btn" type="button" disabled style={{ width: '100%', border: '1px solid #DC3545', color: '#DC3545' }}>
+            <Button
+                className="btn"
+                type="button"
+                size="large"
+                disabled
+                style={{ width: '100%', border: '1px solid #DC3545', color: '#DC3545' }}
+            >
                 <Box component="span" style={{ marginRight: '8px' }}>
                     <i className="fa fa-bomb" />
                 </Box>
@@ -182,15 +217,15 @@ const SendForm = () => {
     }
 
     return (
-        <Paper>
-            <Grid container>
+        <Paper className={classes.sendFormPaper}>
+            <Grid container spacing={2}>
                 <Grid item xs={12} sm={8}>
                     <TextField
-                        label="Objet du mail"
-                        error={buttonState.inputError}
-                        style={{ width: '100%' }}
                         size="small"
+                        label="Objet du mail"
                         variant="outlined"
+                        className={classes.mailObject}
+                        error={buttonState.inputError}
                         value={emailSubject}
                         onChange={(event) => setEmailSubject(event.target.value)}
                     />
