@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { DatePicker } from '@material-ui/pickers';
 import { makeStyles, Grid } from '@material-ui/core';
 import { format } from 'date-fns';
 
@@ -24,7 +24,7 @@ class DateIntervalFactory {
         return (
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <DatePicker
                         openTo="year"
                         disableToolbar
                         inputVariant="outlined"
@@ -40,7 +40,7 @@ class DateIntervalFactory {
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <DatePicker
                         openTo="year"
                         disableToolbar
                         inputVariant="outlined"
