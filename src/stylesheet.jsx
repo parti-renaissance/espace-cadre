@@ -31,6 +31,9 @@ const theme = createTheme({
 
         // Green
         greenCorner: '#008000',
+
+        // Red
+        redError: '#dc3545',
     },
     typography: {
         fontFamily: 'Poppins, sans-serif',
