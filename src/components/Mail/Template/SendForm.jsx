@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-    Grid, Button, TextField, ButtonGroup, Box,
+    Grid, Button, TextField, ButtonGroup, Box, makeStyles, createStyles, Paper,
 } from '@material-ui/core';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
 import { useUserScope } from '../../../redux/user/hooks';
+
+const useStyles = makeStyles((theme) => createStyles({
+    materialButton: {
+        width: '100%',
+        backgroundColor: theme.palette.blueCorner,
+        color: theme.palette.whiteCorner,
+    },
+}));
 
 const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: false };
 const EMAIL_INITIAL_STATE = { synchronized: false };
@@ -17,6 +25,7 @@ const SendForm = () => {
     const [buttonState, setButtonState] = useState(BUTTON_INITIAL_STATE);
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
     const [currentScope] = useUserScope();
+    const classes = useStyles();
 
     const resetEmailState = () => {
         setEmail((state) => ({ ...state, ...EMAIL_INITIAL_STATE }));
@@ -103,7 +112,7 @@ const SendForm = () => {
         const disableState = !content || buttonState.isLoading || !emailSubject;
         sendButton = (
             <Button
-                className={`material-button ${disableState ? 'disabled' : null} btn btn-dc-primary`}
+                className={`${classes.materialButton} ${disableState ? 'disabled' : null} btn btn-dc-primary`}
                 onClick={disableState ? null : handleClickSendButton}
                 onMouseEnter={() => setButtonState((state) => ({ ...state, ...{ inputError: !emailSubject } }))}
                 onMouseLeave={() => setButtonState((state) => ({ ...state, ...{ inputError: false } }))}
@@ -120,7 +129,7 @@ const SendForm = () => {
             <>
                 <ButtonGroup style={{ width: '100%', height: '38px !important' }}>
                     <Button
-                        className="material-button btn btn-dc-primary"
+                        className={`${classes.materialButton} btn btn-dc-primary`}
                         type="button"
                         onClick={() => handleSendEmail()}
                         disabled={!email.recipient_count || email.recipient_count < 1}
@@ -173,22 +182,24 @@ const SendForm = () => {
     }
 
     return (
-        <Grid container spacing={2}>
-            <Grid item xs={12} sm={8} style={{ paddingTop: '0' }}>
-                <TextField
-                    label="Objet du mail"
-                    error={buttonState.inputError}
-                    style={{ width: '100%' }}
-                    size="small"
-                    variant="outlined"
-                    value={emailSubject}
-                    onChange={(event) => setEmailSubject(event.target.value)}
-                />
+        <Paper>
+            <Grid container>
+                <Grid item xs={12} sm={8}>
+                    <TextField
+                        label="Objet du mail"
+                        error={buttonState.inputError}
+                        style={{ width: '100%' }}
+                        size="small"
+                        variant="outlined"
+                        value={emailSubject}
+                        onChange={(event) => setEmailSubject(event.target.value)}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    {sendButton}
+                </Grid>
             </Grid>
-            <Grid item xs={12} sm={4}>
-                {sendButton}
-            </Grid>
-        </Grid>
+        </Paper>
     );
 };
 
