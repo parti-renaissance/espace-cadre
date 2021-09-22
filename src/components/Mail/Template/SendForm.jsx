@@ -180,6 +180,7 @@ const SendForm = () => {
                     error={buttonState.inputError}
                     style={{ width: '100%' }}
                     size="small"
+                    variant="outlined"
                     value={emailSubject}
                     onChange={(event) => setEmailSubject(event.target.value)}
                 />
