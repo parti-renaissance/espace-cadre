@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles, createStyles } from '@material-ui/core';
 import { apiClient } from '../../services/networking/client';
 import FiltersForm from './FiltersForm';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
 
+const useStyles = makeStyles(() => createStyles({
+    loader: {
+        textAlign: 'center',
+    },
+}));
+
 const DynamicFilters = ({ values, onSubmit, onReset }) => {
     const [filters, setFilters] = useState([]);
     const [errorMessage, setErrorMessage] = useState();
+    const classes = useStyles();
 
     useEffect(() => {
         if (filters.length) {
@@ -46,12 +54,11 @@ const DynamicFilters = ({ values, onSubmit, onReset }) => {
         }
 
         return (
-            <div style={{ textAlign: 'center' }} className="with-background dc-container">
+            <div className={`with-background dc-container ${classes.loader}`}>
                 <Loader />
             </div>
         );
     };
-
     return dynamicFiltersContent();
 };
 

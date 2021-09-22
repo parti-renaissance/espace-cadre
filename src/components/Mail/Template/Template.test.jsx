@@ -23,6 +23,6 @@ describe('Behaviour for template block', () => {
         const sendButton = screen.getByRole('button', { name: 'Préparer l’envoi' });
 
         expect(saveButton).toBeDisabled();
-        expect(sendButton).toHaveClass('disabled');
+        expect(sendButton).toBeDisabled();
     });
 });
