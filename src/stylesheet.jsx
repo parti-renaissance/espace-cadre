@@ -31,6 +31,7 @@ const theme = createTheme({
 
         // Green
         greenCorner: '#008000',
+        successButton: '#28A745',
 
         // Red
         redError: '#dc3545',
