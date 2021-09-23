@@ -75,7 +75,7 @@ const Editor = () => {
                 className={classes.exportButton}
                 onClick={exportHtml}
             >
-                Export template
+                Exporter le template
             </Button>
             <a ref={hiddenElement} />
             <EmailEditor
