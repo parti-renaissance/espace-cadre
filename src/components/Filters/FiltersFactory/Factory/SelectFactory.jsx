@@ -53,9 +53,9 @@ class SelectFactory {
                         return filter.options.choices[selected];
                     }}
                 >
-                    {!multiple && filter.code === 'gender' && (
-                        <MenuItem value="">
-                            <ListItemText primary="Aucun" />
+                    {!multiple && (
+                        <MenuItem value={null}>
+                            <ListItemText primary="Tous" />
                         </MenuItem>
                     )}
                     {Object.entries(filter.options.choices).map((option) => (
