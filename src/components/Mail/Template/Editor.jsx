@@ -1,12 +1,29 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/anchor-has-content */
 import React, {
     useCallback, useState, useEffect, useRef,
 } from 'react';
 import EmailEditor from 'react-email-editor';
+import { Button, makeStyles, createStyles } from '@material-ui/core';
 import { useUserScope } from '../../../redux/user/hooks';
 import { useTemplateContent } from '../../../redux/template/hooks';
 
+const useStyles = makeStyles((theme) => createStyles({
+    exportButton: {
+        color: theme.palette.whiteCorner,
+        background: theme.palette.blueCorner,
+        marginBottom: '16px',
+        '&:hover, &:focus': {
+            color: theme.palette.whiteCorner,
+            background: theme.palette.blueCornerHover,
+        },
+    },
+}));
+
 const Editor = () => {
     const emailEditorRef = useRef(null);
+    const hiddenElement = useRef(null);
+    const classes = useStyles();
     const [content, setContent] = useTemplateContent();
     const [currentScope] = useUserScope();
     const [templateId] = useState(() => {
@@ -41,8 +58,26 @@ const Editor = () => {
         }
     }, [content]);
 
+    const exportHtml = () => {
+        emailEditorRef.current.editor.exportHtml((data) => {
+            const file = new Blob([data.html], { type: 'text/html' });
+            hiddenElement.current.href = URL.createObjectURL(file);
+            hiddenElement.current.download = 'template.html';
+            hiddenElement.current.click();
+        });
+    };
+
     return (
         <div className="email-editor">
+            <Button
+                variant="contained"
+                size="small"
+                className={classes.exportButton}
+                onClick={exportHtml}
+            >
+                Export template
+            </Button>
+            <a ref={hiddenElement} />
             <EmailEditor
                 minHeight="85vh"
                 ref={emailEditorRef}
