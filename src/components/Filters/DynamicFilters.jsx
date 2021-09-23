@@ -12,7 +12,9 @@ const useStyles = makeStyles(() => createStyles({
     },
 }));
 
-const DynamicFilters = ({ values, onSubmit, onReset }) => {
+const DynamicFilters = ({
+    feature, values, onSubmit, onReset,
+}) => {
     const [filters, setFilters] = useState([]);
     const [errorMessage, setErrorMessage] = useState();
     const classes = useStyles();
@@ -24,7 +26,7 @@ const DynamicFilters = ({ values, onSubmit, onReset }) => {
 
         const getColumnsTitle = async () => {
             try {
-                setFilters(await apiClient.get('v3/adherents/filters'));
+                setFilters(await apiClient.get(`v3/adherents/filters?feature=${feature}`));
             } catch (error) {
                 setErrorMessage(error);
             }
@@ -68,4 +70,5 @@ DynamicFilters.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
     values: PropTypes.objectOf(Object).isRequired,
+    feature: PropTypes.string.isRequired,
 };
