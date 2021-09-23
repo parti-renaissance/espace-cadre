@@ -11,13 +11,12 @@
     "@reduxjs/toolkit": "1.6.1",
     "@sentry/react": "6.13.2",
     "@sentry/tracing": "6.13.2",
-    "@testing-library/dom": "8.5.0",
+    "@testing-library/dom": "8.6.0",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.1.0",
     "@testing-library/user-event": "13.2.1",
     "axios": "0.21.4",
     "date-fns": "2.24.0",
-    "file-saver": "^2.0.5",
     "jquery": "3.6.0",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
@@ -36,7 +35,7 @@
     "recharts": "^2.1.4",
     "redux": "4.1.1",
     "redux-persist": "6.0.0",
-    "sass": "1.42.0",
+    "sass": "1.42.1",
     "web-vitals": "2.1.0"
   },
   "scripts": {
