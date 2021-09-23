@@ -10,12 +10,12 @@ import { useTemplateContent } from '../../../redux/template/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
     exportButton: {
-        color: theme.palette.whiteCorner,
-        background: theme.palette.blueCorner,
-        marginBottom: '16px',
+        color: theme.palette.gray500,
+        background: theme.palette.gray200,
+        margin: '16px 0',
         '&:hover, &:focus': {
-            color: theme.palette.whiteCorner,
-            background: theme.palette.blueCornerHover,
+            color: theme.palette.gray500,
+            background: theme.palette.gray100,
         },
     },
 }));
@@ -69,15 +69,6 @@ const Editor = () => {
 
     return (
         <div className="email-editor">
-            <Button
-                variant="contained"
-                size="small"
-                className={classes.exportButton}
-                onClick={exportHtml}
-            >
-                Export template
-            </Button>
-            <a ref={hiddenElement} />
             <EmailEditor
                 minHeight="85vh"
                 ref={emailEditorRef}
@@ -108,6 +99,15 @@ const Editor = () => {
                     },
                 }}
             />
+            <Button
+                variant="contained"
+                size="small"
+                className={classes.exportButton}
+                onClick={exportHtml}
+            >
+                Export HTML
+            </Button>
+            <a ref={hiddenElement} />
         </div>
     );
 };
