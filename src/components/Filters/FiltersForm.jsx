@@ -49,7 +49,12 @@ const FiltersForm = ({
             onChange: (value) => {
                 setLocalValues((prevState) => {
                     const newState = { ...prevState };
+
                     newState[filter.code] = value;
+
+                    if (value === null) {
+                        delete newState[filter.code];
+                    }
 
                     return newState;
                 });

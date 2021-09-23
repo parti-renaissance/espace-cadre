@@ -29,7 +29,12 @@ class IntegerIntervalFactory {
                         value={value === '' || (typeof value === 'object' && value.min === undefined) ? '' : value.min}
                         className={classes.integerInterval}
                         onChange={(e) => {
-                            onChange({ ...value, ...{ min: parseInt(e.target.value, 10) } });
+                            const min = e.target.value;
+                            if (min === '') {
+                                onChange(value.max !== undefined ? { max: value.max } : null);
+                            } else {
+                                onChange({ ...value, ...{ min: parseInt(min, 10) } });
+                            }
                         }}
                     />
                 </Grid>
@@ -42,7 +47,12 @@ class IntegerIntervalFactory {
                         className={classes.integerInterval}
                         value={value === '' || (typeof value === 'object' && value.max === undefined) ? '' : value.max}
                         onChange={(e) => {
-                            onChange({ ...value, ...{ max: parseInt(e.target.value, 10) } });
+                            const max = e.target.value;
+                            if (max === '') {
+                                onChange(value.min !== undefined ? { min: value.min } : null);
+                            } else {
+                                onChange({ ...value, ...{ max: parseInt(max, 10) } });
+                            }
                         }}
                     />
                 </Grid>
