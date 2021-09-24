@@ -33,16 +33,16 @@ class DateIntervalFactory {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <DatePicker
-                        filter={filter}
                         value={value === '' || value.start === undefined ? null : value.start}
                         onChange={(newDate) => updateValue(value, newDate, 'start', onChange)}
+                        label={`${filter.label} du`}
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <DatePicker
-                        filter={filter}
                         value={value === '' || value.end === undefined ? null : value.end}
                         onChange={(newDate) => updateValue(value, newDate, 'end', onChange)}
+                        label={`${filter.label} au`}
                     />
                 </Grid>
             </Grid>
