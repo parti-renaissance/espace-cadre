@@ -26,6 +26,7 @@
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
         "no-param-reassign": [2, {"props": false}],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.jsx", "src/setupTests.js"]}],
         "react/jsx-one-expression-per-line": [0],
         "jsx-a11y/control-has-associated-label": [0],
         "react/no-array-index-key": [0],
