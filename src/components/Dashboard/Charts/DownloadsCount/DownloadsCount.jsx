@@ -31,7 +31,7 @@ function DownloadsCount() {
             }
         };
         getDownloads();
-    }, [dashboardDownloads]);
+    }, [currentScope, dashboardDownloads, setDashboardDownloads]);
 
     const dashboardDownloadsContent = () => {
         if (dashboardDownloads !== null && dashboardDownloads.downloads.length > 0) {

@@ -11,6 +11,8 @@ const authCall = async (payload) => {
 
         return result.data;
     } catch (error) {
+        // FIXME
+        // eslint-disable-next-line no-console
         console.log(error);
     }
 

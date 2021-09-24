@@ -22,7 +22,7 @@ function TextChart() {
             }
         };
         getDashboardAdherents();
-    }, [dashboardAdherents]);
+    }, [currentScope, dashboardAdherents, setDashboardAdherents]);
 
     const dashboardAdherentsContent = () => {
         if (dashboardAdherents !== null) {

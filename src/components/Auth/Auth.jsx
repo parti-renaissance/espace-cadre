@@ -17,7 +17,7 @@ const Auth = () => {
         } else {
             initializeAuth();
         }
-    }, [code]);
+    }, [code, initializeAuth, requestAccessToken]);
 
     return <BootPage />;
 };

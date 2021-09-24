@@ -109,6 +109,7 @@ const Elections = () => {
 
     const modalContent = document.getElementById('map-overlay');
 
+    // FIXME
     // Display only the choosen layer
     const switchLayer = () => {
         Object.entries(LAYERS_TYPES).map(
@@ -131,7 +132,7 @@ const Elections = () => {
     }, []);
 
     // Change layer
-    useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer]);
+    useEffect(() => mapLoaded && switchLayer(), [mapLoaded, activeLayer, switchLayer]);
 
     // Indicate map is loaded and close modal on click
     useEffect(() => {
@@ -199,7 +200,7 @@ const Elections = () => {
         return () => {
             isCancelled = true;
         };
-    }, [currentPoint]);
+    }, [activeLayer, currentPoint, filterValues.election, filterValues.round, filterValues.year, mapLoaded, modalContent]);
 
     // Populate modal when participation and results data are ready
     useEffect(() => {
@@ -232,7 +233,7 @@ const Elections = () => {
         }
 
         modalContent.innerHTML = contentParts.join('');
-    }, [participation, results]);
+    }, [filterValues.election, filterValues.round, filterValues.year, modalContent, participation, results, zone]);
 
     const electionSelectRows = [];
 

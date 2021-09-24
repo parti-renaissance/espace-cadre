@@ -50,7 +50,7 @@ const Editor = () => {
                 clearInterval(timer);
             }
         }, 500);
-    }, [emailEditorRef]);
+    }, [setContent]); // FIXME
 
     useEffect(() => {
         if (content && content.design && content.externalUpdate) {

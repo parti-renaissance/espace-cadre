@@ -22,7 +22,7 @@ function SentEmailCampaignList() {
             }
         };
         getEmailCampaignReports();
-    }, [emailCampaignReports]);
+    }, [emailCampaignReports, setEmailCampaignReports]);
 
     const emailCampaignsContent = () => {
         const campaignsExist = emailCampaignReports && emailCampaignReports.map((item) => (item.campagnes.length > 0));

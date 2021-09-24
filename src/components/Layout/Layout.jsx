@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
         } else if (pathname !== PATHS.AUTH.route) {
             initializeAuth();
         }
-    }, [isUserLoggedIn]);
+    }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData]);
 
     if (pathname === PATHS.AUTH.route) {
         return <Auth />;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import {
     Grid, Button, Box, makeStyles, createStyles,
@@ -47,6 +47,8 @@ const TemplateSelect = () => {
             setTemplate((state) => ({ ...state, current_template: '' }));
             break;
         default:
+            // FIXME please :)
+            // eslint-disable-next-line no-console
             console.log('Sorry, we are out.');
         }
     };
@@ -114,18 +116,20 @@ const TemplateSelect = () => {
         }));
     }
 
-    const loadingTemplate = async () => {
-        if (template.current_template !== '' && template.current_template.value !== undefined) {
-            const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
-            setContent({ ...content, ...{ design: JSON.parse(result.content), externalUpdate: true } });
-        }
-    };
+    const loadingTemplate = useCallback(
+        async () => {
+            if (template.current_template !== '' && template.current_template.value !== undefined) {
+                const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
+                setContent({ ...content, ...{ design: JSON.parse(result.content), externalUpdate: true } });
+            }
+        }, [content, setContent, template.current_template],
+    );
 
     useEffect(() => {
         if (template.current_template !== '' && template.current_template.value !== template.current_template.label) {
             loadingTemplate();
         }
-    }, [template.current_template]);
+    }, [loadingTemplate, template.current_template]);
 
     useEffect(() => {
         loadTemplates();
