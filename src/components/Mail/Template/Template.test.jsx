@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import Template from './Template';
 
 describe('Behaviour for template block', () => {
-    test('When the user arrives on the page, save and send buttons are disabled', () => {
+    it('When the user arrives on the page, save and send buttons are disabled', () => {
         render(
             <Provider store={configureStore()({
                 auth: {},

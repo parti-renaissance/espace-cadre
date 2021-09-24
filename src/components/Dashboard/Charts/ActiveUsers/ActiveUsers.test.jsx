@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import ActiveUsers from './ActiveUsers';
 
 describe('ActiveUsers graph', () => {
-    test('renders without crashing', () => {
+    it('renders without crashing', () => {
         render(
             <Provider store={configureStore()({
                 auth: {},
