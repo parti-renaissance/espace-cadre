@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import {
     Grid, Button, TextField, ButtonGroup, Box, makeStyles, createStyles, Paper,
 } from '@material-ui/core';
+
+import { useHistory } from 'react-router-dom';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
@@ -14,8 +16,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
     sendFormPaper: {
         padding: '16px',
-        marginBottom: '16px',
-        borderRadius: '12px',
+        borderRadius: '12px 12px 0 0',
     },
     mailObject: {
         width: '100%',
@@ -66,6 +67,7 @@ const SendForm = () => {
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
     const [currentScope] = useUserScope();
     const classes = useStyles();
+    const history = useHistory();
     let sendButton;
 
     const resetEmailState = () => {
@@ -143,6 +145,7 @@ const SendForm = () => {
                 clearInterval(timer);
                 setEmail((state) => ({ ...state, ...emailStatusResponse }));
                 setButtonState((state) => ({ ...state, ...{ state: 'confirme', isLoading: false } }));
+                history.push('filters');
             }
         }, 2000);
     };
