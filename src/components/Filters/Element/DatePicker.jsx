@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const DatePicker = ({ filter, value, onChange }) => {
+const DatePicker = ({ value, onChange, label }) => {
     const classes = useStyles();
 
     return (
@@ -23,7 +23,7 @@ const DatePicker = ({ filter, value, onChange }) => {
             inputVariant="outlined"
             variant="inline"
             size="small"
-            label={`${filter.label} du`}
+            label={label}
             format="dd/MM/yyyy"
             value={value}
             onChange={(e) => {
@@ -63,7 +63,7 @@ DatePicker.defaultProps = {
 };
 
 DatePicker.propTypes = {
-    filter: PropTypes.instanceOf(Object).isRequired,
+    label: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string,
 };
