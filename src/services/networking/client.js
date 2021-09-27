@@ -30,7 +30,7 @@ class ApiClient {
     async request(method, endpoint, data = null, headers = {}) {
         const config = {
             method,
-            url: endpoint,
+            url: endpoint.replace(/^\/?api/, ''),
             headers: {
                 ...{
                     Authorization: `Bearer ${ApiClient.getAccessToken()}`,
