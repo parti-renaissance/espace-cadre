@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+/* eslint-disable react/require-default-props */
+import React, { useState, useEffect } from 'react';
 import {
     Container, Grid, Button, makeStyles, Box,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import DynamicFilters from '../../Filters/DynamicFilters';
 import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
-import { apiClient } from '../../../services/networking/client';
 import Loader from '../../Loader';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,38 +34,45 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const BUTTON_INITIAL_STATE = { state: 'send', isLoading: false, inputError: false };
-const EMAIL_INITIAL_STATE = { synchronized: false };
-
-const Filters = () => {
+const Filters = ({ buttonState, email, handleSendEmail }) => {
     const [filters, setFilters] = useState({});
     const classes = useStyles();
-    const [buttonState, setButtonState] = useState(BUTTON_INITIAL_STATE);
-    const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
+    // let sendButton;
 
-    const handleSendEmail = async (test = false) => {
-        if (test) {
-            await apiClient.post(`/v3/adherent_messages/${email.uuid}/send-test`);
+    /* if (buttonState && buttonState.state === 'success') {
+        sendButton = (
+            <Button
+                type="button"
+                size="large"
+                disabled
+                className={classes.successButton}
+            >
+                <Box component="span" className={classes.buttonIcon}>
+                    <i className="fa fa-check" />
+                </Box>
+                E-mail envoyé 🎉
+            </Button>
+        );
+    } else if (buttonState && buttonState.state === 'error') {
+        sendButton = (
+            <Button
+                type="button"
+                size="large"
+                disabled
+                className={classes.errorButton}
+            >
+                <Box component="span" className={classes.buttonIcon}>
+                    <i className="fa fa-bomb" />
+                </Box>
+                Une erreur est survenue
+            </Button>
+        );
+    } */
 
-            return;
-        }
-
-        if (!email.synchronized || email.recipient_count < 1) {
-            throw new Error('Send not allowed');
-        }
-
-        setButtonState((state) => ({ ...state, ...{ isLoading: true } }));
-
-        const response = await apiClient.post(`/v3/adherent_messages/${email.uuid}/send`);
-
-        setEmail((state) => ({ ...state, ...{ synchronized: false } }));
-
-        if (response === 'OK') {
-            setButtonState((state) => ({ ...state, ...{ state: 'success', isLoading: false } }));
-        } else {
-            setButtonState((state) => ({ ...state, ...{ state: 'error', isLoading: false } }));
-        }
-    };
+    useEffect(() => {
+        console.log(email && email.recipient_count);
+        console.log(handleSendEmail && handleSendEmail);
+    }, []);
 
     return (
         <Container maxWidth="xl">
@@ -78,7 +86,7 @@ const Filters = () => {
                     />
                 </Grid>
                 <Grid item xs={12} className={classes.addresseesContainer}>
-                    Vous allez envoyer un message à <span className={classes.addresseesCount}>{email.recipient_count} XXX contact{email.recipient_count > 1 && 's'}</span> contacts
+                    Vous allez envoyer un message à <span className={classes.addresseesCount}>{email && email.recipient_count} </span> contact{email && email.recipient_count > 1 && 's'}
                 </Grid>
                 <Grid item xs={12}>
                     <Button
@@ -86,6 +94,7 @@ const Filters = () => {
                         size="medium"
                         className={classes.sendTestButton}
                         onClick={() => handleSendEmail(true)}
+                        disabled={buttonState && buttonState.state !== 'confirme'}
                     >
                         M&apos;envoyer un message test
                     </Button>
@@ -96,10 +105,10 @@ const Filters = () => {
                         size="medium"
                         className={classes.sendButton}
                         onClick={() => handleSendEmail()}
-                        disabled={!email.recipient_count || email.recipient_count < 1}
+                        disabled={buttonState && buttonState.state !== 'confirme' && email && (!email.recipient_count || email.recipient_count < 1)}
                     >
                         <Box>
-                            {buttonState.isLoading ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
+                            {buttonState && buttonState.isLoading ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
                         </Box>
                         Envoyer l&apos;email
                     </Button>
@@ -110,3 +119,9 @@ const Filters = () => {
 };
 
 export default Filters;
+
+Filters.propTypes = {
+    buttonState: PropTypes.objectOf(Object),
+    email: PropTypes.objectOf(Object),
+    handleSendEmail: PropTypes.func,
+};
