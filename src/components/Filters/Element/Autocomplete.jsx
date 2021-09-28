@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete as MuiAutocomplete } from '@material-ui/lab';
 import { TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { throttle, union } from 'lodash';
+import { throttle, unionBy } from 'lodash';
 import { apiClient } from '../../../services/networking/client';
 
 const fetch = throttle((uri, queryParam, query, callback) => {
@@ -22,6 +22,7 @@ const Autocomplete = ({
     useEffect(() => {
         if (value === '' && selectedItems.length) {
             setSelectedItems([]);
+            return;
         }
 
         if (!inputValue) {
@@ -31,7 +32,7 @@ const Autocomplete = ({
         setLoading(true);
 
         fetch(uri, queryParam, inputValue, (data) => {
-            setOptions(union(selectedItems, data));
+            setOptions(unionBy(selectedItems, data, 'uuid'));
             setLoading(false);
         });
     }, [value, inputValue]);
@@ -40,20 +41,29 @@ const Autocomplete = ({
         <MuiAutocomplete
             options={options}
             open={open}
-            value={selectedItems}
+            value={multiple ? selectedItems : (selectedItems[0] || null)}
             size="small"
             loading={loading}
             multiple={multiple}
             onOpen={() => setOpen(true)}
             onClose={() => setOpen(false)}
             onChange={(data, selectedValues) => {
-                setSelectedItems(selectedValues);
+                let selectItems = selectedValues;
+
+                if (!Array.isArray(selectItems)) {
+                    if (selectItems) {
+                        selectItems = [selectItems];
+                    } else {
+                        selectItems = [];
+                    }
+                }
+
+                setSelectedItems(selectItems);
 
                 if (multiple) {
-                    onChange(selectedValues.map((item) => item[valueParam]));
-                } else {
-                    onChange(selectedValues[valueParam]);
+                    return onChange(selectItems.map((item) => item[valueParam]));
                 }
+                return onChange(selectItems.map((item) => item[valueParam]).shift());
             }}
             onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);

@@ -95,6 +95,6 @@ const Filters = ({ email, previousStepCallback }) => {
 export default Filters;
 
 Filters.propTypes = {
-    email: PropTypes.arrayOf(Object).isRequired,
+    email: PropTypes.instanceOf(Object).isRequired,
     previousStepCallback: PropTypes.func,
 };
