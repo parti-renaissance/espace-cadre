@@ -1,7 +1,9 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import {
     Box, Button, createStyles, Grid, makeStyles,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Loader from '../Loader';
 
 const useStyles = makeStyles((theme) => createStyles({
@@ -45,3 +47,10 @@ const StepButton = ({
 };
 
 export default StepButton;
+
+StepButton.propTypes = {
+    disabled: PropTypes.bool,
+    loading: PropTypes.bool,
+    onClick: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired,
+};

@@ -1,5 +1,8 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import { createStyles, makeStyles, TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Editor from '../Template/Editor';
 import StepButton from '../StepButton';
 import { useTemplateContent } from '../../../redux/template/hooks';
@@ -25,8 +28,6 @@ const Template = ({
     const classes = useStyles();
 
     const editEmail = async () => {
-        console.log(email);
-
         const body = {
             type: currentScope.code,
             label: `DataCorner: ${emailSubject}`,
@@ -73,3 +74,11 @@ const Template = ({
 };
 
 export default Template;
+
+Template.propTypes = {
+    email: PropTypes.object.isRequired,
+    emailSubject: PropTypes.string,
+    updateEmailSubjectCallback: PropTypes.func.isRequired,
+    nextStepCallback: PropTypes.func.isRequired,
+    updateEmailCallback: PropTypes.func.isRequired,
+};

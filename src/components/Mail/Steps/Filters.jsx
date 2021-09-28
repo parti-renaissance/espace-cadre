@@ -1,7 +1,9 @@
+/* eslint-disable react/require-default-props */
 import React, { useState } from 'react';
 import {
     Box, Button, Container, Grid, makeStyles,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import StepButton from '../StepButton';
 import DynamicFilters from '../../Filters/DynamicFilters';
 import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
@@ -38,7 +40,7 @@ const Filters = ({ email, previousStepCallback }) => {
     const [filters, setFilters] = useState({});
 
     const classes = useStyles();
-
+    console.log(previousStepCallback);
     return (
         <>
             <StepButton
@@ -91,3 +93,8 @@ const Filters = ({ email, previousStepCallback }) => {
 };
 
 export default Filters;
+
+Filters.propTypes = {
+    email: PropTypes.arrayOf(Object).isRequired,
+    previousStepCallback: PropTypes.func,
+};
