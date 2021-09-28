@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => createStyles({
     exportButton: {
         color: theme.palette.gray500,
         background: theme.palette.gray200,
-        margin: '16px 0',
+        margin: '16px 0 0',
         '&:hover, &:focus': {
             color: theme.palette.gray500,
             background: theme.palette.gray100,

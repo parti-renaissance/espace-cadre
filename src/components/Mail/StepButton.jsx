@@ -7,6 +7,9 @@ import PropTypes from 'prop-types';
 import Loader from '../Loader';
 
 const useStyles = makeStyles((theme) => createStyles({
+    buttonContainer: {
+        marginBottom: '8px',
+    },
     materialButton: {
         width: '100%',
         color: `${theme.palette.whiteCorner}`,
@@ -26,21 +29,19 @@ const StepButton = ({
     const classes = useStyles();
 
     return (
-        <Grid container spacing={2}>
-            <Grid item sm={2}>
-                <Box>
-                    <Button
-                        className={classes.materialButton}
-                        onClick={disabled ? null : onClick}
-                        disabled={disabled}
-                        size="large"
-                    >
-                        <Box className={classes.buttonIcon}>
-                            {loading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
-                        </Box>
-                        {label}
-                    </Button>
-                </Box>
+        <Grid container spacing={2} className={classes.buttonContainer}>
+            <Grid item sm={3}>
+                <Button
+                    className={classes.materialButton}
+                    onClick={disabled ? null : onClick}
+                    disabled={disabled}
+                    size="medium"
+                >
+                    <Box className={classes.buttonIcon}>
+                        {loading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
+                    </Box>
+                    {label}
+                </Button>
             </Grid>
         </Grid>
     );

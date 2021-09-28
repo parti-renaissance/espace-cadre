@@ -7,6 +7,10 @@ import PropTypes from 'prop-types';
 import StepButton from '../StepButton';
 import DynamicFilters from '../../Filters/DynamicFilters';
 import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
+import { apiClient } from '../../../services/networking/client';
+import { useUserScope } from '../../../redux/user/hooks';
+import Loader from '../../Loader';
+import useRetry from '../../Filters/useRetry';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -34,32 +38,53 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Filters = ({ email, previousStepCallback }) => {
-    console.log('filters step');
-
-    const [filters, setFilters] = useState({});
-
+const Filters = ({ previousStepCallback }) => {
+    // const [filters, setFilters] = useState({});
     const classes = useStyles();
-    console.log(previousStepCallback);
+    const [currentScope] = useUserScope();
+    const [audienceId, setAudienceId] = useState(null);
+
+    const [loading, audienceSegment, go] = useRetry(async (uuid) => {
+        const result = await apiClient.get(`/v3/audience-segments/${uuid}`);
+        return result;
+    }, 1000, 10);
+
+    const handleSubmit = async (filtersToSend) => {
+        try {
+            if (audienceId) {
+                await apiClient.put(`/v3/audience-segments/${audienceId}`, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
+                go(audienceId);
+            } else {
+                const audience = await apiClient.post('/v3/audience-segments', { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
+                setAudienceId(audience.uuid);
+                go(audience.uuid);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <>
-            <StepButton
-                label="Retour"
-                onClick={previousStepCallback}
-            />
-
             <Container maxWidth="xl">
+                <StepButton
+                    label="Retour"
+                    onClick={previousStepCallback}
+                />
                 <Grid container spacing={2} className={classes.container}>
                     <Grid item>
                         <DynamicFilters
                             feature={FEATURE_MESSAGES}
-                            values={filters}
-                            onSubmit={(newFilters) => setFilters({ ...newFilters })}
-                            onReset={() => { setFilters({}); }}
+                            // values={filters}
+                            onSubmit={(newFilters) => {
+                                // setFilters(newFilters);
+                                handleSubmit(newFilters);
+                            }}
+                            onReset={() => {}}
                         />
                     </Grid>
                     <Grid item xs={12} className={classes.addresseesContainer}>
-                        Vous allez envoyer un message à <span className={classes.addresseesCount}>{email && email.recipient_count} </span> contact{email && email.recipient_count > 1 && 's'}
+                        Vous allez envoyer un message à {loading ? <Loader /> : <span className={classes.addresseesCount}>{audienceSegment?.recipient_count || 0} </span>} contact{audienceSegment?.recipient_count > 1 && 's'}
                     </Grid>
                     <Grid item xs={12}>
                         <Button
@@ -95,6 +120,5 @@ const Filters = ({ email, previousStepCallback }) => {
 export default Filters;
 
 Filters.propTypes = {
-    email: PropTypes.instanceOf(Object).isRequired,
     previousStepCallback: PropTypes.func,
 };

@@ -1,7 +1,9 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
-import { createStyles, makeStyles, TextField } from '@material-ui/core';
+import {
+    createStyles, makeStyles, TextField, Paper,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Editor from '../Template/Editor';
 import StepButton from '../StepButton';
@@ -11,10 +13,16 @@ import { apiClient } from '../../../services/networking/client';
 import { useUserScope } from '../../../redux/user/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
+    paperContainer: {
+        padding: '16px',
+        marginBottom: '16px',
+        borderRadius: '8px',
+    },
     mailObject: {
         width: '100%',
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8px',
+        marginBottom: '16px',
     },
 }));
 
@@ -24,7 +32,6 @@ const Template = ({
     const [emailContent] = useTemplateContent();
     const [loading, setLoading] = useState(false);
     const [currentScope] = useUserScope();
-
     const classes = useStyles();
 
     const editEmail = async () => {
@@ -41,7 +48,6 @@ const Template = ({
 
         return apiClient.post('/v3/adherent_messages', body);
     };
-
     return (
         <>
             <StepButton
@@ -50,25 +56,24 @@ const Template = ({
                 disabled={loading || !emailSubject || !emailContent}
                 onClick={() => {
                     setLoading(true);
-
                     editEmail().then((body) => {
                         updateEmailCallback(body);
                         nextStepCallback();
                     });
                 }}
             />
-
-            <TextField
-                size="small"
-                label="Objet du mail"
-                variant="outlined"
-                className={classes.mailObject}
-                // error={buttonState.inputError}
-                defaultValue={emailSubject}
-                onChange={(event) => updateEmailSubjectCallback(event.target.value)}
-            />
-
-            <Editor />
+            <Paper className={classes.paperContainer}>
+                <TextField
+                    size="small"
+                    label="Objet du mail"
+                    variant="outlined"
+                    className={classes.mailObject}
+                    // error={buttonState.inputError}
+                    defaultValue={emailSubject}
+                    onChange={(event) => updateEmailSubjectCallback(event.target.value)}
+                />
+                <Editor />
+            </Paper>
         </>
     );
 };

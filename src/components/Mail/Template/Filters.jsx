@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     Container, Grid, Button, makeStyles, Box,
 } from '@material-ui/core';
@@ -68,11 +68,6 @@ const Filters = ({ buttonState, email, handleSendEmail }) => {
             </Button>
         );
     } */
-
-    useEffect(() => {
-        console.log(email && email.recipient_count);
-        console.log(handleSendEmail && handleSendEmail);
-    }, []);
 
     return (
         <Container maxWidth="xl">

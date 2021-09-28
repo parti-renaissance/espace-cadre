@@ -66,9 +66,13 @@ const DynamicFilters = ({
 
 export default DynamicFilters;
 
+DynamicFilters.defaultProps = {
+    values: {},
+};
+
 DynamicFilters.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
-    values: PropTypes.objectOf(Object).isRequired,
     feature: PropTypes.string.isRequired,
+    values: PropTypes.objectOf(Object),
 };
