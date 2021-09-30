@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import {
-    createStyles, makeStyles, TextField, Paper,
+    Box, createStyles, makeStyles, TextField, Paper,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Editor from '../Template/Editor';
@@ -13,6 +13,12 @@ import { apiClient } from '../../../services/networking/client';
 import { useUserScope } from '../../../redux/user/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
+    pageTitle: {
+        fontSize: '24px',
+        fontWeight: '400',
+        color: theme.palette.blue600,
+        marginBottom: '16px',
+    },
     paperContainer: {
         padding: '16px',
         marginBottom: '16px',
@@ -50,6 +56,7 @@ const Template = ({
     };
     return (
         <>
+            <Box className={classes.pageTitle}>Messagerie &gt; Créer un message</Box>
             <StepButton
                 label="Suivant"
                 loading={loading}

@@ -18,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
     container: {
         textAlign: 'center',
     },
+    pageTitle: {
+        fontSize: '24px',
+        fontWeight: '400',
+        color: theme.palette.blue600,
+        marginBottom: '16px',
+    },
     addresseesContainer: {
         fontWeight: '600',
         fontSize: '18px',
@@ -94,6 +100,7 @@ const Filters = ({ previousStepCallback, email }) => {
     return (
         <>
             <Container maxWidth="xl">
+                <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
                 <StepButton
                     label="Retour"
                     onClick={previousStepCallback}
