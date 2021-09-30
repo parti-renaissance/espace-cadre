@@ -57,15 +57,7 @@ const Autocomplete = ({
             onOpen={() => setOpen(true)}
             onClose={() => setOpen(false)}
             onChange={(data, selectedValues) => {
-                let selectItems = selectedValues;
-
-                if (!Array.isArray(selectItems)) {
-                    if (selectItems) {
-                        selectItems = [selectItems];
-                    } else {
-                        selectItems = [];
-                    }
-                }
+                const selectItems = [].concat(selectedValues).filter((selection) => !!selection);
 
                 setSelectedItems(selectItems);
 

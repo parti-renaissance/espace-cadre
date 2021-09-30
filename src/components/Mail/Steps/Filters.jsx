@@ -11,6 +11,8 @@ import { apiClient } from '../../../services/networking/client';
 import { useUserScope } from '../../../redux/user/hooks';
 import useRetry from '../../Filters/useRetry';
 import Loader from '../../Loader';
+import SendButton from '../SendButton';
+import ErrorComponent from '../../ErrorComponent';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -29,13 +31,6 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.blue600,
         borderColor: theme.palette.blue600,
     },
-    sendButton: {
-        color: theme.palette.whiteCorner,
-        background: theme.palette.blue600,
-        '&:hover': {
-            background: theme.palette.blue500,
-        },
-    },
     success: {
         color: `${theme.palette.successButton} !important`,
         background: `${theme.palette.whiteCorner} !important`,
@@ -46,17 +41,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BUTTON_INITIAL_STATE = { state: 'readyToSend', isLoading: false };
+const duration = 1000;
+const count = 10;
 
 const Filters = ({ previousStepCallback, email }) => {
     const classes = useStyles();
     const [currentScope] = useUserScope();
     const [audienceId, setAudienceId] = useState(null);
+    const [errorMessage, setErrorMessage] = useState();
     const [loadingTestButton, setLoadingTestButton] = useState(false);
     const [loadingSendButton, setLoadingSendButton] = useState(BUTTON_INITIAL_STATE);
     const [, audienceSegment, launch] = useRetry(async (uuid) => {
         const result = await apiClient.get(`/v3/audience-segments/${uuid}`);
         return result;
-    }, 1000, 10);
+    }, duration, count);
 
     const handleFiltersSubmit = async (filtersToSend) => {
         try {
@@ -69,7 +67,7 @@ const Filters = ({ previousStepCallback, email }) => {
                 launch(audience.uuid);
             }
         } catch (error) {
-            console.log(error);
+            setErrorMessage(error);
         }
     };
 
@@ -93,57 +91,6 @@ const Filters = ({ previousStepCallback, email }) => {
         }
     };
 
-    const buttonContent = () => {
-        let sendButton;
-
-        if (loadingSendButton.state === 'readyToSend') {
-            sendButton = (
-                <Button
-                    variant="contained"
-                    size="medium"
-                    className={classes.sendButton}
-                    onClick={() => handleSendEmail()}
-                    disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
-                >
-                    <Box>
-                        {loadingSendButton.isLoading ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
-                    </Box>
-                    Envoyer l&apos;email
-                </Button>
-            );
-        } else if (loadingSendButton.state === 'success') {
-            sendButton = (
-                <Button
-                    variant="contained"
-                    size="medium"
-                    className={classes.success}
-                    disabled
-                >
-                    <Box>
-                        <i className={`fa fa-check ${classes.buttonIcon}`} />
-                    </Box>
-                    E-mail envoyé 🎉
-                </Button>
-            );
-        } else if (loadingSendButton.state === 'error') {
-            sendButton = (
-                <Button
-                    variant="contained"
-                    size="medium"
-                    className={classes.sendButton}
-                    disabled
-                >
-                    <Box>
-                        <i className={`fa fa-bomb ${classes.buttonIcon}`} />
-                    </Box>
-                    Une erreur est survenue
-                </Button>
-            );
-        }
-
-        return sendButton;
-    };
-
     return (
         <>
             <Container maxWidth="xl">
@@ -151,6 +98,9 @@ const Filters = ({ previousStepCallback, email }) => {
                     label="Retour"
                     onClick={previousStepCallback}
                 />
+                { errorMessage && (
+                    <ErrorComponent errorMessage={errorMessage} />
+                )}
                 <Grid container spacing={2} className={classes.container}>
                     <Grid item>
                         <DynamicFilters
@@ -184,7 +134,11 @@ const Filters = ({ previousStepCallback, email }) => {
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        {buttonContent()}
+                        <SendButton
+                            loadingSendButton={loadingSendButton}
+                            audienceSegment={audienceSegment}
+                            handleSendEmail={handleSendEmail}
+                        />
                     </Grid>
                 </Grid>
             </Container>
