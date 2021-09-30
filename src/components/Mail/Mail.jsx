@@ -4,11 +4,9 @@ import {
 } from '@material-ui/core';
 import Template from './Steps/Template';
 import Filters from './Steps/Filters';
-import Confirmation from './Steps/Confirmation';
 
 const STEP_TEMPLATE = 'template';
 const STEP_FILTER = 'filter';
-const STEP_CONFIRMATION = 'confirmation';
 
 const EMAIL_INITIAL_STATE = { synchronized: false };
 
@@ -26,8 +24,6 @@ const Mail = () => {
                     email={email}
                 />
             );
-        case STEP_CONFIRMATION:
-            return <Confirmation />;
         default:
             return (
                 <Template

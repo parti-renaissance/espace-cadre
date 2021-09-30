@@ -17,7 +17,7 @@ const useRetry = (f, duration, maxIteration) => {
         }
     }, [data]);
 
-    const go = (...args) => {
+    const launch = (...args) => {
         setLoading(true);
         setData(null);
         iteration.current = 0;
@@ -31,6 +31,6 @@ const useRetry = (f, duration, maxIteration) => {
         }, duration);
     };
 
-    return [loading, data, go, clear];
+    return [loading, data, launch, clear];
 };
 export default useRetry;

@@ -53,7 +53,7 @@ const Filters = ({ previousStepCallback, email }) => {
     const [audienceId, setAudienceId] = useState(null);
     const [loadingTestButton, setLoadingTestButton] = useState(false);
     const [loadingSendButton, setLoadingSendButton] = useState(BUTTON_INITIAL_STATE);
-    const [, audienceSegment, go] = useRetry(async (uuid) => {
+    const [, audienceSegment, launch] = useRetry(async (uuid) => {
         const result = await apiClient.get(`/v3/audience-segments/${uuid}`);
         return result;
     }, 1000, 10);
@@ -62,11 +62,11 @@ const Filters = ({ previousStepCallback, email }) => {
         try {
             if (audienceId) {
                 await apiClient.put(`/v3/audience-segments/${audienceId}`, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
-                go(audienceId);
+                launch(audienceId);
             } else {
                 const audience = await apiClient.post('/v3/audience-segments', { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
                 setAudienceId(audience.uuid);
-                go(audience.uuid);
+                launch(audience.uuid);
             }
         } catch (error) {
             console.log(error);
@@ -85,7 +85,6 @@ const Filters = ({ previousStepCallback, email }) => {
 
         setLoadingSendButton((state) => ({ ...state, isLoading: true }));
         const responseSend = await apiClient.post(`/v3/adherent_messages/${email.uuid}/send`);
-        console.log(loadingSendButton);
 
         if (responseSend === 'OK') {
             setLoadingSendButton(() => ({ state: 'success', isLoading: false }));
@@ -107,7 +106,7 @@ const Filters = ({ previousStepCallback, email }) => {
                     disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
                 >
                     <Box>
-                        <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />
+                        {loadingSendButton.isLoading ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
                     </Box>
                     Envoyer l&apos;email
                 </Button>
@@ -164,7 +163,7 @@ const Filters = ({ previousStepCallback, email }) => {
                     </Grid>
                     {audienceSegment && (
                         <Grid item xs={12} className={classes.addresseesContainer}>
-                            Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment?.recipient_count || 0} </span> contact{audienceSegment?.recipient_count > 1 && 's'}
+                            Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}
                         </Grid>
                     )}
                     <Grid item xs={12}>

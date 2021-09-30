@@ -24,7 +24,6 @@ class AutocompleteFactory {
                 classes={{ root: classes.root }}
             >
                 <Autocomplete
-                    classeName={classes.autoComplete}
                     placeholder={filter.label}
                     uri={filter.options.url}
                     value={value}

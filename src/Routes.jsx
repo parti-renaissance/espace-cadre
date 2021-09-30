@@ -11,7 +11,6 @@ const Dashboard = lazy(() => import('./components/Dashboard'));
 const Adherents = lazy(() => import('./components/Adherents'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
-const Filters = lazy(() => import('./components/Mail/Template/Filters'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
 
@@ -48,13 +47,6 @@ export const PATHS = {
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
-    FILTERS: {
-        id: 'messages',
-        route: '/filters',
-        url: () => '/filters',
-        label: 'Messagerie',
-        icon: 'fas fa-paper-plane',
-    },
     ELECTIONS: {
         id: 'elections',
         route: '/elections',
@@ -83,10 +75,6 @@ const COMPONENTS = [
     {
         path: PATHS.MESSAGERIE,
         component: Messagerie,
-    },
-    {
-        path: PATHS.FILTERS,
-        component: Filters,
     },
     {
         path: PATHS.MAIL,

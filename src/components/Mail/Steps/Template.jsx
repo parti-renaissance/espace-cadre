@@ -68,7 +68,6 @@ const Template = ({
                     label="Objet du mail"
                     variant="outlined"
                     className={classes.mailObject}
-                    // error={buttonState.inputError}
                     defaultValue={emailSubject}
                     onChange={(event) => updateEmailSubjectCallback(event.target.value)}
                 />
