@@ -22,8 +22,8 @@ const Mail = () => {
         case STEP_FILTER:
             return (
                 <Filters
-                    email={email}
                     previousStepCallback={() => setStep(STEP_TEMPLATE)}
+                    email={email}
                 />
             );
         case STEP_CONFIRMATION:

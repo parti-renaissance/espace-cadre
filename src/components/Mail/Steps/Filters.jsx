@@ -9,7 +9,6 @@ import DynamicFilters from '../../Filters/DynamicFilters';
 import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
 import { apiClient } from '../../../services/networking/client';
 import { useUserScope } from '../../../redux/user/hooks';
-import Loader from '../../Loader';
 import useRetry from '../../Filters/useRetry';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,12 +37,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Filters = ({ previousStepCallback }) => {
+const Filters = ({ previousStepCallback, email }) => {
     // const [filters, setFilters] = useState({});
     const classes = useStyles();
     const [currentScope] = useUserScope();
     const [audienceId, setAudienceId] = useState(null);
-
     const [loading, audienceSegment, go] = useRetry(async (uuid) => {
         const result = await apiClient.get(`/v3/audience-segments/${uuid}`);
         return result;
@@ -62,6 +60,30 @@ const Filters = ({ previousStepCallback }) => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const handleSendEmail = async (test = false) => {
+        if (test) {
+            await apiClient.post(`/v3/adherent_messages/${email.uuid}/send-test`);
+
+            return;
+        }
+
+        if (!audienceSegment.synchronized || audienceSegment.recipient_count < 1) {
+            throw new Error('Send not allowed');
+        }
+
+        /* setButtonState((state) => ({ ...state, ...{ isLoading: true } }));
+
+        const response = await apiClient.post(`/v3/adherent_messages/${audienceId}/send`);
+
+        setEmail((state) => ({ ...state, ...{ synchronized: false } }));
+
+        if (response === 'OK') {
+            setButtonState((state) => ({ ...state, ...{ state: 'success', isLoading: false } }));
+        } else {
+            setButtonState((state) => ({ ...state, ...{ state: 'error', isLoading: false } }));
+        } */
     };
 
     return (
@@ -83,16 +105,16 @@ const Filters = ({ previousStepCallback }) => {
                             onReset={() => {}}
                         />
                     </Grid>
-                    <Grid item xs={12} className={classes.addresseesContainer}>
-                        Vous allez envoyer un message à {loading ? <Loader /> : <span className={classes.addresseesCount}>{audienceSegment?.recipient_count || 0} </span>} contact{audienceSegment?.recipient_count > 1 && 's'}
-                    </Grid>
+                    {audienceSegment && <Grid item xs={12} className={classes.addresseesContainer}>
+                        Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment?.recipient_count || 0} </span> contact{audienceSegment?.recipient_count > 1 && 's'}
+                    </Grid>}
                     <Grid item xs={12}>
                         <Button
                             variant="outlined"
                             size="medium"
                             className={classes.sendTestButton}
-                            // onClick={() => handleSendEmail(true)}
-                            // disabled={buttonState && buttonState.state !== 'confirme'}
+                            onClick={() => handleSendEmail(true)}
+                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
                         >
                             M&apos;envoyer un message test
                         </Button>
@@ -102,8 +124,8 @@ const Filters = ({ previousStepCallback }) => {
                             variant="contained"
                             size="medium"
                             className={classes.sendButton}
-                            // onClick={() => handleSendEmail()}
-                            // disabled={buttonState && buttonState.state !== 'confirme' && email && (!email.recipient_count || email.recipient_count < 1)}
+                            onClick={() => handleSendEmail()}
+                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
                         >
                             <Box>
                                 <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />
@@ -121,4 +143,5 @@ export default Filters;
 
 Filters.propTypes = {
     previousStepCallback: PropTypes.func,
+    email: PropTypes.objectOf(Object).isRequired,
 };
