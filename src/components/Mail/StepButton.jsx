@@ -37,10 +37,10 @@ const StepButton = ({
                     disabled={disabled}
                     size="medium"
                 >
-                    <Box className={classes.buttonIcon}>
-                        {loading ? <Loader /> : <i className="fa fa-paper-plane-o" />}
+                    <Box component="span" className={classes.buttonIcon}>
+                        {loading && <Loader /> }
+                        {label}
                     </Box>
-                    {label}
                 </Button>
             </Grid>
         </Grid>
