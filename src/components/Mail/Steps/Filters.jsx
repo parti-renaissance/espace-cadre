@@ -88,13 +88,24 @@ const Filters = ({ previousStepCallback, email }) => {
         }
 
         setLoadingSendButton((state) => ({ ...state, isLoading: true }));
-        const responseSend = await apiClient.post(`/v3/adherent_messages/${email.uuid}/send`);
+        apiClient.put(`/v3/adherent_messages/${email.uuid}/filter`, { segment: audienceId });
+        let callCount = 0;
+        const timer = setInterval(async () => {
+            const emailStatusResponse = await apiClient.get(`/v3/adherent_messages/${email.uuid}`);
+            // eslint-disable-next-line no-plusplus
+            if (++callCount >= 10 || (emailStatusResponse.synchronized === true)) {
+                clearInterval(timer);
+                if (emailStatusResponse.synchronized === true) {
+                    const responseSend = await apiClient.post(`/v3/adherent_messages/${email.uuid}/send`);
 
-        if (responseSend === 'OK') {
-            setLoadingSendButton(() => ({ state: 'success', isLoading: false }));
-        } else {
-            setLoadingSendButton(() => ({ state: 'error', isLoading: false }));
-        }
+                    if (responseSend === 'OK') {
+                        setLoadingSendButton(() => ({ state: 'success', isLoading: false }));
+                    } else {
+                        setLoadingSendButton(() => ({ state: 'error', isLoading: false }));
+                    }
+                }
+            }
+        }, 1000);
     };
 
     return (
