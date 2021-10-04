@@ -77,27 +77,25 @@ const FiltersForm = ({
                 onSubmit(localValues);
             }}
             >
-                <div>
-                    <Grid container spacing={2} className={classes.filtersContainer}>
-                        {filterElements}
-                    </Grid>
-                    <Grid container className={classes.buttonContainer}>
-                        <Button
-                            type="submit"
-                            className={classes.buttonFilter}
+                <Grid container spacing={2} className={classes.filtersContainer}>
+                    {filterElements}
+                </Grid>
+                <Grid container className={classes.buttonContainer}>
+                    <Button
+                        type="submit"
+                        className={classes.buttonFilter}
 
-                        >Filtrer
-                        </Button>
-                        <Button
-                            className={classes.resetButtonFilters}
-                            onClick={() => {
-                                setLocalValues({});
-                                onReset();
-                            }}
-                        >Réinitialiser
-                        </Button>
-                    </Grid>
-                </div>
+                    >Filtrer
+                    </Button>
+                    <Button
+                        className={classes.resetButtonFilters}
+                        onClick={() => {
+                            setLocalValues({});
+                            onReset();
+                        }}
+                    >Réinitialiser
+                    </Button>
+                </Grid>
             </form>
         </Box>
     );

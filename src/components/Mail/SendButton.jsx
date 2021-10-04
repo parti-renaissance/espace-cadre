@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => createStyles({
         color: theme.palette.whiteCorner,
         background: theme.palette.blue600,
         '&:hover': {
-            background: theme.palette.blue500,
+            background: theme.palette.blue800,
         },
     },
     success: {
@@ -32,21 +32,7 @@ const SendButton = ({
 }) => {
     const classes = useStyles();
 
-    if (loadingSendButton.state === 'success') {
-        return (
-            <Button
-                variant="contained"
-                size="medium"
-                className={classes.success}
-                disabled
-            >
-                <Box>
-                    <i className={`fa fa-check ${classes.buttonIcon}`} />
-                </Box>
-                E-mail envoyé 🎉
-            </Button>
-        );
-    } if (loadingSendButton.state === 'error') {
+    if (loadingSendButton.state === 'error') {
         return (
             <Button
                 variant="contained"

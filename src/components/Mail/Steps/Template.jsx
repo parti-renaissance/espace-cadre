@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import {
-    Box, createStyles, makeStyles, TextField, Paper,
+    Grid, Box, createStyles, makeStyles, TextField,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Editor from '../Template/Editor';
@@ -19,16 +19,19 @@ const useStyles = makeStyles((theme) => createStyles({
         color: theme.palette.blue600,
         marginBottom: '16px',
     },
-    paperContainer: {
+    objectContainer: {
+        background: theme.palette.whiteCorner,
         padding: '16px',
-        marginBottom: '16px',
-        borderRadius: '8px',
+        borderRadius: '12px 12px 0 0',
     },
     mailObject: {
         width: '100%',
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8px',
-        marginBottom: '16px',
+    },
+    buttonContainer: {
+        justifyContent: 'spaceBetween',
+        marginRight: '16px',
     },
 }));
 
@@ -57,29 +60,33 @@ const Template = ({
     return (
         <>
             <Box className={classes.pageTitle}>Messagerie &gt; Créer un message</Box>
-            <StepButton
-                label="Suivant"
-                loading={loading}
-                disabled={loading || !emailSubject || !emailContent}
-                onClick={() => {
-                    setLoading(true);
-                    editEmail().then((body) => {
-                        updateEmailCallback(body);
-                        nextStepCallback();
-                    });
-                }}
-            />
-            <Paper className={classes.paperContainer}>
-                <TextField
-                    size="small"
-                    label="Objet du mail"
-                    variant="outlined"
-                    className={classes.mailObject}
-                    defaultValue={emailSubject}
-                    onChange={(event) => updateEmailSubjectCallback(event.target.value)}
-                />
-                <Editor />
-            </Paper>
+            <Grid container className={classes.objectContainer}>
+                <Grid item xs={9} className={classes.buttonContainer}>
+                    <TextField
+                        size="small"
+                        label="Objet du mail"
+                        variant="outlined"
+                        className={classes.mailObject}
+                        defaultValue={emailSubject}
+                        onChange={(event) => updateEmailSubjectCallback(event.target.value)}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <StepButton
+                        label="Suivant"
+                        loading={loading}
+                        disabled={loading || !emailSubject || !emailContent}
+                        onClick={() => {
+                            setLoading(true);
+                            editEmail().then((body) => {
+                                updateEmailCallback(body);
+                                nextStepCallback();
+                            });
+                        }}
+                    />
+                </Grid>
+            </Grid>
+            <Editor />
         </>
     );
 };

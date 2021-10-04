@@ -4,7 +4,7 @@ import {
     Box, Button, Container, Grid, makeStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import StepButton from '../StepButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DynamicFilters from '../../Filters/DynamicFilters';
 import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
 import { apiClient } from '../../../services/networking/client';
@@ -36,10 +36,16 @@ const useStyles = makeStyles((theme) => ({
     sendTestButton: {
         color: theme.palette.blue600,
         borderColor: theme.palette.blue600,
+        '&:hover': {
+            background: theme.palette.gray200,
+        },
     },
     success: {
         color: `${theme.palette.successButton} !important`,
         background: `${theme.palette.whiteCorner} !important`,
+    },
+    backButton: {
+        color: theme.palette.blue600,
     },
     buttonIcon: {
         marginRight: '8px',
@@ -50,7 +56,7 @@ const BUTTON_INITIAL_STATE = { state: 'readyToSend', isLoading: false };
 const duration = 1000;
 const count = 10;
 
-const Filters = ({ previousStepCallback, email }) => {
+const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
     const classes = useStyles();
     const [currentScope] = useUserScope();
     const [audienceId, setAudienceId] = useState(null);
@@ -100,6 +106,7 @@ const Filters = ({ previousStepCallback, email }) => {
 
                     if (responseSend === 'OK') {
                         setLoadingSendButton(() => ({ state: 'success', isLoading: false }));
+                        nextStepCallback();
                     } else {
                         setLoadingSendButton(() => ({ state: 'error', isLoading: false }));
                     }
@@ -112,13 +119,21 @@ const Filters = ({ previousStepCallback, email }) => {
         <>
             <Container maxWidth="xl">
                 <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
-                <StepButton
-                    label="Retour"
-                    onClick={previousStepCallback}
-                />
-                { errorMessage && (
-                    <ErrorComponent errorMessage={errorMessage} />
-                )}
+                <Grid container>
+                    <Button
+                        onClick={previousStepCallback}
+                        className={classes.backButton}
+                        size="medium"
+                    >
+                        <ArrowBackIcon className={classes.buttonIcon} />
+                        Précédent
+                    </Button>
+                </Grid>
+                <Grid container>
+                    { errorMessage && (
+                        <ErrorComponent errorMessage={errorMessage} />
+                    )}
+                </Grid>
                 <Grid container spacing={2} className={classes.container}>
                     <Grid item>
                         <DynamicFilters
@@ -129,11 +144,13 @@ const Filters = ({ previousStepCallback, email }) => {
                             onReset={() => {}}
                         />
                     </Grid>
-                    {audienceSegment && (
-                        <Grid item xs={12} className={classes.addresseesContainer}>
-                            Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}
-                        </Grid>
-                    )}
+                    <Grid container>
+                        {audienceSegment && (
+                            <Grid item xs={12} className={classes.addresseesContainer}>
+                                Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}
+                            </Grid>
+                        )}
+                    </Grid>
                     <Grid item xs={12}>
                         <Button
                             variant="outlined"
@@ -168,5 +185,6 @@ export default Filters;
 
 Filters.propTypes = {
     previousStepCallback: PropTypes.func,
+    nextStepCallback: PropTypes.func,
     email: PropTypes.objectOf(Object).isRequired,
 };

@@ -1,25 +1,22 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import {
-    Box, Button, createStyles, Grid, makeStyles,
+    Button, Box, createStyles, makeStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Loader from '../Loader';
 
 const useStyles = makeStyles((theme) => createStyles({
-    buttonContainer: {
-        marginBottom: '8px',
-    },
     materialButton: {
         width: '100%',
-        color: `${theme.palette.whiteCorner}`,
-        backgroundColor: theme.palette.blueCorner,
+        borderRadius: '8px',
         '&:hover': {
-            background: theme.palette.blueCornerHover,
+            background: `${theme.palette.blue800} !important`,
         },
     },
     buttonIcon: {
-        marginRight: '8px',
+        marginLeft: '12px',
     },
 }));
 
@@ -29,21 +26,22 @@ const StepButton = ({
     const classes = useStyles();
 
     return (
-        <Grid container spacing={2} className={classes.buttonContainer}>
-            <Grid item sm={3}>
-                <Button
-                    className={classes.materialButton}
-                    onClick={disabled ? null : onClick}
-                    disabled={disabled}
-                    size="medium"
-                >
-                    <Box component="span" className={classes.buttonIcon}>
-                        {loading && <Loader /> }
-                        {label}
-                    </Box>
-                </Button>
-            </Grid>
-        </Grid>
+        <Button
+            className={classes.materialButton}
+            onClick={disabled ? null : onClick}
+            size="large"
+            disabled={disabled}
+            style={{
+                color: disabled ? '#6B7280 !important' : '#fff',
+                background: disabled ? '#E5E7EB' : '#2563EB',
+            }}
+        >
+            <Box>
+                {loading && <Loader />}
+            </Box>
+            {label}
+            <ArrowForwardIcon className={classes.buttonIcon} />
+        </Button>
     );
 };
 

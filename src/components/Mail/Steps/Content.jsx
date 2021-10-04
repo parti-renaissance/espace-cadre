@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Template from './Template';
 import Filters from './Filters';
+import Confirmation from './Confirmation';
 
 const STEP_TEMPLATE = 'template';
 const STEP_FILTER = 'filter';
+const STEP_CONFIRMATION = 'confirmation';
 
 const EMAIL_INITIAL_STATE = { synchronized: false };
 
@@ -17,8 +19,13 @@ function Content() {
         return (
             <Filters
                 previousStepCallback={() => setStep(STEP_TEMPLATE)}
+                nextStepCallback={() => setStep(STEP_CONFIRMATION)}
                 email={email}
             />
+        );
+    case STEP_CONFIRMATION:
+        return (
+            <Confirmation />
         );
     default:
         return (
