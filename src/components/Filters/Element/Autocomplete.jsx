@@ -1,10 +1,17 @@
 /* eslint-disable react/forbid-prop-types,react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import { Autocomplete as MuiAutocomplete } from '@material-ui/lab';
-import { TextField, Typography } from '@material-ui/core';
+import { TextField, Typography, makeStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { throttle, union } from 'lodash';
+import { throttle, unionBy } from 'lodash';
 import { apiClient } from '../../../services/networking/client';
+
+const useStyles = makeStyles((theme) => ({
+    autoComplete: {
+        background: theme.palette.whiteCorner,
+        borderRadius: '8px',
+    },
+}));
 
 const fetch = throttle((uri, queryParam, query, callback) => {
     apiClient.get(`${uri}?${queryParam}=${query}`).then(callback);
@@ -18,10 +25,12 @@ const Autocomplete = ({
     const [options, setOptions] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [loading, setLoading] = useState(false);
+    const classes = useStyles();
 
     useEffect(() => {
         if (value === '' && selectedItems.length) {
             setSelectedItems([]);
+            return;
         }
 
         if (!inputValue) {
@@ -31,7 +40,7 @@ const Autocomplete = ({
         setLoading(true);
 
         fetch(uri, queryParam, inputValue, (data) => {
-            setOptions(union(selectedItems, data));
+            setOptions(unionBy(selectedItems, data, 'uuid'));
             setLoading(false);
         });
     }, [value, inputValue]);
@@ -40,20 +49,22 @@ const Autocomplete = ({
         <MuiAutocomplete
             options={options}
             open={open}
-            value={selectedItems}
+            value={multiple ? selectedItems : (selectedItems[0] || null)}
             size="small"
+            className={classes.autoComplete}
             loading={loading}
             multiple={multiple}
             onOpen={() => setOpen(true)}
             onClose={() => setOpen(false)}
             onChange={(data, selectedValues) => {
-                setSelectedItems(selectedValues);
+                const selectItems = [].concat(selectedValues).filter((selection) => !!selection);
+
+                setSelectedItems(selectItems);
 
                 if (multiple) {
-                    onChange(selectedValues.map((item) => item[valueParam]));
-                } else {
-                    onChange(selectedValues[valueParam]);
+                    return onChange(selectItems.map((item) => item[valueParam]));
                 }
+                return onChange(selectItems.map((item) => item[valueParam]).shift());
             }}
             onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
@@ -63,7 +74,14 @@ const Autocomplete = ({
             loadingText="Chargement…"
             noOptionsText="Aucun élément"
             renderInput={(params) => (
-                <TextField {...params} size="small" label={placeholder} fullWidth required={required} />
+                <TextField
+                    variant="outlined"
+                    size="small"
+                    {...params}
+                    label={placeholder}
+                    fullWidth
+                    required={required}
+                />
             )}
             getOptionSelected={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
             getOptionLabel={(option) => option[labelParam]}

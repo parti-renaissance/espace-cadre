@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import {
-    Grid, Button, Box,
+    Grid, Button, Box, makeStyles, createStyles,
 } from '@material-ui/core';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
+
+const useStyles = makeStyles((theme) => createStyles({
+    materialButton: {
+        width: '100%',
+        backgroundColor: theme.palette.blueCorner,
+        color: theme.palette.whiteCorner,
+    },
+}));
 
 const TEMPLATE_INITIAL_STATE = { content_template: '', current_template: '' };
 const OPTIONS_INITIAL_STATE = { options: [] };
@@ -15,6 +23,7 @@ const TemplateSelect = () => {
     const [template, setTemplate] = useState(TEMPLATE_INITIAL_STATE);
     const [isLoadingTemplateButton, setIsLoadingTemplateButton] = useState(false);
     const [optselect, setOpts] = useState(OPTIONS_INITIAL_STATE);
+    const classes = useStyles();
 
     const handleSelectChange = (selected, action) => {
         switch (action.action) {
@@ -79,7 +88,7 @@ const TemplateSelect = () => {
 
     const saveButton = (
         <Button
-            className="btn material-button"
+            className={`btn ${classes.materialButton}`}
             disabled={templateButtonDisableState}
             style={{
                 padding: '7px',

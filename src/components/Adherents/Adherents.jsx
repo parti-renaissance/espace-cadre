@@ -10,6 +10,7 @@ import ErrorComponent from '../ErrorComponent';
 import Loader from '../Loader';
 import DynamicFilters from '../Filters/DynamicFilters';
 import { useColumnsTitleCache } from '../../redux/adherents/hooks';
+import { FEATURE_ADHERENTS } from '../Feature/FeatureCode';
 
 const useStyles = makeStyles({
     tableContainer: {
@@ -64,6 +65,7 @@ function Adherents() {
             return (
                 <>
                     <DynamicFilters
+                        feature={FEATURE_ADHERENTS}
                         values={filters}
                         onSubmit={(newFilters) => setFilters({ ...newFilters, ...{ page: 1 } })}
                         onReset={() => { setFilters({ page: 1 }); }}

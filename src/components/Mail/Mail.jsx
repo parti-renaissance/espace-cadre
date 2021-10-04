@@ -1,8 +1,13 @@
 import React from 'react';
-import Template from './Template';
+import {
+    Container,
+} from '@material-ui/core';
+import Content from './Steps/Content';
 
 const Mail = () => (
-    <Template />
+    <Container maxWidth="xl">
+        <Content />
+    </Container>
 );
 
 export default Mail;

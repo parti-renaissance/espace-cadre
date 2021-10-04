@@ -3,20 +3,10 @@ import React from 'react';
 import { createStyles, FormControl, makeStyles } from '@material-ui/core';
 import Autocomplete from '../../Element/Autocomplete';
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(() => createStyles({
     root: {
         fontFamily: 'Poppins',
         width: '100%',
-    },
-    filterBasicStyle: {
-        background: theme.palette.whiteCorner,
-        borderRadius: '8px',
-    },
-    select: {
-        '&:focus': {
-            background: theme.palette.whiteCorner,
-            borderRadius: '8px',
-        },
     },
 }));
 
@@ -30,7 +20,6 @@ class AutocompleteFactory {
 
         return (
             <FormControl
-                variant="outlined"
                 size="small"
                 classes={{ root: classes.root }}
             >
@@ -42,6 +31,7 @@ class AutocompleteFactory {
                     queryParam={filter.options.query_param}
                     valueParam={filter.options.value_param}
                     labelParam={filter.options.label_param}
+                    required={filter.options.required || false}
                     multiple={filter.options.multiple}
                 />
             </FormControl>

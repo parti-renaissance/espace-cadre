@@ -14,6 +14,15 @@ const theme = createTheme({
         blueCornerHover: '#1766ff',
         messagerieButtonHover: '#1f5bc2',
         blueBubble: '#D9EAFF',
+        blue100: '#DBEAFE',
+        blue200: '#BFDBFE',
+        blue300: '#93C5FD',
+        blue400: '#60A5FA',
+        blue500: '#3B82F6',
+        blue600: '#2563EB',
+        blue700: '#1D4ED8',
+        blue800: '#1E40AF',
+        blue900: '#1E3A8A',
 
         // Gray
         grayCornerBg: '#F0F1F3',
@@ -31,6 +40,10 @@ const theme = createTheme({
 
         // Green
         greenCorner: '#008000',
+        successButton: '#28A745',
+
+        // Red
+        redError: '#dc3545',
     },
     typography: {
         fontFamily: 'Poppins, sans-serif',
