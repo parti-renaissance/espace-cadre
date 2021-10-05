@@ -13,7 +13,7 @@
     "@sentry/react": "6.13.2",
     "@sentry/tracing": "6.13.2",
     "axios": "0.22.0",
-    "date-fns": "2.24.0",
+    "date-fns": "2.25.0",
     "jquery": "3.6.0",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
