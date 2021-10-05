@@ -1540,7 +1540,7 @@
   resolved "https://registry.yarnpkg.com/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz#497c67a1cef50d1a2459ba60f315e448d2ad87fe"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
-"@material-ui/core@^4.12.3":
+"@material-ui/core@4.12.3":
   version "4.12.3"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.3.tgz#80d665caf0f1f034e52355c5450c0e38b099d3ca"
   integrity sha512-sdpgI/PL56QVsEJldwEe4FFaFTLUqN+rd7sSZiRCdx2E/C7z5yK0y/khAWVBH24tXwto7I1hCzNWfJGZIYJKnw==
@@ -1558,14 +1558,14 @@
     react-is "^16.8.0 || ^17.0.0"
     react-transition-group "^4.4.0"
 
-"@material-ui/icons@^4.11.2":
+"@material-ui/icons@4.11.2":
   version "4.11.2"
   resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.11.2.tgz#b3a7353266519cd743b6461ae9fdfcb1b25eb4c5"
   integrity sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ==
   dependencies:
     "@babel/runtime" "^7.4.4"
 
-"@material-ui/lab@^4.0.0-alpha.60":
+"@material-ui/lab@4.0.0-alpha.60":
   version "4.0.0-alpha.60"
   resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.60.tgz#5ad203aed5a8569b0f1753945a21a05efa2234d2"
   integrity sha512-fadlYsPJF+0fx2lRuyqAuJj7hAS1tLDdIEEdov5jlrpb5pp4b+mRDUqQTUxi4inRZHS1bEXpU8QWUhO6xX88aA==
@@ -1576,7 +1576,7 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@material-ui/pickers@^3.3.10":
+"@material-ui/pickers@3.3.10":
   version "3.3.10"
   resolved "https://registry.yarnpkg.com/@material-ui/pickers/-/pickers-3.3.10.tgz#f1b0f963348cc191645ef0bdeff7a67c6aa25485"
   integrity sha512-hS4pxwn1ZGXVkmgD4tpFpaumUaAg2ZzbTrxltfC5yPw4BJV+mGkfnQOB4VpWEYZw2jv65Z0wLwDE/piQiPPZ3w==
@@ -1588,7 +1588,7 @@
     react-transition-group "^4.0.0"
     rifm "^0.7.0"
 
-"@material-ui/styles@^4.11.4":
+"@material-ui/styles@4.11.4", "@material-ui/styles@^4.11.4":
   version "4.11.4"
   resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.11.4.tgz#eb9dfccfcc2d208243d986457dff025497afa00d"
   integrity sha512-KNTIZcnj/zprG5LW0Sao7zw+yG3O35pviHzejMdcSGCdWbiO8qzRgOYL8JAxAsWBKOKYwVZxXtHWaB5T2Kvxew==
@@ -7709,7 +7709,7 @@ last-call-webpack-plugin@^3.0.0:
     lodash "^4.17.5"
     webpack-sources "^1.1.0"
 
-leaflet@^1.7.1:
+leaflet@1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
   integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
@@ -7970,7 +7970,7 @@ lodash.values@^4.3.0:
   resolved "https://registry.yarnpkg.com/lodash.values/-/lodash.values-4.3.0.tgz#a3a6c2b0ebecc5c2cba1c17e6e620fe81b53d347"
   integrity sha1-o6bCsOvsxcLLocF+bmIP6BtT00c=
 
-"lodash@>=3.5 <5", lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.5:
+lodash@4.17.21, "lodash@>=3.5 <5", lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.5:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -8054,7 +8054,7 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-mapbox-gl@^2.5.0:
+mapbox-gl@2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-2.5.0.tgz#c0c7f09f4ce987b7397b92ea4b2780a8213ac10b"
   integrity sha512-yIC3TCaY+CfTj1gU4z3DrB1hMck8ijAAPlWBsLMu+5BcTCk6F9mgi595Zv1DKDacFjyphHoWS29AMRJHjYnKzg==
@@ -8296,7 +8296,7 @@ minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
-miragejs@^0.1.42:
+miragejs@0.1.42:
   version "0.1.42"
   resolved "https://registry.yarnpkg.com/miragejs/-/miragejs-0.1.42.tgz#ff79995e3218078c1efbf8bb1a7d00667b578612"
   integrity sha512-35Gl2Pubkj/9Xk/D5/JcKJyspPWCNcpMkrlEpP0ArjQ4wKINQaFIgg5R/LW5v/yvsLpMjf9tzZuHtO3NDZeZow==
@@ -10189,7 +10189,7 @@ react-dom@17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-email-editor@^1.4.0:
+react-email-editor@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-email-editor/-/react-email-editor-1.4.0.tgz#5c8bf6eca72533dec64032418688358a83562cff"
   integrity sha512-nXVBeJPYHtqw21NoPXmgL7VBPezR7Ob/GLwZ6EHd6m5pFqmQ+Za4/vbCtuqFk4lzHOByzHx57e74ucdRqGruqw==
@@ -10214,7 +10214,7 @@ react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-leaflet@^3.2.1:
+react-leaflet@3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-3.2.1.tgz#5f04588b96f62b9476cbeb4ea39c698b5db78e1c"
   integrity sha512-3iS1fpOO+uaRpbuq68Euw9kgaoM9oIGBiDfeFtVb/C9PWBQvXdrv1n946Z8GrbQEhrT+hM9ND6NLLF9fGxTGRw==
@@ -10504,7 +10504,7 @@ recharts-scale@^0.4.4:
   dependencies:
     decimal.js-light "^2.4.1"
 
-recharts@^2.1.4:
+recharts@2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.1.4.tgz#8d21750e3bb01a909e01ebe5573c48d813c25287"
   integrity sha512-ZKaLgUo4g84FhIiLeRq0uWMqe5GTjjJk+5fxmIt2H4cn279QZCMEsuVFmBqYedJcmX1URYEII5qb9pOppr5fJA==
@@ -10547,7 +10547,7 @@ reduce-css-calc@^2.1.8:
     css-unit-converter "^1.1.1"
     postcss-value-parser "^3.3.0"
 
-redux-mock-store@^1.5.4:
+redux-mock-store@1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.5.4.tgz#90d02495fd918ddbaa96b83aef626287c9ab5872"
   integrity sha512-xmcA0O/tjCLXhh9Fuiq6pMrJCwFRaouA8436zcikdIpYWWCjU76CRk+i2bHx8EeiSiMGnB85/lZdU3wIJVXHTA==
