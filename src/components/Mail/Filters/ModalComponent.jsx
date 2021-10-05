@@ -1,14 +1,51 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import {
-    Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button, makeStyles, createStyles,
+    Dialog, Box, Button, makeStyles, createStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => createStyles({
-    count: {
-        color: theme.palette.blueCorner,
+    paper: {
+        background: theme.palette.whiteCorner,
+        borderRadius: '12px',
+        padding: '32px',
+    },
+    title: {
+        fontSize: '18px',
+        color: theme.palette.gray700,
         fontWeight: '600',
+        marginBottom: '10px',
+    },
+    description: {
+        fontSize: '14px',
+        color: theme.palette.gray700,
+        fontWeight: '400',
+        margin: '0 0 32px',
+    },
+    buttonContainer: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },
+    cancelButton: {
+        color: theme.palette.blue600,
+        background: theme.palette.whiteCorner,
+        border: `1px solid ${theme.palette.blue600}`,
+        borderRadius: '8.35px',
+        padding: '8px 16px',
+        marginRight: '16px',
+        '&:hover': {
+            background: theme.palette.gray100,
+        },
+    },
+    sendButton: {
+        color: theme.palette.whiteCorner,
+        background: theme.palette.blue600,
+        borderRadius: '8.35px',
+        padding: '8px 16px',
+        '&:hover': {
+            background: theme.palette.blue800,
+        },
     },
 }));
 
@@ -21,29 +58,33 @@ function ModalComponent({
         <Dialog
             open={open}
             onClose={handleClose}
+            classes={{ paper: classes.paper }}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">Voulez-vous envoyer ce mail ?</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Vous allez envoyer un message à <span className={classes.count}>{audienceSegment?.recipient_count || 0}</span> contact{audienceSegment?.recipient_count > 1 && 's'}
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} color="primary">
+            <Box className={classes.title}>Confirmation</Box>
+            <Box id="alert-dialog-description" className={classes.description}>
+                <span>Êtes-vous sûr de vouloir envoyer le message à {audienceSegment?.recipient_count || 0} contact{audienceSegment?.recipient_count > 1 && 's'} ?</span>
+            </Box>
+            <Box className={classes.buttonContainer}>
+                <Button
+                    variant="contained"
+                    onClick={handleClose}
+                    className={classes.cancelButton}
+                >
                     Annuler
                 </Button>
                 <Button
+                    variant="contained"
                     onClick={() => {
                         handleSendEmail();
                         handleClose();
                     }}
-                    color="primary"
+                    className={classes.sendButton}
                 >
                     Envoyer
                 </Button>
-            </DialogActions>
+            </Box>
         </Dialog>
     );
 }

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '600',
         fontSize: '18px',
         color: theme.palette.gray700,
-        marginBottom: '32px',
+        marginBottom: '24px',
     },
     addresseesCount: {
         color: theme.palette.blue800,
