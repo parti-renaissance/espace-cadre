@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Editor from '../Template/Editor';
-import StepButton from '../StepButton';
+import StepButton from '../Template/StepButton';
 import { useTemplateContent } from '../../../redux/template/hooks';
 import { clearBody } from '../utils';
 import { apiClient } from '../../../services/networking/client';

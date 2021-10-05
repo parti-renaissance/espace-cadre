@@ -11,8 +11,8 @@ import { apiClient } from '../../../services/networking/client';
 import { useUserScope } from '../../../redux/user/hooks';
 import useRetry from '../../Filters/useRetry';
 import Loader from '../../Loader';
-import SendButton from '../SendButton';
 import ErrorComponent from '../../ErrorComponent';
+import ModalComponent from '../Filters/ModalComponent';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -31,13 +31,20 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '32px',
     },
     addresseesCount: {
-        color: theme.palette.blueCorner,
+        color: theme.palette.blue800,
     },
     sendTestButton: {
         color: theme.palette.blue600,
         borderColor: theme.palette.blue600,
         '&:hover': {
             background: theme.palette.gray200,
+        },
+    },
+    sendButton: {
+        color: theme.palette.whiteCorner,
+        background: theme.palette.blue600,
+        '&:hover': {
+            background: theme.palette.blue800,
         },
     },
     success: {
@@ -63,6 +70,7 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
     const [errorMessage, setErrorMessage] = useState();
     const [loadingTestButton, setLoadingTestButton] = useState(false);
     const [loadingSendButton, setLoadingSendButton] = useState(BUTTON_INITIAL_STATE);
+    const [open, setOpen] = useState(false);
     const [, audienceSegment, launch] = useRetry(async (uuid) => {
         const result = await apiClient.get(`/v3/audience-segments/${uuid}`);
         return result;
@@ -113,6 +121,14 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
                 }
             }
         }, 1000);
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
@@ -169,11 +185,26 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        <SendButton
-                            loadingSendButton={loadingSendButton}
-                            audienceSegment={audienceSegment}
-                            handleSendEmail={handleSendEmail}
-                        />
+                        <Button
+                            variant="outlined"
+                            size="medium"
+                            className={classes.sendButton}
+                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
+                            onClick={handleClickOpen}
+                        >
+                            <Box>
+                                {loadingSendButton.isLoading ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
+                            </Box>
+                            Envoyer l&apos;email
+                        </Button>
+                        {open && (
+                            <ModalComponent
+                                open={open}
+                                audienceSegment={audienceSegment}
+                                handleClose={handleClose}
+                                handleSendEmail={handleSendEmail}
+                            />
+                        )}
                     </Grid>
                 </Grid>
             </Container>
