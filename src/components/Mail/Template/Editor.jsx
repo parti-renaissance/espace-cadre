@@ -9,6 +9,9 @@ import { useUserScope } from '../../../redux/user/hooks';
 import { useTemplateContent } from '../../../redux/template/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
+    emailEditor: {
+        marginBottom: '16px',
+    },
     exportButton: {
         color: theme.palette.gray500,
         background: theme.palette.gray200,
@@ -68,7 +71,7 @@ const Editor = () => {
     };
 
     return (
-        <div className="email-editor">
+        <div className={classes.emailEditor}>
             <EmailEditor
                 minHeight="85vh"
                 ref={emailEditorRef}
@@ -101,7 +104,7 @@ const Editor = () => {
             />
             <Button
                 variant="contained"
-                size="small"
+                size="medium"
                 className={classes.exportButton}
                 onClick={exportHtml}
             >
