@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Box } from '@material-ui/core';
+import { format } from 'date-fns';
 import { apiClientProxy } from '../../../../services/networking/client';
 import Loader from '../../../Loader';
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks';
@@ -39,7 +40,7 @@ function SentEmailCampaignList() {
                                     <p className="headline">{el.titre}</p>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
+                                    {el.date && <p className="subtitle-text-card">Le {new Date(el.date).toLocaleString()}, par {el.auteur}</p>}
                                 </Grid>
                             </Grid>
                             <Grid container className="flash-card-row">
