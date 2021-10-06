@@ -39,7 +39,7 @@ function SentEmailCampaignList() {
                                     <p className="headline">{el.titre}</p>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <p className="subtitle-text-card">Le {el.date}, par {el.auteur}</p>
+                                    <p className="subtitle-text-card">Le {new Date(el.date).toLocaleString()}, par {el.auteur}</p>
                                 </Grid>
                             </Grid>
                             <Grid container className="flash-card-row">

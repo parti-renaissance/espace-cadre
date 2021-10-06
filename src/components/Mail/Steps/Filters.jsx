@@ -189,7 +189,7 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
                             variant="outlined"
                             size="medium"
                             className={classes.sendButton}
-                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
+                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1 || loadingSendButton.isLoading}
                             onClick={handleClickOpen}
                         >
                             <Box>
