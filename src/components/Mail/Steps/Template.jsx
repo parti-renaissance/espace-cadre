@@ -11,6 +11,7 @@ import { useTemplateContent } from '../../../redux/template/hooks';
 import { clearBody } from '../utils';
 import { apiClient } from '../../../services/networking/client';
 import { useUserScope } from '../../../redux/user/hooks';
+import TemplateSelect from '../Template/TemplateSelect';
 
 const useStyles = makeStyles((theme) => createStyles({
     pageTitle: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => createStyles({
     },
     buttonContainer: {
         justifyContent: 'spaceBetween',
+        marginRight: '16px',
+    },
+    templateContainer: {
         marginRight: '16px',
     },
 }));
@@ -61,7 +65,7 @@ const Template = ({
         <>
             <Box className={classes.pageTitle}>Messagerie &gt; Créer un message</Box>
             <Grid container className={classes.objectContainer}>
-                <Grid item xs={9} className={classes.buttonContainer}>
+                <Grid item xs={4} className={classes.buttonContainer}>
                     <TextField
                         size="small"
                         label="Objet du mail"
@@ -70,6 +74,9 @@ const Template = ({
                         defaultValue={emailSubject}
                         onChange={(event) => updateEmailSubjectCallback(event.target.value)}
                     />
+                </Grid>
+                <Grid item xs={5} className={classes.templateContainer}>
+                    <TemplateSelect />
                 </Grid>
                 <Grid item xs>
                     <StepButton

@@ -1,17 +1,37 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import {
-    Grid, Button, Box, makeStyles, createStyles,
+    Grid, Button, Box, makeStyles, createStyles, TextField,
 } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
+    templateSelect: {
+        border: `1px solid ${theme.palette.gray200}`,
+        borderRadius: '8px',
+        marginRight: '16px',
+    },
     materialButton: {
+        color: theme.palette.blue600,
+        borderColor: theme.palette.blue600,
         width: '100%',
-        backgroundColor: theme.palette.blueCorner,
-        color: theme.palette.whiteCorner,
+        padding: '8px 16px',
+        borderRadius: '8px',
+        '&:hover': {
+            background: theme.palette.gray200,
+        },
+    },
+    buttonIcon: {
+        marginRight: '8px',
+    },
+    popper: {
+        border: `1px solid ${theme.palette.gray200}`,
+        borderRadius: '8px',
+        marginTop: '8px',
     },
 }));
 
@@ -88,17 +108,16 @@ const TemplateSelect = () => {
 
     const saveButton = (
         <Button
-            className={`btn ${classes.materialButton}`}
+            variant="outlined"
+            size="medium"
+            className={classes.materialButton}
             disabled={templateButtonDisableState}
-            style={{
-                padding: '7px',
-            }}
             onClick={templateButtonDisableState ? null : handleClickSaveButton}
         >
-            <Box component="span" style={{ marginRight: '8px' }}>
-                {isLoadingTemplateButton ? <Loader /> : <i className="fa fa-save" />}
+            <Box>
+                {isLoadingTemplateButton ? <Loader className={classes.buttonIcon} /> : <i className={`fa fa-save ${classes.buttonIcon}`} />}
             </Box>
-            Sauvegarder
+            Enregistrer
         </Button>
     );
 
@@ -132,19 +151,31 @@ const TemplateSelect = () => {
     }, []);
 
     return (
-        <Grid container style={{ marginBottom: '8px' }} spacing={2}>
-            <Grid item xs={12} sm={8}>
-                <CreatableSelect
+        <Grid container>
+            <Grid item xs={8}>
+                <Autocomplete
+                    className={classes.templateSelect}
+                    classes={{ popper: classes.popper }}
+                    size="small"
+                    noOptionsText="Aucun template"
+                    options={optselect.options}
+                    getOptionLabel={(option) => option.label}
+                    value={template.current_template}
+                    onChange={handleSelectChange}
+                    renderInput={(params) => <TextField {...params} label="Template" variant="outlined" />}
+                />
+            </Grid>
+            {/* <CreatableSelect
+                    className={classes.templateSelect}
                     isClearable
                     onChange={handleSelectChange}
                     options={optselect.options}
                     noOptionsMessage={() => 'Aucun template'}
                     formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
                     value={template.current_template}
-                    placeholder="Créez ou choisissez un template"
-                />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+                    placeholder="Template"
+                /> */}
+            <Grid item xs={4}>
                 {saveButton}
             </Grid>
         </Grid>
