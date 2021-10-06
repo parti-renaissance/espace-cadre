@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
+import PATHS from '../../paths';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-function Messagerie() {
+const Dashboard = () => {
     const classes = useStyles();
 
     return (
@@ -60,13 +61,13 @@ function Messagerie() {
                     <span className={classes.pageTitle}>Messagerie</span>
                 </Grid>
                 <Grid item className={classes.mailButtonContainer}>
-                    <Link to="/Mail" className={classes.buttonLink}>
+                    <Link to={PATHS.MESSAGERIE_CREATE.route} className={classes.buttonLink}>
                         <Button
                             type="button"
                             disableRipple
                             className={classes.messagerieMailButton}
                             classes={{ root: classes.root }}
-                            endIcon={<img src="images/arrow-right.svg" alt="right arrow" />}
+                            endIcon={<img src="/images/arrow-right.svg" alt="right arrow" />}
                         >
                             Envoyer un email
                         </Button>
@@ -92,6 +93,6 @@ function Messagerie() {
             </Grid>
         </Container>
     );
-}
+};
 
-export default Messagerie;
+export default Dashboard;

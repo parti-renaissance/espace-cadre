@@ -5,6 +5,7 @@ import {
 import {
     Grid, makeStyles, createStyles, Container,
 } from '@material-ui/core';
+import PATHS from '../../paths';
 
 const useStyles = makeStyles((theme) => createStyles({
     noMatchGridContainer: {
@@ -37,7 +38,7 @@ function NoMatch() {
             </Grid>
             <Grid item xs={12}>
                 <Link
-                    to="/"
+                    to={PATHS.DASHBOARD.route}
                     className={classes.noMatchButton}
                 >
                     Retournez à l&apos;accueil

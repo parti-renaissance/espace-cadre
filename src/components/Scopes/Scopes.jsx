@@ -116,7 +116,7 @@ function Scopes() {
                 <>
                     <Button onClick={handleClick} className={classes.scopeButton}>
                         <span className={classes.activeScope}>{currentUser.firstName} {currentUser.lastName}</span>
-                        <img className="caret-dropdown" src="images/vector.svg" alt="caret" />
+                        <img className="caret-dropdown" src="/images/vector.svg" alt="caret" />
                     </Button>
                     <Menu
                         anchorEl={anchorEl}

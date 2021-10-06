@@ -3,74 +3,20 @@ import React, {
 } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
 import { getAuthorizedPages } from './redux/user/selectors';
 import Spinner from './components/HelperComponents/Spinner';
+import PATHS from './paths';
 
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Adherents = lazy(() => import('./components/Adherents'));
-const Messagerie = lazy(() => import('./components/Messagerie'));
-const Mail = lazy(() => import('./components/Mail'));
+const MessagerieDashboard = lazy(() => import('./components/Messagerie'));
+const MessageTemplate = lazy(() => import('./components/Messagerie/Template'));
+const MessageFilter = lazy(() => import('./components/Messagerie/Filters'));
+const MessageConfirmation = lazy(() => import('./components/Messagerie/Confirmation'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
 const Ripostes = lazy(() => import('./components/Ripostes'));
 const Teams = lazy(() => import('./components/Teams'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
-
-export const PATHS = {
-    AUTH: {
-        route: '/auth',
-        url: '/auth',
-    },
-    DASHBOARD: {
-        id: 'dashboard',
-        route: '/',
-        url: '/',
-        label: 'Vue d\'ensemble',
-        icon: 'fas fa-th-large',
-    },
-    ADHERENTS: {
-        id: 'contacts',
-        route: '/adherents',
-        url: '/adherents',
-        label: 'Adhérents',
-        icon: 'fas fa-users',
-    },
-    MESSAGERIE: {
-        id: 'messages',
-        route: '/messagerie',
-        url: '/messagerie',
-        label: 'Messagerie',
-        icon: 'fas fa-paper-plane',
-    },
-    MAIL: {
-        id: 'messages',
-        route: '/mail',
-        url: '/mail',
-        label: 'Messagerie',
-        icon: 'fas fa-paper-plane',
-    },
-    ELECTIONS: {
-        id: 'elections',
-        route: '/elections',
-        url: '/elections',
-        label: 'Elections',
-        icon: 'fas fa-map',
-    },
-    RIPOSTES: {
-        id: 'ripostes',
-        route: '/ripostes',
-        url: '/ripostes',
-        label: 'Ripostes',
-        icon: 'fas fa-hashtag',
-    },
-    TEAMS: {
-        id: 'team',
-        route: '/equipes',
-        url: '/equipes',
-        label: 'Équipes',
-        icon: 'fas fa-star',
-    },
-};
 
 export const MENU = [
     PATHS.DASHBOARD,
@@ -92,11 +38,23 @@ const COMPONENTS = [
     },
     {
         path: PATHS.MESSAGERIE,
-        component: Messagerie,
+        component: MessagerieDashboard,
     },
     {
-        path: PATHS.MAIL,
-        component: Mail,
+        path: PATHS.MESSAGERIE_CREATE,
+        component: MessageTemplate,
+    },
+    {
+        path: PATHS.MESSAGERIE_EDIT,
+        component: MessageTemplate,
+    },
+    {
+        path: PATHS.MESSAGERIE_FILTER,
+        component: MessageFilter,
+    },
+    {
+        path: PATHS.MESSAGERIE_CONFIRMATION,
+        component: MessageConfirmation,
     },
     {
         path: PATHS.ELECTIONS,

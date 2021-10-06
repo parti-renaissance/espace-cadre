@@ -1,1 +1,1 @@
-export { default } from './Messagerie';
+export { default } from './Dashboard';
