@@ -2,16 +2,25 @@
 import React, { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import {
-    Grid, Button, Box, makeStyles, createStyles, TextField,
+    Grid, Button, Box, makeStyles, createStyles,
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import PropTypes from 'prop-types';
 import Loader from '../../Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
-    templateSelect: {
+    autocomplete: {
         border: `1px solid ${theme.palette.gray200}`,
+        borderRadius: '8px',
+        marginRight: '16px',
+    },
+    popper: {
+        border: `1px solid ${theme.palette.gray200}`,
+        borderRadius: '8px',
+        marginTop: '8px',
+    },
+    templateSelect: {
         borderRadius: '8px',
         marginRight: '16px',
     },
@@ -28,19 +37,12 @@ const useStyles = makeStyles((theme) => createStyles({
     buttonIcon: {
         marginRight: '8px',
     },
-    popper: {
-        border: `1px solid ${theme.palette.gray200}`,
-        borderRadius: '8px',
-        marginTop: '8px',
-    },
 }));
 
-const TEMPLATE_INITIAL_STATE = { content_template: '', current_template: '' };
 const OPTIONS_INITIAL_STATE = { options: [] };
 
-const TemplateSelect = () => {
+const TemplateSelect = ({ template, onTemplateChange }) => {
     const [content, setContent] = useTemplateContent();
-    const [template, setTemplate] = useState(TEMPLATE_INITIAL_STATE);
     const [isLoadingTemplateButton, setIsLoadingTemplateButton] = useState(false);
     const [optselect, setOpts] = useState(OPTIONS_INITIAL_STATE);
     const classes = useStyles();
@@ -49,9 +51,9 @@ const TemplateSelect = () => {
         switch (action.action) {
         case 'select-option':
             if (selected !== null) {
-                setTemplate((state) => ({ ...state, current_template: selected }));
+                onTemplateChange((state) => ({ ...state, current_template: selected }));
             } else {
-                setTemplate((state) => ({ ...state, current_template: '' }));
+                onTemplateChange((state) => ({ ...state, current_template: '' }));
             }
             break;
         case 'create-option':
@@ -61,10 +63,10 @@ const TemplateSelect = () => {
                     options: [...state.options, { label: selected.label, value: selected.label }],
                 }));
             }
-            setTemplate((state) => ({ ...state, current_template: selected }));
+            onTemplateChange((state) => ({ ...state, current_template: selected }));
             break;
         case 'clear':
-            setTemplate((state) => ({ ...state, current_template: '' }));
+            onTemplateChange((state) => ({ ...state, current_template: '' }));
             break;
         default:
             console.log('Sorry, we are out.');
@@ -80,7 +82,7 @@ const TemplateSelect = () => {
             label: template.current_template.label,
             content: JSON.stringify(content.design),
         };
-        // eslint-disable-next-line array-callback-return
+
         let templateStatusResponse = null;
         const exist = optselect.options.find((option) => option.label === template.current_template.label);
         if (exist === undefined || exist.value === exist.label) {
@@ -88,7 +90,7 @@ const TemplateSelect = () => {
         } else {
             templateStatusResponse = await updateTemplate(bodyreq, template.current_template.value);
         }
-        // eslint-disable-next-line no-plusplus
+
         if (templateStatusResponse.uuid !== '') {
             const optupdated = optselect.options.findIndex((option) => option.label === templateStatusResponse.label);
             const save = [...optselect.options];
@@ -121,6 +123,7 @@ const TemplateSelect = () => {
         </Button>
     );
 
+    // Get saved templates
     async function loadTemplates() {
         const result = await apiClient.get('/v3/email_templates');
         const opts = [];
@@ -153,19 +156,7 @@ const TemplateSelect = () => {
     return (
         <Grid container>
             <Grid item xs={8}>
-                <Autocomplete
-                    className={classes.templateSelect}
-                    classes={{ popper: classes.popper }}
-                    size="small"
-                    noOptionsText="Aucun template"
-                    options={optselect.options}
-                    getOptionLabel={(option) => option.label}
-                    value={template.current_template}
-                    onChange={handleSelectChange}
-                    renderInput={(params) => <TextField {...params} label="Template" variant="outlined" />}
-                />
-            </Grid>
-            {/* <CreatableSelect
+                <CreatableSelect
                     className={classes.templateSelect}
                     isClearable
                     onChange={handleSelectChange}
@@ -174,7 +165,8 @@ const TemplateSelect = () => {
                     formatCreateLabel={(inputValue) => `Créer ${inputValue}`}
                     value={template.current_template}
                     placeholder="Template"
-                /> */}
+                />
+            </Grid>
             <Grid item xs={4}>
                 {saveButton}
             </Grid>
@@ -183,3 +175,13 @@ const TemplateSelect = () => {
 };
 
 export default TemplateSelect;
+
+TemplateSelect.propTypes = {
+    template: PropTypes.shape({
+        current_template: PropTypes.oneOfType([
+            PropTypes.string.isRequired,
+            PropTypes.objectOf(Object).isRequired,
+        ]),
+    }).isRequired,
+    onTemplateChange: PropTypes.func.isRequired,
+};

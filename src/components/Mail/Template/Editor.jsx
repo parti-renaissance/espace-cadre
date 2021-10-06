@@ -29,15 +29,19 @@ const Editor = () => {
     const classes = useStyles();
     const [content, setContent] = useTemplateContent();
     const [currentScope] = useUserScope();
+    const referentTemplate = 60354;
+    const deputyTemplate = 60376;
+    const senatorTemplate = 60355;
+    const defaultTemplate = 41208;
     const [templateId] = useState(() => {
         if (currentScope && currentScope.code === 'referent') {
-            return 60354;
+            return referentTemplate;
         } if (currentScope && currentScope.code === 'deputy') {
-            return 60376;
+            return deputyTemplate;
         } if (currentScope && currentScope.code === 'senator') {
-            return 60355;
+            return senatorTemplate;
         }
-        return 41208;
+        return defaultTemplate;
     });
 
     const onLoadEditor = useCallback(() => {

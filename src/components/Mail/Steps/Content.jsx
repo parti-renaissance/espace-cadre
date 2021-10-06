@@ -8,11 +8,13 @@ const STEP_FILTER = 'filter';
 const STEP_CONFIRMATION = 'confirmation';
 
 const EMAIL_INITIAL_STATE = { synchronized: false };
+const TEMPLATE_INITIAL_STATE = { current_template: '' };
 
 function Content() {
     const [step, setStep] = useState(STEP_TEMPLATE);
     const [email, setEmail] = useState(EMAIL_INITIAL_STATE);
     const [emailSubject, setEmailSubject] = useState();
+    const [template, setTemplate] = useState(TEMPLATE_INITIAL_STATE);
 
     switch (step) {
     case STEP_FILTER:
@@ -35,6 +37,8 @@ function Content() {
                 nextStepCallback={() => setStep(STEP_FILTER)}
                 updateEmailCallback={setEmail}
                 email={email}
+                template={template}
+                onTemplateChange={setTemplate}
             />
         );
     }

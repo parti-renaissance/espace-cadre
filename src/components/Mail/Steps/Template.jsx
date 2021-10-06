@@ -40,13 +40,12 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Template = ({
-    email, emailSubject, updateEmailSubjectCallback, nextStepCallback, updateEmailCallback,
+    email, emailSubject, updateEmailSubjectCallback, nextStepCallback, updateEmailCallback, template, onTemplateChange,
 }) => {
     const [emailContent] = useTemplateContent();
     const [loading, setLoading] = useState(false);
     const [currentScope] = useUserScope();
     const classes = useStyles();
-
     const editEmail = async () => {
         const body = {
             type: currentScope.code,
@@ -61,6 +60,7 @@ const Template = ({
 
         return apiClient.post('/v3/adherent_messages', body);
     };
+
     return (
         <>
             <Box className={classes.pageTitle}>Messagerie &gt; Créer un message</Box>
@@ -76,7 +76,10 @@ const Template = ({
                     />
                 </Grid>
                 <Grid item xs={5} className={classes.templateContainer}>
-                    <TemplateSelect />
+                    <TemplateSelect
+                        template={template}
+                        onTemplateChange={onTemplateChange}
+                    />
                 </Grid>
                 <Grid item xs>
                     <StepButton
@@ -106,4 +109,11 @@ Template.propTypes = {
     updateEmailSubjectCallback: PropTypes.func.isRequired,
     nextStepCallback: PropTypes.func.isRequired,
     updateEmailCallback: PropTypes.func.isRequired,
+    template: PropTypes.shape({
+        current_template: PropTypes.oneOfType([
+            PropTypes.string.isRequired,
+            PropTypes.objectOf(Object).isRequired,
+        ]),
+    }).isRequired,
+    onTemplateChange: PropTypes.func.isRequired,
 };
