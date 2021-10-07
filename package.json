@@ -11,7 +11,7 @@
     "@material-ui/styles": "^4.11.4",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/react": "6.13.2",
-    "@sentry/tracing": "6.13.2",
+    "@sentry/tracing": "6.13.3",
     "axios": "0.22.0",
     "date-fns": "2.25.0",
     "jquery": "3.6.0",
