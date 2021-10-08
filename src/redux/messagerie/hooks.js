@@ -2,9 +2,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-    resetMessagerieState, updateMessageSubject, updateMessageTemplate, updateRemoteMessage,
+    resetMessagerieState, updateMessageSubject, updateMessageTemplate, updateRemoteMessage, updateSelectedTemplate,
 } from './slice';
-import { getMessageSubject, getMessageTemplate, getRemoteMessage } from './selectors';
+import {
+    getMessageSubject, getMessageTemplate, getRemoteMessage, getSelectedTemplate,
+} from './selectors';
+import { apiClient } from '../../services/networking/client';
 
 export const useMessageTemplate = () => {
     const dispatch = useDispatch();
@@ -35,6 +38,28 @@ export const useRemoteMessage = () => {
         useSelector(getRemoteMessage),
         (value) => {
             dispatch(updateRemoteMessage(value));
+        },
+    ];
+};
+
+export const useSelectedTemplate = () => {
+    const dispatch = useDispatch();
+
+    return [
+        useSelector(getSelectedTemplate),
+        async (option) => {
+            if (option && option.value) {
+                const templateContent = await apiClient.get(`/v3/email_templates/${option.value}`);
+
+                dispatch(updateSelectedTemplate({ ...option, ...templateContent }));
+                console.log('messageTemplate updated');
+                dispatch(updateMessageTemplate({
+                    design: JSON.parse(templateContent.content),
+                    skipReloadUnlayer: false,
+                }));
+            } else {
+                dispatch(updateSelectedTemplate(option));
+            }
         },
     ];
 };

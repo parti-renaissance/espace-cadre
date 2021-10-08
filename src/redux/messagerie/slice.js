@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     messageSubject: null,
     messageTemplate: null,
+    selectedTemplate: null,
     remoteMessage: null,
 };
 
@@ -19,6 +20,9 @@ const messageSlice = createSlice({
         updateRemoteMessage(state, action) {
             state.remoteMessage = action.payload;
         },
+        updateSelectedTemplate(state, action) {
+            state.selectedTemplate = action.payload;
+        },
         resetMessagerieState() {
             return initialState;
         },
@@ -30,5 +34,6 @@ export const {
     updateMessageSubject,
     updateRemoteMessage,
     resetMessagerieState,
+    updateSelectedTemplate,
 } = messageSlice.actions;
 export default messageSlice.reducer;

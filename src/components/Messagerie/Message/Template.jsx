@@ -10,6 +10,7 @@ import { useMessageSubject, useMessageTemplate, useRemoteMessage } from '../../.
 import { apiClient } from '../../../services/networking/client';
 import { PATHS } from '../../../Routes';
 import { clearBody } from './utils';
+import TemplateSelect from './Component/TemplateSelect';
 
 const useStyles = makeStyles((theme) => createStyles({
     pageTitle: {
@@ -39,7 +40,6 @@ const useStyles = makeStyles((theme) => createStyles({
 
 const Template = () => {
     const { messageUuid } = useParams();
-    console.log(messageUuid);
 
     const [messageSubject, setMessageSubject] = useMessageSubject();
     const [messageTemplate] = useMessageTemplate();
@@ -81,10 +81,7 @@ const Template = () => {
                     />
                 </Grid>
                 <Grid item xs={5} className={classes.templateContainer}>
-                    {/* <TemplateSelect */}
-                    {/*    template={template} */}
-                    {/*    onTemplateChange={onTemplateChange} */}
-                    {/* /> */}
+                    <TemplateSelect />
                 </Grid>
                 <Grid item xs>
                     <StepButton
