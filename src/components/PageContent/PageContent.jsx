@@ -32,7 +32,7 @@ const PageContent = ({ children }) => {
                             className={`dc-container ${classes.toggleButton}`}
                             type="button"
                         >
-                            <img src="images/list.svg" alt="Menu button" />
+                            <img src="/images/list.svg" alt="Menu button" />
                         </button>
                         {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
                     </Box>

@@ -1,17 +1,15 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import {
     Grid, Box, createStyles, makeStyles, TextField,
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
-import Editor from '../Template/Editor';
-import StepButton from '../Template/StepButton';
-import { useTemplateContent } from '../../../redux/template/hooks';
-import { clearBody } from '../utils';
-import { apiClient } from '../../../services/networking/client';
+import { useHistory, useParams } from 'react-router-dom';
 import { useUserScope } from '../../../redux/user/hooks';
-import TemplateSelect from '../Template/TemplateSelect';
+import Editor from './Component/Editor';
+import StepButton from './Component/StepButton';
+import { useMessageSubject, useMessageTemplate, useRemoteMessage } from '../../../redux/messagerie/hooks';
+import { apiClient } from '../../../services/networking/client';
+import { PATHS } from '../../../Routes';
+import { clearBody } from './utils';
 
 const useStyles = makeStyles((theme) => createStyles({
     pageTitle: {
@@ -39,23 +37,30 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const Template = ({
-    email, emailSubject, updateEmailSubjectCallback, nextStepCallback, updateEmailCallback, template, onTemplateChange,
-}) => {
-    const [emailContent] = useTemplateContent();
+const Template = () => {
+    const { messageUuid } = useParams();
+    console.log(messageUuid);
+
+    const [messageSubject, setMessageSubject] = useMessageSubject();
+    const [messageTemplate] = useMessageTemplate();
+    const [remoteMessage, setRemoteMessage] = useRemoteMessage();
+
+    const history = useHistory();
+
     const [loading, setLoading] = useState(false);
     const [currentScope] = useUserScope();
     const classes = useStyles();
+
     const editEmail = async () => {
         const body = {
             type: currentScope.code,
-            label: `DataCorner: ${emailSubject}`,
-            subject: emailSubject,
-            content: clearBody(emailContent.chunks.body),
+            label: `DataCorner: ${messageSubject}`,
+            subject: messageSubject,
+            content: clearBody(messageTemplate.chunks.body),
         };
 
-        if (email.uuid) {
-            return apiClient.put(`/v3/adherent_messages/${email.uuid}`, body);
+        if (remoteMessage && remoteMessage.uuid) {
+            return apiClient.put(`/v3/adherent_messages/${remoteMessage.uuid}`, body);
         }
 
         return apiClient.post('/v3/adherent_messages', body);
@@ -71,49 +76,35 @@ const Template = ({
                         label="Objet du mail"
                         variant="outlined"
                         className={classes.mailObject}
-                        defaultValue={emailSubject}
-                        onChange={(event) => updateEmailSubjectCallback(event.target.value)}
+                        defaultValue={messageSubject}
+                        onChange={(event) => setMessageSubject(event.target.value)}
                     />
                 </Grid>
                 <Grid item xs={5} className={classes.templateContainer}>
-                    <TemplateSelect
-                        template={template}
-                        onTemplateChange={onTemplateChange}
-                    />
+                    {/* <TemplateSelect */}
+                    {/*    template={template} */}
+                    {/*    onTemplateChange={onTemplateChange} */}
+                    {/* /> */}
                 </Grid>
                 <Grid item xs>
                     <StepButton
                         label="Suivant"
                         loading={loading}
-                        disabled={loading || !emailSubject || !emailContent}
+                        disabled={loading || !messageSubject || !messageTemplate}
                         onClick={() => {
                             setLoading(true);
                             editEmail().then((body) => {
-                                updateEmailCallback(body);
-                                nextStepCallback();
+                                setRemoteMessage(body);
+                                history.push(PATHS.MESSAGERIE_FILTER.url(body.uuid));
                             });
                         }}
                     />
                 </Grid>
             </Grid>
+
             <Editor />
         </>
     );
 };
 
 export default Template;
-
-Template.propTypes = {
-    email: PropTypes.object.isRequired,
-    emailSubject: PropTypes.string,
-    updateEmailSubjectCallback: PropTypes.func.isRequired,
-    nextStepCallback: PropTypes.func.isRequired,
-    updateEmailCallback: PropTypes.func.isRequired,
-    template: PropTypes.shape({
-        current_template: PropTypes.oneOfType([
-            PropTypes.string.isRequired,
-            PropTypes.objectOf(Object).isRequired,
-        ]),
-    }).isRequired,
-    onTemplateChange: PropTypes.func.isRequired,
-};

@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
+import { PATHS } from '../../Routes';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -60,13 +61,13 @@ function Messagerie() {
                     <span className={classes.pageTitle}>Messagerie</span>
                 </Grid>
                 <Grid item className={classes.mailButtonContainer}>
-                    <Link to="/Mail" className={classes.buttonLink}>
+                    <Link to={PATHS.MESSAGERIE_CREATE.route} className={classes.buttonLink}>
                         <Button
                             type="button"
                             disableRipple
                             className={classes.messagerieMailButton}
                             classes={{ root: classes.root }}
-                            endIcon={<img src="images/arrow-right.svg" alt="right arrow" />}
+                            endIcon={<img src="/images/arrow-right.svg" alt="right arrow" />}
                         >
                             Envoyer un email
                         </Button>

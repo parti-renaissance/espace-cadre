@@ -1,12 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
-import React, {
-    useCallback, useState, useEffect, useRef,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import EmailEditor from 'react-email-editor';
 import { Button, makeStyles, createStyles } from '@material-ui/core';
-import { useUserScope } from '../../../redux/user/hooks';
-import { useTemplateContent } from '../../../redux/template/hooks';
+import { useUserScope } from '../../../../redux/user/hooks';
+import { useMessageTemplate } from '../../../../redux/messagerie/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
     emailEditor: {
@@ -24,10 +20,14 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Editor = () => {
+    const [messageTemplate, setMessageTemplate] = useMessageTemplate();
     const emailEditorRef = useRef(null);
+    const [contentFilled, setContentFilled] = useState(false);
+    const [unlayerReady, setUnlayerReady] = useState(false);
+
     const hiddenElement = useRef(null);
     const classes = useStyles();
-    const [content, setContent] = useTemplateContent();
+
     const [currentScope] = useUserScope();
     const referentTemplate = 60354;
     const deputyTemplate = 60376;
@@ -44,26 +44,32 @@ const Editor = () => {
         return defaultTemplate;
     });
 
-    const onLoadEditor = useCallback(() => {
-        const timer = setInterval(() => {
-            if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
-                const callback = () => emailEditorRef.current.exportHtml(
-                    (event) => setContent({ design: event.design, chunks: event.chunks, externalUpdate: false }),
-                );
+    useEffect(() => {
+        if (!unlayerReady) {
+            return;
+        }
 
-                emailEditorRef.current.editor.addEventListener('design:updated', callback);
-                emailEditorRef.current.editor.addEventListener('design:loaded', callback);
+        const callback = () => {
+            console.log('update design');
+            emailEditorRef.current.exportHtml(
+                (event) => setMessageTemplate({ design: event.design, chunks: event.chunks }),
+            );
+        };
 
-                clearInterval(timer);
-            }
-        }, 500);
-    }, [emailEditorRef]);
+        emailEditorRef.current.editor.addEventListener('design:updated', callback);
+    }, [unlayerReady]);
 
     useEffect(() => {
-        if (content && content.design && content.externalUpdate) {
-            emailEditorRef.current.loadDesign(content.design);
+        if (contentFilled || unlayerReady === false) {
+            return;
         }
-    }, [content]);
+
+        if (messageTemplate && messageTemplate.design) {
+            console.log('load design', messageTemplate);
+            emailEditorRef.current.loadDesign(messageTemplate.design);
+            setContentFilled(true);
+        }
+    }, [messageTemplate, contentFilled, unlayerReady, setContentFilled]);
 
     const exportHtml = () => {
         emailEditorRef.current.editor.exportHtml((data) => {
@@ -80,7 +86,7 @@ const Editor = () => {
                 minHeight="85vh"
                 ref={emailEditorRef}
                 projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
-                onLoad={onLoadEditor}
+                onReady={() => setUnlayerReady(true)}
                 options={{
                     locale: 'fr-FR',
                     safeHtml: true,

@@ -10,7 +10,9 @@ import Spinner from './components/Spinner/Spinner';
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Adherents = lazy(() => import('./components/Adherents'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
-const Mail = lazy(() => import('./components/Mail'));
+const MessageTemplate = lazy(() => import('./components/Messagerie/Message/Template'));
+const MessageFilter = lazy(() => import('./components/Messagerie/Message/Filters'));
+const MessageConfirmation = lazy(() => import('./components/Messagerie/Message/Confirmation'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
 
@@ -40,10 +42,31 @@ export const PATHS = {
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
-    MAIL: {
+    MESSAGERIE_CREATE: {
         id: 'messages',
-        route: '/mail',
-        url: () => '/mail',
+        route: '/messagerie/creer',
+        url: () => '/messagerie/creer',
+        label: 'Messagerie',
+        icon: 'fas fa-paper-plane',
+    },
+    MESSAGERIE_EDIT: {
+        id: 'messages',
+        route: '/messagerie/:messageUuid/modifier',
+        url: (messageUuid) => `/messagerie/${messageUuid}/modifier`,
+        label: 'Messagerie',
+        icon: 'fas fa-paper-plane',
+    },
+    MESSAGERIE_FILTER: {
+        id: 'messages',
+        route: '/messagerie/:messageUuid/filtrer',
+        url: (messageUuid) => `/messagerie/${messageUuid}/filtrer`,
+        label: 'Messagerie',
+        icon: 'fas fa-paper-plane',
+    },
+    MESSAGERIE_CONFIRMATION: {
+        id: 'messages',
+        route: '/messagerie/confirmation',
+        url: () => '/messagerie/confirmation',
         label: 'Messagerie',
         icon: 'fas fa-paper-plane',
     },
@@ -77,8 +100,20 @@ const COMPONENTS = [
         component: Messagerie,
     },
     {
-        path: PATHS.MAIL,
-        component: Mail,
+        path: PATHS.MESSAGERIE_CREATE,
+        component: MessageTemplate,
+    },
+    {
+        path: PATHS.MESSAGERIE_EDIT,
+        component: MessageTemplate,
+    },
+    {
+        path: PATHS.MESSAGERIE_FILTER,
+        component: MessageFilter,
+    },
+    {
+        path: PATHS.MESSAGERIE_CONFIRMATION,
+        component: MessageConfirmation,
     },
     {
         path: PATHS.ELECTIONS,

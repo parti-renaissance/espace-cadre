@@ -6,7 +6,7 @@ import MentionsLegales from '../MentionsLegales/MentionsLegales';
 import { getAuthorizedPages } from '../../redux/user/selectors';
 import Scopes from '../Scopes';
 
-import { MENU } from '../../Routes';
+import { MENU, PATHS } from '../../Routes';
 
 const Sidebar = () => {
     const authorizedPage = useSelector(getAuthorizedPages);
@@ -21,9 +21,9 @@ const Sidebar = () => {
     return (
         <>
             <div id="sidebar">
-                <Link to="/" className="brand-link">
+                <Link to={PATHS.DASHBOARD.route} className="brand-link">
                     <div className="logo-container">
-                        <img src="images/bar-chart.svg" alt="bar chart" className="bar-chart-logo" />
+                        <img src="/images/bar-chart.svg" alt="bar chart" className="bar-chart-logo" />
                         <div className="logo-text">DataCorner</div>
                         <span className="beta-bubble">beta</span>
                     </div>
