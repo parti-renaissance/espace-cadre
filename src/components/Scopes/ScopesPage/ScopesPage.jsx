@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Grid, Box } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors';
 import { useUserScope } from '../../../redux/user/hooks';
-import { PATHS } from '../../../Routes';
+import PATHS from '../../../paths';
 
 function ScopesPage() {
     const userScopes = useSelector(getUserScopes);

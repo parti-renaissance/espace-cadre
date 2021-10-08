@@ -4,9 +4,8 @@ import CreatableSelect from 'react-select/creatable';
 import {
     Grid, Button, Box, makeStyles, createStyles,
 } from '@material-ui/core';
-import Loader from '../../../Loader';
-import { apiClient } from '../../../../services/networking/client';
-import { useMessageTemplate, useSelectedTemplate } from '../../../../redux/messagerie/hooks';
+import { apiClient } from '../../../services/networking/client';
+import { useMessageTemplate, useSelectedTemplate } from '../../../redux/messagerie/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
     autocomplete: {
@@ -45,9 +44,6 @@ const TemplateSelect = () => {
     const [buttonDisabled, setButtonDisabled] = useState(selectedTemplate === null);
 
     const classes = useStyles();
-
-    // const [content, setContent] = useTemplateContent();
-    const [isLoadingTemplateButton, setIsLoadingTemplateButton] = useState(false);
 
     const handleSelectChange = (selected, action) => {
         switch (action.action) {
@@ -155,9 +151,7 @@ const TemplateSelect = () => {
                     disabled={buttonDisabled}
                     onClick={handleClickSaveButton}
                 >
-                    <Box>
-                        {isLoadingTemplateButton ? <Loader className={classes.buttonIcon} /> : <i className={`fa fa-save ${classes.buttonIcon}`} />}
-                    </Box>
+                    <Box><i className={`fa fa-save ${classes.buttonIcon}`} /></Box>
                     Enregistrer
                 </Button>
             </Grid>

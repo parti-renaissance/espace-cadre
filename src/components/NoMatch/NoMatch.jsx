@@ -5,7 +5,7 @@ import {
 import {
     Grid, makeStyles, createStyles, Container,
 } from '@material-ui/core';
-import { PATHS } from '../../Routes';
+import PATHS from '../../paths';
 
 const useStyles = makeStyles((theme) => createStyles({
     noMatchGridContainer: {

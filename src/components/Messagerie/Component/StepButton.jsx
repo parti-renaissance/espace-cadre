@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import Loader from '../../../Loader';
+import Loader from '../../Loader';
 
 const useStyles = makeStyles((theme) => createStyles({
     materialButton: {
@@ -43,6 +43,11 @@ const StepButton = ({
 };
 
 export default StepButton;
+
+StepButton.defaultProps = {
+    disabled: false,
+    loading: false,
+};
 
 StepButton.propTypes = {
     disabled: PropTypes.bool,

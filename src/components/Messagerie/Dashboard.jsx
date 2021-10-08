@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import KpiEmailCampaign from '../Dashboard/Charts/KpiEmailCampaign';
 import SentEmailCampaignList from '../Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList';
-import { PATHS } from '../../Routes';
+import PATHS from '../../paths';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-function Messagerie() {
+const Dashboard = () => {
     const classes = useStyles();
 
     return (
@@ -93,6 +93,6 @@ function Messagerie() {
             </Grid>
         </Container>
     );
-}
+};
 
-export default Messagerie;
+export default Dashboard;

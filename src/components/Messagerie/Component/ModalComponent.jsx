@@ -48,9 +48,9 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-function ModalComponent({
-    open, handleClose, handleSendEmail, audienceSegment,
-}) {
+const ModalComponent = ({
+    open, handleClose, handleSendEmail, recipientCount,
+}) => {
     const classes = useStyles();
 
     return (
@@ -63,7 +63,7 @@ function ModalComponent({
         >
             <Box className={classes.title}>Confirmation</Box>
             <Box id="alert-dialog-description" className={classes.description}>
-                <span>Êtes-vous sûr de vouloir envoyer le message à {audienceSegment?.recipient_count || 0} contact{audienceSegment?.recipient_count > 1 && 's'} ?</span>
+                <span>Êtes-vous sûr de vouloir envoyer le message à {recipientCount} contact{recipientCount > 1 && 's'} ?</span>
             </Box>
             <Box className={classes.buttonContainer}>
                 <Button
@@ -86,13 +86,17 @@ function ModalComponent({
             </Box>
         </Dialog>
     );
-}
+};
 
 export default ModalComponent;
+
+ModalComponent.defaultProps = {
+    recipientCount: 0,
+};
 
 ModalComponent.propTypes = {
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     handleSendEmail: PropTypes.func.isRequired,
-    audienceSegment: PropTypes.objectOf(Object),
+    recipientCount: PropTypes.number,
 };

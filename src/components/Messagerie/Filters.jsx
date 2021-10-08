@@ -4,16 +4,16 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { useUserScope } from '../../../redux/user/hooks';
-import useRetry from '../../Filters/useRetry';
-import { apiClient } from '../../../services/networking/client';
-import DynamicFilters from '../../Filters/DynamicFilters';
-import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
-import ErrorComponent from '../../ErrorComponent';
-import Loader from '../../Loader';
-import { PATHS } from '../../../Routes';
+import { useUserScope } from '../../redux/user/hooks';
+import useRetry from '../Filters/useRetry';
+import DynamicFilters from '../Filters/DynamicFilters';
+import ErrorComponent from '../ErrorComponent';
+import Loader from '../Loader';
 import ModalComponent from './Component/ModalComponent';
-import { useResetMessagerieState } from '../../../redux/messagerie/hooks';
+import { useResetMessagerieState } from '../../redux/messagerie/hooks';
+import { apiClient } from '../../services/networking/client';
+import PATHS from '../../paths';
+import { FEATURE_MESSAGES } from '../Feature/FeatureCode';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -196,7 +196,7 @@ const Filters = () => {
                         {open && (
                             <ModalComponent
                                 open={open}
-                                audienceSegment={audienceSegment}
+                                recipientCount={audienceSegment?.recipient_count || 0}
                                 handleClose={() => setOpen(false)}
                                 handleSendEmail={handleSendEmail}
                             />

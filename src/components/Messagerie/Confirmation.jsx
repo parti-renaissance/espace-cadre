@@ -3,7 +3,7 @@ import {
     Container, Paper, Button, Grid, makeStyles, createStyles,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { PATHS } from '../../../Routes';
+import PATHS from '../../paths';
 
 const useStyles = makeStyles((theme) => createStyles({
     paperContainer: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-function Confirmation() {
+const Confirmation = () => {
     const classes = useStyles();
 
     return (
@@ -49,6 +49,6 @@ function Confirmation() {
             </Paper>
         </Container>
     );
-}
+};
 
 export default Confirmation;

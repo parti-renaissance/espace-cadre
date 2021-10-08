@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import {
     Grid, Box, createStyles, makeStyles, TextField,
 } from '@material-ui/core';
-import { useHistory, useParams } from 'react-router-dom';
-import { useUserScope } from '../../../redux/user/hooks';
+import { useHistory } from 'react-router-dom';
+import { useUserScope } from '../../redux/user/hooks';
 import Editor from './Component/Editor';
 import StepButton from './Component/StepButton';
-import { useMessageSubject, useMessageTemplate, useRemoteMessage } from '../../../redux/messagerie/hooks';
-import { apiClient } from '../../../services/networking/client';
-import { PATHS } from '../../../Routes';
+import { useMessageSubject, useMessageTemplate, useRemoteMessage } from '../../redux/messagerie/hooks';
+import { apiClient } from '../../services/networking/client';
 import { clearBody } from './utils';
 import TemplateSelect from './Component/TemplateSelect';
+import PATHS from '../../paths';
 
 const useStyles = makeStyles((theme) => createStyles({
     pageTitle: {
@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Template = () => {
-    const { messageUuid } = useParams();
-
     const [messageSubject, setMessageSubject] = useMessageSubject();
     const [messageTemplate] = useMessageTemplate();
     const [remoteMessage, setRemoteMessage] = useRemoteMessage();

@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import MentionsLegales from '../MentionsLegales/MentionsLegales';
 import { getAuthorizedPages } from '../../redux/user/selectors';
 import Scopes from '../Scopes';
-
-import { MENU, PATHS } from '../../Routes';
+import { MENU } from '../../Routes';
+import PATHS from '../../paths';
 
 const Sidebar = () => {
     const authorizedPage = useSelector(getAuthorizedPages);

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import EmailEditor from 'react-email-editor';
 import { Button, makeStyles, createStyles } from '@material-ui/core';
-import { useUserScope } from '../../../../redux/user/hooks';
-import { useMessageTemplate } from '../../../../redux/messagerie/hooks';
+import { useUserScope } from '../../../redux/user/hooks';
+import { useMessageTemplate } from '../../../redux/messagerie/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
     emailEditor: {
@@ -24,7 +24,6 @@ const Editor = () => {
     const emailEditorRef = useRef(null);
     const [unlayerReady, setUnlayerReady] = useState(false);
 
-    const hiddenElement = useRef(null);
     const classes = useStyles();
 
     const [currentScope] = useUserScope();
@@ -43,7 +42,7 @@ const Editor = () => {
         return defaultTemplate;
     });
 
-    const updateMessageTemplateCallback = (skipReloadUnlayer) => {
+    const updateMessageTemplateCallback = () => {
         console.log('update design');
 
         emailEditorRef.current.exportHtml(
@@ -95,9 +94,10 @@ const Editor = () => {
     const exportHtml = () => {
         emailEditorRef.current.editor.exportHtml((data) => {
             const file = new Blob([data.html], { type: 'text/html' });
-            hiddenElement.current.href = URL.createObjectURL(file);
-            hiddenElement.current.download = 'template.html';
-            hiddenElement.current.click();
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(file);
+            a.download = 'template.html';
+            a.click();
         });
     };
 
@@ -152,7 +152,6 @@ const Editor = () => {
             >
                 Export HTML
             </Button>
-            <a ref={hiddenElement} />
         </div>
     );
 };
