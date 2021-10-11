@@ -23,7 +23,7 @@ const Editor = () => {
     const [messageTemplate, setMessageTemplate] = useMessageTemplate();
     const emailEditorRef = useRef(null);
     const [unlayerReady, setUnlayerReady] = useState(false);
-
+    const [editorLoaded, setEditorLoaded] = useState(false);
     const classes = useStyles();
 
     const [currentScope] = useUserScope();
@@ -34,21 +34,19 @@ const Editor = () => {
     const [templateId] = useState(() => {
         if (currentScope && currentScope.code === 'referent') {
             return referentTemplate;
-        } if (currentScope && currentScope.code === 'deputy') {
+        }
+        if (currentScope && currentScope.code === 'deputy') {
             return deputyTemplate;
-        } if (currentScope && currentScope.code === 'senator') {
+        }
+        if (currentScope && currentScope.code === 'senator') {
             return senatorTemplate;
         }
         return defaultTemplate;
     });
 
     const updateMessageTemplateCallback = () => {
-        console.log('update design');
-
         emailEditorRef.current.exportHtml(
             (event) => {
-                console.log();
-
                 setMessageTemplate({
                     design: event.design,
                     chunks: event.chunks,
@@ -63,31 +61,18 @@ const Editor = () => {
             return;
         }
 
-        emailEditorRef.current.editor.addEventListener('design:updated', (event) => {
-            console.log(event);
-            updateMessageTemplateCallback(true);
+        emailEditorRef.current.editor.addEventListener('design:updated', () => {
+            updateMessageTemplateCallback();
         });
     }, [unlayerReady]);
 
     useEffect(() => {
-        console.log({
-            action: 'useEffect',
-            messageTemplate,
-        });
-
         if (messageTemplate?.skipReloadUnlayer || !unlayerReady) {
             return;
         }
-
-        console.log({
-            unlayerReady,
-            messageTemplate,
-        });
-
-        if (messageTemplate && messageTemplate.design) {
-            console.log('load design', messageTemplate);
+        if (messageTemplate?.design) {
+            console.log('messageTemplate', messageTemplate);
             emailEditorRef.current.loadDesign(messageTemplate.design);
-            // setContentFilled(true);
         }
     }, [messageTemplate, unlayerReady]);
 
@@ -101,6 +86,20 @@ const Editor = () => {
         });
     };
 
+    useEffect(() => {
+        console.log('Ref exists', emailEditorRef.current);
+        if (editorLoaded && emailEditorRef?.current?.editor) {
+            console.log('onLoad + emailEditorRef');
+            emailEditorRef.current.editor.addEventListener('design:loaded', () => {
+                updateMessageTemplateCallback();
+            });
+            if (messageTemplate?.design) {
+                console.log('onLoad + design');
+                emailEditorRef.current.loadDesign(messageTemplate.design);
+            }
+        }
+    }, [editorLoaded]);
+
     return (
         <div className={classes.emailEditor}>
             <EmailEditor
@@ -108,15 +107,8 @@ const Editor = () => {
                 ref={emailEditorRef}
                 projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
                 onLoad={() => {
-                    console.log('TEST!!!');
-                    if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
-                        emailEditorRef.current.editor.addEventListener('design:loaded', () => {
-                            console.log('EVENT => design:loaded', messageTemplate);
-                            if (messageTemplate === null) {
-                                updateMessageTemplateCallback(true);
-                            }
-                        });
-                    }
+                    setEditorLoaded(true);
+                    console.log('onLoad');
                 }}
                 onReady={() => setUnlayerReady(true)}
                 options={{

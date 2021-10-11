@@ -48,11 +48,10 @@ export const useSelectedTemplate = () => {
     return [
         useSelector(getSelectedTemplate),
         async (option) => {
-            if (option && option.value) {
+            if (option?.value) {
                 const templateContent = await apiClient.get(`/v3/email_templates/${option.value}`);
 
                 dispatch(updateSelectedTemplate({ ...option, ...templateContent }));
-                console.log('messageTemplate updated');
                 dispatch(updateMessageTemplate({
                     design: JSON.parse(templateContent.content),
                     skipReloadUnlayer: false,

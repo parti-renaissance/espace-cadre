@@ -57,11 +57,14 @@ const Template = () => {
             content: clearBody(messageTemplate.chunks.body),
         };
 
-        if (remoteMessage && remoteMessage.uuid) {
-            return apiClient.put(`/v3/adherent_messages/${remoteMessage.uuid}`, body);
+        if (remoteMessage?.uuid) {
+            const message = await apiClient.put(`/v3/adherent_messages/${remoteMessage.uuid}`, body);
+
+            return message;
         }
 
-        return apiClient.post('/v3/adherent_messages', body);
+        const message = await apiClient.post('/v3/adherent_messages', body);
+        return message;
     };
 
     return (

@@ -67,7 +67,6 @@ const TemplateSelect = () => {
     const updateTemplate = async (bodyreq, id) => apiClient.put(`/v3/email_templates/${id}`, bodyreq);
 
     const handleClickSaveButton = async () => {
-        // setIsLoadingTemplateButton(true);
         const bodyreq = {
             label: selectedTemplate.label,
             content: JSON.stringify(messageTemplate.design),
@@ -114,19 +113,6 @@ const TemplateSelect = () => {
         loadTemplates();
     }, [options]);
 
-    // const loadingTemplate = async () => {
-    //     if (template.current_template !== '' && template.current_template.value !== undefined) {
-    //         const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
-    //         setContent({ ...content, ...{ design: JSON.parse(result.content), externalUpdate: true } });
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     if (template.current_template !== '' && template.current_template.value !== template.current_template.label) {
-    //         loadingTemplate();
-    //     }
-    // }, [template.current_template]);
-
     return (
         <Grid container>
             <Grid item xs={8}>
@@ -160,13 +146,3 @@ const TemplateSelect = () => {
 };
 
 export default TemplateSelect;
-
-TemplateSelect.propTypes = {
-    // template: PropTypes.shape({
-    //     current_template: PropTypes.oneOfType([
-    //         PropTypes.string.isRequired,
-    //         PropTypes.objectOf(Object).isRequired,
-    //     ]),
-    // }).isRequired,
-    // onTemplateChange: PropTypes.func.isRequired,
-};
