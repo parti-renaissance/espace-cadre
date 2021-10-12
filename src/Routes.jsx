@@ -59,7 +59,7 @@ export const PATHS = {
         id: 'ripostes',
         route: '/ripostes',
         url: () => '/ripostes',
-        label: 'Ripostes',
+        // label: 'Ripostes',
         icon: 'fas fa-map',
     },
 };

@@ -10,7 +10,7 @@ import Loader from '../../Loader';
 const useStyles = makeStyles((theme) => createStyles({
     materialButton: {
         width: '100%',
-        borderRadius: '8px',
+        borderRadius: '8.35px',
         '&:hover': {
             background: `${theme.palette.blue800} !important`,
         },

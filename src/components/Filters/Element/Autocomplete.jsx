@@ -9,7 +9,7 @@ import { apiClient } from '../../../services/networking/client';
 const useStyles = makeStyles((theme) => ({
     autoComplete: {
         background: theme.palette.whiteCorner,
-        borderRadius: '8px',
+        borderRadius: '8.35px',
     },
 }));
 

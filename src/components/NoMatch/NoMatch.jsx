@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => createStyles({
     noMatchButton: {
         color: 'white',
         background: theme.palette.blueCorner,
-        borderRadius: '8px',
+        borderRadius: '8.35px',
         padding: '8px 16px',
     },
 }));

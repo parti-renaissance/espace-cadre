@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => createStyles({
     paperContainer: {
         padding: '16px',
         textAlign: 'center !important',
-        borderRadius: '8px',
+        borderRadius: '8.35px',
     },
     elementContainer: {
         textAlign: 'center',

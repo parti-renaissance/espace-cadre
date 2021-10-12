@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     datePicker: {
         background: theme.palette.whiteCorner,
         width: '100%',
-        borderRadius: '8px',
+        borderRadius: '8.35px',
     },
 }));
 
