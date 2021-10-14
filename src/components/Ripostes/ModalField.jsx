@@ -1,21 +1,16 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import {
-    makeStyles, createStyles, TextField, Box,
+    makeStyles, createStyles, TextField,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import AlertBanner from '../AlertBanner';
 
 const useStyles = makeStyles((theme) => createStyles({
     textField: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8px',
         margin: '8px 0',
-    },
-    errorMessage: {
-        color: 'red',
-        fontSize: '10px',
-        background: theme.palette.statusError,
-        padding: '6px 16px',
     },
 }));
 
@@ -34,10 +29,10 @@ const ModalField = ({ formik, label }) => {
                 inputProps={{
                     maxLength: 255,
                 }}
-                value={formik.values.label}
+                value={formik.values[label]}
                 onChange={formik.handleChange}
             />
-            {formik.touched.label && <Box className={classes.errorMessage}> {formik.errors.label} </Box>}
+            {formik.touched[label] && formik.errors[label] && (<AlertBanner severity="error" message={formik.errors[label]} />)}
         </>
     );
 };

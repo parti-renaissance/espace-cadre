@@ -4,7 +4,8 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { apiClient } from '../../services/networking/client';
-import RiposteCard from './Card';
+import Card from './Card';
+import Modal from './Modal';
 
 const useStyles = makeStyles((theme) => createStyles({
     pageTitle: {
@@ -32,26 +33,43 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Ripostes = () => {
-    const [ripostesItems, setRipostesItems] = useState();
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [ripostesItems, setRipostesItems] = useState();
+    const [currentItem, setCurrentItem] = useState(null);
+    const [refreshPage, setRefreshPage] = useState(0);
+    const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (id) => {
+        setOpen(true);
+        setCurrentItem(ripostesItems.find((el) => el.uuid === id) || null);
+    };
+
+    const handleNewRiposte = () => {
+        setCurrentItem({
+            uuid: null,
+            title: '',
+            body: '',
+            source_url: '',
+            with_notification: true,
+            enabled: true,
+        });
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+        // setCurrentItem(null);
     };
 
     useEffect(() => {
         const getRipostes = async () => {
             const ripostesData = await apiClient.get('api/v3/ripostes');
+            ripostesData.reverse();
             setRipostesItems(ripostesData);
         };
 
         getRipostes();
-    }, []);
+    }, [refreshPage]);
 
     return (
         <Grid container justifyContent="space-between">
@@ -59,11 +77,27 @@ const Ripostes = () => {
                 Riposte
             </Grid>
             <Grid item className={classes.buttonContainer}>
-                <Button className={classes.createButton} onClick={handleClickOpen}>
+                <Button className={classes.createButton} onClick={handleNewRiposte}>
                     <AddIcon className={classes.icon} />Créer une riposte
                 </Button>
             </Grid>
-            <RiposteCard ripostesItems={ripostesItems} handleClickOpen={handleClickOpen} handleClose={handleClose} open={open} />
+            <Grid container spacing={2}>
+                {ripostesItems && ripostesItems.map((item, i) => (
+                    <Card
+                        key={i}
+                        item={item}
+                        handleClickOpen={handleClickOpen}
+                    />
+                ))}
+            </Grid>
+            <Modal
+                open={open}
+                handleClose={handleClose}
+                riposteItem={currentItem}
+                onSubmitRefresh={() => {
+                    setRefreshPage((p) => p + 1);
+                }}
+            />
         </Grid>
     );
 };

@@ -1,19 +1,19 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import {
-    makeStyles, createStyles, Grid, Paper, Button,
+    makeStyles, createStyles, Grid, Paper, Button, Box,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import RiposteModal from './Modal';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
         padding: '16px',
         borderRadius: '8.35px',
     },
-    firstLineContainer: {
-        marginBottom: '7px',
+    container: {
+        marginBottom: '8px',
     },
-    secondLineContainer: {
+    lastContainer: {
         marginBottom: '30px',
     },
     label: {
@@ -39,47 +39,54 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '13px',
         color: theme.palette.indigo700,
     },
+    bell: {
+        border: `1px solid ${theme.palette.gray200}`,
+        borderRadius: '20px',
+        padding: '4px 12px',
+    },
 }));
 
-const RiposteCard = ({
-    ripostesItems, handleClickOpen, handleClose, open,
+const Card = ({
+    item, handleClickOpen,
 }) => {
     const classes = useStyles();
 
     return (
-        <>
-            <Grid container spacing={2}>
-                {ripostesItems && ripostesItems.map((item, i) => (
-                    <Grid item key={i} xs={12} sm={4}>
-                        <Paper classes={{ root: classes.root }}>
-                            <Grid container className={classes.firstLineContainer}>
-                                <Grid item>{item.enabled ? <span className={`${classes.active} ${classes.label}`}>Active</span> : <span className={`${classes.inactive} ${classes.label}`}>Inactive</span>}</Grid>
-                                <Grid item className={classes.date}>Le {new Date(item.created_at).toLocaleDateString()}</Grid>
-                            </Grid>
-                            <Grid container className={classes.secondLineContainer}>
-                                <Grid item>{item.title}</Grid>
-                            </Grid>
-                            <Grid container>
-                                <Button className={classes.editButton} onClick={handleClickOpen}>Editer</Button>
-                            </Grid>
-                        </Paper>
+        <Grid item xs={12} sm={6} md={4}>
+            <Paper classes={{ root: classes.root }}>
+                <Grid container className={classes.container}>
+                    <Grid item>{item.enabled ? <span className={`${classes.active} ${classes.label}`}>Active</span> : <span className={`${classes.inactive} ${classes.label}`}>Inactive</span>}</Grid>
+                    <Grid item className={classes.date}>Le {new Date(item.created_at).toLocaleDateString()}</Grid>
+                </Grid>
+                <Grid container className={classes.container}>
+                    <Grid item>{item.title}</Grid>
+                </Grid>
+                <Grid container className={`${classes.container}, ${classes.lastContainer}`}>
+                    <Grid item>
+                        {item.with_notification ? <Box className={classes.bell}><i className="fas fa-bell" /></Box> : <Box className={classes.bell}><i className="fas fa-bell-slash" /></Box>}
                     </Grid>
-                ))}
-            </Grid>
-            <RiposteModal open={open} handleClose={handleClose} />
-        </>
+                </Grid>
+                <Grid container>
+                    <Button
+                        className={classes.editButton}
+                        onClick={() => {
+                            handleClickOpen(item.uuid);
+                        }}
+                    >Éditer
+                    </Button>
+                </Grid>
+            </Paper>
+        </Grid>
     );
 };
 
-export default RiposteCard;
+export default Card;
 
-RiposteCard.defaultProps = {
-    ripostesItems: [],
+Card.defaultProps = {
+    handleClickOpen: () => {},
 };
 
-RiposteCard.propTypes = {
-    ripostesItems: PropTypes.arrayOf(Object),
-    handleClickOpen: PropTypes.func.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
+Card.propTypes = {
+    item: PropTypes.object.isRequired,
+    handleClickOpen: PropTypes.func,
 };

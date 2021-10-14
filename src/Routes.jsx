@@ -59,8 +59,8 @@ export const PATHS = {
         id: 'ripostes',
         route: '/ripostes',
         url: () => '/ripostes',
-        // label: 'Ripostes',
-        icon: 'fas fa-map',
+        label: 'Ripostes',
+        icon: 'fas fa-hashtag',
     },
 };
 
@@ -116,7 +116,6 @@ const Routes = () => {
                 routes.push(<Route key={index + 1} path={component.path.route} exact component={component.component} />);
             }
         });
-        routes.push(<Route key={-1} component={Ripostes} />);
         routes.push(<Route key={-2} component={NoMatch} />);
     }
 
