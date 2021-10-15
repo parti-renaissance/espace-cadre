@@ -4,7 +4,7 @@ import { makeStyles, createStyles } from '@material-ui/core';
 import { apiClient } from '../../services/networking/client';
 import FiltersForm from './FiltersForm';
 import ErrorComponent from '../ErrorComponent';
-import Loader from '../Loader';
+import Loader from '../HelperComponents/Loader';
 
 const useStyles = makeStyles(() => createStyles({
     loader: {

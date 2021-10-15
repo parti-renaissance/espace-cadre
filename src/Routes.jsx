@@ -5,7 +5,7 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { getAuthorizedPages } from './redux/user/selectors';
-import Spinner from './components/Spinner/Spinner';
+import Spinner from './components/HelperComponents/Spinner';
 
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const Adherents = lazy(() => import('./components/Adherents'));

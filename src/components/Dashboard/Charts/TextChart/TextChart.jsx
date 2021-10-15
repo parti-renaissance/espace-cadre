@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@material-ui/core';
-import Loader from '../../../Loader';
+import Loader from '../../../HelperComponents/Loader';
 import { apiClientProxy } from '../../../../services/networking/client';
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks';
 import { useUserScope } from '../../../../redux/user/hooks';

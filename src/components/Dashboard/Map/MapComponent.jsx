@@ -6,7 +6,7 @@ import L from 'leaflet';
 import { Grid, Box } from '@material-ui/core';
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks';
 import { apiClientProxy } from '../../../services/networking/client';
-import Loader from '../../Loader';
+import Loader from '../../HelperComponents/Loader';
 import { useUserScope } from '../../../redux/user/hooks';
 import ErrorComponent from '../../ErrorComponent/ErrorComponent';
 

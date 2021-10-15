@@ -8,8 +8,8 @@ import mapboxgl from '!mapbox-gl';
 import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
 import ElectionModal from './ElectionModal';
-import Loader from '../Loader';
-import ConvertToPercent from '../ConvertToPercent/ConvertToPercent';
+import Loader from '../HelperComponents/Loader';
+import ConvertToPercent from '../HelperComponents/ConvertToPercent';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 

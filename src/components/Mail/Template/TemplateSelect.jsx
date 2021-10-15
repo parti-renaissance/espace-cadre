@@ -3,7 +3,7 @@ import CreatableSelect from 'react-select/creatable';
 import {
     Grid, Button, Box, makeStyles, createStyles,
 } from '@material-ui/core';
-import Loader from '../../Loader';
+import Loader from '../../HelperComponents/Loader';
 import { apiClient } from '../../../services/networking/client';
 import { useTemplateContent } from '../../../redux/template/hooks';
 

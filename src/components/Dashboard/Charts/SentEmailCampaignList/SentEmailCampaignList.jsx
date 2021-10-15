@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Box } from '@material-ui/core';
 import { apiClientProxy } from '../../../../services/networking/client';
-import Loader from '../../../Loader';
+import Loader from '../../../HelperComponents/Loader';
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks';
-import ConvertToPercent from '../../../ConvertToPercent/ConvertToPercent';
+import ConvertToPercent from '../../../HelperComponents/ConvertToPercent';
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent';
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle';
 
