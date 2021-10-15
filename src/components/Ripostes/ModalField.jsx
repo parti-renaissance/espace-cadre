@@ -24,6 +24,7 @@ const ModalField = ({ formik, label }) => {
                 className={classes.textField}
                 size="small"
                 variant="outlined"
+                multiline={label === 'body'}
                 id={label}
                 name={label}
                 inputProps={{
