@@ -34,7 +34,7 @@ const PageContent = ({ children }) => {
                         >
                             <img src="images/list.svg" alt="Menu button" />
                         </button>
-                        {pageTitle && pageTitle !== 'Messagerie' && <span className="page-title">{pageTitle}</span>}
+                        {pageTitle && pageTitle !== 'Messagerie' && pageTitle !== 'Ripostes' && <span className="page-title">{pageTitle}</span>}
                     </Box>
                 </Grid>
                 {children}

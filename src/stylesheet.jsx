@@ -41,9 +41,19 @@ const theme = createTheme({
         // Green
         greenCorner: '#008000',
         successButton: '#28A745',
+        green700: '#047857',
+
+        // Riposte Color
+        riposteActionButton: 'rgba(20, 184, 166, 0.08)',
+        teal700: '#0F766E',
+        activeLabel: 'rgba(4, 120, 87, 0.08)',
+        inactiveLabel: 'rgba(220, 38, 38, 0.08)',
+        indigo700: '#4338CA',
 
         // Red
-        redError: '#dc3545',
+        statusError: '#DA1414',
+        backgroundError: '#FEEFEF',
+        red600: '#DC2626',
     },
     typography: {
         fontFamily: 'Poppins, sans-serif',

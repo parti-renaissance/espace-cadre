@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => createStyles({
     mailObject: {
         width: '100%',
         border: `1px solid ${theme.palette.gray200}`,
-        borderRadius: '8px',
+        borderRadius: '8.35px',
     },
     buttonContainer: {
         justifyContent: 'spaceBetween',

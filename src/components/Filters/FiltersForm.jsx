@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => createStyles({
         color: theme.palette.whiteCorner,
         background: `${theme.palette.gray700}`,
         marginRight: '16px',
-        borderRadius: '8px',
+        borderRadius: '8.35px',
         '&:hover': {
             background: theme.palette.gray600,
         },
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => createStyles({
     resetButtonFilters: {
         color: theme.palette.gray700,
         border: `1px solid ${theme.palette.gray300}`,
-        borderRadius: '8px',
+        borderRadius: '8.35px',
         '&:hover': {
             background: theme.palette.gray200,
         },
@@ -62,7 +62,7 @@ const FiltersForm = ({
         });
 
         if (filterElement) {
-            filterElements.push(<Grid key={filter.code} item xs={12} sm={6} md={6} lg={4}>{filterElement}</Grid>);
+            filterElements.push(<Grid key={filter.code} item xs={12} sm={6} lg={4}>{filterElement}</Grid>);
         }
     });
 

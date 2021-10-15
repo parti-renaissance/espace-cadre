@@ -5,7 +5,7 @@ import { Box, makeStyles, createStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => createStyles({
     errorBox: {
         textAlign: 'center',
-        color: theme.palette.redError,
+        color: theme.palette.statusError,
         width: '100%',
         marginBottom: '16px',
         borderRadius: '6px',

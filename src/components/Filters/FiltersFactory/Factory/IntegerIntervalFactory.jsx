@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     integerInterval: {
         background: theme.palette.whiteCorner,
         width: '100%',
-        borderRadius: '8px',
+        borderRadius: '8.35px',
     },
 }));
 

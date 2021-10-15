@@ -5,7 +5,7 @@ import { TextField, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     filterBasicStyle: {
         background: theme.palette.whiteCorner,
-        borderRadius: '8px',
+        borderRadius: '8.35px',
         width: '100%',
     },
 }));

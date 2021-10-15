@@ -12,6 +12,7 @@ const Adherents = lazy(() => import('./components/Adherents'));
 const Messagerie = lazy(() => import('./components/Messagerie'));
 const Mail = lazy(() => import('./components/Mail'));
 const Elections = lazy(() => import('./components/Elections/Elections'));
+const Ripostes = lazy(() => import('./components/Ripostes'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
 
 export const PATHS = {
@@ -54,6 +55,13 @@ export const PATHS = {
         label: 'Elections',
         icon: 'fas fa-map',
     },
+    RIPOSTES: {
+        id: 'ripostes',
+        route: '/ripostes',
+        url: () => '/ripostes',
+        label: 'Ripostes',
+        icon: 'fas fa-hashtag',
+    },
 };
 
 export const MENU = [
@@ -61,6 +69,7 @@ export const MENU = [
     PATHS.ADHERENTS,
     PATHS.MESSAGERIE,
     PATHS.ELECTIONS,
+    PATHS.RIPOSTES,
 ];
 
 const COMPONENTS = [
@@ -83,6 +92,10 @@ const COMPONENTS = [
     {
         path: PATHS.ELECTIONS,
         component: Elections,
+    },
+    {
+        path: PATHS.RIPOSTES,
+        component: Ripostes,
     },
 ];
 
