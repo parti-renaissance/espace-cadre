@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '13px',
         color: theme.palette.indigo700,
     },
-    bell: {
+    riposteKpi: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '20px',
         padding: '4px 12px',
@@ -61,9 +61,21 @@ const Card = ({
                 <Grid container className={classes.container}>
                     <Grid item>{item.title}</Grid>
                 </Grid>
-                <Grid container className={`${classes.container}, ${classes.lastContainer}`}>
+                <Grid container spacing={1} className={`${classes.container}, ${classes.lastContainer}`}>
                     <Grid item>
-                        {item.with_notification ? <Box className={classes.bell}><i className="fas fa-bell" /></Box> : <Box className={classes.bell}><i className="fas fa-bell-slash" /></Box>}
+                        {item.with_notification ? <Box className={classes.riposteKpi}><i className="fas fa-bell" /></Box> : <Box className={classes.riposteKpi}><i className="fas fa-bell-slash" /></Box>}
+                    </Grid>
+                    <Grid item>
+                        <Box className={classes.riposteKpi}>{item.nb_ripostes} riposte{item.nb_ripostes > 1 && 's'}</Box>
+                    </Grid>
+                    <Grid item>
+                        <Box className={classes.riposteKpi}>{item.nb_source_views} affichage{item.nb_source_views > 1 && 's'} de la source</Box>
+                    </Grid>
+                    <Grid item>
+                        <Box className={classes.riposteKpi}>{item.nb_views} vue{item.nb_views > 1 && 's'}</Box>
+                    </Grid>
+                    <Grid item>
+                        <Box className={classes.riposteKpi}>{item.nd_detail_views} détail{item.nd_detail_views > 1 && 's'}</Box>
                     </Grid>
                 </Grid>
                 <Grid container>
