@@ -40,8 +40,16 @@ const Ripostes = () => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = (id) => {
-        setOpen(true);
         setCurrentItem(ripostesItems.find((el) => el.uuid === id) || null);
+        setOpen(true);
+    };
+
+    const handleClickMenu = (id) => {
+        ripostesItems.find((el) => {
+            if (el.uuid === id) {
+                console.log(el);
+            }
+        });
     };
 
     const handleNewRiposte = () => {
@@ -58,7 +66,6 @@ const Ripostes = () => {
 
     const handleClose = () => {
         setOpen(false);
-        // setCurrentItem(null);
     };
 
     useEffect(() => {
@@ -87,6 +94,7 @@ const Ripostes = () => {
                         key={i}
                         item={item}
                         handleClickOpen={handleClickOpen}
+                        handleClickMenu={handleClickMenu}
                     />
                 ))}
             </Grid>

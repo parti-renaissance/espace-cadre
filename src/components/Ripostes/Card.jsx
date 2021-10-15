@@ -4,6 +4,7 @@ import {
     makeStyles, createStyles, Grid, Paper, Button, Box,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import DotMenu from '../HelperComponents/DotMenu';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => createStyles({
     editButton: {
         fontSize: '13px',
         color: theme.palette.indigo700,
+        marginTop: '11px',
     },
     riposteKpi: {
         border: `1px solid ${theme.palette.gray200}`,
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Card = ({
-    item, handleClickOpen,
+    item, handleClickOpen, handleClickMenu,
 }) => {
     const classes = useStyles();
 
@@ -78,14 +80,17 @@ const Card = ({
                         <Box className={classes.riposteKpi}>{item.nd_detail_views} détail{item.nd_detail_views > 1 && 's'}</Box>
                     </Grid>
                 </Grid>
-                <Grid container>
-                    <Button
-                        className={classes.editButton}
-                        onClick={() => {
-                            handleClickOpen(item.uuid);
-                        }}
-                    >Éditer
-                    </Button>
+                <Grid container justifyContent="space-between">
+                    <Grid item>
+                        <Button
+                            className={classes.editButton}
+                            onClick={() => handleClickOpen(item.uuid)}
+                        >Éditer
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <DotMenu handleClickMenu={handleClickMenu} item={item} />
+                    </Grid>
                 </Grid>
             </Paper>
         </Grid>
@@ -94,11 +99,8 @@ const Card = ({
 
 export default Card;
 
-Card.defaultProps = {
-    handleClickOpen: () => {},
-};
-
 Card.propTypes = {
     item: PropTypes.object.isRequired,
-    handleClickOpen: PropTypes.func,
+    handleClickOpen: PropTypes.func.isRequired,
+    handleClickMenu: PropTypes.func.isRequired,
 };
