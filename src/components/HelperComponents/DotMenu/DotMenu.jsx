@@ -1,12 +1,25 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
-import { IconButton } from '@material-ui/core';
+import { IconButton, makeStyles, createStyles } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 
+const useStyles = makeStyles((theme) => createStyles({
+    root: {
+        fontSize: '13px',
+        padding: '4px 12px',
+        borderRadius: '8.35px',
+        background: theme.palette.gray100,
+        '&:hover': {
+            background: theme.palette.gray200,
+        },
+    },
+}));
+
 const DotMenu = ({ item, handleActiveItem }) => {
+    const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClose = () => {
@@ -32,15 +45,16 @@ const DotMenu = ({ item, handleActiveItem }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 transformOrigin={{
-                    vertical: 'center',
+                    vertical: 'top',
                     horizontal: 'center',
                 }}
             >
                 <MenuItem
                     onClick={() => {
-                        handleActiveItem(item.uuid);
                         handleClose();
+                        handleActiveItem(item.uuid);
                     }}
+                    className={classes.root}
                 >{item.enabled ? 'Désactiver' : 'Activer'}
                 </MenuItem>
             </Menu>

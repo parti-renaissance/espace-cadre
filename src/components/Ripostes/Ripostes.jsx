@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Grid, Button, makeStyles, createStyles,
+    Container, Grid, Button, makeStyles, createStyles,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { apiClient } from '../../services/networking/client';
-import Card from './Card';
+import CardComponent from './Card';
 import Modal from './Modal';
 
 const useStyles = makeStyles((theme) => createStyles({
@@ -82,34 +82,36 @@ const Ripostes = () => {
     }, [refreshPage]);
 
     return (
-        <Grid container justifyContent="space-between">
-            <Grid item className={classes.pageTitle}>
-                Riposte
+        <Container maxWidth="lg">
+            <Grid container justifyContent="space-between">
+                <Grid item className={classes.pageTitle}>
+                    Riposte
+                </Grid>
+                <Grid item className={classes.buttonContainer}>
+                    <Button className={classes.createButton} onClick={handleNewRiposte}>
+                        <AddIcon className={classes.icon} />Créer une riposte
+                    </Button>
+                </Grid>
+                <Grid container spacing={2}>
+                    {ripostesItems && ripostesItems.map((item, i) => (
+                        <CardComponent
+                            key={i}
+                            item={item}
+                            handleClickOpen={handleClickOpen}
+                            handleActiveItem={handleActiveItem}
+                        />
+                    ))}
+                </Grid>
+                <Modal
+                    open={open}
+                    handleClose={handleClose}
+                    riposteItem={currentItem}
+                    onSubmitRefresh={() => {
+                        setRefreshPage((p) => p + 1);
+                    }}
+                />
             </Grid>
-            <Grid item className={classes.buttonContainer}>
-                <Button className={classes.createButton} onClick={handleNewRiposte}>
-                    <AddIcon className={classes.icon} />Créer une riposte
-                </Button>
-            </Grid>
-            <Grid container spacing={2}>
-                {ripostesItems && ripostesItems.map((item, i) => (
-                    <Card
-                        key={i}
-                        item={item}
-                        handleClickOpen={handleClickOpen}
-                        handleActiveItem={handleActiveItem}
-                    />
-                ))}
-            </Grid>
-            <Modal
-                open={open}
-                handleClose={handleClose}
-                riposteItem={currentItem}
-                onSubmitRefresh={() => {
-                    setRefreshPage((p) => p + 1);
-                }}
-            />
-        </Grid>
+        </Container>
     );
 };
 

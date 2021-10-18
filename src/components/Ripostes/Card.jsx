@@ -14,37 +14,51 @@ const useStyles = makeStyles((theme) => createStyles({
     container: {
         marginBottom: '8px',
     },
-    lastContainer: {
-        marginBottom: '30px',
-    },
-    label: {
-        fontSize: '12px',
-        borderRadius: '8.35px',
+    chip: {
+        fontSize: '10px',
+        fontWeight: '500',
+        borderRadius: '19px',
         padding: '2px 8px',
+    },
+    withBorder: {
+        border: `1px solid ${theme.palette.gray200}`,
     },
     active: {
         color: theme.palette.green700,
         background: theme.palette.activeLabel,
+        borderRadius: '19px',
+
     },
     inactive: {
         color: theme.palette.red600,
         background: theme.palette.inactiveLabel,
     },
     date: {
-        fontSize: '12px',
+        fontSize: '10px',
         color: theme.palette.gray600,
-        padding: '5px 8px',
-
+        padding: '7px 8px',
+    },
+    title: {
+        fontSize: '16px',
+        fontWeight: '600',
+        color: theme.palette.gray900,
+    },
+    KpiContainer: {
+        marginBottom: '20px',
+    },
+    buttonContainer: {
+        position: 'relative',
+        bottom: '0',
     },
     editButton: {
         fontSize: '13px',
+        fontWeight: '500',
         color: theme.palette.indigo700,
         marginTop: '11px',
-    },
-    riposteKpi: {
-        border: `1px solid ${theme.palette.gray200}`,
-        borderRadius: '20px',
-        padding: '4px 12px',
+        '&:hover': {
+            background: theme.palette.gray100,
+            borderRadius: '8.35px',
+        },
     },
 }));
 
@@ -57,30 +71,37 @@ const Card = ({
         <Grid item xs={12} sm={6} md={4}>
             <Paper classes={{ root: classes.root }}>
                 <Grid container className={classes.container}>
-                    <Grid item>{item.enabled ? <span className={`${classes.active} ${classes.label}`}>Active</span> : <span className={`${classes.inactive} ${classes.label}`}>Inactive</span>}</Grid>
-                    <Grid item className={classes.date}>Le {new Date(item.created_at).toLocaleDateString()}</Grid>
+                    <Grid item>
+                        {item.enabled ? <span className={`${classes.chip} ${classes.active}`}>Active</span> : <span className={`${classes.chip} ${classes.inactive}`}>Inactive</span>}
+                    </Grid>
+                    <Grid item className={classes.date}>
+                        Le {new Date(item.created_at).toLocaleDateString()}
+                    </Grid>
                 </Grid>
                 <Grid container className={classes.container}>
-                    <Grid item>{item.title}</Grid>
+                    <Grid item className={classes.title}>{item.title}</Grid>
                 </Grid>
-                <Grid container spacing={1} className={`${classes.container}, ${classes.lastContainer}`}>
+                <Grid container spacing={1} className={classes.KpiContainer}>
                     <Grid item>
-                        {item.with_notification ? <Box className={classes.riposteKpi}><i className="fas fa-bell" /></Box> : <Box className={classes.riposteKpi}><i className="fas fa-bell-slash" /></Box>}
+                        {item.with_notification ? <Box className={`${classes.chip} ${classes.withBorder}`}><i className="fas fa-bell" /></Box> : <Box className={`${classes.chip} ${classes.withBorder}`}><i className="fas fa-bell-slash" /></Box>}
                     </Grid>
                     <Grid item>
-                        <Box className={classes.riposteKpi}>{item.nb_ripostes} riposte{item.nb_ripostes > 1 && 's'}</Box>
+                        <Box className={`${classes.chip} ${classes.withBorder}`}>
+                            {item.nb_ripostes} riposte{item.nb_ripostes > 1 && 's'}
+                        </Box>
                     </Grid>
                     <Grid item>
-                        <Box className={classes.riposteKpi}>{item.nb_source_views} affichage{item.nb_source_views > 1 && 's'} de la source</Box>
+                        <Box className={`${classes.chip} ${classes.withBorder}`}>
+                            {item.nb_views} vue{item.nb_views > 1 && 's'}
+                        </Box>
                     </Grid>
                     <Grid item>
-                        <Box className={classes.riposteKpi}>{item.nb_views} vue{item.nb_views > 1 && 's'}</Box>
-                    </Grid>
-                    <Grid item>
-                        <Box className={classes.riposteKpi}>{item.nb_detail_views} détail{item.nb_detail_views > 1 && 's'}</Box>
+                        <Box className={`${classes.chip} ${classes.withBorder}`}>
+                            {item.nb_detail_views} vue{item.nb_detail_views > 1 && 's'} détaillée{item.nb_detail_views > 1 && 's'}
+                        </Box>
                     </Grid>
                 </Grid>
-                <Grid container justifyContent="space-between">
+                <Grid container justifyContent="space-between" className={classes.buttonContainer}>
                     <Grid item>
                         <Button
                             className={classes.editButton}
