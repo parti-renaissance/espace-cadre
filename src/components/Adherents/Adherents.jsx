@@ -7,7 +7,7 @@ import { apiClient } from '../../services/networking/client';
 import TableHeadComponent from './TableHeadComponent';
 import TableBodyComponent from './TableBodyComponent';
 import ErrorComponent from '../ErrorComponent';
-import Loader from '../Loader';
+import Loader from '../HelperComponents/Loader';
 import DynamicFilters from '../Filters/DynamicFilters';
 import { useColumnsTitleCache } from '../../redux/adherents/hooks';
 import { FEATURE_ADHERENTS } from '../Feature/FeatureCode';

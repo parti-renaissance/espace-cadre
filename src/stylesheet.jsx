@@ -29,6 +29,7 @@ const theme = createTheme({
         grayCorner3: '#717BA0',
         mentionsLegales: '#B0B6C9',
         interestsBubble: '#EFF1F3',
+        gray50: '#F9FAFB',
         gray100: '#F3F4F6',
         gray200: '#E5E7EB',
         gray300: '#D1D5DB',

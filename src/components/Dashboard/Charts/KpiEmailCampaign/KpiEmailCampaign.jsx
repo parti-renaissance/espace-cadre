@@ -3,9 +3,9 @@ import {
     Grid, Box,
 } from '@material-ui/core';
 import { apiClientProxy } from '../../../../services/networking/client';
-import Loader from '../../../Loader';
+import Loader from '../../../HelperComponents/Loader';
 import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks';
-import ConvertToPercent from '../../../ConvertToPercent/ConvertToPercent';
+import ConvertToPercent from '../../../HelperComponents/ConvertToPercent';
 import { useUserScope } from '../../../../redux/user/hooks';
 import EmailCampaignTitle from './EmailCampaignTitle';
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent';

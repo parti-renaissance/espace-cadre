@@ -4,7 +4,7 @@ import {
     makeStyles, createStyles, TextField,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import AlertBanner from '../AlertBanner';
+import AlertBanner from '../HelperComponents/AlertBanner';
 
 const useStyles = makeStyles((theme) => createStyles({
     textField: {

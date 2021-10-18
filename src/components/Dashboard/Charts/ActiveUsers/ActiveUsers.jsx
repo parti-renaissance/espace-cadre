@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import { Grid } from '@material-ui/core';
 import { apiClientProxy } from '../../../../services/networking/client';
-import Loader from '../../../Loader';
+import Loader from '../../../HelperComponents/Loader';
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks';
 import { useUserScope } from '../../../../redux/user/hooks';
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent';

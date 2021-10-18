@@ -10,7 +10,7 @@ import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
 import { apiClient } from '../../../services/networking/client';
 import { useUserScope } from '../../../redux/user/hooks';
 import useRetry from '../../Filters/useRetry';
-import Loader from '../../Loader';
+import Loader from '../../HelperComponents/Loader';
 import ErrorComponent from '../../ErrorComponent';
 import ModalComponent from '../Filters/ModalComponent';
 

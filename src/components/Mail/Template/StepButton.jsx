@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import Loader from '../../Loader';
+import Loader from '../../HelperComponents/Loader';
 
 const useStyles = makeStyles((theme) => createStyles({
     materialButton: {
