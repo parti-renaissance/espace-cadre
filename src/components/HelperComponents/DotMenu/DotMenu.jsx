@@ -6,21 +6,21 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 
-const DotMenu = ({ item, handleClickMenu }) => {
+const DotMenu = ({ item, handleActiveItem }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     return (
         <div>
             <IconButton
                 aria-label="more"
-                aria-controls="long-menu"
+                aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={(event) => {
                     setAnchorEl(event.currentTarget);
-                    handleClickMenu(item.uuid);
                 }}
             >
                 <MoreVertIcon />
@@ -37,8 +37,11 @@ const DotMenu = ({ item, handleClickMenu }) => {
                 }}
             >
                 <MenuItem
-                    onClick={handleClose}
-                >{item.enabled ? 'Activer' : 'Désactiver'}
+                    onClick={() => {
+                        handleActiveItem(item.uuid);
+                        handleClose();
+                    }}
+                >{item.enabled ? 'Désactiver' : 'Activer'}
                 </MenuItem>
             </Menu>
         </div>
@@ -49,5 +52,5 @@ export default DotMenu;
 
 DotMenu.propTypes = {
     item: PropTypes.object.isRequired,
-    handleClickMenu: PropTypes.func.isRequired,
+    handleActiveItem: PropTypes.func.isRequired,
 };

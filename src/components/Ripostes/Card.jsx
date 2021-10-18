@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Card = ({
-    item, handleClickOpen, handleClickMenu,
+    item, handleClickOpen, handleActiveItem,
 }) => {
     const classes = useStyles();
 
@@ -89,7 +89,7 @@ const Card = ({
                         </Button>
                     </Grid>
                     <Grid item>
-                        <DotMenu handleClickMenu={handleClickMenu} item={item} />
+                        <DotMenu handleActiveItem={handleActiveItem} item={item} />
                     </Grid>
                 </Grid>
             </Paper>
@@ -102,5 +102,5 @@ export default Card;
 Card.propTypes = {
     item: PropTypes.object.isRequired,
     handleClickOpen: PropTypes.func.isRequired,
-    handleClickMenu: PropTypes.func.isRequired,
+    handleActiveItem: PropTypes.func.isRequired,
 };

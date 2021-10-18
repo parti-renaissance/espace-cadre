@@ -44,12 +44,12 @@ const Ripostes = () => {
         setOpen(true);
     };
 
-    const handleClickMenu = (id) => {
-        ripostesItems.find((el) => {
-            if (el.uuid === id) {
-                console.log(el);
-            }
-        });
+    const handleActiveItem = async (id) => {
+        const item = ripostesItems.find((el) => el.uuid === id);
+        const newItem = { ...item, enabled: !item.enabled };
+        setRipostesItems((prev) => prev.filter((el) => el.uuid !== id).concat(newItem).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+        await apiClient.put(`api/v3/ripostes/${newItem.uuid}`, newItem);
+        setRefreshPage((p) => p + 1);
     };
 
     const handleNewRiposte = () => {
@@ -94,7 +94,7 @@ const Ripostes = () => {
                         key={i}
                         item={item}
                         handleClickOpen={handleClickOpen}
-                        handleClickMenu={handleClickMenu}
+                        handleActiveItem={handleActiveItem}
                     />
                 ))}
             </Grid>
