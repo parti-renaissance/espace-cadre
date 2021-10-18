@@ -77,7 +77,7 @@ const Card = ({
                         <Box className={classes.riposteKpi}>{item.nb_views} vue{item.nb_views > 1 && 's'}</Box>
                     </Grid>
                     <Grid item>
-                        <Box className={classes.riposteKpi}>{item.nd_detail_views} détail{item.nd_detail_views > 1 && 's'}</Box>
+                        <Box className={classes.riposteKpi}>{item.nb_detail_views} détail{item.nb_detail_views > 1 && 's'}</Box>
                     </Grid>
                 </Grid>
                 <Grid container justifyContent="space-between">

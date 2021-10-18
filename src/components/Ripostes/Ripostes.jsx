@@ -47,7 +47,10 @@ const Ripostes = () => {
     const handleActiveItem = async (id) => {
         const item = ripostesItems.find((el) => el.uuid === id);
         const newItem = { ...item, enabled: !item.enabled };
-        setRipostesItems((prev) => prev.filter((el) => el.uuid !== id).concat(newItem).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+        setRipostesItems((prev) => prev
+            .filter((el) => el.uuid !== id)
+            .concat(newItem)
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
         await apiClient.put(`api/v3/ripostes/${newItem.uuid}`, newItem);
         setRefreshPage((p) => p + 1);
     };
