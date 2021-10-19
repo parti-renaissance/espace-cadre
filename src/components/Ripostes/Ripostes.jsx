@@ -74,7 +74,6 @@ const Ripostes = () => {
     useEffect(() => {
         const getRipostes = async () => {
             const ripostesData = await apiClient.get('api/v3/ripostes');
-            ripostesData.reverse();
             setRipostesItems(ripostesData);
         };
 
