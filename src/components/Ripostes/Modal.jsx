@@ -11,10 +11,6 @@ import ModalField from './ModalField';
 import AlertBanner from '../HelperComponents/AlertBanner';
 
 const useStyles = makeStyles((theme) => createStyles({
-    charactersLimit: {
-        fontSize: '10px',
-        color: theme.palette.gray300,
-    },
     paper: {
         padding: '32px',
         width: '664px',
@@ -33,6 +29,13 @@ const useStyles = makeStyles((theme) => createStyles({
         marginTop: '30px',
         cursor: 'pointer',
     },
+    charactersLimit: {
+        fontSize: '10px',
+        color: theme.palette.gray300,
+    },
+    fieldTitle: {
+        fontWeight: '600',
+    },
     textField: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8.35px',
@@ -44,16 +47,13 @@ const useStyles = makeStyles((theme) => createStyles({
         borderRadius: '8px',
     },
     modalButton: {
-        color: theme.palette.riposteColor,
-        background: theme.palette.riposteBackground,
+        color: theme.palette.whiteCorner,
+        background: theme.palette.teal600,
         border: 'none',
         borderRadius: '8.35px',
         '&:hover': {
-            backgroundColor: '#ECFDF5',
+            backgroundColor: theme.palette.teal700,
         },
-    },
-    errorContainer: {
-        marginBottom: '16px',
     },
 }));
 
@@ -113,12 +113,12 @@ const Modal = ({
                         <Box component="span" className={classes.cross} onClick={handleClose}>X</Box>
                     </Grid>
                 </Grid>
-                <Grid container className={classes.errorContainer}>
+                <Grid container className={classes.innerContainer}>
                     {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        Titre <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
+                        <span className={classes.fieldTitle}>Titre</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="title" />
@@ -126,7 +126,7 @@ const Modal = ({
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        Texte <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
+                        <span className={classes.fieldTitle}>Texte</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="body" />
@@ -134,7 +134,7 @@ const Modal = ({
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        URL <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
+                        <span className={classes.fieldTitle}>URL</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="source_url" />

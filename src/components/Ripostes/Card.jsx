@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => createStyles({
         border: `1px solid ${theme.palette.gray200}`,
     },
     active: {
-        color: theme.palette.green700,
+        color: theme.palette.teal700,
         background: theme.palette.activeLabel,
         borderRadius: '19px',
 
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => createStyles({
     editButton: {
         fontSize: '13px',
         fontWeight: '500',
-        color: theme.palette.riposteColor,
+        color: theme.palette.teal700,
         marginTop: '11px',
         '&:hover': {
             background: theme.palette.riposteBackground,
@@ -91,17 +91,17 @@ const Card = ({
                     </Grid>
                     <Grid item>
                         <Box className={`${classes.chip} ${classes.withBorder}`}>
-                            {item.nb_ripostes} riposte{item.nb_ripostes > 1 && 's'}
-                        </Box>
-                    </Grid>
-                    <Grid item>
-                        <Box className={`${classes.chip} ${classes.withBorder}`}>
                             {item.nb_views} vue{item.nb_views > 1 && 's'}
                         </Box>
                     </Grid>
                     <Grid item>
                         <Box className={`${classes.chip} ${classes.withBorder}`}>
                             {item.nb_detail_views} vue{item.nb_detail_views > 1 && 's'} détaillée{item.nb_detail_views > 1 && 's'}
+                        </Box>
+                    </Grid>
+                    <Grid item>
+                        <Box className={`${classes.chip} ${classes.withBorder}`}>
+                            {item.nb_ripostes} riposte{item.nb_ripostes > 1 && 's'}
                         </Box>
                     </Grid>
                 </Grid>

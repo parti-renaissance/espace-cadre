@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => createStyles({
         marginRight: '8px',
     },
     createButton: {
-        color: theme.palette.riposteColor,
+        color: theme.palette.teal700,
         padding: '6px 8px',
     },
     root: {

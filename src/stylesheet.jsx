@@ -39,17 +39,25 @@ const theme = createTheme({
         gray700: '#374151',
         gray800: '#1F2937',
 
+        // Teal
+        teal100: '#CCFBF1',
+        teal200: '#99F6E4',
+        teal300: '#5EEAD4',
+        teal400: '#2DD4BF',
+        teal500: '#14B8A6',
+        teal600: '#0D9488',
+        teal700: '#0F766E',
+        teal800: '#115E59',
+        teal900: '#134E4A',
+
         // Green
         greenCorner: '#008000',
         successButton: '#28A745',
-        green700: '#047857',
 
         // Riposte Color
-        riposteColor: '#0F766E',
         riposteBackground: 'rgba(20, 184, 166, 0.08);',
         activeLabel: 'rgba(4, 120, 87, 0.08)',
         inactiveLabel: 'rgba(220, 38, 38, 0.08)',
-        indigo700: '#4338CA',
 
         // Red
         statusError: '#DA1414',

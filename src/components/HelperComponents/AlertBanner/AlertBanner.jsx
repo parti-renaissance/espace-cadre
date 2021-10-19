@@ -19,7 +19,7 @@ function AlertBanner({ severity, message }) {
     const classes = useStyles();
 
     const formatMessage = () => {
-        if (typeof message === 'object') {
+        if (message && typeof message === 'object') {
             return (
                 <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
                     {message.message}
@@ -44,5 +44,8 @@ export default AlertBanner;
 
 AlertBanner.propTypes = {
     severity: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]).isRequired,
 };
