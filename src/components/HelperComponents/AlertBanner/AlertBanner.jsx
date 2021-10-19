@@ -18,10 +18,25 @@ const useStyles = makeStyles((theme) => createStyles({
 function AlertBanner({ severity, message }) {
     const classes = useStyles();
 
+    const formatMessage = () => {
+        if (typeof message === 'object') {
+            return (
+                <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
+                    {message.message}
+                </Alert>
+            );
+        }
+        return (
+            <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
+                {message}
+            </Alert>
+        );
+    };
+
     return (
-        <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
-            {JSON.stringify(message.message)}
-        </Alert>
+        <>
+            {message && formatMessage()}
+        </>
     );
 }
 
