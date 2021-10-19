@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme) => createStyles({
 function AlertBanner({ severity, message }) {
     const classes = useStyles();
 
-    return (<Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>{message}</Alert>);
+    return (
+        <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
+            {JSON.stringify(message.message)}
+        </Alert>
+    );
 }
 
 export default AlertBanner;

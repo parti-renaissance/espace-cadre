@@ -27,9 +27,7 @@ const ModalField = ({ formik, label }) => {
                 multiline={label === 'body'}
                 id={label}
                 name={label}
-                inputProps={{
-                    maxLength: 255,
-                }}
+                inputProps={{ maxLength: 255 }}
                 value={formik.values[label]}
                 onChange={formik.handleChange}
             />

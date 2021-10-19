@@ -6,11 +6,15 @@ import {
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Alert } from '@material-ui/lab';
 import { apiClient } from '../../services/networking/client';
 import ModalField from './ModalField';
+import AlertBanner from '../HelperComponents/AlertBanner';
 
 const useStyles = makeStyles((theme) => createStyles({
+    charactersLimit: {
+        fontSize: '10px',
+        color: theme.palette.gray300,
+    },
     paper: {
         padding: '32px',
         width: '664px',
@@ -51,6 +55,9 @@ const useStyles = makeStyles((theme) => createStyles({
         '&:hover': {
             background: theme.palette.blueCornerHover,
         },
+    },
+    errorContainer: {
+        marginBottom: '16px',
     },
 }));
 
@@ -94,6 +101,7 @@ const Modal = ({
                 onSubmitRefresh();
                 handleClose();
             } catch (error) {
+                console.log(error);
                 setErrorMessage(error);
             }
         },
@@ -109,12 +117,12 @@ const Modal = ({
                         <Box component="span" className={classes.cross} onClick={handleClose}>X</Box>
                     </Grid>
                 </Grid>
-                <Grid container>
-                    {errorMessage && <Alert severity="error" message={errorMessage} />}
+                <Grid container className={classes.errorContainer}>
+                    {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        Titre
+                        Titre <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="title" />
@@ -122,7 +130,7 @@ const Modal = ({
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        Texte
+                        Texte <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="body" />
@@ -130,7 +138,7 @@ const Modal = ({
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        URL
+                        URL <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="source_url" />
