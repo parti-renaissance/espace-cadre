@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '16px',
         fontWeight: '600',
         color: theme.palette.gray900,
+        width: '400px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
     },
     KpiContainer: {
         marginBottom: '20px',
