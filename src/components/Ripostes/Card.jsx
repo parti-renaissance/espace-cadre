@@ -53,10 +53,10 @@ const useStyles = makeStyles((theme) => createStyles({
     editButton: {
         fontSize: '13px',
         fontWeight: '500',
-        color: theme.palette.indigo700,
+        color: theme.palette.riposteColor,
         marginTop: '11px',
         '&:hover': {
-            background: theme.palette.gray100,
+            background: theme.palette.riposteBackground,
             borderRadius: '8.35px',
         },
     },

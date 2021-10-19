@@ -44,16 +44,12 @@ const useStyles = makeStyles((theme) => createStyles({
         borderRadius: '8px',
     },
     modalButton: {
-        border: `1px solid ${theme.palette.gray200}`,
+        color: theme.palette.riposteColor,
+        background: theme.palette.riposteBackground,
+        border: 'none',
         borderRadius: '8.35px',
-        background: theme.palette.blueCorner,
-        color: theme.palette.whiteCorner,
-        '&:disabled': {
-            color: theme.palette.blackCorner,
-            background: theme.palette.gray200,
-        },
         '&:hover': {
-            background: theme.palette.blueCornerHover,
+            backgroundColor: '#ECFDF5',
         },
     },
     errorContainer: {

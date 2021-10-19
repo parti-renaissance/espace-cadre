@@ -45,8 +45,8 @@ const theme = createTheme({
         green700: '#047857',
 
         // Riposte Color
-        riposteActionButton: 'rgba(20, 184, 166, 0.08)',
-        teal700: '#0F766E',
+        riposteColor: '#0F766E',
+        riposteBackground: 'rgba(20, 184, 166, 0.08);',
         activeLabel: 'rgba(4, 120, 87, 0.08)',
         inactiveLabel: 'rgba(220, 38, 38, 0.08)',
         indigo700: '#4338CA',
