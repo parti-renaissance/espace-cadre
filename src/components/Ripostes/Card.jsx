@@ -47,6 +47,11 @@ const useStyles = makeStyles((theme) => createStyles({
         overflow: 'hidden',
         textOverflow: 'ellipsis',
     },
+    creator: {
+        fontSize: '12px',
+        fontWeight: '400',
+        color: theme.palette.gray600,
+    },
     KpiContainer: {
         marginBottom: '20px',
     },
@@ -84,6 +89,7 @@ const Card = ({
                 </Grid>
                 <Grid container className={classes.container}>
                     <Grid item className={classes.title}>{item.title}</Grid>
+                    <Grid item className={classes.creator}>{item.creator}</Grid>
                 </Grid>
                 <Grid container spacing={1} className={classes.KpiContainer}>
                     <Grid item>
