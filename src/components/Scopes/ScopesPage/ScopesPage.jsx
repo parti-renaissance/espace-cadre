@@ -38,18 +38,21 @@ function ScopesPage() {
             </Grid>
             {filteredScopes?.length > 0 && (
                 <Grid container className="secondary-scope-card-container">
-                    {filteredScopes.map((userScope, index) => (
-                        <Link
-                            className="secondary-card"
-                            to="/"
-                            key={index + 1}
-                            value={userScope}
-                            onClick={() => updateCurrentScope(userScope)}
-                        >
-                            <Box className="role">{userScope.name}</Box>
-                            {scopeContent(userScope)}
-                        </Link>
-                    ))}
+                    {filteredScopes.map((userScope, index) => {
+                        const to = userScope.code === 'phoning_national_manager' ? '/equipes' : '/';
+                        return (
+                            <Link
+                                className="secondary-card"
+                                to={to}
+                                key={index + 1}
+                                value={userScope}
+                                onClick={() => updateCurrentScope(userScope)}
+                            >
+                                <Box className="role">{userScope.name}</Box>
+                                {scopeContent(userScope)}
+                            </Link>
+                        );
+                    })}
                 </Grid>
             )}
         </Container>

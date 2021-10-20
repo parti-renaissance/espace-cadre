@@ -12,7 +12,6 @@ export const useUserScope = () => {
 
     return [currentScope, async (scope) => {
         const authorizedPage = await apiClient.get(`/v3/profile/me/scope/${scope.code}`);
-
         dispatch(updateCurrentScope(scope));
         dispatch(updateAuthorizedPages(authorizedPage.features));
         dispatch(resetStatsState());

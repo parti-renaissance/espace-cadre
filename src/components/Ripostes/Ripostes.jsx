@@ -4,8 +4,8 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { apiClient } from '../../services/networking/client';
-import CardComponent from './Card';
-import Modal from './Modal';
+import CardComponent from './CardComponent';
+import RipostesModal from './RipostesModal';
 
 const useStyles = makeStyles((theme) => createStyles({
     riposteContainer: {
@@ -103,7 +103,7 @@ const Ripostes = () => {
                         />
                     ))}
                 </Grid>
-                <Modal
+                <RipostesModal
                     open={open}
                     handleClose={handleClose}
                     riposteItem={currentItem}

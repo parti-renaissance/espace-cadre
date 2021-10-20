@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const Card = ({
+const CardComponent = ({
     item, handleClickOpen, handleActiveItem,
 }) => {
     const classes = useStyles();
@@ -88,8 +88,8 @@ const Card = ({
                     </Grid>
                 </Grid>
                 <Grid container className={classes.container}>
-                    <Grid item className={classes.title}>{item.title}</Grid>
-                    <Grid item className={classes.creator}>{item.creator}</Grid>
+                    <Grid item className={classes.title} title={item.title}>{item.title}</Grid>
+                    <Grid item className={classes.creator}>Par {item.creator}</Grid>
                 </Grid>
                 <Grid container spacing={1} className={classes.KpiContainer}>
                     <Grid item>
@@ -128,9 +128,9 @@ const Card = ({
     );
 };
 
-export default Card;
+export default CardComponent;
 
-Card.propTypes = {
+CardComponent.propTypes = {
     item: PropTypes.object.isRequired,
     handleClickOpen: PropTypes.func.isRequired,
     handleActiveItem: PropTypes.func.isRequired,

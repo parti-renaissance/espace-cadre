@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -75,15 +75,19 @@ function Scopes() {
     const userScopes = useSelector(getUserScopes);
     const history = useHistory();
     const filteredScopes = userScopes.filter((scope) => scope.apps.includes('data_corner'));
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const classes = useStyles();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const redirect = () => {
-        history.push('/');
+    const redirect = (scope) => {
+        if (scope.code === 'phoning_national_manager') {
+            history.push('/equipes');
+        } else {
+            history.push('/');
+        }
     };
 
     const handleClose = () => {
@@ -93,7 +97,7 @@ function Scopes() {
     const handleChange = (userScope) => {
         updateCurrentScope(userScope);
         setAnchorEl(null);
-        redirect();
+        redirect(userScope);
     };
 
     const scopesContent = (scope) => {
@@ -144,7 +148,7 @@ function Scopes() {
                                 <span
                                     style={{ backgroundColor: (userScope?.code === currentScope?.code ? '#D9EAFF' : '#F7F9FC') }}
                                     className={classes.menuItem}
-                                >{userScope.name} <br />
+                                >{userScope?.name} <br />
                                     {scopesContent(userScope)}
                                 </span>
                             </MenuItem>
