@@ -64,10 +64,10 @@ export const PATHS = {
         icon: 'fas fa-hashtag',
     },
     TEAMS: {
-        id: 'equipes',
+        id: 'team',
         route: '/equipes',
         url: () => '/equipes',
-        label: 'Equipes',
+        label: 'Équipes',
         icon: 'fas fa-star',
     },
 };

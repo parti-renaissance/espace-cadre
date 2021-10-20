@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-    Grid, Button, Menu, MenuItem, Divider, makeStyles, createStyles, Box,
+    Grid, Button, Menu, MenuItem, Divider, Box, makeStyles, createStyles,
 } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => createStyles({
         '&:not(:last-child)': {
             marginBottom: '8px',
         },
+    },
+    list: {
+        maxHeight: '500px',
     },
     menuPaper: {
         marginTop: '50px',
@@ -116,7 +119,7 @@ function Scopes() {
                         keepMounted
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
-                        classes={{ paper: classes.menuPaper }}
+                        classes={{ paper: classes.menuPaper, list: classes.list }}
                     >
                         <MenuItem
                             classes={{ root: classes.root }}
@@ -141,7 +144,7 @@ function Scopes() {
                                 <span
                                     style={{ backgroundColor: (userScope?.code === currentScope?.code ? '#D9EAFF' : '#F7F9FC') }}
                                     className={classes.menuItem}
-                                >{userScope?.name} <br />
+                                >{userScope.name} <br />
                                     {scopesContent(userScope)}
                                 </span>
                             </MenuItem>
