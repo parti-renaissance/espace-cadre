@@ -6,9 +6,9 @@ import {
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Alert } from '@material-ui/lab';
 import { apiClient } from '../../services/networking/client';
 import ModalField from './ModalField';
+import AlertBanner from '../HelperComponents/AlertBanner';
 
 const useStyles = makeStyles((theme) => createStyles({
     paper: {
@@ -29,6 +29,13 @@ const useStyles = makeStyles((theme) => createStyles({
         marginTop: '30px',
         cursor: 'pointer',
     },
+    charactersLimit: {
+        fontSize: '10px',
+        color: theme.palette.gray300,
+    },
+    fieldTitle: {
+        fontWeight: '600',
+    },
     textField: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8.35px',
@@ -40,16 +47,12 @@ const useStyles = makeStyles((theme) => createStyles({
         borderRadius: '8px',
     },
     modalButton: {
-        border: `1px solid ${theme.palette.gray200}`,
-        borderRadius: '8.35px',
-        background: theme.palette.blueCorner,
         color: theme.palette.whiteCorner,
-        '&:disabled': {
-            color: theme.palette.blackCorner,
-            background: theme.palette.gray200,
-        },
+        background: theme.palette.teal600,
+        border: 'none',
+        borderRadius: '8.35px',
         '&:hover': {
-            background: theme.palette.blueCornerHover,
+            backgroundColor: theme.palette.teal700,
         },
     },
 }));
@@ -94,6 +97,7 @@ const Modal = ({
                 onSubmitRefresh();
                 handleClose();
             } catch (error) {
+                console.log(error);
                 setErrorMessage(error);
             }
         },
@@ -109,12 +113,12 @@ const Modal = ({
                         <Box component="span" className={classes.cross} onClick={handleClose}>X</Box>
                     </Grid>
                 </Grid>
-                <Grid container>
-                    {errorMessage && <Alert severity="error" message={errorMessage} />}
+                <Grid container className={classes.innerContainer}>
+                    {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        Titre
+                        <span className={classes.fieldTitle}>Titre</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="title" />
@@ -122,7 +126,7 @@ const Modal = ({
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        Texte
+                        <span className={classes.fieldTitle}>Texte</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="body" />
@@ -130,7 +134,7 @@ const Modal = ({
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        URL
+                        <span className={classes.fieldTitle}>URL</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
                         <ModalField formik={formik} label="source_url" />

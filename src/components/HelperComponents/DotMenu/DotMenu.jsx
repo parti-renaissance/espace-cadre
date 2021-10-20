@@ -7,13 +7,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => createStyles({
+    iconButton: {
+        marginTop: '10px',
+    },
     root: {
         fontSize: '13px',
-        padding: '4px 12px',
+        padding: '4px 8px',
+        border: `1px solid ${theme.palette.gray100}`,
         borderRadius: '8.35px',
-        background: theme.palette.gray100,
+        background: theme.palette.whiteCorner,
         '&:hover': {
-            background: theme.palette.gray200,
+            background: theme.palette.gray100,
         },
     },
 }));
@@ -29,6 +33,8 @@ const DotMenu = ({ item, handleActiveItem }) => {
     return (
         <div>
             <IconButton
+                size="small"
+                className={classes.iconButton}
                 aria-label="more"
                 aria-controls="simple-menu"
                 aria-haspopup="true"

@@ -8,14 +8,16 @@ import CardComponent from './Card';
 import Modal from './Modal';
 
 const useStyles = makeStyles((theme) => createStyles({
+    riposteContainer: {
+        marginBottom: '16px',
+    },
     pageTitle: {
         fontSize: '24px',
         fontWeight: '400',
         color: theme.palette.gray800,
     },
     buttonContainer: {
-        color: theme.palette.teal700,
-        background: theme.palette.riposteActionButton,
+        background: theme.palette.riposteBackground,
         borderRadius: '8.35px',
         marginBottom: '32px',
     },
@@ -74,7 +76,6 @@ const Ripostes = () => {
     useEffect(() => {
         const getRipostes = async () => {
             const ripostesData = await apiClient.get('api/v3/ripostes');
-            ripostesData.reverse();
             setRipostesItems(ripostesData);
         };
 
@@ -82,7 +83,7 @@ const Ripostes = () => {
     }, [refreshPage]);
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" className={classes.riposteContainer}>
             <Grid container justifyContent="space-between">
                 <Grid item className={classes.pageTitle}>
                     Riposte
