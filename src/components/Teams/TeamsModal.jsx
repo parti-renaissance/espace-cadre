@@ -92,7 +92,7 @@ const TeamsModal = ({
             <form onSubmit={formik.handleSubmit}>
                 <Grid container justifyContent="space-between" className={classes.innerContainer}>
                     <Grid item>
-                        <Box component="span" className={classes.modalTitle}>Créer ou modifier une riposte</Box>
+                        <Box component="span" className={classes.modalTitle}>Créer ou modifier une équipe</Box>
                     </Grid>
                     <Grid item>
                         <Box component="span" className={classes.cross} onClick={handleClose}>X</Box>
