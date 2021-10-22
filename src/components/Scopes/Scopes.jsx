@@ -129,9 +129,9 @@ function Scopes() {
                             </a>
                         </MenuItem>
 
-                        {filteredScopes && filteredScopes.length > 1 && <Divider className={classes.divider} />}
+                        {filteredScopes?.length > 1 && <Divider className={classes.divider} />}
 
-                        {filteredScopes && filteredScopes.map((userScope, i) => (
+                        {filteredScopes?.map((userScope, i) => (
                             <MenuItem
                                 key={i}
                                 onClick={() => handleChange(userScope)}
@@ -139,9 +139,9 @@ function Scopes() {
                                 classes={{ root: classes.root }}
                             >
                                 <span
-                                    style={{ backgroundColor: (userScope && userScope.code === currentScope.code ? '#D9EAFF' : '#F7F9FC') }}
+                                    style={{ backgroundColor: (userScope?.code === currentScope?.code ? '#D9EAFF' : '#F7F9FC') }}
                                     className={classes.menuItem}
-                                >{userScope && userScope.name} <br />
+                                >{userScope?.name} <br />
                                     {scopesContent(userScope)}
                                 </span>
                             </MenuItem>
