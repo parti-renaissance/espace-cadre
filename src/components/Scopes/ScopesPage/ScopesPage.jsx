@@ -30,13 +30,13 @@ function ScopesPage() {
             </Grid>
             <Grid container className="main-scope-card">
                 <Grid item xs={12}>
-                    <Box className="main-card-title">{currentUser.firstName} {currentUser.lastName}</Box>
+                    <Box className="main-card-title">{currentUser?.firstName} {currentUser?.lastName}</Box>
                 </Grid>
                 <Grid item xs={12}>
-                    <Box className="main-card-role">{filteredScopes.length} rôles</Box>
+                    <Box className="main-card-role">{filteredScopes?.length} rôles</Box>
                 </Grid>
             </Grid>
-            {filteredScopes.length > 0 && (
+            {filteredScopes?.length > 0 && (
                 <Grid container className="secondary-scope-card-container">
                     {filteredScopes.map((userScope, index) => (
                         <Link
