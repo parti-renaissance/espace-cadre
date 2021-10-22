@@ -11,6 +11,16 @@ function ScopesPage() {
     const [, updateCurrentScope] = useUserScope();
     const filteredScopes = userScopes.filter((scope) => scope.apps.includes('data_corner'));
 
+    const scopeContent = (scope) => {
+        if (scope?.zones?.length === 1) {
+            return <Box className="zone">{scope.zones[0].name} ({scope.zones[0].code})</Box>;
+        }
+        if (scope?.zones?.length > 1) {
+            return <Box className="zone">{`${scope.zones[0].name} (${scope.zones[0].code})`} + {scope.zones.slice(1).length} zone{scope.zones.slice(1).length > 1 && 's'}</Box>;
+        }
+        return null;
+    };
+
     return (
         <Container maxWidth="xl" className="scopes-page-container">
             <Grid container className="logo-title-container">
@@ -37,16 +47,7 @@ function ScopesPage() {
                             onClick={() => updateCurrentScope(userScope)}
                         >
                             <Box className="role">{userScope.name}</Box>
-                            {
-                                userScope.zones.length > 1
-                                    ? (
-                                        <>
-                                            <Box className="zone">{`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length} zone{userScope.zones.slice(1).length > 1 && 's'}</Box>
-                                        </>
-                                    )
-                                    : <Box className="zone">{userScope.zones[0].name} ({userScope.zones[0].code})</Box>
-                            }
-
+                            {scopeContent(userScope)}
                         </Link>
                     ))}
                 </Grid>

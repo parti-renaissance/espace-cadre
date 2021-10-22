@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-    Grid, Button, Menu, MenuItem, Divider, makeStyles, createStyles,
+    Grid, Button, Menu, MenuItem, Divider, makeStyles, createStyles, Box,
 } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
@@ -93,9 +93,19 @@ function Scopes() {
         redirect();
     };
 
+    const scopesContent = (scope) => {
+        if (scope?.zones?.length === 1) {
+            return <Box className="zone">{scope.zones[0].name} ({scope.zones[0].code})</Box>;
+        }
+        if (scope?.zones?.length > 1) {
+            return <Box className="zone">{`${scope.zones[0].name} (${scope.zones[0].code})`} + {scope.zones.slice(1).length} zone{scope.zones.slice(1).length > 1 && 's'}</Box>;
+        }
+        return null;
+    };
+
     return (
         <Grid className="scopes-container">
-            {currentUser && filteredScopes.length > 0 && (
+            {currentUser && filteredScopes?.length > 0 && (
                 <>
                     <Button onClick={handleClick} className={classes.scopeButton}>
                         <span className={classes.activeScope}>{currentUser.firstName} {currentUser.lastName}</span>
@@ -119,9 +129,9 @@ function Scopes() {
                             </a>
                         </MenuItem>
 
-                        {filteredScopes.length > 1 && <Divider className={classes.divider} />}
+                        {filteredScopes && filteredScopes.length > 1 && <Divider className={classes.divider} />}
 
-                        {filteredScopes.map((userScope, i) => (
+                        {filteredScopes && filteredScopes.map((userScope, i) => (
                             <MenuItem
                                 key={i}
                                 onClick={() => handleChange(userScope)}
@@ -129,14 +139,10 @@ function Scopes() {
                                 classes={{ root: classes.root }}
                             >
                                 <span
-                                    style={{ backgroundColor: (userScope.code === currentScope.code ? '#D9EAFF' : '#F7F9FC') }}
+                                    style={{ backgroundColor: (userScope && userScope.code === currentScope.code ? '#D9EAFF' : '#F7F9FC') }}
                                     className={classes.menuItem}
-                                >{userScope.name} <br />
-                                    {
-                                        userScope.zones.length > 1
-                                            ? <span className={classes.profilePlace}>{`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length} zone{userScope.zones.slice(1).length > 1 && 's'}</span>
-                                            : <span className={classes.profilePlace}>{userScope.zones[0].name} {`(${userScope.zones[0].code})`}</span>
-                                    }
+                                >{userScope && userScope.name} <br />
+                                    {scopesContent(userScope)}
                                 </span>
                             </MenuItem>
                         ))}
