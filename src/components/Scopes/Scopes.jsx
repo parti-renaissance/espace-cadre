@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-    Grid, Button, Menu, MenuItem, Divider, makeStyles, createStyles, Box,
+    Grid, Button, Menu, MenuItem, Divider, Box, makeStyles, createStyles,
 } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors';
 import { useUserScope } from '../../redux/user/hooks';
@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => createStyles({
         '&:not(:last-child)': {
             marginBottom: '8px',
         },
+    },
+    list: {
+        maxHeight: '500px',
     },
     menuPaper: {
         marginTop: '50px',
@@ -72,15 +75,19 @@ function Scopes() {
     const userScopes = useSelector(getUserScopes);
     const history = useHistory();
     const filteredScopes = userScopes.filter((scope) => scope.apps.includes('data_corner'));
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const classes = useStyles();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const redirect = () => {
-        history.push('/');
+    const redirect = (scope) => {
+        if (scope.code === 'phoning_national_manager') {
+            history.push('/equipes');
+        } else {
+            history.push('/');
+        }
     };
 
     const handleClose = () => {
@@ -90,7 +97,7 @@ function Scopes() {
     const handleChange = (userScope) => {
         updateCurrentScope(userScope);
         setAnchorEl(null);
-        redirect();
+        redirect(userScope);
     };
 
     const scopesContent = (scope) => {
@@ -116,7 +123,7 @@ function Scopes() {
                         keepMounted
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
-                        classes={{ paper: classes.menuPaper }}
+                        classes={{ paper: classes.menuPaper, list: classes.list }}
                     >
                         <MenuItem
                             classes={{ root: classes.root }}

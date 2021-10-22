@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { apiClient } from '../../services/networking/client';
-import ModalField from './ModalField';
+import TextFieldComponent from '../HelperComponents/TextFieldComponent';
 import AlertBanner from '../HelperComponents/AlertBanner';
 
 const useStyles = makeStyles((theme) => createStyles({
@@ -70,7 +70,7 @@ const riposteSchema = Yup.object({
         .required('Url obligatoire'),
 });
 
-const Modal = ({
+const RipostesModal = ({
     handleClose, riposteItem, onSubmitRefresh, open,
 }) => {
     const classes = useStyles();
@@ -97,7 +97,6 @@ const Modal = ({
                 onSubmitRefresh();
                 handleClose();
             } catch (error) {
-                console.log(error);
                 setErrorMessage(error);
             }
         },
@@ -121,7 +120,7 @@ const Modal = ({
                         <span className={classes.fieldTitle}>Titre</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <ModalField formik={formik} label="title" />
+                        <TextFieldComponent formik={formik} label="title" />
                     </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
@@ -129,7 +128,7 @@ const Modal = ({
                         <span className={classes.fieldTitle}>Texte</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <ModalField formik={formik} label="body" />
+                        <TextFieldComponent formik={formik} label="body" />
                     </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
@@ -137,7 +136,7 @@ const Modal = ({
                         <span className={classes.fieldTitle}>URL</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <ModalField formik={formik} label="source_url" />
+                        <TextFieldComponent formik={formik} label="source_url" />
                     </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
@@ -184,15 +183,15 @@ const Modal = ({
     );
 };
 
-export default Modal;
+export default RipostesModal;
 
-Modal.defaultProps = {
+RipostesModal.defaultProps = {
     handleClose: () => {},
     onSubmitRefresh: () => {},
     riposteItem: null,
 };
 
-Modal.propTypes = {
+RipostesModal.propTypes = {
     handleClose: PropTypes.func,
     onSubmitRefresh: PropTypes.func,
     riposteItem: PropTypes.object,

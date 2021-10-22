@@ -4,7 +4,7 @@ import {
     makeStyles, createStyles, TextField,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import AlertBanner from '../HelperComponents/AlertBanner';
+import AlertBanner from '../AlertBanner';
 
 const useStyles = makeStyles((theme) => createStyles({
     textField: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const ModalField = ({ formik, label }) => {
+const TextFieldComponent = ({ formik, label }) => {
     const classes = useStyles();
 
     return (
@@ -36,9 +36,9 @@ const ModalField = ({ formik, label }) => {
     );
 };
 
-export default ModalField;
+export default TextFieldComponent;
 
-ModalField.propTypes = {
+TextFieldComponent.propTypes = {
     formik: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
 };
