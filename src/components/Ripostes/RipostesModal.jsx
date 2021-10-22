@@ -113,7 +113,9 @@ const RipostesModal = ({
                     </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
-                    {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
+                    <Grid item xs={12}>
+                        {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
+                    </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
