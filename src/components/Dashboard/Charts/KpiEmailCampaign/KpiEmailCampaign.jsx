@@ -26,7 +26,7 @@ function KpiEmailCampaign() {
             }
         };
         getEmailCampaign();
-    }, [emailCampaign]);
+    }, [currentScope, emailCampaign, setEmailCampaign]);
 
     const emailCampaignContent = () => {
         if (emailCampaign !== null) {

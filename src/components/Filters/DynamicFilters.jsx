@@ -33,7 +33,7 @@ const DynamicFilters = ({
         };
 
         getColumnsTitle();
-    }, [filters]);
+    }, [feature, filters]);
 
     if (!filters.length) {
         return null;

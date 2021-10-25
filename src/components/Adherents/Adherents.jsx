@@ -47,7 +47,7 @@ function Adherents() {
         };
 
         getColumnsTitle();
-    }, [columnsTitle]);
+    }, [columnsTitle, setColumnsTitle]);
 
     useEffect(() => {
         const getAdherents = async () => {

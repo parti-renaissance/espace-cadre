@@ -18,24 +18,36 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks"
     ],
     "rules": {
-        "no-console": "off",
-        "indent": ["error", 4],
-        "react/jsx-indent": ["error", 4],
-        "react/jsx-indent-props": ["error", 4],
-        "no-param-reassign": [2, {"props": false}],
+        "eqeqeq": "error",
         "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.jsx", "src/setupTests.js"]}],
-        "react/jsx-one-expression-per-line": [0],
+        "indent": ["error", 4],
         "jsx-a11y/control-has-associated-label": [0],
-        "react/no-array-index-key": [0],
+        "jsx-quotes": ["error", "prefer-double"],
         "max-len": ["error", {
             "code": 200,
             "ignoreRegExpLiterals": true,
             "ignoreTemplateLiterals": true,
             "ignoreStrings": true,
             "ignoreTrailingComments": true
-        }]
+        }],
+        "no-console": "error",
+        "no-alert": "error",
+        "no-bitwise": "error",
+        "no-duplicate-imports": "error",
+        "no-else-return": "error",
+        "no-param-reassign": [2, {"props": false}],
+        "no-self-compare": "error",
+        "no-shadow": "off",
+        "quotes": ["error", "single", { "avoidEscape": true }],
+        "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
+        "react/jsx-one-expression-per-line": [0],
+        "react/no-array-index-key": [0],
+        "react-hooks/exhaustive-deps": "error",
+        "react/react-in-jsx-scope": "off"
     }
 }

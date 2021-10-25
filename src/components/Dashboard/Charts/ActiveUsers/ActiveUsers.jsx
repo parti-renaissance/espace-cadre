@@ -31,7 +31,7 @@ function ActiveUsers() {
             }
         };
         getDashboardUsers();
-    }, [dashboardUsers]);
+    }, [currentScope, dashboardUsers, setDashboardUsers]);
 
     const dashboardUsersContent = () => {
         if (dashboardUsers !== null && dashboardUsers.users.length > 0) {
