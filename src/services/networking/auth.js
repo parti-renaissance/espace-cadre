@@ -11,7 +11,7 @@ const authCall = async (payload) => {
 
         return result.data;
     } catch (error) {
-        console.log(error);
+        // TODO : Error management
     }
 
     return {};

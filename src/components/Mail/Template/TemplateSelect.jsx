@@ -47,7 +47,6 @@ const TemplateSelect = () => {
             setTemplate((state) => ({ ...state, current_template: '' }));
             break;
         default:
-            console.log('Sorry, we are out.');
         }
     };
 
@@ -114,18 +113,17 @@ const TemplateSelect = () => {
         }));
     }
 
-    const loadingTemplate = async () => {
-        if (template.current_template !== '' && template.current_template.value !== undefined) {
-            const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
-            setContent({ ...content, ...{ design: JSON.parse(result.content), externalUpdate: true } });
-        }
-    };
-
     useEffect(() => {
+        const loadingTemplate = async () => {
+            if (template.current_template !== '' && template.current_template.value !== undefined) {
+                const result = await apiClient.get(`/v3/email_templates/${template.current_template.value}`);
+                setContent({ ...content, ...{ design: JSON.parse(result.content), externalUpdate: true } });
+            }
+        };
         if (template.current_template !== '' && template.current_template.value !== template.current_template.label) {
             loadingTemplate();
         }
-    }, [template.current_template]);
+    }, [content, setContent, template.current_template]);
 
     useEffect(() => {
         loadTemplates();

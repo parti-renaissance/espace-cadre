@@ -26,7 +26,7 @@ function MapComponent() {
             }
         };
         getSurvey();
-    }, [dashboardSurvey]);
+    }, [currentScope, dashboardSurvey, setDashboardSurvey]);
 
     L.Icon.Default.imagePath = 'images/';
 

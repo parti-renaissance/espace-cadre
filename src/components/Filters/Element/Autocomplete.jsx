@@ -43,7 +43,7 @@ const Autocomplete = ({
             setOptions(unionBy(selectedItems, data, 'uuid'));
             setLoading(false);
         });
-    }, [value, inputValue]);
+    }, [value, inputValue, selectedItems, uri, queryParam]);
 
     return (
         <MuiAutocomplete

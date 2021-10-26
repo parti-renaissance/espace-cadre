@@ -42,7 +42,7 @@ const Editor = () => {
 
     const onLoadEditor = useCallback(() => {
         const timer = setInterval(() => {
-            if (emailEditorRef && emailEditorRef.current && emailEditorRef.current.editor) {
+            if (emailEditorRef?.current?.editor) {
                 const callback = () => emailEditorRef.current.exportHtml(
                     (event) => setContent({ design: event.design, chunks: event.chunks, externalUpdate: false }),
                 );
@@ -53,7 +53,7 @@ const Editor = () => {
                 clearInterval(timer);
             }
         }, 500);
-    }, [emailEditorRef]);
+    }, [setContent]);
 
     useEffect(() => {
         if (content && content.design && content.externalUpdate) {
