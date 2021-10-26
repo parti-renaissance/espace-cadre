@@ -3,7 +3,9 @@ import React from 'react';
 import {
     makeStyles, createStyles, Grid, Paper, Button,
 } from '@material-ui/core';
+import { Link, generatePath } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import PATHS from '../../paths';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const CardComponent = ({
-    item, handleClickOpen,
+    item,
 }) => {
     const classes = useStyles();
 
@@ -66,11 +68,13 @@ const CardComponent = ({
                 </Grid>
                 <Grid container className={classes.buttonContainer}>
                     <Grid item>
-                        <Button
-                            className={classes.editButton}
-                            onClick={() => handleClickOpen(item.uuid)}
-                        >Éditer
-                        </Button>
+                        <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId: item.uuid })}>
+                            <Button
+                                className={classes.editButton}
+                            >
+                                Voir
+                            </Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </Paper>
@@ -82,5 +86,4 @@ export default CardComponent;
 
 CardComponent.propTypes = {
     item: PropTypes.object.isRequired,
-    handleClickOpen: PropTypes.func.isRequired,
 };

@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import ClearIcon from '@material-ui/icons/Clear';
 import { apiClient } from '../../services/networking/client';
 import AlertBanner from '../HelperComponents/AlertBanner';
 import TextFieldComponent from '../HelperComponents/TextFieldComponent';
@@ -95,7 +96,7 @@ const TeamsModal = ({
                         <Box component="span" className={classes.modalTitle}>Créer ou modifier une équipe</Box>
                     </Grid>
                     <Grid item>
-                        <Box component="span" className={classes.cross} onClick={handleClose}>X</Box>
+                        <Box component="span" className={classes.cross} onClick={handleClose}><ClearIcon /></Box>
                     </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
