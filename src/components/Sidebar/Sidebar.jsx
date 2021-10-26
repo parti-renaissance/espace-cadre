@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { useSelector } from 'react-redux';
-import MentionsLegales from '../MentionsLegales/MentionsLegales';
+import { makeStyles } from '@material-ui/core';
+
 import { getAuthorizedPages } from '../../redux/user/selectors';
 import Scopes from '../Scopes';
-
 import { MENU } from '../../Routes';
+import Icons from '../../icons';
+
+import { UINavItem } from '../../ui';
+import MentionsLegales from '../MentionsLegales/MentionsLegales';
+
+const useStyles = makeStyles((theme) => ({
+  navMenu: {
+    marginTop: theme.spacing(7),
+  },
+}));
 
 const Sidebar = () => {
     const authorizedPage = useSelector(getAuthorizedPages);
     const filteredMenu = MENU.filter((item) => authorizedPage && authorizedPage.includes(item.id));
+    const classes = useStyles();
 
     useEffect(() => {
         $('#sidebar-collapse-button').on('click', () => {
@@ -29,16 +40,11 @@ const Sidebar = () => {
                     </div>
                 </Link>
                 <Scopes />
-                <ul id="main-nav">
-                    {filteredMenu.map((item, index) => (
-                        <li key={index}>
-                            <NavLink to={item.url()} exact className="nav-link">
-                                {item.icon && <i className={`${item.icon}`} />}
-                                {item.label}
-                            </NavLink>
-                        </li>
+                <div className={classes.navMenu}>
+                    {filteredMenu.map((item) => (
+                      <UINavItem key={item.id} path={item.url} label={item.label} icon={Icons[item.id]} />
                     ))}
-                </ul>
+                </div>
                 <MentionsLegales />
             </div>
         </>
