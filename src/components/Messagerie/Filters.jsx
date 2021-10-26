@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import {
-    Box, Button, Container, Grid, makeStyles,
+    Box, Button, CircularProgress, Container, Grid, Link, makeStyles,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import DynamicFilters from '../../Filters/DynamicFilters';
-import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
-import { apiClient } from '../../../services/networking/client';
-import { useUserScope } from '../../../redux/user/hooks';
-import useRetry from '../../Filters/useRetry';
-import Loader from '../../HelperComponents/Loader';
-import ErrorComponent from '../../ErrorComponent';
-import ModalComponent from '../Filters/ModalComponent';
+import { useHistory, useParams } from 'react-router-dom';
+import DynamicFilters from '../Filters/DynamicFilters';
+import { useResetMessagerieState } from '../../redux/messagerie/hooks';
+import { useUserScope } from '../../redux/user/hooks';
+import useRetry from '../Filters/useRetry';
+import { apiClient } from '../../services/networking/client';
+import PATHS from '../../paths';
+import ErrorComponent from '../ErrorComponent';
+import Loader from '../HelperComponents/Loader';
+import ModalComponent from './Component/ModalComponent';
+import { FEATURE_MESSAGES } from '../Feature/FeatureCode';
+import Spinner from '../HelperComponents/Spinner';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -72,7 +76,7 @@ const Filters = () => {
     const [loadingTestButton, setLoadingTestButton] = useState(false);
     const [loadingSendButton, setLoadingSendButton] = useState(BUTTON_INITIAL_STATE);
     const [open, setOpen] = useState(false);
-    const [, audienceSegment, launch] = useRetry(async (segmentUuid) => {
+    const [loadingSegment, audienceSegment, launch] = useRetry(async (segmentUuid) => {
         const result = await apiClient.get(`/v3/audience-segments/${segmentUuid}`);
         return result;
     }, duration, count);
@@ -107,8 +111,8 @@ const Filters = () => {
         let callCount = 0;
         const timer = setInterval(async () => {
             const emailStatusResponse = await apiClient.get(`/v3/adherent_messages/${messageUuid}`);
-            // eslint-disable-next-line no-plusplus
-            if (++callCount >= 10 || (emailStatusResponse.synchronized === true)) {
+            callCount += 1;
+            if (callCount >= 10 || (emailStatusResponse.synchronized === true)) {
                 clearInterval(timer);
                 if (emailStatusResponse.synchronized === true) {
                     const responseSend = await apiClient.post(`/v3/adherent_messages/${messageUuid}/send`);
@@ -154,11 +158,14 @@ const Filters = () => {
                         />
                     </Grid>
                     <Grid container>
-                        {audienceSegment && (
-                            <Grid item xs={12} className={classes.addresseesContainer}>
-                                Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}
-                            </Grid>
-                        )}
+                        <Grid item xs={12} className={classes.addresseesContainer}>
+                            {audienceSegment && (
+                                <div style={{ height: '45px' }}>Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}</div>
+                            )}
+                            {loadingSegment && (
+                                <CircularProgress style={{ color: '#0049C6' }} />
+                            )}
+                        </Grid>
                     </Grid>
                     <Grid item xs={12}>
                         <Button

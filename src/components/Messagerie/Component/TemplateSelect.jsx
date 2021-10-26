@@ -48,18 +48,18 @@ const TemplateSelect = () => {
     const handleSelectChange = (selected, action) => {
         switch (action.action) {
         case 'select-option':
-        case 'clear':
+        case 'clear': {
             setSelectedTemplate(selected);
             break;
-        case 'create-option':
-            // eslint-disable-next-line no-case-declarations
+        }
+        case 'create-option': {
             const newOption = { label: selected.label, value: null, isNew: true };
             setOptions((prevState) => prevState.concat([newOption]));
             setSelectedTemplate(newOption);
             setButtonDisabled(false);
             break;
+        }
         default:
-            console.log('Sorry, we are out.');
         }
     };
 
@@ -72,12 +72,10 @@ const TemplateSelect = () => {
             content: JSON.stringify(messageTemplate.design),
         };
 
-        let templateStatusResponse = null;
-
         if (selectedTemplate.value) {
-            templateStatusResponse = await updateTemplate(bodyreq, selectedTemplate.value);
+            await updateTemplate(bodyreq, selectedTemplate.value);
         } else {
-            templateStatusResponse = await createTemplate(bodyreq);
+            const templateStatusResponse = await createTemplate(bodyreq);
 
             if (templateStatusResponse.uuid) {
                 setOptions(options.map((option) => {
