@@ -68,6 +68,10 @@ const COMPONENTS = [
         path: PATHS.TEAMS,
         component: Teams,
     },
+    {
+        path: PATHS.TEAMS,
+        component: Teams,
+    },
 ];
 
 const Routes = () => {
