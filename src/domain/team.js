@@ -11,7 +11,7 @@ export class Team {
 }
 
 export class TeamMember {
-    constructor(id, firstname, lastname, postalCode, registeredAt) {
+    constructor(id, firstname, lastname, registeredAt, postalCode) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -21,7 +21,7 @@ export class TeamMember {
 }
 
 TeamMember.propTypes = PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     firstname: PropTypes.string.isRequired,
     lastname: PropTypes.string.isRequired,
     registeredAt: PropTypes.string.isRequired,
@@ -29,8 +29,8 @@ TeamMember.propTypes = PropTypes.shape({
 });
 
 Team.propTypes = PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    creator: PropTypes.string.isRequired,
-    members: TeamMember.propTypes.isRequired,
+    id: PropTypes.string,
+    name: PropTypes.string,
+    creator: PropTypes.string,
+    members: TeamMember.propTypes,
 });

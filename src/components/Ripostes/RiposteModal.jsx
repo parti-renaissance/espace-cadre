@@ -70,7 +70,7 @@ const riposteSchema = Yup.object({
         .required('Url obligatoire'),
 });
 
-const RipostesModal = ({
+const RiposteModal = ({
     handleClose, riposteItem, onSubmitRefresh, open,
 }) => {
     const classes = useStyles();
@@ -185,15 +185,15 @@ const RipostesModal = ({
     );
 };
 
-export default RipostesModal;
+export default RiposteModal;
 
-RipostesModal.defaultProps = {
+RiposteModal.defaultProps = {
     handleClose: () => {},
     onSubmitRefresh: () => {},
     riposteItem: null,
 };
 
-RipostesModal.propTypes = {
+RiposteModal.propTypes = {
     handleClose: PropTypes.func,
     onSubmitRefresh: PropTypes.func,
     riposteItem: PropTypes.object,

@@ -9,7 +9,7 @@ import TeamModal from './TeamModal';
 
 const useStyles = makeStyles((theme) => createStyles({
     teamsContainer: {
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     pageTitle: {
         fontSize: '24px',
@@ -22,14 +22,14 @@ const useStyles = makeStyles((theme) => createStyles({
         marginBottom: '32px',
     },
     icon: {
-        marginRight: '8px',
+        marginRight: theme.spacing(1),
     },
     createButton: {
         color: theme.palette.lightBlue700,
-        padding: '6px 8px',
+        padding: theme.spacing(0.75, 1),
     },
     root: {
-        padding: '16px',
+        padding: theme.spacing(2),
         borderRadius: '8.35px',
     },
 }));
@@ -41,11 +41,6 @@ const Teams = () => {
     const [refreshPage, setRefreshPage] = useState(0);
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = (id) => {
-        setCurrentItem(teamsList.find((el) => el.uuid === id) || null);
-        setOpen(true);
-    };
-
     const handleNewTeam = () => {
         setCurrentItem({
             uuid: null,
@@ -54,6 +49,10 @@ const Teams = () => {
         setOpen(true);
     };
 
+    const handleEditTeam = (id) => {
+        setCurrentItem(teamsList.find((el) => el.uuid === id) || null);
+        setOpen(true);
+    };
     const handleClose = () => {
         setOpen(false);
     };
@@ -83,7 +82,7 @@ const Teams = () => {
                         <TeamCard
                             key={i}
                             team={team}
-                            handleClickOpen={handleClickOpen}
+                            handleEditTeam={() => handleEditTeam(team.uuid)}
                         />
                     ))}
                 </Grid>

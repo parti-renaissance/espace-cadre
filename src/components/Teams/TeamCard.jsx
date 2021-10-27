@@ -4,12 +4,14 @@ import {
     makeStyles, createStyles, Grid, Paper, Button,
 } from '@material-ui/core';
 import { Link, generatePath } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import PATHS from '../../paths';
 import { Team } from '../../domain/team';
+import TeamRename from './TeamRename'
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
-        padding: '16px',
+        padding: theme.spacing(2),
         borderRadius: '8.35px',
     },
     container: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => createStyles({
         fontWeight: '500',
         color: theme.palette.gray700,
         background: 'rgba(55, 65, 81, 0.08)',
-        padding: '2px 8px',
+        padding: theme.spacing(0.25, 1),
         borderRadius: '19px',
     },
     title: {
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '13px',
         fontWeight: '500',
         color: theme.palette.lightBlue600,
-        marginTop: '11px',
+        marginTop: theme.spacing(1.5),
         '&:hover': {
             background: theme.palette.teamBackground,
             borderRadius: '8.35px',
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const TeamCard = ({
-    team,
+    team, handleEditTeam,
 }) => {
     const classes = useStyles();
 
@@ -66,7 +68,7 @@ const TeamCard = ({
                     <Grid item className={classes.title} title={team.name}>{team.name}</Grid>
                     <Grid item className={classes.creator}>Par {team.creator}</Grid>
                 </Grid>
-                <Grid container className={classes.buttonContainer}>
+                <Grid container className={classes.buttonContainer} justifyContent="space-between">
                     <Grid item>
                         <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId: team.uuid })}>
                             <Button
@@ -75,6 +77,11 @@ const TeamCard = ({
                                 Voir
                             </Button>
                         </Link>
+                    </Grid>
+                    <Grid item>
+                        <TeamRename
+                            handleEditTeam={handleEditTeam}
+                        />
                     </Grid>
                 </Grid>
             </Paper>
@@ -86,4 +93,5 @@ export default TeamCard;
 
 TeamCard.propTypes = {
     team: Team.propTypes.isRequired,
+    handleEditTeam: PropTypes.func,
 };

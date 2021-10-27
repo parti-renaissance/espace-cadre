@@ -1,27 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Container, Grid, makeStyles, createStyles, Card,
+    Container, Grid, makeStyles, createStyles,
 } from '@material-ui/core';
 import {
     useParams,
 } from 'react-router-dom';
-import ClearIcon from '@material-ui/icons/Clear';
-import { getTeam } from '../../api/teams';
+import { deleteMember, getTeam } from '../../api/teams';
+import MemberCard from './MemberCard';
 
 const useStyles = makeStyles((theme) => createStyles({
+    root: {
+        borderRadius: '8.35px',
+        boxShadow: 'none',
+        padding: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
+    buttonClasses: {
+        color: theme.palette.whiteCorner,
+        background: theme.palette.blue600,
+        '&:hover': {
+            background: theme.palette.blue800,
+        },
+    },
     teamsContainer: {
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     pageTitle: {
         fontSize: '24px',
         fontWeight: '400',
-        color: theme.palette.gray800,
-        marginBottom: '16px',
+        color: theme.palette.cyan800,
+        marginBottom: theme.spacing(2),
     },
-    root: {
-        padding: '16px',
-        borderRadius: '8.35px',
-        boxShadow: 'none',
+    title: {
+        fontSize: '18px',
+        fontWeight: '400',
+        color: theme.palette.gray800,
     },
 }));
 
@@ -34,21 +47,27 @@ const TeamEdit = () => {
         getTeam(teamId, setTeam);
     }, [teamId]);
 
+    const handleDelete = async (memberId) => {
+        await deleteMember(teamId, memberId);
+        getTeam(teamId, setTeam);
+    };
+
     return (
         <Container maxWidth="lg" className={classes.teamsContainer}>
-            <Grid container justifyContent="space-between">
+            <Grid container>
                 <Grid item className={classes.pageTitle}>
                     Équipes &gt; {team?.name}
                 </Grid>
             </Grid>
-            <Grid container spacing={2} justifyContent="space-between">
+
+            <Grid container spacing={2}>
+                <Grid item xs={12} className={classes.title}> Membres de l&apos;équipe </Grid>
                 {team?.members?.map(((member) => (
-                    <Card classes={{ root: classes.root }} key={member.id}>
-                        <Grid container justifyContent="space-between">
-                            <Grid item>{member?.firstname} {member?.lastname}</Grid>
-                            <Grid item><ClearIcon /></Grid>
-                        </Grid>
-                    </Card>
+                    <MemberCard
+                        key={member.id}
+                        member={member}
+                        handleDelete={() => handleDelete(member.id)}
+                    />
                 )))}
             </Grid>
         </Container>
