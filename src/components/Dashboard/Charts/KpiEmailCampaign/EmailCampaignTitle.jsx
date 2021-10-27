@@ -20,7 +20,7 @@ function EmailCampaignTitle() {
     return (
         <Grid container>
             <Grid item xs={12} className={classes.gridItem}>
-                <img src="/images/mail.svg" alt="mail-logo" className={classes.img} />
+                <img src="images/mail.svg" alt="mail-logo" className={classes.img} />
                 <span>Campagnes d&apos;emails</span>
             </Grid>
         </Grid>

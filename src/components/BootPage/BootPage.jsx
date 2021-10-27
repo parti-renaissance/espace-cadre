@@ -21,7 +21,7 @@ function BootPage() {
                     <h2>L&apos;application sera bientôt prête</h2>
                 </Grid>
                 <Grid item xs={12}>
-                    <img src="/images/bootPage.svg" alt="loading" />
+                    <img src="images/bootPage.svg" alt="loading" />
                 </Grid>
             </Grid>
         </Container>

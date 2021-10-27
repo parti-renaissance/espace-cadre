@@ -37,7 +37,7 @@ const Dashboard = () => {
                 <KpiEmailCampaign />
                 <Grid item xs={12}>
                     <p className={classes.title}>
-                        <img src="/images/smartphone.svg" alt="smartphone-logo" className={classes.phoneImg} />
+                        <img src="images/smartphone.svg" alt="smartphone-logo" className={classes.phoneImg} />
                         <span>Application mobile</span>
                     </p>
                 </Grid>

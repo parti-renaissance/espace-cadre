@@ -91,9 +91,7 @@ const FiltersForm = ({
                         className={classes.resetButtonFilters}
                         onClick={() => {
                             setLocalValues({});
-                            if (onReset) {
-                                onReset();
-                            }
+                            onReset();
                         }}
                     >Réinitialiser
                     </Button>
@@ -103,7 +101,7 @@ const FiltersForm = ({
     );
 };
 FiltersForm.defaultProps = {
-    onReset: null,
+    onReset: () => {},
 };
 
 FiltersForm.propTypes = {
