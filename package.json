@@ -30,7 +30,7 @@
     "react-scripts": "4.0.3",
     "react-select": "5.1.0",
     "react-use": "17.3.1",
-    "recharts": "^2.1.5",
+    "recharts": "^2.1.6",
     "redux": "4.1.1",
     "redux-persist": "6.0.0",
     "sass": "1.43.4",
