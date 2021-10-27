@@ -2,45 +2,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-    resetMessagerieState, updateMessageSubject, updateMessageTemplate, updateRemoteMessage, updateSelectedTemplate,
+    resetMessagerieState, updateSelectedTemplate,
 } from './slice';
 import {
-    getMessageSubject, getMessageTemplate, getRemoteMessage, getSelectedTemplate,
+    getSelectedTemplate,
 } from './selectors';
 import { apiClient } from '../../services/networking/client';
-
-export const useMessageTemplate = () => {
-    const dispatch = useDispatch();
-
-    return [
-        useSelector(getMessageTemplate),
-        (template) => {
-            dispatch(updateMessageTemplate(template));
-        },
-    ];
-};
-
-export const useMessageSubject = () => {
-    const dispatch = useDispatch();
-
-    return [
-        useSelector(getMessageSubject),
-        (value) => {
-            dispatch(updateMessageSubject(value));
-        },
-    ];
-};
-
-export const useRemoteMessage = () => {
-    const dispatch = useDispatch();
-
-    return [
-        useSelector(getRemoteMessage),
-        (value) => {
-            dispatch(updateRemoteMessage(value));
-        },
-    ];
-};
 
 export const useSelectedTemplate = () => {
     const dispatch = useDispatch();
@@ -49,22 +16,17 @@ export const useSelectedTemplate = () => {
         useSelector(getSelectedTemplate),
         async (option) => {
             if (option?.value) {
-                const templateContent = await apiClient.get(`/v3/email_templates/${option.value}`);
-
-                dispatch(updateSelectedTemplate({ ...option, ...templateContent }));
-                dispatch(updateMessageTemplate({
-                    design: JSON.parse(templateContent.content),
-                    skipReloadUnlayer: false,
-                }));
+                const templateContent = await apiClient.get(`/v3/email_templates/${option.value}`)
+                dispatch(updateSelectedTemplate({ ...option, ...templateContent }))
             } else {
-                dispatch(updateSelectedTemplate(option));
+                dispatch(updateSelectedTemplate(option))
             }
         },
     ];
 };
 
 export const useResetMessagerieState = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    return () => dispatch(resetMessagerieState());
+    return () => dispatch(resetMessagerieState())
 };

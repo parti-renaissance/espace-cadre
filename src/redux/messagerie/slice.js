@@ -17,9 +17,6 @@ const messageSlice = createSlice({
         updateMessageSubject(state, action) {
             state.messageSubject = action.payload;
         },
-        updateRemoteMessage(state, action) {
-            state.remoteMessage = action.payload;
-        },
         updateSelectedTemplate(state, action) {
             state.selectedTemplate = action.payload;
         },
@@ -32,7 +29,6 @@ const messageSlice = createSlice({
 export const {
     updateMessageTemplate,
     updateMessageSubject,
-    updateRemoteMessage,
     resetMessagerieState,
     updateSelectedTemplate,
 } = messageSlice.actions;

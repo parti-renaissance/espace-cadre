@@ -1,11 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import {
     Grid, Button, Box, makeStyles, createStyles,
 } from '@material-ui/core';
 import { apiClient } from '../../../services/networking/client';
-import { useMessageTemplate, useSelectedTemplate } from '../../../redux/messagerie/hooks';
+import { useSelectedTemplate } from '../../../redux/messagerie/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
     autocomplete: {
@@ -40,10 +39,17 @@ const useStyles = makeStyles((theme) => createStyles({
 const TemplateSelect = () => {
     const [options, setOptions] = useState([]);
     const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate();
-    const [messageTemplate] = useMessageTemplate();
     const [buttonDisabled, setButtonDisabled] = useState(selectedTemplate === null);
 
     const classes = useStyles();
+
+    useEffect(() => {
+        const loadTemplates = async () => {
+            const result = await apiClient.get('/v3/email_templates');
+            setOptions((prevState) => prevState.concat(result.items.map((item) => ({ label: item.label, value: item.uuid }))));
+        };
+        loadTemplates();
+    }, []);
 
     const handleSelectChange = (selected, action) => {
         switch (action.action) {
@@ -69,7 +75,7 @@ const TemplateSelect = () => {
     const handleClickSaveButton = async () => {
         const bodyreq = {
             label: selectedTemplate.label,
-            content: JSON.stringify(messageTemplate.design),
+            content: null,
         };
 
         if (selectedTemplate.value) {
@@ -96,20 +102,6 @@ const TemplateSelect = () => {
             }
         }
     };
-
-    // Get saved templates
-    useEffect(() => {
-        if (options.length) {
-            return;
-        }
-
-        const loadTemplates = async () => {
-            const result = await apiClient.get('/v3/email_templates');
-
-            setOptions((prevState) => prevState.concat(result.items.map((item) => ({ label: item.label, value: item.uuid }))));
-        };
-        loadTemplates();
-    }, [options]);
 
     return (
         <Grid container>

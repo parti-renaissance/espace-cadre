@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-    Box, Button, CircularProgress, Container, Grid, Link, makeStyles,
+    Box, Button, CircularProgress, Container, Grid, makeStyles,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters';
 import { useResetMessagerieState } from '../../redux/messagerie/hooks';
 import { useUserScope } from '../../redux/user/hooks';
@@ -14,7 +14,6 @@ import ErrorComponent from '../ErrorComponent';
 import Loader from '../HelperComponents/Loader';
 import ModalComponent from './Component/ModalComponent';
 import { FEATURE_MESSAGES } from '../Feature/FeatureCode';
-import Spinner from '../HelperComponents/Spinner';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.blue600,
         marginBottom: '16px',
     },
-    addresseesContainer: {
+    message: {
         fontWeight: '600',
         fontSize: '18px',
         color: theme.palette.gray700,
@@ -76,10 +75,7 @@ const Filters = () => {
     const [loadingTestButton, setLoadingTestButton] = useState(false);
     const [loadingSendButton, setLoadingSendButton] = useState(BUTTON_INITIAL_STATE);
     const [open, setOpen] = useState(false);
-    const [loadingSegment, audienceSegment, launch] = useRetry(async (segmentUuid) => {
-        const result = await apiClient.get(`/v3/audience-segments/${segmentUuid}`);
-        return result;
-    }, duration, count);
+    const [loadingSegment, audienceSegment, launch] = useRetry(async (segmentUuid) => apiClient.get(`/v3/audience-segments/${segmentUuid}`), duration, count);
 
     const handleFiltersSubmit = async (filtersToSend) => {
         try {
@@ -158,7 +154,7 @@ const Filters = () => {
                         />
                     </Grid>
                     <Grid container>
-                        <Grid item xs={12} className={classes.addresseesContainer}>
+                        <Grid item xs={12} className={classes.message}>
                             {audienceSegment && (
                                 <div style={{ height: '45px' }}>Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}</div>
                             )}

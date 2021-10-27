@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
-    Grid, Box, createStyles, makeStyles, TextField,
-} from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import { useUserScope } from '../../redux/user/hooks';
-import Editor from './Component/Editor';
-import StepButton from './Component/StepButton';
-import { useMessageSubject, useMessageTemplate, useRemoteMessage } from '../../redux/messagerie/hooks';
-import { apiClient } from '../../services/networking/client';
-import { clearBody } from './utils';
-import TemplateSelect from './Component/TemplateSelect';
-import PATHS from '../../paths';
+    Box, createStyles, Grid, makeStyles, TextField,
+} from '@material-ui/core'
+import { useHistory, useParams } from 'react-router-dom'
+import { useUserScope } from '../../redux/user/hooks'
+import Editor from './Component/Editor'
+import StepButton from './Component/StepButton'
+import { apiClient } from '../../services/networking/client'
+import TemplateSelect from './Component/TemplateSelect'
+import PATHS from '../../paths'
+
+const clearBody = (body) => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
 const useStyles = makeStyles((theme) => createStyles({
     pageTitle: {
@@ -39,14 +39,12 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Template = () => {
-    const [messageSubject, setMessageSubject] = useMessageSubject();
-    const [messageTemplate] = useMessageTemplate();
-    const [remoteMessage, setRemoteMessage] = useRemoteMessage();
-
-    const history = useHistory();
-
+    const [messageSubject, setMessageSubject] = useState('');
+    const [message, setMessage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [currentScope] = useUserScope();
+    const history = useHistory();
+    const { messageUuid } = useParams()
     const classes = useStyles();
 
     const editEmail = async () => {
@@ -54,17 +52,14 @@ const Template = () => {
             type: currentScope.code,
             label: `DataCorner: ${messageSubject}`,
             subject: messageSubject,
-            content: clearBody(messageTemplate.chunks.body),
+            content: clearBody(message.chunks.body),
+            json_content: JSON.stringify(message.design),
         };
 
-        if (remoteMessage?.uuid) {
-            const message = await apiClient.put(`/v3/adherent_messages/${remoteMessage.uuid}`, body);
-
-            return message;
+        if (messageUuid) {
+            return apiClient.put(`/v3/adherent_messages/${messageUuid}`, body);
         }
-
-        const message = await apiClient.post('/v3/adherent_messages', body);
-        return message;
+        return apiClient.post('/v3/adherent_messages', body);
     };
 
     return (
@@ -77,7 +72,7 @@ const Template = () => {
                         label="Objet du mail"
                         variant="outlined"
                         className={classes.mailObject}
-                        defaultValue={messageSubject}
+                        value={messageSubject}
                         onChange={(event) => setMessageSubject(event.target.value)}
                     />
                 </Grid>
@@ -88,19 +83,18 @@ const Template = () => {
                     <StepButton
                         label="Suivant"
                         loading={loading}
-                        disabled={loading || !messageSubject || !messageTemplate}
+                        disabled={loading || !messageSubject || !message}
                         onClick={() => {
                             setLoading(true);
                             editEmail().then((body) => {
-                                setRemoteMessage(body);
+                                setMessage(body);
                                 history.push(PATHS.MESSAGERIE_FILTER.url(body.uuid));
                             });
                         }}
                     />
                 </Grid>
             </Grid>
-
-            <Editor />
+            <Editor onMessageSubject={setMessageSubject} onMessageUpdate={setMessage} />
         </>
     );
 };

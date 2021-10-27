@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+    useState, useRef, useEffect, useCallback,
+} from 'react'
 import EmailEditor from 'react-email-editor';
 import { Button, makeStyles, createStyles } from '@material-ui/core';
+import { useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { useUserScope } from '../../../redux/user/hooks';
-import { useMessageTemplate } from '../../../redux/messagerie/hooks';
+import { apiClient } from '../../../services/networking/client'
 
 const useStyles = makeStyles((theme) => createStyles({
     emailEditor: {
@@ -18,63 +22,87 @@ const useStyles = makeStyles((theme) => createStyles({
         },
     },
 }));
-
-const Editor = () => {
-    const [messageTemplate, setMessageTemplate] = useMessageTemplate();
+const referentTemplate = 60354;
+const deputyTemplate = 60376;
+const senatorTemplate = 60355;
+const defaultTemplate = 41208;
+const editorConfiguration = {
+    tools: {
+        button: { enabled: true },
+        divider: { enabled: true },
+        form: { enabled: true },
+        heading: { enabled: true },
+        image: { enabled: true },
+        menu: { enabled: true },
+        social: { enabled: true },
+        text: { enabled: true },
+        timer: { enabled: true },
+        video: { enabled: true },
+    },
+    features: {
+        preheaderText: false,
+        textEditor: {
+            tables: true,
+            emojis: false,
+        },
+    },
+}
+const Editor = ({ onMessageSubject, onMessageUpdate }) => {
+    const [editorLoaded, setEditorLoaded] = useState(false)
     const emailEditorRef = useRef(null);
-    const [unlayerReady, setUnlayerReady] = useState(false);
-    const [editorLoaded, setEditorLoaded] = useState(false);
     const classes = useStyles();
-
+    const { messageUuid } = useParams()
     const [currentScope] = useUserScope();
-    const referentTemplate = 60354;
-    const deputyTemplate = 60376;
-    const senatorTemplate = 60355;
-    const defaultTemplate = 41208;
+
     const [templateId] = useState(() => {
-        if (currentScope && currentScope.code === 'referent') {
+        if (currentScope?.code === 'referent') {
             return referentTemplate;
         }
-        if (currentScope && currentScope.code === 'deputy') {
+        if (currentScope?.code === 'deputy') {
             return deputyTemplate;
         }
-        if (currentScope && currentScope.code === 'senator') {
+        if (currentScope?.code === 'senator') {
             return senatorTemplate;
         }
         return defaultTemplate;
     });
 
-    const updateMessageTemplateCallback = () => {
+    const updateMessageTemplateCallback = useCallback(() => {
         emailEditorRef.current.exportHtml(
-            (event) => {
-                setMessageTemplate({
-                    design: event.design,
-                    chunks: event.chunks,
-                    skipReloadUnlayer: !messageTemplate || messageTemplate.chunks === undefined || messageTemplate.chunks.body === event.chunks.body,
+            (data) => {
+                onMessageUpdate({
+                    design: data.design,
+                    chunks: data.chunks,
                 });
             },
         );
-    };
+    }, [onMessageUpdate])
 
     useEffect(() => {
-        if (!unlayerReady) {
-            return;
+        const { editor } = emailEditorRef.current
+        const onEditorLoaded = async () => {
+            if (messageUuid) {
+                const messageContent = await apiClient.get(`/v3/adherent_messages/${messageUuid}/content`);
+                const design = JSON.parse(messageContent.json_content)
+                editor.loadDesign(design);
+                onMessageSubject(messageContent.subject)
+            }
+            editor.addEventListener('design:updated', updateMessageTemplateCallback);
         }
 
-        emailEditorRef.current.editor.addEventListener('design:updated', () => {
-            updateMessageTemplateCallback();
-        });
-    }, [unlayerReady]);
+        if (editorLoaded && editor) {
+            onEditorLoaded()
+        }
+
+        return () => {
+            editor?.removeEventListener('design:updated', updateMessageTemplateCallback);
+        }
+    }, [editorLoaded, messageUuid, onMessageSubject, updateMessageTemplateCallback])
 
     useEffect(() => {
-        if (messageTemplate?.skipReloadUnlayer || !unlayerReady) {
-            return;
-        }
-        if (messageTemplate?.design) {
-            console.log('messageTemplate', messageTemplate);
-            emailEditorRef.current.loadDesign(messageTemplate.design);
-        }
-    }, [messageTemplate, unlayerReady]);
+        const editor = emailEditorRef.current?.editor
+        return () => editor?.removeEventListener(updateMessageTemplateCallback)
+    }, [updateMessageTemplateCallback]);
 
     const exportHtml = () => {
         emailEditorRef.current.editor.exportHtml((data) => {
@@ -86,54 +114,21 @@ const Editor = () => {
         });
     };
 
-    useEffect(() => {
-        console.log('Ref exists', emailEditorRef.current);
-        if (editorLoaded && emailEditorRef?.current?.editor) {
-            console.log('onLoad + emailEditorRef');
-            emailEditorRef.current.editor.addEventListener('design:loaded', () => {
-                updateMessageTemplateCallback();
-            });
-            if (messageTemplate?.design) {
-                console.log('onLoad + design');
-                emailEditorRef.current.loadDesign(messageTemplate.design);
-            }
-        }
-    }, [editorLoaded]);
-
     return (
         <div className={classes.emailEditor}>
             <EmailEditor
                 minHeight="85vh"
                 ref={emailEditorRef}
                 projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
-                onLoad={() => {
-                    setEditorLoaded(true);
-                    console.log('onLoad');
+                onLoad={() => setEditorLoaded(true)}
+                onReady={() => {
                 }}
-                onReady={() => setUnlayerReady(true)}
                 options={{
                     locale: 'fr-FR',
                     safeHtml: true,
-                    templateId,
-                    tools: {
-                        button: { enabled: true },
-                        divider: { enabled: true },
-                        form: { enabled: true },
-                        heading: { enabled: true },
-                        image: { enabled: true },
-                        menu: { enabled: true },
-                        social: { enabled: true },
-                        text: { enabled: true },
-                        timer: { enabled: true },
-                        video: { enabled: true },
-                    },
-                    features: {
-                        preheaderText: false,
-                        textEditor: {
-                            tables: true,
-                            emojis: false,
-                        },
-                    },
+                    templateId: messageUuid ? null : templateId,
+                    tools: editorConfiguration.tools,
+                    features: editorConfiguration.features,
                 }}
             />
             <Button
@@ -147,5 +142,10 @@ const Editor = () => {
         </div>
     );
 };
+
+Editor.propTypes = {
+    onMessageSubject: PropTypes.func.isRequired,
+    onMessageUpdate: PropTypes.func.isRequired,
+}
 
 export default Editor;
