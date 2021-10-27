@@ -1,32 +1,31 @@
-﻿import { isValidElement } from 'react';
-import PropTypes from 'prop-types';
+﻿import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { ListItem, makeStyles } from '@material-ui/core';
+import { Button, Icon, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginLeft: theme.spacing(4),
+    padding: theme.spacing(1.5, 2),
+    borderRadius: theme.spacing(1),
+    color: theme.palette.gray600,
+    '&:hover, &:visited': {
+      color: ({ color }) => theme.palette[color] || 'initial',
+      background: ({ bgColor }) => bgColor || 'transparent',
+    },
+    fontWeight: 600,
+    fontSize: '14px',
+    marginBottom: '16px',
+    textTransform: 'none',
+  },
   link: {
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: theme.spacing(4),
-    color: theme.palette.blueCorner,
-    '&:hover, &:visited': {
-      color: theme.palette.grayCorner3,
-    },
-  },
-  item: {
-    fontWeight: 600,
-    fontSize: '14px',
-    padding: '13px 0 11px',
-    marginBottom: '16px',
   },
   label: {
     paddingLeft: theme.spacing(2),
   },
   active: {
-    color: theme.palette.blueCorner,
-    '&:hover, &:visited': {
-      color: theme.palette.blueCorner,
-    },
+    color: theme.palette.gray600,
   },
 }));
 
@@ -34,39 +33,33 @@ const UINavItem = ({
   path,
   label,
   icon = null,
-  linkClasses = null,
+  color = null,
+  bgColor = null,
 }) => {
-  const classes = useStyles();
-  const IconComponent = icon;
-
-  const item = (
-    <ListItem className={classes.item} disableGutters>
-      {isValidElement(<IconComponent />) && <IconComponent />}
-      <span className={classes.label}>{label}</span>
-    </ListItem>
-  );
+  const classes = useStyles({ color, bgColor });
 
   return (
-    <>
-      {!path && item}
-      {path && <NavLink
-        className={`${classes.link} ${linkClasses}`}
-        activeClassName={classes.active}
-        isActive={(match) => !!match}
-        to={path}
-        exact
-      >
-        {item}
-      </NavLink>}
-    </>
+    <NavLink
+      className={classes.link}
+      activeClassName={classes.active}
+      isActive={(match) => !!match}
+      to={path}
+      exact
+    >
+      <Button className={classes.root} color="inherit">
+        <Icon component={icon} fontSize="small" />
+          <span className={classes.label}>{label}</span>
+      </Button>
+    </NavLink>
   );
 };
 
 UINavItem.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  icon: PropTypes.object,
-  linkClasses: PropTypes.string,
+  icon: PropTypes.node,
+  color: PropTypes.string,
+  bgColor: PropTypes.string,
 };
 
 export default UINavItem;

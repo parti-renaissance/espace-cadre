@@ -1,1 +1,1 @@
-﻿export { default as UINavItem } from './NavItem';
+﻿export { default as UINavItem } from './NavItem'; // eslint-disable-line

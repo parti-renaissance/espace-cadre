@@ -7,7 +7,8 @@ import { makeStyles } from '@material-ui/core';
 import { getAuthorizedPages } from '../../redux/user/selectors';
 import Scopes from '../Scopes';
 import { MENU } from '../../Routes';
-import Icons from '../../icons';
+import Icons from '../../constants/icons';
+import Colors from '../../constants/colors';
 
 import { UINavItem } from '../../ui';
 import MentionsLegales from '../MentionsLegales/MentionsLegales';
@@ -42,7 +43,14 @@ const Sidebar = () => {
                 <Scopes />
                 <div className={classes.navMenu}>
                     {filteredMenu.map((item) => (
-                      <UINavItem key={item.id} path={item.url} label={item.label} icon={Icons[item.id]} />
+                      <UINavItem
+                        key={item.id}
+                        path={item.url}
+                        label={item.label}
+                        icon={Icons[item.id]}
+                        color={Colors[item.id].color}
+                        bgColor={Colors[item.id].bgColor}
+                      />
                     ))}
                 </div>
                 <MentionsLegales />

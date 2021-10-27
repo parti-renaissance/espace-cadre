@@ -1,21 +1,22 @@
 ﻿import DashboardRoundedIcon from '@material-ui/icons/DashboardRounded';
-import TelegramIcon from '@material-ui/icons/Telegram';
+import EmailRoundedIcon from '@material-ui/icons/EmailRounded';
 import MapRoundedIcon from '@material-ui/icons/MapRounded';
 import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded';
 import PeopleRoundedIcon from '@material-ui/icons/PeopleRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
-
-const Dashboard = 'dashboard';
-const Adherents = 'contacts';
-const Messagerie = 'messages';
-const Elections = 'elections';
-const Ripostes = 'ripostes';
-const Teams = 'team';
+import {
+  Dashboard,
+  Adherents,
+  Messagerie,
+  Elections,
+  Ripostes,
+  Teams,
+} from './routes';
 
 export default {
   [Dashboard]: DashboardRoundedIcon,
   [Adherents]: PeopleRoundedIcon,
-  [Messagerie]: TelegramIcon,
+  [Messagerie]: EmailRoundedIcon,
   [Elections]: MapRoundedIcon,
   [Ripostes]: PostAddRoundedIcon,
   [Teams]: StarRoundedIcon,
