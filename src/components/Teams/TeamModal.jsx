@@ -60,7 +60,7 @@ const teamSchema = Yup.object({
         .required('Titre obligatoire'),
 });
 
-const TeamsModal = ({
+const TeamModal = ({
     handleClose, teamItem, onSubmitRefresh, open,
 }) => {
     const classes = useStyles();
@@ -126,15 +126,15 @@ const TeamsModal = ({
     );
 };
 
-export default TeamsModal;
+export default TeamModal;
 
-TeamsModal.defaultProps = {
+TeamModal.defaultProps = {
     handleClose: () => {},
     onSubmitRefresh: () => {},
     teamItem: null,
 };
 
-TeamsModal.propTypes = {
+TeamModal.propTypes = {
     handleClose: PropTypes.func,
     onSubmitRefresh: PropTypes.func,
     teamItem: PropTypes.object,

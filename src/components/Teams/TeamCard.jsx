@@ -4,8 +4,8 @@ import {
     makeStyles, createStyles, Grid, Paper, Button,
 } from '@material-ui/core';
 import { Link, generatePath } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import PATHS from '../../paths';
+import { Team } from '../../domain/team';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -49,8 +49,8 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const CardComponent = ({
-    item,
+const TeamCard = ({
+    team,
 }) => {
     const classes = useStyles();
 
@@ -59,16 +59,16 @@ const CardComponent = ({
             <Paper classes={{ root: classes.root }}>
                 <Grid container className={classes.container}>
                     <Grid item>
-                        <span className={classes.chip}>{item.members_count} membres</span>
+                        <span className={classes.chip}>{team.members_count} membres</span>
                     </Grid>
                 </Grid>
                 <Grid container className={classes.container}>
-                    <Grid item className={classes.title} title={item.name}>{item.name}</Grid>
-                    <Grid item className={classes.creator}>Par {item.creator}</Grid>
+                    <Grid item className={classes.title} title={team.name}>{team.name}</Grid>
+                    <Grid item className={classes.creator}>Par {team.creator}</Grid>
                 </Grid>
                 <Grid container className={classes.buttonContainer}>
                     <Grid item>
-                        <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId: item.uuid })}>
+                        <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId: team.uuid })}>
                             <Button
                                 className={classes.editButton}
                             >
@@ -82,8 +82,8 @@ const CardComponent = ({
     );
 };
 
-export default CardComponent;
+export default TeamCard;
 
-CardComponent.propTypes = {
-    item: PropTypes.object.isRequired,
+TeamCard.propTypes = {
+    team: Team.propTypes.isRequired,
 };

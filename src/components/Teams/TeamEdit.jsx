@@ -6,7 +6,7 @@ import {
     useParams,
 } from 'react-router-dom';
 import ClearIcon from '@material-ui/icons/Clear';
-import { apiClient } from '../../services/networking/client';
+import { getTeam } from '../../api/teams';
 
 const useStyles = makeStyles((theme) => createStyles({
     teamsContainer: {
@@ -21,27 +21,18 @@ const useStyles = makeStyles((theme) => createStyles({
     root: {
         padding: '16px',
         borderRadius: '8.35px',
-        elevation: 0,
+        boxShadow: 'none',
     },
 }));
 
-function TeamsEdit() {
+const TeamEdit = () => {
     const classes = useStyles();
-    const params = useParams();
-    const [team, setTeam] = useState();
+    const { teamId } = useParams();
+    const [team, setTeam] = useState(null);
 
     useEffect(() => {
-        const getTeam = async () => {
-            const teamData = await apiClient.get(`api/v3/teams/${params.teamId}`);
-            setTeam(teamData);
-        };
-
-        getTeam();
-    }, [params]);
-
-    useEffect(() => {
-        console.log(team);
-    }, [team]);
+        getTeam(teamId, setTeam);
+    }, [teamId]);
 
     return (
         <Container maxWidth="lg" className={classes.teamsContainer}>
@@ -52,9 +43,9 @@ function TeamsEdit() {
             </Grid>
             <Grid container spacing={2} justifyContent="space-between">
                 {team?.members?.map(((member) => (
-                    <Card classes={{ root: classes.root }} key={member.uuid}>
+                    <Card classes={{ root: classes.root }} key={member.id}>
                         <Grid container justifyContent="space-between">
-                            <Grid item>{member.first_name} {member.last_name}</Grid>
+                            <Grid item>{member?.firstname} {member?.lastname}</Grid>
                             <Grid item><ClearIcon /></Grid>
                         </Grid>
                     </Card>
@@ -62,6 +53,6 @@ function TeamsEdit() {
             </Grid>
         </Container>
     );
-}
+};
 
-export default TeamsEdit;
+export default TeamEdit;

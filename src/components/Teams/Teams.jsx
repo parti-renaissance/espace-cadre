@@ -4,8 +4,8 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { apiClient } from '../../services/networking/client';
-import CardComponent from './CardComponent';
-import TeamsModal from './TeamsModal';
+import TeamCard from './TeamCard';
+import TeamModal from './TeamModal';
 
 const useStyles = makeStyles((theme) => createStyles({
     teamsContainer: {
@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme) => createStyles({
 
 const Teams = () => {
     const classes = useStyles();
-    const [teamItems, setTeamsList] = useState();
+    const [teamsList, setTeamsList] = useState();
     const [currentItem, setCurrentItem] = useState(null);
     const [refreshPage, setRefreshPage] = useState(0);
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = (id) => {
-        setCurrentItem(teamItems.find((el) => el.uuid === id) || null);
+        setCurrentItem(teamsList.find((el) => el.uuid === id) || null);
         setOpen(true);
     };
 
@@ -79,16 +79,16 @@ const Teams = () => {
                     </Button>
                 </Grid>
                 <Grid container spacing={2}>
-                    {teamItems && teamItems.map((item, i) => (
-                        <CardComponent
+                    {teamsList && teamsList.map((team, i) => (
+                        <TeamCard
                             key={i}
-                            item={item}
+                            team={team}
                             handleClickOpen={handleClickOpen}
                         />
                     ))}
                 </Grid>
             </Grid>
-            <TeamsModal
+            <TeamModal
                 open={open}
                 handleClose={handleClose}
                 teamItem={currentItem}

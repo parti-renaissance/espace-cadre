@@ -16,7 +16,7 @@ const MessageConfirmation = lazy(() => import('./components/Messagerie/Confirmat
 const Elections = lazy(() => import('./components/Elections/Elections'));
 const Ripostes = lazy(() => import('./components/Ripostes'));
 const Teams = lazy(() => import('./components/Teams'));
-const TeamsEdit = lazy(() => import('./components/Teams/TeamsEdit'));
+const TeamEdit = lazy(() => import('./components/Teams/TeamEdit'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
 
 export const MENU = [
@@ -71,7 +71,7 @@ const COMPONENTS = [
     },
     {
         path: PATHS.TEAMS_EDIT,
-        component: TeamsEdit,
+        component: TeamEdit,
     },
 ];
 
