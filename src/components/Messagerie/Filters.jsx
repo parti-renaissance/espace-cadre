@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
-    Box, Button, CircularProgress, Container, Grid, makeStyles,
+    Box, Button, Container, Grid, makeStyles,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Link, useHistory, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters';
-import { useResetMessagerieState } from '../../redux/messagerie/hooks';
 import { useUserScope } from '../../redux/user/hooks';
-import useRetry from '../Filters/useRetry';
+import useRetry from '../useRetry';
 import { apiClient } from '../../services/networking/client';
 import PATHS from '../../paths';
 import ErrorComponent from '../ErrorComponent';
@@ -60,22 +59,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const BUTTON_INITIAL_STATE = { state: 'readyToSend', isLoading: false };
 const duration = 1000;
 const count = 10;
 
 const Filters = () => {
     const { messageUuid } = useParams();
     const history = useHistory();
-    const resetMessagerieState = useResetMessagerieState();
     const classes = useStyles();
     const [currentScope] = useUserScope();
     const [audienceId, setAudienceId] = useState(null);
     const [errorMessage, setErrorMessage] = useState();
     const [loadingTestButton, setLoadingTestButton] = useState(false);
-    const [loadingSendButton, setLoadingSendButton] = useState(BUTTON_INITIAL_STATE);
     const [open, setOpen] = useState(false);
     const [loadingSegment, audienceSegment, launch] = useRetry(async (segmentUuid) => apiClient.get(`/v3/audience-segments/${segmentUuid}`), duration, count);
+    const [loadingSendButton,, launchAreFilterSaved] = useRetry(
+        async () => apiClient.get(`/v3/adherent_messages/${messageUuid}`),
+        duration,
+        count,
+        async () => {
+            const responseSend = await apiClient.post(`/v3/adherent_messages/${messageUuid}/send`);
+
+            if (responseSend === 'OK') {
+                history.push(PATHS.MESSAGERIE_CONFIRMATION.route);
+            } else {
+                // TODO: error management
+            }
+        },
+    );
 
     const handleFiltersSubmit = async (filtersToSend) => {
         try {
@@ -99,30 +109,10 @@ const Filters = () => {
             if (responseTest === 'OK') {
                 setLoadingTestButton(false);
             }
-            return;
+        } else {
+            await apiClient.put(`/v3/adherent_messages/${messageUuid}/filter`, { segment: audienceId });
+            launchAreFilterSaved()
         }
-
-        setLoadingSendButton((state) => ({ ...state, isLoading: true }));
-        apiClient.put(`/v3/adherent_messages/${messageUuid}/filter`, { segment: audienceId });
-        let callCount = 0;
-        const timer = setInterval(async () => {
-            const emailStatusResponse = await apiClient.get(`/v3/adherent_messages/${messageUuid}`);
-            callCount += 1;
-            if (callCount >= 10 || (emailStatusResponse.synchronized === true)) {
-                clearInterval(timer);
-                if (emailStatusResponse.synchronized === true) {
-                    const responseSend = await apiClient.post(`/v3/adherent_messages/${messageUuid}/send`);
-
-                    if (responseSend === 'OK') {
-                        setLoadingSendButton(() => ({ state: 'success', isLoading: false }));
-                        resetMessagerieState();
-                        history.push(PATHS.MESSAGERIE_CONFIRMATION.route);
-                    } else {
-                        setLoadingSendButton(() => ({ state: 'error', isLoading: false }));
-                    }
-                }
-            }
-        }, 1000);
     };
 
     return (
@@ -159,7 +149,7 @@ const Filters = () => {
                                 <div style={{ height: '45px' }}>Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}</div>
                             )}
                             {loadingSegment && (
-                                <CircularProgress style={{ color: '#0049C6' }} />
+                                <Loader />
                             )}
                         </Grid>
                     </Grid>
@@ -185,11 +175,11 @@ const Filters = () => {
                             variant="outlined"
                             size="medium"
                             className={classes.sendButton}
-                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1 || loadingSendButton.isLoading}
+                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1 || loadingSendButton}
                             onClick={() => setOpen(true)}
                         >
                             <Box>
-                                {loadingSendButton.isLoading ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
+                                {loadingSendButton ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
                             </Box>
                             Envoyer l&apos;email
                         </Button>
