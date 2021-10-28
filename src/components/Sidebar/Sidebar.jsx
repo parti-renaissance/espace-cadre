@@ -7,10 +7,7 @@ import { makeStyles } from '@material-ui/core';
 import { getAuthorizedPages } from '../../redux/user/selectors';
 import Scopes from '../Scopes';
 import { MENU } from '../../Routes';
-import Icons from '../../constants/icons';
-import Colors from '../../constants/colors';
-
-import { UINavItem } from '../../ui';
+import { UINavItem, Icons, Colors } from '../../ui';
 import MentionsLegales from '../MentionsLegales/MentionsLegales';
 
 const useStyles = makeStyles((theme) => ({

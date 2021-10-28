@@ -1,31 +1,30 @@
 ﻿import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { Button, Icon, makeStyles } from '@material-ui/core';
+import { Button, Icon, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginLeft: theme.spacing(4),
+    marginBottom: theme.spacing(2),
     padding: theme.spacing(1.5, 2),
     borderRadius: theme.spacing(1),
     color: theme.palette.gray600,
-    '&:hover, &:visited': {
-      color: ({ color }) => theme.palette[color] || 'initial',
-      background: ({ bgColor }) => bgColor || 'transparent',
+    '&:hover': {
+      color: theme.palette.gray600,
+      background: theme.palette.gray100,
     },
-    fontWeight: 600,
-    fontSize: '14px',
-    marginBottom: '16px',
-    textTransform: 'none',
-  },
-  link: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  label: {
-    paddingLeft: theme.spacing(2),
   },
   active: {
-    color: theme.palette.gray600,
+    color: ({ color }) => `${theme.palette[color] || 'initial'}`,
+    background: ({ bgColor }) => bgColor || 'transparent',
+    '&:hover': {
+      color: ({ color }) => `${theme.palette[color] || 'initial'}`,
+      background: ({ bgColor }) => bgColor || 'transparent',
+    },
+  },
+  icon: {
+    fontSize: "14px",
+    paddingRight: theme.spacing(2),
   },
 }));
 
@@ -40,16 +39,15 @@ const UINavItem = ({
 
   return (
     <NavLink
-      className={classes.link}
+      component={({ navigate: _, ...props }) => <Button {...props} />}
+      className={classes.root}
       activeClassName={classes.active}
       isActive={(match) => !!match}
       to={path}
       exact
     >
-      <Button className={classes.root} color="inherit">
-        <Icon component={icon} fontSize="small" />
-          <span className={classes.label}>{label}</span>
-      </Button>
+      <Icon component={icon} className={classes.icon} />
+      <Typography variant="body1">{label}</Typography>
     </NavLink>
   );
 };
@@ -57,7 +55,7 @@ const UINavItem = ({
 UINavItem.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  icon: PropTypes.node,
+  icon: PropTypes.object,
   color: PropTypes.string,
   bgColor: PropTypes.string,
 };

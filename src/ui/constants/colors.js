@@ -5,7 +5,7 @@
   Elections,
   Ripostes,
   Teams,
-} from './routes';
+} from '../../routes';
 
 export default {
   [Dashboard]: { color: 'gray900', bgColor: '#F3F4F6' },

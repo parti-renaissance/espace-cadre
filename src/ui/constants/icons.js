@@ -11,7 +11,7 @@ import {
   Elections,
   Ripostes,
   Teams,
-} from './routes';
+} from '../../routes';
 
 export default {
   [Dashboard]: DashboardRoundedIcon,
