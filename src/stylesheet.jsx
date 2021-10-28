@@ -4,10 +4,10 @@ const theme = createTheme({
     typography: {
         fontFamily: 'Poppins, sans-serif',
         body1: {
-          fontSize: '14px',
-          fontWeight: 600,
-          lineHeight: '14px',
-          textTransform: 'none',
+            fontSize: '14px',
+            fontWeight: 600,
+            lineHeight: '14px',
+            textTransform: 'none',
         },
     },
     props: {

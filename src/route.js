@@ -1,4 +1,4 @@
-﻿export const Dashboard = 'dashboard';
+export const Dashboard = 'dashboard';
 export const Adherents = 'contacts';
 export const Messagerie = 'messages';
 export const Elections = 'elections';

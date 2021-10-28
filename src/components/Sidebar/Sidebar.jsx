@@ -11,9 +11,9 @@ import { UINavItem, Icons, Colors } from '../../ui';
 import MentionsLegales from '../MentionsLegales/MentionsLegales';
 
 const useStyles = makeStyles((theme) => ({
-  navMenu: {
-    marginTop: theme.spacing(7),
-  },
+    navMenu: {
+        marginTop: theme.spacing(7),
+    },
 }));
 
 const Sidebar = () => {
@@ -40,14 +40,14 @@ const Sidebar = () => {
                 <Scopes />
                 <div className={classes.navMenu}>
                     {filteredMenu.map((item) => (
-                      <UINavItem
-                        key={item.id}
-                        path={item.url}
-                        label={item.label}
-                        icon={Icons[item.id]}
-                        color={Colors[item.id].color}
-                        bgColor={Colors[item.id].bgColor}
-                      />
+                        <UINavItem
+                            key={item.id}
+                            path={item.url}
+                            label={item.label}
+                            icon={Icons[item.id]}
+                            color={Colors[item.id].color}
+                            bgColor={Colors[item.id].bgColor}
+                        />
                     ))}
                 </div>
                 <MentionsLegales />
