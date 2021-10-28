@@ -3,6 +3,12 @@ import { createTheme } from '@material-ui/core';
 const theme = createTheme({
     typography: {
         fontFamily: 'Poppins, sans-serif',
+        body1: {
+            fontSize: '14px',
+            fontWeight: 600,
+            lineHeight: '14px',
+            textTransform: 'none',
+        },
     },
     props: {
         MuiButton: {
@@ -63,6 +69,10 @@ const theme = createTheme({
         gray600: '#4B5563',
         gray700: '#374151',
         gray800: '#1F2937',
+        gray900: '#111827',
+
+        // Green
+        green600: '#059669',
 
         // Teal
         teal100: '#CCFBF1',
@@ -85,6 +95,9 @@ const theme = createTheme({
         cyan700: '#0E7490',
         cyan800: '#155E75',
         cyan900: '#164E63',
+
+        // Yellow
+        yellow400: '#FBBF24',
 
         // Green
         greenCorner: '#008000',

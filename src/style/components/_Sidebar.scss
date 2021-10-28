@@ -46,33 +46,6 @@
             @include borderRadius(4px);
         }
     }
-
-    #main-nav {
-        margin: 56px 0 0 32px;
-        padding: 0;
-
-        li {
-            font-weight: 600;
-            font-size: 14px;
-            padding: 13px 0 11px;
-            margin-bottom: 16px;
-
-            a.nav-link {
-                padding: 0;
-                color: $grayCorner3;
-
-                &.active {
-                    color: $blueCorner;
-                }
-
-                i {
-                    margin-right: 15px;
-                    font-size: 20px;
-                    vertical-align: middle;
-                }
-            }
-        }
-    }
 }
 
 @media (max-width: 768px) {

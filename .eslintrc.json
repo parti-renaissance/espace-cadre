@@ -48,6 +48,10 @@
         "react/jsx-one-expression-per-line": [0],
         "react/no-array-index-key": [0],
         "react-hooks/exhaustive-deps": "error",
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
+        "react/require-default-props": [2, { "ignoreFunctionalComponents": true }]
+
     }
 }
