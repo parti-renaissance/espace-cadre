@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => createStyles({
     materialButton: {
         width: '100%',
         borderRadius: '8.35px',
-        color: (props) => (props.disabled ? '#6B7280 !important' : '#fff'),
-        background: (props) => (props.disabled ? '#E5E7EB' : '#2563EB'),
+        color: ({ disabled }) => (disabled ? '#6B7280 !important' : '#fff'),
+        background: ({ disabled }) => (disabled ? '#E5E7EB' : '#2563EB'),
         '&:hover': {
             background: `${theme.palette.blue800} !important`,
         },

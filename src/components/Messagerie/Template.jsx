@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
     Box, createStyles, Grid, makeStyles, TextField,
 } from '@material-ui/core'
-import { useHistory, useParams } from 'react-router-dom'
+import { generatePath, useHistory, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '24px',
         fontWeight: '400',
         color: theme.palette.blue600,
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     objectContainer: {
         background: theme.palette.whiteCorner,
-        padding: '16px',
+        padding: theme.spacing(2),
         borderRadius: '12px 12px 0 0',
     },
     mailObject: {
@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => createStyles({
     },
     buttonContainer: {
         justifyContent: 'spaceBetween',
-        marginRight: '16px',
+        marginRight: theme.spacing(2),
     },
     templateContainer: {
-        marginRight: '16px',
+        marginRight: theme.spacing(2),
     },
 }));
 
@@ -47,7 +47,7 @@ const Template = () => {
     const { messageUuid } = useParams()
     const classes = useStyles();
 
-    const editEmail = async () => {
+    const editEmail = () => {
         const body = {
             type: currentScope.code,
             label: `DataCorner: ${messageSubject}`,
@@ -61,6 +61,14 @@ const Template = () => {
         }
         return createMessage(body);
     };
+
+    const handleClickNext = () => {
+        setLoading(true);
+        editEmail().then((body) => {
+            setMessage(body);
+            history.push(generatePath(PATHS.MESSAGERIE_FILTER.url, { messageUuid: body.uuid }));
+        })
+    }
 
     return (
         <>
@@ -84,13 +92,7 @@ const Template = () => {
                         label="Suivant"
                         loading={loading}
                         disabled={loading || !messageSubject || !message}
-                        onClick={() => {
-                            setLoading(true);
-                            editEmail().then((body) => {
-                                setMessage(body);
-                                history.push(PATHS.MESSAGERIE_FILTER.url(body.uuid));
-                            });
-                        }}
+                        onClick={handleClickNext}
                     />
                 </Grid>
             </Grid>

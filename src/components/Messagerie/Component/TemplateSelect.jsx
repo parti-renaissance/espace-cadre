@@ -10,29 +10,29 @@ const useStyles = makeStyles((theme) => createStyles({
     autocomplete: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8px',
-        marginRight: '16px',
+        marginRight: theme.spacing(2),
     },
     popper: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8px',
-        marginTop: '8px',
+        marginTop: theme.spacing(1),
     },
     templateSelect: {
         borderRadius: '8px',
-        marginRight: '16px',
+        marginRight: theme.spacing(2),
     },
     materialButton: {
         color: theme.palette.blue600,
         borderColor: theme.palette.blue600,
         width: '100%',
-        padding: '8px 16px',
+        padding: theme.spacing(1, 2),
         borderRadius: '8px',
         '&:hover': {
             background: theme.palette.gray200,
         },
     },
     buttonIcon: {
-        marginRight: '8px',
+        marginRight: theme.spacing(1),
     },
 }));
 
@@ -69,8 +69,8 @@ const TemplateSelect = () => {
         }
     };
 
-    const createTemplate = async (bodyreq) => apiClient.post('/v3/email_templates', bodyreq);
-    const updateTemplate = async (bodyreq, id) => apiClient.put(`/v3/email_templates/${id}`, bodyreq);
+    const createTemplate = (bodyreq) => apiClient.post('/v3/email_templates', bodyreq);
+    const updateTemplate = (bodyreq, id) => apiClient.put(`/v3/email_templates/${id}`, bodyreq);
 
     const handleClickSaveButton = async () => {
         const bodyreq = {

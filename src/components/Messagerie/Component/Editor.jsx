@@ -8,14 +8,22 @@ import PropTypes from 'prop-types'
 import { useUserScope } from '../../../redux/user/hooks';
 import { getMessageContent } from '../../../api/messagerie'
 
+const downloadHtml = (html) => {
+    const file = new Blob([html], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(file);
+    a.download = 'template.html';
+    a.click();
+}
+
 const useStyles = makeStyles((theme) => createStyles({
     emailEditor: {
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     exportButton: {
         color: theme.palette.gray500,
         background: theme.palette.gray200,
-        margin: '16px 0 0',
+        margin: theme.spacing(2, 0, 0),
         '&:hover, &:focus': {
             color: theme.palette.gray500,
             background: theme.palette.gray100,
@@ -101,11 +109,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
 
     const exportHtml = () => {
         emailEditorRef.current.editor.exportHtml((data) => {
-            const file = new Blob([data.html], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(file);
-            a.download = 'template.html';
-            a.click();
+            downloadHtml(data.html)
         });
     };
 
@@ -116,8 +120,6 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
                 ref={emailEditorRef}
                 projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
                 onLoad={() => setEditorLoaded(true)}
-                onReady={() => {
-                }}
                 options={{
                     locale: 'fr-FR',
                     safeHtml: true,

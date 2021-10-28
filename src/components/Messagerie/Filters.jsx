@@ -3,7 +3,9 @@ import {
     Box, Button, Container, Grid, makeStyles,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { Link, useHistory, useParams } from 'react-router-dom'
+import {
+    generatePath, Link, useHistory, useParams,
+} from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters';
 import { useUserScope } from '../../redux/user/hooks';
 import useRetry from '../useRetry';
@@ -85,8 +87,8 @@ const Filters = () => {
         getMessage,
         duration,
         count,
-        async () => {
-            const responseSend = await sendMessage(messageUuid);
+        () => {
+            const responseSend = sendMessage(messageUuid);
             if (responseSend === 'OK') {
                 history.push(PATHS.MESSAGERIE_CONFIRMATION.route);
             } else {
@@ -128,7 +130,7 @@ const Filters = () => {
             <Container maxWidth="xl">
                 <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
                 <Grid container>
-                    <Link to={PATHS.MESSAGERIE_EDIT.url(messageUuid)}>
+                    <Link to={generatePath(PATHS.MESSAGERIE_EDIT.url, { messageUuid })}>
                         <Button
                             type="button"
                             disableRipple
@@ -156,9 +158,7 @@ const Filters = () => {
                             {audienceSegment && (
                                 <div className={classes.message}>Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}</div>
                             )}
-                            {loadingSegment && (
-                                <Loader />
-                            )}
+                            {loadingSegment && <Loader />}
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
