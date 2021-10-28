@@ -82,7 +82,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
         const { editor } = emailEditorRef.current
         const onEditorLoaded = async () => {
             if (messageUuid) {
-                const messageContent = getMessageContent(messageUuid)
+                const messageContent = await getMessageContent(messageUuid)
                 const design = JSON.parse(messageContent.json_content)
                 editor.loadDesign(design);
                 onMessageSubject(messageContent.subject)
