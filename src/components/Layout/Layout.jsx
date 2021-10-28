@@ -11,8 +11,8 @@ import Sidebar from '../Sidebar/Sidebar';
 import PageContent from '../PageContent';
 import ScopesPage from '../Scopes/ScopesPage';
 import BootPage from '../BootPage';
-import { PATHS } from '../../Routes';
 import Auth from '../Auth';
+import PATHS from '../../paths';
 
 const Layout = ({ children }) => {
     const initializeAuth = useInitializeAuth();

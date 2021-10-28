@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => createStyles({
     buttonFilter: {
         color: theme.palette.whiteCorner,
         background: `${theme.palette.gray700}`,
-        marginRight: '16px',
+        marginRight: theme.spacing(2),
         borderRadius: '8.35px',
         '&:hover': {
             background: theme.palette.gray600,
@@ -100,12 +100,15 @@ const FiltersForm = ({
         </Box>
     );
 };
+FiltersForm.defaultProps = {
+    onReset: () => {},
+};
 
 FiltersForm.propTypes = {
     filters: PropTypes.arrayOf(Object).isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onReset: PropTypes.func.isRequired,
     values: PropTypes.objectOf(Object).isRequired,
+    onReset: PropTypes.func,
 };
 
 export default FiltersForm;

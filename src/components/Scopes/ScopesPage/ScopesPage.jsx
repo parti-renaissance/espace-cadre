@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Grid, Box } from '@material-ui/core';
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors';
 import { useUserScope } from '../../../redux/user/hooks';
+import PATHS from '../../../paths';
 
 function ScopesPage() {
     const userScopes = useSelector(getUserScopes);
@@ -24,7 +25,7 @@ function ScopesPage() {
     return (
         <Container maxWidth="xl" className="scopes-page-container">
             <Grid container className="logo-title-container">
-                <img src="images/bar-chart-scopes.svg" alt="Logo data corner" className="page-logo" />
+                <img src="/images/bar-chart-scopes.svg" alt="Logo data corner" className="page-logo" />
                 <span className="page-title">DataCorner</span>
                 <span className="beta">BÊTA</span>
             </Grid>
@@ -39,7 +40,7 @@ function ScopesPage() {
             {filteredScopes?.length > 0 && (
                 <Grid container className="secondary-scope-card-container">
                     {filteredScopes.map((userScope, index) => {
-                        const to = userScope.code === 'phoning_national_manager' ? '/equipes' : '/';
+                        const to = userScope.code === 'phoning_national_manager' ? PATHS.TEAMS.route : PATHS.DASHBOARD.route;
                         return (
                             <Link
                                 className="secondary-card"

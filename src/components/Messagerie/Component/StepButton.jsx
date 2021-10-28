@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import React from 'react';
 import {
     Button, Box, createStyles, makeStyles,
@@ -11,6 +10,8 @@ const useStyles = makeStyles((theme) => createStyles({
     materialButton: {
         width: '100%',
         borderRadius: '8.35px',
+        color: ({ disabled }) => (disabled ? '#6B7280 !important' : '#fff'),
+        background: ({ disabled }) => (disabled ? '#E5E7EB' : '#2563EB'),
         '&:hover': {
             background: `${theme.palette.blue800} !important`,
         },
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => createStyles({
 const StepButton = ({
     disabled, loading, onClick, label,
 }) => {
-    const classes = useStyles();
+    const classes = useStyles({ disabled });
 
     return (
         <Button
@@ -31,10 +32,6 @@ const StepButton = ({
             onClick={disabled ? null : onClick}
             size="large"
             disabled={disabled}
-            style={{
-                color: disabled ? '#6B7280 !important' : '#fff',
-                background: disabled ? '#E5E7EB' : '#2563EB',
-            }}
         >
             <Box>
                 {loading && <Loader />}
@@ -46,6 +43,11 @@ const StepButton = ({
 };
 
 export default StepButton;
+
+StepButton.defaultProps = {
+    disabled: false,
+    loading: false,
+};
 
 StepButton.propTypes = {
     disabled: PropTypes.bool,

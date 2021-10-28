@@ -1,18 +1,26 @@
-/* eslint-disable react/require-default-props */
 import React, { useState } from 'react';
 import {
     Box, Button, Container, Grid, makeStyles,
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import DynamicFilters from '../../Filters/DynamicFilters';
-import { FEATURE_MESSAGES } from '../../Feature/FeatureCode';
-import { apiClient } from '../../../services/networking/client';
-import { useUserScope } from '../../../redux/user/hooks';
-import useRetry from '../../Filters/useRetry';
-import Loader from '../../HelperComponents/Loader';
-import ErrorComponent from '../../ErrorComponent';
-import ModalComponent from '../Filters/ModalComponent';
+import {
+    generatePath, Link, useHistory, useParams,
+} from 'react-router-dom'
+import DynamicFilters from '../Filters/DynamicFilters';
+import { useUserScope } from '../../redux/user/hooks';
+import useRetry from '../useRetry';
+import PATHS from '../../paths';
+import ErrorComponent from '../ErrorComponent';
+import Loader from '../HelperComponents/Loader';
+import ModalComponent from './Component/ModalComponent';
+import { FEATURE_MESSAGES } from '../Feature/FeatureCode';
+import {
+    createSegmentAudience,
+    getMessage,
+    getSegmentAudience,
+    sendMessage, sendTestMessage, setMessageSegment,
+    updateSegmentAudience,
+} from '../../api/messagerie'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -22,13 +30,16 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '24px',
         fontWeight: '400',
         color: theme.palette.blue600,
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
-    addresseesContainer: {
+    messageContainer: {
         fontWeight: '600',
         fontSize: '18px',
         color: theme.palette.gray700,
-        marginBottom: '24px',
+        marginBottom: theme.spacing(3),
+    },
+    message: {
+        height: '30px',
     },
     addresseesCount: {
         color: theme.palette.blue800,
@@ -55,34 +66,44 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.blue600,
     },
     buttonIcon: {
-        marginRight: '8px',
+        marginRight: theme.spacing(1),
     },
 }));
 
-const BUTTON_INITIAL_STATE = { state: 'readyToSend', isLoading: false };
-const duration = 1000;
-const count = 10;
+const retryInterval = 1000;
+const maxAttempts = 10;
 
-const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
+const Filters = () => {
+    const { messageUuid } = useParams();
+    const history = useHistory();
     const classes = useStyles();
     const [currentScope] = useUserScope();
     const [audienceId, setAudienceId] = useState(null);
     const [errorMessage, setErrorMessage] = useState();
     const [loadingTestButton, setLoadingTestButton] = useState(false);
-    const [loadingSendButton, setLoadingSendButton] = useState(BUTTON_INITIAL_STATE);
     const [open, setOpen] = useState(false);
-    const [, audienceSegment, launch] = useRetry(async (uuid) => {
-        const result = await apiClient.get(`/v3/audience-segments/${uuid}`);
-        return result;
-    }, duration, count);
+    const [loadingSegment, audienceSegment, launch] = useRetry(getSegmentAudience, retryInterval, maxAttempts);
+    const [loadingSendButton,, launchAreFilterSaved] = useRetry(
+        getMessage,
+        retryInterval,
+        maxAttempts,
+        () => {
+            const responseSend = sendMessage(messageUuid);
+            if (responseSend === 'OK') {
+                history.push(PATHS.MESSAGERIE_CONFIRMATION.route);
+            } else {
+                // TODO: error management
+            }
+        },
+    );
 
     const handleFiltersSubmit = async (filtersToSend) => {
         try {
             if (audienceId) {
-                await apiClient.put(`/v3/audience-segments/${audienceId}`, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
+                await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
                 launch(audienceId);
             } else {
-                const audience = await apiClient.post('/v3/audience-segments', { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
+                const audience = await createSegmentAudience({ filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
                 setAudienceId(audience.uuid);
                 launch(audience.uuid);
             }
@@ -94,41 +115,14 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
     const handleSendEmail = async (test = false) => {
         if (test) {
             setLoadingTestButton(true);
-            const responseTest = await apiClient.post(`/v3/adherent_messages/${email.uuid}/send-test`);
+            const responseTest = await sendTestMessage(messageUuid)
             if (responseTest === 'OK') {
                 setLoadingTestButton(false);
             }
-            return;
+        } else {
+            await setMessageSegment(messageUuid, audienceId)
+            launchAreFilterSaved()
         }
-
-        setLoadingSendButton((state) => ({ ...state, isLoading: true }));
-        apiClient.put(`/v3/adherent_messages/${email.uuid}/filter`, { segment: audienceId });
-        let callCount = 0;
-        const timer = setInterval(async () => {
-            const emailStatusResponse = await apiClient.get(`/v3/adherent_messages/${email.uuid}`);
-            // eslint-disable-next-line no-plusplus
-            if (++callCount >= 10 || (emailStatusResponse.synchronized === true)) {
-                clearInterval(timer);
-                if (emailStatusResponse.synchronized === true) {
-                    const responseSend = await apiClient.post(`/v3/adherent_messages/${email.uuid}/send`);
-
-                    if (responseSend === 'OK') {
-                        setLoadingSendButton(() => ({ state: 'success', isLoading: false }));
-                        nextStepCallback();
-                    } else {
-                        setLoadingSendButton(() => ({ state: 'error', isLoading: false }));
-                    }
-                }
-            }
-        }, 1000);
-    };
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
     };
 
     return (
@@ -136,14 +130,16 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
             <Container maxWidth="xl">
                 <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
                 <Grid container>
-                    <Button
-                        onClick={previousStepCallback}
-                        className={classes.backButton}
-                        size="medium"
-                    >
-                        <ArrowBackIcon className={classes.buttonIcon} />
-                        Précédent
-                    </Button>
+                    <Link to={generatePath(PATHS.MESSAGERIE_EDIT.url, { messageUuid })}>
+                        <Button
+                            type="button"
+                            disableRipple
+                            className={classes.backButton}
+                            size="medium"
+                            startIcon={<ArrowBackIcon className={classes.buttonIcon} />}
+                        >Précédent
+                        </Button>
+                    </Link>
                 </Grid>
                 <Grid container>
                     { errorMessage && (
@@ -154,18 +150,16 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
                     <Grid item>
                         <DynamicFilters
                             feature={FEATURE_MESSAGES}
-                            onSubmit={(newFilters) => {
-                                handleFiltersSubmit(newFilters);
-                            }}
-                            onReset={() => {}}
+                            onSubmit={handleFiltersSubmit}
                         />
                     </Grid>
                     <Grid container>
-                        {audienceSegment && (
-                            <Grid item xs={12} className={classes.addresseesContainer}>
-                                Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}
-                            </Grid>
-                        )}
+                        <Grid item xs={12} className={classes.messageContainer}>
+                            {audienceSegment && (
+                                <div className={classes.message}>Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}</div>
+                            )}
+                            {loadingSegment && <Loader />}
+                        </Grid>
                     </Grid>
                     <Grid item xs={12}>
                         <Button
@@ -189,19 +183,19 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
                             variant="outlined"
                             size="medium"
                             className={classes.sendButton}
-                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1 || loadingSendButton.isLoading}
-                            onClick={handleClickOpen}
+                            disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1 || loadingSendButton}
+                            onClick={() => setOpen(true)}
                         >
                             <Box>
-                                {loadingSendButton.isLoading ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
+                                {loadingSendButton ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
                             </Box>
                             Envoyer l&apos;email
                         </Button>
                         {open && (
                             <ModalComponent
                                 open={open}
-                                audienceSegment={audienceSegment}
-                                handleClose={handleClose}
+                                recipientCount={audienceSegment?.recipient_count || 0}
+                                handleClose={() => setOpen(false)}
                                 handleSendEmail={handleSendEmail}
                             />
                         )}
@@ -213,9 +207,3 @@ const Filters = ({ previousStepCallback, nextStepCallback, email }) => {
 };
 
 export default Filters;
-
-Filters.propTypes = {
-    previousStepCallback: PropTypes.func,
-    nextStepCallback: PropTypes.func,
-    email: PropTypes.objectOf(Object).isRequired,
-};
