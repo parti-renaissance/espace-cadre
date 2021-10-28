@@ -101,7 +101,7 @@ const Filters = () => {
                 await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
                 launch(audienceId);
             } else {
-                const audience = createSegmentAudience({ filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
+                const audience = await createSegmentAudience({ filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
                 setAudienceId(audience.uuid);
                 launch(audience.uuid);
             }
