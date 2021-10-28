@@ -30,13 +30,13 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '24px',
         fontWeight: '400',
         color: theme.palette.blue600,
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     messageContainer: {
         fontWeight: '600',
         fontSize: '18px',
         color: theme.palette.gray700,
-        marginBottom: '24px',
+        marginBottom: theme.spacing(3),
     },
     message: {
         height: '30px',
@@ -66,12 +66,12 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.blue600,
     },
     buttonIcon: {
-        marginRight: '8px',
+        marginRight: theme.spacing(1),
     },
 }));
 
-const duration = 1000;
-const count = 10;
+const retryInterval = 1000;
+const maxAttempts = 10;
 
 const Filters = () => {
     const { messageUuid } = useParams();
@@ -82,11 +82,11 @@ const Filters = () => {
     const [errorMessage, setErrorMessage] = useState();
     const [loadingTestButton, setLoadingTestButton] = useState(false);
     const [open, setOpen] = useState(false);
-    const [loadingSegment, audienceSegment, launch] = useRetry(getSegmentAudience, duration, count);
+    const [loadingSegment, audienceSegment, launch] = useRetry(getSegmentAudience, retryInterval, maxAttempts);
     const [loadingSendButton,, launchAreFilterSaved] = useRetry(
         getMessage,
-        duration,
-        count,
+        retryInterval,
+        maxAttempts,
         () => {
             const responseSend = sendMessage(messageUuid);
             if (responseSend === 'OK') {

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => createStyles({
     buttonFilter: {
         color: theme.palette.whiteCorner,
         background: `${theme.palette.gray700}`,
-        marginRight: '16px',
+        marginRight: theme.spacing(2),
         borderRadius: '8.35px',
         '&:hover': {
             background: theme.palette.gray600,
