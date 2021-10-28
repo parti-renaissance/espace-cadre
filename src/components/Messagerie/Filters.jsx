@@ -7,12 +7,18 @@ import { Link, useHistory, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters';
 import { useUserScope } from '../../redux/user/hooks';
 import useRetry from '../useRetry';
-import { apiClient } from '../../services/networking/client';
 import PATHS from '../../paths';
 import ErrorComponent from '../ErrorComponent';
 import Loader from '../HelperComponents/Loader';
 import ModalComponent from './Component/ModalComponent';
 import { FEATURE_MESSAGES } from '../Feature/FeatureCode';
+import {
+    createSegmentAudience,
+    getMessage,
+    getSegmentAudience,
+    sendMessage, sendTestMessage, setMessageSegment,
+    updateSegmentAudience,
+} from '../../api/messagerie'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -24,11 +30,14 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.blue600,
         marginBottom: '16px',
     },
-    message: {
+    messageContainer: {
         fontWeight: '600',
         fontSize: '18px',
         color: theme.palette.gray700,
         marginBottom: '24px',
+    },
+    message: {
+        height: '30px',
     },
     addresseesCount: {
         color: theme.palette.blue800,
@@ -71,14 +80,13 @@ const Filters = () => {
     const [errorMessage, setErrorMessage] = useState();
     const [loadingTestButton, setLoadingTestButton] = useState(false);
     const [open, setOpen] = useState(false);
-    const [loadingSegment, audienceSegment, launch] = useRetry(async (segmentUuid) => apiClient.get(`/v3/audience-segments/${segmentUuid}`), duration, count);
+    const [loadingSegment, audienceSegment, launch] = useRetry(getSegmentAudience, duration, count);
     const [loadingSendButton,, launchAreFilterSaved] = useRetry(
-        async () => apiClient.get(`/v3/adherent_messages/${messageUuid}`),
+        getMessage,
         duration,
         count,
         async () => {
-            const responseSend = await apiClient.post(`/v3/adherent_messages/${messageUuid}/send`);
-
+            const responseSend = await sendMessage(messageUuid);
             if (responseSend === 'OK') {
                 history.push(PATHS.MESSAGERIE_CONFIRMATION.route);
             } else {
@@ -90,10 +98,10 @@ const Filters = () => {
     const handleFiltersSubmit = async (filtersToSend) => {
         try {
             if (audienceId) {
-                await apiClient.put(`/v3/audience-segments/${audienceId}`, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
+                await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
                 launch(audienceId);
             } else {
-                const audience = await apiClient.post('/v3/audience-segments', { filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
+                const audience = createSegmentAudience({ filter: { ...{ scope: currentScope.code }, ...filtersToSend } });
                 setAudienceId(audience.uuid);
                 launch(audience.uuid);
             }
@@ -105,12 +113,12 @@ const Filters = () => {
     const handleSendEmail = async (test = false) => {
         if (test) {
             setLoadingTestButton(true);
-            const responseTest = await apiClient.post(`/v3/adherent_messages/${messageUuid}/send-test`);
+            const responseTest = await sendTestMessage(messageUuid)
             if (responseTest === 'OK') {
                 setLoadingTestButton(false);
             }
         } else {
-            await apiClient.put(`/v3/adherent_messages/${messageUuid}/filter`, { segment: audienceId });
+            await setMessageSegment(messageUuid, audienceId)
             launchAreFilterSaved()
         }
     };
@@ -144,9 +152,9 @@ const Filters = () => {
                         />
                     </Grid>
                     <Grid container>
-                        <Grid item xs={12} className={classes.message}>
+                        <Grid item xs={12} className={classes.messageContainer}>
                             {audienceSegment && (
-                                <div style={{ height: '45px' }}>Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}</div>
+                                <div className={classes.message}>Vous allez envoyer un message à <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact{audienceSegment.recipient_count > 1 && 's'}</div>
                             )}
                             {loadingSegment && (
                                 <Loader />

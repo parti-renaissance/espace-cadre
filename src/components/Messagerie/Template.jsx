@@ -6,9 +6,9 @@ import { useHistory, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
-import { apiClient } from '../../services/networking/client'
 import TemplateSelect from './Component/TemplateSelect'
 import PATHS from '../../paths'
+import { createMessage, updateMessage } from '../../api/messagerie'
 
 const clearBody = (body) => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -54,12 +54,12 @@ const Template = () => {
             subject: messageSubject,
             content: clearBody(message.chunks.body),
             json_content: JSON.stringify(message.design),
-        };
+        }
 
         if (messageUuid) {
-            return apiClient.put(`/v3/adherent_messages/${messageUuid}`, body);
+            return updateMessage(messageUuid, body);
         }
-        return apiClient.post('/v3/adherent_messages', body);
+        return createMessage(body);
     };
 
     return (

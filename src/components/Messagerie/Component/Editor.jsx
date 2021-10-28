@@ -6,7 +6,7 @@ import { Button, makeStyles, createStyles } from '@material-ui/core';
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useUserScope } from '../../../redux/user/hooks';
-import { apiClient } from '../../../services/networking/client'
+import { getMessageContent } from '../../../api/messagerie'
 
 const useStyles = makeStyles((theme) => createStyles({
     emailEditor: {
@@ -82,7 +82,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
         const { editor } = emailEditorRef.current
         const onEditorLoaded = async () => {
             if (messageUuid) {
-                const messageContent = await apiClient.get(`/v3/adherent_messages/${messageUuid}/content`);
+                const messageContent = getMessageContent(messageUuid)
                 const design = JSON.parse(messageContent.json_content)
                 editor.loadDesign(design);
                 onMessageSubject(messageContent.subject)
@@ -98,11 +98,6 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
             editor?.removeEventListener('design:updated', updateMessageTemplateCallback);
         }
     }, [editorLoaded, messageUuid, onMessageSubject, updateMessageTemplateCallback])
-
-    useEffect(() => {
-        const editor = emailEditorRef.current?.editor
-        return () => editor?.removeEventListener(updateMessageTemplateCallback)
-    }, [updateMessageTemplateCallback]);
 
     const exportHtml = () => {
         emailEditorRef.current.editor.exportHtml((data) => {
