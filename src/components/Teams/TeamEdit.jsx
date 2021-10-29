@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import {
-    Container, Grid, makeStyles, createStyles, Paper, Typography,
+    Container, Grid, makeStyles, createStyles, Card, Paper, Typography,
 } from '@material-ui/core';
 import {
     useParams,
 } from 'react-router-dom';
 import { deleteTeamMember, getTeam } from '../../api/teams';
 import MemberCard from './MemberCard';
+import Button from '../../ui/Button';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -63,6 +64,26 @@ const TeamEdit = () => {
                     Équipes &gt; {team?.name}
                 </Grid>
             </Grid>
+            <Grid container>
+                <Card className={classes.root}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            Ajouter des membres
+                        </Grid>
+                        <Grid item xs={12}>
+                            Autocomplete
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button
+                                buttonClasses={classes.buttonClasses}
+                                handleClick={() => {}}
+                            >
+                                Ajouter
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Card>
+            </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} className={classes.title}> Membres de l&apos;équipe </Grid>
                 {team?.members.length > 0 ? team?.members?.map(((member) => (
@@ -72,7 +93,7 @@ const TeamEdit = () => {
                         handleDelete={() => handleDelete(member.id)}
                     />
                 ))) : (
-                    <Grid item>
+                    <Grid item xs={6}>
                         <Paper className={classes.noMember}>
                             <Typography variant="body1">
                                 Cette équipe ne contient aucun membre

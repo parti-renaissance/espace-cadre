@@ -33,7 +33,7 @@ const MemberCard = ({ member, handleDelete }) => {
     const classes = useStyles();
 
     return (
-        <Grid item key={id} xs={3}>
+        <Grid item key={id} xs={12} sm={6} md={3}>
             <Card className={classes.root}>
                 <Grid container justifyContent="space-between">
                     <Grid item className={classes.name}>
