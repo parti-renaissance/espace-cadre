@@ -1,11 +1,12 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import {
-    makeStyles, createStyles, Dialog, Box, Grid, Button,
+    makeStyles, createStyles, Dialog, Grid, Button,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import ClearIcon from '@material-ui/icons/Clear';
 import { apiClient } from '../../services/networking/client';
 import AlertBanner from '../HelperComponents/AlertBanner';
 import TextFieldComponent from '../HelperComponents/TextFieldComponent';
@@ -23,11 +24,6 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '24px',
         color: theme.palette.gray800,
         fontWeight: '400',
-    },
-    cross: {
-        color: theme.palette.gray700,
-        marginTop: '30px',
-        cursor: 'pointer',
     },
     charactersLimit: {
         fontSize: '10px',
@@ -59,7 +55,7 @@ const teamSchema = Yup.object({
         .required('Titre obligatoire'),
 });
 
-const TeamsModal = ({
+const TeamModal = ({
     handleClose, teamItem, onSubmitRefresh, open,
 }) => {
     const classes = useStyles();
@@ -73,8 +69,8 @@ const TeamsModal = ({
         enableReinitialize: true,
         onSubmit: async (values) => {
             try {
-                if (teamItem.uuid) {
-                    await apiClient.put(`api/v3/teams/${teamItem.uuid}`, values);
+                if (teamItem.id) {
+                    await apiClient.put(`api/v3/teams/${teamItem.id}`, values);
                 } else {
                     await apiClient.post('api/v3/teams', values);
                 }
@@ -92,10 +88,12 @@ const TeamsModal = ({
             <form onSubmit={formik.handleSubmit}>
                 <Grid container justifyContent="space-between" className={classes.innerContainer}>
                     <Grid item>
-                        <Box component="span" className={classes.modalTitle}>Créer ou modifier une équipe</Box>
+                        <span className={classes.modalTitle}>Créer ou modifier une équipe</span>
                     </Grid>
                     <Grid item>
-                        <Box component="span" className={classes.cross} onClick={handleClose}>X</Box>
+                        <Button type="button" onClick={handleClose}>
+                            <ClearIcon />
+                        </Button>
                     </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
@@ -105,7 +103,8 @@ const TeamsModal = ({
                 </Grid>
                 <Grid container className={classes.innerContainer}>
                     <Grid item xs={12}>
-                        <span className={classes.fieldTitle}>Nom</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
+                        <span className={classes.fieldTitle}>Nom</span>{' '}
+                        <span className={classes.charactersLimit}>(255 charactères)</span>
                     </Grid>
                     <Grid item xs={12}>
                         <TextFieldComponent formik={formik} label="name" />
@@ -125,15 +124,15 @@ const TeamsModal = ({
     );
 };
 
-export default TeamsModal;
+export default TeamModal;
 
-TeamsModal.defaultProps = {
+TeamModal.defaultProps = {
     handleClose: () => {},
     onSubmitRefresh: () => {},
     teamItem: null,
 };
 
-TeamsModal.propTypes = {
+TeamModal.propTypes = {
     handleClose: PropTypes.func,
     onSubmitRefresh: PropTypes.func,
     teamItem: PropTypes.object,

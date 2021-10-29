@@ -16,6 +16,7 @@ const MessageConfirmation = lazy(() => import('./components/Messagerie/Confirmat
 const Elections = lazy(() => import('./components/Elections/Elections'));
 const Ripostes = lazy(() => import('./components/Ripostes'));
 const Teams = lazy(() => import('./components/Teams'));
+const TeamEdit = lazy(() => import('./components/Teams/TeamEdit'));
 const NoMatch = lazy(() => import('./components/NoMatch'));
 
 export const MENU = [
@@ -68,6 +69,10 @@ const COMPONENTS = [
         path: PATHS.TEAMS,
         component: Teams,
     },
+    {
+        path: PATHS.TEAMS_EDIT,
+        component: TeamEdit,
+    },
 ];
 
 const Routes = () => {
@@ -83,7 +88,7 @@ const Routes = () => {
 
     if (authorizedPage && authorizedPage.length > 0) {
         COMPONENTS.forEach((component, index) => {
-            if (authorizedPage.includes(component.path.id)) {
+            if (authorizedPage.includes(component.path?.id)) {
                 routes.push(<Route key={index + 1} path={component.path.route} exact component={component.component} />);
             }
         });

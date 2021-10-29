@@ -4,7 +4,7 @@ import {
     makeStyles, createStyles, Grid, Paper, Button, Box,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import DotMenu from '../HelperComponents/DotMenu';
+import RiposteEnableStatus from './RiposteEnableStatus';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const CardComponent = ({
+const RiposteCard = ({
     item, handleClickOpen, handleActiveItem,
 }) => {
     const classes = useStyles();
@@ -120,7 +120,7 @@ const CardComponent = ({
                         </Button>
                     </Grid>
                     <Grid item>
-                        <DotMenu handleActiveItem={handleActiveItem} item={item} />
+                        <RiposteEnableStatus handleActiveItem={handleActiveItem} item={item} />
                     </Grid>
                 </Grid>
             </Paper>
@@ -128,9 +128,9 @@ const CardComponent = ({
     );
 };
 
-export default CardComponent;
+export default RiposteCard;
 
-CardComponent.propTypes = {
+RiposteCard.propTypes = {
     item: PropTypes.object.isRequired,
     handleClickOpen: PropTypes.func.isRequired,
     handleActiveItem: PropTypes.func.isRequired,

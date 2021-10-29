@@ -3,11 +3,15 @@ import React from 'react';
 import {
     makeStyles, createStyles, Grid, Paper, Button,
 } from '@material-ui/core';
+import { Link, generatePath } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import PATHS from '../../paths';
+import { Team } from '../../domain/team';
+import TeamRename from './TeamRename'
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
-        padding: '16px',
+        padding: theme.spacing(2),
         borderRadius: '8.35px',
     },
     container: {
@@ -18,7 +22,7 @@ const useStyles = makeStyles((theme) => createStyles({
         fontWeight: '500',
         color: theme.palette.gray700,
         background: 'rgba(55, 65, 81, 0.08)',
-        padding: '2px 8px',
+        padding: theme.spacing(0.25, 1),
         borderRadius: '19px',
     },
     title: {
@@ -39,7 +43,7 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '13px',
         fontWeight: '500',
         color: theme.palette.lightBlue600,
-        marginTop: '11px',
+        marginTop: theme.spacing(1.5),
         '&:hover': {
             background: theme.palette.teamBackground,
             borderRadius: '8.35px',
@@ -47,30 +51,38 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const CardComponent = ({
-    item, handleClickOpen,
+const TeamCard = ({
+    team: {
+        id, name, creator, members,
+    }, handleEditTeam,
 }) => {
     const classes = useStyles();
-
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Paper classes={{ root: classes.root }}>
                 <Grid container className={classes.container}>
                     <Grid item>
-                        <span className={classes.chip}>{item.members_count} membres</span>
+                        <span className={classes.chip}>{members.length} membre{members.length > 1 && 's'}</span>
                     </Grid>
                 </Grid>
                 <Grid container className={classes.container}>
-                    <Grid item className={classes.title} title={item.name}>{item.name}</Grid>
-                    <Grid item className={classes.creator}>Par {item.creator}</Grid>
+                    <Grid item className={classes.title} title={name}>{name}</Grid>
+                    <Grid item className={classes.creator}>Par {creator}</Grid>
                 </Grid>
-                <Grid container className={classes.buttonContainer}>
+                <Grid container className={classes.buttonContainer} justifyContent="space-between">
                     <Grid item>
-                        <Button
-                            className={classes.editButton}
-                            onClick={() => handleClickOpen(item.uuid)}
-                        >Éditer
-                        </Button>
+                        <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId: id })}>
+                            <Button
+                                className={classes.editButton}
+                            >
+                                Voir
+                            </Button>
+                        </Link>
+                    </Grid>
+                    <Grid item>
+                        <TeamRename
+                            handleEditTeam={() => handleEditTeam(id)}
+                        />
                     </Grid>
                 </Grid>
             </Paper>
@@ -78,9 +90,9 @@ const CardComponent = ({
     );
 };
 
-export default CardComponent;
+export default TeamCard;
 
-CardComponent.propTypes = {
-    item: PropTypes.object.isRequired,
-    handleClickOpen: PropTypes.func.isRequired,
+TeamCard.propTypes = {
+    team: Team.propTypes.isRequired,
+    handleEditTeam: PropTypes.func,
 };

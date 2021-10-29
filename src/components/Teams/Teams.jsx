@@ -3,13 +3,14 @@ import {
     Container, makeStyles, createStyles, Grid, Button,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import { apiClient } from '../../services/networking/client';
-import CardComponent from './CardComponent';
-import TeamsModal from './TeamsModal';
+import TeamCard from './TeamCard';
+import TeamModal from './TeamModal';
+import { getTeams } from '../../api/teams';
+import { Team } from '../../domain/team'
 
 const useStyles = makeStyles((theme) => createStyles({
     teamsContainer: {
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     pageTitle: {
         fontSize: '24px',
@@ -22,49 +23,40 @@ const useStyles = makeStyles((theme) => createStyles({
         marginBottom: '32px',
     },
     icon: {
-        marginRight: '8px',
+        marginRight: theme.spacing(1),
     },
     createButton: {
         color: theme.palette.lightBlue700,
-        padding: '6px 8px',
+        padding: theme.spacing(0.75, 1),
     },
     root: {
-        padding: '16px',
+        padding: theme.spacing(2),
         borderRadius: '8.35px',
     },
 }));
 
 const Teams = () => {
     const classes = useStyles();
-    const [teamItems, setTeamsList] = useState();
-    const [currentItem, setCurrentItem] = useState(null);
+    const [teams, setTeams] = useState([]);
+    const [currentTeam, setCurrentTeam] = useState(null);
     const [refreshPage, setRefreshPage] = useState(0);
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = (id) => {
-        setCurrentItem(teamItems.find((el) => el.uuid === id) || null);
-        setOpen(true);
-    };
-
     const handleNewTeam = () => {
-        setCurrentItem({
-            uuid: null,
-            name: '',
-        });
+        setCurrentTeam(Team.NULL());
         setOpen(true);
     };
 
+    const handleEditTeam = (id) => {
+        setCurrentTeam(teams.find((team) => team.id === id));
+        setOpen(true);
+    };
     const handleClose = () => {
         setOpen(false);
     };
 
     useEffect(() => {
-        const getTeams = async () => {
-            const teamsData = await apiClient.get('api/v3/teams');
-            setTeamsList(teamsData.items);
-        };
-
-        getTeams();
+        getTeams(setTeams);
     }, [refreshPage]);
 
     return (
@@ -79,19 +71,19 @@ const Teams = () => {
                     </Button>
                 </Grid>
                 <Grid container spacing={2}>
-                    {teamItems && teamItems.map((item, i) => (
-                        <CardComponent
-                            key={i}
-                            item={item}
-                            handleClickOpen={handleClickOpen}
+                    {teams.map((team) => (
+                        <TeamCard
+                            key={team.id}
+                            team={team}
+                            handleEditTeam={handleEditTeam}
                         />
                     ))}
                 </Grid>
             </Grid>
-            <TeamsModal
+            <TeamModal
                 open={open}
                 handleClose={handleClose}
-                teamItem={currentItem}
+                teamItem={currentTeam}
                 onSubmitRefresh={() => {
                     setRefreshPage((p) => p + 1);
                 }}

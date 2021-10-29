@@ -49,7 +49,7 @@ const UINavItem = ({
             exact
         >
             <Icon component={icon} className={classes.icon} />
-            <Typography variant="body1">{label}</Typography>
+            <Typography variant="body2">{label}</Typography>
         </NavLink>
     );
 };

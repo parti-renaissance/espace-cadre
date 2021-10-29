@@ -8,11 +8,11 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => createStyles({
     iconButton: {
-        marginTop: '10px',
+        marginTop: theme.spacing(1.25),
     },
     root: {
         fontSize: '13px',
-        padding: '4px 8px',
+        padding: theme.spacing(0.5, 1),
         border: `1px solid ${theme.palette.gray100}`,
         borderRadius: '8.35px',
         background: theme.palette.whiteCorner,
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const DotMenu = ({ item, handleActiveItem }) => {
+const TeamRename = ({ handleEditTeam }) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -35,9 +35,6 @@ const DotMenu = ({ item, handleActiveItem }) => {
             <IconButton
                 size="small"
                 className={classes.iconButton}
-                aria-label="more"
-                aria-controls="simple-menu"
-                aria-haspopup="true"
                 onClick={(event) => {
                     setAnchorEl(event.currentTarget);
                 }}
@@ -45,9 +42,7 @@ const DotMenu = ({ item, handleActiveItem }) => {
                 <MoreVertIcon />
             </IconButton>
             <Menu
-                id="simple-menu"
                 anchorEl={anchorEl}
-                keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 transformOrigin={{
@@ -58,19 +53,18 @@ const DotMenu = ({ item, handleActiveItem }) => {
                 <MenuItem
                     onClick={() => {
                         handleClose();
-                        handleActiveItem(item.uuid);
+                        handleEditTeam();
                     }}
                     className={classes.root}
-                >{item.enabled ? 'Désactiver' : 'Activer'}
+                >Modifier
                 </MenuItem>
             </Menu>
         </div>
     );
 };
 
-export default DotMenu;
+export default TeamRename;
 
-DotMenu.propTypes = {
-    item: PropTypes.object.isRequired,
-    handleActiveItem: PropTypes.func.isRequired,
+TeamRename.propTypes = {
+    handleEditTeam: PropTypes.func.isRequired,
 };

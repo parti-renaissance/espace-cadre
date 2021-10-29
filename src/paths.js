@@ -73,6 +73,12 @@ const Paths = {
         label: 'Équipes',
         icon: 'fas fa-star',
     },
+    TEAMS_EDIT: {
+        id: 'team',
+        route: '/equipes/:teamId/editer',
+        label: 'Équipes',
+        icon: 'fas fa-star',
+    },
 };
 
 export default Paths;
