@@ -9,7 +9,10 @@ const formatTeamMembers = (members = []) => members.map(({
     postal_code: postalCode,
 }) => new TeamMember(id, firstname, lastname, registeredAt, postalCode));
 
-const formatTeam = (team = {}) => new Team(team?.uuid, team?.name, team?.creator, team?.members_count);
+const formatTeam = (team = {}) => {
+    const members = new Array(team.members_count).fill(TeamMember.NULL())
+    return new Team(team?.uuid, team?.name, team?.creator, members)
+};
 
 export const getTeams = async (updater) => {
     const teams = await apiClient.get('api/v3/teams');

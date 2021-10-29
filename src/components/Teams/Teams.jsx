@@ -73,11 +73,11 @@ const Teams = () => {
                     </Button>
                 </Grid>
                 <Grid container spacing={2}>
-                    {teams.map((team, i) => (
+                    {teams.map((team) => (
                         <TeamCard
-                            key={i}
+                            key={team.id}
                             team={team}
-                            handleEditTeam={() => handleEditTeam(team.uuid)}
+                            handleEditTeam={handleEditTeam}
                         />
                     ))}
                 </Grid>

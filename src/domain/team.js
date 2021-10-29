@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import PropTypes, { arrayOf } from 'prop-types';
 
 export class Team {
@@ -18,6 +17,8 @@ export class TeamMember {
         this.registeredAt = registeredAt;
         this.postalCode = postalCode;
     }
+
+    static NULL() { return new TeamMember(0, '', '', '', '') }
 }
 
 TeamMember.propTypes = PropTypes.shape({

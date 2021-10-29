@@ -52,18 +52,17 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const TeamCard = ({
-    team, handleEditTeam,
+    team: {
+        id, name, creator, members,
+    }, handleEditTeam,
 }) => {
     const classes = useStyles();
-    const {
-        id, name, creator, members,
-    } = team
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Paper classes={{ root: classes.root }}>
                 <Grid container className={classes.container}>
                     <Grid item>
-                        <span className={classes.chip}>{members} membres</span>
+                        <span className={classes.chip}>{members.length} membre{members.length > 1 && 's'}</span>
                     </Grid>
                 </Grid>
                 <Grid container className={classes.container}>
@@ -82,7 +81,7 @@ const TeamCard = ({
                     </Grid>
                     <Grid item>
                         <TeamRename
-                            handleEditTeam={handleEditTeam}
+                            handleEditTeam={() => handleEditTeam(id)}
                         />
                     </Grid>
                 </Grid>
