@@ -69,8 +69,8 @@ jobs:
             -   name: Set up Cloud credentials
                 uses: google-github-actions/setup-gcloud@master
                 with:
-                    project_id: ${{ secrets.GCP_PROJECT_ID }}
-                    service_account_key: ${{ secrets.GCP_SA_KEY }}
+                    project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
+                    service_account_key: ${{ secrets.GCP_REGISTRY_SA_KEY }}
                     export_default_credentials: true
 
             -   name: Set Env
@@ -100,11 +100,11 @@ jobs:
                     gcloud --quiet auth configure-docker
 
                     docker build \
-                        --tag "eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.sha }}" \
-                        --tag "eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest" \
+                        --tag "eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.sha }}" \
+                        --tag "eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest" \
                         .
 
-                    docker push eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }} --all-tags
+                    docker push eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }} --all-tags
 
     BuildImageProduction:
         name: Build image PRODUCTION 🚀
@@ -122,8 +122,8 @@ jobs:
             -   name: Set up Cloud credentials
                 uses: google-github-actions/setup-gcloud@master
                 with:
-                    project_id: ${{ secrets.GCP_PROJECT_ID }}
-                    service_account_key: ${{ secrets.GCP_SA_KEY }}
+                    project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
+                    service_account_key: ${{ secrets.GCP_REGISTRY_SA_KEY }}
                     export_default_credentials: true
 
             -   name: Set Env
@@ -152,8 +152,8 @@ jobs:
                 run: |-
                     gcloud --quiet auth configure-docker
 
-                    docker build --tag "eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.event.release.tag_name }}" .
-                    docker push eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }} --all-tags
+                    docker build --tag "eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.event.release.tag_name }}" .
+                    docker push eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }} --all-tags
 
     DeployStaging:
         name: Deploy STAGING 🍾
@@ -166,7 +166,7 @@ jobs:
                 uses: google-github-actions/deploy-cloudrun@main
                 with:
                     service: ${{ secrets.CLOUD_RUN_NAME }}
-                    image: eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest
+                    image: eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest
                     credentials: ${{ secrets.GCP_SA_KEY }}
                     region: ${{ secrets.GCP_ZONE }}
 
@@ -181,6 +181,6 @@ jobs:
                 uses: google-github-actions/deploy-cloudrun@main
                 with:
                     service: ${{ secrets.CLOUD_RUN_NAME }}
-                    image: eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.event.release.tag_name }}
+                    image: eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.event.release.tag_name }}
                     credentials: ${{ secrets.GCP_SA_KEY }}
                     region: ${{ secrets.GCP_ZONE }}
