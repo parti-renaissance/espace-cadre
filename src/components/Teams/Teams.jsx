@@ -48,7 +48,7 @@ const Teams = () => {
     };
 
     const handleEditTeam = (id) => {
-        setCurrentTeam(teams.find((team) => team.uuid === id));
+        setCurrentTeam(teams.find((team) => team.id === id));
         setOpen(true);
     };
     const handleClose = () => {

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const Button = ({ children, buttonClasses, handleClick = () => {} }) => {
+const Button = ({ children, buttonClasses, handleClick }) => {
     const classes = useStyles();
 
     return (

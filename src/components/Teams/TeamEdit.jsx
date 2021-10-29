@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Container, Grid, makeStyles, createStyles, Card, Paper, Typography,
+    Container, Grid, makeStyles, createStyles, Paper, Typography,
 } from '@material-ui/core';
 import {
     useParams,
 } from 'react-router-dom';
-import { deleteMember, getTeam } from '../../api/teams';
+import { deleteTeamMember, getTeam } from '../../api/teams';
 import MemberCard from './MemberCard';
-import Button from '../HelperComponents/Button';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -53,7 +52,7 @@ const TeamEdit = () => {
     }, [teamId]);
 
     const handleDelete = async (memberId) => {
-        await deleteMember(teamId, memberId);
+        await deleteTeamMember(teamId, memberId);
         getTeam(teamId, setTeam);
     };
 
@@ -62,26 +61,6 @@ const TeamEdit = () => {
             <Grid container>
                 <Grid item className={classes.pageTitle}>
                     Équipes &gt; {team?.name}
-                </Grid>
-            </Grid>
-            <Grid container>
-                <Grid item xs={6}>
-                    <Card className={classes.root}>
-                        <Grid item xs={12} style={{ marginBottom: '16px' }}>
-                            Ajouter des membres
-                        </Grid>
-                        <Grid item xs={12}>
-                            Autocomplete
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                buttonClasses={classes.buttonClasses}
-                                handleClick={() => {}}
-                            >
-                                Ajouter
-                            </Button>
-                        </Grid>
-                    </Card>
                 </Grid>
             </Grid>
             <Grid container spacing={2}>
@@ -93,7 +72,7 @@ const TeamEdit = () => {
                         handleDelete={() => handleDelete(member.id)}
                     />
                 ))) : (
-                    <Grid item xs={6}>
+                    <Grid item>
                         <Paper className={classes.noMember}>
                             <Typography variant="body1">
                                 Cette équipe ne contient aucun membre

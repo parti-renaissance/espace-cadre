@@ -56,5 +56,14 @@
         "react-hooks/exhaustive-deps": "error",
         "require-await": "error",
         "semi": "off"
-    }
+    },
+    "overrides": [
+        {
+          "files": ["*.test.jsx"],
+          "rules": {
+            "react/prop-types": "off",
+            "react/display-name": "off"
+          }
+        }
+      ]
 }

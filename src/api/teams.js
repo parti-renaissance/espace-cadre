@@ -11,7 +11,7 @@ const formatTeamMembers = (members = []) => members.map(({
 
 const formatTeam = (team = {}) => {
     const members = new Array(team.members_count).fill(TeamMember.NULL())
-    return new Team(team?.uuid, team?.name, team?.creator, members)
+    return new Team(team.uuid, team.name, team.creator, members)
 };
 
 export const getTeams = async (updater) => {
@@ -22,9 +22,9 @@ export const getTeams = async (updater) => {
 
 export const getTeam = async (id, updater) => {
     const team = await apiClient.get(`api/v3/teams/${id}`);
-    const teamMembers = formatTeamMembers(team?.members);
-    const t = new Team(team?.uuid, team?.name, team?.creator, teamMembers);
+    const teamMembers = formatTeamMembers(team.members);
+    const t = new Team(team.uuid, team.name, team.creator, teamMembers);
     updater?.call(null, t);
 };
 
-export const deleteMember = (teamId, memberId) => apiClient.delete(`api/v3/teams/${teamId}/members/${memberId}`)
+export const deleteTeamMember = (teamId, memberId) => apiClient.delete(`api/v3/teams/${teamId}/members/${memberId}`)
