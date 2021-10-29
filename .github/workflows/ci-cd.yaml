@@ -165,7 +165,7 @@ jobs:
             -   name: Deploy to Cloud Run
                 uses: google-github-actions/deploy-cloudrun@main
                 with:
-                    service: ${{ secrets.CLOUD_RUN_NAME }}-staging
+                    service: ${{ secrets.CLOUD_RUN_NAME }}
                     image: eu.gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest
                     credentials: ${{ secrets.GCP_SA_KEY }}
                     region: ${{ secrets.GCP_ZONE }}
