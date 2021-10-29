@@ -8,6 +8,7 @@ import {
 import { deleteTeamMember, getTeam } from '../../api/teams';
 import MemberCard from './MemberCard';
 import Button from '../../ui/Button';
+import Autocomplete from '../Filters/Element/Autocomplete';
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => createStyles({
         padding: theme.spacing(1, 2),
         borderRadius: '8.35px',
     },
+    autocomplete: {
+        background: theme.palette.gray100,
+    },
 }));
 
 const TeamEdit = () => {
@@ -65,24 +69,29 @@ const TeamEdit = () => {
                 </Grid>
             </Grid>
             <Grid container>
-                <Card className={classes.root}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            Ajouter des membres
+                <Grid item xs={6}>
+                    <Card className={classes.root}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                Ajouter des membres
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Autocomplete
+                                    placeholder="Rechercher un adhérent"
+                                    autoCompleteStyle={classes.autocomplete}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button
+                                    buttonClasses={classes.buttonClasses}
+                                    handleClick={() => {}}
+                                >
+                                    Ajouter
+                                </Button>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            Autocomplete
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                buttonClasses={classes.buttonClasses}
-                                handleClick={() => {}}
-                            >
-                                Ajouter
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Card>
+                    </Card>
+                </Grid>
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} className={classes.title}> Membres de l&apos;équipe </Grid>

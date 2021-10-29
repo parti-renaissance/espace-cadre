@@ -6,7 +6,7 @@ import { throttle, unionBy } from 'lodash';
 import { apiClient } from '../../../services/networking/client';
 
 const useStyles = makeStyles((theme) => ({
-    autoComplete: {
+    root: {
         background: theme.palette.whiteCorner,
         borderRadius: '8.35px',
     },
@@ -17,7 +17,7 @@ const fetch = throttle((uri, queryParam, query, callback) => {
 }, 500);
 
 const Autocomplete = ({
-    uri, placeholder, queryParam, valueParam, labelParam, multiple, onChange, value, required,
+    uri, placeholder, queryParam, valueParam, labelParam, multiple, onChange, value, required, autoCompleteStyle,
 }) => {
     const [inputValue, setInputValue] = useState(null);
     const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ const Autocomplete = ({
             open={open}
             value={multiple ? selectedItems : (selectedItems[0] || null)}
             size="small"
-            className={classes.autoComplete}
+            className={`${classes.root} ${autoCompleteStyle}`}
             loading={loading}
             multiple={multiple}
             onOpen={() => setOpen(true)}
@@ -110,6 +110,7 @@ Autocomplete.propTypes = {
     multiple: PropTypes.bool,
     value: PropTypes.any,
     required: PropTypes.bool,
+    autoCompleteStyle: PropTypes.string,
 };
 
 export default Autocomplete;
