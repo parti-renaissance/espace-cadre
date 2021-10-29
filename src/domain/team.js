@@ -7,6 +7,8 @@ export class Team {
         this.creator = creator;
         this.members = members;
     }
+
+    static NULL() { return new Team(0, '', '', []) }
 }
 
 export class TeamMember {

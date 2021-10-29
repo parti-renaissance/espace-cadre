@@ -6,6 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import TeamCard from './TeamCard';
 import TeamModal from './TeamModal';
 import { getTeams } from '../../api/teams';
+import { Team } from '../../domain/team'
 
 const useStyles = makeStyles((theme) => createStyles({
     teamsContainer: {
@@ -42,10 +43,7 @@ const Teams = () => {
     const [open, setOpen] = useState(false);
 
     const handleNewTeam = () => {
-        setCurrentTeam({
-            uuid: null,
-            name: '',
-        });
+        setCurrentTeam(Team.NULL());
         setOpen(true);
     };
 
