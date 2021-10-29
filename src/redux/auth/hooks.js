@@ -1,18 +1,17 @@
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useAsyncFn } from 'react-use';
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { useAsyncFn } from 'react-use'
 
-import login from '../../services/networking/auth';
-import { apiClient } from '../../services/networking/client';
-import {
-    userLoggedIn, userUpdateData, userUpdateScopes,
-} from './slice';
-import { useUserScope } from '../user/hooks';
+import { useCallback } from 'react'
+import login from '../../services/networking/auth'
+import { apiClient } from '../../services/networking/client'
+import { userLoggedIn, userUpdateData, userUpdateScopes } from './slice'
+import { useUserScope } from '../user/hooks'
 
 export const useInitializeAuth = () => {
     const dispatch = useDispatch();
 
-    return () => {
+    return useCallback(() => {
         dispatch(userUpdateData(null));
 
         if (process.env.NODE_ENV !== 'production' && !process.env.REACT_APP_OAUTH_HOST) {
@@ -21,7 +20,7 @@ export const useInitializeAuth = () => {
         }
 
         window.location.href = `${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${process.env.REACT_APP_OAUTH_CLIENT_ID}`;
-    };
+    }, [dispatch]);
 };
 
 export const useRequestAccessToken = () => {
