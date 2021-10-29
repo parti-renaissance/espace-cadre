@@ -1,16 +1,16 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { Button as MuiButton, makeStyles } from '@material-ui/core';
+import { Button as MuiButton, makeStyles, createStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => createStyles({
     root: {
         borderRadius: '8.35px',
-        padding: '8px 16px',
+        padding: theme.spacing(1, 2),
     },
-});
+}));
 
-const Button = ({ text, buttonClasses, handleClick = () => {} }) => {
+const Button = ({ children, buttonClasses, handleClick = () => {} }) => {
     const classes = useStyles();
 
     return (
@@ -19,7 +19,7 @@ const Button = ({ text, buttonClasses, handleClick = () => {} }) => {
             className={`${classes.root} ${buttonClasses}`}
             onClick={handleClick}
         >
-            {text}
+            {children}
         </MuiButton>
     );
 };
@@ -27,7 +27,7 @@ const Button = ({ text, buttonClasses, handleClick = () => {} }) => {
 export default Button;
 
 Button.propTypes = {
-    text: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
     buttonClasses: PropTypes.string.isRequired,
     handleClick: PropTypes.func.isRequired,
 };

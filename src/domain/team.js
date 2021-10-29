@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import PropTypes from 'prop-types';
+import PropTypes, { arrayOf } from 'prop-types';
 
 export class Team {
     constructor(id, name, creator, members) {
@@ -32,5 +32,5 @@ Team.propTypes = PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     creator: PropTypes.string,
-    members: TeamMember.propTypes,
+    members: arrayOf(TeamMember).propTypes,
 });

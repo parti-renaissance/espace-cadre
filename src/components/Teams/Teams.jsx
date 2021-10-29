@@ -3,9 +3,9 @@ import {
     Container, makeStyles, createStyles, Grid, Button,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import { apiClient } from '../../services/networking/client';
 import TeamCard from './TeamCard';
 import TeamModal from './TeamModal';
+import { getTeams } from '../../api/teams';
 
 const useStyles = makeStyles((theme) => createStyles({
     teamsContainer: {
@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme) => createStyles({
 
 const Teams = () => {
     const classes = useStyles();
-    const [teamsList, setTeamsList] = useState();
-    const [currentItem, setCurrentItem] = useState(null);
+    const [teams, setTeams] = useState([]);
+    const [currentTeam, setCurrentTeam] = useState(null);
     const [refreshPage, setRefreshPage] = useState(0);
     const [open, setOpen] = useState(false);
 
     const handleNewTeam = () => {
-        setCurrentItem({
+        setCurrentTeam({
             uuid: null,
             name: '',
         });
@@ -50,7 +50,7 @@ const Teams = () => {
     };
 
     const handleEditTeam = (id) => {
-        setCurrentItem(teamsList.find((el) => el.uuid === id) || null);
+        setCurrentTeam(teams.find((team) => team.uuid === id));
         setOpen(true);
     };
     const handleClose = () => {
@@ -58,12 +58,7 @@ const Teams = () => {
     };
 
     useEffect(() => {
-        const getTeams = async () => {
-            const teamsData = await apiClient.get('api/v3/teams');
-            setTeamsList(teamsData.items);
-        };
-
-        getTeams();
+        getTeams(setTeams);
     }, [refreshPage]);
 
     return (
@@ -78,7 +73,7 @@ const Teams = () => {
                     </Button>
                 </Grid>
                 <Grid container spacing={2}>
-                    {teamsList && teamsList.map((team, i) => (
+                    {teams.map((team, i) => (
                         <TeamCard
                             key={i}
                             team={team}
@@ -90,7 +85,7 @@ const Teams = () => {
             <TeamModal
                 open={open}
                 handleClose={handleClose}
-                teamItem={currentItem}
+                teamItem={currentTeam}
                 onSubmitRefresh={() => {
                     setRefreshPage((p) => p + 1);
                 }}

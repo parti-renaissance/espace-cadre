@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => createStyles({
     iconButton: {
-        marginTop: '10px',
+        marginTop: theme.spacing(1.25),
     },
     root: {
         fontSize: '13px',
@@ -35,9 +35,6 @@ const TeamRename = ({ handleEditTeam }) => {
             <IconButton
                 size="small"
                 className={classes.iconButton}
-                aria-label="more"
-                aria-controls="simple-menu"
-                aria-haspopup="true"
                 onClick={(event) => {
                     setAnchorEl(event.currentTarget);
                 }}
@@ -45,9 +42,7 @@ const TeamRename = ({ handleEditTeam }) => {
                 <MoreVertIcon />
             </IconButton>
             <Menu
-                id="simple-menu"
                 anchorEl={anchorEl}
-                keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 transformOrigin={{

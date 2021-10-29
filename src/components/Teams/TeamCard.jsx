@@ -55,22 +55,24 @@ const TeamCard = ({
     team, handleEditTeam,
 }) => {
     const classes = useStyles();
-
+    const {
+        id, name, creator, members,
+    } = team
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Paper classes={{ root: classes.root }}>
                 <Grid container className={classes.container}>
                     <Grid item>
-                        <span className={classes.chip}>{team.members_count} membres</span>
+                        <span className={classes.chip}>{members} membres</span>
                     </Grid>
                 </Grid>
                 <Grid container className={classes.container}>
-                    <Grid item className={classes.title} title={team.name}>{team.name}</Grid>
-                    <Grid item className={classes.creator}>Par {team.creator}</Grid>
+                    <Grid item className={classes.title} title={name}>{name}</Grid>
+                    <Grid item className={classes.creator}>Par {creator}</Grid>
                 </Grid>
                 <Grid container className={classes.buttonContainer} justifyContent="space-between">
                     <Grid item>
-                        <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId: team.uuid })}>
+                        <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId: id })}>
                             <Button
                                 className={classes.editButton}
                             >
