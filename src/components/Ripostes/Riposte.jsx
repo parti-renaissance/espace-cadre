@@ -1,10 +1,10 @@
-/* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React from 'react'
 import {
-    makeStyles, createStyles, Grid, Paper, Button, Box,
-} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import RiposteEnableStatus from './RiposteEnableStatus';
+    Box, Button, createStyles, Grid, makeStyles, Paper,
+} from '@material-ui/core'
+import PropTypes from 'prop-types'
+import RiposteObject from '../../domain/riposte'
+import RiposteEnableStatus from './RiposteEnableStatus'
 
 const useStyles = makeStyles((theme) => createStyles({
     root: {
@@ -69,45 +69,48 @@ const useStyles = makeStyles((theme) => createStyles({
             borderRadius: '8.35px',
         },
     },
-}));
+}))
 
-const RiposteCard = ({
-    item, handleClickOpen, handleActiveItem,
+const Riposte = ({
+    riposte, handleClickOpen, toggleEnabled,
 }) => {
-    const classes = useStyles();
+    const classes = useStyles()
 
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Paper classes={{ root: classes.root }}>
                 <Grid container className={classes.container}>
                     <Grid item>
-                        {item.enabled ? <span className={`${classes.chip} ${classes.active}`}>Active</span> : <span className={`${classes.chip} ${classes.inactive}`}>Inactive</span>}
+                        {riposte.enabled ? <span className={`${classes.chip} ${classes.active}`}>Active</span>
+                            : <span className={`${classes.chip} ${classes.inactive}`}>Inactive</span>}
                     </Grid>
                     <Grid item className={classes.date}>
-                        Le {new Date(item.created_at).toLocaleDateString()}
+                        Le {new Date(riposte.createdAt).toLocaleDateString()}
                     </Grid>
                 </Grid>
                 <Grid container className={classes.container}>
-                    <Grid item className={classes.title} title={item.title}>{item.title}</Grid>
-                    <Grid item className={classes.creator}>Par {item.creator}</Grid>
+                    <Grid item className={classes.title} title={riposte.title}>{riposte.title}</Grid>
+                    <Grid item className={classes.creator}>Par {riposte.creator}</Grid>
                 </Grid>
                 <Grid container spacing={1} className={classes.KpiContainer}>
                     <Grid item>
-                        {item.with_notification ? <Box className={`${classes.chip} ${classes.withBorder}`}><i className="fas fa-bell" /></Box> : <Box className={`${classes.chip} ${classes.withBorder}`}><i className="fas fa-bell-slash" /></Box>}
+                        {riposte.withNotification
+                            ? <Box className={`${classes.chip} ${classes.withBorder}`}><i className="fas fa-bell" /></Box>
+                            : <Box className={`${classes.chip} ${classes.withBorder}`}><i className="fas fa-bell-slash" /></Box>}
                     </Grid>
                     <Grid item>
                         <Box className={`${classes.chip} ${classes.withBorder}`}>
-                            {item.nb_views} vue{item.nb_views > 1 && 's'}
+                            {riposte.views} vue{riposte.views > 1 && 's'}
                         </Box>
                     </Grid>
                     <Grid item>
                         <Box className={`${classes.chip} ${classes.withBorder}`}>
-                            {item.nb_detail_views} vue{item.nb_detail_views > 1 && 's'} détaillée{item.nb_detail_views > 1 && 's'}
+                            {riposte.detailViews} vue{riposte.detailViews > 1 && 's'} détaillée{riposte.detailViews > 1 && 's'}
                         </Box>
                     </Grid>
                     <Grid item>
                         <Box className={`${classes.chip} ${classes.withBorder}`}>
-                            {item.nb_ripostes} riposte{item.nb_ripostes > 1 && 's'}
+                            {riposte.ripostes} riposte{riposte.ripostes > 1 && 's'}
                         </Box>
                     </Grid>
                 </Grid>
@@ -115,23 +118,23 @@ const RiposteCard = ({
                     <Grid item>
                         <Button
                             className={classes.editButton}
-                            onClick={() => handleClickOpen(item.uuid)}
+                            onClick={() => handleClickOpen(riposte.id)}
                         >Éditer
                         </Button>
                     </Grid>
                     <Grid item>
-                        <RiposteEnableStatus handleActiveItem={handleActiveItem} item={item} />
+                        <RiposteEnableStatus toggleEnabled={toggleEnabled} riposte={riposte} />
                     </Grid>
                 </Grid>
             </Paper>
         </Grid>
-    );
-};
+    )
+}
 
-export default RiposteCard;
+export default Riposte
 
-RiposteCard.propTypes = {
-    item: PropTypes.object.isRequired,
+Riposte.propTypes = {
+    riposte: RiposteObject.propTypes.isRequired,
     handleClickOpen: PropTypes.func.isRequired,
-    handleActiveItem: PropTypes.func.isRequired,
-};
+    toggleEnabled: PropTypes.func.isRequired,
+}

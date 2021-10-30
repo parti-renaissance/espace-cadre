@@ -6,18 +6,19 @@ import {
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { apiClient } from '../../services/networking/client';
 import TextFieldComponent from '../HelperComponents/TextFieldComponent';
 import AlertBanner from '../HelperComponents/AlertBanner';
+import Riposte from '../../domain/riposte'
+import { createRiposte, updateRiposte } from '../../api/ripostes'
 
 const useStyles = makeStyles((theme) => createStyles({
     paper: {
-        padding: '32px',
+        padding: theme.spacing(4),
         width: '664px',
         borderRadius: '12px',
     },
     innerContainer: {
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     modalTitle: {
         fontSize: '24px',
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
     cross: {
         color: theme.palette.gray700,
-        marginTop: '30px',
+        marginTop: theme.spacing(2.75),
         cursor: 'pointer',
     },
     charactersLimit: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => createStyles({
     textField: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8.35px',
-        margin: '8px 0',
+        margin: theme.spacing(1, 0),
     },
     textArea: {
         border: `1px solid ${theme.palette.gray200}`,
@@ -65,33 +66,33 @@ const riposteSchema = Yup.object({
     body: Yup.string()
         .min(1, 'Minimum 1 charactère')
         .required('Texte obligatoire'),
-    source_url: Yup.string()
+    url: Yup.string()
         .url('Ce champ doit être une URL valide')
         .required('Url obligatoire'),
 });
 
 const RiposteModal = ({
-    handleClose, riposteItem, onSubmitRefresh, open,
+    handleClose, riposte, onSubmitRefresh, open,
 }) => {
     const classes = useStyles();
     const [errorMessage, setErrorMessage] = useState();
 
     const formik = useFormik({
         initialValues: {
-            title: riposteItem?.title,
-            body: riposteItem?.body,
-            source_url: riposteItem?.source_url,
-            with_notification: riposteItem?.with_notification,
-            enabled: riposteItem?.enabled,
+            title: riposte?.title,
+            body: riposte?.body,
+            url: riposte?.url,
+            withNotification: riposte?.withNotification,
+            enabled: riposte?.enabled,
         },
         validationSchema: riposteSchema,
         enableReinitialize: true,
         onSubmit: async (values) => {
             try {
-                if (riposteItem.uuid) {
-                    await apiClient.put(`api/v3/ripostes/${riposteItem.uuid}`, values);
+                if (riposte.id) {
+                    await updateRiposte(values);
                 } else {
-                    await apiClient.post('api/v3/ripostes', values);
+                    await createRiposte(values);
                 }
 
                 onSubmitRefresh();
@@ -138,7 +139,7 @@ const RiposteModal = ({
                         <span className={classes.fieldTitle}>URL</span> <Box component="span" className={classes.charactersLimit}>(255 charactères)</Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextFieldComponent formik={formik} label="source_url" />
+                        <TextFieldComponent formik={formik} label="url" />
                     </Grid>
                 </Grid>
                 <Grid container className={classes.innerContainer}>
@@ -146,10 +147,10 @@ const RiposteModal = ({
                         <FormControlLabel
                             control={(
                                 <Checkbox
-                                    id="with_notification"
+                                    id="withNotification"
                                     size="small"
                                     color="primary"
-                                    checked={formik.values.with_notification}
+                                    checked={formik.values.withNotification}
                                     onChange={formik.handleChange}
                                 />
                             )}
@@ -190,12 +191,12 @@ export default RiposteModal;
 RiposteModal.defaultProps = {
     handleClose: () => {},
     onSubmitRefresh: () => {},
-    riposteItem: null,
+    riposte: null,
 };
 
 RiposteModal.propTypes = {
     handleClose: PropTypes.func,
     onSubmitRefresh: PropTypes.func,
-    riposteItem: PropTypes.object,
+    riposte: Riposte.propTypes,
     open: PropTypes.bool.isRequired,
 };
