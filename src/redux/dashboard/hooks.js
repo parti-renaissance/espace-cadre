@@ -1,90 +1,78 @@
-/* eslint-disable import/prefer-default-export */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
+import { useCallback } from 'react'
 import {
     getDashboardAdherents,
-    getDashboardUsers,
     getDashboardDownloads,
-    getDashboardDownloadsRatio,
     getDashboardSurvey,
+    getDashboardUsers,
     getEmailCampaign,
     getEmailCampaignReports,
-} from './selectors';
+} from './selectors'
 import {
     updateAdherents,
-    updateUsers,
     updateDownloads,
-    updateDownloadsRatio,
-    updateSurvey,
     updateEmailCampaign,
     updateEmailCampaignReports,
-} from './slice';
+    updateSurvey,
+    updateUsers,
+} from './slice'
 
 export const useDashboardAdherentCache = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const dashboardAdherents = useSelector(getDashboardAdherents);
+    const dashboardAdherents = useSelector(getDashboardAdherents)
 
-    const setDashboardAdherents = (body) => dispatch(updateAdherents(body));
+    const setDashboardAdherents = useCallback((body) => dispatch(updateAdherents(body)), [dispatch])
 
-    return [dashboardAdherents, setDashboardAdherents];
-};
+    return [dashboardAdherents, setDashboardAdherents]
+}
 
 export const useDashboardUsersCache = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const dashboardUsers = useSelector(getDashboardUsers);
+    const dashboardUsers = useSelector(getDashboardUsers)
 
-    const setDashboardUsers = (body) => dispatch(updateUsers(body));
+    const setDashboardUsers = useCallback((body) => dispatch(updateUsers(body)), [dispatch])
 
-    return [dashboardUsers, setDashboardUsers];
-};
+    return [dashboardUsers, setDashboardUsers]
+}
 
 export const useDashboardDownloadsCache = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const dashboardDownloads = useSelector(getDashboardDownloads);
+    const dashboardDownloads = useSelector(getDashboardDownloads)
 
-    const setDashboardDownloads = (body) => dispatch(updateDownloads(body));
+    const setDashboardDownloads = useCallback((body) => dispatch(updateDownloads(body)), [dispatch])
 
-    return [dashboardDownloads, setDashboardDownloads];
-};
-
-export const useDashboardDownloadsRatioCache = () => {
-    const dispatch = useDispatch();
-
-    const dashboardDownloadsRatio = useSelector(getDashboardDownloadsRatio);
-
-    const setDashboardDownloadsRatio = (body) => dispatch(updateDownloadsRatio(body));
-
-    return [dashboardDownloadsRatio, setDashboardDownloadsRatio];
-};
+    return [dashboardDownloads, setDashboardDownloads]
+}
 
 export const useDashboardSurveyCache = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const dashboardSurvey = useSelector(getDashboardSurvey);
+    const dashboardSurvey = useSelector(getDashboardSurvey)
 
-    const setDashboardSurvey = (body) => dispatch(updateSurvey(body));
+    const setDashboardSurvey = useCallback((body) => dispatch(updateSurvey(body)), [dispatch])
 
-    return [dashboardSurvey, setDashboardSurvey];
-};
+    return [dashboardSurvey, setDashboardSurvey]
+}
 
 export const useEmailCampaignCache = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const emailCampaign = useSelector(getEmailCampaign);
+    const emailCampaign = useSelector(getEmailCampaign)
 
-    const setEmailCampaign = (body) => dispatch(updateEmailCampaign(body));
+    const setEmailCampaign = useCallback((body) => dispatch(updateEmailCampaign(body)), [dispatch])
 
-    return [emailCampaign, setEmailCampaign];
-};
+    return [emailCampaign, setEmailCampaign]
+}
 
 export const useEmailCampaignReportsCache = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const emailCampaignReports = useSelector(getEmailCampaignReports);
+    const emailCampaignReports = useSelector(getEmailCampaignReports)
 
-    const setEmailCampaignReports = (body) => dispatch(updateEmailCampaignReports(body));
+    const setEmailCampaignReports = useCallback((body) => dispatch(updateEmailCampaignReports(body)), [dispatch])
 
-    return [emailCampaignReports, setEmailCampaignReports];
-};
+    return [emailCampaignReports, setEmailCampaignReports]
+}
