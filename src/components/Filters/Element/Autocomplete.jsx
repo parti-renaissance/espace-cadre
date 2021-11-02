@@ -6,7 +6,7 @@ import { throttle, unionBy } from 'lodash';
 import { apiClient } from '../../../services/networking/client';
 
 const useStyles = makeStyles((theme) => ({
-    autoComplete: {
+    root: {
         background: theme.palette.whiteCorner,
         borderRadius: '8.35px',
     },
@@ -17,7 +17,7 @@ const fetch = throttle((uri, queryParam, query, callback) => {
 }, 500);
 
 const Autocomplete = ({
-    uri, placeholder, queryParam, valueParam, labelParam, multiple, onChange, value, required,
+    uri, placeholder, queryParam, valueParam, multiple, onChange, value, required, autoCompleteStyle, getOptionLabel,
 }) => {
     const [inputValue, setInputValue] = useState(null);
     const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ const Autocomplete = ({
             open={open}
             value={multiple ? selectedItems : (selectedItems[0] || null)}
             size="small"
-            className={classes.autoComplete}
+            className={`${classes.root} ${autoCompleteStyle}`}
             loading={loading}
             multiple={multiple}
             onOpen={() => setOpen(true)}
@@ -69,7 +69,6 @@ const Autocomplete = ({
                 setInputValue(newInputValue);
             }}
             filterOptions={(x) => x}
-            autoComplete
             loadingText="Chargement…"
             noOptionsText="Aucun élément"
             renderInput={(params) => (
@@ -82,11 +81,12 @@ const Autocomplete = ({
                     required={required}
                 />
             )}
+            autoComplete
+            getOptionLabel={getOptionLabel}
             getOptionSelected={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
-            getOptionLabel={(option) => option[labelParam]}
             renderOption={(option) => (
                 <Typography size="small">
-                    {option[labelParam]}
+                    {getOptionLabel(option)}
                 </Typography>
             )}
         />
@@ -98,18 +98,20 @@ Autocomplete.defaultProps = {
     multiple: false,
     value: null,
     required: false,
+    autoCompleteStyle: {},
 };
 
 Autocomplete.propTypes = {
     uri: PropTypes.string.isRequired,
     queryParam: PropTypes.string.isRequired,
     valueParam: PropTypes.string.isRequired,
-    labelParam: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    getOptionLabel: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     multiple: PropTypes.bool,
     value: PropTypes.any,
     required: PropTypes.bool,
+    autoCompleteStyle: PropTypes.string,
 };
 
 export default Autocomplete;

@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const Button = ({ children, buttonClasses, handleClick }) => {
+const Button = ({
+    children, buttonClasses, handleClick, disabled,
+}) => {
     const classes = useStyles();
 
     return (
@@ -16,6 +18,7 @@ const Button = ({ children, buttonClasses, handleClick }) => {
             variant="contained"
             className={`${classes.root} ${buttonClasses}`}
             onClick={handleClick}
+            disabled={disabled}
         >
             {children}
         </MuiButton>
@@ -24,8 +27,13 @@ const Button = ({ children, buttonClasses, handleClick }) => {
 
 export default Button;
 
+Button.defaultProp = {
+    disabled: false,
+}
+
 Button.propTypes = {
     children: PropTypes.node.isRequired,
     buttonClasses: PropTypes.string.isRequired,
     handleClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
 };

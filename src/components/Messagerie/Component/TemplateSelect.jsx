@@ -7,11 +7,6 @@ import { apiClient } from '../../../services/networking/client';
 import { useSelectedTemplate } from '../../../redux/messagerie/hooks';
 
 const useStyles = makeStyles((theme) => createStyles({
-    autocomplete: {
-        border: `1px solid ${theme.palette.gray200}`,
-        borderRadius: '8px',
-        marginRight: theme.spacing(2),
-    },
     popper: {
         border: `1px solid ${theme.palette.gray200}`,
         borderRadius: '8px',
