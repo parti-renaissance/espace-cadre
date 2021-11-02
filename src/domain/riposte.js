@@ -16,6 +16,26 @@ export default class Riposte {
         this.ripostes = ripostes
     }
 
+    withTitle(newTitle) {
+        return new Riposte(this.id, newTitle, this.body, this.url, this.withNotification, this.enabled, this.createdAt)
+    }
+
+    withBody(newBody) {
+        return new Riposte(this.id, this.title, newBody, this.url, this.withNotification, this.enabled, this.createdAt)
+    }
+
+    withUrl(newUrl) {
+        return new Riposte(this.id, this.title, this.body, newUrl, this.withNotification, this.enabled, this.createdAt)
+    }
+
+    withWithNotification(newWithNotification) {
+        return new Riposte(this.id, this.title, this.body, this.url, newWithNotification, this.enabled, this.createdAt)
+    }
+
+    withEnabled(newEnabled) {
+        return new Riposte(this.id, this.title, this.body, this.url, this.withNotification, newEnabled, this.createdAt)
+    }
+
     toggleEnabled() {
         return new Riposte(this.id, this.title, this.body, this.url, this.withNotification, !this.enabled, this.createdAt)
     }

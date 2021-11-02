@@ -87,12 +87,19 @@ const RiposteModal = ({
         },
         validationSchema: riposteSchema,
         enableReinitialize: true,
-        onSubmit: async (values) => {
+        onSubmit: async (form) => {
             try {
-                if (riposte.id) {
-                    await updateRiposte(values);
+                const newRiposte = riposte
+                    .withTitle(form.title)
+                    .withBody(form.body)
+                    .withUrl(form.url)
+                    .withWithNotification(form.withNotification)
+                    .withEnabled(form.enabled)
+
+                if (newRiposte.id) {
+                    await updateRiposte(newRiposte);
                 } else {
-                    await createRiposte(values);
+                    await createRiposte(newRiposte);
                 }
 
                 onSubmitRefresh();
