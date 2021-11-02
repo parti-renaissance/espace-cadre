@@ -1,5 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     makeStyles, createStyles, Dialog, Grid, Button,
 } from '@material-ui/core';

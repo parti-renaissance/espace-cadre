@@ -1,5 +1,4 @@
-/* eslint-disable react/forbid-prop-types,react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Autocomplete as MuiAutocomplete } from '@material-ui/lab';
 import { TextField, Typography, makeStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';

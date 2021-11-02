@@ -1,4 +1,4 @@
-import React, {
+import {
     useState, useRef, useEffect, useCallback,
 } from 'react'
 import EmailEditor from 'react-email-editor';

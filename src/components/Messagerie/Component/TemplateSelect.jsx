@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import {
     Grid, Button, Box, makeStyles, createStyles,

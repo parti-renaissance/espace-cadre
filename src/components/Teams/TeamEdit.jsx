@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Container, Grid, makeStyles, createStyles, Paper, Typography,
 } from '@material-ui/core';

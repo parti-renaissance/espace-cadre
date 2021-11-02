@@ -1,5 +1,4 @@
-/* eslint-disable class-methods-use-this */
-import React from 'react';
+
 import {
     Checkbox, ListItemText, MenuItem, Select, InputLabel, FormControl, makeStyles, createStyles,
 } from '@material-ui/core';

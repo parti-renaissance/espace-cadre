@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     Box, Button, createStyles, Grid, makeStyles, Paper,
 } from '@material-ui/core'

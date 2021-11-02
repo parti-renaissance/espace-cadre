@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { createServer } from 'miragejs';
 
 export default ({ environment = 'development' } = {}) => createServer({

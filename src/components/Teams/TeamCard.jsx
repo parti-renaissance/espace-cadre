@@ -1,5 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
-import React from 'react';
+
 import {
     makeStyles, createStyles, Grid, Paper, Button,
 } from '@material-ui/core';

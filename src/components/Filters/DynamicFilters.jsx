@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, createStyles } from '@material-ui/core';
 import { apiClient } from '../../services/networking/client';
