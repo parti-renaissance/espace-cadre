@@ -43,7 +43,7 @@
     "no-self-compare": "error",
     "no-shadow": "off",
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
-    "prettier/prettier": "on",
+    "prettier/prettier": "error",
     "quotes": ["error", "single", { "avoidEscape": true }],
     "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
