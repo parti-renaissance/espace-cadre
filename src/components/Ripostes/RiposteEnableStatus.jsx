@@ -1,10 +1,10 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import { IconButton, makeStyles, createStyles } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
+import Riposte from '../../domain/riposte'
 
 const useStyles = makeStyles((theme) => createStyles({
     iconButton: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-const RiposteEnableStatus = ({ item, handleActiveItem }) => {
+const RiposteEnableStatus = ({ riposte, toggleEnabled }) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -58,10 +58,10 @@ const RiposteEnableStatus = ({ item, handleActiveItem }) => {
                 <MenuItem
                     onClick={() => {
                         handleClose();
-                        handleActiveItem(item.uuid);
+                        toggleEnabled(riposte.id);
                     }}
                     className={classes.root}
-                >{item.enabled ? 'Désactiver' : 'Activer'}
+                >{riposte.enabled ? 'Désactiver' : 'Activer'}
                 </MenuItem>
             </Menu>
         </div>
@@ -71,6 +71,6 @@ const RiposteEnableStatus = ({ item, handleActiveItem }) => {
 export default RiposteEnableStatus;
 
 RiposteEnableStatus.propTypes = {
-    item: PropTypes.object.isRequired,
-    handleActiveItem: PropTypes.func.isRequired,
+    riposte: Riposte.propTypes.isRequired,
+    toggleEnabled: PropTypes.func.isRequired,
 };

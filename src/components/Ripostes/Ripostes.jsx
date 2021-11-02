@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
-    Container, Grid, Button, makeStyles, createStyles,
-} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import { apiClient } from '../../services/networking/client';
-import RiposteCard from './RiposteCard';
-import RiposteModal from './RiposteModal';
+    Button, Container, createStyles, Grid, makeStyles,
+} from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
+import RiposteCard from './Riposte'
+import RiposteModal from './RiposteModal'
+import Riposte from '../../domain/riposte'
+import { getRipostes, updateRiposte } from '../../api/ripostes'
 
 const useStyles = makeStyles((theme) => createStyles({
     riposteContainer: {
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
     },
     pageTitle: {
         fontSize: '24px',
@@ -19,68 +20,55 @@ const useStyles = makeStyles((theme) => createStyles({
     buttonContainer: {
         background: theme.palette.riposteBackground,
         borderRadius: '8.35px',
-        marginBottom: '32px',
+        marginBottom: theme.spacing(4),
     },
     icon: {
         marginRight: '8px',
     },
     createButton: {
         color: theme.palette.teal700,
-        padding: '6px 8px',
+        padding: theme.spacing(0.75, 1),
     },
     root: {
-        padding: '16px',
+        padding: theme.spacing(2),
         borderRadius: '8.35px',
     },
-}));
+}))
 
 const Ripostes = () => {
-    const classes = useStyles();
-    const [ripostesItems, setRipostesItems] = useState();
-    const [currentItem, setCurrentItem] = useState(null);
-    const [refreshPage, setRefreshPage] = useState(0);
-    const [open, setOpen] = useState(false);
+    const classes = useStyles()
+    const [ripostes, setRipostes] = useState([])
+    const [newRiposte, setNewRiposte] = useState(null)
+    const [open, setOpen] = useState(false)
 
     const handleClickOpen = (id) => {
-        setCurrentItem(ripostesItems.find((el) => el.uuid === id) || null);
-        setOpen(true);
-    };
+        setNewRiposte(ripostes.find((riposte) => riposte.id === id) || null)
+        setOpen(true)
+    }
 
-    const handleActiveItem = async (id) => {
-        const item = ripostesItems.find((el) => el.uuid === id);
-        const newItem = { ...item, enabled: !item.enabled };
-        setRipostesItems((prev) => prev
-            .filter((el) => el.uuid !== id)
-            .concat(newItem)
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
-        await apiClient.put(`api/v3/ripostes/${newItem.uuid}`, newItem);
-        setRefreshPage((p) => p + 1);
-    };
+    const toggleEnableRiposte = async (id) => {
+        const riposte = ripostes.find((r) => r.id === id)
+        const newRiposte = riposte.toggleEnabled()
+        setRipostes((prev) => prev
+            .filter((r) => r.id !== id)
+            .concat(newRiposte)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)))
+        await updateRiposte(newRiposte)
+        getRipostes(setRipostes)
+    }
 
     const handleNewRiposte = () => {
-        setCurrentItem({
-            uuid: null,
-            title: '',
-            body: '',
-            source_url: '',
-            with_notification: true,
-            enabled: true,
-        });
-        setOpen(true);
-    };
+        setNewRiposte(Riposte.NULL())
+        setOpen(true)
+    }
 
     const handleClose = () => {
-        setOpen(false);
-    };
+        setOpen(false)
+    }
 
     useEffect(() => {
-        const getRipostes = async () => {
-            const ripostesData = await apiClient.get('api/v3/ripostes');
-            setRipostesItems(ripostesData);
-        };
-
-        getRipostes();
-    }, [refreshPage]);
+        getRipostes(setRipostes)
+    }, [])
 
     return (
         <Container maxWidth="lg" className={classes.riposteContainer}>
@@ -94,26 +82,26 @@ const Ripostes = () => {
                     </Button>
                 </Grid>
                 <Grid container spacing={2}>
-                    {ripostesItems && ripostesItems.map((item, i) => (
+                    {ripostes.map((r) => (
                         <RiposteCard
-                            key={i}
-                            item={item}
+                            key={r.id}
+                            riposte={r}
                             handleClickOpen={handleClickOpen}
-                            handleActiveItem={handleActiveItem}
+                            toggleEnabled={toggleEnableRiposte}
                         />
                     ))}
                 </Grid>
                 <RiposteModal
                     open={open}
                     handleClose={handleClose}
-                    riposteItem={currentItem}
+                    riposte={newRiposte}
                     onSubmitRefresh={() => {
-                        setRefreshPage((p) => p + 1);
+                        getRipostes(setRipostes)
                     }}
                 />
             </Grid>
         </Container>
-    );
-};
+    )
+}
 
-export default Ripostes;
+export default Ripostes
