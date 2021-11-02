@@ -48,9 +48,11 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const TeamEdit = () => {
-    const classes = useStyles();
-    const { teamId } = useParams();
-    const [team, setTeam] = useState(null);
+    const classes = useStyles()
+    const { teamId } = useParams()
+    const [team, setTeam] = useState(null)
+    const [members, setMembers] = useState([])
+    const [value, setValue] = useState('')
 
     useEffect(() => {
         getTeam(teamId, setTeam);
@@ -79,6 +81,14 @@ const TeamEdit = () => {
                                 <Autocomplete
                                     placeholder="Rechercher un adhérent"
                                     autoCompleteStyle={classes.autocomplete}
+                                    uri="/api/v3/adherents/autocomplete"
+                                    queryParam="q"
+                                    valueParam="uuid"
+                                    labelParam="last_name"
+                                    value={value}
+                                    onChange={setValue}
+                                    multiple={false}
+                                    getOptionLabel={(option) => `${option.first_name} ${option.last_name}`}
                                 />
                             </Grid>
                             <Grid item xs={12}>

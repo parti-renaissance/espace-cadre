@@ -17,7 +17,7 @@ const fetch = throttle((uri, queryParam, query, callback) => {
 }, 500);
 
 const Autocomplete = ({
-    uri, placeholder, queryParam, valueParam, labelParam, multiple, onChange, value, required, autoCompleteStyle,
+    uri, placeholder, queryParam, valueParam, labelParam, multiple, onChange, value, required, autoCompleteStyle, getOptionLabel,
 }) => {
     const [inputValue, setInputValue] = useState(null);
     const [open, setOpen] = useState(false);
@@ -69,7 +69,6 @@ const Autocomplete = ({
                 setInputValue(newInputValue);
             }}
             filterOptions={(x) => x}
-            autoComplete
             loadingText="Chargement…"
             noOptionsText="Aucun élément"
             renderInput={(params) => (
@@ -82,8 +81,9 @@ const Autocomplete = ({
                     required={required}
                 />
             )}
+            autoComplete
+            getOptionLabel={getOptionLabel}
             getOptionSelected={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
-            getOptionLabel={(option) => option[labelParam]}
             renderOption={(option) => (
                 <Typography size="small">
                     {option[labelParam]}
@@ -111,6 +111,7 @@ Autocomplete.propTypes = {
     value: PropTypes.any,
     required: PropTypes.bool,
     autoCompleteStyle: PropTypes.string,
+    getOptionLabel: PropTypes.func.isRequired,
 };
 
 export default Autocomplete;

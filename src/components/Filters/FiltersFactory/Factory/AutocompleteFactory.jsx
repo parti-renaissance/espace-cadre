@@ -32,6 +32,7 @@ class AutocompleteFactory {
                     labelParam={filter.options.label_param}
                     required={filter.options.required || false}
                     multiple={filter.options.multiple}
+                    getOptionLabel={(option) => option[filter.options.label_param]}
                 />
             </FormControl>
         );
