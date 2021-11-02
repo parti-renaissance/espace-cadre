@@ -5,7 +5,9 @@ import {
 import {
     useParams,
 } from 'react-router-dom';
-import { deleteTeamMember, getTeam } from '../../api/teams';
+import {
+    addTeamMember, deleteTeamMember, getTeam,
+} from '../../api/teams';
 import MemberCard from './MemberCard';
 import Button from '../../ui/Button';
 import Autocomplete from '../Filters/Element/Autocomplete';
@@ -55,7 +57,12 @@ const TeamEdit = () => {
 
     useEffect(() => {
         getTeam(teamId, setTeam);
-    }, [teamId]);
+    }, [teamId, memberUiid]);
+
+    const addTeamMember = async () => {
+        await addTeamMember(teamId, memberUiid);
+        setMemberUiid('');
+    }
 
     const handleDelete = async (memberId) => {
         await deleteTeamMember(teamId, memberId);
@@ -93,7 +100,7 @@ const TeamEdit = () => {
                             <Grid item xs={12}>
                                 <Button
                                     buttonClasses={classes.buttonClasses}
-                                    handleClick={() => {}}
+                                    handleClick={addTeamMember}
                                     disabled={!memberUiid}
                                 >
                                     Ajouter

@@ -27,4 +27,6 @@ export const getTeam = async (id, updater) => {
     updater?.call(null, t);
 };
 
+export const addTeamMember = (teamId, memberId) => apiClient.put(`/api/v3/teams/${teamId}/add-members`, [{ adherent_uuid: memberId }]);
+
 export const deleteTeamMember = (teamId, memberId) => apiClient.delete(`api/v3/teams/${teamId}/members/${memberId}`)
