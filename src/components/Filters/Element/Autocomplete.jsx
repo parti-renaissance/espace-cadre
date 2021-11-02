@@ -86,7 +86,7 @@ const Autocomplete = ({
             getOptionSelected={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
             renderOption={(option) => (
                 <Typography size="small">
-                    {option[labelParam]}
+                    {getOptionLabel(option)}
                 </Typography>
             )}
         />

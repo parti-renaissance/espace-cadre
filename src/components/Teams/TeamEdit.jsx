@@ -51,8 +51,7 @@ const TeamEdit = () => {
     const classes = useStyles()
     const { teamId } = useParams()
     const [team, setTeam] = useState(null)
-    const [members, setMembers] = useState([])
-    const [value, setValue] = useState('')
+    const [memberUiid, setMemberUiid] = useState(null)
 
     useEffect(() => {
         getTeam(teamId, setTeam);
@@ -85,8 +84,8 @@ const TeamEdit = () => {
                                     queryParam="q"
                                     valueParam="uuid"
                                     labelParam="last_name"
-                                    value={value}
-                                    onChange={setValue}
+                                    value={memberUiid}
+                                    onChange={setMemberUiid}
                                     multiple={false}
                                     getOptionLabel={(option) => `${option.first_name} ${option.last_name}`}
                                 />
@@ -95,6 +94,7 @@ const TeamEdit = () => {
                                 <Button
                                     buttonClasses={classes.buttonClasses}
                                     handleClick={() => {}}
+                                    disabled={!memberUiid}
                                 >
                                     Ajouter
                                 </Button>
