@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors';
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks';
 import { useUserScope } from '../../redux/user/hooks';
-
 import Sidebar from '../Sidebar/Sidebar';
 import PageContent from '../PageContent';
 import ScopesPage from '../Scopes/ScopesPage';

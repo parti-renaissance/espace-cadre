@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -70,7 +70,6 @@ const useStyles = makeStyles((theme) => createStyles({
 
 function Scopes() {
     const currentUser = useSelector(getCurrentUser);
-    // eslint-disable-next-line no-unused-vars
     const [currentScope, updateCurrentScope] = useUserScope();
     const userScopes = useSelector(getUserScopes);
     const history = useHistory();

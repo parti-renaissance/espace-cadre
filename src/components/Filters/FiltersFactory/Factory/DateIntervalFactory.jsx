@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-import React from 'react';
 import { Grid } from '@material-ui/core';
 import DatePicker from '../../Element/DatePicker';
 

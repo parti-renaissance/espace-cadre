@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     Dialog, Box, Button, makeStyles, createStyles,
 } from '@material-ui/core';

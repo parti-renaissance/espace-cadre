@@ -43,13 +43,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{js,jsx}' --ignore-path .gitignore",
-    "lint:fix": "yarn run lint -- --fix"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "lint:fix": "yarn run lint -- --fix",
+    "prepare": "husky install"
   },
   "browserslist": [
     ">0.2%",
@@ -62,12 +57,20 @@
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
     "eslint": "7.32.0",
-    "eslint-config-airbnb": "18.2.1",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.26.1",
     "eslint-plugin-react-hooks": "4.2.0",
+    "husky": "7.0.4",
+    "lint-staged": "11.2.6",
     "miragejs": "^0.1.42",
+    "prettier": "2.4.1",
     "redux-mock-store": "^1.5.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,json}": [
+      "prettier --write"
+    ]
   }
 }

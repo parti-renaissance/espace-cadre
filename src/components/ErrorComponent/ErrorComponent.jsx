@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
 import { Box, makeStyles, createStyles } from '@material-ui/core';
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => createStyles({
     errorBox: {
@@ -12,14 +11,20 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }));
 
-function ErrorComponent({ errorMessage }) {
+const ErrorComponent = ({ errorMessage }) => {
     const classes = useStyles();
 
     return (
         <Box className={`with-background ${classes.errorBox}`}>
-            <div className="chart-error">{errorMessage && errorMessage.message}</div>
+            <div className="chart-error">{errorMessage?.message}</div>
         </Box>
     );
+}
+
+ErrorComponent.propTypes = {
+    errorMessage: PropTypes.shape({
+        message: PropTypes.string
+    })
 }
 
 export default ErrorComponent;

@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import { getAccessToken as selectorGetAccessToken, getCurrentScope } from '../../redux/user/selectors';
 import { store } from '../../redux/store';
 import { userLogout } from '../../redux/auth';

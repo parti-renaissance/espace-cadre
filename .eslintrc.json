@@ -1,69 +1,65 @@
 {
-    "env": {
-        "node": true,
-        "browser": true,
-        "es6": true,
-        "jest": true
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime", "react-app/jest"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "eslint:recommended",
-        "airbnb",
-        "plugin:react/recommended"
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-hooks", "prettier"],
+  "rules": {
+    "eqeqeq": "error",
+    "jsx-a11y/control-has-associated-label": [0],
+    "jsx-quotes": ["error", "prefer-double"],
+    "max-classes-per-file": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 200,
+        "ignoreRegExpLiterals": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTrailingComments": true
+      }
     ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "react-hooks"
-    ],
-    "rules": {
-        "eqeqeq": "error",
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.jsx", "src/setupTests.js"]}],
-        "indent": ["error", 4],
-        "jsx-a11y/control-has-associated-label": [0],
-        "jsx-quotes": ["error", "prefer-double"],
-        "max-classes-per-file": "off",
-        "max-len": ["error", {
-            "code": 200,
-            "ignoreRegExpLiterals": true,
-            "ignoreTemplateLiterals": true,
-            "ignoreStrings": true,
-            "ignoreTrailingComments": true
-        }],
-
-        "no-console": "error",
-        "no-alert": "error",
-        "no-bitwise": "error",
-        "no-duplicate-imports": "error",
-        "no-else-return": "error",
-        "no-param-reassign": [2, {"props": false}],
-        "no-self-compare": "error",
-        "no-shadow": "off",
-        "quotes": ["error", "single", { "avoidEscape": true }],
-        "react/jsx-indent": ["error", 4],
-        "react/jsx-indent-props": ["error", 4],
-        "react/jsx-one-expression-per-line": [0],
-        "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "react/no-array-index-key": [0],
-        "react/react-in-jsx-scope": "off",
-        "react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
-        "react-hooks/exhaustive-deps": "error",
-        "require-await": "error",
-        "semi": "off"
-    },
-    "overrides": [
-        {
-          "files": ["*.test.jsx"],
-          "rules": {
-            "react/prop-types": "off",
-            "react/display-name": "off"
-          }
-        }
-      ]
+    "no-alert": "error",
+    "no-bitwise": "error",
+    "no-console": "error",
+    "no-duplicate-imports": "error",
+    "no-else-return": "error",
+    "no-param-reassign": "error",
+    "no-self-compare": "error",
+    "no-shadow": "off",
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
+    "prettier/prettier": "off",
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/no-array-index-key": [0],
+    "react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
+    "react-hooks/exhaustive-deps": "error",
+    "require-await": "error",
+    "semi": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.test.jsx"],
+      "rules": {
+        "react/prop-types": "off",
+        "react/display-name": "off"
+      }
+    }
+  ]
 }

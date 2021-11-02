@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import $ from 'jquery';
 import qs from 'qs';
 import { Grid, Box } from '@material-ui/core';
-// eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl';
 import LayerFilter from './Filter/LayerFilter';
 import { apiClientProxy } from '../../services/networking/client';
@@ -197,7 +196,6 @@ const Elections = () => {
         };
         getParticipation();
 
-        // eslint-disable-next-line consistent-return
         return () => {
             isCancelled = true;
         };

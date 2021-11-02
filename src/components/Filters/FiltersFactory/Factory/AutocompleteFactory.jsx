@@ -1,5 +1,4 @@
-/* eslint-disable class-methods-use-this */
-import React from 'react';
+
 import { createStyles, FormControl, makeStyles } from '@material-ui/core';
 import Autocomplete from '../../Element/Autocomplete';
 

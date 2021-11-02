@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box } from '@material-ui/core';
 import Loader from '../../../HelperComponents/Loader';
 import { apiClientProxy } from '../../../../services/networking/client';
