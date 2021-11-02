@@ -28,7 +28,7 @@ const Button = ({
 export default Button;
 
 Button.defaultProp = {
-    disabled: true,
+    disabled: false,
 }
 
 Button.propTypes = {

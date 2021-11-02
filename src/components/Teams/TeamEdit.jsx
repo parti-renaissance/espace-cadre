@@ -8,6 +8,7 @@ import {
 import {
     addTeamMember, deleteTeamMember, getTeam,
 } from '../../api/teams';
+import { getAdherent } from '../../api/adherents'
 import MemberCard from './MemberCard';
 import Button from '../../ui/Button';
 import Autocomplete from '../Filters/Element/Autocomplete';
@@ -53,15 +54,15 @@ const TeamEdit = () => {
     const classes = useStyles()
     const { teamId } = useParams()
     const [team, setTeam] = useState(null)
-    const [memberUiid, setMemberUiid] = useState(null)
+    const [memberId, setMemberId] = useState(null)
 
     useEffect(() => {
         getTeam(teamId, setTeam);
-    }, [teamId, memberUiid]);
+    }, [teamId, memberId]);
 
     const onAddTeamMember = async () => {
-        await addTeamMember(teamId, memberUiid);
-        setMemberUiid('');
+        await addTeamMember(teamId, memberId);
+        setMemberId('');
     }
 
     const handleDelete = async (memberId) => {
@@ -87,13 +88,11 @@ const TeamEdit = () => {
                                 <Autocomplete
                                     placeholder="Rechercher un adhérent"
                                     autoCompleteStyle={classes.autocomplete}
-                                    uri="/api/v3/adherents/autocomplete"
+                                    uri={getAdherent}
                                     queryParam="q"
                                     valueParam="uuid"
-                                    labelParam="last_name"
-                                    value={memberUiid}
-                                    onChange={setMemberUiid}
-                                    multiple={false}
+                                    value={memberId}
+                                    onChange={setMemberId}
                                     getOptionLabel={(option) => `${option.first_name} ${option.last_name}`}
                                 />
                             </Grid>
@@ -101,7 +100,7 @@ const TeamEdit = () => {
                                 <Button
                                     buttonClasses={classes.buttonClasses}
                                     handleClick={onAddTeamMember}
-                                    disabled={!memberUiid}
+                                    disabled={!memberId}
                                 >
                                     Ajouter
                                 </Button>

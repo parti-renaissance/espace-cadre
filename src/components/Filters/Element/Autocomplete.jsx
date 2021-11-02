@@ -17,7 +17,7 @@ const fetch = throttle((uri, queryParam, query, callback) => {
 }, 500);
 
 const Autocomplete = ({
-    uri, placeholder, queryParam, valueParam, labelParam, multiple, onChange, value, required, autoCompleteStyle, getOptionLabel,
+    uri, placeholder, queryParam, valueParam, multiple, onChange, value, required, autoCompleteStyle, getOptionLabel,
 }) => {
     const [inputValue, setInputValue] = useState(null);
     const [open, setOpen] = useState(false);
@@ -98,20 +98,20 @@ Autocomplete.defaultProps = {
     multiple: false,
     value: null,
     required: false,
+    autoCompleteStyle: {},
 };
 
 Autocomplete.propTypes = {
     uri: PropTypes.string.isRequired,
     queryParam: PropTypes.string.isRequired,
     valueParam: PropTypes.string.isRequired,
-    labelParam: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    getOptionLabel: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     multiple: PropTypes.bool,
     value: PropTypes.any,
     required: PropTypes.bool,
     autoCompleteStyle: PropTypes.string,
-    getOptionLabel: PropTypes.func.isRequired,
 };
 
 export default Autocomplete;
