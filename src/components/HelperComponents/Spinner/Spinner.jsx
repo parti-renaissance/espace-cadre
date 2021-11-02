@@ -1,4 +1,3 @@
-
 import { Grid, CircularProgress } from '@material-ui/core';
 
 function Spinner() {

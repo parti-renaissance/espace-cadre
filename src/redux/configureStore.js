@@ -2,7 +2,6 @@ import { configureStore as reduxConfigureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore, PERSIST } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createReduxEnhancer } from '@sentry/react';
-
 import rootReducer from './reducers';
 
 const configureStore = () => {

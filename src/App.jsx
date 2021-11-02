@@ -1,8 +1,6 @@
-
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-
 import { ThemeProvider } from '@material-ui/core/styles';
 import {
     MuiPickersUtilsProvider,
@@ -11,7 +9,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import { persistor, store } from './redux/store';
 import Layout from './components/Layout';
 import Routes from './Routes';
-
 import './style/index.scss';
 import theme from './stylesheet';
 

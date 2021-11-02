@@ -1,4 +1,3 @@
-
 import { format } from 'date-fns';
 import { IconButton, makeStyles } from '@material-ui/core';
 import { Clear as ClearIcon, Event as EventIcon } from '@material-ui/icons';
