@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Card displays card 1`] = `
+exports[`Grid displays grid 1`] = `
 <div>
   <div
     class="root fooClass"

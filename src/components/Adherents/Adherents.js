@@ -6,7 +6,7 @@ import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { getAdherents, getColumns } from 'api/adherents'
 import PaginatedResult from 'api/paginatedResult'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 export const FEATURE_ADHERENTS = 'contacts'
 
@@ -78,9 +78,9 @@ function Adherents() {
     }
 
     return (
-      <Card textAlign="center">
+      <UIContainer textAlign="center">
         <Loader />
-      </Card>
+      </UIContainer>
     )
   }
 

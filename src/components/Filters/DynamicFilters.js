@@ -5,7 +5,7 @@ import FiltersForm from './FiltersForm'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import { getFilters } from 'api/filters'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -45,9 +45,9 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   }
 
   return (
-    <Card rootClasses={classes.loader}>
+    <UIContainer rootClasses={classes.loader}>
       <Loader />
-    </Card>
+    </UIContainer>
   )
 }
 

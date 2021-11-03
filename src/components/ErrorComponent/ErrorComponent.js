@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme =>
 const ErrorComponent = ({ errorMessage }) => {
   const classes = useStyles()
 
-  return <Card rootClasses={classes.errorBox}>{errorMessage?.message}</Card>
+  return <UIContainer rootClasses={classes.errorBox}>{errorMessage?.message}</UIContainer>
 }
 
 ErrorComponent.propTypes = {

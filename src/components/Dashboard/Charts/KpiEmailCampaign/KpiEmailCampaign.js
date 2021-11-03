@@ -7,7 +7,7 @@ import Percentage from 'ui/Percentage'
 import { useUserScope } from '../../../../redux/user/hooks'
 import EmailCampaignTitle from './EmailCampaignTitle'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 const useStyles = makeStyles(theme => ({
   cardContainer: {
@@ -62,16 +62,16 @@ function KpiEmailCampaign() {
           <EmailCampaignTitle />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Card rootClasses={classes.littleCard}>
+              <UIContainer rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>{campaign.local.nbCampagnes}</Box>
                 <Box className={classes.mainText}>Campagne{campaign.local.nbCampagnes > 1 && 's'}</Box>
                 <Box className={classes.secondaryText}>
                   Envoyée{campaign.local.nbCampagnes > 1 && 's'} en {new Date().getFullYear()}
                 </Box>
-              </Card>
+              </UIContainer>
             </Grid>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Card rootClasses={classes.littleCard}>
+              <UIContainer rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>
                   <Percentage>{campaign.local.txOuverture}</Percentage>
                 </Box>
@@ -79,10 +79,10 @@ function KpiEmailCampaign() {
                 <Box className={classes.secondaryText}>
                   <Percentage>{campaign.national.txOuverture}</Percentage> au national
                 </Box>
-              </Card>
+              </UIContainer>
             </Grid>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Card rootClasses={classes.littleCard}>
+              <UIContainer rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>
                   <Percentage>{campaign.local.txClique}</Percentage>
                 </Box>
@@ -90,10 +90,10 @@ function KpiEmailCampaign() {
                 <Box className={classes.secondaryText}>
                   <Percentage>{campaign.national.txClique}</Percentage> au national
                 </Box>
-              </Card>
+              </UIContainer>
             </Grid>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Card rootClasses={classes.littleCard}>
+              <UIContainer rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>
                   <Percentage>{campaign.local.txDesabonnement}</Percentage>
                 </Box>
@@ -101,7 +101,7 @@ function KpiEmailCampaign() {
                 <Box className={classes.secondaryText}>
                   <Percentage>{campaign.national.txDesabonnement}</Percentage> au national
                 </Box>
-              </Card>
+              </UIContainer>
             </Grid>
           </Grid>
         </>
@@ -119,9 +119,9 @@ function KpiEmailCampaign() {
     return (
       <>
         <EmailCampaignTitle />
-        <Card xs={12} textAlign="center">
+        <UIContainer xs={12} textAlign="center">
           <Loader />
-        </Card>
+        </UIContainer>
       </>
     )
   }

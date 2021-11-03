@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme =>
       border: 'none',
       cursor: 'pointer',
       marginTop: theme.spacing(0.75),
+      borderRadius: '6px',
     },
     title: {
       fontSize: '32px',
@@ -56,12 +57,12 @@ const PageContent = ({ children, handleToggle, toggleSidebar }) => {
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={2}>
           <Grid item>
-            <button id="toggleButton" className={`dc-container ${classes.toggleButton}`} onClick={handleToggle}>
+            <button id="toggleButton" className={classes.toggleButton} onClick={handleToggle}>
               <img src={list} alt="Menu button" />
             </button>
           </Grid>
           <Grid item>
-            {pageTitle && pageTitle !== 'Messagerie' && pageTitle !== 'Ripostes' && pageTitle !== 'Équipes' && (
+            {!['Messagerie', 'Ripostes', 'Équipes', 'Actualités'].includes(pageTitle) && (
               <span className={classes.title}>{pageTitle}</span>
             )}
           </Grid>

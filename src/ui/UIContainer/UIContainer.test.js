@@ -1,17 +1,17 @@
 import { render } from '@testing-library/react'
-import Card from './Card'
+import UIContainer from './UIContainer'
 
 jest.mock('@material-ui/core', () => ({
   Grid: ({ item, children, ...props }) => <div {...props}>{children}</div>,
   makeStyles: () => () => ({ root: 'root' }),
 }))
 
-describe('Card', () => {
-  it('displays card', () => {
+describe('Grid', () => {
+  it('displays grid', () => {
     const { container } = render(
-      <Card rootClasses="fooClass" xs={0} sm={1} md={2} lg={3} xl={4}>
+      <UIContainer rootClasses="fooClass" xs={0} sm={1} md={2} lg={3} xl={4}>
         Foo
-      </Card>
+      </UIContainer>
     )
 
     expect(container).toMatchSnapshot()

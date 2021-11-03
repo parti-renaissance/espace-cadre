@@ -2,6 +2,8 @@ import { Box, Button, createStyles, Grid, makeStyles, Paper } from '@material-ui
 import PropTypes from 'prop-types'
 import RiposteObject from 'domain/riposte'
 import RiposteEnableStatus from './RiposteEnableStatus'
+import NotificationsActiveRoundedIcon from '@material-ui/icons/NotificationsActiveRounded'
+import NotificationsOffRoundedIcon from '@material-ui/icons/NotificationsOffRounded'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -20,6 +22,9 @@ const useStyles = makeStyles(theme =>
     },
     withBorder: {
       border: `1px solid ${theme.palette.gray200}`,
+    },
+    icon: {
+      fontSize: '17px',
     },
     active: {
       color: theme.palette.teal700,
@@ -69,7 +74,7 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const Riposte = ({ riposte, handleClickOpen, toggleEnabled }) => {
+const Riposte = ({ riposte, handleClickOpen, toggleStatus }) => {
   const classes = useStyles()
 
   return (
@@ -77,7 +82,7 @@ const Riposte = ({ riposte, handleClickOpen, toggleEnabled }) => {
       <Paper classes={{ root: classes.root }}>
         <Grid container className={classes.container}>
           <Grid item>
-            {riposte.enabled ? (
+            {riposte.status ? (
               <span className={`${classes.chip} ${classes.active}`}>Active</span>
             ) : (
               <span className={`${classes.chip} ${classes.inactive}`}>Inactive</span>
@@ -98,13 +103,9 @@ const Riposte = ({ riposte, handleClickOpen, toggleEnabled }) => {
         <Grid container spacing={1} className={classes.KpiContainer}>
           <Grid item>
             {riposte.withNotification ? (
-              <Box className={`${classes.chip} ${classes.withBorder}`}>
-                <i className="fas fa-bell" />
-              </Box>
+              <NotificationsActiveRoundedIcon className={`${classes.chip} ${classes.withBorder} ${classes.icon}`} />
             ) : (
-              <Box className={`${classes.chip} ${classes.withBorder}`}>
-                <i className="fas fa-bell-slash" />
-              </Box>
+              <NotificationsOffRoundedIcon className={`${classes.chip} ${classes.withBorder} ${classes.icon}`} />
             )}
           </Grid>
           <Grid item>
@@ -130,7 +131,7 @@ const Riposte = ({ riposte, handleClickOpen, toggleEnabled }) => {
             </Button>
           </Grid>
           <Grid item>
-            <RiposteEnableStatus toggleEnabled={toggleEnabled} riposte={riposte} />
+            <RiposteEnableStatus toggleStatus={toggleStatus} riposte={riposte} />
           </Grid>
         </Grid>
       </Paper>
@@ -143,5 +144,5 @@ export default Riposte
 Riposte.propTypes = {
   riposte: RiposteObject.propTypes.isRequired,
   handleClickOpen: PropTypes.func.isRequired,
-  toggleEnabled: PropTypes.func.isRequired,
+  toggleStatus: PropTypes.func.isRequired,
 }

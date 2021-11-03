@@ -6,7 +6,7 @@ import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
 import ErrorComponent from 'components/ErrorComponent/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {
@@ -151,7 +151,7 @@ function SentEmailCampaignList() {
       return (
         <>
           <SentEmailCampaignListTitle />
-          <Card rootClasses={classes.noData}>Aucune campagne à afficher</Card>
+          <UIContainer rootClasses={classes.noData}>Aucune campagne à afficher</UIContainer>
         </>
       )
     }
@@ -163,9 +163,9 @@ function SentEmailCampaignList() {
       )
     }
     return (
-      <Card xs={12} textAlign="center">
+      <UIContainer xs={12} textAlign="center">
         <Loader />
-      </Card>
+      </UIContainer>
     )
   }
   return <>{emailCampaignsContent()}</>

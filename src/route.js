@@ -4,3 +4,4 @@ export const Messagerie = 'messages';
 export const Elections = 'elections';
 export const Ripostes = 'ripostes';
 export const Teams = 'team';
+export const News = 'news';

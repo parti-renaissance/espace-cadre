@@ -4,6 +4,7 @@ import MapRoundedIcon from '@material-ui/icons/MapRounded';
 import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded';
 import PeopleRoundedIcon from '@material-ui/icons/PeopleRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import RssFeedIcon from '@material-ui/icons/RssFeed';
 import {
     Dashboard,
     Adherents,
@@ -11,6 +12,7 @@ import {
     Elections,
     Ripostes,
     Teams,
+    News
 } from '../../route';
 
 export default {
@@ -20,4 +22,5 @@ export default {
     [Elections]: MapRoundedIcon,
     [Ripostes]: PostAddRoundedIcon,
     [Teams]: StarRoundedIcon,
+    [News]: RssFeedIcon,
 };

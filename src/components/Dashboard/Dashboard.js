@@ -5,7 +5,7 @@ import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign'
 import MapComponent from './Map/MapComponent'
 import TextChart from './Charts/TextChart/TextChart'
 import smartphone from 'assets/smartphone.svg'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -44,19 +44,19 @@ const Dashboard = () => {
         </Grid>
         <Grid container spacing={2} className={classes.kpiContainer}>
           <Grid item xs={12} lg={6}>
-            <Card>
+            <UIContainer>
               <DownloadsCount />
-            </Card>
+            </UIContainer>
           </Grid>
           <Grid item xs={12} lg={6}>
-            <Card>
+            <UIContainer>
               <ActiveUsers />
-            </Card>
+            </UIContainer>
           </Grid>
         </Grid>
-        <Card xs={12}>
+        <UIContainer xs={12}>
           <MapComponent />
-        </Card>
+        </UIContainer>
       </Grid>
     </Container>
   )

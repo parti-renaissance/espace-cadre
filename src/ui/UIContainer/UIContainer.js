@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Card = ({ children, rootClasses = '', xs, sm, md, lg, xl, textAlign = null }) => {
+const UIContainer = ({ children, rootClasses = '', xs, sm, md, lg, xl, textAlign = null }) => {
   const classes = useStyles({ textAlign })
 
   return (
@@ -20,9 +20,9 @@ const Card = ({ children, rootClasses = '', xs, sm, md, lg, xl, textAlign = null
   )
 }
 
-export default Card
+export default UIContainer
 
-Card.propTypes = {
+UIContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]).isRequired,
   rootClasses: PropTypes.string,
   textAlign: PropTypes.string,
