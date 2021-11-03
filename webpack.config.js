@@ -5,7 +5,7 @@ const webpack = require('webpack')
 const dotenv = require('dotenv')
 
 module.exports = (env, argv = {}) => {
-  dotenv.config({ path: argv.mode === 'development' ? './.env.local' : './.env' })
+  dotenv.config({ path: argv.mode === 'development' ? './.env.local' : './.env.production' })
 
   return {
     entry: {
