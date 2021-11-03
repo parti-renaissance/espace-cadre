@@ -1,5 +1,6 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
@@ -24,6 +25,9 @@ module.exports = (env, argv = {}) => {
       new webpack.DefinePlugin({
         'process.env': JSON.stringify(process.env),
       }),
+      new CopyPlugin({
+        patterns: [{ from: 'public' }],
+      }),
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
@@ -31,6 +35,7 @@ module.exports = (env, argv = {}) => {
         api: path.resolve(__dirname, 'src/api'),
         components: path.resolve(__dirname, 'src/components'),
         domain: path.resolve(__dirname, 'src/domain'),
+        assets: path.resolve(__dirname, 'src/assets'),
         services: path.resolve(__dirname, 'src/services'),
         style: path.resolve(__dirname, 'src/style'),
         ui: path.resolve(__dirname, 'src/ui'),
@@ -38,6 +43,10 @@ module.exports = (env, argv = {}) => {
     },
     module: {
       rules: [
+        {
+          test: /\.(png|svg)/,
+          type: 'asset',
+        },
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
