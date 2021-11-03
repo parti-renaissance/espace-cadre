@@ -27,7 +27,6 @@
     "react-leaflet": "^3.2.1",
     "react-redux": "7.2.6",
     "react-router-dom": "5.3.0",
-    "react-scripts": "4.0.3",
     "react-select": "5.2.0",
     "react-use": "17.3.1",
     "recharts": "^2.1.6",
@@ -44,14 +43,9 @@
     "test": "jest src",
     "test-coverage": "jest src --coverage",
     "lint": "eslint './src/**/*.{js,jsx}' --ignore-path .gitignore",
-    "lint:fix": "yarn run lint -- --fix",
+    "lint:fix": "yarn run lint --fix",
     "prepare": "husky install"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "@babel/core": "7.16.0",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
@@ -76,6 +70,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "html-webpack-plugin": "5.5.0",
     "husky": "7.0.4",
+    "jest": "27.3.1",
     "lint-staged": "11.2.6",
     "miragejs": "^0.1.42",
     "prettier": "2.4.1",
@@ -92,5 +87,19 @@
     "*.{js,jsx,json}": [
       "prettier --write"
     ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^(api)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(components)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(domain)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(services)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(style)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(ui)/(.*)$": "<rootDir>/src/$1/$2"
+    },
+    "testEnvironment": "jsdom"
   }
 }
