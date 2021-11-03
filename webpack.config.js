@@ -1,6 +1,5 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
@@ -22,10 +21,6 @@ module.exports = (env, argv = {}) => {
         template: './src/index.html',
       }),
       new CleanWebpackPlugin({ verbose: true }),
-      new MiniCssExtractPlugin({
-        filename: argv.mode === 'development' ? '[name].css' : '[name].[hash].css',
-        chunkFilename: argv.mode === 'development' ? '[id].css' : '[id].[hash].css',
-      }),
       new webpack.DefinePlugin({
         'process.env': JSON.stringify(process.env),
       }),
@@ -48,35 +43,13 @@ module.exports = (env, argv = {}) => {
           exclude: /node_modules/,
           loader: 'babel-loader',
         },
-        {
-          test: /\.s?css$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                modules: {
-                  localIdentName: argv.mode === 'development' ? '[local]--[hash:base64:5]' : '[hash:base64]',
-                },
-                sourceMap: argv.mode === 'development',
-              },
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: argv.mode === 'development',
-              },
-            },
-          ],
-        },
+        { test: /\.s?css$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
       ],
     },
     devtool: argv.mode === 'development' ? 'source-map' : false,
     devServer: {
       static: path.resolve(__dirname, 'public'),
-      open: true,
+      open: false,
       port: 3000,
       historyApiFallback: true,
     },
