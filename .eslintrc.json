@@ -10,12 +10,12 @@
       "version": "detect"
     }
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime", "react-app/jest"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": 2022,
     "sourceType": "module"
   },
   "plugins": ["react", "react-hooks", "prettier"],
@@ -61,5 +61,6 @@
         "react/display-name": "off"
       }
     }
-  ]
+  ],
+  "ignorePatterns": ["webpack.config.js"]
 }

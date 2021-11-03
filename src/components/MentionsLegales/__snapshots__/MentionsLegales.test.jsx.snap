@@ -9,9 +9,7 @@ exports[`MentionsLegales renders 1`] = `
       class="version"
     >
       DataCorner@
-      <strong>
-        dev
-      </strong>
+      <strong />
     </div>
     <ul
       class="mentionLegalesList"
