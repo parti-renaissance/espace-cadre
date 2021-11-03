@@ -45,13 +45,9 @@
     "test-coverage": "jest src --coverage",
     "lint": "eslint './src/**/*.{js,jsx}' --ignore-path .gitignore",
     "lint:fix": "yarn run lint -- --fix",
+    "eject": "react-scripts eject",
     "prepare": "husky install"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "@babel/core": "7.16.0",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
@@ -92,5 +88,16 @@
     "*.{js,jsx,json}": [
       "prettier --write"
     ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "^(app)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(components)/(.*)$": "<rootDir>/src/$1/$2"
+    },
+    "testEnvironment": "jsdom"
   }
 }
