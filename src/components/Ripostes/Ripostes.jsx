@@ -60,7 +60,7 @@ const Ripostes = () => {
   }
 
   const handleNewRiposte = () => {
-    setNewRiposte(Riposte.NULL())
+    setNewRiposte(Riposte.NULL)
     setOpen(true)
   }
 

@@ -29,6 +29,8 @@ export default class Riposte {
     this.ripostes = ripostes
   }
 
+  static NULL = new Riposte(null, '', '', '', false, false, '')
+
   withTitle(newTitle) {
     return new Riposte(this.id, newTitle, this.body, this.url, this.withNotification, this.enabled, this.createdAt)
   }
@@ -51,10 +53,6 @@ export default class Riposte {
 
   toggleEnabled() {
     return new Riposte(this.id, this.title, this.body, this.url, this.withNotification, !this.enabled, this.createdAt)
-  }
-
-  static NULL() {
-    return new Riposte(null, '', '', '', false, false, '')
   }
 }
 
