@@ -55,8 +55,9 @@
   },
   "overrides": [
     {
-      "files": ["*.test.jsx"],
+      "files": ["*.test.jsx", "*.test.js"],
       "rules": {
+        "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
         "react/display-name": "off"
       }
