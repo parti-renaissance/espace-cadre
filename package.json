@@ -88,16 +88,5 @@
     "*.{js,jsx,json}": [
       "prettier --write"
     ]
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy",
-      "^(app)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(components)/(.*)$": "<rootDir>/src/$1/$2"
-    },
-    "testEnvironment": "jsdom"
   }
 }
