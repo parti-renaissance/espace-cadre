@@ -4,6 +4,7 @@ import { Container, Grid, Box } from '@material-ui/core'
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
 import PATHS from '../../../paths'
+import barChartScopes from 'assets/bar-chart-scopes.svg'
 
 function ScopesPage() {
   const userScopes = useSelector(getUserScopes)
@@ -33,7 +34,7 @@ function ScopesPage() {
   return (
     <Container maxWidth="xl" className="scopes-page-container">
       <Grid container className="logo-title-container">
-        <img src="/images/bar-chart-scopes.svg" alt="Logo data corner" className="page-logo" />
+        <img src={barChartScopes} alt="Logo data corner" className="page-logo" />
         <span className="page-title">DataCorner</span>
         <span className="beta">BÊTA</span>
       </Grid>
