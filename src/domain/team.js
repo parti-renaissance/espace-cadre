@@ -20,7 +20,7 @@ export class TeamMember {
     this.postalCode = postalCode
   }
 
-  static NUL = new TeamMember(0, '', '', '', '')
+  static NULL = new TeamMember(0, '', '', '', '')
 }
 
 TeamMember.propTypes = PropTypes.shape({
