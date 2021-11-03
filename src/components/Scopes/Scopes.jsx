@@ -16,24 +16,24 @@ const useStyles = makeStyles(theme =>
         padding: '0',
       },
       '&:not(:last-child)': {
-        marginBottom: '8px',
+        marginBottom: theme.spacing(1),
       },
     },
     list: {
       maxHeight: '500px',
     },
     menuPaper: {
-      marginTop: '50px',
+      marginTop: theme.spacing(6.25),
       background: theme.palette.whiteCorner,
       width: '240px',
     },
     scopeButton: {
       background: theme.palette.gray100,
-      margin: '0 15.5px 16px',
+      margin: theme.spacing(0, 2, 2),
       width: '240px',
       height: '34px',
       justifyContent: 'space-between',
-      padding: '0 12px',
+      padding: theme.spacing(0, 1.5),
       '&:hover': {
         background: theme.palette.gray200,
       },
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme =>
       color: 'black',
       fontSize: '14px',
       fontWeight: '400',
-      padding: '8px 16px',
+      padding: theme.spacing(1, 2),
       width: '210px',
       backgroundColor: '#F7F9FC',
       borderRadius: '6px',
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme =>
       },
     },
     divider: {
-      margin: '8px 0',
+      margin: theme.spacing(1, 0),
       color: theme.palette.gray100,
     },
     profilePlace: {

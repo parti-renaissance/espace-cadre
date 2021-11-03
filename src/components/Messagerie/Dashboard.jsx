@@ -21,32 +21,32 @@ const useStyles = makeStyles(theme =>
       justifyContent: 'flex-end',
     },
     buttonLink: {
-      marginTop: '6px',
+      marginTop: theme.spacing(0.75),
     },
     messagerieMailButton: {
       fontSize: '14px',
       fontWeight: '600',
       color: theme.palette.blue2Corner,
       backgroundColor: theme.palette.whiteCorner,
-      marginBottom: '10px',
-      padding: '4px 16px',
+      marginBottom: theme.spacing(1.25),
+      padding: theme.spacing(0.5, 2),
       border: 'none',
       borderRadius: '79px',
       textTransform: 'none',
     },
     messagerieKpi: {
       backgroundColor: 'rgba(19, 92, 235, 0.05)',
-      marginBottom: '16px',
-      borderRadius: '6px',
+      marginBottom: theme.spacing(2),
+      borderRadius: theme.spacing(0.75),
     },
     kpiTitle: {
       color: theme.palette.blackCorner,
       fontSize: '20px',
       fontWeight: '600',
-      margin: '16px',
+      margin: theme.spacing(2),
     },
     kpiComponent: {
-      padding: '0 32px',
+      padding: theme.spacing(0, 4),
     },
   })
 )

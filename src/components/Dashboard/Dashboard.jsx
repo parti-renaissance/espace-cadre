@@ -9,20 +9,20 @@ import smartphone from 'assets/smartphone.svg'
 const useStyles = makeStyles(theme =>
   createStyles({
     mainContainer: {
-      marginBottom: '16px',
+      marginBottom: theme.spacing(2),
     },
     title: {
       fontSize: '20px',
       fontWeight: '700',
-      margin: '0 0 15px 8px',
+      margin: theme.spacing(0, 0, 2, 1),
       color: theme.palette.grayCorner3,
     },
     phoneImg: {
       verticalAlign: 'middle',
-      marginRight: '8px',
+      marginRight: theme.spacing(1),
     },
     kpiContainer: {
-      marginBottom: '8px',
+      marginBottom: theme.spacing(1),
     },
   })
 )

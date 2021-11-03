@@ -5,7 +5,7 @@ import mail from 'assets/mail.svg'
 const useStyles = makeStyles(theme =>
   createStyles({
     gridItem: {
-      marginBottom: '16px',
+      marginBottom: theme.spacing(2),
       color: theme.palette.grayCorner3,
       fontSize: '20px',
       fontWeight: '700',

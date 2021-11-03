@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
-import { Container, Grid, Box, makeStyles } from '@material-ui/core'
+import { Container, Grid, Box, makeStyles, createStyles } from '@material-ui/core'
 import { MENU } from '../../Routes'
 import list from 'assets/list.svg'
 
-const useStyles = makeStyles({
-  toggleButton: {
-    marginBottom: '16px',
-  },
-})
+const useStyles = makeStyles(theme =>
+  createStyles({
+    toggleButton: {
+      marginBottom: theme.spacing(2),
+    },
+  })
+)
 
 const PageContent = ({ children }) => {
   const { pathname } = useLocation()
