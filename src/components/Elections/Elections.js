@@ -16,7 +16,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 const useStyles = makeStyles(theme => ({
   map: {
     height: '85vh',
-    marginBottom: theme.spacing(2),
+    margin: theme.spacing(1, 0, 2),
   },
 }))
 

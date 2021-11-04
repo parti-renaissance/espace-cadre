@@ -7,9 +7,9 @@ const useStyles = makeStyles(() =>
       fontFamily: 'Poppins',
       width: '100%',
 
-      "& .MuiOutlinedInput-notchedOutline": {
-          border: "none"
-      }
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: 'none',
+      },
     },
   })
 )
