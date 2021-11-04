@@ -1,5 +1,5 @@
 import { createStyles, FormControl, makeStyles } from '@material-ui/core'
-import Autocomplete from '../../Element/Autocomplete'
+import Autocomplete from 'components/Filters/Element/Autocomplete'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,13 +23,13 @@ class AutocompleteFactory {
         <Autocomplete
           placeholder={filter.label}
           uri={filter.options.url}
-          value={value} //
+          value={value}
           onChange={onChange}
-          queryParam={filter.options.query_param} // q
-          valueParam={filter.options.value_param} // uuid
-          labelParam={filter.options.label_param} // name
-          required={filter.options.required || false} //true
-          multiple={filter.options.multiple} // false
+          queryParam={filter.options.query_param}
+          valueParam={filter.options.value_param}
+          labelParam={filter.options.label_param}
+          required={filter.options.required || false}
+          multiple={filter.options.multiple}
           getOptionLabel={option => option[filter.options.label_param]}
           defaultValue={defaultValue}
         />

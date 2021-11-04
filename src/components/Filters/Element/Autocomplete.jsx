@@ -103,22 +103,23 @@ Autocomplete.defaultProps = {
   multiple: false,
   value: null,
   required: false,
-  autoCompleteStyle: {},
-  defaultValue: null,
+  autoCompleteStyle: '',
+  defaultValue: {},
+  labelParam: '',
 }
 
 Autocomplete.propTypes = {
   uri: PropTypes.string.isRequired,
   queryParam: PropTypes.string.isRequired,
   valueParam: PropTypes.string.isRequired,
-  labelParam: PropTypes.string.isRequired,
+  labelParam: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   getOptionLabel: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   multiple: PropTypes.bool,
   value: PropTypes.object,
   required: PropTypes.bool,
-  autoCompleteStyle: PropTypes.object,
+  autoCompleteStyle: PropTypes.string,
   defaultValue: PropTypes.object,
 }
 

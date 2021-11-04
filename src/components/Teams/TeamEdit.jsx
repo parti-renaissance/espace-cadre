@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Container, Grid, makeStyles, createStyles, Card, Paper, Typography } from '@material-ui/core'
 import { useParams } from 'react-router-dom'
-import { addTeamMember, deleteTeamMember, getTeam } from '../../api/teams'
-import { getAdherent } from '../../api/adherents'
+import { addTeamMember, deleteTeamMember, getTeam } from 'api/teams'
+import { getAdherent } from 'api/adherents'
 import MemberCard from './MemberCard'
 import Button from 'ui/Button'
-import Autocomplete from '../Filters/Element/Autocomplete'
+import Autocomplete from 'components/Filters/Element/Autocomplete'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -50,15 +50,15 @@ const TeamEdit = () => {
   const classes = useStyles()
   const { teamId } = useParams()
   const [team, setTeam] = useState(null)
-  const [memberId, setMemberId] = useState(null)
+  const [member, setMember] = useState(null)
 
   useEffect(() => {
     getTeam(teamId, setTeam)
-  }, [teamId, memberId])
+  }, [teamId, member])
 
   const onAddTeamMember = async () => {
-    await addTeamMember(teamId, memberId)
-    setMemberId('')
+    await addTeamMember(teamId, member.uuid)
+    setMember(null)
   }
 
   const handleDelete = async memberId => {
@@ -87,13 +87,13 @@ const TeamEdit = () => {
                   uri={getAdherent}
                   queryParam="q"
                   valueParam="uuid"
-                  value={memberId}
-                  onChange={setMemberId}
+                  value={member}
+                  onChange={setMember}
                   getOptionLabel={option => `${option.first_name} ${option.last_name}`}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button buttonClasses={classes.buttonClasses} handleClick={onAddTeamMember} disabled={!memberId}>
+                <Button buttonClasses={classes.buttonClasses} handleClick={onAddTeamMember} disabled={!member}>
                   Ajouter
                 </Button>
               </Grid>
