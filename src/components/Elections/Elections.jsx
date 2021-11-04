@@ -220,7 +220,7 @@ const Elections = () => {
                     <div class="flash-div">
                         Taux de participation: 
                         <span class="flash-span">
-                            ${renderToString(<ConvertToPercent valueToConvert={participation[0].exprimes / participation[0].inscrits} />)}
+                            ${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}
                         </span>
                     </div>
                     <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].exprimes - participation[0].exprimes) / participation[0].exprimes) * 100).toFixed(2)}%</span></div>
