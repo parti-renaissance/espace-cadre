@@ -220,10 +220,10 @@ const Elections = () => {
                     <div class="flash-div">
                         Taux de participation: 
                         <span class="flash-span">
-                            ${renderToString(<ConvertToPercent valueToConvert={participation[0].votants / participation[0].inscrits} />)}
+                            ${renderToString(<ConvertToPercent valueToConvert={participation[0].exprimes / participation[0].inscrits} />)}
                         </span>
                     </div>
-                    <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].votants - participation[0].exprimes) / participation[0].votants) * 100).toFixed(2)}%</span></div>
+                    <div class="flash-div">Blancs et nuls: <span class="flash-span">${(((participation[0].exprimes - participation[0].exprimes) / participation[0].exprimes) * 100).toFixed(2)}%</span></div>
                 </div>`);
 
             contentParts.push(`<div>${renderToString(results.sort((a, b) => b.voix - a.voix).map((element, i) => <ElectionModal key={i + 1} row={element} exprimes={participation[0].exprimes} />))}</div>`);
