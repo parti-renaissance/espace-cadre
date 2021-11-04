@@ -141,7 +141,7 @@ const Filters = () => {
             <DynamicFilters
               feature={FEATURE_MESSAGES}
               onSubmit={handleFiltersSubmit}
-              values={{ zone: { uuid: '5bf9e8b3-835e-11eb-ba14-42010a84009d', name: 'Hauts-de-Seine', code: 92 } }}
+              values={{ zone: currentScope.zones[0] }}
             />
           </Grid>
           <Grid container>
