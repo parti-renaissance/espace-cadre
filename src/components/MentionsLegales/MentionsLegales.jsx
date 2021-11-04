@@ -1,10 +1,33 @@
+import { makeStyles } from '@material-ui/core'
 
+const useStyles = makeStyles((theme) => ({
+    mentionsLegales: {
+        color: theme.palette.mentionsLegales,
+        fontSize: "10px",
+        position: "absolute",
+        bottom: theme.spacing(2),
+    },
+    version: {
+        margin: theme.spacing (0, 0, 1.25, 4),
+    },
+    list: {
+        paddingLeft: theme.spacing(4),
+        "& a": {
+            fontWeight: 400,
+    },
+    },        
+    signature: {
+        margin: theme.spacing(0, 4)
+    },
+}))
 
 function MentionsLegales() {
+    const classes = useStyles()
+
     return (
-        <div className="mentionsLegales">
-            <div className="version">DataCorner@<strong>{process.env.REACT_APP_VERSION}</strong></div>
-            <ul className="mentionLegalesList">
+        <div className={classes.mentionsLegales}>
+            <div className={classes.version}>DataCorner@<strong>{process.env.REACT_APP_VERSION}</strong></div>
+            <ul className={classes.list}>
                 <li>
                     <a href="https://donnees.en-marche.fr/">
                         Mes données personnelles
@@ -31,7 +54,7 @@ function MentionsLegales() {
                     </a>
                 </li>
             </ul>
-            <div className="signature">Designé et assemblé par le Pôle Tech & Innovation</div>
+            <div className={classes.signature}>Designé et assemblé par le Pôle Tech & Innovation</div>
         </div>
     );
 }

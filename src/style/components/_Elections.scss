@@ -1,61 +1,61 @@
 .layer-select {
-    margin: 0 16px 16px 0;
+  margin: 0 16px 16px 0;
 
-    @media (min-width: 768px) {
-        margin-bottom: 0;
-    }
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+  }
 }
 
 .map-help {
-    color: $blackCorner;
-    font-size: 12px;
-    margin: 16px 0 8px;
+  color: $blackCorner;
+  font-size: 12px;
+  margin: 16px 0 8px;
 
-    @media (min-width: 1200px) {
-        margin: 9px 0 0 16px;
-    }
+  @media (min-width: 1200px) {
+    margin: 9px 0 0 16px;
+  }
 }
 
 #map-overlay {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    z-index: 1;
-    font-family: "Poppins", sans-serif;
-    color: $blackCorner;
-    background: $whiteCorner;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 93%;
-    width: 330px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  font-family: 'Poppins', sans-serif;
+  color: $blackCorner;
+  background: $whiteCorner;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 93%;
+  width: 330px;
 
-    @include borderRadius(6px);
+  @include borderRadius(6px);
 
-    .flash-info {
-        background-color: $grayCornerBg;
-        padding: 32px;
-        margin-bottom: 32px;
+  .flash-info {
+    background-color: $grayCornerBg;
+    padding: 32px;
+    margin-bottom: 32px;
 
-        .flash-div:first-child {
-            margin-bottom: 16px;
-        }
-
-        .flash-div {
-            font-size: 16px;
-            font-weight: 400;
-
-            .flash-span {
-                font-weight: 600;
-            }
-        }
+    .flash-div:first-child {
+      margin-bottom: 16px;
     }
 
-    .modal-error {
-        font-size: 16px;
-        font-weight: 400;
-        text-align: center;
-        margin: 0 auto;
-        overflow: hidden;
-        padding: 16px;
+    .flash-div {
+      font-size: 16px;
+      font-weight: 400;
+
+      .flash-span {
+        font-weight: 600;
+      }
     }
+  }
+
+  .modal-error {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 16px;
+  }
 }

@@ -5,6 +5,10 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.whiteCorner,
         borderRadius: '8.35px',
         width: '100%',
+
+        "& .MuiOutlinedInput-notchedOutline": {
+            border: "none"
+        }
     },
 }));
 

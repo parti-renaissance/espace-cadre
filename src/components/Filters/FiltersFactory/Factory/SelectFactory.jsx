@@ -3,15 +3,16 @@ import {
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => createStyles({
-    root: {
-        fontFamily: 'Poppins',
+    formControl: {
         width: '100%',
-    },
-    filterBasicStyle: {
-        background: theme.palette.whiteCorner,
-        borderRadius: '8.35px',
+        "& .MuiOutlinedInput-notchedOutline": {
+            border: "none"
+        }
     },
     select: {
+        background: theme.palette.whiteCorner,
+        borderRadius: '8.35px',
+
         '&:focus': {
             background: theme.palette.whiteCorner,
             borderRadius: '8.35px',
@@ -33,13 +34,16 @@ class SelectFactory {
             <FormControl
                 variant="outlined"
                 size="small"
-                classes={{ root: classes.root }}
+                className={ classes.formControl }
             >
                 <InputLabel id="simple-select">{filter.label}</InputLabel>
                 <Select
                     labelId="simple-select"
+                    native
+                    inputProps={{
+                        toto: "Xavier"
+                    }}
                     onChange={(e) => onChange(e.target.value)}
-                    className={classes.filterBasicStyle}
                     classes={{ root: classes.select }}
                     value={selectValue}
                     multiple={multiple}
