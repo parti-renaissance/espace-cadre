@@ -138,7 +138,11 @@ const Filters = () => {
         <Grid container>{errorMessage && <ErrorComponent errorMessage={errorMessage} />}</Grid>
         <Grid container spacing={2} className={classes.container}>
           <Grid item>
-            <DynamicFilters feature={FEATURE_MESSAGES} onSubmit={handleFiltersSubmit} />
+            <DynamicFilters
+              feature={FEATURE_MESSAGES}
+              onSubmit={handleFiltersSubmit}
+              values={{ zone: { uuid: '5bf9e8b3-835e-11eb-ba14-42010a84009d', name: 'Hauts-de-Seine', code: 92 } }}
+            />
           </Grid>
           <Grid container>
             <Grid item xs={12} className={classes.messageContainer}>

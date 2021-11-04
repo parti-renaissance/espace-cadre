@@ -1,114 +1,110 @@
-import { useState } from 'react';
-import {
-    Button, createStyles, Grid, makeStyles, Box,
-} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import Factory from './FiltersFactory/Factory';
+import { useState } from 'react'
+import { Box, Button, createStyles, Grid, makeStyles } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import Factory from './FiltersFactory/Factory'
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(theme =>
+  createStyles({
     boxContainer: {
-        marginTop: '16px',
+      marginTop: '16px',
     },
     filtersContainer: {
-        marginBottom: '10px',
+      marginBottom: '10px',
     },
     buttonContainer: {
-        marginBottom: '16px',
+      marginBottom: '16px',
     },
     buttonFilter: {
-        color: theme.palette.whiteCorner,
-        background: `${theme.palette.gray700}`,
-        marginRight: theme.spacing(2),
-        borderRadius: '8.35px',
-        '&:hover': {
-            background: theme.palette.gray600,
-        },
+      color: theme.palette.whiteCorner,
+      background: `${theme.palette.gray700}`,
+      marginRight: theme.spacing(2),
+      borderRadius: '8.35px',
+      '&:hover': {
+        background: theme.palette.gray600,
+      },
     },
     resetButtonFilters: {
-        color: theme.palette.gray700,
-        border: `1px solid ${theme.palette.gray300}`,
-        borderRadius: '8.35px',
-        '&:hover': {
-            background: theme.palette.gray200,
-        },
+      color: theme.palette.gray700,
+      border: `1px solid ${theme.palette.gray300}`,
+      borderRadius: '8.35px',
+      '&:hover': {
+        background: theme.palette.gray200,
+      },
     },
-}));
+  })
+)
 
-const FiltersForm = ({
-    filters, onSubmit, onReset, values,
-}) => {
-    const [localValues, setLocalValues] = useState(values);
-    const factory = new Factory();
-    const filterElements = [];
-    const classes = useStyles();
+const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
+  const [localValues, setLocalValues] = useState(values)
+  const factory = new Factory()
+  const classes = useStyles()
 
-    filters.forEach((filter) => {
-        const filterElement = factory.create(filter.type || 'text', {
-            filter,
-            value: localValues[filter.code] || '',
-            onChange: (value) => {
-                setLocalValues((prevState) => {
-                    const newState = { ...prevState };
-
-                    newState[filter.code] = value;
-
-                    if (value === null) {
-                        delete newState[filter.code];
-                    }
-
-                    return newState;
-                });
-            },
-        });
-
-        if (filterElement) {
-            filterElements.push(<Grid key={filter.code} item xs={12} sm={6} lg={4}>{filterElement}</Grid>);
-        }
-    });
-
-    if (!filterElements.length) {
-        return null;
-    }
+  const filterElements = filters.map(filter => {
+    const filterElement = factory.create(filter.type || 'text', {
+      filter,
+      value: localValues[filter.code] || '',
+      defaultValue: values[filter.code] || null,
+      onChange: value => {
+        setLocalValues(prevState => {
+          const { [filter.code]: oldValue, ...newState } = prevState
+          if (value === null || value === undefined) {
+            return newState
+          }
+          return { ...newState, [filter.code]: value }
+        })
+      },
+    })
 
     return (
-        <Box className={classes.boxContainer}>
-            <form onSubmit={(event) => {
-                event.preventDefault();
-                onSubmit(localValues);
-            }}
-            >
-                <Grid container spacing={2} className={classes.filtersContainer}>
-                    {filterElements}
-                </Grid>
-                <Grid container className={classes.buttonContainer}>
-                    <Button
-                        type="submit"
-                        className={classes.buttonFilter}
+      <Grid key={filter.code} item xs={12} sm={6} lg={4}>
+        {filterElement}
+      </Grid>
+    )
+  })
 
-                    >Filtrer
-                    </Button>
-                    <Button
-                        className={classes.resetButtonFilters}
-                        onClick={() => {
-                            setLocalValues({});
-                            onReset();
-                        }}
-                    >Réinitialiser
-                    </Button>
-                </Grid>
-            </form>
-        </Box>
-    );
-};
+  if (!filterElements.length) {
+    return null
+  }
+
+  return (
+    <Box className={classes.boxContainer}>
+      <form
+        onSubmit={event => {
+          event.preventDefault()
+          onSubmit(localValues)
+        }}
+      >
+        <Grid container spacing={2} className={classes.filtersContainer}>
+          {filterElements}
+        </Grid>
+        <Grid container className={classes.buttonContainer}>
+          <Button type="submit" className={classes.buttonFilter}>
+            Filtrer
+          </Button>
+          <Button
+            className={classes.resetButtonFilters}
+            onClick={() => {
+              setLocalValues({})
+              onReset()
+            }}
+          >
+            Réinitialiser
+          </Button>
+        </Grid>
+      </form>
+    </Box>
+  )
+}
 FiltersForm.defaultProps = {
-    onReset: () => {},
-};
+  onReset: () => {},
+}
 
 FiltersForm.propTypes = {
-    filters: PropTypes.arrayOf(Object).isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    values: PropTypes.objectOf(Object).isRequired,
-    onReset: PropTypes.func,
-};
+  filters: PropTypes.array.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
+  defaultValues: PropTypes.object,
+  onReset: PropTypes.func,
+}
 
-export default FiltersForm;
+export default FiltersForm

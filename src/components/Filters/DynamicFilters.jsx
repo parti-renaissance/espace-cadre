@@ -20,10 +20,6 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   const classes = useStyles()
 
   useEffect(() => {
-    if (filters.length) {
-      return
-    }
-
     const getColumnsTitle = async () => {
       try {
         setFilters(await apiClient.get(`v3/adherents/filters?feature=${feature}`))
@@ -33,28 +29,25 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
     }
 
     getColumnsTitle()
-  }, [feature, filters])
+  }, [feature])
 
   if (!filters.length) {
     return null
   }
 
-  const dynamicFiltersContent = () => {
-    if (filters.length > 0) {
-      return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
-    }
-
-    if (errorMessage) {
-      return <ErrorComponent errorMessage={errorMessage} />
-    }
-
-    return (
-      <div className={`with-background dc-container ${classes.loader}`}>
-        <Loader />
-      </div>
-    )
+  if (filters.length > 0) {
+    return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
   }
-  return dynamicFiltersContent()
+
+  if (errorMessage) {
+    return <ErrorComponent errorMessage={errorMessage} />
+  }
+
+  return (
+    <div className={`with-background dc-container ${classes.loader}`}>
+      <Loader />
+    </div>
+  )
 }
 
 export default DynamicFilters
@@ -68,5 +61,6 @@ DynamicFilters.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   feature: PropTypes.string.isRequired,
   onReset: PropTypes.func,
-  values: PropTypes.objectOf(Object),
+  values: PropTypes.object,
+  defaultValues: PropTypes.object,
 }
