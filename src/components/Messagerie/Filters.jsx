@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Box, Button, Container, Grid, makeStyles } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { generatePath, Link, useHistory, useParams } from 'react-router-dom'
@@ -90,13 +90,22 @@ const Filters = () => {
     }
   })
 
+  const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0] }), [currentScope])
+
+  useEffect(() => {
+    handleFiltersSubmit(defaultFilter)
+  }, [defaultFilter])
+
   const handleFiltersSubmit = async filtersToSend => {
+    const filterWithZoneId = { ...filtersToSend, zone: filtersToSend.zone.uuid }
     try {
       if (audienceId) {
-        await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filtersToSend } })
+        await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filterWithZoneId } })
         launch(audienceId)
       } else {
-        const audience = await createSegmentAudience({ filter: { ...{ scope: currentScope.code }, ...filtersToSend } })
+        const audience = await createSegmentAudience({
+          filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
+        })
         setAudienceId(audience.uuid)
         launch(audience.uuid)
       }
@@ -138,11 +147,7 @@ const Filters = () => {
         <Grid container>{errorMessage && <ErrorComponent errorMessage={errorMessage} />}</Grid>
         <Grid container spacing={2} className={classes.container}>
           <Grid item>
-            <DynamicFilters
-              feature={FEATURE_MESSAGES}
-              onSubmit={handleFiltersSubmit}
-              values={{ zone: currentScope.zones[0] }}
-            />
+            <DynamicFilters feature={FEATURE_MESSAGES} onSubmit={handleFiltersSubmit} values={defaultFilter} />
           </Grid>
           <Grid container>
             <Grid item xs={12} className={classes.messageContainer}>
