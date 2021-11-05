@@ -1,79 +1,72 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, createStyles } from '@material-ui/core';
-import { apiClient } from '../../services/networking/client';
-import FiltersForm from './FiltersForm';
-import ErrorComponent from '../ErrorComponent';
-import Loader from '../HelperComponents/Loader';
+import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles, createStyles } from '@material-ui/core'
+import { apiClient } from 'services/networking/client'
+import FiltersForm from './FiltersForm'
+import ErrorComponent from '../ErrorComponent'
+import Loader from 'ui/Loader'
 
-const useStyles = makeStyles(() => createStyles({
+const useStyles = makeStyles(() =>
+  createStyles({
     loader: {
-        textAlign: 'center',
+      textAlign: 'center',
     },
-}));
+  })
+)
 
-const DynamicFilters = ({
-    feature, values, onSubmit, onReset,
-}) => {
-    const [filters, setFilters] = useState([]);
-    const [errorMessage, setErrorMessage] = useState();
-    const classes = useStyles();
+const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
+  const [filters, setFilters] = useState([])
+  const [errorMessage, setErrorMessage] = useState()
+  const classes = useStyles()
 
-    useEffect(() => {
-        if (filters.length) {
-            return;
-        }
-
-        const getColumnsTitle = async () => {
-            try {
-                setFilters(await apiClient.get(`v3/adherents/filters?feature=${feature}`));
-            } catch (error) {
-                setErrorMessage(error);
-            }
-        };
-
-        getColumnsTitle();
-    }, [feature, filters]);
-
-    if (!filters.length) {
-        return null;
+  useEffect(() => {
+    if (filters.length) {
+      return
     }
 
-    const dynamicFiltersContent = () => {
-        if (filters.length > 0) {
-            return (
-                <FiltersForm
-                    filters={filters}
-                    values={values}
-                    onSubmit={onSubmit}
-                    onReset={onReset}
-                />
-            );
-        }
+    const getColumnsTitle = async () => {
+      try {
+        setFilters(await apiClient.get(`v3/adherents/filters?feature=${feature}`))
+      } catch (error) {
+        setErrorMessage(error)
+      }
+    }
 
-        if (errorMessage) {
-            return <ErrorComponent errorMessage={errorMessage} />;
-        }
+    getColumnsTitle()
+  }, [feature, filters])
 
-        return (
-            <div className={`with-background dc-container ${classes.loader}`}>
-                <Loader />
-            </div>
-        );
-    };
-    return dynamicFiltersContent();
-};
+  if (!filters.length) {
+    return null
+  }
 
-export default DynamicFilters;
+  const dynamicFiltersContent = () => {
+    if (filters.length > 0) {
+      return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
+    }
+
+    if (errorMessage) {
+      return <ErrorComponent errorMessage={errorMessage} />
+    }
+
+    return (
+      <div className={`with-background dc-container ${classes.loader}`}>
+        <Loader />
+      </div>
+    )
+  }
+  return dynamicFiltersContent()
+}
+
+export default DynamicFilters
 
 DynamicFilters.defaultProps = {
-    onReset: null,
-    values: {},
-};
+  onReset: null,
+  values: {},
+}
 
 DynamicFilters.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    feature: PropTypes.string.isRequired,
-    onReset: PropTypes.func,
-    values: PropTypes.objectOf(Object),
-};
+  onSubmit: PropTypes.func.isRequired,
+  feature: PropTypes.string.isRequired,
+  onReset: PropTypes.func,
+  values: PropTypes.objectOf(Object),
+}

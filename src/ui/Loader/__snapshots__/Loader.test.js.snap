@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader displays Loader 1`] = `
+<div>
+  <span
+    class="spin-loader"
+  >
+    <i
+      class="fas fa-spinner"
+    />
+  </span>
+</div>
+`;
