@@ -4,9 +4,14 @@ const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
+const fs = require('fs')
+
+const localEnvPath = './.env.local';
+const productionEnvPath = './.env.production'
 
 module.exports = (env, argv = {}) => {
-  dotenv.config({ path: argv.mode === 'development' ? './.env.local' : './.env.production' })
+  dotenv.config({ path: argv.mode === 'development' ? localEnvPath : productionEnvPath })
+  const { CONFIG_DEV_SERVER_OPEN } = argv.mode === 'development' ? dotenv.parse(fs.readFileSync(localEnvPath)) : {}
 
   return {
     entry: {
@@ -68,7 +73,7 @@ module.exports = (env, argv = {}) => {
     devtool: argv.mode === 'development' ? 'source-map' : false,
     devServer: {
       static: path.resolve(__dirname, 'public'),
-      open: true,
+      open: CONFIG_DEV_SERVER_OPEN === 'true',
       port: 3000,
       historyApiFallback: true,
     },
