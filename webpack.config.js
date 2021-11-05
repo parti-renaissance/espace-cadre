@@ -23,7 +23,17 @@ module.exports = (env, argv = {}) => {
       }),
       new CleanWebpackPlugin({ verbose: true }),
       new webpack.DefinePlugin({
-        'process.env': JSON.stringify(process.env),
+        'process.env': JSON.stringify({
+          NODE_ENV: process.env.NODE_ENV,
+          REACT_APP_INTERNAL_APP_ID: process.env.REACT_APP_INTERNAL_APP_ID,
+          REACT_APP_MAPBOX_STYLE: process.env.REACT_APP_MAPBOX_STYLE,
+          REACT_APP_MAPBOX_TOKEN: process.env.REACT_APP_MAPBOX_TOKEN,
+          REACT_APP_OAUTH_CLIENT_ID: process.env.REACT_APP_OAUTH_CLIENT_ID,
+          REACT_APP_OAUTH_HOST: process.env.REACT_APP_OAUTH_HOST,
+          REACT_APP_SENTRY_DSN: process.env.REACT_APP_SENTRY_DSN,
+          REACT_APP_UNLAYER_PROJECT_ID: process.env.REACT_APP_UNLAYER_PROJECT_ID,
+          REACT_APP_VERSION: process.env.REACT_APP_VERSION,
+        }),
       }),
       new CopyPlugin({
         patterns: [{ from: 'public' }],
