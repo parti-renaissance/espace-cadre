@@ -8,7 +8,7 @@ import { persistor, store } from './redux/store'
 import Layout from './components/Layout'
 import Routes from './Routes'
 import './style/index.scss'
-import theme from './stylesheet'
+import theme from './theme';
 
 const App = () => (
   <Provider store={store}>
