@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Button, Container, Grid, makeStyles } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { generatePath, Link, useHistory, useParams } from 'react-router-dom'
@@ -80,39 +80,50 @@ const Filters = () => {
   const [errorMessage, setErrorMessage] = useState()
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
+  const [resetFilter, setResetFilter] = useState(0)
   const [loadingSegment, audienceSegment, launch] = useRetry(getSegmentAudience, retryInterval, maxAttempts)
-  const [loadingSendButton, , launchAreFilterSaved] = useRetry(getMessage, retryInterval, maxAttempts, () => {
-    const responseSend = sendMessage(messageUuid)
+
+  const sendMessageAfterFilterAreSaved = useCallback(async () => {
+    const responseSend = await sendMessage(messageUuid)
     if (responseSend === 'OK') {
       history.push(PATHS.MESSAGERIE_CONFIRMATION.route)
     } else {
       // TODO: error management
     }
-  })
+  }, [history, messageUuid])
+  const [loadingSendButton, , launchAreFilterSaved] = useRetry(
+    getMessage,
+    retryInterval,
+    maxAttempts,
+    sendMessageAfterFilterAreSaved
+  )
 
-  const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0] }), [currentScope])
+  const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0], resetFilter }), [currentScope, resetFilter])
+
+  const handleFiltersSubmit = useCallback(
+    async filtersToSend => {
+      const filterWithZoneId = { ...filtersToSend, zone: filtersToSend.zone.uuid }
+      try {
+        if (audienceId) {
+          await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filterWithZoneId } })
+          launch(audienceId)
+        } else {
+          const audience = await createSegmentAudience({
+            filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
+          })
+          setAudienceId(audience.uuid)
+          launch(audience.uuid)
+        }
+      } catch (error) {
+        setErrorMessage(error)
+      }
+    },
+    [audienceId, currentScope.code, launch]
+  )
 
   useEffect(() => {
     handleFiltersSubmit(defaultFilter)
-  }, [defaultFilter])
-
-  const handleFiltersSubmit = async filtersToSend => {
-    const filterWithZoneId = { ...filtersToSend, zone: filtersToSend.zone.uuid }
-    try {
-      if (audienceId) {
-        await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filterWithZoneId } })
-        launch(audienceId)
-      } else {
-        const audience = await createSegmentAudience({
-          filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
-        })
-        setAudienceId(audience.uuid)
-        launch(audience.uuid)
-      }
-    } catch (error) {
-      setErrorMessage(error)
-    }
-  }
+  }, [defaultFilter, handleFiltersSubmit])
 
   const handleSendEmail = async (test = false) => {
     if (test) {
@@ -147,7 +158,12 @@ const Filters = () => {
         <Grid container>{errorMessage && <ErrorComponent errorMessage={errorMessage} />}</Grid>
         <Grid container spacing={2} className={classes.container}>
           <Grid item>
-            <DynamicFilters feature={FEATURE_MESSAGES} onSubmit={handleFiltersSubmit} values={defaultFilter} />
+            <DynamicFilters
+              feature={FEATURE_MESSAGES}
+              onSubmit={handleFiltersSubmit}
+              values={defaultFilter}
+              onReset={() => setResetFilter(p => p + 1)}
+            />
           </Grid>
           <Grid container>
             <Grid item xs={12} className={classes.messageContainer}>

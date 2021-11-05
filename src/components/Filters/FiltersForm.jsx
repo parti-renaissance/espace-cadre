@@ -84,7 +84,7 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
           <Button
             className={classes.resetButtonFilters}
             onClick={() => {
-              setLocalValues({})
+              setLocalValues(values)
               onReset()
             }}
           >

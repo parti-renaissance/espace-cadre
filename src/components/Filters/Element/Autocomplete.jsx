@@ -41,12 +41,11 @@ const Autocomplete = ({
       return
     }
     fetch(uri, queryParam, inputValue, data => {
-      console.log('initial fetch')
       const choice = data.filter(d => d[valueParam] === defaultValue[valueParam])
       setOptions(choice)
       setLoading(false)
     })
-  }, [uri, queryParam, defaultValue])
+  }, [uri, queryParam, defaultValue, inputValue, valueParam])
 
   useEffect(() => {
     if (!inputValue) {

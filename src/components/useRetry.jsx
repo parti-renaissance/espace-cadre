@@ -1,16 +1,16 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useCallback } from 'react'
 
 /**
  * useRetry will launch the f function, and look at the response.
  * If the response contains synchronized = false,
  * it will relaunch f a few milliseconds later (specified by the duration param).
  * If the reponse contains synchronized = true, it will run the option 'run' method
- * provided in the params.
+ * provided in the params /!\ run must be a function in a React.useCallBack() /!\.
  * The f function will be relaunch every 'duration' milliseconds until synchronized is true or
  * maxAttempts is reached.
- * If max attempts is reached, onError will be called
+ * If max attempts is reached, onError will be called /!\ onError must be a function in a React.useCallBack() /!\
  * */
-const useRetry = (f, duration, maxAttempts, run = () => {}, onError = () => {}) => {
+const useRetry = (f, duration, maxAttempts, run, onError) => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(null)
   const interval = useRef(null)
@@ -21,24 +21,28 @@ const useRetry = (f, duration, maxAttempts, run = () => {}, onError = () => {}) 
     setLoading(false)
   }
 
-  const launch = (...args) => {
-    setLoading(true)
-    setData(null)
-    iteration.current = 0
-    interval.current = setInterval(async () => {
-      const result = await f(...args)
-      if (result && result.synchronized === true) {
-        setData(result)
-        run && run()
-        clear()
-      }
-      iteration.current += 1
-      if (iteration.current >= maxAttempts) {
-        clear()
-        onError()
-      }
-    }, duration)
-  }
+  const launch = useCallback(
+    (...args) => {
+      clear()
+      setLoading(true)
+      setData(null)
+      iteration.current = 0
+      interval.current = setInterval(async () => {
+        const result = await f(...args)
+        if (result?.synchronized) {
+          setData(result)
+          run?.call()
+          clear()
+        }
+        iteration.current += 1
+        if (iteration.current >= maxAttempts) {
+          clear()
+          onError?.call()
+        }
+      }, duration)
+    },
+    [duration, f, maxAttempts, onError, run]
+  )
 
   return [loading, data, launch, clear]
 }
