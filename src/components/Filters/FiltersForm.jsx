@@ -6,13 +6,13 @@ import Factory from './FiltersFactory/Factory'
 const useStyles = makeStyles(theme =>
   createStyles({
     boxContainer: {
-      marginTop: '16px',
+      marginTop: theme.spacing(2),
     },
     filtersContainer: {
-      marginBottom: '10px',
+      marginBottom: theme.spacing(1.5),
     },
     buttonContainer: {
-      marginBottom: '16px',
+      marginBottom: theme.spacing(2),
     },
     buttonFilter: {
       color: theme.palette.whiteCorner,

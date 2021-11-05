@@ -103,8 +103,7 @@ const TeamEdit = () => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} className={classes.title}>
-          {' '}
-          Membres de l&apos;équipe{' '}
+          Membres de l&apos;équipe
         </Grid>
         {team?.members.length > 0 ? (
           team?.members?.map(member => (
