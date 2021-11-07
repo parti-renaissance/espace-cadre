@@ -62,7 +62,7 @@
     "copy-webpack-plugin": "9.0.1",
     "css-loader": "6.5.1",
     "dotenv": "10.0.0",
-    "eslint": "8.1.0",
+    "eslint": "8.2.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsx-a11y": "6.4.1",
@@ -80,7 +80,7 @@
     "source-map-loader": "3.0.0",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.2.4",
-    "webpack": "5.61.0",
+    "webpack": "5.62.1",
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "4.4.0"
   },
