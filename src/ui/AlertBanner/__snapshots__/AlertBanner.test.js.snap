@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlertBanner displays AlertBanner with object message 1`] = `
+<div>
+  <div
+    class="errorMessage"
+    elevation="0"
+    severity="foo-severity"
+    variant="filled"
+  >
+    FOO
+  </div>
+</div>
+`;
+
+exports[`AlertBanner displays AlertBanner with string message 1`] = `
+<div>
+  <div
+    class="errorMessage"
+    elevation="0"
+    severity="foo-severity"
+    variant="filled"
+  >
+    FOO
+  </div>
+</div>
+`;

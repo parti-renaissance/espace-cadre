@@ -3,8 +3,8 @@ import { makeStyles, createStyles, Dialog, Box, Grid, Button, FormControlLabel, 
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import TextFieldComponent from 'components/HelperComponents/TextFieldComponent'
-import AlertBanner from 'components/HelperComponents/AlertBanner'
+import TextField from 'ui/TextField'
+import AlertBanner from 'ui/AlertBanner'
 import Riposte from 'domain/riposte'
 import { createRiposte, updateRiposte } from 'api/ripostes'
 
@@ -127,7 +127,7 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <TextFieldComponent formik={formik} label="title" />
+            <TextField formik={formik} label="title" />
           </Grid>
         </Grid>
         <Grid container className={classes.innerContainer}>
@@ -138,7 +138,7 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <TextFieldComponent formik={formik} label="body" />
+            <TextField formik={formik} label="body" />
           </Grid>
         </Grid>
         <Grid container className={classes.innerContainer}>
@@ -149,7 +149,7 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <TextFieldComponent formik={formik} label="url" />
+            <TextField formik={formik} label="url" />
           </Grid>
         </Grid>
         <Grid container className={classes.innerContainer}>
