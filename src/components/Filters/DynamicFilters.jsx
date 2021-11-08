@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, createStyles } from '@material-ui/core'
-import { apiClient } from 'services/networking/client'
 import FiltersForm from './FiltersForm'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
+import { getFilters } from 'api/filters'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -20,15 +20,11 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   const classes = useStyles()
 
   useEffect(() => {
-    const getColumnsTitle = async () => {
-      try {
-        setFilters(await apiClient.get(`v3/adherents/filters?feature=${feature}`))
-      } catch (error) {
-        setErrorMessage(error)
-      }
+    try {
+      getFilters(feature, setFilters)
+    } catch (error) {
+      setErrorMessage(error)
     }
-
-    getColumnsTitle()
   }, [feature])
 
   if (!filters.length) {

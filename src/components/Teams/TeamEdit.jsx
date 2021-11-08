@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Container, Grid, makeStyles, createStyles, Card, Paper, Typography } from '@material-ui/core'
 import { useParams } from 'react-router-dom'
 import { addTeamMember, deleteTeamMember, getTeam } from 'api/teams'
-import { getAdherent } from 'api/adherents'
+import { adherentAutocompleteUri } from 'api/adherents'
 import MemberCard from './MemberCard'
 import Button from 'ui/Button'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
@@ -84,7 +84,7 @@ const TeamEdit = () => {
                 <Autocomplete
                   placeholder="Rechercher un adhérent"
                   autoCompleteStyle={classes.autocomplete}
-                  uri={getAdherent}
+                  uri={adherentAutocompleteUri}
                   queryParam="q"
                   valueParam="uuid"
                   value={member}

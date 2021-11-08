@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme =>
       marginTop: theme.spacing(2),
     },
     filtersContainer: {
-      marginBottom: theme.spacing(1.5),
+      marginBottom: theme.spacing(1.25),
     },
     buttonContainer: {
       marginBottom: theme.spacing(2),
