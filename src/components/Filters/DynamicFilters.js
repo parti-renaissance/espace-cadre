@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, createStyles } from '@material-ui/core'
-import { apiClient } from 'services/networking/client'
 import FiltersForm from './FiltersForm'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
+import { getFilters } from 'api/filters'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -20,41 +20,34 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   const classes = useStyles()
 
   useEffect(() => {
-    if (filters.length) {
-      return
-    }
-
     const getColumnsTitle = async () => {
       try {
-        setFilters(await apiClient.get(`v3/adherents/filters?feature=${feature}`))
+        await getFilters(feature, setFilters)
       } catch (error) {
         setErrorMessage(error)
       }
     }
 
     getColumnsTitle()
-  }, [feature, filters])
+  }, [feature])
+
+  if (errorMessage) {
+    return <ErrorComponent errorMessage={errorMessage} />
+  }
 
   if (!filters.length) {
     return null
   }
 
-  const dynamicFiltersContent = () => {
-    if (filters.length > 0) {
-      return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
-    }
-
-    if (errorMessage) {
-      return <ErrorComponent errorMessage={errorMessage} />
-    }
-
-    return (
-      <div className={`with-background dc-container ${classes.loader}`}>
-        <Loader />
-      </div>
-    )
+  if (filters.length > 0) {
+    return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
   }
-  return dynamicFiltersContent()
+
+  return (
+    <div className={`with-background dc-container ${classes.loader}`}>
+      <Loader />
+    </div>
+  )
 }
 
 export default DynamicFilters
@@ -68,5 +61,6 @@ DynamicFilters.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   feature: PropTypes.string.isRequired,
   onReset: PropTypes.func,
-  values: PropTypes.objectOf(Object),
+  values: PropTypes.object,
+  defaultValues: PropTypes.object,
 }

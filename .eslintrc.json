@@ -20,6 +20,7 @@
   },
   "plugins": ["react", "react-hooks", "prettier"],
   "rules": {
+    "arrow-body-style": ["error", "as-needed"],
     "eqeqeq": "error",
     "jsx-a11y/control-has-associated-label": [0],
     "jsx-quotes": ["error", "prefer-double"],

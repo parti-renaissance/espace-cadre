@@ -1,1 +1,1 @@
-export const getAdherent = '/api/v3/adherents/autocomplete'
+export const adherentAutocompleteUri = '/api/v3/adherents/autocomplete'
