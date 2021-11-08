@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Grid, Box } from '@material-ui/core'
-import { apiClientProxy } from '../../../../services/networking/client'
+import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
-import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import ErrorComponent from 'components/ErrorComponent/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 
 function SentEmailCampaignList() {
