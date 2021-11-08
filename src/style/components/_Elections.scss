@@ -31,13 +31,6 @@
 
     @include borderRadius(6px);
 
-    .elections-area {
-        color: $blueCorner;
-        font-size: 22px;
-        font-weight: 600;
-        padding: 16px 32px 0;
-    }
-
     .flash-info {
         background-color: $grayCornerBg;
         padding: 32px;

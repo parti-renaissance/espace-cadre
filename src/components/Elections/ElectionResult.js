@@ -1,8 +1,9 @@
-import { makeStyles } from '@material-ui/core';
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core'
 
-import { ElectionResult as DomainElectionResult } from '../../domain/election'
+import { ElectionResult as DomainElectionResult } from 'domain/election'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(0, 4, 4),
     color: 'black',
@@ -35,33 +36,33 @@ const useStyles = makeStyles((theme) => ({
     background: ({ colorCode }) => colorCode,
     width: ({ votesCount, votesCast }) => `${(votesCount / votesCast) * 100}%`,
   },
-}));
+}))
 
-const ElectionResult = ({ result }) => {
-    const { nuance, colorCode, candidateFirstname, candidateLastname, votesCount, votesCast } = result;
-    const classes = useStyles({ colorCode, votesCount, votesCast });
+const ElectionResult = ({ result, votesCast }) => {
+  const { nuance, colorCode, candidateFirstname, candidateLastname, votesCount } = result
+  const classes = useStyles({ colorCode, votesCount, votesCast })
 
-    return (
-      <div className={classes.root}>
-        <div className={classes.name}>{candidateFirstname} {candidateLastname}</div>
-        <div className={classes.nuance}>{nuance}</div>
-        <div className={classes.result}>
-            {votesCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
-            &nbsp;voix
-            &nbsp;-&nbsp;
-            <span className={classes.resultCount}>
-              {((votesCount / votesCast) * 100).toFixed(2)}%
-            </span>
-        </div>
-        <div className={classes.progress}>
-            <div className={classes.progressBar} />
-        </div>
+  return (
+    <div className={classes.root}>
+      <div className={classes.name}>
+        {candidateFirstname} {candidateLastname}
       </div>
-    );
-};
+      <div className={classes.nuance}>{nuance}</div>
+      <div className={classes.result}>
+        {votesCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
+        &nbsp;voix &nbsp;-&nbsp;
+        <span className={classes.resultCount}>{((votesCount / votesCast) * 100).toFixed(2)}%</span>
+      </div>
+      <div className={classes.progress}>
+        <div className={classes.progressBar} />
+      </div>
+    </div>
+  )
+}
 
 ElectionResult.propTypes = {
   result: DomainElectionResult.propTypes.isRequired,
-};
+  votesCast: PropTypes.number.isRequired,
+}
 
-export default ElectionResult;
+export default ElectionResult

@@ -20,7 +20,7 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
   const { election, year, round } = filterValues;
 
   const electionTypesOptions = useMemo(() => Object.entries(LayersTypes).map(
-    (line) => ({ code: line[0], label: line[1] })
+    ([code, label]) => ({ code, label })
   ), []);
 
   return (
