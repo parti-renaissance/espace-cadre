@@ -20,12 +20,20 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   const classes = useStyles()
 
   useEffect(() => {
-    try {
-      getFilters(feature, setFilters)
-    } catch (error) {
-      setErrorMessage(error)
+    const getColumnsTitle = async () => {
+      try {
+        await getFilters(feature, setFilters)
+      } catch (error) {
+        setErrorMessage(error)
+      }
     }
+
+    getColumnsTitle()
   }, [feature])
+
+  if (errorMessage) {
+    return <ErrorComponent errorMessage={errorMessage} />
+  }
 
   if (!filters.length) {
     return null
@@ -33,10 +41,6 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
 
   if (filters.length > 0) {
     return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
-  }
-
-  if (errorMessage) {
-    return <ErrorComponent errorMessage={errorMessage} />
   }
 
   return (
