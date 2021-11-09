@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
-import { Container, Grid, makeStyles, createStyles } from '@material-ui/core'
+import { Container, Grid } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import { MENU } from '../../Routes'
 import list from 'assets/list.svg'
 

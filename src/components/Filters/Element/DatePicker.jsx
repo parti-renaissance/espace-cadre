@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
-import { IconButton, makeStyles } from '@material-ui/core'
-import { Clear as ClearIcon, Event as EventIcon } from '@material-ui/icons'
+import { IconButton } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
 import { DatePicker as MuiDatePicker } from '@material-ui/pickers'
 import PropTypes from 'prop-types'
 

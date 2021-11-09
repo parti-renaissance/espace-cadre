@@ -1,4 +1,6 @@
-import { makeStyles, createStyles, TextField as TextFieldMui } from '@material-ui/core'
+import { TextField as TextFieldMui } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 import AlertBanner from 'ui/AlertBanner'
 

@@ -1,30 +1,34 @@
-import { Box, makeStyles, createStyles } from '@material-ui/core';
+import { Box } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(theme =>
+  createStyles({
     errorBox: {
-        textAlign: 'center',
-        color: theme.palette.statusError,
-        width: '100%',
-        marginBottom: '16px',
-        borderRadius: '6px',
+      textAlign: 'center',
+      color: theme.palette.statusError,
+      width: '100%',
+      marginBottom: '16px',
+      borderRadius: '6px',
     },
-}));
+  })
+)
 
 const ErrorComponent = ({ errorMessage }) => {
-    const classes = useStyles();
+  const classes = useStyles()
 
-    return (
-        <Box className={`with-background ${classes.errorBox}`}>
-            <div className="chart-error">{errorMessage?.message}</div>
-        </Box>
-    );
+  return (
+    <Box className={`with-background ${classes.errorBox}`}>
+      <div className="chart-error">{errorMessage?.message}</div>
+    </Box>
+  )
 }
 
 ErrorComponent.propTypes = {
-    errorMessage: PropTypes.shape({
-        message: PropTypes.string
-    })
+  errorMessage: PropTypes.shape({
+    message: PropTypes.string,
+  }),
 }
 
-export default ErrorComponent;
+export default ErrorComponent

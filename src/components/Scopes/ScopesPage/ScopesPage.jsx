@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container, Grid, Box, makeStyles } from '@material-ui/core'
+import { Container, Grid, Box } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
 import PATHS from '../../../paths'

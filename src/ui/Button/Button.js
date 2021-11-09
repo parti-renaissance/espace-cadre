@@ -1,4 +1,6 @@
-import { Button as MuiButton, makeStyles, createStyles } from '@material-ui/core'
+import { Button as MuiButton } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme =>

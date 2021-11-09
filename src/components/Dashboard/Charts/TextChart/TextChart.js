@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Box, makeStyles } from '@material-ui/core'
+import { Box } from '@mui/material'
 import Loader from 'ui/Loader'
 import { apiClientProxy } from '../../../../services/networking/client'
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import makeStyles from '@mui/styles/makeStyles'
 
 const useStyles = makeStyles(theme => ({
   dashboardTitle: {
