@@ -1,10 +1,11 @@
 ﻿import PropTypes from 'prop-types'
 import { CardHeader, IconButton, makeStyles, Typography } from '@material-ui/core'
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 
 import Percentage from 'ui/Percentage'
 import Loader from 'ui/Loader'
+import { ElectionResult as DomainElectionResult } from 'domain/election'
 import ElectionResult from './ElectionResult'
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { ElectionFirstStage } from './shared/constants'
 
 const useStyles = makeStyles(theme => ({
@@ -125,7 +126,7 @@ ElectionPopin.propTypes = {
     voting: PropTypes.number,
     votesCast: PropTypes.number,
   }).isRequired,
-  results: PropTypes.arrayOf(ElectionResult.propTypes).isRequired,
+  results: PropTypes.arrayOf(DomainElectionResult.propTypes).isRequired,
   handleClose: PropTypes.func,
 }
 

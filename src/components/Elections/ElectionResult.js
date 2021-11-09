@@ -44,10 +44,12 @@ const ElectionResult = ({ result, votesCast }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.name}>
-        {candidateFirstname} {candidateLastname}
-      </div>
-      <div className={classes.nuance}>{nuance}</div>
+      {(candidateFirstname || candidateLastname) && (
+        <div className={classes.name}>
+          {candidateFirstname} {candidateLastname}
+        </div>
+      )}
+      {nuance && <div className={classes.nuance}>{nuance}</div>}
       <div className={classes.result}>
         {votesCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
         &nbsp;voix &nbsp;-&nbsp;

@@ -24,7 +24,7 @@ const Elections = () => {
   const classes = useStyles()
 
   const mapContainer = useRef(null)
-  const [map, setMap] = useState()
+  const map = useRef()
   const [mapLoaded, setMapLoaded] = useState(false)
   const [currentPoint, setCurrentPoint] = useState()
   const [activeLayer, setActiveLayer] = useState(LayersCodes.region)
@@ -48,32 +48,30 @@ const Elections = () => {
 
   const switchLayer = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
-      map.setLayoutProperty(key, 'visibility', key === activeLayer ? 'visible' : 'none')
+      map.current.setLayoutProperty(key, 'visibility', key === activeLayer ? 'visible' : 'none')
     })
   }, [map, activeLayer])
 
   useEffect(() => {
-    setMap(
-      new mapboxgl.Map({
-        container: mapContainer.current,
-        style: process.env.REACT_APP_MAPBOX_STYLE,
-        minZoom: 4,
-      })
-    )
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: process.env.REACT_APP_MAPBOX_STYLE,
+      minZoom: 4,
+    })
   }, [])
 
   useEffect(() => {
-    if (!map) return
-    map.getCanvas().style.cursor = 'pointer'
-    map.on('load', () => setMapLoaded(true))
-    map.on('click', handleCurrentPoint)
+    if (!map.current) return
+    map.current.getCanvas().style.cursor = 'pointer'
+    map.current.on('load', () => setMapLoaded(true))
+    map.current.on('click', handleCurrentPoint)
   }, [map, handleCurrentPoint])
 
   useEffect(() => {
     if (!mapLoaded) return
     switchLayer()
     const { election, year, round } = filterValues
-    map.setPaintProperty(activeLayer, 'fill-color', [
+    map.current.setPaintProperty(activeLayer, 'fill-color', [
       'coalesce',
       ['get', `${election.charAt(0)}_${year}_${round}`],
       'rgba(0,0,0,0)',
@@ -83,7 +81,7 @@ const Elections = () => {
   useEffect(() => {
     if (!mapLoaded || !currentPoint) return
 
-    const mapBoxProps = map.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] })
+    const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] })
     if (!mapBoxProps) return
 
     const { zoneName, zoneCode } = getMapBoxProperties(mapBoxProps)
