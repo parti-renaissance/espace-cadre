@@ -9,6 +9,20 @@ import ElectionResult from './ElectionResult'
 import { ElectionFirstStage } from './shared/constants'
 
 const useStyles = makeStyles(theme => ({
+  mapOverlay: {
+    position: 'absolute',
+    top: '8px',
+    right: '8px',
+    zIndex: 1,
+    fontFamily: 'Poppins, sans-serif',
+    color: theme.palette.blackCorner,
+    background: theme.palette.whiteCorner,
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    maxHeight: '93%',
+    width: '330px',
+    borderRadius: '8.35px',
+  },
   MUICardRoot: {
     padding: theme.spacing(2, 2, 2, 4),
   },
@@ -25,6 +39,29 @@ const useStyles = makeStyles(theme => ({
     marginTop: 0,
     padding: theme.spacing(1),
     color: theme.palette.gray600,
+  },
+  flashInfo: {
+    backgroundColor: theme.palette.grayCornerBg,
+    padding: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+  },
+  flashDiv: {
+    fontSize: '16px',
+    fontWeight: 400,
+    '&:first-child': {
+      marginBottom: theme.spacing(2),
+    },
+  },
+  flashSpan: {
+    fontWeight: 600,
+  },
+  error: {
+    fontSize: '16px',
+    fontWeight: 400,
+    textAlign: 'center',
+    margin: theme.spacing(0, 'auto'),
+    overflow: 'hidden',
+    padding: '16px',
   },
 }))
 
@@ -43,10 +80,9 @@ const ElectionPopin = ({ loader, zone, filterValues, participation, results, han
   const { registered, voting, votesCast } = participation
 
   return (
-    <div id="map-overlay">
-      {/* TODO: extract #map-overlay from .scss to JSS */}
+    <div id="map-overlay" className={classes.mapOverlay}>
       {loader && (
-        <div className="modal-error text-center">
+        <div className={`text-center ${classes.error}`}>
           <Loader />
         </div>
       )}
@@ -72,22 +108,22 @@ const ElectionPopin = ({ loader, zone, filterValues, participation, results, han
 
           {Object.keys(participation).length > 0 && results.length > 0 && (
             <>
-              <div className="flash-info">
-                <div className="flash-div">
-                  <span className="flash-span">
+              <div className={classes.flashInfo}>
+                <div className={classes.flashDiv}>
+                  <span className={classes.flashSpan}>
                     {registered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
                     {messages.registered}
                   </span>
                 </div>
-                <div className="flash-div">
+                <div className={classes.flashDiv}>
                   {messages.participation}
-                  <span className="flash-span">
+                  <span className={classes.flashSpan}>
                     <Percentage>{voting / registered}</Percentage>
                   </span>
                 </div>
-                <div className="flash-div">
+                <div className={classes.flashDiv}>
                   {messages.whitesAndNulls}
-                  <span className="flash-span">
+                  <span className={classes.flashSpan}>
                     <Percentage>{(voting - votesCast) / voting}</Percentage>
                   </span>
                 </div>
