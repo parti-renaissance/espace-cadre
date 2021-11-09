@@ -3,7 +3,8 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import { persistor, store } from './redux/store'
 import Layout from './components/Layout'
 import Routes from './Routes'
@@ -15,11 +16,11 @@ const App = () => (
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Layout>
               <Routes />
             </Layout>
-          </MuiPickersUtilsProvider>
+          </LocalizationProvider>
         </ThemeProvider>
       </BrowserRouter>
     </PersistGate>
