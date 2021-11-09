@@ -11,6 +11,9 @@ const theme = createTheme({
         },
     },
     props: {
+        MuiTypography: {
+          component: 'span',
+        },
         MuiButton: {
             disableElevation: true,
         },

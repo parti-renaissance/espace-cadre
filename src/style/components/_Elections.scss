@@ -16,12 +16,6 @@
     }
 }
 
-.map-container {
-    width: 100%;
-    height: 85vh;
-    margin-bottom: 16px;
-}
-
 #map-overlay {
     position: absolute;
     top: 8px;
@@ -36,26 +30,6 @@
     width: 330px;
 
     @include borderRadius(6px);
-
-    .elections-area {
-        color: $blueCorner;
-        font-size: 22px;
-        font-weight: 600;
-        padding: 16px 32px 0;
-    }
-
-    .election-name {
-        font-size: 14px;
-        padding: 8px 32px 16px;
-    }
-
-    #close-modal {
-        position: absolute;
-        font-size: 18px;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-    }
 
     .flash-info {
         background-color: $grayCornerBg;

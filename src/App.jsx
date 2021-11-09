@@ -7,8 +7,8 @@ import DateFnsUtils from '@date-io/date-fns'
 import { persistor, store } from './redux/store'
 import Layout from './components/Layout'
 import Routes from './Routes'
+import theme from './theme'
 import './style/index.scss'
-import theme from './stylesheet'
 
 const App = () => (
   <Provider store={store}>
