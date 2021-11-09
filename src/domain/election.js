@@ -25,9 +25,9 @@ ElectionParticipation.propTypes = PropTypes.shape({
 })
 
 ElectionResult.propTypes = PropTypes.shape({
-  nuance: PropTypes.string.isRequired,
+  nuance: PropTypes.string,
   colorCode: PropTypes.string.isRequired,
-  candidateFirstname: PropTypes.string.isRequired,
-  candidateLastname: PropTypes.string.isRequired,
+  candidateFirstname: PropTypes.string,
+  candidateLastname: PropTypes.string,
   votesCount: PropTypes.number.isRequired,
 })
