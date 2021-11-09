@@ -1,4 +1,6 @@
-import { Box, Button, createStyles, Grid, makeStyles, Paper } from '@material-ui/core'
+import { Box, Button, Grid, Paper } from '@mui/material'
+import createStyles from '@mui/styles/createStyles'
+import makeStyles from '@mui/styles/makeStyles'
 import PropTypes from 'prop-types'
 import RiposteObject from 'domain/riposte'
 import RiposteEnableStatus from './RiposteEnableStatus'

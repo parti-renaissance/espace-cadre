@@ -1,5 +1,6 @@
-import Alert from '@material-ui/lab/Alert'
-import { makeStyles, createStyles } from '@material-ui/core'
+import Alert from '@mui/material/Alert'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme =>

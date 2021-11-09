@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
-import { Grid, Box } from '@material-ui/core'
+import { Grid, Box } from '@mui/material'
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks'
 import { apiClientProxy } from '../../../services/networking/client'
 import Loader from 'ui/Loader'

@@ -1,4 +1,6 @@
-import { Container, Grid, makeStyles, createStyles } from '@material-ui/core'
+import { Container, Grid } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers'
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount'
 import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign'

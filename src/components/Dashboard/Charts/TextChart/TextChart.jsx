@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box } from '@material-ui/core'
+import { Box } from '@mui/material'
 import Loader from 'ui/Loader'
 import { apiClientProxy } from '../../../../services/networking/client'
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks'

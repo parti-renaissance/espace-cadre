@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Grid, Box } from '@material-ui/core'
+import { Grid, Box } from '@mui/material'
 import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'

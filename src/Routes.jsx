@@ -3,7 +3,7 @@ import { Route, Switch, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from './redux/user/selectors'
 import PATHS from './paths'
-import { CircularProgress, Grid } from '@material-ui/core'
+import { CircularProgress, Grid } from '@mui/material'
 
 const Dashboard = lazy(() => import('./components/Dashboard'))
 const Adherents = lazy(() => import('./components/Adherents'))
