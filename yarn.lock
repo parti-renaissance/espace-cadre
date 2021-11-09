@@ -3860,10 +3860,10 @@ eslint-plugin-prettier@4.0.0:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-react-hooks@4.2.1-alpha-13455d26d-20211104:
-  version "4.2.1-alpha-13455d26d-20211104"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.2.1-alpha-13455d26d-20211104.tgz#08c10a0897c7316ff703caf22a94506b7f2655b8"
-  integrity sha512-FbqwbpOYRs1t7Kwy2Lw+HbWjVTdyMTI3MCiU5s+86WxqqLIMbDLJB/FlfKBQVcuJZUeEANrQF7JM7YbAOyOJQQ==
+eslint-plugin-react-hooks@4.2.1-alpha-255221c86-20211103:
+  version "4.2.1-alpha-255221c86-20211103"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.2.1-alpha-255221c86-20211103.tgz#71adfa2e6a59b7b442c51b9b25c333e87c7926ef"
+  integrity sha512-JXeOF4+EFxIpu9EhXmXgIt9QqgoK/xCe7Z2a2hfWNj7DR/Q2yEXzsNZIT/i+AuuJcIiBy/Glg87RWhZ7SomSUQ==
 
 eslint-plugin-react@7.26.1:
   version "7.26.1"
