@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Container, TableContainer, Paper, Table, TablePagination, makeStyles } from '@material-ui/core'
-import qs from 'qs'
-import { apiClient } from '../../services/networking/client'
 import TableHeadComponent from './TableHeadComponent'
 import TableBodyComponent from './TableBodyComponent'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
-import { useColumnsTitleCache } from '../../redux/adherents/hooks'
-import { FEATURE_ADHERENTS } from '../Feature/FeatureCode'
+import { getAdherents, getColumns } from 'api/adherents'
+
+export const FEATURE_ADHERENTS = 'contacts'
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -26,36 +25,31 @@ const useStyles = makeStyles({
 })
 
 function Adherents() {
-  const [columnsTitle, setColumnsTitle] = useColumnsTitleCache()
+  const [columnsTitle, setColumnsTitle] = useState([])
   const [adherents, setAdherents] = useState([])
   const [errorMessage, setErrorMessage] = useState()
-  const [filters, setFilters] = useState({ page: 1 })
+  const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
+  const [filters, setFilters] = useState(defaultFilter)
   const classes = useStyles()
 
   useEffect(() => {
-    if (columnsTitle.length) {
-      return
-    }
     const getColumnsTitle = async () => {
-      try {
-        setColumnsTitle(await apiClient.get('v3/adherents/columns'))
-      } catch (error) {
-        setErrorMessage(error)
-      }
+      await getColumns(setColumnsTitle)
     }
-
     getColumnsTitle()
-  }, [columnsTitle, setColumnsTitle])
+  }, [])
 
   useEffect(() => {
-    const getAdherents = async () => {
+    const fetchAdherents = async () => {
       try {
-        setAdherents(await apiClient.get(`v3/adherents?${qs.stringify(filters)}`))
+        const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
+        //setAdherents(await apiClient.get(`v3/adherents?${qs.stringify(filter)}`))
+        await getAdherents(filter, setAdherents)
       } catch (error) {
         setErrorMessage(error)
       }
     }
-    getAdherents()
+    fetchAdherents()
   }, [filters])
 
   const renderContent = () => {
@@ -64,10 +58,11 @@ function Adherents() {
         <>
           <DynamicFilters
             feature={FEATURE_ADHERENTS}
-            values={filters}
+            values={defaultFilter}
             onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
             onReset={() => {
-              setFilters({ page: 1 })
+              setDefaultFilter({ page: 1, zones: [] })
+              setFilters({ page: 1, zones: [] })
             }}
           />
           <Paper classes={{ rounded: classes.rounded }}>

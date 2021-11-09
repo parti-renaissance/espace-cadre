@@ -1,25 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-    columnsTitle: [],
-};
+const initialState = {}
 
 const adherentsSlice = createSlice({
-    name: 'adherents',
-    initialState,
-    reducers: {
-        updateColumnsTitle(state, action) {
-            state.columnsTitle = action.payload;
-        },
-        resetAdherentsState() {
-            return initialState;
-        },
+  name: 'adherents',
+  initialState,
+  reducers: {
+    resetAdherentsState() {
+      return initialState
     },
-});
+  },
+})
 
-export const {
-    updateColumnsTitle,
-    resetAdherentsState,
-} = adherentsSlice.actions;
+export const { resetAdherentsState } = adherentsSlice.actions
 
-export default adherentsSlice.reducer;
+export default adherentsSlice.reducer
