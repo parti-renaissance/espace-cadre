@@ -46,24 +46,20 @@ const Cell = ({ adherent, column }) => {
   const value = adherent[columnKeyMapping[column.key] || column.key]
 
   if (column.type === 'trans' || column.type === 'array|trans') {
-    if (Array.isArray(value)) {
-      return value.map(
-        (el, ind) =>
-          column.messages[el] !== undefined && (
-            <span key={ind} className={classes.interestsBubble}>
-              {column.messages[el]}
-            </span>
-          )
-      )
-    }
-    return column.messages[value]
+    return Array.isArray(value)
+      ? value.map(
+          (el, ind) =>
+            column.messages[el] !== undefined && (
+              <span key={ind} className={classes.interestsBubble}>
+                {column.messages[el]}
+              </span>
+            )
+        )
+      : column.messages[value]
   }
 
   if (column.type === 'boolean') {
-    if (value) {
-      return <CheckIcon style={{ color: 'green' }} />
-    }
-    return <ClearIcon style={{ color: 'red' }} />
+    return value ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />
   }
 
   return <>{value}</>
