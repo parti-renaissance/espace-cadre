@@ -88,7 +88,9 @@ const TeamEdit = () => {
                   queryParam="q"
                   valueParam="uuid"
                   value={member}
-                  onChange={setMember}
+                  onChange={v => {
+                    setMember(v.uuid ? v : null)
+                  }}
                   getOptionLabel={option => `${option.first_name} ${option.last_name}`}
                 />
               </Grid>
