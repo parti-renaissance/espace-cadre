@@ -1,6 +1,7 @@
 import { apiClient } from 'services/networking/client'
 import qs from 'qs'
 import Adherent from 'domain/adherent'
+import PaginatedResult from './paginatedResult'
 
 export const adherentAutocompleteUri = '/api/v3/adherents/autocomplete'
 export const getAdherents = async (filter, cb) => {
@@ -24,9 +25,16 @@ export const getAdherents = async (filter, cb) => {
         a.sms_subscription
       )
   )
-
-  cb && cb(adherents)
-  return adherents
+  const paginatedAdherents = new PaginatedResult(
+    adherents,
+    data.metadata.total_items,
+    data.metadata.items_per_page,
+    data.metadata.count,
+    data.metadata.current_page,
+    data.metadata.last_page
+  )
+  cb && cb(paginatedAdherents)
+  return paginatedAdherents
 }
 export const getColumns = async cb => {
   const columns = await apiClient.get('v3/adherents/columns')

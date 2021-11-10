@@ -2,17 +2,17 @@ import { TableBody, TableRow, TableCell, makeStyles, createStyles } from '@mater
 import CheckIcon from '@material-ui/icons/Check'
 import ClearIcon from '@material-ui/icons/Clear'
 import PropTypes from 'prop-types'
-import Adherent from '../../domain/adherent'
+import Adherent from 'domain/adherent'
 
 const useStyles = makeStyles(theme =>
   createStyles({
     interestsBubble: {
       backgroundColor: theme.palette.interestsBubble,
-      padding: '1px 8px',
+      padding: theme.spacing(0.125, 1),
       color: theme.palette.blueCorner,
       borderRadius: '12px',
       '&:not(:last-child)': {
-        marginRight: '4px',
+        marginRight: theme.spacing(0.5),
       },
     },
     head: {
@@ -41,16 +41,16 @@ const columnKeyMapping = {
   region_code: 'regionId',
 }
 
-const Cell = ({ adherent, column }) => {
+const Cell = ({ member, column }) => {
   const classes = useStyles()
-  const value = adherent[columnKeyMapping[column.key] || column.key]
+  const value = member[columnKeyMapping[column.key] || column.key]
 
   if (column.type === 'trans' || column.type === 'array|trans') {
     return Array.isArray(value)
       ? value.map(
-          (el, ind) =>
-            column.messages[el] !== undefined && (
-              <span key={ind} className={classes.interestsBubble}>
+          (el, index) =>
+            column.messages[el] && (
+              <span key={index} className={classes.interestsBubble}>
                 {column.messages[el]}
               </span>
             )
@@ -66,7 +66,7 @@ const Cell = ({ adherent, column }) => {
 }
 
 Cell.propTypes = {
-  adherent: Adherent.propTypes.isRequired,
+  member: Adherent.propTypes.isRequired,
   column: PropTypes.shape({
     key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -75,16 +75,16 @@ Cell.propTypes = {
   }).isRequired,
 }
 
-const TableBodyComponent = ({ columnsTitle, adherents }) => {
+const TableBodyComponent = ({ columnsTitle, members }) => {
   const classes = useStyles()
 
   return (
     <TableBody>
-      {adherents.map((adherent, index) => (
+      {members.map((adherent, index) => (
         <TableRow key={index} hover classes={{ hover: classes.hoverBackground }}>
           {columnsTitle.map(column => (
             <TableCell key={`${index}-${column.key}`} classes={{ head: classes.head }}>
-              <Cell column={column} adherent={adherent} />
+              <Cell column={column} member={adherent} />
             </TableCell>
           ))}
         </TableRow>
@@ -95,7 +95,7 @@ const TableBodyComponent = ({ columnsTitle, adherents }) => {
 
 TableBodyComponent.propTypes = {
   columnsTitle: PropTypes.arrayOf(Cell.propTypes.column).isRequired,
-  adherents: PropTypes.arrayOf(Adherent.propTypes).isRequired,
+  members: PropTypes.arrayOf(Adherent.propTypes).isRequired,
 }
 
 export default TableBodyComponent

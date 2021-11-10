@@ -6,6 +6,7 @@ import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { getAdherents, getColumns } from 'api/adherents'
+import PaginatedResult from 'api/paginatedResult'
 
 export const FEATURE_ADHERENTS = 'contacts'
 
@@ -26,30 +27,18 @@ const useStyles = makeStyles({
 
 function Adherents() {
   const [columnsTitle, setColumnsTitle] = useState([])
-  const [adherents, setAdherents] = useState([])
-  const [errorMessage, setErrorMessage] = useState()
+  const [adherents, setAdherents] = useState(new PaginatedResult([], 0, 0, 0, 0, 0))
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
   const classes = useStyles()
 
   useEffect(() => {
-    const getColumnsTitle = async () => {
-      await getColumns(setColumnsTitle)
-    }
-    getColumnsTitle()
+    getColumns(setColumnsTitle)
   }, [])
 
   useEffect(() => {
-    const fetchAdherents = async () => {
-      try {
-        const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
-        //setAdherents(await apiClient.get(`v3/adherents?${qs.stringify(filter)}`))
-        await getAdherents(filter, setAdherents)
-      } catch (error) {
-        setErrorMessage(error)
-      }
-    }
-    fetchAdherents()
+    const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
+    getAdherents(filter, setAdherents)
   }, [filters])
 
   const renderContent = () => {
@@ -69,27 +58,25 @@ function Adherents() {
             <TableContainer className={classes.tableContainer}>
               <Table stickyHeader>
                 <TableHeadComponent columnsTitle={columnsTitle} />
-                <TableBodyComponent adherents={adherents} columnsTitle={columnsTitle} />
+                <TableBodyComponent members={adherents.data} columnsTitle={columnsTitle} />
               </Table>
             </TableContainer>
-            {adherents.metadata && (
+            {adherents.total && (
               <TablePagination
                 rowsPerPageOptions={[100]}
                 labelRowsPerPage="Lignes par page:"
                 component="div"
-                count={adherents.metadata.total_items || 0}
+                count={adherents.count || 0}
                 page={filters.page - 1}
                 onPageChange={(event, page) => setFilters(prevState => ({ ...prevState, ...{ page: page + 1 } }))}
-                rowsPerPage={adherents.metadata.items_per_page}
+                rowsPerPage={adherents.pageSize}
               />
             )}
           </Paper>
         </>
       )
     }
-    if (errorMessage) {
-      return <ErrorComponent errorMessage={errorMessage} />
-    }
+
     return (
       <div style={{ textAlign: 'center' }} className="with-background dc-container">
         <Loader />
