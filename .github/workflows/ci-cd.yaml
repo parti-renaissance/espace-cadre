@@ -168,6 +168,7 @@ jobs:
                     service: ${{ secrets.CLOUD_RUN_NAME }}
                     image: eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:latest
                     credentials: ${{ secrets.GCP_SA_CLOUDRUN_DEPLOYER }}
+                    project_id: ${{ secrets.GCP_STAGING_PROJECT_ID }}
                     region: ${{ secrets.GCP_ZONE }}
 
     DeployProduction:
@@ -183,4 +184,5 @@ jobs:
                     service: ${{ secrets.CLOUD_RUN_NAME }}
                     image: eu.gcr.io/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.event.release.tag_name }}
                     credentials: ${{ secrets.GCP_SA_CLOUDRUN_DEPLOYER }}
+                    project_id: ${{ secrets.GCP_PROD_PROJECT_ID }}
                     region: ${{ secrets.GCP_ZONE }}
