@@ -68,7 +68,7 @@
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.26.1",
-    "eslint-plugin-react-hooks": "4.2.1-alpha-255221c86-20211103",
+    "eslint-plugin-react-hooks": "4.3.0",
     "html-webpack-plugin": "5.5.0",
     "husky": "7.0.4",
     "jest": "27.3.1",
@@ -80,7 +80,7 @@
     "source-map-loader": "3.0.0",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.2.5",
-    "webpack": "5.62.1",
+    "webpack": "5.63.0",
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "4.4.0"
   },

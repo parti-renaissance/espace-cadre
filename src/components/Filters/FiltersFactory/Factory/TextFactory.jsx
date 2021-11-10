@@ -1,33 +1,37 @@
-import { TextField, makeStyles } from '@material-ui/core';
+import { TextField, makeStyles } from '@material-ui/core'
 
-const useStyles = makeStyles((theme) => ({
-    filterBasicStyle: {
-        background: theme.palette.whiteCorner,
-        borderRadius: '8.35px',
-        width: '100%',
+const useStyles = makeStyles(theme => ({
+  filterBasicStyle: {
+    background: theme.palette.whiteCorner,
+    borderRadius: '8.35px',
+    width: '100%',
+
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: 'none',
     },
-}));
+  },
+}))
 
 class TextFactory {
-    getType() {
-        return 'text';
-    }
+  getType() {
+    return 'text'
+  }
 
-    create({ filter, onChange, value }) {
-        const classes = useStyles();
+  create({ filter, onChange, value }) {
+    const classes = useStyles()
 
-        return (
-            <TextField
-                variant="outlined"
-                size="small"
-                label={filter.label}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                className={classes.filterBasicStyle}
-                classes={{ root: classes.root }}
-            />
-        );
-    }
+    return (
+      <TextField
+        variant="outlined"
+        size="small"
+        label={filter.label}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className={classes.filterBasicStyle}
+        classes={{ root: classes.root }}
+      />
+    )
+  }
 }
 
-export default TextFactory;
+export default TextFactory

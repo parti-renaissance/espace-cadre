@@ -6,6 +6,10 @@ const useStyles = makeStyles(() =>
     root: {
       fontFamily: 'Poppins',
       width: '100%',
+
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: 'none',
+      },
     },
   })
 )

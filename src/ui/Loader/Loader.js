@@ -1,7 +1,9 @@
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 const Loader = () => (
-  <span className="spin-loader">
-    <i className="fas fa-spinner" />
-  </span>
+    <div>
+      <CircularProgress size={16} />
+    </div>
 )
 
 export default Loader
