@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react'
-import { Box } from '@material-ui/core'
+import { Box, makeStyles } from '@material-ui/core'
 import Loader from 'ui/Loader'
 import { apiClientProxy } from '../../../../services/networking/client'
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
 
+const useStyles = makeStyles(theme => ({
+  dashboardTitle: {
+    color: theme.palette.blackCorner,
+    fontSize: '16px',
+    fontWeight: '600',
+  },
+}))
+
 function TextChart() {
+  const classes = useStyles()
   const [dashboardAdherents, setDashboardAdherents] = useDashboardAdherentCache()
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
@@ -28,7 +37,7 @@ function TextChart() {
     if (dashboardAdherents !== null) {
       return (
         <Box mb={2}>
-          <Box className="headline-dashboard">
+          <Box className={classes.dashboardTitle}>
             {currentScope.name} &gt;
             {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} (
             {dashboardAdherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} adhérent

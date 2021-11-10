@@ -1,13 +1,43 @@
 import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
-import { Container, Grid, Box, makeStyles, createStyles } from '@material-ui/core'
+import { Container, Grid, makeStyles, createStyles } from '@material-ui/core'
 import { MENU } from '../../Routes'
 import list from 'assets/list.svg'
 
 const useStyles = makeStyles(theme =>
   createStyles({
+    pageContent: {
+      width: `calc(100% - ${theme.spacing(34)})`,
+      margin: theme.spacing(2, 0, 0, 34),
+      transition: 'all 0.4s',
+      '&.active': {
+        width: '100%',
+        marginLeft: 0,
+      },
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+        marginLeft: 0,
+        '&.active': {
+          width: `calc(100% - ${theme.spacing(34)})`,
+          marginLeft: theme.spacing(34),
+        },
+      },
+    },
+    container: {
+      padding: theme.spacing(0, 2),
+    },
     toggleButton: {
-      marginBottom: theme.spacing(2),
+      height: '34px',
+      width: '40px',
+      color: theme.palette.grayCorner3,
+      backgroundColor: theme.palette.whiteCorner,
+      border: 'none',
+      cursor: 'pointer',
+      marginTop: theme.spacing(0.75),
+    },
+    title: {
+      fontSize: '32px',
+      fontWeight: '600',
     },
   })
 )
@@ -22,17 +52,19 @@ const PageContent = ({ children }) => {
   }
 
   return (
-    <div id="page-content">
-      <Container maxWidth="xl" className="pageContent-container">
-        <Grid container justifyContent="space-between">
-          <Box mb={1}>
-            <button id="sidebar-collapse-button" className={`dc-container ${classes.toggleButton}`} type="button">
+    <div id="pageContent" className={classes.pageContent}>
+      <Container maxWidth="xl" className={classes.container}>
+        <Grid container spacing={2}>
+          <Grid item>
+            <button id="toggleButton" className={`dc-container ${classes.toggleButton}`}>
               <img src={list} alt="Menu button" />
             </button>
+          </Grid>
+          <Grid item>
             {pageTitle && pageTitle !== 'Messagerie' && pageTitle !== 'Ripostes' && pageTitle !== 'Équipes' && (
-              <span className="page-title">{pageTitle}</span>
+              <span className={classes.title}>{pageTitle}</span>
             )}
-          </Box>
+          </Grid>
         </Grid>
         {children}
       </Container>

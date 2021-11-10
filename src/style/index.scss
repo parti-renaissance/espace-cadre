@@ -1,22 +1,21 @@
 @import '~leaflet/dist/leaflet.css';
-@import "helpers";
-@import "DOMElements";
-@import "components";
+@import 'helpers';
+@import 'DOMElements';
 
 body {
-    color: $blackCorner;
-    background-color: $grayCornerBg;
-    margin: 0;
+  color: $blackCorner;
+  background-color: $grayCornerBg;
+  margin: 0;
 
-    ul {
-        list-style: none;
-    }
+  ul {
+    list-style: none;
+  }
 
-    a,
-    a:hover,
-    a:focus,
-    a:active {
-        color: inherit;
-        text-decoration: none !important;
-    }
+  a,
+  a:hover,
+  a:focus,
+  a:active {
+    color: inherit;
+    text-decoration: none !important;
+  }
 }
