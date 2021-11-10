@@ -1,14 +1,23 @@
 import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
-import { Grid, Box } from '@material-ui/core'
+import { Grid, Box, makeStyles } from '@material-ui/core'
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks'
 import { apiClientProxy } from '../../../services/networking/client'
 import Loader from 'ui/Loader'
 import { useUserScope } from '../../../redux/user/hooks'
 import ErrorComponent from '../../ErrorComponent/ErrorComponent'
 
+const useStyles = makeStyles(() => ({
+  leafletContainer: {
+    width: '100%',
+    height: '500px',
+    borderRadius: '0 0 6px 6px',
+  },
+}))
+
 function MapComponent() {
+  const classes = useStyles()
   const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache()
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
@@ -42,7 +51,11 @@ function MapComponent() {
               <Box className="chart-subtitle">Répartition géographique dans votre région</Box>
             </Grid>
           </Grid>
-          <MapContainer center={[dashboardSurvey.latitude, dashboardSurvey.longitude]} zoom={8}>
+          <MapContainer
+            center={[dashboardSurvey.latitude, dashboardSurvey.longitude]}
+            zoom={8}
+            className={classes.leafletContainer}
+          >
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"

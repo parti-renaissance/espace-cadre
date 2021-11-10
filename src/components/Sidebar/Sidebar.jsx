@@ -13,6 +13,54 @@ import MentionsLegales from 'components/MentionsLegales/MentionsLegales'
 import barChart from 'assets/bar-chart.svg'
 
 const useStyles = makeStyles(theme => ({
+  sidebar: {
+    backgroundColor: theme.palette.whiteCorner,
+    minWidth: '17rem',
+    width: '17rem',
+    height: '100vh',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    transition: 'all 0.4s',
+    zIndex: '50',
+    boxShadow: '(0 1px 1px 0 rgba(0, 11, 52, 0.12))',
+    '&.active': {
+      marginLeft: theme.spacing(-34),
+    },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: theme.spacing(-34),
+      '&.active': {
+        marginLeft: 0,
+      },
+    },
+  },
+  brandLink: {
+    textDecoration: 'none',
+  },
+  logoContainer: {
+    display: 'flex',
+    margin: theme.spacing(3, 2, 3, 4),
+  },
+  barChart: {
+    color: theme.palette.blue2Corner,
+    marginRight: '2px',
+  },
+  logoText: {
+    color: theme.palette.blackCorner,
+    fontSize: '20px',
+    fontWeight: '600',
+  },
+  beta: {
+    color: theme.palette.blackCorner,
+    textTransform: 'uppercase',
+    fontSize: '8px',
+    height: '12px',
+    fontWeight: '500',
+    backgroundColor: theme.palette.blueBubble,
+    marginLeft: theme.spacing(0.25),
+    padding: theme.spacing(0.25, 0.5),
+    borderRadius: '4px',
+  },
   navMenu: {
     marginTop: theme.spacing(7),
   },
@@ -24,19 +72,19 @@ const Sidebar = () => {
   const classes = useStyles()
 
   useEffect(() => {
-    $('#sidebar-collapse-button').on('click', () => {
-      $('#sidebar, #page-content').toggleClass('active')
+    $('#toggleButton').on('click', () => {
+      $('#sidebar, #pageContent').toggleClass('active')
     })
   }, [])
 
   return (
     <>
-      <div id="sidebar">
-        <Link to={PATHS.DASHBOARD.route} className="brand-link">
-          <div className="logo-container">
-            <img src={barChart} alt="bar chart" className="bar-chart-logo" />
-            <div className="logo-text">DataCorner</div>
-            <span className="beta-bubble">beta</span>
+      <div id="sidebar" className={classes.sidebar}>
+        <Link to={PATHS.DASHBOARD.route} className={classes.brandLink}>
+          <div className={classes.logoContainer}>
+            <img src={barChart} alt="bar chart" className={classes.barChart} />
+            <div className={classes.logoText}>DataCorner</div>
+            <span className={classes.beta}>beta</span>
           </div>
         </Link>
         <Scopes />
