@@ -9,7 +9,6 @@ import PATHS from '../../paths'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
-import { FEATURE_MESSAGES } from '../Feature/FeatureCode'
 import {
   createSegmentAudience,
   getMessage,
@@ -19,6 +18,8 @@ import {
   setMessageSegment,
   updateSegmentAudience,
 } from 'api/messagerie'
+
+export const FEATURE_MESSAGES = 'messages'
 
 const useStyles = makeStyles(theme => ({
   container: {

@@ -37,7 +37,7 @@ const Autocomplete = ({
   const classes = useStyles()
 
   useEffect(() => {
-    if (!defaultValue) {
+    if (!defaultValue || (Array.isArray(defaultValue) && defaultValue.length === 0)) {
       return
     }
     fetch(uri, queryParam, inputValue, data => {
@@ -116,10 +116,10 @@ Autocomplete.propTypes = {
   getOptionLabel: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   multiple: PropTypes.bool,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   required: PropTypes.bool,
   autoCompleteStyle: PropTypes.string,
-  defaultValue: PropTypes.object,
+  defaultValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 }
 
 export default Autocomplete

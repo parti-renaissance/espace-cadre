@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Container, TableContainer, Paper, Table, TablePagination, makeStyles } from '@material-ui/core'
-import qs from 'qs'
-import { apiClient } from '../../services/networking/client'
 import TableHeadComponent from './TableHeadComponent'
 import TableBodyComponent from './TableBodyComponent'
-import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
-import { useColumnsTitleCache } from '../../redux/adherents/hooks'
-import { FEATURE_ADHERENTS } from '../Feature/FeatureCode'
+import { getAdherents, getColumns } from 'api/adherents'
+import PaginatedResult from 'api/paginatedResult'
+
+export const FEATURE_ADHERENTS = 'contacts'
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -26,36 +25,19 @@ const useStyles = makeStyles({
 })
 
 function Adherents() {
-  const [columnsTitle, setColumnsTitle] = useColumnsTitleCache()
-  const [adherents, setAdherents] = useState([])
-  const [errorMessage, setErrorMessage] = useState()
-  const [filters, setFilters] = useState({ page: 1 })
+  const [columnsTitle, setColumnsTitle] = useState([])
+  const [adherents, setAdherents] = useState(new PaginatedResult([], 0, 0, 0, 0, 0))
+  const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
+  const [filters, setFilters] = useState(defaultFilter)
   const classes = useStyles()
 
   useEffect(() => {
-    if (columnsTitle.length) {
-      return
-    }
-    const getColumnsTitle = async () => {
-      try {
-        setColumnsTitle(await apiClient.get('v3/adherents/columns'))
-      } catch (error) {
-        setErrorMessage(error)
-      }
-    }
-
-    getColumnsTitle()
-  }, [columnsTitle, setColumnsTitle])
+    getColumns(setColumnsTitle)
+  }, [])
 
   useEffect(() => {
-    const getAdherents = async () => {
-      try {
-        setAdherents(await apiClient.get(`v3/adherents?${qs.stringify(filters)}`))
-      } catch (error) {
-        setErrorMessage(error)
-      }
-    }
-    getAdherents()
+    const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
+    getAdherents(filter, setAdherents)
   }, [filters])
 
   const renderContent = () => {
@@ -64,37 +46,36 @@ function Adherents() {
         <>
           <DynamicFilters
             feature={FEATURE_ADHERENTS}
-            values={filters}
+            values={defaultFilter}
             onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
             onReset={() => {
-              setFilters({ page: 1 })
+              setDefaultFilter({ page: 1, zones: [] })
+              setFilters({ page: 1, zones: [] })
             }}
           />
           <Paper classes={{ rounded: classes.rounded }}>
             <TableContainer className={classes.tableContainer}>
               <Table stickyHeader>
                 <TableHeadComponent columnsTitle={columnsTitle} />
-                <TableBodyComponent adherents={adherents} columnsTitle={columnsTitle} />
+                <TableBodyComponent members={adherents.data} columnsTitle={columnsTitle} />
               </Table>
             </TableContainer>
-            {adherents.metadata && (
+            {adherents.total && (
               <TablePagination
                 rowsPerPageOptions={[100]}
                 labelRowsPerPage="Lignes par page:"
                 component="div"
-                count={adherents.metadata.total_items || 0}
+                count={adherents.count || 0}
                 page={filters.page - 1}
                 onPageChange={(event, page) => setFilters(prevState => ({ ...prevState, ...{ page: page + 1 } }))}
-                rowsPerPage={adherents.metadata.items_per_page}
+                rowsPerPage={adherents.pageSize}
               />
             )}
           </Paper>
         </>
       )
     }
-    if (errorMessage) {
-      return <ErrorComponent errorMessage={errorMessage} />
-    }
+
     return (
       <div style={{ textAlign: 'center' }} className="with-background dc-container">
         <Loader />
