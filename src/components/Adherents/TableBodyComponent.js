@@ -1,6 +1,8 @@
-import { TableBody, TableRow, TableCell, makeStyles, createStyles } from '@material-ui/core'
-import CheckIcon from '@material-ui/icons/Check'
-import ClearIcon from '@material-ui/icons/Clear'
+import { TableBody, TableRow, TableCell } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
+import CheckIcon from '@mui/icons-material/Check'
+import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
 import Adherent from 'domain/adherent'
 

@@ -1,8 +1,9 @@
 import { format } from 'date-fns'
-import { IconButton } from '@mui/material'
+import { IconButton, TextField } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
-import { DatePicker as MuiDatePicker } from '@material-ui/pickers'
+import MuiDatePicker from '@mui/lab/DatePicker'
+
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
@@ -34,7 +35,7 @@ const DatePicker = ({ value, onChange, label }) => {
         onChange(format(e, 'yyyy-MM-dd'))
       }}
       className={classes.datePicker}
-      InputProps={{
+      InputAdornmentProps={{
         endAdornment: (() => {
           if (!value) {
             return (
@@ -57,6 +58,7 @@ const DatePicker = ({ value, onChange, label }) => {
           )
         })(),
       }}
+      renderInput={props => <TextField {...props} />}
     />
   )
 }

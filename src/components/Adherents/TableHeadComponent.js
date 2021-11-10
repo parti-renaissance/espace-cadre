@@ -1,4 +1,6 @@
-import { TableHead, TableRow, TableCell, makeStyles, createStyles } from '@material-ui/core'
+import { TableHead, TableRow, TableCell } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme =>
