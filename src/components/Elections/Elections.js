@@ -11,6 +11,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getElectionPayload, getMapBoxProperties } from './shared/helpers'
 import ElectionFilters from './ElectionFilters'
+import StylesPOC from './emotion-styled'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -108,6 +109,9 @@ const Elections = () => {
 
   return (
     <>
+      <Grid container item justifyContent="center" alignItems="center" sx={{ mb: 5 }}>
+        <StylesPOC />
+      </Grid>
       <ElectionFilters
         filterValues={filterValues}
         handleTypeSelection={e => setActiveLayer(e.target.value)}
