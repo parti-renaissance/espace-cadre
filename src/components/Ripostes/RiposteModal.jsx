@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Dialog, Box, Grid, Button, FormControlLabel, Checkbox } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -10,54 +9,52 @@ import AlertBanner from 'ui/AlertBanner'
 import Riposte from 'domain/riposte'
 import { createRiposte, updateRiposte } from 'api/ripostes'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    paper: {
-      padding: theme.spacing(4),
-      width: '664px',
-      borderRadius: '12px',
+const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(4),
+    width: '664px',
+    borderRadius: '12px',
+  },
+  innerContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  modalTitle: {
+    fontSize: '24px',
+    color: theme.palette.gray800,
+    fontWeight: '400',
+  },
+  cross: {
+    color: theme.palette.gray700,
+    marginTop: theme.spacing(2.75),
+    cursor: 'pointer',
+  },
+  charactersLimit: {
+    fontSize: '10px',
+    color: theme.palette.gray300,
+  },
+  fieldTitle: {
+    fontWeight: '600',
+  },
+  textField: {
+    border: `1px solid ${theme.palette.gray200}`,
+    borderRadius: '8.35px',
+    margin: theme.spacing(1, 0),
+  },
+  textArea: {
+    border: `1px solid ${theme.palette.gray200}`,
+    width: '100%',
+    borderRadius: '8px',
+  },
+  modalButton: {
+    color: theme.palette.whiteCorner,
+    background: theme.palette.teal600,
+    border: 'none',
+    borderRadius: '8.35px',
+    '&:hover': {
+      backgroundColor: theme.palette.teal700,
     },
-    innerContainer: {
-      marginBottom: theme.spacing(2),
-    },
-    modalTitle: {
-      fontSize: '24px',
-      color: theme.palette.gray800,
-      fontWeight: '400',
-    },
-    cross: {
-      color: theme.palette.gray700,
-      marginTop: theme.spacing(2.75),
-      cursor: 'pointer',
-    },
-    charactersLimit: {
-      fontSize: '10px',
-      color: theme.palette.gray300,
-    },
-    fieldTitle: {
-      fontWeight: '600',
-    },
-    textField: {
-      border: `1px solid ${theme.palette.gray200}`,
-      borderRadius: '8.35px',
-      margin: theme.spacing(1, 0),
-    },
-    textArea: {
-      border: `1px solid ${theme.palette.gray200}`,
-      width: '100%',
-      borderRadius: '8px',
-    },
-    modalButton: {
-      color: theme.palette.whiteCorner,
-      background: theme.palette.teal600,
-      border: 'none',
-      borderRadius: '8.35px',
-      '&:hover': {
-        backgroundColor: theme.palette.teal700,
-      },
-    },
-  })
-)
+  },
+}))
 
 const riposteSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Button, Container, Grid } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { generatePath, Link, useHistory, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'

@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { IconButton, TextField } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
 import MuiDatePicker from '@mui/lab/DatePicker'
 

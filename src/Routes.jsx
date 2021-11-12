@@ -71,15 +71,13 @@ const Routes = () => {
   const authorizedPage = useSelector(getAuthorizedPages)
   const routes = []
 
-  useEffect(
-    () =>
-      history.listen((_, action) => {
-        if (action === 'PUSH') {
-          window.scrollTo(0, 0)
-        }
-      }),
-    [history]
-  )
+  useEffect(() => {
+    history.listen((_, action) => {
+      if (action === 'PUSH') {
+        window.scrollTo(0, 0)
+      }
+    })
+  }, [history])
 
   if (authorizedPage && authorizedPage.length > 0) {
     COMPONENTS.forEach((component, index) => {

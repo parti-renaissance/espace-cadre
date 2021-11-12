@@ -1,40 +1,37 @@
 import { useState } from 'react'
 import { Box, Button, Grid } from '@mui/material'
-import createStyles from '@mui/styles/createStyles'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import Factory from './FiltersFactory/Factory'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    boxContainer: {
-      marginTop: theme.spacing(2),
+const useStyles = makeStyles(theme => ({
+  boxContainer: {
+    marginTop: theme.spacing(2),
+  },
+  filtersContainer: {
+    marginBottom: theme.spacing(1.25),
+  },
+  buttonContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  buttonFilter: {
+    color: theme.palette.whiteCorner,
+    background: `${theme.palette.gray700}`,
+    marginRight: theme.spacing(2),
+    borderRadius: '8.35px',
+    '&:hover': {
+      background: theme.palette.gray600,
     },
-    filtersContainer: {
-      marginBottom: theme.spacing(1.25),
+  },
+  resetButtonFilters: {
+    color: theme.palette.gray700,
+    border: `1px solid ${theme.palette.gray300}`,
+    borderRadius: '8.35px',
+    '&:hover': {
+      background: theme.palette.gray200,
     },
-    buttonContainer: {
-      marginBottom: theme.spacing(2),
-    },
-    buttonFilter: {
-      color: theme.palette.whiteCorner,
-      background: `${theme.palette.gray700}`,
-      marginRight: theme.spacing(2),
-      borderRadius: '8.35px',
-      '&:hover': {
-        background: theme.palette.gray600,
-      },
-    },
-    resetButtonFilters: {
-      color: theme.palette.gray700,
-      border: `1px solid ${theme.palette.gray300}`,
-      borderRadius: '8.35px',
-      '&:hover': {
-        background: theme.palette.gray200,
-      },
-    },
-  })
-)
+  },
+}))
 
 const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
   const [localValues, setLocalValues] = useState(values)

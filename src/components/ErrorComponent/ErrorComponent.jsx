@@ -1,19 +1,16 @@
 import { Box } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@mui/styles'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    errorBox: {
-      textAlign: 'center',
-      color: theme.palette.statusError,
-      width: '100%',
-      marginBottom: '16px',
-      borderRadius: '6px',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  errorBox: {
+    textAlign: 'center',
+    color: theme.palette.statusError,
+    width: '100%',
+    marginBottom: '16px',
+    borderRadius: '6px',
+  },
+}))
 
 const ErrorComponent = ({ errorMessage }) => {
   const classes = useStyles()

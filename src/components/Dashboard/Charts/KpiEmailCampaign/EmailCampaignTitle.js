@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material'
-
+import { makeStyles } from '@mui/styles'
 import mail from 'assets/mail.svg'
 
 const useStyles = makeStyles(theme => ({

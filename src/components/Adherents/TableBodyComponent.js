@@ -1,36 +1,33 @@
 import { TableBody, TableRow, TableCell } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
+import { makeStyles } from '@mui/styles'
 import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
 import Adherent from 'domain/adherent'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    interestsBubble: {
-      backgroundColor: theme.palette.interestsBubble,
-      padding: theme.spacing(0.125, 1),
-      color: theme.palette.blueCorner,
-      borderRadius: '12px',
-      '&:not(:last-child)': {
-        marginRight: theme.spacing(0.5),
-      },
+const useStyles = makeStyles(theme => ({
+  interestsBubble: {
+    backgroundColor: theme.palette.interestsBubble,
+    padding: theme.spacing(0.125, 1),
+    color: theme.palette.blueCorner,
+    borderRadius: '12px',
+    '&:not(:last-child)': {
+      marginRight: theme.spacing(0.5),
     },
-    head: {
-      fontSize: '12px',
-      fontWeight: '600',
-      background: theme.palette.whiteCorner,
-      color: theme.palette.gray800,
-      minWidth: '110px',
+  },
+  head: {
+    fontSize: '12px',
+    fontWeight: '600',
+    background: theme.palette.whiteCorner,
+    color: theme.palette.gray800,
+    minWidth: '110px',
+  },
+  hoverBackground: {
+    '&:hover': {
+      background: `${theme.palette.gray100} !important`,
     },
-    hoverBackground: {
-      '&:hover': {
-        background: `${theme.palette.gray100} !important`,
-      },
-    },
-  })
-)
+  },
+}))
 
 const columnKeyMapping = {
   first_name: 'firstname',

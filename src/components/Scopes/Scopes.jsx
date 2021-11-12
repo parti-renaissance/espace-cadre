@@ -2,74 +2,71 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Grid, Button, Menu, MenuItem, Divider, Box } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
+import { makeStyles } from '@mui/styles'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import vector from 'assets/vector.svg'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    root: {
-      '&:first-child': {
-        width: '240px',
-      },
-      '&:not(:first-child)': {
-        padding: '0',
-      },
-      '&:not(:last-child)': {
-        marginBottom: theme.spacing(1),
-      },
-    },
-    list: {
-      maxHeight: '500px',
-    },
-    menuPaper: {
-      marginTop: theme.spacing(6.25),
-      background: theme.palette.whiteCorner,
+const useStyles = makeStyles(theme => ({
+  root: {
+    '&:first-child': {
       width: '240px',
     },
-    scopeButton: {
-      background: theme.palette.gray100,
-      margin: theme.spacing(0, 2, 2),
-      width: '240px',
-      height: '34px',
-      justifyContent: 'space-between',
-      padding: theme.spacing(0, 1.5),
-      '&:hover': {
-        background: theme.palette.gray200,
-      },
+    '&:not(:first-child)': {
+      padding: '0',
     },
-    menuItem: {
-      color: 'black',
-      fontSize: '14px',
-      fontWeight: '400',
-      padding: theme.spacing(1, 2),
-      width: '210px',
-      backgroundColor: '#F7F9FC',
-      borderRadius: '6px',
-      '&:hover': {
-        background: 'linear-gradient(0deg,rgba(0,0,0,.05),rgba(0,0,0,.05)),#f7f9fc',
-      },
+    '&:not(:last-child)': {
+      marginBottom: theme.spacing(1),
     },
-    divider: {
-      margin: theme.spacing(1, 0),
-      color: theme.palette.gray100,
+  },
+  list: {
+    maxHeight: '500px',
+  },
+  menuPaper: {
+    marginTop: theme.spacing(6.25),
+    background: theme.palette.whiteCorner,
+    width: '240px',
+  },
+  scopeButton: {
+    background: theme.palette.gray100,
+    margin: theme.spacing(0, 2, 2),
+    width: '240px',
+    height: '34px',
+    justifyContent: 'space-between',
+    padding: theme.spacing(0, 1.5),
+    '&:hover': {
+      background: theme.palette.gray200,
     },
-    profilePlace: {
-      fontSize: '10px',
-      fontWeight: '400',
+  },
+  menuItem: {
+    color: 'black',
+    fontSize: '14px',
+    fontWeight: '400',
+    padding: theme.spacing(1, 2),
+    width: '210px',
+    backgroundColor: '#F7F9FC',
+    borderRadius: '6px',
+    '&:hover': {
+      background: 'linear-gradient(0deg,rgba(0,0,0,.05),rgba(0,0,0,.05)),#f7f9fc',
     },
-    returnButton: {
-      color: 'black',
-    },
-    activeScope: {
-      fontSize: '14px',
-      fontWeight: '600',
-      textTransform: 'capitalize',
-    },
-  })
-)
+  },
+  divider: {
+    margin: theme.spacing(1, 0),
+    color: theme.palette.gray100,
+  },
+  profilePlace: {
+    fontSize: '10px',
+    fontWeight: '400',
+  },
+  returnButton: {
+    color: 'black',
+  },
+  activeScope: {
+    fontSize: '14px',
+    fontWeight: '600',
+    textTransform: 'capitalize',
+  },
+}))
 
 function Scopes() {
   const currentUser = useSelector(getCurrentUser)
