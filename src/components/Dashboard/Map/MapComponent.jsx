@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import { Grid, Box, makeStyles } from '@material-ui/core'
 import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks'
-import { apiClientProxy } from '../../../services/networking/client'
+import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useUserScope } from '../../../redux/user/hooks'
 import ErrorComponent from '../../ErrorComponent/ErrorComponent'
@@ -35,7 +35,7 @@ function MapComponent() {
     getSurvey()
   }, [currentScope, dashboardSurvey, setDashboardSurvey])
 
-  L.Icon.Default.imagePath = 'images/'
+  L.Icon.Default.imagePath = '/'
 
   const dashboardSurveyContent = () => {
     if (dashboardSurvey) {

@@ -6,7 +6,7 @@ const webpack = require('webpack')
 const dotenv = require('dotenv')
 const fs = require('fs')
 
-const localEnvPath = './.env.local';
+const localEnvPath = './.env.local'
 const productionEnvPath = './.env.production'
 
 module.exports = (env, argv = {}) => {
@@ -41,7 +41,7 @@ module.exports = (env, argv = {}) => {
         }),
       }),
       new CopyPlugin({
-        patterns: [{ from: 'public' }],
+        patterns: [{ from: 'public' }, { from: 'node_modules/leaflet/dist/images' }],
       }),
     ],
     resolve: {
