@@ -1,29 +1,26 @@
 import { useState } from 'react'
 import { IconButton } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
+import { makeStyles } from '@mui/styles'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    iconButton: {
-      marginTop: theme.spacing(1.25),
+const useStyles = makeStyles(theme => ({
+  iconButton: {
+    marginTop: theme.spacing(1.25),
+  },
+  root: {
+    fontSize: '13px',
+    padding: theme.spacing(0.5, 1),
+    border: `1px solid ${theme.palette.gray100}`,
+    borderRadius: '8.35px',
+    background: theme.palette.whiteCorner,
+    '&:hover': {
+      background: theme.palette.gray100,
     },
-    root: {
-      fontSize: '13px',
-      padding: theme.spacing(0.5, 1),
-      border: `1px solid ${theme.palette.gray100}`,
-      borderRadius: '8.35px',
-      background: theme.palette.whiteCorner,
-      '&:hover': {
-        background: theme.palette.gray100,
-      },
-    },
-  })
-)
+  },
+}))
 
 const TeamRename = ({ handleEditTeam }) => {
   const classes = useStyles()

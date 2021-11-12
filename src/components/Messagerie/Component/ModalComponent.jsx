@@ -1,53 +1,50 @@
 import { Dialog, Box, Button } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    paper: {
-      background: theme.palette.whiteCorner,
-      borderRadius: '12px',
-      padding: '32px',
+const useStyles = makeStyles(theme => ({
+  paper: {
+    background: theme.palette.whiteCorner,
+    borderRadius: '12px',
+    padding: '32px',
+  },
+  title: {
+    fontSize: '18px',
+    color: theme.palette.gray700,
+    fontWeight: '600',
+    marginBottom: '10px',
+  },
+  description: {
+    fontSize: '14px',
+    color: theme.palette.gray700,
+    fontWeight: '400',
+    margin: '0 0 32px',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  cancelButton: {
+    color: theme.palette.blue600,
+    background: theme.palette.whiteCorner,
+    border: `1px solid ${theme.palette.blue600}`,
+    borderRadius: '8.35px',
+    padding: '8px 16px',
+    marginRight: '16px',
+    '&:hover': {
+      background: theme.palette.gray100,
     },
-    title: {
-      fontSize: '18px',
-      color: theme.palette.gray700,
-      fontWeight: '600',
-      marginBottom: '10px',
+  },
+  sendButton: {
+    color: theme.palette.whiteCorner,
+    background: theme.palette.blue600,
+    borderRadius: '8.35px',
+    padding: '8px 16px',
+    '&:hover': {
+      background: theme.palette.blue800,
     },
-    description: {
-      fontSize: '14px',
-      color: theme.palette.gray700,
-      fontWeight: '400',
-      margin: '0 0 32px',
-    },
-    buttonContainer: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-    },
-    cancelButton: {
-      color: theme.palette.blue600,
-      background: theme.palette.whiteCorner,
-      border: `1px solid ${theme.palette.blue600}`,
-      borderRadius: '8.35px',
-      padding: '8px 16px',
-      marginRight: '16px',
-      '&:hover': {
-        background: theme.palette.gray100,
-      },
-    },
-    sendButton: {
-      color: theme.palette.whiteCorner,
-      background: theme.palette.blue600,
-      borderRadius: '8.35px',
-      padding: '8px 16px',
-      '&:hover': {
-        background: theme.palette.blue800,
-      },
-    },
-  })
-)
+  },
+}))
 
 const ModalComponent = ({ open, handleClose, handleSendEmail, recipientCount }) => {
   const classes = useStyles()

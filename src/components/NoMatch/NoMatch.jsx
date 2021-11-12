@@ -1,27 +1,24 @@
 import { useLocation, Link } from 'react-router-dom'
 import { Grid, Container } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
+import { makeStyles } from '@mui/styles'
 import PATHS from '../../paths'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    noMatchGridContainer: {
-      textAlign: 'center',
-      padding: '16px',
-      margin: '16px auto',
-    },
-    noMatchText: {
-      marginBottom: '16px',
-    },
-    noMatchButton: {
-      color: 'white',
-      background: theme.palette.blueCorner,
-      borderRadius: '8.35px',
-      padding: '8px 16px',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  noMatchGridContainer: {
+    textAlign: 'center',
+    padding: '16px',
+    margin: '16px auto',
+  },
+  noMatchText: {
+    marginBottom: '16px',
+  },
+  noMatchButton: {
+    color: 'white',
+    background: theme.palette.blueCorner,
+    borderRadius: '8.35px',
+    padding: '8px 16px',
+  },
+}))
 
 function NoMatch() {
   const location = useLocation()

@@ -1,37 +1,34 @@
 import { useEffect, useState } from 'react'
 import CreatableSelect from 'react-select/creatable'
 import { Grid, Button, Box } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
-import createStyles from '@mui/styles/createStyles'
+import { makeStyles } from '@mui/styles'
 import { apiClient } from '../../../services/networking/client'
 import { useSelectedTemplate } from '../../../redux/messagerie/hooks'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    popper: {
-      border: `1px solid ${theme.palette.gray200}`,
-      borderRadius: '8px',
-      marginTop: theme.spacing(1),
+const useStyles = makeStyles(theme => ({
+  popper: {
+    border: `1px solid ${theme.palette.gray200}`,
+    borderRadius: '8px',
+    marginTop: theme.spacing(1),
+  },
+  templateSelect: {
+    borderRadius: '8px',
+    marginRight: theme.spacing(2),
+  },
+  materialButton: {
+    color: theme.palette.blue600,
+    borderColor: theme.palette.blue600,
+    width: '100%',
+    padding: theme.spacing(1, 2),
+    borderRadius: '8px',
+    '&:hover': {
+      background: theme.palette.gray200,
     },
-    templateSelect: {
-      borderRadius: '8px',
-      marginRight: theme.spacing(2),
-    },
-    materialButton: {
-      color: theme.palette.blue600,
-      borderColor: theme.palette.blue600,
-      width: '100%',
-      padding: theme.spacing(1, 2),
-      borderRadius: '8px',
-      '&:hover': {
-        background: theme.palette.gray200,
-      },
-    },
-    buttonIcon: {
-      marginRight: theme.spacing(1),
-    },
-  })
-)
+  },
+  buttonIcon: {
+    marginRight: theme.spacing(1),
+  },
+}))
 
 const TemplateSelect = () => {
   const [options, setOptions] = useState([])

@@ -7,7 +7,7 @@ import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useUserScope } from '../../../redux/user/hooks'
 import ErrorComponent from '../../ErrorComponent/ErrorComponent'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles(() => ({
   leafletContainer: {
