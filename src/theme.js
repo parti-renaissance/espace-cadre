@@ -1,7 +1,7 @@
 import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 import { unstable_ClassNameGenerator as ClassNameGenerator } from '@mui/material/utils'
 import { createGenerateClassName } from '@mui/styles'
-import { createTheme, adaptV4Theme } from '@mui/material'
+import { createTheme } from '@mui/material'
 import { frFR } from '@mui/material/locale'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
@@ -29,7 +29,7 @@ ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-const themeConfig = adaptV4Theme({
+const themeConfig = {
   typography: {
     fontFamily: 'Poppins, sans-serif',
     body2: {
@@ -155,4 +155,4 @@ const themeConfig = adaptV4Theme({
     backgroundError: '#FEEFEF',
     red600: '#DC2626',
   },
-})
+}
