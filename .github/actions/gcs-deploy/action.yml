@@ -37,7 +37,7 @@ runs:
   using: composite
   steps:
 
-    - shall: bash
+    - shell: bash
       run: |-
         echo ${{ github.event.release.tag_name }}
 
@@ -52,7 +52,7 @@ runs:
 
         echo "REACT_APP_VERSION=${{ github.event.release.tag_name }}" >> .env.production
 
-    - shall: bash
+    - shell: bash
       run: |-
         yarn build
 
@@ -62,12 +62,16 @@ runs:
         project_id: ${{ inputs.project_id }}
         export_default_credentials: true
 
-    - shall: bash
+    - shell: bash
       run: |-
-        gsutil rm -r gs://${{ inputs.bucket }}/*
+        gsutil mv -r "gs://${{ inputs.bucket }}/*" "gs://${{ inputs.bucket }}/build_old" || true
 
     - uses: google-github-actions/upload-cloud-storage@main
       with:
         path: build
         destination: ${{ inputs.bucket }}
         parent: false
+
+    - shell: bash
+      run: |-
+        gsutil rm -r "gs://${{ inputs.bucket }}/build_old" || true
