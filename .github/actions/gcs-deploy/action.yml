@@ -32,6 +32,9 @@ inputs:
   react_app_mapbox_style:
     description: The Mapbox style used by the app
     required: true
+  react_app_version:
+    description: The app version
+    required: true
 
 runs:
   using: composite
@@ -39,8 +42,6 @@ runs:
 
     - shell: bash
       run: |-
-        echo ${{ github.event.release.tag_name }}
-
         echo "" > .env.production
         echo "REACT_APP_OAUTH_HOST=${{ inputs.react_app_oauth_host }}" >> .env.production
         echo "REACT_APP_OAUTH_CLIENT_ID=${{ inputs.react_app_oauth_client_id }}" >> .env.production
@@ -49,8 +50,7 @@ runs:
         echo "REACT_APP_UNLAYER_PROJECT_ID=${{ inputs.react_app_unlayer_project_id }}" >> .env.production
         echo "REACT_APP_MAPBOX_TOKEN=${{ inputs.react_app_mapbox_token }}" >> .env.production
         echo "REACT_APP_MAPBOX_STYLE=${{ inputs.react_app_mapbox_style }}" >> .env.production
-
-        echo "REACT_APP_VERSION=${{ github.event.release.tag_name }}" >> .env.production
+        echo "REACT_APP_VERSION=${{ inputs.reeact_app_version }}" >> .env.production
 
     - shell: bash
       run: |-
