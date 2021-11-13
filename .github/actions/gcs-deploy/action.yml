@@ -1,0 +1,73 @@
+name: GCS Deploy
+description: Build and push app to Google Cloud Storage
+
+inputs:
+  service_account_key:
+    description: The GCP Service Account key used to push on Google Cloud Storage
+    required: true
+  project_id:
+    description: The GCP Project ID where the GCS Bucket lives
+    required: true
+  bucket:
+    description: The Google Cloud Storage bucket where the app lives
+    required: true
+  react_app_oauth_host:
+    description: The OAuth host used by the app
+    required: true
+  react_app_oauth_client_id:
+    description: The OAuth client id used by the app
+    required: true
+  react_app_internal_app_id:
+    description: The Internal app id used by the app
+    required: true
+  react_app_sentry_dsn:
+    description: The Sentry DSN used by the app
+    required: true
+  react_app_unlayer_project_id:
+    description: The Unlayer project id used by the app
+    required: true
+  react_app_mapbox_token:
+    description: The Mapbox token used by the app
+    required: true
+  react_app_mapbox_style:
+    description: The Mapbox style used by the app
+    required: true
+
+runs:
+  using: composite
+  steps:
+
+    - shall: bash
+      run: |-
+        echo ${{ github.event.release.tag_name }}
+
+        echo "" > .env.production
+        echo "REACT_APP_OAUTH_HOST=${{ inputs.react_app_oauth_host }}" >> .env.production
+        echo "REACT_APP_OAUTH_CLIENT_ID=${{ inputs.react_app_oauth_client_id }}" >> .env.production
+        echo "REACT_APP_INTERNAL_APP_ID=${{ inputs.react_app_internal_app_id }}" >> .env.production
+        echo "REACT_APP_SENTRY_DSN=${{ inputs.react_app_sentry_dsn }}" >> .env.production
+        echo "REACT_APP_UNLAYER_PROJECT_ID=${{ inputs.react_app_unlayer_project_id }}" >> .env.production
+        echo "REACT_APP_MAPBOX_TOKEN=${{ inputs.react_app_mapbox_token }}" >> .env.production
+        echo "REACT_APP_MAPBOX_STYLE=${{ inputs.react_app_mapbox_style }}" >> .env.production
+
+        echo "REACT_APP_VERSION=${{ github.event.release.tag_name }}" >> .env.production
+
+    - shall: bash
+      run: |-
+        yarn build
+
+    - uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_key: ${{ inputs.service_account_key }}
+        project_id: ${{ inputs.project_id }}
+        export_default_credentials: true
+
+    - shall: bash
+      run: |-
+        gsutil rm -r gs://${{ inputs.bucket }}/*
+
+    - uses: google-github-actions/upload-cloud-storage@main
+      with:
+        path: build
+        destination: ${{ inputs.bucket }}
+        parent: false
