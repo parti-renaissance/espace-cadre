@@ -38,27 +38,24 @@ const classes = {
 
 const EmotionReact = ({ fontWeight = 'bold' }) => {
   return (
-    <>
-      <div>
-        <div
-          css={css`
-            text-align: center;
-            font-weight: ${fontWeight || 'initial'};
-            margin-bottom: 5px;
-          `}
-        >
-          Emotion React
-        </div>
-        <span css={classes.stringLiteral}>String Literal</span>
-        <span css={classes.objectStyle}>Object</span>
-        <MyComponent
-          css={css`
-            color: green;
-          `}
-          attr="en trop"
-        />
+    <div style={{ textAlign: 'center' }}>
+      <div
+        css={css`
+          text-align: center;
+          font-weight: ${fontWeight || 'initial'};
+          margin-bottom: 5px;
+        `}
+      >
+        Emotion React
       </div>
-    </>
+      <span css={classes.stringLiteral}>String Literal</span>
+      <span css={classes.objectStyle}>Object</span>
+      <MyComponent
+        css={css`
+          color: green;
+        `}
+      />
+    </div>
   )
 }
 

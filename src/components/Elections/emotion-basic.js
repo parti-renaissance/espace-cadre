@@ -37,7 +37,7 @@ const classes = {
 
 const EmotionBasic = ({ fontWeight = 'bold' }) => {
   return (
-    <div>
+    <div style={{ textAlign: 'center' }}>
       <div
         className={css`
           text-align: center;
@@ -53,7 +53,6 @@ const EmotionBasic = ({ fontWeight = 'bold' }) => {
         className={css`
           color: green;
         `}
-        attr="en trop"
       />
     </div>
   )
