@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
 
 const Elections = () => {
   const classes = useStyles()
-
   const mapContainer = useRef(null)
   const map = useRef()
   const [mapLoaded, setMapLoaded] = useState(false)

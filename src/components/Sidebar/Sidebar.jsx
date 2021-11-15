@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import $ from 'jquery'
 import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Scopes from '../Scopes'
@@ -43,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
   barChart: {
     color: theme.palette.blue2Corner,
-    marginRight: '2px',
+    marginRight: theme.spacing(0.25),
   },
   logoText: {
     color: theme.palette.blackCorner,
@@ -66,20 +65,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Sidebar = () => {
+const Sidebar = ({ toggleSidebar }) => {
   const authorizedPage = useSelector(getAuthorizedPages)
   const filteredMenu = MENU.filter(item => authorizedPage && authorizedPage.includes(item.id))
   const classes = useStyles()
 
-  useEffect(() => {
-    $('#toggleButton').on('click', () => {
-      $('#sidebar, #pageContent').toggleClass('active')
-    })
-  }, [])
-
   return (
     <>
-      <div id="sidebar" className={classes.sidebar}>
+      <div id="sidebar" className={`${classes.sidebar} ${toggleSidebar ? 'active' : ''}`}>
         <Link to={PATHS.DASHBOARD.route} className={classes.brandLink}>
           <div className={classes.logoContainer}>
             <img src={barChart} alt="bar chart" className={classes.barChart} />
@@ -107,3 +100,7 @@ const Sidebar = () => {
 }
 
 export default Sidebar
+
+Sidebar.propTypes = {
+  toggleSidebar: PropTypes.bool.isRequired,
+}

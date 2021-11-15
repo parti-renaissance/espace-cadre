@@ -1,13 +1,47 @@
 import { useState, useEffect } from 'react'
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
-import { Grid } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import Card from 'ui/Card'
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    padding: theme.spacing(2),
+  },
+  countBubble: {
+    color: theme.palette.blueCorner,
+    fontWeight: '600',
+    fontSize: '18px',
+    backgroundColor: theme.palette.blueBubble,
+    padding: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderRadius: '6px',
+  },
+  chartTitle: {
+    color: theme.palette.blackCorner,
+    fontWeight: '600',
+  },
+  chartSubtitle: {
+    color: theme.palette.grayCorner3,
+    fontSize: '12px',
+    fontWeight: '400',
+  },
+  legendChart: {
+    fontSize: '12px',
+    fontWeight: '400',
+    margin: theme.spacing(2, 2, 2, 4),
+  },
+  noData: {
+    padding: theme.spacing(2),
+  },
+}))
 
 function ActiveUsers() {
+  const classes = useStyles()
   const [dashboardUsers, setDashboardUsers] = useDashboardUsersCache()
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
@@ -29,14 +63,14 @@ function ActiveUsers() {
     if (dashboardUsers !== null && dashboardUsers.users.length > 0) {
       return (
         <>
-          <Grid container style={{ padding: '16px' }}>
-            <span className="count-bubble">{dashboardUsers.totalUsers}</span>
+          <Grid container className={classes.container}>
+            <span className={classes.countBubble}>{dashboardUsers.totalUsers}</span>
             <Grid item>
-              <div className="chart-title">
+              <div className={classes.chartTitle}>
                 Utilisateur{dashboardUsers.users[dashboardUsers.users.length - 1].rolling_seven_users > 1 && 's'} lors
                 des 28 derniers jours
               </div>
-              <div className="chart-subtitle">Actifs sur l&apos;application Je m&apos;engage</div>
+              <div className={classes.chartSubtitle}>Actifs sur l&apos;application Je m&apos;engage</div>
             </Grid>
           </Grid>
           <Grid container>
@@ -127,12 +161,12 @@ function ActiveUsers() {
           </Grid>
           <Grid container>
             <Grid item>
-              <li className="legend-chart" style={{ color: '#0049C6' }}>
+              <li className={classes.legendChart} style={{ color: '#0049C6' }}>
                 Utilisateurs par jour
               </li>
             </Grid>
             <Grid item>
-              <li className="legend-chart" style={{ color: '#82ca9d' }}>
+              <li className={classes.legendChart} style={{ color: '#82ca9d' }}>
                 Utilisateurs cumulés sur 7 jours
               </li>
             </Grid>
@@ -141,19 +175,15 @@ function ActiveUsers() {
       )
     }
     if (dashboardUsers !== null && dashboardUsers.users.length === 0) {
-      return (
-        <div className="with-background chart-error">
-          Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées
-        </div>
-      )
+      return <Card>Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées</Card>
     }
     if (errorMessage) {
       return <ErrorComponent errorMessage={errorMessage} />
     }
     return (
-      <div style={{ textAlign: 'center' }}>
+      <Card textAlign="center">
         <Loader />
-      </div>
+      </Card>
     )
   }
   return <>{dashboardUsersContent()}</>

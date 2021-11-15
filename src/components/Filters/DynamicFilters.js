@@ -5,6 +5,7 @@ import FiltersForm from './FiltersForm'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import { getFilters } from 'api/filters'
+import Card from 'ui/Card'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -44,9 +45,9 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   }
 
   return (
-    <div className={`with-background dc-container ${classes.loader}`}>
+    <Card rootClasses={classes.loader}>
       <Loader />
-    </div>
+    </Card>
   )
 }
 

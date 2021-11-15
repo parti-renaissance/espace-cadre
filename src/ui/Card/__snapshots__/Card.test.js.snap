@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card displays card 1`] = `
+<div>
+  <div
+    class="root fooClass"
+    lg="3"
+    md="2"
+    sm="1"
+    xl="4"
+    xs="0"
+  >
+    Foo
+  </div>
+</div>
+`;

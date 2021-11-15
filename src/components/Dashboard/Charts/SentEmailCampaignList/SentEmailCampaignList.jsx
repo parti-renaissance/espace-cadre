@@ -6,10 +6,14 @@ import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
 import ErrorComponent from 'components/ErrorComponent/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
+import Card from 'ui/Card'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {
     marginBottom: theme.spacing(2),
+    background: theme.palette.whiteCorner,
+    borderRadius: '6px',
+    boxShadow: '0 1px 1px 0 rgba(0, 0, 0, .04)',
   },
   titleRow: {
     padding: theme.spacing(0, 2),
@@ -57,6 +61,10 @@ const useStyles = makeStyles(theme => ({
     fontWeight: '400',
     color: theme.palette.grayCorner3,
   },
+  noData: {
+    textAlign: 'center',
+    padding: theme.spacing(0.75),
+  },
 }))
 
 function SentEmailCampaignList() {
@@ -87,7 +95,7 @@ function SentEmailCampaignList() {
           <SentEmailCampaignListTitle />
           {emailCampaignReports.map(report =>
             report.campagnes.map((campagne, index) => (
-              <Grid container className={`with-background dc-container ${classes.bigCard}`} key={index + 1}>
+              <Grid container className={classes.bigCard} key={index}>
                 <Grid container className={classes.titleRow}>
                   <Grid item xs={12}>
                     <p className={classes.headline}>{campagne.titre}</p>
@@ -143,9 +151,7 @@ function SentEmailCampaignList() {
       return (
         <>
           <SentEmailCampaignListTitle />
-          <Box className="with-background dc-container" style={{ textAlign: 'center', padding: '6px' }}>
-            Aucune campagne à afficher
-          </Box>
+          <Card rootClasses={classes.noData}>Aucune campagne à afficher</Card>
         </>
       )
     }
@@ -157,11 +163,9 @@ function SentEmailCampaignList() {
       )
     }
     return (
-      <>
-        <Box className="with-background dc-container" style={{ textAlign: 'center' }}>
-          <Loader />
-        </Box>
-      </>
+      <Card xs={12} textAlign="center">
+        <Loader />
+      </Card>
     )
   }
   return <>{emailCampaignsContent()}</>

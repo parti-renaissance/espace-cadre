@@ -1,9 +1,5 @@
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const Loader = () => (
-  <div>
-    <CircularProgress size={16} />
-  </div>
-)
+const Loader = () => <CircularProgress size={16} />
 
 export default Loader

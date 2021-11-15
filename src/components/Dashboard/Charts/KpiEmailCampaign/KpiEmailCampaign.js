@@ -7,6 +7,7 @@ import Percentage from 'ui/Percentage'
 import { useUserScope } from '../../../../redux/user/hooks'
 import EmailCampaignTitle from './EmailCampaignTitle'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import Card from 'ui/Card'
 
 const useStyles = makeStyles(theme => ({
   cardContainer: {
@@ -32,10 +33,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: '12px',
     fontWeight: '400',
     color: theme.palette.grayCorner3,
-  },
-  loaderContainer: {
-    textAlign: 'center',
-    marginBottom: theme.spacing(2),
   },
 }))
 
@@ -65,16 +62,16 @@ function KpiEmailCampaign() {
           <EmailCampaignTitle />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Grid item className={`with-background dc-container ${classes.littleCard}`}>
+              <Card rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>{campaign.local.nbCampagnes}</Box>
                 <Box className={classes.mainText}>Campagne{campaign.local.nbCampagnes > 1 && 's'}</Box>
                 <Box className={classes.secondaryText}>
                   Envoyée{campaign.local.nbCampagnes > 1 && 's'} en {new Date().getFullYear()}
                 </Box>
-              </Grid>
+              </Card>
             </Grid>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Grid item className={`with-background dc-container ${classes.littleCard}`}>
+              <Card rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>
                   <Percentage>{campaign.local.txOuverture}</Percentage>
                 </Box>
@@ -82,10 +79,10 @@ function KpiEmailCampaign() {
                 <Box className={classes.secondaryText}>
                   <Percentage>{campaign.national.txOuverture}</Percentage> au national
                 </Box>
-              </Grid>
+              </Card>
             </Grid>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Grid item className={`with-background dc-container ${classes.littleCard}`}>
+              <Card rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>
                   <Percentage>{campaign.local.txClique}</Percentage>
                 </Box>
@@ -93,10 +90,10 @@ function KpiEmailCampaign() {
                 <Box className={classes.secondaryText}>
                   <Percentage>{campaign.national.txClique}</Percentage> au national
                 </Box>
-              </Grid>
+              </Card>
             </Grid>
             <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <Grid item className={`with-background dc-container ${classes.littleCard}`}>
+              <Card rootClasses={classes.littleCard}>
                 <Box className={classes.mainInfo}>
                   <Percentage>{campaign.local.txDesabonnement}</Percentage>
                 </Box>
@@ -104,7 +101,7 @@ function KpiEmailCampaign() {
                 <Box className={classes.secondaryText}>
                   <Percentage>{campaign.national.txDesabonnement}</Percentage> au national
                 </Box>
-              </Grid>
+              </Card>
             </Grid>
           </Grid>
         </>
@@ -122,9 +119,9 @@ function KpiEmailCampaign() {
     return (
       <>
         <EmailCampaignTitle />
-        <div className={classes.loaderContainer}>
+        <Card xs={12} textAlign="center">
           <Loader />
-        </div>
+        </Card>
       </>
     )
   }
