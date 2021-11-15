@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const PageContent = ({ children }) => {
+const PageContent = ({ children, handleToggle, toggleSidebar }) => {
   const { pathname } = useLocation()
   const pathIndex = MENU.findIndex(path => path.route === pathname)
   const classes = useStyles()
@@ -52,11 +52,11 @@ const PageContent = ({ children }) => {
   }
 
   return (
-    <div id="pageContent" className={classes.pageContent}>
+    <div id="pageContent" className={`${classes.pageContent}  ${toggleSidebar ? 'active' : ''}`}>
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={2}>
           <Grid item>
-            <button id="toggleButton" className={`dc-container ${classes.toggleButton}`}>
+            <button id="toggleButton" className={`dc-container ${classes.toggleButton}`} onClick={handleToggle}>
               <img src={list} alt="Menu button" />
             </button>
           </Grid>
@@ -76,4 +76,6 @@ export default PageContent
 
 PageContent.propTypes = {
   children: PropTypes.instanceOf(Object).isRequired,
+  toggleSidebar: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
 }

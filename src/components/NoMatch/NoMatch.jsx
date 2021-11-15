@@ -1,52 +1,50 @@
+import { useLocation, Link } from 'react-router-dom'
+import { Container, Grid, makeStyles, Typography } from '@material-ui/core'
+import PATHS from '../../paths'
 
-import {
-    useLocation, Link,
-} from 'react-router-dom';
-import {
-    Grid, makeStyles, createStyles, Container,
-} from '@material-ui/core';
-import PATHS from '../../paths';
-
-const useStyles = makeStyles((theme) => createStyles({
-    noMatchGridContainer: {
-        textAlign: 'center',
-        padding: '16px',
-        margin: '16px auto',
-    },
-    noMatchText: {
-        marginBottom: '16px',
-    },
-    noMatchButton: {
-        color: 'white',
-        background: theme.palette.blueCorner,
-        borderRadius: '8.35px',
-        padding: '8px 16px',
-    },
-}));
+const useStyles = makeStyles(theme => ({
+  noMatchContainer: {
+    textAlign: 'center',
+    background: theme.palette.whiteCorner,
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    borderRadius: '8.35px',
+  },
+  text: {
+    marginBottom: theme.spacing(2),
+  },
+  button: {
+    background: theme.palette.blueCorner,
+    borderRadius: '8.35px',
+    padding: theme.spacing(1, 2),
+    margin: theme.spacing(0, 'auto'),
+  },
+  returnHome: {
+    color: theme.palette.whiteCorner,
+  },
+}))
 
 function NoMatch() {
-    const location = useLocation();
-    const classes = useStyles();
+  const classes = useStyles()
+  const location = useLocation()
 
-    return (
-        <Container
-            fixed
-            className={`${classes.noMatchGridContainer} with-background dc-container`}
-        >
-            <Grid item xs={12} className={classes.noMatchText}>
-                L&apos;URL recherchée <strong>{location.pathname}</strong> n&apos;existe pas ou vous n&apos;avez pas les droits pour y accéder
-            </Grid>
-            <Grid item xs={12}>
-                <Link
-                    to={PATHS.DASHBOARD.route}
-                    className={classes.noMatchButton}
-                >
-                    Retournez à l&apos;accueil
-                </Link>
-            </Grid>
-        </Container>
-
-    );
+  return (
+    <Container className={classes.noMatchContainer}>
+      <Grid container>
+        <Grid item xs={12} className={classes.text}>
+          L&apos;URL recherchée <strong>{location.pathname}</strong> n&apos;existe pas ou vous n&apos;avez pas les
+          droits pour y accéder
+        </Grid>
+        <Grid item xs={12} sm={4} className={classes.button}>
+          <Link to={PATHS.DASHBOARD.route}>
+            <Typography variant="body2" className={classes.returnHome}>
+              Retournez à l&apos;accueil
+            </Typography>
+          </Link>
+        </Grid>
+      </Grid>
+    </Container>
+  )
 }
 
-export default NoMatch;
+export default NoMatch

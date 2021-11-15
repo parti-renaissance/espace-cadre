@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Container, TableContainer, Paper, Table, TablePagination, makeStyles } from '@material-ui/core'
+import { Container, Table, TableContainer, TablePagination, Paper, makeStyles } from '@material-ui/core'
 import TableHeadComponent from './TableHeadComponent'
 import TableBodyComponent from './TableBodyComponent'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { getAdherents, getColumns } from 'api/adherents'
 import PaginatedResult from 'api/paginatedResult'
+import Card from 'ui/Card'
 
 export const FEATURE_ADHERENTS = 'contacts'
 
@@ -77,9 +78,9 @@ function Adherents() {
     }
 
     return (
-      <div style={{ textAlign: 'center' }} className="with-background dc-container">
+      <Card textAlign="center">
         <Loader />
-      </div>
+      </Card>
     )
   }
 

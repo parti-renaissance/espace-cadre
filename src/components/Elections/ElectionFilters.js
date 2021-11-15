@@ -15,6 +15,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: '12px',
     marginTop: theme.spacing(1.25),
   },
+  select: {
+    fontFamily: 'Poppins, sans-serif',
+    fontSize: '16px',
+    padding: theme.spacing(0.75, 1.5),
+    border: 'none',
+    outline: 'none',
+    borderRadius: '6px',
+  },
 }))
 
 const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelection }) => {
@@ -26,7 +34,7 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
   return (
     <Grid container spacing={2}>
       <Grid item>
-        <select className={classes.layerSelect} onChange={handleTypeSelection}>
+        <select className={classes.select} onChange={handleTypeSelection}>
           {electionTypesOptions.map(({ code, label }) => (
             <option key={code} value={code}>
               {label}
@@ -35,7 +43,7 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
         </select>
       </Grid>
       <Grid item>
-        <select onChange={handleDetailSelection} value={`${election}_${year}_${round}`}>
+        <select className={classes.select} onChange={handleDetailSelection} value={`${election}_${year}_${round}`}>
           {ElectionDetails.map(({ label, year, rounds }, index) => (
             <Fragment key={index}>
               <option key={`${label}_${year}_1`} value={`${label}_${year}_1`}>
