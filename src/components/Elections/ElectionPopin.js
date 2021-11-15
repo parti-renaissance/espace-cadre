@@ -6,7 +6,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import Percentage from 'ui/Percentage'
 import Loader from 'ui/Loader'
 import { ElectionResult as DomainElectionResult } from 'domain/election'
-import ElectionResult from './ElectionResult'
+import ElectionResult from './ElectionResult-mui'
 import { ElectionFirstStage } from './shared/constants'
 
 const useStyles = makeStyles(theme => ({
