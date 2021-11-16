@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 import { persistor, store } from './redux/store'
+import NotifyProvider from './notify'
 import Layout from './components/Layout'
 import Routes from './Routes'
 import theme from './theme'
@@ -16,9 +17,11 @@ const App = () => (
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Layout>
-              <Routes />
-            </Layout>
+            <NotifyProvider>
+              <Layout>
+                <Routes />
+              </Layout>
+            </NotifyProvider>
           </MuiPickersUtilsProvider>
         </ThemeProvider>
       </BrowserRouter>
