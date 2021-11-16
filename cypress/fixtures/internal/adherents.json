@@ -1,0 +1,9 @@
+{
+  "adherentCount": 12345,
+  "zones": [
+    {
+      "zone_type": "departement",
+      "zone_name": [["Hauts-de-Seine", "Val-d'Oise"]]
+    }
+  ]
+}

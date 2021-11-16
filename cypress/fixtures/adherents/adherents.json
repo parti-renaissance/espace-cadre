@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "total_items": 6,
+    "items_per_page": 3,
+    "count": 3,
+    "current_page": 1,
+    "last_page": 2
+  },
+  "items": [
+    {
+      "postal_code": "95320",
+      "city": "Saint-Leu-la-For\u00eat",
+      "country": "FR",
+      "first_name": "firstname1",
+      "last_name": "lastname1",
+      "gender": "male",
+      "interests": [],
+      "city_code": "95563",
+      "department_code": "95",
+      "department": "Val-d\u0027Oise",
+      "region_code": "11",
+      "region": "\u00cele-de-France",
+      "sms_subscription": false,
+      "email_subscription": false
+    },
+    {
+      "postal_code": "92270",
+      "city": "Bois-Colombes",
+      "country": "FR",
+      "first_name": "firstname2",
+      "last_name": "lastname2",
+      "gender": "female",
+      "interests": ["culture", "education", "sport", "jeunesse", "economie"],
+      "city_code": "92009",
+      "department_code": "92",
+      "department": "Hauts-de-Seine",
+      "region_code": "11",
+      "region": "\u00cele-de-France",
+      "sms_subscription": false,
+      "email_subscription": false
+    },
+    {
+      "postal_code": "92220",
+      "city": "Bagneux",
+      "country": "FR",
+      "first_name": "firstname3",
+      "last_name": "lastname3",
+      "gender": "male",
+      "interests": ["republique", "ruralite"],
+      "city_code": "92007",
+      "department_code": "92",
+      "department": "Hauts-de-Seine",
+      "region_code": "11",
+      "region": "\u00cele-de-France",
+      "sms_subscription": true,
+      "email_subscription": true
+    }
+  ]
+}

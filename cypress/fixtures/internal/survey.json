@@ -1,0 +1,28 @@
+{
+  "zone_name": "Hauts-de-Seine",
+  "latitude": 48.847221,
+  "longitude": 2.245833,
+  "survey_datas": [
+    {
+      "id": 2,
+      "postal_code": "92400",
+      "gender": "female",
+      "age_range": "less_than_20",
+      "latitude": 48.879036,
+      "longitude": 2.318986,
+      "data_survey": {
+        "posted_at": "31/08/21 à 16:39",
+        "author": {
+          "first_name": "firstname1",
+          "last_name": "lastname1"
+        },
+        "survey": {
+          "name": "Questionnaire national",
+          "created_at": "31/08/21 à 16:26",
+          "updated_at": "01/10/21 à 12:09",
+          "survey_author": null
+        }
+      }
+    }
+  ]
+}
