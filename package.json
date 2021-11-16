@@ -34,7 +34,6 @@
     "redux-persist": "6.0.0",
     "sass": "1.43.4",
     "web-vitals": "2.1.2",
-    "yarn": "^1.22.17",
     "yup": "^0.32.11"
   },
   "scripts": {
