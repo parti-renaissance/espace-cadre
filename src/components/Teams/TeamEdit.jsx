@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Container, Grid, makeStyles, createStyles, Card, Paper, Typography } from '@material-ui/core'
 import { useParams } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
 import { addTeamMember, deleteTeamMember, getTeam } from 'api/teams'
 import { adherentAutocompleteUri } from 'api/adherents'
 import MemberCard from './MemberCard'
@@ -46,11 +47,17 @@ const useStyles = makeStyles(theme =>
   })
 )
 
+const messages = {
+  editSuccess: 'Membre ajouté avec succès !',
+  deleteSuccess: 'Membre supprimé avec succès !',
+}
+
 const TeamEdit = () => {
   const classes = useStyles()
   const { teamId } = useParams()
   const [team, setTeam] = useState(null)
   const [member, setMember] = useState(null)
+  const { enqueueSnackbar } = useSnackbar()
 
   useEffect(() => {
     getTeam(teamId, setTeam)
@@ -59,11 +66,13 @@ const TeamEdit = () => {
   const onAddTeamMember = async () => {
     await addTeamMember(teamId, member.uuid)
     setMember(null)
+    enqueueSnackbar(messages.editSuccess, { variant: 'success' })
   }
 
   const handleDelete = async memberId => {
     await deleteTeamMember(teamId, memberId)
     getTeam(teamId, setTeam)
+    enqueueSnackbar(messages.deleteSuccess, { variant: 'success' })
   }
 
   return (
