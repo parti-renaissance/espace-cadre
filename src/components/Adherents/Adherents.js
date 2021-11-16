@@ -66,7 +66,7 @@ function Adherents() {
                 rowsPerPageOptions={[100]}
                 labelRowsPerPage="Lignes par page:"
                 component="div"
-                count={adherents.count || 0}
+                count={adherents.total || 0}
                 page={filters.page - 1}
                 onPageChange={(event, page) => setFilters(prevState => ({ ...prevState, ...{ page: page + 1 } }))}
                 rowsPerPage={adherents.pageSize}
