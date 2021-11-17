@@ -5,8 +5,8 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import TextField from 'ui/TextField'
 import AlertBanner from 'ui/AlertBanner'
-import Riposte from 'domain/riposte'
 import { createRiposte, updateRiposte } from 'api/ripostes'
+import DomainRiposte from 'domain/riposte'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -73,7 +73,7 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
       body: riposte?.body,
       url: riposte?.url,
       withNotification: riposte?.withNotification,
-      enabled: riposte?.enabled,
+      status: riposte?.status,
     },
     validationSchema: riposteSchema,
     enableReinitialize: true,
@@ -84,7 +84,7 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
           .withBody(form.body)
           .withUrl(form.url)
           .withWithNotification(form.withNotification)
-          .withEnabled(form.enabled)
+          .withStatus(form.status)
 
         if (newRiposte.id) {
           await updateRiposte(newRiposte)
@@ -171,10 +171,10 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  id="enabled"
+                  id="status"
                   color="primary"
                   size="small"
-                  checked={formik.values.enabled}
+                  checked={formik.values.status}
                   onChange={formik.handleChange}
                 />
               }
@@ -203,6 +203,6 @@ RiposteModal.defaultProps = {
 RiposteModal.propTypes = {
   handleClose: PropTypes.func,
   onSubmitRefresh: PropTypes.func,
-  riposte: Riposte.propTypes,
+  riposte: DomainRiposte.propTypes,
   open: PropTypes.bool.isRequired,
 }

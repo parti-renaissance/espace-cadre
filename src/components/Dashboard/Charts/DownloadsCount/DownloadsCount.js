@@ -6,7 +6,7 @@ import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -158,15 +158,19 @@ function DownloadsCount() {
       )
     }
     if (dashboardDownloads !== null && dashboardDownloads.downloads.length === 0) {
-      return <Card className={classes.noData}>Les données de téléchargement de l&apos;app sont indisponibles</Card>
+      return (
+        <UIContainer className={classes.noData}>
+          Les données de téléchargement de l&apos;app sont indisponibles
+        </UIContainer>
+      )
     }
     if (errorMessage) {
       return <ErrorComponent errorMessage={errorMessage} />
     }
     return (
-      <Card textAlign="center">
+      <UIContainer textAlign="center">
         <Loader />
-      </Card>
+      </UIContainer>
     )
   }
 

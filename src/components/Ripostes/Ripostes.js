@@ -48,7 +48,7 @@ const Ripostes = () => {
 
   const toggleEnableRiposte = async id => {
     const riposte = ripostes.find(r => r.id === id)
-    const newRiposte = riposte.toggleEnabled()
+    const newRiposte = riposte.toggleStatus()
     setRipostes(prev =>
       prev
         .filter(r => r.id !== id)
@@ -86,7 +86,7 @@ const Ripostes = () => {
         </Grid>
         <Grid container spacing={2}>
           {ripostes.map(r => (
-            <RiposteCard key={r.id} riposte={r} handleClickOpen={handleClickOpen} toggleEnabled={toggleEnableRiposte} />
+            <RiposteCard key={r.id} riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableRiposte} />
           ))}
         </Grid>
         <RiposteModal

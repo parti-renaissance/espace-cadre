@@ -1,39 +1,37 @@
 import { useState, useEffect } from 'react'
-import { Container, makeStyles, createStyles, Grid, Button } from '@material-ui/core'
+import { Container, makeStyles, Grid, Button } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import TeamCard from './TeamCard'
 import TeamModal from './TeamModal'
 import { getTeams } from '../../api/teams'
 import { Team } from '../../domain/team'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    teamsContainer: {
-      marginBottom: theme.spacing(2),
-    },
-    pageTitle: {
-      fontSize: '24px',
-      fontWeight: '400',
-      color: theme.palette.gray800,
-    },
-    buttonContainer: {
-      background: theme.palette.teamBackground,
-      borderRadius: '8.35px',
-      marginBottom: '32px',
-    },
-    icon: {
-      marginRight: theme.spacing(1),
-    },
-    createButton: {
-      color: theme.palette.lightBlue700,
-      padding: theme.spacing(0.75, 1),
-    },
-    root: {
-      padding: theme.spacing(2),
-      borderRadius: '8.35px',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  teamsContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  pageTitle: {
+    fontSize: '24px',
+    fontWeight: '400',
+    color: theme.palette.gray800,
+  },
+  buttonContainer: {
+    background: theme.palette.teamBackground,
+    borderRadius: '8.35px',
+    marginBottom: theme.spacing(2),
+  },
+  createButton: {
+    color: theme.palette.lightBlue700,
+    padding: theme.spacing(0.75, 1),
+  },
+  icon: {
+    marginRight: theme.spacing(1),
+  },
+  root: {
+    padding: theme.spacing(2),
+    borderRadius: '8.35px',
+  },
+}))
 
 const Teams = () => {
   const classes = useStyles()

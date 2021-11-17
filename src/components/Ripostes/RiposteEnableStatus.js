@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const RiposteEnableStatus = ({ riposte, toggleEnabled }) => {
+const RiposteEnableStatus = ({ riposte, toggleStatus }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -60,11 +60,11 @@ const RiposteEnableStatus = ({ riposte, toggleEnabled }) => {
         <MenuItem
           onClick={() => {
             handleClose()
-            toggleEnabled(riposte.id)
+            toggleStatus(riposte.id)
           }}
           className={classes.root}
         >
-          {riposte.enabled ? 'Désactiver' : 'Activer'}
+          {riposte.status ? 'Désactiver' : 'Activer'}
         </MenuItem>
       </Menu>
     </div>
@@ -75,5 +75,5 @@ export default RiposteEnableStatus
 
 RiposteEnableStatus.propTypes = {
   riposte: Riposte.propTypes.isRequired,
-  toggleEnabled: PropTypes.func.isRequired,
+  toggleStatus: PropTypes.func.isRequired,
 }

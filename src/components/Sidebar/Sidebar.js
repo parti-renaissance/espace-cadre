@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
 
 const Sidebar = ({ toggleSidebar }) => {
   const authorizedPage = useSelector(getAuthorizedPages)
-  const filteredMenu = MENU.filter(item => authorizedPage && authorizedPage.includes(item.id))
+  const filteredMenu = MENU.filter(item => authorizedPage?.includes(item.id))
   const classes = useStyles()
 
   return (

@@ -6,7 +6,7 @@ import Loader from 'ui/Loader'
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
-import Card from 'ui/Card'
+import UIContainer from 'ui/UIContainer'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -175,15 +175,19 @@ function ActiveUsers() {
       )
     }
     if (dashboardUsers !== null && dashboardUsers.users.length === 0) {
-      return <Card>Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées</Card>
+      return (
+        <UIContainer>
+          Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées
+        </UIContainer>
+      )
     }
     if (errorMessage) {
       return <ErrorComponent errorMessage={errorMessage} />
     }
     return (
-      <Card textAlign="center">
+      <UIContainer textAlign="center">
         <Loader />
-      </Card>
+      </UIContainer>
     )
   }
   return <>{dashboardUsersContent()}</>
