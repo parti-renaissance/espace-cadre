@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const fetch = throttle((uri, queryParam, query, callback) => {
-  apiClient.get(`${uri}?${queryParam}=${query}`).then(callback)
+  const separator = uri.contains('?') ? '&' : '?'
+  apiClient.get(`${uri}${separator}${queryParam}=${query}`).then(callback)
 }, 500)
 
 const Autocomplete = ({
