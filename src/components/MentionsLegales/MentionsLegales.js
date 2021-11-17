@@ -21,13 +21,17 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  title: "Je m'engage",
+}
+
 function MentionsLegales() {
   const classes = useStyles()
 
   return (
     <div className={classes.mentionsLegales}>
       <div className={classes.version}>
-        DataCorner@<strong>{process.env.REACT_APP_VERSION}</strong>
+        {messages.title}@<strong>{process.env.REACT_APP_VERSION}</strong>
       </div>
       <ul className={classes.list}>
         <li>

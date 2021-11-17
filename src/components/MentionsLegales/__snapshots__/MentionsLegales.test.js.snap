@@ -8,7 +8,8 @@ exports[`MentionsLegales renders 1`] = `
     <div
       class="makeStyles-version-2"
     >
-      DataCorner@
+      Je m'engage
+      @
       <strong />
     </div>
     <ul

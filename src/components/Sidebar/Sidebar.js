@@ -45,25 +45,28 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(0.25),
   },
   logoText: {
-    color: theme.palette.blackCorner,
+    color: theme.palette.gray900,
     fontSize: '20px',
     fontWeight: '600',
   },
   beta: {
-    color: theme.palette.blackCorner,
-    textTransform: 'uppercase',
+    color: theme.palette.red500,
     fontSize: '8px',
     height: '12px',
     fontWeight: '500',
-    backgroundColor: theme.palette.blueBubble,
+    backgroundColor: theme.palette.betaBubble,
     marginLeft: theme.spacing(0.25),
-    padding: theme.spacing(0.25, 0.5),
+    padding: theme.spacing(0.25, 0.5, 0, 0.5),
     borderRadius: '4px',
   },
   navMenu: {
     marginTop: theme.spacing(7),
   },
 }))
+
+const messages = {
+  title: "Je m'engage",
+}
 
 const Sidebar = ({ toggleSidebar }) => {
   const authorizedPage = useSelector(getAuthorizedPages)
@@ -76,8 +79,8 @@ const Sidebar = ({ toggleSidebar }) => {
         <Link to={PATHS.DASHBOARD.route} className={classes.brandLink}>
           <div className={classes.logoContainer}>
             <img src={barChart} alt="bar chart" className={classes.barChart} />
-            <div className={classes.logoText}>DataCorner</div>
-            <span className={classes.beta}>beta</span>
+            <div className={classes.logoText}>{messages.title}</div>
+            <span className={classes.beta}>BÊTA</span>
           </div>
         </Link>
         <Scopes />

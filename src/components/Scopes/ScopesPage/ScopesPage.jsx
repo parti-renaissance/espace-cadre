@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       fontSize: '16px',
       height: '26px',
-      padding: theme.spacing(0.25, 0.25, 0),
+      padding: theme.spacing(0.25, 1, 0),
       marginLeft: theme.spacing(1.25),
     },
   },
@@ -100,6 +100,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  title: "Je m'engage",
+}
+
 function ScopesPage() {
   const classes = useStyles()
   const userScopes = useSelector(getUserScopes)
@@ -130,7 +134,7 @@ function ScopesPage() {
     <Container maxWidth="xl" className={classes.pageContainer}>
       <Grid container className={classes.siteInfoContainer}>
         <img src={barChartScopes} alt="Logo data corner" className={classes.logo} />
-        <span className={classes.title}>DataCorner</span>
+        <span className={classes.title}>{messages.title}</span>
         <span className={classes.beta}>BÊTA</span>
       </Grid>
       <Grid container className={classes.mainCard}>

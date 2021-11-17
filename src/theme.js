@@ -86,7 +86,18 @@ const theme = createTheme({
     gray900: '#111827',
 
     // Green
+    greenCorner: '#008000',
+    successButton: '#28A745',
+
+    green100: '#D1FAE5',
+    green200: '#A7F3D0',
+    green300: '#6EE7B7',
+    green400: '#34D399',
+    green500: '#10B981',
     green600: '#059669',
+    green700: '#047857',
+    green800: '#065F46',
+    green900: '#064E3B',
 
     // Teal
     teal100: '#CCFBF1',
@@ -102,7 +113,7 @@ const theme = createTheme({
     // Cyan
     cyan100: '#CFFAFE',
     cyan200: '#A5F3FC',
-    cyan300: '#A5F3FC',
+    cyan300: '#67E8F9',
     cyan400: '#22D3EE',
     cyan500: '#06B6D4',
     cyan600: '#0891B2',
@@ -110,12 +121,22 @@ const theme = createTheme({
     cyan800: '#155E75',
     cyan900: '#164E63',
 
+    // Red
+    statusError: '#DA1414',
+    betaBubble: 'rgba(239, 68, 68, 0.1)',
+
+    red100: '#FEE2E2',
+    red200: '#FECACA',
+    red300: '#FCA5A5',
+    red400: '#F87171',
+    red500: '#EF4444',
+    red600: '#DC2626',
+    red700: '#B91C1C',
+    red800: '#991B1B',
+    red900: '#7F1D1D',
+
     // Yellow
     yellow400: '#FBBF24',
-
-    // Green
-    greenCorner: '#008000',
-    successButton: '#28A745',
 
     // Riposte Colors
     riposteBackground: 'rgba(20, 184, 166, 0.08)',
@@ -128,10 +149,8 @@ const theme = createTheme({
     // Teams Colors
     teamBackground: 'rgba(8, 145, 178, 0.08)',
 
-    // Red
-    statusError: '#DA1414',
+    // Alert banner
     backgroundError: '#FEEFEF',
-    red600: '#DC2626',
   },
 })
 
