@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
-import { Container, Grid, makeStyles, createStyles } from '@material-ui/core'
-import { MENU } from '../../Routes'
+import { Container, makeStyles, createStyles } from '@material-ui/core'
 import list from 'assets/list.svg'
 
 const useStyles = makeStyles(theme =>
@@ -33,40 +31,21 @@ const useStyles = makeStyles(theme =>
       backgroundColor: theme.palette.whiteCorner,
       border: 'none',
       cursor: 'pointer',
-      marginTop: theme.spacing(0.75),
+      margin: theme.spacing(0.75, 0, 2),
       borderRadius: '6px',
-    },
-    title: {
-      fontSize: '32px',
-      fontWeight: '600',
     },
   })
 )
 
 const PageContent = ({ children, handleToggle, toggleSidebar }) => {
-  const { pathname } = useLocation()
-  const pathIndex = MENU.findIndex(path => path.route === pathname)
   const classes = useStyles()
-  let pageTitle
-  if (pathIndex !== -1) {
-    pageTitle = MENU[pathIndex].label || null
-  }
 
   return (
     <div id="pageContent" className={`${classes.pageContent}  ${toggleSidebar ? 'active' : ''}`}>
       <Container maxWidth="xl" className={classes.container}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <button id="toggleButton" className={classes.toggleButton} onClick={handleToggle}>
-              <img src={list} alt="Menu button" />
-            </button>
-          </Grid>
-          <Grid item>
-            {!['Messagerie', 'Ripostes', 'Équipes', 'Actualités'].includes(pageTitle) && (
-              <span className={classes.title}>{pageTitle}</span>
-            )}
-          </Grid>
-        </Grid>
+        <button id="toggleButton" className={classes.toggleButton} onClick={handleToggle}>
+          <img src={list} alt="Menu button" />
+        </button>
         {children}
       </Container>
     </div>

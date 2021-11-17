@@ -1,13 +1,10 @@
 import { useState } from 'react'
-import { Box, Button, createStyles, Grid, makeStyles } from '@material-ui/core'
+import { Button, createStyles, Grid, makeStyles } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import Factory from './FiltersFactory/Factory'
 
 const useStyles = makeStyles(theme =>
   createStyles({
-    boxContainer: {
-      marginTop: theme.spacing(2),
-    },
     filtersContainer: {
       marginBottom: theme.spacing(1.25),
     },
@@ -33,6 +30,11 @@ const useStyles = makeStyles(theme =>
     },
   })
 )
+
+const messages = {
+  filter: 'Filtrer',
+  reset: 'Réinitialiser',
+}
 
 const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
   const [localValues, setLocalValues] = useState(values)
@@ -67,32 +69,30 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
   }
 
   return (
-    <Box className={classes.boxContainer}>
-      <form
-        onSubmit={event => {
-          event.preventDefault()
-          onSubmit(localValues)
-        }}
-      >
-        <Grid container spacing={2} className={classes.filtersContainer}>
-          {filterElements}
-        </Grid>
-        <Grid container className={classes.buttonContainer}>
-          <Button type="submit" className={classes.buttonFilter}>
-            Filtrer
-          </Button>
-          <Button
-            className={classes.resetButtonFilters}
-            onClick={() => {
-              setLocalValues(values)
-              onReset()
-            }}
-          >
-            Réinitialiser
-          </Button>
-        </Grid>
-      </form>
-    </Box>
+    <form
+      onSubmit={event => {
+        event.preventDefault()
+        onSubmit(localValues)
+      }}
+    >
+      <Grid container spacing={2} className={classes.filtersContainer}>
+        {filterElements}
+      </Grid>
+      <Grid container className={classes.buttonContainer}>
+        <Button type="submit" className={classes.buttonFilter}>
+          {messages.filter}
+        </Button>
+        <Button
+          className={classes.resetButtonFilters}
+          onClick={() => {
+            setLocalValues(values)
+            onReset()
+          }}
+        >
+          {messages.reset}
+        </Button>
+      </Grid>
+    </form>
   )
 }
 FiltersForm.defaultProps = {

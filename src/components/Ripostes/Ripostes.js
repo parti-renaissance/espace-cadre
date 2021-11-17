@@ -5,16 +5,16 @@ import RiposteCard from './Riposte'
 import RiposteModal from './RiposteModal'
 import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
+import PageTitle from 'ui/PageTitle'
+
+const messages = {
+  pageTitle: 'Ripostes',
+}
 
 const useStyles = makeStyles(theme =>
   createStyles({
     riposteContainer: {
       marginBottom: theme.spacing(2),
-    },
-    pageTitle: {
-      fontSize: '24px',
-      fontWeight: '400',
-      color: theme.palette.gray800,
     },
     buttonContainer: {
       background: theme.palette.riposteBackground,
@@ -75,9 +75,7 @@ const Ripostes = () => {
   return (
     <Container maxWidth="lg" className={classes.riposteContainer}>
       <Grid container justifyContent="space-between">
-        <Grid item className={classes.pageTitle}>
-          Riposte
-        </Grid>
+        <PageTitle page={messages.pageTitle} />
         <Grid item className={classes.buttonContainer}>
           <Button className={classes.createButton} onClick={handleNewRiposte}>
             <AddIcon className={classes.icon} />

@@ -3,17 +3,13 @@ import { Container, makeStyles, Grid, Button } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import TeamCard from './TeamCard'
 import TeamModal from './TeamModal'
-import { getTeams } from '../../api/teams'
-import { Team } from '../../domain/team'
+import { getTeams } from 'api/teams'
+import { Team } from 'domain/team'
+import PageTitle from 'ui/PageTitle'
 
 const useStyles = makeStyles(theme => ({
   teamsContainer: {
     marginBottom: theme.spacing(2),
-  },
-  pageTitle: {
-    fontSize: '24px',
-    fontWeight: '400',
-    color: theme.palette.gray800,
   },
   buttonContainer: {
     background: theme.palette.teamBackground,
@@ -32,6 +28,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '8.35px',
   },
 }))
+
+const messages = {
+  pageTitle: 'Équipes',
+}
 
 const Teams = () => {
   const classes = useStyles()
@@ -60,20 +60,18 @@ const Teams = () => {
   return (
     <Container maxWidth="lg" className={classes.teamsContainer}>
       <Grid container justifyContent="space-between">
-        <Grid item className={classes.pageTitle}>
-          Équipes
-        </Grid>
+        <PageTitle page={messages.pageTitle} />
         <Grid item className={classes.buttonContainer}>
           <Button className={classes.createButton} onClick={handleNewTeam}>
             <AddIcon className={classes.icon} />
             Créer une équipe
           </Button>
         </Grid>
-        <Grid container spacing={2}>
-          {teams.map(team => (
-            <TeamCard key={team.id} team={team} handleEditTeam={handleEditTeam} />
-          ))}
-        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        {teams.map(team => (
+          <TeamCard key={team.id} team={team} handleEditTeam={handleEditTeam} />
+        ))}
       </Grid>
       <TeamModal
         open={open}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Container, Table, TableContainer, TablePagination, Paper, makeStyles } from '@material-ui/core'
+import { Container, Table, TableContainer, TablePagination, Paper, makeStyles, Grid } from '@material-ui/core'
 import TableHeadComponent from './TableHeadComponent'
 import TableBodyComponent from './TableBodyComponent'
 import Loader from 'ui/Loader'
@@ -7,6 +7,7 @@ import DynamicFilters from '../Filters/DynamicFilters'
 import { getAdherents, getColumns } from 'api/adherents'
 import PaginatedResult from 'api/paginatedResult'
 import UIContainer from 'ui/UIContainer'
+import PageTitle from 'ui/PageTitle'
 
 export const FEATURE_ADHERENTS = 'contacts'
 
@@ -25,12 +26,16 @@ const useStyles = makeStyles({
   },
 })
 
+const messages = {
+  pageTitle: 'Adhérents',
+}
+
 function Adherents() {
+  const classes = useStyles()
   const [columnsTitle, setColumnsTitle] = useState([])
   const [adherents, setAdherents] = useState(new PaginatedResult([], 0, 0, 0, 0, 0))
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
-  const classes = useStyles()
 
   useEffect(() => {
     getColumns(setColumnsTitle)
@@ -45,6 +50,9 @@ function Adherents() {
     if (columnsTitle.length > 0) {
       return (
         <>
+          <Grid container>
+            <PageTitle xs={12} page={messages.pageTitle} />
+          </Grid>
           <DynamicFilters
             feature={FEATURE_ADHERENTS}
             values={defaultFilter}
