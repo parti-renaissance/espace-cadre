@@ -38,7 +38,7 @@ const Autocomplete = ({
   const classes = useStyles()
 
   useEffect(() => {
-    if (!defaultValue || (Array.isArray(defaultValue) && defaultValue.length === 0)) {
+    if (!defaultValue || !inputValue || (Array.isArray(defaultValue) && defaultValue.length === 0)) {
       return
     }
     fetch(uri, queryParam, inputValue, data => {

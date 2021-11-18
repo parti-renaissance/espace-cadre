@@ -1,0 +1,14 @@
+{
+  "name": "Team1",
+  "uuid": "11111111-1111-1111-1111-111111111111",
+  "creator": "Creator A.",
+  "members": [
+    {
+      "adherent_uuid": "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA",
+      "first_name": "firstname1",
+      "last_name": "lastname1",
+      "registered_at": "2019-06-01T12:00:00+02:00",
+      "postal_code": "92100"
+    }
+  ]
+}
