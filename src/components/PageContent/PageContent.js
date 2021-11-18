@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { Container, makeStyles, createStyles } from '@material-ui/core'
-import list from 'assets/list.svg'
+import ListIcon from 'ui/icons/ListIcon'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -43,8 +43,8 @@ const PageContent = ({ children, handleToggle, toggleSidebar }) => {
   return (
     <div id="pageContent" className={`${classes.pageContent}  ${toggleSidebar ? 'active' : ''}`}>
       <Container maxWidth="xl" className={classes.container}>
-        <button id="toggleButton" className={classes.toggleButton} onClick={handleToggle}>
-          <img src={list} alt="Menu button" />
+        <button className={classes.toggleButton} onClick={handleToggle}>
+          <ListIcon alt="Menu button" />
         </button>
         {children}
       </Container>

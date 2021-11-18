@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const messages = {
-  pageTitle: 'Équipes',
+  title: 'Équipes',
 }
 
 const Teams = () => {
@@ -60,7 +60,7 @@ const Teams = () => {
   return (
     <Container maxWidth="lg" className={classes.teamsContainer}>
       <Grid container justifyContent="space-between">
-        <PageTitle page={messages.pageTitle} />
+        <PageTitle title={messages.title} />
         <Grid item className={classes.buttonContainer}>
           <Button className={classes.createButton} onClick={handleNewTeam}>
             <AddIcon className={classes.icon} />

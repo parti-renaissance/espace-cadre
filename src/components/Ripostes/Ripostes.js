@@ -8,7 +8,7 @@ import { getRipostes, updateRiposte } from 'api/ripostes'
 import PageTitle from 'ui/PageTitle'
 
 const messages = {
-  pageTitle: 'Ripostes',
+  title: 'Ripostes',
 }
 
 const useStyles = makeStyles(theme =>
@@ -75,7 +75,7 @@ const Ripostes = () => {
   return (
     <Container maxWidth="lg" className={classes.riposteContainer}>
       <Grid container justifyContent="space-between">
-        <PageTitle page={messages.pageTitle} />
+        <PageTitle title={messages.title} />
         <Grid item className={classes.buttonContainer}>
           <Button className={classes.createButton} onClick={handleNewRiposte}>
             <AddIcon className={classes.icon} />

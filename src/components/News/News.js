@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const messages = {
-  pageTitle: 'Actualités',
+  title: 'Actualités',
 }
 
 const News = () => {
@@ -41,7 +41,7 @@ const News = () => {
   return (
     <Container maxWidth="lg" className={classes.newsContainer} classes={{ root: classes.root }}>
       <Grid container justifyContent="space-between">
-        <PageTitle page={messages.pageTitle} xs={12} />
+        <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <Grid container spacing={2}>
           {news.map(element => (
             <UICard key={element.id} element={element} type="news" />

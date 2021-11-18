@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme =>
 )
 
 const messages = {
-  pageTitle: 'Messagerie',
+  title: 'Messagerie',
 }
 
 const Dashboard = () => {
@@ -54,7 +54,7 @@ const Dashboard = () => {
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
-        <PageTitle page={messages.pageTitle} />
+        <PageTitle title={messages.title} />
         <Grid item className={classes.mailButtonContainer}>
           <Link to={PATHS.MESSAGERIE_CREATE.route}>
             <Button

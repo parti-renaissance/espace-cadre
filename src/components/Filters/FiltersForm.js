@@ -68,13 +68,18 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
     return null
   }
 
+  const handleClick = () => {
+    setLocalValues(values)
+    onReset()
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    onSubmit(localValues)
+  }
+
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault()
-        onSubmit(localValues)
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <Grid container spacing={2} className={classes.filtersContainer}>
         {filterElements}
       </Grid>
@@ -82,13 +87,7 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
         <Button type="submit" className={classes.buttonFilter}>
           {messages.filter}
         </Button>
-        <Button
-          className={classes.resetButtonFilters}
-          onClick={() => {
-            setLocalValues(values)
-            onReset()
-          }}
-        >
+        <Button className={classes.resetButtonFilters} onClick={handleClick}>
           {messages.reset}
         </Button>
       </Grid>

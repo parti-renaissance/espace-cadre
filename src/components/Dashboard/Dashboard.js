@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme =>
 )
 
 const messages = {
-  pageTitle: "Vue d'ensemble",
+  title: "Vue d'ensemble",
   mobile: 'Application mobile',
 }
 
@@ -40,7 +40,7 @@ const Dashboard = () => {
   return (
     <Container maxWidth="lg" className={classes.mainContainer}>
       <Grid container>
-        <PageTitle page={messages.pageTitle} xs={12} />
+        <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <TextChart />
         <KpiEmailCampaign />
         <Grid item xs={12}>
@@ -61,7 +61,7 @@ const Dashboard = () => {
             </UIContainer>
           </Grid>
         </Grid>
-        <UIContainer xs={12}>
+        <UIContainer breakpoints={{ xs: 12 }}>
           <MapComponent />
         </UIContainer>
       </Grid>

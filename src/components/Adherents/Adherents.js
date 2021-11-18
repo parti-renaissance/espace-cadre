@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 })
 
 const messages = {
-  pageTitle: 'Adhérents',
+  title: 'Adhérents',
 }
 
 function Adherents() {
@@ -51,7 +51,7 @@ function Adherents() {
       return (
         <>
           <Grid container>
-            <PageTitle xs={12} page={messages.pageTitle} />
+            <PageTitle breakpoints={{ xs: 12 }} page={messages.title} />
           </Grid>
           <DynamicFilters
             feature={FEATURE_ADHERENTS}

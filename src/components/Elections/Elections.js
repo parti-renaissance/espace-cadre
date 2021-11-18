@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const messages = {
-  pageTitle: 'Élections',
+  title: 'Élections',
 }
 
 const Elections = () => {
@@ -111,7 +111,7 @@ const Elections = () => {
 
   return (
     <>
-      <PageTitle page={messages.pageTitle} />
+      <PageTitle title={messages.title} />
       <ElectionFilters
         filterValues={filterValues}
         handleTypeSelection={e => setActiveLayer(e.target.value)}

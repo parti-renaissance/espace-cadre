@@ -2,7 +2,7 @@ import { Grid, makeStyles } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
-  pageTitle: {
+  title: {
     fontSize: '24px',
     fontWeight: '400',
     color: theme.palette.gray800,
@@ -10,12 +10,20 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const PageTitle = ({ page, xs }) => {
+const PageTitle = ({ title, breakpoints = { xs: null, sm: null, md: null, lg: null, xl: null } }) => {
   const classes = useStyles()
 
   return (
-    <Grid item xs={xs} className={classes.pageTitle}>
-      {page}
+    <Grid
+      item
+      xs={breakpoints.xs}
+      sm={breakpoints.sm}
+      md={breakpoints.md}
+      lg={breakpoints.lg}
+      xl={breakpoints.xl}
+      className={classes.title}
+    >
+      {title}
     </Grid>
   )
 }
@@ -23,6 +31,12 @@ const PageTitle = ({ page, xs }) => {
 export default PageTitle
 
 PageTitle.propTypes = {
-  page: PropTypes.string.isRequired,
-  xs: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  breakpoints: PropTypes.shape({
+    xs: PropTypes.number,
+    sm: PropTypes.number,
+    md: PropTypes.number,
+    lg: PropTypes.number,
+    xl: PropTypes.number,
+  }),
 }
