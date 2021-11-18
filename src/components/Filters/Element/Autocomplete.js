@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const fetch = throttle((uri, queryParam, query, callback) => {
-  const separator = uri.contains('?') ? '&' : '?'
+  const separator = uri.includes('?') ? '&' : '?'
   apiClient.get(`${uri}${separator}${queryParam}=${query}`).then(callback)
 }, 500)
 
