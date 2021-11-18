@@ -1,24 +1,21 @@
 import { Grid, makeStyles } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import NotificationsActiveRoundedIcon from '@material-ui/icons/NotificationsActiveRounded'
-import NotificationsOffRoundedIcon from '@material-ui/icons/NotificationsOffRounded'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginBottom: theme.spacing(1),
+    marginBottom: '8px',
   },
   chip: {
     fontSize: '10px',
     fontWeight: '500',
     borderRadius: '19px',
-    padding: theme.spacing(0.25, 1),
+    padding: '2px 8px',
   },
   withBorder: {
     border: `1px solid ${theme.palette.gray200}`,
   },
   icon: {
-    fontSize: '16px',
-    margin: theme.spacing(0.25, 0, 0, 1),
+    fontSize: '17px',
   },
   active: {
     color: theme.palette.teal700,
@@ -32,31 +29,26 @@ const useStyles = makeStyles(theme => ({
   date: {
     fontSize: '10px',
     color: theme.palette.gray600,
-    padding: theme.spacing(1),
+    padding: '7px 8px',
   },
 }))
 
 const messages = {
-  published: 'Publiée',
-  unpublished: 'Dépubliée',
+  active: 'Active',
+  inactive: 'Inactive',
 }
 
-const Header = ({ status = false, withNotification = false, createdAt = null }) => {
+const Header = ({ status, createdAt }) => {
   const classes = useStyles()
-  const NotificationIcon =
-    withNotification && withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
 
   return (
     <Grid container className={classes.container}>
       <Grid item>
         {status ? (
-          <span className={`${classes.chip} ${classes.active}`}>{messages.published}</span>
+          <span className={`${classes.chip} ${classes.active}`}>{messages.active}</span>
         ) : (
-          <span className={`${classes.chip} ${classes.inactive}`}>{messages.unpublished}</span>
+          <span className={`${classes.chip} ${classes.inactive}`}>{messages.inactive}</span>
         )}
-      </Grid>
-      <Grid item>
-        <NotificationIcon className={`${classes.chip} ${classes.withBorder} ${classes.icon}`} />
       </Grid>
       <Grid item className={classes.date}>
         Le {new Date(createdAt).toLocaleDateString()}
@@ -67,7 +59,6 @@ const Header = ({ status = false, withNotification = false, createdAt = null }) 
 
 Header.propTypes = {
   status: PropTypes.bool.isRequired,
-  withNotification: PropTypes.bool.isRequired,
   createdAt: PropTypes.string.isRequired,
 }
 

@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const UICard = ({ header, title, subtitle }) => {
+const UICard = ({ header, title, subtitle, children }) => {
   const classes = useStyles()
 
   return (
@@ -41,7 +41,7 @@ const UICard = ({ header, title, subtitle }) => {
             {subtitle}
           </Grid>
         </Grid>
-        {/* {children} */}
+        {children}
       </Paper>
     </Grid>
   )
@@ -53,5 +53,5 @@ UICard.propTypes = {
   header: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
-  // children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 }
