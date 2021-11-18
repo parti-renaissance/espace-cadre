@@ -9,20 +9,9 @@ const fs = require('fs')
 const localEnvPath = './.env.local'
 const productionEnvPath = './.env.production'
 
-const shouldOpenBrowserInDevMode = (mode, localEnvPath) => {
-  if (mode === 'development') {
-    try {
-      const { CONFIG_DEV_SERVER_OPEN } = dotenv.parse(fs.readFileSync(localEnvPath))
-      return CONFIG_DEV_SERVER_OPEN
-    } catch (e) {}
-  }
-  return false
-}
-
 module.exports = (env, argv = {}) => {
   dotenv.config({ path: argv.mode === 'development' ? localEnvPath : productionEnvPath })
-
-  const CONFIG_DEV_SERVER_OPEN = shouldOpenBrowserInDevMode(argv.mode, localEnvPath)
+  const { CONFIG_DEV_SERVER_OPEN } = argv.mode === 'development' ? dotenv.parse(fs.readFileSync(localEnvPath)) : {}
 
   return {
     entry: {
