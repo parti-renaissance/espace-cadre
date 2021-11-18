@@ -4,7 +4,7 @@ import { Button, makeStyles, createStyles } from '@material-ui/core'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useUserScope } from '../../../redux/user/hooks'
-import { getMessageContent } from '../../../api/messagerie'
+import { getMessageContent } from 'api/messagerie'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -92,6 +92,10 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
         const design = JSON.parse(messageContent.json_content)
         editor.loadDesign(design)
         onMessageSubject(messageContent.subject)
+        onMessageUpdate({
+          design: design,
+          chunks: { body: messageContent.content },
+        })
       }
       editor.addEventListener('design:updated', updateMessageTemplateCallback)
     }
@@ -103,7 +107,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
     return () => {
       editor?.removeEventListener('design:updated', updateMessageTemplateCallback)
     }
-  }, [editorLoaded, messageUuid, onMessageSubject, updateMessageTemplateCallback])
+  }, [editorLoaded, messageUuid, onMessageSubject, onMessageUpdate, updateMessageTemplateCallback])
 
   const exportHtml = () => {
     emailEditorRef.current.editor.exportHtml(data => {
