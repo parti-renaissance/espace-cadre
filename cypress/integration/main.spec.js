@@ -70,6 +70,6 @@ context('Nominal tests', () => {
     cy.contains('Voir').first().click()
     cy.url().should('eq', 'http://localhost:3000/equipes/11111111-1111-1111-1111-111111111111/editer')
     cy.contains('firstname1 lastname1')
-    cy.contains('92100, adhérent(e) depuis le 01/06/2019')
+    cy.contains('92100, adhérent(e) depuis le ' + new Date(2019, 5, 1, 12, 0).toLocaleDateString())
   })
 })
