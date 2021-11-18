@@ -5,7 +5,7 @@ context('Nominal tests', () => {
 
   beforeEach(() => {
     mock('POST', '/oauth/v2/token', 'token')
-    cy.intercept('GET', '/api/me', { fixture: 'me' }).as('me')
+    mock('GET', '/api/me', 'me')
     mock('GET', '/api/v3/profile/me/scopes', 'scopes')
     mock('GET', '/api/v3/profile/me/scope/referent', 'scope/referent')
     mock('GET', '/api/v3/internal/*/adherents?scope=referent', 'internal/adherents')
