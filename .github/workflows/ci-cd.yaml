@@ -31,6 +31,12 @@ jobs:
           start: yarn start
           wait-on: 'http://localhost:3000'
           browser: chrome
+      - name: Archive test screenshots
+        uses: actions/upload-artifact@v1
+        with:
+          name: screenshots
+          path: cypress/screenshots
+        if: ${{ failure() }}
 
   deploy-staging:
     name: Deploy to Staging 🍾
