@@ -31,9 +31,6 @@ const useStyles = makeStyles(theme =>
       justifyContent: 'spaceBetween',
       marginRight: theme.spacing(2),
     },
-    templateContainer: {
-      marginRight: theme.spacing(2),
-    },
   })
 )
 
@@ -83,6 +80,7 @@ const Template = () => {
             onChange={event => setMessageSubject(event.target.value)}
           />
         </Grid>
+        <Grid item xs={5} />
         <Grid item xs>
           <StepButton
             label="Suivant"
