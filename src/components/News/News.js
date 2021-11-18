@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { Container, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { getNews } from 'api/news'
-import UICard from 'ui/UICard'
 import PageTitle from 'ui/PageTitle'
+import UICard from 'ui/UICard'
+import Header from './Header'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,8 +45,8 @@ const News = () => {
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <Grid container spacing={2}>
-          {news.map(element => (
-            <UICard key={element.id} element={element} type="news" />
+          {news?.map(n => (
+            <UICard key={n.id} header={<Header {...n} />} title={n.title} subtitle={`Par ${n.creator}`} />
           ))}
         </Grid>
       </Grid>
