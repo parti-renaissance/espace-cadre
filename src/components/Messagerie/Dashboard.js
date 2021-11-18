@@ -4,6 +4,7 @@ import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaignList from 'components/Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList'
 import PATHS from '../../paths'
 import arrowRight from 'assets/arrow-right.svg'
+import PageTitle from 'ui/PageTitle'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -12,23 +13,15 @@ const useStyles = makeStyles(theme =>
         backgroundColor: theme.palette.whiteCorner,
       },
     },
-    pageTitle: {
-      fontSize: '32px',
-      fontWeight: '600',
-    },
     mailButtonContainer: {
       display: 'flex',
       justifyContent: 'flex-end',
-    },
-    buttonLink: {
-      marginTop: theme.spacing(0.75),
     },
     messagerieMailButton: {
       fontSize: '14px',
       fontWeight: '600',
       color: theme.palette.blue2Corner,
       backgroundColor: theme.palette.whiteCorner,
-      marginBottom: theme.spacing(1.25),
       padding: theme.spacing(0.5, 2),
       border: 'none',
       borderRadius: '79px',
@@ -51,17 +44,19 @@ const useStyles = makeStyles(theme =>
   })
 )
 
+const messages = {
+  title: 'Messagerie',
+}
+
 const Dashboard = () => {
   const classes = useStyles()
 
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
-        <Grid item>
-          <span className={classes.pageTitle}>Messagerie</span>
-        </Grid>
+        <PageTitle title={messages.title} />
         <Grid item className={classes.mailButtonContainer}>
-          <Link to={PATHS.MESSAGERIE_CREATE.route} className={classes.buttonLink}>
+          <Link to={PATHS.MESSAGERIE_CREATE.route}>
             <Button
               type="button"
               disableRipple

@@ -10,6 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getElectionPayload, getMapBoxProperties } from './shared/helpers'
 import ElectionFilters from './ElectionFilters'
+import PageTitle from 'ui/PageTitle'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -19,6 +20,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1, 0, 2),
   },
 }))
+
+const messages = {
+  title: 'Élections',
+}
 
 const Elections = () => {
   const classes = useStyles()
@@ -106,6 +111,7 @@ const Elections = () => {
 
   return (
     <>
+      <PageTitle title={messages.title} />
       <ElectionFilters
         filterValues={filterValues}
         handleTypeSelection={e => setActiveLayer(e.target.value)}

@@ -5,11 +5,13 @@ jest.mock('@material-ui/core', () => ({
   TextField: ({ fullWidth, multiline, inputProps, ...props }) => <div className="mui-TextField-mock" {...props} />,
   makeStyles: () => () => ({ textField: 'textField' }),
 }))
+
 jest.mock('ui/AlertBanner', () => ({ children, ...rest }) => (
   <div className="AlertBannerMock" {...rest}>
     {children}
   </div>
 ))
+
 describe('TextField', () => {
   const formik = {
     touched: {

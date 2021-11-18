@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Container, makeStyles, Grid } from '@material-ui/core'
-import { getNews } from '../../api/news'
+import { getNews } from 'api/news'
 import UICard from 'ui/UICard'
+import PageTitle from 'ui/PageTitle'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -10,12 +11,6 @@ const useStyles = makeStyles(theme => ({
   },
   newsContainer: {
     marginBottom: theme.spacing(2),
-  },
-  pageTitle: {
-    fontSize: '24px',
-    fontWeight: '400',
-    color: theme.palette.gray800,
-    marginBottom: theme.spacing(4),
   },
   buttonContainer: {
     background: theme.palette.newsBackground,
@@ -31,6 +26,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  title: 'Actualités',
+}
+
 const News = () => {
   const classes = useStyles()
   const [news, setNews] = useState([])
@@ -42,9 +41,7 @@ const News = () => {
   return (
     <Container maxWidth="lg" className={classes.newsContainer} classes={{ root: classes.root }}>
       <Grid container justifyContent="space-between">
-        <Grid item className={classes.pageTitle}>
-          Actualités
-        </Grid>
+        <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <Grid container spacing={2}>
           {news.map(element => (
             <UICard key={element.id} element={element} type="news" />

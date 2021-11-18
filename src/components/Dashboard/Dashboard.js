@@ -6,6 +6,7 @@ import MapComponent from './Map/MapComponent'
 import TextChart from './Charts/TextChart/TextChart'
 import smartphone from 'assets/smartphone.svg'
 import UIContainer from 'ui/UIContainer'
+import PageTitle from 'ui/PageTitle'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -28,18 +29,24 @@ const useStyles = makeStyles(theme =>
   })
 )
 
+const messages = {
+  title: "Vue d'ensemble",
+  mobile: 'Application mobile',
+}
+
 const Dashboard = () => {
   const classes = useStyles()
 
   return (
     <Container maxWidth="lg" className={classes.mainContainer}>
       <Grid container>
+        <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <TextChart />
         <KpiEmailCampaign />
         <Grid item xs={12}>
           <p className={classes.title}>
             <img src={smartphone} alt="smartphone-logo" className={classes.phoneImg} />
-            <span>Application mobile</span>
+            <span>{messages.mobile}</span>
           </p>
         </Grid>
         <Grid container spacing={2} className={classes.kpiContainer}>
@@ -54,7 +61,7 @@ const Dashboard = () => {
             </UIContainer>
           </Grid>
         </Grid>
-        <UIContainer xs={12}>
+        <UIContainer breakpoints={{ xs: 12 }}>
           <MapComponent />
         </UIContainer>
       </Grid>

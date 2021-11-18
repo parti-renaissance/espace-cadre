@@ -6,7 +6,7 @@ jest.mock('@material-ui/core', () => ({
   makeStyles: () => () => ({ root: 'root' }),
 }))
 
-describe('Grid', () => {
+describe('UIContainer', () => {
   it('displays grid', () => {
     const { container } = render(
       <UIContainer rootClasses="fooClass" xs={0} sm={1} md={2} lg={3} xl={4}>
