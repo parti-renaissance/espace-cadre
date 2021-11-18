@@ -4,7 +4,6 @@ import { generatePath, useHistory, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
-import TemplateSelect from './Component/TemplateSelect'
 import PATHS from '../../paths'
 import { createMessage, updateMessage } from 'api/messagerie'
 
@@ -83,9 +82,6 @@ const Template = () => {
             value={messageSubject}
             onChange={event => setMessageSubject(event.target.value)}
           />
-        </Grid>
-        <Grid item xs={5} className={classes.templateContainer}>
-          <TemplateSelect />
         </Grid>
         <Grid item xs>
           <StepButton
