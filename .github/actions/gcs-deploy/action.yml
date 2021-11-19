@@ -50,7 +50,7 @@ runs:
         echo "REACT_APP_UNLAYER_PROJECT_ID=${{ inputs.react_app_unlayer_project_id }}" >> .env.production
         echo "REACT_APP_MAPBOX_TOKEN=${{ inputs.react_app_mapbox_token }}" >> .env.production
         echo "REACT_APP_MAPBOX_STYLE=${{ inputs.react_app_mapbox_style }}" >> .env.production
-        echo "REACT_APP_VERSION=${{ inputs.reeact_app_version }}" >> .env.production
+        echo "REACT_APP_VERSION=${{ inputs.react_app_version }}" >> .env.production
 
     - shell: bash
       run: |-

@@ -60,7 +60,7 @@ jobs:
           react_app_unlayer_project_id: ${{ secrets.REACT_APP_UNLAYER_PROJECT_ID }}
           react_app_mapbox_token: ${{ secrets.REACT_APP_MAPBOX_TOKEN }}
           react_app_mapbox_style: ${{ secrets.REACT_APP_MAPBOX_STYLE }}
-          react_app_version: ${{ github.sha }}
+          react_app_version: ${GITHUB_SHA::7}
 
   deploy-prod:
     name: Deploy to Prod 🍾
