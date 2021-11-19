@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UICard displays UICard 1`] = `
+<div>
+  <div
+    class="mui-grid-mock"
+  >
+    <div
+      class="mui-paper-mock"
+    >
+      header
+      <div
+        class="mui-grid-mock"
+      >
+        <div
+          class="mui-grid-mock"
+        >
+          title
+        </div>
+        <div
+          class="mui-grid-mock"
+        >
+          subtitle
+        </div>
+      </div>
+      body
+    </div>
+  </div>
+</div>
+`;

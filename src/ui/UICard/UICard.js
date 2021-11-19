@@ -51,7 +51,7 @@ export default UICard
 
 UICard.propTypes = {
   header: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
+  subtitle: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
 }
