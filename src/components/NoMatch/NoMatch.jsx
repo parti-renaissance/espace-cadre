@@ -1,5 +1,6 @@
 import { useLocation, Link } from 'react-router-dom'
-import { Container, Grid, makeStyles, Typography } from '@material-ui/core'
+import { Container, Grid, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import PATHS from '../../paths'
 
 const useStyles = makeStyles(theme => ({

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import mapboxgl from '!mapbox-gl'
 import { getElectionParticipation, getElectionResults } from 'api/elections'
 

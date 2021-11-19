@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Container, Grid, makeStyles, createStyles, Card, Paper, Typography } from '@material-ui/core'
+import { Container, Grid, Card, Paper, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { useParams } from 'react-router-dom'
 import { addTeamMember, deleteTeamMember, getTeam } from 'api/teams'
 import { adherentAutocompleteUri } from 'api/adherents'
@@ -7,44 +8,42 @@ import MemberCard from './MemberCard'
 import Button from 'ui/Button'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    root: {
-      borderRadius: '8.35px',
-      boxShadow: 'none',
-      padding: theme.spacing(2),
-      marginBottom: theme.spacing(2),
+const useStyles = makeStyles(theme => ({
+  root: {
+    borderRadius: '8.35px',
+    boxShadow: 'none',
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  buttonClasses: {
+    color: theme.palette.whiteCorner,
+    background: theme.palette.blue600,
+    '&:hover': {
+      background: theme.palette.blue800,
     },
-    buttonClasses: {
-      color: theme.palette.whiteCorner,
-      background: theme.palette.blue600,
-      '&:hover': {
-        background: theme.palette.blue800,
-      },
-    },
-    teamsContainer: {
-      marginBottom: theme.spacing(2),
-    },
-    pageTitle: {
-      fontSize: '24px',
-      fontWeight: '400',
-      color: theme.palette.cyan800,
-      marginBottom: theme.spacing(2),
-    },
-    title: {
-      fontSize: '18px',
-      fontWeight: '400',
-      color: theme.palette.gray800,
-    },
-    noMember: {
-      padding: theme.spacing(1, 2),
-      borderRadius: '8.35px',
-    },
-    autocomplete: {
-      background: theme.palette.gray100,
-    },
-  })
-)
+  },
+  teamsContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  pageTitle: {
+    fontSize: '24px',
+    fontWeight: '400',
+    color: theme.palette.cyan800,
+    marginBottom: theme.spacing(2),
+  },
+  title: {
+    fontSize: '18px',
+    fontWeight: '400',
+    color: theme.palette.gray800,
+  },
+  noMember: {
+    padding: theme.spacing(1, 2),
+    borderRadius: '8.35px',
+  },
+  autocomplete: {
+    background: theme.palette.gray100,
+  },
+}))
 
 const TeamEdit = () => {
   const classes = useStyles()

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Container, makeStyles, Grid } from '@material-ui/core'
+import { Container, Grid } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { getNews } from 'api/news'
 import UICard from 'ui/UICard'
 import PageTitle from 'ui/PageTitle'

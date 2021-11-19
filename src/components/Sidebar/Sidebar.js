@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     '&.active': {
       marginLeft: theme.spacing(-34),
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginLeft: theme.spacing(-34),
       '&.active': {
         marginLeft: 0,

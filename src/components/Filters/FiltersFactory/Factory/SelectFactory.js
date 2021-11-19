@@ -1,33 +1,24 @@
-import {
-  Checkbox,
-  ListItemText,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  makeStyles,
-  createStyles,
-} from '@material-ui/core'
+import { Checkbox, ListItemText, MenuItem, Select, InputLabel, FormControl } from '@mui/material'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    formControl: {
-      width: '100%',
-      '& .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-      },
+import { makeStyles } from '@mui/styles'
+
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    width: '100%',
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: 'none',
     },
-    select: {
+  },
+  select: {
+    background: theme.palette.whiteCorner,
+    borderRadius: '8.35px',
+
+    '&:focus': {
       background: theme.palette.whiteCorner,
       borderRadius: '8.35px',
-
-      '&:focus': {
-        background: theme.palette.whiteCorner,
-        borderRadius: '8.35px',
-      },
     },
-  })
-)
+  },
+}))
 
 class SelectFactory {
   getType() {

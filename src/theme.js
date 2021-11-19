@@ -1,6 +1,33 @@
-import { createTheme } from '@material-ui/core'
+import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/material/styles'
+import { createGenerateClassName } from '@mui/styles'
+import { createTheme } from '@mui/material'
+import { frFR } from '@mui/material/locale'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import { useMemo } from 'react'
+import PropTypes from 'prop-types'
 
-const theme = createTheme({
+const classNamesOptions = createGenerateClassName({
+  productionPrefix: 'em',
+})
+
+export const ThemeProvider = ({ children }) => {
+  const theme = useMemo(() => createTheme(themeConfig, frFR), [])
+
+  return (
+    <StyledEngineProvider generateClassName={classNamesOptions} injectFirst>
+      <MuiThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>{children}</LocalizationProvider>
+      </MuiThemeProvider>
+    </StyledEngineProvider>
+  )
+}
+
+ThemeProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+
+const themeConfig = {
   typography: {
     fontFamily: 'Poppins, sans-serif',
     body2: {
@@ -10,18 +37,26 @@ const theme = createTheme({
       textTransform: 'none',
     },
   },
-  props: {
+  components: {
     MuiTypography: {
-      component: 'span',
+      defaultProps: {
+        component: 'span',
+      },
     },
     MuiButton: {
-      disableElevation: true,
+      defaultProps: {
+        disableElevation: true,
+      },
     },
     MuiPaper: {
-      elevation: 0,
+      defaultProps: {
+        elevation: 0,
+      },
     },
     MuiMenu: {
-      elevation: 0,
+      defaultProps: {
+        elevation: 0,
+      },
     },
   },
   palette: {
@@ -152,6 +187,4 @@ const theme = createTheme({
     // Alert banner
     backgroundError: '#FEEFEF',
   },
-})
-
-export default theme
+}

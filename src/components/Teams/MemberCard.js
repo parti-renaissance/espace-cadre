@@ -1,30 +1,29 @@
-import { Grid, Card, makeStyles, createStyles } from '@material-ui/core'
-import ClearIcon from '@material-ui/icons/Clear'
+import { Grid, Card } from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
 import { TeamMember } from '../../domain/team'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    root: {
-      padding: theme.spacing(2),
-      borderRadius: '8.35px',
-      boxShadow: 'none',
-    },
-    name: {
-      fontSize: '16px',
-      fontWeight: '600',
-      color: theme.palette.gray900,
-    },
-    info: {
-      fontSize: '12px',
-      fontWeight: '400',
-      color: theme.palette.gray600,
-    },
-    icon: {
-      cursor: 'pointer',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(2),
+    borderRadius: '8.35px',
+    boxShadow: 'none',
+  },
+  name: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: theme.palette.gray900,
+  },
+  info: {
+    fontSize: '12px',
+    fontWeight: '400',
+    color: theme.palette.gray600,
+  },
+  icon: {
+    cursor: 'pointer',
+  },
+}))
 
 const MemberCard = ({ member, handleDelete }) => {
   const { id, firstname, lastname, postalCode, registeredAt } = member

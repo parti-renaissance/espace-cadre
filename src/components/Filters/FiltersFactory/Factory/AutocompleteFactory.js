@@ -1,18 +1,17 @@
-import { createStyles, FormControl, makeStyles } from '@material-ui/core'
+import { FormControl } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      fontFamily: 'Poppins',
-      width: '100%',
+const useStyles = makeStyles(() => ({
+  root: {
+    fontFamily: 'Poppins',
+    width: '100%',
 
-      '& .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-      },
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: 'none',
     },
-  })
-)
+  },
+}))
 
 class AutocompleteFactory {
   getType() {

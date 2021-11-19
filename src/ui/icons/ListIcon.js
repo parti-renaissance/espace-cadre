@@ -1,4 +1,4 @@
-import { SvgIcon } from '@material-ui/core'
+import { SvgIcon } from '@mui/material'
 import PropTypes from 'prop-types'
 
 const ListIcon = ({ alt }) => (

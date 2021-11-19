@@ -1,17 +1,16 @@
-import { TableHead, TableRow, TableCell, makeStyles, createStyles } from '@material-ui/core'
+import { TableHead, TableRow, TableCell } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    head: {
-      fontSize: '12px',
-      fontWeight: '600',
-      background: theme.palette.whiteCorner,
-      color: theme.palette.gray800,
-      minWidth: '110px',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  head: {
+    fontSize: '12px',
+    fontWeight: '600',
+    background: theme.palette.whiteCorner,
+    color: theme.palette.gray800,
+    minWidth: '110px',
+  },
+}))
 
 const TableHeadComponent = ({ columnsTitle }) => {
   const classes = useStyles()

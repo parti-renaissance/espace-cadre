@@ -1,35 +1,34 @@
 import { useState } from 'react'
-import { Button, createStyles, Grid, makeStyles } from '@material-ui/core'
+import { Button, Grid } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import Factory from './FiltersFactory/Factory'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    filtersContainer: {
-      marginBottom: theme.spacing(1.25),
+const useStyles = makeStyles(theme => ({
+  filtersContainer: {
+    marginBottom: theme.spacing(1.25),
+  },
+  buttonContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  buttonFilter: {
+    color: theme.palette.whiteCorner,
+    background: `${theme.palette.gray700}`,
+    marginRight: theme.spacing(2),
+    borderRadius: '8.35px',
+    '&:hover': {
+      background: theme.palette.gray600,
     },
-    buttonContainer: {
-      marginBottom: theme.spacing(2),
+  },
+  resetButtonFilters: {
+    color: theme.palette.gray700,
+    border: `1px solid ${theme.palette.gray300}`,
+    borderRadius: '8.35px',
+    '&:hover': {
+      background: theme.palette.gray200,
     },
-    buttonFilter: {
-      color: theme.palette.whiteCorner,
-      background: `${theme.palette.gray700}`,
-      marginRight: theme.spacing(2),
-      borderRadius: '8.35px',
-      '&:hover': {
-        background: theme.palette.gray600,
-      },
-    },
-    resetButtonFilters: {
-      color: theme.palette.gray700,
-      border: `1px solid ${theme.palette.gray300}`,
-      borderRadius: '8.35px',
-      '&:hover': {
-        background: theme.palette.gray200,
-      },
-    },
-  })
-)
+  },
+}))
 
 const messages = {
   filter: 'Filtrer',

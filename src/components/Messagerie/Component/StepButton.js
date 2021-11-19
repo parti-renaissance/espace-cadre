@@ -1,24 +1,23 @@
-import { Button, Box, createStyles, makeStyles } from '@material-ui/core'
+import { Button, Box } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Loader from 'ui/Loader'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    materialButton: {
-      width: '100%',
-      borderRadius: '8.35px',
-      color: ({ disabled }) => (disabled ? '#6B7280 !important' : '#fff'),
-      background: ({ disabled }) => (disabled ? '#E5E7EB' : '#2563EB'),
-      '&:hover': {
-        background: `${theme.palette.blue800} !important`,
-      },
+const useStyles = makeStyles(theme => ({
+  materialButton: {
+    width: '100%',
+    borderRadius: '8.35px',
+    color: ({ disabled }) => (disabled ? '#6B7280 !important' : '#fff'),
+    background: ({ disabled }) => (disabled ? '#E5E7EB' : '#2563EB'),
+    '&:hover': {
+      background: `${theme.palette.blue800} !important`,
     },
-    buttonIcon: {
-      marginLeft: '12px',
-    },
-  })
-)
+  },
+  buttonIcon: {
+    marginLeft: '12px',
+  },
+}))
 
 const StepButton = ({ disabled, loading, onClick, label }) => {
   const classes = useStyles({ disabled })

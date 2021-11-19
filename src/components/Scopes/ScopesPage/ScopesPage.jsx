@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container, Grid, Box, makeStyles } from '@material-ui/core'
+import { Container, Grid, Box } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
 import PATHS from '../../../paths'
@@ -81,7 +82,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.whiteCorner,
     cursor: 'pointer',
     borderRadius: '8.35px',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginBottom: theme.spacing(2),
     },
     [theme.breakpoints.up('sm')]: {

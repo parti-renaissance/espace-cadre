@@ -1,15 +1,15 @@
-import { Grid, makeStyles, createStyles } from '@material-ui/core'
+import { Grid } from '@mui/material'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    campaignListTitle: {
-      color: theme.palette.blackCorner,
-      fontWeight: '600',
-      fontSize: '20px',
-      marginBottom: theme.spacing(2),
-    },
-  })
-)
+import { makeStyles } from '@mui/styles'
+
+const useStyles = makeStyles(theme => ({
+  campaignListTitle: {
+    color: theme.palette.blackCorner,
+    fontWeight: '600',
+    fontSize: '20px',
+    marginBottom: theme.spacing(2),
+  },
+}))
 
 function SentEmailCampaignListTitle() {
   const classes = useStyles()

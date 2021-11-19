@@ -1,4 +1,4 @@
-import CircularProgress from '@material-ui/core/CircularProgress'
+import { CircularProgress } from '@mui/material'
 
 const Loader = () => <CircularProgress size={16} />
 

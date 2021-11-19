@@ -1,4 +1,6 @@
-import { makeStyles, Grid, TextField } from '@material-ui/core'
+import { Grid, TextField } from '@mui/material'
+
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles(theme => ({
   integerInterval: {

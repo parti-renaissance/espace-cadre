@@ -1,51 +1,50 @@
 import { useState } from 'react'
-import { makeStyles, createStyles, Dialog, Grid, Button } from '@material-ui/core'
+import { Dialog, Grid, Button } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import ClearIcon from '@material-ui/icons/Clear'
+import ClearIcon from '@mui/icons-material/Clear'
 import { apiClient } from 'services/networking/client'
 import AlertBanner from 'ui/AlertBanner'
 import TextField from 'ui/TextField'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    paper: {
-      padding: '32px',
-      width: '664px',
-      borderRadius: '12px',
+const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: '32px',
+    width: '664px',
+    borderRadius: '12px',
+  },
+  innerContainer: {
+    marginBottom: '16px',
+  },
+  modalTitle: {
+    fontSize: '24px',
+    color: theme.palette.gray800,
+    fontWeight: '400',
+  },
+  charactersLimit: {
+    fontSize: '10px',
+    color: theme.palette.gray300,
+  },
+  fieldTitle: {
+    fontWeight: '600',
+  },
+  textField: {
+    border: `1px solid ${theme.palette.gray200}`,
+    borderRadius: '8.35px',
+    margin: '8px 0',
+  },
+  modalButton: {
+    color: theme.palette.whiteCorner,
+    background: theme.palette.cyan600,
+    border: 'none',
+    borderRadius: '8.35px',
+    '&:hover': {
+      backgroundColor: theme.palette.cyan700,
     },
-    innerContainer: {
-      marginBottom: '16px',
-    },
-    modalTitle: {
-      fontSize: '24px',
-      color: theme.palette.gray800,
-      fontWeight: '400',
-    },
-    charactersLimit: {
-      fontSize: '10px',
-      color: theme.palette.gray300,
-    },
-    fieldTitle: {
-      fontWeight: '600',
-    },
-    textField: {
-      border: `1px solid ${theme.palette.gray200}`,
-      borderRadius: '8.35px',
-      margin: '8px 0',
-    },
-    modalButton: {
-      color: theme.palette.whiteCorner,
-      background: theme.palette.cyan600,
-      border: 'none',
-      borderRadius: '8.35px',
-      '&:hover': {
-        backgroundColor: theme.palette.cyan700,
-      },
-    },
-  })
-)
+  },
+}))
 
 const teamSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),

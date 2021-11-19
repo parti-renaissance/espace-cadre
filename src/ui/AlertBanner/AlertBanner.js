@@ -1,17 +1,15 @@
-import Alert from '@material-ui/lab/Alert'
-import { makeStyles, createStyles } from '@material-ui/core'
+import { Alert } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    errorMessage: {
-      color: theme.palette.statusError,
-      background: theme.palette.backgroundError,
-      borderRadius: '8.35px',
-      elevation: 'none',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  errorMessage: {
+    color: theme.palette.statusError,
+    background: theme.palette.backgroundError,
+    borderRadius: '8.35px',
+    elevation: 'none',
+  },
+}))
 
 function AlertBanner({ severity, message }) {
   const classes = useStyles()

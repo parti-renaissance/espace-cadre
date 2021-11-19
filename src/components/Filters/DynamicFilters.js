@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles, createStyles } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
 import FiltersForm from './FiltersForm'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import { getFilters } from 'api/filters'
 import UIContainer from 'ui/UIContainer'
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    loader: {
-      textAlign: 'center',
-    },
-  })
-)
+const useStyles = makeStyles(() => ({
+  loader: {
+    textAlign: 'center',
+  },
+}))
 
 const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   const [filters, setFilters] = useState([])

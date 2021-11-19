@@ -1,26 +1,18 @@
-import DashboardRoundedIcon from '@material-ui/icons/DashboardRounded';
-import EmailRoundedIcon from '@material-ui/icons/EmailRounded';
-import MapRoundedIcon from '@material-ui/icons/MapRounded';
-import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded';
-import PeopleRoundedIcon from '@material-ui/icons/PeopleRounded';
-import StarRoundedIcon from '@material-ui/icons/StarRounded';
-import RssFeedIcon from '@material-ui/icons/RssFeed';
-import {
-    Dashboard,
-    Adherents,
-    Messagerie,
-    Elections,
-    Ripostes,
-    Teams,
-    News
-} from '../../route';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded'
+import MapRoundedIcon from '@mui/icons-material/MapRounded'
+import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded'
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
+import StarRoundedIcon from '@mui/icons-material/StarRounded'
+import RssFeedIcon from '@mui/icons-material/RssFeed'
+import { Dashboard, Adherents, Messagerie, Elections, Ripostes, Teams, News } from '../../route'
 
 export default {
-    [Dashboard]: DashboardRoundedIcon,
-    [Adherents]: PeopleRoundedIcon,
-    [Messagerie]: EmailRoundedIcon,
-    [Elections]: MapRoundedIcon,
-    [Ripostes]: PostAddRoundedIcon,
-    [Teams]: StarRoundedIcon,
-    [News]: RssFeedIcon,
-};
+  [Dashboard]: DashboardRoundedIcon,
+  [Adherents]: PeopleRoundedIcon,
+  [Messagerie]: EmailRoundedIcon,
+  [Elections]: MapRoundedIcon,
+  [Ripostes]: PostAddRoundedIcon,
+  [Teams]: StarRoundedIcon,
+  [News]: RssFeedIcon,
+}
