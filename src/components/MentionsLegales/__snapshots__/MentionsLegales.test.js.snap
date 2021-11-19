@@ -3,17 +3,17 @@
 exports[`MentionsLegales renders 1`] = `
 <div>
   <div
-    class="makeStyles-mentionsLegales-1"
+    class="mentionsLegales"
   >
     <div
-      class="makeStyles-version-2"
+      class="version"
     >
       Je m'engage
       @
       <strong />
     </div>
     <ul
-      class="makeStyles-list-3"
+      class="list"
     >
       <li>
         <a
@@ -52,7 +52,7 @@ exports[`MentionsLegales renders 1`] = `
       </li>
     </ul>
     <div
-      class="makeStyles-signature-4"
+      class="signature"
     >
       Designé et assemblé par le Pôle Tech & Innovation
     </div>

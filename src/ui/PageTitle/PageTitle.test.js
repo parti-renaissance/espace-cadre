@@ -1,9 +1,11 @@
 import { render } from '@testing-library/react'
 import PageTitle from './PageTitle'
 
+jest.mock('@mui/styles', () => ({
+  makeStyles: () => () => ({ title: 'title' }),
+}))
 jest.mock('@mui/material', () => ({
   Grid: ({ children, breakpoints }) => <div xs={breakpoints}>{children}</div>,
-  makeStyles: () => () => ({ title: 'title' }),
 }))
 
 describe('PageTitle', () => {

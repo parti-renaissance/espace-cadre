@@ -1,9 +1,11 @@
 import { render } from '@testing-library/react'
 import AlertBanner from 'ui/AlertBanner/AlertBanner'
 
-jest.mock('@mui/lab/Alert', () => ({ children, ...rest }) => <div {...rest}>{children}</div>)
-jest.mock('@mui/material', () => ({
+jest.mock('@mui/styles', () => ({
   makeStyles: () => () => ({ errorMessage: 'errorMessage' }),
+}))
+jest.mock('@mui/material', () => ({
+  Alert: ({ children, ...rest }) => <div {...rest}>{children}</div>,
 }))
 
 describe('AlertBanner', () => {

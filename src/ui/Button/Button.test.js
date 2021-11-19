@@ -1,13 +1,15 @@
 import { render } from '@testing-library/react'
 import Button from './Button'
 
+jest.mock('@mui/styles', () => ({
+  makeStyles: () => () => ({ root: 'root' }),
+}))
 jest.mock('@mui/material', () => ({
   Button: ({ children, ...props }) => (
     <div className="mui-button-mock" {...props}>
       {children}
     </div>
   ),
-  makeStyles: () => () => ({ root: 'root' }),
 }))
 
 describe('Button', () => {

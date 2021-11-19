@@ -1,4 +1,4 @@
-import Alert from '@mui/material/Alert'
+import { Alert } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 

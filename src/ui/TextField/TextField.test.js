@@ -1,11 +1,12 @@
 import TextField from 'ui/TextField'
 import { render } from '@testing-library/react'
 
-jest.mock('@mui/material', () => ({
-  TextField: ({ fullWidth, multiline, inputProps, ...props }) => <div className="mui-TextField-mock" {...props} />,
+jest.mock('@mui/styles', () => ({
   makeStyles: () => () => ({ textField: 'textField' }),
 }))
-
+jest.mock('@mui/material', () => ({
+  TextField: ({ fullWidth, multiline, inputProps, ...props }) => <div className="mui-TextField-mock" {...props} />,
+}))
 jest.mock('ui/AlertBanner', () => ({ children, ...rest }) => (
   <div className="AlertBannerMock" {...rest}>
     {children}
