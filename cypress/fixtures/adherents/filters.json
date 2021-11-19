@@ -1,0 +1,83 @@
+[
+  {
+    "code": "gender",
+    "label": "Genre",
+    "options": {
+      "choices": {
+        "female": "Femme",
+        "male": "Homme",
+        "other": "Autre"
+      }
+    },
+    "type": "select"
+  },
+  {
+    "code": "firstName",
+    "label": "Pr\u00e9nom",
+    "options": null,
+    "type": "text"
+  },
+  {
+    "code": "lastName",
+    "label": "Nom",
+    "options": null,
+    "type": "text"
+  },
+  {
+    "code": "age",
+    "label": "\u00c2ge",
+    "options": null,
+    "type": "integer_interval"
+  },
+  {
+    "code": "registered",
+    "label": "Adh\u00e9sion",
+    "options": null,
+    "type": "date_interval"
+  },
+  {
+    "code": "isCommitteeMember",
+    "label": "Membre d\u0027un comit\u00e9",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "isCertified",
+    "label": "Certifi\u00e9",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "emailSubscription",
+    "label": "Abonn\u00e9 email",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "smsSubscription",
+    "label": "Abonn\u00e9 SMS",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "zones",
+    "label": "Zone g\u00e9ographique",
+    "options": {
+      "url": "/api/v3/zone/autocomplete",
+      "query_param": "q",
+      "value_param": "uuid",
+      "label_param": "name",
+      "multiple": true,
+      "required": false
+    },
+    "type": "autocomplete"
+  }
+]

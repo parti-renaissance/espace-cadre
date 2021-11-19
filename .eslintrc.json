@@ -10,7 +10,12 @@
       "version": "detect"
     }
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:cypress/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -18,7 +23,7 @@
     "ecmaVersion": 2022,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "prettier"],
+  "plugins": ["react", "react-hooks", "prettier", "cypress"],
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
     "eqeqeq": "error",
@@ -61,6 +66,12 @@
         "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
         "react/display-name": "off"
+      }
+    },
+    {
+      "files": ["*.spec.js"],
+      "rules": {
+        "jest/expect-expect": "off"
       }
     }
   ],

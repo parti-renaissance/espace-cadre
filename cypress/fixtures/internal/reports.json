@@ -1,0 +1,39 @@
+[
+  {
+    "zone": "Hauts-de-Seine",
+    "depuis": "2021-01-01T00:00:00",
+    "campagnes": [
+      {
+        "id": 1433,
+        "date": "2021-10-25T11:01:16",
+        "auteur": "autor1",
+        "titre": "Title1",
+        "nbEmails": 40,
+        "nbOuvertures": 30,
+        "txOuverture": 0.75,
+        "nbCliques": 20,
+        "txClique": 0.5,
+        "nbDesabonnements": 2,
+        "txDesabonnement": 0.05
+      },
+      {
+        "id": 1427,
+        "date": "2021-10-13T11:27:37",
+        "auteur": "autor2",
+        "titre": "Title2",
+        "nbEmails": 100,
+        "nbOuvertures": 33,
+        "txOuverture": 0.3333,
+        "nbCliques": 10,
+        "txClique": 0.1,
+        "nbDesabonnements": 0,
+        "txDesabonnement": 0.0
+      }
+    ]
+  },
+  {
+    "zone": "Val-d'Oise",
+    "depuis": "2021-01-01T00:00:00",
+    "campagnes": []
+  }
+]

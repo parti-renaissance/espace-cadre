@@ -1,0 +1,55 @@
+[
+  {
+    "code": "deputy",
+    "name": "D\u00e9put\u00e9",
+    "zones": [
+      {
+        "uuid": "5bfaed35-835e-11eb-ba14-42010a84009d",
+        "code": "75-16",
+        "name": "Paris (16)"
+      }
+    ],
+    "apps": ["data_corner"]
+  },
+  {
+    "code": "national",
+    "name": "National",
+    "zones": [
+      {
+        "uuid": "5bf9263e-835e-11eb-ba14-42010a84009d",
+        "code": "FR",
+        "name": "France"
+      }
+    ],
+    "apps": ["data_corner"]
+  },
+  {
+    "code": "phoning_national_manager",
+    "name": "Responsable Phoning",
+    "zones": [
+      {
+        "uuid": "5bf9263e-835e-11eb-ba14-42010a84009d",
+        "code": "FR",
+        "name": "France"
+      }
+    ],
+    "apps": ["data_corner"]
+  },
+  {
+    "code": "referent",
+    "name": "R\u00e9f\u00e9rent",
+    "zones": [
+      {
+        "uuid": "5bf9e8b3-835e-11eb-ba14-42010a84009d",
+        "code": "92",
+        "name": "Hauts-de-Seine"
+      },
+      {
+        "uuid": "5bf9ea86-835e-11eb-ba14-42010a84009d",
+        "code": "95",
+        "name": "Val-d\u0027Oise"
+      }
+    ],
+    "apps": ["data_corner"]
+  }
+]

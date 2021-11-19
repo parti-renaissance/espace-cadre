@@ -1,0 +1,18 @@
+{
+  "code": "referent",
+  "name": "R\u00e9f\u00e9rent",
+  "zones": [
+    {
+      "uuid": "5bf9e8b3-835e-11eb-ba14-42010a84009d",
+      "code": "92",
+      "name": "Hauts-de-Seine"
+    },
+    {
+      "uuid": "5bf9ea86-835e-11eb-ba14-42010a84009d",
+      "code": "95",
+      "name": "Val-d\u0027Oise"
+    }
+  ],
+  "apps": ["data_corner"],
+  "features": ["dashboard", "contacts", "messages", "elections", "mobile_app", "news", "team"]
+}

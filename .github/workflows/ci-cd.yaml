@@ -11,6 +11,7 @@ jobs:
   test:
     name: Tests
     runs-on: ubuntu-latest
+    container: cypress/browsers:node14.17.0-chrome91-ff89
 
     steps:
       - uses: actions/checkout@v2
@@ -19,6 +20,23 @@ jobs:
           yarn lint
       - run: |-
           yarn test
+      - name: create env file
+        shell: bash
+        run: |-
+          touch .env.local
+          echo "REACT_APP_OAUTH_HOST=https://mock.en-marche.fr" >> .env.local
+      - name: Cypress
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start
+          wait-on: 'http://localhost:3000'
+          browser: chrome
+      - name: Archive test screenshots
+        uses: actions/upload-artifact@v1
+        with:
+          name: screenshots
+          path: cypress/screenshots
+        if: ${{ failure() }}
 
   deploy-staging:
     name: Deploy to Staging 🍾

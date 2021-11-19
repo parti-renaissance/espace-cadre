@@ -1,0 +1,25 @@
+{
+  "nickname": null,
+  "email_address": "me@en-marche.fr",
+  "comments_cgu_accepted": false,
+  "uuid": "11111111-2222-3333-4444-555555555555",
+  "first_name": "firstname",
+  "last_name": "lastname",
+  "elected": false,
+  "larem": false,
+  "use_nickname": false,
+  "detailed_roles": [
+    {
+      "label": "ROLE_REFERENT",
+      "codes": ["92", "95"]
+    }
+  ],
+  "certified": false,
+  "email_subscribed": true,
+  "country": "FR",
+  "postal_code": "95320",
+  "emailAddress": "me@en-marche.fr",
+  "zipCode": "95320",
+  "firstName": "firstname",
+  "lastName": "lastname"
+}
