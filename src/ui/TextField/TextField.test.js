@@ -1,7 +1,7 @@
 import TextField from 'ui/TextField'
 import { render } from '@testing-library/react'
 
-jest.mock('@material-ui/core', () => ({
+jest.mock('@mui/material', () => ({
   TextField: ({ fullWidth, multiline, inputProps, ...props }) => <div className="mui-TextField-mock" {...props} />,
   makeStyles: () => () => ({ textField: 'textField' }),
 }))

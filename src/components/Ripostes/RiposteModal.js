@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { makeStyles, createStyles, Dialog, Box, Grid, Button, FormControlLabel, Checkbox } from '@material-ui/core'
+import { Dialog, Box, Grid, Button, FormControlLabel, Checkbox } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'

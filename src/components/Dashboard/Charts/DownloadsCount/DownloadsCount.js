@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import { useDashboardDownloadsCache } from '../../../../redux/dashboard/hooks'
 import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'

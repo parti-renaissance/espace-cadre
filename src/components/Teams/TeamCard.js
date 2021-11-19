@@ -1,4 +1,6 @@
-import { makeStyles, createStyles, Grid, Paper, Button } from '@material-ui/core'
+import { Grid, Paper, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import { Link, generatePath } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import PATHS from '../../paths'

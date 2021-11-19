@@ -1,6 +1,7 @@
 ﻿import PropTypes from 'prop-types'
-import { CardHeader, IconButton, makeStyles, Typography } from '@material-ui/core'
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
+import { CardHeader, IconButton, Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import Percentage from 'ui/Percentage'
 import Loader from 'ui/Loader'
@@ -100,7 +101,7 @@ const ElectionPopin = ({ loader, zone, filterValues, participation, results, han
               </Typography>
             }
             action={
-              <IconButton className={classes.icon} onClick={handleClose}>
+              <IconButton className={classes.icon} onClick={handleClose} size="large">
                 <CloseRoundedIcon />
               </IconButton>
             }

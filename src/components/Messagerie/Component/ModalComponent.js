@@ -1,4 +1,6 @@
-import { Dialog, Box, Button, makeStyles, createStyles } from '@material-ui/core'
+import { Dialog, Box, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme =>

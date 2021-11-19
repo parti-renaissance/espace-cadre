@@ -1,6 +1,8 @@
-import { Button, Box, createStyles, makeStyles } from '@material-ui/core'
+import { Button, Box } from '@mui/material'
+import createStyles from '@mui/styles/createStyles'
+import makeStyles from '@mui/styles/makeStyles'
 import PropTypes from 'prop-types'
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Loader from 'ui/Loader'
 
 const useStyles = makeStyles(theme =>

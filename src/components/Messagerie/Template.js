@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Box, createStyles, Grid, makeStyles, TextField } from '@material-ui/core'
+import { Box, Grid, TextField } from '@mui/material'
+import createStyles from '@mui/styles/createStyles'
+import makeStyles from '@mui/styles/makeStyles'
 import { generatePath, useHistory, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import Editor from './Component/Editor'

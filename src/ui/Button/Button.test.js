@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import Button from './Button'
 
-jest.mock('@material-ui/core', () => ({
+jest.mock('@mui/material', () => ({
   Button: ({ children, ...props }) => (
     <div className="mui-button-mock" {...props}>
       {children}

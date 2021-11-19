@@ -1,5 +1,7 @@
-import { Grid, Card, makeStyles, createStyles } from '@material-ui/core'
-import ClearIcon from '@material-ui/icons/Clear'
+import { Grid, Card } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
+import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
 import { TeamMember } from '../../domain/team'
 

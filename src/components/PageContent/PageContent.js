@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
-import { Container, makeStyles, createStyles } from '@material-ui/core'
+import { Container } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import ListIcon from 'ui/icons/ListIcon'
 
 const useStyles = makeStyles(theme =>
@@ -12,7 +14,7 @@ const useStyles = makeStyles(theme =>
         width: '100%',
         marginLeft: 0,
       },
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         width: '100%',
         marginLeft: 0,
         '&.active': {

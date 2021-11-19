@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Container, Grid, makeStyles, createStyles, Card, Paper, Typography } from '@material-ui/core'
+import { Container, Grid, Card, Paper, Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import createStyles from '@mui/styles/createStyles'
 import { useParams } from 'react-router-dom'
 import { addTeamMember, deleteTeamMember, getTeam } from 'api/teams'
 import { adherentAutocompleteUri } from 'api/adherents'

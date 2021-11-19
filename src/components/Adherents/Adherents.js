@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Container, Table, TableContainer, TablePagination, Paper, makeStyles, Grid } from '@material-ui/core'
+import { Container, Table, TableContainer, TablePagination, Paper, Grid } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import TableHeadComponent from './TableHeadComponent'
 import TableBodyComponent from './TableBodyComponent'
 import Loader from 'ui/Loader'

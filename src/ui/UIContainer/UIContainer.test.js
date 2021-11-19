@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import UIContainer from './UIContainer'
 
-jest.mock('@material-ui/core', () => ({
+jest.mock('@mui/material', () => ({
   Grid: ({ item, children, ...props }) => <div {...props}>{children}</div>,
   makeStyles: () => () => ({ root: 'root' }),
 }))

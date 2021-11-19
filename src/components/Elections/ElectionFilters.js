@@ -1,7 +1,9 @@
 ﻿import PropTypes from 'prop-types'
 import { useMemo, Fragment } from 'react'
 import mapboxgl from '!mapbox-gl'
-import { Grid, Box, makeStyles } from '@material-ui/core'
+import { Grid, Box } from '@mui/material'
+
+import makeStyles from '@mui/styles/makeStyles'
 
 import { ElectionDetails, LayersTypes } from './shared/constants'
 

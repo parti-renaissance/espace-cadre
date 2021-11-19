@@ -1,9 +1,11 @@
-import { Box, Button, createStyles, Grid, makeStyles, Paper } from '@material-ui/core'
+import { Box, Button, Grid, Paper } from '@mui/material'
+import createStyles from '@mui/styles/createStyles'
+import makeStyles from '@mui/styles/makeStyles'
 import PropTypes from 'prop-types'
 import RiposteObject from 'domain/riposte'
 import RiposteEnableStatus from './RiposteEnableStatus'
-import NotificationsActiveRoundedIcon from '@material-ui/icons/NotificationsActiveRounded'
-import NotificationsOffRoundedIcon from '@material-ui/icons/NotificationsOffRounded'
+import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
+import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 
 const useStyles = makeStyles(theme =>
   createStyles({
