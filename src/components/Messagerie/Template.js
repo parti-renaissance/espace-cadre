@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Box, Grid, TextField } from '@mui/material'
-import createStyles from '@mui/styles/createStyles'
 import { makeStyles } from '@mui/styles'
 import { generatePath, useHistory, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
@@ -11,30 +10,28 @@ import { createMessage, updateMessage } from 'api/messagerie'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    pageTitle: {
-      fontSize: '24px',
-      fontWeight: '400',
-      color: theme.palette.blue600,
-      marginBottom: theme.spacing(2),
-    },
-    objectContainer: {
-      background: theme.palette.whiteCorner,
-      padding: theme.spacing(2),
-      borderRadius: '12px 12px 0 0',
-    },
-    mailObject: {
-      width: '100%',
-      border: `1px solid ${theme.palette.gray200}`,
-      borderRadius: '8.35px',
-    },
-    buttonContainer: {
-      justifyContent: 'spaceBetween',
-      marginRight: theme.spacing(2),
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  pageTitle: {
+    fontSize: '24px',
+    fontWeight: '400',
+    color: theme.palette.blue600,
+    marginBottom: theme.spacing(2),
+  },
+  objectContainer: {
+    background: theme.palette.whiteCorner,
+    padding: theme.spacing(2),
+    borderRadius: '12px 12px 0 0',
+  },
+  mailObject: {
+    width: '100%',
+    border: `1px solid ${theme.palette.gray200}`,
+    borderRadius: '8.35px',
+  },
+  buttonContainer: {
+    justifyContent: 'spaceBetween',
+    marginRight: theme.spacing(2),
+  },
+}))
 
 const Template = () => {
   const [messageSubject, setMessageSubject] = useState('')

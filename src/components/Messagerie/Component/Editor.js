@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import EmailEditor from 'react-email-editor'
 import { Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import createStyles from '@mui/styles/createStyles'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useUserScope } from '../../../redux/user/hooks'
@@ -16,22 +15,20 @@ const downloadHtml = html => {
   a.click()
 }
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    emailEditor: {
-      marginBottom: theme.spacing(2),
-    },
-    exportButton: {
+const useStyles = makeStyles(theme => ({
+  emailEditor: {
+    marginBottom: theme.spacing(2),
+  },
+  exportButton: {
+    color: theme.palette.gray500,
+    background: theme.palette.gray200,
+    margin: theme.spacing(2, 0, 0),
+    '&:hover, &:focus': {
       color: theme.palette.gray500,
-      background: theme.palette.gray200,
-      margin: theme.spacing(2, 0, 0),
-      '&:hover, &:focus': {
-        color: theme.palette.gray500,
-        background: theme.palette.gray100,
-      },
+      background: theme.palette.gray100,
     },
-  })
-)
+  },
+}))
 const referentTemplate = 60354
 const deputyTemplate = 60376
 const senatorTemplate = 60355

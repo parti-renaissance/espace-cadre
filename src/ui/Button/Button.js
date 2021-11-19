@@ -1,16 +1,13 @@
 import { Button as MuiButton } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    root: {
-      borderRadius: '8.35px',
-      padding: theme.spacing(1, 2),
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  root: {
+    borderRadius: '8.35px',
+    padding: theme.spacing(1, 2),
+  },
+}))
 
 const Button = ({ children, buttonClasses, handleClick, disabled }) => {
   const classes = useStyles()

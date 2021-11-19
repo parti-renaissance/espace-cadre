@@ -1,6 +1,5 @@
 import { Container, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import createStyles from '@mui/styles/createStyles'
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers'
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount'
 import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign'
@@ -10,26 +9,24 @@ import smartphone from 'assets/smartphone.svg'
 import UIContainer from 'ui/UIContainer'
 import PageTitle from 'ui/PageTitle'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    mainContainer: {
-      marginBottom: theme.spacing(2),
-    },
-    title: {
-      fontSize: '20px',
-      fontWeight: '700',
-      margin: theme.spacing(0, 0, 2, 1),
-      color: theme.palette.grayCorner3,
-    },
-    phoneImg: {
-      verticalAlign: 'middle',
-      marginRight: theme.spacing(1),
-    },
-    kpiContainer: {
-      marginBottom: theme.spacing(1),
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  title: {
+    fontSize: '20px',
+    fontWeight: '700',
+    margin: theme.spacing(0, 0, 2, 1),
+    color: theme.palette.grayCorner3,
+  },
+  phoneImg: {
+    verticalAlign: 'middle',
+    marginRight: theme.spacing(1),
+  },
+  kpiContainer: {
+    marginBottom: theme.spacing(1),
+  },
+}))
 
 const messages = {
   title: "Vue d'ensemble",

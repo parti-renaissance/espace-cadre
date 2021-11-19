@@ -1,22 +1,19 @@
 import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import createStyles from '@mui/styles/createStyles'
 import mail from 'assets/mail.svg'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    gridItem: {
-      marginBottom: theme.spacing(2),
-      color: theme.palette.grayCorner3,
-      fontSize: '20px',
-      fontWeight: '700',
-    },
-    img: {
-      margin: '0 .5rem',
-      verticalAlign: 'middle',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  gridItem: {
+    marginBottom: theme.spacing(2),
+    color: theme.palette.grayCorner3,
+    fontSize: '20px',
+    fontWeight: '700',
+  },
+  img: {
+    margin: '0 .5rem',
+    verticalAlign: 'middle',
+  },
+}))
 
 function EmailCampaignTitle() {
   const classes = useStyles()

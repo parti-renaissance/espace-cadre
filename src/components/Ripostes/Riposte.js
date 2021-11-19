@@ -1,5 +1,4 @@
 import { Box, Button, Grid, Paper } from '@mui/material'
-import createStyles from '@mui/styles/createStyles'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import RiposteObject from 'domain/riposte'
@@ -7,74 +6,72 @@ import RiposteEnableStatus from './RiposteEnableStatus'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    root: {
-      padding: '16px',
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: '16px',
+    borderRadius: '8.35px',
+  },
+  container: {
+    marginBottom: '8px',
+  },
+  chip: {
+    fontSize: '10px',
+    fontWeight: '500',
+    borderRadius: '19px',
+    padding: '2px 8px',
+  },
+  withBorder: {
+    border: `1px solid ${theme.palette.gray200}`,
+  },
+  icon: {
+    fontSize: '17px',
+  },
+  active: {
+    color: theme.palette.teal700,
+    background: theme.palette.activeLabel,
+    borderRadius: '19px',
+  },
+  inactive: {
+    color: theme.palette.red600,
+    background: theme.palette.inactiveLabel,
+  },
+  date: {
+    fontSize: '10px',
+    color: theme.palette.gray600,
+    padding: '7px 8px',
+  },
+  title: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: theme.palette.gray900,
+    width: '400px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  creator: {
+    fontSize: '12px',
+    fontWeight: '400',
+    color: theme.palette.gray600,
+  },
+  KpiContainer: {
+    marginBottom: '20px',
+  },
+  buttonContainer: {
+    position: 'relative',
+    bottom: '0',
+  },
+  editButton: {
+    fontSize: '13px',
+    fontWeight: '500',
+    color: theme.palette.teal700,
+    marginTop: '11px',
+    '&:hover': {
+      background: theme.palette.riposteBackground,
       borderRadius: '8.35px',
     },
-    container: {
-      marginBottom: '8px',
-    },
-    chip: {
-      fontSize: '10px',
-      fontWeight: '500',
-      borderRadius: '19px',
-      padding: '2px 8px',
-    },
-    withBorder: {
-      border: `1px solid ${theme.palette.gray200}`,
-    },
-    icon: {
-      fontSize: '17px',
-    },
-    active: {
-      color: theme.palette.teal700,
-      background: theme.palette.activeLabel,
-      borderRadius: '19px',
-    },
-    inactive: {
-      color: theme.palette.red600,
-      background: theme.palette.inactiveLabel,
-    },
-    date: {
-      fontSize: '10px',
-      color: theme.palette.gray600,
-      padding: '7px 8px',
-    },
-    title: {
-      fontSize: '16px',
-      fontWeight: '600',
-      color: theme.palette.gray900,
-      width: '400px',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-    },
-    creator: {
-      fontSize: '12px',
-      fontWeight: '400',
-      color: theme.palette.gray600,
-    },
-    KpiContainer: {
-      marginBottom: '20px',
-    },
-    buttonContainer: {
-      position: 'relative',
-      bottom: '0',
-    },
-    editButton: {
-      fontSize: '13px',
-      fontWeight: '500',
-      color: theme.palette.teal700,
-      marginTop: '11px',
-      '&:hover': {
-        background: theme.palette.riposteBackground,
-        borderRadius: '8.35px',
-      },
-    },
-  })
-)
+  },
+}))
 
 const Riposte = ({ riposte, handleClickOpen, toggleStatus }) => {
   const classes = useStyles()

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Button, Container, Grid } from '@mui/material'
-import createStyles from '@mui/styles/createStyles'
 import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
 import RiposteCard from './Riposte'
@@ -13,29 +12,27 @@ const messages = {
   title: 'Ripostes',
 }
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    riposteContainer: {
-      marginBottom: theme.spacing(2),
-    },
-    buttonContainer: {
-      background: theme.palette.riposteBackground,
-      borderRadius: '8.35px',
-      marginBottom: theme.spacing(4),
-    },
-    icon: {
-      marginRight: '8px',
-    },
-    createButton: {
-      color: theme.palette.teal700,
-      padding: theme.spacing(0.75, 1),
-    },
-    root: {
-      padding: theme.spacing(2),
-      borderRadius: '8.35px',
-    },
-  })
-)
+const useStyles = makeStyles(theme => ({
+  riposteContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  buttonContainer: {
+    background: theme.palette.riposteBackground,
+    borderRadius: '8.35px',
+    marginBottom: theme.spacing(4),
+  },
+  icon: {
+    marginRight: '8px',
+  },
+  createButton: {
+    color: theme.palette.teal700,
+    padding: theme.spacing(0.75, 1),
+  },
+  root: {
+    padding: theme.spacing(2),
+    borderRadius: '8.35px',
+  },
+}))
 
 const Ripostes = () => {
   const classes = useStyles()
