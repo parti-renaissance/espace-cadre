@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { format } from 'date-fns'
-import { IconButton } from '@mui/material'
+import { IconButton, TextField } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
 import { DatePicker as MuiDatePicker } from '@material-ui/pickers'
-import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
-  datePicker: {
+  input: {
     background: theme.palette.whiteCorner,
     width: '100%',
     borderRadius: '8.35px',
@@ -19,44 +20,46 @@ const useStyles = makeStyles(theme => ({
 
 const DatePicker = ({ value, onChange, label }) => {
   const classes = useStyles()
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleClear = e => {
+    e.stopPropagation()
+    onChange(null)
+  }
 
   return (
     <MuiDatePicker
       openTo="year"
-      disableToolbar
-      inputVariant="outlined"
-      variant="inline"
-      size="small"
+      inputFormat="dd/MM/yyyy"
+      open={isOpen}
       label={label}
-      format="dd/MM/yyyy"
       value={value}
-      onChange={e => {
-        onChange(format(e, 'yyyy-MM-dd'))
+      onChange={date => {
+        onChange(format(date, 'yyyy-MM-dd'))
       }}
-      className={classes.datePicker}
-      InputProps={{
-        endAdornment: (() => {
-          if (!value) {
-            return (
-              <IconButton size="small">
-                <EventIcon />
+      onClose={() => {
+        setIsOpen(false)
+      }}
+      renderInput={props => (
+        <TextField
+          {...props}
+          variant="outlined"
+          size="small"
+          label={label}
+          value={value}
+          className={classes.input}
+          onChange={e => {
+            onChange(e.target.value)
+          }}
+          InputProps={{
+            endAdornment: (() => (
+              <IconButton size="small" onClick={value ? handleClear : () => setIsOpen(true)}>
+                {value ? <ClearIcon /> : <EventIcon />}
               </IconButton>
-            )
-          }
-
-          return (
-            <IconButton
-              size="small"
-              onClick={e => {
-                e.stopPropagation()
-                onChange(null)
-              }}
-            >
-              <ClearIcon />
-            </IconButton>
-          )
-        })(),
-      }}
+            ))(),
+          }}
+        />
+      )}
     />
   )
 }
