@@ -1,6 +1,6 @@
 ﻿import PropTypes from 'prop-types'
 import { CardHeader, IconButton, Typography } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import Percentage from 'ui/Percentage'

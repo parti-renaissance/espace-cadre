@@ -1,5 +1,5 @@
 import { Grid, Card } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'

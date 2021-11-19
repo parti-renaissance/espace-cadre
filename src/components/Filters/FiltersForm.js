@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, Grid } from '@mui/material'
 import createStyles from '@mui/styles/createStyles'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import Factory from './FiltersFactory/Factory'
 

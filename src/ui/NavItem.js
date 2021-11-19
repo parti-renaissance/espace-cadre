@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { Button, Icon, Typography } from '@mui/material'
 
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {

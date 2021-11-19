@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({

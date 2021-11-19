@@ -1,6 +1,6 @@
 import { Checkbox, ListItemText, MenuItem, Select, InputLabel, FormControl } from '@mui/material'
 
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 
 const useStyles = makeStyles(theme =>

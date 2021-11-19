@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import ActiveUsers from './Charts/ActiveUsers/ActiveUsers'
 import DownloadsCount from './Charts/DownloadsCount/DownloadsCount'

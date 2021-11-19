@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import bootPage from 'assets/bootPage.svg'
 
 const useStyles = makeStyles({

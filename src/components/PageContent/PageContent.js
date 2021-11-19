@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { Container } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import ListIcon from 'ui/icons/ListIcon'
 

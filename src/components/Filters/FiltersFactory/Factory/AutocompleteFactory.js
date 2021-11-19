@@ -1,6 +1,6 @@
 import { FormControl } from '@mui/material'
 import createStyles from '@mui/styles/createStyles'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 
 const useStyles = makeStyles(() =>

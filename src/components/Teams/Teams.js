@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Container, Grid, Button } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
 import TeamCard from './TeamCard'
 import TeamModal from './TeamModal'

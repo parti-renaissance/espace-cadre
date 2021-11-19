@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import EmailEditor from 'react-email-editor'
 import { Button } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'

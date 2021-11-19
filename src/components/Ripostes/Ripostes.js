@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button, Container, Grid } from '@mui/material'
 import createStyles from '@mui/styles/createStyles'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
 import RiposteCard from './Riposte'
 import RiposteModal from './RiposteModal'

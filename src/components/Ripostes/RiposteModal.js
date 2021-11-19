@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Dialog, Box, Grid, Button, FormControlLabel, Checkbox } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'

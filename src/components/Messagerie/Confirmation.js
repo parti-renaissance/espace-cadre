@@ -1,5 +1,5 @@
 import { Container, Paper, Button, Grid } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import { Link } from 'react-router-dom'
 import PATHS from '../../paths'

@@ -3,7 +3,7 @@ import { useMemo, Fragment } from 'react'
 import mapboxgl from '!mapbox-gl'
 import { Grid, Box } from '@mui/material'
 
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 
 import { ElectionDetails, LayersTypes } from './shared/constants'
 

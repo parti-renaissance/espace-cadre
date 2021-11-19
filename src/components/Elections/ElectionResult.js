@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 
 import { ElectionResult as DomainElectionResult } from 'domain/election'
 

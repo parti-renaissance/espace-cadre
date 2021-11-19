@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Box, Grid, TextField } from '@mui/material'
 import createStyles from '@mui/styles/createStyles'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import { generatePath, useHistory, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import Editor from './Component/Editor'

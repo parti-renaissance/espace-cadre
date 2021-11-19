@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'

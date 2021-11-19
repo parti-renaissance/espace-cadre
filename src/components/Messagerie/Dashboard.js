@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Grid, Container, Button } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaignList from 'components/Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList'

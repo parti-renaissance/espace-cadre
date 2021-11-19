@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Box } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import Loader from 'ui/Loader'
 import { apiClientProxy } from '../../../../services/networking/client'
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks'

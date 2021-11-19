@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import createStyles from '@mui/styles/createStyles'
 import FiltersForm from './FiltersForm'
 import ErrorComponent from '../ErrorComponent'

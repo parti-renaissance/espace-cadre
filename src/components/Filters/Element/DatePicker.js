@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { format } from 'date-fns'
 import { IconButton, TextField } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { makeStyles } from '@mui/styles'
 import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
-import { DatePicker as MuiDatePicker } from '@material-ui/pickers'
+import MuiDatePicker from '@mui/lab/DatePicker'
 
 const useStyles = makeStyles(theme => ({
   input: {
