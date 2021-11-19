@@ -45,7 +45,7 @@ const News = () => {
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <Grid container spacing={2}>
-          {news?.map(n => (
+          {news.map(n => (
             <UICard key={n.id} header={<Header {...n} />} title={n.title} subtitle={`Par ${n.creator}`} />
           ))}
         </Grid>

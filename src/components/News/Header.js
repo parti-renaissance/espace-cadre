@@ -44,8 +44,7 @@ const messages = {
 
 const Header = ({ status = false, withNotification = false, createdAt = null }) => {
   const classes = useStyles()
-  const NotificationIcon =
-    withNotification && withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
+  const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
 
   return (
     <Grid container className={classes.container}>

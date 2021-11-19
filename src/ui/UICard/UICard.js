@@ -53,5 +53,5 @@ UICard.propTypes = {
   header: PropTypes.node.isRequired,
   title: PropTypes.node.isRequired,
   subtitle: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 }
