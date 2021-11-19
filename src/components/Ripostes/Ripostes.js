@@ -7,8 +7,8 @@ import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
 import PageTitle from 'ui/PageTitle'
 import UICard from 'ui/UICard'
-import Header from './Header'
-import Body from './Body'
+import Header from './Card/Header'
+import Body from './Card/Body'
 
 const messages = {
   title: 'Ripostes',
@@ -25,15 +25,11 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4),
   },
   icon: {
-    marginRight: '8px',
+    marginRight: theme.spacing(1),
   },
   createButton: {
     color: theme.palette.teal700,
     padding: theme.spacing(0.75, 1),
-  },
-  root: {
-    padding: theme.spacing(2),
-    borderRadius: '8.35px',
   },
 }))
 
@@ -87,7 +83,7 @@ const Ripostes = () => {
         <Grid container spacing={2}>
           {ripostes.map(r => (
             <UICard key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
-              <Body {...r} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableRiposte} />
+              <Body riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableRiposte} />
             </UICard>
           ))}
         </Grid>

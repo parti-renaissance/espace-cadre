@@ -3,19 +3,13 @@ import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginBottom: '8px',
+    marginBottom: theme.spacing(1),
   },
   chip: {
     fontSize: '10px',
     fontWeight: '500',
     borderRadius: '19px',
     padding: '2px 8px',
-  },
-  withBorder: {
-    border: `1px solid ${theme.palette.gray200}`,
-  },
-  icon: {
-    fontSize: '17px',
   },
   active: {
     color: theme.palette.teal700,

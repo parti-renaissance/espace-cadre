@@ -3,6 +3,7 @@ import RiposteEnableStatus from './RiposteEnableStatus'
 import NotificationsActiveRoundedIcon from '@material-ui/icons/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@material-ui/icons/NotificationsOffRounded'
 import PropTypes from 'prop-types'
+import Riposte from 'domain/riposte'
 
 const messages = {
   edit: 'Éditer',
@@ -40,8 +41,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Body = ({ id, status, withNotification, views, detailViews, ripostes, handleClickOpen, toggleStatus }) => {
+const Body = ({ riposte, handleClickOpen, toggleStatus }) => {
   const classes = useStyles()
+  const { id, status, withNotification, views, detailViews, ripostes } = riposte
   const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
 
   return (
@@ -81,12 +83,7 @@ const Body = ({ id, status, withNotification, views, detailViews, ripostes, hand
 }
 
 Body.propTypes = {
-  id: PropTypes.string.isRequired,
-  status: PropTypes.bool.isRequired,
-  withNotification: PropTypes.bool.isRequired,
-  views: PropTypes.number.isRequired,
-  detailViews: PropTypes.number.isRequired,
-  ripostes: PropTypes.number.isRequired,
+  riposte: Riposte.propTypes.isRequired,
   handleClickOpen: PropTypes.func.isRequired,
   toggleStatus: PropTypes.func.isRequired,
 }
