@@ -47,6 +47,11 @@ const themeConfig = {
       defaultProps: {
         disableElevation: true,
       },
+      styleOverrides: {
+        root: {
+          color: '#1A334D',
+        },
+      },
     },
     MuiPaper: {
       defaultProps: {

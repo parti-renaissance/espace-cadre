@@ -36,7 +36,7 @@ class SelectFactory {
         <Select
           labelId="simple-select"
           onChange={e => onChange(e.target.value)}
-          classes={{ root: classes.select }}
+          classes={{ select: classes.select }}
           value={selectValue}
           multiple={multiple}
           renderValue={selected => {

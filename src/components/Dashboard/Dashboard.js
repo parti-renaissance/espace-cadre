@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
   },
   kpiContainer: {
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
 }))
 

@@ -6,7 +6,7 @@ import Factory from './FiltersFactory/Factory'
 
 const useStyles = makeStyles(theme => ({
   filtersContainer: {
-    marginBottom: theme.spacing(1.25),
+    marginBottom: theme.spacing(2),
   },
   buttonContainer: {
     marginBottom: theme.spacing(2),
