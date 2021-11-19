@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Autocomplete as MuiAutocomplete } from '@mui/material'
-import { TextField, Typography } from '@mui/material'
+import { Autocomplete as MuiAutocomplete, TextField, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { throttle } from 'lodash'
