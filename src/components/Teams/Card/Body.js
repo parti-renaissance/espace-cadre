@@ -1,5 +1,6 @@
 import React from 'react'
-import { Grid, Button, makeStyles } from '@material-ui/core'
+import { Grid, Button } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { Link, generatePath } from 'react-router-dom'
 import PATHS from '../../../paths'
 import PropTypes from 'prop-types'

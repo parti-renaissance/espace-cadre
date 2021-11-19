@@ -1,7 +1,8 @@
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
-import NotificationsActiveRoundedIcon from '@material-ui/icons/NotificationsActiveRounded'
-import NotificationsOffRoundedIcon from '@material-ui/icons/NotificationsOffRounded'
+import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
+import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 
 const useStyles = makeStyles(theme => ({
   container: {
