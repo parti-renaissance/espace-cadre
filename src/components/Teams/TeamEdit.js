@@ -45,6 +45,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  addMembers: 'Ajouter des membres',
+  add: 'Ajouter',
+  teamMember: "Membres de l'équipe",
+  noMember: 'Cette équipe ne contient aucun membre',
+}
+
 const TeamEdit = () => {
   const classes = useStyles()
   const { teamId } = useParams()
@@ -77,7 +84,7 @@ const TeamEdit = () => {
           <Card className={classes.root}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                Ajouter des membres
+                {messages.addMembers}
               </Grid>
               <Grid item xs={12}>
                 <Autocomplete
@@ -95,7 +102,7 @@ const TeamEdit = () => {
               </Grid>
               <Grid item xs={12}>
                 <Button buttonClasses={classes.buttonClasses} handleClick={onAddTeamMember} disabled={!member}>
-                  Ajouter
+                  {messages.add}
                 </Button>
               </Grid>
             </Grid>
@@ -104,7 +111,7 @@ const TeamEdit = () => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} className={classes.title}>
-          Membres de l&apos;équipe
+          {messages.teamMember}
         </Grid>
         {team?.members.length > 0 ? (
           team?.members?.map(member => (
@@ -113,7 +120,7 @@ const TeamEdit = () => {
         ) : (
           <Grid item xs={6}>
             <Paper className={classes.noMember}>
-              <Typography variant="body1">Cette équipe ne contient aucun membre</Typography>
+              <Typography variant="body1">{messages.noMember}</Typography>
             </Paper>
           </Grid>
         )}
