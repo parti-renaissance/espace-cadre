@@ -4,10 +4,12 @@ import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useSnackbar } from 'notistack'
 import ClearIcon from '@mui/icons-material/Clear'
 import { apiClient } from 'services/networking/client'
 import AlertBanner from 'ui/AlertBanner'
 import TextField from 'ui/TextField'
+import GlobalMessages from '../shared/messages'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,6 +48,15 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  addMembers: 'Ajouter des membres',
+  add: 'Ajouter',
+  teamMember: "Membres de l'équipe",
+  noMember: 'Cette équipe ne contient aucun membre',
+  createSuccess: 'Equipe créée avec succès !',
+  editSuccess: "L'équipe a bien été modifiée",
+}
+
 const teamSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
@@ -53,6 +64,7 @@ const teamSchema = Yup.object({
 const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
   const classes = useStyles()
   const [errorMessage, setErrorMessage] = useState()
+  const { enqueueSnackbar } = useSnackbar()
 
   const formik = useFormik({
     initialValues: {
@@ -62,16 +74,15 @@ const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
     enableReinitialize: true,
     onSubmit: async values => {
       try {
-        if (teamItem.id) {
-          await apiClient.put(`api/v3/teams/${teamItem.id}`, values)
-        } else {
-          await apiClient.post('api/v3/teams', values)
-        }
-
+        if (teamItem.id) await apiClient.put(`api/v3/teams/${teamItem.id}`, values)
+        if (!teamItem.id) await apiClient.post('api/v3/teams', values)
+        const confirmMessage = !teamItem.id ? messages.createSuccess : messages.editSuccess
+        enqueueSnackbar(confirmMessage, { variant: 'success' })
         onSubmitRefresh()
         handleClose()
       } catch (error) {
         setErrorMessage(error)
+        enqueueSnackbar(GlobalMessages.error, { variant: 'error' })
       }
     },
   })
