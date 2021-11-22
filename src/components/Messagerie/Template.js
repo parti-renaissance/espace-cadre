@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { Box, Grid, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { generatePath, useHistory, useParams } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
 import { useUserScope } from '../../redux/user/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
 import PATHS from '../../paths'
 import { createMessage, updateMessage } from 'api/messagerie'
+import GlobalMessages from '../shared/messages'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -33,6 +35,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  createSuccess: 'Message créé avec succès',
+}
+
 const Template = () => {
   const [messageSubject, setMessageSubject] = useState('')
   const [message, setMessage] = useState(null)
@@ -41,6 +47,7 @@ const Template = () => {
   const history = useHistory()
   const { messageUuid } = useParams()
   const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
 
   const editEmail = () => {
     const body = {
@@ -51,18 +58,21 @@ const Template = () => {
       json_content: JSON.stringify(message.design),
     }
 
-    if (messageUuid) {
-      return updateMessage(messageUuid, body)
-    }
+    if (messageUuid) return updateMessage(messageUuid, body)
     return createMessage(body)
   }
 
-  const handleClickNext = () => {
-    setLoading(true)
-    editEmail().then(body => {
+  const handleClickNext = async () => {
+    try {
+      setLoading(true)
+      const body = await editEmail()
       setMessage(body)
+
+      enqueueSnackbar(messages.createSuccess, { variant: 'success' })
       history.push(generatePath(PATHS.MESSAGERIE_FILTER.url, { messageUuid: body.uuid }))
-    })
+    } catch (e) {
+      enqueueSnackbar(GlobalMessages.error, { variant: 'error' })
+    }
   }
 
   return (
