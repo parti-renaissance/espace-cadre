@@ -8,8 +8,8 @@ export default class Riposte {
     url,
     withNotification,
     status,
-    createdAt,
     creator,
+    createdAt,
     views,
     detailViews,
     sourceViews,
@@ -21,8 +21,8 @@ export default class Riposte {
     this.url = url
     this.withNotification = withNotification
     this.status = status
-    this.createdAt = createdAt
     this.creator = creator
+    this.createdAt = createdAt
     this.views = views
     this.detailViews = detailViews
     this.sourceViews = sourceViews
@@ -32,27 +32,105 @@ export default class Riposte {
   static NULL = new Riposte(null, '', '', '', false, false, '', '', 0, 0, 0, 0)
 
   withTitle(newTitle) {
-    return new Riposte(this.id, newTitle, this.body, this.url, this.withNotification, this.status, this.createdAt)
+    return new Riposte(
+      this.id,
+      newTitle,
+      this.body,
+      this.url,
+      this.withNotification,
+      this.status,
+      this.creator,
+      this.createdAt,
+      this.views,
+      this.detailViews,
+      this.sourceViews,
+      this.ripostes
+    )
   }
 
   withBody(newBody) {
-    return new Riposte(this.id, this.title, newBody, this.url, this.withNotification, this.status, this.createdAt)
+    return new Riposte(
+      this.id,
+      this.title,
+      newBody,
+      this.url,
+      this.withNotification,
+      this.status,
+      this.creator,
+      this.createdAt,
+      this.views,
+      this.detailViews,
+      this.sourceViews,
+      this.ripostes
+    )
   }
 
   withUrl(newUrl) {
-    return new Riposte(this.id, this.title, this.body, newUrl, this.withNotification, this.status, this.createdAt)
+    return new Riposte(
+      this.id,
+      this.title,
+      this.body,
+      newUrl,
+      this.withNotification,
+      this.status,
+      this.creator,
+      this.createdAt,
+      this.views,
+      this.detailViews,
+      this.sourceViews,
+      this.ripostes
+    )
   }
 
   withWithNotification(newWithNotification) {
-    return new Riposte(this.id, this.title, this.body, this.url, newWithNotification, this.status, this.createdAt)
+    return new Riposte(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      newWithNotification,
+      this.status,
+      this.creator,
+      this.createdAt,
+      this.views,
+      this.detailViews,
+      this.sourceViews,
+      this.ripostes
+    )
   }
 
   withStatus(newStatus) {
-    return new Riposte(this.id, this.title, this.body, this.url, this.withNotification, newStatus, this.createdAt)
+    return new Riposte(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      this.withNotification,
+      newStatus,
+      this.creator,
+      this.createdAt,
+      this.views,
+      this.detailViews,
+      this.sourceViews,
+      this.ripostes
+    )
   }
 
   toggleStatus() {
-    return new Riposte(this.id, this.title, this.body, this.url, this.withNotification, !this.status, this.createdAt)
+    return new Riposte(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      this.withNotification,
+      !this.status,
+      this.creator,
+      this.createdAt,
+      this.views,
+      this.detailViews,
+      this.sourceViews,
+      this.ripostes
+    )
   }
 }
 
@@ -63,8 +141,8 @@ Riposte.propTypes = PropTypes.shape({
   url: PropTypes.string.isRequired,
   withNotification: PropTypes.bool.isRequired,
   status: PropTypes.bool.isRequired,
-  createdAt: PropTypes.string.isRequired,
   creator: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
   views: PropTypes.number.isRequired,
   detailViews: PropTypes.number.isRequired,
   sourceViews: PropTypes.number.isRequired,

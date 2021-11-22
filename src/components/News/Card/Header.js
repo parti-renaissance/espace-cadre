@@ -42,7 +42,7 @@ const messages = {
   unpublished: 'Dépubliée',
 }
 
-const Header = ({ status = false, withNotification = false, createdAt = null }) => {
+const Header = ({ status, withNotification, createdAt }) => {
   const classes = useStyles()
   const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
 

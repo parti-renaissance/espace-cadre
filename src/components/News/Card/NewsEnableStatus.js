@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { IconButton } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
+import { Button, Menu, MenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
@@ -17,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
+const NewsEnableStatus = ({ id, status, toggleStatus }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -27,7 +26,7 @@ const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
 
   return (
     <div>
-      <IconButton
+      <Button
         size="small"
         className={classes.iconButton}
         aria-label="more"
@@ -38,7 +37,7 @@ const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
         }}
       >
         <MoreVertIcon />
-      </IconButton>
+      </Button>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -58,16 +57,16 @@ const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
           }}
           style={{ fontSize: '13px' }}
         >
-          {status ? 'Désactiver' : 'Activer'}
+          {status ? 'Dépubliée' : 'Publiée'}
         </MenuItem>
       </Menu>
     </div>
   )
 }
 
-export default RiposteEnableStatus
+export default NewsEnableStatus
 
-RiposteEnableStatus.propTypes = {
+NewsEnableStatus.propTypes = {
   id: PropTypes.string.isRequired,
   status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func.isRequired,

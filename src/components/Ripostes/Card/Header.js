@@ -39,11 +39,9 @@ const Header = ({ status, createdAt }) => {
   return (
     <Grid container className={classes.container}>
       <Grid item>
-        {status ? (
-          <span className={`${classes.chip} ${classes.active}`}>{messages.active}</span>
-        ) : (
-          <span className={`${classes.chip} ${classes.inactive}`}>{messages.inactive}</span>
-        )}
+        <span className={`${classes.chip} ${status ? classes.active : classes.inactive}`}>
+          {status ? messages.active : messages.inactive}
+        </span>
       </Grid>
       <Grid item className={classes.date}>
         Le {new Date(createdAt).toLocaleDateString()}
