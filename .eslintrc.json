@@ -51,7 +51,6 @@
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
     "prettier/prettier": "off",
     "quotes": ["error", "single", { "avoidEscape": true }],
-    "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-array-index-key": [0],
     "react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
