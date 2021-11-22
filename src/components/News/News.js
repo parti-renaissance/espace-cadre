@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles'
 import { getNews } from 'api/news'
 import PageTitle from 'ui/PageTitle'
 import UICard from 'ui/UICard'
-import Header from './Header'
+import Header from './Card/Header'
 
 const useStyles = makeStyles(theme => ({
   root: {
