@@ -17,6 +17,11 @@ const fetch = throttle((uri, queryParam, query, callback) => {
   apiClient.get(`${uri}${separator}${queryParam}=${query}`).then(callback)
 }, 500)
 
+const messages = {
+  loading: 'Chargement…',
+  noOptions: 'Aucun élément',
+}
+
 const Autocomplete = ({
   uri,
   placeholder,
@@ -62,38 +67,45 @@ const Autocomplete = ({
     })
   }, [uri, queryParam, inputValue])
 
+  const handleChange = (_, selectedValues) => {
+    const selectItems = [].concat(selectedValues).filter(selection => !!selection)
+    if (multiple) return onChange(selectItems)
+    return onChange(selectItems.shift() || {})
+  }
+
+  const Input = params => (
+    <TextField {...params} variant="outlined" size="small" label={placeholder} required={required} fullWidth />
+  )
+
+  const Option = (props, option) => (
+    <li {...props}>
+      <Typography size="small">{getOptionLabel(option)}</Typography>
+    </li>
+  )
+
   return (
     <MuiAutocomplete
-      options={options}
-      open={open}
-      value={value}
       size="small"
+      loadingText={messages.loading}
+      noOptionsText={messages.noOptions}
       className={`${classes.root} ${autoCompleteStyle}`}
-      loading={loading}
       multiple={multiple}
+      open={open}
+      loading={loading}
+      options={options}
+      value={value}
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
-      onChange={(data, selectedValues) => {
-        const selectItems = [].concat(selectedValues).filter(selection => !!selection)
-
-        if (multiple) {
-          return onChange(selectItems)
-        }
-        return onChange(selectItems.shift() || {})
-      }}
-      onInputChange={(event, newInputValue) => {
+      onChange={handleChange}
+      onInputChange={(_, newInputValue) => {
         setInputValue(newInputValue)
       }}
       filterOptions={x => x}
-      loadingText="Chargement…"
-      noOptionsText="Aucun élément"
-      renderInput={params => (
-        <TextField variant="outlined" size="small" {...params} label={placeholder} fullWidth required={required} />
-      )}
-      autoComplete
+      renderInput={Input}
       getOptionLabel={getOptionLabel}
-      getOptionSelected={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
-      renderOption={option => <Typography size="small">{getOptionLabel(option)}</Typography>}
+      isOptionEqualToValue={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
+      renderOption={Option}
+      autoComplete
     />
   )
 }
