@@ -49,11 +49,9 @@ const Header = ({ status = false, withNotification = false, createdAt = null }) 
   return (
     <Grid container className={classes.container}>
       <Grid item>
-        {status ? (
-          <span className={`${classes.chip} ${classes.active}`}>{messages.published}</span>
-        ) : (
-          <span className={`${classes.chip} ${classes.inactive}`}>{messages.unpublished}</span>
-        )}
+        <span className={`${classes.chip} ${status ? classes.active : classes.inactive}`}>
+          {status ? messages.published : messages.unpublished}
+        </span>
       </Grid>
       <Grid item>
         <NotificationIcon className={`${classes.chip} ${classes.withBorder} ${classes.icon}`} />

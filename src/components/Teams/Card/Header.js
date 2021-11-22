@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginBottom: '8px',
+    marginBottom: theme.spacing(1),
   },
   chip: {
     fontSize: '10px',

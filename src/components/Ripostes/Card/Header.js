@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '10px',
     fontWeight: '500',
     borderRadius: '19px',
-    padding: '2px 8px',
+    padding: theme.spacing(0.25, 1),
   },
   active: {
     color: theme.palette.teal700,
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   date: {
     fontSize: '10px',
     color: theme.palette.gray600,
-    padding: '7px 8px',
+    padding: theme.spacing(1),
   },
 }))
 
