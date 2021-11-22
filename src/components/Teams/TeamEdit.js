@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import { Container, Grid, Card, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useParams } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
 import { addTeamMember, deleteTeamMember, getTeam } from 'api/teams'
 import { adherentAutocompleteUri } from 'api/adherents'
 import MemberCard from './MemberCard'
 import Button from 'ui/Button'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
+import GlobalMessages from '../shared/messages'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,6 +52,8 @@ const messages = {
   add: 'Ajouter',
   teamMember: "Membres de l'équipe",
   noMember: 'Cette équipe ne contient aucun membre',
+  editSuccess: 'Membre ajouté avec succès !',
+  deleteSuccess: 'Membre supprimé avec succès !',
 }
 
 const TeamEdit = () => {
@@ -57,19 +61,30 @@ const TeamEdit = () => {
   const { teamId } = useParams()
   const [team, setTeam] = useState(null)
   const [member, setMember] = useState(null)
+  const { enqueueSnackbar } = useSnackbar()
 
   useEffect(() => {
     getTeam(teamId, setTeam)
   }, [teamId, member])
 
   const onAddTeamMember = async () => {
-    await addTeamMember(teamId, member.uuid)
-    setMember(null)
+    try {
+      await addTeamMember(teamId, member.uuid)
+      setMember(null)
+      enqueueSnackbar(messages.editSuccess, { variant: 'success' })
+    } catch (e) {
+      enqueueSnackbar(GlobalMessages.error, { variant: 'error' })
+    }
   }
 
   const handleDelete = async memberId => {
-    await deleteTeamMember(teamId, memberId)
-    getTeam(teamId, setTeam)
+    try {
+      await deleteTeamMember(teamId, memberId)
+      getTeam(teamId, setTeam)
+      enqueueSnackbar(messages.deleteSuccess, { variant: 'success' })
+    } catch (e) {
+      enqueueSnackbar(GlobalMessages.error, { variant: 'error' })
+    }
   }
 
   return (
