@@ -1,3 +1,4 @@
+import isPropValid from '@emotion/is-prop-valid'
 import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 import { createGenerateClassName } from '@mui/styles'
 import { createTheme } from '@mui/material'
@@ -25,6 +26,10 @@ export const ThemeProvider = ({ children }) => {
 
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
+}
+
+export const shouldForwardProps = {
+  shouldForwardProp: prop => isPropValid(prop),
 }
 
 const themeConfig = {
@@ -65,8 +70,17 @@ const themeConfig = {
     },
   },
   palette: {
+    notification: {
+      success: {
+        background: '#287D3C',
+      },
+      error: {
+        background: '#DA1414',
+      },
+    },
+
     // White
-    whiteCorner: '#fff',
+    whiteCorner: '#FFFFFF',
 
     // Black
     blackCorner: '#1A334D',

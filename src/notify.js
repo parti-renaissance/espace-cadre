@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types'
 import { SnackbarProvider } from 'notistack'
 
-const NotifyProvider = ({ children }) => {
-  const position = { vertical: 'top', horizontal: 'right' }
-  return (
-    <SnackbarProvider anchorOrigin={position} autoHideDuration={2000} maxSnack={3}>
-      {children}
-    </SnackbarProvider>
-  )
-}
+const NotifyProvider = ({ children }) => (
+  <SnackbarProvider
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    transitionDuration={{ enter: 300, exit: 500 }}
+    autoHideDuration={3000}
+    maxSnack={5}
+    preventDuplicate
+  >
+    {children}
+  </SnackbarProvider>
+)
 
 NotifyProvider.propTypes = {
   children: PropTypes.node.isRequired,
