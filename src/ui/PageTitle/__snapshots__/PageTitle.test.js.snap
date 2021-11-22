@@ -2,9 +2,7 @@
 
 exports[`PageTitle displays a title 1`] = `
 <div>
-  <div
-    class="title"
-  >
+  <div>
     Title for test
   </div>
 </div>
