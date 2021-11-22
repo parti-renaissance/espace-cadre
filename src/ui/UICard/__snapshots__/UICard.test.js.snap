@@ -3,23 +3,22 @@
 exports[`UICard displays UICard 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 css-iltpxr-MuiGrid-root"
+    class="mui-grid-mock"
   >
     <div
-      class="root MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ps6pg7-MuiPaper-root"
+      class="mui-paper-mock"
     >
       header
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined container css-11lq3yg-MuiGrid-root"
+        class="mui-grid-mock"
       >
         <div
-          class="MuiGrid-root MuiGrid-item title css-13i4rnv-MuiGrid-root"
-          title="title"
+          class="mui-grid-mock"
         >
           title
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item creator css-13i4rnv-MuiGrid-root"
+          class="mui-grid-mock"
         >
           subtitle
         </div>
