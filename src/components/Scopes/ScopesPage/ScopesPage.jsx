@@ -132,7 +132,7 @@ function ScopesPage() {
   }
 
   return (
-    <Container maxWidth="xl" className={classes.pageContainer}>
+    <Container maxWidth={false} className={classes.pageContainer}>
       <Grid container className={classes.siteInfoContainer}>
         <img src={barChartScopes} alt="Logo data corner" className={classes.logo} />
         <span className={classes.title}>{messages.title}</span>

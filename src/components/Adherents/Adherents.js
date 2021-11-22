@@ -52,7 +52,7 @@ function Adherents() {
       return (
         <>
           <Grid container>
-            <PageTitle breakpoints={{ xs: 12 }} page={messages.title} />
+            <PageTitle breakpoints={{ xs: 12 }} title={messages.title} />
           </Grid>
           <DynamicFilters
             feature={FEATURE_ADHERENTS}
