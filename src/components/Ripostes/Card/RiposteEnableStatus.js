@@ -5,7 +5,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import PropTypes from 'prop-types'
-import Riposte from 'domain/riposte'
 
 const useStyles = makeStyles(theme => ({
   iconButton: {
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const RiposteEnableStatus = ({ riposte, toggleStatus }) => {
+const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -59,11 +58,11 @@ const RiposteEnableStatus = ({ riposte, toggleStatus }) => {
         <MenuItem
           onClick={() => {
             handleClose()
-            toggleStatus(riposte.id)
+            toggleStatus(id)
           }}
           className={classes.root}
         >
-          {riposte.status ? 'Désactiver' : 'Activer'}
+          {status ? 'Désactiver' : 'Activer'}
         </MenuItem>
       </Menu>
     </div>
@@ -73,6 +72,7 @@ const RiposteEnableStatus = ({ riposte, toggleStatus }) => {
 export default RiposteEnableStatus
 
 RiposteEnableStatus.propTypes = {
-  riposte: Riposte.propTypes.isRequired,
+  id: PropTypes.string.isRequired,
+  status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func.isRequired,
 }

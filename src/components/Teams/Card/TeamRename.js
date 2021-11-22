@@ -22,6 +22,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  edit: 'Modifier',
+}
+
 const TeamRename = ({ handleEditTeam }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
@@ -57,7 +61,7 @@ const TeamRename = ({ handleEditTeam }) => {
           }}
           className={classes.root}
         >
-          Modifier
+          {messages.edit}
         </MenuItem>
       </Menu>
     </div>

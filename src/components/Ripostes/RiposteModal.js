@@ -40,11 +40,6 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '8.35px',
     margin: theme.spacing(1, 0),
   },
-  textArea: {
-    border: `1px solid ${theme.palette.gray200}`,
-    width: '100%',
-    borderRadius: '8px',
-  },
   modalButton: {
     color: theme.palette.whiteCorner,
     background: theme.palette.teal600,

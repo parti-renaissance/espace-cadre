@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react'
 import { Button, Container, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
-import RiposteCard from './Riposte'
 import RiposteModal from './RiposteModal'
 import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
 import PageTitle from 'ui/PageTitle'
+import UICard from 'ui/UICard'
+import Header from './Card/Header'
+import Body from './Card/Body'
 
 const messages = {
   title: 'Ripostes',
+  create: 'Créer une riposte',
 }
 
 const useStyles = makeStyles(theme => ({
@@ -22,15 +25,11 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4),
   },
   icon: {
-    marginRight: '8px',
+    marginRight: theme.spacing(1),
   },
   createButton: {
     color: theme.palette.teal700,
     padding: theme.spacing(0.75, 1),
-  },
-  root: {
-    padding: theme.spacing(2),
-    borderRadius: '8.35px',
   },
 }))
 
@@ -78,12 +77,14 @@ const Ripostes = () => {
         <Grid item className={classes.buttonContainer}>
           <Button className={classes.createButton} onClick={handleNewRiposte}>
             <AddIcon className={classes.icon} />
-            Créer une riposte
+            {messages.create}
           </Button>
         </Grid>
         <Grid container spacing={2}>
           {ripostes.map(r => (
-            <RiposteCard key={r.id} riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableRiposte} />
+            <UICard key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
+              <Body riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableRiposte} />
+            </UICard>
           ))}
         </Grid>
         <RiposteModal

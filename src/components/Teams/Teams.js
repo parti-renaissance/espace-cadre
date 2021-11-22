@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import { Container, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
-import TeamCard from './TeamCard'
 import TeamModal from './TeamModal'
 import { getTeams } from 'api/teams'
 import { Team } from 'domain/team'
 import PageTitle from 'ui/PageTitle'
+import UICard from 'ui/UICard/UICard'
+import Header from './Card/Header'
+import Body from './Card/Body'
 
 const useStyles = makeStyles(theme => ({
   teamsContainer: {
@@ -32,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 const messages = {
   title: 'Équipes',
+  create: 'Créer une équipe',
 }
 
 const Teams = () => {
@@ -65,13 +68,20 @@ const Teams = () => {
         <Grid item className={classes.buttonContainer}>
           <Button className={classes.createButton} onClick={handleNewTeam}>
             <AddIcon className={classes.icon} />
-            Créer une équipe
+            {messages.create}
           </Button>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
         {teams.map(team => (
-          <TeamCard key={team.id} team={team} handleEditTeam={handleEditTeam} />
+          <UICard
+            key={team.id}
+            header={<Header teamCount={team.members.length} />}
+            title={team.name}
+            subtitle={team.creator}
+          >
+            <Body teamId={team.id} handleEditTeam={handleEditTeam} />
+          </UICard>
         ))}
       </Grid>
       <TeamModal

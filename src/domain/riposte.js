@@ -29,7 +29,7 @@ export default class Riposte {
     this.ripostes = ripostes
   }
 
-  static NULL = new Riposte(null, '', '', '', false, false, '')
+  static NULL = new Riposte(null, '', '', '', false, false, '', '', 0, 0, 0, 0)
 
   withTitle(newTitle) {
     return new Riposte(this.id, newTitle, this.body, this.url, this.withNotification, this.status, this.createdAt)
@@ -57,7 +57,7 @@ export default class Riposte {
 }
 
 Riposte.propTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
