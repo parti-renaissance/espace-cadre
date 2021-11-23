@@ -1537,7 +1537,7 @@
     jss-plugin-vendor-prefixer "^10.8.2"
     prop-types "^15.7.2"
 
-"@mui/system@^5.1.1":
+"@mui/system@5.1.1", "@mui/system@^5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.1.1.tgz#64bf13c9137fdd858834f3921ded276b6b9767c4"
   integrity sha512-RWaM/7wAvSOX39r13in3KrLXWsd0cSkk1P/MOCW2eVY13MJIAuDUl5ZoF1uos9kWWJJge+lE77XWmYqXYrxPLw==

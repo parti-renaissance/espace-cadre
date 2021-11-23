@@ -102,7 +102,7 @@ const Sidebar = ({ toggleSidebar }) => {
               label={item.label}
               icon={Icons[item.id]}
               color={Colors[item.id].color}
-              bgColor={Colors[item.id].bgColor}
+              bgcolor={Colors[item.id].bgColor}
             />
           ))}
         </div>
