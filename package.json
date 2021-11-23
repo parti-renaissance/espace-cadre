@@ -42,7 +42,7 @@
     "start": "webpack serve --mode development",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "test": "jest src",
+    "test": "jest",
     "test-coverage": "jest src --coverage",
     "lint": "eslint './src/**/*.{js,jsx}' --ignore-path .gitignore",
     "lint:fix": "yarn run lint --fix",
