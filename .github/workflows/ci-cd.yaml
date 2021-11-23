@@ -19,7 +19,7 @@ jobs:
       - run: |-
           yarn lint
       - run: |-
-          yarn test
+          yarn test src
       - name: create env file
         shell: bash
         run: |-
