@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { Box, Grid, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { generatePath, useHistory, useParams } from 'react-router-dom'
-import { useSnackbar } from 'notistack'
 import { useUserScope } from '../../redux/user/hooks'
+import { notifyVariants, notifyMessages } from '../shared/notification/constants'
+import { useCustomSnackbar } from '../shared/notification/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
 import PATHS from '../../paths'
 import { createMessage, updateMessage } from 'api/messagerie'
-import GlobalMessages from '../shared/messages'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -47,7 +47,7 @@ const Template = () => {
   const history = useHistory()
   const { messageUuid } = useParams()
   const classes = useStyles()
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useCustomSnackbar()
 
   const editEmail = () => {
     const body = {
@@ -68,10 +68,10 @@ const Template = () => {
       const body = await editEmail()
       setMessage(body)
 
-      enqueueSnackbar(messages.createSuccess, { variant: 'success' })
+      enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       history.push(generatePath(PATHS.MESSAGERIE_FILTER.url, { messageUuid: body.uuid }))
     } catch (e) {
-      enqueueSnackbar(GlobalMessages.error, { variant: 'error' })
+      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
     }
   }
 

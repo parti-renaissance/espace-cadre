@@ -4,12 +4,12 @@ import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useSnackbar } from 'notistack'
 import ClearIcon from '@mui/icons-material/Clear'
 import { apiClient } from 'services/networking/client'
+import { notifyVariants, notifyMessages } from '../shared/notification/constants'
+import { useCustomSnackbar } from '../shared/notification/hooks'
 import AlertBanner from 'ui/AlertBanner'
 import TextField from 'ui/TextField'
-import GlobalMessages from '../shared/messages'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -64,7 +64,7 @@ const teamSchema = Yup.object({
 const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
   const classes = useStyles()
   const [errorMessage, setErrorMessage] = useState()
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useCustomSnackbar()
 
   const formik = useFormik({
     initialValues: {
@@ -77,12 +77,12 @@ const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
         if (teamItem.id) await apiClient.put(`api/v3/teams/${teamItem.id}`, values)
         if (!teamItem.id) await apiClient.post('api/v3/teams', values)
         const confirmMessage = !teamItem.id ? messages.createSuccess : messages.editSuccess
-        enqueueSnackbar(confirmMessage, { variant: 'success' })
+        enqueueSnackbar(confirmMessage, notifyVariants.success)
         onSubmitRefresh()
         handleClose()
       } catch (error) {
         setErrorMessage(error)
-        enqueueSnackbar(GlobalMessages.error, { variant: 'error' })
+        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
       }
     },
   })

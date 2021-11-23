@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
 import { useUserScope } from '../../redux/user/hooks'
+import { useGlobalNotification } from '../shared/notification/hooks'
 import Sidebar from '../Sidebar/Sidebar'
 import PageContent from '../PageContent'
 import ScopesPage from '../Scopes/ScopesPage'
@@ -21,6 +22,7 @@ const Layout = ({ children }) => {
   const userScopes = useSelector(getUserScopes)
   const [, updateUserData] = useGetUserData()
   const [toggleSidebar, setToggleSidebar] = useState(false)
+  useGlobalNotification()
 
   const handleToggle = () => {
     setToggleSidebar(!toggleSidebar)
