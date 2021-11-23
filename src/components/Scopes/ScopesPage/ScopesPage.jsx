@@ -150,10 +150,10 @@ function ScopesPage() {
       </Grid>
       {filteredScopes?.length > 0 && (
         <Grid container className={classes.cardsContainer} spacing={2} justifyContent="center">
-          {filteredScopes.map((userScope, index) => {
+          {filteredScopes.map(userScope => {
             const to = userScope.code === 'phoning_national_manager' ? PATHS.TEAMS.route : PATHS.DASHBOARD.route
             return (
-              <Grid item xs={12} sm={5} className={classes.secondaryCard} key={index}>
+              <Grid item xs={12} sm={5} className={classes.secondaryCard} key={userScope.code}>
                 <Link to={to} value={userScope.code} onClick={() => updateCurrentScope(userScope)}>
                   <Box className={classes.role}>{userScope.name}</Box>
                   {scopeContent(userScope)}

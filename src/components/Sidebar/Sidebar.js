@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Scopes from '../Scopes'
-import { MENU } from '../../Routes'
 import PATHS from '../../paths'
 import { UINavItem, Icons, Colors } from 'ui'
 import MentionsLegales from 'components/MentionsLegales/MentionsLegales'
@@ -60,13 +59,24 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '4px',
   },
   navMenu: {
-    marginTop: theme.spacing(7),
+    display: 'flex',
+    flexDirection: 'column',
   },
 }))
 
 const messages = {
   title: "Je m'engage",
 }
+
+export const MENU = [
+  PATHS.DASHBOARD,
+  PATHS.ADHERENTS,
+  PATHS.MESSAGERIE,
+  PATHS.ELECTIONS,
+  PATHS.RIPOSTES,
+  PATHS.TEAMS,
+  PATHS.NEWS,
+]
 
 const Sidebar = ({ toggleSidebar }) => {
   const authorizedPage = useSelector(getAuthorizedPages)

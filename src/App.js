@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from './redux/store'
@@ -10,7 +10,7 @@ import './style/index.scss'
 const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
+      <Router>
         <ThemeProvider>
           <NotifyProvider>
             <Layout>
@@ -18,7 +18,7 @@ const App = () => (
             </Layout>
           </NotifyProvider>
         </ThemeProvider>
-      </BrowserRouter>
+      </Router>
     </PersistGate>
   </Provider>
 )

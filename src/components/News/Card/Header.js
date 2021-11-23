@@ -65,7 +65,7 @@ const Header = ({ status, withNotification, createdAt }) => {
 
 Header.propTypes = {
   status: PropTypes.bool.isRequired,
-  withNotification: PropTypes.bool.isRequired,
+  withNotification: PropTypes.bool,
   createdAt: PropTypes.string.isRequired,
 }
 

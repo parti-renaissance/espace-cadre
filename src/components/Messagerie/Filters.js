@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Button, Container, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { generatePath, Link, useHistory, useParams } from 'react-router-dom'
+import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
@@ -75,7 +75,7 @@ const maxAttempts = 10
 
 const Filters = () => {
   const { messageUuid } = useParams()
-  const history = useHistory()
+  const navigate = useNavigate()
   const classes = useStyles()
   const [currentScope] = useUserScope()
   const [audienceId, setAudienceId] = useState(null)
@@ -88,11 +88,11 @@ const Filters = () => {
   const sendMessageAfterFilterAreSaved = useCallback(async () => {
     const responseSend = await sendMessage(messageUuid)
     if (responseSend === 'OK') {
-      history.push(PATHS.MESSAGERIE_CONFIRMATION.route)
+      navigate(PATHS.MESSAGERIE_CONFIRMATION.route)
     } else {
       // TODO: error management
     }
-  }, [history, messageUuid])
+  }, [messageUuid, navigate])
   const [loadingSendButton, , launchAreFilterSaved] = useRetry(
     getMessage,
     retryInterval,

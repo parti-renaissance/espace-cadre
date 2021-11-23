@@ -1,111 +1,36 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Route, Switch, useHistory } from 'react-router-dom'
+import { Route, Routes as RRRoutes, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from './redux/user/selectors'
-import PATHS from './paths'
 import { CircularProgress, Grid } from '@mui/material'
 
 const Dashboard = lazy(() => import('./components/Dashboard'))
 const Adherents = lazy(() => import('./components/Adherents'))
-const MessagerieDashboard = lazy(() => import('./components/Messagerie'))
-const MessageTemplate = lazy(() => import('./components/Messagerie/Template'))
-const MessageFilter = lazy(() => import('./components/Messagerie/Filters'))
-const MessageConfirmation = lazy(() => import('./components/Messagerie/Confirmation'))
+const Messagerie = lazy(() => import('./components/Messagerie'))
 const Elections = lazy(() => import('./components/Elections/Elections'))
 const Ripostes = lazy(() => import('./components/Ripostes'))
 const Teams = lazy(() => import('./components/Teams'))
-const TeamEdit = lazy(() => import('./components/Teams/TeamEdit'))
 const News = lazy(() => import('./components/News'))
 const NoMatch = lazy(() => import('./components/NoMatch'))
 
-export const MENU = [
-  PATHS.DASHBOARD,
-  PATHS.ADHERENTS,
-  PATHS.MESSAGERIE,
-  PATHS.ELECTIONS,
-  PATHS.RIPOSTES,
-  PATHS.TEAMS,
-  PATHS.NEWS,
-]
-
-const COMPONENTS = [
-  {
-    path: PATHS.DASHBOARD,
-    component: Dashboard,
-  },
-  {
-    path: PATHS.ADHERENTS,
-    component: Adherents,
-  },
-  {
-    path: PATHS.MESSAGERIE,
-    component: MessagerieDashboard,
-  },
-  {
-    path: PATHS.MESSAGERIE_CREATE,
-    component: MessageTemplate,
-  },
-  {
-    path: PATHS.MESSAGERIE_EDIT,
-    component: MessageTemplate,
-  },
-  {
-    path: PATHS.MESSAGERIE_FILTER,
-    component: MessageFilter,
-  },
-  {
-    path: PATHS.MESSAGERIE_CONFIRMATION,
-    component: MessageConfirmation,
-  },
-  {
-    path: PATHS.ELECTIONS,
-    component: Elections,
-  },
-  {
-    path: PATHS.RIPOSTES,
-    component: Ripostes,
-  },
-  {
-    path: PATHS.TEAMS,
-    component: Teams,
-  },
-  {
-    path: PATHS.TEAMS_EDIT,
-    component: TeamEdit,
-  },
-  {
-    path: PATHS.NEWS,
-    component: News,
-  },
-]
-
 const Routes = () => {
-  const history = useHistory()
-  const authorizedPage = useSelector(getAuthorizedPages)
-  const routes = []
+  const location = useLocation()
+  const authorizedPages = useSelector(getAuthorizedPages)
 
-  useEffect(
-    () =>
-      history.listen((_, action) => {
-        if (action === 'PUSH') {
-          window.scrollTo(0, 0)
-        }
-      }),
-    [history]
-  )
-
-  if (authorizedPage?.length > 0) {
-    COMPONENTS.forEach((component, index) => {
-      if (authorizedPage.includes(component.path?.id)) {
-        routes.push(<Route key={index} path={component.path.route} component={component.component} exact />)
-      }
-    })
-    routes.push(<Route key={-2} component={NoMatch} />)
-  }
+  useEffect(() => window.scrollTo(0, 0), [location])
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Switch>{routes}</Switch>
+      <RRRoutes>
+        <Route path="*" element={<NoMatch />} />
+        <Route path="/" element={authorizedPages.includes('dashboard') && <Dashboard />} />
+        <Route path="/adherents" element={authorizedPages.includes('contacts') && <Adherents />} />
+        <Route path="/messagerie/*" element={authorizedPages.includes('messages') && <Messagerie />} />
+        <Route path="/elections" element={authorizedPages.includes('elections') && <Elections />} />
+        <Route path="/ripostes" element={authorizedPages.includes('ripostes') && <Ripostes />} />
+        <Route path="/equipes/*" element={authorizedPages.includes('team') && <Teams />} />
+        <Route path="/actualites" element={authorizedPages.includes('news') && <News />} />
+      </RRRoutes>
     </Suspense>
   )
 }

@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import { Button, Icon, Typography } from '@mui/material'
+import { Icon, Typography } from '@mui/material'
 
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
+    display: 'flex',
     marginLeft: theme.spacing(4),
-    marginBottom: theme.spacing(2),
     padding: theme.spacing(1.5, 2),
-    borderRadius: theme.spacing(1),
+    borderRadius: '8px 0 0 8px',
     color: theme.palette.gray600,
     '&:hover': {
       color: theme.palette.gray600,
@@ -34,14 +34,7 @@ const UINavItem = ({ path, label, icon = null, color = null, bgColor = null }) =
   const classes = useStyles({ color, bgColor })
 
   return (
-    <NavLink
-      component={({ navigate: _, ...props }) => <Button {...props} />}
-      className={classes.root}
-      activeClassName={classes.active}
-      isActive={match => !!match}
-      to={path}
-      exact
-    >
+    <NavLink className={({ isActive }) => [].concat(classes.root, isActive ? classes.active : '').join(' ')} to={path}>
       <Icon component={icon} className={classes.icon} />
       <Typography variant="body2">{label}</Typography>
     </NavLink>
