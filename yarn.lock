@@ -1103,7 +1103,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
   integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
 
-"@emotion/is-prop-valid@^1.1.1":
+"@emotion/is-prop-valid@1.1.1", "@emotion/is-prop-valid@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.1.1.tgz#cbd843d409dfaad90f9404e7c0404c55eae8c134"
   integrity sha512-bW1Tos67CZkOURLc0OalnfxtSXQJMrAMV0jZTVGJUPSOd4qgjF3+tTD5CwJM13PHA8cltGW1WGbbvV9NpvUZPw==
@@ -7711,10 +7711,10 @@ react-dom@17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-email-editor@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/react-email-editor/-/react-email-editor-1.4.0.tgz#5c8bf6eca72533dec64032418688358a83562cff"
-  integrity sha512-nXVBeJPYHtqw21NoPXmgL7VBPezR7Ob/GLwZ6EHd6m5pFqmQ+Za4/vbCtuqFk4lzHOByzHx57e74ucdRqGruqw==
+react-email-editor@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-email-editor/-/react-email-editor-1.5.0.tgz#54b1318460bb9c6697321227ca1551bac78ff8a8"
+  integrity sha512-81+tVkLJZUaezXIKZdMAg631mMORaDkqrj0Ud6hHpYtLfdz1v1gFRiAsehvvh44+7J/LmzWacavZ5HtM1qaINw==
 
 react-fast-compare@^2.0.1:
   version "2.0.4"
