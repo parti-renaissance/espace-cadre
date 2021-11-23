@@ -1,38 +1,4 @@
-import isPropValid from '@emotion/is-prop-valid'
-import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/material/styles'
-import { createGenerateClassName } from '@mui/styles'
-import { createTheme } from '@mui/material'
-import { frFR } from '@mui/material/locale'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import { useMemo } from 'react'
-import PropTypes from 'prop-types'
-
-const classNamesOptions = createGenerateClassName({
-  productionPrefix: 'em',
-})
-
-export const ThemeProvider = ({ children }) => {
-  const theme = useMemo(() => createTheme(themeConfig, frFR), [])
-
-  return (
-    <StyledEngineProvider generateClassName={classNamesOptions} injectFirst>
-      <MuiThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>{children}</LocalizationProvider>
-      </MuiThemeProvider>
-    </StyledEngineProvider>
-  )
-}
-
-ThemeProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export const shouldForwardProps = {
-  shouldForwardProp: prop => isPropValid(prop),
-}
-
-const themeConfig = {
+export const styles = {
   typography: {
     fontFamily: 'Poppins, sans-serif',
     body2: {
