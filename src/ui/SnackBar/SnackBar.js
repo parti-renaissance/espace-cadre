@@ -49,7 +49,7 @@ const Content = styled(
 `
 )
 
-const UISnackBar = forwardRef(({ id, message, variant, content, dismissResolve }, ref) => {
+const UISnackBar = forwardRef(({ id, message, variant, dismissResolve, children }, ref) => {
   const [expanded, setExpanded] = useState(false)
   const { closeSnackbar } = useCustomSnackbar()
 
@@ -70,7 +70,7 @@ const UISnackBar = forwardRef(({ id, message, variant, content, dismissResolve }
             <Title>{message}</Title>
           </Grid>
           <Grid item>
-            {content && (
+            {children && (
               <ExpandButton expanded={expanded} onClick={handleExpandToggle}>
                 <ColoredExpandIcon fontSize="small" />
               </ExpandButton>
@@ -80,9 +80,9 @@ const UISnackBar = forwardRef(({ id, message, variant, content, dismissResolve }
             </IconButton>
           </Grid>
         </CardActions>
-        {content && (
+        {children && (
           <Collapse in={expanded} timeout="auto">
-            <Content bold>{content}</Content>
+            <Content bold>{children}</Content>
           </Collapse>
         )}
       </Card>
@@ -94,12 +94,13 @@ UISnackBar.displayName = 'UISnackBar'
 UISnackBar.defaultProps = {
   content: null,
   dismissResolve: null,
+  children: null,
 }
 UISnackBar.propTypes = {
   id: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
-  content: PropTypes.node,
+  children: PropTypes.node,
   dismissResolve: PropTypes.func,
 }
 

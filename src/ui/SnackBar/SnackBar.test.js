@@ -41,13 +41,9 @@ describe('SnackBar', () => {
   it('displays a SnackBar with content', () => {
     const mockDismiss = jest.fn()
     const { container } = render(
-      <SnackBar
-        id="id"
-        message="message"
-        variant="variant"
-        content={<div data-testid="content" />}
-        dismissResolve={mockDismiss}
-      />
+      <SnackBar id="id" message="message" variant="variant" dismissResolve={mockDismiss}>
+        <div data-testid="content" />
+      </SnackBar>
     )
 
     const [toggleContent] = screen.getAllByTestId('icon-button')
@@ -57,7 +53,11 @@ describe('SnackBar', () => {
 
   it('calls handleDismiss callback', () => {
     const mockDismiss = jest.fn()
-    render(<SnackBar id="id" message="message" variant="variant" content="content" dismissResolve={mockDismiss} />)
+    render(
+      <SnackBar id="id" message="message" variant="variant" dismissResolve={mockDismiss}>
+        <div data-testid="content" />
+      </SnackBar>
+    )
     const [, dismissButton] = screen.getAllByTestId('icon-button')
     fireEvent.click(dismissButton)
     expect(mockDismiss).toHaveBeenCalled()
@@ -67,13 +67,9 @@ describe('SnackBar', () => {
   it('displays/hides content on click', () => {
     const mockDismiss = jest.fn()
     render(
-      <SnackBar
-        id="id"
-        message="message"
-        variant="variant"
-        content={<div data-testid="content" />}
-        dismissResolve={mockDismiss}
-      />
+      <SnackBar id="id" message="message" variant="variant" dismissResolve={mockDismiss}>
+        <div data-testid="content" />
+      </SnackBar>
     )
 
     expect(screen.queryByTestId('content')).toBeFalsy()
