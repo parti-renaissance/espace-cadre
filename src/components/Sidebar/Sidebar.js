@@ -5,10 +5,16 @@ import PropTypes from 'prop-types'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Scopes from '../Scopes'
-import PATHS from '../../paths'
-import { UINavItem, Icons, Colors } from 'ui'
+import { UINavItem } from 'ui'
 import MentionsLegales from 'components/MentionsLegales/MentionsLegales'
 import barChart from 'assets/bar-chart.svg'
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded'
+import MapRoundedIcon from '@mui/icons-material/MapRounded'
+import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded'
+import StarRoundedIcon from '@mui/icons-material/StarRounded'
+import RssFeedIcon from '@mui/icons-material/RssFeed'
 
 const useStyles = makeStyles(theme => ({
   sidebar: {
@@ -68,25 +74,14 @@ const messages = {
   title: "Je m'engage",
 }
 
-export const MENU = [
-  PATHS.DASHBOARD,
-  PATHS.ADHERENTS,
-  PATHS.MESSAGERIE,
-  PATHS.ELECTIONS,
-  PATHS.RIPOSTES,
-  PATHS.TEAMS,
-  PATHS.NEWS,
-]
-
 const Sidebar = ({ toggleSidebar }) => {
-  const authorizedPage = useSelector(getAuthorizedPages)
-  const filteredMenu = MENU.filter(item => authorizedPage?.includes(item.id))
+  const authorizedPages = useSelector(getAuthorizedPages)
   const classes = useStyles()
 
   return (
     <>
       <div id="sidebar" className={`${classes.sidebar} ${toggleSidebar ? 'active' : ''}`}>
-        <Link to={PATHS.DASHBOARD.route} className={classes.brandLink}>
+        <Link to="/" className={classes.brandLink}>
           <div className={classes.logoContainer}>
             <img src={barChart} alt="bar chart" className={classes.barChart} />
             <div className={classes.logoText}>{messages.title}</div>
@@ -95,16 +90,23 @@ const Sidebar = ({ toggleSidebar }) => {
         </Link>
         <Scopes />
         <div className={classes.navMenu}>
-          {filteredMenu.map(item => (
-            <UINavItem
-              key={item.id}
-              path={item.url}
-              label={item.label}
-              icon={Icons[item.id]}
-              color={Colors[item.id].color}
-              bgcolor={Colors[item.id].bgColor}
-            />
-          ))}
+          <NavItem id="dashboard" url="/" label="Vue d’ensemble" display={authorizedPages.includes('dashboard')} />
+          <NavItem id="adherents" url="/adherents" label="Adhérents" display={authorizedPages.includes('contacts')} />
+          <NavItem
+            id="messagerie"
+            url="/messagerie"
+            label="Messagerie"
+            display={authorizedPages.includes('messages')}
+          />
+          <NavItem
+            id="elections"
+            url="/elections"
+            label="&Eacute;lections"
+            display={authorizedPages.includes('elections')}
+          />
+          <NavItem id="ripostes" url="/ripostes" label="Ripostes" display={authorizedPages.includes('ripostes')} />
+          <NavItem id="teams" url="/equipes" label="&Eacute;quipes" display={authorizedPages.includes('team')} />
+          <NavItem id="news" url="/actualites" label="Actualités" display={authorizedPages.includes('news')} />
         </div>
         <MentionsLegales />
       </div>
@@ -116,4 +118,35 @@ export default Sidebar
 
 Sidebar.propTypes = {
   toggleSidebar: PropTypes.bool.isRequired,
+}
+
+const NavItem = ({ id, url, label, display }) =>
+  display ? (
+    <UINavItem path={url} label={label} icon={icons[id]} color={colors[id].color} bgcolor={colors[id].bgColor} />
+  ) : null
+NavItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  display: PropTypes.bool.isRequired,
+}
+
+const icons = {
+  dashboard: DashboardRoundedIcon,
+  adherents: PeopleRoundedIcon,
+  messagerie: EmailRoundedIcon,
+  elections: MapRoundedIcon,
+  ripostes: PostAddRoundedIcon,
+  teams: StarRoundedIcon,
+  news: RssFeedIcon,
+}
+
+const colors = {
+  dashboard: { color: 'gray900', bgColor: '#F3F4F6' },
+  adherents: { color: 'lightBlue600', bgColor: '#EBF6FB' },
+  messagerie: { color: 'yellow400', bgColor: '#FFFAEE' },
+  elections: { color: 'green600', bgColor: '#EBF7F3' },
+  ripostes: { color: 'teal700', bgColor: '#ECF4F4' },
+  teams: { color: 'cyan700', bgColor: '#EBF3F8' },
+  news: { color: 'orange500', bgColor: '#FFF4ED' },
 }

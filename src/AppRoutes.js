@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Route, Routes as RRRoutes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from './redux/user/selectors'
 import { CircularProgress, Grid } from '@mui/material'
@@ -13,7 +13,7 @@ const Teams = lazy(() => import('./components/Teams'))
 const News = lazy(() => import('./components/News'))
 const NoMatch = lazy(() => import('./components/NoMatch'))
 
-const Routes = () => {
+const AppRoutes = () => {
   const location = useLocation()
   const authorizedPages = useSelector(getAuthorizedPages)
 
@@ -21,7 +21,7 @@ const Routes = () => {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <RRRoutes>
+      <Routes>
         <Route path="*" element={<NoMatch />} />
         <Route path="/" element={authorizedPages.includes('dashboard') && <Dashboard />} />
         <Route path="/adherents" element={authorizedPages.includes('contacts') && <Adherents />} />
@@ -30,12 +30,12 @@ const Routes = () => {
         <Route path="/ripostes" element={authorizedPages.includes('ripostes') && <Ripostes />} />
         <Route path="/equipes/*" element={authorizedPages.includes('team') && <Teams />} />
         <Route path="/actualites" element={authorizedPages.includes('news') && <News />} />
-      </RRRoutes>
+      </Routes>
     </Suspense>
   )
 }
 
-export default Routes
+export default AppRoutes
 
 const Spinner = () => (
   <Grid container style={{ marginTop: 'calc(100vh - 70vh)', textAlign: 'center' }}>

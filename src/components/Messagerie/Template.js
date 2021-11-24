@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { Box, Grid, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
-import PATHS from '../../paths'
 import { createMessage, updateMessage } from 'api/messagerie'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
@@ -69,7 +68,7 @@ const Template = () => {
       setMessage(body)
 
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
-      navigate(generatePath(PATHS.MESSAGERIE_FILTER.url, { messageUuid: body.uuid }))
+      navigate(`../${body.uuid}/filtrer`)
     } catch (e) {
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
     }

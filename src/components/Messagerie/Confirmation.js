@@ -1,7 +1,6 @@
 import { Container, Paper, Button, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
-import PATHS from '../../paths'
 
 const useStyles = makeStyles(theme => ({
   paperContainer: {
@@ -37,7 +36,7 @@ const Confirmation = () => {
         </Grid>
         <Grid container>
           <Grid item xs={12}>
-            <Link to={PATHS.MESSAGERIE.route}>
+            <Link to="../">
               <Button className={classes.returnButton}>Revenir à la messagerie</Button>
             </Link>
           </Grid>

@@ -4,7 +4,6 @@ import { Container, Grid, Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
-import PATHS from '../../../paths'
 import barChartScopes from 'assets/bar-chart-scopes.svg'
 
 const useStyles = makeStyles(theme => ({
@@ -151,7 +150,7 @@ function ScopesPage() {
       {filteredScopes?.length > 0 && (
         <Grid container className={classes.cardsContainer} spacing={2} justifyContent="center">
           {filteredScopes.map(userScope => {
-            const to = userScope.code === 'phoning_national_manager' ? PATHS.TEAMS.route : PATHS.DASHBOARD.route
+            const to = userScope.code === 'phoning_national_manager' ? '/equipes' : '/'
             return (
               <Grid item xs={12} sm={5} className={classes.secondaryCard} key={userScope.code}>
                 <Link to={to} value={userScope.code} onClick={() => updateCurrentScope(userScope)}>

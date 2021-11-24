@@ -2,11 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Button, Container, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
-import PATHS from '../../paths'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
@@ -88,7 +87,7 @@ const Filters = () => {
   const sendMessageAfterFilterAreSaved = useCallback(async () => {
     const responseSend = await sendMessage(messageUuid)
     if (responseSend === 'OK') {
-      navigate(PATHS.MESSAGERIE_CONFIRMATION.route)
+      navigate('confirmation')
     } else {
       // TODO: error management
     }
@@ -145,7 +144,7 @@ const Filters = () => {
       <Container maxWidth="xl">
         <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
         <Grid container>
-          <Link to={generatePath(PATHS.MESSAGERIE_EDIT.url, { messageUuid })}>
+          <Link to="../modifier">
             <Button
               type="button"
               disableRipple

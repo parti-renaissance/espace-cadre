@@ -1,7 +1,6 @@
 import { Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { Link, generatePath } from 'react-router-dom'
-import PATHS from '../../../paths'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import TeamRename from './TeamRename'
 
@@ -24,7 +23,7 @@ const Body = ({ teamId, handleEditTeam }) => {
   return (
     <Grid container className={classes.buttonContainer} justifyContent="space-between">
       <Grid item>
-        <Link to={generatePath(PATHS.TEAMS_EDIT.route, { teamId })}>
+        <Link to={`${teamId}/editer`}>
           <Button className={classes.editButton}>Voir</Button>
         </Link>
       </Grid>
