@@ -22,6 +22,11 @@ export const updateNews = news =>
     published: news.status,
   })
 
+export const updateNewsStatus = news =>
+  apiClient.put(`api/v3/jecoute/news/${news.id}`, {
+    published: news.status,
+  })
+
 export const createNews = news =>
   apiClient.post('api/v3/jecoute/news', {
     uuid: news.id,

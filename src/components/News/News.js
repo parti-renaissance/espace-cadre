@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Container, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { getNews, updateNews } from 'api/news'
+import { styled } from '@mui/system'
+import { getNews, updateNewsStatus } from 'api/news'
 import PageTitle from 'ui/PageTitle'
 import UICard from 'ui/UICard'
 import Header from './Card/Header'
@@ -13,22 +14,13 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     padding: 0,
   },
-  newsContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  buttonContainer: {
-    background: theme.palette.newsBackground,
-    borderRadius: '8.35px',
-    marginBottom: theme.spacing(4),
-  },
-  icon: {
-    marginRight: theme.spacing(1),
-  },
-  createButton: {
-    color: theme.palette.orange500,
-    padding: theme.spacing(0.75, 1),
-  },
 }))
+
+const NewsContainer = styled(Container)(
+  ({ theme }) => `
+  margin-bottom: ${theme.spacing(2)};
+`
+)
 
 const messages = {
   title: 'Actualités',
@@ -49,7 +41,7 @@ const News = () => {
         .concat(newNews)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     )
-    await updateNews(newNews)
+    await updateNewsStatus(newNews)
     getNews(setNews)
   }
 
@@ -67,7 +59,7 @@ const News = () => {
   }, [])
 
   return (
-    <Container maxWidth="lg" className={classes.newsContainer} classes={{ root: classes.root }}>
+    <NewsContainer maxWidth="lg" classes={{ root: classes.root }}>
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <Grid container spacing={2}>
@@ -86,7 +78,7 @@ const News = () => {
           }}
         />
       </Grid>
-    </Container>
+    </NewsContainer>
   )
 }
 

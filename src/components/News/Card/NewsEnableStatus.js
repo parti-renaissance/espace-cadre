@@ -1,20 +1,23 @@
 import { useState } from 'react'
-import { styled } from '@mui/system'
-import { Button, Menu, MenuItem } from '@mui/material'
+import { Button as MuiButton, Menu, MenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme => ({
-  iconButton: {
-    marginTop: theme.spacing(1.25),
-  },
+const useStyles = makeStyles(() => ({
   list: {
     fontSize: '13px',
     padding: 0,
     borderRadius: '8.35px',
   },
 }))
+
+const Button = styled(MuiButton)(
+  ({ theme }) => `
+  margin-top: ${theme.spacing(1.25)}
+`
+)
 
 const NewsEnableStatus = ({ id, status, toggleStatus }) => {
   const classes = useStyles()
@@ -28,7 +31,6 @@ const NewsEnableStatus = ({ id, status, toggleStatus }) => {
     <div>
       <Button
         size="small"
-        className={classes.iconButton}
         aria-label="more"
         aria-controls="simple-menu"
         aria-haspopup="true"
