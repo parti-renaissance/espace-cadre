@@ -13,12 +13,14 @@ const Wrapper = styled(SnackbarContent)`
   max-width: 345px;
   display: flex;
 `
-const CardActions = styled(MuiCardActions)`
-  padding: ${({ theme }) => theme.spacing(1, 1, 1, 2)};
+const CardActions = styled(MuiCardActions)(
+  ({ theme, variant }) => `
+  padding: ${theme.spacing(1, 1, 1, 2)};
   justify-content: space-between;
-  background: ${({ theme, variant }) => theme.palette.notification[variant].background};
-  color: ${({ theme }) => theme.palette.whiteCorner};
+  background: ${theme.palette.notification[variant].background};
+  color: ${theme.palette.whiteCorner};
 `
+)
 const Title = styled(props => <Typography variant="body2" {...props} />, shouldForwardProps)`
   padding: ${({ theme }) => theme.spacing(0, 3, 0, 1)};
 `
@@ -33,14 +35,19 @@ const ColoredExpandIcon = styled(ExpandMoreIcon)`
 const ColoredCloseIcon = styled(CloseIcon)`
   color: ${({ theme }) => theme.palette.whiteCorner};
 `
-const Content = styled(Paper, shouldForwardProps)`
-  padding: ${({ theme }) => theme.spacing(2, 2, 2, 3)};
-  background: ${({ theme }) => theme.palette.whiteCorner};
-  color: ${({ theme }) => theme.palette.blackCorner};
-  border: 1px solid ${({ theme }) => theme.palette.gray300};
-  font-weight: ${({ bold }) => (bold === true ? 600 : 'initial')};
+const Content = styled(
+  Paper,
+  shouldForwardProps
+)(
+  ({ theme, bold }) => `
+  padding: ${theme.spacing(2, 2, 2, 3)};
+  background: ${theme.palette.whiteCorner};
+  color: ${theme.palette.blackCorner};
+  border: 1px solid ${theme.palette.gray300};
+  font-weight: ${bold === true ? 600 : 'initial'};
   font-size: 14px;
 `
+)
 
 const UISnackBar = forwardRef(({ id, message, variant, content, dismissResolve }, ref) => {
   const [expanded, setExpanded] = useState(false)

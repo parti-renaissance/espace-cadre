@@ -5,7 +5,7 @@ const NotifyProvider = ({ children }) => (
   <SnackbarProvider
     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
     transitionDuration={{ enter: 300, exit: 500 }}
-    autoHideDuration={3000}
+    autoHideDuration={5000}
     maxSnack={5}
     preventDuplicate
   >
