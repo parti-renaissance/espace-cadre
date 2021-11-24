@@ -85,7 +85,9 @@ exports[`SnackBar displays a SnackBar with content 1`] = `
         <div
           class="mock-paper"
         >
-          content
+          <div
+            data-testid="content"
+          />
         </div>
       </div>
     </div>
