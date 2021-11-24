@@ -7,9 +7,9 @@
     "@emotion/is-prop-valid": "1.1.1",
     "@emotion/styled": "11.6.0",
     "@mui/icons-material": "5.2.0",
-    "@mui/lab": "5.0.0-alpha.55",
-    "@mui/material": "5.1.1",
-    "@mui/styles": "5.1.1",
+    "@mui/lab": "5.0.0-alpha.56",
+    "@mui/material": "5.2.0",
+    "@mui/styles": "5.2.0",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/react": "6.15.0",
     "@sentry/tracing": "6.15.0",
@@ -101,6 +101,9 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
+    "testMatch": [
+      "<rootDir>/**/*.test.js"
+    ],
     "moduleNameMapper": {
       "^(api)/(.*)$": "<rootDir>/src/$1/$2",
       "^(components)/(.*)$": "<rootDir>/src/$1/$2",
