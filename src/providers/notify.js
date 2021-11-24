@@ -3,7 +3,7 @@ import { SnackbarProvider } from 'notistack'
 
 const NotifyProvider = ({ children }) => (
   <SnackbarProvider
-    anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
     transitionDuration={{ enter: 300, exit: 500 }}
     autoHideDuration={5000}
     maxSnack={5}
