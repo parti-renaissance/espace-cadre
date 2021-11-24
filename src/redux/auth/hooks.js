@@ -29,7 +29,7 @@ export const useRequestAccessToken = () => {
   return useAsyncFn(async code => {
     const data = await login(code)
     dispatch(userLoggedIn(data))
-    navigate('')
+    navigate('/')
   }, [])
 }
 
