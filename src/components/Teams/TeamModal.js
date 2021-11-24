@@ -53,7 +53,7 @@ const messages = {
   add: 'Ajouter',
   teamMember: "Membres de l'équipe",
   noMember: 'Cette équipe ne contient aucun membre',
-  createSuccess: 'Equipe créée avec succès !',
+  createSuccess: 'Equipe créée avec succès',
   editSuccess: "L'équipe a bien été modifiée",
 }
 

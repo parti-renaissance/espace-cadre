@@ -8,6 +8,8 @@ import TextField from 'ui/TextField'
 import AlertBanner from 'ui/AlertBanner'
 import { createRiposte, updateRiposte } from 'api/ripostes'
 import DomainRiposte from 'domain/riposte'
+import { notifyMessages, notifyVariants } from '../shared/notification/constants'
+import { useCustomSnackbar } from '../shared/notification/hooks'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -57,9 +59,15 @@ const riposteSchema = Yup.object({
   url: Yup.string().url('Ce champ doit être une URL valide').required('Url obligatoire'),
 })
 
+const messages = {
+  createSuccess: 'Riposte créée avec succès',
+  editSuccess: 'La riposte a bien été modifiée',
+}
+
 const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
   const classes = useStyles()
   const [errorMessage, setErrorMessage] = useState()
+  const { enqueueSnackbar } = useCustomSnackbar()
 
   const formik = useFormik({
     initialValues: {
@@ -80,16 +88,16 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
           .withWithNotification(form.withNotification)
           .withStatus(form.status)
 
-        if (newRiposte.id) {
-          await updateRiposte(newRiposte)
-        } else {
-          await createRiposte(newRiposte)
-        }
+        !newRiposte.id && (await createRiposte(newRiposte))
+        newRiposte.id && (await updateRiposte(newRiposte))
 
+        const confirmMessage = !newRiposte.id ? messages.createSuccess : messages.editSuccess
+        enqueueSnackbar(confirmMessage, notifyVariants.success)
         onSubmitRefresh()
         handleClose()
       } catch (error) {
         setErrorMessage(error)
+        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
       }
     },
   })
