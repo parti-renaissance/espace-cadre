@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
+import { NavLink as MUINavLink } from 'react-router-dom'
 import { Icon as MUIIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-const UINavLink = styled(NavLink)`
+const NavLink = styled(MUINavLink)`
   display: flex;
+  margin-right: auto;
+  min-width: 150px;
   margin-left: ${({ theme }) => theme.spacing(4)};
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
   padding: ${({ theme }) => theme.spacing(1.5, 2)};
-  border-radius: 8px 0 0 8px;
+  border-radius: 4px;
   &:hover {
     color: ${({ theme }) => theme.palette.gray600};
     background: ${({ theme }) => theme.palette.gray100};
@@ -23,14 +26,14 @@ const Icon = styled(MUIIcon)`
   padding-right: ${({ theme }) => theme.spacing(2)};
 `
 
-const UINavItem = ({ path, label, icon = null, color = null, bgcolor = null }) => (
-  <UINavLink to={path} color={color} bgcolor={bgcolor}>
+const NavItem = ({ path, label, icon = null, color = null, bgcolor = null }) => (
+  <NavLink to={path} color={color} bgcolor={bgcolor}>
     <Icon component={icon} />
     <Typography variant="body2">{label}</Typography>
-  </UINavLink>
+  </NavLink>
 )
 
-UINavItem.propTypes = {
+NavItem.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.elementType,
@@ -38,4 +41,4 @@ UINavItem.propTypes = {
   bgcolor: PropTypes.string,
 }
 
-export default UINavItem
+export default NavItem
