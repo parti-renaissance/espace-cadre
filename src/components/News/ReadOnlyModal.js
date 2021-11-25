@@ -1,8 +1,7 @@
-import { Dialog, Grid, Button as MuiButton, Icon, Paper, Typography as MuiTypography } from '@mui/material'
+import { Dialog, Grid, Icon, Paper, Typography as MuiTypography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
-import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/notification/helpers'
@@ -21,27 +20,6 @@ const Title = styled(MuiTypography)(
   font-weight: 400;
   color: ${theme.palette.gray800};
   margin-top: ${theme.spacing(1)};
-`
-)
-
-const ButtonWrapper = styled(Grid)(
-  ({ theme }) => `
-  background: ${theme.palette.newsBackground};
-  border-radius: 8.35px;
-  margin-bottom: ${theme.spacing(4)};
-`
-)
-
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  color: ${theme.palette.orange500};
-  padding: ${theme.spacing(0.75, 1)};
-`
-)
-
-const EditIcon = styled(EditRoundedIcon)(
-  ({ theme }) => `
-  margin-right: ${theme.spacing(1)};
 `
 )
 
@@ -92,7 +70,6 @@ const NotificationIcon = styled(Icon)(
 )
 
 const messages = {
-  edit: 'Modifier',
   published: 'Publiée',
   unpublished: 'Dépubliée',
   author: 'Par',
@@ -103,16 +80,10 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
-      <Grid container justifyContent="space-between">
+      <Grid container justifyContent="space-between" sx={{ marginBottom: 2 }}>
         <Grid item>
           <Title>{news.title}</Title>
         </Grid>
-        <ButtonWrapper item>
-          <Button>
-            <EditIcon />
-            {messages.edit}
-          </Button>
-        </ButtonWrapper>
       </Grid>
       <Grid container spacing={1}>
         <Grid item>
