@@ -7,7 +7,7 @@ import PageTitle from 'ui/PageTitle'
 import UICard from 'ui/UICard'
 import Header from './Card/Header'
 import Body from './Card/Body'
-import NewsDetailsModal from './NewsDetailsModal'
+import ReadOnlyModal from './ReadOnlyModal'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,28 +30,32 @@ const News = () => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [news, setNews] = useState([])
-  const [newNews, setNewNews] = useState(null)
+  const [updatedNews, setUpdatedNews] = useState(null)
 
   const toggleEnableNews = async id => {
     const info = news.find(n => n.id === id)
-    const newNews = info.toggleStatus()
+    const editedNews = info.toggleStatus()
     setNews(prev =>
       prev
         .filter(n => n.id !== id)
-        .concat(newNews)
+        .concat(editedNews)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     )
-    await updateNewsStatus(newNews)
+    await updateNewsStatus(editedNews)
     getNews(setNews)
   }
 
-  const handleClickOpen = id => {
-    setNewNews(news.find(n => n.id === id) || null)
+  const handleClick = id => () => {
+    setUpdatedNews(news.find(n => n.id === id) || null)
     setOpen(true)
   }
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const handleSubmitRefresh = () => {
+    getNews(setNews)
   }
 
   useEffect(() => {
@@ -63,20 +67,13 @@ const News = () => {
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <Grid container spacing={2}>
-          {news?.map(n => (
+          {news.map(n => (
             <UICard key={n.id} header={<Header {...n} />} title={n.title} subtitle={`Par ${n.creator}`}>
-              <Body news={n} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableNews} />
+              <Body news={n} handleClick={handleClick(n.id)} toggleStatus={toggleEnableNews} />
             </UICard>
           ))}
         </Grid>
-        <NewsDetailsModal
-          open={open}
-          handleClose={handleClose}
-          news={newNews}
-          onSubmitRefresh={() => {
-            getNews(setNews)
-          }}
-        />
+        <ReadOnlyModal open={open} handleClose={handleClose} news={updatedNews} onSubmitRefresh={handleSubmitRefresh} />
       </Grid>
     </NewsContainer>
   )

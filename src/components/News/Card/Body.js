@@ -1,10 +1,10 @@
 import { Grid, Button as MuiButton } from '@mui/material'
 import { styled } from '@mui/system'
-import NewsEnableStatus from './NewsEnableStatus'
+import NewsStatus from './NewsStatus'
 import PropTypes from 'prop-types'
 import News from 'domain/news'
 
-const BodyContainer = styled(Grid)(
+const Wrapper = styled(Grid)(
   () => `
   position: relative;
   bottom: 0;
@@ -29,26 +29,26 @@ const messages = {
   see: 'Voir',
 }
 
-const Body = ({ news, handleClickOpen, toggleStatus }) => {
+const Body = ({ news, handleClick, toggleStatus }) => {
   const { id, status } = news
 
   return (
     <>
-      <BodyContainer container>
+      <Wrapper container>
         <Grid item>
-          <Button onClick={() => handleClickOpen(id)}>{messages.see}</Button>
+          <Button onClick={handleClick}>{messages.see}</Button>
         </Grid>
         <Grid item>
-          <NewsEnableStatus id={id} status={status} toggleStatus={toggleStatus} />
+          <NewsStatus id={id} status={status} toggleStatus={toggleStatus} />
         </Grid>
-      </BodyContainer>
+      </Wrapper>
     </>
   )
 }
 
 Body.propTypes = {
   news: News.propTypes.isRequired,
-  handleClickOpen: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
   toggleStatus: PropTypes.func.isRequired,
 }
 

@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Button as MuiButton, Menu, MenuItem } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { makeStyles } from '@mui/styles'
 import { styled } from '@mui/system'
+import { makeStyles } from '@mui/styles'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import Menu from '@mui/material/Menu'
+import { MenuItem as MuiMenuItem, IconButton as MuiIconButton } from '@mui/material'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(() => ({
@@ -13,13 +14,24 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const Button = styled(MuiButton)(
+const Button = styled(MuiIconButton)(
   ({ theme }) => `
   margin-top: ${theme.spacing(1.25)}
 `
 )
 
-const NewsEnableStatus = ({ id, status, toggleStatus }) => {
+const MenuItem = styled(MuiMenuItem)(
+  () => `
+  font-size: 13px;
+`
+)
+
+const messages = {
+  activate: 'Activer',
+  deactivate: 'Désactiver',
+}
+
+const RiposteStatus = ({ id, status, toggleStatus }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -31,9 +43,6 @@ const NewsEnableStatus = ({ id, status, toggleStatus }) => {
     <div>
       <Button
         size="small"
-        aria-label="more"
-        aria-controls="simple-menu"
-        aria-haspopup="true"
         onClick={event => {
           setAnchorEl(event.currentTarget)
         }}
@@ -41,7 +50,6 @@ const NewsEnableStatus = ({ id, status, toggleStatus }) => {
         <MoreVertIcon />
       </Button>
       <Menu
-        id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
@@ -49,7 +57,7 @@ const NewsEnableStatus = ({ id, status, toggleStatus }) => {
         classes={{ list: classes.list }}
         transformOrigin={{
           vertical: 'bottom',
-          horizontal: 'right',
+          horizontal: 'center',
         }}
       >
         <MenuItem
@@ -57,18 +65,17 @@ const NewsEnableStatus = ({ id, status, toggleStatus }) => {
             handleClose()
             toggleStatus(id)
           }}
-          style={{ fontSize: '13px' }}
         >
-          {status ? 'Dépubliée' : 'Publiée'}
+          {status ? messages.deactivate : messages.activate}
         </MenuItem>
       </Menu>
     </div>
   )
 }
 
-export default NewsEnableStatus
+export default RiposteStatus
 
-NewsEnableStatus.propTypes = {
+RiposteStatus.propTypes = {
   id: PropTypes.string.isRequired,
   status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func.isRequired,

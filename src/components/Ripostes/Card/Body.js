@@ -1,6 +1,6 @@
 import { Grid, Box, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import RiposteEnableStatus from './RiposteEnableStatus'
+import RiposteStatus from './RiposteStatus'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import PropTypes from 'prop-types'
@@ -76,7 +76,7 @@ const Body = ({ riposte, handleClickOpen, toggleStatus }) => {
           </Button>
         </Grid>
         <Grid item>
-          <RiposteEnableStatus id={id} status={status} toggleStatus={toggleStatus} />
+          <RiposteStatus id={id} status={status} toggleStatus={toggleStatus} />
         </Grid>
       </Grid>
     </>

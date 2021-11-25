@@ -24,7 +24,7 @@ const Title = styled(Grid)(
 `
 )
 
-const ButtonItem = styled(Grid)(
+const ButtonWrapper = styled(Grid)(
   ({ theme }) => `
   background: ${theme.palette.newsBackground};
   border-radius: 8.35px;
@@ -66,13 +66,13 @@ const DateItem = styled(Grid)(
 `
 )
 
-const CreatorContainer = styled(Grid)(
+const AuthorWrapper = styled(Grid)(
   ({ theme }) => `
   margin-bottom: ${theme.spacing(4)};
 `
 )
 
-const CreatorItem = styled(Grid)(
+const Author = styled(Grid)(
   ({ theme }) => `
   font-size: 10px;
   color: ${theme.palette.gray600};
@@ -95,19 +95,22 @@ const messages = {
   edit: 'Modifier',
   published: 'Publiée',
   unpublished: 'Dépubliée',
+  author: 'Par',
 }
 
-const NewsDetailsModal = ({ news, handleClose, open }) =>
-  news && (
+const ReadOnlyModal = ({ news, handleClose, open }) => {
+  if (!news) return null
+
+  return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <Grid container justifyContent="space-between">
         <Title item>{news.title}</Title>
-        <ButtonItem item>
+        <ButtonWrapper item>
           <Button>
             <EditIcon />
             {messages.edit}
           </Button>
-        </ButtonItem>
+        </ButtonWrapper>
       </Grid>
       <Grid container spacing={1}>
         <Grid item>
@@ -119,9 +122,9 @@ const NewsDetailsModal = ({ news, handleClose, open }) =>
         </Grid>
         <DateItem item>{new Date(news.createdAt).toLocaleDateString()}</DateItem>
       </Grid>
-      <CreatorContainer container>
-        <CreatorItem item>Par {news.creator}</CreatorItem>
-      </CreatorContainer>
+      <AuthorWrapper container>
+        <Author item>{`${messages.author} ${news.creator}`}</Author>
+      </AuthorWrapper>
       <Grid container>
         <Grid item xs={12}>
           {news.body}
@@ -129,16 +132,17 @@ const NewsDetailsModal = ({ news, handleClose, open }) =>
       </Grid>
     </Dialog>
   )
+}
 
-export default NewsDetailsModal
+export default ReadOnlyModal
 
-NewsDetailsModal.defaultProps = {
+ReadOnlyModal.defaultProps = {
   handleClose: () => {},
   onSubmitRefresh: () => {},
   news: null,
 }
 
-NewsDetailsModal.propTypes = {
+ReadOnlyModal.propTypes = {
   handleClose: PropTypes.func,
   onSubmitRefresh: PropTypes.func,
   news: DomainNews.propTypes,
