@@ -83,7 +83,7 @@ function Scopes() {
 
   const redirect = scope => {
     if (scope.code === 'phoning_national_manager') {
-      return navigate('/equipes')
+      return navigate(paths.teams)
     }
     return navigate(paths.dashboard)
   }

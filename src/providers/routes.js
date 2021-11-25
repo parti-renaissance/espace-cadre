@@ -2,9 +2,9 @@ import { lazy, Suspense, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../redux/user/selectors'
-import { CircularProgress, Grid } from '@mui/material'
 import paths from 'shared/paths'
 import pages from 'shared/authorizedPages'
+import Spinner from 'ui/Spinner'
 
 const Dashboard = lazy(() => import('components/Dashboard'))
 const Adherents = lazy(() => import('components/Adherents'))
@@ -38,17 +38,3 @@ const AppRoutes = () => {
 }
 
 export default AppRoutes
-
-const spinerMessages = {
-  loading: 'Page en cours de chargement',
-}
-const Spinner = () => (
-  <Grid container style={{ marginTop: 'calc(100vh - 70vh)', textAlign: 'center' }}>
-    <Grid item xs={12}>
-      <CircularProgress sx={{ color: '#0049C6' }} />
-    </Grid>
-    <Grid item xs={12}>
-      <strong>{spinerMessages.loading}</strong>
-    </Grid>
-  </Grid>
-)
