@@ -69,6 +69,12 @@ const NotificationIcon = styled(Icon)(
 `
 )
 
+const Text = styled(MuiTypography)(
+  () => `
+  font-size: 12px;
+`
+)
+
 const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
@@ -80,7 +86,7 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
-      <Grid container justifyContent="space-between" sx={{ marginBottom: 2 }}>
+      <Grid container justifyContent="space-between" sx={{ marginBottom: 4 }}>
         <Grid item>
           <Title>{news.title}</Title>
         </Grid>
@@ -100,7 +106,7 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
       </AuthorWrapper>
       <Grid container>
         <Grid item xs={12}>
-          {news.body}
+          <Text>{news.body}</Text>
         </Grid>
       </Grid>
     </Dialog>
