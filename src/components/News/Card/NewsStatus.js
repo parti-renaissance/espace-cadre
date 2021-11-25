@@ -19,11 +19,9 @@ const Button = styled(MuiIconButton)(
 `
 )
 
-const MenuItem = styled(MuiMenuItem)(
-  () => `
+const MenuItem = styled(MuiMenuItem)(`
   font-size: 13px;
-`
-)
+`)
 
 const messages = {
   published: 'Publiée',

@@ -4,14 +4,6 @@ import NewsStatus from './NewsStatus'
 import PropTypes from 'prop-types'
 import News from 'domain/news'
 
-const Wrapper = styled(Grid)(
-  () => `
-  position: relative;
-  bottom: 0;
-  justify-content: space-between;
-`
-)
-
 const Button = styled(MuiButton)(
   ({ theme }) => `
   font-size: 13px;
@@ -34,14 +26,14 @@ const Body = ({ news, handleClick, toggleStatus }) => {
 
   return (
     <>
-      <Wrapper container>
+      <Grid container justifyContent="space-between">
         <Grid item>
           <Button onClick={handleClick}>{messages.see}</Button>
         </Grid>
         <Grid item>
           <NewsStatus id={id} status={status} toggleStatus={toggleStatus} />
         </Grid>
-      </Wrapper>
+      </Grid>
     </>
   )
 }

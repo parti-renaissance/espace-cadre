@@ -1,4 +1,4 @@
-import { Dialog, Grid, Button as MuiButton, Icon, Paper } from '@mui/material'
+import { Dialog, Grid, Button as MuiButton, Icon, Paper, Typography as MuiTypography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
@@ -15,7 +15,7 @@ const StyledPaper = styled(Paper)(
 `
 )
 
-const Title = styled(Grid)(
+const Title = styled(MuiTypography)(
   ({ theme }) => `
   font-size: 16px;
   font-weight: 400;
@@ -104,7 +104,9 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <Grid container justifyContent="space-between">
-        <Title item>{news.title}</Title>
+        <Grid item>
+          <Title>{news.title}</Title>
+        </Grid>
         <ButtonWrapper item>
           <Button>
             <EditIcon />

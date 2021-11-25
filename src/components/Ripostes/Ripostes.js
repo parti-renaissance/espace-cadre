@@ -16,20 +16,16 @@ const messages = {
 }
 
 const useStyles = makeStyles(theme => ({
-  riposteContainer: {
-    marginBottom: theme.spacing(2),
-  },
   buttonContainer: {
     background: theme.palette.riposteBackground,
     borderRadius: '8.35px',
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
   icon: {
     marginRight: theme.spacing(1),
   },
   createButton: {
     color: theme.palette.teal700,
-    padding: theme.spacing(0.75, 1),
   },
 }))
 
@@ -71,7 +67,7 @@ const Ripostes = () => {
   }, [])
 
   return (
-    <Container maxWidth="lg" className={classes.riposteContainer}>
+    <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
         <Grid item className={classes.buttonContainer}>

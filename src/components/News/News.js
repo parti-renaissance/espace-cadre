@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Container, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import { styled } from '@mui/system'
 import { getNews, updateNewsStatus } from 'api/news'
 import PageTitle from 'ui/PageTitle'
@@ -8,13 +7,6 @@ import UICard from 'ui/UICard'
 import Header from './Card/Header'
 import Body from './Card/Body'
 import ReadOnlyModal from './ReadOnlyModal'
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(2),
-    padding: 0,
-  },
-}))
 
 const NewsContainer = styled(Container)(
   ({ theme }) => `
@@ -27,7 +19,6 @@ const messages = {
 }
 
 const News = () => {
-  const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [news, setNews] = useState([])
   const [updatedNews, setUpdatedNews] = useState(null)
@@ -63,7 +54,7 @@ const News = () => {
   }, [])
 
   return (
-    <NewsContainer maxWidth="lg" classes={{ root: classes.root }}>
+    <NewsContainer maxWidth="lg">
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <Grid container spacing={2}>
