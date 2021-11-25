@@ -1,28 +1,37 @@
 import { useState } from 'react'
-import { IconButton } from '@mui/material'
+import { styled } from '@mui/system'
 import { makeStyles } from '@mui/styles'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
+import { MenuItem as MuiMenuItem, IconButton as MuiIconButton } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme => ({
-  iconButton: {
-    marginTop: '10px',
-  },
-  root: {
+const useStyles = makeStyles(() => ({
+  list: {
     fontSize: '13px',
-    padding: '4px 8px',
-    border: `1px solid ${theme.palette.gray100}`,
+    padding: 0,
     borderRadius: '8.35px',
-    background: theme.palette.whiteCorner,
-    '&:hover': {
-      background: theme.palette.gray100,
-    },
   },
 }))
 
-const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
+const Button = styled(MuiIconButton)(
+  ({ theme }) => `
+  margin-top: ${theme.spacing(1.25)}
+`
+)
+
+const MenuItem = styled(MuiMenuItem)(
+  () => `
+  font-size: 13px;
+`
+)
+
+const messages = {
+  activate: 'Activer',
+  deactivate: 'Désactiver',
+}
+
+const RiposteStatus = ({ id, status, toggleStatus }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -32,26 +41,22 @@ const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
 
   return (
     <div>
-      <IconButton
+      <Button
         size="small"
-        className={classes.iconButton}
-        aria-label="more"
-        aria-controls="simple-menu"
-        aria-haspopup="true"
         onClick={event => {
           setAnchorEl(event.currentTarget)
         }}
       >
         <MoreVertIcon />
-      </IconButton>
+      </Button>
       <Menu
-        id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        classes={{ list: classes.list }}
         transformOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'center',
         }}
       >
@@ -60,18 +65,17 @@ const RiposteEnableStatus = ({ id, status, toggleStatus }) => {
             handleClose()
             toggleStatus(id)
           }}
-          className={classes.root}
         >
-          {status ? 'Désactiver' : 'Activer'}
+          {status ? messages.deactivate : messages.activate}
         </MenuItem>
       </Menu>
     </div>
   )
 }
 
-export default RiposteEnableStatus
+export default RiposteStatus
 
-RiposteEnableStatus.propTypes = {
+RiposteStatus.propTypes = {
   id: PropTypes.string.isRequired,
   status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func.isRequired,

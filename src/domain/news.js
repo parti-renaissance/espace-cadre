@@ -4,34 +4,92 @@ export default class News {
     this.id = id
     this.title = title
     this.body = body
+    this.url = url
     this.creator = creator
     this.createdAt = createdAt
-    this.url = url
     this.withNotification = withNotification
     this.status = status
   }
 
+  static NULL = new News(null, '', '', '', '', '', false, false)
+
   withTitle(newTitle) {
-    return new News(this.id, newTitle, this.body, this.createdAt, this.url, this.withNotification, this.status)
+    return new News(
+      this.id,
+      newTitle,
+      this.body,
+      this.url,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      this.status
+    )
   }
 
   withBody(newBody) {
-    return new News(this.id, this.title, newBody, this.createdAt, this.url, this.withNotification, this.status)
+    return new News(
+      this.id,
+      this.title,
+      newBody,
+      this.url,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      this.status
+    )
   }
 
   withUrl(newUrl) {
-    return new News(this.id, this.title, this.body, this.createdAt, newUrl, this.withNotification, this.status)
+    return new News(
+      this.id,
+      this.title,
+      this.body,
+      newUrl,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      this.status
+    )
   }
 
   withWithNotification(newWithNotification) {
-    return new News(this.id, this.title, this.body, this.createdAt, this.url, newWithNotification, this.status)
+    return new News(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      this.creator,
+      this.createdAt,
+      newWithNotification,
+      this.status
+    )
   }
 
   withStatus(newStatus) {
-    return new News(this.id, this.title, this.body, this.createdAt, this.url, this.withNotification, newStatus)
+    return new News(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      newStatus
+    )
   }
 
-  static NULL = new News(null, '', '', '', false, false, '')
+  toggleStatus() {
+    return new News(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      !this.status
+    )
+  }
 }
 
 News.propTypes = PropTypes.shape({
