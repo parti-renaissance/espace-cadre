@@ -47,7 +47,7 @@ const Header = ({ status, withNotification, createdAt }) => {
   const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
 
   return (
-    <Grid container className={classes.container}>
+    <Grid container className={classes.container} data-testid="news-header">
       <Grid item>
         <span className={`${classes.chip} ${status ? classes.active : classes.inactive}`}>
           {status ? messages.published : messages.unpublished}
