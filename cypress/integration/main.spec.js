@@ -19,6 +19,7 @@ context('Nominal tests', () => {
     mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'adherents/filters')
     mock('GET', '/api/v3/teams?scope=referent', 'teams/teams')
     mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'teams/1')
+    mock('GET', '/api/v3/jecoute/news?scope=referent', 'news/news')
 
     cy.visit('/auth?code=fake_authorization_code')
     cy.url().should('eq', 'http://localhost:3000/')
@@ -71,5 +72,30 @@ context('Nominal tests', () => {
     cy.url().should('eq', 'http://localhost:3000/equipes/11111111-1111-1111-1111-111111111111/editer')
     cy.contains('firstname1 lastname1')
     cy.contains('92100, adhérent(e) depuis le ' + new Date(2019, 5, 1, 12, 0).toLocaleDateString())
+  })
+
+  it('loads referent news successfully', () => {
+    cy.contains('Référent').click()
+    cy.contains('Actualités').click()
+
+    cy.contains('Titre 1')
+    cy.contains('M Creator 1')
+    cy.contains(new Date(2020, 9, 5, 12, 0).toLocaleDateString())
+    cy.get('div[data-testid="news-header"]').first().should('contain', 'Publiée')
+    cy.contains('Voir').click({ force: true })
+    cy.contains('Titre 1')
+    cy.contains('M Creator 1')
+    cy.contains(new Date(2020, 9, 5, 12, 0).toLocaleDateString())
+    cy.contains('Publiée')
+
+    cy.contains('Titre 2')
+    cy.contains('M Creator 2')
+    cy.contains(new Date(2020, 9, 10, 12, 0).toLocaleDateString())
+    cy.get('div[data-testid="news-header"]').eq(1).should('contain', 'Dépubliée')
+    cy.contains('Voir').click({ force: true })
+    cy.contains('Titre 2')
+    cy.contains('M Creator 2')
+    cy.contains(new Date(2020, 9, 10, 12, 0).toLocaleDateString())
+    cy.contains('Dépubliée')
   })
 })
