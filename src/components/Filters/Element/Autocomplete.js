@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { Autocomplete as MuiAutocomplete, TextField, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
-import { throttle } from 'lodash'
-import { apiClient } from 'services/networking/client'
+import { debounce } from 'lodash'
+import { getDataFromDynamicEndpoint } from 'api/dynamic'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,11 +11,6 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '8.35px',
   },
 }))
-
-const fetch = throttle((uri, queryParam, query, callback) => {
-  const separator = uri.includes('?') ? '&' : '?'
-  apiClient.get(`${uri}${separator}${queryParam}=${query}`).then(callback)
-}, 500)
 
 const messages = {
   loading: 'Chargement…',
@@ -43,29 +38,31 @@ const Autocomplete = ({
   const classes = useStyles()
 
   useEffect(() => {
-    if (!defaultValue || !inputValue || (Array.isArray(defaultValue) && defaultValue.length === 0)) {
-      return
-    }
-    fetch(uri, queryParam, inputValue, data => {
-      const choice = data.filter(d => d[valueParam] === defaultValue[valueParam])
-      setOptions(choice)
-      setLoading(false)
-    })
-  }, [uri, queryParam, defaultValue, inputValue, valueParam])
-
-  useEffect(() => {
     if (!inputValue) {
       setOptions([])
       return
     }
-
     setLoading(true)
-
-    fetch(uri, queryParam, inputValue, data => {
+    getDataFromDynamicEndpoint({ uri, queryParam, query: inputValue }, data => {
       setOptions(data)
       setLoading(false)
     })
-  }, [uri, queryParam, inputValue])
+  }, [inputValue, uri, queryParam])
+
+  const handleInputChange = useMemo(
+    () =>
+      debounce((_, value) => {
+        setInputValue(value)
+      }, 500),
+    []
+  )
+
+  useEffect(
+    () => () => {
+      handleInputChange.cancel()
+    },
+    [handleInputChange]
+  )
 
   const handleChange = (_, selectedValues) => {
     const selectItems = [].concat(selectedValues).filter(selection => !!selection)
@@ -97,9 +94,7 @@ const Autocomplete = ({
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       onChange={handleChange}
-      onInputChange={(_, newInputValue) => {
-        setInputValue(newInputValue)
-      }}
+      onInputChange={handleInputChange}
       filterOptions={x => x}
       renderInput={Input}
       getOptionLabel={getOptionLabel}
