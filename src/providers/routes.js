@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../redux/user/selectors'
@@ -6,14 +6,14 @@ import paths from 'shared/paths'
 import pages from 'shared/authorizedPages'
 import Spinner from 'ui/Spinner'
 
-const Dashboard = lazy(() => import('components/Dashboard'))
-const Adherents = lazy(() => import('components/Adherents'))
-const Messagerie = lazy(() => import('components/Messagerie'))
-const Elections = lazy(() => import('components/Elections/Elections'))
-const Ripostes = lazy(() => import('components/Ripostes'))
-const Teams = lazy(() => import('components/Teams'))
-const News = lazy(() => import('components/News'))
-const NoMatch = lazy(() => import('components/NoMatch'))
+import Dashboard from 'components/Dashboard'
+import Adherents from 'components/Adherents'
+import Messagerie from 'components/Messagerie'
+import Elections from 'components/Elections'
+import Ripostes from 'components/Ripostes'
+import Teams from 'components/Teams'
+import News from 'components/News'
+import NoMatch from 'components/NoMatch'
 
 const AppRoutes = () => {
   const location = useLocation()
