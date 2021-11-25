@@ -6,6 +6,7 @@ import login from '../../services/networking/auth'
 import { apiClient } from 'services/networking/client'
 import { userLoggedIn, userUpdateData, userUpdateScopes } from './slice'
 import { useUserScope } from '../user/hooks'
+import paths from 'shared/paths'
 
 export const useInitializeAuth = () => {
   const dispatch = useDispatch()
@@ -29,7 +30,7 @@ export const useRequestAccessToken = () => {
   return useAsyncFn(async code => {
     const data = await login(code)
     dispatch(userLoggedIn(data))
-    navigate('/')
+    navigate(paths.dashboard)
   }, [])
 }
 

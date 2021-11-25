@@ -1,1 +1,1 @@
-export { default as UINavItem } from './NavItem/NavItem'
+export { default as NavItem } from './NavItem/NavItem'

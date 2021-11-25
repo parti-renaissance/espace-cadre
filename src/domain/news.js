@@ -99,6 +99,6 @@ News.propTypes = PropTypes.shape({
   url: PropTypes.string,
   creator: PropTypes.string,
   createdAt: PropTypes.string.isRequired,
-  withNotification: PropTypes.bool.isRequired,
+  withNotification: PropTypes.bool,
   status: PropTypes.bool.isRequired,
 })

@@ -5,16 +5,13 @@ import PropTypes from 'prop-types'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Scopes from '../Scopes'
-import { UINavItem } from 'ui'
+import { NavItem } from 'ui'
 import MentionsLegales from 'components/MentionsLegales/MentionsLegales'
 import barChart from 'assets/bar-chart.svg'
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
-import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded'
-import MapRoundedIcon from '@mui/icons-material/MapRounded'
-import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded'
-import StarRoundedIcon from '@mui/icons-material/StarRounded'
-import RssFeedIcon from '@mui/icons-material/RssFeed'
+import pages from 'shared/authorizedPages'
+import paths from 'shared/paths'
+import icons from 'components/Sidebar/shared/icons'
+import colors from 'components/Sidebar/shared/colors'
 
 const useStyles = makeStyles(theme => ({
   sidebar: {
@@ -74,6 +71,13 @@ const messages = {
   title: "Je m'engage",
 }
 
+const navInfo = id => ({
+  path: paths[id],
+  icon: icons[id],
+  color: colors[id].color,
+  bgcolor: colors[id].bgColor,
+})
+
 const Sidebar = ({ toggleSidebar }) => {
   const authorizedPages = useSelector(getAuthorizedPages)
   const classes = useStyles()
@@ -81,7 +85,7 @@ const Sidebar = ({ toggleSidebar }) => {
   return (
     <>
       <div id="sidebar" className={`${classes.sidebar} ${toggleSidebar ? 'active' : ''}`}>
-        <Link to="/" className={classes.brandLink}>
+        <Link to={paths.dashboard} className={classes.brandLink}>
           <div className={classes.logoContainer}>
             <img src={barChart} alt="bar chart" className={classes.barChart} />
             <div className={classes.logoText}>{messages.title}</div>
@@ -90,23 +94,13 @@ const Sidebar = ({ toggleSidebar }) => {
         </Link>
         <Scopes />
         <div className={classes.navMenu}>
-          <NavItem id="dashboard" url="/" label="Vue d’ensemble" display={authorizedPages.includes('dashboard')} />
-          <NavItem id="adherents" url="/adherents" label="Adhérents" display={authorizedPages.includes('contacts')} />
-          <NavItem
-            id="messagerie"
-            url="/messagerie"
-            label="Messagerie"
-            display={authorizedPages.includes('messages')}
-          />
-          <NavItem
-            id="elections"
-            url="/elections"
-            label="&Eacute;lections"
-            display={authorizedPages.includes('elections')}
-          />
-          <NavItem id="ripostes" url="/ripostes" label="Ripostes" display={authorizedPages.includes('ripostes')} />
-          <NavItem id="teams" url="/equipes" label="&Eacute;quipes" display={authorizedPages.includes('team')} />
-          <NavItem id="news" url="/actualites" label="Actualités" display={authorizedPages.includes('news')} />
+          {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
+          {authorizedPages.includes(pages.adherents) && <NavItem label="Adhérents" {...navInfo('adherents')} />}
+          {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
+          {authorizedPages.includes(pages.elections) && <NavItem label="&Eacute;lections" {...navInfo('elections')} />}
+          {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
+          {authorizedPages.includes(pages.teams) && <NavItem label="&Eacute;quipes" {...navInfo('teams')} />}
+          {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
         </div>
         <MentionsLegales />
       </div>
@@ -118,35 +112,4 @@ export default Sidebar
 
 Sidebar.propTypes = {
   toggleSidebar: PropTypes.bool.isRequired,
-}
-
-const NavItem = ({ id, url, label, display }) =>
-  display ? (
-    <UINavItem path={url} label={label} icon={icons[id]} color={colors[id].color} bgcolor={colors[id].bgColor} />
-  ) : null
-NavItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  display: PropTypes.bool.isRequired,
-}
-
-const icons = {
-  dashboard: DashboardRoundedIcon,
-  adherents: PeopleRoundedIcon,
-  messagerie: EmailRoundedIcon,
-  elections: MapRoundedIcon,
-  ripostes: PostAddRoundedIcon,
-  teams: StarRoundedIcon,
-  news: RssFeedIcon,
-}
-
-const colors = {
-  dashboard: { color: 'gray900', bgColor: '#F3F4F6' },
-  adherents: { color: 'lightBlue600', bgColor: '#EBF6FB' },
-  messagerie: { color: 'yellow400', bgColor: '#FFFAEE' },
-  elections: { color: 'green600', bgColor: '#EBF7F3' },
-  ripostes: { color: 'teal700', bgColor: '#ECF4F4' },
-  teams: { color: 'cyan700', bgColor: '#EBF3F8' },
-  news: { color: 'orange500', bgColor: '#FFF4ED' },
 }

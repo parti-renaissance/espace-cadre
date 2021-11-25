@@ -18,6 +18,7 @@ import {
   setMessageSegment,
   updateSegmentAudience,
 } from 'api/messagerie'
+import paths from 'components/Messagerie/shared/paths'
 
 export const FEATURE_MESSAGES = 'messages'
 
@@ -144,7 +145,7 @@ const Filters = () => {
       <Container maxWidth="xl">
         <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
         <Grid container>
-          <Link to="../modifier">
+          <Link to={`../${paths.update}`}>
             <Button
               type="button"
               disableRipple

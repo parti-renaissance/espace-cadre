@@ -109,6 +109,7 @@
       "^(api)/(.*)$": "<rootDir>/src/$1/$2",
       "^(components)/(.*)$": "<rootDir>/src/$1/$2",
       "^(domain)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(shared)/(.*)$": "<rootDir>/src/$1/$2",
       "^(services)/(.*)$": "<rootDir>/src/$1/$2",
       "^(style)/(.*)$": "<rootDir>/src/$1/$2",
       "^(ui)/(.*)$": "<rootDir>/src/$1/$2"

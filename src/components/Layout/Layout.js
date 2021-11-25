@@ -11,8 +11,7 @@ import PageContent from '../PageContent'
 import ScopesPage from '../Scopes/ScopesPage'
 import BootPage from '../BootPage'
 import Auth from '../Auth'
-
-const AUTH_PATH = '/auth'
+import paths from 'shared/paths'
 
 const Layout = ({ children }) => {
   const initializeAuth = useInitializeAuth()
@@ -34,12 +33,12 @@ const Layout = ({ children }) => {
       if (currentUser === null) {
         updateUserData()
       }
-    } else if (pathname !== AUTH_PATH) {
+    } else if (pathname !== paths.auth) {
       initializeAuth()
     }
   }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
 
-  if (pathname === AUTH_PATH) return <Auth />
+  if (pathname === paths.auth) return <Auth />
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 

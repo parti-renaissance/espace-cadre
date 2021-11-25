@@ -6,6 +6,7 @@ import { makeStyles } from '@mui/styles'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import vector from 'assets/vector.svg'
+import paths from 'shared/paths'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -84,7 +85,7 @@ function Scopes() {
     if (scope.code === 'phoning_national_manager') {
       return navigate('/equipes')
     }
-    return navigate('/')
+    return navigate(paths.dashboard)
   }
 
   const handleClose = () => {
