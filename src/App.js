@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from './redux/store'
 import { NotifyProvider, ThemeProvider } from './providers'
 import Layout from './components/Layout'
-import AppRoutes from './AppRoutes'
+import Routes from './providers/routes'
 import './style/index.scss'
 
 const App = () => (
@@ -14,7 +14,7 @@ const App = () => (
         <ThemeProvider>
           <NotifyProvider>
             <Layout>
-              <AppRoutes />
+              <Routes />
             </Layout>
           </NotifyProvider>
         </ThemeProvider>
