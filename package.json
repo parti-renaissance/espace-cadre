@@ -10,6 +10,7 @@
     "@mui/lab": "5.0.0-alpha.55",
     "@mui/material": "5.1.1",
     "@mui/styles": "5.1.1",
+    "@mui/system": "5.1.1",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/react": "6.15.0",
     "@sentry/tracing": "6.15.0",
@@ -27,7 +28,7 @@
     "react-email-editor": "^1.5.0",
     "react-leaflet": "^3.2.1",
     "react-redux": "7.2.6",
-    "react-router-dom": "5.3.0",
+    "react-router-dom": "6.0.2",
     "react-select": "5.2.1",
     "react-use": "17.3.1",
     "recharts": "^2.1.6",
@@ -101,10 +102,14 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
+    "testMatch": [
+      "<rootDir>/**/*.test.js"
+    ],
     "moduleNameMapper": {
       "^(api)/(.*)$": "<rootDir>/src/$1/$2",
       "^(components)/(.*)$": "<rootDir>/src/$1/$2",
       "^(domain)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(shared)/(.*)$": "<rootDir>/src/$1/$2",
       "^(services)/(.*)$": "<rootDir>/src/$1/$2",
       "^(style)/(.*)$": "<rootDir>/src/$1/$2",
       "^(ui)/(.*)$": "<rootDir>/src/$1/$2"

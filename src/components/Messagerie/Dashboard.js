@@ -3,9 +3,9 @@ import { Grid, Container, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaignList from 'components/Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList'
-import PATHS from '../../paths'
 import arrowRight from 'assets/arrow-right.svg'
 import PageTitle from 'ui/PageTitle'
+import paths from 'components/Messagerie/shared/paths'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,7 +55,7 @@ const Dashboard = () => {
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
         <Grid item className={classes.mailButtonContainer}>
-          <Link to={PATHS.MESSAGERIE_CREATE.route}>
+          <Link to={paths.create}>
             <Button
               type="button"
               disableRipple

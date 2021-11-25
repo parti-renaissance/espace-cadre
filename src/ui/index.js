@@ -1,3 +1,1 @@
-export { default as UINavItem } from './NavItem';
-export { default as Icons } from './constants/icons';
-export { default as Colors } from './constants/colors';
+export { default as NavItem } from './NavItem/NavItem'

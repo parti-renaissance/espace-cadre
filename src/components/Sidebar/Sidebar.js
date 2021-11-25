@@ -5,11 +5,13 @@ import PropTypes from 'prop-types'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Scopes from '../Scopes'
-import { MENU } from '../../Routes'
-import PATHS from '../../paths'
-import { UINavItem, Icons, Colors } from 'ui'
+import { NavItem } from 'ui'
 import MentionsLegales from 'components/MentionsLegales/MentionsLegales'
 import barChart from 'assets/bar-chart.svg'
+import pages from 'shared/authorizedPages'
+import paths from 'shared/paths'
+import icons from 'components/Sidebar/shared/icons'
+import colors from 'components/Sidebar/shared/colors'
 
 const useStyles = makeStyles(theme => ({
   sidebar: {
@@ -60,7 +62,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '4px',
   },
   navMenu: {
-    marginTop: theme.spacing(7),
+    display: 'flex',
+    flexDirection: 'column',
   },
 }))
 
@@ -68,15 +71,21 @@ const messages = {
   title: "Je m'engage",
 }
 
+const navInfo = id => ({
+  path: paths[id],
+  icon: icons[id],
+  color: colors[id].color,
+  bgcolor: colors[id].bgColor,
+})
+
 const Sidebar = ({ toggleSidebar }) => {
-  const authorizedPage = useSelector(getAuthorizedPages)
-  const filteredMenu = MENU.filter(item => authorizedPage?.includes(item.id))
+  const authorizedPages = useSelector(getAuthorizedPages)
   const classes = useStyles()
 
   return (
     <>
       <div id="sidebar" className={`${classes.sidebar} ${toggleSidebar ? 'active' : ''}`}>
-        <Link to={PATHS.DASHBOARD.route} className={classes.brandLink}>
+        <Link to={paths.dashboard} className={classes.brandLink}>
           <div className={classes.logoContainer}>
             <img src={barChart} alt="bar chart" className={classes.barChart} />
             <div className={classes.logoText}>{messages.title}</div>
@@ -85,16 +94,13 @@ const Sidebar = ({ toggleSidebar }) => {
         </Link>
         <Scopes />
         <div className={classes.navMenu}>
-          {filteredMenu.map(item => (
-            <UINavItem
-              key={item.id}
-              path={item.url}
-              label={item.label}
-              icon={Icons[item.id]}
-              color={Colors[item.id].color}
-              bgColor={Colors[item.id].bgColor}
-            />
-          ))}
+          {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
+          {authorizedPages.includes(pages.adherents) && <NavItem label="Adhérents" {...navInfo('adherents')} />}
+          {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
+          {authorizedPages.includes(pages.elections) && <NavItem label="&Eacute;lections" {...navInfo('elections')} />}
+          {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
+          {authorizedPages.includes(pages.teams) && <NavItem label="&Eacute;quipes" {...navInfo('teams')} />}
+          {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
         </div>
         <MentionsLegales />
       </div>

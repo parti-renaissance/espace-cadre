@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { Box, Grid, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { generatePath, useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
-import PATHS from '../../paths'
 import { createMessage, updateMessage } from 'api/messagerie'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
@@ -44,7 +43,7 @@ const Template = () => {
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   const [currentScope] = useUserScope()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { messageUuid } = useParams()
   const classes = useStyles()
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -69,7 +68,7 @@ const Template = () => {
       setMessage(body)
 
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
-      history.push(generatePath(PATHS.MESSAGERIE_FILTER.url, { messageUuid: body.uuid }))
+      navigate(`../${body.uuid}/filtrer`)
     } catch (e) {
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
     }

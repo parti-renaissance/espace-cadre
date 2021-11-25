@@ -1,7 +1,7 @@
 import { useLocation, Link } from 'react-router-dom'
 import { Container, Grid, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import PATHS from '../../paths'
+import paths from 'shared/paths'
 
 const useStyles = makeStyles(theme => ({
   noMatchContainer: {
@@ -37,7 +37,7 @@ function NoMatch() {
           droits pour y accéder
         </Grid>
         <Grid item xs={12} sm={4} className={classes.button}>
-          <Link to={PATHS.DASHBOARD.route}>
+          <Link to={paths.dashboard}>
             <Typography variant="body2" className={classes.returnHome}>
               Retournez à l&apos;accueil
             </Typography>

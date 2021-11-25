@@ -53,6 +53,7 @@ module.exports = (env, argv = {}) => {
         assets: path.resolve(__dirname, 'src/assets'),
         services: path.resolve(__dirname, 'src/services'),
         style: path.resolve(__dirname, 'src/style'),
+        shared: path.resolve(__dirname, 'src/shared'),
         ui: path.resolve(__dirname, 'src/ui'),
       },
     },

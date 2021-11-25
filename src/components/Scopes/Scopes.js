@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Grid, Button, Menu, MenuItem, Divider, Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import vector from 'assets/vector.svg'
+import paths from 'shared/paths'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +24,6 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '500px',
   },
   menuPaper: {
-    marginTop: theme.spacing(6.25),
     background: theme.palette.whiteCorner,
     width: '240px',
   },
@@ -72,7 +72,7 @@ function Scopes() {
   const currentUser = useSelector(getCurrentUser)
   const [currentScope, updateCurrentScope] = useUserScope()
   const userScopes = useSelector(getUserScopes)
-  const history = useHistory()
+  const navigate = useNavigate()
   const filteredScopes = userScopes.filter(scope => scope.apps.includes('data_corner'))
   const [anchorEl, setAnchorEl] = useState(null)
   const classes = useStyles()
@@ -83,10 +83,9 @@ function Scopes() {
 
   const redirect = scope => {
     if (scope.code === 'phoning_national_manager') {
-      history.push('/equipes')
-    } else {
-      history.push('/')
+      return navigate(paths.teams)
     }
+    return navigate(paths.dashboard)
   }
 
   const handleClose = () => {

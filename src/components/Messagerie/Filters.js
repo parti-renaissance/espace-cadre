@@ -2,11 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Button, Container, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { generatePath, Link, useHistory, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
-import PATHS from '../../paths'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
@@ -19,6 +18,7 @@ import {
   setMessageSegment,
   updateSegmentAudience,
 } from 'api/messagerie'
+import paths from 'components/Messagerie/shared/paths'
 
 export const FEATURE_MESSAGES = 'messages'
 
@@ -75,7 +75,7 @@ const maxAttempts = 10
 
 const Filters = () => {
   const { messageUuid } = useParams()
-  const history = useHistory()
+  const navigate = useNavigate()
   const classes = useStyles()
   const [currentScope] = useUserScope()
   const [audienceId, setAudienceId] = useState(null)
@@ -88,11 +88,11 @@ const Filters = () => {
   const sendMessageAfterFilterAreSaved = useCallback(async () => {
     const responseSend = await sendMessage(messageUuid)
     if (responseSend === 'OK') {
-      history.push(PATHS.MESSAGERIE_CONFIRMATION.route)
+      navigate('confirmation')
     } else {
       // TODO: error management
     }
-  }, [history, messageUuid])
+  }, [messageUuid, navigate])
   const [loadingSendButton, , launchAreFilterSaved] = useRetry(
     getMessage,
     retryInterval,
@@ -145,7 +145,7 @@ const Filters = () => {
       <Container maxWidth="xl">
         <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
         <Grid container>
-          <Link to={generatePath(PATHS.MESSAGERIE_EDIT.url, { messageUuid })}>
+          <Link to={`../${paths.update}`}>
             <Button
               type="button"
               disableRipple
