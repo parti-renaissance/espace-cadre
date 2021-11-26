@@ -4,7 +4,7 @@ const spinerMessages = {
   loading: 'Page en cours de chargement',
 }
 const Spinner = () => (
-  <Grid container style={{ marginTop: 'calc(100vh - 70vh)', textAlign: 'center' }}>
+  <Grid container sx={{ marginTop: 'calc(100vh - 70vh)', textAlign: 'center' }}>
     <Grid item xs={12}>
       <CircularProgress sx={{ color: '#0049C6' }} />
     </Grid>

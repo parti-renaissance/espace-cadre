@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../redux/user/selectors'
 import paths from 'shared/paths'
 import pages from 'shared/authorizedPages'
-import Spinner from 'ui/Spinner'
+import Spinner from 'ui/Spinner/Spinner'
 
 import Dashboard from 'components/Dashboard'
 import Adherents from 'components/Adherents'
