@@ -2,9 +2,13 @@ import { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
-import Percentage from 'ui/Percentage'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
+import UICard from 'ui/UICard'
+import Header from './card/Header'
+import Body from './card/Body'
+import { generatePath, useNavigate } from 'react-router-dom'
+import paths from 'components/Messagerie/shared/paths'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {
@@ -76,6 +80,7 @@ const messages = {
 const SentEmailCampaignList = () => {
   const classes = useStyles()
   const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getEmailCampaignReports = async () => {
@@ -89,6 +94,10 @@ const SentEmailCampaignList = () => {
     }
     getEmailCampaignReports()
   }, [emailCampaignReports, setEmailCampaignReports])
+
+  const handleClick = messageId => {
+    navigate(generatePath(':messageId/' + paths.update, { messageId }))
+  }
 
   const noCampaign = !emailCampaignReports || emailCampaignReports.data.length === 0
 
@@ -104,7 +113,20 @@ const SentEmailCampaignList = () => {
   return (
     <>
       <SentEmailCampaignListTitle />
-      {emailCampaignReports.data.map(message => {
+      <Grid container spacing={2}>
+        {emailCampaignReports.data.map(message => (
+          <UICard
+            key={message.id}
+            header={<Header createdAt={message.createdAt} draft={message.draft} />}
+            title={message.subject}
+            subtitle={`Par ${message.author}`}
+          >
+            <Body statistics={message.statistics} handleClick={() => handleClick(message.id)} />
+          </UICard>
+        ))}
+      </Grid>
+
+      {/*emailCampaignReports.data.map(message => {
         const { statistics: stats } = message
         return (
           <Grid container className={classes.bigCard} key={message.id}>
@@ -114,7 +136,7 @@ const SentEmailCampaignList = () => {
               </Grid>
               <Grid item xs={12}>
                 <p className={classes.subtitle}>
-                  Le {new Date(message.date).toLocaleDateString()}, par {message.author}
+                  Le {format(message.createdAt, 'dd/MM/yyyy')}, par {message.author}
                 </p>
               </Grid>
             </Grid>
@@ -155,7 +177,7 @@ const SentEmailCampaignList = () => {
             </Grid>
           </Grid>
         )
-      })}
+      })*/}
     </>
   )
 }

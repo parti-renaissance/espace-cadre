@@ -97,7 +97,7 @@ const Filters = () => {
   const sendMessageAfterFilterAreSaved = useCallback(async () => {
     const responseSend = await sendMessage(messageUuid)
     if (responseSend === 'OK') {
-      navigate('confirmation')
+      navigate(paths.confirmation)
     } else {
       // TODO: error management
     }
