@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Button, Container, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import AddIcon from '@mui/icons-material/Add'
+import { Button as MuiButton, Container, Grid } from '@mui/material'
+import { styled } from '@mui/system'
+import MuiAddIcon from '@mui/icons-material/Add'
 import RiposteModal from './RiposteModal'
 import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
@@ -15,22 +15,21 @@ const messages = {
   create: 'Créer une riposte',
 }
 
-const useStyles = makeStyles(theme => ({
-  buttonContainer: {
-    background: theme.palette.riposteBackground,
-    borderRadius: '8.35px',
-    marginBottom: theme.spacing(2),
-  },
-  icon: {
-    marginRight: theme.spacing(1),
-  },
-  createButton: {
-    color: theme.palette.teal700,
-  },
-}))
+const Button = styled(MuiButton)(
+  ({ theme }) => `
+  background: ${theme.palette.riposteBackground};
+  color: ${theme.palette.teal700};
+  border-radius: 8.35px;
+`
+)
+
+const AddIcon = styled(MuiAddIcon)(
+  ({ theme }) => `
+  margin-right: ${theme.spacing(1)}
+`
+)
 
 const Ripostes = () => {
-  const classes = useStyles()
   const [ripostes, setRipostes] = useState([])
   const [newRiposte, setNewRiposte] = useState(null)
   const [open, setOpen] = useState(false)
@@ -69,10 +68,12 @@ const Ripostes = () => {
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
-        <PageTitle title={messages.title} />
-        <Grid item className={classes.buttonContainer}>
-          <Button className={classes.createButton} onClick={handleNewRiposte}>
-            <AddIcon className={classes.icon} />
+        <Grid item>
+          <PageTitle title={messages.title} />
+        </Grid>
+        <Grid item>
+          <Button onClick={handleNewRiposte}>
+            <AddIcon />
             {messages.create}
           </Button>
         </Grid>
