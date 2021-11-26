@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UICard displays UICard 1`] = `
+exports[`Card displays Card 1`] = `
 <div>
   <div
     class="mui-grid-mock"

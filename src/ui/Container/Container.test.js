@@ -8,7 +8,7 @@ jest.mock('@mui/material', () => ({
   Grid: ({ item, children, ...props }) => <div {...props}>{children}</div>,
 }))
 
-describe('UIContainer', () => {
+describe('Container', () => {
   it('displays grid', () => {
     const { container } = render(
       <UIContainer rootClasses="fooClass" xs={0} sm={1} md={2} lg={3} xl={4}>

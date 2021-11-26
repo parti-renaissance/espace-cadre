@@ -10,9 +10,13 @@ import { createRiposte, updateRiposte } from 'api/ripostes'
 import DomainRiposte from 'domain/riposte'
 import { notifyMessages, notifyVariants } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
-import Modal from 'ui/Modal'
 
 const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(4),
+    width: '664px',
+    borderRadius: '12px',
+  },
   innerContainer: {
     marginBottom: theme.spacing(2),
   },
@@ -98,7 +102,7 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
     },
   })
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} classes={{ paper: classes.paper }}>
       <form onSubmit={formik.handleSubmit}>
         <Grid container justifyContent="space-between" className={classes.innerContainer}>
           <Grid item>
@@ -186,7 +190,7 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
           </Button>
         </Grid>
       </form>
-    </Modal>
+    </Dialog>
   )
 }
 

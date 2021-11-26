@@ -8,6 +8,8 @@ import UICard from 'ui/Card'
 import Header from './Card/Header'
 import Body from './Card/Body'
 import ReadOnlyModal from './ReadOnlyModal'
+import NewsModal from './NewsModal'
+import NewsDomain from 'domain/news'
 
 const NewsContainer = styled(Container)(
   ({ theme }) => `
@@ -30,9 +32,16 @@ const AddIcon = styled(MuiAddIcon)(
 )
 
 const News = () => {
-  const [open, setOpen] = useState(false)
   const [news, setNews] = useState([])
-  const [updatedNews, setUpdatedNews] = useState(null)
+  const [newNews, setNewNews] = useState(null)
+  const [openReadOnly, setOpenReadOnly] = useState(false)
+  const [openCreate, setOpenCreate] = useState(false)
+
+  const handleClick = id => () => {
+    setNewNews(news.find(n => n.id === id) || null)
+    setOpenCreate(false)
+    setOpenReadOnly(true)
+  }
 
   const toggleEnableNews = async id => {
     const info = news.find(n => n.id === id)
@@ -47,18 +56,15 @@ const News = () => {
     getNews(setNews)
   }
 
-  const handleNewRiposte = () => {
-    setNewRiposte(Riposte.NULL)
-    setOpen(true)
-  }
-
-  const handleClick = id => () => {
-    setUpdatedNews(news.find(n => n.id === id) || null)
-    setOpen(true)
+  const handleNewNews = () => {
+    setNewNews(NewsDomain.NULL)
+    setOpenCreate(true)
+    setOpenReadOnly(false)
   }
 
   const handleClose = () => {
-    setOpen(false)
+    setOpenCreate(false)
+    setOpenReadOnly(false)
   }
 
   const handleSubmitRefresh = () => {
@@ -81,7 +87,7 @@ const News = () => {
           <PageTitle title={messages.title} />
         </Grid>
         <Grid item>
-          <Button onClick={handleNewRiposte}>
+          <Button onClick={handleNewNews}>
             <AddIcon />
             {messages.create}
           </Button>
@@ -94,7 +100,13 @@ const News = () => {
           </UICard>
         ))}
       </Grid>
-      <ReadOnlyModal open={open} handleClose={handleClose} news={updatedNews} onSubmitRefresh={handleSubmitRefresh} />
+      <NewsModal open={openCreate} handleClose={handleClose} news={newNews} onSubmitRefresh={handleSubmitRefresh} />
+      <ReadOnlyModal
+        open={openReadOnly}
+        handleClose={handleClose}
+        news={newNews}
+        onSubmitRefresh={handleSubmitRefresh}
+      />
     </NewsContainer>
   )
 }

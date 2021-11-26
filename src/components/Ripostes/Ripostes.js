@@ -61,6 +61,10 @@ const Ripostes = () => {
     setOpen(false)
   }
 
+  const handleSubmitRefresh = () => {
+    getRipostes(setRipostes)
+  }
+
   useEffect(() => {
     getRipostes(setRipostes)
   }, [])
@@ -88,9 +92,7 @@ const Ripostes = () => {
           open={open}
           handleClose={handleClose}
           riposte={newRiposte}
-          onSubmitRefresh={() => {
-            getRipostes(setRipostes)
-          }}
+          onSubmitRefresh={handleSubmitRefresh}
         />
       </Grid>
     </Container>

@@ -1,11 +1,20 @@
-import { Dialog, Grid, Icon, Paper, Typography as MuiTypography } from '@mui/material'
+import { Dialog, Grid, Icon, Typography as MuiTypography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
+import MuiCloseIcon from '@mui/icons-material/Close'
 import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/notification/helpers'
-import Modal from 'ui/Modal'
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(4),
+    width: '664px',
+    borderRadius: '12px',
+  },
+}))
 
 const Title = styled(MuiTypography)(
   ({ theme }) => `
@@ -13,6 +22,13 @@ const Title = styled(MuiTypography)(
   font-weight: 400;
   color: ${theme.palette.gray800};
   margin-top: ${theme.spacing(1)};
+`
+)
+
+const CloseIcon = styled(MuiCloseIcon)(
+  ({ theme }) => `
+  color: ${theme.palette.gray700};
+  cursor: pointer;
 `
 )
 
@@ -75,13 +91,17 @@ const messages = {
 }
 
 const ReadOnlyModal = ({ news, handleClose, open }) => {
+  const classes = useStyles()
   if (!news) return null
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} classes={{ paper: classes.paper }}>
       <Grid container justifyContent="space-between" sx={{ marginBottom: 4 }}>
-        <Grid item xs={8}>
+        <Grid item>
           <Title>{news.title}</Title>
+        </Grid>
+        <Grid item>
+          <CloseIcon onClick={handleClose} />
         </Grid>
       </Grid>
       <Grid container spacing={1}>
@@ -102,7 +122,7 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
           <Text>{news.body}</Text>
         </Grid>
       </Grid>
-    </Modal>
+    </Dialog>
   )
 }
 
