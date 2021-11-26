@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react'
-import { Grid, Box } from '@mui/material'
+import { useEffect } from 'react'
+import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { apiClientProxy } from 'services/networking/client'
-import Loader from 'ui/Loader'
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
-import ErrorComponent from 'components/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
-import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {
@@ -77,108 +73,91 @@ const messages = {
   noCampaign: 'Aucune campagne à afficher',
 }
 
-function SentEmailCampaignList() {
+const SentEmailCampaignList = () => {
   const classes = useStyles()
   const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache()
-  const [errorMessage, setErrorMessage] = useState()
 
   useEffect(() => {
     const getEmailCampaignReports = async () => {
       try {
         if (emailCampaignReports === null) {
-          setEmailCampaignReports(await apiClientProxy.get('/mailCampaign/reports'))
+          await getMessages(setEmailCampaignReports)
         }
       } catch (error) {
-        setErrorMessage(error)
+        // TODO snackbar
       }
     }
     getEmailCampaignReports()
   }, [emailCampaignReports, setEmailCampaignReports])
 
-  const emailCampaignsContent = () => {
-    const campaignsExist = emailCampaignReports && emailCampaignReports.map(item => item.campagnes.length > 0)
-    const noCampaign = emailCampaignReports && emailCampaignReports.map(item => item.campagnes.length === 0)
+  const noCampaign = !emailCampaignReports || emailCampaignReports.data.length === 0
 
-    if (emailCampaignReports !== null && campaignsExist.some(val => val)) {
-      return (
-        <>
-          <SentEmailCampaignListTitle />
-          {emailCampaignReports.map(report =>
-            report.campagnes.map((campagne, index) => (
-              <Grid container className={classes.bigCard} key={index}>
-                <Grid container className={classes.titleRow}>
-                  <Grid item xs={12}>
-                    <p className={classes.headline}>{campagne.titre}</p>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p className={classes.subtitle}>
-                      Le {new Date(campagne.date).toLocaleDateString()}, par {campagne.auteur}
-                    </p>
-                  </Grid>
-                </Grid>
-                <Grid container className={classes.cardRow}>
-                  <Grid item xs={5} sm={3} className={classes.card}>
-                    <Grid item className={classes.cardItem}>
-                      <div className={classes.infoNumber}>{campagne.nbEmails}</div>
-                      <div className={classes.text}>{pluralize(campagne.nbEmails, messages.mail)}</div>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={5} sm={3} className={classes.card}>
-                    <Grid item className={classes.cardItem}>
-                      <div className={classes.infoNumber}>
-                        <Percentage>{campagne.txOuverture}</Percentage>
-                        <span className={classes.parentheseInfo}>({campagne.nbOuvertures})</span>
-                      </div>
-                      <div className={classes.text}>{messages.opening}</div>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={5} sm={3} className={classes.card}>
-                    <Grid item className={classes.cardItem}>
-                      <div className={classes.infoNumber}>
-                        <Percentage>{campagne.txClique}</Percentage>
-                        <span className={classes.parentheseInfo}>({campagne.nbCliques})</span>
-                      </div>
-                      <div className={classes.text}>{messages.clicks}</div>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={5} sm={3} className={classes.card}>
-                    <Grid item className={classes.cardItem}>
-                      <div className={classes.infoNumber}>
-                        <Percentage>{campagne.txDesabonnement}</Percentage>
-                        <span className={classes.parentheseInfo}>({campagne.nbDesabonnements})</span>
-                      </div>
-                      <div className={classes.text}>{messages.unsubscribing}</div>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            ))
-          )}
-        </>
-      )
-    }
-    if (emailCampaignReports !== null && noCampaign.every(val => val)) {
-      return (
-        <>
-          <SentEmailCampaignListTitle />
-          <UIContainer rootClasses={classes.noData}>{messages.noCampaign}</UIContainer>
-        </>
-      )
-    }
-    if (errorMessage) {
-      return (
-        <Box>
-          <ErrorComponent errorMessage={errorMessage} />
-        </Box>
-      )
-    }
+  if (noCampaign) {
     return (
-      <UIContainer breakpoints={{ xs: 12 }} textAlign="center">
-        <Loader />
-      </UIContainer>
+      <>
+        <SentEmailCampaignListTitle />
+        <UIContainer rootClasses={classes.noData}>Aucune campagne à afficher</UIContainer>
+      </>
     )
   }
-  return <>{emailCampaignsContent()}</>
+
+  return (
+    <>
+      <SentEmailCampaignListTitle />
+      {emailCampaignReports.data.map(message => {
+        const { statistics: stats } = message
+        return (
+          <Grid container className={classes.bigCard} key={message.id}>
+            <Grid container className={classes.titleRow}>
+              <Grid item xs={12}>
+                <p className={classes.headline}>{message.subject}</p>
+              </Grid>
+              <Grid item xs={12}>
+                <p className={classes.subtitle}>
+                  Le {new Date(message.date).toLocaleDateString()}, par {message.author}
+                </p>
+              </Grid>
+            </Grid>
+            <Grid container className={classes.cardRow}>
+              <Grid item xs={5} sm={3} className={classes.card}>
+                <Grid item className={classes.cardItem}>
+                  <div className={classes.infoNumber}>{stats?.sent}</div>
+                  <div className={classes.text}>Email{stats?.sent > 1 && 's'}</div>
+                </Grid>
+              </Grid>
+              <Grid item xs={5} sm={3} className={classes.card}>
+                <Grid item className={classes.cardItem}>
+                  <div className={classes.infoNumber}>
+                    <Percentage>{stats.openRate}</Percentage>
+                    <span className={classes.parentheseInfo}>({stats.opens})</span>
+                  </div>
+                  <div className={classes.text}>Ouvertures</div>
+                </Grid>
+              </Grid>
+              <Grid item xs={5} sm={3} className={classes.card}>
+                <Grid item className={classes.cardItem}>
+                  <div className={classes.infoNumber}>
+                    <Percentage>{stats.clickRate}</Percentage>
+                    <span className={classes.parentheseInfo}>({stats.clicks})</span>
+                  </div>
+                  <div className={classes.text}>Clics</div>
+                </Grid>
+              </Grid>
+              <Grid item xs={5} sm={3} className={classes.card}>
+                <Grid item className={classes.cardItem}>
+                  <div className={classes.infoNumber}>
+                    <Percentage>{stats.unsubscribeRate}</Percentage>
+                    <span className={classes.parentheseInfo}>({stats.unsubscribes})</span>
+                  </div>
+                  <div className={classes.text}>Désabonnements</div>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        )
+      })}
+    </>
+  )
 }
 
 export default SentEmailCampaignList

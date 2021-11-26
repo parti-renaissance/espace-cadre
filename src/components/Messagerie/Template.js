@@ -7,7 +7,7 @@ import { notifyVariants, notifyMessages } from '../shared/notification/constants
 import { useCustomSnackbar } from '../shared/notification/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
-import { createMessage, updateMessage } from 'api/messagerie'
+import { createMessageContent, updateMessageContent } from 'api/messagerie'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -57,8 +57,8 @@ const Template = () => {
       json_content: JSON.stringify(message.design),
     }
 
-    if (messageUuid) return updateMessage(messageUuid, body)
-    return createMessage(body)
+    if (messageUuid) return updateMessageContent(messageUuid, body)
+    return createMessageContent(body)
   }
 
   const handleClickNext = async () => {
