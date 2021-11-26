@@ -87,7 +87,7 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <Grid container justifyContent="space-between" sx={{ marginBottom: 4 }}>
-        <Grid item>
+        <Grid item xs={8}>
           <Title>{news.title}</Title>
         </Grid>
       </Grid>
