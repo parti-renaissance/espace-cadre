@@ -1,5 +1,5 @@
 context('Nominal tests', () => {
-  const apiServer = url => `https://staging.en-marche.fr${url}`
+  const apiServer = url => `https://mock.en-marche.fr${url}`
 
   const mock = (method, url, fixture) => cy.intercept(method, apiServer(url), { fixture }).as(fixture)
 
