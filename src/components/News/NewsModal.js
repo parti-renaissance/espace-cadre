@@ -1,6 +1,15 @@
 import { useState } from 'react'
-import { Dialog, Box, Grid, Button, FormControlLabel, Checkbox } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import {
+  Dialog,
+  Paper,
+  Grid as MuiGrid,
+  Button as MuiButton,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+} from '@mui/material'
+import MuiCloseIcon from '@mui/icons-material/Close'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -11,47 +20,59 @@ import DomainNews from 'domain/news'
 import { notifyMessages, notifyVariants } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(4),
-    width: '664px',
-    borderRadius: '12px',
-  },
-  innerContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  modalTitle: {
-    fontSize: '24px',
-    color: theme.palette.gray800,
-    fontWeight: '400',
-  },
-  cross: {
-    color: theme.palette.gray700,
-    marginTop: theme.spacing(2.75),
-    cursor: 'pointer',
-  },
-  charactersLimit: {
-    fontSize: '10px',
-    color: theme.palette.gray300,
-  },
-  fieldTitle: {
-    fontWeight: '600',
-  },
-  textField: {
-    border: `1px solid ${theme.palette.gray200}`,
-    borderRadius: '8.35px',
-    margin: theme.spacing(1, 0),
-  },
-  modalButton: {
-    color: theme.palette.whiteCorner,
-    background: theme.palette.orange500,
-    border: 'none',
-    borderRadius: '8.35px',
-    '&:hover': {
-      backgroundColor: theme.palette.orange600,
-    },
-  },
-}))
+const StyledPaper = styled(Paper)(
+  ({ theme }) => `
+  padding: ${theme.spacing(4)};
+  width: 664px;
+  border-radius: 12px;
+`
+)
+
+const Grid = styled(MuiGrid)(
+  ({ theme }) => `
+  margin-bottom: ${theme.spacing(2)};
+`
+)
+
+const CloseIcon = styled(MuiCloseIcon)(
+  ({ theme }) => `
+  color: ${theme.palette.gray700};
+  cursor: pointer;
+`
+)
+
+const Title = styled(Typography)(
+  ({ theme }) => `
+  font-size: 24px;
+  color: ${theme.palette.gray800};
+  font-weight: 400;
+`
+)
+
+const CharactersLimit = styled(Typography)(
+  ({ theme }) => `
+  font-size: 10px;
+  color: ${theme.palette.gray300}
+`
+)
+
+const InputTitle = styled(Typography)(
+  () => `
+  font-weight: 600
+`
+)
+
+const Button = styled(MuiButton)(
+  ({ theme }) => `
+  color: ${theme.palette.whiteCorner};
+  background: ${theme.palette.orange500};
+  border: none;
+  border-radius: 8.35px;
+  &:hover {
+    background-color: ${theme.palette.orange600};
+  }
+`
+)
 
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(120, 'Maximum 120 charactères').required('Titre obligatoire'),
@@ -68,7 +89,6 @@ const messages = {
 }
 
 const NewsModal = ({ handleClose, news, onSubmitRefresh, open }) => {
-  const classes = useStyles()
   const [errorMessage, setErrorMessage] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -104,60 +124,47 @@ const NewsModal = ({ handleClose, news, onSubmitRefresh, open }) => {
   })
 
   return (
-    <Dialog open={open} onClose={handleClose} classes={{ paper: classes.paper }}>
+    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" className={classes.innerContainer}>
-          <Grid item>
-            <Box component="span" className={classes.modalTitle}>
-              {news?.id ? messages.editNews : messages.createNews}
-            </Box>
-          </Grid>
-          <Grid item>
-            <Box component="span" className={classes.cross} onClick={handleClose}>
-              X
-            </Box>
-          </Grid>
+        <Grid container justifyContent="space-between">
+          <MuiGrid item>
+            <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
+          </MuiGrid>
+          <MuiGrid item>
+            <CloseIcon onClick={handleClose} />
+          </MuiGrid>
         </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
+        <Grid container>
+          <MuiGrid item xs={12}>
             {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
-          </Grid>
+          </MuiGrid>
         </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
-            <span className={classes.fieldTitle}>{messages.title}</span>{' '}
-            <Box component="span" className={classes.charactersLimit}>
-              (120 charactères)
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
+        <Grid container>
+          <MuiGrid item xs={12}>
+            <InputTitle>{messages.title}</InputTitle> <CharactersLimit>(120 charactères)</CharactersLimit>
+          </MuiGrid>
+          <MuiGrid item xs={12}>
             <TextField formik={formik} label="title" />
-          </Grid>
+          </MuiGrid>
         </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
-            <span className={classes.fieldTitle}>Texte</span>{' '}
-            <Box component="span" className={classes.charactersLimit}>
-              (1000 charactères)
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
+        <Grid container>
+          <MuiGrid item xs={12}>
+            <InputTitle>Texte</InputTitle> <CharactersLimit>(1000 charactères)</CharactersLimit>
+          </MuiGrid>
+          <MuiGrid item xs={12}>
             <TextField formik={formik} label="body" isLong />
-          </Grid>
+          </MuiGrid>
         </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
-            <span className={classes.fieldTitle}>URL</span>{' '}
-            <Box component="span" className={classes.charactersLimit}>
-              (255 charactères)
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
+        <Grid container>
+          <MuiGrid item xs={12}>
+            <InputTitle>URL</InputTitle> <CharactersLimit>(255 charactères)</CharactersLimit>
+          </MuiGrid>
+          <MuiGrid item xs={12}>
             <TextField formik={formik} label="url" />
-          </Grid>
+          </MuiGrid>
         </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
+        <Grid container>
+          <MuiGrid item xs={12}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -170,13 +177,13 @@ const NewsModal = ({ handleClose, news, onSubmitRefresh, open }) => {
               }
               label="Avec notification"
             />
-          </Grid>
+          </MuiGrid>
         </Grid>
-        <Grid container>
-          <Button type="submit" className={classes.modalButton} fullWidth>
+        <MuiGrid container>
+          <Button type="submit" fullWidth>
             Valider
           </Button>
-        </Grid>
+        </MuiGrid>
       </form>
     </Dialog>
   )

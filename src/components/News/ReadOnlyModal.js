@@ -1,5 +1,4 @@
-import { Dialog, Grid, Icon, Typography as MuiTypography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Dialog, Paper, Grid, Icon, Typography as MuiTypography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
@@ -8,13 +7,13 @@ import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/notification/helpers'
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(4),
-    width: '664px',
-    borderRadius: '12px',
-  },
-}))
+const StyledPaper = styled(Paper)(
+  ({ theme }) => `
+  padding: ${theme.spacing(4)};
+  width: 664px;
+  border-radius: 12px;
+`
+)
 
 const Title = styled(MuiTypography)(
   ({ theme }) => `
@@ -91,11 +90,10 @@ const messages = {
 }
 
 const ReadOnlyModal = ({ news, handleClose, open }) => {
-  const classes = useStyles()
   if (!news) return null
 
   return (
-    <Dialog open={open} onClose={handleClose} classes={{ paper: classes.paper }}>
+    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <Grid container justifyContent="space-between" sx={{ marginBottom: 4 }}>
         <Grid item>
           <Title>{news.title}</Title>
