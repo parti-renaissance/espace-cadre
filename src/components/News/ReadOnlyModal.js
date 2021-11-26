@@ -5,14 +5,7 @@ import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRou
 import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/notification/helpers'
-
-const StyledPaper = styled(Paper)(
-  ({ theme }) => `
-  padding: ${theme.spacing(4)};
-  width: 664px;
-  border-radius: 12px;
-`
-)
+import Modal from 'ui/Modal'
 
 const Title = styled(MuiTypography)(
   ({ theme }) => `
@@ -85,7 +78,7 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
   if (!news) return null
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
+    <Modal open={open} onClose={handleClose}>
       <Grid container justifyContent="space-between" sx={{ marginBottom: 4 }}>
         <Grid item xs={8}>
           <Title>{news.title}</Title>
@@ -109,7 +102,7 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
           <Text>{news.body}</Text>
         </Grid>
       </Grid>
-    </Dialog>
+    </Modal>
   )
 }
 

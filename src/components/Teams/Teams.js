@@ -6,7 +6,7 @@ import TeamModal from './TeamModal'
 import { getTeams } from 'api/teams'
 import { Team } from 'domain/team'
 import PageTitle from 'ui/PageTitle'
-import UICard from 'ui/UICard/UICard'
+import UICard from 'ui/Card'
 import Header from './Card/Header'
 import Body from './Card/Body'
 

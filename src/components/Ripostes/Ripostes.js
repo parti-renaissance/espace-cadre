@@ -6,7 +6,7 @@ import RiposteModal from './RiposteModal'
 import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
 import PageTitle from 'ui/PageTitle'
-import UICard from 'ui/UICard'
+import UICard from 'ui/Card'
 import Header from './Card/Header'
 import Body from './Card/Body'
 

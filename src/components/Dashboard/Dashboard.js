@@ -6,7 +6,7 @@ import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign'
 import MapComponent from './Map/MapComponent'
 import TextChart from './Charts/TextChart/TextChart'
 import smartphone from 'assets/smartphone.svg'
-import UIContainer from 'ui/UIContainer'
+import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
 
 const useStyles = makeStyles(theme => ({

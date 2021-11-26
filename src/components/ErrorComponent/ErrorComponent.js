@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
-import UIContainer from 'ui/UIContainer'
+import UIContainer from 'ui/Container'
 
 const useStyles = makeStyles(theme => ({
   errorBox: {

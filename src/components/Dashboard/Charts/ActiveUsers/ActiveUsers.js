@@ -7,7 +7,7 @@ import Loader from 'ui/Loader'
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
-import UIContainer from 'ui/UIContainer'
+import UIContainer from 'ui/Container'
 
 const useStyles = makeStyles(theme => ({
   container: {

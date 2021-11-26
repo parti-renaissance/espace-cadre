@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import UIContainer from './UIContainer'
+import UIContainer from './Container'
 
 jest.mock('@mui/styles', () => ({
   makeStyles: () => () => ({ root: 'root' }),

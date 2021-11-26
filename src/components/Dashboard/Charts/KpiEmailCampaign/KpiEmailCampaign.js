@@ -8,7 +8,7 @@ import Percentage from 'ui/Percentage'
 import { useUserScope } from '../../../../redux/user/hooks'
 import EmailCampaignTitle from './EmailCampaignTitle'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
-import UIContainer from 'ui/UIContainer'
+import UIContainer from 'ui/Container'
 
 const useStyles = makeStyles(theme => ({
   cardContainer: {

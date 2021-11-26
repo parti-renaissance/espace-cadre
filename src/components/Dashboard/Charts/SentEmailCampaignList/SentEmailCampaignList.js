@@ -7,7 +7,7 @@ import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
 import ErrorComponent from 'components/ErrorComponent/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
-import UIContainer from 'ui/UIContainer'
+import UIContainer from 'ui/Container'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {
