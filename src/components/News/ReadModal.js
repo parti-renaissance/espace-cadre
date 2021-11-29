@@ -1,4 +1,4 @@
-import { Dialog, Paper, Grid, Icon, Typography as MuiTypography } from '@mui/material'
+import { Dialog, Paper, Grid, Icon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
@@ -15,7 +15,7 @@ const StyledPaper = styled(Paper)(
 `
 )
 
-const Title = styled(MuiTypography)(
+const Title = styled(Typography)(
   ({ theme }) => `
   font-size: 16px;
   font-weight: 400;
@@ -77,24 +77,18 @@ const NotificationIcon = styled(Icon)(
 `
 )
 
-const Text = styled(MuiTypography)(
-  () => `
-  font-size: 12px;
-`
-)
-
 const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
   author: 'Par',
 }
 
-const ReadOnlyModal = ({ news, handleClose, open }) => {
+const ReadModal = ({ news, handleClose, open }) => {
   if (!news) return null
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
-      <Grid container justifyContent="space-between" sx={{ marginBottom: 4 }}>
+      <Grid container justifyContent="space-between" sx={{ mb: 4 }}>
         <Grid item>
           <Title>{news.title}</Title>
         </Grid>
@@ -117,22 +111,22 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
       </AuthorWrapper>
       <Grid container>
         <Grid item xs={12}>
-          <Text>{news.body}</Text>
+          <Typography sx={{ fontSize: '12px' }}>{news.body}</Typography>
         </Grid>
       </Grid>
     </Dialog>
   )
 }
 
-export default ReadOnlyModal
+export default ReadModal
 
-ReadOnlyModal.defaultProps = {
+ReadModal.defaultProps = {
   handleClose: () => {},
   onSubmitRefresh: () => {},
   news: null,
 }
 
-ReadOnlyModal.propTypes = {
+ReadModal.propTypes = {
   handleClose: PropTypes.func,
   onSubmitRefresh: PropTypes.func,
   news: DomainNews.propTypes,

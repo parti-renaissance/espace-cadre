@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Body = ({ riposte, handleClickOpen, toggleStatus }) => {
+const Content = ({ riposte, handleClickOpen, toggleStatus }) => {
   const classes = useStyles()
   const { id, status, withNotification, views, detailViews, ripostes } = riposte
   const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
@@ -83,10 +83,10 @@ const Body = ({ riposte, handleClickOpen, toggleStatus }) => {
   )
 }
 
-Body.propTypes = {
+Content.propTypes = {
   riposte: Riposte.propTypes.isRequired,
   handleClickOpen: PropTypes.func.isRequired,
   toggleStatus: PropTypes.func.isRequired,
 }
 
-export default Body
+export default Content

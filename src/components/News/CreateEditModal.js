@@ -1,13 +1,5 @@
 import { useState } from 'react'
-import {
-  Dialog,
-  Paper,
-  Grid as MuiGrid,
-  Button as MuiButton,
-  FormControlLabel,
-  Checkbox,
-  Typography,
-} from '@mui/material'
+import { Dialog, Paper, Grid, Button as MuiButton, FormControlLabel, Checkbox, Typography } from '@mui/material'
 import MuiCloseIcon from '@mui/icons-material/Close'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
@@ -25,12 +17,6 @@ const StyledPaper = styled(Paper)(
   padding: ${theme.spacing(4)};
   width: 664px;
   border-radius: 12px;
-`
-)
-
-const Grid = styled(MuiGrid)(
-  ({ theme }) => `
-  margin-bottom: ${theme.spacing(2)};
 `
 )
 
@@ -53,12 +39,6 @@ const CharactersLimit = styled(Typography)(
   ({ theme }) => `
   font-size: 10px;
   color: ${theme.palette.gray300}
-`
-)
-
-const InputTitle = styled(Typography)(
-  () => `
-  font-weight: 600
 `
 )
 
@@ -86,9 +66,13 @@ const messages = {
   editNews: "Modifier l'actualité",
   createSuccess: 'Actualité créée avec succès',
   editSuccess: "L'actualité a bien été modifiée",
+  submit: 'Valider',
+  charactersLimit1: '(120 charactères)',
+  charactersLimit2: '(1000 charactères)',
+  charactersLimit3: '(255 charactères)',
 }
 
-const NewsModal = ({ handleClose, news, onSubmitRefresh, open }) => {
+const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
   const [errorMessage, setErrorMessage] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -126,45 +110,48 @@ const NewsModal = ({ handleClose, news, onSubmitRefresh, open }) => {
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between">
-          <MuiGrid item>
+        <Grid container justifyContent="space-between" sx={{ marginBottom: 2 }}>
+          <Grid item>
             <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
-          </MuiGrid>
-          <MuiGrid item>
+          </Grid>
+          <Grid item>
             <CloseIcon onClick={handleClose} />
-          </MuiGrid>
+          </Grid>
         </Grid>
-        <Grid container>
-          <MuiGrid item xs={12}>
+        <Grid container sx={{ mb: 2 }}>
+          <Grid item xs={12}>
             {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
-          </MuiGrid>
+          </Grid>
         </Grid>
-        <Grid container>
-          <MuiGrid item xs={12}>
-            <InputTitle>{messages.title}</InputTitle> <CharactersLimit>(120 charactères)</CharactersLimit>
-          </MuiGrid>
-          <MuiGrid item xs={12}>
+        <Grid container sx={{ mb: 2 }}>
+          <Grid item xs={12}>
+            <Typography sx={{ fontWeight: 600 }}>{messages.title}</Typography>{' '}
+            <CharactersLimit>{messages.charactersLimit1}</CharactersLimit>
+          </Grid>
+          <Grid item xs={12}>
             <TextField formik={formik} label="title" />
-          </MuiGrid>
+          </Grid>
         </Grid>
-        <Grid container>
-          <MuiGrid item xs={12}>
-            <InputTitle>Texte</InputTitle> <CharactersLimit>(1000 charactères)</CharactersLimit>
-          </MuiGrid>
-          <MuiGrid item xs={12}>
+        <Grid container sx={{ mb: 2 }}>
+          <Grid item xs={12}>
+            <Typography sx={{ fontWeight: 600 }}>Texte</Typography>{' '}
+            <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
+          </Grid>
+          <Grid item xs={12}>
             <TextField formik={formik} label="body" isLong />
-          </MuiGrid>
+          </Grid>
         </Grid>
-        <Grid container>
-          <MuiGrid item xs={12}>
-            <InputTitle>URL</InputTitle> <CharactersLimit>(255 charactères)</CharactersLimit>
-          </MuiGrid>
-          <MuiGrid item xs={12}>
+        <Grid container sx={{ mb: 2 }}>
+          <Grid item xs={12}>
+            <Typography sx={{ fontWeight: 600 }}>URL</Typography>{' '}
+            <CharactersLimit>{messages.charactersLimit3}</CharactersLimit>
+          </Grid>
+          <Grid item xs={12}>
             <TextField formik={formik} label="url" />
-          </MuiGrid>
+          </Grid>
         </Grid>
-        <Grid container>
-          <MuiGrid item xs={12}>
+        <Grid container sx={{ mb: 2 }}>
+          <Grid item xs={12}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -177,27 +164,27 @@ const NewsModal = ({ handleClose, news, onSubmitRefresh, open }) => {
               }
               label="Avec notification"
             />
-          </MuiGrid>
+          </Grid>
         </Grid>
-        <MuiGrid container>
+        <Grid container sx={{ mb: 2 }}>
           <Button type="submit" fullWidth>
-            Valider
+            {messages.submit}
           </Button>
-        </MuiGrid>
+        </Grid>
       </form>
     </Dialog>
   )
 }
 
-export default NewsModal
+export default CreateEditModal
 
-NewsModal.defaultProps = {
+CreateEditModal.defaultProps = {
   handleClose: () => {},
   onSubmitRefresh: () => {},
   news: null,
 }
 
-NewsModal.propTypes = {
+CreateEditModal.propTypes = {
   handleClose: PropTypes.func,
   onSubmitRefresh: PropTypes.func,
   news: DomainNews.propTypes,

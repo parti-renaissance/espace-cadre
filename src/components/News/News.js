@@ -1,21 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Container, Grid, Button as MuiButton } from '@mui/material'
 import { styled } from '@mui/system'
-import MuiAddIcon from '@mui/icons-material/Add'
+import AddIcon from '@mui/icons-material/Add'
 import { getNews, updateNewsStatus } from 'api/news'
 import PageTitle from 'ui/PageTitle'
-import UICard from 'ui/Card'
+import Card from 'ui/Card'
 import Header from './Card/Header'
-import Body from './Card/Body'
-import ReadOnlyModal from './ReadOnlyModal'
-import NewsModal from './NewsModal'
+import Content from './Card/Content'
 import NewsDomain from 'domain/news'
-
-const NewsContainer = styled(Container)(
-  ({ theme }) => `
-  margin-bottom: ${theme.spacing(2)};
-`
-)
+import CreateEditModal from './CreateEditModal'
+import ReadModal from './ReadModal'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -25,25 +19,19 @@ const Button = styled(MuiButton)(
 `
 )
 
-const AddIcon = styled(MuiAddIcon)(
-  ({ theme }) => `
-  margin-right: ${theme.spacing(1)}
-`
-)
-
 const News = () => {
   const [news, setNews] = useState([])
   const [newNews, setNewNews] = useState(null)
-  const [openReadOnly, setOpenReadOnly] = useState(false)
-  const [openCreate, setOpenCreate] = useState(false)
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [isReadModalOpen, setIsReadModalOpen] = useState(false)
 
   const handleClick = id => () => {
     setNewNews(news.find(n => n.id === id) || null)
-    setOpenCreate(false)
-    setOpenReadOnly(true)
+    setIsCreateEditModalOpen(false)
+    setIsReadModalOpen(true)
   }
 
-  const toggleEnableNews = async id => {
+  const toggleNewsStatus = async id => {
     const info = news.find(n => n.id === id)
     const editedNews = info.toggleStatus()
     setNews(prev =>
@@ -58,13 +46,13 @@ const News = () => {
 
   const handleNewNews = () => {
     setNewNews(NewsDomain.NULL)
-    setOpenCreate(true)
-    setOpenReadOnly(false)
+    setIsCreateEditModalOpen(true)
+    setIsReadModalOpen(false)
   }
 
   const handleClose = () => {
-    setOpenCreate(false)
-    setOpenReadOnly(false)
+    setIsCreateEditModalOpen(false)
+    setIsReadModalOpen(false)
   }
 
   const handleSubmitRefresh = () => {
@@ -81,33 +69,38 @@ const News = () => {
   }
 
   return (
-    <NewsContainer maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container justifyContent="space-between">
         <Grid item>
           <PageTitle title={messages.title} />
         </Grid>
         <Grid item>
           <Button onClick={handleNewNews}>
-            <AddIcon />
+            <AddIcon sx={{ mr: 1 }} />
             {messages.create}
           </Button>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
         {news.map(n => (
-          <UICard key={n.id} header={<Header {...n} />} title={n.title} subtitle={`Par ${n.creator}`}>
-            <Body news={n} handleClick={handleClick(n.id)} toggleStatus={toggleEnableNews} />
-          </UICard>
+          <Card key={n.id} header={<Header {...n} />} title={n.title} subtitle={`Par ${n.creator}`}>
+            <Content news={n} handleClick={handleClick(n.id)} toggleStatus={toggleNewsStatus} />
+          </Card>
         ))}
       </Grid>
-      <NewsModal open={openCreate} handleClose={handleClose} news={newNews} onSubmitRefresh={handleSubmitRefresh} />
-      <ReadOnlyModal
-        open={openReadOnly}
+      <CreateEditModal
+        open={isCreateEditModalOpen}
         handleClose={handleClose}
         news={newNews}
         onSubmitRefresh={handleSubmitRefresh}
       />
-    </NewsContainer>
+      <ReadModal
+        open={isReadModalOpen}
+        handleClose={handleClose}
+        news={newNews}
+        onSubmitRefresh={handleSubmitRefresh}
+      />
+    </Container>
   )
 }
 

@@ -21,7 +21,7 @@ const messages = {
   see: 'Voir',
 }
 
-const Body = ({ news, handleClick, toggleStatus }) => {
+const Content = ({ news, handleClick, toggleStatus }) => {
   const { id, status } = news
 
   return (
@@ -38,10 +38,10 @@ const Body = ({ news, handleClick, toggleStatus }) => {
   )
 }
 
-Body.propTypes = {
+Content.propTypes = {
   news: News.propTypes.isRequired,
   handleClick: PropTypes.func.isRequired,
   toggleStatus: PropTypes.func.isRequired,
 }
 
-export default Body
+export default Content

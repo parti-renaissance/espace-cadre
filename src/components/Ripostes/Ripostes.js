@@ -1,33 +1,27 @@
 import { useEffect, useState } from 'react'
 import { Button as MuiButton, Container, Grid } from '@mui/material'
 import { styled } from '@mui/system'
-import MuiAddIcon from '@mui/icons-material/Add'
+import AddIcon from '@mui/icons-material/Add'
 import RiposteModal from './RiposteModal'
 import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
 import PageTitle from 'ui/PageTitle'
-import UICard from 'ui/Card'
+import Card from 'ui/Card'
 import Header from './Card/Header'
-import Body from './Card/Body'
-
-const messages = {
-  title: 'Ripostes',
-  create: 'Créer une riposte',
-}
+import Content from './Card/Content'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
   background: ${theme.palette.riposteBackground};
   color: ${theme.palette.teal700};
   border-radius: 8.35px;
-`
+  `
 )
 
-const AddIcon = styled(MuiAddIcon)(
-  ({ theme }) => `
-  margin-right: ${theme.spacing(1)}
-`
-)
+const messages = {
+  title: 'Ripostes',
+  create: 'Créer une riposte',
+}
 
 const Ripostes = () => {
   const [ripostes, setRipostes] = useState([])
@@ -39,7 +33,7 @@ const Ripostes = () => {
     setOpen(true)
   }
 
-  const toggleEnableRiposte = async id => {
+  const toggleRiposteStatus = async id => {
     const riposte = ripostes.find(r => r.id === id)
     const newRiposte = riposte.toggleStatus()
     setRipostes(prev =>
@@ -77,15 +71,15 @@ const Ripostes = () => {
         </Grid>
         <Grid item>
           <Button onClick={handleNewRiposte}>
-            <AddIcon />
+            <AddIcon sx={{ mr: 1 }} />
             {messages.create}
           </Button>
         </Grid>
         <Grid container spacing={2}>
           {ripostes.map(r => (
-            <UICard key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
-              <Body riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableRiposte} />
-            </UICard>
+            <Card key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
+              <Content riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleRiposteStatus} />
+            </Card>
           ))}
         </Grid>
         <RiposteModal

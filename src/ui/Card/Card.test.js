@@ -11,7 +11,7 @@ jest.mock('@mui/styles', () => ({
 }))
 
 describe('Card', () => {
-  it('displays Card', () => {
+  it('displays a Card', () => {
     const { container } = render(
       <UICard header="header" title="title" subtitle="subtitle">
         body
