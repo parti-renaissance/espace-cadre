@@ -6,9 +6,9 @@ import TeamModal from './TeamModal'
 import { getTeams } from 'api/teams'
 import { Team } from 'domain/team'
 import PageTitle from 'ui/PageTitle'
-import UICard from 'ui/UICard/UICard'
+import Card from 'ui/Card'
 import Header from './Card/Header'
-import Body from './Card/Body'
+import Content from './Card/Content'
 
 const useStyles = makeStyles(theme => ({
   teamsContainer: {
@@ -74,14 +74,14 @@ const Teams = () => {
       </Grid>
       <Grid container spacing={2}>
         {teams.map(team => (
-          <UICard
+          <Card
             key={team.id}
             header={<Header teamCount={team.members.length} />}
             title={team.name}
             subtitle={team.creator}
           >
-            <Body teamId={team.id} handleEditTeam={handleEditTeam} />
-          </UICard>
+            <Content teamId={team.id} handleEditTeam={handleEditTeam} />
+          </Card>
         ))}
       </Grid>
       <TeamModal

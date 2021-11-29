@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UIContainer displays grid 1`] = `
+exports[`Container displays grid 1`] = `
 <div>
   <div
     class="root fooClass"

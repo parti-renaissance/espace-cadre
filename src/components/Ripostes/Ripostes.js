@@ -1,36 +1,29 @@
 import { useEffect, useState } from 'react'
-import { Button, Container, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Button as MuiButton, Container, Grid } from '@mui/material'
+import { styled } from '@mui/system'
 import AddIcon from '@mui/icons-material/Add'
 import RiposteModal from './RiposteModal'
 import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
 import PageTitle from 'ui/PageTitle'
-import UICard from 'ui/UICard'
+import Card from 'ui/Card'
 import Header from './Card/Header'
-import Body from './Card/Body'
+import Content from './Card/Content'
+
+const Button = styled(MuiButton)(
+  ({ theme }) => `
+  background: ${theme.palette.riposteBackground};
+  color: ${theme.palette.teal700};
+  border-radius: 8.35px;
+  `
+)
 
 const messages = {
   title: 'Ripostes',
   create: 'Créer une riposte',
 }
 
-const useStyles = makeStyles(theme => ({
-  buttonContainer: {
-    background: theme.palette.riposteBackground,
-    borderRadius: '8.35px',
-    marginBottom: theme.spacing(2),
-  },
-  icon: {
-    marginRight: theme.spacing(1),
-  },
-  createButton: {
-    color: theme.palette.teal700,
-  },
-}))
-
 const Ripostes = () => {
-  const classes = useStyles()
   const [ripostes, setRipostes] = useState([])
   const [newRiposte, setNewRiposte] = useState(null)
   const [open, setOpen] = useState(false)
@@ -40,7 +33,7 @@ const Ripostes = () => {
     setOpen(true)
   }
 
-  const toggleEnableRiposte = async id => {
+  const toggleRiposteStatus = async id => {
     const riposte = ripostes.find(r => r.id === id)
     const newRiposte = riposte.toggleStatus()
     setRipostes(prev =>
@@ -62,6 +55,10 @@ const Ripostes = () => {
     setOpen(false)
   }
 
+  const handleSubmitRefresh = () => {
+    getRipostes(setRipostes)
+  }
+
   useEffect(() => {
     getRipostes(setRipostes)
   }, [])
@@ -69,27 +66,27 @@ const Ripostes = () => {
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
-        <PageTitle title={messages.title} />
-        <Grid item className={classes.buttonContainer}>
-          <Button className={classes.createButton} onClick={handleNewRiposte}>
-            <AddIcon className={classes.icon} />
+        <Grid item>
+          <PageTitle title={messages.title} />
+        </Grid>
+        <Grid item>
+          <Button onClick={handleNewRiposte}>
+            <AddIcon sx={{ mr: 1 }} />
             {messages.create}
           </Button>
         </Grid>
         <Grid container spacing={2}>
           {ripostes.map(r => (
-            <UICard key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
-              <Body riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleEnableRiposte} />
-            </UICard>
+            <Card key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
+              <Content riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleRiposteStatus} />
+            </Card>
           ))}
         </Grid>
         <RiposteModal
           open={open}
           handleClose={handleClose}
           riposte={newRiposte}
-          onSubmitRefresh={() => {
-            getRipostes(setRipostes)
-          }}
+          onSubmitRefresh={handleSubmitRefresh}
         />
       </Grid>
     </Container>

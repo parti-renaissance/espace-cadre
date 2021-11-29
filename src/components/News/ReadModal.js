@@ -1,7 +1,8 @@
-import { Dialog, Grid, Icon, Paper, Typography as MuiTypography } from '@mui/material'
+import { Dialog, Paper, Grid, Icon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
+import MuiCloseIcon from '@mui/icons-material/Close'
 import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/notification/helpers'
@@ -14,12 +15,19 @@ const StyledPaper = styled(Paper)(
 `
 )
 
-const Title = styled(MuiTypography)(
+const Title = styled(Typography)(
   ({ theme }) => `
   font-size: 16px;
   font-weight: 400;
   color: ${theme.palette.gray800};
   margin-top: ${theme.spacing(1)};
+`
+)
+
+const CloseIcon = styled(MuiCloseIcon)(
+  ({ theme }) => `
+  color: ${theme.palette.gray700};
+  cursor: pointer;
 `
 )
 
@@ -75,14 +83,17 @@ const messages = {
   author: 'Par',
 }
 
-const ReadOnlyModal = ({ news, handleClose, open }) => {
+const ReadModal = ({ news, handleClose, open }) => {
   if (!news) return null
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
-      <Grid container justifyContent="space-between" sx={{ marginBottom: 2 }}>
+      <Grid container justifyContent="space-between" sx={{ mb: 4 }}>
         <Grid item>
           <Title>{news.title}</Title>
+        </Grid>
+        <Grid item>
+          <CloseIcon onClick={handleClose} />
         </Grid>
       </Grid>
       <Grid container spacing={1}>
@@ -100,22 +111,22 @@ const ReadOnlyModal = ({ news, handleClose, open }) => {
       </AuthorWrapper>
       <Grid container>
         <Grid item xs={12}>
-          {news.body}
+          <Typography sx={{ fontSize: '12px' }}>{news.body}</Typography>
         </Grid>
       </Grid>
     </Dialog>
   )
 }
 
-export default ReadOnlyModal
+export default ReadModal
 
-ReadOnlyModal.defaultProps = {
+ReadModal.defaultProps = {
   handleClose: () => {},
   onSubmitRefresh: () => {},
   news: null,
 }
 
-ReadOnlyModal.propTypes = {
+ReadModal.propTypes = {
   handleClose: PropTypes.func,
   onSubmitRefresh: PropTypes.func,
   news: DomainNews.propTypes,

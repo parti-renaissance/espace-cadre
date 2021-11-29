@@ -93,7 +93,7 @@ export default class News {
 }
 
 News.propTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   url: PropTypes.string,

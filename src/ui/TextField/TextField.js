@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const TextField = ({ formik, label }) => {
+const TextField = ({ formik, label, isLong }) => {
   const classes = useStyles()
 
   return (
@@ -24,7 +24,7 @@ const TextField = ({ formik, label }) => {
         multiline={label === 'body'}
         id={label}
         name={label}
-        inputProps={{ maxLength: 255 }}
+        inputProps={{ maxLength: isLong ? 1000 : 255 }}
         value={formik.values[label]}
         onChange={formik.handleChange}
       />
@@ -38,4 +38,5 @@ export default TextField
 TextField.propTypes = {
   formik: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
+  isLong: PropTypes.bool,
 }

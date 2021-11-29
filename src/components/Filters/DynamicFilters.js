@@ -5,7 +5,7 @@ import FiltersForm from './FiltersForm'
 import ErrorComponent from '../ErrorComponent'
 import Loader from 'ui/Loader'
 import { getFilters } from 'api/filters'
-import UIContainer from 'ui/UIContainer'
+import UIContainer from 'ui/Container'
 
 const useStyles = makeStyles(() => ({
   loader: {

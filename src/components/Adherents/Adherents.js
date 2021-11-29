@@ -7,7 +7,7 @@ import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { getAdherents, getColumns } from 'api/adherents'
 import PaginatedResult from 'api/paginatedResult'
-import UIContainer from 'ui/UIContainer'
+import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
 
 export const FEATURE_ADHERENTS = 'contacts'

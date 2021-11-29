@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Body = ({ teamId, handleEditTeam }) => {
+const Content = ({ teamId, handleEditTeam }) => {
   const classes = useStyles()
 
   return (
@@ -35,9 +35,9 @@ const Body = ({ teamId, handleEditTeam }) => {
   )
 }
 
-Body.propTypes = {
+Content.propTypes = {
   teamId: PropTypes.string.isRequired,
   handleEditTeam: PropTypes.func.isRequired,
 }
 
-export default Body
+export default Content
