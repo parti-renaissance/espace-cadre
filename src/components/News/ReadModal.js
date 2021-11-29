@@ -1,4 +1,4 @@
-import { Dialog, Paper, Grid, Icon, Typography } from '@mui/material'
+import { Dialog, Paper, Grid, Icon, Typography, Button as MuiButton } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
@@ -6,6 +6,7 @@ import MuiCloseIcon from '@mui/icons-material/Close'
 import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/notification/helpers'
+import EditIcon from '@mui/icons-material/EditRounded'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -21,6 +22,20 @@ const Title = styled(Typography)(
   font-weight: 400;
   color: ${theme.palette.gray800};
   margin-top: ${theme.spacing(1)};
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+)
+
+const Button = styled(MuiButton)(
+  ({ theme }) => `
+  color: ${theme.palette.orange500};
+  background: ${theme.palette.newsBackground};
+  border-radius: 8.35px;
+  margin-bottom: ${theme.spacing(4)};
+  padding: ${theme.spacing(0.75, 1)};
 `
 )
 
@@ -80,21 +95,22 @@ const NotificationIcon = styled(Icon)(
 const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
+  edit: 'Modifier',
   author: 'Par',
 }
 
-const ReadModal = ({ news, handleClose, open }) => {
+const ReadModal = ({ news, handleClose, handleOpenEditModal, open }) => {
   if (!news) return null
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
-      <Grid container justifyContent="space-between" sx={{ mb: 4 }}>
-        <Grid item>
-          <Title>{news.title}</Title>
-        </Grid>
-        <Grid item>
-          <CloseIcon onClick={handleClose} />
-        </Grid>
+      <Grid container>
+        <Title title={news.title}>{news.title}</Title>
+        <Button onClick={handleOpenEditModal} sx={{ ml: 'auto', mr: 1 }}>
+          <EditIcon sx={{ mr: 1 }} />
+          {messages.edit}
+        </Button>
+        <CloseIcon onClick={handleClose} sx={{ mt: 0.75 }} />
       </Grid>
       <Grid container spacing={1}>
         <Grid item>
@@ -129,6 +145,7 @@ ReadModal.defaultProps = {
 ReadModal.propTypes = {
   handleClose: PropTypes.func,
   onSubmitRefresh: PropTypes.func,
+  handleOpenEditModal: PropTypes.func,
   news: DomainNews.propTypes,
   open: PropTypes.bool.isRequired,
 }

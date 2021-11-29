@@ -25,10 +25,17 @@ const News = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isReadModalOpen, setIsReadModalOpen] = useState(false)
 
+  // Open read modal
   const handleClick = id => () => {
     setNewNews(news.find(n => n.id === id) || null)
     setIsCreateEditModalOpen(false)
     setIsReadModalOpen(true)
+  }
+
+  const handleOpenEditModal = id => () => {
+    setNewNews(news.find(n => n.id === id) || null)
+    setIsCreateEditModalOpen(true)
+    setIsReadModalOpen(false)
   }
 
   const toggleNewsStatus = async id => {
@@ -44,6 +51,7 @@ const News = () => {
     getNews(setNews)
   }
 
+  // Open Modal with empty fields
   const handleNewNews = () => {
     setNewNews(NewsDomain.NULL)
     setIsCreateEditModalOpen(true)
@@ -99,6 +107,7 @@ const News = () => {
         handleClose={handleClose}
         news={newNews}
         onSubmitRefresh={handleSubmitRefresh}
+        handleOpenEditModal={handleOpenEditModal(newNews?.id)}
       />
     </Container>
   )

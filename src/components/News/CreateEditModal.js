@@ -82,6 +82,7 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
       body: news?.body,
       url: news?.url,
       withNotification: news?.withNotification,
+      status: news?.status,
     },
     validationSchema: newsSchema,
     enableReinitialize: true,
@@ -92,6 +93,7 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
           .withBody(form.body)
           .withUrl(form.url)
           .withWithNotification(form.withNotification)
+          .withStatus(form.status)
 
         !newNews.id && (await createNews(newNews))
         newNews.id && (await updateNews(newNews))
@@ -165,7 +167,22 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
               label="Avec notification"
             />
           </Grid>
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="status"
+                  color="primary"
+                  size="small"
+                  checked={formik.values.status}
+                  onChange={formik.handleChange}
+                />
+              }
+              label="Active"
+            />
+          </Grid>
         </Grid>
+
         <Grid container sx={{ mb: 2 }}>
           <Button type="submit" fullWidth>
             {messages.submit}

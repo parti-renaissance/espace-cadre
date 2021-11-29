@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button as MuiButton, Container, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import AddIcon from '@mui/icons-material/Add'
-import RiposteModal from './RiposteModal'
+import CreateEditModal from './CreateEditModal'
 import Riposte from 'domain/riposte'
 import { getRipostes, updateRiposte } from 'api/ripostes'
 import PageTitle from 'ui/PageTitle'
@@ -82,7 +82,7 @@ const Ripostes = () => {
             </Card>
           ))}
         </Grid>
-        <RiposteModal
+        <CreateEditModal
           open={open}
           handleClose={handleClose}
           riposte={newRiposte}
