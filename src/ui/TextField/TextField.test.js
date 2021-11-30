@@ -5,8 +5,8 @@ jest.mock('@mui/styles', () => ({
   makeStyles: () => () => ({ textField: 'textField' }),
 }))
 jest.mock('@mui/material', () => ({
-  TextField: ({ fullWidth, multiline, inputProps, ...props }) => (
-    <div className="mui-TextField-mock" {...props} error="false" />
+  TextField: ({ fullWidth, multiline, inputProps, error, ...props }) => (
+    <div className="mui-TextField-mock" {...props} />
   ),
 }))
 jest.mock('ui/AlertBanner', () => ({ children, ...rest }) => (

@@ -4,7 +4,6 @@ exports[`TextField displays TextField 1`] = `
 <div>
   <div
     class="css-1an706"
-    error="false"
     id="foo"
     name="foo"
     value="foo-values"
