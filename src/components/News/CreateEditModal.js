@@ -80,7 +80,7 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
     initialValues: {
       title: news?.title,
       body: news?.body,
-      url: news?.url,
+      url: news?.url || '',
       withNotification: news?.withNotification,
       status: news?.status,
     },
@@ -157,7 +157,7 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  id="withNotification"
+                  name="withNotification"
                   size="small"
                   color="primary"
                   checked={formik.values.withNotification}
@@ -171,7 +171,7 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  id="status"
+                  name="status"
                   color="primary"
                   size="small"
                   checked={formik.values.status}
@@ -202,8 +202,8 @@ CreateEditModal.defaultProps = {
 }
 
 CreateEditModal.propTypes = {
-  handleClose: PropTypes.func,
-  onSubmitRefresh: PropTypes.func,
+  handleClose: PropTypes.func.isRequired,
+  onSubmitRefresh: PropTypes.func.isRequired,
   news: DomainNews.propTypes,
   open: PropTypes.bool.isRequired,
 }

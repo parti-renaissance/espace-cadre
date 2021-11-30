@@ -139,13 +139,12 @@ export default ReadModal
 ReadModal.defaultProps = {
   handleClose: () => {},
   onSubmitRefresh: () => {},
-  news: null,
 }
 
 ReadModal.propTypes = {
-  handleClose: PropTypes.func,
-  onSubmitRefresh: PropTypes.func,
-  handleOpenEditModal: PropTypes.func,
+  handleClose: PropTypes.func.isRequired,
+  onSubmitRefresh: PropTypes.func.isRequired,
+  handleOpenEditModal: PropTypes.func.isRequired,
   news: DomainNews.propTypes,
   open: PropTypes.bool.isRequired,
 }

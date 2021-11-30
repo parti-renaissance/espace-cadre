@@ -1,37 +1,33 @@
-import { TextField as TextFieldMui } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { TextField as MuiTextField } from '@mui/material'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import AlertBanner from 'ui/AlertBanner'
 
-const useStyles = makeStyles(theme => ({
-  textField: {
-    border: `1px solid ${theme.palette.gray200}`,
-    borderRadius: '8px',
-    margin: '8px 0',
-  },
-}))
+const TextInput = styled(MuiTextField)(
+  ({ theme }) => `
+  border-color: ${theme.palette.gray200};
+  border-radius: 8px;
+  margin: ${theme.spacing(1, 0)};
+`
+)
 
-const TextField = ({ formik, label, isLong }) => {
-  const classes = useStyles()
-
-  return (
-    <>
-      <TextFieldMui
-        fullWidth
-        className={classes.textField}
-        size="small"
-        variant="outlined"
-        multiline={label === 'body'}
-        id={label}
-        name={label}
-        inputProps={{ maxLength: isLong ? 1000 : 255 }}
-        value={formik.values[label]}
-        onChange={formik.handleChange}
-      />
-      {formik.touched[label] && formik.errors[label] && <AlertBanner severity="error" message={formik.errors[label]} />}
-    </>
-  )
-}
+const TextField = ({ formik, label, isLong }) => (
+  <>
+    <TextInput
+      error={!!formik.touched[label] && !!formik.errors[label]}
+      fullWidth
+      size="small"
+      variant="outlined"
+      multiline={label === 'body'}
+      id={label}
+      name={label}
+      inputProps={{ maxLength: isLong ? 1000 : 255 }}
+      value={formik.values[label]}
+      onChange={formik.handleChange}
+    />
+    {formik.touched[label] && formik.errors[label] && <AlertBanner severity="error" message={formik.errors[label]} />}
+  </>
+)
 
 export default TextField
 

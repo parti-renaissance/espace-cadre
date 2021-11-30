@@ -25,7 +25,6 @@ const News = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isReadModalOpen, setIsReadModalOpen] = useState(false)
 
-  // Open read modal
   const handleClick = id => () => {
     setNewNews(news.find(n => n.id === id) || null)
     setIsCreateEditModalOpen(false)
@@ -51,7 +50,6 @@ const News = () => {
     getNews(setNews)
   }
 
-  // Open Modal with empty fields
   const handleNewNews = () => {
     setNewNews(NewsDomain.NULL)
     setIsCreateEditModalOpen(true)
