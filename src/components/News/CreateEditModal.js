@@ -57,7 +57,7 @@ const Button = styled(MuiButton)(
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(120, 'Maximum 120 charactères').required('Titre obligatoire'),
   body: Yup.string().min(1, 'Minimum 1 charactère').max(1000, 'Maximum 1000 charactères').required('Texte obligatoire'),
-  url: Yup.string().url('Ce champ doit être une URL valide').required('Url obligatoire'),
+  url: Yup.string().url('Ce champ doit être une URL valide'),
 })
 
 const messages = {
@@ -80,8 +80,9 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
     initialValues: {
       title: news?.title,
       body: news?.body,
-      url: news?.url,
+      url: news?.url || '',
       withNotification: news?.withNotification,
+      status: news?.status,
     },
     validationSchema: newsSchema,
     enableReinitialize: true,
@@ -92,6 +93,7 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
           .withBody(form.body)
           .withUrl(form.url)
           .withWithNotification(form.withNotification)
+          .withStatus(form.status)
 
         !newNews.id && (await createNews(newNews))
         newNews.id && (await updateNews(newNews))
@@ -155,7 +157,7 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  id="withNotification"
+                  name="withNotification"
                   size="small"
                   color="primary"
                   checked={formik.values.withNotification}
@@ -165,7 +167,22 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
               label="Avec notification"
             />
           </Grid>
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="status"
+                  color="primary"
+                  size="small"
+                  checked={formik.values.status}
+                  onChange={formik.handleChange}
+                />
+              }
+              label="Active"
+            />
+          </Grid>
         </Grid>
+
         <Grid container sx={{ mb: 2 }}>
           <Button type="submit" fullWidth>
             {messages.submit}
@@ -185,8 +202,8 @@ CreateEditModal.defaultProps = {
 }
 
 CreateEditModal.propTypes = {
-  handleClose: PropTypes.func,
-  onSubmitRefresh: PropTypes.func,
+  handleClose: PropTypes.func.isRequired,
+  onSubmitRefresh: PropTypes.func.isRequired,
   news: DomainNews.propTypes,
   open: PropTypes.bool.isRequired,
 }

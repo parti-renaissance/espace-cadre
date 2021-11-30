@@ -64,7 +64,7 @@ const messages = {
   editSuccess: 'La riposte a bien été modifiée',
 }
 
-const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
+const CreateEditModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
   const classes = useStyles()
   const [errorMessage, setErrorMessage] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -194,15 +194,15 @@ const RiposteModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
   )
 }
 
-export default RiposteModal
+export default CreateEditModal
 
-RiposteModal.defaultProps = {
+CreateEditModal.defaultProps = {
   handleClose: () => {},
   onSubmitRefresh: () => {},
   riposte: null,
 }
 
-RiposteModal.propTypes = {
+CreateEditModal.propTypes = {
   handleClose: PropTypes.func,
   onSubmitRefresh: PropTypes.func,
   riposte: DomainRiposte.propTypes,

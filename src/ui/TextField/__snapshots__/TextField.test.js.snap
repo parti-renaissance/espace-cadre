@@ -3,7 +3,7 @@
 exports[`TextField displays TextField 1`] = `
 <div>
   <div
-    class="textField"
+    class="css-1an706"
     id="foo"
     name="foo"
     value="foo-values"

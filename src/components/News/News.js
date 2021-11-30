@@ -31,6 +31,12 @@ const News = () => {
     setIsReadModalOpen(true)
   }
 
+  const handleOpenEditModal = id => () => {
+    setNewNews(news.find(n => n.id === id) || null)
+    setIsCreateEditModalOpen(true)
+    setIsReadModalOpen(false)
+  }
+
   const toggleNewsStatus = async id => {
     const info = news.find(n => n.id === id)
     const editedNews = info.toggleStatus()
@@ -99,6 +105,7 @@ const News = () => {
         handleClose={handleClose}
         news={newNews}
         onSubmitRefresh={handleSubmitRefresh}
+        handleOpenEditModal={handleOpenEditModal(newNews?.id)}
       />
     </Container>
   )
