@@ -15,7 +15,7 @@
     "@sentry/react": "6.15.0",
     "@sentry/tracing": "6.15.0",
     "axios": "0.24.0",
-    "date-fns": "2.26.0",
+    "date-fns": "2.27.0",
     "formik": "^2.2.9",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
