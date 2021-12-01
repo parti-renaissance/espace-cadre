@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Container, Grid, Card, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useParams } from 'react-router-dom'
-import { addTeamMember, deleteTeamMember, getTeam } from 'api/teams'
+import { useQuery, useMutation } from 'react-query'
+import { addTeamMemberQuery, deleteTeamMemberQuery, getTeamQuery } from 'api/teams'
 import { adherentAutocompleteUri } from 'api/adherents'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
@@ -59,32 +60,35 @@ const messages = {
 const TeamEdit = () => {
   const classes = useStyles()
   const { teamId } = useParams()
-  const [team, setTeam] = useState(null)
-  const [member, setMember] = useState(null)
+  const [selectedMember, setSelectedMember] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
 
-  useEffect(() => {
-    getTeam(teamId, setTeam)
-  }, [teamId, member])
-
-  const onAddTeamMember = async () => {
-    try {
-      await addTeamMember(teamId, member.uuid)
-      setMember(null)
+  const { data: team, refetch: refetchTeam } = useQuery('team', () => getTeamQuery(teamId))
+  const { mutate: addMember } = useMutation(addTeamMemberQuery, {
+    onSuccess: () => {
+      refetchTeam()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
-    } catch (e) {
+    },
+    onError: () => {
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-    }
+    },
+  })
+  const { mutate: deleteMember } = useMutation(deleteTeamMemberQuery, {
+    onSuccess: () => {
+      refetchTeam()
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+    },
+    onError: () => {
+      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
+    },
+  })
+
+  const handleAddTeamMember = () => {
+    addMember({ teamId, memberId: selectedMember.uuid })
   }
 
-  const handleDelete = async memberId => {
-    try {
-      await deleteTeamMember(teamId, memberId)
-      getTeam(teamId, setTeam)
-      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
-    } catch (e) {
-      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-    }
+  const handleDelete = memberId => {
+    deleteMember({ teamId, memberId })
   }
 
   return (
@@ -108,15 +112,19 @@ const TeamEdit = () => {
                   uri={adherentAutocompleteUri}
                   queryParam="q"
                   valueParam="uuid"
-                  value={member}
+                  value={selectedMember}
                   onChange={v => {
-                    setMember(v.uuid ? v : null)
+                    setSelectedMember(v.uuid ? v : null)
                   }}
                   getOptionLabel={option => `${option.first_name} ${option.last_name}`}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button buttonClasses={classes.buttonClasses} handleClick={onAddTeamMember} disabled={!member}>
+                <Button
+                  buttonClasses={classes.buttonClasses}
+                  handleClick={handleAddTeamMember}
+                  disabled={!selectedMember}
+                >
                   {messages.add}
                 </Button>
               </Grid>

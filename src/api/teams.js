@@ -17,20 +17,22 @@ const formatTeam = (team = {}) => {
   return new Team(team.uuid, team.name, team.creator, members)
 }
 
-export const getTeams = async updater => {
+export const getTeamsQuery = async () => {
   const teams = await apiClient.get('api/v3/teams')
-  const teamItems = teams.items.map(formatTeam)
-  updater?.call(null, teamItems)
+  return teams.items.map(formatTeam)
 }
 
-export const getTeam = async (id, updater) => {
-  const team = await apiClient.get(`api/v3/teams/${id}`)
+export const getTeamQuery = async teamId => {
+  const team = await apiClient.get(`api/v3/teams/${teamId}`)
   const teamMembers = formatTeamMembers(team.members)
-  const t = new Team(team.uuid, team.name, team.creator, teamMembers)
-  updater?.call(null, t)
+  return new Team(team.uuid, team.name, team.creator, teamMembers)
 }
 
-export const addTeamMember = (teamId, memberId) =>
+export const createTeamQuery = ({ values }) => apiClient.post('api/v3/teams', values)
+export const updateTeamQuery = ({ teamId, values }) => apiClient.put(`api/v3/teams/${teamId}`, values)
+
+export const addTeamMemberQuery = ({ teamId, memberId }) =>
   apiClient.put(`/api/v3/teams/${teamId}/add-members`, [{ adherent_uuid: memberId }])
 
-export const deleteTeamMember = (teamId, memberId) => apiClient.delete(`api/v3/teams/${teamId}/members/${memberId}`)
+export const deleteTeamMemberQuery = ({ teamId, memberId }) =>
+  apiClient.delete(`api/v3/teams/${teamId}/members/${memberId}`)

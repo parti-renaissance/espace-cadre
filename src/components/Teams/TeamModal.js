@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Dialog, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
+import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import ClearIcon from '@mui/icons-material/Clear'
-import { apiClient } from 'services/networking/client'
+import { createTeamQuery, updateTeamQuery } from '../../api/teams'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
 import AlertBanner from 'ui/AlertBanner'
@@ -61,10 +62,23 @@ const teamSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
+const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
   const classes = useStyles()
   const [errorMessage, setErrorMessage] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
+
+  const { mutate: addOrEditTeam } = useMutation(!teamItem?.id ? createTeamQuery : updateTeamQuery, {
+    onSuccess: () => {
+      const confirmMessage = !teamItem.id ? messages.createSuccess : messages.editSuccess
+      enqueueSnackbar(confirmMessage, notifyVariants.success)
+      onSubmitResolve()
+      handleClose()
+    },
+    onError: error => {
+      setErrorMessage(error)
+      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
+    },
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -72,18 +86,8 @@ const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
     },
     validationSchema: teamSchema,
     enableReinitialize: true,
-    onSubmit: async values => {
-      try {
-        if (teamItem.id) await apiClient.put(`api/v3/teams/${teamItem.id}`, values)
-        if (!teamItem.id) await apiClient.post('api/v3/teams', values)
-        const confirmMessage = !teamItem.id ? messages.createSuccess : messages.editSuccess
-        enqueueSnackbar(confirmMessage, notifyVariants.success)
-        onSubmitRefresh()
-        handleClose()
-      } catch (error) {
-        setErrorMessage(error)
-        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-      }
+    onSubmit: values => {
+      addOrEditTeam(!teamItem.id ? { values } : { teamId: teamItem.id, values })
     },
   })
 
@@ -134,7 +138,7 @@ TeamModal.defaultProps = {
 
 TeamModal.propTypes = {
   handleClose: PropTypes.func,
-  onSubmitRefresh: PropTypes.func,
+  onSubmitResolve: PropTypes.func,
   teamItem: PropTypes.object,
   open: PropTypes.bool.isRequired,
 }

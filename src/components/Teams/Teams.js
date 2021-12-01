@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Container, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
+import { useQuery } from 'react-query'
 import TeamModal from './TeamModal'
-import { getTeams } from 'api/teams'
+import { getTeamsQuery } from 'api/teams'
 import { Team } from 'domain/team'
 import PageTitle from 'ui/PageTitle'
 import Card from 'ui/Card'
@@ -39,10 +40,9 @@ const messages = {
 
 const Teams = () => {
   const classes = useStyles()
-  const [teams, setTeams] = useState([])
   const [currentTeam, setCurrentTeam] = useState(null)
-  const [refreshPage, setRefreshPage] = useState(0)
   const [open, setOpen] = useState(false)
+  const { data: teams = [], refetch } = useQuery('teams', () => getTeamsQuery())
 
   const handleNewTeam = () => {
     setCurrentTeam(Team.NULL)
@@ -56,10 +56,6 @@ const Teams = () => {
   const handleClose = () => {
     setOpen(false)
   }
-
-  useEffect(() => {
-    getTeams(setTeams)
-  }, [refreshPage])
 
   return (
     <Container maxWidth="lg" className={classes.teamsContainer}>
@@ -84,14 +80,7 @@ const Teams = () => {
           </Card>
         ))}
       </Grid>
-      <TeamModal
-        open={open}
-        handleClose={handleClose}
-        teamItem={currentTeam}
-        onSubmitRefresh={() => {
-          setRefreshPage(p => p + 1)
-        }}
-      />
+      <TeamModal open={open} handleClose={handleClose} teamItem={currentTeam} onSubmitResolve={refetch} />
     </Container>
   )
 }

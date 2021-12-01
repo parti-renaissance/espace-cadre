@@ -22,7 +22,6 @@ const Layout = ({ children }) => {
   const userScopes = useSelector(getUserScopes)
   const [, updateUserData] = useGetUserData()
   const [toggleSidebar, setToggleSidebar] = useState(false)
-  useGlobalNotification()
 
   const handleToggle = () => {
     setToggleSidebar(!toggleSidebar)
