@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.backgroundError,
     borderRadius: '8.35px',
     elevation: 'none',
+    alignItems: 'center',
   },
 }))
 
