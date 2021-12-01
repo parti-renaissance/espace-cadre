@@ -8,9 +8,9 @@ import { createTeamQuery, updateTeamQuery } from '../../api/teams'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import AlertBanner from 'ui/AlertBanner'
 import TextField from 'ui/TextField'
 import ClearIcon from '@mui/icons-material/Clear'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -111,12 +111,11 @@ const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
           <Grid item xs={12}>
             <TextField formik={formik} label="name" />
           </Grid>
-          {errorMessages.length > 0 &&
-            errorMessages.map(({ field, message }) => (
-              <Grid item xs={12} key={field}>
-                <AlertBanner severity="error" message={message} />
-              </Grid>
-            ))}
+          {errorMessages.map(({ field, message }) => (
+            <Grid item xs={12} key={field}>
+              <UIFormMessage severity="error">{message}</UIFormMessage>
+            </Grid>
+          ))}
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>

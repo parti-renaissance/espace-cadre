@@ -36,6 +36,24 @@ export const styles = {
     },
   },
   palette: {
+    form: {
+      error: {
+        background: '#FEEFEF',
+        color: '#DA1414',
+      },
+      success: {
+        background: '#EDF9F0',
+        color: '#287D3C',
+      },
+      warning: {
+        background: '#FFF4EC',
+        color: '#B95000',
+      },
+      info: {
+        background: '#EEF2FA',
+        color: '#2E5AAC',
+      },
+    },
     notification: {
       success: {
         background: '#287D3C',
