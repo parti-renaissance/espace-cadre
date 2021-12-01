@@ -26,11 +26,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const UICard = ({ header, title, subtitle, children }) => {
+const UICard = ({ header, title, subtitle, children, breakpoints = { xs: 12, sm: 6, md: 3, lg: null, xl: null } }) => {
   const classes = useStyles()
 
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={breakpoints.xs} sm={breakpoints.sm} md={breakpoints.md}>
       <Paper classes={{ root: classes.root }}>
         {header}
         <Grid container className={classes.container}>
@@ -50,6 +50,13 @@ const UICard = ({ header, title, subtitle, children }) => {
 export default UICard
 
 UICard.propTypes = {
+  breakpoints: PropTypes.shape({
+    xs: PropTypes.number,
+    sm: PropTypes.number,
+    md: PropTypes.number,
+    lg: PropTypes.number,
+    xl: PropTypes.number,
+  }),
   header: PropTypes.node.isRequired,
   title: PropTypes.node.isRequired,
   subtitle: PropTypes.node.isRequired,
