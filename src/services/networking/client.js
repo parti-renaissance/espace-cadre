@@ -2,14 +2,11 @@ import axios from 'axios'
 import { getAccessToken as selectorGetAccessToken, getCurrentScope } from '../../redux/user/selectors'
 import { store } from '../../redux/store'
 import { userLogout } from '../../redux/auth'
-import { setError } from '../../redux/errors'
 
 const API_BASE_URL = `${process.env.REACT_APP_OAUTH_HOST}/api`
 
 const handleHttpError = error => {
-  const { response = {}, message, stack: detail } = error
-  if (!response.status) store.dispatch(setError({ type: 'unknown', message, detail }))
-  if (response.status === 500) store.dispatch(setError({ type: 500 }))
+  const { response = {} } = error
   if (response.status === 401) store.dispatch(userLogout())
   throw error
 }

@@ -8,28 +8,20 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.backgroundError,
     borderRadius: '8.35px',
     elevation: 'none',
+    alignItems: 'center',
   },
 }))
 
 function AlertBanner({ severity, message }) {
   const classes = useStyles()
 
-  const formatMessage = () => {
-    if (message && typeof message === 'object') {
-      return (
-        <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
-          {message.message}
-        </Alert>
-      )
-    }
-    return (
-      <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
-        {message}
-      </Alert>
-    )
-  }
+  if (!message) return null
 
-  return <>{message && formatMessage()}</>
+  return (
+    <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
+      {typeof message === 'object' ? message.message : message}
+    </Alert>
+  )
 }
 
 export default AlertBanner

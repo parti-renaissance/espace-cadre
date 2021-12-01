@@ -1,15 +1,16 @@
-import { useState } from 'react'
 import { Dialog, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
+import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import ClearIcon from '@mui/icons-material/Clear'
-import { apiClient } from 'services/networking/client'
-import { notifyVariants, notifyMessages } from '../shared/notification/constants'
-import { useCustomSnackbar } from '../shared/notification/hooks'
+import { createTeamQuery, updateTeamQuery } from '../../api/teams'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import AlertBanner from 'ui/AlertBanner'
 import TextField from 'ui/TextField'
+import ClearIcon from '@mui/icons-material/Clear'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -61,10 +62,21 @@ const teamSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
+const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
   const classes = useStyles()
-  const [errorMessage, setErrorMessage] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
+
+  const { mutate: addOrEditTeam } = useMutation(!teamItem?.id ? createTeamQuery : updateTeamQuery, {
+    onSuccess: () => {
+      const confirmMessage = !teamItem?.id ? messages.createSuccess : messages.editSuccess
+      enqueueSnackbar(confirmMessage, notifyVariants.success)
+      onSubmitResolve()
+      handleClose()
+      resetErrorMessages()
+    },
+    onError: handleError,
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -72,18 +84,9 @@ const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
     },
     validationSchema: teamSchema,
     enableReinitialize: true,
-    onSubmit: async values => {
-      try {
-        if (teamItem.id) await apiClient.put(`api/v3/teams/${teamItem.id}`, values)
-        if (!teamItem.id) await apiClient.post('api/v3/teams', values)
-        const confirmMessage = !teamItem.id ? messages.createSuccess : messages.editSuccess
-        enqueueSnackbar(confirmMessage, notifyVariants.success)
-        onSubmitRefresh()
-        handleClose()
-      } catch (error) {
-        setErrorMessage(error)
-        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-      }
+    onSubmit: values => {
+      const params = !teamItem.id ? { values } : { teamId: teamItem.id, values }
+      addOrEditTeam(params)
     },
   })
 
@@ -102,17 +105,18 @@ const TeamModal = ({ handleClose, teamItem, onSubmitRefresh, open }) => {
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
-          </Grid>
-        </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
             <span className={classes.fieldTitle}>Nom</span>{' '}
             <span className={classes.charactersLimit}>(255 charactères)</span>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="name" />
           </Grid>
+          {errorMessages.length > 0 &&
+            errorMessages.map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <AlertBanner severity="error" message={message} />
+              </Grid>
+            ))}
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>
@@ -134,7 +138,7 @@ TeamModal.defaultProps = {
 
 TeamModal.propTypes = {
   handleClose: PropTypes.func,
-  onSubmitRefresh: PropTypes.func,
+  onSubmitResolve: PropTypes.func,
   teamItem: PropTypes.object,
   open: PropTypes.bool.isRequired,
 }

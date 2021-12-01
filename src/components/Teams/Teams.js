@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useCallback, useState } from 'react'
 import { Container, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
+import { useQuery } from 'react-query'
 import TeamModal from './TeamModal'
-import { getTeams } from 'api/teams'
+import { getTeamsQuery } from 'api/teams'
 import { Team } from 'domain/team'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
 import Card from 'ui/Card'
 import Header from './Card/Header'
@@ -39,27 +41,27 @@ const messages = {
 
 const Teams = () => {
   const classes = useStyles()
-  const [teams, setTeams] = useState([])
   const [currentTeam, setCurrentTeam] = useState(null)
-  const [refreshPage, setRefreshPage] = useState(0)
   const [open, setOpen] = useState(false)
+  const { handleError } = useErrorHandler()
+  const { data: teams = [], refetch } = useQuery('teams', () => getTeamsQuery(), { onError: handleError })
 
-  const handleNewTeam = () => {
+  const handleNewTeam = useCallback(() => {
     setCurrentTeam(Team.NULL)
     setOpen(true)
-  }
+  }, [])
 
-  const handleEditTeam = id => {
-    setCurrentTeam(teams.find(team => team.id === id))
-    setOpen(true)
-  }
-  const handleClose = () => {
+  const handleEditTeam = useCallback(
+    id => {
+      setCurrentTeam(teams.find(team => team.id === id))
+      setOpen(true)
+    },
+    [teams]
+  )
+
+  const handleClose = useCallback(() => {
     setOpen(false)
-  }
-
-  useEffect(() => {
-    getTeams(setTeams)
-  }, [refreshPage])
+  }, [])
 
   return (
     <Container maxWidth="lg" className={classes.teamsContainer}>
@@ -84,14 +86,7 @@ const Teams = () => {
           </Card>
         ))}
       </Grid>
-      <TeamModal
-        open={open}
-        handleClose={handleClose}
-        teamItem={currentTeam}
-        onSubmitRefresh={() => {
-          setRefreshPage(p => p + 1)
-        }}
-      />
+      <TeamModal open={open} handleClose={handleClose} teamItem={currentTeam} onSubmitResolve={refetch} />
     </Container>
   )
 }
