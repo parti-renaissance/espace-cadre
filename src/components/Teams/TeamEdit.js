@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Container, Grid, Card, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useParams } from 'react-router-dom'
@@ -65,7 +65,7 @@ const TeamEdit = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const { data: team, refetch: refetchTeam } = useQuery('team', () => getTeamQuery(teamId))
+  const { data: team, refetch: refetchTeam } = useQuery('team', () => getTeamQuery(teamId), { onError: handleError })
   const { mutate: addTeamMember } = useMutation(addTeamMemberQuery, {
     onSuccess: () => {
       refetchTeam()
@@ -81,16 +81,13 @@ const TeamEdit = () => {
     onError: handleError,
   })
 
-  const handleAddTeamMember = useCallback(() => {
+  const handleAddTeamMember = () => {
     addTeamMember({ teamId, memberId: selectedMember.uuid })
-  }, [teamId, selectedMember?.uuid, addTeamMember])
+  }
 
-  const handleDelete = useCallback(
-    memberId => {
-      deleteTeamMember({ teamId, memberId })
-    },
-    [teamId, deleteTeamMember]
-  )
+  const handleDelete = memberId => {
+    deleteTeamMember({ teamId, memberId })
+  }
 
   return (
     <Container maxWidth="lg" className={classes.teamsContainer}>

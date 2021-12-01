@@ -62,7 +62,7 @@ const teamSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
+const TeamModal = ({ teamItem, onCloseResolve, onSubmitResolve, open }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
@@ -73,10 +73,14 @@ const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
       enqueueSnackbar(confirmMessage, notifyVariants.success)
       onSubmitResolve()
       handleClose()
-      resetErrorMessages()
     },
     onError: handleError,
   })
+
+  const handleClose = () => {
+    onCloseResolve()
+    resetErrorMessages()
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -131,13 +135,13 @@ const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
 export default TeamModal
 
 TeamModal.defaultProps = {
-  handleClose: () => {},
-  onSubmitRefresh: () => {},
+  onCloseResolve: () => {},
+  onSubmitResolve: () => {},
   teamItem: null,
 }
 
 TeamModal.propTypes = {
-  handleClose: PropTypes.func,
+  onCloseResolve: PropTypes.func,
   onSubmitResolve: PropTypes.func,
   teamItem: PropTypes.object,
   open: PropTypes.bool.isRequired,
