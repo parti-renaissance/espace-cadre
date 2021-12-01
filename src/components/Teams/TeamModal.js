@@ -1,16 +1,16 @@
-import { useState } from 'react'
 import { Dialog, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import ClearIcon from '@mui/icons-material/Clear'
 import { createTeamQuery, updateTeamQuery } from '../../api/teams'
-import { notifyVariants, notifyMessages } from '../shared/notification/constants'
-import { useCustomSnackbar } from '../shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import AlertBanner from 'ui/AlertBanner'
 import TextField from 'ui/TextField'
+import ClearIcon from '@mui/icons-material/Clear'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -64,20 +64,18 @@ const teamSchema = Yup.object({
 
 const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
   const classes = useStyles()
-  const [errorMessage, setErrorMessage] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
 
   const { mutate: addOrEditTeam } = useMutation(!teamItem?.id ? createTeamQuery : updateTeamQuery, {
     onSuccess: () => {
-      const confirmMessage = !teamItem.id ? messages.createSuccess : messages.editSuccess
+      const confirmMessage = !teamItem?.id ? messages.createSuccess : messages.editSuccess
       enqueueSnackbar(confirmMessage, notifyVariants.success)
       onSubmitResolve()
       handleClose()
+      resetErrorMessages()
     },
-    onError: error => {
-      setErrorMessage(error)
-      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-    },
+    onError: handleError,
   })
 
   const formik = useFormik({
@@ -87,7 +85,8 @@ const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
     validationSchema: teamSchema,
     enableReinitialize: true,
     onSubmit: values => {
-      addOrEditTeam(!teamItem.id ? { values } : { teamId: teamItem.id, values })
+      const params = !teamItem.id ? { values } : { teamId: teamItem.id, values }
+      addOrEditTeam(params)
     },
   })
 
@@ -106,17 +105,18 @@ const TeamModal = ({ handleClose, teamItem, onSubmitResolve, open }) => {
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
-          </Grid>
-        </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
             <span className={classes.fieldTitle}>Nom</span>{' '}
             <span className={classes.charactersLimit}>(255 charactères)</span>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="name" />
           </Grid>
+          {errorMessages.length > 0 &&
+            errorMessages.map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <AlertBanner severity="error" message={message} />
+              </Grid>
+            ))}
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>

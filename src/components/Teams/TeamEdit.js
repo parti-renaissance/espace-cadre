@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Container, Grid, Card, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useParams } from 'react-router-dom'
 import { useQuery, useMutation } from 'react-query'
 import { addTeamMemberQuery, deleteTeamMemberQuery, getTeamQuery } from 'api/teams'
 import { adherentAutocompleteUri } from 'api/adherents'
-import { notifyVariants, notifyMessages } from '../shared/notification/constants'
-import { useCustomSnackbar } from '../shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import MemberCard from './MemberCard'
 import Button from 'ui/Button'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
@@ -62,34 +63,34 @@ const TeamEdit = () => {
   const { teamId } = useParams()
   const [selectedMember, setSelectedMember] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
+  const { handleError } = useErrorHandler()
 
   const { data: team, refetch: refetchTeam } = useQuery('team', () => getTeamQuery(teamId))
-  const { mutate: addMember } = useMutation(addTeamMemberQuery, {
+  const { mutate: addTeamMember } = useMutation(addTeamMemberQuery, {
     onSuccess: () => {
       refetchTeam()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
     },
-    onError: () => {
-      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-    },
+    onError: handleError,
   })
-  const { mutate: deleteMember } = useMutation(deleteTeamMemberQuery, {
+  const { mutate: deleteTeamMember } = useMutation(deleteTeamMemberQuery, {
     onSuccess: () => {
       refetchTeam()
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
     },
-    onError: () => {
-      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-    },
+    onError: handleError,
   })
 
-  const handleAddTeamMember = () => {
-    addMember({ teamId, memberId: selectedMember.uuid })
-  }
+  const handleAddTeamMember = useCallback(() => {
+    addTeamMember({ teamId, memberId: selectedMember.uuid })
+  }, [teamId, selectedMember?.uuid, addTeamMember])
 
-  const handleDelete = memberId => {
-    deleteMember({ teamId, memberId })
-  }
+  const handleDelete = useCallback(
+    memberId => {
+      deleteTeamMember({ teamId, memberId })
+    },
+    [teamId, deleteTeamMember]
+  )
 
   return (
     <Container maxWidth="lg" className={classes.teamsContainer}>
