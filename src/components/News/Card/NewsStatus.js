@@ -24,8 +24,8 @@ const MenuItem = styled(MuiMenuItem)(`
 `)
 
 const messages = {
-  published: 'Publiée',
-  unPublished: 'Dépubliée',
+  published: 'Publier',
+  unPublished: 'Dépublier',
 }
 
 const NewsStatus = ({ id, status, toggleStatus }) => {
