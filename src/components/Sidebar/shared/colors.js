@@ -6,4 +6,5 @@ export default {
   ripostes: { color: 'teal700', bgColor: '#ECF4F4' },
   teams: { color: 'cyan700', bgColor: '#EBF3F8' },
   news: { color: 'orange500', bgColor: '#FFF4ED' },
+  phoning: { color: 'indigo700', bgColor: '#F0EFFB' },
 }

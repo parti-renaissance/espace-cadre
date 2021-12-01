@@ -7,4 +7,5 @@ export default {
   ripostes: '/ripostes',
   teams: '/equipes',
   news: '/actualites',
+  phoning: '/phoning',
 }

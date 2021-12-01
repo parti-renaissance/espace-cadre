@@ -69,6 +69,17 @@ export const styles = {
     // Black
     blackCorner: '#1A334D',
 
+    // Light blue
+    lightBlue100: '#E0F2FE',
+    lightBlue200: '#BAE6FD',
+    lightBlue300: '#7DD3FC',
+    lightBlue400: '#38BDF8',
+    lightBlue500: '#0EA5E9',
+    lightBlue600: '#0284C7',
+    lightBlue700: '#0369A1',
+    lightBlue800: '#075985',
+    lightBlue900: '#0C4A6E',
+
     // Blue
     blueCorner: '#0049C6',
     blue2Corner: '#135CEB',
@@ -85,16 +96,16 @@ export const styles = {
     blue800: '#1E40AF',
     blue900: '#1E3A8A',
 
-    // Light blue
-    lightBlue100: '#E0F2FE',
-    lightBlue200: '#BAE6FD',
-    lightBlue300: '#7DD3FC',
-    lightBlue400: '#38BDF8',
-    lightBlue500: '#0EA5E9',
-    lightBlue600: '#0284C7',
-    lightBlue700: '#0369A1',
-    lightBlue800: '#075985',
-    lightBlue900: '#0C4A6E',
+    // Indigo
+    indigo100: '#E0E7FF',
+    indigo200: '#C7D2FE',
+    indigo300: '#A5B4FC',
+    indigo400: '#818CF8',
+    indigo500: '#6366F1',
+    indigo600: '#4F46E5',
+    indigo700: '#4338CA',
+    indigo800: '#3730A3',
+    indigo900: '#312E81',
 
     // Orange
     orange100: '#FFEDD5',

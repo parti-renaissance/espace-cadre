@@ -5,6 +5,7 @@ import MapRoundedIcon from '@mui/icons-material/MapRounded'
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded'
 import StarRoundedIcon from '@mui/icons-material/StarRounded'
 import RssFeedIcon from '@mui/icons-material/RssFeed'
+import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded'
 
 export default {
   dashboard: DashboardRoundedIcon,
@@ -14,4 +15,5 @@ export default {
   ripostes: PostAddRoundedIcon,
   teams: StarRoundedIcon,
   news: RssFeedIcon,
+  phoning: LocalPhoneRoundedIcon,
 }
