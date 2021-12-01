@@ -56,9 +56,7 @@ const messages = {
   edit: 'Modifier une riposte',
   createSuccess: 'Riposte créée avec succès',
   editSuccess: 'La riposte a bien été modifiée',
-  charactersLimit1: '(255 charactères)',
-  charactersLimit2: '(255 charactères)',
-  charactersLimit3: '(255 charactères)',
+  charactersLimit: '(255 caractères)',
 }
 
 const riposteSchema = Yup.object({
@@ -126,7 +124,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>Titre</Typography>{' '}
-            <CharactersLimit>{messages.charactersLimit1}</CharactersLimit>
+            <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="title" />
@@ -142,7 +140,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>Texte</Typography>{' '}
-            <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
+            <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="body" />
@@ -158,7 +156,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>URL</Typography>{' '}
-            <CharactersLimit>{messages.charactersLimit3}</CharactersLimit>
+            <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="url" />

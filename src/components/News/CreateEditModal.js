@@ -67,9 +67,9 @@ const messages = {
   createSuccess: 'Actualité créée avec succès',
   editSuccess: "L'actualité a bien été modifiée",
   submit: 'Valider',
-  charactersLimit1: '(120 charactères)',
-  charactersLimit2: '(1000 charactères)',
-  charactersLimit3: '(255 charactères)',
+  charactersLimit1: '(120 caractères)',
+  charactersLimit2: '(1000 caractères)',
+  charactersLimit3: '(255 caractères)',
 }
 
 const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
