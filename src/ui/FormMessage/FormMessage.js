@@ -26,7 +26,7 @@ const Icon = styled(ErrorIcon)`
 `
 
 const UIFormMessage = ({ children, severity }) => (
-  <Alert severity={severity} icon={<Icon severity={severity} />}>
+  <Alert severity={severity} icon={<Icon variant="contained" severity={severity} />}>
     <Message severity={severity}>{children}</Message>
   </Alert>
 )
