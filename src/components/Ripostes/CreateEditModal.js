@@ -57,6 +57,10 @@ const messages = {
   createSuccess: 'Riposte créée avec succès',
   editSuccess: 'La riposte a bien été modifiée',
   charactersLimit: '(255 caractères)',
+  title: 'Titre',
+  text: 'Texte',
+  url: 'URL',
+  submit: 'Valider',
 }
 
 const riposteSchema = Yup.object({
@@ -123,7 +127,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>Titre</Typography>{' '}
+            <Typography sx={{ fontWeight: 600 }}>{messages.title}</Typography>{' '}
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
@@ -139,7 +143,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>Texte</Typography>{' '}
+            <Typography sx={{ fontWeight: 600 }}>{messages.text}</Typography>{' '}
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
@@ -155,7 +159,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>URL</Typography>{' '}
+            <Typography sx={{ fontWeight: 600 }}>{messages.url}</Typography>{' '}
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
@@ -201,7 +205,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>
-            Valider
+            {messages.submit}
           </Button>
         </Grid>
       </form>
