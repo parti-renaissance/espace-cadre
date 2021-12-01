@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Container, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
@@ -46,22 +46,19 @@ const Teams = () => {
   const { handleError } = useErrorHandler()
   const { data: teams = [], refetch } = useQuery('teams', () => getTeamsQuery(), { onError: handleError })
 
-  const handleNewTeam = useCallback(() => {
+  const handleNewTeam = () => {
     setCurrentTeam(Team.NULL)
     setOpen(true)
-  }, [])
+  }
 
-  const handleEditTeam = useCallback(
-    id => {
-      setCurrentTeam(teams.find(team => team.id === id))
-      setOpen(true)
-    },
-    [teams]
-  )
+  const handleEditTeam = id => {
+    setCurrentTeam(teams.find(team => team.id === id))
+    setOpen(true)
+  }
 
-  const handleClose = useCallback(() => {
+  const handleCloseModal = () => {
     setOpen(false)
-  }, [])
+  }
 
   return (
     <Container maxWidth="lg" className={classes.teamsContainer}>
@@ -86,7 +83,7 @@ const Teams = () => {
           </Card>
         ))}
       </Grid>
-      <TeamModal open={open} handleClose={handleClose} teamItem={currentTeam} onSubmitResolve={refetch} />
+      <TeamModal open={open} teamItem={currentTeam} onCloseResolve={handleCloseModal} onSubmitResolve={refetch} />
     </Container>
   )
 }
