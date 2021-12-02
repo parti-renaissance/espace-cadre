@@ -10,15 +10,20 @@ export const useErrorHandler = () => {
     setErrorMessages([])
   }, [])
 
+  const snackBarWithOptions = useCallback(
+    (status, stack, message) => enqueueSnackbar(status, stack, message, { autoHideDuration: 10000 }),
+    [enqueueSnackbar]
+  )
+
   const handleError = useCallback(
     error => {
       const { response = {}, stack, message } = error
       const { status, data } = response
-      handleGenericHttpErrors(enqueueSnackbar, status, stack, message)
+      handleGenericHttpErrors(snackBarWithOptions, status, stack, message)
       setErrorMessages(getFormattedErrorMessages(data))
       return () => resetErrorMessages()
     },
-    [enqueueSnackbar, resetErrorMessages]
+    [snackBarWithOptions, resetErrorMessages]
   )
 
   return { handleError, errorMessages, resetErrorMessages }

@@ -8,14 +8,14 @@ export const useCustomSnackbar = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   const customEnqueue = useCallback(
-    (message, variant = notifyVariants.success, detail = null, id = null) => {
-      const key = id || uuid()
+    (message, variant = notifyVariants.success, detail = null, options = {}) => {
+      const key = uuid()
       const content = (key, message) => (
         <UISnackBar id={key} message={message} variant={variant}>
           {detail}
         </UISnackBar>
       )
-      return enqueueSnackbar(message, { variant, key, content })
+      return enqueueSnackbar(message, { variant, key, content, ...options })
     },
     [enqueueSnackbar]
   )
