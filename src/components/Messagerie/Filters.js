@@ -19,6 +19,7 @@ import {
   updateSegmentAudience,
 } from 'api/messagerie'
 import paths from 'components/Messagerie/shared/paths'
+import { pluralize } from '../shared/pluralize'
 
 export const FEATURE_MESSAGES = 'messages'
 
@@ -72,6 +73,14 @@ const useStyles = makeStyles(theme => ({
 
 const retryInterval = 1000
 const maxAttempts = 10
+
+const messages = {
+  filtersTitle: 'Messagerie > Filtrer mon message',
+  previous: 'Précédent',
+  addresseesCount: 'Vous allez envoyer un message à',
+  contact: 'contact',
+  testMessage: "M'envoyer un message test",
+}
 
 const Filters = () => {
   const { messageUuid } = useParams()
@@ -143,7 +152,7 @@ const Filters = () => {
   return (
     <>
       <Container maxWidth="xl">
-        <Box className={classes.pageTitle}>Messagerie &gt; Filtrer mon message</Box>
+        <Box className={classes.pageTitle}>{messages.filtersTitle}</Box>
         <Grid container>
           <Link to={`../${paths.update}`}>
             <Button
@@ -153,7 +162,7 @@ const Filters = () => {
               size="medium"
               startIcon={<ArrowBackIcon className={classes.buttonIcon} />}
             >
-              Précédent
+              {messages.previous}
             </Button>
           </Link>
         </Grid>
@@ -171,9 +180,9 @@ const Filters = () => {
             <Grid item xs={12} className={classes.messageContainer}>
               {audienceSegment && (
                 <div className={classes.message}>
-                  Vous allez envoyer un message à{' '}
-                  <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span> contact
-                  {audienceSegment.recipient_count > 1 && 's'}
+                  {messages.addresseesCount}{' '}
+                  <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span>
+                  {pluralize(audienceSegment.recipient_count, messages.contact)}
                 </div>
               )}
               {loadingSegment && <Loader />}
@@ -191,7 +200,7 @@ const Filters = () => {
               disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
             >
               <Box className={classes.buttonIcon}>{loadingTestButton && <Loader />}</Box>
-              M&apos;envoyer un message test
+              {messages.testMessage}
             </Button>
           </Grid>
           <Grid item xs={12}>

@@ -8,6 +8,7 @@ import Percentage from 'ui/Percentage'
 import ErrorComponent from 'components/ErrorComponent/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
+import { pluralize } from '../../../shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {
@@ -68,6 +69,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  email: 'Email',
+  opening: 'Ouvertures',
+  clicks: 'Clics',
+  unsubscribing: 'Désabonnements',
+  noCampaign: 'Aucune campagne à afficher',
+}
+
 function SentEmailCampaignList() {
   const classes = useStyles()
   const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache()
@@ -111,7 +120,7 @@ function SentEmailCampaignList() {
                   <Grid item xs={5} sm={3} className={classes.card}>
                     <Grid item className={classes.cardItem}>
                       <div className={classes.infoNumber}>{campagne.nbEmails}</div>
-                      <div className={classes.text}>Email{campagne.nbEmails > 1 && 's'}</div>
+                      <div className={classes.text}>{pluralize(campagne.nbEmails, messages.mail)}</div>
                     </Grid>
                   </Grid>
                   <Grid item xs={5} sm={3} className={classes.card}>
@@ -120,7 +129,7 @@ function SentEmailCampaignList() {
                         <Percentage>{campagne.txOuverture}</Percentage>
                         <span className={classes.parentheseInfo}>({campagne.nbOuvertures})</span>
                       </div>
-                      <div className={classes.text}>Ouvertures</div>
+                      <div className={classes.text}>{messages.opening}</div>
                     </Grid>
                   </Grid>
                   <Grid item xs={5} sm={3} className={classes.card}>
@@ -129,7 +138,7 @@ function SentEmailCampaignList() {
                         <Percentage>{campagne.txClique}</Percentage>
                         <span className={classes.parentheseInfo}>({campagne.nbCliques})</span>
                       </div>
-                      <div className={classes.text}>Clics</div>
+                      <div className={classes.text}>{messages.clicks}</div>
                     </Grid>
                   </Grid>
                   <Grid item xs={5} sm={3} className={classes.card}>
@@ -138,7 +147,7 @@ function SentEmailCampaignList() {
                         <Percentage>{campagne.txDesabonnement}</Percentage>
                         <span className={classes.parentheseInfo}>({campagne.nbDesabonnements})</span>
                       </div>
-                      <div className={classes.text}>Désabonnements</div>
+                      <div className={classes.text}>{messages.unsubscribing}</div>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -152,7 +161,7 @@ function SentEmailCampaignList() {
       return (
         <>
           <SentEmailCampaignListTitle />
-          <UIContainer rootClasses={classes.noData}>Aucune campagne à afficher</UIContainer>
+          <UIContainer rootClasses={classes.noData}>{messages.noCampaign}</UIContainer>
         </>
       )
     }

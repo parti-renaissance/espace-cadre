@@ -5,10 +5,7 @@ import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsAct
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import PropTypes from 'prop-types'
 import Riposte from 'domain/riposte'
-
-const messages = {
-  edit: 'Éditer',
-}
+import { pluralize } from '../../shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   KpiContainer: {
@@ -42,6 +39,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  edit: 'Éditer',
+  view: 'vue',
+  detailed: 'détaillée',
+  riposte: 'riposte',
+}
+
 const Content = ({ riposte, handleEdit, toggleStatus }) => {
   const classes = useStyles()
   const { id, status, withNotification, views, detailViews, ripostes } = riposte
@@ -55,17 +59,17 @@ const Content = ({ riposte, handleEdit, toggleStatus }) => {
         </Grid>
         <Grid item>
           <Box className={`${classes.chip} ${classes.withBorder}`}>
-            {views} vue{views > 1 && 's'}
+            {views} {pluralize(views, messages.view)}
           </Box>
         </Grid>
         <Grid item>
           <Box className={`${classes.chip} ${classes.withBorder}`}>
-            {detailViews} vue{detailViews > 1 && 's'} détaillée{detailViews > 1 && 's'}
+            {detailViews} {pluralize(detailViews, messages.view)} {pluralize(detailViews, messages.detailed)}
           </Box>
         </Grid>
         <Grid item>
           <Box className={`${classes.chip} ${classes.withBorder}`}>
-            {ripostes} riposte{ripostes > 1 && 's'}
+            {ripostes} {pluralize(ripostes, messages.riposte)}
           </Box>
         </Grid>
       </Grid>

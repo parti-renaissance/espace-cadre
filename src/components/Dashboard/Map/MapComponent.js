@@ -8,6 +8,7 @@ import { useUserScope } from '../../../redux/user/hooks'
 import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import ErrorComponent from '../../ErrorComponent/ErrorComponent'
+import { pluralize } from '../../shared/pluralize'
 
 const MapComponentHeader = styled(Grid)(
   ({ theme }) => `
@@ -23,7 +24,7 @@ const CountBubble = styled('span')(
   background-color: ${theme.palette.blueBubble};
   padding: ${theme.spacing(1)};
   margin-right: ${theme.spacing(1)};
-  border-radius: 6px;
+  border-radius: 8.35px;
 `
 )
 
@@ -50,11 +51,20 @@ const MapContainer = styled(LeafletContainer)(
 `
 )
 
+const messages = {
+  subtitle: 'Répartition géographique dans votre région',
+  survey: 'Questionnaire',
+  filled: 'rempli',
+  surveyName: 'Nom du sondage:',
+  answeredDate: 'Répondu le:',
+}
+
 function MapComponent() {
+  L.Icon.Default.imagePath = '/'
   const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache()
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
-  const { survey_datas, latitude, longitude } = dashboardSurvey || {}
+  const { total_surveys: totalSurveys, survey_datas: surveyData, latitude, longitude } = dashboardSurvey || {}
 
   useEffect(() => {
     const getSurvey = async () => {
@@ -69,19 +79,18 @@ function MapComponent() {
     getSurvey()
   }, [currentScope, dashboardSurvey, setDashboardSurvey])
 
-  L.Icon.Default.imagePath = '/'
-
   return (
     <>
       {dashboardSurvey ? (
         <>
           <MapComponentHeader container>
-            <CountBubble>{survey_datas.length}</CountBubble>
-            <SurveyCount>
-              Questionnaire{survey_datas.length > 1 && 's'} rempli
-              {survey_datas.length > 1 && 's'}
-            </SurveyCount>
-            <Subtitle>Répartition géographique dans votre région</Subtitle>
+            <CountBubble>{totalSurveys}</CountBubble>
+            <Grid item>
+              <SurveyCount display="block">
+                {pluralize(totalSurveys, messages.survey)} {pluralize(totalSurveys, messages.filled)}
+              </SurveyCount>
+              <Subtitle display="block">{messages.subtitle}</Subtitle>
+            </Grid>
           </MapComponentHeader>
           <MapContainer center={[latitude, longitude]} zoom={8}>
             <TileLayer
@@ -89,11 +98,11 @@ function MapComponent() {
               url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
             />
 
-            {survey_datas.map(data => (
+            {surveyData.map(data => (
               <Marker key={data.id} position={[data.latitude, data.longitude]}>
                 <Popup>
-                  <strong>Nom du sondage:</strong> {data.data_survey.survey.name} <br />
-                  <strong>Répondu le:</strong> {data.data_survey.posted_at}
+                  <strong>{messages.surveyName}</strong> {data.data_survey.survey.name} <br />
+                  <strong>{messages.answeredDate}</strong> {data.data_survey.posted_at}
                 </Popup>
               </Marker>
             ))}

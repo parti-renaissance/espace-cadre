@@ -6,6 +6,7 @@ import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
 import barChartScopes from 'assets/bar-chart-scopes.svg'
 import paths from 'shared/paths'
+import { pluralize } from '../../shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   pageContainer: {
@@ -103,6 +104,7 @@ const useStyles = makeStyles(theme => ({
 
 const messages = {
   title: "Je m'engage",
+  zone: 'zone',
 }
 
 function ScopesPage() {
@@ -123,8 +125,8 @@ function ScopesPage() {
     if (scope?.zones?.length > 1) {
       return (
         <Box className={classes.zone}>
-          {`${scope.zones[0].name} (${scope.zones[0].code})`} + {scope.zones.slice(1).length} zone
-          {scope.zones.slice(1).length > 1 && 's'}
+          {`${scope.zones[0].name} (${scope.zones[0].code})`} + {scope.zones.slice(1).length}
+          {pluralize(scope.zones.slice(1).length, messages.zone)}
         </Box>
       )
     }

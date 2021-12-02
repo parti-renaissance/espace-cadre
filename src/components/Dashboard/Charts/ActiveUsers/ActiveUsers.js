@@ -8,6 +8,7 @@ import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
 import UIContainer from 'ui/Container'
+import { pluralize } from '../../../shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -41,11 +42,22 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  user: 'Utilisateur',
+  period: 'lors des 28 derniers jours',
+  active: 'Actif',
+  activeWording: "sur l'application Je m'engage",
+  dailyUsers: 'Utilisateurs par jour',
+  monthlyUsers: 'Utilisateurs cumulés sur le mois',
+  errorMessage: "Le nombre d'utilisateurs actifs de l'app n'est pas renseigné",
+}
+
 function ActiveUsers() {
   const classes = useStyles()
   const [dashboardUsers, setDashboardUsers] = useDashboardUsersCache()
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
+  const { totalUsers, users } = dashboardUsers || {}
 
   useEffect(() => {
     const getDashboardUsers = async () => {
@@ -61,23 +73,24 @@ function ActiveUsers() {
   }, [currentScope, dashboardUsers, setDashboardUsers])
 
   const dashboardUsersContent = () => {
-    if (dashboardUsers !== null && dashboardUsers.users.length > 0) {
+    if (dashboardUsers !== null && users.length > 0) {
       return (
         <>
           <Grid container className={classes.container}>
-            <span className={classes.countBubble}>{dashboardUsers.totalUsers}</span>
+            <span className={classes.countBubble}>{totalUsers}</span>
             <Grid item>
               <div className={classes.chartTitle}>
-                Utilisateur{dashboardUsers.users[dashboardUsers.users.length - 1].rolling_seven_users > 1 && 's'} lors
-                des 28 derniers jours
+                {pluralize(dashboardUsers?.totalUsers, messages.user)} {messages.period}
               </div>
-              <div className={classes.chartSubtitle}>Actifs sur l&apos;application Je m&apos;engage</div>
+              <div className={classes.chartSubtitle}>
+                {pluralize(dashboardUsers?.totalUsers, messages.active)} {messages.activeWording}{' '}
+              </div>
             </Grid>
           </Grid>
           <Grid container>
             <ResponsiveContainer width="100%" height={250}>
               <AreaChart
-                data={dashboardUsers.users}
+                data={users}
                 margin={{
                   top: 5,
                   right: 20,
@@ -142,7 +155,7 @@ function ActiveUsers() {
                   }}
                 />
                 <Area
-                  name="Utilisateurs par jour"
+                  name={messages.dailyUsers}
                   type="monotone"
                   dataKey="unique_user"
                   stroke="#0049C6"
@@ -150,7 +163,7 @@ function ActiveUsers() {
                   fill="url(#colorUnique)"
                 />
                 <Area
-                  name="Utilisateurs cumulés sur le dernier mois"
+                  name={messages.monthlyUsers}
                   type="monotone"
                   dataKey="rolling_seven_users"
                   stroke="#82ca9d"
@@ -163,12 +176,12 @@ function ActiveUsers() {
           <Grid container>
             <Grid item>
               <li className={classes.legendChart} style={{ color: '#0049C6' }}>
-                Utilisateurs par jour
+                {messages.dailyUsers}
               </li>
             </Grid>
             <Grid item>
               <li className={classes.legendChart} style={{ color: '#82ca9d' }}>
-                Utilisateurs cumulés sur 7 jours
+                {messages.monthlyUsers}
               </li>
             </Grid>
           </Grid>
@@ -176,11 +189,7 @@ function ActiveUsers() {
       )
     }
     if (dashboardUsers !== null && dashboardUsers.users.length === 0) {
-      return (
-        <UIContainer>
-          Les données du nombre d&apos;utilisateurs actifs de l&apos;app ne sont pas renseignées
-        </UIContainer>
-      )
+      return <UIContainer>{messages.errorMessage}</UIContainer>
     }
     if (errorMessage) {
       return <ErrorComponent errorMessage={errorMessage} />

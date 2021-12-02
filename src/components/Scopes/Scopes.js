@@ -7,6 +7,7 @@ import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import vector from 'assets/vector.svg'
 import paths from 'shared/paths'
+import { pluralize } from '../shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,6 +69,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  zone: 'zone',
+  backTo: 'Retour sur en-marche.fr',
+}
+
 function Scopes() {
   const currentUser = useSelector(getCurrentUser)
   const [currentScope, updateCurrentScope] = useUserScope()
@@ -109,8 +115,8 @@ function Scopes() {
     if (scope?.zones?.length > 1) {
       return (
         <Box className="zone">
-          {`${scope.zones[0].name} (${scope.zones[0].code})`} + {scope.zones.slice(1).length} zone
-          {scope.zones.slice(1).length > 1 && 's'}
+          {`${scope.zones[0].name} (${scope.zones[0].code})`} + {scope.zones.slice(1).length}
+          {pluralize(scope.zones.slice(1).length, messages.zone)}
         </Box>
       )
     }
@@ -136,7 +142,7 @@ function Scopes() {
           >
             <MenuItem classes={{ root: classes.root }} className={classes.menuItem}>
               <a href={process.env.REACT_APP_OAUTH_HOST} className={classes.returnButton}>
-                Retour sur en-marche.fr
+                {messages.backTo}
               </a>
             </MenuItem>
 
