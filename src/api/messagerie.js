@@ -17,11 +17,13 @@ export const getMessages = async cb => {
       s.unsubscribe_rate
     )
 
-    return new Message(message.uuid, message.from_name, message.status, message.subject, null, stats)
+    const author = [message.author?.first_name, message.author?.last_name].filter(Boolean).join(' ')
+
+    return new Message(message.uuid, author, message.status, message.subject, message.created_at, stats)
   })
 
   const paginatedMessages = new PaginatedResult(
-    messages,
+    messages.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
     data.metadata.total_items,
     data.metadata.items_per_page,
     data.metadata.count,

@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
+import { getMessages } from 'api/messagerie'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
-import UICard from 'ui/UICard'
+import UICard from 'ui/Card'
 import Header from './card/Header'
 import Body from './card/Body'
 import { generatePath, useNavigate } from 'react-router-dom'
@@ -23,21 +23,19 @@ const messages = {
 
 const SentEmailCampaignList = () => {
   const classes = useStyles()
-  const [emailCampaignReports, setEmailCampaignReports] = useEmailCampaignReportsCache()
+  const [emailCampaignReports, setEmailCampaignReports] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     const getEmailCampaignReports = async () => {
       try {
-        if (emailCampaignReports === null) {
-          await getMessages(setEmailCampaignReports)
-        }
+        await getMessages(setEmailCampaignReports)
       } catch (error) {
         // TODO snackbar
       }
     }
     getEmailCampaignReports()
-  }, [emailCampaignReports, setEmailCampaignReports])
+  }, [])
 
   const handleClick = messageId => {
     navigate(generatePath(':messageId/' + paths.update, { messageId }))
