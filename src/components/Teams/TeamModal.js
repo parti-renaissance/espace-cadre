@@ -1,6 +1,7 @@
-import { Dialog, Grid, Button } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
+import { Dialog, Grid, Button, Box, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
 import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -9,12 +10,12 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import TextField from 'ui/TextField'
-import ClearIcon from '@mui/icons-material/Clear'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
+import ClearIcon from '@mui/icons-material/Clear'
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: '32px',
+    padding: theme.spacing(4),
     width: '664px',
     borderRadius: '12px',
   },
@@ -25,13 +26,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: '24px',
     color: theme.palette.gray800,
     fontWeight: '400',
-  },
-  charactersLimit: {
-    fontSize: '10px',
-    color: theme.palette.gray300,
-  },
-  fieldTitle: {
-    fontWeight: '600',
   },
   textField: {
     border: `1px solid ${theme.palette.gray200}`,
@@ -49,28 +43,38 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const CharactersLimit = styled(Typography)(
+  ({ theme }) => `
+  font-size: 10px;
+  color: ${theme.palette.gray300}
+`
+)
+
 const messages = {
+  create: 'Créer une équipe',
+  edit: 'Modifier une équipe',
   addMembers: 'Ajouter des membres',
   add: 'Ajouter',
   teamMember: "Membres de l'équipe",
   noMember: 'Cette équipe ne contient aucun membre',
   createSuccess: 'Equipe créée avec succès',
   editSuccess: "L'équipe a bien été modifiée",
+  charactersLimit: '(255 charactères)',
 }
 
 const teamSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const TeamModal = ({ teamItem, onCloseResolve, onSubmitResolve, open }) => {
+const TeamModal = ({ open, team, onCloseResolve, onSubmitResolve }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
 
-  const { mutate: addOrEditTeam } = useMutation(!teamItem?.id ? createTeamQuery : updateTeamQuery, {
+  const { mutate: createOrEditTeam } = useMutation(!team?.id ? createTeamQuery : updateTeamQuery, {
     onSuccess: () => {
-      const confirmMessage = !teamItem?.id ? messages.createSuccess : messages.editSuccess
-      enqueueSnackbar(confirmMessage, notifyVariants.success)
+      const successMessage = !team?.id ? messages.createSuccess : messages.editSuccess
+      enqueueSnackbar(successMessage, notifyVariants.success)
       onSubmitResolve()
       handleClose()
     },
@@ -84,13 +88,12 @@ const TeamModal = ({ teamItem, onCloseResolve, onSubmitResolve, open }) => {
 
   const formik = useFormik({
     initialValues: {
-      name: teamItem?.name,
+      name: team?.name,
     },
     validationSchema: teamSchema,
     enableReinitialize: true,
     onSubmit: values => {
-      const params = !teamItem.id ? { values } : { teamId: teamItem.id, values }
-      addOrEditTeam(params)
+      createOrEditTeam(!team?.id ? { values } : { teamId: team?.id, values })
     },
   })
 
@@ -99,7 +102,9 @@ const TeamModal = ({ teamItem, onCloseResolve, onSubmitResolve, open }) => {
       <form onSubmit={formik.handleSubmit}>
         <Grid container justifyContent="space-between" className={classes.innerContainer}>
           <Grid item>
-            <span className={classes.modalTitle}>Créer ou modifier une équipe</span>
+            <Box component="span" className={classes.modalTitle}>
+              {!team?.id ? messages.create : messages.edit}
+            </Box>
           </Grid>
           <Grid item>
             <Button type="button" onClick={handleClose}>
@@ -109,17 +114,19 @@ const TeamModal = ({ teamItem, onCloseResolve, onSubmitResolve, open }) => {
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            <span className={classes.fieldTitle}>Nom</span>{' '}
-            <span className={classes.charactersLimit}>(255 charactères)</span>
+            <Typography sx={{ fontWeight: 600 }}>Nom</Typography>{' '}
+            <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="name" />
           </Grid>
-          {errorMessages.map(({ field, message }) => (
-            <Grid item xs={12} key={field}>
-              <UIFormMessage severity="error">{message}</UIFormMessage>
-            </Grid>
-          ))}
+          {errorMessages
+            .filter(({ field }) => field === 'name')
+            .map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <UIFormMessage severity="error">{message}</UIFormMessage>
+              </Grid>
+            ))}
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>
@@ -134,14 +141,14 @@ const TeamModal = ({ teamItem, onCloseResolve, onSubmitResolve, open }) => {
 export default TeamModal
 
 TeamModal.defaultProps = {
+  team: null,
   onCloseResolve: () => {},
   onSubmitResolve: () => {},
-  teamItem: null,
 }
 
 TeamModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  team: PropTypes.object,
   onCloseResolve: PropTypes.func,
   onSubmitResolve: PropTypes.func,
-  teamItem: PropTypes.object,
-  open: PropTypes.bool.isRequired,
 }

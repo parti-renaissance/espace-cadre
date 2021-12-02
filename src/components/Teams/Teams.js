@@ -1,8 +1,8 @@
 import { useState } from 'react'
+import { useQuery } from 'react-query'
 import { Container, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
-import { useQuery } from 'react-query'
 import TeamModal from './TeamModal'
 import { getTeamsQuery } from 'api/teams'
 import { Team } from 'domain/team'
@@ -71,19 +71,21 @@ const Teams = () => {
           </Button>
         </Grid>
       </Grid>
-      <Grid container spacing={2}>
-        {teams.map(team => (
-          <Card
-            key={team.id}
-            header={<Header teamCount={team.members.length} />}
-            title={team.name}
-            subtitle={team.creator}
-          >
-            <Content teamId={team.id} handleEditTeam={handleEditTeam} />
-          </Card>
-        ))}
-      </Grid>
-      <TeamModal open={open} teamItem={currentTeam} onCloseResolve={handleCloseModal} onSubmitResolve={refetch} />
+      {teams.length > 0 && (
+        <Grid container spacing={2}>
+          {teams.map(team => (
+            <Card
+              key={team.id}
+              header={<Header teamCount={team.members.length} />}
+              title={team.name}
+              subtitle={team.creator}
+            >
+              <Content teamId={team.id} handleEditTeam={handleEditTeam} />
+            </Card>
+          ))}
+        </Grid>
+      )}
+      <TeamModal open={open} team={currentTeam} onCloseResolve={handleCloseModal} onSubmitResolve={refetch} />
     </Container>
   )
 }

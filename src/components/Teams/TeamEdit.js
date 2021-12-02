@@ -82,11 +82,11 @@ const TeamEdit = () => {
   })
 
   const handleAddTeamMember = () => {
-    addTeamMember({ teamId, memberId: selectedMember.uuid })
+    addTeamMember(teamId, selectedMember.uuid)
   }
 
   const handleDelete = memberId => {
-    deleteTeamMember({ teamId, memberId })
+    deleteTeamMember(teamId, memberId)
   }
 
   return (
