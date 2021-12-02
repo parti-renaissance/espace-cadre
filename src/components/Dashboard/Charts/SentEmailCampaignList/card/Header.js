@@ -2,6 +2,7 @@ import { Grid as MuiGrid } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
 const Grid = styled(MuiGrid)(
   ({ theme, container }) => `
@@ -9,7 +10,10 @@ const Grid = styled(MuiGrid)(
 `
 )
 
-const Chip = styled('span')(
+const Chip = styled(
+  'span',
+  shouldForwardProps
+)(
   ({ theme, draft }) => `
   font-size: 10px;
   font-weight: 500;
