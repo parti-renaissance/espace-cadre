@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Content = ({ riposte, handleClickOpen, toggleStatus }) => {
+const Content = ({ riposte, handleEdit, toggleStatus }) => {
   const classes = useStyles()
   const { id, status, withNotification, views, detailViews, ripostes } = riposte
   const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
@@ -71,7 +71,7 @@ const Content = ({ riposte, handleClickOpen, toggleStatus }) => {
       </Grid>
       <Grid container justifyContent="space-between" className={classes.buttonContainer}>
         <Grid item>
-          <Button className={classes.editButton} onClick={() => handleClickOpen(id)}>
+          <Button className={classes.editButton} onClick={handleEdit}>
             {messages.edit}
           </Button>
         </Grid>
@@ -85,7 +85,7 @@ const Content = ({ riposte, handleClickOpen, toggleStatus }) => {
 
 Content.propTypes = {
   riposte: Riposte.propTypes.isRequired,
-  handleClickOpen: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
   toggleStatus: PropTypes.func.isRequired,
 }
 

@@ -1,15 +1,18 @@
-import { useState } from 'react'
-import { Dialog, Box, Grid, Button, FormControlLabel, Checkbox } from '@mui/material'
+import { Dialog, Box, Grid, Button, FormControlLabel, Checkbox, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
+import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import TextField from 'ui/TextField'
-import AlertBanner from 'ui/AlertBanner'
-import { createRiposte, updateRiposte } from 'api/ripostes'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { createRiposteQuery, updateRiposteQuery } from 'api/ripostes'
 import DomainRiposte from 'domain/riposte'
-import { notifyMessages, notifyVariants } from '../shared/notification/constants'
-import { useCustomSnackbar } from '../shared/notification/hooks'
+import TextField from 'ui/TextField'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
+import ClearIcon from '@mui/icons-material/Clear'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -24,18 +27,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: '24px',
     color: theme.palette.gray800,
     fontWeight: '400',
-  },
-  cross: {
-    color: theme.palette.gray700,
-    marginTop: theme.spacing(2.75),
-    cursor: 'pointer',
-  },
-  charactersLimit: {
-    fontSize: '10px',
-    color: theme.palette.gray300,
-  },
-  fieldTitle: {
-    fontWeight: '600',
   },
   textField: {
     border: `1px solid ${theme.palette.gray200}`,
@@ -53,21 +44,48 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const CharactersLimit = styled(Typography)(
+  ({ theme }) => `
+  font-size: 10px;
+  color: ${theme.palette.gray300}
+`
+)
+
+const messages = {
+  create: 'Créer une riposte',
+  edit: 'Modifier une riposte',
+  createSuccess: 'Riposte créée avec succès',
+  editSuccess: 'La riposte a bien été modifiée',
+  charactersLimit1: '(255 charactères)',
+  charactersLimit2: '(255 charactères)',
+  charactersLimit3: '(255 charactères)',
+}
+
 const riposteSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
   body: Yup.string().min(1, 'Minimum 1 charactère').required('Texte obligatoire'),
   url: Yup.string().url('Ce champ doit être une URL valide').required('Url obligatoire'),
 })
 
-const messages = {
-  createSuccess: 'Riposte créée avec succès',
-  editSuccess: 'La riposte a bien été modifiée',
-}
-
-const CreateEditModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
+const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => {
   const classes = useStyles()
-  const [errorMessage, setErrorMessage] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
+
+  const { mutate: createOrEditRiposte } = useMutation(!riposte?.id ? createRiposteQuery : updateRiposteQuery, {
+    onSuccess: () => {
+      const successMessage = !riposte?.id ? messages.createSuccess : messages.editSuccess
+      enqueueSnackbar(successMessage, notifyVariants.success)
+      onSubmitResolve()
+      handleClose()
+    },
+    onError: handleError,
+  })
+
+  const handleClose = () => {
+    onCloseResolve()
+    resetErrorMessages()
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -79,26 +97,15 @@ const CreateEditModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
     },
     validationSchema: riposteSchema,
     enableReinitialize: true,
-    onSubmit: async form => {
-      try {
-        const newRiposte = riposte
-          .withTitle(form.title)
-          .withBody(form.body)
-          .withUrl(form.url)
-          .withWithNotification(form.withNotification)
-          .withStatus(form.status)
-
-        !newRiposte.id && (await createRiposte(newRiposte))
-        newRiposte.id && (await updateRiposte(newRiposte))
-
-        const confirmMessage = !newRiposte.id ? messages.createSuccess : messages.editSuccess
-        enqueueSnackbar(confirmMessage, notifyVariants.success)
-        onSubmitRefresh()
-        handleClose()
-      } catch (error) {
-        setErrorMessage(error)
-        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-      }
+    onSubmit: values => {
+      createOrEditRiposte(
+        riposte
+          .withTitle(values.title)
+          .withBody(values.body)
+          .withUrl(values.url)
+          .withWithNotification(values.withNotification)
+          .withStatus(values.status)
+      )
     },
   })
   return (
@@ -107,52 +114,62 @@ const CreateEditModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
         <Grid container justifyContent="space-between" className={classes.innerContainer}>
           <Grid item>
             <Box component="span" className={classes.modalTitle}>
-              Créer ou modifier une riposte
+              {!riposte?.id ? messages.create : messages.edit}
             </Box>
           </Grid>
           <Grid item>
-            <Box component="span" className={classes.cross} onClick={handleClose}>
-              X
-            </Box>
+            <Button type="button" onClick={handleClose}>
+              <ClearIcon />
+            </Button>
           </Grid>
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
-          </Grid>
-        </Grid>
-        <Grid container className={classes.innerContainer}>
-          <Grid item xs={12}>
-            <span className={classes.fieldTitle}>Titre</span>{' '}
-            <Box component="span" className={classes.charactersLimit}>
-              (255 charactères)
-            </Box>
+            <Typography sx={{ fontWeight: 600 }}>Titre</Typography>{' '}
+            <CharactersLimit>{messages.charactersLimit1}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="title" />
           </Grid>
+          {errorMessages
+            .filter(({ field }) => field === 'title')
+            .map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <UIFormMessage severity="error">{message}</UIFormMessage>
+              </Grid>
+            ))}
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            <span className={classes.fieldTitle}>Texte</span>{' '}
-            <Box component="span" className={classes.charactersLimit}>
-              (255 charactères)
-            </Box>
+            <Typography sx={{ fontWeight: 600 }}>Texte</Typography>{' '}
+            <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="body" />
           </Grid>
+          {errorMessages
+            .filter(({ field }) => field === 'body')
+            .map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <UIFormMessage severity="error">{message}</UIFormMessage>
+              </Grid>
+            ))}
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            <span className={classes.fieldTitle}>URL</span>{' '}
-            <Box component="span" className={classes.charactersLimit}>
-              (255 charactères)
-            </Box>
+            <Typography sx={{ fontWeight: 600 }}>URL</Typography>{' '}
+            <CharactersLimit>{messages.charactersLimit3}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="url" />
           </Grid>
+          {errorMessages
+            .filter(({ field }) => field === 'source_url')
+            .map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <UIFormMessage severity="error">{message}</UIFormMessage>
+              </Grid>
+            ))}
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
@@ -197,14 +214,14 @@ const CreateEditModal = ({ handleClose, riposte, onSubmitRefresh, open }) => {
 export default CreateEditModal
 
 CreateEditModal.defaultProps = {
-  handleClose: () => {},
-  onSubmitRefresh: () => {},
   riposte: null,
+  onCloseResolve: () => {},
+  onSubmitResolve: () => {},
 }
 
 CreateEditModal.propTypes = {
-  handleClose: PropTypes.func,
-  onSubmitRefresh: PropTypes.func,
-  riposte: DomainRiposte.propTypes,
   open: PropTypes.bool.isRequired,
+  riposte: DomainRiposte.propTypes,
+  onCloseResolve: PropTypes.func,
+  onSubmitResolve: PropTypes.func,
 }

@@ -1,9 +1,9 @@
 import { apiClient } from '../services/networking/client'
 import Riposte from '../domain/riposte'
 
-export const getRipostes = async cb => {
+export const getRipostesQuery = async () => {
   const data = await apiClient.get('api/v3/ripostes')
-  const ripostes = data.map(
+  return data.map(
     r =>
       new Riposte(
         r.uuid,
@@ -20,11 +20,9 @@ export const getRipostes = async cb => {
         r.nb_ripostes
       )
   )
-  cb(ripostes)
-  return ripostes
 }
 
-export const updateRiposte = riposte =>
+export const updateRiposteQuery = riposte =>
   apiClient.put(`api/v3/ripostes/${riposte.id}`, {
     uuid: riposte.id,
     title: riposte.title,
@@ -40,7 +38,7 @@ export const updateRiposte = riposte =>
     nb_ripostes: riposte.riposte,
   })
 
-export const createRiposte = riposte =>
+export const createRiposteQuery = riposte =>
   apiClient.post('api/v3/ripostes', {
     uuid: riposte.id,
     title: riposte.title,
