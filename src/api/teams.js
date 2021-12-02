@@ -31,8 +31,8 @@ export const getTeamQuery = async teamId => {
 export const createTeamQuery = ({ values }) => apiClient.post('api/v3/teams', values)
 export const updateTeamQuery = ({ teamId, values }) => apiClient.put(`api/v3/teams/${teamId}`, values)
 
-export const addTeamMemberQuery = ({ teamId, memberId }) =>
+export const addTeamMemberQuery = (teamId, memberId) =>
   apiClient.put(`/api/v3/teams/${teamId}/add-members`, [{ adherent_uuid: memberId }])
 
-export const deleteTeamMemberQuery = ({ teamId, memberId }) =>
+export const deleteTeamMemberQuery = (teamId, memberId) =>
   apiClient.delete(`api/v3/teams/${teamId}/members/${memberId}`)
