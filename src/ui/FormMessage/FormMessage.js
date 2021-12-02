@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
-import { Alert as MuiAlert, AlertTitle } from '@mui/material'
+import { Alert as MuiAlert, AlertTitle as MuiAlertTitle } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
 const Alert = styled(MuiAlert)(
   ({ theme, severity }) => `
@@ -12,7 +13,10 @@ const Alert = styled(MuiAlert)(
 `
 )
 
-const Message = styled(props => <AlertTitle component="span" {...props} />)(
+const AlertTitle = styled(
+  props => <MuiAlertTitle component="span" {...props} />,
+  shouldForwardProps
+)(
   ({ theme, severity }) => `
 	margin: 0;
 	padding: 0;
@@ -21,13 +25,13 @@ const Message = styled(props => <AlertTitle component="span" {...props} />)(
 `
 )
 
-const Icon = styled(ErrorIcon)`
+const Icon = styled(ErrorIcon, shouldForwardProps)`
   color: ${({ theme, severity }) => theme.palette.form[severity].color};
 `
 
 const UIFormMessage = ({ children, severity }) => (
   <Alert severity={severity} icon={<Icon severity={severity} />}>
-    <Message severity={severity}>{children}</Message>
+    <AlertTitle severity={severity}>{children}</AlertTitle>
   </Alert>
 )
 
