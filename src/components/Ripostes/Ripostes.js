@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import AddIcon from '@mui/icons-material/Add'
 import CreateEditModal from './CreateEditModal'
 import Riposte from 'domain/riposte'
-import { getRipostesQuery, updateRiposteQuery } from 'api/ripostes'
+import { getRipostesQuery, updateRiposteStatusQuery } from 'api/ripostes'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
 import Card from 'ui/Card'
@@ -30,8 +30,9 @@ const Ripostes = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const queryClient = useQueryClient()
   const { handleError } = useErrorHandler()
+
   const { data: ripostes = [], refetch } = useQuery('ripostes', () => getRipostesQuery(), { onError: handleError })
-  const { mutate: updateRiposte } = useMutation(updateRiposteQuery, {
+  const { mutate: updateRiposteStatus } = useMutation(updateRiposteStatusQuery, {
     onSuccess: () => {
       refetch()
     },
@@ -52,11 +53,14 @@ const Ripostes = () => {
     setIsModalOpen(false)
   }
 
-  const mergeToggledRiposte = (id, toggledRiposte) => prevRipostes =>
-    prevRipostes
-      .filter(r => r.id !== id)
-      .concat(toggledRiposte)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  const mergeToggledRiposte = useCallback(
+    (id, toggledRiposte) => prevRipostes =>
+      prevRipostes
+        .filter(r => r.id !== id)
+        .concat(toggledRiposte)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+    []
+  )
 
   const toggleRiposteStatus = useCallback(
     id => {
@@ -64,9 +68,9 @@ const Ripostes = () => {
       const toggledRiposte = riposte.toggleStatus()
       // TODO: replace this trick by using a loader inside RiposteStatus
       queryClient.setQueryData('ripostes', mergeToggledRiposte(id, toggledRiposte))
-      updateRiposte(toggledRiposte)
+      updateRiposteStatus(toggledRiposte)
     },
-    [ripostes, updateRiposte, queryClient]
+    [ripostes, mergeToggledRiposte, updateRiposteStatus, queryClient]
   )
 
   return (

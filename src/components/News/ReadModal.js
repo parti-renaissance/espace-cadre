@@ -99,14 +99,18 @@ const messages = {
   author: 'Par',
 }
 
-const ReadModal = ({ news, handleClose, handleOpenEditModal, open }) => {
+const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   if (!news) return null
+
+  const handleClose = () => {
+    onCloseResolve()
+  }
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <Grid container>
-        <Title title={news.title}>{news.title}</Title>
-        <Button onClick={handleOpenEditModal} sx={{ ml: 'auto', mr: 1 }}>
+        <Title title={news?.title}>{news?.title}</Title>
+        <Button onClick={handleEdit} sx={{ ml: 'auto', mr: 1 }}>
           <EditIcon sx={{ mr: 1 }} />
           {messages.edit}
         </Button>
@@ -114,20 +118,20 @@ const ReadModal = ({ news, handleClose, handleOpenEditModal, open }) => {
       </Grid>
       <Grid container spacing={1}>
         <Grid item>
-          <StatusIcon active={news.status}>{news.status ? messages.published : messages.unpublished}</StatusIcon>
+          <StatusIcon active={news?.status}>{news?.status ? messages.published : messages.unpublished}</StatusIcon>
         </Grid>
         <Grid item>
           {news?.withNotification && <NotificationIcon component={NotificationsActiveRoundedIcon} />}
           {!news?.withNotification && <NotificationIcon component={NotificationsOffRoundedIcon} />}
         </Grid>
-        <DateItem item>{new Date(news.createdAt).toLocaleDateString()}</DateItem>
+        <DateItem item>{new Date(news?.createdAt).toLocaleDateString()}</DateItem>
       </Grid>
       <AuthorWrapper container>
-        <Author item>{`${messages.author} ${news.creator}`}</Author>
+        <Author item>{`${messages.author} ${news?.creator}`}</Author>
       </AuthorWrapper>
       <Grid container>
         <Grid item xs={12}>
-          <Typography sx={{ fontSize: '12px' }}>{news.body}</Typography>
+          <Typography sx={{ fontSize: '12px' }}>{news?.body}</Typography>
         </Grid>
       </Grid>
     </Dialog>
@@ -137,14 +141,12 @@ const ReadModal = ({ news, handleClose, handleOpenEditModal, open }) => {
 export default ReadModal
 
 ReadModal.defaultProps = {
-  handleClose: () => {},
-  onSubmitRefresh: () => {},
+  onCloseResolve: () => {},
 }
 
 ReadModal.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  onSubmitRefresh: PropTypes.func.isRequired,
-  handleOpenEditModal: PropTypes.func.isRequired,
-  news: DomainNews.propTypes,
   open: PropTypes.bool.isRequired,
+  news: DomainNews.propTypes,
+  handleEdit: PropTypes.func.isRequired,
+  onCloseResolve: PropTypes.func,
 }

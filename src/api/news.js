@@ -1,16 +1,14 @@
 import { apiClient } from '../services/networking/client'
 import News from '../domain/news'
 
-export const getNews = async cb => {
+export const getNewsQuery = async () => {
   const data = await apiClient.get('api/v3/jecoute/news')
-  const news = data.items.map(
+  return data.items.map(
     n => new News(n.uuid, n.title, n.text, n.external_link, n.creator, n.created_at, n.notification, n.published)
   )
-  cb(news)
-  return news
 }
 
-export const updateNews = news =>
+export const updateNewsQuery = news =>
   apiClient.put(`api/v3/jecoute/news/${news.id}`, {
     uuid: news.id,
     title: news.title,
@@ -22,12 +20,12 @@ export const updateNews = news =>
     published: news.status,
   })
 
-export const updateNewsStatus = news =>
+export const updateNewsStatusQuery = news =>
   apiClient.put(`api/v3/jecoute/news/${news.id}`, {
     published: news.status,
   })
 
-export const createNews = news =>
+export const createNewsQuery = news =>
   apiClient.post('api/v3/jecoute/news', {
     uuid: news.id,
     title: news.title,

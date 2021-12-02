@@ -108,6 +108,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
       )
     },
   })
+
   return (
     <Dialog open={open} onClose={handleClose} classes={{ paper: classes.paper }}>
       <form onSubmit={formik.handleSubmit}>
