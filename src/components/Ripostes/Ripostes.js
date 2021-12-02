@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Button as MuiButton, Container, Grid } from '@mui/material'
 import { styled } from '@mui/system'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 import AddIcon from '@mui/icons-material/Add'
 import CreateEditModal from './CreateEditModal'
 import Riposte from 'domain/riposte'
-import { getRipostes, updateRiposte } from 'api/ripostes'
+import { getRipostesQuery, updateRiposteQuery } from 'api/ripostes'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
 import Card from 'ui/Card'
 import Header from './Card/Header'
@@ -24,44 +26,48 @@ const messages = {
 }
 
 const Ripostes = () => {
-  const [ripostes, setRipostes] = useState([])
-  const [newRiposte, setNewRiposte] = useState(null)
-  const [open, setOpen] = useState(false)
+  const [editingRiposte, setEditingRiposte] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const queryClient = useQueryClient()
+  const { handleError } = useErrorHandler()
+  const { data: ripostes = [], refetch } = useQuery('ripostes', () => getRipostesQuery(), { onError: handleError })
+  const { mutate: updateRiposte } = useMutation(updateRiposteQuery, {
+    onSuccess: () => {
+      refetch()
+    },
+    onError: handleError,
+  })
 
-  const handleClickOpen = id => {
-    setNewRiposte(ripostes.find(riposte => riposte.id === id) || null)
-    setOpen(true)
+  const handleRiposteCreate = () => {
+    setEditingRiposte(Riposte.NULL)
+    setIsModalOpen(true)
   }
 
-  const toggleRiposteStatus = async id => {
-    const riposte = ripostes.find(r => r.id === id)
-    const newRiposte = riposte.toggleStatus()
-    setRipostes(prev =>
-      prev
-        .filter(r => r.id !== id)
-        .concat(newRiposte)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    )
-    await updateRiposte(newRiposte)
-    getRipostes(setRipostes)
-  }
-
-  const handleNewRiposte = () => {
-    setNewRiposte(Riposte.NULL)
-    setOpen(true)
+  const handleEdit = id => () => {
+    setEditingRiposte(ripostes.find(riposte => riposte.id === id) || Riposte.NULL)
+    setIsModalOpen(true)
   }
 
   const handleClose = () => {
-    setOpen(false)
+    setIsModalOpen(false)
   }
 
-  const handleSubmitRefresh = () => {
-    getRipostes(setRipostes)
-  }
+  const mergeToggledRiposte = (id, toggledRiposte) => prevRipostes =>
+    prevRipostes
+      .filter(r => r.id !== id)
+      .concat(toggledRiposte)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
-  useEffect(() => {
-    getRipostes(setRipostes)
-  }, [])
+  const toggleRiposteStatus = useCallback(
+    id => {
+      const riposte = ripostes.find(r => r.id === id)
+      const toggledRiposte = riposte.toggleStatus()
+      // TODO: replace this trick by using a loader inside RiposteStatus
+      queryClient.setQueryData('ripostes', mergeToggledRiposte(id, toggledRiposte))
+      updateRiposte(toggledRiposte)
+    },
+    [ripostes, updateRiposte, queryClient]
+  )
 
   return (
     <Container maxWidth="lg">
@@ -70,7 +76,7 @@ const Ripostes = () => {
           <PageTitle title={messages.title} />
         </Grid>
         <Grid item>
-          <Button onClick={handleNewRiposte}>
+          <Button onClick={handleRiposteCreate}>
             <AddIcon sx={{ mr: 1 }} />
             {messages.create}
           </Button>
@@ -78,15 +84,15 @@ const Ripostes = () => {
         <Grid container spacing={2}>
           {ripostes.map(r => (
             <Card key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
-              <Content riposte={r} handleClickOpen={handleClickOpen} toggleStatus={toggleRiposteStatus} />
+              <Content riposte={r} handleEdit={handleEdit(r.id)} toggleStatus={toggleRiposteStatus} />
             </Card>
           ))}
         </Grid>
         <CreateEditModal
-          open={open}
-          handleClose={handleClose}
-          riposte={newRiposte}
-          onSubmitRefresh={handleSubmitRefresh}
+          open={isModalOpen}
+          riposte={editingRiposte}
+          onCloseResolve={handleClose}
+          onSubmitResolve={refetch}
         />
       </Grid>
     </Container>
