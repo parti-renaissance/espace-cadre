@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 export default class News {
-  constructor(id, title, body, url, creator, createdAt, withNotification, status) {
+  constructor(id, title, body, url, creator, createdAt, withNotification, status, zoneId) {
     this.id = id
     this.title = title
     this.body = body
@@ -9,9 +9,10 @@ export default class News {
     this.createdAt = createdAt
     this.withNotification = withNotification
     this.status = status
+    this.zoneId = zoneId
   }
 
-  static NULL = new News(null, '', '', '', '', '', false, false)
+  static NULL = new News(null, '', '', '', '', '', false, false, '')
 
   withTitle(newTitle) {
     return new News(
@@ -22,7 +23,8 @@ export default class News {
       this.creator,
       this.createdAt,
       this.withNotification,
-      this.status
+      this.status,
+      this.zoneId
     )
   }
 
@@ -35,7 +37,8 @@ export default class News {
       this.creator,
       this.createdAt,
       this.withNotification,
-      this.status
+      this.status,
+      this.zoneId
     )
   }
 
@@ -48,7 +51,8 @@ export default class News {
       this.creator,
       this.createdAt,
       this.withNotification,
-      this.status
+      this.status,
+      this.zoneId
     )
   }
 
@@ -61,7 +65,8 @@ export default class News {
       this.creator,
       this.createdAt,
       newWithNotification,
-      this.status
+      this.status,
+      this.zoneId
     )
   }
 
@@ -74,7 +79,8 @@ export default class News {
       this.creator,
       this.createdAt,
       this.withNotification,
-      newStatus
+      newStatus,
+      this.zoneId
     )
   }
 
@@ -87,7 +93,22 @@ export default class News {
       this.creator,
       this.createdAt,
       this.withNotification,
-      !this.status
+      !this.status,
+      this.zoneId
+    )
+  }
+
+  withZoneId(newZoneId) {
+    return new News(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      this.status,
+      newZoneId
     )
   }
 }
@@ -101,4 +122,5 @@ News.propTypes = PropTypes.shape({
   createdAt: PropTypes.string.isRequired,
   withNotification: PropTypes.bool,
   status: PropTypes.bool.isRequired,
+  zoneId: PropTypes.string,
 })

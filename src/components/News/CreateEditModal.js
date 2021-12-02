@@ -12,6 +12,7 @@ import { createNewsQuery, updateNewsQuery } from 'api/news'
 import DomainNews from 'domain/news'
 import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
+import { useUserScope } from '../../redux/user/hooks'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -76,6 +77,7 @@ const messages = {
 const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
+  const [currentScope] = useUserScope()
 
   const { mutate: createOrEditNews } = useMutation(!news?.id ? createNewsQuery : updateNewsQuery, {
     onSuccess: () => {
@@ -110,6 +112,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           .withUrl(values.url)
           .withWithNotification(values.withNotification)
           .withStatus(values.status)
+          .withZoneId(currentScope.code === 'national' ? null : currentScope.zones[0].uuid)
       )
     },
   })
