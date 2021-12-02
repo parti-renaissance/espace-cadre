@@ -5,7 +5,7 @@ import { Card, CardActions as MuiCardActions, Collapse, Grid, IconButton, Paper,
 import { styled } from '@mui/system'
 import CloseIcon from '@mui/icons-material/Close'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { shouldForwardProps } from 'components/shared/notification/helpers'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 
 const Wrapper = styled(SnackbarContent)`

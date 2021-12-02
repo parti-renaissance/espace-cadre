@@ -5,7 +5,7 @@ import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRou
 import MuiCloseIcon from '@mui/icons-material/Close'
 import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
-import { shouldForwardProps } from 'components/shared/notification/helpers'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import EditIcon from '@mui/icons-material/EditRounded'
 
 const StyledPaper = styled(Paper)(
