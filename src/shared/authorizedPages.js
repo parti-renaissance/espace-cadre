@@ -6,4 +6,5 @@ export default {
   ripostes: 'ripostes',
   teams: 'team',
   news: 'news',
+  phoning: 'phoning_campaign',
 }

@@ -101,6 +101,7 @@ const Sidebar = ({ toggleSidebar }) => {
           {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
           {authorizedPages.includes(pages.teams) && <NavItem label="&Eacute;quipes" {...navInfo('teams')} />}
           {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
+          {authorizedPages.includes(pages.phoning) && <NavItem label="Phoning" {...navInfo('phoning')} />}
         </div>
         <MentionsLegales />
       </div>
