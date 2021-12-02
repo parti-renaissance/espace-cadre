@@ -38,6 +38,11 @@ export const updateRiposteQuery = riposte =>
     nb_ripostes: riposte.riposte,
   })
 
+export const updateRiposteStatusQuery = riposte =>
+  apiClient.put(`api/v3/ripostes/${riposte.id}`, {
+    enabled: riposte.status,
+  })
+
 export const createRiposteQuery = riposte =>
   apiClient.post('api/v3/ripostes', {
     uuid: riposte.id,

@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { Container, Grid, Button as MuiButton } from '@mui/material'
 import { styled } from '@mui/system'
-import AddIcon from '@mui/icons-material/Add'
-import { getNews, updateNewsStatus } from 'api/news'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { getNewsQuery, updateNewsStatusQuery } from 'api/news'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
 import Card from 'ui/Card'
 import Header from './Card/Header'
@@ -10,6 +11,7 @@ import Content from './Card/Content'
 import NewsDomain from 'domain/news'
 import CreateEditModal from './CreateEditModal'
 import ReadModal from './ReadModal'
+import AddIcon from '@mui/icons-material/Add'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -20,40 +22,33 @@ const Button = styled(MuiButton)(
 )
 
 const News = () => {
-  const [news, setNews] = useState([])
-  const [newNews, setNewNews] = useState(null)
+  const [viewingNews, setViewingNews] = useState(null)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isReadModalOpen, setIsReadModalOpen] = useState(false)
+  const queryClient = useQueryClient()
+  const { handleError } = useErrorHandler()
 
-  const handleClick = id => () => {
-    setNewNews(news.find(n => n.id === id) || null)
-    setIsCreateEditModalOpen(false)
+  const { data: news = [], refetch } = useQuery('news', () => getNewsQuery(), { onError: handleError })
+  const { mutate: updateNewsStatus } = useMutation(updateNewsStatusQuery, {
+    onSuccess: () => {
+      refetch()
+    },
+    onError: handleError,
+  })
+
+  const handleNewsCreate = () => {
+    setViewingNews(NewsDomain.NULL)
+    setIsCreateEditModalOpen(true)
+  }
+
+  const handleView = id => () => {
+    setViewingNews(news.find(n => n.id === id) || NewsDomain.NULL)
     setIsReadModalOpen(true)
   }
 
-  const handleOpenEditModal = id => () => {
-    setNewNews(news.find(n => n.id === id) || null)
+  const handleEdit = id => () => {
+    setViewingNews(news.find(n => n.id === id) || NewsDomain.NULL)
     setIsCreateEditModalOpen(true)
-    setIsReadModalOpen(false)
-  }
-
-  const toggleNewsStatus = async id => {
-    const info = news.find(n => n.id === id)
-    const editedNews = info.toggleStatus()
-    setNews(prev =>
-      prev
-        .filter(n => n.id !== id)
-        .concat(editedNews)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    )
-    await updateNewsStatus(editedNews)
-    getNews(setNews)
-  }
-
-  const handleNewNews = () => {
-    setNewNews(NewsDomain.NULL)
-    setIsCreateEditModalOpen(true)
-    setIsReadModalOpen(false)
   }
 
   const handleClose = () => {
@@ -61,13 +56,25 @@ const News = () => {
     setIsReadModalOpen(false)
   }
 
-  const handleSubmitRefresh = () => {
-    getNews(setNews)
-  }
+  const mergeToggledNews = useCallback(
+    (id, toggledNews) => prevNews =>
+      prevNews
+        .filter(n => n.id !== id)
+        .concat(toggledNews)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+    []
+  )
 
-  useEffect(() => {
-    getNews(setNews)
-  }, [])
+  const toggleNewsStatus = useCallback(
+    id => {
+      const currentNews = news.find(n => n.id === id)
+      const toggledNews = currentNews.toggleStatus()
+      // TODO: replace this trick by using a loader inside NewsStatus
+      queryClient.setQueryData('news', mergeToggledNews(id, toggledNews))
+      updateNewsStatus(toggledNews)
+    },
+    [news, mergeToggledNews, updateNewsStatus, queryClient]
+  )
 
   const messages = {
     title: 'Actualités',
@@ -81,7 +88,7 @@ const News = () => {
           <PageTitle title={messages.title} />
         </Grid>
         <Grid item>
-          <Button onClick={handleNewNews}>
+          <Button onClick={handleNewsCreate}>
             <AddIcon sx={{ mr: 1 }} />
             {messages.create}
           </Button>
@@ -90,22 +97,21 @@ const News = () => {
       <Grid container spacing={2}>
         {news.map(n => (
           <Card key={n.id} header={<Header {...n} />} title={n.title} subtitle={`Par ${n.creator}`}>
-            <Content news={n} handleClick={handleClick(n.id)} toggleStatus={toggleNewsStatus} />
+            <Content news={n} handleClick={handleView(n.id)} toggleStatus={toggleNewsStatus} />
           </Card>
         ))}
       </Grid>
       <CreateEditModal
         open={isCreateEditModalOpen}
-        handleClose={handleClose}
-        news={newNews}
-        onSubmitRefresh={handleSubmitRefresh}
+        news={viewingNews}
+        onCloseResolve={handleClose}
+        onSubmitResolve={refetch}
       />
       <ReadModal
         open={isReadModalOpen}
-        handleClose={handleClose}
-        news={newNews}
-        onSubmitRefresh={handleSubmitRefresh}
-        handleOpenEditModal={handleOpenEditModal(newNews?.id)}
+        news={viewingNews}
+        handleEdit={handleEdit(viewingNews?.id)}
+        onCloseResolve={handleClose}
       />
     </Container>
   )

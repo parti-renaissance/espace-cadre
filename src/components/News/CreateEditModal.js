@@ -1,16 +1,17 @@
-import { useState } from 'react'
 import { Dialog, Paper, Grid, Button as MuiButton, FormControlLabel, Checkbox, Typography } from '@mui/material'
 import MuiCloseIcon from '@mui/icons-material/Close'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
+import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import TextField from 'ui/TextField'
-import AlertBanner from 'ui/AlertBanner'
-import { createNews, updateNews } from 'api/news'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { createNewsQuery, updateNewsQuery } from 'api/news'
 import DomainNews from 'domain/news'
-import { notifyMessages, notifyVariants } from '../shared/notification/constants'
-import { useCustomSnackbar } from '../shared/notification/hooks'
+import TextField from 'ui/TextField'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -72,9 +73,24 @@ const messages = {
   charactersLimit3: '(255 caractères)',
 }
 
-const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
-  const [errorMessage, setErrorMessage] = useState()
+const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
+
+  const { mutate: createOrEditNews } = useMutation(!news?.id ? createNewsQuery : updateNewsQuery, {
+    onSuccess: () => {
+      const successMessage = !news?.id ? messages.createSuccess : messages.editSuccess
+      enqueueSnackbar(successMessage, notifyVariants.success)
+      onSubmitResolve()
+      handleClose()
+    },
+    onError: handleError,
+  })
+
+  const handleClose = () => {
+    onCloseResolve()
+    resetErrorMessages()
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -86,26 +102,15 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
     },
     validationSchema: newsSchema,
     enableReinitialize: true,
-    onSubmit: async form => {
-      try {
-        const newNews = news
-          .withTitle(form.title)
-          .withBody(form.body)
-          .withUrl(form.url)
-          .withWithNotification(form.withNotification)
-          .withStatus(form.status)
-
-        !newNews.id && (await createNews(newNews))
-        newNews.id && (await updateNews(newNews))
-
-        const confirmMessage = !newNews.id ? messages.createSuccess : messages.editSuccess
-        enqueueSnackbar(confirmMessage, notifyVariants.success)
-        onSubmitRefresh()
-        handleClose()
-      } catch (error) {
-        setErrorMessage(error)
-        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
-      }
+    onSubmit: values => {
+      createOrEditNews(
+        news
+          .withTitle(values.title)
+          .withBody(values.body)
+          .withUrl(values.url)
+          .withWithNotification(values.withNotification)
+          .withStatus(values.status)
+      )
     },
   })
 
@@ -122,17 +127,19 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            {errorMessage && <AlertBanner severity="error" message={errorMessage} />}
-          </Grid>
-        </Grid>
-        <Grid container sx={{ mb: 2 }}>
-          <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>{messages.title}</Typography>{' '}
             <CharactersLimit>{messages.charactersLimit1}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="title" />
           </Grid>
+          {errorMessages
+            .filter(({ field }) => field === 'title')
+            .map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <UIFormMessage severity="error">{message}</UIFormMessage>
+              </Grid>
+            ))}
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
@@ -142,6 +149,13 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
           <Grid item xs={12}>
             <TextField formik={formik} label="body" isLong />
           </Grid>
+          {errorMessages
+            .filter(({ field }) => field === 'text')
+            .map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <UIFormMessage severity="error">{message}</UIFormMessage>
+              </Grid>
+            ))}
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
@@ -151,6 +165,13 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
           <Grid item xs={12}>
             <TextField formik={formik} label="url" />
           </Grid>
+          {errorMessages
+            .filter(({ field }) => field === 'external_link')
+            .map(({ field, message }) => (
+              <Grid item xs={12} key={field}>
+                <UIFormMessage severity="error">{message}</UIFormMessage>
+              </Grid>
+            ))}
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
@@ -196,14 +217,14 @@ const CreateEditModal = ({ handleClose, news, onSubmitRefresh, open }) => {
 export default CreateEditModal
 
 CreateEditModal.defaultProps = {
-  handleClose: () => {},
-  onSubmitRefresh: () => {},
   news: null,
+  onCloseResolve: () => {},
+  onSubmitResolve: () => {},
 }
 
 CreateEditModal.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  onSubmitRefresh: PropTypes.func.isRequired,
-  news: DomainNews.propTypes,
   open: PropTypes.bool.isRequired,
+  news: DomainNews.propTypes,
+  onCloseResolve: PropTypes.func,
+  onSubmitResolve: PropTypes.func,
 }
