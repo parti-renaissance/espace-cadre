@@ -8,7 +8,7 @@ import Percentage from 'ui/Percentage'
 import ErrorComponent from 'components/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {

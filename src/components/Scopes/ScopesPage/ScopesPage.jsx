@@ -6,7 +6,7 @@ import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
 import barChartScopes from 'assets/bar-chart-scopes.svg'
 import paths from 'shared/paths'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   pageContainer: {

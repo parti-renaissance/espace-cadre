@@ -6,7 +6,7 @@ import { apiClientProxy } from '../../../../services/networking/client'
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from 'components/ErrorComponent'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   dashboardTitle: {

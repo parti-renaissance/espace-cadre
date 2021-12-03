@@ -7,7 +7,7 @@ import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import vector from 'assets/vector.svg'
 import paths from 'shared/paths'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   root: {

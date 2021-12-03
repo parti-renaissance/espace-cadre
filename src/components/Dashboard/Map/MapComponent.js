@@ -5,7 +5,7 @@ import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import L from 'leaflet'
 import { MapContainer as LeafletContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 import { useErrorHandler } from 'components/shared/error/hooks'
 
 const CountBubble = styled('span')(

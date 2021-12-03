@@ -9,7 +9,7 @@ import { useUserScope } from '../../../../redux/user/hooks'
 import EmailCampaignTitle from './EmailCampaignTitle'
 import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   cardContainer: {

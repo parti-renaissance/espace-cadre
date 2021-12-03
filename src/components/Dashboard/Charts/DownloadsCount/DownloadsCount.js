@@ -8,7 +8,7 @@ import Loader from 'ui/Loader'
 import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -53,9 +53,10 @@ const messages = {
 function DownloadsCount() {
   const classes = useStyles()
   const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache()
+  const { totalDownloads, downloads } = dashboardDownloads || {}
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
-  const { totalDownloads, downloads } = dashboardDownloads || {}
+
   useEffect(() => {
     const getDownloads = async () => {
       try {

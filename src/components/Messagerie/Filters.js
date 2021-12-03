@@ -19,7 +19,7 @@ import {
   updateSegmentAudience,
 } from 'api/messagerie'
 import paths from 'components/Messagerie/shared/paths'
-import { pluralize } from 'components/shared/pluralize'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 export const FEATURE_MESSAGES = 'messages'
 
