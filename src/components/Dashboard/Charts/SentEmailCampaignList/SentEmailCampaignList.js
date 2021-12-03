@@ -63,7 +63,7 @@ const SentEmailCampaignList = () => {
             title={message.subject}
             subtitle={`Par ${message.author}`}
           >
-            <Body statistics={message.statistics} handleClick={() => handleClick(message.id)} />
+            <Body message={message} handleClick={() => handleClick(message.id)} />
           </UICard>
         ))}
       </Grid>

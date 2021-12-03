@@ -1,26 +1,11 @@
-import { Grid as MuiGrid } from '@mui/material'
+import { Grid as MuiGrid, Chip } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
 const Grid = styled(MuiGrid)(
   ({ theme, container }) => `
   margin-bottom: ${container ? theme.spacing(1) : 0}
-`
-)
-
-const Chip = styled(
-  'span',
-  shouldForwardProps
-)(
-  ({ theme, draft }) => `
-  font-size: 10px;
-  font-weight: 500;
-  border-radius: 19px;
-  padding: ${theme.spacing(0.25, 1)};
-  color: ${draft ? theme.palette.red600 : theme.palette.teal700};
-  background: ${draft ? theme.palette.inactiveLabel : theme.palette.activeLabel};
 `
 )
 
@@ -40,10 +25,15 @@ const messages = {
 const Header = ({ draft, createdAt }) => (
   <Grid container data-testid="news-header">
     <Grid item>
-      <Chip draft={draft}>{draft ? messages.draft : messages.sent}</Chip>
+      <Chip
+        variant="outlined"
+        sx={{ color: draft ? 'gray700' : 'green700', bgcolor: draft ? 'gray200' : 'green200' }}
+        size="small"
+        label={draft ? messages.draft : messages.sent}
+      />
     </Grid>
     <Grid item>
-      <UIDate>Le {format(createdAt, 'dd/MM/yyyy')}</UIDate>
+      <UIDate>Le {format(createdAt, "dd/MM/yyyy 'à' HH:mm")}</UIDate>
     </Grid>
   </Grid>
 )

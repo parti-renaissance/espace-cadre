@@ -1,85 +1,72 @@
-import { Grid, Button as MuiButton } from '@mui/material'
+import { Chip } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
-import { Statistics } from 'domain/message'
-import Stat from './Stat'
+import Message, { Statistics } from 'domain/message'
+import CtaButton from 'ui/Card/CtaButton/CtaButton'
 
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  font-size: 13px;
-  font-weight: 500;
-  color: ${theme.palette.orange500};
-  margin-top: ${theme.spacing(1.5)};
-  &:hover {
-    background: ${theme.palette.newsBackground};
-    border-radius: 8.35px;
-  };
-`
-)
-
-const CardRow = styled(props => <Grid {...props} container />)(
-  ({ theme }) => `
-   padding: ${theme.spacing(0, 2)};
-`
-)
-
-const CardItem = styled('div')(
-  ({ theme }) => `
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin: ${theme.spacing(1, 1, 1, 0)};
-  border-radius: 6px;
-  border: solid 1px ${theme.palette.grayCornerBg};
-  &:not(:last-child): {
-    margin-right: ${theme.spacing(1)};
-  }
-`
-)
 const Horizontal = styled('div')`
   display: flex;
-  flex: 1;
+  flex-wrap: wrap;
 `
 
 const messages = {
-  see: 'Voir',
-  email: 'Email',
-  opening: 'Ouverture',
-  click: 'Clic',
-  unsubscribe: 'Désabonnement',
+  update: 'Modifier',
+  emails: 'emails envoyés',
+  open: 'lus',
+  click: 'clics',
+  unsubscribe: 'désabonnements',
 }
 
-const Body = ({ statistics, handleClick }) => {
+const SentBody = ({ statistics }) => {
   const { sent, openings, openingRate, clicks, clickRate, unsubscribes, unsubscribeRate } = statistics
+  const sx = { m: 0.5 }
   return (
-    <Grid container>
+    <Horizontal>
+      <Chip label={`${sent} ${messages.emails}`} variant="outlined" sx={sx} />
+      <Chip label={`${openings} ${messages.open}`} title={`${openingRate}%`} variant="outlined" sx={sx} />
+      <Chip label={`${clicks} ${messages.click}`} title={`${clickRate}%`} variant="outlined" sx={sx} />
+      <Chip
+        label={`${unsubscribes} ${messages.unsubscribe}`}
+        title={`${unsubscribeRate}%`}
+        variant="outlined"
+        sx={sx}
+      />
+    </Horizontal>
+  )
+}
+
+SentBody.propTypes = {
+  statistics: Statistics.propTypes.isRequired,
+}
+
+const Body = ({ message, handleClick }) => {
+  if (!message.draft) {
+    return <SentBody statistics={message.statistics} />
+  }
+
+  return (
+    <CtaButton
+      onClick={handleClick}
+      sx={{
+        color: 'yellow400',
+        '&:hover': {
+          backgroundColor: '#FFFAEE',
+        },
+      }}
+    >
+      {messages.update}
+    </CtaButton>
+
+    /*<Grid container>
       <CardRow>
-        <Horizontal>
-          <CardItem>
-            <Stat number={sent} label={messages.email} wrapNumber={false} />
-          </CardItem>
-          <CardItem>
-            <Stat label={messages.opening} number={openings} rate={openingRate} />
-          </CardItem>
-        </Horizontal>
-        <Horizontal>
-          <CardItem>
-            <Stat label={messages.click} number={clicks} rate={clickRate} />
-          </CardItem>
-          <CardItem>
-            <Stat label={messages.unsubscribe} number={unsubscribes} rate={unsubscribeRate} />
-          </CardItem>
-        </Horizontal>
+        <Button onClick={handleClick}>{messages.update}</Button>
       </CardRow>
-      <CardRow>
-        <Button onClick={handleClick}>{messages.see}</Button>
-      </CardRow>
-    </Grid>
+    </Grid>*/
   )
 }
 
 Body.propTypes = {
-  statistics: Statistics.propTypes.isRequired,
+  message: Message.propTypes.isRequired,
   handleClick: PropTypes.func.isRequired,
 }
 
