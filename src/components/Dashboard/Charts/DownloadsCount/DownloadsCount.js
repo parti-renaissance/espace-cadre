@@ -6,8 +6,9 @@ import { useDashboardDownloadsCache } from '../../../../redux/dashboard/hooks'
 import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useUserScope } from '../../../../redux/user/hooks'
-import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -41,9 +42,18 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  downloads: 'Téléchargement',
+  period: ' lors des 28 derniers jours',
+  subtitle: "De l'application Je m'engage sur les stores Android et Apple",
+  dailyDownloads: 'Téléchargements par jour',
+  errorMessage: "Les données de téléchargement de l'app sont indisponibles",
+}
+
 function DownloadsCount() {
   const classes = useStyles()
   const [dashboardDownloads, setDashboardDownloads] = useDashboardDownloadsCache()
+  const { totalDownloads, downloads } = dashboardDownloads || {}
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
 
@@ -61,24 +71,22 @@ function DownloadsCount() {
   }, [currentScope, dashboardDownloads, setDashboardDownloads])
 
   const dashboardDownloadsContent = () => {
-    if (dashboardDownloads !== null && dashboardDownloads.downloads.length > 0) {
+    if (dashboardDownloads !== null && downloads.length > 0) {
       return (
         <>
           <Grid container className={classes.container}>
-            <span className={classes.countBubble}>{dashboardDownloads.totalDownloads}</span>
+            <span className={classes.countBubble}>{totalDownloads}</span>
             <Grid item>
               <div className={classes.chartTitle}>
-                Téléchargement{dashboardDownloads.downloads[dashboardDownloads.downloads.length - 1].cumsum > 1 && 's'}{' '}
-                lors des 28 derniers jours
+                {pluralize(totalDownloads, messages.downloads)}
+                {messages.period}
               </div>
-              <div className={classes.chartSubtitle}>
-                De l&apos;application Je m&apos;engage sur les stores Android et Apple
-              </div>
+              <div className={classes.chartSubtitle}>{messages.subtitle}</div>
             </Grid>
           </Grid>
           <ResponsiveContainer width="100%" height={250}>
             <AreaChart
-              data={dashboardDownloads.downloads}
+              data={downloads}
               margin={{
                 top: 5,
                 right: 20,
@@ -140,7 +148,7 @@ function DownloadsCount() {
               />
               <Area
                 type="monotone"
-                name="Téléchargements par jour"
+                name={messages.dailyDownloads}
                 dataKey="unique_user"
                 stroke="#0049C6"
                 fillOpacity={1}
@@ -151,19 +159,15 @@ function DownloadsCount() {
           <Grid container>
             <Grid item>
               <li className={classes.legendChart} style={{ color: '#0049C6' }}>
-                Téléchargements par jour{' '}
+                {messages.dailyDownloads}
               </li>
             </Grid>
           </Grid>
         </>
       )
     }
-    if (dashboardDownloads !== null && dashboardDownloads.downloads.length === 0) {
-      return (
-        <UIContainer className={classes.noData}>
-          Les données de téléchargement de l&apos;app sont indisponibles
-        </UIContainer>
-      )
+    if (dashboardDownloads !== null && downloads.length === 0) {
+      return <UIContainer className={classes.noData}>{messages.errorMessage}</UIContainer>
     }
     if (errorMessage) {
       return <ErrorComponent errorMessage={errorMessage} />

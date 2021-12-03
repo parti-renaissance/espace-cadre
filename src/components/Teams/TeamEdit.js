@@ -11,6 +11,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import MemberCard from './MemberCard'
 import Button from 'ui/Button'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
+import { format } from 'date-fns'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,6 +57,7 @@ const messages = {
   noMember: 'Cette équipe ne contient aucun membre',
   editSuccess: 'Membre ajouté avec succès',
   deleteSuccess: 'Membre supprimé avec succès',
+  adhesion: 'adhérent depuis le',
 }
 
 const TeamEdit = () => {
@@ -114,7 +116,12 @@ const TeamEdit = () => {
                   onChange={v => {
                     setSelectedMember(v.uuid ? v : null)
                   }}
-                  getOptionLabel={option => `${option.first_name} ${option.last_name}`}
+                  getOptionLabel={option =>
+                    `${option.first_name} ${option.last_name}, ${option.postal_code}, ${messages.adhesion} ${format(
+                      new Date(option.registered_at),
+                      'dd/MM/yyyy'
+                    )} `
+                  }
                 />
               </Grid>
               <Grid item xs={12}>

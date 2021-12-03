@@ -1,6 +1,7 @@
 import { Dialog, Box, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,6 +47,15 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  confirmationSentence: 'Êtes-vous sûr de vouloir envoyer le message à ',
+  contact: 'contact',
+  questionMark: '?',
+  confirmation: 'Confirmation',
+  cancel: 'Annuler',
+  send: 'Envoyer',
+}
+
 const ModalComponent = ({ open, handleClose, handleSendEmail, recipientCount }) => {
   const classes = useStyles()
 
@@ -57,15 +67,16 @@ const ModalComponent = ({ open, handleClose, handleSendEmail, recipientCount }) 
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <Box className={classes.title}>Confirmation</Box>
+      <Box className={classes.title}>{messages.confirmation}</Box>
       <Box id="alert-dialog-description" className={classes.description}>
         <span>
-          Êtes-vous sûr de vouloir envoyer le message à {recipientCount} contact{recipientCount > 1 && 's'} ?
+          {messages.confirmationSentence}
+          {recipientCount} {pluralize(recipientCount, messages.contact)} {messages.questionMark}
         </span>
       </Box>
       <Box className={classes.buttonContainer}>
         <Button variant="contained" onClick={handleClose} className={classes.cancelButton}>
-          Annuler
+          {messages.cancel}
         </Button>
         <Button
           variant="contained"
@@ -75,7 +86,7 @@ const ModalComponent = ({ open, handleClose, handleSendEmail, recipientCount }) 
           }}
           className={classes.sendButton}
         >
-          Envoyer
+          {messages.send}
         </Button>
       </Box>
     </Dialog>
