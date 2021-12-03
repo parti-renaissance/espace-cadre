@@ -114,7 +114,7 @@ const TeamModal = ({ open, team, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container className={classes.innerContainer}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>Nom</Typography>{' '}
+            <Typography sx={{ fontWeight: 600 }}>Nom</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>

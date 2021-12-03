@@ -1,5 +1,6 @@
 import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import pluralize from 'components/shared/pluralize/pluralize'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
@@ -16,6 +17,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const messages = {
+  member: 'membre',
+}
+
 const Header = ({ teamCount }) => {
   const classes = useStyles()
 
@@ -23,7 +28,7 @@ const Header = ({ teamCount }) => {
     <Grid container className={classes.container}>
       <Grid item>
         <span className={classes.chip}>
-          {teamCount} membre{teamCount > 1 && 's'}
+          {teamCount} {pluralize(teamCount, messages.member)}
         </span>
       </Grid>
     </Grid>

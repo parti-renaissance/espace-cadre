@@ -130,7 +130,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>{messages.title}</Typography>{' '}
+            <Typography sx={{ fontWeight: 600 }}>{messages.title}</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit1}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
@@ -146,7 +146,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>Texte</Typography>{' '}
+            <Typography sx={{ fontWeight: 600 }}>Texte</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
@@ -162,7 +162,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>URL</Typography>{' '}
+            <Typography sx={{ fontWeight: 600 }}>URL</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit3}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
