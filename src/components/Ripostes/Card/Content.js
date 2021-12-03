@@ -5,7 +5,7 @@ import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsAct
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import PropTypes from 'prop-types'
 import Riposte from 'domain/riposte'
-import { pluralize } from '../../shared/pluralize'
+import { pluralize } from 'components/shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   KpiContainer: {

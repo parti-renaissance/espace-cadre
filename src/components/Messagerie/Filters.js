@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
-import ErrorComponent from '../ErrorComponent'
+import ErrorComponent from 'components/ErrorComponent'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
 import {
@@ -19,7 +19,7 @@ import {
   updateSegmentAudience,
 } from 'api/messagerie'
 import paths from 'components/Messagerie/shared/paths'
-import { pluralize } from '../shared/pluralize'
+import { pluralize } from 'components/shared/pluralize'
 
 export const FEATURE_MESSAGES = 'messages'
 
@@ -180,7 +180,7 @@ const Filters = () => {
             <Grid item xs={12} className={classes.messageContainer}>
               {audienceSegment && (
                 <div className={classes.message}>
-                  {messages.addresseesCount}{' '}
+                  {messages.addresseesCount}&nbsp;
                   <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span>
                   {pluralize(audienceSegment.recipient_count, messages.contact)}
                 </div>

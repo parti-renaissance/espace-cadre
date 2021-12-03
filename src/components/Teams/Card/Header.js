@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { pluralize } from '../../shared/pluralize'
+import { pluralize } from 'components/shared/pluralize'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({

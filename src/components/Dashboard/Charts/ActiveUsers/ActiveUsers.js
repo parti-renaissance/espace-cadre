@@ -6,9 +6,9 @@ import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
-import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
-import { pluralize } from '../../../shared/pluralize'
+import { pluralize } from 'components/shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -73,7 +73,7 @@ function ActiveUsers() {
   }, [currentScope, dashboardUsers, setDashboardUsers])
 
   const dashboardUsersContent = () => {
-    if (dashboardUsers !== null && users.length > 0) {
+    if (dashboardUsers && users.length > 0) {
       return (
         <>
           <Grid container className={classes.container}>
@@ -83,7 +83,7 @@ function ActiveUsers() {
                 {pluralize(dashboardUsers?.totalUsers, messages.user)} {messages.period}
               </div>
               <div className={classes.chartSubtitle}>
-                {pluralize(dashboardUsers?.totalUsers, messages.active)} {messages.activeWording}{' '}
+                {pluralize(dashboardUsers?.totalUsers, messages.active)} {messages.activeWording}&nbsp;
               </div>
             </Grid>
           </Grid>

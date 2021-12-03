@@ -1,20 +1,12 @@
-import { useState, useEffect } from 'react'
-import L from 'leaflet'
-import { MapContainer as LeafletContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { useQuery } from 'react-query'
+import { getSurveyMapQuery } from 'api/surveyMap'
+import Loader from 'ui/Loader'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { useDashboardSurveyCache } from '../../../redux/dashboard/hooks'
-import { useUserScope } from '../../../redux/user/hooks'
-import { apiClientProxy } from 'services/networking/client'
-import Loader from 'ui/Loader'
-import ErrorComponent from '../../ErrorComponent/ErrorComponent'
-import { pluralize } from '../../shared/pluralize'
-
-const MapComponentHeader = styled(Grid)(
-  ({ theme }) => `
-  padding: ${theme.spacing(2)}
-`
-)
+import L from 'leaflet'
+import { MapContainer as LeafletContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { pluralize } from 'components/shared/pluralize'
+import { useErrorHandler } from 'components/shared/error/hooks'
 
 const CountBubble = styled('span')(
   ({ theme }) => `
@@ -30,6 +22,7 @@ const CountBubble = styled('span')(
 
 const SurveyCount = styled(Typography)(
   ({ theme }) => `
+  font-size: 16px;
   font-weight: 600;
   color: ${theme.palette.blackCorner};
 `
@@ -60,60 +53,44 @@ const messages = {
 }
 
 function MapComponent() {
+  const { handleError } = useErrorHandler()
+  const { data: surveys = {}, isFetching } = useQuery('surveys', getSurveyMapQuery, { onError: handleError })
   L.Icon.Default.imagePath = '/'
-  const [dashboardSurvey, setDashboardSurvey] = useDashboardSurveyCache()
-  const [currentScope] = useUserScope()
-  const [errorMessage, setErrorMessage] = useState()
-  const { total_surveys: totalSurveys, survey_datas: surveyData, latitude, longitude } = dashboardSurvey || {}
-
-  useEffect(() => {
-    const getSurvey = async () => {
-      try {
-        if (dashboardSurvey === null && currentScope) {
-          setDashboardSurvey(await apiClientProxy.get('/jemengage/survey'))
-        }
-      } catch (error) {
-        setErrorMessage(error)
-      }
-    }
-    getSurvey()
-  }, [currentScope, dashboardSurvey, setDashboardSurvey])
 
   return (
     <>
-      {dashboardSurvey ? (
+      {isFetching && (
+        <Grid container justifyContent="center">
+          <Loader />
+        </Grid>
+      )}
+      {Object.keys(surveys).length > 0 && (
         <>
-          <MapComponentHeader container>
-            <CountBubble>{totalSurveys}</CountBubble>
+          <Grid container sx={{ padding: 2 }}>
+            <CountBubble>{surveys.totalSurveys}</CountBubble>
             <Grid item>
               <SurveyCount display="block">
-                {pluralize(totalSurveys, messages.survey)} {pluralize(totalSurveys, messages.filled)}
+                {pluralize(surveys.totalSurveys, messages.survey)} {pluralize(surveys.totalSurveys, messages.filled)}
               </SurveyCount>
               <Subtitle display="block">{messages.subtitle}</Subtitle>
             </Grid>
-          </MapComponentHeader>
-          <MapContainer center={[latitude, longitude]} zoom={8}>
+          </Grid>
+          <MapContainer center={[surveys.latitude, surveys.longitude]} zoom={8}>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
             />
-
-            {surveyData.map(data => (
+            {surveys.surveyResults.map(data => (
               <Marker key={data.id} position={[data.latitude, data.longitude]}>
                 <Popup>
-                  <strong>{messages.surveyName}</strong> {data.data_survey.survey.name} <br />
-                  <strong>{messages.answeredDate}</strong> {data.data_survey.posted_at}
+                  <strong>{messages.surveyName}</strong> {data.surveyName} <br />
+                  <strong>{messages.answeredDate}</strong> {data.postedAt}
                 </Popup>
               </Marker>
             ))}
           </MapContainer>
         </>
-      ) : (
-        <div xs={{ textAlign: 'center' }}>
-          <Loader />
-        </div>
       )}
-      {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
     </>
   )
 }

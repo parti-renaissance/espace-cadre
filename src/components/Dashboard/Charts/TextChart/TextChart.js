@@ -5,8 +5,8 @@ import Loader from 'ui/Loader'
 import { apiClientProxy } from '../../../../services/networking/client'
 import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks'
 import { useUserScope } from '../../../../redux/user/hooks'
-import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
-import { pluralize } from '../../../shared/pluralize'
+import ErrorComponent from 'components/ErrorComponent'
+import { pluralize } from 'components/shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   dashboardTitle: {
@@ -46,7 +46,7 @@ function TextChart() {
           <Box className={classes.dashboardTitle}>
             {currentScope.name} &gt;
             {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} (
-            {dashboardAdherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
+            {dashboardAdherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}&nbsp;
             {pluralize(dashboardAdherents.adherentCount, messages.adherent)})
           </Box>
         </Box>

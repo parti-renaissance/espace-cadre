@@ -7,9 +7,9 @@ import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
 import { useUserScope } from '../../../../redux/user/hooks'
 import EmailCampaignTitle from './EmailCampaignTitle'
-import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
-import { pluralize } from '../../../shared/pluralize'
+import { pluralize } from 'components/shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   cardContainer: {

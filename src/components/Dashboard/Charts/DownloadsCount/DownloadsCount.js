@@ -6,9 +6,9 @@ import { useDashboardDownloadsCache } from '../../../../redux/dashboard/hooks'
 import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useUserScope } from '../../../../redux/user/hooks'
-import ErrorComponent from '../../../ErrorComponent/ErrorComponent'
+import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
-import { pluralize } from '../../../shared/pluralize'
+import { pluralize } from 'components/shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   container: {

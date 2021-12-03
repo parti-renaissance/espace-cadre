@@ -5,10 +5,10 @@ import { apiClientProxy } from 'services/networking/client'
 import Loader from 'ui/Loader'
 import { useEmailCampaignReportsCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
-import ErrorComponent from 'components/ErrorComponent/ErrorComponent'
+import ErrorComponent from 'components/ErrorComponent'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
-import { pluralize } from '../../../shared/pluralize'
+import { pluralize } from 'components/shared/pluralize'
 
 const useStyles = makeStyles(theme => ({
   bigCard: {
