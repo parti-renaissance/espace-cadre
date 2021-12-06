@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Container, Grid, Card, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useQuery, useMutation } from 'react-query'
 import { addTeamMemberQuery, deleteTeamMemberQuery, getTeamQuery } from 'api/teams'
@@ -11,6 +12,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import MemberCard from './MemberCard'
 import Button from 'ui/Button'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
+import { format } from 'date-fns'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,6 +51,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const Italic = styled('span')`
+  font-style: italic;
+`
+
 const messages = {
   addMembers: 'Ajouter des membres',
   add: 'Ajouter',
@@ -56,6 +62,7 @@ const messages = {
   noMember: 'Cette équipe ne contient aucun membre',
   editSuccess: 'Membre ajouté avec succès',
   deleteSuccess: 'Membre supprimé avec succès',
+  adhesion: 'adhérent depuis le',
 }
 
 const TeamEdit = () => {
@@ -82,11 +89,11 @@ const TeamEdit = () => {
   })
 
   const handleAddTeamMember = () => {
-    addTeamMember(teamId, selectedMember.uuid)
+    addTeamMember({ teamId, memberId: selectedMember.uuid })
   }
 
   const handleDelete = memberId => {
-    deleteTeamMember(teamId, memberId)
+    deleteTeamMember({ teamId, memberId })
   }
 
   return (
@@ -97,7 +104,7 @@ const TeamEdit = () => {
         </Grid>
       </Grid>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={8} lg={7}>
           <Card className={classes.root}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -114,6 +121,15 @@ const TeamEdit = () => {
                   onChange={v => {
                     setSelectedMember(v.uuid ? v : null)
                   }}
+                  renderOption={(props, option) => (
+                    <li key={option.uuid} {...props}>
+                      {option.first_name} {option.last_name}&#44;&nbsp;
+                      <Italic>
+                        {option.postal_code}&#44;&nbsp;{messages.adhesion}&nbsp;
+                        {format(new Date(option.registered_at), 'dd/MM/yyyy')}
+                      </Italic>
+                    </li>
+                  )}
                   getOptionLabel={option => `${option.first_name} ${option.last_name}`}
                 />
               </Grid>
