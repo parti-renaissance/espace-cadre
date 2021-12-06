@@ -33,6 +33,10 @@ const UiTitle = styled(Typography)(
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
 `
 )
 const UiSubTitle = styled(Typography)`
@@ -59,7 +63,7 @@ Header.propTypes = {
 
 export const Title = ({ subject, author }) => (
   <Vertical>
-    <UiTitle>{subject}</UiTitle>
+    <UiTitle component="div">{subject}</UiTitle>
     <UiSubTitle>{author}</UiSubTitle>
   </Vertical>
 )
