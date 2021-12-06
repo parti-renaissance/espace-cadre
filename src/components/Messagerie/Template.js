@@ -8,6 +8,7 @@ import { useCustomSnackbar } from '../shared/notification/hooks'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
 import { createMessageContent, updateMessageContent } from 'api/messagerie'
+import PropTypes from 'prop-types'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -36,9 +37,10 @@ const useStyles = makeStyles(theme => ({
 
 const messages = {
   createSuccess: 'Message créé avec succès',
+  updateSuccess: 'Message modifié avec succès',
 }
 
-const Template = () => {
+const Template = ({ modeUpdate = false }) => {
   const [messageSubject, setMessageSubject] = useState('')
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -67,8 +69,8 @@ const Template = () => {
       const body = await editEmail()
       setMessage(body)
 
-      enqueueSnackbar(messages.createSuccess, notifyVariants.success)
-      navigate(`../${body.uuid}/filtrer`)
+      enqueueSnackbar(modeUpdate ? messages.updateSuccess : messages.createSuccess, notifyVariants.success)
+      modeUpdate ? navigate('../filtrer') : navigate(`../${body.uuid}/filtrer`)
     } catch (e) {
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
     }
@@ -104,3 +106,7 @@ const Template = () => {
 }
 
 export default Template
+
+Template.propTypes = {
+  modeUpdate: PropTypes.bool,
+}
