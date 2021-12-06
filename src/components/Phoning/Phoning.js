@@ -58,7 +58,7 @@ const Phoning = () => {
   const handleNewCampaign = () => {}
   const { handleError } = useErrorHandler()
 
-  const { data: globalKpi = [] } = useQuery('globalKpi', () => getGlobalKpiQuery(), { onError: handleError })
+  const { data: globalKpi = [] } = useQuery('globalKpi', getGlobalKpiQuery, { onError: handleError })
 
   return (
     <Container maxWidth="xl">
@@ -77,11 +77,9 @@ const Phoning = () => {
         <Grid container spacing={2}>
           <CardWrapper lg={2.4} xl={2.4}>
             <Card>
-              <CardContent>
+              <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Kpi>{globalKpi.campaignCount}</Kpi>
-                <br />
                 <KpiTitle>{pluralize(globalKpi.campaignCount, messages.campaign)}</KpiTitle>
-                <br />
                 <SecondaryKpi>
                   {messages.ongoingCampaignsPrefix} {globalKpi.ongoingCampaigns} {messages.ongoingCampaignsSuffix}
                 </SecondaryKpi>
@@ -90,11 +88,9 @@ const Phoning = () => {
           </CardWrapper>
           <CardWrapper lg={2.4} xl={2.4}>
             <Card>
-              <CardContent>
+              <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Kpi>{globalKpi.surveysCount}</Kpi>
-                <br />
                 <KpiTitle>{pluralize(globalKpi.surveysCount, messages.survey)}</KpiTitle>
-                <br />
                 <SecondaryKpi>
                   {globalKpi.lastMonthSurveysCount} {messages.lastMonth}
                 </SecondaryKpi>
@@ -103,11 +99,9 @@ const Phoning = () => {
           </CardWrapper>
           <CardWrapper lg={2.4} xl={2.4}>
             <Card>
-              <CardContent>
+              <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Kpi>{globalKpi.callsCount}</Kpi>
-                <br />
                 <KpiTitle>{pluralize(globalKpi.callsCount, messages.call)}</KpiTitle>
-                <br />
                 <SecondaryKpi>
                   {globalKpi.lastMonthCallsCount} {messages.lastMonth}
                 </SecondaryKpi>
