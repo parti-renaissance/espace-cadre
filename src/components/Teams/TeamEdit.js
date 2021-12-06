@@ -84,11 +84,11 @@ const TeamEdit = () => {
   })
 
   const handleAddTeamMember = () => {
-    addTeamMember(teamId, selectedMember.uuid)
+    addTeamMember({ teamId, memberId: selectedMember.uuid })
   }
 
   const handleDelete = memberId => {
-    deleteTeamMember(teamId, memberId)
+    deleteTeamMember({ teamId, memberId })
   }
 
   return (
@@ -120,7 +120,7 @@ const TeamEdit = () => {
                     `${option.first_name} ${option.last_name}, ${option.postal_code}, ${messages.adhesion} ${format(
                       new Date(option.registered_at),
                       'dd/MM/yyyy'
-                    )} `
+                    )}`
                   }
                 />
               </Grid>
