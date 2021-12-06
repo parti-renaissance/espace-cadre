@@ -55,7 +55,6 @@ context('Nominal tests', () => {
     cy.contains("Campagnes d'emails")
     cy.contains('subject 1')
     cy.contains('subject 2')
-    cy.contains('33.33%(33)')
     cy.contains('Envoyer un email')
   })
 
