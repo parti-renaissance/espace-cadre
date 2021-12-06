@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Container, Grid, Card, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useQuery, useMutation } from 'react-query'
 import { addTeamMemberQuery, deleteTeamMemberQuery, getTeamQuery } from 'api/teams'
@@ -49,6 +50,10 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.gray100,
   },
 }))
+
+const Italic = styled('span')`
+  font-style: italic;
+`
 
 const messages = {
   addMembers: 'Ajouter des membres',
@@ -99,7 +104,7 @@ const TeamEdit = () => {
         </Grid>
       </Grid>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={8} lg={7}>
           <Card className={classes.root}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -116,12 +121,16 @@ const TeamEdit = () => {
                   onChange={v => {
                     setSelectedMember(v.uuid ? v : null)
                   }}
-                  getOptionLabel={option =>
-                    `${option.first_name} ${option.last_name}, ${option.postal_code}, ${messages.adhesion} ${format(
-                      new Date(option.registered_at),
-                      'dd/MM/yyyy'
-                    )}`
-                  }
+                  renderOption={(props, option) => (
+                    <li key={option.uuid} {...props}>
+                      {option.first_name} {option.last_name}&#44;&nbsp;
+                      <Italic>
+                        {option.postal_code}&#44;&nbsp;{messages.adhesion}&nbsp;
+                        {format(new Date(option.registered_at), 'dd/MM/yyyy')}
+                      </Italic>
+                    </li>
+                  )}
+                  getOptionLabel={option => `${option.first_name} ${option.last_name}`}
                 />
               </Grid>
               <Grid item xs={12}>

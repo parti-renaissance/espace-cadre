@@ -28,6 +28,7 @@ const Autocomplete = ({
   required,
   autoCompleteStyle,
   getOptionLabel,
+  renderOption,
   defaultValue,
   value,
 }) => {
@@ -74,8 +75,8 @@ const Autocomplete = ({
     <TextField {...params} variant="outlined" size="small" label={placeholder} required={required} fullWidth />
   )
 
-  const Option = (props, option) => (
-    <li {...props}>
+  const defaultRenderOptions = (props, option) => (
+    <li {...props} key={option[valueParam]}>
       <Typography size="small">{getOptionLabel(option)}</Typography>
     </li>
   )
@@ -98,8 +99,8 @@ const Autocomplete = ({
       filterOptions={x => x}
       renderInput={Input}
       getOptionLabel={getOptionLabel}
+      renderOption={renderOption || defaultRenderOptions}
       isOptionEqualToValue={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
-      renderOption={Option}
       autoComplete
     />
   )
@@ -122,6 +123,7 @@ Autocomplete.propTypes = {
   labelParam: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   getOptionLabel: PropTypes.func.isRequired,
+  renderOption: PropTypes.func,
   placeholder: PropTypes.string,
   multiple: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
