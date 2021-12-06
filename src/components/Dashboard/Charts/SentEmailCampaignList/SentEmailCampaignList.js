@@ -5,10 +5,11 @@ import { getMessages } from 'api/messagerie'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
 import UICard from 'ui/Card'
-import Header from './card/Header'
-import Body from './card/Body'
+import { Header, Title } from './card/Header'
 import { generatePath, useNavigate } from 'react-router-dom'
 import paths from 'components/Messagerie/shared/paths'
+import CtaButton from 'ui/Card/CtaButton/CtaButton'
+import Body from 'components/Dashboard/Charts/SentEmailCampaignList/card/Body'
 
 const useStyles = makeStyles(theme => ({
   noData: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const messages = {
   nocampaign: 'Aucune campagne à afficher',
+  update: 'Modifier',
 }
 
 const SentEmailCampaignList = () => {
@@ -57,14 +59,28 @@ const SentEmailCampaignList = () => {
       <SentEmailCampaignListTitle />
       <Grid container spacing={2}>
         {emailCampaignReports.data.map(message => (
-          <UICard
-            key={message.id}
-            header={<Header createdAt={message.createdAt} draft={message.draft} />}
-            title={message.subject}
-            subtitle={`Par ${message.author}`}
-          >
-            <Body message={message} handleClick={() => handleClick(message.id)} />
-          </UICard>
+          <Grid item key={message.id} lg={3} xl={3} sx={{ flexGrow: 1 }}>
+            <UICard
+              headerTitle={<Header createdAt={message.createdAt} draft={message.draft} />}
+              headerSubtitle={<Title subject={message.subject} author={message.author} />}
+              content={message.draft || <Body statistics={message.statistics} />}
+              actions={
+                message.draft && (
+                  <CtaButton
+                    onClick={handleClick}
+                    sx={{
+                      color: 'yellow400',
+                      '&:hover': {
+                        backgroundColor: '#FFFAEE',
+                      },
+                    }}
+                  >
+                    {messages.update}
+                  </CtaButton>
+                )
+              }
+            />
+          </Grid>
         ))}
       </Grid>
     </>

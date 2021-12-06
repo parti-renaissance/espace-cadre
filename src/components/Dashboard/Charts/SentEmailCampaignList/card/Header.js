@@ -1,13 +1,8 @@
-import { Grid as MuiGrid, Chip } from '@mui/material'
+import { Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
-
-const Grid = styled(MuiGrid)(
-  ({ theme, container }) => `
-  margin-bottom: ${container ? theme.spacing(1) : 0}
-`
-)
+import Chip from 'ui/Card/Chip/Chip'
 
 const UIDate = styled('span')(
   ({ theme }) => `
@@ -22,20 +17,39 @@ const messages = {
   sent: 'Envoyé',
 }
 
-const Header = ({ draft, createdAt }) => (
-  <Grid container data-testid="news-header">
-    <Grid item>
-      <Chip
-        variant="outlined"
-        sx={{ color: draft ? 'gray700' : 'green700', bgcolor: draft ? 'gray200' : 'green200' }}
-        size="small"
-        label={draft ? messages.draft : messages.sent}
-      />
-    </Grid>
-    <Grid item>
-      <UIDate>Le {format(createdAt, "dd/MM/yyyy 'à' HH:mm")}</UIDate>
-    </Grid>
-  </Grid>
+const Vertical = styled('div')`
+  display: flex;
+  flex-direction: column;
+`
+
+const Horizontal = styled('div')`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+`
+const UiTitle = styled(Typography)(
+  ({ theme }) => `
+  color: ${theme.palette.gray900};
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+`
+)
+const UiSubTitle = styled(Typography)`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.palette.gray600};
+`
+
+export const Header = ({ draft, createdAt }) => (
+  <Horizontal>
+    <Chip
+      color={draft ? 'gray700' : 'green700'}
+      backgroundColor={draft ? 'gray200' : 'green200'}
+      label={draft ? messages.draft : messages.sent}
+    />
+    <UIDate>Le {format(createdAt, "dd/MM/yyyy 'à' HH:mm")}</UIDate>
+  </Horizontal>
 )
 
 Header.propTypes = {
@@ -43,4 +57,14 @@ Header.propTypes = {
   createdAt: PropTypes.instanceOf(Date).isRequired,
 }
 
-export default Header
+export const Title = ({ subject, author }) => (
+  <Vertical>
+    <UiTitle>{subject}</UiTitle>
+    <UiSubTitle>{author}</UiSubTitle>
+  </Vertical>
+)
+
+Title.propTypes = {
+  subject: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+}

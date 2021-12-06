@@ -1,8 +1,6 @@
 import { Chip } from '@mui/material'
 import { styled } from '@mui/system'
-import PropTypes from 'prop-types'
-import Message, { Statistics } from 'domain/message'
-import CtaButton from 'ui/Card/CtaButton/CtaButton'
+import { Statistics } from 'domain/message'
 
 const Horizontal = styled('div')`
   display: flex;
@@ -17,7 +15,7 @@ const messages = {
   unsubscribe: 'désabonnements',
 }
 
-const SentBody = ({ statistics }) => {
+const Body = ({ statistics }) => {
   const { sent, openings, openingRate, clicks, clickRate, unsubscribes, unsubscribeRate } = statistics
   const sx = { m: 0.5 }
   return (
@@ -35,39 +33,8 @@ const SentBody = ({ statistics }) => {
   )
 }
 
-SentBody.propTypes = {
-  statistics: Statistics.propTypes.isRequired,
-}
-
-const Body = ({ message, handleClick }) => {
-  if (!message.draft) {
-    return <SentBody statistics={message.statistics} />
-  }
-
-  return (
-    <CtaButton
-      onClick={handleClick}
-      sx={{
-        color: 'yellow400',
-        '&:hover': {
-          backgroundColor: '#FFFAEE',
-        },
-      }}
-    >
-      {messages.update}
-    </CtaButton>
-
-    /*<Grid container>
-      <CardRow>
-        <Button onClick={handleClick}>{messages.update}</Button>
-      </CardRow>
-    </Grid>*/
-  )
-}
-
 Body.propTypes = {
-  message: Message.propTypes.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  statistics: Statistics.propTypes.isRequired,
 }
 
 export default Body
