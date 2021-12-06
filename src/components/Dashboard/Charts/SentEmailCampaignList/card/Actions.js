@@ -17,7 +17,7 @@ const messages = {
   delete: 'Supprimer',
 }
 
-const Actions = ({ messageId }) => {
+const Actions = ({ messageId, del }) => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate(generatePath(':messageId/' + paths.update, { messageId }))
@@ -37,7 +37,7 @@ const Actions = ({ messageId }) => {
         {messages.update}
       </CtaButton>
       <DotsMenu>
-        <DotsMenu.Item onClick={() => {}}>{messages.delete}</DotsMenu.Item>
+        <DotsMenu.Item onClick={del}>{messages.delete}</DotsMenu.Item>
       </DotsMenu>
     </Horizontal>
   )
@@ -47,4 +47,5 @@ export default Actions
 
 Actions.propTypes = {
   messageId: PropTypes.string.isRequired,
+  del: PropTypes.func.isRequired,
 }

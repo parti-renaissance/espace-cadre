@@ -2,7 +2,7 @@ import { apiClient } from 'services/networking/client'
 import PaginatedResult from 'api/paginatedResult'
 import Message, { Statistics } from 'domain/message'
 
-export const getMessages = async cb => {
+export const getMessages = async () => {
   const data = await apiClient.get('/v3/adherent_messages')
 
   const messages = data.items.map(message => {
@@ -22,7 +22,7 @@ export const getMessages = async cb => {
     return new Message(message.uuid, author, message.status, message.subject, message.created_at, stats)
   })
 
-  const paginatedMessages = new PaginatedResult(
+  return new PaginatedResult(
     messages.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
     data.metadata.total_items,
     data.metadata.items_per_page,
@@ -30,10 +30,8 @@ export const getMessages = async cb => {
     data.metadata.current_page,
     data.metadata.last_page
   )
-
-  cb && cb(paginatedMessages)
-  return paginatedMessages
 }
+export const deleteMessage = id => apiClient.delete(`/v3/adherent_messages/${id}`)
 export const messageSynchronizationStatus = async id => {
   const data = await apiClient.get(`/v3/adherent_messages/${id}`)
   return { synchronized: data.synchronized }

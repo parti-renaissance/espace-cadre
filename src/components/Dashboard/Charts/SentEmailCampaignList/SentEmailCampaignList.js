@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { getMessages } from 'api/messagerie'
+import { deleteMessage, getMessages } from 'api/messagerie'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
 import UICard from 'ui/Card'
 import { Header, Title } from './card/Header'
 import Body from 'components/Dashboard/Charts/SentEmailCampaignList/card/Body'
 import Actions from 'components/Dashboard/Charts/SentEmailCampaignList/card/Actions'
+import { useMutation, useQuery } from 'react-query'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import Loader from 'ui/Loader'
 
 const useStyles = makeStyles(theme => ({
   noData: {
@@ -18,22 +22,26 @@ const useStyles = makeStyles(theme => ({
 
 const messages = {
   nocampaign: 'Aucune campagne à afficher',
+  deleteSuccess: 'Brouillon supprimé avec succès',
 }
 
 const SentEmailCampaignList = () => {
   const classes = useStyles()
-  const [emailCampaignReports, setEmailCampaignReports] = useState(null)
+  const { handleError } = useErrorHandler()
+  const { enqueueSnackbar } = useCustomSnackbar()
 
-  useEffect(() => {
-    const getEmailCampaignReports = async () => {
-      try {
-        await getMessages(setEmailCampaignReports)
-      } catch (error) {
-        // TODO snackbar
-      }
-    }
-    getEmailCampaignReports()
-  }, [])
+  const {
+    data: emailCampaignReports = null,
+    refetch,
+    isLoading,
+  } = useQuery('messages', getMessages, { onError: handleError })
+  const { mutate: deleteDraft } = useMutation(deleteMessage, {
+    onSuccess: () => {
+      refetch()
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+    },
+    onError: handleError,
+  })
 
   const noCampaign = !emailCampaignReports || emailCampaignReports.data.length === 0
 
@@ -41,7 +49,7 @@ const SentEmailCampaignList = () => {
     return (
       <>
         <SentEmailCampaignListTitle />
-        <UIContainer rootClasses={classes.noData}>{messages.nocampaign}</UIContainer>
+        <UIContainer rootClasses={classes.noData}>{isLoading ? <Loader /> : messages.nocampaign}</UIContainer>
       </>
     )
   }
@@ -56,7 +64,7 @@ const SentEmailCampaignList = () => {
               headerTitle={<Header createdAt={message.createdAt} draft={message.draft} />}
               headerSubtitle={<Title subject={message.subject} author={message.author} />}
               content={message.draft ? null : <Body statistics={message.statistics} />}
-              actions={message.draft ? <Actions messageId={message.id} /> : null}
+              actions={message.draft ? <Actions messageId={message.id} del={() => deleteDraft(message.id)} /> : null}
             />
           </Grid>
         ))}
