@@ -3,8 +3,12 @@ import { styled } from '@mui/system'
 import PageHeader from 'ui/PageHeader'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useQuery } from 'react-query'
-import { getGlobalKpiQuery } from 'api/phoning'
+import { getGlobalKpiQuery, getPhoningCampaignsQuery } from 'api/phoning'
 import pluralize from 'components/shared/pluralize/pluralize'
+import UICard from 'ui/Card'
+import UIChip from 'ui/Card/Chip/Chip'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 
 const CardWrapper = styled(props => <Grid item {...props} />)`
   flex-grow: 1;
@@ -42,6 +46,14 @@ const SecondaryKpi = styled(Typography)(
 `
 )
 
+const DateTypography = styled(Typography)(
+  ({ theme }) => `
+  font-size: 10px;
+  font-weight: 400;
+  color: ${theme.palette.gray600}
+`
+)
+
 const messages = {
   title: 'Phoning',
   actionButtonText: 'Créer une campagne',
@@ -52,6 +64,7 @@ const messages = {
   lastMonth: 'sur un mois',
   ongoingCampaignsPrefix: 'Dont',
   ongoingCampaignsSuffix: 'en cours',
+  campaigns: 'Campagnes',
 }
 
 const Phoning = () => {
@@ -59,7 +72,8 @@ const Phoning = () => {
   const { handleError } = useErrorHandler()
 
   const { data: globalKpi = [] } = useQuery('globalKpi', getGlobalKpiQuery, { onError: handleError })
-
+  const { data: campaigns = [] } = useQuery('campaigns', getPhoningCampaignsQuery, { onError: handleError })
+  console.log(campaigns)
   return (
     <Container maxWidth="xl">
       <Grid container justifyContent="space-between">
@@ -78,7 +92,7 @@ const Phoning = () => {
           }}
         />
       </Grid>
-      <Paper sx={{ p: 2, background: '#E5E7EB', borderRadius: '12px' }}>
+      <Paper sx={{ p: 2, my: 2, background: '#E5E7EB', borderRadius: '12px' }}>
         <Grid container>
           <Title>{messages.kpiContainerTitle}</Title>
         </Grid>
@@ -118,6 +132,41 @@ const Phoning = () => {
           </CardWrapper>
         </Grid>
       </Paper>
+
+      <Grid container>
+        <Title>{messages.campaigns}</Title>
+      </Grid>
+      <Grid container spacing={2}>
+        {campaigns.map(({ id, endTime, title, creator, teamName, teamMembersCount }) => {
+          return (
+            <Grid item key={id} lg={3} xl={3} sx={{ flexGrow: 1 }}>
+              <UICard
+                rootProps={{ sx: { borderRadius: '8.35px' } }}
+                headerTitle={
+                  <>
+                    <Grid container sx={{ my: 1 }}>
+                      <Grid item sx={{ mx: 1 }}>
+                        {endTime ? (
+                          <UIChip label="Terminé" color="#374151" backgroundColor="rgba(55, 65, 81, 0.08)" />
+                        ) : (
+                          <UIChip label="En cours" color="#047857" backgroundColor="rgba(4, 120, 87, 0.08)" />
+                        )}
+                      </Grid>
+                      <Grid item>
+                        <DateTypography>{format(new Date(endTime), 'dd MMMM yyyy', { locale: fr })}</DateTypography>
+                      </Grid>
+                    </Grid>
+                    <Grid container flexDirection="column">
+                      <Typography variant="subtitle1">{title}</Typography>
+                      <Typography variant="subtitle2">{`${creator} • ${teamName}(${teamMembersCount})`}</Typography>
+                    </Grid>
+                  </>
+                }
+              />
+            </Grid>
+          )
+        })}
+      </Grid>
     </Container>
   )
 }
