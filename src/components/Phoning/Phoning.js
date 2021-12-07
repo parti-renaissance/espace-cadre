@@ -9,6 +9,7 @@ import UICard from 'ui/Card'
 import UIChip from 'ui/Card/Chip/Chip'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import PhoningRatioProgress from './shared/PhoningRatioProgress'
 
 const CardWrapper = styled(props => <Grid item {...props} />)`
   flex-grow: 1;
@@ -65,6 +66,8 @@ const messages = {
   ongoingCampaignsPrefix: 'Dont',
   ongoingCampaignsSuffix: 'en cours',
   campaigns: 'Campagnes',
+  over: 'Terminé',
+  ongoing: 'En cours',
 }
 
 const Phoning = () => {
@@ -73,7 +76,7 @@ const Phoning = () => {
 
   const { data: globalKpi = [] } = useQuery('globalKpi', getGlobalKpiQuery, { onError: handleError })
   const { data: campaigns = [] } = useQuery('campaigns', getPhoningCampaignsQuery, { onError: handleError })
-  console.log(campaigns)
+
   return (
     <Container maxWidth="xl">
       <Grid container justifyContent="space-between">
@@ -137,35 +140,34 @@ const Phoning = () => {
         <Title>{messages.campaigns}</Title>
       </Grid>
       <Grid container spacing={2}>
-        {campaigns.map(({ id, endTime, title, creator, teamName, teamMembersCount }) => {
-          return (
-            <Grid item key={id} lg={3} xl={3} sx={{ flexGrow: 1 }}>
-              <UICard
-                rootProps={{ sx: { borderRadius: '8.35px' } }}
-                headerTitle={
-                  <>
-                    <Grid container sx={{ my: 1 }}>
-                      <Grid item sx={{ mx: 1 }}>
-                        {endTime ? (
-                          <UIChip label="Terminé" color="#374151" backgroundColor="rgba(55, 65, 81, 0.08)" />
-                        ) : (
-                          <UIChip label="En cours" color="#047857" backgroundColor="rgba(4, 120, 87, 0.08)" />
-                        )}
-                      </Grid>
-                      <Grid item>
-                        <DateTypography>{format(new Date(endTime), 'dd MMMM yyyy', { locale: fr })}</DateTypography>
-                      </Grid>
+        {campaigns.map(({ id, endTime, title, creator, teamName, teamMembersCount, goal, callsCount }) => (
+          <Grid item key={id} lg={3} xl={3} sx={{ flexGrow: 1 }}>
+            <UICard
+              rootProps={{ sx: { borderRadius: '8.35px' } }}
+              headerTitle={
+                <>
+                  <Grid container sx={{ my: 1 }}>
+                    <Grid item sx={{ mx: 1 }}>
+                      {endTime ? (
+                        <UIChip label={messages.over} color="#374151" backgroundColor="rgba(55, 65, 81, 0.08)" />
+                      ) : (
+                        <UIChip label={messages.ongoing} color="#047857" backgroundColor="rgba(4, 120, 87, 0.08)" />
+                      )}
                     </Grid>
-                    <Grid container flexDirection="column">
-                      <Typography variant="subtitle1">{title}</Typography>
-                      <Typography variant="subtitle2">{`${creator} • ${teamName}(${teamMembersCount})`}</Typography>
+                    <Grid item>
+                      <DateTypography>{format(new Date(endTime), 'dd MMMM yyyy', { locale: fr })}</DateTypography>
                     </Grid>
-                  </>
-                }
-              />
-            </Grid>
-          )
-        })}
+                  </Grid>
+                  <Grid container flexDirection="column">
+                    <Typography variant="subtitle1">{title}</Typography>
+                    <Typography variant="subtitle2">{`${creator} • ${teamName}(${teamMembersCount})`}</Typography>
+                  </Grid>
+                </>
+              }
+              content={<PhoningRatioProgress count={callsCount} totalCount={goal} />}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Container>
   )
