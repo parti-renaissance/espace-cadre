@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
@@ -17,32 +16,10 @@ const messages = {
   sent: 'Envoyé',
 }
 
-const Vertical = styled('div')`
-  display: flex;
-  flex-direction: column;
-`
-
 const Horizontal = styled('div')`
   display: flex;
   flex-direction: row;
   flex: 1;
-`
-const UiTitle = styled(Typography)(
-  ({ theme }) => `
-  color: ${theme.palette.gray900};
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
-`
-)
-const UiSubTitle = styled(Typography)`
-  font-size: 12px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.palette.gray600};
 `
 
 export const Header = ({ draft, createdAt }) => (
@@ -59,16 +36,4 @@ export const Header = ({ draft, createdAt }) => (
 Header.propTypes = {
   draft: PropTypes.bool,
   createdAt: PropTypes.instanceOf(Date).isRequired,
-}
-
-export const Title = ({ subject, author }) => (
-  <Vertical>
-    <UiTitle component="div">{subject}</UiTitle>
-    <UiSubTitle>{author}</UiSubTitle>
-  </Vertical>
-)
-
-Title.propTypes = {
-  subject: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
 }

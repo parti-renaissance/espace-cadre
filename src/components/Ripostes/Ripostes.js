@@ -8,9 +8,11 @@ import Riposte from 'domain/riposte'
 import { getRipostesQuery, updateRiposteStatusQuery } from 'api/ripostes'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
-import Card from 'ui/Card/CardDeprecated'
 import Header from './Card/Header'
 import Content from './Card/Content'
+import UICard from 'ui/Card'
+import { Title } from 'ui/Card/Title/Title'
+import Actions from 'components/Ripostes/Card/Actions'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -58,7 +60,7 @@ const Ripostes = () => {
       prevRipostes
         .filter(r => r.id !== id)
         .concat(toggledRiposte)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+        .sort((a, b) => +b.createdAt - +a.createdAt),
     []
   )
 
@@ -85,11 +87,19 @@ const Ripostes = () => {
             {messages.create}
           </Button>
         </Grid>
+
         <Grid container spacing={2}>
           {ripostes.map(r => (
-            <Card key={r.id} header={<Header {...r} />} title={r.title} subtitle={`Par ${r.creator}`}>
-              <Content riposte={r} handleEdit={handleEdit(r.id)} toggleStatus={toggleRiposteStatus} />
-            </Card>
+            <Grid item key={r.id} lg={3} xl={3} sx={{ flexGrow: 1 }}>
+              <UICard
+                headerTitle={<Header {...r} />}
+                headerSubtitle={<Title subject={r.title} author={`Par ${r.creator}`} />}
+                content={<Content riposte={r} handleEdit={handleEdit(r.id)} toggleStatus={toggleRiposteStatus} />}
+                actions={
+                  <Actions toggleStatus={() => toggleRiposteStatus(r.id)} onEdit={handleEdit(r.id)} status={r.status} />
+                }
+              />
+            </Grid>
           ))}
         </Grid>
         <CreateEditModal

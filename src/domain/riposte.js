@@ -22,7 +22,7 @@ export default class Riposte {
     this.withNotification = withNotification
     this.status = status
     this.creator = creator
-    this.createdAt = createdAt
+    this.createdAt = new Date(createdAt)
     this.views = views
     this.detailViews = detailViews
     this.sourceViews = sourceViews
@@ -142,7 +142,7 @@ Riposte.propTypes = PropTypes.shape({
   withNotification: PropTypes.bool.isRequired,
   status: PropTypes.bool.isRequired,
   creator: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
+  createdAt: PropTypes.object.isRequired,
   views: PropTypes.number.isRequired,
   detailViews: PropTypes.number.isRequired,
   sourceViews: PropTypes.number.isRequired,
