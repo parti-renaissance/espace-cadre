@@ -122,14 +122,14 @@ const PhoningCampaignKPI = ({ dayRemaining, surveys, calls, averageTime }) => (
 )
 
 PhoningCampaignKPI.propTypes = {
-  dayRemaining: PropTypes.string.isRequired,
+  dayRemaining: PropTypes.number.isRequired,
   surveys: PropTypes.shape({
-    count: PropTypes.string.isRequired,
-    goal: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    goal: PropTypes.number.isRequired,
   }),
   calls: PropTypes.shape({
-    count: PropTypes.string.isRequired,
-    toRemind: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    toRemind: PropTypes.number.isRequired,
   }),
   averageTime: PropTypes.string.isRequired,
 }

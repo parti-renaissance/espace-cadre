@@ -1,6 +1,11 @@
 import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { useParams } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
+
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { getPhoningCampaignQuery } from 'api/phoning'
 import PageHeader from 'ui/PageHeader'
 import CampaignCalling from './CampaignCalling'
 import CampaignCalls from './CampaignCalls'
@@ -34,6 +39,12 @@ const messages = {
 
 export const PhoningCampaign = () => {
   const [selectedTab, setSelectedTab] = useState(messages.calling.id)
+  const { campaignId } = useParams()
+  const { handleError } = useErrorHandler()
+  const { data: campaign = {} } = useQuery('campaign', () => getPhoningCampaignQuery(campaignId), {
+    onError: handleError,
+  })
+
   const handleChange = (_, tabId) => {
     setSelectedTab(tabId)
   }
@@ -49,12 +60,14 @@ export const PhoningCampaign = () => {
         />
       </Grid>
       <Grid container justifyContent="space-between">
-        <PhoningCampaignKPI
-          dayRemaining={KPIMock.dayRemaining}
-          surveys={KPIMock.surveys}
-          calls={KPIMock.calls}
-          averageTime={KPIMock.averageTime}
-        />
+        {Object.keys(campaign).length > 0 && (
+          <PhoningCampaignKPI
+            dayRemaining={campaign.dayRemaining}
+            surveys={campaign.surveys}
+            calls={campaign.calls}
+            averageTime={campaign.averageTime}
+          />
+        )}
 
         <Tabs
           value={selectedTab}
