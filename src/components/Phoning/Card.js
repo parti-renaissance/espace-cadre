@@ -12,7 +12,7 @@ const UICard = ({
   actionsProps = {},
 }) => (
   <Card {...rootProps}>
-    {headerTitle && <CardHeader {...headerProps} title={headerTitle} subheader={headerSubtitle} />}
+    {headerTitle && <CardHeader title={headerTitle} subheader={headerSubtitle} disableTypography {...headerProps} />}
 
     <CardContent sx={{ ...(contentProps.sx || {}), py: 0 }} {...contentProps}>
       {content}

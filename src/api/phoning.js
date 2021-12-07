@@ -1,5 +1,5 @@
 import { apiClient } from 'services/networking/client'
-import { differenceInDays } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
 
 import GlobalKpi from '../domain/phoning'
 
@@ -45,4 +45,27 @@ export const getPhoningCampaignCallers = async campaignId => {
     })
   })
   return callers
+}
+
+export const getPhoningCampaignHistory = async campaignId => {
+  const data = await apiClient.get(`api/v3/phoning_campaign_histories?campaign.uuid=${campaignId}`)
+  const history = []
+  data?.items.forEach(h => {
+    history.push({
+      id: h.uuid,
+      status: h.status,
+      adherent: {
+        firstName: h.adherent.first_name,
+        lastName: h.adherent.last_name,
+        gender: h.adherent.gender,
+        age: h.adherent.age,
+      },
+      caller: {
+        firstName: h.caller.first_name,
+        lastName: h.caller.last_name,
+      },
+      updateTime: format(new Date(h.begin_at), 'dd/MM/yyyy hh:mm'),
+    })
+  })
+  return history
 }

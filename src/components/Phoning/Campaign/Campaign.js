@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router'
+import { v1 as uuid } from 'uuid'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
 
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { getPhoningCampaignQuery, getPhoningCampaignCallers } from 'api/phoning'
+import { getPhoningCampaignQuery, getPhoningCampaignCallers, getPhoningCampaignHistory } from 'api/phoning'
 import PageHeader from 'ui/PageHeader'
 import CampaignCallers from './CampaignCallers'
-import CampaignCalls from './CampaignCalls'
+import CampaignHistory from './CampaignHistory'
 import CampaignSurveys from './CampaignSurveys'
 import PhoningCampaignKPI from './CampaignKPI'
-
-import { callsMock, surveysMock } from './mocks'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -38,18 +37,25 @@ const messages = {
 }
 
 export const PhoningCampaign = () => {
-  const [selectedTab, setSelectedTab] = useState(messages.calling.id)
+  const [selectedTab, setSelectedTab] = useState(messages.calls.id)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
   const { data: campaign = {} } = useQuery('campaign', () => getPhoningCampaignQuery(campaignId), {
     onError: handleError,
   })
-  const { data: callers = [] } = useQuery('campaignCallers', () => getPhoningCampaignCallers(campaignId), {
+  const { data: callers = [] } = useQuery('callers', () => getPhoningCampaignCallers(campaignId), {
+    onError: handleError,
+  })
+  const { data: history = [] } = useQuery(['history'], () => getPhoningCampaignHistory(campaignId), {
     onError: handleError,
   })
 
   const handleChange = (_, tabId) => {
     setSelectedTab(tabId)
+  }
+
+  const handleHistoryView = id => () => {
+    // TODO: View modal
   }
 
   return (
@@ -85,8 +91,8 @@ export const PhoningCampaign = () => {
               label={
                 <TabLabel>
                   {id === messages.calling.id && `${callers.length} `}
-                  {id === messages.calls.id && `${callsMock.length} `}
-                  {id === messages.surveys.id && `${surveysMock.length} `}
+                  {id === messages.calls.id && `${history.length} `}
+                  {id === messages.surveys.id && `${[].length} `}
                   {label}
                 </TabLabel>
               }
@@ -100,7 +106,7 @@ export const PhoningCampaign = () => {
           <Grid container spacing={2}>
             {callers.map((caller, index) => (
               <CampaignCallers
-                key={index}
+                key={uuid()}
                 number={index + 1}
                 firstName={caller.firstName}
                 lastName={caller.lastName}
@@ -110,8 +116,21 @@ export const PhoningCampaign = () => {
             ))}
           </Grid>
         )}
-        {selectedTab === messages.calls.id && <CampaignCalls calls={callsMock} />}
-        {selectedTab === messages.surveys.id && <CampaignSurveys surveys={surveysMock} />}
+        {selectedTab === messages.calls.id && (
+          <Grid container spacing={2}>
+            {history.map(element => (
+              <CampaignHistory
+                key={element.id}
+                status={element.status}
+                adherent={element.adherent}
+                caller={element.caller}
+                updateTime={element.updateTime}
+                handleClick={handleHistoryView(element.id)}
+              />
+            ))}
+          </Grid>
+        )}
+        {selectedTab === messages.surveys.id && <CampaignSurveys />}
       </Grid>
     </Container>
   )

@@ -78,8 +78,8 @@ export const styles = {
       background: {
         hover: '#F0EFFB',
         chip: {
-          unsubscribed: 'rgba(245, 158, 11, 0.08)',
           sent: 'rgba(3, 105, 161, 0.08)',
+          unsubscribed: 'rgba(245, 158, 11, 0.08)',
           completed: 'rgba(4, 120, 87, 0.08)',
         },
         progressBar: {
