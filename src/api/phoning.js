@@ -30,5 +30,19 @@ export const getPhoningCampaignQuery = async campaignId => {
     surveys: { count: data.nb_surveys, goal: data.goal * data.team.members_count },
     calls: { count: data.nb_calls, toRemind: data.to_remind },
     averageTime: secondsToMinutesAndSeconds(data.average_calling_time),
+    goalPerCaller: data.goal,
   }
+}
+
+export const getPhoningCampaignCallers = async campaignId => {
+  const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/callers`)
+  const callers = []
+  data.forEach(c => {
+    callers.push({
+      firstName: c.firstName,
+      lastName: c.lastName,
+      count: Number(c.nb_surveys),
+    })
+  })
+  return callers
 }

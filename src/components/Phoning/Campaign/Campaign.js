@@ -5,14 +5,14 @@ import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
 
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { getPhoningCampaignQuery } from 'api/phoning'
+import { getPhoningCampaignQuery, getPhoningCampaignCallers } from 'api/phoning'
 import PageHeader from 'ui/PageHeader'
-import CampaignCalling from './CampaignCalling'
+import CampaignCallers from './CampaignCallers'
 import CampaignCalls from './CampaignCalls'
 import CampaignSurveys from './CampaignSurveys'
 import PhoningCampaignKPI from './CampaignKPI'
 
-import { callingMock, callsMock, KPIMock, surveysMock } from './mocks'
+import { callsMock, surveysMock } from './mocks'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -42,6 +42,9 @@ export const PhoningCampaign = () => {
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
   const { data: campaign = {} } = useQuery('campaign', () => getPhoningCampaignQuery(campaignId), {
+    onError: handleError,
+  })
+  const { data: callers = [] } = useQuery('campaignCallers', () => getPhoningCampaignCallers(campaignId), {
     onError: handleError,
   })
 
@@ -81,7 +84,7 @@ export const PhoningCampaign = () => {
               value={id}
               label={
                 <TabLabel>
-                  {id === messages.calling.id && `${callingMock.length} `}
+                  {id === messages.calling.id && `${callers.length} `}
                   {id === messages.calls.id && `${callsMock.length} `}
                   {id === messages.surveys.id && `${surveysMock.length} `}
                   {label}
@@ -93,7 +96,20 @@ export const PhoningCampaign = () => {
           ))}
         </Tabs>
 
-        {selectedTab === messages.calling.id && <CampaignCalling calling={callingMock} />}
+        {selectedTab === messages.calling.id && campaign.goalPerCaller?.toString() && (
+          <Grid container spacing={2}>
+            {callers.map((caller, index) => (
+              <CampaignCallers
+                key={index}
+                number={index + 1}
+                firstName={caller.firstName}
+                lastName={caller.lastName}
+                count={caller.count}
+                goal={campaign.goalPerCaller}
+              />
+            ))}
+          </Grid>
+        )}
         {selectedTab === messages.calls.id && <CampaignCalls calls={callsMock} />}
         {selectedTab === messages.surveys.id && <CampaignSurveys surveys={surveysMock} />}
       </Grid>
