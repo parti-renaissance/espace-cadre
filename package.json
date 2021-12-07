@@ -9,7 +9,7 @@
     "@mui/icons-material": "5.2.1",
     "@mui/lab": "5.0.0-alpha.58",
     "@mui/material": "5.2.2",
-    "@mui/styles": "5.2.2",
+    "@mui/styles": "5.2.3",
     "@mui/system": "5.2.3",
     "@reduxjs/toolkit": "1.6.2",
     "@sentry/react": "6.15.0",
