@@ -8,16 +8,17 @@ const abandoned = 'interrupted-dont-remind'
 const interrupted = 'interrupted'
 const completed = 'completed'
 
+export const defaultChipColor = { color: 'gray600', backgroundColor: 'gray200' }
 export const chipColorsByStatus = {
-  [sent]: { color: 'lightBlue700', backgroundColor: 'phoning.background.chip.sent' },
-  [unsubscribed]: { color: 'yellow500', backgroundColor: 'phoning.background.chip.unsubscribed' },
-  [unreachable]: { color: 'gray600', backgroundColor: 'gray200' },
-  [unanswered]: { color: 'gray600', backgroundColor: 'gray200' },
-  [toRemind]: { color: 'gray600', backgroundColor: 'gray200' },
-  [refused]: { color: 'gray600', backgroundColor: 'gray200' },
-  [abandoned]: { color: 'gray600', backgroundColor: 'gray200' },
-  [interrupted]: { color: 'gray600', backgroundColor: 'gray200' },
-  [completed]: { color: 'green700', backgroundColor: 'phoning.background.chip.completed' },
+  [sent]: { color: 'lightBlue700', bgcolor: 'phoning.background.chip.sent' },
+  [unsubscribed]: { color: 'yellow500', bgcolor: 'phoning.background.chip.unsubscribed' },
+  [unreachable]: defaultChipColor,
+  [unanswered]: defaultChipColor,
+  [toRemind]: defaultChipColor,
+  [refused]: defaultChipColor,
+  [abandoned]: defaultChipColor,
+  [interrupted]: defaultChipColor,
+  [completed]: { color: 'green700', bgcolor: 'phoning.background.chip.completed' },
 }
 
 export const chipLabelByStatus = {

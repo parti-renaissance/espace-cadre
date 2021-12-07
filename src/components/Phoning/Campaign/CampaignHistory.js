@@ -2,10 +2,11 @@ import PropTypes from 'prop-types'
 import { Button as MuiButton, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { chipColorsByStatus, chipLabelByStatus, translatedGender } from './shared/constants'
+import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
+import { TruncatedText } from './shared/components'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import UICard from '../Card'
-import Chip from '../Chip'
+import UICard from 'ui/Card/Card'
+import UIChip from 'ui/Card/Chip/Chip'
 
 const HeaderWrapper = styled('div')({
   '& .MuiCardHeader-content': {
@@ -14,11 +15,6 @@ const HeaderWrapper = styled('div')({
     overflow: 'hidden',
   },
 })
-const TruncatedText = styled(Typography)`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
 const ChipLabel = styled(Typography)`
   font-size: 10px;
   font-weight: 500;
@@ -58,26 +54,27 @@ const messages = {
 
 const PhoningCampaignHistory = ({ status, adherent, caller, updateTime, handleClick }) => {
   const chipLabel = chipLabelByStatus[status]
-  const chipColors = chipColorsByStatus[status] || {}
-  const genre = translatedGender[adherent.gender]
+  const chipColors = chipColorsByStatus?.[status] || defaultChipColor
+  const gender = translatedGender[adherent.gender]
   return (
-    <Grid item lg={3} xl={3} sx={{ flexGrow: 1 }}>
+    <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
       <UICard
         rootProps={{ sx: { borderRadius: '8px' } }}
         headerTitle={
-          <TruncatedText variant="subtitle1">
+          <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
             {adherent.firstName} {adherent.lastName}
           </TruncatedText>
         }
         headerSubtitle={
           <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-            {genre}&#44;&nbsp;{adherent.age}&nbsp;{messages.years}
+            {gender && `${gender}, `}
+            {adherent.age && `${adherent.age} ${messages.years}`}
           </Typography>
         }
         headerProps={{ component: HeaderWrapper, sx: { pb: 1 } }}
         content={
           <>
-            <Chip label={<ChipLabel>{chipLabel}</ChipLabel>} {...chipColors} />
+            <UIChip label={<ChipLabel>{chipLabel}</ChipLabel>} {...chipColors} />
             <Grid container direction="column" sx={{ pt: 2 }}>
               <Author sx={{ pb: 0.5 }}>
                 {caller.firstName} {caller.lastName}
@@ -96,14 +93,14 @@ const PhoningCampaignHistory = ({ status, adherent, caller, updateTime, handleCl
 PhoningCampaignHistory.propTypes = {
   status: PropTypes.string.isRequired,
   adherent: PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    gender: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    gender: PropTypes.string,
+    age: PropTypes.number,
   }).isRequired,
   caller: PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
   }).isRequired,
   updateTime: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,

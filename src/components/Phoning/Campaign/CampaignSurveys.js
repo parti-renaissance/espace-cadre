@@ -1,10 +1,7 @@
-import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
 
-const PhoningCampaignSurveys = ({ surveys = [] }) => <Grid container spacing={2}></Grid>
+const PhoningCampaignSurveys = () => <Grid container spacing={2}></Grid>
 
-PhoningCampaignSurveys.propTypes = {
-  surveys: PropTypes.array.isRequired,
-}
+PhoningCampaignSurveys.propTypes = {}
 
 export default PhoningCampaignSurveys

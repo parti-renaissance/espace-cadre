@@ -12,9 +12,9 @@ const UICard = ({
   actionsProps = {},
 }) => (
   <Card {...rootProps}>
-    {headerTitle && <CardHeader {...headerProps} title={headerTitle} subheader={headerSubtitle} />}
+    {headerTitle && <CardHeader title={headerTitle} subheader={headerSubtitle} disableTypography {...headerProps} />}
 
-    <CardContent {...contentProps} sx={{ ...(contentProps.sx || {}), py: 0 }}>
+    <CardContent sx={{ ...(contentProps.sx || {}), py: 0 }} {...contentProps}>
       {content}
     </CardContent>
 

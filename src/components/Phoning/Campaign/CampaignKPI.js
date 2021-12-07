@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import { Grid, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import UICard from '../Card'
+import UICard from 'ui/Card/Card'
+import { CardRootWrapper, CardContentWrapper } from './shared/components'
 import PhoningRatioProgress from '../shared/PhoningRatioProgress'
 
 const KPIWrapper = styled(Paper)(
@@ -13,7 +14,7 @@ const KPIWrapper = styled(Paper)(
   border-radius: 12px;
 `
 )
-const Title = styled(Typography)(
+const KPITitle = styled(Typography)(
   ({ theme }) => `
 	margin: ${theme.spacing(1, 0, 2, 1)};
 	font-size: 18px;
@@ -21,28 +22,30 @@ const Title = styled(Typography)(
   line-height: 27px;
 `
 )
-const SubTitle = styled(props => <Typography component="div" variant="subtitle1" {...props} />)(
+const Score = styled(Typography)(
+  ({ theme }) => `
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 42px;
+  color: ${theme.palette.phoning.background.ratio.current};
+`
+)
+const SubTitle = styled(props => <Typography variant="subtitle1" {...props} />)(
   ({ theme }) => `
   color: ${theme.palette.gray900};
 `
 )
-const SubTitleDetail = styled(props => <Typography component="div" variant="subtitle2" {...props} />)(
+const SubTitleDetail = styled(props => <Typography variant="subtitle2" {...props} />)(
   ({ theme }) => `
   color: ${theme.palette.gray600};
-`
-)
-const Score = styled(Typography)(
-  ({ theme }) => `
-  color: ${theme.palette.phoning.background.ratio.current};
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 42px;
 `
 )
 
 const messages = {
   title: 'Indicateurs',
   dayRemaining: 'Jours restants',
+  periodFrom: 'Du',
+  periodTo: 'au',
   surveys: 'Questionnaires',
   calls: 'Appels passés',
   callsToRemindPrefix: 'Dont',
@@ -52,34 +55,48 @@ const messages = {
   averageTimeDetail: 'Passé par appel',
 }
 
-const PhoningCampaignKPI = ({ dayRemaining, surveys, calls, averageTime }) => (
+const PhoningCampaignKPI = ({ remaining, surveys, calls, averageTime }) => (
   <KPIWrapper>
     <Grid container>
-      <Title>{messages.title}</Title>
+      <KPITitle>{messages.title}</KPITitle>
     </Grid>
 
     <Grid container spacing={2}>
-      <Grid item lg={2.4} xl={2.4} sx={{ flexGrow: 1 }}>
+      <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
         <UICard
+          rootProps={{ component: CardRootWrapper }}
+          contentProps={{ component: CardContentWrapper }}
           content={
             <>
-              <Score>{dayRemaining}</Score>
+              <Score>{remaining?.days}</Score>
               <SubTitle>{messages.dayRemaining}</SubTitle>
+              <SubTitleDetail>
+                {messages.periodFrom}&nbsp;
+                {remaining?.periodeStart}&nbsp;
+                {messages.periodTo}&nbsp;
+                {remaining?.periodeEnd}
+              </SubTitleDetail>
             </>
           }
-          contentProps={{ sx: { pt: 3, '&:last-child': { pb: 2 } } }}
         />
       </Grid>
-      <Grid item lg={2.4} xl={2.4} sx={{ flexGrow: 1 }}>
+      <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
         <UICard
+          rootProps={{
+            component: props => (
+              <CardRootWrapper direction="column" alignItems="flex-start" justifyContent="center" {...props} />
+            ),
+          }}
+          headerProps={{ sx: { pt: 0, pb: 3, px: 2 } }}
+          contentProps={{ component: CardContentWrapper }}
           headerTitle={<SubTitle>{messages.surveys}</SubTitle>}
-          headerProps={{ sx: { pt: 3, pb: 1 } }}
           content={<PhoningRatioProgress count={surveys.count} totalCount={surveys.goal} />}
-          contentProps={{ sx: { '&:last-child': { pb: 2 } } }}
         />
       </Grid>
-      <Grid item lg={2.4} xl={2.4} sx={{ flexGrow: 1 }}>
+      <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
         <UICard
+          rootProps={{ component: CardRootWrapper }}
+          contentProps={{ component: CardContentWrapper }}
           content={
             <>
               <Score>{calls.count}</Score>
@@ -91,22 +108,12 @@ const PhoningCampaignKPI = ({ dayRemaining, surveys, calls, averageTime }) => (
               </SubTitleDetail>
             </>
           }
-          contentProps={{ sx: { pt: 3, '&:last-child': { pb: 2 } } }}
         />
       </Grid>
-      <Grid item lg={2.4} xl={2.4} sx={{ flexGrow: 1 }}>
+      <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
         <UICard
-          content={
-            <>
-              <Score>A venir</Score>
-              <SubTitle>{messages.contacts}</SubTitle>
-            </>
-          }
-          contentProps={{ sx: { pt: 3, '&:last-child': { pb: 2 } } }}
-        />
-      </Grid>
-      <Grid item lg={2.4} xl={2.4} sx={{ flexGrow: 1 }}>
-        <UICard
+          rootProps={{ component: CardRootWrapper }}
+          contentProps={{ component: CardContentWrapper }}
           content={
             <>
               <Score>{averageTime}</Score>
@@ -114,7 +121,6 @@ const PhoningCampaignKPI = ({ dayRemaining, surveys, calls, averageTime }) => (
               <SubTitleDetail>{messages.averageTimeDetail}</SubTitleDetail>
             </>
           }
-          contentProps={{ sx: { pt: 3, '&:last-child': { pb: 2 } } }}
         />
       </Grid>
     </Grid>
@@ -122,7 +128,11 @@ const PhoningCampaignKPI = ({ dayRemaining, surveys, calls, averageTime }) => (
 )
 
 PhoningCampaignKPI.propTypes = {
-  dayRemaining: PropTypes.number.isRequired,
+  remaining: PropTypes.shape({
+    days: PropTypes.number.isRequired,
+    periodeStart: PropTypes.string.isRequired,
+    periodeEnd: PropTypes.string.isRequired,
+  }),
   surveys: PropTypes.shape({
     count: PropTypes.number.isRequired,
     goal: PropTypes.number.isRequired,

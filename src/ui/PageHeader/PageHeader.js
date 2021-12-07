@@ -3,13 +3,13 @@ import PageTitle from 'ui/PageTitle'
 import AddButton from 'ui/AddButton'
 import PropTypes from 'prop-types'
 
-const PageHeader = ({ title, message, parentStyles, handleAction }) => (
+const PageHeader = ({ title, message, handleAction, actionButtonProps }) => (
   <>
     <Grid item>
       <PageTitle title={title} />
     </Grid>
     <Grid item>
-      <AddButton message={message} parentStyles={parentStyles} handleAction={handleAction} />
+      <AddButton message={message} handleAction={handleAction} {...actionButtonProps} />
     </Grid>
   </>
 )
@@ -17,8 +17,8 @@ const PageHeader = ({ title, message, parentStyles, handleAction }) => (
 export default PageHeader
 
 PageHeader.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
   message: PropTypes.string.isRequired,
-  parentStyles: PropTypes.object.isRequired,
+  actionButtonProps: PropTypes.object,
   handleAction: PropTypes.func.isRequired,
 }

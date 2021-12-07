@@ -76,6 +76,7 @@ export const styles = {
     },
     phoning: {
       background: {
+        main: '#4338CA',
         hover: '#F0EFFB',
         chip: {
           sent: 'rgba(3, 105, 161, 0.08)',

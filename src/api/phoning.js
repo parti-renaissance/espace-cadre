@@ -1,5 +1,5 @@
 import { apiClient } from 'services/networking/client'
-import { differenceInDays, format } from 'date-fns'
+import { differenceInCalendarDays, format } from 'date-fns'
 
 import GlobalKpi from '../domain/phoning'
 
@@ -26,7 +26,12 @@ const secondsToMinutesAndSeconds = seconds => {
 export const getPhoningCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}`)
   return {
-    dayRemaining: differenceInDays(new Date(data.finish_at), new Date()),
+    title: data.title,
+    remaining: {
+      days: differenceInCalendarDays(new Date(data.finish_at), new Date()),
+      periodeStart: format(new Date(data.created_at), 'dd/MM/yyyy'),
+      periodeEnd: format(new Date(data.finish_at), 'dd/MM/yyyy'),
+    },
     surveys: { count: data.nb_surveys, goal: data.goal * data.team.members_count },
     calls: { count: data.nb_calls, toRemind: data.to_remind },
     averageTime: secondsToMinutesAndSeconds(data.average_calling_time),
@@ -54,16 +59,20 @@ export const getPhoningCampaignHistory = async campaignId => {
     history.push({
       id: h.uuid,
       status: h.status,
-      adherent: {
-        firstName: h.adherent.first_name,
-        lastName: h.adherent.last_name,
-        gender: h.adherent.gender,
-        age: h.adherent.age,
-      },
-      caller: {
-        firstName: h.caller.first_name,
-        lastName: h.caller.last_name,
-      },
+      adherent: h.adherent
+        ? {
+            firstName: h.adherent.first_name,
+            lastName: h.adherent.last_name,
+            gender: h.adherent.gender,
+            age: h.adherent.age,
+          }
+        : {},
+      caller: h.caller
+        ? {
+            firstName: h.caller.first_name,
+            lastName: h.caller.last_name,
+          }
+        : {},
       updateTime: format(new Date(h.begin_at), 'dd/MM/yyyy hh:mm'),
     })
   })

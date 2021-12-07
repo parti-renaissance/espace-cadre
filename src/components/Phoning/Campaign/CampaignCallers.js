@@ -1,20 +1,26 @@
 import PropTypes from 'prop-types'
-import { v1 as uuid } from 'uuid'
-import { Grid, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 
-import UICard from '../Card'
+import UICard from 'ui/Card/Card'
+import { CardRootWrapper, CardContentWrapper, TruncatedText } from './shared/components'
 import PhoningRatioProgress from '../shared/PhoningRatioProgress'
 
 const PhoningCampaignCallers = ({ number, firstName, lastName, count, goal }) => (
-  <Grid item key={uuid()} lg={3} xl={3} sx={{ flexGrow: 1 }}>
+  <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
     <UICard
+      rootProps={{
+        component: props => (
+          <CardRootWrapper direction="column" alignItems="flex-start" justifyContent="center" {...props} />
+        ),
+      }}
+      headerProps={{ sx: { pt: 0, pb: 3, px: 2, '& .MuiCardHeader-content': { overflow: 'hidden' } } }}
+      contentProps={{ component: CardContentWrapper }}
       headerTitle={
-        <Typography variant="subtitle1" sx={{ color: 'gray900' }}>
+        <TruncatedText variant="subtitle1" sx={{ color: 'gray900' }} title={`${firstName} ${lastName}`}>
           {number}. {firstName} {lastName}
-        </Typography>
+        </TruncatedText>
       }
       content={goal && <PhoningRatioProgress count={count} totalCount={goal} />}
-      contentProps={{ sx: { '&:last-child': { pb: 2 } } }}
     />
   </Grid>
 )

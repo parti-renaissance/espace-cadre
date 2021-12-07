@@ -5,14 +5,20 @@ import { v1 as uuid } from 'uuid'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { useErrorHandler } from 'components/shared/error/hooks'
 import { getPhoningCampaignQuery, getPhoningCampaignCallers, getPhoningCampaignHistory } from 'api/phoning'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import pluralize from 'components/shared/pluralize/pluralize'
 import PageHeader from 'ui/PageHeader'
 import CampaignCallers from './CampaignCallers'
 import CampaignHistory from './CampaignHistory'
 import CampaignSurveys from './CampaignSurveys'
 import PhoningCampaignKPI from './CampaignKPI'
 
+const PageTitle = styled(Typography)`
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 36px;
+`
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
   color: theme.palette.gray400,
@@ -22,22 +28,21 @@ const Tab = styled(MuiTab)(({ theme }) => ({
 }))
 const TabLabel = styled(Typography)`
   font-size: 18px;
-  font-weigh: 400;
+  font-weight: 400;
 `
 
 const messages = {
-  title: 'Phoning',
-  subtitle: 'Consultation spéciale',
-  headerActionLabel: 'modifier',
-  calling: { id: 'calling', label: 'appelants' },
-  calls: { id: 'calls', label: 'appels' },
-  surveys: { id: 'survey', label: 'questionnaires' },
+  pageTitle: 'Phoning',
+  modify: 'modifier',
   surveysTitle: 'Questionnaires',
   KPITitle: 'Indicateurs',
+  callers: { id: 'callers', label: 'appelant' },
+  history: { id: 'history', label: 'appel' },
+  surveys: { id: 'survey', label: 'questionnaire' },
 }
 
 export const PhoningCampaign = () => {
-  const [selectedTab, setSelectedTab] = useState(messages.calls.id)
+  const [selectedTab, setSelectedTab] = useState(messages.callers.id)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
   const { data: campaign = {} } = useQuery('campaign', () => getPhoningCampaignQuery(campaignId), {
@@ -46,7 +51,7 @@ export const PhoningCampaign = () => {
   const { data: callers = [] } = useQuery('callers', () => getPhoningCampaignCallers(campaignId), {
     onError: handleError,
   })
-  const { data: history = [] } = useQuery(['history'], () => getPhoningCampaignHistory(campaignId), {
+  const { data: history = [] } = useQuery('history', () => getPhoningCampaignHistory(campaignId), {
     onError: handleError,
   })
 
@@ -54,24 +59,41 @@ export const PhoningCampaign = () => {
     setSelectedTab(tabId)
   }
 
-  const handleHistoryView = id => () => {
+  const handleHistoryView = () => () => {
     // TODO: View modal
   }
 
+  if (!campaign.title) return null
+
   return (
-    <Container maxWidth="xl" sx={{ mb: 3 }}>
+    <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={messages.title}
-          message={messages.headerActionLabel}
-          parentStyles={{ color: 'indigo700', background: '#F0EFFB' }}
+          title={
+            <>
+              <PageTitle sx={{ color: 'phoning.background.main' }}>{messages.pageTitle}</PageTitle>
+              <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
+              <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
+            </>
+          }
+          message={messages.modify}
           handleAction={() => {}}
+          actionButtonProps={{
+            sx: {
+              color: 'phoning.background.main',
+              bgcolor: 'phoning.background.hover',
+              '&:hover': {
+                bgcolor: 'phoning.background.hover',
+              },
+            },
+          }}
         />
       </Grid>
+
       <Grid container justifyContent="space-between">
         {Object.keys(campaign).length > 0 && (
           <PhoningCampaignKPI
-            dayRemaining={campaign.dayRemaining}
+            remaining={campaign.remaining}
             surveys={campaign.surveys}
             calls={campaign.calls}
             averageTime={campaign.averageTime}
@@ -81,19 +103,18 @@ export const PhoningCampaign = () => {
         <Tabs
           value={selectedTab}
           onChange={handleChange}
-          TabIndicatorProps={{ sx: theme => ({ background: theme.palette.indigo700 }) }}
+          TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
           sx={{ my: 2 }}
         >
-          {[messages.calling, messages.calls, messages.surveys].map(({ id, label }) => (
+          {[messages.callers, messages.history, messages.surveys].map(({ id, label }) => (
             <Tab
               key={id}
               value={id}
               label={
                 <TabLabel>
-                  {id === messages.calling.id && `${callers.length} `}
-                  {id === messages.calls.id && `${history.length} `}
-                  {id === messages.surveys.id && `${[].length} `}
-                  {label}
+                  {id === messages.callers.id && `${callers.length} ${pluralize(callers.length, label)}`}
+                  {id === messages.history.id && `${history.length} ${pluralize(history.length, label)}`}
+                  {id === messages.surveys.id && `${[].length} ${pluralize([].length, label)}`}
                 </TabLabel>
               }
               disableRipple
@@ -102,7 +123,7 @@ export const PhoningCampaign = () => {
           ))}
         </Tabs>
 
-        {selectedTab === messages.calling.id && campaign.goalPerCaller?.toString() && (
+        {selectedTab === messages.callers.id && campaign.goalPerCaller?.toString() && (
           <Grid container spacing={2}>
             {callers.map((caller, index) => (
               <CampaignCallers
@@ -116,21 +137,20 @@ export const PhoningCampaign = () => {
             ))}
           </Grid>
         )}
-        {selectedTab === messages.calls.id && (
+        {selectedTab === messages.history.id && (
           <Grid container spacing={2}>
-            {history.map(element => (
+            {history.map(call => (
               <CampaignHistory
-                key={element.id}
-                status={element.status}
-                adherent={element.adherent}
-                caller={element.caller}
-                updateTime={element.updateTime}
-                handleClick={handleHistoryView(element.id)}
+                key={call.id}
+                status={call.status}
+                adherent={call.adherent}
+                caller={call.caller}
+                updateTime={call.updateTime}
+                handleClick={handleHistoryView(call.id)}
               />
             ))}
           </Grid>
         )}
-        {selectedTab === messages.surveys.id && <CampaignSurveys />}
       </Grid>
     </Container>
   )
