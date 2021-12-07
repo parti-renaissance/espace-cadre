@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import EditIcon from '@mui/icons-material/EditRounded'
+import { format } from 'date-fns'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -124,7 +125,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
           {news?.withNotification && <NotificationIcon component={NotificationsActiveRoundedIcon} />}
           {!news?.withNotification && <NotificationIcon component={NotificationsOffRoundedIcon} />}
         </Grid>
-        <DateItem item>{new Date(news?.createdAt).toLocaleDateString()}</DateItem>
+        <DateItem item>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
       </Grid>
       <AuthorWrapper container>
         <Author item>{`${messages.author} ${news?.creator}`}</Author>
