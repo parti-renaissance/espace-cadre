@@ -58,3 +58,22 @@ export const getPhoningCampaignHistory = async campaignId => {
       )
   )
 }
+
+export const getPhoningCampaignsQuery = async () => {
+  const data = await apiClient.get('api/v3/phoning_campaigns')
+
+  return data.items.map(
+    c =>
+      new PhoningCampaigns(
+        c.uuid,
+        c.title,
+        c.goal,
+        c.finish_at,
+        c.team.name,
+        c.team.members_count,
+        c.creator,
+        c.nb_calls,
+        c.nb_surveys
+      )
+  )
+}

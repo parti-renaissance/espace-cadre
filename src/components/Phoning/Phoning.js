@@ -84,7 +84,7 @@ const Phoning = () => {
         </Grid>
         <Grid container spacing={2}>
           <CardWrapper lg={2.4} xl={2.4}>
-            <Card>
+            <Card sx={{ borderRadius: '8.35px' }}>
               <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Kpi>{globalKpi.campaignCount}</Kpi>
                 <KpiTitle>{pluralize(globalKpi.campaignCount, messages.campaign)}</KpiTitle>
@@ -95,7 +95,7 @@ const Phoning = () => {
             </Card>
           </CardWrapper>
           <CardWrapper lg={2.4} xl={2.4}>
-            <Card>
+            <Card sx={{ borderRadius: '8.35px' }}>
               <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Kpi>{globalKpi.surveysCount}</Kpi>
                 <KpiTitle>{pluralize(globalKpi.surveysCount, messages.survey)}</KpiTitle>
@@ -106,7 +106,7 @@ const Phoning = () => {
             </Card>
           </CardWrapper>
           <CardWrapper lg={2.4} xl={2.4}>
-            <Card>
+            <Card sx={{ borderRadius: '8.35px' }}>
               <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Kpi>{globalKpi.callsCount}</Kpi>
                 <KpiTitle>{pluralize(globalKpi.callsCount, messages.call)}</KpiTitle>
