@@ -11,7 +11,7 @@ import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
 import {
   createSegmentAudience,
-  getMessage,
+  messageSynchronizationStatus,
   getSegmentAudience,
   sendMessage,
   sendTestMessage,
@@ -97,13 +97,13 @@ const Filters = () => {
   const sendMessageAfterFilterAreSaved = useCallback(async () => {
     const responseSend = await sendMessage(messageUuid)
     if (responseSend === 'OK') {
-      navigate('confirmation')
+      navigate(paths.confirmation)
     } else {
       // TODO: error management
     }
   }, [messageUuid, navigate])
   const [loadingSendButton, , launchAreFilterSaved] = useRetry(
-    getMessage,
+    messageSynchronizationStatus,
     retryInterval,
     maxAttempts,
     sendMessageAfterFilterAreSaved

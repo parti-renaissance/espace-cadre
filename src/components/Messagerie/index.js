@@ -10,7 +10,7 @@ const MessagerieRoute = () => (
     <Route path="*" element={<Dashboard />} />
     <Route path={paths.create} element={<Template />} />
     <Route path=":messageUuid/*">
-      <Route path={paths.update} element={<Template />} />
+      <Route path={paths.update} element={<Template modeUpdate />} />
       <Route path={paths.filter} element={<Filters />} />
     </Route>
     <Route path={paths.confirmation} element={<Confirmation />} />

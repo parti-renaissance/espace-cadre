@@ -8,7 +8,7 @@ import { getTeamsQuery } from 'api/teams'
 import { Team } from 'domain/team'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
-import Card from 'ui/Card'
+import Card from 'ui/Card/CardDeprecated'
 import Header from './Card/Header'
 import Content from './Card/Content'
 

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import UICard from './Card'
+import UICard from './CardDeprecated'
 
 jest.mock('@mui/material', () => ({
   Grid: ({ children }) => <div className="mui-grid-mock">{children}</div>,

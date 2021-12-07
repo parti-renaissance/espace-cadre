@@ -11,9 +11,9 @@ context('Nominal tests', () => {
     mock('GET', '/api/v3/internal/*/adherents?scope=referent', 'internal/adherents')
     mock('GET', '/api/v3/internal/*/jemengage/downloads?scope=referent', 'internal/downloads')
     mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=referent', 'internal/reportsRatio')
-    mock('GET', '/api/v3/internal/*/mailCampaign/reports?scope=referent', 'internal/reports')
     mock('GET', '/api/v3/internal/*/jemengage/survey?scope=referent', 'internal/survey')
     mock('GET', '/api/v3/internal/*/jemengage/users?scope=referent', 'internal/users')
+    mock('GET', '/api/v3/adherent_messages?scope=referent', 'messagerie/messages')
     mock('GET', '/api/v3/adherents/columns?scope=referent', 'adherents/columns')
     mock('GET', '/api/v3/adherents?page=1&scope=referent', 'adherents/adherents')
     mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'adherents/filters')
@@ -53,9 +53,8 @@ context('Nominal tests', () => {
     cy.contains('Messagerie').click()
 
     cy.contains("Campagnes d'emails")
-    cy.contains('Title1')
-    cy.contains('Title2')
-    cy.contains('33.33%(33)')
+    cy.contains('subject 1')
+    cy.contains('subject 2')
     cy.contains('Envoyer un email')
   })
 

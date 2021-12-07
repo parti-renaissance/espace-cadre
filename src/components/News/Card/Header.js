@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
   active: {
     color: theme.palette.teal700,
     background: theme.palette.activeLabel,
-    borderRadius: '19px',
   },
   inactive: {
     color: theme.palette.red600,

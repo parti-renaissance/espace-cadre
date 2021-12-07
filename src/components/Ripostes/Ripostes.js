@@ -8,7 +8,7 @@ import Riposte from 'domain/riposte'
 import { getRipostesQuery, updateRiposteStatusQuery } from 'api/ripostes'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
-import Card from 'ui/Card'
+import Card from 'ui/Card/CardDeprecated'
 import Header from './Card/Header'
 import Content from './Card/Content'
 
