@@ -1,6 +1,6 @@
 import { apiClient } from 'services/networking/client'
 
-import GlobalKpi from 'domain/phoning'
+import { GlobalKpi, PhoningCampaigns } from 'domain/phoning'
 import PhoningCampaign, { Calls, Surveys } from 'domain/phoning-campaign'
 import PhoningCampaignHistory, { Adherent, Caller } from 'domain/phoning-campaign-history'
 import PhoningCampaignCallers from '../domain/phoning-campaign-callers'
@@ -61,7 +61,6 @@ export const getPhoningCampaignHistory = async campaignId => {
 
 export const getPhoningCampaignsQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns')
-
   return data.items.map(
     c =>
       new PhoningCampaigns(
