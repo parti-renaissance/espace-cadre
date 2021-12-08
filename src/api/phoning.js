@@ -1,7 +1,9 @@
 import { apiClient } from 'services/networking/client'
-import { differenceInCalendarDays, format } from 'date-fns'
 
-import GlobalKpi from '../domain/phoning'
+import GlobalKpi from 'domain/phoning'
+import PhoningCampaign, { Calls, Surveys } from 'domain/phoning-campaign'
+import PhoningCampaignHistory, { Adherent, Caller } from 'domain/phoning-campaign-history'
+import PhoningCampaignCallers from '../domain/phoning-campaign-callers'
 
 export const getGlobalKpiQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
@@ -25,56 +27,34 @@ const secondsToMinutesAndSeconds = seconds => {
 
 export const getPhoningCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}`)
-  return {
-    title: data.title,
-    remaining: {
-      days: differenceInCalendarDays(new Date(data.finish_at), new Date()),
-      periodeStart: format(new Date(data.created_at), 'dd/MM/yyyy'),
-      periodeEnd: format(new Date(data.finish_at), 'dd/MM/yyyy'),
-    },
-    surveys: { count: data.nb_surveys, goal: data.goal * data.team.members_count },
-    calls: { count: data.nb_calls, toRemind: data.to_remind },
-    averageTime: secondsToMinutesAndSeconds(data.average_calling_time),
-    goalPerCaller: data.goal,
-  }
+  const surveys = new Surveys(data.nb_surveys, data.goal * data.team.members_count)
+  const calls = new Calls(data.nb_calls, data.to_remind)
+  return new PhoningCampaign(
+    data.title,
+    data.created_at,
+    data.finish_at,
+    surveys,
+    calls,
+    secondsToMinutesAndSeconds(data.average_calling_time),
+    data.goal
+  )
 }
 
 export const getPhoningCampaignCallers = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/callers`)
-  const callers = []
-  data.forEach(c => {
-    callers.push({
-      firstName: c.firstName,
-      lastName: c.lastName,
-      count: Number(c.nb_surveys),
-    })
-  })
-  return callers
+  return data.map(c => new PhoningCampaignCallers(c.firstName, c.lastName, Number(c.nb_surveys)))
 }
 
 export const getPhoningCampaignHistory = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaign_histories?campaign.uuid=${campaignId}`)
-  const history = []
-  data?.items.forEach(h => {
-    history.push({
-      id: h.uuid,
-      status: h.status,
-      adherent: h.adherent
-        ? {
-            firstName: h.adherent.first_name,
-            lastName: h.adherent.last_name,
-            gender: h.adherent.gender,
-            age: h.adherent.age,
-          }
-        : {},
-      caller: h.caller
-        ? {
-            firstName: h.caller.first_name,
-            lastName: h.caller.last_name,
-          }
-        : {},
-      updateTime: format(new Date(h.begin_at), 'dd/MM/yyyy hh:mm'),
-    })
-  })
-  return history
+  return data?.items.map(
+    h =>
+      new PhoningCampaignHistory(
+        h.uuid,
+        h.status,
+        h.begin_at,
+        new Adherent(h.adherent.first_name, h.adherent.last_name, h.adherent.gender, h.adherent.age),
+        new Caller(h.caller.first_name, h.caller.last_name)
+      )
+  )
 }

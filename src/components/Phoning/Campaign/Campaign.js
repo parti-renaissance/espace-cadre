@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router'
-import { v1 as uuid } from 'uuid'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -11,7 +10,6 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import PageHeader from 'ui/PageHeader'
 import CampaignCallers from './CampaignCallers'
 import CampaignHistory from './CampaignHistory'
-import CampaignSurveys from './CampaignSurveys'
 import PhoningCampaignKPI from './CampaignKPI'
 
 const PageTitle = styled(Typography)`
@@ -93,7 +91,8 @@ export const PhoningCampaign = () => {
       <Grid container justifyContent="space-between">
         {Object.keys(campaign).length > 0 && (
           <PhoningCampaignKPI
-            remaining={campaign.remaining}
+            startDate={campaign.startDate}
+            endDate={campaign.endDate}
             surveys={campaign.surveys}
             calls={campaign.calls}
             averageTime={campaign.averageTime}
@@ -127,7 +126,7 @@ export const PhoningCampaign = () => {
           <Grid container spacing={2}>
             {callers.map((caller, index) => (
               <CampaignCallers
-                key={uuid()}
+                key={index + 1}
                 number={index + 1}
                 firstName={caller.firstName}
                 lastName={caller.lastName}
@@ -143,6 +142,7 @@ export const PhoningCampaign = () => {
               <CampaignHistory
                 key={call.id}
                 status={call.status}
+                startDate={campaign.startDate}
                 adherent={call.adherent}
                 caller={call.caller}
                 updateTime={call.updateTime}

@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types'
 import { Button as MuiButton, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import { format } from 'date-fns'
 
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText } from './shared/components'
+import DomainPhoningCampaignHistory from 'domain/phoning-campaign-history'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import UICard from 'ui/Card/Card'
-import UIChip from 'ui/Card/Chip/Chip'
+import { Chip as UIChip } from 'ui/Card/Chip/Chip'
 
 const HeaderWrapper = styled('div')({
   '& .MuiCardHeader-content': {
@@ -52,7 +53,7 @@ const messages = {
   see: 'voir',
 }
 
-const PhoningCampaignHistory = ({ status, adherent, caller, updateTime, handleClick }) => {
+const PhoningCampaignHistory = ({ status, startDate, adherent, caller, handleClick }) => {
   const chipLabel = chipLabelByStatus[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
   const gender = translatedGender[adherent.gender]
@@ -79,7 +80,7 @@ const PhoningCampaignHistory = ({ status, adherent, caller, updateTime, handleCl
               <Author sx={{ pb: 0.5 }}>
                 {caller.firstName} {caller.lastName}
               </Author>
-              <UpdateTime>{updateTime}</UpdateTime>
+              <UpdateTime>{format(new Date(startDate), 'dd/MM/yyyy hh:mm')}</UpdateTime>
             </Grid>
           </>
         }
@@ -90,20 +91,6 @@ const PhoningCampaignHistory = ({ status, adherent, caller, updateTime, handleCl
   )
 }
 
-PhoningCampaignHistory.propTypes = {
-  status: PropTypes.string.isRequired,
-  adherent: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    gender: PropTypes.string,
-    age: PropTypes.number,
-  }).isRequired,
-  caller: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-  }).isRequired,
-  updateTime: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
-}
+PhoningCampaignHistory.propTypes = DomainPhoningCampaignHistory.PropTypes
 
 export default PhoningCampaignHistory

@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types'
 import { Grid, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import { differenceInCalendarDays, format } from 'date-fns'
 
-import UICard from 'ui/Card/Card'
 import { CardRootWrapper, CardContentWrapper } from './shared/components'
+import PhoningCampaign from 'domain/phoning-campaign'
+import UICard from 'ui/Card/Card'
 import PhoningRatioProgress from '../shared/PhoningRatioProgress'
 
 const KPIWrapper = styled(Paper)(
@@ -16,9 +17,9 @@ const KPIWrapper = styled(Paper)(
 )
 const KPITitle = styled(Typography)(
   ({ theme }) => `
-	margin: ${theme.spacing(1, 0, 2, 1)};
-	font-size: 18px;
-	font-weight: 400px;
+  margin: ${theme.spacing(1, 0, 2, 1)};
+  font-size: 18px;
+  font-weight: 400px;
   line-height: 27px;
 `
 )
@@ -55,7 +56,7 @@ const messages = {
   averageTimeDetail: 'Passé par appel',
 }
 
-const PhoningCampaignKPI = ({ remaining, surveys, calls, averageTime }) => (
+const PhoningCampaignKPI = ({ startDate, endDate, surveys, calls, averageTime }) => (
   <KPIWrapper>
     <Grid container>
       <KPITitle>{messages.title}</KPITitle>
@@ -68,14 +69,16 @@ const PhoningCampaignKPI = ({ remaining, surveys, calls, averageTime }) => (
           contentProps={{ component: CardContentWrapper }}
           content={
             <>
-              <Score>{remaining?.days}</Score>
+              <Score>{differenceInCalendarDays(new Date(endDate), new Date())}</Score>
               <SubTitle>{messages.dayRemaining}</SubTitle>
-              <SubTitleDetail>
-                {messages.periodFrom}&nbsp;
-                {remaining?.periodeStart}&nbsp;
-                {messages.periodTo}&nbsp;
-                {remaining?.periodeEnd}
-              </SubTitleDetail>
+              {startDate && endDate && (
+                <SubTitleDetail>
+                  {messages.periodFrom}&nbsp;
+                  {format(new Date(startDate), 'dd/MM/yyyy')}&nbsp;
+                  {messages.periodTo}&nbsp;
+                  {format(new Date(endDate), 'dd/MM/yyyy')}
+                </SubTitleDetail>
+              )}
             </>
           }
         />
@@ -127,21 +130,6 @@ const PhoningCampaignKPI = ({ remaining, surveys, calls, averageTime }) => (
   </KPIWrapper>
 )
 
-PhoningCampaignKPI.propTypes = {
-  remaining: PropTypes.shape({
-    days: PropTypes.number.isRequired,
-    periodeStart: PropTypes.string.isRequired,
-    periodeEnd: PropTypes.string.isRequired,
-  }),
-  surveys: PropTypes.shape({
-    count: PropTypes.number.isRequired,
-    goal: PropTypes.number.isRequired,
-  }),
-  calls: PropTypes.shape({
-    count: PropTypes.number.isRequired,
-    toRemind: PropTypes.number.isRequired,
-  }),
-  averageTime: PropTypes.string.isRequired,
-}
+PhoningCampaignKPI.propTypes = PhoningCampaign.PropTypes
 
 export default PhoningCampaignKPI

@@ -33,18 +33,21 @@ const messages = {
   separator: '/',
 }
 
-const PhoningRatioProgress = ({ count, totalCount }) => (
-  <>
-    <Grid container alignItems="flex-end">
-      <Current>{count}</Current>
-      <Max>
-        {messages.separator}
-        {totalCount}
-      </Max>
-    </Grid>
-    <ProgressBar variant="determinate" value={Math.round((count / totalCount) * 100)} sx={{ mt: 0.5 }} />
-  </>
-)
+const PhoningRatioProgress = ({ count, totalCount }) => {
+  const value = Math.round((count / totalCount) * 100)
+  return (
+    <>
+      <Grid container alignItems="flex-end">
+        <Current>{count}</Current>
+        <Max>
+          {messages.separator}
+          {totalCount}
+        </Max>
+      </Grid>
+      <ProgressBar variant="determinate" value={value > 100 ? 100 : value} sx={{ mt: 0.5 }} />
+    </>
+  )
+}
 
 PhoningRatioProgress.propTypes = {
   count: PropTypes.number.isRequired,
