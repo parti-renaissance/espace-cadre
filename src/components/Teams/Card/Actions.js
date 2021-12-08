@@ -5,10 +5,10 @@ import paths from '../shared/paths'
 import PropTypes from 'prop-types'
 import DotsMenu from 'ui/Card/Menu/DotsMenu'
 
-const Horizontal = styled('div')`
+const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
 `
 
@@ -24,13 +24,13 @@ const Actions = ({ teamId, onEdit }) => {
   }
 
   return (
-    <Horizontal>
+    <HorizontalContainer>
       <CtaButton
         onClick={handleClick}
         sx={{
           color: 'lightBlue600',
           '&:hover': {
-            backgroundColor: 'teamBackground',
+            bgcolor: 'teamBackground',
           },
         }}
       >
@@ -39,7 +39,7 @@ const Actions = ({ teamId, onEdit }) => {
       <DotsMenu>
         <DotsMenu.Item onClick={onEdit}>{messages.edit}</DotsMenu.Item>
       </DotsMenu>
-    </Horizontal>
+    </HorizontalContainer>
   )
 }
 

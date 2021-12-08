@@ -3,10 +3,10 @@ import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import DotsMenu from 'ui/Card/Menu/DotsMenu'
 
-const Horizontal = styled('div')`
+const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
 `
 
@@ -17,13 +17,13 @@ const messages = {
 }
 
 const Actions = ({ status, toggleStatus, onEdit }) => (
-  <Horizontal>
+  <HorizontalContainer>
     <CtaButton
       onClick={onEdit}
       sx={{
         color: 'teal700',
         '&:hover': {
-          backgroundColor: 'riposteBackground',
+          bgcolor: 'riposteBackground',
         },
       }}
     >
@@ -32,7 +32,7 @@ const Actions = ({ status, toggleStatus, onEdit }) => (
     <DotsMenu>
       <DotsMenu.Item onClick={toggleStatus}>{status ? messages.deactivate : messages.activate}</DotsMenu.Item>
     </DotsMenu>
-  </Horizontal>
+  </HorizontalContainer>
 )
 
 export default Actions

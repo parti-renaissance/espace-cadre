@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { Typography } from '@mui/material'
 
-const Vertical = styled('div')`
+const VerticalContainer = styled('div')`
   display: flex;
   flex-direction: column;
 `
@@ -26,10 +26,10 @@ const UiSubTitle = styled(Typography)`
 `
 
 export const Title = ({ subject, author }) => (
-  <Vertical>
+  <VerticalContainer>
     <UiTitle component="div">{subject}</UiTitle>
     <UiSubTitle>{author}</UiSubTitle>
-  </Vertical>
+  </VerticalContainer>
 )
 
 Title.propTypes = {

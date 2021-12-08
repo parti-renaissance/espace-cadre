@@ -5,10 +5,10 @@ import paths from 'components/Messagerie/shared/paths'
 import PropTypes from 'prop-types'
 import DotsMenu from 'ui/Card/Menu/DotsMenu'
 
-const Horizontal = styled('div')`
+const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
 `
 
@@ -24,13 +24,13 @@ const Actions = ({ messageId, del }) => {
   }
 
   return (
-    <Horizontal>
+    <HorizontalContainer>
       <CtaButton
         onClick={handleClick}
         sx={{
           color: 'yellow400',
           '&:hover': {
-            backgroundColor: '#FFFAEE',
+            bgcolor: '#FFFAEE',
           },
         }}
       >
@@ -39,7 +39,7 @@ const Actions = ({ messageId, del }) => {
       <DotsMenu>
         <DotsMenu.Item onClick={del}>{messages.delete}</DotsMenu.Item>
       </DotsMenu>
-    </Horizontal>
+    </HorizontalContainer>
   )
 }
 
