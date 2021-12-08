@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Chip } from 'ui/Card'
+import { UIChip } from 'ui/Card'
 import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import { Typography } from '@mui/material'
@@ -29,7 +29,7 @@ const messages = {
 
 const Header = ({ status, createdAt }) => (
   <HorizontalContainer>
-    <Chip
+    <UIChip
       color={status ? 'teal700' : 'red600'}
       bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
       label={status ? messages.active : messages.inactive}

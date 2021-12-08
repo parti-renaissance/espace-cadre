@@ -1,6 +1,6 @@
 import pluralize from 'components/shared/pluralize/pluralize'
 import PropTypes from 'prop-types'
-import { Chip } from 'ui/Card'
+import { UIChip } from 'ui/Card'
 import { styled } from '@mui/system'
 
 const HorizontalContainer = styled('div')`
@@ -16,7 +16,7 @@ const messages = {
 
 const Header = ({ teamCount }) => (
   <HorizontalContainer>
-    <Chip
+    <UIChip
       color="gray700"
       bgcolor="rgba(55, 65, 81, 0.08)"
       label={`${teamCount} ${pluralize(teamCount, messages.member)}`}

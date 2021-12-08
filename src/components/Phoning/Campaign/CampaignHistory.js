@@ -7,7 +7,7 @@ import { TruncatedText } from './shared/components'
 import DomainPhoningCampaignHistory from 'domain/phoning-campaign-history'
 import { CtaButton } from 'ui/Card'
 import UICard from 'ui/Card/Card'
-import { Chip as UIChip } from 'ui/Card/Chip/Chip'
+import { UIChip } from 'ui/Card'
 
 const AuhthorContainer = styled(Box)`
   display: flex;
