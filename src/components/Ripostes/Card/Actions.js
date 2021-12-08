@@ -1,7 +1,7 @@
 import { CtaButton } from 'ui/Card'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
-import DotsMenu from 'ui/Card/Menu/DotsMenu'
+import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -30,7 +30,7 @@ const Actions = ({ status, toggleStatus, onEdit }) => (
       {messages.edit}
     </CtaButton>
     <DotsMenu>
-      <DotsMenu.Item onClick={toggleStatus}>{status ? messages.deactivate : messages.activate}</DotsMenu.Item>
+      <DotsMenuItem onClick={toggleStatus}>{status ? messages.deactivate : messages.activate}</DotsMenuItem>
     </DotsMenu>
   </HorizontalContainer>
 )

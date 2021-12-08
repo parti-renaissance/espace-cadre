@@ -50,7 +50,7 @@ const Header = ({ status, withNotification, createdAt }) => (
   <HorizontalContainer data-testid="news-header">
     <Chip
       color={status ? 'teal700' : 'red600'}
-      backgroundColor={status ? 'activeLabel' : 'inactiveLabel'}
+      bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
       label={status ? messages.published : messages.unpublished}
     />
     {withNotification ? <NotificationsOnIcon /> : <NotificationsOffIcon />}

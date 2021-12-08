@@ -89,7 +89,7 @@ const Ripostes = () => {
 
         <Grid container spacing={2}>
           {ripostes.map(r => (
-            <Grid item key={r.id} lg={3} xl={3} sx={{ flexGrow: 1 }}>
+            <Grid item key={r.id} xs={12} sm={6} md={3} lg={3} xl={3}>
               <UICard
                 headerTitle={<Header {...r} />}
                 headerSubtitle={<Title subject={r.title} author={`Par ${r.creator}`} />}

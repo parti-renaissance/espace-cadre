@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import DotsMenu from 'ui/Card/Menu/DotsMenu'
+import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
 jest.mock('@mui/system', () => ({
   styled: c => () => c,
@@ -20,7 +20,7 @@ describe('DotsMenu', () => {
     const mockOnClick = jest.fn()
     const { container } = render(
       <DotsMenu>
-        <DotsMenu.Item onClick={mockOnClick}>foo</DotsMenu.Item>
+        <DotsMenuItem onClick={mockOnClick}>foo</DotsMenuItem>
       </DotsMenu>
     )
     expect(container).toMatchSnapshot()
@@ -29,7 +29,7 @@ describe('DotsMenu', () => {
     const mockOnClick = jest.fn()
     render(
       <DotsMenu>
-        <DotsMenu.Item onClick={mockOnClick}>foo</DotsMenu.Item>
+        <DotsMenuItem onClick={mockOnClick}>foo</DotsMenuItem>
       </DotsMenu>
     )
 

@@ -9,7 +9,7 @@ const messages = {
 const Header = ({ teamCount }) => (
   <Chip
     color="gray700"
-    backgroundColor="rgba(55, 65, 81, 0.08)"
+    bgcolor="rgba(55, 65, 81, 0.08)"
     label={`${teamCount} ${pluralize(teamCount, messages.member)}`}
   />
 )

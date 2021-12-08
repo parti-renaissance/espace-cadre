@@ -27,7 +27,7 @@ const MenuItem = styled(MuiMenuItem)`
   },
 `
 
-const UIMenuItem = ({ onClick, closeMenu, children }) => {
+export const DotsMenuItem = ({ onClick, closeMenu, children }) => {
   const handleClick = () => {
     closeMenu()
     onClick()
@@ -35,7 +35,7 @@ const UIMenuItem = ({ onClick, closeMenu, children }) => {
   return <MenuItem onClick={handleClick}>{children}</MenuItem>
 }
 
-UIMenuItem.propTypes = {
+DotsMenuItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   closeMenu: PropTypes.func,
   children: PropTypes.node.isRequired,
@@ -85,7 +85,5 @@ const DotsMenu = ({ children }) => {
 DotsMenu.propTypes = {
   children: PropTypes.node.isRequired,
 }
-
-DotsMenu.Item = UIMenuItem
 
 export default DotsMenu

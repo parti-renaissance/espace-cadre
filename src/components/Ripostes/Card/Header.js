@@ -28,7 +28,7 @@ const Header = ({ status, createdAt }) => (
   <HorizontalContainer>
     <Chip
       color={status ? 'teal700' : 'red600'}
-      backgroundColor={status ? 'activeLabel' : 'inactiveLabel'}
+      bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
       label={status ? messages.active : messages.inactive}
     />
     <UIDate>

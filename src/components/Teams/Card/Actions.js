@@ -3,7 +3,7 @@ import { styled } from '@mui/system'
 import { generatePath, useNavigate } from 'react-router-dom'
 import paths from '../shared/paths'
 import PropTypes from 'prop-types'
-import DotsMenu from 'ui/Card/Menu/DotsMenu'
+import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -37,7 +37,7 @@ const Actions = ({ teamId, onEdit }) => {
         {messages.see}
       </CtaButton>
       <DotsMenu>
-        <DotsMenu.Item onClick={onEdit}>{messages.edit}</DotsMenu.Item>
+        <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>
       </DotsMenu>
     </HorizontalContainer>
   )
