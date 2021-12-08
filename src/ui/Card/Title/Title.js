@@ -27,7 +27,9 @@ const UiSubTitle = styled(Typography)`
 
 export const Title = ({ subject, author }) => (
   <VerticalContainer>
-    <UiTitle component="div">{subject}</UiTitle>
+    <UiTitle component="div" title={subject}>
+      {subject}
+    </UiTitle>
     <UiSubTitle>{author}</UiSubTitle>
   </VerticalContainer>
 )

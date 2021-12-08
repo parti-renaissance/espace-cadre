@@ -8,8 +8,8 @@ import { Typography } from '@mui/material'
 
 const UIDate = styled('span')(
   ({ theme }) => `
+  display: flex;
   color: ${theme.palette.gray600};
-  padding: ${theme.spacing(1)};
 `
 )
 const DateTypo = styled(Typography)`
@@ -19,6 +19,8 @@ const DateTypo = styled(Typography)`
 const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
 `
 
 const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)`
@@ -28,7 +30,7 @@ const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)`
   padding: ${({ theme }) => theme.spacing(0.25)};
   border-color: ${({ theme }) => theme.palette.gray100};
   border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
-  margin: ${({ theme }) => theme.spacing(0.25, 0, 0, 1)};
+  margin: ${({ theme }) => theme.spacing(0.25, 1, 0, 1)};
 `
 
 const NotificationsOffIcon = styled(NotificationsOffRoundedIcon)`
@@ -55,7 +57,7 @@ const Header = ({ status, withNotification, createdAt }) => (
     />
     {withNotification ? <NotificationsOnIcon /> : <NotificationsOffIcon />}
     <UIDate>
-      <DateTypo>Le {format(createdAt, 'dd/MM/yyyy')}</DateTypo>
+      <DateTypo>{format(createdAt, 'dd/MM/yyyy')}</DateTypo>
     </UIDate>
   </HorizontalContainer>
 )

@@ -7,7 +7,8 @@ import { Typography } from '@mui/material'
 const UIDate = styled('span')(
   ({ theme }) => `
   color: ${theme.palette.gray600};
-  padding: ${theme.spacing(1)};
+  display: flex;
+  margin-left: ${theme.spacing(1)};
 `
 )
 const DateTypo = styled(Typography)`
@@ -17,6 +18,8 @@ const DateTypo = styled(Typography)`
 const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
 `
 
 const messages = {
@@ -32,7 +35,7 @@ const Header = ({ status, createdAt }) => (
       label={status ? messages.active : messages.inactive}
     />
     <UIDate>
-      <DateTypo>Le {format(createdAt, 'dd/MM/yyyy')}</DateTypo>
+      <DateTypo>{format(createdAt, 'dd/MM/yyyy')}</DateTypo>
     </UIDate>
   </HorizontalContainer>
 )

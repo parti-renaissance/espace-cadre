@@ -7,7 +7,8 @@ import { Typography } from '@mui/material'
 const UIDate = styled('span')(
   ({ theme }) => `
   color: ${theme.palette.gray600};
-  padding: ${theme.spacing(1)};
+  display: flex;
+  margin-left: ${theme.spacing(1)};
 `
 )
 const DateTypo = styled(Typography)`
@@ -22,6 +23,8 @@ const messages = {
 const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
 `
 
 export const Header = ({ draft, createdAt }) => (
@@ -32,7 +35,7 @@ export const Header = ({ draft, createdAt }) => (
       label={draft ? messages.draft : messages.sent}
     />
     <UIDate>
-      <DateTypo>Le {format(createdAt, "dd/MM/yyyy 'à' HH:mm")}</DateTypo>
+      <DateTypo>{format(createdAt, "'Le' dd/MM/yyyy 'à' HH:mm")}</DateTypo>
     </UIDate>
   </HorizontalContainer>
 )
