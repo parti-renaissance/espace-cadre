@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title displays a Title 1`] = `
+<div>
+  <div>
+    <div
+      class="mui-typography-mock"
+    >
+      subject
+    </div>
+    <div
+      class="mui-typography-mock"
+    >
+      author
+    </div>
+  </div>
+</div>
+`;
