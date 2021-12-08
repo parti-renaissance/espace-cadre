@@ -67,6 +67,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.blue600,
   },
   buttonIcon: {
+    display: 'flex',
     marginRight: theme.spacing(1),
   },
 }))
@@ -211,7 +212,7 @@ const Filters = () => {
               disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1 || loadingSendButton}
               onClick={() => setOpen(true)}
             >
-              <Box>
+              <Box className={classes.buttonIcon}>
                 {loadingSendButton ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
               </Box>
               Envoyer l&apos;email

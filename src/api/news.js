@@ -1,4 +1,4 @@
-import { apiClient } from '../services/networking/client'
+import { apiClient } from 'services/networking/client'
 import News from '../domain/news'
 
 export const getNewsQuery = async () => {
@@ -11,7 +11,7 @@ export const getNewsQuery = async () => {
         n.text,
         n.external_link,
         n.creator,
-        n.created_at,
+        new Date(n.created_at),
         n.notification,
         n.published,
         n.zone?.uuid

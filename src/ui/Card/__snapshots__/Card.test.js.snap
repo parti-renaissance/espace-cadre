@@ -1,30 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Card displays a Card 1`] = `
+exports[`Card displays a Card with actions 1`] = `
 <div>
   <div
-    class="mui-grid-mock"
+    class="mui-card-mock"
   >
     <div
-      class="mui-paper-mock"
+      class="mui-cardcontent-mock"
+    />
+    <div
+      class="mui-cardactions-mock"
+    >
+      actions
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card displays a Card with content 1`] = `
+<div>
+  <div
+    class="mui-card-mock"
+  >
+    <div
+      class="mui-cardcontent-mock"
+    >
+      content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card displays a Card with headers 1`] = `
+<div>
+  <div
+    class="mui-card-mock"
+  >
+    <div
+      class="mui-cardheader-mock"
     >
       header
-      <div
-        class="mui-grid-mock"
-      >
-        <div
-          class="mui-grid-mock"
-        >
-          title
-        </div>
-        <div
-          class="mui-grid-mock"
-        >
-          subtitle
-        </div>
-      </div>
-      body
+      -
+      subtitle
     </div>
+    <div
+      class="mui-cardcontent-mock"
+    />
   </div>
 </div>
 `;

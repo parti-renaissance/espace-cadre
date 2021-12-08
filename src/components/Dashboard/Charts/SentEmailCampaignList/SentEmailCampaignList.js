@@ -3,8 +3,8 @@ import { makeStyles } from '@mui/styles'
 import { deleteMessage, getMessages } from 'api/messagerie'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
-import UICard from 'ui/Card'
-import { Header, Title } from './card/Header'
+import UICard, { Title } from 'ui/Card'
+import { Header } from './card/Header'
 import Body from 'components/Dashboard/Charts/SentEmailCampaignList/card/Body'
 import Actions from 'components/Dashboard/Charts/SentEmailCampaignList/card/Actions'
 import { useMutation, useQuery } from 'react-query'
@@ -59,7 +59,7 @@ const SentEmailCampaignList = () => {
       <SentEmailCampaignListTitle />
       <Grid container spacing={2}>
         {emailCampaignReports.data.map(message => (
-          <Grid item key={message.id} lg={3} xl={3} sx={{ flexGrow: 1 }}>
+          <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
             <UICard
               headerTitle={<Header createdAt={message.createdAt} draft={message.draft} />}
               headerSubtitle={<Title subject={message.subject} author={message.author} />}

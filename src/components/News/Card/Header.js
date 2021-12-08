@@ -1,71 +1,71 @@
-import { Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
+import { Chip } from 'ui/Card'
+import { format } from 'date-fns'
+import { styled } from '@mui/system'
+import { Typography } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    marginBottom: theme.spacing(1),
-  },
-  chip: {
-    fontSize: '10px',
-    fontWeight: '500',
-    borderRadius: '19px',
-    padding: theme.spacing(0.25, 1),
-  },
-  withBorder: {
-    border: `1px solid ${theme.palette.gray200}`,
-  },
-  icon: {
-    fontSize: '16px',
-    margin: theme.spacing(0.25, 0, 0, 1),
-  },
-  active: {
-    color: theme.palette.teal700,
-    background: theme.palette.activeLabel,
-  },
-  inactive: {
-    color: theme.palette.red600,
-    background: theme.palette.inactiveLabel,
-  },
-  date: {
-    fontSize: '10px',
-    color: theme.palette.gray600,
-    padding: theme.spacing(1),
-  },
-}))
+const UIDate = styled('span')(
+  ({ theme }) => `
+  display: flex;
+  color: ${theme.palette.gray600};
+`
+)
+const DateTypo = styled(Typography)`
+  font-size: 10px;
+`
+
+const HorizontalContainer = styled('div')`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
+`
+
+const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)`
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 19px;
+  padding: ${({ theme }) => theme.spacing(0.25)};
+  border-color: ${({ theme }) => theme.palette.gray100};
+  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
+  margin: ${({ theme }) => theme.spacing(0.25, 1, 0, 1)};
+`
+
+const NotificationsOffIcon = styled(NotificationsOffRoundedIcon)`
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 19px;
+  padding: ${({ theme }) => theme.spacing(0.25)};
+  border-color: ${({ theme }) => theme.palette.gray100};
+  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
+  margin: ${({ theme }) => theme.spacing(0.25, 0, 0, 1)};
+`
 
 const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
 }
 
-const Header = ({ status, withNotification, createdAt }) => {
-  const classes = useStyles()
-  const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
-
-  return (
-    <Grid container className={classes.container} data-testid="news-header">
-      <Grid item>
-        <span className={`${classes.chip} ${status ? classes.active : classes.inactive}`}>
-          {status ? messages.published : messages.unpublished}
-        </span>
-      </Grid>
-      <Grid item>
-        <NotificationIcon className={`${classes.chip} ${classes.withBorder} ${classes.icon}`} />
-      </Grid>
-      <Grid item className={classes.date}>
-        Le {new Date(createdAt).toLocaleDateString()}
-      </Grid>
-    </Grid>
-  )
-}
+const Header = ({ status, withNotification, createdAt }) => (
+  <HorizontalContainer data-testid="news-header">
+    <Chip
+      color={status ? 'teal700' : 'red600'}
+      bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
+      label={status ? messages.published : messages.unpublished}
+    />
+    {withNotification ? <NotificationsOnIcon /> : <NotificationsOffIcon />}
+    <UIDate>
+      <DateTypo>{format(createdAt, 'dd/MM/yyyy')}</DateTypo>
+    </UIDate>
+  </HorizontalContainer>
+)
 
 Header.propTypes = {
   status: PropTypes.bool.isRequired,
   withNotification: PropTypes.bool.isRequired,
-  createdAt: PropTypes.string.isRequired,
+  createdAt: PropTypes.object.isRequired,
 }
 
 export default Header

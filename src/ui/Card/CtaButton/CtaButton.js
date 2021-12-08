@@ -12,7 +12,7 @@ const Button = styled(MuiButton)(
 `
 )
 
-const CtaButton = ({ children, ...props }) => <Button {...props}>{children}</Button>
+export const CtaButton = ({ children, ...props }) => <Button {...props}>{children}</Button>
 
 CtaButton.defaultProps = {
   color: null,
@@ -24,5 +24,3 @@ CtaButton.propTypes = {
   color: PropTypes.string,
   hovercolor: PropTypes.string,
 }
-
-export default CtaButton

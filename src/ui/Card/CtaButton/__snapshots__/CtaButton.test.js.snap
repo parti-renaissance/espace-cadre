@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CtaButton displays a CtaButton 1`] = `
+<div>
+  <div
+    class="mui-button-mock"
+  >
+    foo
+  </div>
+</div>
+`;

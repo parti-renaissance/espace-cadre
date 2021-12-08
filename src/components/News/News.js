@@ -5,13 +5,13 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getNewsQuery, updateNewsStatusQuery } from 'api/news'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
-import Card from 'ui/Card/CardDeprecated'
 import Header from './Card/Header'
-import Content from './Card/Content'
 import NewsDomain from 'domain/news'
 import CreateEditModal from './CreateEditModal'
 import ReadModal from './ReadModal'
 import AddIcon from '@mui/icons-material/Add'
+import UICard, { Title } from 'ui/Card'
+import Actions from './Card/Actions'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -61,7 +61,7 @@ const News = () => {
       prevNews
         .filter(n => n.id !== id)
         .concat(toggledNews)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+        .sort((a, b) => +b.createdAt - +a.createdAt),
     []
   )
 
@@ -96,9 +96,15 @@ const News = () => {
       </Grid>
       <Grid container spacing={2}>
         {news.map(n => (
-          <Card key={n.id} header={<Header {...n} />} title={n.title} subtitle={`Par ${n.creator}`}>
-            <Content news={n} handleClick={handleView(n.id)} toggleStatus={toggleNewsStatus} />
-          </Card>
+          <Grid item key={n.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+            <UICard
+              headerTitle={<Header {...n} />}
+              headerSubtitle={<Title subject={n.title} author={`Par ${n.creator}`} />}
+              actions={
+                <Actions toggleStatus={() => toggleNewsStatus(n.id)} onView={handleView(n.id)} status={n.status} />
+              }
+            />
+          </Grid>
         ))}
       </Grid>
       <CreateEditModal

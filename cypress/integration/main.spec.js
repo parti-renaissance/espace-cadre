@@ -53,8 +53,16 @@ context('Nominal tests', () => {
     cy.contains('Messagerie').click()
 
     cy.contains("Campagnes d'emails")
+
     cy.contains('subject 1')
+    cy.contains('Brouillon')
+    cy.get('.MuiChip-label').eq(0).should('contain', 'Envoyé')
+    cy.contains('Le 01/11/2021')
+
     cy.contains('subject 2')
+    cy.get('.MuiChip-label').eq(5).should('contain', 'Brouillon')
+    cy.contains('Le 02/11/2021')
+
     cy.contains('Envoyer un email')
   })
 
@@ -79,22 +87,22 @@ context('Nominal tests', () => {
 
     cy.contains('Titre 1')
     cy.contains('M Creator 1')
-    cy.contains(new Date(2020, 9, 5, 12, 0).toLocaleDateString())
+    cy.contains('05/10/2020')
     cy.get('div[data-testid="news-header"]').first().should('contain', 'Publiée')
     cy.contains('Voir').click({ force: true })
     cy.contains('Titre 1')
     cy.contains('M Creator 1')
-    cy.contains(new Date(2020, 9, 5, 12, 0).toLocaleDateString())
+    cy.contains('05/10/2020')
     cy.contains('Publiée')
 
     cy.contains('Titre 2')
     cy.contains('M Creator 2')
-    cy.contains(new Date(2020, 9, 10, 12, 0).toLocaleDateString())
+    cy.contains('10/10/2020')
     cy.get('div[data-testid="news-header"]').eq(1).should('contain', 'Dépubliée')
     cy.contains('Voir').click({ force: true })
     cy.contains('Titre 2')
     cy.contains('M Creator 2')
-    cy.contains(new Date(2020, 9, 10, 12, 0).toLocaleDateString())
+    cy.contains('10/10/2020')
     cy.contains('Dépubliée')
   })
 })

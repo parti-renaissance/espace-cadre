@@ -8,14 +8,11 @@ import { getTeamsQuery } from 'api/teams'
 import { Team } from 'domain/team'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
-import Card from 'ui/Card/CardDeprecated'
 import Header from './Card/Header'
-import Content from './Card/Content'
+import UICard, { Title } from 'ui/Card'
+import Actions from './Card/Actions'
 
 const useStyles = makeStyles(theme => ({
-  teamsContainer: {
-    marginBottom: theme.spacing(2),
-  },
   buttonContainer: {
     background: theme.palette.teamBackground,
     borderRadius: '8.35px',
@@ -27,10 +24,6 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     marginRight: theme.spacing(1),
-  },
-  root: {
-    padding: theme.spacing(2),
-    borderRadius: '8.35px',
   },
 }))
 
@@ -61,7 +54,7 @@ const Teams = () => {
   }
 
   return (
-    <Container maxWidth="lg" className={classes.teamsContainer}>
+    <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
         <Grid item className={classes.buttonContainer}>
@@ -74,14 +67,13 @@ const Teams = () => {
       {teams.length > 0 && (
         <Grid container spacing={2}>
           {teams.map(team => (
-            <Card
-              key={team.id}
-              header={<Header teamCount={team.members.length} />}
-              title={team.name}
-              subtitle={team.creator}
-            >
-              <Content teamId={team.id} handleEditTeam={handleEditTeam} />
-            </Card>
+            <Grid item key={team.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+              <UICard
+                headerTitle={<Header teamCount={team.members.length} />}
+                headerSubtitle={<Title subject={team.name} author={team.creator} />}
+                actions={<Actions teamId={team.id} onEdit={() => handleEditTeam(team.id)} />}
+              />
+            </Grid>
           ))}
         </Grid>
       )}

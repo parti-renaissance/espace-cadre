@@ -1,7 +1,7 @@
 import { CtaButton } from 'ui/Card'
 import { styled } from '@mui/system'
 import { generatePath, useNavigate } from 'react-router-dom'
-import paths from 'components/Messagerie/shared/paths'
+import paths from '../shared/paths'
 import PropTypes from 'prop-types'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
@@ -13,14 +13,14 @@ const HorizontalContainer = styled('div')`
 `
 
 const messages = {
-  update: 'Modifier',
-  delete: 'Supprimer',
+  see: 'Voir',
+  edit: 'Modifier',
 }
 
-const Actions = ({ messageId, del }) => {
+const Actions = ({ teamId, onEdit }) => {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(generatePath(':messageId/' + paths.update, { messageId }))
+    navigate(generatePath(`:teamId/${paths.update}`, { teamId }))
   }
 
   return (
@@ -28,16 +28,16 @@ const Actions = ({ messageId, del }) => {
       <CtaButton
         onClick={handleClick}
         sx={{
-          color: 'yellow400',
+          color: 'lightBlue600',
           '&:hover': {
-            bgcolor: '#FFFAEE',
+            bgcolor: 'teamBackground',
           },
         }}
       >
-        {messages.update}
+        {messages.see}
       </CtaButton>
       <DotsMenu>
-        <DotsMenuItem onClick={del}>{messages.delete}</DotsMenuItem>
+        <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>
       </DotsMenu>
     </HorizontalContainer>
   )
@@ -46,6 +46,6 @@ const Actions = ({ messageId, del }) => {
 export default Actions
 
 Actions.propTypes = {
-  messageId: PropTypes.string.isRequired,
-  del: PropTypes.func.isRequired,
+  teamId: PropTypes.string.isRequired,
+  onEdit: PropTypes.func.isRequired,
 }

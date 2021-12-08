@@ -1,74 +1,46 @@
-import { Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
-import Chip from 'ui/Card/Chip/Chip'
+import { Chip } from 'ui/Card'
+import { Typography } from '@mui/material'
 
 const UIDate = styled('span')(
   ({ theme }) => `
-  font-size: 10px;
   color: ${theme.palette.gray600};
-  padding: ${theme.spacing(1)};
+  display: flex;
+  margin-left: ${theme.spacing(1)};
 `
 )
+const DateTypo = styled(Typography)`
+  font-size: 10px;
+`
 
 const messages = {
   draft: 'Brouillon',
   sent: 'Envoyé',
 }
 
-const Vertical = styled('div')`
+const HorizontalContainer = styled('div')`
   display: flex;
-  flex-direction: column;
-`
-
-const Horizontal = styled('div')`
-  display: flex;
-  flex-direction: row;
   flex: 1;
-`
-const UiTitle = styled(Typography)(
-  ({ theme }) => `
-  color: ${theme.palette.gray900};
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
-`
-)
-const UiSubTitle = styled(Typography)`
-  font-size: 12px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.palette.gray600};
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
 `
 
 export const Header = ({ draft, createdAt }) => (
-  <Horizontal>
+  <HorizontalContainer>
     <Chip
       color={draft ? 'gray700' : 'green700'}
-      backgroundColor={draft ? 'gray200' : 'green200'}
+      bgcolor={draft ? 'gray200' : 'green200'}
       label={draft ? messages.draft : messages.sent}
     />
-    <UIDate>Le {format(createdAt, "dd/MM/yyyy 'à' HH:mm")}</UIDate>
-  </Horizontal>
+    <UIDate>
+      <DateTypo>{format(createdAt, "'Le' dd/MM/yyyy 'à' HH:mm")}</DateTypo>
+    </UIDate>
+  </HorizontalContainer>
 )
 
 Header.propTypes = {
   draft: PropTypes.bool,
   createdAt: PropTypes.instanceOf(Date).isRequired,
-}
-
-export const Title = ({ subject, author }) => (
-  <Vertical>
-    <UiTitle component="div">{subject}</UiTitle>
-    <UiSubTitle>{author}</UiSubTitle>
-  </Vertical>
-)
-
-Title.propTypes = {
-  subject: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
 }
