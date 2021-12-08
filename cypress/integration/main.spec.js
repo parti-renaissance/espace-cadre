@@ -53,8 +53,16 @@ context('Nominal tests', () => {
     cy.contains('Messagerie').click()
 
     cy.contains("Campagnes d'emails")
+
     cy.contains('subject 1')
+    cy.contains('Brouillon')
+    cy.get('.MuiChip-label').eq(0).should('contain', 'Envoyé')
+    cy.contains('Le 01/11/2021')
+
     cy.contains('subject 2')
+    cy.get('.MuiChip-label').eq(5).should('contain', 'Brouillon')
+    cy.contains('Le 02/11/2021')
+
     cy.contains('Envoyer un email')
   })
 
