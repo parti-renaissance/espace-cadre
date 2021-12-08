@@ -7,6 +7,6 @@ export const Chip = ({ label, color, bgcolor }) => (
 
 Chip.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-  color: PropTypes.string.isRequired,
-  bgcolor: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  bgcolor: PropTypes.string,
 }

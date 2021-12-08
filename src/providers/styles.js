@@ -7,6 +7,18 @@ export const styles = {
       lineHeight: '14px',
       textTransform: 'none',
     },
+    subtitle1: {
+      fontSize: '16px',
+      fontWeight: 600,
+      lineHeight: '24px',
+      textTransform: 'none',
+    },
+    subtitle2: {
+      fontSize: '12px',
+      fontWeight: 400,
+      lineHeight: '18px',
+      textTransform: 'none',
+    },
   },
   components: {
     MuiTypography: {
@@ -60,6 +72,25 @@ export const styles = {
       },
       error: {
         background: '#DA1414',
+      },
+    },
+    phoning: {
+      background: {
+        main: '#4338CA',
+        hover: '#F0EFFB',
+        chip: {
+          sent: 'rgba(3, 105, 161, 0.08)',
+          unsubscribed: 'rgba(245, 158, 11, 0.08)',
+          completed: 'rgba(4, 120, 87, 0.08)',
+        },
+        progressBar: {
+          empty: 'rgba(67, 56, 202, 0.16)',
+          filled: '#4338CA',
+        },
+        ratio: {
+          current: '#4338CA',
+          max: 'rgba(85, 113, 141, 0.25)',
+        },
       },
     },
 
@@ -186,6 +217,7 @@ export const styles = {
 
     // Yellow
     yellow400: '#FBBF24',
+    yellow500: '#F59E0B',
 
     // Riposte Colors
     riposteBackground: 'rgba(20, 184, 166, 0.08)',

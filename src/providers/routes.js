@@ -33,7 +33,7 @@ const AppRoutes = () => {
         <Route path={paths.ripostes} element={authorizedPages.includes(pages.ripostes) && <Ripostes />} />
         <Route path={`${paths.teams}/*`} element={authorizedPages.includes(pages.teams) && <Teams />} />
         <Route path={paths.news} element={authorizedPages.includes(pages.news) && <News />} />
-        <Route path={paths.phoning} element={authorizedPages.includes(pages.phoning) && <Phoning />} />
+        <Route path={`${paths.phoning}/*`} element={authorizedPages.includes(pages.phoning) && <Phoning />} />
       </Routes>
     </Suspense>
   )

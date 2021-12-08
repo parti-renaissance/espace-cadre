@@ -66,8 +66,16 @@ const Phoning = () => {
         <PageHeader
           title={messages.title}
           message={messages.actionButtonText}
-          parentStyles={{ color: '#4338CA', background: 'rgba(67, 56, 202, 0.08)' }}
           handleAction={handleNewCampaign}
+          actionButtonProps={{
+            sx: {
+              color: 'phoning.background.main',
+              bgcolor: 'phoning.background.hover',
+              '&:hover': {
+                bgcolor: 'phoning.background.hover',
+              },
+            },
+          }}
         />
       </Grid>
       <Paper sx={{ p: 2, background: '#E5E7EB', borderRadius: '12px' }}>

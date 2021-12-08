@@ -32,7 +32,7 @@ const PageTitle = ({ title, breakpoints = { xs: null, sm: null, md: null, lg: nu
 export default PageTitle
 
 PageTitle.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
   breakpoints: PropTypes.shape({
     xs: PropTypes.number,
     sm: PropTypes.number,
