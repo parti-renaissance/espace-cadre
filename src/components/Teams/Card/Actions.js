@@ -1,4 +1,4 @@
-import CtaButton from 'ui/Card/CtaButton/CtaButton'
+import { CtaButton } from 'ui/Card'
 import { styled } from '@mui/system'
 import { generatePath, useNavigate } from 'react-router-dom'
 import paths from '../shared/paths'

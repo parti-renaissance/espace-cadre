@@ -9,8 +9,7 @@ import { Team } from 'domain/team'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
 import Header from './Card/Header'
-import UICard from 'ui/Card'
-import { Title } from 'ui/Card/Title/Title'
+import UICard, { Title } from 'ui/Card'
 import Actions from './Card/Actions'
 
 const useStyles = makeStyles(theme => ({

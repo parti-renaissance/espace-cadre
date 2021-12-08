@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import Chip from 'ui/Card/Chip/Chip'
+import { Chip } from 'ui/Card'
 import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import { Typography } from '@mui/material'

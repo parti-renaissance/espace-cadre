@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
-import Chip from 'ui/Card/Chip/Chip'
+import { Chip } from 'ui/Card'
 import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import { Typography } from '@mui/material'

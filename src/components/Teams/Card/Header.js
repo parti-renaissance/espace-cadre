@@ -1,6 +1,6 @@
 import pluralize from 'components/shared/pluralize/pluralize'
 import PropTypes from 'prop-types'
-import Chip from 'ui/Card/Chip/Chip'
+import { Chip } from 'ui/Card'
 
 const messages = {
   member: 'membre',

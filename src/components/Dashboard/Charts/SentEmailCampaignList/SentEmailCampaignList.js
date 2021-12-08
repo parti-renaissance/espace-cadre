@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles'
 import { deleteMessage, getMessages } from 'api/messagerie'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
 import UIContainer from 'ui/Container'
-import UICard from 'ui/Card'
+import UICard, { Title } from 'ui/Card'
 import { Header } from './card/Header'
 import Body from 'components/Dashboard/Charts/SentEmailCampaignList/card/Body'
 import Actions from 'components/Dashboard/Charts/SentEmailCampaignList/card/Actions'
@@ -12,7 +12,6 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import Loader from 'ui/Loader'
-import { Title } from 'ui/Card/Title/Title'
 
 const useStyles = makeStyles(theme => ({
   noData: {

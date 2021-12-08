@@ -1,4 +1,4 @@
-import CtaButton from 'ui/Card/CtaButton/CtaButton'
+import { CtaButton } from 'ui/Card'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import DotsMenu from 'ui/Card/Menu/DotsMenu'

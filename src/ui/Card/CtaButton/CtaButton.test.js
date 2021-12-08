@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import CtaButton from 'ui/Card/CtaButton/CtaButton'
+import { CtaButton } from 'ui/Card'
 
 jest.mock('@mui/system', () => ({
   styled: c => () => c,

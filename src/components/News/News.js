@@ -10,8 +10,7 @@ import NewsDomain from 'domain/news'
 import CreateEditModal from './CreateEditModal'
 import ReadModal from './ReadModal'
 import AddIcon from '@mui/icons-material/Add'
-import UICard from 'ui/Card'
-import { Title } from 'ui/Card/Title/Title'
+import UICard, { Title } from 'ui/Card'
 import Actions from './Card/Actions'
 
 const Button = styled(MuiButton)(

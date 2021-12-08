@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types'
-import { Chip } from '@mui/material'
+import { Chip as MuiChip } from '@mui/material'
 
-export const UIChip = ({ label, color, backgroundColor }) => (
-  <Chip size="small" variant="filled" label={label} sx={{ color, backgroundColor }} />
+export const Chip = ({ label, color, backgroundColor }) => (
+  <MuiChip size="small" variant="filled" label={label} sx={{ color, backgroundColor }} />
 )
 
-UIChip.propTypes = {
+Chip.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   color: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
 }
-
-export default UIChip

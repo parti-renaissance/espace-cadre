@@ -10,8 +10,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
 import Header from './Card/Header'
 import Content from './Card/Content'
-import UICard from 'ui/Card'
-import { Title } from 'ui/Card/Title/Title'
+import UICard, { Title } from 'ui/Card'
 import Actions from 'components/Ripostes/Card/Actions'
 
 const Button = styled(MuiButton)(
