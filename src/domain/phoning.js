@@ -24,14 +24,14 @@ export class PhoningCampaigns {
   }
 }
 
-GlobalKpi.propTypes = {
+GlobalKpi.propTypes = PropTypes.shape({
   campaignCount: PropTypes.string,
   ongoingCampaigns: PropTypes.string,
   callsCount: PropTypes.string,
   lastMonthCallsCount: PropTypes.string,
   surveysCount: PropTypes.string,
   lastMonthSurveysCount: PropTypes.string,
-}
+})
 
 PhoningCampaigns.propTypes = {
   id: PropTypes.string.isRequired,
