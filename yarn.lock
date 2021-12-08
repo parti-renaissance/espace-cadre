@@ -1549,21 +1549,7 @@
     jss-plugin-vendor-prefixer "^10.8.2"
     prop-types "^15.7.2"
 
-"@mui/system@5.2.2":
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.2.2.tgz#81ef74f0c269d18b99a2d0253833d6554bbf5198"
-  integrity sha512-221tPOcZC8A89GOt6LH9YPTj2Iqf880iqrHd7AHT/HznBKOlLrnWD83pCuLPyX2jeFz4OzhvmGbdt5a74UEgaA==
-  dependencies:
-    "@babel/runtime" "^7.16.3"
-    "@mui/private-theming" "^5.2.2"
-    "@mui/styled-engine" "^5.2.0"
-    "@mui/types" "^7.1.0"
-    "@mui/utils" "^5.2.2"
-    clsx "^1.1.1"
-    csstype "^3.0.10"
-    prop-types "^15.7.2"
-
-"@mui/system@^5.2.2", "@mui/system@^5.2.3":
+"@mui/system@5.2.3", "@mui/system@^5.2.2", "@mui/system@^5.2.3":
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.2.3.tgz#70584e6d5cf2b02963a6d0d90d64f7a9ad614803"
   integrity sha512-YvkjmqgOruZgr+IkueRns99gl3MmnNs8BhnlZosYMLzKz/1lY0JqVBFqUh4sGVbD0UEKFwdk8H31itG5OIPChA==
