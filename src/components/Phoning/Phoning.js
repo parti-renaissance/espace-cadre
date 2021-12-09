@@ -11,6 +11,7 @@ import { fr } from 'date-fns/locale'
 import PhoningRatioProgress from './shared/PhoningRatioProgress'
 import CampaignGlobalKpi from './CampaignGlobalKpi'
 import Actions from './Card/Actions'
+import { chipColorsByStatus, defaultChipColor } from './Campaign/shared/constants'
 
 const DateTypography = styled(Typography)(
   ({ theme }) => `
@@ -74,36 +75,36 @@ const Phoning = () => {
         <Title>{messages.campaigns}</Title>
       </Grid>
       <Grid container spacing={2}>
-        {campaigns.map(({ id, endTime, title, creator, teamName, teamMembersCount, goal, callsCount }) => (
-          <Grid item key={id} xs={12} sm={6} md={3}>
-            <UICard
-              rootProps={{ sx: { borderRadius: '8.35px' } }}
-              headerTitle={
-                <>
-                  <Grid container sx={{ my: 1 }}>
-                    <Grid item sx={{ mx: 1 }}>
-                      {endTime ? (
-                        <Chip label={messages.over} color="#374151" bgcolor="rgba(55, 65, 81, 0.08)" />
-                      ) : (
-                        <Chip label={messages.ongoing} color="#047857" bgcolor="rgba(4, 120, 87, 0.08)" />
-                      )}
+        {campaigns.map(({ id, endTime, title, creator, teamName, teamMembersCount, goal, callsCount }) => {
+          const chipColors = chipColorsByStatus?.[endTime] || defaultChipColor
+
+          return (
+            <Grid item key={id} xs={12} sm={6} md={3}>
+              <UICard
+                rootProps={{ sx: { borderRadius: '8.35px' } }}
+                headerTitle={
+                  <>
+                    <Grid container sx={{ my: 1 }}>
+                      <Grid item sx={{ mx: 1 }}>
+                        <Chip label={endTime ? messages.over : messages.ongoing} {...chipColors} />
+                      </Grid>
+                      <Grid item>
+                        <DateTypography>{format(new Date(endTime), 'dd MMMM yyyy', { locale: fr })}</DateTypography>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <DateTypography>{format(new Date(endTime), 'dd MMMM yyyy', { locale: fr })}</DateTypography>
+                    <Grid container flexDirection="column">
+                      <Typography variant="subtitle1">{title}</Typography>
+                      <Typography variant="subtitle2">{`${creator} • ${teamName}(${teamMembersCount})`}</Typography>
                     </Grid>
-                  </Grid>
-                  <Grid container flexDirection="column">
-                    <Typography variant="subtitle1">{title}</Typography>
-                    <Typography variant="subtitle2">{`${creator} • ${teamName}(${teamMembersCount})`}</Typography>
-                  </Grid>
-                </>
-              }
-              content={<PhoningRatioProgress count={callsCount} totalCount={goal} />}
-              actions={<Actions campaignId={id} />}
-              actionsProps={{ sx: { p: 2 } }}
-            />
-          </Grid>
-        ))}
+                  </>
+                }
+                content={<PhoningRatioProgress count={callsCount} totalCount={goal} />}
+                actions={<Actions campaignId={id} />}
+                actionsProps={{ sx: { p: 2 } }}
+              />
+            </Grid>
+          )
+        })}
       </Grid>
     </Container>
   )
