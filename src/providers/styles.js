@@ -36,6 +36,14 @@ export const styles = {
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        label: {
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+      },
+    },
     MuiPaper: {
       defaultProps: {
         elevation: 0,

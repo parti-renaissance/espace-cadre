@@ -1,5 +1,25 @@
 import PropTypes from 'prop-types'
-import { Card, CardActions, CardContent, CardHeader } from '@mui/material'
+import { Box, Paper } from '@mui/material'
+import { styled } from '@mui/system'
+
+export const RootContainer = styled(Paper)(
+  ({ theme }) => `
+  padding: ${theme.spacing(0, 2, 0, 2)};
+  display: flex;
+  flex-direction: column;
+  borderRadius: 8.35px,
+`
+)
+
+export const HeaderContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+`
+
+export const ContentContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+`
 
 const UICard = ({
   headerTitle,
@@ -11,15 +31,20 @@ const UICard = ({
   contentProps = {},
   actionsProps = {},
 }) => (
-  <Card {...rootProps}>
-    {headerTitle && <CardHeader title={headerTitle} subheader={headerSubtitle} disableTypography {...headerProps} />}
+  <Box component={RootContainer} {...rootProps}>
+    {headerTitle && (
+      <Box component={HeaderContainer} {...headerProps}>
+        {headerTitle}
+        {headerSubtitle}
+      </Box>
+    )}
 
-    <CardContent sx={{ ...(contentProps.sx || {}), py: 0 }} {...contentProps}>
+    <Box component={ContentContainer} {...contentProps}>
       {content}
-    </CardContent>
+    </Box>
 
-    {actions && <CardActions {...actionsProps}>{actions}</CardActions>}
-  </Card>
+    {actions && <Box {...actionsProps}>{actions}</Box>}
+  </Box>
 )
 
 UICard.propTypes = {
