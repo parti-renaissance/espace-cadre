@@ -1,6 +1,7 @@
-import { Chip } from '@mui/material'
 import { styled } from '@mui/system'
+
 import { Statistics } from 'domain/message'
+import { Chip as UIChip } from 'ui/Card'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -17,17 +18,17 @@ const messages = {
 
 const Body = ({ statistics }) => {
   const { sent, openings, openingRate, clicks, clickRate, unsubscribes, unsubscribeRate } = statistics
-  const sx = { m: 0.5 }
+  const sx = { bgcolor: 'whiteCorner', border: '1px solid', borderColor: 'gray300', mt: 1, mr: 1 }
   return (
     <HorizontalContainer>
-      <Chip label={`${sent} ${messages.emails}`} variant="outlined" sx={sx} />
-      <Chip label={`${openings} ${messages.open}`} title={`${openingRate}%`} variant="outlined" sx={sx} />
-      <Chip label={`${clicks} ${messages.click}`} title={`${clickRate}%`} variant="outlined" sx={sx} />
-      <Chip
+      <UIChip variant="outlined" label={`${sent} ${messages.emails}`} sx={sx} />
+      <UIChip variant="outlined" label={`${openings} ${messages.open}`} title={`${openingRate}%`} sx={sx} />
+      <UIChip variant="outlined" label={`${clicks} ${messages.click}`} title={`${clickRate}%`} sx={sx} />
+      <UIChip
+        variant="outlined"
         label={`${unsubscribes} ${messages.unsubscribe}`}
         title={`${unsubscribeRate}%`}
-        variant="outlined"
-        sx={sx}
+        sx={{ ...sx, mr: 0 }}
       />
     </HorizontalContainer>
   )

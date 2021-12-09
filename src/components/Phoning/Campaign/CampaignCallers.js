@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 
 import UICard from 'ui/Card/Card'
-import { TruncatedText } from './shared/components'
+import { TruncatedText } from 'components/shared/styled'
 import DomainPhoningCampaignCallers from 'domain/phoning-campaign-callers'
 import PhoningRatioProgress from '../shared/PhoningRatioProgress'
 

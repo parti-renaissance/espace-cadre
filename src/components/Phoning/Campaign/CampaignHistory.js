@@ -3,7 +3,7 @@ import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
-import { TruncatedText } from './shared/components'
+import { TruncatedText } from 'components/shared/styled'
 import DomainPhoningCampaignHistory from 'domain/phoning-campaign-history'
 import { CtaButton } from 'ui/Card'
 import UICard from 'ui/Card/Card'
@@ -67,6 +67,7 @@ const PhoningCampaignHistory = ({ status, startDate, adherent, caller, handleCli
           <CtaButton
             onClick={handleClick}
             sx={{
+              display: 'block',
               color: 'indigo700',
               '&:hover': {
                 bgcolor: 'phoning.background.hover',

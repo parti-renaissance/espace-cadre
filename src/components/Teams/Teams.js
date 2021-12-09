@@ -54,7 +54,7 @@ const Teams = () => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
         <Grid item className={classes.buttonContainer}>
@@ -69,12 +69,15 @@ const Teams = () => {
           {teams.map(team => (
             <Grid item key={team.id} xs={12} sm={6} md={3} lg={3} xl={3}>
               <UICard
+                rootProps={{ sx: { height: '168px' } }}
+                headerProps={{ sx: { pt: '21px' } }}
                 header={
                   <>
                     <Header teamCount={team.members.length} />
-                    <Title subject={team.name} author={team.creator} />
+                    <Title subject={team.name} author={team.creator} sx={{ pt: 1 }} />
                   </>
                 }
+                actionsProps={{ sx: { pt: 3 } }}
                 actions={<Actions teamId={team.id} onEdit={() => handleEditTeam(team.id)} />}
               />
             </Grid>
