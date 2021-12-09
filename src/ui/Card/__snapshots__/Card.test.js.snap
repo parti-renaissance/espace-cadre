@@ -3,13 +3,13 @@
 exports[`Card displays a Card with actions 1`] = `
 <div>
   <div
-    class="mui-card-mock"
+    class="mui-box-mock"
   >
     <div
-      class="mui-cardcontent-mock"
+      class="mui-box-mock"
     />
     <div
-      class="mui-cardactions-mock"
+      class="mui-box-mock"
     >
       actions
     </div>
@@ -20,10 +20,10 @@ exports[`Card displays a Card with actions 1`] = `
 exports[`Card displays a Card with content 1`] = `
 <div>
   <div
-    class="mui-card-mock"
+    class="mui-box-mock"
   >
     <div
-      class="mui-cardcontent-mock"
+      class="mui-box-mock"
     >
       content
     </div>
