@@ -1,4 +1,4 @@
-import { Box, Button as MuiButton, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
