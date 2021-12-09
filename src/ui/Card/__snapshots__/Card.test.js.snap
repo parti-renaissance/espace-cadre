@@ -34,17 +34,16 @@ exports[`Card displays a Card with content 1`] = `
 exports[`Card displays a Card with headers 1`] = `
 <div>
   <div
-    class="mui-card-mock"
+    class="mui-box-mock"
   >
     <div
-      class="mui-cardheader-mock"
+      class="mui-box-mock"
     >
       header
-      -
       subtitle
     </div>
     <div
-      class="mui-cardcontent-mock"
+      class="mui-box-mock"
     />
   </div>
 </div>
