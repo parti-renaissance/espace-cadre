@@ -10,11 +10,7 @@ jest.mock('@mui/material', () => ({
 
 describe('Container', () => {
   it('displays grid', () => {
-    const { container } = render(
-      <UIContainer rootClasses="fooClass" xs={0} sm={1} md={2} lg={3} xl={4}>
-        Foo
-      </UIContainer>
-    )
+    const { container } = render(<UIContainer rootClasses="fooClass">Foo</UIContainer>)
 
     expect(container).toMatchSnapshot()
   })

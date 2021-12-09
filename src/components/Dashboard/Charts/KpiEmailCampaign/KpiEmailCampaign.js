@@ -130,13 +130,21 @@ function KpiEmailCampaign() {
     return (
       <>
         <EmailCampaignTitle />
-        <UIContainer
-          sx={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          breakpoints={{ xs: 12 }}
+        <Grid
+          item
+          xs={12}
+          sx={{
+            height: 120,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: 'whiteCorner',
+            borderRadius: '6px',
+          }}
           textAlign="center"
         >
           <Loader />
-        </UIContainer>
+        </Grid>
       </>
     )
   }
