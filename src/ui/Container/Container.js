@@ -11,24 +11,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const UIContainer = ({
-  children,
-  rootClasses = '',
-  breakpoints = { xs: null, sm: null, md: null, lg: null, xl: null },
-  textAlign = null,
-}) => {
+const UIContainer = ({ children, rootClasses = '', textAlign = null, ...props }) => {
   const classes = useStyles({ textAlign })
 
   return (
-    <Grid
-      item
-      className={`${classes.root} ${rootClasses}`}
-      xs={breakpoints.xs}
-      sm={breakpoints.sm}
-      md={breakpoints.md}
-      lg={breakpoints.lg}
-      xl={breakpoints.xl}
-    >
+    <Grid item className={`${classes.root} ${rootClasses}`} {...props}>
       {children}
     </Grid>
   )
@@ -40,6 +27,7 @@ UIContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]).isRequired,
   rootClasses: PropTypes.string,
   textAlign: PropTypes.string,
+  sx: PropTypes.object,
   breakpoints: PropTypes.shape({
     xs: PropTypes.number,
     sm: PropTypes.number,

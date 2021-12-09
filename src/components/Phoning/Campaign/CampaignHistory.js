@@ -5,9 +5,7 @@ import { format } from 'date-fns'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText } from './shared/components'
 import DomainPhoningCampaignHistory from 'domain/phoning-campaign-history'
-import { CtaButton } from 'ui/Card'
-import UICard from 'ui/Card/Card'
-import { Chip as UIChip } from 'ui/Card/Chip/Chip'
+import UICard, { UIChip, CtaButton } from 'ui/Card'
 
 const AuhthorContainer = styled(Box)`
   display: flex;

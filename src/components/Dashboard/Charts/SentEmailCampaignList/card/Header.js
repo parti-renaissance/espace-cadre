@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
-import { Chip } from 'ui/Card'
+import { UIChip } from 'ui/Card'
 import { Typography } from '@mui/material'
 
 const UIDate = styled('span')(
@@ -29,7 +29,7 @@ const HorizontalContainer = styled('div')`
 
 export const Header = ({ draft, createdAt }) => (
   <HorizontalContainer>
-    <Chip
+    <UIChip
       color={draft ? 'gray700' : 'green700'}
       bgcolor={draft ? 'gray200' : 'green200'}
       label={draft ? messages.draft : messages.sent}

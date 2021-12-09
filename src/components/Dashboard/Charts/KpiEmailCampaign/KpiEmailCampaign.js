@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Grid, Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { apiClientProxy } from 'services/networking/client'
-import Loader from 'ui/Loader'
+import UILoader from 'ui/Loader'
 import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
 import { useUserScope } from '../../../../redux/user/hooks'
@@ -10,6 +10,7 @@ import EmailCampaignTitle from './EmailCampaignTitle'
 import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
 import pluralize from 'components/shared/pluralize/pluralize'
+import { styled } from '@mui/system'
 
 const useStyles = makeStyles(theme => ({
   cardContainer: {
@@ -37,6 +38,16 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.grayCorner3,
   },
 }))
+
+const LoaderContainer = styled(props => <Grid item xs={12} {...props} />)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.palette.whiteCorner};
+  border-radius: 6px;
+  height: 120px;
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
+`
 
 const messages = {
   campaign: 'Campagne',
@@ -130,9 +141,9 @@ function KpiEmailCampaign() {
     return (
       <>
         <EmailCampaignTitle />
-        <UIContainer breakpoints={{ xs: 12 }} textAlign="center">
-          <Loader />
-        </UIContainer>
+        <LoaderContainer>
+          <UILoader />
+        </LoaderContainer>
       </>
     )
   }

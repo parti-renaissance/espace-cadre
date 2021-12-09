@@ -4,8 +4,7 @@ import PageHeader from 'ui/PageHeader'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useQuery } from 'react-query'
 import { getGlobalKpiQuery, getPhoningCampaignsQuery } from 'api/phoning'
-import UICard from 'ui/Card'
-import { Chip } from 'ui/Card/'
+import UICard, { UIChip } from 'ui/Card'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import PhoningRatioProgress from './shared/PhoningRatioProgress'
@@ -86,7 +85,7 @@ const Phoning = () => {
                   <>
                     <Grid container sx={{ my: 1 }}>
                       <Grid item sx={{ mx: 1 }}>
-                        <Chip label={endTime ? messages.over : messages.ongoing} {...chipColors} />
+                        <UIChip label={endTime ? messages.over : messages.ongoing} {...chipColors} />
                       </Grid>
                       <Grid item>
                         <DateTypography>{format(new Date(endTime), 'dd MMMM yyyy', { locale: fr })}</DateTypography>
