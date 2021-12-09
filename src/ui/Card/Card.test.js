@@ -1,15 +1,11 @@
 import { render } from '@testing-library/react'
 import UICard from './Card'
 
+jest.mock('@mui/system', () => ({
+  styled: c => () => c,
+}))
 jest.mock('@mui/material', () => ({
-  Card: ({ children }) => <div className="mui-card-mock">{children}</div>,
-  CardHeader: ({ title, subheader }) => (
-    <div className="mui-cardheader-mock">
-      {title}-{subheader}
-    </div>
-  ),
-  CardContent: ({ children }) => <div className="mui-cardcontent-mock">{children}</div>,
-  CardActions: ({ children }) => <div className="mui-cardactions-mock">{children}</div>,
+  Box: ({ children }) => <div className="mui-box-mock">{children}</div>,
 }))
 describe('Card', () => {
   it('displays a Card with headers', () => {

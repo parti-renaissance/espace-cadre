@@ -19,15 +19,6 @@ const Current = styled(Typography)(
   line-height: 28px;
 `
 )
-const Max = styled(Typography)(
-  ({ theme }) => `
-  padding-left: ${theme.spacing(0.3)};
-  color: ${theme.palette.phoning.background.ratio.max};
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-`
-)
 
 const messages = {
   separator: '/',
@@ -39,10 +30,10 @@ const PhoningRatioProgress = ({ count, totalCount }) => {
     <>
       <Grid container alignItems="flex-end">
         <Current>{count}</Current>
-        <Max>
+        <Typography variant="subtitle1" sx={{ pl: 0.3, color: 'phoning.background.ratio.max' }}>
           {messages.separator}
           {totalCount}
-        </Max>
+        </Typography>
       </Grid>
       <ProgressBar variant="determinate" value={value > 100 ? 100 : value} sx={{ mt: 0.5 }} />
     </>
