@@ -10,7 +10,7 @@ const PhoningCampaignCallers = ({ number, firstName, lastName, count, goal }) =>
     <UICard
       rootProps={{ sx: { height: '125px' } }}
       headerProps={{ sx: { pt: '21px' } }}
-      headerTitle={
+      header={
         <TruncatedText variant="subtitle1" sx={{ color: 'gray900' }} title={`${firstName} ${lastName}`}>
           {number}. {firstName} {lastName}
         </TruncatedText>

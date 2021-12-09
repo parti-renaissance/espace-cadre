@@ -91,8 +91,12 @@ const Ripostes = () => {
           {ripostes.map(r => (
             <Grid item key={r.id} xs={12} sm={6} md={3} lg={3} xl={3}>
               <UICard
-                headerTitle={<Header {...r} />}
-                headerSubtitle={<Title subject={r.title} author={`Par ${r.creator}`} />}
+                header={
+                  <>
+                    <Header {...r} />
+                    <Title subject={r.title} author={`Par ${r.creator}`} />
+                  </>
+                }
                 content={<Content riposte={r} handleEdit={handleEdit(r.id)} toggleStatus={toggleRiposteStatus} />}
                 actions={
                   <Actions toggleStatus={() => toggleRiposteStatus(r.id)} onEdit={handleEdit(r.id)} status={r.status} />

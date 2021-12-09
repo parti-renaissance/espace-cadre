@@ -22,8 +22,7 @@ export const ContentContainer = styled('div')`
 `
 
 const UICard = ({
-  headerTitle,
-  headerSubtitle,
+  header,
   content,
   actions,
   rootProps = {},
@@ -32,24 +31,24 @@ const UICard = ({
   actionsProps = {},
 }) => (
   <Box component={RootContainer} {...rootProps}>
-    {headerTitle && (
+    {header && (
       <Box component={HeaderContainer} {...headerProps}>
-        {headerTitle}
-        {headerSubtitle}
+        {header}
       </Box>
     )}
 
-    <Box component={ContentContainer} {...contentProps}>
-      {content}
-    </Box>
+    {content && (
+      <Box component={ContentContainer} {...contentProps}>
+        {content}
+      </Box>
+    )}
 
     {actions && <Box {...actionsProps}>{actions}</Box>}
   </Box>
 )
 
 UICard.propTypes = {
-  headerTitle: PropTypes.node,
-  headerSubtitle: PropTypes.node,
+  header: PropTypes.node,
   content: PropTypes.node,
   actions: PropTypes.node,
   rootProps: PropTypes.object,

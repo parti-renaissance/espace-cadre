@@ -96,7 +96,7 @@ const PhoningCampaignKPI = ({ startDate, endDate, surveys, calls, averageTime })
             rootProps={{ sx: { height: '125px' } }}
             headerProps={{ sx: { pt: '21px' } }}
             contentProps={{ sx: { pt: 3 } }}
-            headerTitle={<SubTitle>{pluralize(surveys.count, messages.surveys)}</SubTitle>}
+            header={<SubTitle>{pluralize(surveys.count, messages.surveys)}</SubTitle>}
             content={<PhoningRatioProgress count={surveys.count} totalCount={surveys.goal} />}
           />
         </Grid>

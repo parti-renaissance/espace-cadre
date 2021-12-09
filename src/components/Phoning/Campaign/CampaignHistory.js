@@ -38,16 +38,16 @@ const PhoningCampaignHistory = ({ status, startDate, adherent, caller, handleCli
       <UICard
         rootProps={{ sx: { height: '205px' } }}
         headerProps={{ sx: { pt: '21px' } }}
-        headerTitle={
-          <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
-            {adherent.firstName} {adherent.lastName}
-          </TruncatedText>
-        }
-        headerSubtitle={
-          <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-            {gender && `${gender}, `}
-            {adherent.age && `${adherent.age} ${messages.years}`}
-          </Typography>
+        header={
+          <>
+            <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
+              {adherent.firstName} {adherent.lastName}
+            </TruncatedText>
+            <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
+              {gender && `${gender}, `}
+              {adherent.age && `${adherent.age} ${messages.years}`}
+            </Typography>
+          </>
         }
         contentProps={{ sx: { pt: 1 } }}
         content={

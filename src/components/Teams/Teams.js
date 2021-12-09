@@ -69,8 +69,12 @@ const Teams = () => {
           {teams.map(team => (
             <Grid item key={team.id} xs={12} sm={6} md={3} lg={3} xl={3}>
               <UICard
-                headerTitle={<Header teamCount={team.members.length} />}
-                headerSubtitle={<Title subject={team.name} author={team.creator} />}
+                header={
+                  <>
+                    <Header teamCount={team.members.length} />
+                    <Title subject={team.name} author={team.creator} />
+                  </>
+                }
                 actions={<Actions teamId={team.id} onEdit={() => handleEditTeam(team.id)} />}
               />
             </Grid>
