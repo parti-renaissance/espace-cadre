@@ -9,6 +9,7 @@ import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
 import { createMessageContent, updateMessageContent } from 'api/messagerie'
 import PropTypes from 'prop-types'
+import paths from 'components/Messagerie/shared/paths'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -26,8 +27,6 @@ const useStyles = makeStyles(theme => ({
   },
   mailObject: {
     width: '100%',
-    border: `1px solid ${theme.palette.gray200}`,
-    borderRadius: '8.35px',
   },
   buttonContainer: {
     justifyContent: 'spaceBetween',
@@ -70,7 +69,7 @@ const Template = ({ modeUpdate = false }) => {
       setMessage(body)
 
       enqueueSnackbar(modeUpdate ? messages.updateSuccess : messages.createSuccess, notifyVariants.success)
-      modeUpdate ? navigate('../filtrer') : navigate(`../${body.uuid}/filtrer`)
+      modeUpdate ? navigate(`../${paths.filter}`) : navigate(`../${body.uuid}/${paths.filter}`)
     } catch (e) {
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
     }

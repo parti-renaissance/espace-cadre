@@ -60,9 +60,9 @@ const Dashboard = () => {
             </UIContainer>
           </Grid>
         </Grid>
-        <UIContainer breakpoints={{ xs: 12 }}>
+        <Grid item xs={12}>
           <MapComponent />
-        </UIContainer>
+        </Grid>
       </Grid>
     </Container>
   )

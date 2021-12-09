@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { IconButton as MuiIconButton, Menu, MenuItem as MuiMenuItem } from '@mui/material'
+import { IconButton, Menu, MenuItem as MuiMenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
@@ -7,12 +7,6 @@ import PropTypes from 'prop-types'
 const Wrapper = styled('div')`
   display: flex;
 `
-
-const Button = styled(MuiIconButton)(
-  ({ theme }) => `
-  margin-top: ${theme.spacing(1.25)}
-`
-)
 
 const MenuItem = styled(MuiMenuItem)`
   font-size: 13px;
@@ -58,9 +52,9 @@ const DotsMenu = ({ children }) => {
 
   return (
     <Wrapper>
-      <Button size="small" onClick={handleButtonClick}>
+      <IconButton size="small" onClick={handleButtonClick} sx={{ p: 0 }}>
         <MoreVertIcon />
-      </Button>
+      </IconButton>
       <Menu
         anchorEl={anchorEl}
         keepMounted

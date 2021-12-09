@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 const Button = styled(MuiButton)(
   ({ theme }) => `
   padding: ${theme.spacing(0.5, 1.25)};
+  margin-left: -8px;
   min-width: 0;
   fontSize: 13px;
   font-weight: 500;

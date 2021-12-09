@@ -1,26 +1,24 @@
 import { CtaButton } from 'ui/Card'
 import { styled } from '@mui/system'
 import { generatePath, useNavigate } from 'react-router-dom'
-import paths from 'components/Messagerie/shared/paths'
 import PropTypes from 'prop-types'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
 const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 `
 
 const messages = {
-  update: 'Modifier',
-  delete: 'Supprimer',
+  see: 'Voir',
 }
 
-const Actions = ({ messageId, del }) => {
+const Actions = ({ campaignId }) => {
   const navigate = useNavigate()
+
   const handleClick = () => {
-    navigate(generatePath(':messageId/' + paths.update, { messageId }))
+    navigate(generatePath('/phoning/:id', { id: campaignId }))
   }
 
   return (
@@ -28,17 +26,14 @@ const Actions = ({ messageId, del }) => {
       <CtaButton
         onClick={handleClick}
         sx={{
-          color: 'yellow400',
+          color: 'indigo700',
           '&:hover': {
-            bgcolor: '#FFFAEE',
+            bgcolor: '#F0EFFB',
           },
         }}
       >
-        {messages.update}
+        {messages.see}
       </CtaButton>
-      <DotsMenu>
-        <DotsMenuItem onClick={del}>{messages.delete}</DotsMenuItem>
-      </DotsMenu>
     </HorizontalContainer>
   )
 }
@@ -46,6 +41,5 @@ const Actions = ({ messageId, del }) => {
 export default Actions
 
 Actions.propTypes = {
-  messageId: PropTypes.string.isRequired,
-  del: PropTypes.func.isRequired,
+  campaignId: PropTypes.string.isRequired,
 }

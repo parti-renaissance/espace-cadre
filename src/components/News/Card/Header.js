@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
-import { Chip } from 'ui/Card'
+import { UIChip } from 'ui/Card'
 import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import { Typography } from '@mui/material'
@@ -49,7 +49,7 @@ const messages = {
 
 const Header = ({ status, withNotification, createdAt }) => (
   <HorizontalContainer data-testid="news-header">
-    <Chip
+    <UIChip
       color={status ? 'teal700' : 'red600'}
       bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
       label={status ? messages.published : messages.unpublished}

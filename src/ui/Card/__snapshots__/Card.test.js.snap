@@ -3,10 +3,10 @@
 exports[`Card displays a Card with actions 1`] = `
 <div>
   <div
-    class="mui-box-mock"
+    class="mui-paper-mock"
   >
     <div
-      class="mui-box-mock"
+      sx="[object Object]"
     >
       actions
     </div>
@@ -17,11 +17,9 @@ exports[`Card displays a Card with actions 1`] = `
 exports[`Card displays a Card with content 1`] = `
 <div>
   <div
-    class="mui-box-mock"
+    class="mui-paper-mock"
   >
-    <div
-      class="mui-box-mock"
-    >
+    <div>
       content
     </div>
   </div>
@@ -31,11 +29,9 @@ exports[`Card displays a Card with content 1`] = `
 exports[`Card displays a Card with headers 1`] = `
 <div>
   <div
-    class="mui-box-mock"
+    class="mui-paper-mock"
   >
-    <div
-      class="mui-box-mock"
-    >
+    <div>
       header
     </div>
   </div>

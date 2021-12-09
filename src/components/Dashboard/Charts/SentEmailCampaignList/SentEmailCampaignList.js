@@ -61,7 +61,7 @@ const SentEmailCampaignList = () => {
         {emailCampaignReports.data.map(message => (
           <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
             <UICard
-              rootProps={{ sx: { height: '245px' } }}
+              rootProps={{ sx: { height: '230px' } }}
               headerProps={{ sx: { pt: '21px' } }}
               header={
                 <>
@@ -69,7 +69,7 @@ const SentEmailCampaignList = () => {
                   <Title subject={message.subject} author={message.author} sx={{ pt: 1 }} />
                 </>
               }
-              contentProps={{ sx: { pt: 2 } }}
+              contentProps={{ sx: { pt: 1 } }}
               content={message.draft && <Body statistics={message.statistics} />}
               actionsProps={{ sx: { pt: 3 } }}
               actions={message.draft && <Actions messageId={message.id} del={() => deleteDraft(message.id)} />}

@@ -7,6 +7,7 @@ const refused = 'failed'
 const abandoned = 'interrupted-dont-remind'
 const interrupted = 'interrupted'
 const completed = 'completed'
+const isOver = true
 
 export const defaultChipColor = { color: 'gray600', backgroundColor: 'gray200' }
 export const chipColorsByStatus = {
@@ -19,6 +20,7 @@ export const chipColorsByStatus = {
   [abandoned]: defaultChipColor,
   [interrupted]: defaultChipColor,
   [completed]: { color: 'green700', bgcolor: 'phoning.background.chip.completed' },
+  [!isOver]: { color: 'green700', bgcolor: 'phoning.background.chip.completed' },
 }
 
 export const chipLabelByStatus = {

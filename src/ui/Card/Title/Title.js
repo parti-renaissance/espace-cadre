@@ -14,7 +14,7 @@ export const Title = ({ subject, author, ...props }) => (
     <TruncatedText variant="subtitle1" title={subject} sx={{ color: 'gray900' }}>
       {subject}
     </TruncatedText>
-    <UiSubTitle>{author}</UiSubTitle>
+    <UiSubTitle sx={{ pt: 1 }}>{author}</UiSubTitle>
   </VerticalContainer>
 )
 

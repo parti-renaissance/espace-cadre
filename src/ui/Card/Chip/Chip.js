@@ -12,7 +12,7 @@ const Label = styled(Typography)({
   },
 })
 
-export const Chip = ({ label, color, bgcolor, sx = {}, ...props }) => (
+export const UIChip = ({ label, color, bgcolor, sx = {}, ...props }) => (
   <MuiChip
     size="small"
     variant="filled"
@@ -22,7 +22,7 @@ export const Chip = ({ label, color, bgcolor, sx = {}, ...props }) => (
   />
 )
 
-Chip.propTypes = {
+UIChip.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   color: PropTypes.string,
   bgcolor: PropTypes.string,
