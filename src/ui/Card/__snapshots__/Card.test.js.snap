@@ -7,9 +7,6 @@ exports[`Card displays a Card with actions 1`] = `
   >
     <div
       class="mui-box-mock"
-    />
-    <div
-      class="mui-box-mock"
     >
       actions
     </div>
@@ -40,11 +37,7 @@ exports[`Card displays a Card with headers 1`] = `
       class="mui-box-mock"
     >
       header
-      subtitle
     </div>
-    <div
-      class="mui-box-mock"
-    />
   </div>
 </div>
 `;

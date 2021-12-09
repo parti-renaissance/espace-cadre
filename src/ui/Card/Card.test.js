@@ -9,7 +9,7 @@ jest.mock('@mui/material', () => ({
 }))
 describe('Card', () => {
   it('displays a Card with headers', () => {
-    const { container } = render(<UICard headerTitle="header" headerSubtitle="subtitle" />)
+    const { container } = render(<UICard header="header" />)
     expect(container).toMatchSnapshot()
   })
 
