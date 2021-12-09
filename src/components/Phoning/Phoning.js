@@ -10,6 +10,7 @@ import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import PhoningRatioProgress from './shared/PhoningRatioProgress'
 import CampaignGlobalKpi from './CampaignGlobalKpi'
+import Actions from './Card/Actions'
 
 const DateTypography = styled(Typography)(
   ({ theme }) => `
@@ -34,6 +35,7 @@ const messages = {
   campaigns: 'Campagnes',
   over: 'Terminé',
   ongoing: 'En cours',
+  see: 'Voir',
 }
 
 const Phoning = () => {
@@ -73,7 +75,7 @@ const Phoning = () => {
       </Grid>
       <Grid container spacing={2}>
         {campaigns.map(({ id, endTime, title, creator, teamName, teamMembersCount, goal, callsCount }) => (
-          <Grid item key={id} item xs={12} sm={6} md={3} lg={3} xl={3}>
+          <Grid item key={id} xs={12} sm={6} md={3}>
             <UICard
               rootProps={{ sx: { borderRadius: '8.35px' } }}
               headerTitle={
@@ -97,6 +99,8 @@ const Phoning = () => {
                 </>
               }
               content={<PhoningRatioProgress count={callsCount} totalCount={goal} />}
+              actions={<Actions campaignId={id} />}
+              actionsProps={{ sx: { p: 2 } }}
             />
           </Grid>
         ))}
