@@ -20,7 +20,7 @@ const UICard = ({
   rootProps = {},
   headerProps = {},
   contentProps = {},
-  actionsProps = {},
+  actionsProps: { sx: actionsSx, ...actionsProps } = {},
 }) => (
   <Root {...rootProps}>
     {header && <VerticalContainer {...headerProps}>{header}</VerticalContainer>}
