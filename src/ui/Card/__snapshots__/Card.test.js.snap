@@ -5,9 +5,7 @@ exports[`Card displays a Card with actions 1`] = `
   <div
     class="mui-paper-mock"
   >
-    <div
-      sx="[object Object]"
-    >
+    <div>
       actions
     </div>
   </div>

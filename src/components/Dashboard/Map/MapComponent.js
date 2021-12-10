@@ -54,7 +54,7 @@ const messages = {
 
 function MapComponent() {
   const { handleError } = useErrorHandler()
-  const { data: surveys = {}, isFetching } = useQuery('surveys', getSurveyMapQuery, { onError: handleError })
+  const { data: surveys = {}, isFetching } = useQuery('surveys', () => getSurveyMapQuery(), { onError: handleError })
   L.Icon.Default.imagePath = '/'
 
   return (

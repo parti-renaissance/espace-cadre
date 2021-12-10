@@ -34,7 +34,7 @@ const SentEmailCampaignList = () => {
     data: emailCampaignReports = null,
     refetch,
     isLoading,
-  } = useQuery('messages', getMessages, { onError: handleError })
+  } = useQuery('messages', () => getMessages(), { onError: handleError })
   const { mutate: deleteDraft } = useMutation(deleteMessage, {
     onSuccess: () => {
       refetch()
