@@ -88,9 +88,11 @@ export const styles = {
         main: '#F0EFFB',
         hover: '#F0EFFB',
         chip: {
+          default: 'rgba(55, 65, 81, 0.08)',
           sent: 'rgba(3, 105, 161, 0.08)',
           unsubscribed: 'rgba(245, 158, 11, 0.08)',
           completed: 'rgba(4, 120, 87, 0.08)',
+          ongoing: 'rgba(4, 120, 87, 0.08)',
         },
         progressBar: {
           empty: 'rgba(67, 56, 202, 0.16)',
