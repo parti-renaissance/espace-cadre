@@ -75,7 +75,7 @@ const Ripostes = () => {
   )
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <Grid item>
           <PageTitle title={messages.title} />
@@ -91,9 +91,17 @@ const Ripostes = () => {
           {ripostes.map(r => (
             <Grid item key={r.id} xs={12} sm={6} md={3} lg={3} xl={3}>
               <UICard
-                headerTitle={<Header {...r} />}
-                headerSubtitle={<Title subject={r.title} author={`Par ${r.creator}`} />}
+                rootProps={{ sx: { height: '238px' } }}
+                headerProps={{ sx: { pt: '21px' } }}
+                header={
+                  <>
+                    <Header {...r} />
+                    <Title subject={r.title} author={`Par ${r.creator}`} sx={{ pt: 1 }} />
+                  </>
+                }
+                contentProps={{ sx: { pt: 1 } }}
                 content={<Content riposte={r} handleEdit={handleEdit(r.id)} toggleStatus={toggleRiposteStatus} />}
+                actionsProps={{ sx: { pt: 3 } }}
                 actions={
                   <Actions toggleStatus={() => toggleRiposteStatus(r.id)} onEdit={handleEdit(r.id)} status={r.status} />
                 }

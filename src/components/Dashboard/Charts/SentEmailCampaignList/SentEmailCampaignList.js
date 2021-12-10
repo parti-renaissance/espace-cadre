@@ -61,10 +61,18 @@ const SentEmailCampaignList = () => {
         {emailCampaignReports.data.map(message => (
           <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
             <UICard
-              headerTitle={<Header createdAt={message.createdAt} draft={message.draft} />}
-              headerSubtitle={<Title subject={message.subject} author={message.author} />}
-              content={message.draft ? null : <Body statistics={message.statistics} />}
-              actions={message.draft ? <Actions messageId={message.id} del={() => deleteDraft(message.id)} /> : null}
+              rootProps={{ sx: { height: '230px' } }}
+              headerProps={{ sx: { pt: '21px' } }}
+              header={
+                <>
+                  <Header createdAt={message.createdAt} draft={message.draft} />
+                  <Title subject={message.subject} author={message.author} sx={{ pt: 1 }} />
+                </>
+              }
+              contentProps={{ sx: { pt: 1 } }}
+              content={message.draft && <Body statistics={message.statistics} />}
+              actionsProps={{ sx: { pt: 3 } }}
+              actions={message.draft && <Actions messageId={message.id} del={() => deleteDraft(message.id)} />}
             />
           </Grid>
         ))}

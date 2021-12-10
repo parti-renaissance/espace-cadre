@@ -7,9 +7,6 @@ import Riposte from 'domain/riposte'
 import pluralize from 'components/shared/pluralize/pluralize'
 
 const useStyles = makeStyles(theme => ({
-  KpiContainer: {
-    marginBottom: theme.spacing(2.5),
-  },
   chip: {
     fontSize: '10px',
     fontWeight: '500',
@@ -38,7 +35,7 @@ const Content = ({ riposte }) => {
   const NotificationIcon = withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
 
   return (
-    <Grid container spacing={1} className={classes.KpiContainer}>
+    <Grid container spacing={1}>
       <Grid item>
         <NotificationIcon className={`${classes.chip} ${classes.icon}`} />
       </Grid>

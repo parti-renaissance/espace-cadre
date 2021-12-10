@@ -5,7 +5,7 @@ import { differenceInCalendarDays, format } from 'date-fns'
 import pluralize from 'components/shared/pluralize/pluralize'
 import PhoningCampaign from 'domain/phoning-campaign'
 import UICard from 'ui/Card/Card'
-import PhoningRatioProgress from '../shared/PhoningRatioProgress'
+import RatioProgress from '../shared/RatioProgress'
 
 const KPIWrapper = styled(Paper)(
   ({ theme }) => `
@@ -58,7 +58,7 @@ const messages = {
   averageTimeDetail: 'Passé par appel',
 }
 
-const PhoningCampaignKPI = ({ startDate, endDate, surveys, calls, averageTime }) => {
+const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) => {
   const daysRemaining = differenceInCalendarDays(new Date(endDate), new Date()) || 0
 
   return (
@@ -74,7 +74,7 @@ const PhoningCampaignKPI = ({ startDate, endDate, surveys, calls, averageTime })
             contentProps={{ sx: { pt: '25px' } }}
             content={
               <>
-                <Score>{daysRemaining}</Score>
+                <Score>{daysRemaining <= 0 ? 0 : daysRemaining}</Score>
                 <SubTitle>
                   {pluralize(daysRemaining, messages.day)}&nbsp;
                   {pluralize(daysRemaining, messages.remaining)}
@@ -96,8 +96,8 @@ const PhoningCampaignKPI = ({ startDate, endDate, surveys, calls, averageTime })
             rootProps={{ sx: { height: '125px' } }}
             headerProps={{ sx: { pt: '21px' } }}
             contentProps={{ sx: { pt: 3 } }}
-            headerTitle={<SubTitle>{pluralize(surveys.count, messages.surveys)}</SubTitle>}
-            content={<PhoningRatioProgress count={surveys.count} totalCount={surveys.goal} />}
+            header={<SubTitle>{pluralize(surveys.count, messages.surveys)}</SubTitle>}
+            content={<RatioProgress count={surveys.count} totalCount={surveys.goal} />}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
@@ -138,6 +138,6 @@ const PhoningCampaignKPI = ({ startDate, endDate, surveys, calls, averageTime })
   )
 }
 
-PhoningCampaignKPI.propTypes = PhoningCampaign.PropTypes
+CampaignDetailKPI.propTypes = PhoningCampaign.PropTypes
 
-export default PhoningCampaignKPI
+export default CampaignDetailKPI

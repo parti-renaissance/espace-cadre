@@ -51,7 +51,7 @@ const Dashboard = () => {
   const classes = useStyles()
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
         <Grid item className={classes.mailButtonContainer}>

@@ -24,7 +24,6 @@ const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.spacing(1)};
 `
 
 export const Header = ({ draft, createdAt }) => (

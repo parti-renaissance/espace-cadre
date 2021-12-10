@@ -1,55 +1,42 @@
 import PropTypes from 'prop-types'
-import { Box, Paper } from '@mui/material'
+import { Paper } from '@mui/material'
 import { styled } from '@mui/system'
 
-export const RootContainer = styled(Paper)(
+import { VerticalContainer } from 'components/shared/styled'
+
+export const Root = styled(Paper)(
   ({ theme }) => `
   padding: ${theme.spacing(0, 2, 0, 2)};
   display: flex;
   flex-direction: column;
-  borderRadius: 8.35px,
+  borderRadius: 8.35px;
 `
 )
 
-export const HeaderContainer = styled('div')`
-  display: flex;
-  flex-direction: column;
-`
-
-export const ContentContainer = styled('div')`
-  display: flex;
-  flex-direction: column;
-`
-
 const UICard = ({
-  headerTitle,
-  headerSubtitle,
+  header,
   content,
   actions,
   rootProps = {},
   headerProps = {},
   contentProps = {},
-  actionsProps = {},
+  actionsProps: { sx: actionsSx, ...actionsProps } = {},
 }) => (
-  <Box component={RootContainer} {...rootProps}>
-    {headerTitle && (
-      <Box component={HeaderContainer} {...headerProps}>
-        {headerTitle}
-        {headerSubtitle}
-      </Box>
+  <Root {...rootProps}>
+    {header && <VerticalContainer {...headerProps}>{header}</VerticalContainer>}
+
+    {content && <VerticalContainer {...contentProps}>{content}</VerticalContainer>}
+
+    {actions && (
+      <VerticalContainer sx={{ display: 'block', ...actionsSx }} {...actionsProps}>
+        {actions}
+      </VerticalContainer>
     )}
-
-    <Box component={ContentContainer} {...contentProps}>
-      {content}
-    </Box>
-
-    {actions && <Box {...actionsProps}>{actions}</Box>}
-  </Box>
+  </Root>
 )
 
 UICard.propTypes = {
-  headerTitle: PropTypes.node,
-  headerSubtitle: PropTypes.node,
+  header: PropTypes.node,
   content: PropTypes.node,
   actions: PropTypes.node,
   rootProps: PropTypes.object,

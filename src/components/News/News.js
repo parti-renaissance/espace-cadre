@@ -98,8 +98,15 @@ const News = () => {
         {news.map(n => (
           <Grid item key={n.id} xs={12} sm={6} md={3} lg={3} xl={3}>
             <UICard
-              headerTitle={<Header {...n} />}
-              headerSubtitle={<Title subject={n.title} author={`Par ${n.creator}`} />}
+              rootProps={{ sx: { height: '175px' } }}
+              headerProps={{ sx: { pt: '21px' } }}
+              header={
+                <>
+                  <Header {...n} />
+                  <Title subject={n.title} author={`Par ${n.creator}`} sx={{ pt: 1 }} />
+                </>
+              }
+              actionsProps={{ sx: { pt: 3 } }}
               actions={
                 <Actions toggleStatus={() => toggleNewsStatus(n.id)} onView={handleView(n.id)} status={n.status} />
               }

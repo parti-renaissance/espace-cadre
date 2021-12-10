@@ -8,7 +8,7 @@ import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
 `
 
