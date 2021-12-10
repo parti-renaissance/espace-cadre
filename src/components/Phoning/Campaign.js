@@ -1,9 +1,11 @@
+import PropTypes from 'prop-types'
+
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format, parseISO } from 'date-fns'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import DomainPhoningCampaignCallers from 'domain/phoning-campaign-callers'
+import { PhoningCampaigns as DomainPhoningCampaigns } from 'domain/phoning'
 import RatioProgress from './shared/RatioProgress'
 import { chipColorsByStatus } from './CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
@@ -80,6 +82,9 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) =
   )
 }
 
-PhoningCampaign.propTypes = DomainPhoningCampaignCallers.PropTypes
+PhoningCampaign.propTypes = {
+  ...DomainPhoningCampaigns.PropTypes,
+  handleClick: PropTypes.func.isRequired,
+}
 
 export default PhoningCampaign

@@ -82,7 +82,7 @@ const News = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 2 }}>
+    <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <Grid item>
           <PageTitle title={messages.title} />
