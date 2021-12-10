@@ -43,13 +43,13 @@ export const CampaignDetail = () => {
   const [selectedTab, setSelectedTab] = useState(messages.callers.id)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
-  const { data: campaign = {} } = useQuery('campaign', () => getPhoningCampaignQuery(campaignId), {
+  const { data: campaign = {} } = useQuery(['campaign', campaignId], () => getPhoningCampaignQuery(campaignId), {
     onError: handleError,
   })
-  const { data: callers = [] } = useQuery('callers', () => getPhoningCampaignCallers(campaignId), {
+  const { data: callers = [] } = useQuery(['callers', campaignId], () => getPhoningCampaignCallers(campaignId), {
     onError: handleError,
   })
-  const { data: history = [] } = useQuery('history', () => getPhoningCampaignHistory(campaignId), {
+  const { data: history = {} } = useQuery(['history', campaignId], () => getPhoningCampaignHistory(campaignId), {
     onError: handleError,
   })
 
@@ -69,7 +69,7 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'phoning.background.main' }}>{messages.pageTitle}</PageTitle>
+              <PageTitle sx={{ color: 'phoning.color' }}>{messages.pageTitle}</PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
               <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
             </>
@@ -78,7 +78,7 @@ export const CampaignDetail = () => {
           handleAction={() => {}}
           actionButtonProps={{
             sx: {
-              color: 'phoning.background.main',
+              color: 'phoning.color',
               bgcolor: 'phoning.background.hover',
               '&:hover': {
                 bgcolor: 'phoning.background.hover',
@@ -112,7 +112,8 @@ export const CampaignDetail = () => {
               label={
                 <TabLabel>
                   {id === messages.callers.id && `${callers.length} ${pluralize(callers.length, label)}`}
-                  {id === messages.history.id && `${history.length} ${pluralize(history.length, label)}`}
+                  {id === messages.history.id &&
+                    `${history?.totalCount || 0} ${pluralize(history?.totalCount || 0, label)}`}
                   {id === messages.surveys.id && `${[].length} ${pluralize([].length, label)}`}
                 </TabLabel>
               }
@@ -138,7 +139,7 @@ export const CampaignDetail = () => {
         )}
         {selectedTab === messages.history.id && (
           <Grid container spacing={2}>
-            {history.map(call => (
+            {history?.calls.map(call => (
               <CampaignDetailHistory
                 key={call.id}
                 status={call.status}

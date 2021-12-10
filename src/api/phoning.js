@@ -37,14 +37,6 @@ export const getPhoningCampaignListQuery = async () => {
   )
 }
 
-const secondsToMinutesAndSeconds = seconds => {
-  const minutes = Math.floor(seconds / 60)
-  return `
-		${minutes > 0 ? `${minutes} min` : ''} 
-		${seconds % 60 > 0 ? seconds % 60 : ''}
-	`
-}
-
 export const getPhoningCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}`)
   const surveys = new Surveys(data.nb_surveys, data.goal * data.team.members_count)
@@ -55,7 +47,7 @@ export const getPhoningCampaignQuery = async campaignId => {
     data.finish_at,
     surveys,
     calls,
-    secondsToMinutesAndSeconds(data.average_calling_time),
+    data.average_calling_time,
     data.goal
   )
 }
@@ -67,14 +59,17 @@ export const getPhoningCampaignCallers = async campaignId => {
 
 export const getPhoningCampaignHistory = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaign_histories?campaign.uuid=${campaignId}`)
-  return data?.items.map(
-    h =>
-      new PhoningCampaignHistory(
-        h.uuid,
-        h.status,
-        h.begin_at,
-        new Adherent(h.adherent.first_name, h.adherent.last_name, h.adherent.gender, h.adherent.age),
-        new Caller(h.caller.first_name, h.caller.last_name)
-      )
-  )
+  return {
+    calls: data?.items.map(
+      h =>
+        new PhoningCampaignHistory(
+          h.uuid,
+          h.status,
+          h.begin_at,
+          new Adherent(h.adherent.first_name, h.adherent.last_name, h.adherent.gender, h.adherent.age),
+          new Caller(h.caller.first_name, h.caller.last_name)
+        )
+    ),
+    totalCount: data?.metadata.total_items,
+  }
 }

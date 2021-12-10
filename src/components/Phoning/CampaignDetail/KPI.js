@@ -4,8 +4,9 @@ import { differenceInCalendarDays, format } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
 import PhoningCampaign from 'domain/phoning-campaign'
-import UICard from 'ui/Card/Card'
 import RatioProgress from '../shared/RatioProgress'
+import { secondsToMinutesAndSeconds } from './shared/helpers'
+import UICard from 'ui/Card/Card'
 
 const KPIWrapper = styled(Paper)(
   ({ theme }) => `
@@ -126,7 +127,7 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
             contentProps={{ sx: { pt: '25px' } }}
             content={
               <>
-                <Score>{averageTime}</Score>
+                <Score>{secondsToMinutesAndSeconds(averageTime)}</Score>
                 <SubTitle>{messages.averageTime}</SubTitle>
                 <SubTitleDetail>{messages.averageTimeDetail}</SubTitleDetail>
               </>
