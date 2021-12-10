@@ -2,8 +2,8 @@ import { apiClient } from 'services/networking/client'
 import PaginatedResult from 'api/paginatedResult'
 import Message, { Statistics } from 'domain/message'
 
-export const getMessages = async () => {
-  const data = await apiClient.get('/v3/adherent_messages')
+export const getMessages = async ({ pageParam = 1 }) => {
+  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${pageParam}&page_size=20`)
 
   const messages = data.items.map(message => {
     const { statistics: s } = message
