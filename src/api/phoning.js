@@ -16,9 +16,9 @@ import PhoningCampaignCallers from 'domain/phoning-campaign-callers'
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
   return new PhoningGlobalKPI(
-    new PhoningCampaignsKPI(data.nb_campaigns, data.nb_ongoing_campaigns),
-    new PhoningSurveysKPI(data.nb_surveys, data.nb_surveys_last_30d),
-    new PhoningCallsKPI(data.nb_calls, data.nb_calls_last_30d)
+    new PhoningCampaignsKPI(data?.nb_campaigns, data?.nb_ongoing_campaigns),
+    new PhoningSurveysKPI(data?.nb_surveys, data?.nb_surveys_last_30d),
+    new PhoningCallsKPI(data?.nb_calls, data?.nb_calls_last_30d)
   )
 }
 
@@ -31,7 +31,7 @@ export const getPhoningCampaignListQuery = async () => {
         c.finish_at,
         c.title,
         c.creator,
-        new PhoningTeam(c.team.name, c.team.members_count),
+        new PhoningTeam(c.team?.name, c.team?.members_count),
         new PhoningScore(c.nb_calls, c.goal)
       )
   )
@@ -39,22 +39,22 @@ export const getPhoningCampaignListQuery = async () => {
 
 export const getPhoningCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}`)
-  const surveys = new Surveys(data.nb_surveys, data.goal * data.team.members_count)
-  const calls = new Calls(data.nb_calls, data.to_remind)
+  const surveys = new Surveys(data?.nb_surveys, data?.goal * data?.team.members_count)
+  const calls = new Calls(data?.nb_calls, data?.to_remind)
   return new PhoningCampaign(
-    data.title,
-    data.created_at,
-    data.finish_at,
+    data?.title,
+    data?.created_at,
+    data?.finish_at,
     surveys,
     calls,
-    data.average_calling_time,
-    data.goal
+    data?.average_calling_time,
+    data?.goal
   )
 }
 
 export const getPhoningCampaignCallers = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/callers`)
-  return data.map(c => new PhoningCampaignCallers(c.firstName, c.lastName, Number(c.nb_surveys)))
+  return data?.map(c => new PhoningCampaignCallers(c.firstName, c.lastName, Number(c.nb_surveys)))
 }
 
 export const getPhoningCampaignHistory = async campaignId => {
@@ -66,10 +66,10 @@ export const getPhoningCampaignHistory = async campaignId => {
           h.uuid,
           h.status,
           h.begin_at,
-          new Adherent(h.adherent.first_name, h.adherent.last_name, h.adherent.gender, h.adherent.age),
-          new Caller(h.caller.first_name, h.caller.last_name)
+          new Adherent(h.adherent?.first_name, h.adherent?.last_name, h.adherent?.gender, h.adherent?.age),
+          new Caller(h.caller?.first_name, h.caller?.last_name)
         )
     ),
-    totalCount: data?.metadata.total_items,
+    totalCount: data?.metadata?.total_items,
   }
 }
