@@ -43,13 +43,13 @@ export const CampaignDetail = () => {
   const [selectedTab, setSelectedTab] = useState(messages.callers.id)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
-  const { data: campaign = {} } = useQuery('campaign', () => getPhoningCampaignQuery(campaignId), {
+  const { data: campaign = {} } = useQuery(['campaign', campaignId], () => getPhoningCampaignQuery(campaignId), {
     onError: handleError,
   })
-  const { data: callers = [] } = useQuery('callers', () => getPhoningCampaignCallers(campaignId), {
+  const { data: callers = [] } = useQuery(['callers', campaignId], () => getPhoningCampaignCallers(campaignId), {
     onError: handleError,
   })
-  const { data: history = [] } = useQuery('history', () => getPhoningCampaignHistory(campaignId), {
+  const { data: history = [] } = useQuery(['history', campaignId], () => getPhoningCampaignHistory(campaignId), {
     onError: handleError,
   })
 
@@ -69,7 +69,7 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'phoning.background.main' }}>{messages.pageTitle}</PageTitle>
+              <PageTitle sx={{ color: 'phoning.color' }}>{messages.pageTitle}</PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
               <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
             </>
@@ -78,8 +78,8 @@ export const CampaignDetail = () => {
           handleAction={() => {}}
           actionButtonProps={{
             sx: {
-              color: 'phoning.background.main',
-              bgcolor: 'phoning.background.hover',
+              color: 'phoning.color',
+              bgcolor: 'phoning.background.main',
               '&:hover': {
                 bgcolor: 'phoning.background.hover',
               },

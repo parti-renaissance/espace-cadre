@@ -72,7 +72,9 @@ const TeamEdit = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const { data: team, refetch: refetchTeam } = useQuery('team', () => getTeamQuery(teamId), { onError: handleError })
+  const { data: team, refetch: refetchTeam } = useQuery(['team', teamId], () => getTeamQuery(teamId), {
+    onError: handleError,
+  })
   const { mutate: addTeamMember } = useMutation(addTeamMemberQuery, {
     onSuccess: () => {
       refetchTeam()

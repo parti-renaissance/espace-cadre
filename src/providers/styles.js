@@ -83,8 +83,9 @@ export const styles = {
       },
     },
     phoning: {
+      color: '#4338CA',
       background: {
-        main: '#4338CA',
+        main: '#F0EFFB',
         hover: '#F0EFFB',
         chip: {
           sent: 'rgba(3, 105, 161, 0.08)',

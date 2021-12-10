@@ -7,6 +7,9 @@ import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import DomainPhoningCampaignHistory from 'domain/phoning-campaign-history'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 
+const HorizontalContainer = styled('div')`
+  display: block;
+`
 const Author = styled(TruncatedText)`
   font-size: 12px;
   font-weight: 500;
@@ -58,17 +61,19 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleClic
           </>
         }
         actions={
-          <CtaButton
-            onClick={handleClick}
-            sx={{
-              color: 'indigo700',
-              '&:hover': {
-                bgcolor: 'phoning.background.hover',
-              },
-            }}
-          >
-            {messages.see}
-          </CtaButton>
+          <HorizontalContainer>
+            <CtaButton
+              onClick={handleClick}
+              sx={{
+                color: 'indigo700',
+                '&:hover': {
+                  bgcolor: 'phoning.background.hover',
+                },
+              }}
+            >
+              {messages.see}
+            </CtaButton>
+          </HorizontalContainer>
         }
       />
     </Grid>

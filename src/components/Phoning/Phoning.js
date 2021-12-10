@@ -31,8 +31,8 @@ const Phoning = () => {
   const { data: globalKPI = {} } = useQuery('globalKPI', () => getPhoningGlobalKPIQuery(), { onError: handleError })
   const { data: campaigns = [] } = useQuery('campaigns', () => getPhoningCampaignListQuery(), { onError: handleError })
 
-  const handleClick = id => () => {
-    navigate(generatePath('/phoning/:campaignId', { campaignId: id }))
+  const handleClick = campaignId => () => {
+    navigate(generatePath('/phoning/:campaignId', { campaignId }))
   }
 
   return (
@@ -44,8 +44,8 @@ const Phoning = () => {
           handleAction={() => {}}
           actionButtonProps={{
             sx: {
-              color: 'phoning.background.main',
-              bgcolor: 'phoning.background.hover',
+              color: 'phoning.color',
+              bgcolor: 'phoning.background.main',
               '&:hover': {
                 bgcolor: 'phoning.background.hover',
               },
