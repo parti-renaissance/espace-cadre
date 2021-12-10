@@ -9,7 +9,7 @@ const interrupted = 'interrupted'
 const completed = 'completed'
 const isOver = true
 
-export const defaultChipColor = { color: 'gray600', backgroundColor: 'gray200' }
+export const defaultChipColor = { color: 'gray600', bgcolor: 'gray200' }
 export const chipColorsByStatus = {
   [sent]: { color: 'lightBlue700', bgcolor: 'phoning.background.chip.sent' },
   [unsubscribed]: { color: 'yellow500', bgcolor: 'phoning.background.chip.unsubscribed' },

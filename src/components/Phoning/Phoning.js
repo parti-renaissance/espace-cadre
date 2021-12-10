@@ -1,37 +1,24 @@
-import { Container, Paper, Grid, Typography } from '@mui/material'
+import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PageHeader from 'ui/PageHeader'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useQuery } from 'react-query'
-import { getGlobalKpiQuery, getPhoningCampaignsQuery } from 'api/phoning'
-import UICard, { UIChip } from 'ui/Card'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
-import PhoningRatioProgress from './shared/PhoningRatioProgress'
-import CampaignGlobalKpi from './CampaignGlobalKpi'
-import Actions from './Card/Actions'
-import { chipColorsByStatus, defaultChipColor } from './Campaign/shared/constants'
-
-const DateTypography = styled(Typography)(
-  ({ theme }) => `
-  font-size: 10px;
-  font-weight: 400;
-  color: ${theme.palette.gray600}
-`
-)
+import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery } from 'api/phoning'
+import PhoningGlobalKPI from './GlobalKPI'
+import PhoningCampaign from './Campaign'
+import { generatePath, useNavigate } from 'react-router'
 
 const Title = styled(Typography)(
   ({ theme }) => `
-      margin: ${theme.spacing(1, 0, 2, 1)};
-      font-size: 18px;
-      font-weight: 400px;
-  `
+    margin: ${theme.spacing(1, 0, 2, 1)};
+    font-size: 18px;
+    font-weight: 400px;
+`
 )
 
 const messages = {
   title: 'Phoning',
-  actionButtonText: 'Créer une campagne',
-  kpiContainerTitle: 'Indicateurs',
+  create: 'Créer une campagne',
   campaigns: 'Campagnes',
   over: 'Terminé',
   ongoing: 'En cours',
@@ -39,19 +26,22 @@ const messages = {
 }
 
 const Phoning = () => {
-  const handleNewCampaign = () => {}
+  const navigate = useNavigate()
   const { handleError } = useErrorHandler()
+  const { data: globalKPI = {} } = useQuery('globalKPI', () => getPhoningGlobalKPIQuery(), { onError: handleError })
+  const { data: campaigns = [] } = useQuery('campaigns', () => getPhoningCampaignListQuery(), { onError: handleError })
 
-  const { data: globalKpi = {} } = useQuery('globalKpi', getGlobalKpiQuery, { onError: handleError })
-  const { data: campaigns = [] } = useQuery('campaigns', getPhoningCampaignsQuery, { onError: handleError })
+  const handleClick = id => () => {
+    navigate(generatePath('/phoning/:campaignId', { campaignId: id }))
+  }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          message={messages.actionButtonText}
-          handleAction={handleNewCampaign}
+          message={messages.create}
+          handleAction={() => {}}
           actionButtonProps={{
             sx: {
               color: 'phoning.background.main',
@@ -63,47 +53,33 @@ const Phoning = () => {
           }}
         />
       </Grid>
-      <Paper sx={{ p: 2, my: 2, background: '#E5E7EB', borderRadius: '12px' }}>
-        <Grid container>
-          <Title>{messages.kpiContainerTitle}</Title>
-        </Grid>
-        {Object.keys(globalKpi).length > 0 && <CampaignGlobalKpi globalKpi={globalKpi} />}
-      </Paper>
 
-      <Grid container>
-        <Title>{messages.campaigns}</Title>
+      <Grid container justifyContent="space-between">
+        {Object.keys(globalKPI).length > 0 && (
+          <PhoningGlobalKPI campaigns={globalKPI.campaigns} surveys={globalKPI.surveys} calls={globalKPI.calls} />
+        )}
       </Grid>
-      <Grid container spacing={2}>
-        {campaigns.map(({ id, endTime, title, creator, teamName, teamMembersCount, goal, callsCount }) => {
-          const chipColors = chipColorsByStatus?.[endTime] || defaultChipColor
 
-          return (
-            <Grid item key={id} xs={12} sm={6} md={3}>
-              <UICard
-                rootProps={{ sx: { borderRadius: '8.35px' } }}
-                headerTitle={
-                  <>
-                    <Grid container sx={{ my: 1 }}>
-                      <Grid item sx={{ mx: 1 }}>
-                        <UIChip label={endTime ? messages.over : messages.ongoing} {...chipColors} />
-                      </Grid>
-                      <Grid item>
-                        <DateTypography>{format(new Date(endTime), 'dd MMMM yyyy', { locale: fr })}</DateTypography>
-                      </Grid>
-                    </Grid>
-                    <Grid container flexDirection="column">
-                      <Typography variant="subtitle1">{title}</Typography>
-                      <Typography variant="subtitle2">{`${creator} • ${teamName}(${teamMembersCount})`}</Typography>
-                    </Grid>
-                  </>
-                }
-                content={<PhoningRatioProgress count={callsCount} totalCount={goal} />}
-                actions={<Actions campaignId={id} />}
-                actionsProps={{ sx: { p: 2 } }}
+      <Grid container justifyContent="space-between" sx={{ pt: 4 }}>
+        <Grid container>
+          <Title>{messages.campaigns}</Title>
+        </Grid>
+
+        {campaigns.length > 0 && (
+          <Grid container spacing={2}>
+            {campaigns.map(campaign => (
+              <PhoningCampaign
+                key={campaign.id}
+                endDate={campaign.endDate}
+                title={campaign.title}
+                author={campaign.author}
+                team={campaign.team}
+                score={campaign.score}
+                handleClick={handleClick(campaign.id)}
               />
-            </Grid>
-          )
-        })}
+            ))}
+          </Grid>
+        )}
       </Grid>
     </Container>
   )

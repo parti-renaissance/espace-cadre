@@ -1,16 +1,12 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
-import { TruncatedText } from 'components/shared/styled'
+import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import DomainPhoningCampaignHistory from 'domain/phoning-campaign-history'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 
-const AuhthorContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-`
 const Author = styled(TruncatedText)`
   font-size: 12px;
   font-weight: 500;
@@ -27,10 +23,10 @@ const messages = {
   see: 'voir',
 }
 
-const PhoningCampaignHistory = ({ status, startDate, adherent, caller, handleClick }) => {
-  const chipLabel = chipLabelByStatus[status]
+const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleClick }) => {
+  const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
-  const gender = translatedGender[adherent.gender]
+  const gender = translatedGender?.[adherent.gender]
   return (
     <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
       <UICard
@@ -50,15 +46,15 @@ const PhoningCampaignHistory = ({ status, startDate, adherent, caller, handleCli
         contentProps={{ sx: { pt: 1 } }}
         content={
           <>
-            <Box>
+            <div>
               <UIChip label={chipLabel} {...chipColors} />
-            </Box>
-            <AuhthorContainer sx={{ py: 2 }}>
+            </div>
+            <VerticalContainer sx={{ py: 2 }}>
               <Author sx={{ pb: 0.5 }}>
                 {caller.firstName} {caller.lastName}
               </Author>
               <UpdateTime>{format(new Date(startDate), 'dd/MM/yyyy hh:mm')}</UpdateTime>
-            </AuhthorContainer>
+            </VerticalContainer>
           </>
         }
         actions={
@@ -79,6 +75,6 @@ const PhoningCampaignHistory = ({ status, startDate, adherent, caller, handleCli
   )
 }
 
-PhoningCampaignHistory.propTypes = DomainPhoningCampaignHistory.PropTypes
+CampaignDetailHistory.propTypes = DomainPhoningCampaignHistory.PropTypes
 
-export default PhoningCampaignHistory
+export default CampaignDetailHistory

@@ -8,9 +8,9 @@ import { getPhoningCampaignQuery, getPhoningCampaignCallers, getPhoningCampaignH
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import PageHeader from 'ui/PageHeader'
-import CampaignCallers from './CampaignCallers'
-import CampaignHistory from './CampaignHistory'
-import PhoningCampaignKPI from './CampaignKPI'
+import CampaignDetailKPI from './KPI'
+import CampaignDetailCallers from './Callers'
+import CampaignDetailHistory from './History'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -39,7 +39,7 @@ const messages = {
   surveys: { id: 'survey', label: 'questionnaire' },
 }
 
-export const PhoningCampaign = () => {
+export const CampaignDetail = () => {
   const [selectedTab, setSelectedTab] = useState(messages.callers.id)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
@@ -90,7 +90,7 @@ export const PhoningCampaign = () => {
 
       <Grid container justifyContent="space-between">
         {Object.keys(campaign).length > 0 && (
-          <PhoningCampaignKPI
+          <CampaignDetailKPI
             startDate={campaign.startDate}
             endDate={campaign.endDate}
             surveys={campaign.surveys}
@@ -125,7 +125,7 @@ export const PhoningCampaign = () => {
         {selectedTab === messages.callers.id && campaign.goalPerCaller?.toString() && (
           <Grid container spacing={2}>
             {callers.map((caller, index) => (
-              <CampaignCallers
+              <CampaignDetailCallers
                 key={index + 1}
                 number={index + 1}
                 firstName={caller.firstName}
@@ -139,7 +139,7 @@ export const PhoningCampaign = () => {
         {selectedTab === messages.history.id && (
           <Grid container spacing={2}>
             {history.map(call => (
-              <CampaignHistory
+              <CampaignDetailHistory
                 key={call.id}
                 status={call.status}
                 startDate={campaign.startDate}
@@ -156,4 +156,4 @@ export const PhoningCampaign = () => {
   )
 }
 
-export default PhoningCampaign
+export default CampaignDetail
