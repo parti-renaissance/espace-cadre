@@ -1,0 +1,62 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "nb_calls": "4",
+    "nb_surveys": "1",
+    "nb_completed": "1",
+    "nb_to_unsubscribe": "0",
+    "nb_to_unjoin": "1",
+    "nb_to_remind": "1",
+    "nb_not_respond": "0",
+    "nb_failed": "1"
+  },
+  {
+    "firstName": "Jean",
+    "lastName": "Jacques",
+    "nb_calls": "2",
+    "nb_surveys": "2",
+    "nb_completed": "2",
+    "nb_to_unsubscribe": "0",
+    "nb_to_unjoin": "0",
+    "nb_to_remind": "0",
+    "nb_not_respond": "0",
+    "nb_failed": "0"
+  },
+  {
+    "firstName": "Charles",
+    "lastName": "Petrossian",
+    "nb_calls": "3",
+    "nb_surveys": "3",
+    "nb_completed": "3",
+    "nb_to_unsubscribe": "0",
+    "nb_to_unjoin": "0",
+    "nb_to_remind": "0",
+    "nb_not_respond": "0",
+    "nb_failed": "0"
+  },
+  {
+    "firstName": "Diego",
+    "lastName": "Gardien",
+    "nb_calls": "4",
+    "nb_surveys": "4",
+    "nb_completed": "4",
+    "nb_to_unsubscribe": "0",
+    "nb_to_unjoin": "0",
+    "nb_to_remind": "0",
+    "nb_not_respond": "0",
+    "nb_failed": "0"
+  },
+  {
+    "firstName": "Pascal",
+    "lastName": "Niverd",
+    "nb_calls": "5",
+    "nb_surveys": "5",
+    "nb_completed": "5",
+    "nb_to_unsubscribe": "0",
+    "nb_to_unjoin": "0",
+    "nb_to_remind": "0",
+    "nb_not_respond": "0",
+    "nb_failed": "0"
+  }
+]

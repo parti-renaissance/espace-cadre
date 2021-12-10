@@ -6,7 +6,7 @@ import DomainPhoningCampaignCallers from 'domain/phoning-campaign-callers'
 import RatioProgress from '../shared/RatioProgress'
 
 const CampaignDetailCallers = ({ number, firstName, lastName, count, goal }) => (
-  <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+  <Grid item xs={12} sm={6} md={3}>
     <UICard
       rootProps={{ sx: { height: '125px' } }}
       headerProps={{ sx: { pt: '21px' } }}

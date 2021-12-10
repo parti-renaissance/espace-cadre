@@ -59,7 +59,7 @@ const SentEmailCampaignList = () => {
       <SentEmailCampaignListTitle />
       <Grid container spacing={2}>
         {emailCampaignReports.data.map(message => (
-          <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+          <Grid item key={message.id} xs={12} sm={6} md={3}>
             <UICard
               rootProps={{ sx: { height: '230px' } }}
               headerProps={{ sx: { pt: '21px' } }}

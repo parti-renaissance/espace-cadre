@@ -62,7 +62,7 @@ const Phoning = () => {
 
       <Grid container justifyContent="space-between" sx={{ pt: 4 }}>
         <Grid container>
-          <Title>{messages.campaigns}</Title>
+          <Title data-testid="Campaigns-list-title">{messages.campaigns}</Title>
         </Grid>
 
         {campaigns.length > 0 && (

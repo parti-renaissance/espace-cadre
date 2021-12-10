@@ -58,7 +58,7 @@ const GlobalCampaignsKPI = ({ campaigns, surveys, calls }) => (
     </Grid>
 
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+      <Grid item xs={12} sm={6} md={3}>
         <UICard
           rootProps={{ sx: { height: '125px' } }}
           contentProps={{ sx: { pt: '25px' } }}
@@ -75,7 +75,7 @@ const GlobalCampaignsKPI = ({ campaigns, surveys, calls }) => (
           }
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+      <Grid item xs={12} sm={6} md={3}>
         <UICard
           rootProps={{ sx: { height: '125px' } }}
           contentProps={{ sx: { pt: '25px' } }}
@@ -91,7 +91,7 @@ const GlobalCampaignsKPI = ({ campaigns, surveys, calls }) => (
           }
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+      <Grid item xs={12} sm={6} md={3}>
         <UICard
           rootProps={{ sx: { height: '125px' } }}
           contentProps={{ sx: { pt: '25px' } }}

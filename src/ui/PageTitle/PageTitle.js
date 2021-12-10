@@ -23,6 +23,7 @@ const PageTitle = ({ title, breakpoints = { xs: null, sm: null, md: null, lg: nu
       lg={breakpoints.lg}
       xl={breakpoints.xl}
       className={classes.title}
+      data-testid="page-title"
     >
       {title}
     </Grid>

@@ -96,7 +96,7 @@ const News = () => {
       </Grid>
       <Grid container spacing={2}>
         {news.map(n => (
-          <Grid item key={n.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+          <Grid item key={n.id} xs={12} sm={6} md={3}>
             <UICard
               rootProps={{ sx: { height: '175px' } }}
               headerProps={{ sx: { pt: '21px' } }}

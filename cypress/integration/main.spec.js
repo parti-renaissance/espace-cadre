@@ -1,3 +1,6 @@
+import { format, parseISO } from 'date-fns'
+import { fr } from 'date-fns/locale'
+
 context('Nominal tests', () => {
   const apiServer = url => `https://mock.en-marche.fr${url}`
 
@@ -17,11 +20,29 @@ context('Nominal tests', () => {
     mock('GET', '/api/v3/adherents/columns?scope=referent', 'adherents/columns')
     mock('GET', '/api/v3/adherents?page=1&scope=referent', 'adherents/adherents')
     mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'adherents/filters')
-    mock('GET', '/api/v3/teams?scope=referent', 'teams/teams')
+    mock('GET', '/api/v3/teams?scope=*', 'teams/teams')
     mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'teams/1')
     mock('GET', '/api/v3/jecoute/news?scope=referent', 'news/news')
+    mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'phoning/phoningScope')
+    mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
+    mock('GET', '/api/v3/phoning_campaigns?scope=phoning_national_manager', 'phoning/campaigns')
+    mock(
+      'GET',
+      '/api/v3/phoning_campaigns/11111111-1111-1111-1111-111111111111?scope=phoning_national_manager',
+      'phoning/campaignDetail/campaignDetail'
+    )
+    mock(
+      'GET',
+      '/api/v3/phoning_campaigns/11111111-1111-1111-1111-111111111111/callers?scope=phoning_national_manager',
+      'phoning/campaignDetail/callers'
+    )
+    mock(
+      'GET',
+      '/api/v3/phoning_campaign_histories?campaign.uuid=11111111-1111-1111-1111-111111111111&scope=phoning_national_manager',
+      'phoning/campaignDetail/histories'
+    )
 
-    cy.visit('/auth?code=fake_authorization_code')
+    https: cy.visit('/auth?code=fake_authorization_code')
     cy.url().should('eq', 'http://localhost:3000/')
   })
 
@@ -113,5 +134,48 @@ context('Nominal tests', () => {
     cy.get('input[name="url"]').should('have.value', '')
     cy.get('[type="checkbox"]').eq(0).should('not.be.checked')
     cy.get('[type="checkbox"]').eq(1).should('be.checked')
+  })
+
+  it('loads phoning page successfully', () => {
+    const paperRoot = '.MuiPaper-root'
+    const uiCard = '[data-testid="UICard"]'
+    const tablistButton = '[role="tablist"]>button'
+    const callerCard = '[data-testid="phoning-caller-container"]>div'
+    cy.contains('Responsable Phoning').click()
+    cy.contains('Phoning').click()
+
+    cy.url().should('eq', 'http://localhost:3000/phoning')
+    cy.get(paperRoot).eq(1).contains('13')
+    cy.get(paperRoot).eq(2).contains('Questionnaires')
+    cy.get(paperRoot).eq(3).contains('75 sur un mois')
+
+    cy.get('[data-testid="Campaigns-list-title"]').contains('Campagnes')
+    cy.get(uiCard).eq(0).contains('Terminé')
+    cy.get(uiCard)
+      .eq(0)
+      .contains(format(parseISO('2021-12-11T00:00:00+01:00'), 'dd MMMM yyyy', { locale: fr }))
+    cy.get(uiCard).eq(0).contains('Admin • Equipe 1 (1)')
+    cy.get(uiCard).eq(0).contains('0/50')
+    cy.get(uiCard).eq(0).contains('voir').click()
+
+    cy.url().should('eq', 'http://localhost:3000/phoning/11111111-1111-1111-1111-111111111111')
+    cy.get('[data-testid="page-title"]').contains("Phoning > La campagne de l'inconnu")
+    cy.get(paperRoot)
+      .eq(1)
+      .contains(
+        `Du ${format(parseISO('2021-11-03T12:15:59+01:00'), 'dd/MM/yyyy', { locale: fr })} au ${format(
+          parseISO('2021-11-30T00:00:00+01:00'),
+          'dd/MM/yyyy',
+          { locale: fr }
+        )}`
+      )
+    cy.get(paperRoot).eq(2).contains('1/50')
+    cy.get(paperRoot).eq(3).contains('Appels passés')
+    cy.get(paperRoot).eq(4).contains('Passé par appel')
+    cy.get(tablistButton).eq(0).contains('5 appelants')
+    cy.get(tablistButton).eq(1).contains('4 appel')
+    cy.get(tablistButton).eq(2).contains('0 questionnaire')
+    cy.get(callerCard).eq(0).contains('1. John Doe')
+    cy.get(callerCard).eq(1).contains('2/10')
   })
 })

@@ -89,7 +89,7 @@ const Ripostes = () => {
 
         <Grid container spacing={2}>
           {ripostes.map(r => (
-            <Grid item key={r.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+            <Grid item key={r.id} xs={12} sm={6} md={3}>
               <UICard
                 rootProps={{ sx: { height: '238px' } }}
                 headerProps={{ sx: { pt: '21px' } }}

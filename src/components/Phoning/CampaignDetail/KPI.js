@@ -69,7 +69,7 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
       </Grid>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <UICard
             rootProps={{ sx: { height: '125px' } }}
             contentProps={{ sx: { pt: '25px' } }}
@@ -92,7 +92,7 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
             }
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <UICard
             rootProps={{ sx: { height: '125px' } }}
             headerProps={{ sx: { pt: '21px' } }}
@@ -101,7 +101,7 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
             content={<RatioProgress count={surveys.count} totalCount={surveys.goal} />}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <UICard
             rootProps={{ sx: { height: '125px' } }}
             contentProps={{ sx: { pt: '25px' } }}
@@ -121,7 +121,7 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
             }
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <UICard
             rootProps={{ sx: { height: '125px' } }}
             contentProps={{ sx: { pt: '25px' } }}
