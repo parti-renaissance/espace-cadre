@@ -108,7 +108,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
+    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper} data-testid="news-read-only-modal">
       <Grid container>
         <Title title={news?.title}>{news?.title}</Title>
         <Button onClick={handleEdit} sx={{ ml: 'auto', mr: 1 }}>
