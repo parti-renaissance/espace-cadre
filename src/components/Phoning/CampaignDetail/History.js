@@ -58,17 +58,19 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleClic
           </>
         }
         actions={
-          <CtaButton
-            onClick={handleClick}
-            sx={{
-              color: 'indigo700',
-              '&:hover': {
-                bgcolor: 'phoning.background.hover',
-              },
-            }}
-          >
-            {messages.see}
-          </CtaButton>
+          <div>
+            <CtaButton
+              onClick={handleClick}
+              sx={{
+                color: 'indigo700',
+                '&:hover': {
+                  bgcolor: 'phoning.background.hover',
+                },
+              }}
+            >
+              {messages.see}
+            </CtaButton>
+          </div>
         }
       />
     </Grid>
