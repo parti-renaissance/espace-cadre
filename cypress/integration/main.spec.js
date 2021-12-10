@@ -1,5 +1,5 @@
 context('Nominal tests', () => {
-  const apiServer = url => `https://mock.en-marche.fr${url}`
+  const apiServer = url => `https://staging.en-marche.fr${url}`
 
   const mock = (method, url, fixture) => cy.intercept(method, apiServer(url), { fixture }).as(fixture)
 
@@ -60,7 +60,7 @@ context('Nominal tests', () => {
     cy.contains('Le 01/11/2021')
 
     cy.contains('subject 2')
-    cy.get('.MuiChip-label').eq(5).should('contain', 'Brouillon')
+    cy.get('.MuiChip-label').eq(1).should('contain', 'Brouillon')
     cy.contains('Le 02/11/2021')
 
     cy.contains('Envoyer un email')
