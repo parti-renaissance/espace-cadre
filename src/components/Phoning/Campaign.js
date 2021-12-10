@@ -5,7 +5,7 @@ import { format, parseISO } from 'date-fns'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import DomainPhoningCampaignCallers from 'domain/phoning-campaign-callers'
 import RatioProgress from './shared/RatioProgress'
-import { chipColorsByStatus, defaultChipColor } from './CampaignDetail/shared/constants'
+import { chipColorsByStatus } from './CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
@@ -31,7 +31,7 @@ const messages = {
 
 const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) => {
   const chipLabel = endDate ? messages.finished : messages.ongoing
-  const chipColors = chipColorsByStatus?.[endDate ? messages.finished : messages.ongoing] || defaultChipColor
+  const chipColors = chipColorsByStatus?.[endDate ? 'finished' : 'ongoing']
 
   return (
     <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
