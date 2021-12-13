@@ -3,6 +3,7 @@ import { IconButton, Menu, MenuItem as MuiMenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
+import Loader from 'ui/Loader'
 
 const Wrapper = styled('div')`
   display: flex;
@@ -21,17 +22,28 @@ const MenuItem = styled(MuiMenuItem)`
   },
 `
 
-export const DotsMenuItem = ({ onClick, closeMenu, children }) => {
-  const handleClick = () => {
+export const DotsMenuItem = ({ onClick, closeMenu, isLoading = false, children }) => {
+  const handleClick = async () => {
+    await onClick()
     closeMenu()
-    onClick()
   }
-  return <MenuItem onClick={handleClick}>{children}</MenuItem>
+  return (
+    <MenuItem onClick={handleClick}>
+      {isLoading && (
+        <>
+          <Loader size={12} />
+          &nbsp;
+        </>
+      )}
+      {children}
+    </MenuItem>
+  )
 }
 
 DotsMenuItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   closeMenu: PropTypes.func,
+  isLoading: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
 

@@ -11,6 +11,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
 
 const messages = {
   nocampaign: 'Aucune campagne à afficher',
@@ -28,19 +29,15 @@ const SentEmailCampaignList = () => {
     refetch,
     isLoading,
   } = useInfiniteQuery('messages', getMessages, {
-    getNextPageParam: lastFetchedPage =>
-      lastFetchedPage.currentPage < lastFetchedPage.lastPage ? lastFetchedPage.currentPage + 1 : undefined,
+    getNextPageParam,
     onError: handleError,
   })
 
-  const { mutate: deleteDraft } = useMutation(deleteMessage, {
-    onSuccess: (_, draftId) => {
-      const pageToReload = paginatedCampaigns.pages.find(p =>
-        p.data.some(message => message.id === draftId)
-      )?.currentPage
-      refetch({
-        refetchPage: (page, index) => index + 1 === pageToReload,
-      })
+  const campaigns = usePaginatedData(paginatedCampaigns)
+
+  const { mutate: deleteDraft, isLoading: isDeleteLoading } = useMutation(deleteMessage, {
+    onSuccess: async (_, draftId) => {
+      await refetchUpdatedPage(paginatedCampaigns, refetch, draftId)
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
     },
     onError: handleError,
@@ -52,37 +49,34 @@ const SentEmailCampaignList = () => {
       {isLoading && <Loader />}
       {paginatedCampaigns && (
         <InfiniteScroll
-          dataLength={paginatedCampaigns.pages.flatMap(p => p.data).length}
+          dataLength={campaigns.length}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}
           loader={<h4>Loading...</h4>}
-          endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
-            </p>
-          }
         >
           <Grid container spacing={2}>
-            {paginatedCampaigns.pages
-              .flatMap(p => p.data)
-              .map(message => (
-                <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
-                  <UICard
-                    rootProps={{ sx: { height: '230px' } }}
-                    headerProps={{ sx: { pt: '21px' } }}
-                    header={
-                      <>
-                        <Header createdAt={message.createdAt} draft={message.draft} />
-                        <Title subject={message.subject} author={message.author} sx={{ pt: 1 }} />
-                      </>
-                    }
-                    contentProps={{ sx: { pt: 1 } }}
-                    content={message.draft && <Body statistics={message.statistics} />}
-                    actionsProps={{ sx: { pt: 3 } }}
-                    actions={message.draft && <Actions messageId={message.id} del={() => deleteDraft(message.id)} />}
-                  />
-                </Grid>
-              ))}
+            {campaigns.map(message => (
+              <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+                <UICard
+                  rootProps={{ sx: { height: '230px' } }}
+                  headerProps={{ sx: { pt: '21px' } }}
+                  header={
+                    <>
+                      <Header createdAt={message.createdAt} draft={message.draft} />
+                      <Title subject={message.subject} author={message.author} sx={{ pt: 1 }} />
+                    </>
+                  }
+                  contentProps={{ sx: { pt: 1 } }}
+                  content={message.draft && <Body statistics={message.statistics} />}
+                  actionsProps={{ sx: { pt: 3 } }}
+                  actions={
+                    message.draft && (
+                      <Actions messageId={message.id} del={() => deleteDraft(message.id)} isLoading={isDeleteLoading} />
+                    )
+                  }
+                />
+              </Grid>
+            ))}
           </Grid>
         </InfiniteScroll>
       )}

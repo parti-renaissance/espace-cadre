@@ -1,7 +1,7 @@
 import { apiClient } from 'services/networking/client'
 import qs from 'qs'
 import Adherent from 'domain/adherent'
-import PaginatedResult from './paginatedResult'
+import { PaginatedResult } from './pagination'
 
 export const adherentAutocompleteUri = '/api/v3/adherents/autocomplete'
 export const getAdherents = async (filter, cb) => {

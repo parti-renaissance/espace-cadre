@@ -6,7 +6,7 @@ import TableBodyComponent from './TableBodyComponent'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { getAdherents, getColumns } from 'api/adherents'
-import PaginatedResult from 'api/paginatedResult'
+import { PaginatedResult } from 'api/pagination'
 import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
 

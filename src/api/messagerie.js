@@ -1,5 +1,5 @@
 import { apiClient } from 'services/networking/client'
-import PaginatedResult from 'api/paginatedResult'
+import { PaginatedResult } from 'api/pagination'
 import Message, { Statistics } from 'domain/message'
 
 export const getMessages = async ({ pageParam = 1 }) => {
@@ -23,7 +23,7 @@ export const getMessages = async ({ pageParam = 1 }) => {
   })
 
   return new PaginatedResult(
-    messages.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
+    messages.sort((a, b) => +b.createdAt - +a.createdAt),
     data.metadata.total_items,
     data.metadata.items_per_page,
     data.metadata.count,

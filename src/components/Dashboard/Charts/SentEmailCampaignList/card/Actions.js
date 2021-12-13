@@ -17,7 +17,7 @@ const messages = {
   delete: 'Supprimer',
 }
 
-const Actions = ({ messageId, del }) => {
+const Actions = ({ messageId, del, isLoading = false }) => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate(generatePath(':messageId/' + paths.update, { messageId }))
@@ -37,7 +37,9 @@ const Actions = ({ messageId, del }) => {
         {messages.update}
       </CtaButton>
       <DotsMenu>
-        <DotsMenuItem onClick={del}>{messages.delete}</DotsMenuItem>
+        <DotsMenuItem onClick={del} isLoading={isLoading}>
+          {messages.delete}
+        </DotsMenuItem>
       </DotsMenu>
     </HorizontalContainer>
   )
@@ -48,4 +50,5 @@ export default Actions
 Actions.propTypes = {
   messageId: PropTypes.string.isRequired,
   del: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
 }
