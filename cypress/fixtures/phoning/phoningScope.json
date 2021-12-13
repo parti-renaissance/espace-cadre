@@ -1,0 +1,7 @@
+{
+  "code": "phoning_national_manager",
+  "name": "Responsable Phoning",
+  "zones": [{ "uuid": "11111111-1111-1111-1111-111111111111", "code": "FR", "name": "France" }],
+  "apps": ["data_corner"],
+  "features": ["team", "phoning_campaign"]
+}

@@ -1,0 +1,25 @@
+{
+  "metadata": { "total_items": 8, "items_per_page": 10, "count": 8, "current_page": 1, "last_page": 1 },
+  "items": [
+    {
+      "title": "Titre 1",
+      "goal": 50,
+      "finish_at": "2021-12-11T00:00:00+01:00",
+      "team": { "name": "Equipe 1 ", "uuid": "11111111-1111-1111-1111-111111111111", "members_count": 1 },
+      "uuid": "11111111-1111-1111-1111-111111111111",
+      "creator": "Admin",
+      "nb_calls": 0,
+      "nb_surveys": 0
+    },
+    {
+      "title": "Titre 2",
+      "goal": 100,
+      "finish_at": "2021-12-07T00:00:00+01:00",
+      "team": { "name": "Equipe 2", "uuid": "22222222-2222-2222-2222-222222222222", "members_count": 10 },
+      "uuid": "22222222-2222-2222-2222-222222222222",
+      "creator": "Admin",
+      "nb_calls": 2,
+      "nb_surveys": 1
+    }
+  ]
+}

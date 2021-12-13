@@ -1,6 +1,7 @@
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format, parseISO } from 'date-fns'
+import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import DomainPhoningCampaignCallers from 'domain/phoning-campaign-callers'
@@ -34,7 +35,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) =
   const chipColors = chipColorsByStatus?.[endDate ? 'finished' : 'ongoing']
 
   return (
-    <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+    <Grid item xs={12} sm={6} md={3} data-testid="UICard">
       <UICard
         rootProps={{ sx: { height: '216px' } }}
         headerProps={{ sx: { pt: '21px' } }}
@@ -42,7 +43,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) =
           <>
             <div>
               <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
-              <Date sx={{ color: 'gray600' }}>{format(parseISO(endDate), 'dd MMMM yyyy')}</Date>
+              <Date sx={{ color: 'gray600' }}>{format(parseISO(endDate), 'dd MMMM yyyy', { locale: fr })}</Date>
             </div>
             <VerticalContainer sx={{ pt: 1 }}>
               <TruncatedText variant="subtitle1" title={title}>

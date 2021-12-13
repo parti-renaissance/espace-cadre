@@ -1,0 +1,124 @@
+{
+  "metadata": { "total_items": 4, "items_per_page": 10, "count": 4, "current_page": 1, "last_page": 1 },
+  "items": [
+    {
+      "caller": {
+        "gender": "other",
+        "uuid": "111111111-1111-1111-1111-111111111111",
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 34
+      },
+      "adherent": {
+        "gender": "female",
+        "uuid": "222222222-2222-2222-2222-222222222222",
+        "first_name": "Prénom 2",
+        "last_name": "Nom 2",
+        "age": 62
+      },
+      "campaign": { "title": "La campagne de l'inconnu", "uuid": "333333333-3333-3333-3333-333333333333" },
+      "type": null,
+      "status": "failed",
+      "postal_code_checked": null,
+      "profession": null,
+      "need_email_renewal": null,
+      "need_sms_renewal": null,
+      "engagement": null,
+      "note": null,
+      "begin_at": "2021-11-06T12:42:27+01:00",
+      "finish_at": "2021-11-06T12:42:35+01:00",
+      "data_survey": null,
+      "uuid": "444444444-4444-4444-4444-444444444444"
+    },
+    {
+      "caller": {
+        "gender": "other",
+        "uuid": "111111111-1111-1111-1111-111111111111",
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 34
+      },
+      "adherent": {
+        "gender": "male",
+        "uuid": "555555555-5555-5555-5555-555555555555",
+        "first_name": "Prénom 3",
+        "last_name": "Nom 3",
+        "age": 25
+      },
+      "campaign": { "title": "La campagne de l'inconnu", "uuid": "333333333-3333-3333-3333-333333333333" },
+      "type": null,
+      "status": "to-unjoin",
+      "postal_code_checked": null,
+      "profession": null,
+      "need_email_renewal": null,
+      "need_sms_renewal": null,
+      "engagement": null,
+      "note": null,
+      "begin_at": "2021-11-06T12:42:20+01:00",
+      "finish_at": "2021-11-06T12:42:26+01:00",
+      "data_survey": null,
+      "uuid": "666666666-6666-6666-6666-666666666666"
+    },
+    {
+      "caller": {
+        "gender": "other",
+        "uuid": "111111111-1111-1111-1111-111111111111",
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 34
+      },
+      "adherent": {
+        "gender": "male",
+        "uuid": "777777777-7777-7777-7777-777777777777",
+        "first_name": "Prénom 4",
+        "last_name": "Nom 4",
+        "age": 29
+      },
+      "campaign": { "title": "La campagne de l'inconnu", "uuid": "333333333-3333-3333-3333-333333333333" },
+      "type": null,
+      "status": "to-remind",
+      "postal_code_checked": null,
+      "profession": null,
+      "need_email_renewal": null,
+      "need_sms_renewal": null,
+      "engagement": null,
+      "note": null,
+      "begin_at": "2021-11-06T12:42:15+01:00",
+      "finish_at": "2021-11-06T12:42:19+01:00",
+      "data_survey": null,
+      "uuid": "888888888-8888-8888-8888-888888888888"
+    },
+    {
+      "caller": {
+        "gender": "other",
+        "uuid": "111111111-1111-1111-1111-111111111111",
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 34
+      },
+      "adherent": {
+        "gender": "female",
+        "uuid": "999999999-9999-9999-9999-999999999999",
+        "first_name": "Prénom 5",
+        "last_name": "Nom 5",
+        "age": 25
+      },
+      "campaign": { "title": "La campagne de l'inconnu", "uuid": "333333333-3333-3333-3333-333333333333" },
+      "type": null,
+      "status": "completed",
+      "postal_code_checked": false,
+      "profession": null,
+      "need_email_renewal": null,
+      "need_sms_renewal": null,
+      "engagement": "active",
+      "note": 5,
+      "begin_at": "2021-11-06T09:29:21+01:00",
+      "finish_at": "2021-11-06T09:30:14+01:00",
+      "data_survey": {
+        "survey": { "uuid": "111111111-1111-1111-1111-111111111112", "name": "Questionnaire national" },
+        "uuid": "111111111-1111-1111-1111-111111111113"
+      },
+      "uuid": "111111111-1111-1111-1111-111111111114"
+    }
+  ]
+}

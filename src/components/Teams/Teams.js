@@ -67,7 +67,7 @@ const Teams = () => {
       {teams.length > 0 && (
         <Grid container spacing={2}>
           {teams.map(team => (
-            <Grid item key={team.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+            <Grid item key={team.id} xs={12} sm={6} md={3}>
               <UICard
                 rootProps={{ sx: { height: '168px' } }}
                 headerProps={{ sx: { pt: '21px' } }}
