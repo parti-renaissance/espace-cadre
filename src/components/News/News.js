@@ -33,7 +33,7 @@ const messages = {
 }
 
 const News = () => {
-  const [viewingNews, setViewingNews] = useState(null)
+  const [viewingNews, setViewingNews] = useState(NewsDomain.NULL)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isReadModalOpen, setIsReadModalOpen] = useState(false)
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -75,6 +75,7 @@ const News = () => {
   }
 
   const handleClose = () => {
+    setViewingNews(NewsDomain.NULL)
     setIsCreateEditModalOpen(false)
     setIsReadModalOpen(false)
   }

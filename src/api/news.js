@@ -3,7 +3,7 @@ import News from 'domain/news'
 import { PaginatedResult } from 'api/pagination'
 
 export const getNewsQuery = async ({ pageParam = 1 }) => {
-  const data = await apiClient.get(`api/v3/jecoute/news?order[created_at]=desc&page=${pageParam}&page_size=10`)
+  const data = await apiClient.get(`api/v3/jecoute/news?order[created_at]=desc&page=${pageParam}&page_size=20`)
 
   const news = data.items.map(
     n =>

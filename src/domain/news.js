@@ -12,7 +12,7 @@ export default class News {
     this.zoneId = zoneId
   }
 
-  static NULL = new News(null, '', '', '', '', '', false, false, '')
+  static NULL = new News(null, '', '', '', '', new Date(), false, false, '')
 
   withTitle(newTitle) {
     return new News(
