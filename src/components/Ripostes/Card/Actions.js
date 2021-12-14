@@ -16,7 +16,7 @@ const messages = {
   edit: 'Éditer',
 }
 
-const Actions = ({ status, toggleStatus, onEdit }) => (
+const Actions = ({ status, toggleStatus, loader = false, onEdit }) => (
   <HorizontalContainer>
     <CtaButton
       onClick={onEdit}
@@ -30,7 +30,9 @@ const Actions = ({ status, toggleStatus, onEdit }) => (
       {messages.edit}
     </CtaButton>
     <DotsMenu>
-      <DotsMenuItem onClick={toggleStatus}>{status ? messages.deactivate : messages.activate}</DotsMenuItem>
+      <DotsMenuItem onClick={toggleStatus} loader={loader}>
+        {status ? messages.deactivate : messages.activate}
+      </DotsMenuItem>
     </DotsMenu>
   </HorizontalContainer>
 )
@@ -40,5 +42,6 @@ export default Actions
 Actions.propTypes = {
   status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func.isRequired,
+  loader: PropTypes.bool,
   onEdit: PropTypes.func.isRequired,
 }

@@ -23,6 +23,7 @@ const MenuItem = styled(MuiMenuItem)`
 `
 
 export const DotsMenuItem = ({ onClick, closeMenu, loader = false, children }) => {
+  2
   const handleClick = async () => {
     await onClick()
     closeMenu()

@@ -22,7 +22,7 @@ export const getNewsQuery = async ({ pageParam: page = 1 }) => {
 
   return newPaginatedResult(
     news.sort((a, b) => +b.createdAt - +a.createdAt),
-    data
+    data.metadata
   )
 }
 

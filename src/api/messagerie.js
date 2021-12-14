@@ -24,7 +24,7 @@ export const getMessages = async ({ pageParam: page = 1 }) => {
 
   return newPaginatedResult(
     messages.sort((a, b) => +b.createdAt - +a.createdAt),
-    data
+    data.metadata
   )
 }
 export const deleteMessage = id => apiClient.delete(`/v3/adherent_messages/${id}`)
