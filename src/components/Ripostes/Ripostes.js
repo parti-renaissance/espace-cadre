@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react'
 import { Button as MuiButton, Container, Grid } from '@mui/material'
 import { styled } from '@mui/system'
-import { useMutation, useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery, useMutation } from 'react-query'
 import AddIcon from '@mui/icons-material/Add'
 import CreateEditModal from './CreateEditModal'
 import Riposte from 'domain/riposte'
-import { getRipostesQuery, updateRiposteStatusQuery } from 'api/ripostes'
+import { createRiposteQuery, getRipostesQuery, updateRiposteQuery, updateRiposteStatusQuery } from 'api/ripostes'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageTitle from 'ui/PageTitle'
 import Header from './Card/Header'
@@ -30,6 +30,8 @@ const messages = {
   title: 'Ripostes',
   create: 'Créer une riposte',
   toggleSuccess: 'La riposte a bien été modifiée',
+  createSuccess: 'Riposte créée avec succès',
+  editSuccess: 'La riposte a bien été modifiée',
 }
 
 const Ripostes = () => {
@@ -55,6 +57,22 @@ const Ripostes = () => {
     onSuccess: async (_, updatedRiposte) => {
       await refetchUpdatedPage(paginatedRipostes, refetch, updatedRiposte.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
+    },
+    onError: handleError,
+  })
+
+  const { mutateAsync: createRiposte, isLoading: isCreateLoading } = useMutation(createRiposteQuery, {
+    onSuccess: async () => {
+      await refetch()
+      enqueueSnackbar(messages.createSuccess, notifyVariants.success)
+    },
+    onError: handleError,
+  })
+
+  const { mutateAsync: updateRiposte, isLoading: isUpdateLoading } = useMutation(updateRiposteQuery, {
+    onSuccess: async (_, updatedRiposte) => {
+      await refetchUpdatedPage(paginatedRipostes, refetch, updatedRiposte.id)
+      enqueueSnackbar(messages.editSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
@@ -136,7 +154,9 @@ const Ripostes = () => {
         open={isModalOpen}
         riposte={editingRiposte}
         onCloseResolve={handleClose}
-        onSubmitResolve={refetch}
+        createRiposte={createRiposte}
+        updateRiposte={updateRiposte}
+        loader={isCreateLoading || isUpdateLoading}
       />
     </Container>
   )

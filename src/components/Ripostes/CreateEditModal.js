@@ -1,18 +1,15 @@
-import { Dialog, Box, Grid, Button, FormControlLabel, Checkbox, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Dialog, FormControlLabel, Grid, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
-import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { notifyVariants } from 'components/shared/notification/constants'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { createRiposteQuery, updateRiposteQuery } from 'api/ripostes'
 import DomainRiposte from 'domain/riposte'
 import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import ClearIcon from '@mui/icons-material/Clear'
+import Loader from 'ui/Loader'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -54,8 +51,6 @@ const CharactersLimit = styled(Typography)(
 const messages = {
   create: 'Créer une riposte',
   edit: 'Modifier une riposte',
-  createSuccess: 'Riposte créée avec succès',
-  editSuccess: 'La riposte a bien été modifiée',
   charactersLimit: '(255 caractères)',
   title: 'Titre',
   text: 'Texte',
@@ -69,24 +64,19 @@ const riposteSchema = Yup.object({
   url: Yup.string().url('Ce champ doit être une URL valide').required('Url obligatoire'),
 })
 
-const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => {
+const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateRiposte, loader = false }) => {
   const classes = useStyles()
-  const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
-
-  const { mutate: createOrEditRiposte } = useMutation(!riposte?.id ? createRiposteQuery : updateRiposteQuery, {
-    onSuccess: () => {
-      const successMessage = !riposte?.id ? messages.createSuccess : messages.editSuccess
-      enqueueSnackbar(successMessage, notifyVariants.success)
-      onSubmitResolve()
-      handleClose()
-    },
-    onError: handleError,
-  })
+  const { errorMessages, resetErrorMessages } = useErrorHandler()
 
   const handleClose = () => {
     onCloseResolve()
     resetErrorMessages()
+  }
+
+  const createOrEditRiposte = async riposte => {
+    const mutation = riposte.id ? updateRiposte : createRiposte
+    await mutation(riposte)
+    handleClose()
   }
 
   const formik = useFormik({
@@ -206,6 +196,12 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, onSubmitResolve }) => 
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>
+            {loader && (
+              <>
+                <Loader size={12} />
+                &nbsp;
+              </>
+            )}
             {messages.submit}
           </Button>
         </Grid>
@@ -218,13 +214,13 @@ export default CreateEditModal
 
 CreateEditModal.defaultProps = {
   riposte: null,
-  onCloseResolve: () => {},
-  onSubmitResolve: () => {},
 }
 
 CreateEditModal.propTypes = {
   open: PropTypes.bool.isRequired,
   riposte: DomainRiposte.propTypes,
-  onCloseResolve: PropTypes.func,
-  onSubmitResolve: PropTypes.func,
+  onCloseResolve: PropTypes.func.isRequired,
+  createRiposte: PropTypes.func.isRequired,
+  updateRiposte: PropTypes.func.isRequired,
+  loader: PropTypes.bool,
 }
