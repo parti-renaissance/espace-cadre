@@ -1,9 +1,11 @@
 import { apiClient } from 'services/networking/client'
-import News from '../domain/news'
+import News from 'domain/news'
+import { newPaginatedResult } from 'api/pagination'
 
-export const getNewsQuery = async () => {
-  const data = await apiClient.get('api/v3/jecoute/news')
-  return data.items.map(
+export const getNewsQuery = async ({ pageParam: page = 1 }) => {
+  const data = await apiClient.get(`api/v3/jecoute/news?order[created_at]=desc&page=${page}&page_size=20`)
+
+  const news = data.items.map(
     n =>
       new News(
         n.uuid,
@@ -16,6 +18,11 @@ export const getNewsQuery = async () => {
         n.published,
         n.zone?.uuid
       )
+  )
+
+  return newPaginatedResult(
+    news.sort((a, b) => +b.createdAt - +a.createdAt),
+    data
   )
 }
 

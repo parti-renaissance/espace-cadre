@@ -1,5 +1,10 @@
 import { CircularProgress } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const Loader = () => <CircularProgress size={16} />
+const Loader = ({ size = 16 }) => <CircularProgress size={size} />
+
+Loader.propTypes = {
+  size: PropTypes.number,
+}
 
 export default Loader

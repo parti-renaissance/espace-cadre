@@ -80,10 +80,10 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const [currentScope] = useUserScope()
 
   const { mutate: createOrEditNews } = useMutation(!news?.id ? createNewsQuery : updateNewsQuery, {
-    onSuccess: () => {
+    onSuccess: async () => {
       const successMessage = !news?.id ? messages.createSuccess : messages.editSuccess
+      await onSubmitResolve()
       enqueueSnackbar(successMessage, notifyVariants.success)
-      onSubmitResolve()
       handleClose()
     },
     onError: handleError,

@@ -16,13 +16,17 @@ context('Nominal tests', () => {
     mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=referent', 'internal/reportsRatio')
     mock('GET', '/api/v3/internal/*/jemengage/survey?scope=referent', 'internal/survey')
     mock('GET', '/api/v3/internal/*/jemengage/users?scope=referent', 'internal/users')
-    mock('GET', '/api/v3/adherent_messages?scope=referent', 'messagerie/messages')
+    mock(
+      'GET',
+      '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
+      'messagerie/messages'
+    )
     mock('GET', '/api/v3/adherents/columns?scope=referent', 'adherents/columns')
     mock('GET', '/api/v3/adherents?page=1&scope=referent', 'adherents/adherents')
     mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'adherents/filters')
     mock('GET', '/api/v3/teams?scope=*', 'teams/teams')
     mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'teams/1')
-    mock('GET', '/api/v3/jecoute/news?scope=referent', 'news/news')
+    mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
     mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'phoning/phoningScope')
     mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
     mock('GET', '/api/v3/phoning_campaigns?scope=phoning_national_manager', 'phoning/campaigns')
@@ -42,7 +46,7 @@ context('Nominal tests', () => {
       'phoning/campaignDetail/histories'
     )
 
-    https: cy.visit('/auth?code=fake_authorization_code')
+    cy.visit('/auth?code=fake_authorization_code')
     cy.url().should('eq', 'http://localhost:3000/')
   })
 
