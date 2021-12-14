@@ -8,3 +8,14 @@ export default class PaginatedResult {
     this.lastPage = lastPage
   }
 }
+
+export const newPaginatedResult = (
+  data,
+  {
+    total_items: total,
+    items_per_page: pageSize,
+    count: currentPageCount,
+    current_page: currentPage,
+    last_page: lastPage,
+  }
+) => new PaginatedResult(data, total, pageSize, currentPageCount, currentPage, lastPage)

@@ -35,7 +35,7 @@ const SentEmailCampaignList = () => {
 
   const campaigns = usePaginatedData(paginatedCampaigns)
 
-  const { mutate: deleteDraft, isLoading: isDeleteLoading } = useMutation(deleteMessage, {
+  const { mutate: deleteDraft, isFetching: isDeleteLoading } = useMutation(deleteMessage, {
     onSuccess: async (_, draftId) => {
       await refetchUpdatedPage(paginatedCampaigns, refetch, draftId)
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
@@ -52,7 +52,7 @@ const SentEmailCampaignList = () => {
           dataLength={campaigns.length}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}
-          loader={<h4>Loading...</h4>}
+          loader={<Loader />}
         >
           <Grid container spacing={2}>
             {campaigns.map(message => (

@@ -1,6 +1,6 @@
 import { apiClient } from 'services/networking/client'
-import { PaginatedResult } from 'api/pagination'
 import Message, { Statistics } from 'domain/message'
+import { newPaginatedResult } from 'api/pagination/paginatedResult'
 
 export const getMessages = async ({ pageParam = 1 }) => {
   const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${pageParam}&page_size=20`)
@@ -22,13 +22,9 @@ export const getMessages = async ({ pageParam = 1 }) => {
     return new Message(message.uuid, author, message.status, message.subject, message.created_at, stats)
   })
 
-  return new PaginatedResult(
+  return newPaginatedResult(
     messages.sort((a, b) => +b.createdAt - +a.createdAt),
-    data.metadata.total_items,
-    data.metadata.items_per_page,
-    data.metadata.count,
-    data.metadata.current_page,
-    data.metadata.last_page
+    data
   )
 }
 export const deleteMessage = id => apiClient.delete(`/v3/adherent_messages/${id}`)
