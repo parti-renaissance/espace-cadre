@@ -83,7 +83,7 @@ const Ripostes = () => {
   )
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 3 }}>
+    <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container justifyContent="space-between">
         <Grid item>
           <PageTitle title={messages.title} />
@@ -94,50 +94,50 @@ const Ripostes = () => {
             {messages.create}
           </Button>
         </Grid>
-        {paginatedRipostes && (
-          <InfiniteScroll
-            dataLength={ripostes.length}
-            next={() => fetchNextPage()}
-            hasMore={hasNextPage}
-            loader={<Loader />}
-          >
-            <Grid container spacing={2}>
-              {ripostes.map(r => (
-                <Grid item key={r.id} xs={12} sm={6} md={3}>
-                  <UICard
-                    rootProps={{ sx: { height: '238px' } }}
-                    headerProps={{ sx: { pt: '21px' } }}
-                    header={
-                      <>
-                        <Header {...r} />
-                        <Title subject={r.title} author={`Par ${r.creator}`} sx={{ pt: 1 }} />
-                      </>
-                    }
-                    contentProps={{ sx: { pt: 1 } }}
-                    content={<Content riposte={r} handleEdit={handleEdit(r.id)} toggleStatus={toggleRiposteStatus} />}
-                    actionsProps={{ sx: { pt: 3 } }}
-                    actions={
-                      <Actions
-                        toggleStatus={() => toggleRiposteStatus(r.id)}
-                        onEdit={handleEdit(r.id)}
-                        status={r.status}
-                        loader={isToggleStatusLoading}
-                      />
-                    }
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </InfiniteScroll>
-        )}
-        {isFetching && <Loader />}
-        <CreateEditModal
-          open={isModalOpen}
-          riposte={editingRiposte}
-          onCloseResolve={handleClose}
-          onSubmitResolve={refetch}
-        />
       </Grid>
+      {paginatedRipostes && (
+        <InfiniteScroll
+          dataLength={ripostes.length}
+          next={() => fetchNextPage()}
+          hasMore={hasNextPage}
+          loader={<Loader />}
+        >
+          <Grid container spacing={2}>
+            {ripostes.map(r => (
+              <Grid item key={r.id} xs={12} sm={6} md={3}>
+                <UICard
+                  rootProps={{ sx: { height: '238px' } }}
+                  headerProps={{ sx: { pt: '21px' } }}
+                  header={
+                    <>
+                      <Header {...r} />
+                      <Title subject={r.title} author={`Par ${r.creator}`} sx={{ pt: 1 }} />
+                    </>
+                  }
+                  contentProps={{ sx: { pt: 1 } }}
+                  content={<Content riposte={r} handleEdit={handleEdit(r.id)} toggleStatus={toggleRiposteStatus} />}
+                  actionsProps={{ sx: { pt: 3 } }}
+                  actions={
+                    <Actions
+                      toggleStatus={() => toggleRiposteStatus(r.id)}
+                      onEdit={handleEdit(r.id)}
+                      status={r.status}
+                      loader={isToggleStatusLoading}
+                    />
+                  }
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </InfiniteScroll>
+      )}
+      {isFetching && <Loader />}
+      <CreateEditModal
+        open={isModalOpen}
+        riposte={editingRiposte}
+        onCloseResolve={handleClose}
+        onSubmitResolve={refetch}
+      />
     </Container>
   )
 }
