@@ -16,7 +16,7 @@ const messages = {
   unPublished: 'Dépublier',
 }
 
-const Actions = ({ status, toggleStatus, isLoading = false, onView }) => (
+const Actions = ({ status, toggleStatus, loader = false, onView }) => (
   <HorizontalContainer>
     <CtaButton
       onClick={onView}
@@ -30,7 +30,7 @@ const Actions = ({ status, toggleStatus, isLoading = false, onView }) => (
       {messages.see}
     </CtaButton>
     <DotsMenu>
-      <DotsMenuItem onClick={toggleStatus} isLoading={isLoading}>
+      <DotsMenuItem onClick={toggleStatus} loader={loader}>
         {status ? messages.unPublished : messages.published}
       </DotsMenuItem>
     </DotsMenu>
@@ -42,6 +42,6 @@ export default Actions
 Actions.propTypes = {
   status: PropTypes.bool.isRequired,
   toggleStatus: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
+  loader: PropTypes.bool,
   onView: PropTypes.func.isRequired,
 }

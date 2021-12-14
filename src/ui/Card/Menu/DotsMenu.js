@@ -22,14 +22,14 @@ const MenuItem = styled(MuiMenuItem)`
   },
 `
 
-export const DotsMenuItem = ({ onClick, closeMenu, isLoading = false, children }) => {
+export const DotsMenuItem = ({ onClick, closeMenu, loader = false, children }) => {
   const handleClick = async () => {
     await onClick()
     closeMenu()
   }
   return (
     <MenuItem onClick={handleClick}>
-      {isLoading && (
+      {loader && (
         <>
           <Loader size={12} />
           &nbsp;
@@ -43,7 +43,7 @@ export const DotsMenuItem = ({ onClick, closeMenu, isLoading = false, children }
 DotsMenuItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   closeMenu: PropTypes.func,
-  isLoading: PropTypes.bool,
+  loader: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
 

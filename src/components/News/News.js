@@ -44,20 +44,21 @@ const News = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isLoading,
+    isFetching,
   } = useInfiniteQuery('news', getNewsQuery, {
     getNextPageParam,
     onError: handleError,
   })
-  const { mutate: updateNewsStatus, isFetching: isToggleStatusLoading } = useMutation(updateNewsStatusQuery, {
+
+  const news = usePaginatedData(paginatedNews)
+
+  const { mutate: updateNewsStatus, isFetching: isToggleStatusFetching } = useMutation(updateNewsStatusQuery, {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
-
-  const news = usePaginatedData(paginatedNews)
 
   const handleNewsCreate = () => {
     setViewingNews(NewsDomain.NULL)
@@ -102,7 +103,7 @@ const News = () => {
           </Button>
         </Grid>
       </Grid>
-      {isLoading && <Loader />}
+      {isFetching && <Loader />}
       {paginatedNews && (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
           <Grid container spacing={2}>
@@ -123,7 +124,7 @@ const News = () => {
                       toggleStatus={() => toggleNewsStatus(n.id)}
                       onView={handleView(n.id)}
                       status={n.status}
-                      isLoading={isToggleStatusLoading}
+                      loader={isToggleStatusFetching}
                     />
                   }
                 />
