@@ -1,53 +1,20 @@
 import PropTypes from 'prop-types'
 import { Container } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import ListIcon from 'ui/icons/ListIcon'
+import { styled } from '@mui/system'
 
-const useStyles = makeStyles(theme => ({
-  pageContent: {
-    width: `calc(100% - ${theme.spacing(34)})`,
-    margin: theme.spacing(2, 0, 0, 34),
-    transition: 'all 0.4s',
-    '&.active': {
-      width: '100%',
-      marginLeft: 0,
-    },
-    [theme.breakpoints.down('lg')]: {
-      width: '100%',
-      marginLeft: 0,
-      '&.active': {
-        width: `calc(100% - ${theme.spacing(34)})`,
-        marginLeft: theme.spacing(34),
-      },
-    },
-  },
-  container: {
-    padding: theme.spacing(0, 2),
-  },
-  toggleButton: {
-    height: '34px',
-    width: '40px',
-    color: theme.palette.grayCorner3,
-    backgroundColor: theme.palette.whiteCorner,
-    border: 'none',
-    cursor: 'pointer',
-    margin: theme.spacing(0.75, 0, 2),
-    borderRadius: '6px',
-  },
-}))
+const PageContentWrapper = styled('div')`
+  margin: ${({ theme }) => theme.spacing(2, 0, 0, 34)};
+  ${props => props.theme.breakpoints.down('lg')} {
+    width: 100%;
+    margin-left: 0;
+  } ;
+`
 
-const PageContent = ({ children, handleToggle, toggleSidebar }) => {
-  const classes = useStyles()
-
+const PageContent = ({ children }) => {
   return (
-    <div id="pageContent" className={`${classes.pageContent}  ${toggleSidebar ? 'active' : ''}`}>
-      <Container maxWidth="xl" className={classes.container}>
-        <button className={classes.toggleButton} onClick={handleToggle}>
-          <ListIcon alt="Menu button" />
-        </button>
-        {children}
-      </Container>
-    </div>
+    <PageContentWrapper>
+      <Container maxWidth="xl">{children}</Container>
+    </PageContentWrapper>
   )
 }
 
@@ -55,6 +22,4 @@ export default PageContent
 
 PageContent.propTypes = {
   children: PropTypes.instanceOf(Object).isRequired,
-  toggleSidebar: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
 }

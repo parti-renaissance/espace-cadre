@@ -124,14 +124,14 @@ function Scopes() {
   }
 
   return (
-    <Grid className="scopes-container">
+    <Grid>
       {currentUser && filteredScopes?.length > 0 && (
         <>
           <Button onClick={handleClick} className={classes.scopeButton}>
             <span className={classes.activeScope}>
               {currentUser.firstName} {currentUser.lastName}
             </span>
-            <img className="caret-dropdown" src={vector} alt="caret" />
+            <img src={vector} alt="caret" />
           </Button>
           <Menu
             anchorEl={anchorEl}
