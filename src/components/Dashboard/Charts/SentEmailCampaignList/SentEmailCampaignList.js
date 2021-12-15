@@ -68,7 +68,7 @@ const SentEmailCampaignList = () => {
                     </>
                   }
                   contentProps={{}}
-                  content={message.draft ? <EmptyBlock /> : <Body statistics={message.statistics} />}
+                  content={message.draft || <Body statistics={message.statistics} />}
                   actionsProps={{ sx: { pb: 1, height: '40px' } }}
                   actions={
                     message.draft ? (
