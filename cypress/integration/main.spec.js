@@ -83,11 +83,11 @@ context('Nominal tests', () => {
 
     cy.contains('subject 1')
     cy.contains('Brouillon')
-    cy.get('.MuiChip-label').eq(0).should('contain', 'Envoyé')
+    cy.get('.MuiPaper-root').eq(0).get('.MuiChip-label').eq(0).should('contain', 'Envoyé')
     cy.contains('Le 01/11/2021')
 
     cy.contains('subject 2')
-    cy.get('.MuiChip-label').eq(1).should('contain', 'Brouillon')
+    cy.get('.MuiPaper-root').eq(1).get('.MuiChip-label').should('contain', 'Brouillon')
     cy.contains('Le 02/11/2021')
 
     cy.contains('Envoyer un email')
