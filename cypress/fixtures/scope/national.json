@@ -1,0 +1,13 @@
+{
+  "code": "national",
+  "name": "National",
+  "zones": [
+    {
+      "uuid": "FR111111-1111-1111-1111-111111111111",
+      "code": "FR",
+      "name": "France"
+    }
+  ],
+  "apps": ["data_corner"],
+  "features": ["dashboard", "elections", "ripostes", "news"]
+}

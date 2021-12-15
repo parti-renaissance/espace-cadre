@@ -35,7 +35,7 @@ const SentEmailCampaignList = () => {
 
   const campaigns = usePaginatedData(paginatedCampaigns)
 
-  const { mutate: deleteDraft, isFetching: isDeleteFetching } = useMutation(deleteMessage, {
+  const { mutateAsync: deleteDraft, isLoading: isDeleteLoading } = useMutation(deleteMessage, {
     onSuccess: async (_, draftId) => {
       await refetchUpdatedPage(paginatedCampaigns, refetch, draftId)
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
@@ -46,7 +46,6 @@ const SentEmailCampaignList = () => {
   return (
     <>
       <SentEmailCampaignListTitle />
-      {isFetching && <Loader />}
       {paginatedCampaigns && (
         <InfiniteScroll
           dataLength={campaigns.length}
@@ -67,11 +66,11 @@ const SentEmailCampaignList = () => {
                     </>
                   }
                   contentProps={{ sx: { pt: 1 } }}
-                  content={message.draft && <Body statistics={message.statistics} />}
+                  content={!message.draft && <Body statistics={message.statistics} />}
                   actionsProps={{ sx: { pt: 3 } }}
                   actions={
                     message.draft && (
-                      <Actions messageId={message.id} del={() => deleteDraft(message.id)} loader={isDeleteFetching} />
+                      <Actions messageId={message.id} del={() => deleteDraft(message.id)} loader={isDeleteLoading} />
                     )
                   }
                 />
@@ -80,6 +79,7 @@ const SentEmailCampaignList = () => {
           </Grid>
         </InfiniteScroll>
       )}
+      {isFetching && <Loader />}
     </>
   )
 }

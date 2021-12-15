@@ -52,7 +52,7 @@ const News = () => {
 
   const news = usePaginatedData(paginatedNews)
 
-  const { mutate: updateNewsStatus, isFetching: isToggleStatusFetching } = useMutation(updateNewsStatusQuery, {
+  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsStatusQuery, {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
@@ -82,10 +82,10 @@ const News = () => {
   }
 
   const toggleNewsStatus = useCallback(
-    id => {
+    async id => {
       const currentNews = news.find(n => n.id === id)
       const toggledNews = currentNews.toggleStatus()
-      updateNewsStatus(toggledNews)
+      await updateNewsStatus(toggledNews)
     },
     [news, updateNewsStatus]
   )
@@ -103,7 +103,6 @@ const News = () => {
           </Button>
         </Grid>
       </Grid>
-      {isFetching && <Loader />}
       {paginatedNews && (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
           <Grid container spacing={2}>
@@ -124,7 +123,7 @@ const News = () => {
                       toggleStatus={() => toggleNewsStatus(n.id)}
                       onView={handleView(n.id)}
                       status={n.status}
-                      loader={isToggleStatusFetching}
+                      loader={isToggleStatusLoading}
                     />
                   }
                 />
@@ -133,7 +132,7 @@ const News = () => {
           </Grid>
         </InfiniteScroll>
       )}
-
+      {isFetching && <Loader />}
       <CreateEditModal
         open={isCreateEditModalOpen}
         news={viewingNews}

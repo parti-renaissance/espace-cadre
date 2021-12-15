@@ -11,11 +11,12 @@ context('Nominal tests', () => {
     mock('GET', '/api/me', 'me')
     mock('GET', '/api/v3/profile/me/scopes', 'scopes')
     mock('GET', '/api/v3/profile/me/scope/referent', 'scope/referent')
-    mock('GET', '/api/v3/internal/*/adherents?scope=referent', 'internal/adherents')
-    mock('GET', '/api/v3/internal/*/jemengage/downloads?scope=referent', 'internal/downloads')
-    mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=referent', 'internal/reportsRatio')
-    mock('GET', '/api/v3/internal/*/jemengage/survey?scope=referent', 'internal/survey')
-    mock('GET', '/api/v3/internal/*/jemengage/users?scope=referent', 'internal/users')
+    mock('GET', '/api/v3/profile/me/scope/national', 'scope/national')
+    mock('GET', '/api/v3/internal/*/adherents?scope=*', 'internal/adherents')
+    mock('GET', '/api/v3/internal/*/jemengage/downloads?scope=*', 'internal/downloads')
+    mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
+    mock('GET', '/api/v3/internal/*/jemengage/survey?scope=*', 'internal/survey')
+    mock('GET', '/api/v3/internal/*/jemengage/users?scope=*', 'internal/users')
     mock(
       'GET',
       '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
@@ -27,6 +28,7 @@ context('Nominal tests', () => {
     mock('GET', '/api/v3/teams?scope=*', 'teams/teams')
     mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'teams/1')
     mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
+    mock('GET', '/api/v3/ripostes?order[created_at]=desc&page=1&page_size=20&scope=national', 'ripostes/ripostes')
     mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'phoning/phoningScope')
     mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
     mock('GET', '/api/v3/phoning_campaigns?scope=phoning_national_manager', 'phoning/campaigns')
@@ -81,11 +83,11 @@ context('Nominal tests', () => {
 
     cy.contains('subject 1')
     cy.contains('Brouillon')
-    cy.get('.MuiChip-label').eq(0).should('contain', 'Envoyé')
+    cy.get('.MuiPaper-root').eq(0).get('.MuiChip-label').eq(0).should('contain', 'Envoyé')
     cy.contains('Le 01/11/2021')
 
     cy.contains('subject 2')
-    cy.get('.MuiChip-label').eq(1).should('contain', 'Brouillon')
+    cy.get('.MuiPaper-root').eq(1).get('.MuiChip-label').should('contain', 'Brouillon')
     cy.contains('Le 02/11/2021')
 
     cy.contains('Envoyer un email')
@@ -181,5 +183,33 @@ context('Nominal tests', () => {
     cy.get(tablistButton).eq(2).contains('0 questionnaire')
     cy.get(callerCard).eq(0).contains('1. John Doe')
     cy.get(callerCard).eq(1).contains('2/10')
+  })
+
+  it('loads national ripostes', () => {
+    cy.contains('National').click()
+    cy.contains('Riposte').click()
+
+    cy.contains('Riposte 2')
+    cy.contains('Par author 2')
+    cy.contains('2 vues')
+    cy.contains('2 vues détaillées')
+    cy.contains('2 ripostes')
+
+    cy.contains('Riposte 1')
+    cy.contains('Par author 1')
+    cy.contains('1 vue')
+    cy.contains('1 vue détaillée')
+    cy.contains('1 riposte')
+
+    cy.contains('Éditer').first().click()
+    const modale = 'div[role="dialog"]'
+    cy.get(modale).contains('Modifier une riposte')
+    cy.get(modale).get('input[name="title"]').should('have.value', 'Riposte 2')
+    cy.get(modale).get('textarea[name="body"]').should('have.value', 'Répondez à Candidat X')
+    cy.get(modale).get('input[name="url"]').should('have.value', 'https://www.en-marche.fr')
+    cy.get(modale + ' button')
+      .first()
+      .click()
+    cy.get(modale).should('not.exist')
   })
 })

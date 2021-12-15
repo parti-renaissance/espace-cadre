@@ -1,9 +1,23 @@
-import { apiClient } from '../services/networking/client'
-import Riposte from '../domain/riposte'
+import { apiClient } from 'services/networking/client'
+import Riposte from 'domain/riposte'
+import { newPaginatedResult } from 'api/pagination'
 
-export const getRipostesQuery = async () => {
-  const data = await apiClient.get('api/v3/ripostes')
-  return data.map(
+export const getRipostesQuery = async ({ pageParam: page = 1 }) => {
+  const data = await apiClient.get(`api/v3/ripostes?order[created_at]=desc&page=${page}&page_size=20`)
+  if (!data.items) {
+    // TODO : REMOVE this if when ripostes API is paginated
+    data.items = data
+    data.metadata = {
+      items: data,
+      total_items: data.length,
+      items_per_page: data.length,
+      count: data.length,
+      current_page: 1,
+      last_page: 1,
+    }
+  }
+
+  const ripostes = data.items.map(
     r =>
       new Riposte(
         r.uuid,
@@ -19,6 +33,10 @@ export const getRipostesQuery = async () => {
         r.nb_source_views,
         r.nb_ripostes
       )
+  )
+  return newPaginatedResult(
+    ripostes.sort((a, b) => +b.createdAt - +a.createdAt),
+    data.metadata
   )
 }
 
