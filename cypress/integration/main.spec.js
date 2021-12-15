@@ -52,14 +52,14 @@ context('Nominal tests', () => {
     cy.url().should('eq', 'http://localhost:3000/')
   })
 
-  xit('loads homepage successfully', () => {
+  it('loads homepage successfully', () => {
     cy.contains('Député')
     cy.contains('National')
     cy.contains('Responsable Phoning')
     cy.contains('Référent')
   })
 
-  xit('loads referent dashboard successfully', () => {
+  it('loads referent dashboard successfully', () => {
     cy.contains('Référent').click()
 
     cy.contains("Vue d'ensemble")
@@ -70,12 +70,12 @@ context('Nominal tests', () => {
     cy.contains('44.44% au national')
   })
 
-  xit('loads "adherents" page successfully', () => {
+  it('loads "adherents" page successfully', () => {
     cy.contains('Référent').click()
     cy.contains('Adhérents').click()
   })
 
-  xit('loads referent messagerie successfully', () => {
+  it('loads referent messagerie successfully', () => {
     cy.contains('Référent').click()
     cy.contains('Messagerie').click()
 
@@ -93,7 +93,7 @@ context('Nominal tests', () => {
     cy.contains('Envoyer un email')
   })
 
-  xit('loads referent teams successfully', () => {
+  it('loads referent teams successfully', () => {
     cy.contains('Référent').click()
     cy.contains('Équipes').click()
 
@@ -108,7 +108,7 @@ context('Nominal tests', () => {
     cy.contains('92100, adhérent(e) depuis le ' + new Date(2019, 5, 1, 12, 0).toLocaleDateString())
   })
 
-  xit('loads referent news successfully', () => {
+  it('loads referent news successfully', () => {
     const newsReadOnlyModalSelector = 'div[data-testid="news-read-only-modal"]'
 
     cy.contains('Référent').click()
@@ -142,7 +142,7 @@ context('Nominal tests', () => {
     cy.get('[type="checkbox"]').eq(1).should('be.checked')
   })
 
-  xit('loads phoning page successfully', () => {
+  it('loads phoning page successfully', () => {
     const paperRoot = '.MuiPaper-root'
     const uiCard = '[data-testid="UICard"]'
     const tablistButton = '[role="tablist"]>button'
