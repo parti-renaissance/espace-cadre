@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Grid, Container, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaignList from 'components/Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList'
-import arrowRight from 'assets/arrow-right.svg'
+import SendIcon from '@mui/icons-material/Send'
 import PageTitle from 'ui/PageTitle'
 import paths from 'components/Messagerie/shared/paths'
 
@@ -12,10 +12,6 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: theme.palette.whiteCorner,
     },
-  },
-  mailButtonContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
   },
   messagerieMailButton: {
     fontSize: '14px',
@@ -28,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none',
   },
   messagerieKpi: {
-    backgroundColor: 'rgba(19, 92, 235, 0.05)',
+    backgroundColor: theme.palette.gray200,
     marginBottom: theme.spacing(2),
     borderRadius: theme.spacing(0.75),
   },
@@ -45,33 +41,39 @@ const useStyles = makeStyles(theme => ({
 
 const messages = {
   title: 'Messagerie',
+  sendEmail: 'Envoyer un email',
+  kpi: 'Indicateurs',
 }
 
 const Dashboard = () => {
   const classes = useStyles()
+  const navigate = useNavigate()
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
-        <Grid item className={classes.mailButtonContainer}>
-          <Link to={paths.create}>
-            <Button
-              type="button"
-              disableRipple
-              className={classes.messagerieMailButton}
-              classes={{ root: classes.root }}
-              endIcon={<img src={arrowRight} alt="right arrow" />}
-            >
-              Envoyer un email
-            </Button>
-          </Link>
+        <Grid
+          item
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            mb: 2,
+          }}
+        >
+          <Button
+            sx={{ color: '#2834C3', bgcolor: '#2718E514', '&:hover': { bgcolor: '#2718E514' }, px: 1, py: 0.75 }}
+            onClick={() => navigate(paths.create)}
+          >
+            <SendIcon sx={{ mr: 1 }} />
+            {messages.sendEmail}
+          </Button>
         </Grid>
       </Grid>
       <Grid container className={classes.messagerieKpi}>
         <Grid container>
           <Grid item xs={12} className={classes.kpiTitle}>
-            En quelques chiffres
+            {messages.kpi}
           </Grid>
         </Grid>
         <Grid container>
