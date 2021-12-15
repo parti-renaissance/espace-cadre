@@ -79,7 +79,7 @@ context('Nominal tests', () => {
     cy.contains('Référent').click()
     cy.contains('Messagerie').click()
 
-    cy.contains("Campagnes d'emails")
+    cy.contains('Indicateurs')
 
     cy.contains('subject 1')
     cy.contains('Brouillon')
