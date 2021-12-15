@@ -69,6 +69,15 @@ export const styles = {
       },
     },
     form: {
+      label: {
+        color: '#413D45',
+      },
+      input: {
+        background: '#F3F4F6',
+        borderColor: {
+          focus: '#004AD7',
+        },
+      },
       error: {
         background: '#FEEFEF',
         color: '#DA1414',
@@ -99,6 +108,7 @@ export const styles = {
       background: {
         main: '#F0EFFB',
         hover: '#F0EFFB',
+        button: '#4338CA',
         chip: {
           default: 'rgba(55, 65, 81, 0.08)',
           sent: 'rgba(3, 105, 161, 0.08)',
