@@ -6,7 +6,6 @@ import UILoader from 'ui/Loader'
 import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
 import { useUserScope } from '../../../../redux/user/hooks'
-import EmailCampaignTitle from './EmailCampaignTitle'
 import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
 import pluralize from 'components/shared/pluralize/pluralize'
@@ -80,53 +79,50 @@ function KpiEmailCampaign() {
   const emailCampaignContent = () => {
     if (campaign !== null) {
       return (
-        <>
-          <EmailCampaignTitle />
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <UIContainer rootClasses={classes.littleCard}>
-                <Box className={classes.mainInfo}>{campaign.local.nbCampagnes}</Box>
-                <Box className={classes.mainText}>{pluralize(campaign.local.nbCampagnes, messages.campaign)}</Box>
-                <Box className={classes.secondaryText}>
-                  {pluralize(campaign.local.nbCampagnes, messages.sent)} en {new Date().getFullYear()}
-                </Box>
-              </UIContainer>
-            </Grid>
-            <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <UIContainer rootClasses={classes.littleCard}>
-                <Box className={classes.mainInfo}>
-                  <Percentage>{campaign.local.txOuverture}</Percentage>
-                </Box>
-                <Box className={classes.mainText}>{messages.opening}</Box>
-                <Box className={classes.secondaryText}>
-                  <Percentage>{campaign.national.txOuverture}</Percentage> {messages.national}
-                </Box>
-              </UIContainer>
-            </Grid>
-            <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <UIContainer rootClasses={classes.littleCard}>
-                <Box className={classes.mainInfo}>
-                  <Percentage>{campaign.local.txClique}</Percentage>
-                </Box>
-                <Box className={classes.mainText}>{messages.clicks}</Box>
-                <Box className={classes.secondaryText}>
-                  <Percentage>{campaign.national.txClique}</Percentage> {messages.national}
-                </Box>
-              </UIContainer>
-            </Grid>
-            <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-              <UIContainer rootClasses={classes.littleCard}>
-                <Box className={classes.mainInfo}>
-                  <Percentage>{campaign.local.txDesabonnement}</Percentage>
-                </Box>
-                <Box className={classes.mainText}>{messages.unsubscribing}</Box>
-                <Box className={classes.secondaryText}>
-                  <Percentage>{campaign.national.txDesabonnement}</Percentage> {messages.national}
-                </Box>
-              </UIContainer>
-            </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
+            <UIContainer rootClasses={classes.littleCard}>
+              <Box className={classes.mainInfo}>{campaign.local.nbCampagnes}</Box>
+              <Box className={classes.mainText}>{pluralize(campaign.local.nbCampagnes, messages.campaign)}</Box>
+              <Box className={classes.secondaryText}>
+                {pluralize(campaign.local.nbCampagnes, messages.sent)} en {new Date().getFullYear()}
+              </Box>
+            </UIContainer>
           </Grid>
-        </>
+          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
+            <UIContainer rootClasses={classes.littleCard}>
+              <Box className={classes.mainInfo}>
+                <Percentage>{campaign.local.txOuverture}</Percentage>
+              </Box>
+              <Box className={classes.mainText}>{messages.opening}</Box>
+              <Box className={classes.secondaryText}>
+                <Percentage>{campaign.national.txOuverture}</Percentage> {messages.national}
+              </Box>
+            </UIContainer>
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
+            <UIContainer rootClasses={classes.littleCard}>
+              <Box className={classes.mainInfo}>
+                <Percentage>{campaign.local.txClique}</Percentage>
+              </Box>
+              <Box className={classes.mainText}>{messages.clicks}</Box>
+              <Box className={classes.secondaryText}>
+                <Percentage>{campaign.national.txClique}</Percentage> {messages.national}
+              </Box>
+            </UIContainer>
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
+            <UIContainer rootClasses={classes.littleCard}>
+              <Box className={classes.mainInfo}>
+                <Percentage>{campaign.local.txDesabonnement}</Percentage>
+              </Box>
+              <Box className={classes.mainText}>{messages.unsubscribing}</Box>
+              <Box className={classes.secondaryText}>
+                <Percentage>{campaign.national.txDesabonnement}</Percentage> {messages.national}
+              </Box>
+            </UIContainer>
+          </Grid>
+        </Grid>
       )
     }
     if (errorMessage) {
@@ -139,12 +135,9 @@ function KpiEmailCampaign() {
       )
     }
     return (
-      <>
-        <EmailCampaignTitle />
-        <LoaderContainer>
-          <UILoader />
-        </LoaderContainer>
-      </>
+      <LoaderContainer>
+        <UILoader />
+      </LoaderContainer>
     )
   }
 
