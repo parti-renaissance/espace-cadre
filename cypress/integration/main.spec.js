@@ -25,7 +25,7 @@ context('Nominal tests', () => {
     mock('GET', '/api/v3/adherents/columns?scope=referent', 'adherents/columns')
     mock('GET', '/api/v3/adherents?page=1&scope=referent', 'adherents/adherents')
     mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'adherents/filters')
-    mock('GET', '/api/v3/teams?scope=*', 'teams/teams')
+    mock('GET', '/api/v3/teams?order*=desc&page=1&page_size=20&scope=*', 'teams/teams')
     mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'teams/1')
     mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
     mock('GET', '/api/v3/ripostes?order[created_at]=desc&page=1&page_size=20&scope=national', 'ripostes/ripostes')

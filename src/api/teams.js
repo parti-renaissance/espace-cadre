@@ -1,5 +1,6 @@
-import { Team, TeamMember } from '../domain/team'
-import { apiClient } from '../services/networking/client'
+import { Team, TeamMember } from 'domain/team'
+import { apiClient } from 'services/networking/client'
+import { newPaginatedResult } from 'api/pagination'
 
 const formatTeamMembers = (members = []) =>
   members.map(
@@ -17,9 +18,10 @@ const formatTeam = (team = {}) => {
   return new Team(team.uuid, team.name, team.creator, members)
 }
 
-export const getTeamsQuery = async () => {
-  const teams = await apiClient.get('api/v3/teams')
-  return teams.items.map(formatTeam)
+export const getTeamsQuery = async ({ pageParam: page = 1 }) => {
+  const data = await apiClient.get(`api/v3/teams?order[created_at]=desc&page=${page}&page_size=20`)
+  const teams = data.items.map(formatTeam)
+  return newPaginatedResult(teams, data.metadata)
 }
 
 export const getTeamQuery = async teamId => {
@@ -28,8 +30,14 @@ export const getTeamQuery = async teamId => {
   return new Team(team.uuid, team.name, team.creator, teamMembers)
 }
 
-export const createTeamQuery = ({ values }) => apiClient.post('api/v3/teams', values)
-export const updateTeamQuery = ({ teamId, values }) => apiClient.put(`api/v3/teams/${teamId}`, values)
+export const createTeamQuery = team =>
+  apiClient.post('api/v3/teams', {
+    name: team.name,
+  })
+export const updateTeamQuery = team =>
+  apiClient.put(`api/v3/teams/${team.id}`, {
+    name: team.name,
+  })
 
 export const addTeamMemberQuery = ({ teamId, memberId }) =>
   apiClient.put(`/api/v3/teams/${teamId}/add-members`, [{ adherent_uuid: memberId }])
