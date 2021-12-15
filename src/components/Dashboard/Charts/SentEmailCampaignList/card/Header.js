@@ -30,7 +30,7 @@ export const Header = ({ draft, createdAt }) => (
   <HorizontalContainer>
     <UIChip
       color={draft ? 'gray700' : 'green700'}
-      bgcolor={draft ? 'gray200' : 'green200'}
+      bgcolor={draft ? 'gray200' : 'messagesBackground'}
       label={draft ? messages.draft : messages.sent}
     />
     <UIDate>

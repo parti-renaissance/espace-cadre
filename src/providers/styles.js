@@ -241,6 +241,9 @@ export const styles = {
     // Teams Colors
     teamBackground: 'rgba(8, 145, 178, 0.08)',
 
+    // Messages Colors
+    messagesBackground: '#04785714',
+
     // Alert banner
     backgroundError: '#FEEFEF',
   },
