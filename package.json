@@ -11,7 +11,7 @@
     "@mui/material": "5.2.2",
     "@mui/styles": "5.2.2",
     "@mui/system": "5.2.4",
-    "@reduxjs/toolkit": "1.7.0",
+    "@reduxjs/toolkit": "1.7.1",
     "@sentry/react": "6.16.1",
     "@sentry/tracing": "6.16.1",
     "axios": "0.24.0",
