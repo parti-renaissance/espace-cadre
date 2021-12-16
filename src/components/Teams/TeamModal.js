@@ -2,16 +2,12 @@ import PropTypes from 'prop-types'
 import { Dialog, Grid, Button, Box, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { styled } from '@mui/system'
-import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { createTeamQuery, updateTeamQuery } from '../../api/teams'
-import { notifyVariants } from 'components/shared/notification/constants'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { useErrorHandler } from 'components/shared/error/hooks'
 import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import ClearIcon from '@mui/icons-material/Clear'
+import Loader from 'ui/Loader'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -57,33 +53,25 @@ const messages = {
   add: 'Ajouter',
   teamMember: "Membres de l'équipe",
   noMember: 'Cette équipe ne contient aucun membre',
-  createSuccess: 'Equipe créée avec succès',
-  editSuccess: "L'équipe a bien été modifiée",
   charactersLimit: '(255 charactères)',
+  submit: 'Valider',
 }
 
 const teamSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const TeamModal = ({ open, team, onCloseResolve, onSubmitResolve }) => {
+const TeamModal = ({ open, team, onCloseResolve, createTeam, updateTeam, loader = false, errors }) => {
   const classes = useStyles()
-  const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
-
-  const { mutate: createOrEditTeam } = useMutation(!team?.id ? createTeamQuery : updateTeamQuery, {
-    onSuccess: () => {
-      const successMessage = !team?.id ? messages.createSuccess : messages.editSuccess
-      enqueueSnackbar(successMessage, notifyVariants.success)
-      onSubmitResolve()
-      handleClose()
-    },
-    onError: handleError,
-  })
 
   const handleClose = () => {
     onCloseResolve()
-    resetErrorMessages()
+  }
+
+  const createOrEditTeam = async team => {
+    const mutation = team.id ? updateTeam : createTeam
+    await mutation(team)
+    handleClose()
   }
 
   const formik = useFormik({
@@ -93,7 +81,7 @@ const TeamModal = ({ open, team, onCloseResolve, onSubmitResolve }) => {
     validationSchema: teamSchema,
     enableReinitialize: true,
     onSubmit: values => {
-      createOrEditTeam(!team?.id ? { values } : { teamId: team?.id, values })
+      createOrEditTeam(team.withName(values.name))
     },
   })
 
@@ -103,7 +91,7 @@ const TeamModal = ({ open, team, onCloseResolve, onSubmitResolve }) => {
         <Grid container justifyContent="space-between" className={classes.innerContainer}>
           <Grid item>
             <Box component="span" className={classes.modalTitle}>
-              {!team?.id ? messages.create : messages.edit}
+              {team?.id ? messages.edit : messages.create}
             </Box>
           </Grid>
           <Grid item>
@@ -120,7 +108,7 @@ const TeamModal = ({ open, team, onCloseResolve, onSubmitResolve }) => {
           <Grid item xs={12}>
             <TextField formik={formik} label="name" />
           </Grid>
-          {errorMessages
+          {errors
             .filter(({ field }) => field === 'name')
             .map(({ field, message }) => (
               <Grid item xs={12} key={field}>
@@ -130,7 +118,13 @@ const TeamModal = ({ open, team, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>
-            Valider
+            {loader && (
+              <>
+                <Loader size={12} />
+                &nbsp;
+              </>
+            )}
+            {messages.submit}
           </Button>
         </Grid>
       </form>
@@ -142,13 +136,19 @@ export default TeamModal
 
 TeamModal.defaultProps = {
   team: null,
-  onCloseResolve: () => {},
-  onSubmitResolve: () => {},
 }
 
 TeamModal.propTypes = {
   open: PropTypes.bool.isRequired,
   team: PropTypes.object,
-  onCloseResolve: PropTypes.func,
-  onSubmitResolve: PropTypes.func,
+  onCloseResolve: PropTypes.func.isRequired,
+  createTeam: PropTypes.func.isRequired,
+  updateTeam: PropTypes.func.isRequired,
+  loader: PropTypes.bool,
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      field: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }

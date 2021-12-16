@@ -9,6 +9,8 @@ export class Team {
   }
 
   static NULL = new Team(0, '', '', [])
+
+  withName = newName => new Team(this.id, newName, this.creator, this.members)
 }
 
 export class TeamMember {

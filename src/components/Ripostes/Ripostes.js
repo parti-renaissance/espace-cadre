@@ -38,7 +38,7 @@ const Ripostes = () => {
   const [editingRiposte, setEditingRiposte] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError } = useErrorHandler()
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
 
   const {
     data: paginatedRipostes = null,
@@ -89,6 +89,7 @@ const Ripostes = () => {
 
   const handleClose = () => {
     setIsModalOpen(false)
+    resetErrorMessages()
   }
 
   const toggleRiposteStatus = useCallback(
@@ -157,6 +158,7 @@ const Ripostes = () => {
         createRiposte={createRiposte}
         updateRiposte={updateRiposte}
         loader={isCreateLoading || isUpdateLoading}
+        errors={errorMessages}
       />
     </Container>
   )

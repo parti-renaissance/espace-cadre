@@ -4,7 +4,6 @@ import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useErrorHandler } from 'components/shared/error/hooks'
 import DomainRiposte from 'domain/riposte'
 import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
@@ -64,13 +63,11 @@ const riposteSchema = Yup.object({
   url: Yup.string().url('Ce champ doit être une URL valide').required('Url obligatoire'),
 })
 
-const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateRiposte, loader = false }) => {
+const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateRiposte, loader = false, errors }) => {
   const classes = useStyles()
-  const { errorMessages, resetErrorMessages } = useErrorHandler()
 
   const handleClose = () => {
     onCloseResolve()
-    resetErrorMessages()
   }
 
   const createOrEditRiposte = async riposte => {
@@ -124,7 +121,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
           <Grid item xs={12}>
             <TextField formik={formik} label="title" />
           </Grid>
-          {errorMessages
+          {errors
             .filter(({ field }) => field === 'title')
             .map(({ field, message }) => (
               <Grid item xs={12} key={field}>
@@ -140,7 +137,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
           <Grid item xs={12}>
             <TextField formik={formik} label="body" />
           </Grid>
-          {errorMessages
+          {errors
             .filter(({ field }) => field === 'body')
             .map(({ field, message }) => (
               <Grid item xs={12} key={field}>
@@ -156,7 +153,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
           <Grid item xs={12}>
             <TextField formik={formik} label="url" />
           </Grid>
-          {errorMessages
+          {errors
             .filter(({ field }) => field === 'source_url')
             .map(({ field, message }) => (
               <Grid item xs={12} key={field}>
@@ -223,4 +220,10 @@ CreateEditModal.propTypes = {
   createRiposte: PropTypes.func.isRequired,
   updateRiposte: PropTypes.func.isRequired,
   loader: PropTypes.bool,
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      field: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }
