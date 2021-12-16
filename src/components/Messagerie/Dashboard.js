@@ -62,7 +62,14 @@ const Dashboard = () => {
           }}
         >
           <Button
-            sx={{ color: '#2834C3', bgcolor: '#2718E514', '&:hover': { bgcolor: '#2718E514' }, px: 1, py: 0.75 }}
+            sx={{
+              color: '#2834C3',
+              bgcolor: '#2718E514',
+              borderRadius: '8.35px',
+              '&:hover': { bgcolor: '#2718E514' },
+              px: 1,
+              py: 0.75,
+            }}
             onClick={() => navigate(paths.create)}
           >
             <SendIcon sx={{ mr: 1 }} />
