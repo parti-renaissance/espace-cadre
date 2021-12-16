@@ -44,8 +44,8 @@ module.exports = (env, argv = {}) => {
         patterns: [{ from: 'public' }, { from: 'node_modules/leaflet/dist/images' }],
       }),
       new SentryPlugin({
-        org: 'en-marche-i7',
-        project: 'je-mengage',
+        org: dotenvConfig.SENTRY_ORG,
+        project: dotenvConfig.SENTRY_PROJECT,
         authToken: dotenvConfig.SENTRY_AUTH_TOKEN,
         release: dotenvConfig.REACT_APP_VERSION,
         include: './build',
