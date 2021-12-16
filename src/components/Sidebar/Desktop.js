@@ -1,49 +1,11 @@
 import PropTypes from 'prop-types'
-import { Drawer, Typography } from '@mui/material'
+import { Drawer } from '@mui/material'
 import { styled } from '@mui/system'
 import banner from 'assets/banner.svg'
 import frenchFlag from 'assets/frenchFlag.svg'
-import { ListIcon } from 'ui/icons/ListIcon'
 import MentionsLegales from './MentionsLegales'
 import Scopes from '../Scopes'
-
-const BrandingWrapper = styled('div')(
-  ({ theme }) => `
-  display: flex;
-  color: ${theme.palette.menu.color.main};
-  margin: ${theme.spacing(3, 'auto', 4, 'auto')};
-`
-)
-
-const SiteName = styled(Typography)(
-  ({ theme }) => `
-  font-size: 22px;
-  font-weight: 600;
-  margin-right: ${theme.spacing(0.5)}
-`
-)
-
-const BetaWrapper = styled('span')(
-  ({ theme }) => `
-  background: ${theme.palette.menu.background.beta};
-  padding: ${theme.spacing(0, 0.37, 0.4)};
-  border-radius: 4px;
-  line-height: 12px;
-  height: 12px;
-`
-)
-
-const Beta = styled(Typography)`
-  font-size: 8px;
-  font-weight: 500;
-`
-
-const IconWrapper = styled('span')(
-  ({ theme }) => `
-margin-right: ${theme.spacing(1.5)};
-margin-top: 5px;
-`
-)
+import Branding from './Branding'
 
 const FooterWrapper = styled('div')`
   display: flex;
@@ -63,11 +25,10 @@ const ReleaseVersion = styled('div')(
 )
 
 const messages = {
-  beta: 'BÊTA',
   title: "Je m'engage",
 }
 
-const Desktop = ({ drawer, siteName }) => (
+const Desktop = ({ drawer }) => (
   <Drawer
     variant="permanent"
     sx={{
@@ -81,15 +42,7 @@ const Desktop = ({ drawer, siteName }) => (
   >
     <img src={banner} alt="Macron photo" />
     <img src={frenchFlag} alt="drapeau france" />
-    <BrandingWrapper>
-      <IconWrapper>
-        <ListIcon alt="Menu button" />
-      </IconWrapper>
-      <SiteName>{siteName}</SiteName>
-      <BetaWrapper>
-        <Beta>{messages.beta}</Beta>
-      </BetaWrapper>{' '}
-    </BrandingWrapper>
+    <Branding />
     <Scopes />
     {drawer}
     <FooterWrapper>
@@ -103,7 +56,6 @@ const Desktop = ({ drawer, siteName }) => (
 
 Desktop.propTypes = {
   drawer: PropTypes.node.isRequired,
-  siteName: PropTypes.string.isRequired,
 }
 
 export default Desktop

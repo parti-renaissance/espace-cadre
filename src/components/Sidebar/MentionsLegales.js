@@ -28,7 +28,7 @@ const Li = styled('li')`
   display: flex;
   margin: ${({ theme }) => theme.spacing(0.5, 2)};
   padding: ${({ theme }) => theme.spacing(0.5, 1)};
-  border-radius: 8.35px;
+  border-radius: 6px;
   &:hover {
     color: ${({ theme }) => theme.palette.menu.color.main};
     background: ${({ theme }) => theme.palette.menu.background.hover};

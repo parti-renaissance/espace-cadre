@@ -10,13 +10,11 @@ const PageContentWrapper = styled('div')`
   } ;
 `
 
-const PageContent = ({ children }) => {
-  return (
-    <PageContentWrapper>
-      <Container maxWidth="xl">{children}</Container>
-    </PageContentWrapper>
-  )
-}
+const PageContent = ({ children }) => (
+  <PageContentWrapper>
+    <Container maxWidth="xl">{children}</Container>
+  </PageContentWrapper>
+)
 
 export default PageContent
 

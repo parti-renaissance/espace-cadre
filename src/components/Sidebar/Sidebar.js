@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { styled } from '@mui/system'
-import { Box, Toolbar, AppBar as MuiAppBar, Typography as MuiTypography } from '@mui/material'
+import { Box, Toolbar, AppBar as MuiAppBar } from '@mui/material'
 import { NavItem } from 'ui'
-import { ListIcon } from 'ui/icons/ListIcon'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Mobile from './Mobile'
@@ -11,27 +10,20 @@ import pages from 'shared/authorizedPages'
 import paths from 'shared/paths'
 import icons from 'components/Sidebar/shared/icons'
 import colors from 'components/Sidebar/shared/colors'
+import Branding from './Branding'
 
 const AppBar = styled(MuiAppBar)(
   ({ theme }) => `
+  display: flex;
   flex-direction: row;
+  align-items: center;
   background-color: ${theme.palette.menu.background.main};
 `
 )
 
-const IconWrapper = styled('span')(
-  ({ theme }) => `
-    margin: ${theme.spacing(3.5, 1.5, 2.5, 3.5)}
+const BrandingWrapper = styled('div')`
+  margin-left: ${({ theme }) => theme.spacing(3.5)};
 `
-)
-
-const Typography = styled(MuiTypography)(
-  ({ theme }) => `
-  font-size: 22px;
-  font-weight: 600;
-  margin: ${theme.spacing(3.5, 1.5, 3.5, 0)}
-`
-)
 
 const navInfo = id => ({
   path: paths[id],
@@ -39,10 +31,6 @@ const navInfo = id => ({
   color: colors[id].color,
   bgcolor: colors[id].bgColor,
 })
-
-const messages = {
-  siteName: "Je m'engage",
-}
 
 const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -73,14 +61,13 @@ const Sidebar = () => {
           display: { sm: 'none' },
         }}
       >
-        <IconWrapper onClick={handleDrawerToggle}>
-          <ListIcon alt="Menu button" />
-        </IconWrapper>
-        <Typography>{messages.siteName}</Typography>
+        <BrandingWrapper onClick={handleDrawerToggle}>
+          <Branding />
+        </BrandingWrapper>
       </AppBar>
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
         <Mobile drawer={drawer} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
-        <Desktop drawer={drawer} siteName={messages.siteName} />
+        <Desktop drawer={drawer} />
       </Box>
       <Box
         component="main"
