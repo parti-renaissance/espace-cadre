@@ -1,18 +1,18 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const SentryPlugin = require('@sentry/webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
-const fs = require('fs')
 
 const localEnvPath = './.env.local'
 const productionEnvPath = './.env.production'
 
 module.exports = (env, argv = {}) => {
-  dotenv.config({ path: argv.mode === 'development' ? localEnvPath : productionEnvPath })
-  const { CONFIG_DEV_SERVER_OPEN } = argv.mode === 'development' ? dotenv.parse(fs.readFileSync(localEnvPath)) : {}
-
+  const { parsed: dotenvConfig } = dotenv.config({
+    path: argv.mode === 'development' ? localEnvPath : productionEnvPath,
+  })
   return {
     entry: {
       bundle: './src/index.js',
@@ -43,6 +43,15 @@ module.exports = (env, argv = {}) => {
       new CopyPlugin({
         patterns: [{ from: 'public' }, { from: 'node_modules/leaflet/dist/images' }],
       }),
+      new SentryPlugin({
+        org: 'en-marche-i7',
+        project: 'je-mengage',
+        authToken: dotenvConfig.SENTRY_AUTH_TOKEN,
+        release: dotenvConfig.REACT_APP_VERSION,
+        include: './build',
+        ignore: ['node_modules', 'webpack.config.js'],
+        dryRun: argv.mode === 'development',
+      }),
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
@@ -71,10 +80,10 @@ module.exports = (env, argv = {}) => {
         { test: /\.s?css$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
       ],
     },
-    devtool: argv.mode === 'development' ? 'source-map' : false,
+    devtool: argv.mode === 'development' ? 'source-map' : 'hidden-source-map',
     devServer: {
       static: path.resolve(__dirname, 'public'),
-      open: CONFIG_DEV_SERVER_OPEN === 'true',
+      open: dotenvConfig.CONFIG_DEV_SERVER_OPEN === 'true',
       port: 3000,
       historyApiFallback: true,
     },

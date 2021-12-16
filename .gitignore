@@ -1,6 +1,7 @@
 build
 node_modules/
 .env*.local
+.env*.production
 .eslintcache
 .yarn-integrity
 *.DS_Store 
