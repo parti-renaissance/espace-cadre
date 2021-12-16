@@ -10,9 +10,9 @@ if (process.env.NODE_ENV === 'development' && !process.env.REACT_APP_OAUTH_HOST)
 
 if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
-    dsn: `${process.env.REACT_APP_SENTRY_DSN}`,
-    release: 'master',
-    environment: 'production',
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    release: process.env.REACT_APP_VERSION,
+    environment: process.env.REACT_APP_ENVIRONMENT,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: 0.5,
   })
