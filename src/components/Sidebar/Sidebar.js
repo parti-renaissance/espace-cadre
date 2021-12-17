@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { styled } from '@mui/system'
-import { Box, Toolbar, AppBar as MuiAppBar } from '@mui/material'
+import { Box, Toolbar, AppBar as MuiAppBar, Drawer } from '@mui/material'
 import { NavItem } from 'ui'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../../redux/user/selectors'
@@ -12,14 +12,51 @@ import icons from 'components/Sidebar/shared/icons'
 import colors from 'components/Sidebar/shared/colors'
 import Branding from './Branding'
 
-const AppBar = styled(MuiAppBar)(
-  ({ theme }) => `
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: ${theme.palette.menu.background.main};
-`
-)
+const drawerWidth = 275
+
+const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}))
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: prop => prop !== 'open',
+})(({ theme, open }) => ({
+  background: theme.palette.menu.background.main,
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}))
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}))
 
 const BrandingContainer = styled('div')`
   margin-left: ${({ theme }) => theme.spacing(3.5)};
@@ -32,7 +69,7 @@ const navInfo = id => ({
   bgcolor: colors[id].bgColor,
 })
 
-const Sidebar = () => {
+const Sidebar = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const authorizedPages = useSelector(getAuthorizedPages)
 
@@ -64,17 +101,31 @@ const Sidebar = () => {
           <Branding />
         </BrandingContainer>
       </AppBar>
-      <Mobile drawer={drawer} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
-      <Desktop drawer={drawer} />
-      <Box
-        component="main"
+      <Drawer
         sx={{
-          pt: 4,
-          display: { sm: 'none' },
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
         }}
+        variant="persistent"
+        anchor="left"
+        open={open}
       >
-        <Toolbar />
-      </Box>
+        <Mobile
+          drawer={drawer}
+          drawerWidth={drawerWidth}
+          handleDrawerToggle={handleDrawerToggle}
+          mobileOpen={mobileOpen}
+        />
+        <Desktop drawer={drawer} drawerWidth={drawerWidth} mobileOpen={mobileOpen} />
+      </Drawer>
+      <Main open={open}>
+        <DrawerHeader />
+        {children}
+      </Main>
     </Box>
   )
 }

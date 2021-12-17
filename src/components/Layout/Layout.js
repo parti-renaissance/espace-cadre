@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
 import { useUserScope } from '../../redux/user/hooks'
-import PageContent from '../PageContent'
 import ScopesPage from '../Scopes/ScopesPage'
 import BootPage from '../BootPage'
 import Auth from '../Auth'
@@ -35,12 +34,7 @@ const Layout = ({ children }) => {
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 
-  return (
-    <>
-      <Sidebar />
-      <PageContent>{children}</PageContent>
-    </>
-  )
+  return <Sidebar>{children}</Sidebar>
 }
 
 export default Layout
