@@ -37,6 +37,9 @@ const Desktop = ({ drawer }) => (
       '& .MuiDrawer-paper': {
         bgcolor: 'menu.background.main',
       },
+      '& .MuiPaper-root': {
+        border: 'none',
+      },
     }}
     open
   >
