@@ -1,6 +1,8 @@
 import { styled } from '@mui/system'
 import { Typography } from '@mui/material'
 import { ListIcon } from 'ui/icons/ListIcon'
+import CloseIcon from '@mui/icons-material/Close'
+import PropTypes from 'prop-types'
 
 const BrandingWrapper = styled('div')(
   ({ theme }) => `
@@ -45,11 +47,9 @@ const messages = {
   beta: 'BÊTA',
 }
 
-const Branding = () => (
+const Branding = ({ mobileOpen }) => (
   <BrandingWrapper>
-    <IconWrapper>
-      <ListIcon alt="Menu button" />
-    </IconWrapper>
+    <IconWrapper>{mobileOpen ? <CloseIcon /> : <ListIcon alt="Menu button" />}</IconWrapper>
     <SiteName>{messages.siteName}</SiteName>
     <BetaWrapper>
       <Beta>{messages.beta}</Beta>
@@ -58,3 +58,7 @@ const Branding = () => (
 )
 
 export default Branding
+
+Branding.proptypes = {
+  mobileOpen: PropTypes.bool.isRequired,
+}
