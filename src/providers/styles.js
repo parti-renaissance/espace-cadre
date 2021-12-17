@@ -26,6 +26,13 @@ export const styles = {
         component: 'span',
       },
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        inputRoot: {
+          padding: 0,
+        },
+      },
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true,
@@ -106,15 +113,17 @@ export const styles = {
     phoning: {
       color: '#4338CA',
       background: {
-        main: '#F0EFFB',
-        hover: '#F0EFFB',
-        button: '#4338CA',
+        title: {
+          main: '#F0EFFB',
+          hover: '#F0EFFB',
+        },
         chip: {
           default: 'rgba(55, 65, 81, 0.08)',
           sent: 'rgba(3, 105, 161, 0.08)',
           unsubscribed: 'rgba(245, 158, 11, 0.08)',
           completed: 'rgba(4, 120, 87, 0.08)',
           ongoing: 'rgba(4, 120, 87, 0.08)',
+          input: '#4338CA',
         },
         progressBar: {
           empty: 'rgba(67, 56, 202, 0.16)',
@@ -124,6 +133,25 @@ export const styles = {
           current: '#4338CA',
           max: 'rgba(85, 113, 141, 0.25)',
         },
+      },
+      button: {
+        background: {
+          main: '#4338CA',
+          prev: '#FFFFFF',
+          next: '#4338CA',
+          disabled: '#E5E7EB',
+        },
+        color: {
+          main: '#FFFFFF',
+          prev: '#4338CA',
+          next: '#FFFFFF',
+          disabled: '#6B7280',
+        },
+      },
+    },
+    stepper: {
+      stepTitle: {
+        color: '#1F2937',
       },
     },
 

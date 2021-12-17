@@ -24,7 +24,7 @@ const messages = {
   see: 'voir',
 }
 
-const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleClick }) => {
+const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
   const gender = translatedGender?.[adherent.gender]
@@ -61,7 +61,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleClic
         actions={
           <div>
             <CtaButton
-              onClick={handleClick}
+              onClick={handleView}
               sx={{
                 color: 'indigo700',
                 '&:hover': {
@@ -80,7 +80,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleClic
 
 CampaignDetailHistory.propTypes = {
   ...DomainPhoningCampaignHistory.PropTypes,
-  handleClick: PropTypes.func.isRequired,
+  handleView: PropTypes.func.isRequired,
 }
 
 export default CampaignDetailHistory
