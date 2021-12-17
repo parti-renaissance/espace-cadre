@@ -1,7 +1,7 @@
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { deleteMessage, getMessages } from 'api/messagerie'
 import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
-import UICard, { Title } from 'ui/Card'
+import UICard from 'ui/Card'
 import { Header } from './card/Header'
 import Body from 'components/Dashboard/Charts/SentEmailCampaignList/card/Body'
 import Actions from 'components/Dashboard/Charts/SentEmailCampaignList/card/Actions'
@@ -12,13 +12,47 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
+import { TruncatedText, VerticalContainer } from 'components/shared/styled'
+import { styled } from '@mui/system'
+import PropTypes from 'prop-types'
 
 const messages = {
   nocampaign: 'Aucune campagne à afficher',
   deleteSuccess: 'Brouillon supprimé avec succès',
 }
 
-const EmptyBlock = () => <div />
+const UiSubTitle = styled(Typography)`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.palette.gray600};
+`
+
+const Title = ({ subject, author }) => (
+  <VerticalContainer
+    sx={{
+      pt: 1,
+    }}
+  >
+    <TruncatedText
+      variant="subtitle1"
+      title={subject}
+      sx={{
+        color: 'gray900',
+        display: '-webkit-box',
+        '-webkit-box-orient': 'vertical',
+        '-webkit-line-clamp': '3',
+        'white-space': 'normal',
+      }}
+    >
+      {subject}
+    </TruncatedText>
+    <UiSubTitle sx={{ pt: 1 }}>{author}</UiSubTitle>
+  </VerticalContainer>
+)
+Title.propTypes = {
+  subject: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+}
 
 const SentEmailCampaignList = () => {
   const { handleError } = useErrorHandler()
@@ -64,18 +98,16 @@ const SentEmailCampaignList = () => {
                   header={
                     <>
                       <Header createdAt={message.createdAt} draft={message.draft} />
-                      <Title subject={message.subject} author={message.author} sx={{ pt: 1 }} />
+                      <Title subject={message.subject} author={message.author} />
                     </>
                   }
-                  contentProps={{}}
+                  contentProps={{ sx: { pb: 2 } }}
                   content={message.draft || <Body statistics={message.statistics} />}
                   actionsProps={{ sx: { pb: 1, height: '40px' } }}
                   actions={
                     message.draft ? (
                       <Actions messageId={message.id} del={() => deleteDraft(message.id)} loader={isDeleteLoading} />
-                    ) : (
-                      <EmptyBlock />
-                    )
+                    ) : null
                   }
                 />
               </Grid>
