@@ -34,9 +34,6 @@ const useStyles = makeStyles(theme => ({
     fontWeight: '600',
     margin: theme.spacing(2),
   },
-  kpiComponent: {
-    padding: theme.spacing(0, 4),
-  },
 }))
 
 const messages = {
@@ -84,7 +81,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} className={classes.kpiComponent}>
+          <Grid item xs={12} sx={{ px: 2 }}>
             <KpiEmailCampaign />
           </Grid>
         </Grid>
