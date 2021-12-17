@@ -130,7 +130,7 @@ context('Nominal tests', () => {
     cy.contains(newsReadOnlyModalSelector, 'M Creator 1')
     cy.contains(newsReadOnlyModalSelector, '15/10/2020')
     cy.contains(newsReadOnlyModalSelector, 'Publiée')
-    cy.get('[data-testid="CloseIcon"]').click()
+    cy.get('[data-testid="close-icon"]').click()
     cy.get(newsReadOnlyModalSelector).should('not.exist')
 
     cy.get('.MuiPaper-root').eq(3).contains('Voir').click()

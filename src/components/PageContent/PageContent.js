@@ -5,7 +5,7 @@ import { styled } from '@mui/system'
 const PageContentWrapper = styled('div')`
   margin: ${({ theme }) => theme.spacing(2, 0, 0, 34)};
   ${props => props.theme.breakpoints.down('lg')} {
-    width: 100%;
+    flex: 1;
     margin-left: 0;
   } ;
 `

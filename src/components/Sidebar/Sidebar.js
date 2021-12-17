@@ -21,7 +21,7 @@ const AppBar = styled(MuiAppBar)(
 `
 )
 
-const BrandingWrapper = styled('div')`
+const BrandingContainer = styled('div')`
   margin-left: ${({ theme }) => theme.spacing(3.5)};
 `
 
@@ -35,7 +35,6 @@ const navInfo = id => ({
 const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const authorizedPages = useSelector(getAuthorizedPages)
-  const drawerWidth = 275
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -61,26 +60,16 @@ const Sidebar = () => {
           display: { sm: 'none' },
         }}
       >
-        <BrandingWrapper onClick={handleDrawerToggle}>
+        <BrandingContainer onClick={handleDrawerToggle}>
           <Branding />
-        </BrandingWrapper>
+        </BrandingContainer>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{
-          width: { sm: drawerWidth },
-          flexShrink: { sm: 0 },
-        }}
-      >
-        <Mobile drawer={drawer} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
-        <Desktop drawer={drawer} />
-      </Box>
+      <Mobile drawer={drawer} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
+      <Desktop drawer={drawer} />
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          pt: 4,
           display: { sm: 'none' },
         }}
       >

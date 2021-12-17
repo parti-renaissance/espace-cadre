@@ -27,7 +27,7 @@ const BetaWrapper = styled('span')(
     border-radius: 4px;
     line-height: 12px;
     height: 12px;
-  `
+    `
 )
 
 const Beta = styled(Typography)`
@@ -47,18 +47,18 @@ const messages = {
   beta: 'BÊTA',
 }
 
-const Branding = ({ mobileOpen }) => (
+const Branding = ({ mobileOpen = false }) => (
   <BrandingWrapper>
     <IconWrapper>{mobileOpen ? <CloseIcon /> : <ListIcon alt="Menu button" />}</IconWrapper>
     <SiteName>{messages.siteName}</SiteName>
     <BetaWrapper>
       <Beta>{messages.beta}</Beta>
-    </BetaWrapper>{' '}
+    </BetaWrapper>
   </BrandingWrapper>
 )
 
 export default Branding
 
-Branding.proptypes = {
-  mobileOpen: PropTypes.bool.isRequired,
+Branding.propTypes = {
+  mobileOpen: PropTypes.bool,
 }

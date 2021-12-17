@@ -1,4 +1,3 @@
-import React from 'react'
 import MentionsLegales from './MentionsLegales'
 import { styled } from '@mui/system'
 

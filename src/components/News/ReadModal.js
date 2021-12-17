@@ -115,7 +115,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
           <EditIcon sx={{ mr: 1 }} />
           {messages.edit}
         </Button>
-        <CloseIcon onClick={handleClose} sx={{ mt: 0.75 }} />
+        <CloseIcon onClick={handleClose} sx={{ mt: 0.75 }} data-testid="close-icon" />
       </Grid>
       <Grid container spacing={1}>
         <Grid item>

@@ -1,13 +1,14 @@
-import { styled } from '@mui/system'
 import { useState } from 'react'
+import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu, MenuItem as MuiMenuItem, Divider, Typography } from '@mui/material'
+import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Divider, Typography } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import vector from 'assets/vector.svg'
 import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -23,25 +24,50 @@ const Button = styled(MuiButton)(
 `
 )
 
-const MenuItem = styled(MuiMenuItem)(
-  ({ theme }) => `
+const Menu = styled(MuiMenu)`
+  & .MuiMenu-paper {
+    background: ${({ theme }) => theme.palette.menu.background.main};
+    width: 243px;
+  }
+`
+
+const MenuItem = styled(MuiMenuItem, shouldForwardProps)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: ${theme.palette.menu.color.main};
   border-radius: 6px;
-  padding: ${theme.spacing(1, 2)};
-  margin-bottom: ${theme.spacing(1)};
-`
-)
+  padding: ${({ theme }) => theme.spacing(1, 2)};
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
+  color: ${({ theme, userScope, currentScope }) =>
+    userScope?.code === currentScope?.code ? theme.palette.menu.color.active : theme.palette.menu.color.main};
+  background-color: ${({ theme, userScope, currentScope }) =>
+    userScope?.code === currentScope?.code ? theme.palette.menu.background.active : theme.palette.menu.background.main};
+  &:hover {
+    background-color: ${({ theme, userScope, currentScope }) =>
+      userScope?.code === currentScope?.code
+        ? theme.palette.menu.background.active
+        : theme.palette.menu.background.hover}
+  },
+)`
 
-const ScopeTypography = styled(Typography)`
+const MenuItemToMainSite = styled(MuiMenuItem)`
+  color: ${({ theme }) => theme.palette.menu.color.main};
+  padding: ${({ theme }) => theme.spacing(1, 2)};
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
+  border-radius: 6px;
+  &:hover {
+    color: ${({ theme }) => theme.palette.menu.color.main};
+    background: ${({ theme }) => theme.palette.menu.background.hover};
+  }
+`
+
+const Scope = styled(Typography)`
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 21px;
 `
 
-const AreaTypography = styled(Typography)`
+const Area = styled(Typography)`
   font-size: 10px;
   font-weight: 400;
   line-height: 15px;
@@ -88,57 +114,34 @@ function Scopes() {
             {currentUser.firstName} {currentUser.lastName}
             <img src={vector} alt="caret" />
           </Button>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            sx={{
-              '& .MuiMenu-paper': {
-                bgcolor: 'menu.background.main',
-                width: '243px',
-              },
-            }}
-          >
-            <MenuItem
-              sx={{
-                '&:hover': {
-                  color: 'menu.color.main',
-                  bgcolor: 'menu.background.hover',
-                },
-              }}
-            >
-              <ScopeTypography>
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+            <MenuItemToMainSite>
+              <Scope>
                 <a href={process.env.REACT_APP_OAUTH_HOST}>{messages.backTo}</a>
-              </ScopeTypography>
-            </MenuItem>
+              </Scope>
+            </MenuItemToMainSite>
 
             {filteredScopes?.length > 1 && <Divider sx={{ bgcolor: 'menu.background.active' }} />}
 
-            {filteredScopes?.map((userScope, i) => (
+            {filteredScopes?.map(userScope => (
               <MenuItem
-                key={i}
+                key={userScope.code}
                 onClick={() => handleChange(userScope)}
                 disableGutters
-                sx={{
-                  color: userScope?.code === currentScope?.code ? 'menu.color.active' : 'menu.color.main',
-                  bgcolor: userScope?.code === currentScope?.code ? 'menu.background.active' : 'menu.background.main',
-                  '&:hover': {
-                    bgcolor:
-                      userScope?.code === currentScope?.code ? 'menu.background.active' : 'menu.background.hover',
-                  },
-                }}
+                userScope={userScope}
+                currentScope={currentScope}
               >
-                <ScopeTypography>{userScope?.name}</ScopeTypography>
+                <Scope>{userScope?.name}</Scope>
                 {userScope?.zones?.length === 1 && (
-                  <AreaTypography>
+                  <Area>
                     {userScope.zones[0].name} ({userScope.zones[0].code})
-                  </AreaTypography>
+                  </Area>
                 )}
                 {userScope?.zones?.length > 1 && (
-                  <AreaTypography>
+                  <Area>
                     {`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length}
                     {pluralize(userScope.zones.slice(1).length, messages.zone)}
-                  </AreaTypography>
+                  </Area>
                 )}
               </MenuItem>
             ))}
