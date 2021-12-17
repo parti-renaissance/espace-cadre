@@ -21,32 +21,22 @@ const messages = {
   deleteSuccess: 'Brouillon supprimé avec succès',
 }
 
-const UiSubTitle = styled(Typography)`
-  font-size: 12px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.palette.gray600};
+const TruncatedText3Lines = styled(TruncatedText)`
+  color: ${({ theme }) => theme.palette.gray900};
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  white-space: normal;
 `
 
 const Title = ({ subject, author }) => (
-  <VerticalContainer
-    sx={{
-      pt: 1,
-    }}
-  >
-    <TruncatedText
-      variant="subtitle1"
-      title={subject}
-      sx={{
-        color: 'gray900',
-        display: '-webkit-box',
-        '-webkit-box-orient': 'vertical',
-        '-webkit-line-clamp': '3',
-        'white-space': 'normal',
-      }}
-    >
+  <VerticalContainer sx={{ pt: 1 }}>
+    <TruncatedText3Lines variant="subtitle1" title={subject}>
       {subject}
-    </TruncatedText>
-    <UiSubTitle sx={{ pt: 1 }}>{author}</UiSubTitle>
+    </TruncatedText3Lines>
+    <Typography variant="subtitle2" sx={{ color: 'gray600', pt: 1 }}>
+      {author}
+    </Typography>
   </VerticalContainer>
 )
 Title.propTypes = {
@@ -102,7 +92,7 @@ const SentEmailCampaignList = () => {
                     </>
                   }
                   contentProps={{ sx: { pb: 2 } }}
-                  content={message.draft || <Body statistics={message.statistics} />}
+                  content={message.draft ? null : <Body statistics={message.statistics} />}
                   actionsProps={{ sx: { pb: 1, height: '40px' } }}
                   actions={
                     message.draft ? (
