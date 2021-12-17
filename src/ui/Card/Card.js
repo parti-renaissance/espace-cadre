@@ -9,7 +9,7 @@ export const Root = styled(Paper)(
   padding: ${theme.spacing(0, 2, 0, 2)};
   display: flex;
   flex-direction: column;
-  borderRadius: 8.35px;
+  borderRadius: 8px;
 `
 )
 

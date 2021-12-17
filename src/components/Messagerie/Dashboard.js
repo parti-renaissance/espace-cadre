@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   messagerieKpi: {
     backgroundColor: theme.palette.gray200,
     marginBottom: theme.spacing(2),
-    borderRadius: theme.spacing(0.75),
+    borderRadius: theme.spacing(1.5),
   },
   kpiTitle: {
     color: theme.palette.blackCorner,
