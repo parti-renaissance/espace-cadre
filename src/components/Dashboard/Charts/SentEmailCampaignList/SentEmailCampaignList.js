@@ -34,7 +34,7 @@ const Title = ({ subject, author }) => (
     <TruncatedText3Lines variant="subtitle1" title={subject}>
       {subject}
     </TruncatedText3Lines>
-    <Typography variant="subtitle2" sx={{ color: 'gray600', pt: 1 }}>
+    <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
       {author}
     </Typography>
   </VerticalContainer>
@@ -43,6 +43,8 @@ Title.propTypes = {
   subject: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
 }
+
+const EmptyBlock = () => <div />
 
 const SentEmailCampaignList = () => {
   const { handleError } = useErrorHandler()
@@ -83,7 +85,7 @@ const SentEmailCampaignList = () => {
             {campaigns.map(message => (
               <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
                 <UICard
-                  rootProps={{ sx: { height: '230px', justifyContent: 'space-between' } }}
+                  rootProps={{ sx: { height: '210px', justifyContent: 'space-between' } }}
                   headerProps={{ sx: { pt: '21px' } }}
                   header={
                     <>
@@ -91,13 +93,14 @@ const SentEmailCampaignList = () => {
                       <Title subject={message.subject} author={message.author} />
                     </>
                   }
-                  contentProps={{ sx: { pb: 2 } }}
                   content={message.draft ? null : <Body statistics={message.statistics} />}
                   actionsProps={{ sx: { pb: 1, height: '40px' } }}
                   actions={
                     message.draft ? (
                       <Actions messageId={message.id} del={() => deleteDraft(message.id)} loader={isDeleteLoading} />
-                    ) : null
+                    ) : (
+                      <EmptyBlock />
+                    )
                   }
                 />
               </Grid>
