@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
+import { PhoningCampaignHistory as DomainPhoningCampaignHistory } from 'domain/phoning'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import DomainPhoningCampaignHistory from 'domain/phoning-campaign-history'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 
 const Author = styled(TruncatedText)`
@@ -77,6 +78,9 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleClic
   )
 }
 
-CampaignDetailHistory.propTypes = DomainPhoningCampaignHistory.PropTypes
+CampaignDetailHistory.propTypes = {
+  ...DomainPhoningCampaignHistory.PropTypes,
+  handleClick: PropTypes.func.isRequired,
+}
 
 export default CampaignDetailHistory

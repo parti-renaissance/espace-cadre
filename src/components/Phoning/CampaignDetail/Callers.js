@@ -1,9 +1,13 @@
+import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
 
-import UICard from 'ui/Card/Card'
+import {
+  PhoningCampaignCallers as DomainPhoningCampaignCallers,
+  PhoningCampaign as DomainPhoningCampaign,
+} from 'domain/phoning'
 import { TruncatedText } from 'components/shared/styled'
-import DomainPhoningCampaignCallers from 'domain/phoning-campaign-callers'
 import RatioProgress from '../shared/RatioProgress'
+import UICard from 'ui/Card/Card'
 
 const CampaignDetailCallers = ({ number, firstName, lastName, count, goal }) => (
   <Grid item xs={12} sm={6} md={3}>
@@ -21,6 +25,10 @@ const CampaignDetailCallers = ({ number, firstName, lastName, count, goal }) => 
   </Grid>
 )
 
-CampaignDetailCallers.propTypes = DomainPhoningCampaignCallers.PropTypes
+CampaignDetailCallers.propTypes = {
+  number: PropTypes.number.isRequired,
+  ...DomainPhoningCampaignCallers.propTypes,
+  goal: DomainPhoningCampaign.propTypes.goalPerCaller,
+}
 
 export default CampaignDetailCallers

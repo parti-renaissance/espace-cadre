@@ -1,8 +1,8 @@
 import { Grid, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
+import { PhoningGlobalKPI as DomainPhoningGlobalKPI } from 'domain/phoning'
 import pluralize from 'components/shared/pluralize/pluralize'
-import PhoningCampaign from 'domain/phoning-campaign'
 import UICard from 'ui/Card/Card'
 
 const KPIWrapper = styled(Paper)(
@@ -111,6 +111,6 @@ const GlobalCampaignsKPI = ({ campaigns, surveys, calls }) => (
   </KPIWrapper>
 )
 
-GlobalCampaignsKPI.propTypes = PhoningCampaign.PropTypes
+GlobalCampaignsKPI.propTypes = DomainPhoningGlobalKPI.PropTypes
 
 export default GlobalCampaignsKPI
