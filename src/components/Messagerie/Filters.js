@@ -98,7 +98,7 @@ const Filters = () => {
   const sendMessageAfterFilterAreSaved = useCallback(async () => {
     const responseSend = await sendMessage(messageUuid)
     if (responseSend === 'OK') {
-      navigate(paths.confirmation)
+      navigate(`../../${paths.confirmation}`)
     } else {
       // TODO: error management
     }
@@ -146,7 +146,7 @@ const Filters = () => {
       }
     } else {
       await setMessageSegment(messageUuid, audienceId)
-      launchAreFilterSaved()
+      launchAreFilterSaved(messageUuid)
     }
   }
 
