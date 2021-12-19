@@ -17,19 +17,17 @@ const Drawer = styled(MuiDrawer)`
   }
 `
 
-const Desktop = ({ drawer, drawerWidth, mobileOpen }) => (
+const Desktop = ({ drawer, drawerWidth }) => (
   <Drawer
-    variant="persistent"
+    variant="permanent"
     sx={{
       display: { xs: 'none', sm: 'block' },
-      width: drawerWidth,
-      flexShrink: 0,
       '& .MuiDrawer-paper': {
-        width: drawerWidth,
         boxSizing: 'border-box',
+        width: drawerWidth,
       },
     }}
-    open={!mobileOpen}
+    open
   >
     <img src={banner} alt="Emmanuel Macron" />
     <img src={frenchFlag} alt="drapeau france" />
@@ -42,7 +40,7 @@ const Desktop = ({ drawer, drawerWidth, mobileOpen }) => (
 
 Desktop.propTypes = {
   drawer: PropTypes.node.isRequired,
-  mobileOpen: PropTypes.bool.isRequired,
+  drawerWidth: PropTypes.number.isRequired,
 }
 
 export default Desktop

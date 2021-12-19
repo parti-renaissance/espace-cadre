@@ -1,14 +1,14 @@
 import { styled } from '@mui/system'
-import { Typography } from '@mui/material'
+import { Typography, Toolbar } from '@mui/material'
 import { ListIcon } from 'ui/icons/ListIcon'
 import CloseIcon from '@mui/icons-material/Close'
 import PropTypes from 'prop-types'
 
-const BrandingWrapper = styled('div')(
+const BrandingWrapper = styled(Toolbar)(
   ({ theme }) => `
     display: flex;
     color: ${theme.palette.menu.color.main};
-    margin: ${theme.spacing(3, 'auto', 3, 'auto')};
+    padding: 0;
   `
 )
 
@@ -24,6 +24,7 @@ const BetaWrapper = styled('span')(
   ({ theme }) => `
     background: ${theme.palette.menu.background.beta};
     padding: ${theme.spacing(0, 0.37, 0.4)};
+    margin-bottom: ${theme.spacing(2)};
     border-radius: 4px;
     line-height: 12px;
     height: 12px;
@@ -47,9 +48,9 @@ const messages = {
   beta: 'BÊTA',
 }
 
-const Branding = ({ mobileOpen = false }) => (
-  <BrandingWrapper>
-    <IconWrapper>{mobileOpen ? <CloseIcon /> : <ListIcon alt="Menu button" />}</IconWrapper>
+const Branding = ({ mobileOpen = false, handleDrawerToggle }) => (
+  <BrandingWrapper onClick={handleDrawerToggle}>
+    <IconWrapper>{mobileOpen ? <CloseIcon sx={{ mt: 0.5 }} /> : <ListIcon alt="Menu button" />}</IconWrapper>
     <SiteName>{messages.siteName}</SiteName>
     <BetaWrapper>
       <Beta>{messages.beta}</Beta>
@@ -61,4 +62,5 @@ export default Branding
 
 Branding.propTypes = {
   mobileOpen: PropTypes.bool,
+  handleDrawerToggle: PropTypes.func,
 }

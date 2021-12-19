@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { styled } from '@mui/system'
-import { Box, Toolbar, AppBar as MuiAppBar, Drawer } from '@mui/material'
+import { Box, AppBar as MuiAppBar, Toolbar } from '@mui/material'
 import { NavItem } from 'ui'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../../redux/user/selectors'
@@ -11,56 +11,19 @@ import paths from 'shared/paths'
 import icons from 'components/Sidebar/shared/icons'
 import colors from 'components/Sidebar/shared/colors'
 import Branding from './Branding'
+import PropTypes from 'prop-types'
 
 const drawerWidth = 275
 
-const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
-}))
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: prop => prop !== 'open',
-})(({ theme, open }) => ({
-  background: theme.palette.menu.background.main,
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}))
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}))
-
-const BrandingContainer = styled('div')`
-  margin-left: ${({ theme }) => theme.spacing(3.5)};
+const AppBar = styled(MuiAppBar)(
+  ({ theme }) => `
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: ${theme.spacing(1.5, 3.5)};
+  background-color: ${theme.palette.menu.background.main};
 `
+)
 
 const navInfo = id => ({
   path: paths[id],
@@ -69,13 +32,15 @@ const navInfo = id => ({
   bgcolor: colors[id].bgColor,
 })
 
-const Sidebar = ({ children }) => {
+const Sidebar = ({ children, window }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const authorizedPages = useSelector(getAuthorizedPages)
+  const container = window !== undefined ? () => window().document.body : undefined
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
+
   const drawer = (
     <div sx={{ display: 'flex', flexDirection: 'column' }}>
       {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
@@ -95,39 +60,39 @@ const Sidebar = ({ children }) => {
         position="fixed"
         sx={{
           display: { sm: 'none' },
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <BrandingContainer onClick={handleDrawerToggle}>
-          <Branding />
-        </BrandingContainer>
+        <Branding handleDrawerToggle={handleDrawerToggle} />
       </AppBar>
-      <Drawer
+      <Box
+        component="nav"
         sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
+          width: { sm: drawerWidth },
+          flexShrink: { sm: 0 },
         }}
-        variant="persistent"
-        anchor="left"
-        open={open}
       >
         <Mobile
           drawer={drawer}
+          container={container}
           drawerWidth={drawerWidth}
           handleDrawerToggle={handleDrawerToggle}
           mobileOpen={mobileOpen}
         />
         <Desktop drawer={drawer} drawerWidth={drawerWidth} mobileOpen={mobileOpen} />
-      </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
+      </Box>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+        <Toolbar sx={{ p: 2, display: { sm: 'none' } }} />
         {children}
-      </Main>
+      </Box>
     </Box>
   )
 }
 
 export default Sidebar
+
+Sidebar.propTypes = {
+  children: PropTypes.node.isRequired,
+  window: PropTypes.string,
+}
