@@ -10,6 +10,7 @@ import StepButton from './Component/StepButton'
 import { createMessageContent, updateMessageContent } from 'api/messagerie'
 import PropTypes from 'prop-types'
 import paths from 'components/Messagerie/shared/paths'
+import * as Sentry from '@sentry/react'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -67,10 +68,10 @@ const Template = ({ modeUpdate = false }) => {
       setLoading(true)
       const body = await editEmail()
       setMessage(body)
-
       enqueueSnackbar(modeUpdate ? messages.updateSuccess : messages.createSuccess, notifyVariants.success)
       modeUpdate ? navigate(`../${paths.filter}`) : navigate(`../${body.uuid}/${paths.filter}`)
     } catch (e) {
+      Sentry.captureException(e)
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
     }
   }

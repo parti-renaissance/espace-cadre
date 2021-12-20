@@ -10,6 +10,7 @@ import BootPage from '../BootPage'
 import Auth from '../Auth'
 import paths from 'shared/paths'
 import Sidebar from '../Sidebar/Sidebar'
+import ErrorBoundary from '../../providers/errorboundary'
 
 const Layout = ({ children }) => {
   const initializeAuth = useInitializeAuth()
@@ -34,7 +35,11 @@ const Layout = ({ children }) => {
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 
-  return <Sidebar>{children}</Sidebar>
+  return (
+    <Sidebar>
+      <ErrorBoundary>{children}</ErrorBoundary>
+    </Sidebar>
+  )
 }
 
 export default Layout
