@@ -4,20 +4,18 @@ import { Icon as MUIIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
 const NavLink = styled(MUINavLink)`
+  color: ${({ theme }) => theme.palette.menu.color.main};
   display: flex;
-  margin-right: auto;
-  min-width: 150px;
-  margin-left: ${({ theme }) => theme.spacing(4)};
-  margin-bottom: ${({ theme }) => theme.spacing(1)};
+  margin: ${({ theme }) => theme.spacing(1, 2)};
   padding: ${({ theme }) => theme.spacing(1.5, 2)};
-  border-radius: 4px;
+  border-radius: 8.35px;
   &:hover {
-    color: ${({ theme }) => theme.palette.gray600};
-    background: ${({ theme }) => theme.palette.gray100};
+    color: ${({ theme }) => theme.palette.menu.color.main};
+    background: ${({ theme }) => theme.palette.menu.background.hover};
   }
   &.active {
-    color: ${({ theme, color }) => theme.palette[color] || 'initial'};
-    background: ${({ bgcolor }) => bgcolor || 'transparent'};
+    color: ${({ theme }) => theme.palette.menu.color.active};
+    background: ${({ theme }) => theme.palette.menu.background.active};
   }
 `
 
@@ -26,8 +24,8 @@ const Icon = styled(MUIIcon)`
   padding-right: ${({ theme }) => theme.spacing(2)};
 `
 
-const NavItem = ({ path, label, icon = null, color = null, bgcolor = null }) => (
-  <NavLink to={path} color={color} bgcolor={bgcolor}>
+const NavItem = ({ path, label, icon = null }) => (
+  <NavLink to={path}>
     <Icon component={icon} />
     <Typography variant="body2">{label}</Typography>
   </NavLink>
@@ -37,8 +35,6 @@ NavItem.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.elementType,
-  color: PropTypes.string,
-  bgcolor: PropTypes.string,
 }
 
 export default NavItem

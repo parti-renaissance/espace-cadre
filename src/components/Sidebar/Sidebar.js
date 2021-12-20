@@ -1,75 +1,29 @@
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { makeStyles } from '@mui/styles'
-import PropTypes from 'prop-types'
-
-import { getAuthorizedPages } from '../../redux/user/selectors'
-import Scopes from '../Scopes'
+import { useState } from 'react'
+import { styled } from '@mui/system'
+import { Box, AppBar as MuiAppBar, Toolbar } from '@mui/material'
 import { NavItem } from 'ui'
-import MentionsLegales from 'components/MentionsLegales/MentionsLegales'
-import barChart from 'assets/bar-chart.svg'
+import { useSelector } from 'react-redux'
+import { getAuthorizedPages } from '../../redux/user/selectors'
+import Mobile from './Mobile'
+import Desktop from './Desktop'
 import pages from 'shared/authorizedPages'
 import paths from 'shared/paths'
 import icons from 'components/Sidebar/shared/icons'
 import colors from 'components/Sidebar/shared/colors'
+import Branding from './Branding'
+import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme => ({
-  sidebar: {
-    backgroundColor: theme.palette.whiteCorner,
-    minWidth: '17rem',
-    width: '17rem',
-    height: '100vh',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    transition: 'all 0.4s',
-    zIndex: '50',
-    boxShadow: '(0 1px 1px 0 rgba(0, 11, 52, 0.12))',
-    '&.active': {
-      marginLeft: theme.spacing(-34),
-    },
-    [theme.breakpoints.down('lg')]: {
-      marginLeft: theme.spacing(-34),
-      '&.active': {
-        marginLeft: 0,
-      },
-    },
-  },
-  brandLink: {
-    textDecoration: 'none',
-  },
-  logoContainer: {
-    display: 'flex',
-    margin: theme.spacing(3, 2, 3, 4),
-  },
-  barChart: {
-    color: theme.palette.blue2Corner,
-    marginRight: theme.spacing(0.25),
-  },
-  logoText: {
-    color: theme.palette.gray900,
-    fontSize: '20px',
-    fontWeight: '600',
-  },
-  beta: {
-    color: theme.palette.red500,
-    fontSize: '8px',
-    height: '12px',
-    fontWeight: '500',
-    backgroundColor: theme.palette.betaBubble,
-    marginLeft: theme.spacing(0.25),
-    padding: theme.spacing(0.25, 0.5, 0, 0.5),
-    borderRadius: '4px',
-  },
-  navMenu: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}))
+const drawerWidth = 275
 
-const messages = {
-  title: "Je m'engage",
-}
+const AppBar = styled(MuiAppBar)(
+  ({ theme }) => `
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: ${theme.spacing(1.5, 3.5)};
+  background-color: ${theme.palette.menu.background.main};
+`
+)
 
 const navInfo = id => ({
   path: paths[id],
@@ -78,39 +32,67 @@ const navInfo = id => ({
   bgcolor: colors[id].bgColor,
 })
 
-const Sidebar = ({ toggleSidebar }) => {
+const Sidebar = ({ children, window }) => {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const authorizedPages = useSelector(getAuthorizedPages)
-  const classes = useStyles()
+  const container = window !== undefined ? () => window().document.body : undefined
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+
+  const drawer = (
+    <div sx={{ display: 'flex', flexDirection: 'column' }}>
+      {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
+      {authorizedPages.includes(pages.adherents) && <NavItem label="Adhérents" {...navInfo('adherents')} />}
+      {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
+      {authorizedPages.includes(pages.elections) && <NavItem label="&Eacute;lections" {...navInfo('elections')} />}
+      {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
+      {authorizedPages.includes(pages.teams) && <NavItem label="&Eacute;quipes" {...navInfo('teams')} />}
+      {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
+      {authorizedPages.includes(pages.phoning) && <NavItem label="Phoning" {...navInfo('phoning')} />}
+    </div>
+  )
 
   return (
-    <>
-      <div id="sidebar" className={`${classes.sidebar} ${toggleSidebar ? 'active' : ''}`}>
-        <Link to={paths.dashboard} className={classes.brandLink}>
-          <div className={classes.logoContainer}>
-            <img src={barChart} alt="bar chart" className={classes.barChart} />
-            <div className={classes.logoText}>{messages.title}</div>
-            <span className={classes.beta}>BÊTA</span>
-          </div>
-        </Link>
-        <Scopes />
-        <div className={classes.navMenu}>
-          {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
-          {authorizedPages.includes(pages.adherents) && <NavItem label="Adhérents" {...navInfo('adherents')} />}
-          {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
-          {authorizedPages.includes(pages.elections) && <NavItem label="&Eacute;lections" {...navInfo('elections')} />}
-          {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
-          {authorizedPages.includes(pages.teams) && <NavItem label="&Eacute;quipes" {...navInfo('teams')} />}
-          {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
-          {authorizedPages.includes(pages.phoning) && <NavItem label="Phoning" {...navInfo('phoning')} />}
-        </div>
-        <MentionsLegales />
-      </div>
-    </>
+    <Box sx={{ display: 'flex' }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          display: { sm: 'none' },
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
+      >
+        <Branding handleDrawerToggle={handleDrawerToggle} />
+      </AppBar>
+      <Box
+        component="nav"
+        sx={{
+          width: { sm: drawerWidth },
+          flexShrink: { sm: 0 },
+        }}
+      >
+        <Mobile
+          drawer={drawer}
+          container={container}
+          drawerWidth={drawerWidth}
+          handleDrawerToggle={handleDrawerToggle}
+          mobileOpen={mobileOpen}
+        />
+        <Desktop drawer={drawer} drawerWidth={drawerWidth} mobileOpen={mobileOpen} />
+      </Box>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+        <Toolbar sx={{ p: 2, display: { sm: 'none' } }} />
+        {children}
+      </Box>
+    </Box>
   )
 }
 
 export default Sidebar
 
 Sidebar.propTypes = {
-  toggleSidebar: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  window: PropTypes.string,
 }

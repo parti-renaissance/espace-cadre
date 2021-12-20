@@ -130,10 +130,10 @@ context('Nominal tests', () => {
     cy.contains(newsReadOnlyModalSelector, 'M Creator 1')
     cy.contains(newsReadOnlyModalSelector, '15/10/2020')
     cy.contains(newsReadOnlyModalSelector, 'Publiée')
-    cy.get('[data-testid="CloseIcon"]').click()
+    cy.get('[data-testid="close-icon"]').click()
     cy.get(newsReadOnlyModalSelector).should('not.exist')
 
-    cy.get('.MuiPaper-root').eq(1).contains('Voir').click()
+    cy.get('.MuiPaper-root').eq(3).contains('Voir').click()
     cy.get('button').contains('Modifier').click()
     cy.get('input[name="title"]').should('have.value', 'Titre 2')
     cy.get('textarea[name="body"]').should('have.value', 'Texte 2')
@@ -151,9 +151,9 @@ context('Nominal tests', () => {
     cy.contains('Phoning').click()
 
     cy.url().should('eq', 'http://localhost:3000/phoning')
-    cy.get(paperRoot).eq(1).contains('13')
-    cy.get(paperRoot).eq(2).contains('Questionnaires')
-    cy.get(paperRoot).eq(3).contains('75 sur un mois')
+    cy.get(paperRoot).eq(3).contains('13')
+    cy.get(paperRoot).eq(4).contains('Questionnaires')
+    cy.get(paperRoot).eq(5).contains('75 sur un mois')
 
     cy.get('[data-testid="Campaigns-list-title"]').contains('Campagnes')
     cy.get(uiCard).eq(0).contains('Terminé')
@@ -167,7 +167,7 @@ context('Nominal tests', () => {
     cy.url().should('eq', 'http://localhost:3000/phoning/11111111-1111-1111-1111-111111111111')
     cy.get('[data-testid="page-title"]').contains("Phoning > La campagne de l'inconnu")
     cy.get(paperRoot)
-      .eq(1)
+      .eq(3)
       .contains(
         `Du ${format(parseISO('2021-11-03T12:15:59+01:00'), 'dd/MM/yyyy', { locale: fr })} au ${format(
           parseISO('2021-11-30T00:00:00+01:00'),
@@ -175,9 +175,9 @@ context('Nominal tests', () => {
           { locale: fr }
         )}`
       )
-    cy.get(paperRoot).eq(2).contains('1/50')
-    cy.get(paperRoot).eq(3).contains('Appels passés')
-    cy.get(paperRoot).eq(4).contains('Passé par appel')
+    cy.get(paperRoot).eq(4).contains('1/50')
+    cy.get(paperRoot).eq(5).contains('Appels passés')
+    cy.get(paperRoot).eq(6).contains('Passé par appel')
     cy.get(tablistButton).eq(0).contains('5 appelants')
     cy.get(tablistButton).eq(1).contains('4 appel')
     cy.get(tablistButton).eq(2).contains('0 questionnaire')

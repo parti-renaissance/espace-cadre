@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
 import { useUserScope } from '../../redux/user/hooks'
-import Sidebar from '../Sidebar/Sidebar'
-import PageContent from '../PageContent'
 import ScopesPage from '../Scopes/ScopesPage'
 import BootPage from '../BootPage'
 import Auth from '../Auth'
 import paths from 'shared/paths'
+import Sidebar from '../Sidebar/Sidebar'
 
 const Layout = ({ children }) => {
   const initializeAuth = useInitializeAuth()
@@ -20,11 +19,6 @@ const Layout = ({ children }) => {
   const [currentScope] = useUserScope()
   const userScopes = useSelector(getUserScopes)
   const [, updateUserData] = useGetUserData()
-  const [toggleSidebar, setToggleSidebar] = useState(false)
-
-  const handleToggle = () => {
-    setToggleSidebar(!toggleSidebar)
-  }
 
   useEffect(() => {
     if (isUserLoggedIn) {
@@ -40,14 +34,7 @@ const Layout = ({ children }) => {
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 
-  return (
-    <>
-      <Sidebar toggleSidebar={toggleSidebar} />
-      <PageContent toggleSidebar={toggleSidebar} handleToggle={handleToggle}>
-        {children}
-      </PageContent>
-    </>
-  )
+  return <Sidebar>{children}</Sidebar>
 }
 
 export default Layout

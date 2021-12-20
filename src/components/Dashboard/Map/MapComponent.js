@@ -80,8 +80,8 @@ function MapComponent() {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
             />
-            {surveys.surveyResults.map(data => (
-              <Marker key={data.id} position={[data.latitude, data.longitude]}>
+            {surveys.surveyResults.map((data, i) => (
+              <Marker key={i} position={[data.latitude, data.longitude]}>
                 <Popup>
                   <strong>{messages.surveyName}</strong> {data.surveyName} <br />
                   <strong>{messages.answeredDate}</strong> {data.postedAt}

@@ -56,6 +56,18 @@ export const styles = {
     },
   },
   palette: {
+    menu: {
+      color: {
+        main: '#FFFFFF',
+        active: '#1D214F',
+      },
+      background: {
+        main: '#1D214F',
+        hover: '#FFFFFF14',
+        active: '#FFFFFF',
+        beta: '#CC0613',
+      },
+    },
     form: {
       error: {
         background: '#FEEFEF',
