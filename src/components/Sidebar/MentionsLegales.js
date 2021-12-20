@@ -35,13 +35,6 @@ const Li = styled('li')`
   }
 `
 
-const Signature = styled('div')`
-  color: ${({ theme }) => theme.palette.menu.color.main};
-  font-size: 10px;
-  margin: ${({ theme }) => theme.spacing(1, 2)};
-  padding: ${({ theme }) => theme.spacing(0.5, 1)};
-`
-
 const messages = {
   personalData: 'Mes données personnelles',
   legalNotices: 'Mentions légales',
@@ -101,7 +94,6 @@ const MentionsLegales = () => {
             </a>
           </Li>
         </Ul>
-        <Signature>{messages.signature}</Signature>
       </Popover>
     </LegalNoticesWrapper>
   )

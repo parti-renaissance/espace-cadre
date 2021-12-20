@@ -85,10 +85,10 @@ function Scopes() {
   const userScopes = useSelector(getUserScopes)
   const navigate = useNavigate()
   const filteredScopes = userScopes.filter(scope => scope.apps.includes('data_corner'))
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [menuAnchor, setMenuAnchor] = useState(null)
 
   const handleClick = event => {
-    setAnchorEl(event.currentTarget)
+    setMenuAnchor(event.currentTarget)
   }
 
   const redirect = scope => {
@@ -99,12 +99,12 @@ function Scopes() {
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    setMenuAnchor(null)
   }
 
   const handleChange = userScope => {
     updateCurrentScope(userScope)
-    setAnchorEl(null)
+    setMenuAnchor(null)
     redirect(userScope)
   }
 
@@ -114,9 +114,11 @@ function Scopes() {
         <>
           <Button onClick={handleClick}>
             {currentUser.firstName} {currentUser.lastName}
-            <ExpandMoreRoundedIcon sx={{ transform: Boolean(anchorEl) ? 'rotate(180deg)' : '' }} />
+            <ExpandMoreRoundedIcon
+              sx={{ transform: menuAnchor ? 'rotate(180deg)' : '', transition: 'transform 0.3s' }}
+            />
           </Button>
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+          <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             <MenuItemToMainSite>
               <Scope>
                 <a href={process.env.REACT_APP_OAUTH_HOST}>{messages.backTo}</a>
