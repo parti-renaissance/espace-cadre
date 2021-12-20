@@ -101,12 +101,7 @@ const Teams = () => {
         </Grid>
       </Grid>
       {paginatedTeams && (
-        <InfiniteScroll
-          dataLength={teams.length}
-          next={() => fetchNextPage()}
-          hasMore={hasNextPage}
-          loader={<Loader />}
-        >
+        <InfiniteScroll dataLength={teams.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
           <Grid container spacing={2}>
             {teams.map(team => (
               <Grid item key={team.id} xs={12} sm={6} md={3}>

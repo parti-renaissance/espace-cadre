@@ -13,6 +13,7 @@ import DomainNews from 'domain/news'
 import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
+import Loader from 'ui/Loader'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -79,15 +80,18 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
 
-  const { mutate: createOrEditNews } = useMutation(!news?.id ? createNewsQuery : updateNewsQuery, {
-    onSuccess: async () => {
-      const successMessage = !news?.id ? messages.createSuccess : messages.editSuccess
-      await onSubmitResolve()
-      enqueueSnackbar(successMessage, notifyVariants.success)
-      handleClose()
-    },
-    onError: handleError,
-  })
+  const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
+    !news?.id ? createNewsQuery : updateNewsQuery,
+    {
+      onSuccess: async () => {
+        const successMessage = !news?.id ? messages.createSuccess : messages.editSuccess
+        await onSubmitResolve()
+        enqueueSnackbar(successMessage, notifyVariants.success)
+        handleClose()
+      },
+      onError: handleError,
+    }
+  )
 
   const handleClose = () => {
     onCloseResolve()
@@ -209,7 +213,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
 
         <Grid container sx={{ mb: 2 }}>
           <Button type="submit" fullWidth>
-            {messages.submit}
+            {isCreateOrUpdateLoading ? <Loader size={12} color="white" /> : messages.submit}
           </Button>
         </Grid>
       </form>
@@ -221,13 +225,11 @@ export default CreateEditModal
 
 CreateEditModal.defaultProps = {
   news: null,
-  onCloseResolve: () => {},
-  onSubmitResolve: () => {},
 }
 
 CreateEditModal.propTypes = {
   open: PropTypes.bool.isRequired,
   news: DomainNews.propTypes,
-  onCloseResolve: PropTypes.func,
-  onSubmitResolve: PropTypes.func,
+  onCloseResolve: PropTypes.func.isRequired,
+  onSubmitResolve: PropTypes.func.isRequired,
 }

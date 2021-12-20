@@ -115,12 +115,7 @@ const Ripostes = () => {
         </Grid>
       </Grid>
       {paginatedRipostes && (
-        <InfiniteScroll
-          dataLength={ripostes.length}
-          next={() => fetchNextPage()}
-          hasMore={hasNextPage}
-          loader={<Loader />}
-        >
+        <InfiniteScroll dataLength={ripostes.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
           <Grid container spacing={2}>
             {ripostes.map(r => (
               <Grid item key={r.id} xs={12} sm={6} md={3}>

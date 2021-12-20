@@ -28,17 +28,7 @@ export const DotsMenuItem = ({ onClick, closeMenu, loader = false, children }) =
     await onClick()
     closeMenu()
   }
-  return (
-    <MenuItem onClick={handleClick}>
-      {loader && (
-        <>
-          <Loader size={12} />
-          &nbsp;
-        </>
-      )}
-      {children}
-    </MenuItem>
-  )
+  return <MenuItem onClick={handleClick}>{loader ? <Loader size={12} /> : children}</MenuItem>
 }
 
 DotsMenuItem.propTypes = {

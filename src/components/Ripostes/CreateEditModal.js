@@ -193,13 +193,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
         </Grid>
         <Grid container>
           <Button type="submit" className={classes.modalButton} fullWidth>
-            {loader && (
-              <>
-                <Loader size={12} />
-                &nbsp;
-              </>
-            )}
-            {messages.submit}
+            {loader ? <Loader size={12} color="white" /> : messages.submit}
           </Button>
         </Grid>
       </form>

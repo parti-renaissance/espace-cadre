@@ -75,12 +75,7 @@ const SentEmailCampaignList = () => {
     <>
       <SentEmailCampaignListTitle />
       {paginatedCampaigns && (
-        <InfiniteScroll
-          dataLength={campaigns.length}
-          next={() => fetchNextPage()}
-          hasMore={hasNextPage}
-          loader={<Loader />}
-        >
+        <InfiniteScroll dataLength={campaigns.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
           <Grid container spacing={2}>
             {campaigns.map(message => (
               <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>

@@ -104,7 +104,7 @@ const News = () => {
         </Grid>
       </Grid>
       {paginatedNews && (
-        <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
+        <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
           <Grid container spacing={2}>
             {news.map(n => (
               <Grid item key={n.id} xs={12} sm={6} md={3}>
