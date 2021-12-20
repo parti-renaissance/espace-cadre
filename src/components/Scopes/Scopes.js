@@ -5,21 +5,22 @@ import { useNavigate } from 'react-router-dom'
 import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Divider, Typography } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
-import vector from 'assets/vector.svg'
 import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
   display: flex;
   justify-content: space-between;
+  align-item: center;
   text-transform: capitalize;
   color: ${theme.palette.menu.color.main};
   background: ${theme.palette.menu.background.hover};
   padding: ${theme.spacing(0.75, 2)};
-  border-radius: 6px;
   margin: ${theme.spacing(0, 2, 3)};
+  border-radius: 6px;
   width: 243px;
 `
 )
@@ -84,10 +85,10 @@ function Scopes() {
   const userScopes = useSelector(getUserScopes)
   const navigate = useNavigate()
   const filteredScopes = userScopes.filter(scope => scope.apps.includes('data_corner'))
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [menuAnchor, setMenuAnchor] = useState(null)
 
   const handleClick = event => {
-    setAnchorEl(event.currentTarget)
+    setMenuAnchor(event.currentTarget)
   }
 
   const redirect = scope => {
@@ -98,23 +99,26 @@ function Scopes() {
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    setMenuAnchor(null)
   }
 
   const handleChange = userScope => {
     updateCurrentScope(userScope)
-    setAnchorEl(null)
+    setMenuAnchor(null)
     redirect(userScope)
   }
+
   return (
     <Grid>
       {currentUser && filteredScopes?.length > 0 && (
         <>
           <Button onClick={handleClick}>
             {currentUser.firstName} {currentUser.lastName}
-            <img src={vector} alt="caret" />
+            <ExpandMoreRoundedIcon
+              sx={{ transform: menuAnchor ? 'rotate(180deg)' : '', transition: 'transform 0.3s' }}
+            />
           </Button>
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+          <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             <MenuItemToMainSite>
               <Scope>
                 <a href={process.env.REACT_APP_OAUTH_HOST}>{messages.backTo}</a>

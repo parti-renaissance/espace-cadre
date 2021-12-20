@@ -7,6 +7,7 @@ const FooterWrapper = styled('div')`
   position: absolute;
   bottom: 28px;
   margin-left: 16px;
+  flex-wrap: wrap;
 `
 
 const ReleaseVersion = styled('div')(
@@ -18,8 +19,15 @@ const ReleaseVersion = styled('div')(
 `
 )
 
+const Signature = styled('div')`
+  color: ${({ theme }) => theme.palette.mentionsLegales};
+  font-size: 10px;
+  margin: ${({ theme }) => theme.spacing(1, 2, 0, 0)};
+`
+
 const messages = {
   title: "Je m'engage",
+  signature: 'Designé et assemblé par le Pôle Tech & Innovation',
 }
 
 const Footer = () => (
@@ -28,6 +36,7 @@ const Footer = () => (
     <ReleaseVersion>
       {messages.title}@{process.env.REACT_APP_VERSION}
     </ReleaseVersion>
+    <Signature>{messages.signature}</Signature>
   </FooterWrapper>
 )
 
