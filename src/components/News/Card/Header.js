@@ -54,7 +54,7 @@ const Header = ({ status, withNotification, createdAt }) => (
       bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
       label={status ? messages.published : messages.unpublished}
     />
-    {withNotification ? <NotificationsOnIcon /> : <NotificationsOffIcon />}
+    {withNotification ? <NotificationsOnIcon sx={{ mr: 1 }} /> : <NotificationsOffIcon sx={{ mr: 1 }} />}
     <UIDate>
       <DateTypo>{format(createdAt, 'dd/MM/yyyy')}</DateTypo>
     </UIDate>
