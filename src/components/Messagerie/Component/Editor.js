@@ -9,7 +9,7 @@ import { getMessageContent } from 'api/messagerie'
 import { useQuery } from 'react-query'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyVariants } from 'components/shared/notification/constants'
+import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import UIFormMessage from 'ui/FormMessage'
 
 const downloadHtml = html => {
@@ -114,7 +114,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
         })
       } else {
         setMessageContentError(true)
-        enqueueSnackbar(messages.errorTemplate, notifyVariants.error)
+        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
       }
     }
   }, [enqueueSnackbar, messageContent, onMessageSubject, onMessageUpdate])
