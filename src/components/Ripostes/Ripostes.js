@@ -45,7 +45,6 @@ const Ripostes = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('ripostes', getRipostesQuery, {
     getNextPageParam,
     onError: handleError,
@@ -115,7 +114,12 @@ const Ripostes = () => {
         </Grid>
       </Grid>
       {paginatedRipostes && (
-        <InfiniteScroll dataLength={ripostes.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
+        <InfiniteScroll
+          dataLength={ripostes.length}
+          next={() => fetchNextPage()}
+          hasMore={hasNextPage}
+          loader={<Loader />}
+        >
           <Grid container spacing={2}>
             {ripostes.map(r => (
               <Grid item key={r.id} xs={12} sm={6} md={3}>
@@ -145,7 +149,6 @@ const Ripostes = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
       <CreateEditModal
         open={isModalOpen}
         riposte={editingRiposte}

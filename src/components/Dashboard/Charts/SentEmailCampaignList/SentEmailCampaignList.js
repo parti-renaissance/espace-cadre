@@ -55,7 +55,6 @@ const SentEmailCampaignList = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('messages', getMessages, {
     getNextPageParam,
     onError: handleError,
@@ -75,7 +74,12 @@ const SentEmailCampaignList = () => {
     <>
       <SentEmailCampaignListTitle />
       {paginatedCampaigns && (
-        <InfiniteScroll dataLength={campaigns.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
+        <InfiniteScroll
+          dataLength={campaigns.length}
+          next={() => fetchNextPage()}
+          hasMore={hasNextPage}
+          loader={<Loader />}
+        >
           <Grid container spacing={2}>
             {campaigns.map(message => (
               <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
@@ -103,7 +107,6 @@ const SentEmailCampaignList = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
     </>
   )
 }

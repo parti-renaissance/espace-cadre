@@ -44,7 +44,6 @@ const News = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('news', getNewsQuery, {
     getNextPageParam,
     onError: handleError,
@@ -104,7 +103,7 @@ const News = () => {
         </Grid>
       </Grid>
       {paginatedNews && (
-        <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
+        <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
           <Grid container spacing={2}>
             {news.map(n => (
               <Grid item key={n.id} xs={12} sm={6} md={3}>
@@ -132,7 +131,6 @@ const News = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
       <CreateEditModal
         open={isCreateEditModalOpen}
         news={viewingNews}

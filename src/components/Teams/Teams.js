@@ -50,7 +50,6 @@ const Teams = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('teams', getTeamsQuery, {
     getNextPageParam,
     onError: handleError,
@@ -101,7 +100,12 @@ const Teams = () => {
         </Grid>
       </Grid>
       {paginatedTeams && (
-        <InfiniteScroll dataLength={teams.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<></>}>
+        <InfiniteScroll
+          dataLength={teams.length}
+          next={() => fetchNextPage()}
+          hasMore={hasNextPage}
+          loader={<Loader />}
+        >
           <Grid container spacing={2}>
             {teams.map(team => (
               <Grid item key={team.id} xs={12} sm={6} md={3}>
@@ -122,7 +126,6 @@ const Teams = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
       <TeamModal
         open={open}
         team={currentTeam}
