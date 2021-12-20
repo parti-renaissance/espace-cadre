@@ -19,7 +19,7 @@ const Drawer = styled(MuiDrawer)`
   }
 `
 
-export const Mobile = ({ drawer, handleDrawerToggle, mobileOpen, container, drawerWidth }) => (
+export const Mobile = ({ drawer, handleDrawerToggle, mobileOpen, container }) => (
   <Drawer
     container={container}
     variant="temporary"
@@ -32,7 +32,6 @@ export const Mobile = ({ drawer, handleDrawerToggle, mobileOpen, container, draw
       display: { xs: 'block', sm: 'none' },
       '& .MuiDrawer-paper': {
         boxSizing: 'border-box',
-        width: drawerWidth,
       },
     }}
   >
@@ -49,7 +48,6 @@ export default Mobile
 
 Mobile.propTypes = {
   drawer: PropTypes.node.isRequired,
-  drawerWidth: PropTypes.number.isRequired,
   mobileOpen: PropTypes.bool.isRequired,
   handleDrawerToggle: PropTypes.func.isRequired,
   container: PropTypes.number,

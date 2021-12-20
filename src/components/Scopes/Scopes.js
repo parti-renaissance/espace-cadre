@@ -121,7 +121,7 @@ function Scopes() {
               </Scope>
             </MenuItemToMainSite>
 
-            {filteredScopes?.length > 1 && <Divider sx={{ bgcolor: 'menu.background.active' }} />}
+            <Divider sx={{ bgcolor: 'menu.background.active' }} />
 
             {filteredScopes?.map(userScope => (
               <MenuItem
@@ -131,13 +131,13 @@ function Scopes() {
                 userScope={userScope}
                 currentScope={currentScope}
               >
-                <Scope>{userScope?.name}</Scope>
-                {userScope?.zones?.length === 1 && (
+                <Scope>{userScope.name}</Scope>
+                {userScope.zones?.length === 1 && (
                   <Area>
                     {userScope.zones[0].name} ({userScope.zones[0].code})
                   </Area>
                 )}
-                {userScope?.zones?.length > 1 && (
+                {userScope.zones?.length > 1 && (
                   <Area>
                     {`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length}
                     {pluralize(userScope.zones.slice(1).length, messages.zone)}
