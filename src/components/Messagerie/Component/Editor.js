@@ -11,6 +11,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import UIFormMessage from 'ui/FormMessage'
+import * as Sentry from '@sentry/react'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -102,7 +103,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   )
 
   useEffect(() => {
-    const { editor } = emailEditorRef.current
+    const editor = emailEditorRef.current?.editor
     if (messageContent) {
       onMessageSubject(messageContent.subject)
       if (messageContent.json_content) {
@@ -115,12 +116,18 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
       } else {
         setMessageContentError(true)
         enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
+        Sentry.addBreadcrumb({
+          category: 'messages',
+          message: `${messages.errorTemplate} id=${messageUuid}`,
+          level: Sentry.Severity.Critical,
+        })
+        Sentry.captureMessage(messages.errorTemplate)
       }
     }
-  }, [enqueueSnackbar, messageContent, onMessageSubject, onMessageUpdate])
+  }, [enqueueSnackbar, messageContent, messageUuid, onMessageSubject, onMessageUpdate])
 
   useEffect(() => {
-    const { editor } = emailEditorRef.current
+    const editor = emailEditorRef.current?.editor
     const onEditorLoaded = () => {
       editor.addEventListener('design:updated', updateMessageTemplateCallback)
     }

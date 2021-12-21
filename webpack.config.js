@@ -10,7 +10,7 @@ const localEnvPath = './.env.local'
 const productionEnvPath = './.env.production'
 
 module.exports = (env, argv = {}) => {
-  const { parsed: dotenvConfig } = dotenv.config({
+  const { parsed: dotenvConfig = {} } = dotenv.config({
     path: argv.mode === 'development' ? localEnvPath : productionEnvPath,
   })
   return {
@@ -38,6 +38,7 @@ module.exports = (env, argv = {}) => {
           REACT_APP_SENTRY_DSN: process.env.REACT_APP_SENTRY_DSN,
           REACT_APP_UNLAYER_PROJECT_ID: process.env.REACT_APP_UNLAYER_PROJECT_ID,
           REACT_APP_VERSION: process.env.REACT_APP_VERSION,
+          REACT_APP_ENVIRONMENT: process.env.REACT_APP_ENVIRONMENT,
         }),
       }),
       new CopyPlugin({
