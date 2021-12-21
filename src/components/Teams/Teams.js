@@ -50,7 +50,6 @@ const Teams = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('teams', getTeamsQuery, {
     getNextPageParam,
     onError: handleError,
@@ -127,7 +126,6 @@ const Teams = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
       <TeamModal
         open={open}
         team={currentTeam}

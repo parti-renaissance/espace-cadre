@@ -45,7 +45,6 @@ const Ripostes = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('ripostes', getRipostesQuery, {
     getNextPageParam,
     onError: handleError,
@@ -150,7 +149,6 @@ const Ripostes = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
       <CreateEditModal
         open={isModalOpen}
         riposte={editingRiposte}

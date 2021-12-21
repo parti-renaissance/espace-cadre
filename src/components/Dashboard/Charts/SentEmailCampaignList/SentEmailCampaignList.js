@@ -55,7 +55,6 @@ const SentEmailCampaignList = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('messages', getMessages, {
     getNextPageParam,
     onError: handleError,
@@ -108,7 +107,6 @@ const SentEmailCampaignList = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
     </>
   )
 }

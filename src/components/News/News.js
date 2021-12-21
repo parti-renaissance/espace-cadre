@@ -44,7 +44,6 @@ const News = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-    isFetching,
   } = useInfiniteQuery('news', getNewsQuery, {
     getNextPageParam,
     onError: handleError,
@@ -132,7 +131,6 @@ const News = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isFetching && <Loader />}
       <CreateEditModal
         open={isCreateEditModalOpen}
         news={viewingNews}
