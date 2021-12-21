@@ -55,7 +55,7 @@ module.exports = (env, argv = {}) => {
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js'],
       alias: {
         api: path.resolve(__dirname, 'src/api'),
         components: path.resolve(__dirname, 'src/components'),
@@ -74,11 +74,14 @@ module.exports = (env, argv = {}) => {
           type: 'asset',
         },
         {
-          test: /\.jsx?$/,
+          test: /\.js$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
         },
-        { test: /\.s?css$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
+        {
+          test: /\.s?css$/,
+          use: ['style-loader', 'css-loader', 'sass-loader'],
+        },
       ],
     },
     devtool: argv.mode === 'development' ? 'source-map' : 'hidden-source-map',
