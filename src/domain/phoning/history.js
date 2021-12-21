@@ -28,7 +28,7 @@ export class PhoningCampaignHistoryCaller {
 
 PhoningCampaignHistory.propTypes = {
   status: PropTypes.string.isRequired,
-  startDate: PropTypes.object.isRequired,
+  startDate: PropTypes.string.isRequired,
   adherent: PhoningCampaignHistoryAdherent.propTypes,
   caller: PhoningCampaignHistoryCaller.propTypes,
   handleClick: PropTypes.func.isRequired,

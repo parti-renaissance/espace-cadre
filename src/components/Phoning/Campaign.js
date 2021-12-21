@@ -32,7 +32,7 @@ const messages = {
   ongoing: 'En cours',
 }
 
-const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) => {
+const PhoningCampaign = ({ endDate, title, author, team, score, handleView, handleUpdate }) => {
   const chipLabel = endDate ? messages.finished : messages.ongoing
   const chipColors = chipColorsByStatus?.[endDate ? 'finished' : 'ongoing']
 
@@ -51,9 +51,13 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) =
               <TruncatedText variant="subtitle1" title={title}>
                 {title}
               </TruncatedText>
-              <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
+              <TruncatedText
+                variant="subtitle2"
+                title={`${author} • ${team.name} (${team.membersCount})`}
+                sx={{ color: 'gray600' }}
+              >
                 {`${author} • ${team.name} (${team.membersCount})`}
-              </Typography>
+              </TruncatedText>
             </VerticalContainer>
           </>
         }
@@ -63,7 +67,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) =
         actions={
           <HorizontalContainer>
             <CtaButton
-              onClick={handleClick}
+              onClick={handleView}
               sx={{
                 color: 'indigo700',
                 '&:hover': {
@@ -74,7 +78,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) =
               {messages.see}
             </CtaButton>
             <DotsMenu>
-              <DotsMenuItem onClick={() => {}}>{messages.edit}</DotsMenuItem>
+              <DotsMenuItem onClick={handleUpdate}>{messages.edit}</DotsMenuItem>
             </DotsMenu>
           </HorizontalContainer>
         }
@@ -85,7 +89,8 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleClick }) =
 
 PhoningCampaign.propTypes = {
   ...DomainPhoningCampaigns.PropTypes,
-  handleClick: PropTypes.func.isRequired,
+  handleView: PropTypes.func.isRequired,
+  handleUpdate: PropTypes.func.isRequired,
 }
 
 export default PhoningCampaign

@@ -1,12 +1,16 @@
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import PageHeader from 'ui/PageHeader'
+
+import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery, getPhoningCampaignQuery } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { useQuery } from 'react-query'
-import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery } from 'api/phoning'
+import { actionButtonStyles } from './shared/styles'
 import PhoningGlobalKPI from './GlobalKPI'
 import PhoningCampaign from './Campaign'
-import { generatePath, useNavigate } from 'react-router'
+import CreateEdit from './CreateEdit/CreateEdit'
+import PageHeader from 'ui/PageHeader'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -26,13 +30,40 @@ const messages = {
 }
 
 const Phoning = () => {
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [campaignIdToUpdate, setCampaignIdToUpdate] = useState()
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
-  const { data: globalKPI = {} } = useQuery('globalKPI', () => getPhoningGlobalKPIQuery(), { onError: handleError })
-  const { data: campaigns = [] } = useQuery('campaigns', () => getPhoningCampaignListQuery(), { onError: handleError })
 
-  const handleClick = campaignId => () => {
+  const { data: globalKPI = {} } = useQuery('globalKPI', () => getPhoningGlobalKPIQuery(), { onError: handleError })
+  const { data: campaigns = [], refetch: refetchCampaigns } = useQuery(
+    'campaigns',
+    () => getPhoningCampaignListQuery(),
+    { onError: handleError }
+  )
+  const { data: campaign = {} } = useQuery(
+    ['campaign', campaignIdToUpdate],
+    () => getPhoningCampaignQuery(campaignIdToUpdate),
+    {
+      enabled: !!campaignIdToUpdate,
+      onSuccess: () => {
+        setIsCreateEditModalOpen(true)
+      },
+      onError: handleError,
+    }
+  )
+
+  const handleView = campaignId => () => {
     navigate(generatePath('/phoning/:campaignId', { campaignId }))
+  }
+
+  const handleUpdate = campaignId => () => {
+    setCampaignIdToUpdate(campaignId)
+  }
+
+  const handleClose = () => {
+    setCampaignIdToUpdate(undefined)
+    setIsCreateEditModalOpen(false)
   }
 
   return (
@@ -41,16 +72,8 @@ const Phoning = () => {
         <PageHeader
           title={messages.title}
           message={messages.create}
-          handleAction={() => {}}
-          actionButtonProps={{
-            sx: {
-              color: 'phoning.color',
-              bgcolor: 'phoning.background.main',
-              '&:hover': {
-                bgcolor: 'phoning.background.hover',
-              },
-            },
-          }}
+          actionButtonProps={{ sx: actionButtonStyles }}
+          handleAction={() => setIsCreateEditModalOpen(true)}
         />
       </Grid>
 
@@ -75,12 +98,20 @@ const Phoning = () => {
                 author={campaign.author}
                 team={campaign.team}
                 score={campaign.score}
-                handleClick={handleClick(campaign.id)}
+                handleView={handleView(campaign.id)}
+                handleUpdate={handleUpdate(campaign.id)}
               />
             ))}
           </Grid>
         )}
       </Grid>
+
+      <CreateEdit
+        campaign={Object.keys(campaign).length > 0 ? campaign : null}
+        isOpen={isCreateEditModalOpen}
+        onCreateResolve={refetchCampaigns}
+        handleClose={handleClose}
+      />
     </Container>
   )
 }

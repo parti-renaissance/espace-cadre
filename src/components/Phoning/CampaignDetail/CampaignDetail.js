@@ -6,11 +6,13 @@ import { styled } from '@mui/system'
 
 import { getPhoningCampaignQuery, getPhoningCampaignCallers, getPhoningCampaignHistory } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { actionButtonStyles } from '../shared/styles'
 import pluralize from 'components/shared/pluralize/pluralize'
 import PageHeader from 'ui/PageHeader'
 import CampaignDetailKPI from './KPI'
 import CampaignDetailCallers from './Callers'
 import CampaignDetailHistory from './History'
+import CreateEdit from '../CreateEdit/CreateEdit'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -41,11 +43,16 @@ const messages = {
 
 export const CampaignDetail = () => {
   const [selectedTab, setSelectedTab] = useState(messages.callers.id)
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
-  const { data: campaign = {} } = useQuery(['campaign', campaignId], () => getPhoningCampaignQuery(campaignId), {
-    onError: handleError,
-  })
+  const { data: campaign = {}, refetch: refetchCampaign } = useQuery(
+    ['campaign', campaignId],
+    () => getPhoningCampaignQuery(campaignId),
+    {
+      onError: handleError,
+    }
+  )
   const { data: callers = [] } = useQuery(['callers', campaignId], () => getPhoningCampaignCallers(campaignId), {
     onError: handleError,
   })
@@ -57,8 +64,8 @@ export const CampaignDetail = () => {
     setSelectedTab(tabId)
   }
 
-  const handleHistoryView = () => () => {
-    // TODO: View modal
+  const handleHistoryView = () => {
+    // TODO: implement view modal
   }
 
   if (!campaign.title) return null
@@ -75,16 +82,8 @@ export const CampaignDetail = () => {
             </>
           }
           message={messages.modify}
-          handleAction={() => {}}
-          actionButtonProps={{
-            sx: {
-              color: 'phoning.color',
-              bgcolor: 'phoning.background.hover',
-              '&:hover': {
-                bgcolor: 'phoning.background.hover',
-              },
-            },
-          }}
+          actionButtonProps={{ sx: actionButtonStyles }}
+          handleAction={() => setIsCreateEditModalOpen(true)}
         />
       </Grid>
 
@@ -123,7 +122,7 @@ export const CampaignDetail = () => {
           ))}
         </Tabs>
 
-        {selectedTab === messages.callers.id && campaign.goalPerCaller?.toString() && (
+        {selectedTab === messages.callers.id && campaign.goal?.toString() && (
           <Grid container spacing={2} data-testid="phoning-caller-container">
             {callers.map((caller, index) => (
               <CampaignDetailCallers
@@ -132,7 +131,7 @@ export const CampaignDetail = () => {
                 firstName={caller.firstName}
                 lastName={caller.lastName}
                 count={caller.count}
-                goal={campaign.goalPerCaller}
+                goal={campaign.goal}
               />
             ))}
           </Grid>
@@ -147,12 +146,19 @@ export const CampaignDetail = () => {
                 adherent={call.adherent}
                 caller={call.caller}
                 updateTime={call.updateTime}
-                handleClick={handleHistoryView(call.id)}
+                handleView={handleHistoryView}
               />
             ))}
           </Grid>
         )}
       </Grid>
+
+      <CreateEdit
+        campaign={campaign}
+        isOpen={isCreateEditModalOpen}
+        onCreateResolve={refetchCampaign}
+        handleClose={() => setIsCreateEditModalOpen(false)}
+      />
     </Container>
   )
 }
