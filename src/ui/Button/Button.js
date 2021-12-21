@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     padding: theme.spacing(1, 2),
   },
 }))

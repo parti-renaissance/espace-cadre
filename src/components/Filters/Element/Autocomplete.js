@@ -8,7 +8,7 @@ import { getDataFromDynamicEndpoint } from 'api/dynamic'
 const useStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.whiteCorner,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
   },
 }))
 

@@ -8,7 +8,7 @@ const NavLink = styled(MUINavLink)`
   display: flex;
   margin: ${({ theme }) => theme.spacing(1, 2)};
   padding: ${({ theme }) => theme.spacing(1.5, 2)};
-  border-radius: 8.35px;
+  border-radius: 8px;
   &:hover {
     color: ${({ theme }) => theme.palette.menu.color.main};
     background: ${({ theme }) => theme.palette.menu.background.hover};

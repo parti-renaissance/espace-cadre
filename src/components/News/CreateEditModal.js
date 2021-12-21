@@ -50,7 +50,7 @@ const Button = styled(MuiButton)(
   color: ${theme.palette.whiteCorner};
   background: ${theme.palette.orange500};
   border: none;
-  border-radius: 8.35px;
+  border-radius: 8px;
   &:hover {
     background-color: ${theme.palette.orange600};
   }

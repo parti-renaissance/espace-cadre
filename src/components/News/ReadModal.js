@@ -59,7 +59,7 @@ const EditButton = styled(Button)(
   ({ theme }) => `
   color: ${theme.palette.orange500};
   background: ${theme.palette.newsBackground};
-  border-radius: 8.35px;
+  border-radius: 8px;
   margin: ${theme.spacing('auto', 1, 'auto', 'auto')};
   padding: ${theme.spacing(0.75, 1)};
 `

@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     overflowX: 'hidden',
     maxHeight: '93%',
     width: '330px',
-    borderRadius: '8.35px',
+    borderRadius: '8px',
   },
   MUICardRoot: {
     padding: theme.spacing(2, 2, 2, 4),

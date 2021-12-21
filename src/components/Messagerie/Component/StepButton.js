@@ -7,7 +7,7 @@ import Loader from 'ui/Loader'
 const useStyles = makeStyles(theme => ({
   materialButton: {
     width: '100%',
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     color: ({ disabled }) => (disabled ? '#6B7280 !important' : '#fff'),
     background: ({ disabled }) => (disabled ? '#E5E7EB' : '#2563EB'),
     '&:hover': {

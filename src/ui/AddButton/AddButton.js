@@ -8,7 +8,7 @@ const AddButton = ({ handleAction, message, sx: parentStyles }) => (
     sx={{
       px: 1,
       py: 0.75,
-      borderRadius: '8.35px',
+      borderRadius: '8px',
       ...parentStyles,
     }}
   >

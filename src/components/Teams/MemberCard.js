@@ -7,7 +7,7 @@ import { TeamMember } from '../../domain/team'
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(2),
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     boxShadow: 'none',
   },
   name: {

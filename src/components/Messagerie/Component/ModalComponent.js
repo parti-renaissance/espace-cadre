@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.blue600,
     background: theme.palette.whiteCorner,
     border: `1px solid ${theme.palette.blue600}`,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     padding: '8px 16px',
     marginRight: '16px',
     '&:hover': {
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   sendButton: {
     color: theme.palette.whiteCorner,
     background: theme.palette.blue600,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     padding: '8px 16px',
     '&:hover': {
       background: theme.palette.blue800,

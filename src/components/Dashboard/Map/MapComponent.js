@@ -16,7 +16,7 @@ const CountBubble = styled('span')(
   background-color: ${theme.palette.blueBubble};
   padding: ${theme.spacing(1)};
   margin-right: ${theme.spacing(1)};
-  border-radius: 8.35px;
+  border-radius: 8px;
 `
 )
 

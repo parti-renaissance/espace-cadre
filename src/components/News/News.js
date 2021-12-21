@@ -22,7 +22,7 @@ const Button = styled(MuiButton)(
   ({ theme }) => `
   color: ${theme.palette.orange500};
   background: ${theme.palette.newsBackground};
-  border-radius: 8.35px;
+  border-radius: 8px;
 `
 )
 
