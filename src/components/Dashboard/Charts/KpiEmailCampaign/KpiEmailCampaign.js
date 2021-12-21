@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Grid, Box } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
+import { Grid, Box, Typography } from '@mui/material'
 import { apiClientProxy } from 'services/networking/client'
 import UILoader from 'ui/Loader'
 import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks'
@@ -9,34 +9,31 @@ import { useUserScope } from '../../../../redux/user/hooks'
 import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
 import pluralize from 'components/shared/pluralize/pluralize'
-import { styled } from '@mui/system'
 
-const useStyles = makeStyles(theme => ({
-  cardContainer: {
-    '&:last-child': {
-      marginBottom: theme.spacing(2),
-    },
-  },
-  littleCard: {
-    padding: theme.spacing(2),
-  },
-  mainInfo: {
-    fontSize: '40px',
-    fontWeight: '600',
-    textAlign: 'left',
-    color: theme.palette.blueCorner,
-  },
-  mainText: {
-    fontSize: '16px',
-    fontWeight: '600',
-    color: theme.palette.blackCorner,
-  },
-  secondaryText: {
-    fontSize: '12px',
-    fontWeight: '400',
-    color: theme.palette.grayCorner3,
-  },
-}))
+const CardContainer = styled(Grid)`
+  &:last-child {
+    margin-bottom: ${({ theme }) => theme.spacing(2)};
+  }
+`
+
+const MainInfo = styled(Typography)`
+  font-size: 40px;
+  font-weight: 600;
+  text-align: left;
+  color: ${({ theme }) => theme.palette.blueCorner};
+`
+
+const MainText = styled(Typography)`
+  font-size: 16px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.palette.blackCorner};
+`
+
+const SecondaryText = styled(Typography)`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.palette.grayCorner3};
+`
 
 const LoaderContainer = styled(props => <Grid item xs={12} {...props} />)`
   display: flex;
@@ -58,7 +55,6 @@ const messages = {
 }
 
 function KpiEmailCampaign() {
-  const classes = useStyles()
   const [campaign, setCampaign] = useEmailCampaignCache()
   const [currentScope] = useUserScope()
   const [errorMessage, setErrorMessage] = useState()
@@ -80,48 +76,48 @@ function KpiEmailCampaign() {
     if (campaign !== null) {
       return (
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-            <UIContainer rootClasses={classes.littleCard}>
-              <Box className={classes.mainInfo}>{campaign.local.nbCampagnes}</Box>
-              <Box className={classes.mainText}>{pluralize(campaign.local.nbCampagnes, messages.campaign)}</Box>
-              <Box className={classes.secondaryText}>
+          <CardContainer item xs={12} sm={6} lg={3}>
+            <UIContainer rootProps={{ sx: { p: 2 } }}>
+              <MainInfo component="div">{campaign.local.nbCampagnes}</MainInfo>
+              <MainText component="div">{pluralize(campaign.local.nbCampagnes, messages.campaign)}</MainText>
+              <SecondaryText component="div">
                 {pluralize(campaign.local.nbCampagnes, messages.sent)} en {new Date().getFullYear()}
-              </Box>
+              </SecondaryText>
             </UIContainer>
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-            <UIContainer rootClasses={classes.littleCard}>
-              <Box className={classes.mainInfo}>
+          </CardContainer>
+          <CardContainer item xs={12} sm={6} lg={3}>
+            <UIContainer rootProps={{ sx: { p: 2 } }}>
+              <MainInfo component="div">
                 <Percentage>{campaign.local.txOuverture}</Percentage>
-              </Box>
-              <Box className={classes.mainText}>{messages.opening}</Box>
-              <Box className={classes.secondaryText}>
+              </MainInfo>
+              <MainText component="div">{messages.opening}</MainText>
+              <SecondaryText component="div">
                 <Percentage>{campaign.national.txOuverture}</Percentage> {messages.national}
-              </Box>
+              </SecondaryText>
             </UIContainer>
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-            <UIContainer rootClasses={classes.littleCard}>
-              <Box className={classes.mainInfo}>
+          </CardContainer>
+          <CardContainer item xs={12} sm={6} lg={3}>
+            <UIContainer rootProps={{ sx: { p: 2 } }}>
+              <MainInfo component="div">
                 <Percentage>{campaign.local.txClique}</Percentage>
-              </Box>
-              <Box className={classes.mainText}>{messages.clicks}</Box>
-              <Box className={classes.secondaryText}>
+              </MainInfo>
+              <MainText component="div">{messages.clicks}</MainText>
+              <SecondaryText component="div">
                 <Percentage>{campaign.national.txClique}</Percentage> {messages.national}
-              </Box>
+              </SecondaryText>
             </UIContainer>
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3} className={classes.cardContainer}>
-            <UIContainer rootClasses={classes.littleCard}>
-              <Box className={classes.mainInfo}>
+          </CardContainer>
+          <CardContainer item xs={12} sm={6} lg={3}>
+            <UIContainer rootProps={{ sx: { p: 2 } }}>
+              <MainInfo component="div">
                 <Percentage>{campaign.local.txDesabonnement}</Percentage>
-              </Box>
-              <Box className={classes.mainText}>{messages.unsubscribing}</Box>
-              <Box className={classes.secondaryText}>
+              </MainInfo>
+              <MainText component="div">{messages.unsubscribing}</MainText>
+              <SecondaryText component="div">
                 <Percentage>{campaign.national.txDesabonnement}</Percentage> {messages.national}
-              </Box>
+              </SecondaryText>
             </UIContainer>
-          </Grid>
+          </CardContainer>
         </Grid>
       )
     }

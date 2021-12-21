@@ -1,32 +1,26 @@
-import { Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
+import { styled } from '@mui/system'
+import { Grid as MuiGrid } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    background: theme.palette.whiteCorner,
-    borderRadius: '6px',
-    boxShadow: '0 1px 1px 0 rgba(0, 0, 0, .04)',
-    textAlign: textAlign => textAlign.textAlign,
-  },
-}))
+const Grid = styled(MuiGrid)(
+  ({ theme }) => `
+  background: ${theme.palette.whiteCorner};
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(29, 33, 79, 0.03);
+`
+)
 
-const UIContainer = ({ children, rootClasses = '', textAlign = null, ...props }) => {
-  const classes = useStyles({ textAlign })
-
-  return (
-    <Grid item className={`${classes.root} ${rootClasses}`} {...props}>
-      {children}
-    </Grid>
-  )
-}
+const UIContainer = ({ children, rootProps = {} }) => (
+  <Grid item {...rootProps}>
+    {children}
+  </Grid>
+)
 
 export default UIContainer
 
 UIContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]).isRequired,
-  rootClasses: PropTypes.string,
-  textAlign: PropTypes.string,
+  rootProps: PropTypes.object,
   sx: PropTypes.object,
   breakpoints: PropTypes.shape({
     xs: PropTypes.number,

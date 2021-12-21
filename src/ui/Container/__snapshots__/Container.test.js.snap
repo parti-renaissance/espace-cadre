@@ -2,10 +2,8 @@
 
 exports[`Container displays grid 1`] = `
 <div>
-  <div
-    class="root fooClass"
-  >
-    Foo
+  <div>
+    Foo2
   </div>
 </div>
 `;
