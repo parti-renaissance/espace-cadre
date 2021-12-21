@@ -6,7 +6,6 @@ const Grid = styled(MuiGrid)`
   background: ${({ theme }) => theme.palette.whiteCorner};
   border-radius: 8px;
   box-shadow: 0px 0px 5px rgba(29, 33, 79, 0.03);
-  border-radius: 8px;
   &:hover {
     box-shadow: 0px 4px 10px rgba(29, 33, 79, 0.06);
   }

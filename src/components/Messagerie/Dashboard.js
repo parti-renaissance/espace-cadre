@@ -1,40 +1,45 @@
 import { useNavigate } from 'react-router-dom'
-import { Grid, Container, Button } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
+import { Grid, Container, Button as MuiButton, Typography } from '@mui/material'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaignList from 'components/Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList'
 import SendIcon from '@mui/icons-material/Send'
 import PageTitle from 'ui/PageTitle'
 import paths from 'components/Messagerie/shared/paths'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    '&:hover': {
-      backgroundColor: theme.palette.whiteCorner,
-    },
-  },
-  messagerieMailButton: {
-    fontSize: '14px',
-    fontWeight: '600',
-    color: theme.palette.blue2Corner,
-    backgroundColor: theme.palette.whiteCorner,
-    padding: theme.spacing(0.5, 2),
-    border: 'none',
-    borderRadius: '79px',
-    textTransform: 'none',
-  },
-  messagerieKpi: {
-    backgroundColor: theme.palette.gray200,
-    marginBottom: theme.spacing(2),
-    borderRadius: theme.spacing(1.5),
-  },
-  kpiTitle: {
-    color: theme.palette.blackCorner,
-    fontSize: '20px',
-    fontWeight: '600',
-    margin: theme.spacing(2),
-  },
-}))
+const Button = styled(MuiButton)`
+  color: ${({ theme }) => theme.palette.button.color};
+  background: ${({ theme }) => theme.palette.button.background.main};
+  height: 36px;
+  border-radius: 8px;
+  &:hover {
+    background: ${({ theme }) => theme.palette.button.background.main};
+  }
+  padding: ${({ theme }) => theme.spacing(0.75, 1)};
+`
+
+const SendButtonContainer = styled(Grid)`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2;
+`
+
+const KPIContainer = styled(Grid)(
+  ({ theme }) => `
+  background-color: ${theme.palette.gray200};
+  margin-bottom: ${theme.spacing(2)};
+  border-radius: ${theme.spacing(1.5)};
+`
+)
+
+const KPITitle = styled(Typography)(
+  ({ theme }) => `
+  color: ${theme.palette.blackCorner};
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+`
+)
 
 const messages = {
   title: 'Messagerie',
@@ -43,41 +48,23 @@ const messages = {
 }
 
 const Dashboard = () => {
-  const classes = useStyles()
   const navigate = useNavigate()
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
-        <Grid
-          item
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            mb: 2,
-          }}
-        >
-          <Button
-            sx={{
-              color: '#2834C3',
-              bgcolor: '#2718E514',
-              borderRadius: '8.35px',
-              '&:hover': { bgcolor: '#2718E514' },
-              px: 1,
-              py: 0.75,
-            }}
-            onClick={() => navigate(paths.create)}
-          >
+        <SendButtonContainer item>
+          <Button onClick={() => navigate(paths.create)}>
             <SendIcon sx={{ mr: 1 }} />
             {messages.sendEmail}
           </Button>
-        </Grid>
+        </SendButtonContainer>
       </Grid>
-      <Grid container className={classes.messagerieKpi}>
+      <KPIContainer container>
         <Grid container>
-          <Grid item xs={12} className={classes.kpiTitle}>
-            {messages.kpi}
+          <Grid item xs={12} sx={{ m: 2 }}>
+            <KPITitle>{messages.kpi}</KPITitle>
           </Grid>
         </Grid>
         <Grid container>
@@ -85,7 +72,7 @@ const Dashboard = () => {
             <KpiEmailCampaign />
           </Grid>
         </Grid>
-      </Grid>
+      </KPIContainer>
       <Grid container>
         <Grid item xs={12}>
           <SentEmailCampaignList />
