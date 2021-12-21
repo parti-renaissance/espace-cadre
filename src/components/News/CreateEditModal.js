@@ -212,7 +212,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
 
         <Grid container sx={{ mb: 2 }}>
-          <Button type="submit" fullWidth>
+          <Button type="submit" fullWidth sx={{ height: '36px' }}>
             {isCreateOrUpdateLoading ? <Loader size={12} color="white" /> : messages.submit}
           </Button>
         </Grid>

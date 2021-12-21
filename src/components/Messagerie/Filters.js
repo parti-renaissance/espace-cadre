@@ -51,6 +51,8 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: theme.palette.gray200,
     },
+    width: '250px',
+    height: '35px',
   },
   sendButton: {
     color: theme.palette.whiteCorner,
@@ -58,6 +60,8 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: theme.palette.blue800,
     },
+    width: '250px',
+    height: '35px',
   },
   success: {
     color: `${theme.palette.successButton} !important`,
@@ -81,6 +85,7 @@ const messages = {
   addresseesCount: 'Vous allez envoyer un message à',
   contact: 'contact',
   testMessage: "M'envoyer un message test",
+  sendEmail: "Envoyer l'email",
 }
 
 const Filters = () => {
@@ -198,10 +203,14 @@ const Filters = () => {
                 setLoadingTestButton(true)
                 handleSendEmail(true)
               }}
-              disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1}
+              disabled={
+                !audienceSegment?.synchronized ||
+                audienceSegment?.recipient_count < 1 ||
+                loadingSendButton ||
+                loadingTestButton
+              }
             >
-              <Box className={classes.buttonIcon}>{loadingTestButton && <Loader />}</Box>
-              {messages.testMessage}
+              {loadingTestButton ? <Loader /> : messages.testMessage}
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -209,13 +218,15 @@ const Filters = () => {
               variant="outlined"
               size="medium"
               className={classes.sendButton}
-              disabled={!audienceSegment?.synchronized || audienceSegment?.recipient_count < 1 || loadingSendButton}
+              disabled={
+                !audienceSegment?.synchronized ||
+                audienceSegment?.recipient_count < 1 ||
+                loadingSendButton ||
+                loadingTestButton
+              }
               onClick={() => setOpen(true)}
             >
-              <Box className={classes.buttonIcon}>
-                {loadingSendButton ? <Loader /> : <i className={`fa fa-paper-plane-o ${classes.buttonIcon}`} />}
-              </Box>
-              Envoyer l&apos;email
+              {loadingSendButton ? <Loader color="white" /> : messages.sendEmail}
             </Button>
             {open && (
               <ModalComponent

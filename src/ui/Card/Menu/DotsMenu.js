@@ -23,12 +23,16 @@ const MenuItem = styled(MuiMenuItem)`
 `
 
 export const DotsMenuItem = ({ onClick, closeMenu, loader = false, children }) => {
-  2
   const handleClick = async () => {
     await onClick()
     closeMenu()
   }
-  return <MenuItem onClick={handleClick}>{loader ? <Loader size={12} /> : children}</MenuItem>
+  return (
+    <MenuItem onClick={handleClick}>
+      {loader && <Loader size={12} />}
+      {children}
+    </MenuItem>
+  )
 }
 
 DotsMenuItem.propTypes = {
@@ -45,20 +49,17 @@ const DotsMenu = ({ children }) => {
     setAnchorEl(null)
   }
 
-  const handleButtonClick = e => {
+  const handleClick = e => {
     setAnchorEl(e.currentTarget)
-  }
-
-  const closeMenu = () => {
-    setAnchorEl(null)
   }
 
   return (
     <Wrapper>
-      <IconButton size="small" onClick={handleButtonClick} sx={{ p: 0 }}>
+      <IconButton size="small" onClick={handleClick} sx={{ p: 0 }}>
         <MoreVertIcon />
       </IconButton>
       <Menu
+        transitionDuration={0}
         anchorEl={anchorEl}
         keepMounted
         open={!!anchorEl}
@@ -73,7 +74,7 @@ const DotsMenu = ({ children }) => {
           horizontal: 'center',
         }}
       >
-        {React.Children.map(children, c => React.cloneElement(c, { closeMenu }))}
+        {React.Children.map(children, c => React.cloneElement(c, { closeMenu: handleClose }))}
       </Menu>
     </Wrapper>
   )

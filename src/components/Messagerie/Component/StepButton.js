@@ -1,4 +1,4 @@
-import { Button, Box } from '@mui/material'
+import { Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -24,9 +24,14 @@ const StepButton = ({ disabled, loading, onClick, label }) => {
 
   return (
     <Button className={classes.materialButton} onClick={disabled ? null : onClick} size="large" disabled={disabled}>
-      <Box>{loading && <Loader />}</Box>
-      {label}
-      <ArrowForwardIcon className={classes.buttonIcon} />
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {label}
+          <ArrowForwardIcon className={classes.buttonIcon} />
+        </>
+      )}
     </Button>
   )
 }
