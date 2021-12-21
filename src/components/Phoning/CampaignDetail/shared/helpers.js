@@ -1,3 +1,5 @@
+import { intervalToDuration } from 'date-fns'
+
 export const secondsToMinutesAndSeconds = seconds => {
   const minutes = Math.floor(seconds / 60)
   return `
@@ -29,3 +31,15 @@ export const campaignToFormValues = campaign => ({
     zones: campaign?.filters?.zones ?? [],
   },
 })
+
+export const timeDifferenceToString = (startDate, endDate) => {
+  const { days, hours, minutes } = intervalToDuration({
+    start: new Date(startDate),
+    end: new Date(endDate),
+  })
+  return `
+    ${days ? `${days} j ` : ''}
+    ${hours ? `${hours} h ` : ''}
+    ${minutes ? `${minutes} min` : ''}
+  `
+}
