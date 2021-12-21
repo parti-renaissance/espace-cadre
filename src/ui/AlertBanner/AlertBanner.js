@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
   errorMessage: {
     color: theme.palette.statusError,
     background: theme.palette.backgroundError,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     elevation: 'none',
     alignItems: 'center',
   },

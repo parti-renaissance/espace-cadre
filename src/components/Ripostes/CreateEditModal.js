@@ -26,14 +26,14 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     border: `1px solid ${theme.palette.gray200}`,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     margin: theme.spacing(1, 0),
   },
   modalButton: {
     color: theme.palette.whiteCorner,
     background: theme.palette.teal600,
     border: 'none',
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     '&:hover': {
       backgroundColor: theme.palette.teal700,
     },

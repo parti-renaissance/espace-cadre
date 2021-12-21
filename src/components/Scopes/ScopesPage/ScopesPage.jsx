@@ -82,7 +82,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '282px',
     backgroundColor: theme.palette.whiteCorner,
     cursor: 'pointer',
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     marginBottom: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing(2),

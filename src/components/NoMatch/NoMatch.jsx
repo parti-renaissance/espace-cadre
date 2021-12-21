@@ -9,14 +9,14 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.whiteCorner,
     padding: theme.spacing(2),
     marginTop: theme.spacing(2),
-    borderRadius: '8.35px',
+    borderRadius: '8px',
   },
   text: {
     marginBottom: theme.spacing(2),
   },
   button: {
     background: theme.palette.blueCorner,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     padding: theme.spacing(1, 2),
     margin: theme.spacing(0, 'auto'),
   },

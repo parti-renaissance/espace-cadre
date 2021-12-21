@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles'
 const useStyles = makeStyles(theme => ({
   filterBasicStyle: {
     background: theme.palette.whiteCorner,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     width: '100%',
 
     '& .MuiOutlinedInput-notchedOutline': {

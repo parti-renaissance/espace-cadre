@@ -13,7 +13,7 @@ const ValidateButton = styled(
   height: '42px',
   background: isFormValid === true ? phoning.button.background.main : phoning.button.background.disabled,
   color: isFormValid === true ? phoning.button.color.main : phoning.button.color.disabled,
-  borderRadius: '8.35px',
+  borderRadius: '8px',
   '&:hover': {
     background: isFormValid === true ? phoning.button.background.main : phoning.button.background.disabled,
     color: isFormValid === true ? phoning.button.color.main : phoning.button.color.disabled,

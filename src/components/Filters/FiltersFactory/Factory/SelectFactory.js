@@ -11,11 +11,11 @@ const useStyles = makeStyles(theme => ({
   },
   select: {
     background: theme.palette.whiteCorner,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
 
     '&:focus': {
       background: theme.palette.whiteCorner,
-      borderRadius: '8.35px',
+      borderRadius: '8px',
     },
   },
 }))

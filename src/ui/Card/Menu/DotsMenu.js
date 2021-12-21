@@ -15,7 +15,7 @@ const MenuItem = styled(MuiMenuItem)`
   border-width: 1px;
   border-style: solid;
   border-color: ${({ theme }) => theme.palette.gray100};
-  border-radius: 8.35px;
+  border-radius: 8px;
   background-color: ${({ theme }) => theme.palette.whiteCorner};
   &:hover {
     background-color: ${({ theme }) => theme.palette.gray100};
@@ -66,7 +66,7 @@ const DotsMenu = ({ children }) => {
         sx={{
           fontSize: '13px',
           padding: 0,
-          borderRadius: '8.35px',
+          borderRadius: '8px',
         }}
         transformOrigin={{
           vertical: 'top',

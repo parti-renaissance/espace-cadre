@@ -38,7 +38,7 @@ const StepButton = styled(
 const PrevStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
   backgroundColor: theme.palette.phoning.button.background.prev,
   color: theme.palette.phoning.button.color.prev,
-  borderRadius: '8.35px',
+  borderRadius: '8px',
   '&:hover': {
     backgroundColor: theme.palette.phoning.button.background.prev,
     color: theme.palette.phoning.button.color.prev,
@@ -52,7 +52,7 @@ const PrevStepButton = styled(props => <Button variant="contained" {...props} />
 const NextStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
   backgroundColor: theme.palette.phoning.button.background.next,
   color: theme.palette.phoning.button.color.next,
-  borderRadius: '8.35px',
+  borderRadius: '8px',
   '&:hover': {
     backgroundColor: theme.palette.phoning.button.background.next,
     color: theme.palette.phoning.button.color.next,

@@ -16,7 +16,7 @@ import { format } from 'date-fns'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     boxShadow: 'none',
     padding: theme.spacing(2),
     marginBottom: theme.spacing(2),
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   },
   noMember: {
     padding: theme.spacing(1, 2),
-    borderRadius: '8.35px',
+    borderRadius: '8px',
   },
   autocomplete: {
     background: theme.palette.gray100,

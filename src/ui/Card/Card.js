@@ -9,7 +9,11 @@ export const Root = styled(Paper)(
   padding: ${theme.spacing(0, 2, 0, 2)};
   display: flex;
   flex-direction: column;
-  borderRadius: 8px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(29, 33, 79, 0.03);
+  &:hover {
+    box-shadow: 0px 4px 10px rgba(29, 33, 79, 0.06);
+  }
 `
 )
 

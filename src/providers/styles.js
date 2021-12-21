@@ -63,6 +63,12 @@ export const styles = {
     },
   },
   palette: {
+    button: {
+      color: '#2834c3',
+      background: {
+        main: '#2718e514',
+      },
+    },
     menu: {
       color: {
         main: '#FFFFFF',

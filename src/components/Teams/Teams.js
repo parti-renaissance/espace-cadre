@@ -20,7 +20,7 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 const useStyles = makeStyles(theme => ({
   buttonContainer: {
     background: theme.palette.teamBackground,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     marginBottom: theme.spacing(2),
   },
   createButton: {

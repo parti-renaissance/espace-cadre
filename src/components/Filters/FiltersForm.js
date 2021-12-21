@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.whiteCorner,
     background: `${theme.palette.gray700}`,
     marginRight: theme.spacing(2),
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     '&:hover': {
       background: theme.palette.gray600,
     },
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   resetButtonFilters: {
     color: theme.palette.gray700,
     border: `1px solid ${theme.palette.gray300}`,
-    borderRadius: '8.35px',
+    borderRadius: '8px',
     '&:hover': {
       background: theme.palette.gray200,
     },

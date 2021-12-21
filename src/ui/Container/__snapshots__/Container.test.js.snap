@@ -3,7 +3,7 @@
 exports[`Container displays grid 1`] = `
 <div>
   <div
-    class="root fooClass"
+    data-sx="foo"
   >
     Foo
   </div>
