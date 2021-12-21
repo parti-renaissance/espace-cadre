@@ -99,7 +99,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   const { data: messageContent = null } = useQuery(
     ['messageContent', messageUuid],
     () => getMessageContent(messageUuid),
-    { onError: handleError, enabled: editorLoaded }
+    { onError: handleError, enabled: !!messageUuid && editorLoaded }
   )
 
   useEffect(() => {
