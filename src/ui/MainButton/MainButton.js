@@ -12,8 +12,8 @@ const Button = styled(MuiButton)`
   padding: ${({ theme }) => theme.spacing(0.75, 2)};
 `
 
-const MainButton = ({ children, handleClick, rootProps }) => (
-  <Button variant="contained" onClick={handleClick} {...rootProps}>
+const MainButton = ({ children, onClick, rootProps }) => (
+  <Button variant="contained" onClick={onClick} {...rootProps}>
     {children}
   </Button>
 )
@@ -22,5 +22,6 @@ export default MainButton
 
 MainButton.propTypes = {
   children: PropTypes.node.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  rootProps: PropTypes.object,
 }

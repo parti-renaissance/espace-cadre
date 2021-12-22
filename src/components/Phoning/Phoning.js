@@ -3,13 +3,13 @@ import { useQuery } from 'react-query'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import AddIcon from '@mui/icons-material/Add'
 
 import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery, getPhoningCampaignQuery } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PhoningGlobalKPI from './GlobalKPI'
 import PhoningCampaign from './Campaign'
 import CreateEdit from './CreateEdit/CreateEdit'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 
 const Title = styled(Typography)(
@@ -71,9 +71,7 @@ const Phoning = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          message={messages.create}
-          icon={<AddIcon sx={{ mr: 1 }} />}
-          handleClick={() => setIsCreateEditModalOpen(true)}
+          button={<PageHeaderButton onClick={() => setIsCreateEditModalOpen(true)} label={messages.create} />}
         />
       </Grid>
 

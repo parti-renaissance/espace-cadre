@@ -38,7 +38,7 @@ const Dashboard = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageTitle title={messages.title} />
-        <MainButton handleClick={() => navigate(paths.create)}>
+        <MainButton onClick={() => navigate(paths.create)}>
           <SendIcon sx={{ mr: 1 }} />
           {messages.sendEmail}
         </MainButton>

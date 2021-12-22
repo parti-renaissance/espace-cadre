@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Dialog, Paper, Grid, Icon as MuiIcon, Typography, Button } from '@mui/material'
+import { Dialog, Paper, Grid, Icon as MuiIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
@@ -105,7 +105,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <NotificationIcon component={Icon} />
         <DateItem>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
         <MainButton
-          handleClick={handleEdit}
+          onClick={handleEdit}
           rootProps={{
             sx: {
               margin: theme => theme.spacing('auto', 1, 'auto', 'auto'),

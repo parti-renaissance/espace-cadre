@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useInfiniteQuery, useMutation } from 'react-query'
 import { Container, Grid } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
 import TeamModal from './TeamModal'
 import { createTeamQuery, getTeamsQuery, updateTeamQuery } from 'api/teams'
 import { Team } from 'domain/team'
@@ -14,7 +13,8 @@ import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import PageHeader from 'ui/PageHeader/PageHeader'
+import PageHeader from 'ui/PageHeader'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 
 const messages = {
   title: 'Équipes',
@@ -76,9 +76,7 @@ const Teams = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          handleClick={handleNewTeam}
-          icon={<AddIcon sx={{ mr: 1 }} />}
-          message={messages.create}
+          button={<PageHeaderButton onClick={handleNewTeam} label={messages.create} />}
         />
       </Grid>
       {paginatedTeams && (
