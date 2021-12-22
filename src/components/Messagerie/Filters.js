@@ -1,25 +1,30 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, Container, Grid } from '@mui/material'
+import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
-import ErrorComponent from 'components/ErrorComponent'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
 import {
-  createSegmentAudience,
+  createSegmentAudience as createSegmentAudienceApi,
+  updateSegmentAudience as updateSegmentAudienceApi,
   messageSynchronizationStatus,
-  getSegmentAudience,
-  sendMessage,
+  getSegmentAudience as getSegmentAudienceApi,
+  sendMessage as sendMessageApi,
   sendTestMessage,
   setMessageSegment,
-  updateSegmentAudience,
 } from 'api/messagerie'
 import paths from 'components/Messagerie/shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
+import { styled } from '@mui/system'
+import { useMutation } from 'react-query'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
+import * as Sentry from '@sentry/react'
 
 export const FEATURE_MESSAGES = 'messages'
 
@@ -32,15 +37,6 @@ const useStyles = makeStyles(theme => ({
     fontWeight: '400',
     color: theme.palette.blue600,
     marginBottom: theme.spacing(2),
-  },
-  messageContainer: {
-    fontWeight: '600',
-    fontSize: '18px',
-    color: theme.palette.gray700,
-    marginBottom: theme.spacing(3),
-  },
-  message: {
-    height: '30px',
   },
   addresseesCount: {
     color: theme.palette.blue800,
@@ -76,6 +72,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const AudienceCount = styled(Typography)`
+  font-size: 18px;
+  font-weight: 600;
+`
+
 const retryInterval = 1000
 const maxAttempts = 10
 
@@ -86,6 +87,8 @@ const messages = {
   contact: 'contact',
   testMessage: "M'envoyer un message test",
   sendEmail: "Envoyer l'email",
+  errorFilter: "Impossible d'appliquer les filtres",
+  errorSynchro: "Le message n'est pas prêt à être envoyé",
 }
 
 const Filters = () => {
@@ -94,48 +97,82 @@ const Filters = () => {
   const classes = useStyles()
   const [currentScope] = useUserScope()
   const [audienceId, setAudienceId] = useState(null)
-  const [errorMessage, setErrorMessage] = useState()
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
   const [resetFilter, setResetFilter] = useState(0)
-  const [loadingSegment, audienceSegment, launch] = useRetry(getSegmentAudience, retryInterval, maxAttempts)
+  const { handleError } = useErrorHandler()
+  const { enqueueSnackbar } = useCustomSnackbar()
 
-  const sendMessageAfterFilterAreSaved = useCallback(async () => {
-    const responseSend = await sendMessage(messageUuid)
-    if (responseSend === 'OK') {
+  const { mutate: sendMessage } = useMutation(sendMessageApi, {
+    onSuccess: () => {
       navigate(`../../${paths.confirmation}`)
-    } else {
-      // TODO: error management
+    },
+    onError: handleError,
+  })
+
+  const [loadingSegment, audienceSegment, getSegmentAudience] = useRetry(
+    getSegmentAudienceApi,
+    retryInterval,
+    maxAttempts,
+    null,
+    () => {
+      Sentry.addBreadcrumb({
+        category: 'messages',
+        message: `${messages.errorFilter} id=${messageUuid}`,
+        level: Sentry.Severity.Critical,
+      })
+      Sentry.captureMessage(messages.errorFilter)
+      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorFilter)
     }
-  }, [messageUuid, navigate])
-  const [loadingSendButton, , launchAreFilterSaved] = useRetry(
+  )
+
+  const [loadingSendButton, , sendMessageIfFiltersAreSaved] = useRetry(
     messageSynchronizationStatus,
     retryInterval,
     maxAttempts,
-    sendMessageAfterFilterAreSaved
+    () => sendMessage(messageUuid),
+    () => {
+      Sentry.addBreadcrumb({
+        category: 'messages',
+        message: `${messages.errorSynchro} id=${messageUuid}`,
+        level: Sentry.Severity.Critical,
+      })
+      Sentry.captureMessage(messages.errorSynchro)
+      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorSynchro)
+    }
   )
+
+  const { mutate: updateSegmentAudience } = useMutation(updateSegmentAudienceApi, {
+    onSuccess: () => {
+      getSegmentAudience(audienceId)
+    },
+    onError: handleError,
+  })
+  const { mutate: createSegmentAudience } = useMutation(createSegmentAudienceApi, {
+    onSuccess: audience => {
+      setAudienceId(audience.uuid)
+      getSegmentAudience(audience.uuid)
+    },
+    onError: handleError,
+  })
 
   const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0], resetFilter }), [currentScope, resetFilter])
 
   const handleFiltersSubmit = useCallback(
     async filtersToSend => {
       const filterWithZoneId = { ...filtersToSend, zone: filtersToSend.zone.uuid }
-      try {
-        if (audienceId) {
-          await updateSegmentAudience(audienceId, { filter: { ...{ scope: currentScope.code }, ...filterWithZoneId } })
-          launch(audienceId)
-        } else {
-          const audience = await createSegmentAudience({
-            filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
-          })
-          setAudienceId(audience.uuid)
-          launch(audience.uuid)
-        }
-      } catch (error) {
-        setErrorMessage(error)
+      if (audienceId) {
+        await updateSegmentAudience({
+          id: audienceId,
+          filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
+        })
+      } else {
+        await createSegmentAudience({
+          filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
+        })
       }
     },
-    [audienceId, currentScope.code, launch]
+    [audienceId, createSegmentAudience, currentScope.code, updateSegmentAudience]
   )
 
   useEffect(() => {
@@ -151,7 +188,7 @@ const Filters = () => {
       }
     } else {
       await setMessageSegment(messageUuid, audienceId)
-      launchAreFilterSaved(messageUuid)
+      sendMessageIfFiltersAreSaved(messageUuid)
     }
   }
 
@@ -172,7 +209,6 @@ const Filters = () => {
             </Button>
           </Link>
         </Grid>
-        <Grid container>{errorMessage && <ErrorComponent errorMessage={errorMessage} />}</Grid>
         <Grid container spacing={2} className={classes.container}>
           <Grid item>
             <DynamicFilters
@@ -183,12 +219,14 @@ const Filters = () => {
             />
           </Grid>
           <Grid container>
-            <Grid item xs={12} className={classes.messageContainer}>
+            <Grid item xs={12} sx={{ color: 'gray700', mb: 3, height: '30px' }}>
               {audienceSegment && (
                 <div className={classes.message}>
-                  {messages.addresseesCount}&nbsp;
-                  <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span>
-                  {pluralize(audienceSegment.recipient_count, messages.contact)}
+                  <AudienceCount>
+                    {messages.addresseesCount}&nbsp;
+                    <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span>
+                    {pluralize(audienceSegment.recipient_count, messages.contact)}
+                  </AudienceCount>
                 </div>
               )}
               {loadingSegment && <Loader />}

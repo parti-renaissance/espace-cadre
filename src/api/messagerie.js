@@ -42,4 +42,4 @@ export const setMessageSegment = (messageId, segmentId) =>
 
 export const getSegmentAudience = id => apiClient.get(`/v3/audience-segments/${id}`)
 export const createSegmentAudience = data => apiClient.post('/v3/audience-segments', data)
-export const updateSegmentAudience = (id, data) => apiClient.put(`/v3/audience-segments/${id}`, data)
+export const updateSegmentAudience = audience => apiClient.put(`/v3/audience-segments/${audience.id}`, audience)

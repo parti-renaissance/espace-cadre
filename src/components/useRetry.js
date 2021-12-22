@@ -10,7 +10,7 @@ import { useRef, useState, useCallback } from 'react'
  * maxAttempts is reached.
  * If max attempts is reached, onError will be called /!\ onError must be a function in a React.useCallBack() /!\
  * */
-const useRetry = (f, duration, maxAttempts, run, onError) => {
+const useRetry = (f, duration, maxAttempts, onSuccess, onError) => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(null)
   const interval = useRef(null)
@@ -31,7 +31,7 @@ const useRetry = (f, duration, maxAttempts, run, onError) => {
         const result = await f(...args)
         if (result?.synchronized) {
           setData(result)
-          run?.call()
+          onSuccess?.call()
           clear()
         }
         iteration.current += 1
@@ -41,7 +41,7 @@ const useRetry = (f, duration, maxAttempts, run, onError) => {
         }
       }, duration)
     },
-    [duration, f, maxAttempts, onError, run]
+    [duration, f, maxAttempts, onError, onSuccess]
   )
 
   return [loading, data, launch, clear]
