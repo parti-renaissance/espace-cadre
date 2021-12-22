@@ -9,6 +9,7 @@ import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import EditIcon from '@mui/icons-material/EditRounded'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
+import MainButton from 'ui/MainButton'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -54,16 +55,6 @@ const DateItem = styled(Typography)`
   line-height: 15px;
   color: ${({ theme }) => theme.palette.gray600};
 `
-
-const EditButton = styled(Button)(
-  ({ theme }) => `
-  color: ${theme.palette.orange500};
-  background: ${theme.palette.newsBackground};
-  border-radius: 8px;
-  margin: ${theme.spacing('auto', 1, 'auto', 'auto')};
-  padding: ${theme.spacing(0.75, 1)};
-`
-)
 
 const CloseIcon = styled(MuiCloseIcon)`
   color: ${({ theme }) => theme.palette.gray700};
@@ -113,10 +104,18 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <StatusIcon active={news?.status}>{news?.status ? messages.published : messages.unpublished}</StatusIcon>
         <NotificationIcon component={Icon} />
         <DateItem>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
-        <EditButton onClick={handleEdit}>
+        <MainButton
+          handleClick={handleEdit}
+          rootProps={{
+            sx: {
+              margin: theme => theme.spacing('auto', 1, 'auto', 'auto'),
+              padding: theme => theme.spacing(0.75, 1),
+            },
+          }}
+        >
           <EditIcon sx={{ mr: 1 }} />
           {messages.edit}
-        </EditButton>
+        </MainButton>
         <CloseIcon onClick={handleClose} data-testid="close-icon" />
       </HeaderContainer>
 
