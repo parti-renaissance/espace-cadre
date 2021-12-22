@@ -4,9 +4,9 @@ import { Grid, Container, Typography } from '@mui/material'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaignList from 'components/Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList'
 import SendIcon from '@mui/icons-material/Send'
-import PageTitle from 'ui/PageTitle'
 import paths from 'components/Messagerie/shared/paths'
-import MainButton from 'ui/MainButton/MainButton'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import PageHeader from 'ui/PageHeader'
 
 const KPIContainer = styled(Grid)(
   ({ theme }) => `
@@ -37,11 +37,12 @@ const Dashboard = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageTitle title={messages.title} />
-        <MainButton onClick={() => navigate(paths.create)}>
-          <SendIcon sx={{ mr: 1 }} />
-          {messages.sendEmail}
-        </MainButton>
+        <PageHeader
+          title={messages.title}
+          button={
+            <PageHeaderButton onClick={() => navigate(paths.create)} label={messages.sendEmail} icon={<SendIcon />} />
+          }
+        />
       </Grid>
       <KPIContainer container>
         <Grid container>

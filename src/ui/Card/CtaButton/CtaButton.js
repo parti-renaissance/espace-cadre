@@ -11,7 +11,7 @@ const Button = styled(MuiButton)`
   padding: ${({ theme }) => theme.spacing(0.5, 1.25)};
   margin-left: -8px;
   min-width: 0;
-  fontsize: 13px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 22px;
   letter-spacing: 0.46px;
