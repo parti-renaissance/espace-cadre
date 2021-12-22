@@ -24,18 +24,23 @@ const Button = styled(Link)(
 `
 )
 
+const messages = {
+  prefix: "L'URL recherchée",
+  suffix: "n'existe pas ou vous n'avez pas les droits pour y accéder",
+  back: "Retournez à l'accueil",
+}
+
 function NoMatch() {
   const location = useLocation()
 
   return (
     <Paper>
       <Typography sx={{ mb: 2 }}>
-        L&apos;URL recherchée <strong>{location.pathname}</strong> n&apos;existe pas ou vous n&apos;avez pas les droits
-        pour y accéder
+        {messages.prefix} <strong>{location.pathname}</strong> {messages.suffix}
       </Typography>
       <Button to={paths.dashboard}>
         <Typography variant="body2" sx={{ color: 'whiteCorner' }}>
-          Retournez à l&apos;accueil
+          {messages.back}
         </Typography>
       </Button>
     </Paper>
