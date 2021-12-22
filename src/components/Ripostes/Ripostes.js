@@ -1,13 +1,10 @@
 import { useCallback, useState } from 'react'
-import { Button as MuiButton, Container, Grid } from '@mui/material'
-import { styled } from '@mui/system'
+import { Container, Grid } from '@mui/material'
 import { useInfiniteQuery, useMutation } from 'react-query'
-import AddIcon from '@mui/icons-material/Add'
 import CreateEditModal from './CreateEditModal'
 import Riposte from 'domain/riposte'
 import { createRiposteQuery, getRipostesQuery, updateRiposteQuery, updateRiposteStatusQuery } from 'api/ripostes'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import PageTitle from 'ui/PageTitle'
 import Header from './Card/Header'
 import Content from './Card/Content'
 import UICard, { Title } from 'ui/Card'
@@ -17,14 +14,8 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  background: ${theme.palette.riposteBackground};
-  color: ${theme.palette.teal700};
-  border-radius: 8px;
-  `
-)
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import PageHeader from 'ui/PageHeader'
 
 const messages = {
   title: 'Ripostes',
@@ -103,15 +94,10 @@ const Ripostes = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container justifyContent="space-between">
-        <Grid item>
-          <PageTitle title={messages.title} />
-        </Grid>
-        <Grid item>
-          <Button onClick={handleRiposteCreate}>
-            <AddIcon sx={{ mr: 1 }} />
-            {messages.create}
-          </Button>
-        </Grid>
+        <PageHeader
+          title={messages.title}
+          button={<PageHeaderButton onClick={handleRiposteCreate} label={messages.create} />}
+        />
       </Grid>
       {paginatedRipostes && (
         <InfiniteScroll

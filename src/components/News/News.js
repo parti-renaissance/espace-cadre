@@ -1,15 +1,13 @@
 import { useState, useCallback } from 'react'
-import { Container, Grid, Button as MuiButton } from '@mui/material'
-import { styled } from '@mui/system'
+import { Container, Grid } from '@mui/material'
+
 import { useInfiniteQuery, useMutation } from 'react-query'
 import { getNewsQuery, updateNewsStatusQuery } from 'api/news'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import PageTitle from 'ui/PageTitle'
 import Header from './Card/Header'
 import NewsDomain from 'domain/news'
 import CreateEditModal from './CreateEditModal'
 import ReadModal from './ReadModal'
-import AddIcon from '@mui/icons-material/Add'
 import UICard, { Title } from 'ui/Card'
 import Actions from './Card/Actions'
 import Loader from 'ui/Loader'
@@ -17,14 +15,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { usePaginatedData, getNextPageParam, refetchUpdatedPage } from 'api/pagination'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  color: ${theme.palette.orange500};
-  background: ${theme.palette.newsBackground};
-  border-radius: 8px;
-`
-)
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import PageHeader from 'ui/PageHeader'
 
 const messages = {
   title: 'Actualités',
@@ -92,15 +84,10 @@ const News = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <Grid item>
-          <PageTitle title={messages.title} />
-        </Grid>
-        <Grid item>
-          <Button onClick={handleNewsCreate}>
-            <AddIcon sx={{ mr: 1 }} />
-            {messages.create}
-          </Button>
-        </Grid>
+        <PageHeader
+          title={messages.title}
+          button={<PageHeaderButton onClick={handleNewsCreate} label={messages.create} />}
+        />
       </Grid>
       {paginatedNews && (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>

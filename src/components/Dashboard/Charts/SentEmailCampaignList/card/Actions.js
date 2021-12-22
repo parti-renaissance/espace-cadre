@@ -25,17 +25,7 @@ const Actions = ({ messageId, del, loader = false }) => {
 
   return (
     <HorizontalContainer>
-      <CtaButton
-        onClick={handleClick}
-        sx={{
-          color: 'yellow400',
-          '&:hover': {
-            bgcolor: '#FFFAEE',
-          },
-        }}
-      >
-        {messages.update}
-      </CtaButton>
+      <CtaButton onClick={handleClick}>{messages.update}</CtaButton>
       <DotsMenu>
         <DotsMenuItem onClick={del} loader={loader}>
           {messages.delete}

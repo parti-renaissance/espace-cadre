@@ -6,13 +6,13 @@ import { styled } from '@mui/system'
 
 import { getPhoningCampaignQuery, getPhoningCampaignCallers, getPhoningCampaignHistory } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { actionButtonStyles } from '../shared/styles'
 import pluralize from 'components/shared/pluralize/pluralize'
-import PageHeader from 'ui/PageHeader'
 import CampaignDetailKPI from './KPI'
 import CampaignDetailCallers from './Callers'
 import CampaignDetailHistory from './History'
 import CreateEdit from '../CreateEdit/CreateEdit'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import PageHeader from 'ui/PageHeader'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -81,9 +81,7 @@ export const CampaignDetail = () => {
               <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
             </>
           }
-          message={messages.modify}
-          actionButtonProps={{ sx: actionButtonStyles }}
-          handleAction={() => setIsCreateEditModalOpen(true)}
+          button={<PageHeaderButton onClick={() => setIsCreateEditModalOpen(true)} label={messages.modify} />}
         />
       </Grid>
 

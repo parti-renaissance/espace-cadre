@@ -25,17 +25,7 @@ const Actions = ({ teamId, onEdit }) => {
 
   return (
     <HorizontalContainer>
-      <CtaButton
-        onClick={handleClick}
-        sx={{
-          color: 'lightBlue600',
-          '&:hover': {
-            bgcolor: 'teamBackground',
-          },
-        }}
-      >
-        {messages.see}
-      </CtaButton>
+      <CtaButton onClick={handleClick}>{messages.see}</CtaButton>
       <DotsMenu>
         <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>
       </DotsMenu>

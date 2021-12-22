@@ -1,24 +1,36 @@
-import { Grid } from '@mui/material'
-import PageTitle from 'ui/PageTitle'
-import AddButton from 'ui/AddButton'
 import PropTypes from 'prop-types'
+import { Grid, Box } from '@mui/material'
+import PageTitle from 'ui/PageTitle'
+import MainButton from 'ui/MainButton'
+import AddIcon from '@mui/icons-material/Add'
 
-const PageHeader = ({ title, message, handleAction, actionButtonProps }) => (
+export const PageHeaderButton = ({ onClick, label, icon = <AddIcon /> }) => (
+  <MainButton onClick={onClick}>
+    {icon}
+    <Box component="span" sx={{ ml: 1 }}>
+      {label}
+    </Box>
+  </MainButton>
+)
+
+PageHeaderButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.object,
+}
+
+const PageHeader = ({ title, button }) => (
   <>
     <Grid item>
       <PageTitle title={title} />
     </Grid>
-    <Grid item>
-      <AddButton message={message} handleAction={handleAction} {...actionButtonProps} />
-    </Grid>
+    <Grid item>{button}</Grid>
   </>
 )
 
 export default PageHeader
 
 PageHeader.propTypes = {
-  title: PropTypes.node.isRequired,
-  message: PropTypes.string.isRequired,
-  actionButtonProps: PropTypes.object,
-  handleAction: PropTypes.func.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  button: PropTypes.node.isRequired,
 }

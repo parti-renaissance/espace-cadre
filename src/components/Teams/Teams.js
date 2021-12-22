@@ -1,13 +1,10 @@
 import { useState } from 'react'
 import { useInfiniteQuery, useMutation } from 'react-query'
-import { Button, Container, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import AddIcon from '@mui/icons-material/Add'
+import { Container, Grid } from '@mui/material'
 import TeamModal from './TeamModal'
 import { createTeamQuery, getTeamsQuery, updateTeamQuery } from 'api/teams'
 import { Team } from 'domain/team'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import PageTitle from 'ui/PageTitle'
 import Header from './Card/Header'
 import UICard, { Title } from 'ui/Card'
 import Actions from './Card/Actions'
@@ -16,21 +13,8 @@ import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-
-const useStyles = makeStyles(theme => ({
-  buttonContainer: {
-    background: theme.palette.teamBackground,
-    borderRadius: '8px',
-    marginBottom: theme.spacing(2),
-  },
-  createButton: {
-    color: theme.palette.lightBlue700,
-    padding: theme.spacing(0.75, 1),
-  },
-  icon: {
-    marginRight: theme.spacing(1),
-  },
-}))
+import PageHeader from 'ui/PageHeader'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 
 const messages = {
   title: 'Équipes',
@@ -40,7 +24,6 @@ const messages = {
 }
 
 const Teams = () => {
-  const classes = useStyles()
   const [currentTeam, setCurrentTeam] = useState(null)
   const [open, setOpen] = useState(false)
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -91,13 +74,10 @@ const Teams = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageTitle title={messages.title} />
-        <Grid item className={classes.buttonContainer}>
-          <Button className={classes.createButton} onClick={handleNewTeam}>
-            <AddIcon className={classes.icon} />
-            {messages.create}
-          </Button>
-        </Grid>
+        <PageHeader
+          title={messages.title}
+          button={<PageHeaderButton onClick={handleNewTeam} label={messages.create} />}
+        />
       </Grid>
       {paginatedTeams && (
         <InfiniteScroll

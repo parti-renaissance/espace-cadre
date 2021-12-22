@@ -66,7 +66,8 @@ export const styles = {
     button: {
       color: '#2834c3',
       background: {
-        main: '#2718e514',
+        main: '#3743C814',
+        hover: '#00000014',
       },
     },
     menu: {
@@ -293,9 +294,6 @@ export const styles = {
 
     // News Colors
     newsBackground: '#FFF4ED',
-
-    // Teams Colors
-    teamBackground: 'rgba(8, 145, 178, 0.08)',
 
     // Messages Colors
     messagesBackground: '#04785714',
