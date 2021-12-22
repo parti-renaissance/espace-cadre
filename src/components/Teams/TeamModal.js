@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: theme.palette.cyan700,
     },
-    height: '36px',
+    height: '35px',
   },
 }))
 
