@@ -66,7 +66,8 @@ export const styles = {
     button: {
       color: '#2834c3',
       background: {
-        main: '#2718e514',
+        main: '#3743C814',
+        hover: '#00000014',
       },
     },
     menu: {

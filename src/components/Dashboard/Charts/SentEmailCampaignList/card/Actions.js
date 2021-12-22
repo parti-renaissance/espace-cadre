@@ -12,6 +12,14 @@ const HorizontalContainer = styled('div')`
   justify-content: space-between;
 `
 
+const Button = styled(CtaButton)`
+  color: ${({ theme }) => theme.palette.button.color};
+  &:hover {
+    background: ${({ theme }) => theme.palette.button.background.main};
+  }
+  border-radius: 8px;
+`
+
 const messages = {
   update: 'Modifier',
   delete: 'Supprimer',
@@ -25,17 +33,7 @@ const Actions = ({ messageId, del, loader = false }) => {
 
   return (
     <HorizontalContainer>
-      <CtaButton
-        onClick={handleClick}
-        sx={{
-          color: 'yellow400',
-          '&:hover': {
-            bgcolor: '#FFFAEE',
-          },
-        }}
-      >
-        {messages.update}
-      </CtaButton>
+      <Button onClick={handleClick}>{messages.update}</Button>
       <DotsMenu>
         <DotsMenuItem onClick={del} loader={loader}>
           {messages.delete}

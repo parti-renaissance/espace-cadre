@@ -13,7 +13,7 @@ const Button = styled(MuiButton)`
   height: 35px;
   border-radius: 8px;
   &:hover {
-    background: ${({ theme }) => theme.palette.button.background.main};
+    background: ${({ theme }) => theme.palette.button.background.hover};
   }
   padding: ${({ theme }) => theme.spacing(0.75, 1)};
 `
