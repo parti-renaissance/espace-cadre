@@ -6,7 +6,7 @@ import { styled } from '@mui/system'
 
 import { getPhoningCampaignQuery, getPhoningCampaignCallers, getPhoningCampaignHistory } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { actionButtonStyles } from '../shared/styles'
+import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import pluralize from 'components/shared/pluralize/pluralize'
 import PageHeader from 'ui/PageHeader'
 import CampaignDetailKPI from './KPI'
@@ -82,8 +82,8 @@ export const CampaignDetail = () => {
             </>
           }
           message={messages.modify}
-          actionButtonProps={{ sx: actionButtonStyles }}
-          handleAction={() => setIsCreateEditModalOpen(true)}
+          handleClick={() => setIsCreateEditModalOpen(true)}
+          icon={<EditRoundedIcon sx={{ mr: 1 }} />}
         />
       </Grid>
 

@@ -3,10 +3,10 @@ import { useQuery } from 'react-query'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import AddIcon from '@mui/icons-material/Add'
 
 import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery, getPhoningCampaignQuery } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { actionButtonStyles } from './shared/styles'
 import PhoningGlobalKPI from './GlobalKPI'
 import PhoningCampaign from './Campaign'
 import CreateEdit from './CreateEdit/CreateEdit'
@@ -72,8 +72,8 @@ const Phoning = () => {
         <PageHeader
           title={messages.title}
           message={messages.create}
-          actionButtonProps={{ sx: actionButtonStyles }}
-          handleAction={() => setIsCreateEditModalOpen(true)}
+          icon={<AddIcon sx={{ mr: 1 }} />}
+          handleClick={() => setIsCreateEditModalOpen(true)}
         />
       </Grid>
 

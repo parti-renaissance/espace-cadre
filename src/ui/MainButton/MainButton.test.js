@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import Button from './Button'
+import Button from './MainButton'
 
 jest.mock('@mui/styles', () => ({
   makeStyles: () => () => ({ root: 'root' }),

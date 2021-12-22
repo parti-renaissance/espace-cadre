@@ -1,15 +1,18 @@
+import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
 import PageTitle from 'ui/PageTitle'
-import AddButton from 'ui/AddButton'
-import PropTypes from 'prop-types'
+import MainButton from 'ui/MainButton'
 
-const PageHeader = ({ title, message, handleAction, actionButtonProps }) => (
+const PageHeader = ({ title, handleClick, message, icon }) => (
   <>
     <Grid item>
       <PageTitle title={title} />
     </Grid>
     <Grid item>
-      <AddButton message={message} handleAction={handleAction} {...actionButtonProps} />
+      <MainButton handleClick={handleClick}>
+        {icon}
+        {message}
+      </MainButton>
     </Grid>
   </>
 )
@@ -17,8 +20,8 @@ const PageHeader = ({ title, message, handleAction, actionButtonProps }) => (
 export default PageHeader
 
 PageHeader.propTypes = {
-  title: PropTypes.node.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  handleClick: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
-  actionButtonProps: PropTypes.object,
-  handleAction: PropTypes.func.isRequired,
+  icon: PropTypes.object.isRequired,
 }
