@@ -10,7 +10,7 @@ import paths from 'components/Messagerie/shared/paths'
 const Button = styled(MuiButton)`
   color: ${({ theme }) => theme.palette.button.color};
   background: ${({ theme }) => theme.palette.button.background.main};
-  height: 36px;
+  height: 35px;
   border-radius: 8px;
   &:hover {
     background: ${({ theme }) => theme.palette.button.background.main};
@@ -18,11 +18,13 @@ const Button = styled(MuiButton)`
   padding: ${({ theme }) => theme.spacing(0.75, 1)};
 `
 
-const SendButtonContainer = styled(Grid)`
+const SendButtonContainer = styled(Grid)(
+  ({ theme }) => `
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 2;
+  margin-bottom: ${theme.spacing(2)};
 `
+)
 
 const KPIContainer = styled(Grid)(
   ({ theme }) => `
