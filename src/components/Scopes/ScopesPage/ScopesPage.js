@@ -22,43 +22,42 @@ const BrandContainer = styled(Grid)(
 `
 )
 
-const BarChartLogo = styled('img')`
-  margin-right: ${({ theme }) => theme.spacing(0.5)};
-  width: 30px;
-  height: 45px;
+const BarChartLogo = styled('img')(({ theme }) => ({
+  marginRight: theme.spacing(0.5),
+  width: '30px',
+  height: '45px',
 
-  ${props => props.theme.breakpoints.up('md')} {
-    width: 48px;
-    margin-top: ${({ theme }) => theme.spacing(1.5)};
+  [theme.breakpoints.up('md')]: {
+    width: '48px',
+    marginTop: theme.spacing(1.5),
   },
-`
+}))
 
-const Title = styled(Typography)`
-  color: ${({ theme }) => theme.palette.whiteCorner};
-  font-size: 30px;
-  font-weight: 600;
+const Title = styled(Typography)(({ theme }) => ({
+  color: theme.palette.whiteCorner,
+  fontSize: '30px',
+  fontWeight: 600,
 
-  ${props => props.theme.breakpoints.up('md')} {
-    font-size: 48px;
+  [theme.breakpoints.up('md')]: {
+    fontSize: '48px',
   },
-`
+}))
 
-const Beta = styled('span')`
-  color: ${({ theme }) => theme.palette.whiteCorner};
-  font-size: 10px;
-  font-weight: 600;
-  background-color: ${({ theme }) => theme.palette.blackCorner};
-  padding: ${({ theme }) => theme.spacing(0.25, 0.5, 0)};
-  margin: ${({ theme }) => theme.spacing(0.75, 0, 3.25, 0.75)};
-  border-radius: 4px;
-
-  ${props => props.theme.breakpoints.up('md')} {
-    font-size: 16px;
-    height: 26px;
-    padding: ${({ theme }) => theme.spacing(0.25, 1, 0)};
-    margin-left: ${({ theme }) => theme.spacing(1.25)};
+const Beta = styled('span')(({ theme }) => ({
+  color: theme.palette.whiteCorner,
+  fontSize: '10px',
+  fontWeight: 600,
+  backgroundColor: theme.palette.blackCorner,
+  padding: theme.spacing(0.25, 0.5, 0),
+  margin: theme.spacing(0.75, 0, 3.25, 0.75),
+  borderRadius: '4px',
+  [theme.breakpoints.up('md')]: {
+    fontSize: '16px',
+    height: '26px',
+    padding: theme.spacing(0.25, 1, 0),
+    marginLeft: theme.spacing(1.25),
   },
-`
+}))
 
 const UserCardContainer = styled(Grid)(
   ({ theme }) => `
@@ -85,17 +84,17 @@ const UserCardRole = styled(Typography)`
   padding: 0;
 `
 
-const ScopeCard = styled(Grid)`
-  height: 142px;
-  max-width: 282px;
-  background: ${({ theme }) => theme.palette.whiteCorner};
-  cursor: pointer;
-  border-radius: 8px;
-  margin-bottom: ${({ theme }) => theme.spacing(2)};
-  ${props => props.theme.breakpoints.up('sm')} {
-    margin-right: ${({ theme }) => theme.spacing(2)};
-  }
-`
+const ScopeCard = styled(Grid)(({ theme }) => ({
+  height: '142px',
+  maxWidth: '282px',
+  background: theme.palette.whiteCorner,
+  cursor: 'pointer',
+  borderRadius: '8px',
+  marginBottom: theme.spacing(2),
+  [theme.breakpoints.up('sm')]: {
+    marginRight: theme.spacing(2),
+  },
+}))
 
 const Role = styled(Typography)`
   font-size: 28px;
