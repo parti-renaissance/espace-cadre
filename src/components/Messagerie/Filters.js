@@ -11,11 +11,11 @@ import ModalComponent from './Component/ModalComponent'
 import {
   createSegmentAudience as createSegmentAudienceApi,
   updateSegmentAudience as updateSegmentAudienceApi,
-  messageSynchronizationStatus,
+  messageSynchronizationStatus as messageSynchronizationStatusApi,
   getSegmentAudience as getSegmentAudienceApi,
   sendMessage as sendMessageApi,
-  sendTestMessage,
-  setMessageSegment,
+  sendTestMessage as sendTestMessageApi,
+  setMessageSegment as setMessageSegmentApi,
 } from 'api/messagerie'
 import paths from 'components/Messagerie/shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
@@ -127,7 +127,7 @@ const Filters = () => {
   )
 
   const [loadingSendButton, , sendMessageIfFiltersAreSaved] = useRetry(
-    messageSynchronizationStatus,
+    messageSynchronizationStatusApi,
     retryInterval,
     maxAttempts,
     () => sendMessage(messageUuid),
@@ -182,12 +182,12 @@ const Filters = () => {
   const handleSendEmail = async (test = false) => {
     if (test) {
       setLoadingTestButton(true)
-      const responseTest = await sendTestMessage(messageUuid)
+      const responseTest = await sendTestMessageApi(messageUuid)
       if (responseTest === 'OK') {
         setLoadingTestButton(false)
       }
     } else {
-      await setMessageSegment(messageUuid, audienceId)
+      await setMessageSegmentApi(messageUuid, audienceId)
       sendMessageIfFiltersAreSaved(messageUuid)
     }
   }
