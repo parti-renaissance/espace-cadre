@@ -17,7 +17,7 @@ describe('Button', () => {
   it('displays button', () => {
     const mock = jest.fn()
     const { container } = render(
-      <Button handleClick={mock} rootProps={{ sx: 'foo' }}>
+      <Button onClick={mock} rootProps={{ sx: 'foo' }}>
         Foo
       </Button>
     )
@@ -26,7 +26,7 @@ describe('Button', () => {
   })
   it('calls handleclick on click', () => {
     const mockOnClick = jest.fn()
-    render(<Button handleClick={mockOnClick}>Foo</Button>)
+    render(<Button onClick={mockOnClick}>Foo</Button>)
 
     const button = screen.getByTestId('mui-button-mock')
     fireEvent.click(button)
