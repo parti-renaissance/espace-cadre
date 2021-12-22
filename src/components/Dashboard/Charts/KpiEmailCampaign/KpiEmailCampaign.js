@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react'
 import { styled } from '@mui/system'
 import { Grid, Typography } from '@mui/material'
-import { apiClientProxy } from 'services/networking/client'
 import UILoader from 'ui/Loader'
-import { useEmailCampaignCache } from '../../../../redux/dashboard/hooks'
 import Percentage from 'ui/Percentage'
-import { useUserScope } from '../../../../redux/user/hooks'
-import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
 import pluralize from 'components/shared/pluralize/pluralize'
+import { useQuery } from 'react-query'
+import { reportsRatio } from 'api/messagerie'
+import { format } from 'date-fns'
+import ErrorComponent from 'components/ErrorComponent'
 
 const CardContainer = styled(Grid)`
   &:last-child {
@@ -52,92 +51,83 @@ const messages = {
   national: 'au national',
   clicks: 'Clics',
   unsubscribing: 'Désabonnements',
+  errorLoading: 'Impossible de récupérer les données',
 }
 
-function KpiEmailCampaign() {
-  const [campaign, setCampaign] = useEmailCampaignCache()
-  const [currentScope] = useUserScope()
-  const [errorMessage, setErrorMessage] = useState()
+const KpiEmailCampaign = () => {
+  const {
+    data: campaignsReportRatios = null,
+    isLoading,
+    isError,
+  } = useQuery('reportsRatio', reportsRatio, {
+    cacheTime: 60 * 60 * 1000,
+    staleTime: 60 * 60 * 1000,
+  })
 
-  useEffect(() => {
-    const getEmailCampaign = async () => {
-      try {
-        if (campaign === null && currentScope) {
-          setCampaign(await apiClientProxy.get('/mailCampaign/reportsRatios'))
-        }
-      } catch (error) {
-        setErrorMessage(error)
-      }
-    }
-    getEmailCampaign()
-  }, [currentScope, campaign, setCampaign])
-
-  const emailCampaignContent = () => {
-    if (campaign !== null) {
-      return (
-        <Grid container spacing={2}>
-          <CardContainer item xs={12} sm={6} lg={3}>
-            <UIContainer rootProps={{ sx: { p: 2 } }}>
-              <MainInfo component="div">{campaign.local.nbCampagnes}</MainInfo>
-              <MainText component="div">{pluralize(campaign.local.nbCampagnes, messages.campaign)}</MainText>
-              <SecondaryText component="div">
-                {pluralize(campaign.local.nbCampagnes, messages.sent)} en {new Date().getFullYear()}
-              </SecondaryText>
-            </UIContainer>
-          </CardContainer>
-          <CardContainer item xs={12} sm={6} lg={3}>
-            <UIContainer rootProps={{ sx: { p: 2 } }}>
-              <MainInfo component="div">
-                <Percentage>{campaign.local.txOuverture}</Percentage>
-              </MainInfo>
-              <MainText component="div">{messages.opening}</MainText>
-              <SecondaryText component="div">
-                <Percentage>{campaign.national.txOuverture}</Percentage> {messages.national}
-              </SecondaryText>
-            </UIContainer>
-          </CardContainer>
-          <CardContainer item xs={12} sm={6} lg={3}>
-            <UIContainer rootProps={{ sx: { p: 2 } }}>
-              <MainInfo component="div">
-                <Percentage>{campaign.local.txClique}</Percentage>
-              </MainInfo>
-              <MainText component="div">{messages.clicks}</MainText>
-              <SecondaryText component="div">
-                <Percentage>{campaign.national.txClique}</Percentage> {messages.national}
-              </SecondaryText>
-            </UIContainer>
-          </CardContainer>
-          <CardContainer item xs={12} sm={6} lg={3}>
-            <UIContainer rootProps={{ sx: { p: 2 } }}>
-              <MainInfo component="div">
-                <Percentage>{campaign.local.txDesabonnement}</Percentage>
-              </MainInfo>
-              <MainText component="div">{messages.unsubscribing}</MainText>
-              <SecondaryText component="div">
-                <Percentage>{campaign.national.txDesabonnement}</Percentage> {messages.national}
-              </SecondaryText>
-            </UIContainer>
-          </CardContainer>
-        </Grid>
-      )
-    }
-    if (errorMessage) {
-      return (
-        <Grid container>
-          <Grid item xs={12}>
-            <ErrorComponent errorMessage={errorMessage} />
-          </Grid>
-        </Grid>
-      )
-    }
+  if (isLoading) {
     return (
       <LoaderContainer>
         <UILoader />
       </LoaderContainer>
     )
   }
+  if (isError) {
+    return (
+      <LoaderContainer>
+        <ErrorComponent errorMessage={{ message: messages.errorLoading }} />
+      </LoaderContainer>
+    )
+  }
 
-  return <>{emailCampaignContent()}</>
+  return (
+    <Grid container spacing={2}>
+      <CardContainer item xs={12} sm={6} lg={3}>
+        <UIContainer rootProps={{ sx: { p: 2 } }}>
+          <MainInfo component="div">{campaignsReportRatios.local.campaignsCount}</MainInfo>
+          <MainText component="div">
+            {pluralize(campaignsReportRatios.local.campaignsCount, messages.campaign)}
+          </MainText>
+          <SecondaryText component="div">
+            {pluralize(campaignsReportRatios.local.campaignsCount, messages.sent)} en{' '}
+            {format(campaignsReportRatios.since, 'yyyy')}
+          </SecondaryText>
+        </UIContainer>
+      </CardContainer>
+      <CardContainer item xs={12} sm={6} lg={3}>
+        <UIContainer rootProps={{ sx: { p: 2 } }}>
+          <MainInfo component="div">
+            <Percentage>{campaignsReportRatios.local.openRate}</Percentage>
+          </MainInfo>
+          <MainText component="div">{messages.opening}</MainText>
+          <SecondaryText component="div">
+            <Percentage>{campaignsReportRatios.national.openRate}</Percentage> {messages.national}
+          </SecondaryText>
+        </UIContainer>
+      </CardContainer>
+      <CardContainer item xs={12} sm={6} lg={3}>
+        <UIContainer rootProps={{ sx: { p: 2 } }}>
+          <MainInfo component="div">
+            <Percentage>{campaignsReportRatios.local.clickRate}</Percentage>
+          </MainInfo>
+          <MainText component="div">{messages.clicks}</MainText>
+          <SecondaryText component="div">
+            <Percentage>{campaignsReportRatios.national.clickRate}</Percentage> {messages.national}
+          </SecondaryText>
+        </UIContainer>
+      </CardContainer>
+      <CardContainer item xs={12} sm={6} lg={3}>
+        <UIContainer rootProps={{ sx: { p: 2 } }}>
+          <MainInfo component="div">
+            <Percentage>{campaignsReportRatios.local.unsubscribeRate}</Percentage>
+          </MainInfo>
+          <MainText component="div">{messages.unsubscribing}</MainText>
+          <SecondaryText component="div">
+            <Percentage>{campaignsReportRatios.national.unsubscribeRate}</Percentage> {messages.national}
+          </SecondaryText>
+        </UIContainer>
+      </CardContainer>
+    </Grid>
+  )
 }
 
 export default KpiEmailCampaign

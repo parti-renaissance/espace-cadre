@@ -26,15 +26,11 @@ const dashboardSlice = createSlice({
     updateSurvey(state, action) {
       state.jemengage_survey = action.payload
     },
-    updateEmailCampaign(state, action) {
-      state.emailCampaign = action.payload
-    },
     resetStatsState() {
       return initialState
     },
   },
 })
 
-export const { updateAdherents, updateUsers, updateDownloads, updateSurvey, updateEmailCampaign, resetStatsState } =
-  dashboardSlice.actions
+export const { updateAdherents, updateUsers, updateDownloads, updateSurvey, resetStatsState } = dashboardSlice.actions
 export default dashboardSlice.reducer

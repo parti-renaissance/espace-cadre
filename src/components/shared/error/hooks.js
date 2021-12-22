@@ -5,10 +5,12 @@ import * as Sentry from '@sentry/react'
 
 export const useErrorHandler = () => {
   const [errorMessages, setErrorMessages] = useState([])
+  const [errorRawMessage, setErrorRawMessage] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const resetErrorMessages = useCallback(() => {
     setErrorMessages([])
+    setErrorRawMessage(null)
   }, [])
 
   const snackBarWithOptions = useCallback(
@@ -22,11 +24,12 @@ export const useErrorHandler = () => {
       const { status, data } = response
       handleGenericHttpErrors(snackBarWithOptions, status, stack, message)
       setErrorMessages(getFormattedErrorMessages(data))
+      setErrorRawMessage(message)
       Sentry.captureException(error)
       return () => resetErrorMessages()
     },
     [snackBarWithOptions, resetErrorMessages]
   )
 
-  return { handleError, errorMessages, resetErrorMessages }
+  return { handleError, errorMessages, errorRawMessage, resetErrorMessages }
 }
