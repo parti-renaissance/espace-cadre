@@ -14,7 +14,7 @@ import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import PageHeader from '../../ui/PageHeader/PageHeader'
+import PageHeader from 'ui/PageHeader/PageHeader'
 
 const messages = {
   title: 'Équipes',

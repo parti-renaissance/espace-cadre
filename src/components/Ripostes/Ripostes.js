@@ -17,6 +17,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import PageHeader from 'ui/PageHeader/PageHeader'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -103,15 +104,12 @@ const Ripostes = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container justifyContent="space-between">
-        <Grid item>
-          <PageTitle title={messages.title} />
-        </Grid>
-        <Grid item>
-          <Button onClick={handleRiposteCreate}>
-            <AddIcon sx={{ mr: 1 }} />
-            {messages.create}
-          </Button>
-        </Grid>
+        <PageHeader
+          title={messages.title}
+          handleClick={handleRiposteCreate}
+          icon={<AddIcon sx={{ mr: 1 }} />}
+          message={messages.create}
+        />
       </Grid>
       {paginatedRipostes && (
         <InfiniteScroll

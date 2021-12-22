@@ -18,17 +18,7 @@ const messages = {
 
 const Actions = ({ status, toggleStatus, loader = false, onEdit }) => (
   <HorizontalContainer>
-    <CtaButton
-      onClick={onEdit}
-      sx={{
-        color: 'teal700',
-        '&:hover': {
-          bgcolor: 'riposteBackground',
-        },
-      }}
-    >
-      {messages.edit}
-    </CtaButton>
+    <CtaButton onClick={onEdit}>{messages.edit}</CtaButton>
     <DotsMenu>
       <DotsMenuItem onClick={toggleStatus} loader={loader}>
         {status ? messages.deactivate : messages.activate}

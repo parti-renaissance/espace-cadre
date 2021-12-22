@@ -17,6 +17,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { usePaginatedData, getNextPageParam, refetchUpdatedPage } from 'api/pagination'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import PageHeader from 'ui/PageHeader/PageHeader'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -92,15 +93,12 @@ const News = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <Grid item>
-          <PageTitle title={messages.title} />
-        </Grid>
-        <Grid item>
-          <Button onClick={handleNewsCreate}>
-            <AddIcon sx={{ mr: 1 }} />
-            {messages.create}
-          </Button>
-        </Grid>
+        <PageHeader
+          title={messages.title}
+          handleClick={handleNewsCreate}
+          icon={<AddIcon sx={{ mr: 1 }} />}
+          message={messages.create}
+        />
       </Grid>
       {paginatedNews && (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>

@@ -18,17 +18,7 @@ const messages = {
 
 const Actions = ({ status, toggleStatus, loader = false, onView }) => (
   <HorizontalContainer>
-    <CtaButton
-      onClick={onView}
-      sx={{
-        color: 'orange500',
-        '&:hover': {
-          bgcolor: 'newsBackground',
-        },
-      }}
-    >
-      {messages.see}
-    </CtaButton>
+    <CtaButton onClick={onView}>{messages.see}</CtaButton>
     <DotsMenu>
       <DotsMenuItem onClick={toggleStatus} loader={loader}>
         {status ? messages.unPublished : messages.published}
