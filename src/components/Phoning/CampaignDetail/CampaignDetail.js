@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useInfiniteQuery, useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
@@ -19,6 +19,9 @@ import CampaignDetailSurveys from './Surveys'
 import CreateEdit from '../CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
+import { getNextPageParam, usePaginatedData } from 'api/pagination'
+import Loader from 'ui/Loader'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -67,13 +70,18 @@ export const CampaignDetail = () => {
       onError: handleError,
     }
   )
-  const { data: history = {}, isLoading: isHistoryLoading } = useQuery(
-    ['history', campaignId],
-    () => getPhoningCampaignHistory(campaignId),
-    {
-      onError: handleError,
-    }
-  )
+
+  const {
+    data: paginatedHistory = null,
+    isLoading,
+    fetchNextPage: fetchNexPageHistory,
+    hasNextPage: hasNextPageHistory,
+  } = useInfiniteQuery(['history', campaignId], args => getPhoningCampaignHistory({ campaignId, ...args }), {
+    getNextPageParam,
+    onError: handleError,
+  })
+  const history = usePaginatedData(paginatedHistory)
+
   const { data: surveys = {}, isLoading: isSurveysLoading } = useQuery(
     ['surveys', campaignId],
     () => getPhoningCampaignSurveysReplies(campaignId),
@@ -82,8 +90,8 @@ export const CampaignDetail = () => {
     }
   )
   const isLoadingData = useMemo(
-    () => !!(isCallersLoading || isHistoryLoading || isSurveysLoading),
-    [isCallersLoading, isHistoryLoading, isSurveysLoading]
+    () => !!(isCallersLoading || isLoading || isSurveysLoading),
+    [isCallersLoading, isLoading, isSurveysLoading]
   )
 
   const handleChange = (_, tabId) => {
@@ -137,7 +145,10 @@ export const CampaignDetail = () => {
                   <TabLabel>
                     {id === messages.callers.id && `${callers.length} ${pluralize(callers.length, label)}`}
                     {id === messages.history.id &&
-                      `${history?.totalCount || 0} ${pluralize(history?.totalCount || 0, label)}`}
+                      `${paginatedHistory?.pages[0].total || 0} ${pluralize(
+                        paginatedHistory?.pages[0].total || 0,
+                        label
+                      )}`}
                     {id === messages.surveys.id &&
                       `${surveys?.totalCount || 0} ${pluralize(surveys?.totalCount || 0, label)}`}
                   </TabLabel>
@@ -163,20 +174,27 @@ export const CampaignDetail = () => {
             ))}
           </Grid>
         )}
-        {selectedTab === messages.history.id && history.calls?.length > 0 && (
-          <Grid container spacing={2}>
-            {history?.calls.map(call => (
-              <CampaignDetailHistory
-                key={call.id}
-                status={call.status}
-                startDate={campaign.startDate}
-                adherent={call.adherent}
-                caller={call.caller}
-                updateTime={call.updateTime}
-                handleView={handleHistoryView}
-              />
-            ))}
-          </Grid>
+        {selectedTab === messages.history.id && (
+          <InfiniteScroll
+            dataLength={history.length}
+            next={() => fetchNexPageHistory()}
+            hasMore={hasNextPageHistory}
+            loader={<Loader />}
+          >
+            <Grid container spacing={2}>
+              {history.map(call => (
+                <CampaignDetailHistory
+                  key={call.id}
+                  status={call.status}
+                  startDate={campaign.startDate}
+                  adherent={call.adherent}
+                  caller={call.caller}
+                  updateTime={call.updateTime}
+                  handleView={handleHistoryView}
+                />
+              ))}
+            </Grid>
+          </InfiniteScroll>
         )}
         {selectedTab === messages.surveys.id && surveys.replies?.length > 0 && (
           <Grid container spacing={2}>

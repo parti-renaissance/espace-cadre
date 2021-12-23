@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
-import { PhoningCampaignHistory as DomainPhoningCampaignHistory } from 'domain/phoning'
+import { PhoningCampaignHistoryAdherent, PhoningCampaignHistoryCaller } from 'domain/phoning'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
@@ -54,7 +54,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
               <Author sx={{ pb: 0.5 }}>
                 {caller.firstName} {caller.lastName}
               </Author>
-              <UpdateTime>{format(new Date(startDate), 'dd/MM/yyyy hh:mm')}</UpdateTime>
+              <UpdateTime>{format(startDate, 'dd/MM/yyyy hh:mm')}</UpdateTime>
             </VerticalContainer>
           </>
         }
@@ -79,7 +79,10 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
 }
 
 CampaignDetailHistory.propTypes = {
-  ...DomainPhoningCampaignHistory.PropTypes,
+  status: PropTypes.string.isRequired,
+  startDate: PropTypes.object.isRequired,
+  adherent: PhoningCampaignHistoryAdherent.propTypes,
+  caller: PhoningCampaignHistoryCaller.propTypes,
   handleView: PropTypes.func.isRequired,
 }
 
