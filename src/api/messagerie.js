@@ -1,6 +1,7 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient, apiClientProxy } from 'services/networking/client'
 import Message, { Statistics } from 'domain/message'
 import { newPaginatedResult } from 'api/pagination'
+import ReportRatio, { GeoRatio } from 'domain/reportRatio'
 
 export const getMessages = async ({ pageParam: page = 1 }) => {
   const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20`)
@@ -43,3 +44,17 @@ export const setMessageSegment = (messageId, segmentId) =>
 export const getSegmentAudience = id => apiClient.get(`/v3/audience-segments/${id}`)
 export const createSegmentAudience = data => apiClient.post('/v3/audience-segments', data)
 export const updateSegmentAudience = audience => apiClient.put(`/v3/audience-segments/${audience.id}`, audience)
+
+export const reportsRatio = async () => {
+  const data = await apiClientProxy.get('/mailCampaign/reportsRatios')
+  return new ReportRatio(
+    new GeoRatio(data.local.nbCampagnes, data.local.txOuverture, data.local.txClique, data.local.txDesabonnement),
+    new GeoRatio(
+      data.national.nbCampagnes,
+      data.national.txOuverture,
+      data.national.txClique,
+      data.national.txDesabonnement
+    ),
+    new Date(data.depuis)
+  )
+}

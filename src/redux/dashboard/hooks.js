@@ -1,13 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
-import {
-  getDashboardAdherents,
-  getDashboardDownloads,
-  getDashboardSurvey,
-  getDashboardUsers,
-  getEmailCampaign,
-} from './selectors'
-import { updateAdherents, updateDownloads, updateEmailCampaign, updateSurvey, updateUsers } from './slice'
+import { getDashboardAdherents, getDashboardDownloads, getDashboardSurvey, getDashboardUsers } from './selectors'
+import { updateAdherents, updateDownloads, updateSurvey, updateUsers } from './slice'
 
 export const useDashboardAdherentCache = () => {
   const dispatch = useDispatch()
@@ -47,14 +41,4 @@ export const useDashboardSurveyCache = () => {
   const setDashboardSurvey = useCallback(body => dispatch(updateSurvey(body)), [dispatch])
 
   return [dashboardSurvey, setDashboardSurvey]
-}
-
-export const useEmailCampaignCache = () => {
-  const dispatch = useDispatch()
-
-  const emailCampaign = useSelector(getEmailCampaign)
-
-  const setEmailCampaign = useCallback(body => dispatch(updateEmailCampaign(body)), [dispatch])
-
-  return [emailCampaign, setEmailCampaign]
 }
