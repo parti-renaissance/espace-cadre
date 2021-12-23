@@ -53,7 +53,7 @@ context('Nominal tests', () => {
     )
     mock(
       'GET',
-      '/api/v3/phoning_campaign_histories?campaign.uuid=11111111-1111-1111-1111-111111111111&scope=phoning_national_manager',
+      '/api/v3/phoning_campaign_histories?campaign.uuid=11111111-1111-1111-1111-111111111111&order[created_at]=desc&page=1&page_size=20&scope=phoning_national_manager',
       'phoning/campaignDetail/histories'
     )
 
