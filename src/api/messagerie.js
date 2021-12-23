@@ -1,4 +1,4 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient, apiClientProxy } from 'services/networking/client'
 import Message, { Statistics } from 'domain/message'
 import { newPaginatedResult } from 'api/pagination'
 import ReportRatio, { GeoRatio } from 'domain/reportRatio'
@@ -46,7 +46,7 @@ export const createSegmentAudience = data => apiClient.post('/v3/audience-segmen
 export const updateSegmentAudience = audience => apiClient.put(`/v3/audience-segments/${audience.id}`, audience)
 
 export const reportsRatio = async () => {
-  const data = await apiClient.get('/mailCampaign/reportsRatios')
+  const data = await apiClientProxy.get('/mailCampaign/reportsRatios')
   return new ReportRatio(
     new GeoRatio(data.local.nbCampagnes, data.local.txOuverture, data.local.txClique, data.local.txDesabonnement),
     new GeoRatio(
