@@ -10,36 +10,35 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TableSortLabel,
   Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
+import { orderBy } from 'lodash'
 
 import { PhoningCampaignReply as DomainPhoningCampaignReply } from 'domain/phoning'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
 import { multipleChoice, simpleField, uniqueChoice } from './shared/constants'
-import { timeDifferenceToString } from './shared/helpers'
+import { surveysColumnsStyles, timeDifferenceToString } from './shared/helpers'
 import { UIChip } from 'ui/Card'
 
 const TableCell = styled(
   MuiTableCell,
   shouldForwardProps
-)(
-  ({ theme, isSticky = false }) => `
-	padding: ${theme.spacing(1.5, 2)};
-	${
-    isSticky
-      ? `
-		position: sticky;
-		left: 0;
-		background: ${theme.palette.whiteCorner};
-	`
-      : ''
-  }
-`
-)
+)(({ theme, isSticky = false, answerType }) => ({
+  padding: theme.spacing(1.5, 2),
+  ...(isSticky
+    ? {
+        position: 'sticky',
+        left: 0,
+        background: theme.palette.whiteCorner,
+      }
+    : {}),
+  ...surveysColumnsStyles[answerType],
+}))
 const ColumnLabel = styled(({ isTruncated = false, ...props }) =>
   isTruncated ? <TruncatedText variant="subtitle2" {...props} /> : <Typography variant="subtitle2" {...props} />
 )(
@@ -77,6 +76,7 @@ const messages = {
 const CampaignDetailSurveys = ({ replies }) => {
   const [currentPage, setCurrentPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [order, toggleOrder] = useState({ lastName: 'asc', startDate: 'asc' })
 
   const handleChangePage = (_, page) => {
     setCurrentPage(page)
@@ -87,31 +87,39 @@ const CampaignDetailSurveys = ({ replies }) => {
     setCurrentPage(0)
   }
 
-  const rows = useMemo(
-    () => replies.slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage),
-    [replies, currentPage, rowsPerPage]
-  )
-  const columns = useMemo(() => replies?.[0]?.answers.map(({ question }) => question), [replies])
+  const handleSort = column => () => {
+    toggleOrder(order => ({ ...order, [column]: order[column] === 'asc' ? 'desc' : 'asc' }))
+  }
+
+  const columns = useMemo(() => replies?.[0]?.answers.map(({ question, type }) => ({ question, type })), [replies])
+  const rows = useMemo(() => {
+    const rows = replies.slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
+    return orderBy(rows, Object.keys(order), Object.values(order))
+  }, [replies, currentPage, rowsPerPage, order])
 
   if (replies.length === 0) return null
 
   return (
-    <Grid item xs={12} sm={6} md={3} lg={12}>
-      <Paper>
-        <TableContainer>
+    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+      <Paper sx={{ borderRadius: 3 }}>
+        <TableContainer sx={{ borderRadius: 3 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell key={uuid()} sx={{ width: '175px' }} isSticky>
-                  <ColumnLabel>{messages.called}</ColumnLabel>
+                <TableCell key={uuid()} answerType="called" isSticky>
+                  <TableSortLabel direction={order.lastName} onClick={handleSort('lastName')} active>
+                    <ColumnLabel>{messages.called}</ColumnLabel>
+                  </TableSortLabel>
                 </TableCell>
 
-                <TableCell key={uuid()} sx={{ width: '150px' }}>
-                  <ColumnLabel>{messages.time}</ColumnLabel>
+                <TableCell key={uuid()} answerType="time">
+                  <TableSortLabel direction={order.startDate} onClick={handleSort('startDate')} active>
+                    <ColumnLabel>{messages.time}</ColumnLabel>
+                  </TableSortLabel>
                 </TableCell>
 
-                {columns.map(question => (
-                  <TableCell key={uuid()} sx={{ width: '245px' }}>
+                {columns.map(({ question, type }) => (
+                  <TableCell key={uuid()} answerType={type}>
                     <TruncateContainer sx={{ width: '245px' }}>
                       <ColumnLabel title={question} isTruncated>
                         {question}
@@ -126,7 +134,9 @@ const CampaignDetailSurveys = ({ replies }) => {
               {rows.map(({ answers, firstName, lastName, startDate, endDate }) => (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell key={uuid()} isSticky>
-                    <Description>{firstName || lastName ? `${firstName} ${lastName}` : messages.anonymous}</Description>
+                    <Description>
+                      {lastName || firstName ? `${lastName.toUpperCase()} ${firstName}` : messages.anonymous}
+                    </Description>
                     <SubDescription></SubDescription>
                   </TableCell>
 
@@ -173,10 +183,10 @@ const CampaignDetailSurveys = ({ replies }) => {
 
         <TablePagination
           component="div"
+          count={replies.length}
           page={currentPage}
           rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[10, 50, 100]}
-          count={replies.length}
+          rowsPerPageOptions={[10, 25, 50, 100]}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
