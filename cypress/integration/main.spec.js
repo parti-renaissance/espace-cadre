@@ -7,6 +7,10 @@ context('Nominal tests', () => {
   const mock = (method, url, fixture) => cy.intercept(method, apiServer(url), { fixture }).as(fixture)
 
   beforeEach(() => {
+    cy.intercept('POST', /sentry/g, {
+      statusCode: 201,
+    }).as('sentry')
+
     mock('POST', '/oauth/v2/token', 'token')
     mock('GET', '/api/me', 'me')
     mock('GET', '/api/v3/profile/me/scopes', 'scopes')
