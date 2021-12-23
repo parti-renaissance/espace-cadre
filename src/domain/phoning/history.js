@@ -26,13 +26,12 @@ export class PhoningCampaignHistoryCaller {
   }
 }
 
-PhoningCampaignHistory.propTypes = {
+PhoningCampaignHistory.propTypes = PropTypes.shape({
   status: PropTypes.string.isRequired,
-  startDate: PropTypes.string.isRequired,
+  startDate: PropTypes.object.isRequired,
   adherent: PhoningCampaignHistoryAdherent.propTypes,
   caller: PhoningCampaignHistoryCaller.propTypes,
-  handleClick: PropTypes.func.isRequired,
-}
+})
 
 PhoningCampaignHistoryAdherent.propTypes = PropTypes.shape({
   firstName: PropTypes.string.isRequired,

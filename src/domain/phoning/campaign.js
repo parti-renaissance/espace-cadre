@@ -97,8 +97,8 @@ export class PhoningCampaignSurveys {
 PhoningCampaign.propTypes = PropTypes.shape({
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  startDate: PropTypes.string.isRequired,
-  endDate: PropTypes.string.isRequired,
+  startDate: PropTypes.object.isRequired,
+  endDate: PropTypes.object.isRequired,
   calls: PhoningCampaignCalls.propTypes,
   surveys: PhoningCampaignSurveys.propTypes,
   averageTime: PropTypes.number.isRequired,
