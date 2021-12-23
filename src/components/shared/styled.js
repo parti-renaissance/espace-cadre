@@ -6,8 +6,12 @@ export const VerticalContainer = styled('div')`
   flex-direction: column;
 `
 
-export const TruncatedText = styled(Typography)`
-  white-space: nowrap;
+export const TruncatedText = styled(Typography)(
+  ({ lines = 1 }) => `
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: ${lines};
+  white-space: normal;
 `
+)

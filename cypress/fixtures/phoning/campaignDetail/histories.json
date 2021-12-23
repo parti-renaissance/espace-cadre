@@ -45,7 +45,7 @@
         "last_name": "Nom 3",
         "age": 25
       },
-      "campaign": { "title": "La campagne de l'inconnu", "uuid": "333333333-3333-3333-3333-333333333333" },
+      "campaign": { "title": "Campagne 1", "uuid": "333333333-3333-3333-3333-333333333333" },
       "type": null,
       "status": "to-unjoin",
       "postal_code_checked": null,
@@ -74,7 +74,7 @@
         "last_name": "Nom 4",
         "age": 29
       },
-      "campaign": { "title": "La campagne de l'inconnu", "uuid": "333333333-3333-3333-3333-333333333333" },
+      "campaign": { "title": "Campagne 1", "uuid": "333333333-3333-3333-3333-333333333333" },
       "type": null,
       "status": "to-remind",
       "postal_code_checked": null,
@@ -103,7 +103,7 @@
         "last_name": "Nom 5",
         "age": 25
       },
-      "campaign": { "title": "La campagne de l'inconnu", "uuid": "333333333-3333-3333-3333-333333333333" },
+      "campaign": { "title": "Campagne 1", "uuid": "333333333-3333-3333-3333-333333333333" },
       "type": null,
       "status": "completed",
       "postal_code_checked": false,
@@ -115,7 +115,7 @@
       "begin_at": "2021-11-06T09:29:21+01:00",
       "finish_at": "2021-11-06T09:30:14+01:00",
       "data_survey": {
-        "survey": { "uuid": "111111111-1111-1111-1111-111111111112", "name": "Questionnaire national" },
+        "survey": { "uuid": "111111111-1111-1111-1111-111111111112", "name": "Questionnaire1" },
         "uuid": "111111111-1111-1111-1111-111111111113"
       },
       "uuid": "111111111-1111-1111-1111-111111111114"

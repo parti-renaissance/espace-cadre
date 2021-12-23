@@ -10,18 +10,18 @@ import {
   PhoningCampaignsScore,
   PhoningCampaign,
   PhoningCampaignCalls,
-  PhoningCampaignSurveys,
   PhoningCampaignCallers,
   PhoningCampaignHistory,
+  PhoningCampaignSurveys,
   PhoningCampaignHistoryAdherent,
   PhoningCampaignHistoryCaller,
-} from 'domain/phoning'
-import {
   PhoningCampaignFilters,
   PhoningCampaignTeam,
   PhoningCampaignSurvey,
   PhoningCampaignZone,
-} from 'domain/phoning/campaign'
+  PhoningCampaignReply,
+  PhoningCampaignReplyAnswer,
+} from 'domain/phoning'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
@@ -99,6 +99,23 @@ export const getPhoningCampaignHistory = async campaignId => {
   }
 }
 
+export const getPhoningCampaignSurveysReplies = async campaignId => {
+  const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/replies`)
+  return {
+    totalCount: data?.metadata?.total_items,
+    replies: data?.items.map(
+      sr =>
+        new PhoningCampaignReply(
+          sr?.answers.map(a => new PhoningCampaignReplyAnswer(a?.type, a?.answer, a?.question)),
+          sr?.phoning_campaign_history?.adherent?.first_name,
+          sr?.phoning_campaign_history?.adherent?.last_name,
+          sr?.phoning_campaign_history?.begin_at,
+          sr?.phoning_campaign_history?.finish_at
+        )
+    ),
+  }
+}
+
 export const getPhoningCampaignTeams = async name => {
   const data = await apiClient.get(`/api/v3/teams?name=${name}`)
   return data?.items.map(t => new PhoningCampaignTeam(t.uuid, t.name, t.creator))
@@ -133,8 +150,8 @@ const formatFiltersData = ({
   ...(gender ? { gender } : {}),
   ...(adherentFromDate ? { registeredSince: adherentFromDate } : {}),
   ...(adherentToDate ? { registeredUntil: adherentToDate } : {}),
-  ...(ageMin ? { ageMin } : {}),
-  ...(ageMax ? { ageMax } : {}),
+  ...(ageMin ? { ageMin: +ageMin } : {}),
+  ...(ageMax ? { ageMax: +ageMax } : {}),
   ...('boolean' === typeof certified ? { isCertified: certified } : {}),
   ...('boolean' === typeof committeeMember ? { isCommitteeMember: committeeMember } : {}),
   ...('boolean' === typeof emailSubscribed ? { hasEmailSubscription: emailSubscribed } : {}),

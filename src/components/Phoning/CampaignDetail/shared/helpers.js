@@ -1,3 +1,6 @@
+import { intervalToDuration } from 'date-fns'
+import { multipleChoice, simpleField, uniqueChoice } from './constants'
+
 export const secondsToMinutesAndSeconds = seconds => {
   const minutes = Math.floor(seconds / 60)
   return `
@@ -29,3 +32,38 @@ export const campaignToFormValues = campaign => ({
     zones: campaign?.filters?.zones ?? [],
   },
 })
+
+export const timeDifferenceToString = (startDate, endDate) => {
+  const { days, hours, minutes } = intervalToDuration({
+    start: new Date(startDate),
+    end: new Date(endDate),
+  })
+  return `
+    ${days ? `${days} j ` : ''}
+    ${hours ? `${hours} h ` : ''}
+    ${minutes ? `${minutes} min` : ''}
+  `
+}
+
+export const surveysColumnsStyles = {
+  called: {
+    minWidth: '175px',
+    maxWidth: '175px',
+  },
+  time: {
+    minWidth: '150px',
+    maxWidth: '150px',
+  },
+  [simpleField]: {
+    minWidth: '300px',
+    maxWidth: '300px',
+  },
+  [uniqueChoice]: {
+    minWidth: '200px',
+    maxWidth: '200px',
+  },
+  [multipleChoice]: {
+    minWidth: '200px',
+    maxWidth: '200px',
+  },
+}

@@ -13,7 +13,6 @@ import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 
 const messages = {
@@ -21,19 +20,11 @@ const messages = {
   deleteSuccess: 'Brouillon supprimé avec succès',
 }
 
-const TruncatedText3Lines = styled(TruncatedText)`
-  color: ${({ theme }) => theme.palette.gray900};
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  white-space: normal;
-`
-
 const Title = ({ subject, author }) => (
   <VerticalContainer sx={{ pt: 1 }}>
-    <TruncatedText3Lines variant="subtitle1" title={subject}>
+    <TruncatedText variant="subtitle1" title={subject} lines={3} sx={{ color: 'gay900' }}>
       {subject}
-    </TruncatedText3Lines>
+    </TruncatedText>
     <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
       {author}
     </Typography>

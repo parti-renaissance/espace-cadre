@@ -7,6 +7,10 @@ context('Nominal tests', () => {
   const mock = (method, url, fixture) => cy.intercept(method, apiServer(url), { fixture }).as(fixture)
 
   beforeEach(() => {
+    cy.intercept('POST', /sentry/g, {
+      statusCode: 201,
+    }).as('sentry')
+
     mock('POST', '/oauth/v2/token', 'token')
     mock('GET', '/api/me', 'me')
     mock('GET', '/api/v3/profile/me/scopes', 'scopes')
@@ -41,6 +45,11 @@ context('Nominal tests', () => {
       'GET',
       '/api/v3/phoning_campaigns/11111111-1111-1111-1111-111111111111/callers?scope=phoning_national_manager',
       'phoning/campaignDetail/callers'
+    )
+    mock(
+      'GET',
+      '/api/v3/phoning_campaigns/11111111-1111-1111-1111-111111111111/replies?scope=phoning_national_manager',
+      'phoning/campaignDetail/replies'
     )
     mock(
       'GET',
@@ -165,7 +174,7 @@ context('Nominal tests', () => {
     cy.get(uiCard).eq(0).contains('voir').click()
 
     cy.url().should('eq', 'http://localhost:3000/phoning/11111111-1111-1111-1111-111111111111')
-    cy.get('[data-testid="page-title"]').contains("Phoning > La campagne de l'inconnu")
+    cy.get('[data-testid="page-title"]').contains('Phoning > Campagne 1')
     cy.get(paperRoot)
       .eq(3)
       .contains(
@@ -179,10 +188,13 @@ context('Nominal tests', () => {
     cy.get(paperRoot).eq(5).contains('Appels passés')
     cy.get(paperRoot).eq(6).contains('Passé par appel')
     cy.get(tablistButton).eq(0).contains('5 appelants')
-    cy.get(tablistButton).eq(1).contains('4 appel')
-    cy.get(tablistButton).eq(2).contains('0 questionnaire')
+
+    cy.get(tablistButton).eq(0).contains('5 appelants').click()
     cy.get(callerCard).eq(0).contains('1. John Doe')
     cy.get(callerCard).eq(1).contains('2/10')
+
+    cy.get(tablistButton).eq(1).contains('4 appels')
+    cy.get(tablistButton).eq(2).contains('2 questionnaires')
   })
 
   it('loads national ripostes', () => {

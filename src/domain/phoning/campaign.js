@@ -45,6 +45,22 @@ export class PhoningCampaignFilters {
     this.zones = zones
   }
 }
+export class PhoningCampaignReply {
+  constructor(answers, firstName, lastName, startDate, endDate) {
+    this.answers = answers
+    this.firstName = firstName
+    this.lastName = lastName
+    this.startDate = startDate
+    this.endDate = endDate
+  }
+}
+export class PhoningCampaignReplyAnswer {
+  constructor(type, answer, question) {
+    this.type = type
+    this.answer = answer
+    this.question = question
+  }
+}
 export class PhoningCampaignZone {
   constructor(id, name, code) {
     this.id = id
@@ -106,6 +122,20 @@ PhoningCampaignFilters.propTypes = PropTypes.shape({
   emailSubscribed: PropTypes.bool.isRequired,
   SMSSubscribed: PropTypes.bool.isRequired,
   zones: PropTypes.arrayOf(PhoningCampaignZone.propTypes).isRequired,
+})
+
+PhoningCampaignReplyAnswer.propTypes = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  answer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string.isRequired), PropTypes.string.isRequired]),
+  question: PropTypes.string.isRequired,
+})
+
+PhoningCampaignReply.propTypes = PropTypes.shape({
+  answers: PropTypes.arrayOf(PhoningCampaignReplyAnswer.propTypes).isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
 })
 
 PhoningCampaignZone.propTypes = PropTypes.shape({

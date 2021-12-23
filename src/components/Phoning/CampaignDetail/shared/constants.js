@@ -41,3 +41,7 @@ export const translatedGender = {
   male: 'Homme',
   female: 'Femme',
 }
+
+export const simpleField = 'simple_field'
+export const uniqueChoice = 'unique_choice'
+export const multipleChoice = 'multiple_choice'

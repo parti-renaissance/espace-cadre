@@ -1,15 +1,21 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { getPhoningCampaignQuery, getPhoningCampaignCallers, getPhoningCampaignHistory } from 'api/phoning'
+import {
+  getPhoningCampaignQuery,
+  getPhoningCampaignCallers,
+  getPhoningCampaignHistory,
+  getPhoningCampaignSurveysReplies,
+} from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './KPI'
 import CampaignDetailCallers from './Callers'
 import CampaignDetailHistory from './History'
+import CampaignDetailSurveys from './Surveys'
 import CreateEdit from '../CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
@@ -42,10 +48,11 @@ const messages = {
 }
 
 export const CampaignDetail = () => {
-  const [selectedTab, setSelectedTab] = useState(messages.callers.id)
+  const [selectedTab, setSelectedTab] = useState(messages.surveys.id)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
+
   const { data: campaign = {}, refetch: refetchCampaign } = useQuery(
     ['campaign', campaignId],
     () => getPhoningCampaignQuery(campaignId),
@@ -53,12 +60,31 @@ export const CampaignDetail = () => {
       onError: handleError,
     }
   )
-  const { data: callers = [] } = useQuery(['callers', campaignId], () => getPhoningCampaignCallers(campaignId), {
-    onError: handleError,
-  })
-  const { data: history = {} } = useQuery(['history', campaignId], () => getPhoningCampaignHistory(campaignId), {
-    onError: handleError,
-  })
+  const { data: callers = [], isLoading: isCallersLoading } = useQuery(
+    ['callers', campaignId],
+    () => getPhoningCampaignCallers(campaignId),
+    {
+      onError: handleError,
+    }
+  )
+  const { data: history = {}, isLoading: isHistoryLoading } = useQuery(
+    ['history', campaignId],
+    () => getPhoningCampaignHistory(campaignId),
+    {
+      onError: handleError,
+    }
+  )
+  const { data: surveys = {}, isLoading: isSurveysLoading } = useQuery(
+    ['surveys', campaignId],
+    () => getPhoningCampaignSurveysReplies(campaignId),
+    {
+      onError: handleError,
+    }
+  )
+  const isLoadingData = useMemo(
+    () => !!(isCallersLoading || isHistoryLoading || isSurveysLoading),
+    [isCallersLoading, isHistoryLoading, isSurveysLoading]
+  )
 
   const handleChange = (_, tabId) => {
     setSelectedTab(tabId)
@@ -96,31 +122,34 @@ export const CampaignDetail = () => {
           />
         )}
 
-        <Tabs
-          value={selectedTab}
-          onChange={handleChange}
-          TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
-          sx={{ my: 2 }}
-        >
-          {[messages.callers, messages.history, messages.surveys].map(({ id, label }) => (
-            <Tab
-              key={id}
-              value={id}
-              label={
-                <TabLabel>
-                  {id === messages.callers.id && `${callers.length} ${pluralize(callers.length, label)}`}
-                  {id === messages.history.id &&
-                    `${history?.totalCount || 0} ${pluralize(history?.totalCount || 0, label)}`}
-                  {id === messages.surveys.id && `${[].length} ${pluralize([].length, label)}`}
-                </TabLabel>
-              }
-              disableRipple
-              disableFocusRipple
-            />
-          ))}
-        </Tabs>
+        {!isLoadingData && (
+          <Tabs
+            value={selectedTab}
+            onChange={handleChange}
+            TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
+            sx={{ my: 2 }}
+          >
+            {[messages.callers, messages.history, messages.surveys].map(({ id, label }) => (
+              <Tab
+                key={id}
+                value={id}
+                label={
+                  <TabLabel>
+                    {id === messages.callers.id && `${callers.length} ${pluralize(callers.length, label)}`}
+                    {id === messages.history.id &&
+                      `${history?.totalCount || 0} ${pluralize(history?.totalCount || 0, label)}`}
+                    {id === messages.surveys.id &&
+                      `${surveys?.totalCount || 0} ${pluralize(surveys?.totalCount || 0, label)}`}
+                  </TabLabel>
+                }
+                disableRipple
+                disableFocusRipple
+              />
+            ))}
+          </Tabs>
+        )}
 
-        {selectedTab === messages.callers.id && campaign.goal?.toString() && (
+        {selectedTab === messages.callers.id && callers.length > 0 && (
           <Grid container spacing={2} data-testid="phoning-caller-container">
             {callers.map((caller, index) => (
               <CampaignDetailCallers
@@ -134,7 +163,7 @@ export const CampaignDetail = () => {
             ))}
           </Grid>
         )}
-        {selectedTab === messages.history.id && (
+        {selectedTab === messages.history.id && history.calls?.length > 0 && (
           <Grid container spacing={2}>
             {history?.calls.map(call => (
               <CampaignDetailHistory
@@ -147,6 +176,11 @@ export const CampaignDetail = () => {
                 handleView={handleHistoryView}
               />
             ))}
+          </Grid>
+        )}
+        {selectedTab === messages.surveys.id && surveys.replies?.length > 0 && (
+          <Grid container spacing={2}>
+            <CampaignDetailSurveys replies={surveys.replies} />
           </Grid>
         )}
       </Grid>
