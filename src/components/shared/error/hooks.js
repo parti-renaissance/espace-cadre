@@ -20,7 +20,7 @@ export const useErrorHandler = () => {
 
   const handleError = useCallback(
     error => {
-      const { response = {}, stack, message } = error
+      const { response = { data: {} }, stack, message } = error
       const { status, data } = response
       handleGenericHttpErrors(snackBarWithOptions, status, stack, message)
       setErrorMessages(getFormattedErrorMessages(data))
