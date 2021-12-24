@@ -60,7 +60,7 @@ const messages = {
 }
 
 const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) => {
-  const daysRemaining = differenceInCalendarDays(new Date(endDate), new Date()) || 0
+  const daysRemaining = differenceInCalendarDays(endDate, new Date()) || 0
 
   return (
     <KPIWrapper>
@@ -83,9 +83,9 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
                 {startDate && endDate && (
                   <SubTitleDetail>
                     {messages.periodFrom}&nbsp;
-                    {format(new Date(startDate), 'dd/MM/yyyy')}&nbsp;
+                    {format(startDate, 'dd/MM/yyyy')}&nbsp;
                     {messages.periodTo}&nbsp;
-                    {format(new Date(endDate), 'dd/MM/yyyy')}
+                    {format(endDate, 'dd/MM/yyyy')}
                   </SubTitleDetail>
                 )}
               </>

@@ -45,7 +45,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleView, hand
           <>
             <div>
               <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
-              <Date sx={{ color: 'gray600' }}>{format(parseISO(endDate), 'dd MMMM yyyy', { locale: fr })}</Date>
+              <Date sx={{ color: 'gray600' }}>{format(endDate, 'dd MMMM yyyy', { locale: fr })}</Date>
             </div>
             <VerticalContainer sx={{ pt: 1 }}>
               <TruncatedText variant="subtitle1" title={title}>

@@ -139,7 +139,7 @@ const CampaignDetailSurveys = ({ replies }) => {
                   </TableCell>
 
                   <TableCell key={uuid()} sx={{ width: '150px' }}>
-                    <Description>{format(new Date(startDate), 'dd/MM/yyyy hh:mm')}</Description>
+                    <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
                     {timeDifferenceToString(startDate, endDate) && (
                       <SubDescription>{timeDifferenceToString(startDate, endDate)}</SubDescription>
                     )}

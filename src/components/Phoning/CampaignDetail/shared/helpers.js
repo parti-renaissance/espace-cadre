@@ -34,10 +34,7 @@ export const campaignToFormValues = campaign => ({
 })
 
 export const timeDifferenceToString = (startDate, endDate) => {
-  const { days, hours, minutes } = intervalToDuration({
-    start: new Date(startDate),
-    end: new Date(endDate),
-  })
+  const { days, hours, minutes } = intervalToDuration({ start: startDate, end: endDate })
   return `
     ${days ? `${days} j ` : ''}
     ${hours ? `${hours} h ` : ''}
