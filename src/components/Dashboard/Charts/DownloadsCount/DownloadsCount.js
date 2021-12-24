@@ -1,5 +1,5 @@
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, useTheme } from '@mui/material'
 import Loader from 'ui/Loader'
 import ErrorComponent from 'components/ErrorComponent'
 import UIContainer from 'ui/Container'
@@ -8,15 +8,17 @@ import { useQuery } from 'react-query'
 import { styled } from '@mui/system'
 import { downloadsCount } from 'api/downloads'
 
-const CountBubble = styled('span')`
-  color: ${({ theme }) => theme.palette.blueCorner};
+const CountBubble = styled('span')(
+  ({ theme }) => `
+  color: ${theme.palette.blueCorner};
   font-weight: 600;
   font-size: 18px;
-  background-color: ${({ theme }) => theme.palette.blueBubble};
-  padding: ${({ theme }) => theme.spacing(1)};
-  margin-right: ${({ theme }) => theme.spacing(1)};
+  background-color: ${theme.palette.blueBubble};
+  padding: ${theme.spacing(1)};
+  margin-right: ${theme.spacing(1)};
   border-radius: 8px;
 `
+)
 
 const messages = {
   downloads: 'Téléchargement',
@@ -26,10 +28,25 @@ const messages = {
   errorMessage: "Les données de téléchargement de l'app sont indisponibles",
 }
 
-const ChartLegend = styled('li')`
+const ChartLegend = styled(props => <Typography component="li" {...props} />)`
   margin: ${({ theme }) => theme.spacing(2, 2, 2, 4)};
   font-size: 12px;
 `
+
+const ONE_HOUR = 60 * 60 * 1000
+
+const chartAxisStyle = {
+  color: '#717BA0',
+  fontFamily: 'roboto',
+  fontSize: '12px',
+}
+
+const toolTipStyle = {
+  fontSize: '14px',
+  fontFamily: 'Poppins',
+  padding: '2px 5px',
+  textAlign: 'left',
+}
 
 const DownloadsCount = () => {
   const {
@@ -37,9 +54,11 @@ const DownloadsCount = () => {
     isLoading,
     isError,
   } = useQuery('downloads', downloadsCount, {
-    cacheTime: 60 * 60 * 1000,
-    staleTime: 60 * 60 * 1000,
+    cacheTime: ONE_HOUR,
+    staleTime: ONE_HOUR,
   })
+
+  const theme = useTheme()
 
   if (isLoading) {
     return (
@@ -50,7 +69,7 @@ const DownloadsCount = () => {
   }
   if (isError) {
     return (
-      <UIContainer textAlign="center">
+      <UIContainer sx={{ alignItems: 'center', justifyContent: 'center' }}>
         <ErrorComponent errorMessage={{ message: messages.errorMessage }} />
       </UIContainer>
     )
@@ -82,53 +101,27 @@ const DownloadsCount = () => {
         >
           <defs>
             <linearGradient id="colorQuotidien" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#0049C6" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#0049C6" stopOpacity={0} />
+              <stop offset="5%" stopColor={theme.palette.blueCorner} stopOpacity={0.8} />
+              <stop offset="95%" stopColor={theme.palette.blueCorner} stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis
-            dataKey="date"
-            angle={-14}
-            tickMargin={8}
-            interval={4}
-            style={{
-              color: '#717BA0',
-              fontFamily: 'roboto',
-              fontSize: '12px',
-            }}
-          />
-          <YAxis
-            axisLine={false}
-            tickLine={false}
-            style={{
-              color: '#717BA0',
-              fontFamily: 'roboto',
-              fontSize: '12px',
-            }}
-          />
+          <XAxis dataKey="date" angle={-14} tickMargin={8} interval={4} style={chartAxisStyle} />
+          <YAxis axisLine={false} tickLine={false} style={chartAxisStyle} />
           <CartesianGrid strokeDasharray=".08" />
           <Tooltip
             contentStyle={{
               background: '#fff',
-              borderColor: '#F0F1F3',
+              borderColor: theme.palette.grayCornerBg,
               borderRadius: '6px',
             }}
             labelStyle={{
-              fontSize: '14px',
-              color: '#1A334D',
-              fontFamily: 'Poppins',
+              color: theme.palette.blackCorner,
               fontWeight: 'bold',
-              padding: '2px 5px',
-              textAlign: 'left',
+              ...toolTipStyle,
             }}
-            itemStyle={{
-              fontSize: '14px',
-              fontFamily: 'Poppins',
-              padding: '2px 5px',
-              textAlign: 'left',
-            }}
+            itemStyle={toolTipStyle}
             cursor={{
-              stroke: '#0049C6',
+              stroke: theme.palette.blueCorner,
               strokeWidth: 0.5,
             }}
           />
@@ -136,7 +129,7 @@ const DownloadsCount = () => {
             type="monotone"
             name={messages.dailyDownloads}
             dataKey="unique_user"
-            stroke="#0049C6"
+            stroke={theme.palette.blueCorner}
             fillOpacity={1}
             fill="url(#colorQuotidien)"
           />
@@ -144,7 +137,7 @@ const DownloadsCount = () => {
       </ResponsiveContainer>
       <Grid container>
         <Grid item>
-          <ChartLegend sx={{ color: '#0049C6' }}>
+          <ChartLegend sx={{ color: theme.palette.blueCorner }}>
             <Typography variant="subtitle2">{messages.dailyDownloads}</Typography>
           </ChartLegend>
         </Grid>
