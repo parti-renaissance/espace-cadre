@@ -25,7 +25,7 @@ const CampaignDetailCallers = ({ number, firstName, lastName, count, goal }) => 
 CampaignDetailCallers.propTypes = {
   number: PropTypes.number.isRequired,
   ...DomainPhoningCampaignCallers.propTypes,
-  goal: PropTypes.number.isRequired,
+  goal: PropTypes.number,
 }
 
 export default CampaignDetailCallers
