@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
