@@ -76,7 +76,7 @@ const messages = {
 const CampaignDetailSurveys = ({ replies }) => {
   const [currentPage, setCurrentPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [order, toggleOrder] = useState({ lastName: 'asc', startDate: 'asc' })
+  const [order, toggleOrder] = useState({ startDate: 'asc' })
 
   const handleChangePage = (_, page) => {
     setCurrentPage(page)
@@ -94,7 +94,7 @@ const CampaignDetailSurveys = ({ replies }) => {
   const columns = useMemo(() => replies?.[0]?.answers.map(({ question, type }) => ({ question, type })), [replies])
   const rows = useMemo(() => {
     const rows = replies.slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-    return orderBy(rows, Object.keys(order), Object.values(order))
+    return orderBy(rows, Object.keys(order).reverse(), Object.values(order).reverse())
   }, [replies, currentPage, rowsPerPage, order])
 
   if (replies.length === 0) return null
@@ -107,9 +107,7 @@ const CampaignDetailSurveys = ({ replies }) => {
             <TableHead>
               <TableRow>
                 <TableCell key={uuid()} answerType="called" isSticky>
-                  <TableSortLabel direction={order.lastName} onClick={handleSort('lastName')} active>
-                    <ColumnLabel>{messages.called}</ColumnLabel>
-                  </TableSortLabel>
+                  <ColumnLabel>{messages.called}</ColumnLabel>
                 </TableCell>
 
                 <TableCell key={uuid()} answerType="time">

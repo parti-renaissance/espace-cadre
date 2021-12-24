@@ -37,7 +37,7 @@ export const getPhoningCampaignListQuery = async () => {
   return data.items.map(c => {
     const team = new PhoningCampaignsTeam(c.team.name, c.team.members_count)
     const score = new PhoningCampaignsScore(c.nb_calls, c.goal)
-    return new PhoningCampaigns(c.uuid, c.finish_at, c.title, c.creator, team, score)
+    return new PhoningCampaigns(c.uuid, new Date(c.finish_at), c.title, c.creator, team, score)
   })
 }
 
@@ -112,8 +112,8 @@ export const getPhoningCampaignSurveysReplies = async campaignId => {
           sr.answers.map(a => new PhoningCampaignReplyAnswer(a.type, a.answer, a.question)),
           sr.phoning_campaign_history.adherent.first_name,
           sr.phoning_campaign_history.adherent.last_name,
-          sr.phoning_campaign_history.begin_at,
-          sr.phoning_campaign_history.finish_at
+          new Date(sr.phoning_campaign_history.begin_at),
+          new Date(sr.phoning_campaign_history.finish_at)
         )
     ),
   }

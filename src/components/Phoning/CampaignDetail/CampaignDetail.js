@@ -3,6 +3,7 @@ import { useInfiniteQuery, useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 import {
   getPhoningCampaignQuery,
@@ -10,6 +11,7 @@ import {
   getPhoningCampaignHistory,
   getPhoningCampaignSurveysReplies,
 } from 'api/phoning'
+import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './KPI'
@@ -19,9 +21,7 @@ import CampaignDetailSurveys from './Surveys'
 import CreateEdit from '../CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
-import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import Loader from 'ui/Loader'
-import InfiniteScroll from 'react-infinite-scroll-component'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -51,7 +51,7 @@ const messages = {
 }
 
 export const CampaignDetail = () => {
-  const [selectedTab, setSelectedTab] = useState(messages.surveys.id)
+  const [selectedTab, setSelectedTab] = useState(messages.callers.id)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
@@ -73,13 +73,17 @@ export const CampaignDetail = () => {
 
   const {
     data: paginatedHistory = null,
-    isLoading,
+    isLoading: isHistoryLoading,
     fetchNextPage: fetchNexPageHistory,
     hasNextPage: hasNextPageHistory,
-  } = useInfiniteQuery(['history', campaignId], args => getPhoningCampaignHistory({ campaignId, ...args }), {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQuery(
+    ['history', campaignId],
+    pageParams => getPhoningCampaignHistory({ campaignId, ...pageParams }),
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
   const history = usePaginatedData(paginatedHistory)
 
   const { data: surveys = {}, isLoading: isSurveysLoading } = useQuery(
@@ -90,8 +94,8 @@ export const CampaignDetail = () => {
     }
   )
   const isLoadingData = useMemo(
-    () => !!(isCallersLoading || isLoading || isSurveysLoading),
-    [isCallersLoading, isLoading, isSurveysLoading]
+    () => !!(isCallersLoading || isHistoryLoading || isSurveysLoading),
+    [isCallersLoading, isHistoryLoading, isSurveysLoading]
   )
 
   const handleChange = (_, tabId) => {
@@ -102,7 +106,7 @@ export const CampaignDetail = () => {
     // TODO: implement view modal
   }
 
-  if (!campaign.title) return null
+  if (!campaignId) return null
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -131,80 +135,82 @@ export const CampaignDetail = () => {
         )}
 
         {!isLoadingData && (
-          <Tabs
-            value={selectedTab}
-            onChange={handleChange}
-            TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
-            sx={{ my: 2 }}
-          >
-            {[messages.callers, messages.history, messages.surveys].map(({ id, label }) => (
-              <Tab
-                key={id}
-                value={id}
-                label={
-                  <TabLabel>
-                    {id === messages.callers.id && `${callers.length} ${pluralize(callers.length, label)}`}
-                    {id === messages.history.id &&
-                      `${paginatedHistory?.pages[0].total || 0} ${pluralize(
-                        paginatedHistory?.pages[0].total || 0,
-                        label
-                      )}`}
-                    {id === messages.surveys.id &&
-                      `${surveys?.totalCount || 0} ${pluralize(surveys?.totalCount || 0, label)}`}
-                  </TabLabel>
-                }
-                disableRipple
-                disableFocusRipple
-              />
-            ))}
-          </Tabs>
-        )}
-
-        {selectedTab === messages.callers.id && callers.length > 0 && (
-          <Grid container spacing={2} data-testid="phoning-caller-container">
-            {callers.map((caller, index) => (
-              <CampaignDetailCallers
-                key={index + 1}
-                number={index + 1}
-                firstName={caller.firstName}
-                lastName={caller.lastName}
-                count={caller.count}
-                goal={campaign.goal}
-              />
-            ))}
-          </Grid>
-        )}
-        {selectedTab === messages.history.id && (
-          <InfiniteScroll
-            dataLength={history.length}
-            next={() => fetchNexPageHistory()}
-            hasMore={hasNextPageHistory}
-            loader={<Loader />}
-          >
-            <Grid container spacing={2}>
-              {history.map(call => (
-                <CampaignDetailHistory
-                  key={call.id}
-                  status={call.status}
-                  startDate={campaign.startDate}
-                  adherent={call.adherent}
-                  caller={call.caller}
-                  updateTime={call.updateTime}
-                  handleView={handleHistoryView}
+          <>
+            <Tabs
+              value={selectedTab}
+              onChange={handleChange}
+              TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
+              sx={{ my: 2 }}
+            >
+              {[messages.callers, messages.history, messages.surveys].map(({ id, label }) => (
+                <Tab
+                  key={id}
+                  value={id}
+                  label={
+                    <TabLabel>
+                      {id === messages.callers.id && `${callers.length} ${pluralize(callers.length, label)}`}
+                      {id === messages.history.id &&
+                        `${paginatedHistory?.pages[0].total || 0} ${pluralize(
+                          paginatedHistory?.pages[0].total || 0,
+                          label
+                        )}`}
+                      {id === messages.surveys.id &&
+                        `${surveys?.totalCount || 0} ${pluralize(surveys?.totalCount || 0, label)}`}
+                    </TabLabel>
+                  }
+                  disableRipple
+                  disableFocusRipple
                 />
               ))}
-            </Grid>
-          </InfiniteScroll>
-        )}
-        {selectedTab === messages.surveys.id && surveys.replies?.length > 0 && (
-          <Grid container spacing={2}>
-            <CampaignDetailSurveys replies={surveys.replies} />
-          </Grid>
+            </Tabs>
+
+            {selectedTab === messages.callers.id && callers.length > 0 && (
+              <Grid container spacing={2} data-testid="phoning-caller-container">
+                {callers.map((caller, index) => (
+                  <CampaignDetailCallers
+                    key={index + 1}
+                    number={index + 1}
+                    firstName={caller.firstName}
+                    lastName={caller.lastName}
+                    count={caller.count}
+                    goal={campaign.goal}
+                  />
+                ))}
+              </Grid>
+            )}
+            {selectedTab === messages.history.id && history.length > 0 && (
+              <InfiniteScroll
+                dataLength={history.length}
+                next={() => fetchNexPageHistory()}
+                hasMore={hasNextPageHistory}
+                loader={<Loader />}
+              >
+                <Grid container spacing={2}>
+                  {history.map(call => (
+                    <CampaignDetailHistory
+                      key={call.id}
+                      status={call.status}
+                      startDate={campaign.startDate}
+                      adherent={call.adherent}
+                      caller={call.caller}
+                      updateTime={call.updateTime}
+                      handleView={handleHistoryView}
+                    />
+                  ))}
+                </Grid>
+              </InfiniteScroll>
+            )}
+            {selectedTab === messages.surveys.id && surveys.replies?.length > 0 && (
+              <Grid container spacing={2}>
+                <CampaignDetailSurveys replies={surveys.replies} />
+              </Grid>
+            )}
+          </>
         )}
       </Grid>
 
       <CreateEdit
-        campaign={campaign}
+        campaign={Object.keys(campaign).length > 0 ? campaign : null}
         isOpen={isCreateEditModalOpen}
         onCreateResolve={refetchCampaign}
         handleClose={() => setIsCreateEditModalOpen(false)}
