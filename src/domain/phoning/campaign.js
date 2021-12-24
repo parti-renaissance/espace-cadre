@@ -132,10 +132,10 @@ PhoningCampaignReplyAnswer.propTypes = PropTypes.shape({
 
 PhoningCampaignReply.propTypes = PropTypes.shape({
   answers: PropTypes.arrayOf(PhoningCampaignReplyAnswer.propTypes).isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  startDate: PropTypes.string.isRequired,
-  endDate: PropTypes.string.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  startDate: PropTypes.object.isRequired,
+  endDate: PropTypes.object.isRequired,
 })
 
 PhoningCampaignZone.propTypes = PropTypes.shape({
