@@ -33,11 +33,12 @@ PhoningCampaignHistory.propTypes = PropTypes.shape({
   caller: PhoningCampaignHistoryCaller.propTypes,
 })
 
+// TODO: add '.isRequired' when data will be properly sent by API
 PhoningCampaignHistoryAdherent.propTypes = PropTypes.shape({
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  gender: PropTypes.string.isRequired,
-  age: PropTypes.number.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  gender: PropTypes.string,
+  age: PropTypes.number,
 })
 
 PhoningCampaignHistoryCaller.propTypes = PropTypes.shape({
