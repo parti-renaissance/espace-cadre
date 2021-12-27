@@ -1,0 +1,3 @@
+const ONE_HOUR = 60 * 60 * 1000
+
+export const DASHBOARD_CACHE_DURATION = ONE_HOUR

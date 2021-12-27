@@ -7,6 +7,7 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
+import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
 const MapContainer = styled(LeafletContainer)(
   () => `
@@ -25,8 +26,6 @@ const messages = {
   errorMessage: 'Les données des questionnaires sont indisponibles',
 }
 
-const ONE_HOUR = 60 * 60 * 1000
-
 const MapComponent = () => {
   L.Icon.Default.imagePath = '/'
 
@@ -35,8 +34,8 @@ const MapComponent = () => {
     isLoading,
     isError,
   } = useQuery('surveys', getSurveyMapQuery, {
-    cacheTime: ONE_HOUR,
-    staleTime: ONE_HOUR,
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
   })
 
   if (isLoading) return <Loading />

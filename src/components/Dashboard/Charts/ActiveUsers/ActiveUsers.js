@@ -6,8 +6,9 @@ import { usersCount } from 'api/dashboard'
 import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
-import { chartAxisStyle } from 'components/Dashboard/Charts/shared/styles'
+import { areaMargin, chartAxisStyle } from 'components/Dashboard/Charts/shared/styles'
 import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
+import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
 const messages = {
   user: 'Utilisateur',
@@ -19,8 +20,6 @@ const messages = {
   errorMessage: "Le nombre d'utilisateurs actifs de l'app n'est pas renseigné",
 }
 
-const ONE_HOUR = 60 * 60 * 1000
-
 const ActiveUsers = () => {
   const theme = useTheme()
 
@@ -29,8 +28,8 @@ const ActiveUsers = () => {
     isLoading,
     isError,
   } = useQuery('users', usersCount, {
-    cacheTime: ONE_HOUR,
-    staleTime: ONE_HOUR,
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
   })
 
   if (isLoading) return <Loading />
@@ -45,15 +44,7 @@ const ActiveUsers = () => {
       />
       <Grid container>
         <ResponsiveContainer width="100%" height={250}>
-          <AreaChart
-            data={users.users}
-            margin={{
-              top: 5,
-              right: 20,
-              bottom: 5,
-              left: 0,
-            }}
-          >
+          <AreaChart data={users.users} margin={areaMargin}>
             <defs>
               <linearGradient id="colorQuotidien" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={theme.palette.blueCorner} stopOpacity={0.8} />

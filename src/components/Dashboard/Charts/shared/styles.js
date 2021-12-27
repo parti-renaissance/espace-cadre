@@ -10,3 +10,10 @@ export const toolTipStyle = {
   padding: '2px 5px',
   textAlign: 'left',
 }
+
+export const areaMargin = {
+  top: 5,
+  right: 20,
+  bottom: 5,
+  left: 0,
+}

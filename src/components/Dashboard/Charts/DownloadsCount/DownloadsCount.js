@@ -6,9 +6,10 @@ import { downloadsCount } from 'api/dashboard'
 import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
-import { chartAxisStyle } from 'components/Dashboard/Charts/shared/styles'
+import { areaMargin, chartAxisStyle } from 'components/Dashboard/Charts/shared/styles'
 import Tooltip from 'components/Dashboard/Charts/shared/Tooltip'
 import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
+import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
 const messages = {
   downloads: 'Téléchargement',
@@ -18,16 +19,14 @@ const messages = {
   errorMessage: "Les données de téléchargement de l'app sont indisponibles",
 }
 
-const ONE_HOUR = 60 * 60 * 1000
-
 const DownloadsCount = () => {
   const {
     data: downloads = null,
     isLoading,
     isError,
   } = useQuery('downloads', downloadsCount, {
-    cacheTime: ONE_HOUR,
-    staleTime: ONE_HOUR,
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
   })
 
   const theme = useTheme()
@@ -39,20 +38,12 @@ const DownloadsCount = () => {
     <>
       <DashboardHeader
         amount={downloads.totalDownloads}
-        title={`${pluralize(downloads.totalDownloads, messages.downloads)} ${messages.period} `}
+        title={`${pluralize(downloads.totalDownloads, messages.downloads)} ${messages.period}`}
         subtitle={messages.subtitle}
       />
 
       <ResponsiveContainer width="100%" height={250}>
-        <AreaChart
-          data={downloads.downloads}
-          margin={{
-            top: 5,
-            right: 20,
-            bottom: 5,
-            left: 0,
-          }}
-        >
+        <AreaChart data={downloads.downloads} margin={areaMargin}>
           <defs>
             <linearGradient id="colorQuotidien" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor={theme.palette.blueCorner} stopOpacity={0.8} />
