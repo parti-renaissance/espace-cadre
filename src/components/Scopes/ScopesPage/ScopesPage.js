@@ -6,7 +6,7 @@ import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
 import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
-import barChartScopes from 'assets/barChartScopes.svg'
+import BarChartIcon from 'ui/icons/BarChart'
 
 const Container = styled(MuiContainer)`
   height: 400px;
@@ -22,14 +22,11 @@ const BrandContainer = styled(Grid)(
 `
 )
 
-const BarChartLogo = styled('img')(({ theme }) => ({
-  marginRight: theme.spacing(0.5),
-  width: '30px',
-  height: '45px',
-
-  [theme.breakpoints.up('md')]: {
-    width: '48px',
-    marginTop: theme.spacing(1.5),
+const UIBarChartIcon = styled(BarChartIcon)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+  fontSize: '40px',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '27px',
   },
 }))
 
@@ -117,8 +114,8 @@ function ScopesPage() {
 
   return (
     <Container maxWidth={false}>
-      <BrandContainer container>
-        <BarChartLogo src={barChartScopes} alt="Logo data corner" />
+      <BrandContainer container alignItems="center">
+        <UIBarChartIcon fontSize="large" titleAccess="Logo data corner" />
         <Title>{messages.title}</Title>
         <Beta>{messages.beta}</Beta>
       </BrandContainer>
