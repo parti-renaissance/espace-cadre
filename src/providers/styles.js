@@ -301,4 +301,7 @@ export const styles = {
     // Alert banner
     backgroundError: '#FEEFEF',
   },
+  shape: {
+    borderRadius: 8,
+  },
 }
