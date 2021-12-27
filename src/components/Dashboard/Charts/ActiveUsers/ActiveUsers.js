@@ -1,46 +1,14 @@
-import { useState, useEffect } from 'react'
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
-import { Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { apiClientProxy } from 'services/networking/client'
-import Loader from 'ui/Loader'
-import { useDashboardUsersCache } from '../../../../redux/dashboard/hooks'
-import { useUserScope } from '../../../../redux/user/hooks'
-import ErrorComponent from 'components/ErrorComponent'
-import UIContainer from 'ui/Container'
+import { Grid, Typography, useTheme } from '@mui/material'
 import pluralize from 'components/shared/pluralize/pluralize'
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    padding: theme.spacing(2),
-  },
-  countBubble: {
-    color: theme.palette.blueCorner,
-    fontWeight: '600',
-    fontSize: '18px',
-    backgroundColor: theme.palette.blueBubble,
-    padding: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    borderRadius: '6px',
-  },
-  chartTitle: {
-    color: theme.palette.blackCorner,
-    fontWeight: '600',
-  },
-  chartSubtitle: {
-    color: theme.palette.grayCorner3,
-    fontSize: '12px',
-    fontWeight: '400',
-  },
-  legendChart: {
-    fontSize: '12px',
-    fontWeight: '400',
-    margin: theme.spacing(2, 2, 2, 4),
-  },
-  noData: {
-    padding: theme.spacing(2),
-  },
-}))
+import { useQuery } from 'react-query'
+import { usersCount } from 'api/dashboard'
+import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
+import Loading from 'components/Dashboard/shared/Loading'
+import Error from 'components/Dashboard/shared/Error'
+import { areaMargin, chartAxisStyle } from 'components/Dashboard/Charts/shared/styles'
+import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
+import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
 const messages = {
   user: 'Utilisateur',
@@ -52,155 +20,78 @@ const messages = {
   errorMessage: "Le nombre d'utilisateurs actifs de l'app n'est pas renseigné",
 }
 
-function ActiveUsers() {
-  const classes = useStyles()
-  const [dashboardUsers, setDashboardUsers] = useDashboardUsersCache()
-  const [currentScope] = useUserScope()
-  const [errorMessage, setErrorMessage] = useState()
-  const { totalUsers, users } = dashboardUsers || {}
+const ActiveUsers = () => {
+  const theme = useTheme()
 
-  useEffect(() => {
-    const getDashboardUsers = async () => {
-      try {
-        if (dashboardUsers === null && currentScope) {
-          setDashboardUsers(await apiClientProxy.get('/jemengage/users'))
-        }
-      } catch (error) {
-        setErrorMessage(error)
-      }
-    }
-    getDashboardUsers()
-  }, [currentScope, dashboardUsers, setDashboardUsers])
+  const {
+    data: users = null,
+    isLoading,
+    isError,
+  } = useQuery('users', usersCount, {
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
+  })
 
-  const dashboardUsersContent = () => {
-    if (dashboardUsers && users.length > 0) {
-      return (
-        <>
-          <Grid container className={classes.container}>
-            <span className={classes.countBubble}>{totalUsers}</span>
-            <Grid item>
-              <div className={classes.chartTitle}>
-                {pluralize(dashboardUsers?.totalUsers, messages.user)} {messages.period}
-              </div>
-              <div className={classes.chartSubtitle}>
-                {pluralize(dashboardUsers?.totalUsers, messages.active)} {messages.activeWording}&nbsp;
-              </div>
-            </Grid>
-          </Grid>
-          <Grid container>
-            <ResponsiveContainer width="100%" height={250}>
-              <AreaChart
-                data={users}
-                margin={{
-                  top: 5,
-                  right: 20,
-                  bottom: 5,
-                  left: 0,
-                }}
-              >
-                <defs>
-                  <linearGradient id="colorUnique" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0049C6" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#0049C6" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="colorCumul" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis
-                  dataKey="date"
-                  angle={-14}
-                  tickMargin={8}
-                  interval={4}
-                  style={{
-                    color: '#717BA0',
-                    fontFamily: 'roboto',
-                    fontSize: '12px',
-                  }}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  style={{
-                    color: '#717BA0',
-                    fontFamily: 'roboto',
-                    fontSize: '12px',
-                  }}
-                />
-                <CartesianGrid strokeDasharray=".08" />
-                <Tooltip
-                  contentStyle={{
-                    background: '#fff',
-                    borderColor: '#F0F1F3',
-                    borderRadius: '16px',
-                  }}
-                  labelStyle={{
-                    fontSize: '14px',
-                    color: '#1A334D',
-                    fontFamily: 'Poppins',
-                    fontWeight: 'bold',
-                    padding: '2px 5px',
-                    textAlign: 'left',
-                  }}
-                  itemStyle={{
-                    fontSize: '14px',
-                    fontFamily: 'Poppins',
-                    padding: '2px 5px',
-                    textAlign: 'left',
-                  }}
-                  cursor={{
-                    stroke: '#0049C6',
-                    strokeWidth: 0.5,
-                  }}
-                />
-                <Area
-                  name={messages.dailyUsers}
-                  type="monotone"
-                  dataKey="unique_user"
-                  stroke="#0049C6"
-                  fillOpacity={1}
-                  fill="url(#colorUnique)"
-                />
-                <Area
-                  name={messages.monthlyUsers}
-                  type="monotone"
-                  dataKey="rolling_seven_users"
-                  stroke="#82ca9d"
-                  fillOpacity={1}
-                  fill="url(#colorCumul)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </Grid>
-          <Grid container>
-            <Grid item>
-              <li className={classes.legendChart} style={{ color: '#0049C6' }}>
-                {messages.dailyUsers}
-              </li>
-            </Grid>
-            <Grid item>
-              <li className={classes.legendChart} style={{ color: '#82ca9d' }}>
-                {messages.monthlyUsers}
-              </li>
-            </Grid>
-          </Grid>
-        </>
-      )
-    }
-    if (dashboardUsers !== null && dashboardUsers.users.length === 0) {
-      return <UIContainer>{messages.errorMessage}</UIContainer>
-    }
-    if (errorMessage) {
-      return <ErrorComponent errorMessage={errorMessage} />
-    }
-    return (
-      <UIContainer textAlign="center">
-        <Loader />
-      </UIContainer>
-    )
-  }
-  return <>{dashboardUsersContent()}</>
+  if (isLoading) return <Loading />
+  if (isError) return <Error message={messages.errorMessage} />
+
+  return (
+    <>
+      <DashboardHeader
+        amount={users.totalUsers}
+        title={`${pluralize(users.totalUsers, messages.user)} ${messages.period} `}
+        subtitle={`${pluralize(users.totalUsers, messages.active)} ${messages.activeWording} `}
+      />
+      <Grid container>
+        <ResponsiveContainer width="100%" height={250}>
+          <AreaChart data={users.users} margin={areaMargin}>
+            <defs>
+              <linearGradient id="colorQuotidien" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={theme.palette.blueCorner} stopOpacity={0.8} />
+                <stop offset="95%" stopColor={theme.palette.blueCorner} stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorCumul" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis dataKey="date" angle={-14} tickMargin={8} interval={4} style={chartAxisStyle} />
+            <YAxis axisLine={false} tickLine={false} style={chartAxisStyle} />
+            <CartesianGrid strokeDasharray=".08" />
+            <Tooltip />
+            <Area
+              name={messages.dailyUsers}
+              type="monotone"
+              dataKey="unique_user"
+              stroke={theme.palette.blueCorner}
+              fillOpacity={1}
+              fill="url(#colorUnique)"
+            />
+            <Area
+              name={messages.monthlyUsers}
+              type="monotone"
+              dataKey="rolling_seven_users"
+              stroke="#82ca9d"
+              fillOpacity={1}
+              fill="url(#colorCumul)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </Grid>
+      <Grid container>
+        <Grid item>
+          <ChartLegend sx={{ color: theme.palette.blueCorner }}>
+            <Typography variant="subtitle2">{messages.dailyUsers}</Typography>
+          </ChartLegend>
+        </Grid>
+        <Grid item>
+          <ChartLegend sx={{ color: '#82ca9d' }}>
+            <Typography variant="subtitle2">{messages.monthlyUsers}</Typography>
+          </ChartLegend>
+        </Grid>
+      </Grid>
+    </>
+  )
 }
 
 export default ActiveUsers
