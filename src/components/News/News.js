@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { Container, Grid } from '@mui/material'
 
-import { useInfiniteQuery, useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import { getNewsQuery, updateNewsStatusQuery } from 'api/news'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import Header from './Card/Header'
@@ -17,6 +17,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
+import { useInfiniteQueryScope } from 'api/useQueryScope'
 
 const messages = {
   title: 'Actualités',
@@ -36,7 +37,7 @@ const News = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQuery('news', getNewsQuery, {
+  } = useInfiniteQueryScope('news', getNewsQuery, {
     getNextPageParam,
     onError: handleError,
   })

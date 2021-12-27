@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useInfiniteQuery, useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import { Container, Grid } from '@mui/material'
 import TeamModal from './TeamModal'
 import { createTeamQuery, getTeamsQuery, updateTeamQuery } from 'api/teams'
@@ -15,6 +15,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import { useInfiniteQueryScope } from 'api/useQueryScope'
 
 const messages = {
   title: 'Équipes',
@@ -33,7 +34,7 @@ const Teams = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQuery('teams', getTeamsQuery, {
+  } = useInfiniteQueryScope('teams', getTeamsQuery, {
     getNextPageParam,
     onError: handleError,
   })

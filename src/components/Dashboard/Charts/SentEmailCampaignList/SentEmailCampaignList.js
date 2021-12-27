@@ -5,7 +5,7 @@ import UICard from 'ui/Card'
 import { Header } from './card/Header'
 import Body from 'components/Dashboard/Charts/SentEmailCampaignList/card/Body'
 import Actions from 'components/Dashboard/Charts/SentEmailCampaignList/card/Actions'
-import { useInfiniteQuery, useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -14,6 +14,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import PropTypes from 'prop-types'
+import { useInfiniteQueryScope } from 'api/useQueryScope'
 
 const messages = {
   nocampaign: 'Aucune campagne à afficher',
@@ -46,7 +47,7 @@ const SentEmailCampaignList = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQuery('messages', getMessages, {
+  } = useInfiniteQueryScope('messages', getMessages, {
     getNextPageParam,
     onError: handleError,
   })

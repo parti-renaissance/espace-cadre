@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { useInfiniteQuery, useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
@@ -22,6 +21,7 @@ import CreateEdit from '../CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
+import { useInfiniteQueryScope, useQueryScope } from 'api/useQueryScope'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -56,14 +56,14 @@ export const CampaignDetail = () => {
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: campaign = {}, refetch: refetchCampaign } = useQuery(
+  const { data: campaign = {}, refetch: refetchCampaign } = useQueryScope(
     ['campaign', campaignId],
     () => getPhoningCampaignQuery(campaignId),
     {
       onError: handleError,
     }
   )
-  const { data: callers = [], isLoading: isCallersLoading } = useQuery(
+  const { data: callers = [], isLoading: isCallersLoading } = useQueryScope(
     ['callers', campaignId],
     () => getPhoningCampaignCallers(campaignId),
     {
@@ -76,7 +76,7 @@ export const CampaignDetail = () => {
     isLoading: isHistoryLoading,
     fetchNextPage: fetchNexPageHistory,
     hasNextPage: hasNextPageHistory,
-  } = useInfiniteQuery(
+  } = useInfiniteQueryScope(
     ['history', campaignId],
     pageParams => getPhoningCampaignHistory({ campaignId, ...pageParams }),
     {
@@ -86,7 +86,7 @@ export const CampaignDetail = () => {
   )
   const history = usePaginatedData(paginatedHistory)
 
-  const { data: surveys = {}, isLoading: isSurveysLoading } = useQuery(
+  const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryScope(
     ['surveys', campaignId],
     () => getPhoningCampaignSurveysReplies(campaignId),
     {

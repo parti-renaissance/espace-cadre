@@ -6,12 +6,12 @@ import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useUserScope } from '../../../redux/user/hooks'
 import { getMessageContent } from 'api/messagerie'
-import { useQuery } from 'react-query'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import UIFormMessage from 'ui/FormMessage'
 import * as Sentry from '@sentry/react'
+import { useQueryScope } from 'api/useQueryScope'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -96,7 +96,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
     })
   }, [onMessageUpdate])
 
-  const { data: messageContent = null } = useQuery(
+  const { data: messageContent = null } = useQueryScope(
     ['messageContent', messageUuid],
     () => getMessageContent(messageUuid),
     { onError: handleError, enabled: !!messageUuid && editorLoaded }
