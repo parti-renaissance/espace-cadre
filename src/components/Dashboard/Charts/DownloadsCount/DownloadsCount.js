@@ -1,4 +1,4 @@
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { Grid, Typography, useTheme } from '@mui/material'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { useQuery } from 'react-query'
@@ -6,8 +6,14 @@ import { downloadsCount } from 'api/dashboard'
 import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
-import { areaMargin, chartAxisStyle } from 'components/Dashboard/Charts/shared/styles'
-import Tooltip from 'components/Dashboard/Charts/shared/Tooltip'
+import {
+  areaMargin,
+  chartAxisStyle,
+  tooltipContentStyle,
+  tooltipCursorStyle,
+  tooltipLabelStyle,
+  tooltipStyle,
+} from 'components/Dashboard/Charts/shared/styles'
 import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
@@ -53,7 +59,12 @@ const DownloadsCount = () => {
           <XAxis dataKey="date" angle={-14} tickMargin={8} interval={4} style={chartAxisStyle} />
           <YAxis axisLine={false} tickLine={false} style={chartAxisStyle} />
           <CartesianGrid strokeDasharray=".08" />
-          <Tooltip />
+          <Tooltip
+            contentStyle={tooltipContentStyle(theme)}
+            labelStyle={tooltipLabelStyle(theme)}
+            itemStyle={tooltipStyle}
+            cursor={tooltipCursorStyle(theme)}
+          />
           <Area
             type="monotone"
             name={messages.dailyDownloads}

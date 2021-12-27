@@ -1,64 +1,42 @@
-import { useState, useEffect } from 'react'
-import { Box } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import Loader from 'ui/Loader'
-import { apiClientProxy } from '../../../../services/networking/client'
-import { useDashboardAdherentCache } from '../../../../redux/dashboard/hooks'
+import { Box, Typography } from '@mui/material'
 import { useUserScope } from '../../../../redux/user/hooks'
-import ErrorComponent from 'components/ErrorComponent'
 import pluralize from 'components/shared/pluralize/pluralize'
-
-const useStyles = makeStyles(theme => ({
-  dashboardTitle: {
-    color: theme.palette.blackCorner,
-    fontSize: '16px',
-    fontWeight: '600',
-  },
-}))
+import { useQuery } from 'react-query'
+import { adherentsCount } from 'api/dashboard'
+import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
+import Loading from 'components/Dashboard/shared/Loading'
+import Error from 'components/Dashboard/shared/Error'
 
 const messages = {
   adherent: 'adhérent',
+  errorMessage: 'Les données des adhérents sont indisponibles',
 }
 
-function TextChart() {
-  const classes = useStyles()
-  const [dashboardAdherents, setDashboardAdherents] = useDashboardAdherentCache()
+const TextChart = () => {
   const [currentScope] = useUserScope()
-  const [errorMessage, setErrorMessage] = useState()
 
-  useEffect(() => {
-    const getDashboardAdherents = async () => {
-      try {
-        if (dashboardAdherents === null && currentScope) {
-          setDashboardAdherents(await apiClientProxy.get('/adherents'))
-        }
-      } catch (error) {
-        setErrorMessage(error)
-      }
-    }
-    getDashboardAdherents()
-  }, [currentScope, dashboardAdherents, setDashboardAdherents])
+  const {
+    data: adherents = null,
+    isLoading,
+    isError,
+  } = useQuery('adherents', adherentsCount, {
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
+  })
 
-  const dashboardAdherentsContent = () => {
-    if (dashboardAdherents !== null) {
-      return (
-        <Box mb={2}>
-          <Box className={classes.dashboardTitle}>
-            {currentScope.name} &gt;
-            {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} (
-            {dashboardAdherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}&nbsp;
-            {pluralize(dashboardAdherents.adherentCount, messages.adherent)})
-          </Box>
-        </Box>
-      )
-    }
-    if (errorMessage) {
-      return <ErrorComponent errorMessage={errorMessage} />
-    }
-    return <Loader />
-  }
+  if (isLoading) return <Loading />
+  if (isError) return <Error message={messages.errorMessage} />
 
-  return <>{dashboardAdherentsContent()}</>
+  return (
+    <Box mb={2} sx={{ color: 'blackCorner' }}>
+      <Typography variant="subtitle1">
+        {currentScope.name} &gt;
+        {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} (
+        {adherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}&nbsp;
+        {pluralize(adherents.adherentCount, messages.adherent)})
+      </Typography>
+    </Box>
+  )
 }
 
 export default TextChart

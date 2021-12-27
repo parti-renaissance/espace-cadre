@@ -6,7 +6,14 @@ import { usersCount } from 'api/dashboard'
 import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
-import { areaMargin, chartAxisStyle } from 'components/Dashboard/Charts/shared/styles'
+import {
+  areaMargin,
+  chartAxisStyle,
+  tooltipContentStyle,
+  tooltipCursorStyle,
+  tooltipLabelStyle,
+  tooltipStyle,
+} from 'components/Dashboard/Charts/shared/styles'
 import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
@@ -58,7 +65,12 @@ const ActiveUsers = () => {
             <XAxis dataKey="date" angle={-14} tickMargin={8} interval={4} style={chartAxisStyle} />
             <YAxis axisLine={false} tickLine={false} style={chartAxisStyle} />
             <CartesianGrid strokeDasharray=".08" />
-            <Tooltip />
+            <Tooltip
+              contentStyle={tooltipContentStyle(theme)}
+              labelStyle={tooltipLabelStyle(theme)}
+              itemStyle={tooltipStyle}
+              cursor={tooltipCursorStyle(theme)}
+            />
             <Area
               name={messages.dailyUsers}
               type="monotone"

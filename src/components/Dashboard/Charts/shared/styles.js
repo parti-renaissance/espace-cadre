@@ -4,7 +4,7 @@ export const chartAxisStyle = {
   fontSize: '12px',
 }
 
-export const toolTipStyle = {
+export const tooltipStyle = {
   fontSize: '14px',
   fontFamily: 'Poppins',
   padding: '2px 5px',
@@ -17,3 +17,19 @@ export const areaMargin = {
   bottom: 5,
   left: 0,
 }
+
+export const tooltipContentStyle = theme => ({
+  background: '#fff',
+  borderColor: theme.palette.grayCornerBg,
+  borderRadius: '6px',
+})
+
+export const tooltipLabelStyle = theme => ({
+  color: theme.palette.blackCorner,
+  fontWeight: 'bold',
+  ...tooltipStyle,
+})
+export const tooltipCursorStyle = theme => ({
+  stroke: theme.palette.blueCorner,
+  strokeWidth: 0.5,
+})
