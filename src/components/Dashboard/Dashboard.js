@@ -7,7 +7,7 @@ import MapComponent from './Map/MapComponent'
 import TextChart from './Charts/TextChart/TextChart'
 import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
-import { Phone as PhoneSvg } from 'ui/icons/Phone'
+import PhoneIcon from 'ui/icons/Phone'
 
 const Container = styled(MuiContainer)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};
@@ -41,7 +41,7 @@ const Dashboard = () => (
       <KpiEmailCampaign />
       <Grid item xs={12}>
         <Title>
-          <PhoneSvg alt="smartphone-logo" />
+          <PhoneIcon titleAccess="smartphone-logo" />
           <span>{messages.mobile}</span>
         </Title>
       </Grid>

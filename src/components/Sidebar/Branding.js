@@ -1,6 +1,6 @@
 import { styled } from '@mui/system'
 import { Typography, Toolbar } from '@mui/material'
-import { ListIcon } from 'ui/icons/ListIcon'
+import ListIcon from 'ui/icons/ListIcon'
 import CloseIcon from '@mui/icons-material/Close'
 import PropTypes from 'prop-types'
 
@@ -50,7 +50,7 @@ const messages = {
 
 const Branding = ({ mobileOpen = false, handleDrawerToggle }) => (
   <BrandingWrapper onClick={handleDrawerToggle}>
-    <IconWrapper>{mobileOpen ? <CloseIcon sx={{ mt: 0.5 }} /> : <ListIcon alt="Menu button" />}</IconWrapper>
+    <IconWrapper>{mobileOpen ? <CloseIcon sx={{ mt: 0.5 }} /> : <ListIcon titleAccess="Menu button" />}</IconWrapper>
     <SiteName>{messages.siteName}</SiteName>
     <BetaWrapper>
       <Beta>{messages.beta}</Beta>
