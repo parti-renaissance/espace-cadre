@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { useFormikContext } from 'formik'
 import DatePicker from '@mui/lab/DatePicker'
 import { Autocomplete, FormControlLabel, Grid, InputAdornment, MenuItem, Typography } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { Checkbox, Input, Label } from '../shared/components'
+import { useStepValues } from '../shared/hooks'
 
 const messages = {
   input: {
@@ -46,16 +47,27 @@ const messages = {
   noResult: 'Aucun résultat à afficher',
 }
 
+const initialvalues = {
+  filters: {},
+  zone: {
+    name: '',
+  },
+}
+
 const Filters = ({ errors = [] }) => {
-  const [zoneInputValue, setZoneInputValue] = useState('')
-  const { values, setFieldValue } = useFormikContext()
+  const [isZoneFetchable, setIsZoneFetchable] = useState(false)
+  const { inputValues, values, updateInputValues, updateValues } = useStepValues(initialvalues)
   const { handleError, errorMessages } = useErrorHandler()
+  const debounce = useDebounce()
 
   const { data: zones = [], isFetching: isZonesFetching } = useQuery(
-    ['zones', zoneInputValue],
-    () => getPhoningCampaignZones(zoneInputValue),
+    ['zones', inputValues.zone?.name],
+    () => getPhoningCampaignZones(inputValues.zone?.name),
     {
-      enabled: !!zoneInputValue && zoneInputValue !== values?.filters?.zones?.name,
+      enabled: isZoneFetchable && !!inputValues.zone?.name,
+      onSuccess: () => {
+        setIsZoneFetchable(false)
+      },
       onError: handleError,
     }
   )
@@ -68,9 +80,10 @@ const Filters = ({ errors = [] }) => {
           <Input
             name="gender"
             placeholder={messages.placeholder.gender}
-            value={values?.filters?.gender}
+            value={inputValues.filters.gender || ''}
             onChange={event => {
-              setFieldValue('filters.gender', event.target.value)
+              updateInputValues('filters.gender', event.target.value)
+              updateValues('filters.gender', event.target.value)
             }}
             select
             autoFocus
@@ -91,9 +104,10 @@ const Filters = ({ errors = [] }) => {
           <Input
             name="firstName"
             placeholder={messages.placeholder.firstName}
-            value={values?.filters?.firstName}
+            value={inputValues.filters.firstName}
             onChange={event => {
-              setFieldValue('filters.firstName', event.target.value)
+              updateInputValues('filters.firstName', event.target.value)
+              debounce(() => updateValues('filters.firstName', event.target.value))
             }}
           />
           <FormError errors={errors} field="first_name" />
@@ -103,9 +117,10 @@ const Filters = ({ errors = [] }) => {
           <Input
             name="lastName"
             placeholder={messages.placeholder.lastName}
-            value={values?.filters?.lastName}
+            value={inputValues.filters.lastName}
             onChange={event => {
-              setFieldValue('filters.lastName', event.target.value)
+              updateInputValues('filters.lastName', event.target.value)
+              debounce(() => updateValues('filters.lastName', event.target.value))
             }}
           />
           <FormError errors={errors} field="last_name" />
@@ -119,9 +134,10 @@ const Filters = ({ errors = [] }) => {
             type="number"
             name="ageMin"
             placeholder={messages.placeholder.ageMin}
-            value={values?.filters?.ageMin}
+            value={inputValues.filters.ageMin}
             onChange={event => {
-              setFieldValue('filters.ageMin', event.target.value)
+              updateInputValues('filters.ageMin', event.target.value)
+              debounce(() => updateValues('filters.ageMin', event.target.value))
             }}
           />
           <FormError errors={errors} field="age_min" />
@@ -132,9 +148,10 @@ const Filters = ({ errors = [] }) => {
             type="number"
             name="ageMax"
             placeholder={messages.placeholder.ageMax}
-            value={values?.filters?.ageMax}
+            value={inputValues.filters.ageMax}
             onChange={event => {
-              setFieldValue('filters.ageMax', event.target.value)
+              updateInputValues('filters.ageMax', event.target.value)
+              debounce(() => updateValues('filters.ageMax', event.target.value))
             }}
           />
           <FormError errors={errors} field="age_max" />
@@ -146,9 +163,10 @@ const Filters = ({ errors = [] }) => {
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</Label>
           <DatePicker
             inputFormat="dd/MM/yyyy"
-            value={values?.filters?.adherentFromDate}
+            value={inputValues.filters.adherentFromDate}
             onChange={value => {
-              setFieldValue('filters.adherentFromDate', value)
+              updateInputValues('filters.adherentFromDate', value)
+              debounce(() => updateValues('filters.adherentFromDate', value))
             }}
             renderInput={props => <Input type="date" name="adherentFromDate" {...props} />}
             inputProps={{ placeholder: messages.placeholder.adherentFromDate }}
@@ -168,9 +186,10 @@ const Filters = ({ errors = [] }) => {
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</Label>
           <DatePicker
             inputFormat="dd/MM/yyyy"
-            value={values?.filters?.adherentToDate}
+            value={inputValues.filters.adherentToDate}
             onChange={value => {
-              setFieldValue('filters.adherentToDate', value)
+              updateInputValues('filters.adherentToDate', value)
+              debounce(() => updateValues('filters.adherentToDate', value))
             }}
             renderInput={props => <Input type="date" name="adherentToDate" {...props} />}
             inputProps={{ placeholder: messages.placeholder.adherentToDate }}
@@ -192,14 +211,14 @@ const Filters = ({ errors = [] }) => {
         <Label sx={{ pt: 3, pb: 1 }}>{messages.input.zones}</Label>
         <Autocomplete
           options={zones}
-          inputValue={zoneInputValue}
-          value={values?.filters?.zones}
-          limitTags={3}
+          inputValue={inputValues.zone?.name || ''}
+          value={values.filters.zones}
           onInputChange={(_, value) => {
-            setZoneInputValue(value)
+            updateInputValues('zone.name', value)
+            debounce(() => setIsZoneFetchable(true))
           }}
           onChange={(_, value) => {
-            setFieldValue('filters.zones', value)
+            updateValues('filters.zones', value)
           }}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={option => option.name || option}
@@ -215,6 +234,7 @@ const Filters = ({ errors = [] }) => {
           loading={isZonesFetching}
           loadingText={messages.pleaseWait}
           noOptionsText={messages.noResult}
+          limitTags={3}
           multiple
           autoComplete
           fullWidth
@@ -227,10 +247,8 @@ const Filters = ({ errors = [] }) => {
           <Grid item>
             <FormControlLabel
               label={messages.input.certified}
-              control={<Checkbox checked={!!values?.filters?.certified} />}
-              onChange={(_, value) => {
-                setFieldValue('filters.certified', value)
-              }}
+              control={<Checkbox checked={!!values.filters.certified} />}
+              onChange={(_, value) => updateValues('filters.certified', value)}
               sx={{ pt: 3 }}
             />
             <FormError errors={errors} field="is_certified" />
@@ -238,10 +256,8 @@ const Filters = ({ errors = [] }) => {
           <Grid item>
             <FormControlLabel
               label={messages.input.committeeMember}
-              control={<Checkbox checked={!!values?.filters?.committeeMember} />}
-              onChange={(_, value) => {
-                setFieldValue('filters.committeeMember', value)
-              }}
+              control={<Checkbox checked={!!values.filters.committeeMember} />}
+              onChange={(_, value) => updateValues('filters.committeeMember', value)}
             />
             <FormError errors={errors} field="is_committee_member" />
           </Grid>
@@ -251,10 +267,8 @@ const Filters = ({ errors = [] }) => {
           <Grid item>
             <FormControlLabel
               label={messages.input.emailSubscribed}
-              control={<Checkbox checked={!!values?.filters?.emailSubscribed} />}
-              onChange={(_, value) => {
-                setFieldValue('filters.emailSubscribed', value)
-              }}
+              control={<Checkbox checked={!!values.filters.emailSubscribed} />}
+              onChange={(_, value) => updateValues('filters.emailSubscribed', value)}
               sx={{ pt: 3 }}
             />
             <FormError errors={errors} field="has_email_subscription" />
@@ -262,10 +276,8 @@ const Filters = ({ errors = [] }) => {
           <Grid item>
             <FormControlLabel
               label={messages.input.SMSSubscribed}
-              control={<Checkbox checked={!!values?.filters?.SMSSubscribed} />}
-              onChange={(_, value) => {
-                setFieldValue('filters.SMSSubscribed', value)
-              }}
+              control={<Checkbox checked={!!values.filters.SMSSubscribed} />}
+              onChange={(_, value) => updateValues('filters.SMSSubscribed', value)}
             />
             <FormError errors={errors} field="has_sms_subscription" />
           </Grid>

@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
-import { useFormikContext } from 'formik'
 import DatePicker from '@mui/lab/DatePicker'
 import { InputAdornment } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
+import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { Input, Label } from '../shared/components'
+import { useStepValues } from '../shared/hooks'
 
 const messages = {
   input: {
@@ -22,17 +23,27 @@ const messages = {
   },
 }
 
+const initialvalues = {
+  title: '',
+  goal: '',
+  endDate: '',
+  brief: '',
+}
+
 const GlobalSettings = ({ errors = [] }) => {
-  const { values, setFieldValue } = useFormikContext()
+  const { inputValues, updateInputValues, updateValues } = useStepValues(initialvalues)
+  const debounce = useDebounce()
+
   return (
     <>
       <Label sx={{ pt: 3, pb: 1 }}>{messages.input.title}</Label>
       <Input
         name="title"
         placeholder={messages.placeholder.title}
-        value={values?.title}
+        value={inputValues.title}
         onChange={event => {
-          setFieldValue('title', event.target.value)
+          updateInputValues('title', event.target.value)
+          debounce(() => updateValues('title', event.target.value))
         }}
         autoFocus
       />
@@ -43,9 +54,10 @@ const GlobalSettings = ({ errors = [] }) => {
         type="number"
         name="goal"
         placeholder={messages.placeholder.goal}
-        value={values?.goal}
+        value={inputValues.goal}
         onChange={event => {
-          setFieldValue('goal', event.target.value)
+          updateInputValues('goal', event.target.value)
+          debounce(() => updateValues('goal', event.target.value))
         }}
       />
       <FormError errors={errors} field="goal" />
@@ -53,9 +65,10 @@ const GlobalSettings = ({ errors = [] }) => {
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.endDate}</Label>
       <DatePicker
         inputFormat="dd/MM/yyyy"
-        value={values?.endDate}
+        value={inputValues.endDate}
         onChange={value => {
-          setFieldValue('endDate', value)
+          updateInputValues('endDate', value)
+          debounce(() => updateValues('endDate', value))
         }}
         renderInput={props => <Input type="date" name="endDate" {...props} />}
         inputProps={{ placeholder: messages.placeholder.endDate }}
@@ -75,12 +88,13 @@ const GlobalSettings = ({ errors = [] }) => {
       <Input
         name="brief"
         placeholder={messages.placeholder.brief}
+        onChange={event => {
+          updateInputValues('brief', event.target.value)
+          debounce(() => updateValues('brief', event.target.value))
+        }}
+        value={inputValues.brief}
         minRows={3}
         maxRows={3}
-        onChange={event => {
-          setFieldValue('brief', event.target.value)
-        }}
-        value={values?.brief}
         multiline
       />
       <FormError errors={errors} field="brief" />

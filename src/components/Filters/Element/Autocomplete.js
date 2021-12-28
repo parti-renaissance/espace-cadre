@@ -1,9 +1,10 @@
-import { useMemo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Autocomplete as MuiAutocomplete, TextField, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
-import { debounce } from 'lodash'
+
 import { getDataFromDynamicEndpoint } from 'api/dynamic'
+import { useDebounce } from 'components/shared/debounce'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,6 +37,7 @@ const Autocomplete = ({
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState([])
   const [loading, setLoading] = useState(false)
+  const debounce = useDebounce()
   const classes = useStyles()
 
   useEffect(() => {
@@ -49,21 +51,6 @@ const Autocomplete = ({
       setLoading(false)
     })
   }, [inputValue, uri, queryParam])
-
-  const handleInputChange = useMemo(
-    () =>
-      debounce((_, value) => {
-        setInputValue(value)
-      }, 500),
-    []
-  )
-
-  useEffect(
-    () => () => {
-      handleInputChange.cancel()
-    },
-    [handleInputChange]
-  )
 
   const handleChange = (_, selectedValues) => {
     const selectItems = [].concat(selectedValues).filter(selection => !!selection)
@@ -95,7 +82,7 @@ const Autocomplete = ({
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       onChange={handleChange}
-      onInputChange={handleInputChange}
+      onInputChange={(_, value) => debounce(() => setInputValue(value))}
       filterOptions={x => x}
       renderInput={Input}
       getOptionLabel={getOptionLabel}

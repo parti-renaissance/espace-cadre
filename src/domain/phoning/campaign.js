@@ -69,9 +69,10 @@ export class PhoningCampaignZone {
   }
 }
 export class PhoningCampaignTeam {
-  constructor(id, name) {
+  constructor(id, name, author) {
     this.id = id
     this.name = name
+    this.author = author
   }
 }
 export class PhoningCampaignSurvey {
@@ -147,7 +148,7 @@ PhoningCampaignZone.propTypes = PropTypes.shape({
 PhoningCampaignTeam.propTypes = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  creator: PropTypes.string.isRequired,
+  author: PropTypes.string,
 })
 
 PhoningCampaignSurvey.propTypes = PropTypes.shape({
