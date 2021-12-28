@@ -4,6 +4,7 @@ exports[`CtaButton displays a CtaButton 1`] = `
 <div>
   <div
     class="mui-button-mock"
+    data-color="color"
   >
     foo
   </div>
