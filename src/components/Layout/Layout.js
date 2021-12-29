@@ -7,10 +7,10 @@ import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
 import { useUserScope } from '../../redux/user/hooks'
 import ScopesPage from '../Scopes/ScopesPage'
 import BootPage from '../BootPage'
-import Auth from '../Auth'
 import paths from 'shared/paths'
 import Sidebar from '../Sidebar/Sidebar'
 import ErrorBoundary from '../../providers/errorboundary'
+import Login from 'components/Login/Login'
 
 const Layout = ({ children }) => {
   const initializeAuth = useInitializeAuth()
@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
     }
   }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
 
-  if (pathname === paths.auth) return <Auth />
+  if (pathname === paths.auth) return <Login />
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 

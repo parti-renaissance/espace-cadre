@@ -11,9 +11,11 @@ const TextInput = styled(MuiTextField)(
 `
 )
 
-const TextField = ({ formik, label, isLong }) => (
+const TextField = ({ formik, label, type = 'text', isLong, ...props }) => (
   <>
     <TextInput
+      {...props}
+      type={type}
       error={!!formik.touched[label] && !!formik.errors[label]}
       fullWidth
       size="small"
@@ -34,5 +36,6 @@ export default TextField
 TextField.propTypes = {
   formik: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
+  type: PropTypes.string,
   isLong: PropTypes.bool,
 }
