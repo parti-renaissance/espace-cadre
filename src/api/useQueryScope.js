@@ -2,10 +2,8 @@ import { useUserScope } from '../redux/user/hooks'
 import { useInfiniteQuery, useQuery } from 'react-query'
 
 const scopedQueryKey = (queryKey, scope) => {
-  if (Array.isArray(queryKey)) {
-    return queryKey.concat(scope.code)
-  }
-  return [scope.code].concat(queryKey)
+  const keys = Array.isArray(queryKey) ? queryKey : [queryKey]
+  return keys.concat(scope.code)
 }
 
 export const useInfiniteQueryScope = (queryKey, queryFn, options) => {
