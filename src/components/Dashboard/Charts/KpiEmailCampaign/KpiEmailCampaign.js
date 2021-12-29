@@ -4,10 +4,11 @@ import UILoader from 'ui/Loader'
 import Percentage from 'ui/Percentage'
 import UIContainer from 'ui/Container'
 import pluralize from 'components/shared/pluralize/pluralize'
-import { useQuery } from 'react-query'
 import { reportsRatio } from 'api/messagerie'
 import { format } from 'date-fns'
 import ErrorComponent from 'components/ErrorComponent'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
 const CardContainer = styled(Grid)`
   &:last-child {
@@ -59,9 +60,9 @@ const KpiEmailCampaign = () => {
     data: campaignsReportRatios = null,
     isLoading,
     isError,
-  } = useQuery('reportsRatio', reportsRatio, {
-    cacheTime: 60 * 60 * 1000,
-    staleTime: 60 * 60 * 1000,
+  } = useQueryWithScope('reportsRatio', reportsRatio, {
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
   })
 
   if (isLoading) {

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useQuery } from 'react-query'
 import { Autocomplete, MenuItem, Typography } from '@mui/material'
 
 import { getPhoningCampaignSurveys, getPhoningCampaignTeams } from 'api/phoning'
@@ -7,6 +6,7 @@ import { useDebounce } from 'components/shared/debounce'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { FormError } from 'components/shared/error/components'
 import { Input, Label } from '../shared/components'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useStepValues } from '../shared/hooks'
 
 const messages = {
@@ -39,7 +39,7 @@ const CallersAndSurvey = () => {
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce()
 
-  const { data: teams = [], isFetching: isTeamsFetching } = useQuery(
+  const { data: teams = [], isFetching: isTeamsFetching } = useQueryWithScope(
     ['teams', inputValues.team.name],
     () => getPhoningCampaignTeams(inputValues.team.name),
     {
@@ -50,7 +50,7 @@ const CallersAndSurvey = () => {
       onError: handleError,
     }
   )
-  const { data: surveys = [], isFetching: isSurveysFetching } = useQuery(
+  const { data: surveys = [], isFetching: isSurveysFetching } = useQueryWithScope(
     ['surveys', inputValues.survey.name],
     () => getPhoningCampaignSurveys(inputValues.survey.name),
     {

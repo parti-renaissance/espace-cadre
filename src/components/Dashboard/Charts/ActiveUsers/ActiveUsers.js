@@ -1,7 +1,6 @@
 import { ResponsiveContainer, AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
 import { Grid, Typography, useTheme } from '@mui/material'
 import pluralize from 'components/shared/pluralize/pluralize'
-import { useQuery } from 'react-query'
 import { usersCount } from 'api/dashboard'
 import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
@@ -16,6 +15,7 @@ import {
 } from 'components/Dashboard/Charts/shared/styles'
 import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   user: 'Utilisateur',
@@ -34,7 +34,7 @@ const ActiveUsers = () => {
     data: users = null,
     isLoading,
     isError,
-  } = useQuery('users', usersCount, {
+  } = useQueryWithScope('users', usersCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useQuery } from 'react-query'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -11,6 +10,7 @@ import PhoningCampaign from './Campaign'
 import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -35,13 +35,15 @@ const Phoning = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
 
-  const { data: globalKPI = {} } = useQuery('globalKPI', () => getPhoningGlobalKPIQuery(), { onError: handleError })
-  const { data: campaigns = [], refetch: refetchCampaigns } = useQuery(
+  const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
+    onError: handleError,
+  })
+  const { data: campaigns = [], refetch: refetchCampaigns } = useQueryWithScope(
     'campaigns',
     () => getPhoningCampaignListQuery(),
     { onError: handleError }
   )
-  const { data: campaign = {} } = useQuery(
+  const { data: campaign = {} } = useQueryWithScope(
     ['campaign', campaignIdToUpdate],
     () => getPhoningCampaignQuery(campaignIdToUpdate),
     {

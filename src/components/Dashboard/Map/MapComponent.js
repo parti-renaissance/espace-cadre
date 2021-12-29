@@ -1,4 +1,3 @@
-import { useQuery } from 'react-query'
 import { getSurveyMapQuery } from 'api/surveyMap'
 import { styled } from '@mui/system'
 import L from 'leaflet'
@@ -8,6 +7,7 @@ import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const MapContainer = styled(LeafletContainer)(
   () => `
@@ -33,7 +33,7 @@ const MapComponent = () => {
     data: surveys = {},
     isLoading,
     isError,
-  } = useQuery('surveys', getSurveyMapQuery, {
+  } = useQueryWithScope('surveys', getSurveyMapQuery, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })

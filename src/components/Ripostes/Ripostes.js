@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { Container, Grid } from '@mui/material'
-import { useInfiniteQuery, useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import CreateEditModal from './CreateEditModal'
 import Riposte from 'domain/riposte'
 import { createRiposteQuery, getRipostesQuery, updateRiposteQuery, updateRiposteStatusQuery } from 'api/ripostes'
@@ -16,6 +16,7 @@ import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   title: 'Ripostes',
@@ -36,7 +37,7 @@ const Ripostes = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQuery('ripostes', getRipostesQuery, {
+  } = useInfiniteQueryWithScope('ripostes', getRipostesQuery, {
     getNextPageParam,
     onError: handleError,
   })

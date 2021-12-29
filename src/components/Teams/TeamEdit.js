@@ -3,7 +3,7 @@ import { Container, Grid, Card, Paper, Typography, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
-import { useQuery, useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import { addTeamMemberQuery, deleteTeamMemberQuery, getTeamQuery } from 'api/teams'
 import { adherentAutocompleteUri } from 'api/adherents'
 import { notifyVariants } from 'components/shared/notification/constants'
@@ -12,6 +12,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import MemberCard from './MemberCard'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,7 +72,7 @@ const TeamEdit = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const { data: team, refetch: refetchTeam } = useQuery(['team', teamId], () => getTeamQuery(teamId), {
+  const { data: team, refetch: refetchTeam } = useQueryWithScope(['team', teamId], () => getTeamQuery(teamId), {
     onError: handleError,
   })
   const { mutate: addTeamMember } = useMutation(addTeamMemberQuery, {

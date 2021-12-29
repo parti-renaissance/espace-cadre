@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material'
 import { useUserScope } from '../../../../redux/user/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
-import { useQuery } from 'react-query'
 import { adherentsCount } from 'api/dashboard'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   adherent: 'adhérent',
@@ -19,7 +19,7 @@ const TextChart = () => {
     data: adherents = null,
     isLoading,
     isError,
-  } = useQuery('adherents', adherentsCount, {
+  } = useQueryWithScope('adherents', adherentsCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })
