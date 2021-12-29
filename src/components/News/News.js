@@ -17,7 +17,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
-import { useInfiniteQueryScope } from 'api/useQueryScope'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   title: 'Actualités',
@@ -37,7 +37,7 @@ const News = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryScope('news', getNewsQuery, {
+  } = useInfiniteQueryWithScope('news', getNewsQuery, {
     getNextPageParam,
     onError: handleError,
   })

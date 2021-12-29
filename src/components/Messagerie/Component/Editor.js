@@ -11,7 +11,7 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import UIFormMessage from 'ui/FormMessage'
 import * as Sentry from '@sentry/react'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -96,7 +96,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
     })
   }, [onMessageUpdate])
 
-  const { data: messageContent = null } = useQueryScope(
+  const { data: messageContent = null } = useQueryWithScope(
     ['messageContent', messageUuid],
     () => getMessageContent(messageUuid),
     { onError: handleError, enabled: !!messageUuid && editorLoaded }

@@ -7,7 +7,7 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import { reportsRatio } from 'api/messagerie'
 import { format } from 'date-fns'
 import ErrorComponent from 'components/ErrorComponent'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const CardContainer = styled(Grid)`
   &:last-child {
@@ -59,7 +59,7 @@ const KpiEmailCampaign = () => {
     data: campaignsReportRatios = null,
     isLoading,
     isError,
-  } = useQueryScope('reportsRatio', reportsRatio, {
+  } = useQueryWithScope('reportsRatio', reportsRatio, {
     cacheTime: 60 * 60 * 1000,
     staleTime: 60 * 60 * 1000,
   })

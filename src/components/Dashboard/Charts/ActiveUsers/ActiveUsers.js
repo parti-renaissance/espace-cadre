@@ -15,7 +15,7 @@ import {
 } from 'components/Dashboard/Charts/shared/styles'
 import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   user: 'Utilisateur',
@@ -34,7 +34,7 @@ const ActiveUsers = () => {
     data: users = null,
     isLoading,
     isError,
-  } = useQueryScope('users', usersCount, {
+  } = useQueryWithScope('users', usersCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })

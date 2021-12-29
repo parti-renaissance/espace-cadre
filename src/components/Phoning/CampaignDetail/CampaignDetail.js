@@ -21,7 +21,7 @@ import CreateEdit from '../CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
-import { useInfiniteQueryScope, useQueryScope } from 'api/useQueryScope'
+import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -56,14 +56,14 @@ export const CampaignDetail = () => {
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: campaign = {}, refetch: refetchCampaign } = useQueryScope(
+  const { data: campaign = {}, refetch: refetchCampaign } = useQueryWithScope(
     ['campaign', campaignId],
     () => getPhoningCampaignQuery(campaignId),
     {
       onError: handleError,
     }
   )
-  const { data: callers = [], isLoading: isCallersLoading } = useQueryScope(
+  const { data: callers = [], isLoading: isCallersLoading } = useQueryWithScope(
     ['callers', campaignId],
     () => getPhoningCampaignCallers(campaignId),
     {
@@ -76,7 +76,7 @@ export const CampaignDetail = () => {
     isLoading: isHistoryLoading,
     fetchNextPage: fetchNexPageHistory,
     hasNextPage: hasNextPageHistory,
-  } = useInfiniteQueryScope(
+  } = useInfiniteQueryWithScope(
     ['history', campaignId],
     pageParams => getPhoningCampaignHistory({ campaignId, ...pageParams }),
     {
@@ -86,7 +86,7 @@ export const CampaignDetail = () => {
   )
   const history = usePaginatedData(paginatedHistory)
 
-  const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryScope(
+  const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryWithScope(
     ['surveys', campaignId],
     () => getPhoningCampaignSurveysReplies(campaignId),
     {

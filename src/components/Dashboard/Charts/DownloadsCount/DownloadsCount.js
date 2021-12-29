@@ -15,7 +15,7 @@ import {
 } from 'components/Dashboard/Charts/shared/styles'
 import ChartLegend from 'components/Dashboard/Charts/shared/ChartLegend'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   downloads: 'Téléchargement',
@@ -30,7 +30,7 @@ const DownloadsCount = () => {
     data: downloads = null,
     isLoading,
     isError,
-  } = useQueryScope('downloads', downloadsCount, {
+  } = useQueryWithScope('downloads', downloadsCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })

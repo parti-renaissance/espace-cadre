@@ -14,7 +14,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import PropTypes from 'prop-types'
-import { useInfiniteQueryScope } from 'api/useQueryScope'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   nocampaign: 'Aucune campagne à afficher',
@@ -47,7 +47,7 @@ const SentEmailCampaignList = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryScope('messages', getMessages, {
+  } = useInfiniteQueryWithScope('messages', getMessages, {
     getNextPageParam,
     onError: handleError,
   })

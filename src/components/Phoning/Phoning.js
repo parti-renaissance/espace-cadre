@@ -10,7 +10,7 @@ import PhoningCampaign from './Campaign'
 import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -35,15 +35,15 @@ const Phoning = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
 
-  const { data: globalKPI = {} } = useQueryScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
+  const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
     onError: handleError,
   })
-  const { data: campaigns = [], refetch: refetchCampaigns } = useQueryScope(
+  const { data: campaigns = [], refetch: refetchCampaigns } = useQueryWithScope(
     'campaigns',
     () => getPhoningCampaignListQuery(),
     { onError: handleError }
   )
-  const { data: campaign = {} } = useQueryScope(
+  const { data: campaign = {} } = useQueryWithScope(
     ['campaign', campaignIdToUpdate],
     () => getPhoningCampaignQuery(campaignIdToUpdate),
     {

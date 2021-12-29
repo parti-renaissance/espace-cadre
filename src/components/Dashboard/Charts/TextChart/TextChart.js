@@ -5,7 +5,7 @@ import { adherentsCount } from 'api/dashboard'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 import Loading from 'components/Dashboard/shared/Loading'
 import Error from 'components/Dashboard/shared/Error'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   adherent: 'adhérent',
@@ -19,7 +19,7 @@ const TextChart = () => {
     data: adherents = null,
     isLoading,
     isError,
-  } = useQueryScope('adherents', adherentsCount, {
+  } = useQueryWithScope('adherents', adherentsCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })

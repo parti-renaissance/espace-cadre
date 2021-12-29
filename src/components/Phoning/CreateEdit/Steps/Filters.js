@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 import DatePicker from '@mui/lab/DatePicker'
 import { Autocomplete, FormControlLabel, Grid, InputAdornment, MenuItem, Typography } from '@mui/material'
@@ -61,7 +61,7 @@ const Filters = ({ errors = [] }) => {
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce()
 
-  const { data: zones = [], isFetching: isZonesFetching } = useQueryScope(
+  const { data: zones = [], isFetching: isZonesFetching } = useQueryWithScope(
     ['zones', inputValues.zone?.name],
     () => getPhoningCampaignZones(inputValues.zone?.name),
     {

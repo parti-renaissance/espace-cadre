@@ -16,7 +16,7 @@ import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
-import { useInfiniteQueryScope } from 'api/useQueryScope'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   title: 'Ripostes',
@@ -37,7 +37,7 @@ const Ripostes = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryScope('ripostes', getRipostesQuery, {
+  } = useInfiniteQueryWithScope('ripostes', getRipostesQuery, {
     getNextPageParam,
     onError: handleError,
   })

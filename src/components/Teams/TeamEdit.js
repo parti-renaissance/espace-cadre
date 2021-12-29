@@ -12,7 +12,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import MemberCard from './MemberCard'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
-import { useQueryScope } from 'api/useQueryScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -72,7 +72,7 @@ const TeamEdit = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const { data: team, refetch: refetchTeam } = useQueryScope(['team', teamId], () => getTeamQuery(teamId), {
+  const { data: team, refetch: refetchTeam } = useQueryWithScope(['team', teamId], () => getTeamQuery(teamId), {
     onError: handleError,
   })
   const { mutate: addTeamMember } = useMutation(addTeamMemberQuery, {
