@@ -24,9 +24,7 @@ if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_SENTRY_DSN) {
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: 0.5,
     beforeSend(event, hint) {
-      if (shouldSendError(hint)) {
-        return event
-      }
+      if (shouldSendError(hint)) return event
       return null
     },
   })
