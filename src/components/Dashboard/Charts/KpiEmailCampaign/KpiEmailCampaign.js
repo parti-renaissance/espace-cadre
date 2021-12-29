@@ -8,6 +8,7 @@ import { reportsRatio } from 'api/messagerie'
 import { format } from 'date-fns'
 import ErrorComponent from 'components/ErrorComponent'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 
 const CardContainer = styled(Grid)`
   &:last-child {
@@ -60,8 +61,8 @@ const KpiEmailCampaign = () => {
     isLoading,
     isError,
   } = useQueryWithScope('reportsRatio', reportsRatio, {
-    cacheTime: 60 * 60 * 1000,
-    staleTime: 60 * 60 * 1000,
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
   })
 
   if (isLoading) {
