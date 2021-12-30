@@ -6,6 +6,7 @@ exports[`TextField displays TextField 1`] = `
     class="css-1an706"
     id="foo"
     name="foo"
+    type="text"
     value="foo-values"
     variant="outlined"
   />
