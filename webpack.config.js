@@ -60,6 +60,7 @@ module.exports = (env, argv = {}) => {
         api: path.resolve(__dirname, 'src/api'),
         components: path.resolve(__dirname, 'src/components'),
         domain: path.resolve(__dirname, 'src/domain'),
+        providers: path.resolve(__dirname, 'src/providers'),
         assets: path.resolve(__dirname, 'src/assets'),
         services: path.resolve(__dirname, 'src/services'),
         style: path.resolve(__dirname, 'src/style'),
