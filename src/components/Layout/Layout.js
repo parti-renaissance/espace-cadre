@@ -1,38 +1,23 @@
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Navigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors'
-import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
+import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
-import ScopesPage from '../Scopes/ScopesPage'
-import BootPage from '../BootPage'
-import paths from 'shared/paths'
-import Sidebar from '../Sidebar/Sidebar'
-import ErrorBoundary from '../../providers/errorboundary'
+import ScopesPage from 'components/Scopes/ScopesPage'
 import Login from 'components/Login/Login'
+import Sidebar from 'components/Sidebar/Sidebar'
+import paths from 'shared/paths'
+import ErrorBoundary from '../../providers/errorboundary'
 
 const Layout = ({ children }) => {
-  const initializeAuth = useInitializeAuth()
   const { pathname } = useLocation()
   const isUserLoggedIn = useSelector(isUserLogged)
   const currentUser = useSelector(getCurrentUser)
   const [currentScope] = useUserScope()
   const userScopes = useSelector(getUserScopes)
-  const [, updateUserData] = useGetUserData()
-
-  useEffect(() => {
-    if (isUserLoggedIn) {
-      if (currentUser === null) {
-        updateUserData()
-      }
-    } else if (pathname !== paths.auth) {
-      initializeAuth()
-    }
-  }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
 
   if (pathname === paths.auth) return <Login />
-  if (!currentUser || userScopes.length === 0) return <BootPage />
+  if (!currentUser || !isUserLoggedIn) return <Navigate to={paths.auth} replace={true} />
   if (userScopes && currentScope === null) return <ScopesPage />
 
   return (

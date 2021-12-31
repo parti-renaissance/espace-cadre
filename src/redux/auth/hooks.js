@@ -2,11 +2,33 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
 import { useCallback } from 'react'
-import login from '../../services/networking/auth'
+import login from 'services/networking/auth'
 import { apiClient } from 'services/networking/client'
 import { userLoggedIn, userUpdateData, userUpdateScopes } from './slice'
 import { useUserScope } from '../user/hooks'
 import paths from 'shared/paths'
+import { getTokens, userInfos, userScopes } from 'api/auth'
+
+export const useAuth = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [, updateCurrentScope] = useUserScope()
+
+  return useCallback(
+    async ({ login: login, password, rememberme }) => {
+      const tokens = await getTokens(login, password)
+      dispatch(userLoggedIn(tokens))
+      const [user, scopes] = await Promise.all([userInfos(), userScopes()])
+      dispatch(userUpdateData(user))
+      dispatch(userUpdateScopes(scopes))
+      if (scopes.length === 1) {
+        dispatch(updateCurrentScope(scopes[0]))
+      }
+      navigate(paths.dashboard)
+    },
+    [dispatch, navigate, updateCurrentScope]
+  )
+}
 
 export const useInitializeAuth = () => {
   const dispatch = useDispatch()

@@ -6,6 +6,7 @@ import TextField from 'ui/TextField'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Link as LinkRR } from 'react-router-dom'
+import { useAuth } from '../../redux/auth/hooks'
 
 const ImgContainer = styled('div')`
   display: flex;
@@ -18,9 +19,10 @@ const Image = styled('img')`
   width: 100%;
 `
 
-const Form = styled('div')`
+const Form = styled('form')`
   display: flex;
   flex-direction: column;
+  max-width: 500px;
 `
 
 const Button = styled(MuiButton)`
@@ -73,22 +75,36 @@ const messages = {
   em: 'EM!',
   rememberme: 'Se souvenir de moi',
   forgotten: 'Mot de passe oublié ?',
+  genericError: "Une erreur est survenue lors de l'authentification.",
+  emailError: "Le format de l'email n'est pas valide",
+  emailMandatory: 'Email obligatoire',
+  passwordMandatory: 'Mot de passe obligatoire',
 }
 
 const loginSchema = Yup.object({
-  email: Yup.string().email().required('Email obligatoire'),
-  password: Yup.string().required('Password obligatoire'),
+  login: Yup.string().email(messages.emailError).required(messages.emailMandatory),
+  password: Yup.string().required(messages.passwordMandatory),
 })
 
 const Login = () => {
+  const auth = useAuth()
+  const onSubmit = async values => {
+    try {
+      await auth(values)
+    } catch (e) {
+      const message = e.response?.data?.message || messages.genericError
+      formik.setFieldError('password', message)
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
-      email: '',
+      login: '',
       password: '',
       rememberme: false,
     },
     validationSchema: loginSchema,
-    onSubmit: () => {},
+    onSubmit: onSubmit,
   })
 
   return (
@@ -99,14 +115,14 @@ const Login = () => {
         </ImgContainer>
       </Grid>
       <Grid item xs={5} sx={{ margin: 'auto 0', display: 'flex', justifyContent: 'center' }}>
-        <Form>
+        <Form onSubmit={formik.handleSubmit}>
           <Box sx={{ color: 'gray900' }} component="span">
             <Title>{messages.connection}</Title>
           </Box>
           <Box sx={{ color: 'gray600', mb: 2 }} component="span">
             <Typography variant="subtitle1">{messages.jmeConnection}</Typography>
           </Box>
-          <TextField label="email" formik={formik} placeholder={messages.email} />
+          <TextField label="login" formik={formik} placeholder={messages.email} />
           <TextField label="password" formik={formik} type="password" placeholder={messages.password} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', my: 2 }}>
             <FormControlLabel
@@ -127,11 +143,11 @@ const Login = () => {
               </Box>
             </Link>
           </Box>
-          <Button onClick={() => {}}>{messages.connection}</Button>
+          <Button type="submit">{messages.connection}</Button>
           <Box sx={{ color: 'gray300', display: 'flex', alignSelf: 'center', my: 4.5 }} component="span">
             <Typography variant="subtitle2">{messages.or}</Typography>
           </Box>
-          <ButtonEM onClick={() => {}} variant="outlined">
+          <ButtonEM onClick={() => {}} variant="outlined" disabled>
             <img src={em} height="23px" alt={messages.em} />
             <Box sx={{ ml: 1 }} component="span">
               {messages.emConnection}

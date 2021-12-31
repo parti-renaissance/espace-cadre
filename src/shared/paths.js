@@ -1,6 +1,6 @@
 export default {
   dashboard: '/',
-  auth: '/auth',
+  auth: '/connexion',
   adherents: '/adherents',
   messagerie: '/messagerie',
   elections: '/elections',
