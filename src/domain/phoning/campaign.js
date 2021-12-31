@@ -125,25 +125,25 @@ PhoningCampaignFilters.propTypes = {
   zones: PropTypes.arrayOf(PhoningCampaignZone.propTypes).isRequired,
 }
 
-PhoningCampaignReplyAnswer.propTypes = PropTypes.shape({
+PhoningCampaignReplyAnswer.propTypes = {
   type: PropTypes.string.isRequired,
   answer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string.isRequired), PropTypes.string.isRequired]),
   question: PropTypes.string.isRequired,
-})
+}
 
-PhoningCampaignReply.propTypes = PropTypes.shape({
+PhoningCampaignReply.propTypes = {
   answers: PropTypes.arrayOf(PhoningCampaignReplyAnswer.propTypes).isRequired,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   startDate: PropTypes.object.isRequired,
   endDate: PropTypes.object.isRequired,
-})
+}
 
-PhoningCampaignZone.propTypes = PropTypes.shape({
+PhoningCampaignZone.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
-})
+}
 
 PhoningCampaignTeam.propTypes = {
   id: PropTypes.string.isRequired,
