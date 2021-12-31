@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Autocomplete, MenuItem, Typography } from '@mui/material'
 
+import { useActions } from 'providers/state'
 import { getPhoningCampaignSurveys, getPhoningCampaignTeams } from 'api/phoning'
 import { useDebounce } from 'components/shared/debounce'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { FormError } from 'components/shared/error/components'
 import { Input, Label } from '../shared/components'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useStepValues } from '../shared/hooks'
+import { isStep2Valid } from '../shared/helpers'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   input: {
@@ -35,9 +37,16 @@ const CallersAndSurvey = () => {
   const [isTeamFetchable, setIsTeamFetchable] = useState(false)
   const [isSurveyFetchable, setIsSurveyFetchable] = useState(false)
 
+  const { validateStep } = useActions()
   const { inputValues, values, updateInputValues, updateValues } = useStepValues(initialvalues)
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce()
+
+  const isStepValid = useMemo(() => isStep2Valid(inputValues), [inputValues])
+
+  useEffect(() => {
+    validateStep({ id: 2, isValid: isStepValid })
+  }, [isStepValid, validateStep])
 
   const { data: teams = [], isFetching: isTeamsFetching } = useQueryWithScope(
     ['teams', inputValues.team.name],

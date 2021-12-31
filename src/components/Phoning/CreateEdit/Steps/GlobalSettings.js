@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types'
+import { useEffect, useMemo } from 'react'
 import DatePicker from '@mui/lab/DatePicker'
 import { InputAdornment } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
+import { useActions } from 'providers/state'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { Input, Label } from '../shared/components'
 import { useStepValues } from '../shared/hooks'
+import { isStep1Valid } from '../shared/helpers'
 
 const messages = {
   input: {
@@ -31,8 +34,15 @@ const initialvalues = {
 }
 
 const GlobalSettings = ({ errors = [] }) => {
+  const { validateStep } = useActions()
   const { inputValues, updateInputValues, updateValues } = useStepValues(initialvalues)
   const debounce = useDebounce()
+
+  const isStepValid = useMemo(() => isStep1Valid(inputValues), [inputValues])
+
+  useEffect(() => {
+    validateStep({ id: 1, isValid: isStepValid })
+  }, [isStepValid, validateStep])
 
   return (
     <>

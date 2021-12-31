@@ -65,7 +65,7 @@ const messages = {
   finish: 'Terminer',
 }
 
-const UIStepper = ({ children, ...props }) => {
+const UIStepper = ({ stepsCount, validSteps, children, ...props }) => {
   const [activeStep, setActiveStep] = useState(0)
   const handlePrevStep = useCallback(() => setActiveStep(prevStep => prevStep - 1), [])
   const handleNextStep = useCallback(() => setActiveStep(prevStep => prevStep + 1), [])
@@ -76,25 +76,27 @@ const UIStepper = ({ children, ...props }) => {
     [activeStep]
   )
 
+  if (!activeStep && activeStep !== 0) return null
+
   return (
     <Stepper connector={<StepConnector />} activeStep={activeStep} {...props}>
       {React.Children.map(children, (step, index) => (
         <Step key={index}>
           <Grid container direction="column">
             <Grid item>
-              <StepButton disabled={activeStep === index} onClick={handleRestartFromStep(index)}>
+              <StepButton disabled={activeStep <= index} onClick={handleRestartFromStep(index)}>
                 {step.props.title}
               </StepButton>
             </Grid>
 
-            <StepContent TransitionProps={{ unmountOnExit: false }} transitionDuration={0}>
+            <StepContent TransitionProps={{ unmountOnExit: false }}>
               <Grid item>{React.cloneElement(step, step.props)}</Grid>
 
               <Grid item sx={{ pt: 3 }}>
                 <PrevStepButton disabled={activeStep === 0} onClick={handlePrevStep}>
                   {messages.prev}
                 </PrevStepButton>
-                <NextStepButton onClick={handleNextStep} sx={{ ml: 2 }}>
+                <NextStepButton disabled={!validSteps.includes(activeStep)} onClick={handleNextStep} sx={{ ml: 2 }}>
                   {activeStep !== children.length - 1 ? messages.next : messages.finish}
                 </NextStepButton>
               </Grid>
@@ -107,6 +109,8 @@ const UIStepper = ({ children, ...props }) => {
 }
 
 UIStepper.propTypes = {
+  stepsCount: PropTypes.number.isRequired,
+  validSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
   children: PropTypes.node.isRequired,
 }
 

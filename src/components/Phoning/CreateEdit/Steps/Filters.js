@@ -1,17 +1,19 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
 import DatePicker from '@mui/lab/DatePicker'
 import { Autocomplete, FormControlLabel, Grid, InputAdornment, MenuItem, Typography } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
+import { useActions } from 'providers/state'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { Checkbox, Input, Label } from '../shared/components'
 import { useStepValues } from '../shared/hooks'
+import { isStep3Valid } from '../shared/helpers'
 
 const messages = {
   input: {
@@ -49,23 +51,39 @@ const messages = {
 }
 
 const initialvalues = {
-  filters: {},
-  zone: {
-    name: '',
+  filters: {
+    firstName: '',
+    lastName: '',
+    ageMin: '',
+    ageMax: '',
+    adherentFromDate: '',
+    adherentToDate: '',
+    zone: '',
   },
 }
 
 const Filters = ({ errors = [] }) => {
   const [isZoneFetchable, setIsZoneFetchable] = useState(false)
+
+  const { validateStep } = useActions()
   const { inputValues, values, updateInputValues, updateValues } = useStepValues(initialvalues)
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce()
 
+  const isStepValid = useMemo(
+    () => isStep3Valid({ ...inputValues.filters, zones: values.filters.zones }),
+    [inputValues.filters, values.filters.zones]
+  )
+
+  useEffect(() => {
+    validateStep({ id: 3, isValid: isStepValid })
+  }, [isStepValid, validateStep])
+
   const { data: zones = [], isFetching: isZonesFetching } = useQueryWithScope(
-    ['zones', inputValues.zone?.name],
-    () => getPhoningCampaignZones(inputValues.zone?.name),
+    ['zones', inputValues.filters.zone],
+    () => getPhoningCampaignZones(inputValues.filters.zone),
     {
-      enabled: isZoneFetchable && !!inputValues.zone?.name,
+      enabled: isZoneFetchable && !!inputValues.filters.zone,
       onSuccess: () => {
         setIsZoneFetchable(false)
       },
@@ -212,10 +230,10 @@ const Filters = ({ errors = [] }) => {
         <Label sx={{ pt: 3, pb: 1 }}>{messages.input.zones}</Label>
         <Autocomplete
           options={zones}
-          inputValue={inputValues.zone?.name || ''}
+          inputValue={inputValues.filters.zone}
           value={values.filters.zones}
           onInputChange={(_, value) => {
-            updateInputValues('zone.name', value)
+            updateInputValues('filters.zone', value)
             debounce(() => setIsZoneFetchable(true))
           }}
           onChange={(_, value) => {

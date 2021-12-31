@@ -17,6 +17,10 @@ import ValidateAction from './ValidateAction'
 import GlobalSettings from './Steps/GlobalSettings'
 import CallersAndSurvey from './Steps/CallersAndSurvey'
 import Filters from './Steps/Filters'
+import { usePhoningCreateEditState } from '..'
+import { useEffect, useMemo } from 'react'
+import { useActions } from '../../../providers/state'
+import { isStep1Valid, isStep2Valid, isStep3Valid } from './shared/helpers'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -45,6 +49,19 @@ const messages = {
 }
 
 const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
+  const { validSteps } = usePhoningCreateEditState()
+  const { initializeSteps } = useActions()
+
+  useEffect(() => {
+    if (!campaign) return
+    initializeSteps(
+      [isStep1Valid, isStep2Valid, isStep3Valid].map((isValid, index) => ({
+        id: index + 1,
+        isValid: isValid(index < 2 ? campaign : campaign.filters),
+      }))
+    )
+  }, [campaign, initializeSteps])
+
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
 
@@ -76,12 +93,12 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
         }}
       >
         <>
-          <UIStepper orientation="vertical" sx={{ width: '100%', pt: 4 }}>
+          <UIStepper orientation="vertical" validSteps={validSteps} stepsCount={3} sx={{ width: '100%', pt: 4 }}>
             <GlobalSettings title={messages.steps.globalSettings} errors={errorMessages} />
             <CallersAndSurvey title={messages.steps.callersAndSurvey} />
             <Filters title={messages.steps.filters} errors={errorMessages} />
           </UIStepper>
-          <ValidateAction label={!campaign ? messages.create : messages.update} />
+          <ValidateAction label={!campaign ? messages.create : messages.update} disabled={validSteps.length < 3} />
         </>
       </Formik>
     </Dialog>
