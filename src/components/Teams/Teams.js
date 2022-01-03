@@ -18,10 +18,10 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
-  title: 'Équipes',
-  create: 'Créer une équipe',
-  createSuccess: 'Equipe créée avec succès',
-  editSuccess: "L'équipe a bien été modifiée",
+  title: 'Groupes',
+  create: 'Créer un groupe',
+  createSuccess: 'Groupe créé avec succès',
+  editSuccess: 'Le groupe a bien été modifié',
 }
 
 const Teams = () => {

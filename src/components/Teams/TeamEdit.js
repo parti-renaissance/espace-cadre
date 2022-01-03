@@ -56,13 +56,15 @@ const Italic = styled('span')`
 `
 
 const messages = {
+  group: 'Groupe',
   addMembers: 'Ajouter des membres',
   add: 'Ajouter',
-  teamMember: "Membres de l'équipe",
-  noMember: 'Cette équipe ne contient aucun membre',
+  teamMember: 'Membres du groupe',
+  noMember: 'Ce groupe ne contient aucun membre',
   editSuccess: 'Membre ajouté avec succès',
   deleteSuccess: 'Membre supprimé avec succès',
   adhesion: 'adhérent depuis le',
+  placeholder: 'Rechercher un adhérent',
 }
 
 const TeamEdit = () => {
@@ -102,7 +104,7 @@ const TeamEdit = () => {
     <Container maxWidth="lg" className={classes.teamsContainer}>
       <Grid container>
         <Grid item className={classes.pageTitle}>
-          Équipes &gt; {team?.name}
+          {messages.group} &gt; {team?.name}
         </Grid>
       </Grid>
       <Grid container>
@@ -114,7 +116,7 @@ const TeamEdit = () => {
               </Grid>
               <Grid item xs={12}>
                 <Autocomplete
-                  placeholder="Rechercher un adhérent"
+                  placeholder={messages.placeholder}
                   autoCompleteStyle={classes.autocomplete}
                   uri={adherentAutocompleteUri}
                   queryParam="q"

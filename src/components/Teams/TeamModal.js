@@ -48,12 +48,12 @@ const CharactersLimit = styled(Typography)(
 )
 
 const messages = {
-  create: 'Créer une équipe',
-  edit: 'Modifier une équipe',
+  create: 'Créer un groupe',
+  edit: 'Modifier un groupe',
   addMembers: 'Ajouter des membres',
   add: 'Ajouter',
-  teamMember: "Membres de l'équipe",
-  noMember: 'Cette équipe ne contient aucun membre',
+  teamMember: 'Membres du groupe',
+  noMember: 'Ce groupe ne contient aucun membre',
   charactersLimit: '(255 charactères)',
   submit: 'Valider',
 }
