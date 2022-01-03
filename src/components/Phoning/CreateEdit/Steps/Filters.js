@@ -12,6 +12,7 @@ import { FormError } from 'components/shared/error/components'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { FiltersContext } from '../shared/context'
 import { Checkbox, Input, Label } from '../shared/components'
+import { fields } from '../shared/constants'
 
 const messages = {
   input: {
@@ -77,12 +78,12 @@ const Filters = () => {
         <Grid item xs={6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.gender}</Label>
           <Input
-            name="gender"
+            name={fields.gender}
             placeholder={messages.placeholder.gender}
             value={inputValues.gender || ''}
             onChange={event => {
-              updateInputValues('gender', event.target.value)
-              updateValues('gender', event.target.value)
+              updateInputValues(fields.gender, event.target.value)
+              updateValues(fields.gender, event.target.value)
             }}
             select
             autoFocus
@@ -101,12 +102,12 @@ const Filters = () => {
         <Grid item xs={6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.firstName}</Label>
           <Input
-            name="firstName"
+            name={fields.firstName}
             placeholder={messages.placeholder.firstName}
             value={inputValues.firstName}
             onChange={event => {
-              updateInputValues('firstName', event.target.value)
-              debounce(() => updateValues('firstName', event.target.value))
+              updateInputValues(fields.firstName, event.target.value)
+              debounce(() => updateValues(fields.firstName, event.target.value))
             }}
           />
           <FormError errors={errors} field="first_name" />
@@ -114,12 +115,12 @@ const Filters = () => {
         <Grid item xs={6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.lastName}</Label>
           <Input
-            name="lastName"
+            name={fields.lastName}
             placeholder={messages.placeholder.lastName}
             value={inputValues.lastName}
             onChange={event => {
-              updateInputValues('lastName', event.target.value)
-              debounce(() => updateValues('lastName', event.target.value))
+              updateInputValues(fields.lastName, event.target.value)
+              debounce(() => updateValues(fields.lastName, event.target.value))
             }}
           />
           <FormError errors={errors} field="last_name" />
@@ -131,12 +132,12 @@ const Filters = () => {
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMin}</Label>
           <Input
             type="number"
-            name="ageMin"
+            name={fields.ageMin}
             placeholder={messages.placeholder.ageMin}
             value={inputValues.ageMin}
             onChange={event => {
-              updateInputValues('ageMin', event.target.value)
-              debounce(() => updateValues('ageMin', event.target.value))
+              updateInputValues(fields.ageMin, event.target.value)
+              debounce(() => updateValues(fields.ageMin, event.target.value))
             }}
           />
           <FormError errors={errors} field="age_min" />
@@ -145,12 +146,12 @@ const Filters = () => {
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMax}</Label>
           <Input
             type="number"
-            name="ageMax"
+            name={fields.ageMax}
             placeholder={messages.placeholder.ageMax}
             value={inputValues.ageMax}
             onChange={event => {
-              updateInputValues('ageMax', event.target.value)
-              debounce(() => updateValues('ageMax', event.target.value))
+              updateInputValues(fields.ageMax, event.target.value)
+              debounce(() => updateValues(fields.ageMax, event.target.value))
             }}
           />
           <FormError errors={errors} field="age_max" />
@@ -164,10 +165,10 @@ const Filters = () => {
             inputFormat="dd/MM/yyyy"
             value={inputValues.adherentFromDate}
             onChange={value => {
-              updateInputValues('adherentFromDate', value)
-              debounce(() => updateValues('adherentFromDate', value))
+              updateInputValues(fields.adherentFromDate, value)
+              debounce(() => updateValues(fields.adherentFromDate, value))
             }}
-            renderInput={props => <Input type="date" name="adherentFromDate" {...props} />}
+            renderInput={props => <Input type="date" name={fields.adherentFromDate} {...props} />}
             inputProps={{ placeholder: messages.placeholder.adherentFromDate }}
             components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
             InputAdornmentProps={{
@@ -187,10 +188,10 @@ const Filters = () => {
             inputFormat="dd/MM/yyyy"
             value={inputValues.adherentToDate}
             onChange={value => {
-              updateInputValues('adherentToDate', value)
-              debounce(() => updateValues('adherentToDate', value))
+              updateInputValues(fields.adherentToDate, value)
+              debounce(() => updateValues(fields.adherentToDate, value))
             }}
-            renderInput={props => <Input type="date" name="adherentToDate" {...props} />}
+            renderInput={props => <Input type="date" name={fields.adherentToDate} {...props} />}
             inputProps={{ placeholder: messages.placeholder.adherentToDate }}
             components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
             InputAdornmentProps={{
@@ -217,10 +218,10 @@ const Filters = () => {
             debounce(() => setIsZoneFetchable(true))
           }}
           onChange={(_, value) => {
-            updateValues('zones', value)
+            updateValues(fields.zones, value)
           }}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-          getOptionLabel={option => option.name || ''}
+          getOptionLabel={option => option.name ?? ''}
           renderOption={(props, option, { selected }) => (
             <MenuItem {...props} key={option.id}>
               <Checkbox checked={selected} />
@@ -229,7 +230,7 @@ const Filters = () => {
               </Typography>
             </MenuItem>
           )}
-          renderInput={params => <Input name="zones" placeholder={messages.placeholder.zones} {...params} />}
+          renderInput={params => <Input name={fields.zones} placeholder={messages.placeholder.zones} {...params} />}
           loading={isZonesFetching}
           loadingText={messages.pleaseWait}
           noOptionsText={messages.noResult}
@@ -245,18 +246,20 @@ const Filters = () => {
         <Grid container direction="column" item xs={6}>
           <Grid item>
             <FormControlLabel
+              name={fields.certified}
               label={messages.input.certified}
               control={<Checkbox checked={!!values.certified} />}
-              onChange={(_, value) => updateValues('certified', value)}
+              onChange={(_, value) => updateValues(fields.certified, value)}
               sx={{ pt: 3 }}
             />
             <FormError errors={errors} field="is_certified" />
           </Grid>
           <Grid item>
             <FormControlLabel
+              name={fields.committeeMember}
               label={messages.input.committeeMember}
               control={<Checkbox checked={!!values.committeeMember} />}
-              onChange={(_, value) => updateValues('committeeMember', value)}
+              onChange={(_, value) => updateValues(fields.committeeMember, value)}
             />
             <FormError errors={errors} field="is_committee_member" />
           </Grid>
@@ -265,18 +268,20 @@ const Filters = () => {
         <Grid container direction="column" item xs={6}>
           <Grid item>
             <FormControlLabel
+              name={fields.emailSubscribed}
               label={messages.input.emailSubscribed}
               control={<Checkbox checked={!!values.emailSubscribed} />}
-              onChange={(_, value) => updateValues('emailSubscribed', value)}
+              onChange={(_, value) => updateValues(fields.emailSubscribed, value)}
               sx={{ pt: 3 }}
             />
             <FormError errors={errors} field="has_email_subscription" />
           </Grid>
           <Grid item>
             <FormControlLabel
+              name={fields.SMSSubscribed}
               label={messages.input.SMSSubscribed}
               control={<Checkbox checked={!!values.SMSSubscribed} />}
-              onChange={(_, value) => updateValues('SMSSubscribed', value)}
+              onChange={(_, value) => updateValues(fields.SMSSubscribed, value)}
             />
             <FormError errors={errors} field="has_sms_subscription" />
           </Grid>

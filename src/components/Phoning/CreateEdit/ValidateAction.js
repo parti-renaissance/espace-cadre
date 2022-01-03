@@ -7,16 +7,23 @@ import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 const ValidateButton = styled(
   props => <Button fullWidth {...props} />,
   shouldForwardProps
-)(({ theme: { palette: { phoning = {} } = {} }, disabled }) => ({
-  height: '42px',
-  background: !disabled ? phoning.button.background.main : phoning.button.background.disabled,
-  color: !disabled ? phoning.button.color.main : phoning.button.color.disabled,
-  borderRadius: '8px',
-  '&:hover': {
+)(
+  ({
+    theme: {
+      palette: { phoning },
+    },
+    disabled,
+  }) => ({
+    height: '42px',
     background: !disabled ? phoning.button.background.main : phoning.button.background.disabled,
     color: !disabled ? phoning.button.color.main : phoning.button.color.disabled,
-  },
-}))
+    borderRadius: '8px',
+    '&:hover': {
+      background: !disabled ? phoning.button.background.main : phoning.button.background.disabled,
+      color: !disabled ? phoning.button.color.main : phoning.button.color.disabled,
+    },
+  })
+)
 
 const ValidateAction = ({ label, handleValidate, disabled }) => (
   <Grid container sx={{ pt: 6 }}>
