@@ -48,7 +48,7 @@ const Sidebar = ({ children, window }) => {
       {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
       {authorizedPages.includes(pages.elections) && <NavItem label="&Eacute;lections" {...navInfo('elections')} />}
       {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
-      {authorizedPages.includes(pages.teams) && <NavItem label="Groupes" {...navInfo('teams')} />}
+      {authorizedPages.includes(pages.groups) && <NavItem label="Groupes" {...navInfo('groups')} />}
       {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
       {authorizedPages.includes(pages.phoning) && <NavItem label="Phoning" {...navInfo('phoning')} />}
     </div>

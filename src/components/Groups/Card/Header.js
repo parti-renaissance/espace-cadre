@@ -13,18 +13,18 @@ const messages = {
   member: 'membre',
 }
 
-const Header = ({ teamCount }) => (
+const Header = ({ groupCount }) => (
   <HorizontalContainer>
     <UIChip
       color="gray700"
       bgcolor="rgba(55, 65, 81, 0.08)"
-      label={`${teamCount} ${pluralize(teamCount, messages.member)}`}
+      label={`${groupCount} ${pluralize(groupCount, messages.member)}`}
     />
   </HorizontalContainer>
 )
 
 Header.propTypes = {
-  teamCount: PropTypes.number.isRequired,
+  groupCount: PropTypes.number.isRequired,
 }
 
 export default Header

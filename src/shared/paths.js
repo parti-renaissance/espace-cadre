@@ -5,7 +5,7 @@ export default {
   messagerie: '/messagerie',
   elections: '/elections',
   ripostes: '/ripostes',
-  teams: '/groupes',
+  groups: '/groupes',
   news: '/actualites',
   phoning: '/phoning',
 }

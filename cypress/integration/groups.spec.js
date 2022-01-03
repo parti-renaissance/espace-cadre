@@ -1,17 +1,17 @@
 import { initialization } from './main.spec'
 
-describe('Teams', () => {
+describe('Groups', () => {
   beforeEach(() => {
     initialization()
   })
 
-  it('loads referent teams successfully', () => {
+  it('loads referent groups successfully', () => {
     cy.contains('Référent').click()
     cy.contains('Groupes').click()
 
-    cy.contains('Team1')
+    cy.contains('Group1')
     cy.contains('1 membre')
-    cy.contains('Team2')
+    cy.contains('Group2')
     cy.contains('42 membres')
 
     cy.contains('Voir').first().click()

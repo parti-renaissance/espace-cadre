@@ -52,37 +52,37 @@ const messages = {
   edit: 'Modifier un groupe',
   addMembers: 'Ajouter des membres',
   add: 'Ajouter',
-  teamMember: 'Membres du groupe',
+  groupMember: 'Membres du groupe',
   noMember: 'Ce groupe ne contient aucun membre',
   charactersLimit: '(255 charactères)',
   submit: 'Valider',
 }
 
-const teamSchema = Yup.object({
+const groupSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const TeamModal = ({ open, team, onCloseResolve, createTeam, updateTeam, loader = false, errors }) => {
+const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loader = false, errors }) => {
   const classes = useStyles()
 
   const handleClose = () => {
     onCloseResolve()
   }
 
-  const createOrEditTeam = async team => {
-    const mutation = team.id ? updateTeam : createTeam
-    await mutation(team)
+  const createOrEditGroup = async group => {
+    const mutation = group.id ? updateGroup : createGroup
+    await mutation(group)
     handleClose()
   }
 
   const formik = useFormik({
     initialValues: {
-      name: team?.name,
+      name: group?.name,
     },
-    validationSchema: teamSchema,
+    validationSchema: groupSchema,
     enableReinitialize: true,
     onSubmit: values => {
-      createOrEditTeam(team.withName(values.name))
+      createOrEditGroup(group.withName(values.name))
     },
   })
 
@@ -92,7 +92,7 @@ const TeamModal = ({ open, team, onCloseResolve, createTeam, updateTeam, loader 
         <Grid container justifyContent="space-between" className={classes.innerContainer}>
           <Grid item>
             <Box component="span" className={classes.modalTitle}>
-              {team?.id ? messages.edit : messages.create}
+              {group?.id ? messages.edit : messages.create}
             </Box>
           </Grid>
           <Grid item>
@@ -127,18 +127,18 @@ const TeamModal = ({ open, team, onCloseResolve, createTeam, updateTeam, loader 
   )
 }
 
-export default TeamModal
+export default GroupModal
 
-TeamModal.defaultProps = {
-  team: null,
+GroupModal.defaultProps = {
+  group: null,
 }
 
-TeamModal.propTypes = {
+GroupModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  team: PropTypes.object,
+  group: PropTypes.object,
   onCloseResolve: PropTypes.func.isRequired,
-  createTeam: PropTypes.func.isRequired,
-  updateTeam: PropTypes.func.isRequired,
+  createGroup: PropTypes.func.isRequired,
+  updateGroup: PropTypes.func.isRequired,
   loader: PropTypes.bool,
   errors: PropTypes.arrayOf(
     PropTypes.shape({

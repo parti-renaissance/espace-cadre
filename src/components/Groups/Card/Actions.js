@@ -17,10 +17,10 @@ const messages = {
   edit: 'Modifier',
 }
 
-const Actions = ({ teamId, onEdit }) => {
+const Actions = ({ groupId, onEdit }) => {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(generatePath(`:teamId/${paths.update}`, { teamId }))
+    navigate(generatePath(`:groupId/${paths.update}`, { groupId }))
   }
 
   return (
@@ -36,6 +36,6 @@ const Actions = ({ teamId, onEdit }) => {
 export default Actions
 
 Actions.propTypes = {
-  teamId: PropTypes.string.isRequired,
+  groupId: PropTypes.string.isRequired,
   onEdit: PropTypes.func.isRequired,
 }

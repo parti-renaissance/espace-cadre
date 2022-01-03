@@ -13,7 +13,7 @@ export default {
   messagerie: EmailRoundedIcon,
   elections: MapRoundedIcon,
   ripostes: PostAddRoundedIcon,
-  teams: StarRoundedIcon,
+  groups: StarRoundedIcon,
   news: RssFeedIcon,
   phoning: LocalPhoneRoundedIcon,
 }

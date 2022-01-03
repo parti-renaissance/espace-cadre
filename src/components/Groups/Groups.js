@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { Container, Grid } from '@mui/material'
-import TeamModal from './TeamModal'
-import { createTeamQuery, getTeamsQuery, updateTeamQuery } from 'api/teams'
-import { Team } from 'domain/team'
+import GroupModal from './GroupModal'
+import { createGroupQuery, getGroupsQuery, updateGroupQuery } from 'api/groups'
+import { Group } from 'domain/group'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import Header from './Card/Header'
 import UICard, { Title } from 'ui/Card'
@@ -24,22 +24,22 @@ const messages = {
   editSuccess: 'Le groupe a bien été modifié',
 }
 
-const Teams = () => {
-  const [currentTeam, setCurrentTeam] = useState(null)
+const Groups = () => {
+  const [currentGroup, setCurrentGroup] = useState(null)
   const [open, setOpen] = useState(false)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const {
-    data: paginatedTeams = null,
+    data: paginatedGroups = null,
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryWithScope('teams', getTeamsQuery, {
+  } = useInfiniteQueryWithScope('groups', getGroupsQuery, {
     getNextPageParam,
     onError: handleError,
   })
 
-  const { mutateAsync: createTeam, isLoading: isCreateLoading } = useMutation(createTeamQuery, {
+  const { mutateAsync: createGroup, isLoading: isCreateLoading } = useMutation(createGroupQuery, {
     onSuccess: async () => {
       await refetch()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
@@ -47,23 +47,23 @@ const Teams = () => {
     onError: handleError,
   })
 
-  const { mutateAsync: updateTeam, isLoading: isUpdateLoading } = useMutation(updateTeamQuery, {
-    onSuccess: async (_, updatedTeam) => {
-      await refetchUpdatedPage(paginatedTeams, refetch, updatedTeam.id)
+  const { mutateAsync: updateGroup, isLoading: isUpdateLoading } = useMutation(updateGroupQuery, {
+    onSuccess: async (_, updatedGroup) => {
+      await refetchUpdatedPage(paginatedGroups, refetch, updatedGroup.id)
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
 
-  const teams = usePaginatedData(paginatedTeams)
+  const groups = usePaginatedData(paginatedGroups)
 
-  const handleNewTeam = () => {
-    setCurrentTeam(Team.NULL)
+  const handleNewGroup = () => {
+    setCurrentGroup(Group.NULL)
     setOpen(true)
   }
 
-  const handleEditTeam = id => {
-    setCurrentTeam(teams.find(team => team.id === id))
+  const handleEditGroup = id => {
+    setCurrentGroup(groups.find(group => group.id === id))
     setOpen(true)
   }
 
@@ -77,42 +77,42 @@ const Teams = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={handleNewTeam} label={messages.create} />}
+          button={<PageHeaderButton onClick={handleNewGroup} label={messages.create} />}
         />
       </Grid>
-      {paginatedTeams && (
+      {paginatedGroups && (
         <InfiniteScroll
-          dataLength={teams.length}
+          dataLength={groups.length}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}
           loader={<Loader />}
         >
           <Grid container spacing={2}>
-            {teams.map(team => (
-              <Grid item key={team.id} xs={12} sm={6} md={3}>
+            {groups.map(group => (
+              <Grid item key={group.id} xs={12} sm={6} md={3}>
                 <UICard
                   rootProps={{ sx: { height: '168px' } }}
                   headerProps={{ sx: { pt: '21px' } }}
                   header={
                     <>
-                      <Header teamCount={team.members.length} />
-                      <Title subject={team.name} author={team.creator} sx={{ pt: 1 }} />
+                      <Header groupCount={group.members.length} />
+                      <Title subject={group.name} author={group.creator} sx={{ pt: 1 }} />
                     </>
                   }
                   actionsProps={{ sx: { pt: 3 } }}
-                  actions={<Actions teamId={team.id} onEdit={() => handleEditTeam(team.id)} />}
+                  actions={<Actions groupId={group.id} onEdit={() => handleEditGroup(group.id)} />}
                 />
               </Grid>
             ))}
           </Grid>
         </InfiniteScroll>
       )}
-      <TeamModal
+      <GroupModal
         open={open}
-        team={currentTeam}
+        group={currentGroup}
         onCloseResolve={handleCloseModal}
-        createTeam={createTeam}
-        updateTeam={updateTeam}
+        createGroup={createGroup}
+        updateGroup={updateGroup}
         errors={errorMessages}
         loader={isCreateLoading || isUpdateLoading}
       />
@@ -120,4 +120,4 @@ const Teams = () => {
   )
 }
 
-export default Teams
+export default Groups

@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
-import { addTeamMemberQuery, deleteTeamMemberQuery, getTeamQuery } from 'api/teams'
+import { addGroupMemberQuery, deleteGroupMemberQuery, getGroupQuery } from 'api/groups'
 import { adherentAutocompleteUri } from 'api/adherents'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
       background: theme.palette.blue800,
     },
   },
-  teamsContainer: {
+  groupsContainer: {
     marginBottom: theme.spacing(2),
   },
   pageTitle: {
@@ -59,7 +59,7 @@ const messages = {
   group: 'Groupe',
   addMembers: 'Ajouter des membres',
   add: 'Ajouter',
-  teamMember: 'Membres du groupe',
+  groupMember: 'Membres du groupe',
   noMember: 'Ce groupe ne contient aucun membre',
   editSuccess: 'Membre ajouté avec succès',
   deleteSuccess: 'Membre supprimé avec succès',
@@ -67,44 +67,44 @@ const messages = {
   placeholder: 'Rechercher un adhérent',
 }
 
-const TeamEdit = () => {
+const GroupEdit = () => {
   const classes = useStyles()
-  const { teamId } = useParams()
+  const { groupId } = useParams()
   const [selectedMember, setSelectedMember] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const { data: team, refetch: refetchTeam } = useQueryWithScope(['team', teamId], () => getTeamQuery(teamId), {
+  const { data: group, refetch: refetchGroup } = useQueryWithScope(['group', groupId], () => getGroupQuery(groupId), {
     onError: handleError,
   })
-  const { mutate: addTeamMember } = useMutation(addTeamMemberQuery, {
+  const { mutate: addGroupMember } = useMutation(addGroupMemberQuery, {
     onSuccess: () => {
-      refetchTeam()
+      refetchGroup()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
-  const { mutate: deleteTeamMember } = useMutation(deleteTeamMemberQuery, {
+  const { mutate: deleteGroupMember } = useMutation(deleteGroupMemberQuery, {
     onSuccess: () => {
-      refetchTeam()
+      refetchGroup()
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
 
-  const handleAddTeamMember = () => {
-    addTeamMember({ teamId, memberId: selectedMember.uuid })
+  const handleAddGroupMember = () => {
+    addGroupMember({ groupId, memberId: selectedMember.uuid })
   }
 
   const handleDelete = memberId => {
-    deleteTeamMember({ teamId, memberId })
+    deleteGroupMember({ groupId, memberId })
   }
 
   return (
-    <Container maxWidth="lg" className={classes.teamsContainer}>
+    <Container maxWidth="lg" className={classes.groupsContainer}>
       <Grid container>
         <Grid item className={classes.pageTitle}>
-          {messages.group} &gt; {team?.name}
+          {messages.group} &gt; {group?.name}
         </Grid>
       </Grid>
       <Grid container>
@@ -140,7 +140,7 @@ const TeamEdit = () => {
               <Grid item xs={12}>
                 <Button
                   buttonClasses={classes.buttonClasses}
-                  handleClick={handleAddTeamMember}
+                  handleClick={handleAddGroupMember}
                   disabled={!selectedMember}
                 >
                   {messages.add}
@@ -152,10 +152,10 @@ const TeamEdit = () => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} className={classes.title}>
-          {messages.teamMember}
+          {messages.groupMember}
         </Grid>
-        {team?.members.length > 0 ? (
-          team?.members?.map(member => (
+        {group?.members.length > 0 ? (
+          group?.members?.map(member => (
             <MemberCard key={member.id} member={member} handleDelete={() => handleDelete(member.id)} />
           ))
         ) : (
@@ -170,4 +170,4 @@ const TeamEdit = () => {
   )
 }
 
-export default TeamEdit
+export default GroupEdit
