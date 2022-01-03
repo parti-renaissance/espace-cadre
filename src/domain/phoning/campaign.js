@@ -100,17 +100,17 @@ PhoningCampaign.propTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,
   startDate: PropTypes.object.isRequired,
   endDate: PropTypes.object.isRequired,
-  calls: PhoningCampaignCalls.propTypes,
-  surveys: PhoningCampaignSurveys.propTypes,
+  calls: PropTypes.shape(PhoningCampaignCalls.propTypes),
+  surveys: PropTypes.shape(PhoningCampaignSurveys.propTypes),
   averageTime: PropTypes.number.isRequired,
   goal: PropTypes.number.isRequired,
   brief: PropTypes.string.isRequired,
-  team: PhoningCampaignTeam.propTypes,
-  survey: PhoningCampaignSurvey.propTypes,
-  filters: PhoningCampaignFilters.propTypes,
+  team: PropTypes.shape(PhoningCampaignTeam.propTypes),
+  survey: PropTypes.shape(PhoningCampaignSurvey.propTypes),
+  filters: PropTypes.shape(PhoningCampaignFilters.propTypes),
 })
 
-PhoningCampaignFilters.propTypes = PropTypes.shape({
+PhoningCampaignFilters.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   gender: PropTypes.string.isRequired,
@@ -123,7 +123,7 @@ PhoningCampaignFilters.propTypes = PropTypes.shape({
   emailSubscribed: PropTypes.bool.isRequired,
   SMSSubscribed: PropTypes.bool.isRequired,
   zones: PropTypes.arrayOf(PhoningCampaignZone.propTypes).isRequired,
-})
+}
 
 PhoningCampaignReplyAnswer.propTypes = PropTypes.shape({
   type: PropTypes.string.isRequired,
@@ -145,24 +145,24 @@ PhoningCampaignZone.propTypes = PropTypes.shape({
   code: PropTypes.string.isRequired,
 })
 
-PhoningCampaignTeam.propTypes = PropTypes.shape({
+PhoningCampaignTeam.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   author: PropTypes.string,
-})
+}
 
-PhoningCampaignSurvey.propTypes = PropTypes.shape({
+PhoningCampaignSurvey.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-})
+}
 
-PhoningCampaignCalls.propTypes = PropTypes.shape({
+PhoningCampaignCalls.propTypes = {
   count: PropTypes.number.isRequired,
   toRemind: PropTypes.number.isRequired,
-})
+}
 
-PhoningCampaignSurveys.propTypes = PropTypes.shape({
+PhoningCampaignSurveys.propTypes = {
   count: PropTypes.number.isRequired,
   goal: PropTypes.number.isRequired,
-})
+}
