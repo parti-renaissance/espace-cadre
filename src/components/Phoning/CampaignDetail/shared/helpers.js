@@ -9,28 +9,45 @@ export const secondsToMinutesAndSeconds = seconds => {
 	`
 }
 
-export const campaignToFormValues = campaign => ({
-  id: campaign?.id || null,
+export const campaignToValues = (type, campaign) => {
+  if (type === 'globalSettings') return campaignToGlobalSettingsValues(campaign)
+  if (type === 'callersAndSurvey') return campaignToCallersAndSurveyValues(campaign)
+  if (type === 'filters') return campaignToFiltersValues(campaign)
+  return campaignToFormValues(campaign)
+}
+
+export const campaignToGlobalSettingsValues = campaign => ({
   title: campaign?.title ?? '',
   goal: campaign?.goal ?? '',
-  brief: campaign?.brief ?? '',
   endDate: campaign?.endDate ?? '',
+  brief: campaign?.brief ?? '',
+})
+
+export const campaignToCallersAndSurveyValues = campaign => ({
   team: campaign?.team ?? null,
   survey: campaign?.survey ?? null,
-  filters: {
-    firstName: campaign?.filters?.firstName ?? '',
-    lastName: campaign?.filters?.lastName ?? '',
-    gender: campaign?.filters?.gender ?? '',
-    adherentFromDate: campaign?.filters?.adherentFromDate ?? '',
-    adherentToDate: campaign?.filters?.adherentToDate ?? '',
-    ageMin: campaign?.filters?.ageMin ?? '',
-    ageMax: campaign?.filters?.ageMax ?? '',
-    certified: campaign?.filters?.certified ?? false,
-    committeeMember: campaign?.filters?.committeeMember ?? false,
-    emailSubscribed: campaign?.filters?.emailSubscribed ?? false,
-    SMSSubscribed: campaign?.filters?.SMSSubscribed ?? false,
-    zones: campaign?.filters?.zones ?? [],
-  },
+})
+
+export const campaignToFiltersValues = campaign => ({
+  firstName: campaign?.filters?.firstName ?? '',
+  lastName: campaign?.filters?.lastName ?? '',
+  gender: campaign?.filters?.gender ?? '',
+  adherentFromDate: campaign?.filters?.adherentFromDate ?? '',
+  adherentToDate: campaign?.filters?.adherentToDate ?? '',
+  ageMin: campaign?.filters?.ageMin ?? '',
+  ageMax: campaign?.filters?.ageMax ?? '',
+  certified: campaign?.filters?.certified ?? false,
+  committeeMember: campaign?.filters?.committeeMember ?? false,
+  emailSubscribed: campaign?.filters?.emailSubscribed ?? false,
+  SMSSubscribed: campaign?.filters?.SMSSubscribed ?? false,
+  zones: campaign?.filters?.zones ?? [],
+})
+
+export const campaignToFormValues = campaign => ({
+  id: campaign?.id || null,
+  globalSettings: campaignToGlobalSettingsValues(campaign),
+  callersAndSurvey: campaignToCallersAndSurveyValues(campaign),
+  filters: campaignToFiltersValues(campaign),
 })
 
 export const timeDifferenceToString = (startDate, endDate) => {

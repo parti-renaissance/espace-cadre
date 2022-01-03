@@ -171,7 +171,7 @@ const formatFiltersData = ({
 export const createPhoningCampaignQuery = campaign =>
   apiClient.post('api/v3/phoning_campaigns', {
     title: campaign.title,
-    goal: campaign.goal,
+    goal: +campaign.goal,
     finish_at: campaign.endDate,
     brief: campaign.brief,
     team: campaign.team.id,
@@ -182,7 +182,7 @@ export const createPhoningCampaignQuery = campaign =>
 export const updatePhoningCampaignQuery = campaign =>
   apiClient.put(`api/v3/phoning_campaigns/${campaign.id}`, {
     title: campaign.title,
-    goal: campaign.goal,
+    goal: +campaign.goal,
     finish_at: campaign.endDate,
     brief: campaign.brief,
     team: campaign.team.id,

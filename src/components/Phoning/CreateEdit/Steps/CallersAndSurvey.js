@@ -1,15 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { Autocomplete, MenuItem, Typography } from '@mui/material'
 
-import { useActions } from 'providers/state'
 import { getPhoningCampaignSurveys, getPhoningCampaignTeams } from 'api/phoning'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useDebounce } from 'components/shared/debounce'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { FormError } from 'components/shared/error/components'
+import { CallersAndSurveyContext } from '../shared/context'
 import { Input, Label } from '../shared/components'
-import { useStepValues } from '../shared/hooks'
-import { isStep2Valid } from '../shared/helpers'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   input: {
@@ -24,35 +22,23 @@ const messages = {
   noResult: 'Aucun résultat à afficher',
 }
 
-const initialvalues = {
-  team: {
-    name: '',
-  },
-  survey: {
-    name: '',
-  },
-}
-
 const CallersAndSurvey = () => {
+  const { values, initialValues, updateValues } = useContext(CallersAndSurveyContext)
+  const [inputValues, setInputValues] = useState({ teamInput: '', surveyInput: '', ...initialValues })
   const [isTeamFetchable, setIsTeamFetchable] = useState(false)
   const [isSurveyFetchable, setIsSurveyFetchable] = useState(false)
-
-  const { validateStep } = useActions()
-  const { inputValues, values, updateInputValues, updateValues } = useStepValues(initialvalues)
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce()
 
-  const isStepValid = useMemo(() => isStep2Valid(inputValues), [inputValues])
-
-  useEffect(() => {
-    validateStep({ id: 2, isValid: isStepValid })
-  }, [isStepValid, validateStep])
+  const updateInputValues = useCallback((key, value) => {
+    setInputValues(values => ({ ...values, [key]: value }))
+  }, [])
 
   const { data: teams = [], isFetching: isTeamsFetching } = useQueryWithScope(
-    ['teams', inputValues.team.name],
-    () => getPhoningCampaignTeams(inputValues.team.name),
+    ['teams', inputValues.teamInput],
+    () => getPhoningCampaignTeams(inputValues.teamInput),
     {
-      enabled: isTeamFetchable && !!inputValues.team.name && inputValues.team.name !== values.team?.name,
+      enabled: isTeamFetchable && !!inputValues.teamInput && inputValues.teamInput !== values.team?.name,
       onSuccess: () => {
         setIsTeamFetchable(false)
       },
@@ -60,10 +46,10 @@ const CallersAndSurvey = () => {
     }
   )
   const { data: surveys = [], isFetching: isSurveysFetching } = useQueryWithScope(
-    ['surveys', inputValues.survey.name],
-    () => getPhoningCampaignSurveys(inputValues.survey.name),
+    ['surveys', inputValues.surveyInput],
+    () => getPhoningCampaignSurveys(inputValues.surveyInput),
     {
-      enabled: isSurveyFetchable && !!inputValues.survey.name && inputValues.survey.name !== values.survey?.name,
+      enabled: isSurveyFetchable && !!inputValues.surveyInput && inputValues.surveyInput !== values.survey?.name,
       onSuccess: () => {
         setIsSurveyFetchable(false)
       },
@@ -76,21 +62,22 @@ const CallersAndSurvey = () => {
       <Label sx={{ pt: 3, pb: 1 }}>{messages.input.team}</Label>
       <Autocomplete
         options={teams}
-        inputValue={inputValues.team.name}
+        inputValue={inputValues.teamInput}
         value={values.team}
         onInputChange={(_, value) => {
-          updateInputValues('team', { name: value })
+          updateInputValues('teamInput', value)
           debounce(() => setIsTeamFetchable(true))
         }}
         onChange={(_, value) => {
           updateValues('team', value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        getOptionLabel={option => option.name || option}
+        getOptionLabel={option => option.name || ''}
         renderOption={(props, option) => (
           <MenuItem {...props} key={option.id}>
             <Typography>
-              {option.name} ({option.author})
+              {option.name}
+              {option.author && ` (${option.author})`}
             </Typography>
           </MenuItem>
         )}
@@ -106,21 +93,22 @@ const CallersAndSurvey = () => {
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.survey}</Label>
       <Autocomplete
         options={surveys}
-        inputValue={inputValues.survey.name}
+        inputValue={inputValues.surveyInput}
         value={values.survey}
         onInputChange={(_, value) => {
-          updateInputValues('survey', { name: value })
+          updateInputValues('surveyInput', value)
           debounce(() => setIsSurveyFetchable(true))
         }}
         onChange={(_, value) => {
           updateValues('survey', value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        getOptionLabel={option => option.name || option}
+        getOptionLabel={option => option.name || ''}
         renderOption={(props, option) => (
           <MenuItem {...props} key={option.id}>
             <Typography>
-              {option.name} ({option.type})
+              {option.name}
+              {option.type && ` (${option.type})`}
             </Typography>
           </MenuItem>
         )}

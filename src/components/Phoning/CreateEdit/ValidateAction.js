@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import { useFormikContext } from 'formik'
 import { Grid, Button } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -19,20 +18,17 @@ const ValidateButton = styled(
   },
 }))
 
-const ValidateAction = ({ label, disabled }) => {
-  const { handleSubmit } = useFormikContext()
-
-  return (
-    <Grid container sx={{ pt: 6 }}>
-      <ValidateButton onClick={handleSubmit} disabled={disabled}>
-        {label}
-      </ValidateButton>
-    </Grid>
-  )
-}
+const ValidateAction = ({ label, handleValidate, disabled }) => (
+  <Grid container sx={{ pt: 6 }}>
+    <ValidateButton onClick={handleValidate} disabled={disabled}>
+      {label}
+    </ValidateButton>
+  </Grid>
+)
 
 ValidateAction.propTypes = {
   label: PropTypes.string.isRequired,
+  handleValidate: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 }
 
