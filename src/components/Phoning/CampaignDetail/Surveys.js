@@ -194,7 +194,7 @@ const CampaignDetailSurveys = ({ replies }) => {
 }
 
 CampaignDetailSurveys.propTypes = {
-  replies: PropTypes.arrayOf(DomainPhoningCampaignReply.propTypes).isRequired,
+  replies: PropTypes.arrayOf(PropTypes.shape(DomainPhoningCampaignReply.propTypes)).isRequired,
 }
 
 export default CampaignDetailSurveys

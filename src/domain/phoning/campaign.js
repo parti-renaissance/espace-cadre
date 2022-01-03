@@ -132,7 +132,7 @@ PhoningCampaignReplyAnswer.propTypes = {
 }
 
 PhoningCampaignReply.propTypes = {
-  answers: PropTypes.arrayOf(PhoningCampaignReplyAnswer.propTypes).isRequired,
+  answers: PropTypes.arrayOf(PropTypes.shape(PhoningCampaignReplyAnswer.propTypes)).isRequired,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   startDate: PropTypes.object.isRequired,
