@@ -8,6 +8,7 @@ import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { GlobalSettingsContext } from '../shared/context'
 import { Input, Label } from '../shared/components'
+import { fields } from '../shared/constants'
 
 const messages = {
   input: {
@@ -37,12 +38,12 @@ const GlobalSettings = () => {
     <>
       <Label sx={{ pt: 3, pb: 1 }}>{messages.input.title}</Label>
       <Input
-        name="title"
+        name={fields.title}
         placeholder={messages.placeholder.title}
         value={inputValues.title}
         onChange={event => {
-          updateInputValues('title', event.target.value)
-          debounce(() => updateValues('title', event.target.value))
+          updateInputValues(fields.title, event.target.value)
+          debounce(() => updateValues(fields.title, event.target.value))
         }}
         autoFocus
       />
@@ -51,12 +52,12 @@ const GlobalSettings = () => {
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</Label>
       <Input
         type="number"
-        name="goal"
+        name={fields.goal}
         placeholder={messages.placeholder.goal}
         value={inputValues.goal}
         onChange={event => {
-          updateInputValues('goal', event.target.value)
-          debounce(() => updateValues('goal', event.target.value))
+          updateInputValues(fields.goal, event.target.value)
+          debounce(() => updateValues(fields.goal, event.target.value))
         }}
       />
       <FormError errors={errors} field="goal" />
@@ -66,10 +67,10 @@ const GlobalSettings = () => {
         inputFormat="dd/MM/yyyy"
         value={inputValues.endDate}
         onChange={value => {
-          updateInputValues('endDate', value)
-          debounce(() => updateValues('endDate', value))
+          updateInputValues(fields.endDate, value)
+          debounce(() => updateValues(fields.endDate, value))
         }}
-        renderInput={props => <Input type="date" name="endDate" {...props} />}
+        renderInput={props => <Input type="date" name={fields.endDate} {...props} />}
         inputProps={{ placeholder: messages.placeholder.endDate }}
         components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
         InputAdornmentProps={{
@@ -85,11 +86,11 @@ const GlobalSettings = () => {
 
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.brief}</Label>
       <Input
-        name="brief"
+        name={fields.brief}
         placeholder={messages.placeholder.brief}
         onChange={event => {
-          updateInputValues('brief', event.target.value)
-          debounce(() => updateValues('brief', event.target.value))
+          updateInputValues(fields.brief, event.target.value)
+          debounce(() => updateValues(fields.brief, event.target.value))
         }}
         value={inputValues.brief}
         minRows={3}

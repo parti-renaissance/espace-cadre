@@ -16,7 +16,7 @@ import {
 import { PhoningCampaign as DomainPhoningCampaign } from 'domain/phoning'
 import { createPhoningCampaignQuery, updatePhoningCampaignQuery } from 'api/phoning'
 import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
-import { validateAllSteps, toggleValidStep, isStep1Valid, isStep2Valid, isStep3Valid } from './shared/helpers'
+import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
 
 import UIStepper from 'ui/Stepper/Stepper'
 import ValidateAction from './ValidateAction'
@@ -115,7 +115,10 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
               errors: errorMessages,
               values: globalSettings,
               initialValues: campaign ? campaignToGlobalSettingsValues(campaign) : initialValues.globalSettings,
-              updateValues: handleChangeAndValidate(setGlobalSettings, handleStepValidation(0, isStep1Valid)),
+              updateValues: handleChangeAndValidate(
+                setGlobalSettings,
+                handleStepValidation(0, validators.globalSettings)
+              ),
             }}
           >
             <GlobalSettings title={messages.steps.globalSettings} />
@@ -125,7 +128,10 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
               errors: errorMessages,
               values: callersAndSurvey,
               initialValues: campaign ? campaignToCallersAndSurveyValues(campaign) : initialValues.callersAndSurvey,
-              updateValues: handleChangeAndValidate(setCallersAndSurvey, handleStepValidation(1, isStep2Valid)),
+              updateValues: handleChangeAndValidate(
+                setCallersAndSurvey,
+                handleStepValidation(1, validators.callersAndSurvey)
+              ),
             }}
           >
             <CallersAndSurvey title={messages.steps.callersAndSurvey} />
@@ -135,7 +141,7 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
               errors: errorMessages,
               values: filters,
               initialValues: campaign ? campaignToFiltersValues(campaign) : initialValues.filters,
-              updateValues: handleChangeAndValidate(setFilters, handleStepValidation(2, isStep3Valid)),
+              updateValues: handleChangeAndValidate(setFilters, handleStepValidation(2, validators.filters)),
             }}
           >
             <Filters title={messages.steps.filters} />

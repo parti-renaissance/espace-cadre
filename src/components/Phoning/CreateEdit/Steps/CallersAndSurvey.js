@@ -8,6 +8,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { FormError } from 'components/shared/error/components'
 import { CallersAndSurveyContext } from '../shared/context'
 import { Input, Label } from '../shared/components'
+import { fields } from '../shared/constants'
 
 const messages = {
   input: {
@@ -69,10 +70,10 @@ const CallersAndSurvey = () => {
           debounce(() => setIsTeamFetchable(true))
         }}
         onChange={(_, value) => {
-          updateValues('team', value)
+          updateValues(fields.team, value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        getOptionLabel={option => option.name || ''}
+        getOptionLabel={option => option.name ?? ''}
         renderOption={(props, option) => (
           <MenuItem {...props} key={option.id}>
             <Typography>
@@ -81,7 +82,7 @@ const CallersAndSurvey = () => {
             </Typography>
           </MenuItem>
         )}
-        renderInput={params => <Input name="team" placeholder={messages.placeholder.team} {...params} />}
+        renderInput={params => <Input name={fields.team} placeholder={messages.placeholder.team} {...params} />}
         loading={isTeamsFetching}
         loadingText={messages.pleaseWait}
         noOptionsText={messages.noResult}
@@ -100,10 +101,10 @@ const CallersAndSurvey = () => {
           debounce(() => setIsSurveyFetchable(true))
         }}
         onChange={(_, value) => {
-          updateValues('survey', value)
+          updateValues(fields.survey, value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        getOptionLabel={option => option.name || ''}
+        getOptionLabel={option => option.name ?? ''}
         renderOption={(props, option) => (
           <MenuItem {...props} key={option.id}>
             <Typography>
@@ -112,7 +113,7 @@ const CallersAndSurvey = () => {
             </Typography>
           </MenuItem>
         )}
-        renderInput={params => <Input name="survey" placeholder={messages.placeholder.survey} {...params} />}
+        renderInput={params => <Input name={fields.survey} placeholder={messages.placeholder.survey} {...params} />}
         loading={isSurveysFetching}
         loadingText={messages.pleaseWait}
         noOptionsText={messages.noResult}
