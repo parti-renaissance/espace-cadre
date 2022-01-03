@@ -40,7 +40,7 @@ export const updateGroupQuery = group =>
   })
 
 export const addGroupMemberQuery = ({ groupId, memberId }) =>
-  apiClient.put(`/api/v3/teams/${groupId}/add-members`, [{ adherent_uuid: memberId }])
+  apiClient.put(`api/v3/teams/${groupId}/add-members`, [{ adherent_uuid: memberId }])
 
 export const deleteGroupMemberQuery = ({ groupId, memberId }) =>
   apiClient.delete(`api/v3/teams/${groupId}/members/${memberId}`)

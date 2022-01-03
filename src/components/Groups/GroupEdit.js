@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Container, Grid, Card, Paper, Typography, Button } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton } from '@mui/material'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
@@ -14,45 +13,48 @@ import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    borderRadius: '8px',
-    boxShadow: 'none',
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  buttonClasses: {
-    color: theme.palette.whiteCorner,
-    background: theme.palette.blue600,
-    '&:hover': {
-      background: theme.palette.blue800,
-    },
-  },
-  groupsContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  pageTitle: {
-    fontSize: '24px',
-    fontWeight: '400',
-    color: theme.palette.cyan800,
-    marginBottom: theme.spacing(2),
-  },
-  title: {
-    fontSize: '18px',
-    fontWeight: '400',
-    color: theme.palette.gray800,
-  },
-  noMember: {
-    padding: theme.spacing(1, 2),
-    borderRadius: '8px',
-  },
-  autocomplete: {
-    background: theme.palette.gray100,
-  },
-}))
+const PageTitle = styled(Grid)(
+  ({ theme }) => `
+  font-size: 24px;
+  font-weight: 400;
+  color: ${theme.palette.cyan800};
+  margin-bottom: ${theme.spacing(2)};
+`
+)
+
+const AutocompleteContainer = styled(Card)(
+  ({ theme }) => `
+    border-radius: 8px;
+    box-shadow: none;
+    padding: ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(2)};
+`
+)
+
+const Title = styled(Grid)`
+  font-size: 18px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.palette.gray800};
+`
 
 const Italic = styled('span')`
   font-style: italic;
+`
+
+const Button = styled(MuiButton)(({ theme }) => ({
+  cursor: 'pointer',
+  background: theme.palette.blue600,
+  '&.Mui-disabled': {
+    background: theme.palette.gray100,
+  },
+  '&:hover': {
+    background: theme.palette.blue800,
+  },
+}))
+
+const Paper = styled(MuiPaper)`
+  padding: ${({ theme }) => theme.spacing(1, 2)};
+  border-radius: 8px;
 `
 
 const messages = {
@@ -68,7 +70,6 @@ const messages = {
 }
 
 const GroupEdit = () => {
-  const classes = useStyles()
   const { groupId } = useParams()
   const [selectedMember, setSelectedMember] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -101,15 +102,15 @@ const GroupEdit = () => {
   }
 
   return (
-    <Container maxWidth="lg" className={classes.groupsContainer}>
+    <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container>
-        <Grid item className={classes.pageTitle}>
+        <PageTitle item>
           {messages.group} &gt; {group?.name}
-        </Grid>
+        </PageTitle>
       </Grid>
       <Grid container>
         <Grid item xs={12} sm={8} lg={7}>
-          <Card className={classes.root}>
+          <AutocompleteContainer>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 {messages.addMembers}
@@ -117,7 +118,7 @@ const GroupEdit = () => {
               <Grid item xs={12}>
                 <Autocomplete
                   placeholder={messages.placeholder}
-                  autoCompleteStyle={classes.autocomplete}
+                  customStyle={{ background: '#F3F4F6' }}
                   uri={adherentAutocompleteUri}
                   queryParam="q"
                   valueParam="uuid"
@@ -138,29 +139,25 @@ const GroupEdit = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button
-                  buttonClasses={classes.buttonClasses}
-                  handleClick={handleAddGroupMember}
-                  disabled={!selectedMember}
-                >
-                  {messages.add}
+                <Button onClick={handleAddGroupMember} disabled={!selectedMember}>
+                  <Typography sx={{ color: 'whiteCorner' }}>{messages.add}</Typography>
                 </Button>
               </Grid>
             </Grid>
-          </Card>
+          </AutocompleteContainer>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} className={classes.title}>
+        <Title item xs={12}>
           {messages.groupMember}
-        </Grid>
+        </Title>
         {group?.members.length > 0 ? (
           group?.members?.map(member => (
             <MemberCard key={member.id} member={member} handleDelete={() => handleDelete(member.id)} />
           ))
         ) : (
           <Grid item xs={6}>
-            <Paper className={classes.noMember}>
+            <Paper>
               <Typography variant="body1">{messages.noMember}</Typography>
             </Paper>
           </Grid>
