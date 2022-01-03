@@ -65,7 +65,7 @@ const messages = {
   finish: 'Terminer',
 }
 
-const UIStepper = ({ stepsCount, validSteps, children, ...props }) => {
+const UIStepper = ({ stepsCount, validSteps = [], children, ...props }) => {
   const [activeStep, setActiveStep] = useState(0)
   const handlePrevStep = useCallback(() => setActiveStep(prevStep => prevStep - 1), [])
   const handleNextStep = useCallback(() => setActiveStep(prevStep => prevStep + 1), [])
@@ -85,7 +85,7 @@ const UIStepper = ({ stepsCount, validSteps, children, ...props }) => {
           <Grid container direction="column">
             <Grid item>
               <StepButton disabled={activeStep <= index} onClick={handleRestartFromStep(index)}>
-                {step.props.title}
+                {step.props.children.props.title}
               </StepButton>
             </Grid>
 

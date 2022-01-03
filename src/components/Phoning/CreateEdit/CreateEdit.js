@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
-import { Formik } from 'formik'
 import { styled } from '@mui/system'
 import { Grid, Typography, Dialog, IconButton, Paper as MuiPaper } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
@@ -8,19 +8,21 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
-import { campaignToFormValues } from '../CampaignDetail/shared/helpers'
+import {
+  campaignToCallersAndSurveyValues,
+  campaignToFiltersValues,
+  campaignToGlobalSettingsValues,
+} from '../CampaignDetail/shared/helpers'
 import { PhoningCampaign as DomainPhoningCampaign } from 'domain/phoning'
 import { createPhoningCampaignQuery, updatePhoningCampaignQuery } from 'api/phoning'
+import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
+import { validateAllSteps, toggleValidStep, isStep1Valid, isStep2Valid, isStep3Valid } from './shared/helpers'
 
 import UIStepper from 'ui/Stepper/Stepper'
 import ValidateAction from './ValidateAction'
 import GlobalSettings from './Steps/GlobalSettings'
 import CallersAndSurvey from './Steps/CallersAndSurvey'
 import Filters from './Steps/Filters'
-import { usePhoningCreateEditState } from '..'
-import { useEffect, useMemo } from 'react'
-import { useActions } from '../../../providers/state'
-import { isStep1Valid, isStep2Valid, isStep3Valid } from './shared/helpers'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -49,18 +51,10 @@ const messages = {
 }
 
 const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
-  const { validSteps } = usePhoningCreateEditState()
-  const { initializeSteps } = useActions()
-
-  useEffect(() => {
-    if (!campaign) return
-    initializeSteps(
-      [isStep1Valid, isStep2Valid, isStep3Valid].map((isValid, index) => ({
-        id: index + 1,
-        isValid: isValid(index < 2 ? campaign : campaign.filters),
-      }))
-    )
-  }, [campaign, initializeSteps])
+  const [validSteps, setValidSteps] = useState([])
+  const [globalSettings, setGlobalSettings] = useState(initialValues.globalSettings)
+  const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
+  const [filters, setFilters] = useState(initialValues.filters)
 
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
@@ -77,6 +71,34 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
     }
   )
 
+  useEffect(() => {
+    if (!campaign) return
+    setGlobalSettings(campaignToGlobalSettingsValues(campaign))
+    setCallersAndSurvey(campaignToCallersAndSurveyValues(campaign))
+    setFilters(campaignToFiltersValues(campaign))
+    setValidSteps(validateAllSteps(campaign))
+  }, [campaign])
+
+  const handleStepValidation = (stepId, validator) => values => {
+    const isValidStep = validator(values)
+    const validSteps = toggleValidStep(stepId, isValidStep)
+    setValidSteps(validSteps)
+  }
+
+  const handleChangeAndValidate = (updateValues, validateStep) => (key, value) => {
+    updateValues(values => {
+      const updatedValues = { ...values, [key]: value }
+      validateStep(updatedValues)
+      return updatedValues
+    })
+  }
+
+  const handleSubmit = () => {
+    const id = campaign?.id ? campaign.id : {}
+    const values = { id, ...globalSettings, ...callersAndSurvey, filters }
+    createOrUpdatePhoningCampaign(values)
+  }
+
   return (
     <Dialog open={isOpen} onClose={handleClose} PaperComponent={Paper} sx={{ my: 4 }}>
       <Grid container justifyContent="space-between" alignItems="center">
@@ -86,21 +108,46 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
         </IconButton>
       </Grid>
 
-      <Formik
-        initialValues={campaignToFormValues(campaign)}
-        onSubmit={values => {
-          createOrUpdatePhoningCampaign(values)
-        }}
-      >
-        <>
-          <UIStepper orientation="vertical" validSteps={validSteps} stepsCount={3} sx={{ width: '100%', pt: 4 }}>
-            <GlobalSettings title={messages.steps.globalSettings} errors={errorMessages} />
+      <Grid container>
+        <UIStepper orientation="vertical" validSteps={validSteps} stepsCount={3} sx={{ width: '100%', pt: 4 }}>
+          <GlobalSettingsContext.Provider
+            value={{
+              errors: errorMessages,
+              values: globalSettings,
+              initialValues: campaign ? campaignToGlobalSettingsValues(campaign) : initialValues.globalSettings,
+              updateValues: handleChangeAndValidate(setGlobalSettings, handleStepValidation(0, isStep1Valid)),
+            }}
+          >
+            <GlobalSettings title={messages.steps.globalSettings} />
+          </GlobalSettingsContext.Provider>
+          <CallersAndSurveyContext.Provider
+            value={{
+              errors: errorMessages,
+              values: callersAndSurvey,
+              initialValues: campaign ? campaignToCallersAndSurveyValues(campaign) : initialValues.callersAndSurvey,
+              updateValues: handleChangeAndValidate(setCallersAndSurvey, handleStepValidation(1, isStep2Valid)),
+            }}
+          >
             <CallersAndSurvey title={messages.steps.callersAndSurvey} />
-            <Filters title={messages.steps.filters} errors={errorMessages} />
-          </UIStepper>
-          <ValidateAction label={!campaign ? messages.create : messages.update} disabled={validSteps.length < 3} />
-        </>
-      </Formik>
+          </CallersAndSurveyContext.Provider>
+          <FiltersContext.Provider
+            value={{
+              errors: errorMessages,
+              values: filters,
+              initialValues: campaign ? campaignToFiltersValues(campaign) : initialValues.filters,
+              updateValues: handleChangeAndValidate(setFilters, handleStepValidation(2, isStep3Valid)),
+            }}
+          >
+            <Filters title={messages.steps.filters} />
+          </FiltersContext.Provider>
+        </UIStepper>
+
+        <ValidateAction
+          label={!campaign ? messages.create : messages.update}
+          handleValidate={handleSubmit}
+          disabled={validSteps.length < 3}
+        />
+      </Grid>
     </Dialog>
   )
 }

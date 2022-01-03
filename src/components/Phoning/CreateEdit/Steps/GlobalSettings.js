@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types'
-import { useEffect, useMemo } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import DatePicker from '@mui/lab/DatePicker'
 import { InputAdornment } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
-import { useActions } from 'providers/state'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
+import { GlobalSettingsContext } from '../shared/context'
 import { Input, Label } from '../shared/components'
-import { useStepValues } from '../shared/hooks'
-import { isStep1Valid } from '../shared/helpers'
 
 const messages = {
   input: {
@@ -26,23 +24,14 @@ const messages = {
   },
 }
 
-const initialvalues = {
-  title: '',
-  goal: '',
-  endDate: '',
-  brief: '',
-}
-
-const GlobalSettings = ({ errors = [] }) => {
-  const { validateStep } = useActions()
-  const { inputValues, updateInputValues, updateValues } = useStepValues(initialvalues)
+const GlobalSettings = () => {
+  const { errors, initialValues, updateValues } = useContext(GlobalSettingsContext)
+  const [inputValues, setInputValues] = useState(initialValues)
   const debounce = useDebounce()
 
-  const isStepValid = useMemo(() => isStep1Valid(inputValues), [inputValues])
-
-  useEffect(() => {
-    validateStep({ id: 1, isValid: isStepValid })
-  }, [isStepValid, validateStep])
+  const updateInputValues = useCallback((key, value) => {
+    setInputValues(values => ({ ...values, [key]: value }))
+  }, [])
 
   return (
     <>
