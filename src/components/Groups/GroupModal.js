@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
-import { Dialog, Grid, Button, Box, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Dialog, Paper, Grid, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -9,36 +8,17 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import ClearIcon from '@mui/icons-material/Clear'
 import Loader from 'ui/Loader'
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(4),
-    width: '664px',
-    borderRadius: '12px',
-  },
-  innerContainer: {
-    marginBottom: '16px',
-  },
-  modalTitle: {
-    fontSize: '24px',
-    color: theme.palette.gray800,
-    fontWeight: '400',
-  },
-  textField: {
-    border: `1px solid ${theme.palette.gray200}`,
-    borderRadius: '8px',
-    margin: '8px 0',
-  },
-  modalButton: {
-    color: theme.palette.whiteCorner,
-    background: theme.palette.cyan600,
-    border: 'none',
-    borderRadius: '8px',
-    '&:hover': {
-      backgroundColor: theme.palette.cyan700,
-    },
-    height: '35px',
-  },
-}))
+const StyledPaper = styled(Paper)`
+  padding: ${({ theme }) => theme.spacing(4)};
+  width: 664px;
+  border-radius: 12px;
+`
+
+const ModalTitle = styled(Typography)`
+  font-size: 24px;
+  color: ${({ theme }) => theme.palette.gray800};
+  font-weight: 400;
+`
 
 const CharactersLimit = styled(Typography)(
   ({ theme }) => `
@@ -46,6 +26,17 @@ const CharactersLimit = styled(Typography)(
   color: ${theme.palette.gray300}
 `
 )
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.whiteCorner,
+  background: theme.palette.cyan600,
+  border: 'none',
+  borderRadius: '8px',
+  '&:hover': {
+    backgroundColor: theme.palette.cyan700,
+  },
+  height: '35px',
+}))
 
 const messages = {
   create: 'Créer un groupe',
@@ -63,8 +54,6 @@ const groupSchema = Yup.object({
 })
 
 const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loader = false, errors }) => {
-  const classes = useStyles()
-
   const handleClose = () => {
     onCloseResolve()
   }
@@ -87,13 +76,11 @@ const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loa
   })
 
   return (
-    <Dialog open={open} onClose={handleClose} classes={{ paper: classes.paper }}>
+    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" className={classes.innerContainer}>
+        <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
           <Grid item>
-            <Box component="span" className={classes.modalTitle}>
-              {group?.id ? messages.edit : messages.create}
-            </Box>
+            <ModalTitle component="span">{group?.id ? messages.edit : messages.create}</ModalTitle>
           </Grid>
           <Grid item>
             <Button type="button" onClick={handleClose}>
@@ -101,7 +88,7 @@ const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loa
             </Button>
           </Grid>
         </Grid>
-        <Grid container className={classes.innerContainer}>
+        <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>Nom</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
@@ -118,9 +105,9 @@ const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loa
             ))}
         </Grid>
         <Grid container>
-          <Button type="submit" className={classes.modalButton} fullWidth>
+          <SubmitButton type="submit" fullWidth>
             {loader ? <Loader size={12} color="white" /> : messages.submit}
-          </Button>
+          </SubmitButton>
         </Grid>
       </form>
     </Dialog>

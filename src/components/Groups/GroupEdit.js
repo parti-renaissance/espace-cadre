@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton } from '@mui/material'
+import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
@@ -13,14 +13,11 @@ import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
-const PageTitle = styled(Grid)(
-  ({ theme }) => `
+const PageTitle = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
-  color: ${theme.palette.cyan800};
-  margin-bottom: ${theme.spacing(2)};
+  color: ${({ theme }) => theme.palette.cyan800};
 `
-)
 
 const AutocompleteContainer = styled(Card)(
   ({ theme }) => `
@@ -35,10 +32,6 @@ const Title = styled(Grid)`
   font-size: 18px;
   font-weight: 400;
   color: ${({ theme }) => theme.palette.gray800};
-`
-
-const Italic = styled('span')`
-  font-style: italic;
 `
 
 const Button = styled(MuiButton)(({ theme }) => ({
@@ -104,9 +97,11 @@ const GroupEdit = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container>
-        <PageTitle item>
-          {messages.group} &gt; {group?.name}
-        </PageTitle>
+        <Grid item sx={{ mb: 2 }}>
+          <PageTitle>
+            {messages.group} &gt; {group?.name}
+          </PageTitle>
+        </Grid>
       </Grid>
       <Grid container>
         <Grid item xs={12} sm={8} lg={7}>
@@ -118,7 +113,7 @@ const GroupEdit = () => {
               <Grid item xs={12}>
                 <Autocomplete
                   placeholder={messages.placeholder}
-                  customStyle={{ background: '#F3F4F6' }}
+                  customStyle={{ bgcolor: 'gray100' }}
                   uri={adherentAutocompleteUri}
                   queryParam="q"
                   valueParam="uuid"
@@ -129,10 +124,10 @@ const GroupEdit = () => {
                   renderOption={(props, option) => (
                     <li key={option.uuid} {...props}>
                       {option.first_name} {option.last_name}&#44;&nbsp;
-                      <Italic>
+                      <Box component="span" sx={{ fontStyle: 'italic' }}>
                         {option.postal_code}&#44;&nbsp;{messages.adhesion}&nbsp;
                         {format(new Date(option.registered_at), 'dd/MM/yyyy')}
-                      </Italic>
+                      </Box>
                     </li>
                   )}
                   getOptionLabel={option => `${option.first_name} ${option.last_name}`}
@@ -148,14 +143,14 @@ const GroupEdit = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Title item xs={12}>
-          {messages.groupMember}
-        </Title>
-        {group?.members.length > 0 ? (
-          group?.members?.map(member => (
+        <Grid item xs={12}>
+          <Title>{messages.groupMember}</Title>
+        </Grid>
+        {group?.members?.length > 0 &&
+          group.members.map(member => (
             <MemberCard key={member.id} member={member} handleDelete={() => handleDelete(member.id)} />
-          ))
-        ) : (
+          ))}
+        {group?.members?.length === 0 && (
           <Grid item xs={6}>
             <Paper>
               <Typography variant="body1">{messages.noMember}</Typography>
