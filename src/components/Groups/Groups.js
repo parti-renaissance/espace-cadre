@@ -1,33 +1,27 @@
 import { useState } from 'react'
-import { useMutation } from 'react-query'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { Container, Grid } from '@mui/material'
 import GroupModal from './GroupModal'
-import { createGroupQuery, getGroupsQuery, updateGroupQuery } from 'api/groups'
+import { getGroupsQuery } from 'api/groups'
+import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { Group } from 'domain/group'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import Header from './Card/Header'
 import UICard, { Title } from 'ui/Card'
-import Actions from './Card/Actions'
-import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
 import Loader from 'ui/Loader'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { notifyVariants } from 'components/shared/notification/constants'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import Actions from './Card/Actions'
 
 const messages = {
   title: 'Groupes',
   create: 'Créer un groupe',
-  createSuccess: 'Groupe créé avec succès',
-  editSuccess: 'Le groupe a bien été modifié',
 }
 
 const Groups = () => {
   const [currentGroup, setCurrentGroup] = useState(null)
-  const [open, setOpen] = useState(false)
-  const { enqueueSnackbar } = useCustomSnackbar()
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const {
     data: paginatedGroups = null,
@@ -39,36 +33,20 @@ const Groups = () => {
     onError: handleError,
   })
 
-  const { mutateAsync: createGroup, isLoading: isCreateLoading } = useMutation(createGroupQuery, {
-    onSuccess: async () => {
-      await refetch()
-      enqueueSnackbar(messages.createSuccess, notifyVariants.success)
-    },
-    onError: handleError,
-  })
-
-  const { mutateAsync: updateGroup, isLoading: isUpdateLoading } = useMutation(updateGroupQuery, {
-    onSuccess: async (_, updatedGroup) => {
-      await refetchUpdatedPage(paginatedGroups, refetch, updatedGroup.id)
-      enqueueSnackbar(messages.editSuccess, notifyVariants.success)
-    },
-    onError: handleError,
-  })
-
   const groups = usePaginatedData(paginatedGroups)
 
   const handleNewGroup = () => {
     setCurrentGroup(Group.NULL)
-    setOpen(true)
+    setIsModalOpen(true)
   }
 
   const handleEditGroup = id => {
     setCurrentGroup(groups.find(group => group.id === id))
-    setOpen(true)
+    setIsModalOpen(true)
   }
 
   const handleCloseModal = () => {
-    setOpen(false)
+    setIsModalOpen(false)
     resetErrorMessages()
   }
 
@@ -108,13 +86,13 @@ const Groups = () => {
         </InfiniteScroll>
       )}
       <GroupModal
-        open={open}
+        open={isModalOpen}
         group={currentGroup}
         onCloseResolve={handleCloseModal}
-        createGroup={createGroup}
-        updateGroup={updateGroup}
         errors={errorMessages}
-        loader={isCreateLoading || isUpdateLoading}
+        onCreateEditResolve={updatedGroup => {
+          !currentGroup?.id ? refetch() : refetchUpdatedPage(paginatedGroups, refetch, updatedGroup.id)
+        }}
       />
     </Container>
   )

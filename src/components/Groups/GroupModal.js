@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types'
+import { useMutation } from 'react-query'
 import { Dialog, Paper, Grid, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
-import ClearIcon from '@mui/icons-material/Clear'
 import Loader from 'ui/Loader'
+import { createGroupQuery, updateGroupQuery } from 'api/groups'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -47,21 +52,31 @@ const messages = {
   noMember: 'Ce groupe ne contient aucun membre',
   charactersLimit: '(255 charactères)',
   submit: 'Valider',
+  createSuccess: 'Groupe créé avec succès',
+  editSuccess: 'Le groupe a bien été modifié',
 }
 
 const groupSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loader = false, errors }) => {
+const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }) => {
+  const { handleError } = useErrorHandler()
+  const { enqueueSnackbar } = useCustomSnackbar()
+
+  const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation(
+    !group?.id ? createGroupQuery : updateGroupQuery,
+    {
+      onSuccess: async (_, updatedGroup) => {
+        await onCreateEditResolve(updatedGroup)
+        enqueueSnackbar(!group?.id ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      },
+      onError: handleError,
+    }
+  )
+
   const handleClose = () => {
     onCloseResolve()
-  }
-
-  const createOrEditGroup = async group => {
-    const mutation = group.id ? updateGroup : createGroup
-    await mutation(group)
-    handleClose()
   }
 
   const formik = useFormik({
@@ -70,8 +85,9 @@ const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loa
     },
     validationSchema: groupSchema,
     enableReinitialize: true,
-    onSubmit: values => {
-      createOrEditGroup(group.withName(values.name))
+    onSubmit: async values => {
+      await createOrUpdateGroup(group.withName(values.name))
+      handleClose()
     },
   })
 
@@ -106,7 +122,7 @@ const GroupModal = ({ open, group, onCloseResolve, createGroup, updateGroup, loa
         </Grid>
         <Grid container>
           <SubmitButton type="submit" fullWidth>
-            {loader ? <Loader size={12} color="white" /> : messages.submit}
+            {isLoading ? <Loader size={12} color="white" /> : messages.submit}
           </SubmitButton>
         </Grid>
       </form>
@@ -124,9 +140,7 @@ GroupModal.propTypes = {
   open: PropTypes.bool.isRequired,
   group: PropTypes.object,
   onCloseResolve: PropTypes.func.isRequired,
-  createGroup: PropTypes.func.isRequired,
-  updateGroup: PropTypes.func.isRequired,
-  loader: PropTypes.bool,
+  onCreateEditResolve: PropTypes.func.isRequired,
   errors: PropTypes.arrayOf(
     PropTypes.shape({
       field: PropTypes.string.isRequired,
