@@ -133,7 +133,7 @@ const CampaignDetailSurveys = ({ replies }) => {
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell key={uuid()} isSticky>
                     <Description>
-                      {lastName || firstName ? `${lastName.toUpperCase()} ${firstName}` : messages.anonymous}
+                      {lastName || firstName ? `${lastName?.toUpperCase()} ${firstName}` : messages.anonymous}
                     </Description>
                     <SubDescription></SubDescription>
                   </TableCell>
