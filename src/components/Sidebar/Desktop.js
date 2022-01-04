@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { Drawer as MuiDrawer } from '@mui/material'
-import banner from 'assets/banner.svg'
 import frenchFlag from 'assets/frenchFlag.svg'
 import Scopes from '../Scopes'
 import Branding from './Branding'
@@ -29,7 +28,6 @@ const Desktop = ({ drawer, drawerWidth }) => (
     }}
     open
   >
-    <img src={banner} alt="Emmanuel Macron" />
     <img src={frenchFlag} alt="drapeau france" />
     <Branding />
     <Scopes />
