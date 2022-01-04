@@ -27,22 +27,24 @@ const messages = {
 const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
-  const gender = translatedGender?.[adherent.gender]
+  const gender = adherent ? translatedGender?.[adherent.gender] : null
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
         rootProps={{ sx: { height: '205px' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
-          <>
-            <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
-              {adherent.firstName} {adherent.lastName}
-            </TruncatedText>
-            <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-              {gender && `${gender}, `}
-              {adherent.age && `${adherent.age} ${messages.years}`}
-            </Typography>
-          </>
+          adherent && (
+            <>
+              <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
+                {adherent.firstName} {adherent.lastName}
+              </TruncatedText>
+              <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
+                {gender && `${gender}, `}
+                {adherent.age && `${adherent.age} ${messages.years}`}
+              </Typography>
+            </>
+          )
         }
         contentProps={{ sx: { pt: 1 } }}
         content={

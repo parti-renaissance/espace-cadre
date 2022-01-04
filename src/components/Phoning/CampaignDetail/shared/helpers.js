@@ -22,18 +22,18 @@ export const campaignToCallersAndSurveyValues = campaign => ({
 })
 
 export const campaignToFiltersValues = campaign => ({
-  firstName: campaign.filters.firstName ?? '',
-  lastName: campaign.filters.lastName ?? '',
-  gender: campaign.filters.gender ?? '',
-  adherentFromDate: campaign.filters.adherentFromDate ?? '',
-  adherentToDate: campaign.filters.adherentToDate ?? '',
-  ageMin: campaign.filters.ageMin ?? '',
-  ageMax: campaign.filters.ageMax ?? '',
-  certified: campaign.filters.certified ?? false,
-  committeeMember: campaign.filters.committeeMember ?? false,
-  emailSubscribed: campaign.filters.emailSubscribed ?? false,
-  SMSSubscribed: campaign.filters.SMSSubscribed ?? false,
-  zones: campaign.filters.zones ?? [],
+  firstName: campaign.filters?.firstName ?? '',
+  lastName: campaign.filters?.lastName ?? '',
+  gender: campaign.filters?.gender ?? '',
+  adherentFromDate: campaign.filters?.adherentFromDate ?? '',
+  adherentToDate: campaign.filters?.adherentToDate ?? '',
+  ageMin: campaign.filters?.ageMin ?? '',
+  ageMax: campaign.filters?.ageMax ?? '',
+  certified: campaign.filters?.certified ?? false,
+  committeeMember: campaign.filters?.committeeMember ?? false,
+  emailSubscribed: campaign.filters?.emailSubscribed ?? false,
+  SMSSubscribed: campaign.filters?.SMSSubscribed ?? false,
+  zones: campaign.filters?.zones ?? [],
 })
 
 export const timeDifferenceToString = (startDate, endDate) => {

@@ -47,23 +47,22 @@ export const getPhoningCampaignQuery = async campaignId => {
   const surveys = new PhoningCampaignSurveys(data.nb_surveys, data.goal * data.team.members_count)
   const team = new PhoningCampaignTeam(data.team.uuid, data.team.name)
   const survey = new PhoningCampaignSurvey(data.survey.uuid, data.survey.name)
-  const zones = data.audience?.zones.map(z => new PhoningCampaignZone(z.uuid, z.name, z.code))
-  // TODO: remove '?' on data which is not properly sent by API
-  // data.audience
-  const filters = new PhoningCampaignFilters(
-    data.audience?.first_name,
-    data.audience?.last_name,
-    data.audience?.gender,
-    data.audience?.registered_since,
-    data.audience?.registered_until,
-    data.audience?.age_min,
-    data.audience?.age_max,
-    data.audience?.is_certified,
-    data.audience?.is_committee_member,
-    data.audience?.has_email_subscription,
-    data.audience?.has_sms_subscription,
-    zones
-  )
+  const filters = data.audience
+    ? new PhoningCampaignFilters(
+        data.audience.first_name,
+        data.audience.last_name,
+        data.audience.gender,
+        data.audience.registered_since,
+        data.audience.registered_until,
+        data.audience.age_min,
+        data.audience.age_max,
+        data.audience.is_certified,
+        data.audience.is_committee_member,
+        data.audience.has_email_subscription,
+        data.audience.has_sms_subscription,
+        data.audience.zones.map(z => new PhoningCampaignZone(z.uuid, z.name, z.code))
+      )
+    : null
   return new PhoningCampaign(
     data.uuid,
     data.title,
@@ -91,14 +90,14 @@ export const getPhoningCampaignHistory = async ({ campaignId, pageParam: page = 
   )
 
   const history = data.items.map(h => {
-    // TODO: remove '?' on data which is not properly sent by API
-    // h.adherent
-    const adherent = new PhoningCampaignHistoryAdherent(
-      h.adherent?.first_name,
-      h.adherent?.last_name,
-      h.adherent?.gender,
-      h.adherent?.age
-    )
+    const adherent = h.adherent
+      ? new PhoningCampaignHistoryAdherent(
+          h.adherent.first_name,
+          h.adherent.last_name,
+          h.adherent.gender,
+          h.adherent.age
+        )
+      : null
     const caller = new PhoningCampaignHistoryCaller(h.caller.first_name, h.caller.last_name)
     return new PhoningCampaignHistory(h.uuid, h.status, new Date(h.begin_at), adherent, caller)
   })
@@ -108,8 +107,6 @@ export const getPhoningCampaignHistory = async ({ campaignId, pageParam: page = 
 
 export const getPhoningCampaignSurveysReplies = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/replies`)
-  // TODO: remove '?' on data which is not properly sent by API
-  // sr.phoning_campaign_history.adherent
   return {
     totalCount: data.metadata.total_items,
     replies: data.items.map(
