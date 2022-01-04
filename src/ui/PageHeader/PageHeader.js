@@ -21,10 +21,12 @@ PageHeaderButton.propTypes = {
 
 const PageHeader = ({ title, button }) => (
   <>
-    <Grid item>
+    <Grid item data-cy="ui-page-header">
       <PageTitle title={title} />
     </Grid>
-    <Grid item>{button}</Grid>
+    <Grid item data-cy="ui-page-header-button">
+      {button}
+    </Grid>
   </>
 )
 

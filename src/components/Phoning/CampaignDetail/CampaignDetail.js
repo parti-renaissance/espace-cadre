@@ -165,7 +165,7 @@ export const CampaignDetail = () => {
             </Tabs>
 
             {selectedTab === messages.callers.id && callers.length > 0 && (
-              <Grid container spacing={2} data-testid="phoning-caller-container">
+              <Grid container spacing={2}>
                 {callers.map((caller, index) => (
                   <CampaignDetailCallers
                     key={index + 1}

@@ -100,7 +100,7 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
   }
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} PaperComponent={Paper} sx={{ my: 4 }}>
+    <Dialog open={isOpen} onClose={handleClose} PaperComponent={Paper} sx={{ my: 4 }} data-cy="phoning-create-edit">
       <Grid container justifyContent="space-between" alignItems="center">
         <Title>{!campaign ? messages.create : messages.update}</Title>
         <IconButton onClick={handleClose}>
