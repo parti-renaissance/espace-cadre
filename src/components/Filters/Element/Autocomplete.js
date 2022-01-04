@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Autocomplete as MuiAutocomplete, TextField, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
+import { styled } from '@mui/system'
 
 import { getDataFromDynamicEndpoint } from 'api/dynamic'
 import { useDebounce } from 'components/shared/debounce'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    background: theme.palette.whiteCorner,
-    borderRadius: '8px',
-  },
-}))
+const AutocompleteComponent = styled(MuiAutocomplete)(
+  ({ theme }) => `
+  background: ${theme.palette.whiteCorner};
+  border-radius: 8px;
+`
+)
 
 const messages = {
   loading: 'Chargement…',
@@ -27,7 +27,7 @@ const Autocomplete = ({
   multiple,
   onChange,
   required,
-  autoCompleteStyle,
+  customStyle,
   getOptionLabel,
   renderOption,
   defaultValue,
@@ -38,7 +38,6 @@ const Autocomplete = ({
   const [options, setOptions] = useState([])
   const [loading, setLoading] = useState(false)
   const debounce = useDebounce()
-  const classes = useStyles()
 
   useEffect(() => {
     if (!inputValue) {
@@ -69,11 +68,11 @@ const Autocomplete = ({
   )
 
   return (
-    <MuiAutocomplete
+    <AutocompleteComponent
       size="small"
       loadingText={messages.loading}
       noOptionsText={messages.noOptions}
-      className={`${classes.root} ${autoCompleteStyle}`}
+      sx={customStyle}
       multiple={multiple}
       open={open}
       loading={loading}
@@ -98,7 +97,7 @@ Autocomplete.defaultProps = {
   multiple: false,
   value: null,
   required: false,
-  autoCompleteStyle: '',
+  customStyle: {},
   defaultValue: {},
   labelParam: '',
 }
@@ -115,7 +114,7 @@ Autocomplete.propTypes = {
   multiple: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   required: PropTypes.bool,
-  autoCompleteStyle: PropTypes.string,
+  customStyle: PropTypes.object,
   defaultValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 }
 

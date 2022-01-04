@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { Container, Grid, Card, Paper, Typography, Button } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
-import { addTeamMemberQuery, deleteTeamMemberQuery, getTeamQuery } from 'api/teams'
+import { addGroupMemberQuery, deleteGroupMemberQuery, getGroupQuery } from 'api/groups'
 import { adherentAutocompleteUri } from 'api/adherents'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -14,108 +13,107 @@ import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    borderRadius: '8px',
-    boxShadow: 'none',
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  buttonClasses: {
-    color: theme.palette.whiteCorner,
-    background: theme.palette.blue600,
-    '&:hover': {
-      background: theme.palette.blue800,
-    },
-  },
-  teamsContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  pageTitle: {
-    fontSize: '24px',
-    fontWeight: '400',
-    color: theme.palette.cyan800,
-    marginBottom: theme.spacing(2),
-  },
-  title: {
-    fontSize: '18px',
-    fontWeight: '400',
-    color: theme.palette.gray800,
-  },
-  noMember: {
-    padding: theme.spacing(1, 2),
-    borderRadius: '8px',
-  },
-  autocomplete: {
+const PageTitle = styled(Typography)`
+  font-size: 24px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.palette.cyan800};
+`
+
+const AutocompleteContainer = styled(Card)(
+  ({ theme }) => `
+    border-radius: 8px;
+    box-shadow: none;
+    padding: ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(2)};
+`
+)
+
+const Title = styled(Grid)`
+  font-size: 18px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.palette.gray800};
+`
+
+const Button = styled(MuiButton)(({ theme }) => ({
+  cursor: 'pointer',
+  background: theme.palette.blue600,
+  '&.Mui-disabled': {
     background: theme.palette.gray100,
+  },
+  '&:hover': {
+    background: theme.palette.blue800,
   },
 }))
 
-const Italic = styled('span')`
-  font-style: italic;
+const Paper = styled(MuiPaper)`
+  padding: ${({ theme }) => theme.spacing(1, 2)};
+  border-radius: 8px;
 `
 
 const messages = {
+  group: 'Groupe',
   addMembers: 'Ajouter des membres',
   add: 'Ajouter',
-  teamMember: "Membres de l'équipe",
-  noMember: 'Cette équipe ne contient aucun membre',
+  groupMember: 'Membres du groupe',
+  noMember: 'Ce groupe ne contient aucun membre',
   editSuccess: 'Membre ajouté avec succès',
   deleteSuccess: 'Membre supprimé avec succès',
   adhesion: 'adhérent depuis le',
+  placeholder: 'Rechercher un adhérent',
 }
 
-const TeamEdit = () => {
-  const classes = useStyles()
-  const { teamId } = useParams()
+const GroupEdit = () => {
+  const { groupId } = useParams()
   const [selectedMember, setSelectedMember] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const { data: team, refetch: refetchTeam } = useQueryWithScope(['team', teamId], () => getTeamQuery(teamId), {
+  const { data: group, refetch: refetchGroup } = useQueryWithScope(['group', groupId], () => getGroupQuery(groupId), {
     onError: handleError,
   })
-  const { mutate: addTeamMember } = useMutation(addTeamMemberQuery, {
+  const { mutate: addGroupMember } = useMutation(addGroupMemberQuery, {
     onSuccess: () => {
-      refetchTeam()
+      refetchGroup()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
-  const { mutate: deleteTeamMember } = useMutation(deleteTeamMemberQuery, {
+  const { mutate: deleteGroupMember } = useMutation(deleteGroupMemberQuery, {
     onSuccess: () => {
-      refetchTeam()
+      refetchGroup()
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
 
-  const handleAddTeamMember = () => {
-    addTeamMember({ teamId, memberId: selectedMember.uuid })
+  const handleAddGroupMember = () => {
+    addGroupMember({ groupId, memberId: selectedMember.uuid })
   }
 
   const handleDelete = memberId => {
-    deleteTeamMember({ teamId, memberId })
+    deleteGroupMember({ groupId, memberId })
   }
 
   return (
-    <Container maxWidth="lg" className={classes.teamsContainer}>
+    <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container>
-        <Grid item className={classes.pageTitle}>
-          Équipes &gt; {team?.name}
+        <Grid item sx={{ mb: 2 }}>
+          <PageTitle>
+            {messages.group} &gt; {group?.name}
+          </PageTitle>
         </Grid>
       </Grid>
       <Grid container>
         <Grid item xs={12} sm={8} lg={7}>
-          <Card className={classes.root}>
+          <AutocompleteContainer>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 {messages.addMembers}
               </Grid>
               <Grid item xs={12}>
                 <Autocomplete
-                  placeholder="Rechercher un adhérent"
-                  autoCompleteStyle={classes.autocomplete}
+                  placeholder={messages.placeholder}
+                  customStyle={{ bgcolor: 'gray100' }}
                   uri={adherentAutocompleteUri}
                   queryParam="q"
                   valueParam="uuid"
@@ -126,39 +124,35 @@ const TeamEdit = () => {
                   renderOption={(props, option) => (
                     <li key={option.uuid} {...props}>
                       {option.first_name} {option.last_name}&#44;&nbsp;
-                      <Italic>
+                      <Box component="span" sx={{ fontStyle: 'italic' }}>
                         {option.postal_code}&#44;&nbsp;{messages.adhesion}&nbsp;
                         {format(new Date(option.registered_at), 'dd/MM/yyyy')}
-                      </Italic>
+                      </Box>
                     </li>
                   )}
                   getOptionLabel={option => `${option.first_name} ${option.last_name}`}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button
-                  buttonClasses={classes.buttonClasses}
-                  handleClick={handleAddTeamMember}
-                  disabled={!selectedMember}
-                >
-                  {messages.add}
+                <Button onClick={handleAddGroupMember} disabled={!selectedMember}>
+                  <Typography sx={{ color: 'whiteCorner' }}>{messages.add}</Typography>
                 </Button>
               </Grid>
             </Grid>
-          </Card>
+          </AutocompleteContainer>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} className={classes.title}>
-          {messages.teamMember}
+        <Grid item xs={12}>
+          <Title>{messages.groupMember}</Title>
         </Grid>
-        {team?.members.length > 0 ? (
-          team?.members?.map(member => (
+        {group?.members?.length > 0 &&
+          group.members.map(member => (
             <MemberCard key={member.id} member={member} handleDelete={() => handleDelete(member.id)} />
-          ))
-        ) : (
+          ))}
+        {group?.members?.length === 0 && (
           <Grid item xs={6}>
-            <Paper className={classes.noMember}>
+            <Paper>
               <Typography variant="body1">{messages.noMember}</Typography>
             </Paper>
           </Grid>
@@ -168,4 +162,4 @@ const TeamEdit = () => {
   )
 }
 
-export default TeamEdit
+export default GroupEdit

@@ -11,7 +11,7 @@ import Adherents from 'components/Adherents'
 import Messagerie from 'components/Messagerie'
 import Elections from 'components/Elections'
 import Ripostes from 'components/Ripostes'
-import Teams from 'components/Teams'
+import Groups from 'components/Groups'
 import News from 'components/News'
 import Phoning from 'components/Phoning'
 import NoMatch from 'components/NoMatch'
@@ -31,7 +31,7 @@ const AppRoutes = () => {
         <Route path={`${paths.messagerie}/*`} element={authorizedPages.includes(pages.messagerie) && <Messagerie />} />
         <Route path={paths.elections} element={authorizedPages.includes(pages.elections) && <Elections />} />
         <Route path={paths.ripostes} element={authorizedPages.includes(pages.ripostes) && <Ripostes />} />
-        <Route path={`${paths.teams}/*`} element={authorizedPages.includes(pages.teams) && <Teams />} />
+        <Route path={`${paths.groups}/*`} element={authorizedPages.includes(pages.groups) && <Groups />} />
         <Route path={paths.news} element={authorizedPages.includes(pages.news) && <News />} />
         <Route path={`${paths.phoning}/*`} element={authorizedPages.includes(pages.phoning) && <Phoning />} />
       </Routes>

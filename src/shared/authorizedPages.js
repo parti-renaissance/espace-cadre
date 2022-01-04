@@ -4,7 +4,7 @@ export default {
   messagerie: 'messages',
   elections: 'elections',
   ripostes: 'ripostes',
-  teams: 'team',
+  groups: 'team',
   news: 'news',
   phoning: 'phoning_campaign',
 }

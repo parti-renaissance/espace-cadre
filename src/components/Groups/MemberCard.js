@@ -2,7 +2,7 @@ import { Grid, Card } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
-import { TeamMember } from '../../domain/team'
+import { GroupMember } from '../../domain/group'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,6 +57,6 @@ MemberCard.defaultProps = {
 }
 
 MemberCard.propTypes = {
-  member: TeamMember.propTypes.isRequired,
+  member: GroupMember.propTypes.isRequired,
   handleDelete: PropTypes.func,
 }

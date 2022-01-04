@@ -1,6 +1,6 @@
 import PropTypes, { arrayOf } from 'prop-types'
 
-export class Team {
+export class Group {
   constructor(id, name, creator, members) {
     this.id = id
     this.name = name
@@ -8,12 +8,12 @@ export class Team {
     this.members = members
   }
 
-  static NULL = new Team(0, '', '', [])
+  static NULL = new Group(0, '', '', [])
 
-  withName = newName => new Team(this.id, newName, this.creator, this.members)
+  withName = newName => new Group(this.id, newName, this.creator, this.members)
 }
 
-export class TeamMember {
+export class GroupMember {
   constructor(id, firstname, lastname, registeredAt, postalCode) {
     this.id = id
     this.firstname = firstname
@@ -22,10 +22,10 @@ export class TeamMember {
     this.postalCode = postalCode
   }
 
-  static NULL = new TeamMember(0, '', '', '', '')
+  static NULL = new GroupMember(0, '', '', '', '')
 }
 
-TeamMember.propTypes = PropTypes.shape({
+GroupMember.propTypes = PropTypes.shape({
   id: PropTypes.string.isRequired,
   firstname: PropTypes.string.isRequired,
   lastname: PropTypes.string.isRequired,
@@ -33,9 +33,9 @@ TeamMember.propTypes = PropTypes.shape({
   postalCode: PropTypes.string.isRequired,
 })
 
-Team.propTypes = PropTypes.shape({
+Group.propTypes = PropTypes.shape({
   id: PropTypes.string,
   name: PropTypes.string,
   creator: PropTypes.string,
-  members: arrayOf(TeamMember).propTypes,
+  members: arrayOf(GroupMember).propTypes,
 })
