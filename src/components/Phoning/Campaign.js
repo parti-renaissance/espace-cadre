@@ -67,6 +67,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleView, hand
         actions={
           <HorizontalContainer>
             <CtaButton
+              data-cy="phoning-action-view"
               onClick={handleView}
               sx={{
                 color: 'indigo700',

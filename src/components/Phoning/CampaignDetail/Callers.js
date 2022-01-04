@@ -7,7 +7,7 @@ import RatioProgress from '../shared/RatioProgress'
 import UICard from 'ui/Card/Card'
 
 const CampaignDetailCallers = ({ number, firstName, lastName, count, goal }) => (
-  <Grid item xs={12} sm={6} md={3}>
+  <Grid item xs={12} sm={6} md={3} data-cy="phoning-campaign-detail-callers">
     <UICard
       rootProps={{ sx: { height: '125px' } }}
       headerProps={{ sx: { pt: '21px' } }}

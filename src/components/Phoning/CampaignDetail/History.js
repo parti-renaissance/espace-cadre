@@ -29,7 +29,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
   const gender = translatedGender?.[adherent.gender]
   return (
-    <Grid item xs={12} sm={6} md={3}>
+    <Grid item xs={12} sm={6} md={3} data-cy="phoning-campaign-detail-history">
       <UICard
         rootProps={{ sx: { height: '205px' } }}
         headerProps={{ sx: { pt: '21px' } }}

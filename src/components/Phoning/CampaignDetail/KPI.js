@@ -63,7 +63,7 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
   const daysRemaining = differenceInCalendarDays(endDate, new Date()) || 0
 
   return (
-    <KPIWrapper>
+    <KPIWrapper data-cy="phoning-campaign-detail-KPI">
       <Grid container>
         <KPITitle>{messages.title}</KPITitle>
       </Grid>

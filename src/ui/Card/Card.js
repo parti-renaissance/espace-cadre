@@ -26,7 +26,7 @@ const UICard = ({
   contentProps = {},
   actionsProps = {},
 }) => (
-  <Root {...rootProps}>
+  <Root {...rootProps} data-cy="ui-card">
     {header && <VerticalContainer {...headerProps}>{header}</VerticalContainer>}
     {content && <VerticalContainer {...contentProps}>{content}</VerticalContainer>}
     {actions && <VerticalContainer {...actionsProps}>{actions}</VerticalContainer>}
