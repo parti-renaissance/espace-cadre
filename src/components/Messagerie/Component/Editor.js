@@ -69,7 +69,6 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
   const emailEditorRef = useRef(null)
-  const classes = useStyles()
   const { messageUuid } = useParams()
   const [currentScope] = useUserScope()
   const { handleError } = useErrorHandler()
