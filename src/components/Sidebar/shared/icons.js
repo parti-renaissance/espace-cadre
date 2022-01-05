@@ -16,4 +16,5 @@ export default {
   groups: StarRoundedIcon,
   news: RssFeedIcon,
   phoning: LocalPhoneRoundedIcon,
+  doorKnocking: LocalPhoneRoundedIcon,
 }
