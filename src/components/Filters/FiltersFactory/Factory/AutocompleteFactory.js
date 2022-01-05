@@ -1,17 +1,13 @@
-import { FormControl } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { FormControl as MuiFormControl } from '@mui/material'
+import { styled } from '@mui/system'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 
-const useStyles = makeStyles(() => ({
-  root: {
-    fontFamily: 'Poppins',
-    width: '100%',
-
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
-    },
-  },
-}))
+const FormControl = styled(MuiFormControl)`
+  width: 100%;
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+`
 
 class AutocompleteFactory {
   getType() {
@@ -19,10 +15,8 @@ class AutocompleteFactory {
   }
 
   create({ filter, onChange, value, defaultValue }) {
-    const classes = useStyles()
-
     return (
-      <FormControl size="small" classes={{ root: classes.root }}>
+      <FormControl size="small">
         <Autocomplete
           placeholder={filter.label}
           uri={filter.options.url}

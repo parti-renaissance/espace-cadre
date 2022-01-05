@@ -1,22 +1,13 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@mui/styles'
 import FiltersForm from './FiltersForm'
 import ErrorComponent from 'components/ErrorComponent'
 import Loader from 'ui/Loader'
 import { getFilters } from 'api/filters'
-import UIContainer from 'ui/Container'
-
-const useStyles = makeStyles(() => ({
-  loader: {
-    textAlign: 'center',
-  },
-}))
 
 const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   const [filters, setFilters] = useState([])
   const [errorMessage, setErrorMessage] = useState()
-  const classes = useStyles()
 
   useEffect(() => {
     const getColumnsTitle = async () => {
@@ -42,11 +33,7 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
     return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
   }
 
-  return (
-    <UIContainer rootClasses={classes.loader}>
-      <Loader />
-    </UIContainer>
-  )
+  return <Loader />
 }
 
 export default DynamicFilters

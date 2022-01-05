@@ -1,34 +1,31 @@
 import { useState } from 'react'
 import { Button, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import Factory from './FiltersFactory/Factory'
 
-const useStyles = makeStyles(theme => ({
-  filtersContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  buttonContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  buttonFilter: {
-    color: theme.palette.whiteCorner,
-    background: `${theme.palette.gray700}`,
-    marginRight: theme.spacing(2),
-    borderRadius: '8px',
-    '&:hover': {
-      background: theme.palette.gray600,
-    },
-  },
-  resetButtonFilters: {
-    color: theme.palette.gray700,
-    border: `1px solid ${theme.palette.gray300}`,
-    borderRadius: '8px',
-    '&:hover': {
-      background: theme.palette.gray200,
-    },
-  },
-}))
+const FilterButton = styled(Button)(
+  ({ theme }) => `
+  color: ${theme.palette.whiteCorner};
+  background: ${theme.palette.gray700};
+  margin-right: ${theme.spacing(2)};
+  border-radius: 8px;
+  &:hover {
+    background: ${theme.palette.gray600};
+  }
+`
+)
+
+const ResetButton = styled(Button)(
+  ({ theme }) => `
+  color: ${theme.palette.gray700};
+  border: 1px solid ${theme.palette.gray300};
+  border-radius: 8px;
+  &:hover {
+    background: ${theme.palette.gray200};
+  }
+`
+)
 
 const messages = {
   filter: 'Filtrer',
@@ -38,7 +35,6 @@ const messages = {
 const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
   const [localValues, setLocalValues] = useState(values)
   const factory = new Factory()
-  const classes = useStyles()
 
   const filterElements = filters.map(filter => {
     const filterElement = factory.create(filter.type || 'text', {
@@ -79,16 +75,12 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container spacing={2} className={classes.filtersContainer}>
+      <Grid container spacing={2} sx={{ mb: 2 }}>
         {filterElements}
       </Grid>
-      <Grid container className={classes.buttonContainer}>
-        <Button type="submit" className={classes.buttonFilter}>
-          {messages.filter}
-        </Button>
-        <Button className={classes.resetButtonFilters} onClick={handleClick}>
-          {messages.reset}
-        </Button>
+      <Grid container sx={{ mb: 2 }}>
+        <FilterButton type="submit">{messages.filter}</FilterButton>
+        <ResetButton onClick={handleClick}>{messages.reset}</ResetButton>
       </Grid>
     </form>
   )

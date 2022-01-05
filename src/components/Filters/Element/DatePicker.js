@@ -1,25 +1,22 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { format } from 'date-fns'
-import { IconButton, TextField } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
+import { IconButton, TextField as MuiTextField } from '@mui/material'
 import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
 import MuiDatePicker from '@mui/lab/DatePicker'
 
-const useStyles = makeStyles(theme => ({
-  input: {
-    background: theme.palette.whiteCorner,
-    width: '100%',
-    borderRadius: '8px',
+const TextField = styled(MuiTextField)`
+  background: ${({ theme }) => theme.palette.whiteCorner};
+  width: 100%;
+  border-radius: 8px;
 
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
-    },
-  },
-}))
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+`
 
 const DatePicker = ({ value, onChange, label }) => {
-  const classes = useStyles()
   const [isOpen, setIsOpen] = useState(false)
 
   const handleClear = e => {
@@ -47,7 +44,6 @@ const DatePicker = ({ value, onChange, label }) => {
           size="small"
           label={label}
           value={value}
-          className={classes.input}
           onChange={e => {
             onChange(e.target.value)
           }}

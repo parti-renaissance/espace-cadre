@@ -1,24 +1,18 @@
-import { Checkbox, ListItemText, MenuItem, Select, InputLabel, FormControl } from '@mui/material'
+import { Checkbox, ListItemText, MenuItem, Select as MuiSelect, InputLabel, FormControl } from '@mui/material'
+import { styled } from '@mui/system'
 
-import { makeStyles } from '@mui/styles'
-
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    width: '100%',
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
-    },
-  },
-  select: {
-    background: theme.palette.whiteCorner,
-    borderRadius: '8px',
-
-    '&:focus': {
-      background: theme.palette.whiteCorner,
-      borderRadius: '8px',
-    },
-  },
-}))
+const Select = styled(MuiSelect)(
+  ({ theme }) => `
+  & .MuiSelect-select {
+    background: ${theme.palette.whiteCorner};
+    border-radius: 8px;
+  
+    &:focus {
+      background: ${theme.palette.whiteCorner};
+    }
+  }
+`
+)
 
 class SelectFactory {
   getType() {
@@ -28,15 +22,22 @@ class SelectFactory {
   create({ filter, onChange, value }) {
     const multiple = filter.options && !!filter.options.multiple
     const selectValue = multiple && !Array.isArray(value) ? [value].filter(element => element !== '') : value
-    const classes = useStyles()
 
     return (
-      <FormControl variant="outlined" size="small" className={classes.formControl}>
+      <FormControl
+        variant="outlined"
+        size="small"
+        sx={{
+          width: '100%',
+          '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
+        }}
+      >
         <InputLabel id="simple-select">{filter.label}</InputLabel>
         <Select
           labelId="simple-select"
           onChange={e => onChange(e.target.value)}
-          classes={{ select: classes.select }}
           value={selectValue}
           multiple={multiple}
           renderValue={selected => {
