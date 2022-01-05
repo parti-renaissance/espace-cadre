@@ -34,6 +34,7 @@ const AppRoutes = () => {
         <Route path={`${paths.groups}/*`} element={authorizedPages.includes(pages.groups) && <Groups />} />
         <Route path={paths.news} element={authorizedPages.includes(pages.news) && <News />} />
         <Route path={`${paths.phoning}/*`} element={authorizedPages.includes(pages.phoning) && <Phoning />} />
+        <Route path={`${paths.doorKnocking}/*`} element={authorizedPages.includes(pages.doorKnocking) && <Phoning />} />
       </Routes>
     </Suspense>
   )

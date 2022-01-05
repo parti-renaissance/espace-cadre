@@ -7,4 +7,5 @@ export default {
   groups: 'team',
   news: 'news',
   phoning: 'phoning_campaign',
+  doorKnocking: 'pap',
 }

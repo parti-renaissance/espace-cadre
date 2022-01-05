@@ -7,4 +7,5 @@ export default {
   groups: { color: 'cyan700', bgColor: '#EBF3F8' },
   news: { color: 'orange500', bgColor: '#FFF4ED' },
   phoning: { color: 'indigo700', bgColor: '#F0EFFB' },
+  doorKnocking: { color: 'indigo700', bgColor: '#F0EFFB' },
 }
