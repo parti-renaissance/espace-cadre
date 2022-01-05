@@ -3,7 +3,7 @@ import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery, getPhoningCampaignQuery } from 'api/DTD'
+import { getDTDGlobalKPIQuery, getDTDCampaignListQuery, getDTDCampaignQuery } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import DTDGlobalKPI from './DTDGlobalKPI'
 import DTDCampaign from './DTDCampaign'
@@ -35,17 +35,17 @@ const DTD = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
 
-  const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
+  const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getDTDGlobalKPIQuery(), {
     onError: handleError,
   })
   const { data: campaigns = [], refetch: refetchCampaigns } = useQueryWithScope(
     'campaigns',
-    () => getPhoningCampaignListQuery(),
+    () => getDTDCampaignListQuery(),
     { onError: handleError }
   )
   const { data: campaign = {} } = useQueryWithScope(
     ['campaign', campaignIdToUpdate],
-    () => getPhoningCampaignQuery(campaignIdToUpdate),
+    () => getDTDCampaignQuery(campaignIdToUpdate),
     {
       enabled: !!campaignIdToUpdate,
       onSuccess: () => {

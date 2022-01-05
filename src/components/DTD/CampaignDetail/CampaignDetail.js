@@ -5,10 +5,10 @@ import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import {
-  getPhoningCampaignQuery,
-  getPhoningCampaignCallers,
-  getPhoningCampaignHistory,
-  getPhoningCampaignSurveysReplies,
+  getDTDCampaignQuery,
+  getDTDCampaignCallers,
+  getDTDCampaignHistory,
+  getDTDCampaignSurveysReplies,
 } from 'api/DTD'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -58,14 +58,14 @@ export const CampaignDetail = () => {
 
   const { data: campaign = {}, refetch: refetchCampaign } = useQueryWithScope(
     ['campaign', campaignId],
-    () => getPhoningCampaignQuery(campaignId),
+    () => getDTDCampaignQuery(campaignId),
     {
       onError: handleError,
     }
   )
   const { data: callers = [], isLoading: isCallersLoading } = useQueryWithScope(
     ['callers', campaignId],
-    () => getPhoningCampaignCallers(campaignId),
+    () => getDTDCampaignCallers(campaignId),
     {
       onError: handleError,
     }
@@ -78,7 +78,7 @@ export const CampaignDetail = () => {
     hasNextPage: hasNextPageHistory,
   } = useInfiniteQueryWithScope(
     ['history', campaignId],
-    pageParams => getPhoningCampaignHistory({ campaignId, ...pageParams }),
+    pageParams => getDTDCampaignHistory({ campaignId, ...pageParams }),
     {
       getNextPageParam,
       onError: handleError,
@@ -88,7 +88,7 @@ export const CampaignDetail = () => {
 
   const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryWithScope(
     ['surveys', campaignId],
-    () => getPhoningCampaignSurveysReplies(campaignId),
+    () => getDTDCampaignSurveysReplies(campaignId),
     {
       onError: handleError,
     }
@@ -114,7 +114,7 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'phoning.color' }}>{messages.pageTitle}</PageTitle>
+              <PageTitle sx={{ color: 'campaign.color' }}>{messages.pageTitle}</PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
               <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
             </>

@@ -72,7 +72,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleView, hand
               sx={{
                 color: 'indigo700',
                 '&:hover': {
-                  bgcolor: 'phoning.background.hover',
+                  bgcolor: 'campaign.background.hover',
                 },
               }}
             >

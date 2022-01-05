@@ -13,8 +13,8 @@ import {
   campaignToFiltersValues,
   campaignToGlobalSettingsValues,
 } from '../CampaignDetail/shared/helpers'
-import { PhoningCampaign as DomainPhoningCampaign } from 'domain/DTD'
-import { createPhoningCampaignQuery, updatePhoningCampaignQuery } from 'api/phoning'
+import { DTDCampaign as DomainDTDCampaign } from 'domain/DTD'
+import { createDTDCampaignQuery, updateDTDCampaignQuery } from 'api/DTD'
 import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
 import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
 
@@ -59,8 +59,8 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
 
-  const { mutate: createOrUpdatePhoningCampaign } = useMutation(
-    !campaign ? createPhoningCampaignQuery : updatePhoningCampaignQuery,
+  const { mutate: createOrUpdateDTDCampaign } = useMutation(
+    !campaign ? createDTDCampaignQuery : updateDTDCampaignQuery,
     {
       onSuccess: () => {
         enqueueSnackbar(!campaign ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
@@ -96,7 +96,7 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
   const handleSubmit = () => {
     const id = campaign?.id ? campaign.id : {}
     const values = { id, ...globalSettings, ...callersAndSurvey, filters }
-    createOrUpdatePhoningCampaign(values)
+    createOrUpdateDTDCampaign(values)
   }
 
   return (
@@ -161,7 +161,7 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
 export default CreateEdit
 
 CreateEdit.propTypes = {
-  campaign: DomainPhoningCampaign.propTypes,
+  campaign: DomainDTDCampaign.propTypes,
   isOpen: PropTypes.bool.isRequired,
   onCreateResolve: PropTypes.func,
   handleClose: PropTypes.func.isRequired,

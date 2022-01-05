@@ -5,15 +5,15 @@ import { styled } from '@mui/system'
 const ProgressBar = styled(LinearProgress)(({ theme }) => ({
   height: '8px',
   borderRadius: '6px',
-  background: theme.palette.phoning.background.progressBar.empty,
+  background: theme.palette.campaign.background.progressBar.empty,
   '& .MuiLinearProgress-bar1Determinate': {
-    background: theme.palette.phoning.background.progressBar.filled,
+    background: theme.palette.campaign.background.progressBar.filled,
   },
 }))
 
 const Current = styled(Typography)(
   ({ theme }) => `
-  color: ${theme.palette.phoning.background.ratio.current};
+  color: ${theme.palette.campaign.background.ratio.current};
   font-size: 28px;
   font-weight: 600;
   line-height: 28px;
@@ -30,7 +30,7 @@ const PhoningRatioProgress = ({ count, totalCount }) => {
     <>
       <Grid container alignItems="flex-end">
         <Current>{count}</Current>
-        <Typography variant="subtitle1" sx={{ pl: 0.3, color: 'phoning.background.ratio.max' }}>
+        <Typography variant="subtitle1" sx={{ pl: 0.3, color: 'campaign.background.ratio.max' }}>
           {messages.separator}
           {totalCount}
         </Typography>

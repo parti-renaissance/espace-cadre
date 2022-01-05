@@ -18,7 +18,7 @@ import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
 import { orderBy } from 'lodash'
 
-import { PhoningCampaignReply as DomainPhoningCampaignReply } from 'domain/DTD'
+import { DTDCampaignReply as DomainDTDCampaignReply } from 'domain/DTD'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
 import { multipleChoice, simpleField, uniqueChoice } from './shared/constants'
@@ -100,7 +100,7 @@ const CampaignDetailSurveys = ({ replies }) => {
   if (replies.length === 0) return null
 
   return (
-    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} data-cy="phoning-campaign-detail-surveys">
+    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} data-cy="campaign-campaign-detail-surveys">
       <Paper sx={{ borderRadius: 3 }}>
         <TableContainer sx={{ borderRadius: 3 }}>
           <Table>
@@ -194,7 +194,7 @@ const CampaignDetailSurveys = ({ replies }) => {
 }
 
 CampaignDetailSurveys.propTypes = {
-  replies: PropTypes.arrayOf(PropTypes.shape(DomainPhoningCampaignReply.propTypes)).isRequired,
+  replies: PropTypes.arrayOf(PropTypes.shape(DomainDTDCampaignReply.propTypes)).isRequired,
 }
 
 export default CampaignDetailSurveys

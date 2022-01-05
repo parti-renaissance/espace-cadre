@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
-import { PhoningCampaignHistoryAdherent, PhoningCampaignHistoryCaller } from 'domain/DTD'
+import { DTDCampaignHistoryAdherent, DTDCampaignHistoryCaller } from 'domain/DTD'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
@@ -75,7 +75,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
               sx={{
                 color: 'indigo700',
                 '&:hover': {
-                  bgcolor: 'phoning.background.hover',
+                  bgcolor: 'campaign.background.hover',
                 },
               }}
             >
@@ -91,8 +91,8 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
 CampaignDetailHistory.propTypes = {
   status: PropTypes.string.isRequired,
   startDate: PropTypes.object.isRequired,
-  adherent: PhoningCampaignHistoryAdherent.propTypes,
-  caller: PhoningCampaignHistoryCaller.propTypes,
+  adherent: DTDCampaignHistoryAdherent.propTypes,
+  caller: DTDCampaignHistoryCaller.propTypes,
   handleView: PropTypes.func.isRequired,
 }
 

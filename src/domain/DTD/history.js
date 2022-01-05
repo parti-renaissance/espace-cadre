@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class PhoningCampaignHistory {
+export class DTDCampaignHistory {
   constructor(id, status, startDate, adherent, caller) {
     this.id = id
     this.status = status
@@ -10,7 +10,7 @@ export class PhoningCampaignHistory {
   }
 }
 
-export class PhoningCampaignHistoryAdherent {
+export class DTDCampaignHistoryAdherent {
   constructor(firstName, lastName, gender, age) {
     this.firstName = firstName
     this.lastName = lastName
@@ -19,28 +19,28 @@ export class PhoningCampaignHistoryAdherent {
   }
 }
 
-export class PhoningCampaignHistoryCaller {
+export class DTDCampaignHistoryCaller {
   constructor(firstName, lastName) {
     this.firstName = firstName
     this.lastName = lastName
   }
 }
 
-PhoningCampaignHistory.propTypes = PropTypes.shape({
+DTDCampaignHistory.propTypes = PropTypes.shape({
   status: PropTypes.string.isRequired,
   startDate: PropTypes.object.isRequired,
-  adherent: PhoningCampaignHistoryAdherent.propTypes,
-  caller: PhoningCampaignHistoryCaller.propTypes,
+  adherent: DTDCampaignHistoryAdherent.propTypes,
+  caller: DTDCampaignHistoryCaller.propTypes,
 })
 
-PhoningCampaignHistoryAdherent.propTypes = PropTypes.shape({
+DTDCampaignHistoryAdherent.propTypes = PropTypes.shape({
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   gender: PropTypes.string.isRequired,
   age: PropTypes.number.isRequired,
 })
 
-PhoningCampaignHistoryCaller.propTypes = PropTypes.shape({
+DTDCampaignHistoryCaller.propTypes = PropTypes.shape({
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
 })

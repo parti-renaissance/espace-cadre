@@ -31,31 +31,31 @@ const StepButton = styled(
     color: theme.palette.stepper.stepTitle.color,
   },
   '& .MuiStepIcon-root.Mui-active, & .MuiStepIcon-root.Mui-completed': {
-    color: theme.palette.phoning.color,
+    color: theme.palette.campaign.color,
   },
 }))
 
 const PrevStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
-  backgroundColor: theme.palette.phoning.button.background.prev,
-  color: theme.palette.phoning.button.color.prev,
+  backgroundColor: theme.palette.campaign.button.background.prev,
+  color: theme.palette.campaign.button.color.prev,
   borderRadius: '8px',
   '&:hover': {
-    backgroundColor: theme.palette.phoning.button.background.prev,
-    color: theme.palette.phoning.button.color.prev,
+    backgroundColor: theme.palette.campaign.button.background.prev,
+    color: theme.palette.campaign.button.color.prev,
   },
   '&:disabled': {
-    backgroundColor: theme.palette.phoning.button.background.disabled,
-    color: theme.palette.phoning.button.color.disabled,
+    backgroundColor: theme.palette.campaign.button.background.disabled,
+    color: theme.palette.campaign.button.color.disabled,
   },
 }))
 
 const NextStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
-  backgroundColor: theme.palette.phoning.button.background.next,
-  color: theme.palette.phoning.button.color.next,
+  backgroundColor: theme.palette.campaign.button.background.next,
+  color: theme.palette.campaign.button.color.next,
   borderRadius: '8px',
   '&:hover': {
-    backgroundColor: theme.palette.phoning.button.background.next,
-    color: theme.palette.phoning.button.color.next,
+    backgroundColor: theme.palette.campaign.button.background.next,
+    color: theme.palette.campaign.button.color.next,
   },
 }))
 

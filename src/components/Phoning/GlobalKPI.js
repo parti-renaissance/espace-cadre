@@ -26,7 +26,7 @@ const Score = styled(Typography)(
   font-size: 28px;
   font-weight: 600;
   line-height: 42px;
-  color: ${theme.palette.phoning.background.ratio.current};
+  color: ${theme.palette.campaign.background.ratio.current};
 `
 )
 const SubTitle = styled(props => <Typography variant="subtitle1" {...props} />)(

@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import { PhoningCampaigns as DomainPhoningCampaigns } from 'domain/DTD'
+import { DTDCampaigns as DomainDTDCampaigns } from 'domain/DTD'
 import RatioProgress from './shared/RatioProgress'
 import { chipColorsByStatus } from './CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
@@ -32,7 +32,7 @@ const messages = {
   ongoing: 'En cours',
 }
 
-const DTDCampaign = ({ endDate, title, author, team, score, handleView, handleUpdate }) => {
+const DTDCampaign = ({ endDate, title, score, handleView, handleUpdate }) => {
   const chipLabel = endDate ? messages.finished : messages.ongoing
   const chipColors = chipColorsByStatus?.[endDate ? 'finished' : 'ongoing']
 
@@ -65,7 +65,7 @@ const DTDCampaign = ({ endDate, title, author, team, score, handleView, handleUp
               sx={{
                 color: 'indigo700',
                 '&:hover': {
-                  bgcolor: 'phoning.background.hover',
+                  bgcolor: 'campaign.background.hover',
                 },
               }}
             >
@@ -82,7 +82,7 @@ const DTDCampaign = ({ endDate, title, author, team, score, handleView, handleUp
 }
 
 DTDCampaign.propTypes = {
-  ...DomainPhoningCampaigns.PropTypes,
+  ...DomainDTDCampaigns.PropTypes,
   handleView: PropTypes.func.isRequired,
   handleUpdate: PropTypes.func.isRequired,
 }

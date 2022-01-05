@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class PhoningGlobalKPI {
+export class DTDGlobalKPI {
   constructor(campaigns, surveys, calls) {
     this.campaigns = campaigns
     this.surveys = surveys
@@ -8,44 +8,44 @@ export class PhoningGlobalKPI {
   }
 }
 
-export class PhoningCampaignsKPI {
+export class DTDCampaignsKPI {
   constructor(count, ongoing) {
     this.count = count
     this.ongoing = ongoing
   }
 }
 
-export class PhoningSurveysKPI {
+export class DTDSurveysKPI {
   constructor(count, onAMonth) {
     this.count = count
     this.onAMonth = onAMonth
   }
 }
 
-export class PhoningCallsKPI {
+export class DTDCallsKPI {
   constructor(count, onAMonth) {
     this.count = count
     this.onAMonth = onAMonth
   }
 }
 
-PhoningCampaignsKPI.propTypes = {
+DTDCampaignsKPI.propTypes = {
   count: PropTypes.string.isRequired,
   ongoing: PropTypes.string.isRequired,
 }
 
-PhoningSurveysKPI.propTypes = {
+DTDSurveysKPI.propTypes = {
   count: PropTypes.string.isRequired,
   onAMonth: PropTypes.string.isRequired,
 }
 
-PhoningCallsKPI.propTypes = {
+DTDCallsKPI.propTypes = {
   count: PropTypes.string.isRequired,
   onAMonth: PropTypes.string.isRequired,
 }
 
-PhoningGlobalKPI.propTypes = {
-  campaigns: PhoningCampaignsKPI.propTypes,
-  surveys: PhoningSurveysKPI.propTypes,
-  calls: PhoningCallsKPI.propTypes,
+DTDGlobalKPI.propTypes = {
+  campaigns: DTDCampaignsKPI.propTypes,
+  surveys: DTDSurveysKPI.propTypes,
+  calls: DTDCallsKPI.propTypes,
 }
