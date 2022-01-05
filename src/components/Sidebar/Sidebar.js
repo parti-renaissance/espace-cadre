@@ -51,7 +51,7 @@ const Sidebar = ({ children, window }) => {
       {authorizedPages.includes(pages.groups) && <NavItem label="Groupes" {...navInfo('groups')} />}
       {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
       {authorizedPages.includes(pages.phoning) && <NavItem label="Phoning" {...navInfo('phoning')} />}
-      {authorizedPages.includes(pages.doorKnocking) && <NavItem label="Porte à porte" {...navInfo('doorKnocking')} />}
+      {authorizedPages.includes(pages.DTD) && <NavItem label="Porte à porte" {...navInfo('DTD')} />}
     </div>
   )
 

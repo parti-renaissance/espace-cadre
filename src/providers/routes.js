@@ -14,6 +14,7 @@ import Ripostes from 'components/Ripostes'
 import Groups from 'components/Groups'
 import News from 'components/News'
 import Phoning from 'components/Phoning'
+import DTD from 'components/DTD'
 import NoMatch from 'components/NoMatch'
 
 const AppRoutes = () => {
@@ -34,7 +35,7 @@ const AppRoutes = () => {
         <Route path={`${paths.groups}/*`} element={authorizedPages.includes(pages.groups) && <Groups />} />
         <Route path={paths.news} element={authorizedPages.includes(pages.news) && <News />} />
         <Route path={`${paths.phoning}/*`} element={authorizedPages.includes(pages.phoning) && <Phoning />} />
-        <Route path={`${paths.doorKnocking}/*`} element={authorizedPages.includes(pages.doorKnocking) && <Phoning />} />
+        <Route path={`${paths.DTD}/*`} element={authorizedPages.includes(pages.DTD) && <DTD />} />
       </Routes>
     </Suspense>
   )
