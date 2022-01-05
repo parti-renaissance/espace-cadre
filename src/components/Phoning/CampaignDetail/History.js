@@ -75,7 +75,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
               sx={{
                 color: 'indigo700',
                 '&:hover': {
-                  bgcolor: 'phoning.background.hover',
+                  bgcolor: 'campaign.background.hover',
                 },
               }}
             >

@@ -10,17 +10,17 @@ const ValidateButton = styled(
 )(
   ({
     theme: {
-      palette: { phoning },
+      palette: { campaign },
     },
     disabled,
   }) => ({
     height: '42px',
-    background: !disabled ? phoning.button.background.main : phoning.button.background.disabled,
-    color: !disabled ? phoning.button.color.main : phoning.button.color.disabled,
+    background: !disabled ? campaign.button.background.main : campaign.button.background.disabled,
+    color: !disabled ? campaign.button.color.main : campaign.button.color.disabled,
     borderRadius: '8px',
     '&:hover': {
-      background: !disabled ? phoning.button.background.main : phoning.button.background.disabled,
-      color: !disabled ? phoning.button.color.main : phoning.button.color.disabled,
+      background: !disabled ? campaign.button.background.main : campaign.button.background.disabled,
+      color: !disabled ? campaign.button.color.main : campaign.button.color.disabled,
     },
   })
 )

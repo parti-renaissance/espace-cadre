@@ -1,7 +1,7 @@
 import { Grid, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { PhoningGlobalKPI as DomainPhoningGlobalKPI } from 'domain/DTD'
+import { DTDGlobalKPI as DomainDTDGlobalKPI } from 'domain/DTD'
 import pluralize from 'components/shared/pluralize/pluralize'
 import UICard from 'ui/Card/Card'
 
@@ -26,7 +26,7 @@ const Score = styled(Typography)(
   font-size: 28px;
   font-weight: 600;
   line-height: 42px;
-  color: ${theme.palette.phoning.background.ratio.current};
+  color: ${theme.palette.campaign.background.ratio.current};
 `
 )
 const SubTitle = styled(props => <Typography variant="subtitle1" {...props} />)(
@@ -111,6 +111,6 @@ const DTDGlobalKPI = ({ campaigns, surveys, calls }) => (
   </KPIWrapper>
 )
 
-DTDGlobalKPI.propTypes = DomainPhoningGlobalKPI.PropTypes
+DTDGlobalKPI.propTypes = DomainDTDGlobalKPI.PropTypes
 
 export default DTDGlobalKPI

@@ -3,7 +3,7 @@ import { styled } from '@mui/system'
 import { differenceInCalendarDays, format } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
-import { PhoningCampaign } from 'domain/DTD'
+import { DTDCampaign } from 'domain/DTD'
 import RatioProgress from '../shared/RatioProgress'
 import { secondsToMinutesAndSeconds } from './shared/helpers'
 import UICard from 'ui/Card/Card'
@@ -29,7 +29,7 @@ const Score = styled(Typography)(
   font-size: 28px;
   font-weight: 600;
   line-height: 42px;
-  color: ${theme.palette.phoning.background.ratio.current};
+  color: ${theme.palette.campaign.background.ratio.current};
 `
 )
 const SubTitle = styled(props => <Typography variant="subtitle1" {...props} />)(
@@ -139,6 +139,6 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
   )
 }
 
-CampaignDetailKPI.propTypes = PhoningCampaign.PropTypes
+CampaignDetailKPI.propTypes = DTDCampaign.PropTypes
 
 export default CampaignDetailKPI

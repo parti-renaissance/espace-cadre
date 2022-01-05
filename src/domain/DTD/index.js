@@ -1,15 +1,15 @@
-export { PhoningGlobalKPI, PhoningCampaignsKPI, PhoningSurveysKPI, PhoningCallsKPI } from './KPI'
-export { PhoningCampaigns, PhoningCampaignsTeam, PhoningCampaignsScore } from './campaigns'
+export { DTDGlobalKPI, DTDCampaignsKPI, DTDSurveysKPI, DTDCallsKPI } from './KPI'
+export { DTDCampaigns, DTDCampaignsTeam, DTDCampaignsScore } from './campaigns'
 export {
-  PhoningCampaign,
-  PhoningCampaignCalls,
-  PhoningCampaignSurveys,
-  PhoningCampaignFilters,
-  PhoningCampaignTeam,
-  PhoningCampaignSurvey,
-  PhoningCampaignZone,
-  PhoningCampaignReply,
-  PhoningCampaignReplyAnswer,
+  DTDCampaign,
+  DTDCampaignCalls,
+  DTDCampaignSurveys,
+  DTDCampaignFilters,
+  DTDCampaignTeam,
+  DTDCampaignSurvey,
+  DTDCampaignZone,
+  DTDCampaignReply,
+  DTDCampaignReplyAnswer,
 } from './campaign'
-export { PhoningCampaignCallers } from './callers'
-export { PhoningCampaignHistory, PhoningCampaignHistoryAdherent, PhoningCampaignHistoryCaller } from './history'
+export { DTDCampaignCallers } from './callers'
+export { DTDCampaignHistory, DTDCampaignHistoryAdherent, DTDCampaignHistoryCaller } from './history'

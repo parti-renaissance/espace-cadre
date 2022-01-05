@@ -9,7 +9,7 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
-import { getPhoningCampaignZones } from 'api/phoning'
+import { getDTDCampaignZones } from 'api/DTD'
 import { FiltersContext } from '../shared/context'
 import { Checkbox, Input, Label } from '../shared/components'
 import { fields } from '../shared/constants'
@@ -62,7 +62,7 @@ const Filters = () => {
 
   const { data: zones = [], isFetching: isZonesFetching } = useQueryWithScope(
     ['zones', inputValues.zoneInput],
-    () => getPhoningCampaignZones(inputValues.zoneInput),
+    () => getDTDCampaignZones(inputValues.zoneInput),
     {
       enabled: isZoneFetchable && !!inputValues.zoneInput,
       onSuccess: () => {

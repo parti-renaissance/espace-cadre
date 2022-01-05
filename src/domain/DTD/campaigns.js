@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class PhoningCampaigns {
+export class DTDCampaigns {
   constructor(id, endDate, title, author, team, score) {
     this.id = id
     this.endDate = endDate
@@ -11,35 +11,35 @@ export class PhoningCampaigns {
   }
 }
 
-export class PhoningCampaignsTeam {
+export class DTDCampaignsTeam {
   constructor(name, membersCount) {
     this.name = name
     this.membersCount = membersCount
   }
 }
 
-export class PhoningCampaignsScore {
+export class DTDCampaignsScore {
   constructor(count, goal) {
     this.count = count
     this.goal = goal
   }
 }
 
-PhoningCampaigns.propTypes = {
+DTDCampaigns.propTypes = {
   id: PropTypes.string.isRequired,
   endDate: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  team: PhoningCampaignsTeam.propTypes,
-  score: PhoningCampaignsScore.propTypes,
+  team: DTDCampaignsTeam.propTypes,
+  score: DTDCampaignsScore.propTypes,
 }
 
-PhoningCampaignsTeam.propTypes = {
+DTDCampaignsTeam.propTypes = {
   name: PropTypes.string.isRequired,
   membersCount: PropTypes.number.isRequired,
 }
 
-PhoningCampaignsScore.propTypes = {
+DTDCampaignsScore.propTypes = {
   count: PropTypes.number.isRequired,
   goal: PropTypes.number.isRequired,
 }

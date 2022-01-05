@@ -117,7 +117,7 @@ export const styles = {
         background: '#DA1414',
       },
     },
-    phoning: {
+    campaign: {
       color: '#4338CA',
       background: {
         title: {

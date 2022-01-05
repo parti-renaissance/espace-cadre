@@ -12,7 +12,7 @@ export const StepTitle = styled(Typography)(
 
 export const Checkbox = styled(MuiCheckbox)(({ theme }) => ({
   '&.Mui-checked': {
-    color: theme.palette.phoning.color,
+    color: theme.palette.campaign.color,
   },
 }))
 
@@ -58,7 +58,7 @@ export const Input = styled(props => <TextField size="small" variant="outlined" 
       '& .MuiChip-root': {
         marginLeft: theme.spacing(1),
         padding: theme.spacing(0.25),
-        backgroundColor: theme.palette.phoning.background.chip.input,
+        backgroundColor: theme.palette.campaign.background.chip.input,
         color: theme.palette.whiteCorner,
         '& .MuiChip-deleteIcon': {
           color: theme.palette.whiteCorner,
