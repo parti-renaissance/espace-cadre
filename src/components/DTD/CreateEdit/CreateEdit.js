@@ -19,10 +19,10 @@ import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initial
 import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
 
 import UIStepper from 'ui/Stepper/Stepper'
-import ValidateAction from './ValidateAction'
-import GlobalSettings from './Steps/GlobalSettings'
-import CallersAndSurvey from './Steps/CallersAndSurvey'
-import Filters from './Steps/Filters'
+import ValidateAction from './CreateEditValidateAction'
+import GlobalSettings from './CreateEditGlobalSettings'
+import CallersAndSurvey from './CreateEditCallersAndSurvey'
+import Filters from './CreateEditFilters'
 
 const Title = styled(Typography)`
   font-size: 24px;

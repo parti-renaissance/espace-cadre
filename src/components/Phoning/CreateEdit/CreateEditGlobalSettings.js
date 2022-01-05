@@ -6,9 +6,9 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
-import { GlobalSettingsContext } from '../shared/context'
-import { Input, Label } from '../shared/components'
-import { fields } from '../shared/constants'
+import { GlobalSettingsContext } from './shared/context'
+import { Input, Label } from './shared/components'
+import { fields } from './shared/constants'
 
 const messages = {
   input: {
@@ -25,7 +25,7 @@ const messages = {
   },
 }
 
-const GlobalSettings = () => {
+const CreateEditGlobalSettings = () => {
   const { errors, initialValues, updateValues } = useContext(GlobalSettingsContext)
   const [inputValues, setInputValues] = useState(initialValues)
   const debounce = useDebounce()
@@ -102,7 +102,7 @@ const GlobalSettings = () => {
   )
 }
 
-GlobalSettings.propTypes = {
+CreateEditGlobalSettings.propTypes = {
   errors: PropTypes.arrayOf(
     PropTypes.shape({
       field: PropTypes.string.isRequired,
@@ -111,4 +111,4 @@ GlobalSettings.propTypes = {
   ),
 }
 
-export default GlobalSettings
+export default CreateEditGlobalSettings
