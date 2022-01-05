@@ -5,19 +5,18 @@ import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import {
-  getDTDCampaignQuery,
-  getDTDCampaignCallers,
-  getDTDCampaignHistory,
+  getDTDCampaignDetailQuery,
+  getDTDCampaignQuestioners,
+  getDTDCampaignDetailHistory,
   getDTDCampaignSurveysReplies,
 } from 'api/DTD'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './CampaignDetailKPI'
-import CampaignDetailCallers from './CampaignDetailCallers'
+import CampaignDetailQuestioners from './CampaignDetailQuestioners'
 import CampaignDetailHistory from './CampaignDetailHistory'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
-import CreateEdit from '../CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
@@ -45,27 +44,26 @@ const messages = {
   modify: 'modifier',
   surveysTitle: 'Questionnaires',
   KPITitle: 'Indicateurs',
-  DTD: { id: 'DTD', label: 'porte-à-porteur' },
-  doors: { id: 'doors', label: 'porte' },
+  questioners: { id: 'questioners', label: 'porte-à-porteur' },
+  history: { id: 'history', label: 'porte' },
   surveys: { id: 'surveys', label: 'questionnaire' },
 }
 
 export const CampaignDetail = () => {
-  const [selectedTab, setSelectedTab] = useState(messages.DTD.id)
-  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [selectedTab, setSelectedTab] = useState(messages.questioners.id)
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: campaign = {}, refetch: refetchCampaign } = useQueryWithScope(
-    ['campaign', campaignId],
-    () => getDTDCampaignQuery(campaignId),
+  const { data: campaignDetail = {} } = useQueryWithScope(
+    ['campaign-detail', campaignId],
+    () => getDTDCampaignDetailQuery(campaignId),
     {
       onError: handleError,
     }
   )
-  const { data: callers = [], isLoading: isCallersLoading } = useQueryWithScope(
-    ['callers', campaignId],
-    () => getDTDCampaignCallers(campaignId),
+  const { data: questioners = [], isLoading: isQuestionersLoading } = useQueryWithScope(
+    ['questioners', campaignId],
+    () => getDTDCampaignQuestioners(campaignId),
     {
       onError: handleError,
     }
@@ -78,7 +76,7 @@ export const CampaignDetail = () => {
     hasNextPage: hasNextPageHistory,
   } = useInfiniteQueryWithScope(
     ['history', campaignId],
-    pageParams => getDTDCampaignHistory({ campaignId, ...pageParams }),
+    pageParams => getDTDCampaignDetailHistory({ campaignId, ...pageParams }),
     {
       getNextPageParam,
       onError: handleError,
@@ -94,8 +92,8 @@ export const CampaignDetail = () => {
     }
   )
   const isLoadingData = useMemo(
-    () => !!(isCallersLoading || isHistoryLoading || isSurveysLoading),
-    [isCallersLoading, isHistoryLoading, isSurveysLoading]
+    () => !!(isQuestionersLoading || isHistoryLoading || isSurveysLoading),
+    [isQuestionersLoading, isHistoryLoading, isSurveysLoading]
   )
 
   const handleChange = (_, tabId) => {
@@ -116,21 +114,20 @@ export const CampaignDetail = () => {
             <>
               <PageTitle sx={{ color: 'campaign.color' }}>{messages.pageTitle}</PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
-              <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
+              <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>
             </>
           }
-          button={<PageHeaderButton onClick={() => setIsCreateEditModalOpen(true)} label={messages.modify} />}
+          button={<PageHeaderButton onClick={() => {}} label={messages.modify} />}
         />
       </Grid>
 
       <Grid container justifyContent="space-between">
-        {Object.keys(campaign).length > 0 && (
+        {campaignDetail.KPI && Object.keys(campaignDetail.KPI).length > 0 && (
           <CampaignDetailKPI
-            startDate={campaign.startDate}
-            endDate={campaign.endDate}
-            surveys={campaign.surveys}
-            calls={campaign.calls}
-            averageTime={campaign.averageTime}
+            remaining={campaignDetail.KPI.remaining}
+            surveys={campaignDetail.KPI.surveys}
+            doors={campaignDetail.KPI.doors}
+            contacts={campaignDetail.KPI.contacts}
           />
         )}
 
@@ -142,14 +139,15 @@ export const CampaignDetail = () => {
               TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
               sx={{ my: 2 }}
             >
-              {[messages.DTD, messages.doors, messages.surveys].map(({ id, label }) => (
+              {[messages.questioners, messages.history, messages.surveys].map(({ id, label }) => (
                 <Tab
                   key={id}
                   value={id}
                   label={
                     <TabLabel>
-                      {id === messages.DTD.id && `${callers.length} ${pluralize(callers.length, label)}`}
-                      {id === messages.doors.id &&
+                      {id === messages.questioners.id &&
+                        `${questioners.length} ${pluralize(questioners.length, label)}`}
+                      {id === messages.history.id &&
                         `${paginatedHistory?.pages[0].total || 0} ${pluralize(
                           paginatedHistory?.pages[0].total || 0,
                           label
@@ -164,21 +162,21 @@ export const CampaignDetail = () => {
               ))}
             </Tabs>
 
-            {selectedTab === messages.DTD.id && callers.length > 0 && (
+            {selectedTab === messages.questioners.id && questioners.length > 0 && (
               <Grid container spacing={2}>
-                {callers.map((caller, index) => (
-                  <CampaignDetailCallers
+                {questioners.map((questioner, index) => (
+                  <CampaignDetailQuestioners
                     key={index + 1}
                     number={index + 1}
-                    firstName={caller.firstName}
-                    lastName={caller.lastName}
-                    count={caller.count}
-                    goal={campaign.goal}
+                    firstName={questioner.firstName}
+                    lastName={questioner.lastName}
+                    count={questioner.count}
+                    goal={campaignDetail.goal}
                   />
                 ))}
               </Grid>
             )}
-            {selectedTab === messages.doors.id && history.length > 0 && (
+            {selectedTab === messages.history.id && history.length > 0 && (
               <InfiniteScroll
                 dataLength={history.length}
                 next={() => fetchNexPageHistory()}
@@ -186,14 +184,14 @@ export const CampaignDetail = () => {
                 loader={<Loader />}
               >
                 <Grid container spacing={2}>
-                  {history.map(call => (
+                  {history.map(door => (
                     <CampaignDetailHistory
-                      key={call.id}
-                      status={call.status}
-                      startDate={campaign.startDate}
-                      adherent={call.adherent}
-                      caller={call.caller}
-                      updateTime={call.updateTime}
+                      key={door.id}
+                      status={door.status}
+                      questioner={door.questioner}
+                      address={door.address}
+                      startDate={door.startDate}
+                      duration={door.duration}
                       handleView={handleHistoryView}
                     />
                   ))}
@@ -208,13 +206,6 @@ export const CampaignDetail = () => {
           </>
         )}
       </Grid>
-
-      <CreateEdit
-        campaign={Object.keys(campaign).length > 0 ? campaign : null}
-        isOpen={isCreateEditModalOpen}
-        onCreateResolve={refetchCampaign}
-        handleClose={() => setIsCreateEditModalOpen(false)}
-      />
     </Container>
   )
 }

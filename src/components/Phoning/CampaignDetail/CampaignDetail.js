@@ -190,7 +190,7 @@ export const CampaignDetail = () => {
                     <CampaignDetailHistory
                       key={call.id}
                       status={call.status}
-                      startDate={campaign.startDate}
+                      startDate={call.startDate}
                       adherent={call.adherent}
                       caller={call.caller}
                       updateTime={call.updateTime}

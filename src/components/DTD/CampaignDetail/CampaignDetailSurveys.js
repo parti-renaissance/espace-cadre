@@ -18,11 +18,11 @@ import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
 import { orderBy } from 'lodash'
 
-import { DTDCampaignReply as DomainDTDCampaignReply } from 'domain/DTD'
+import { DTDCampaignDetailSurveysReply as DomainDTDCampaignDetailSurveysReply } from 'domain/DTD'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
 import { multipleChoice, simpleField, uniqueChoice } from './shared/constants'
-import { surveysColumnsStyles, timeDifferenceToString } from './shared/helpers'
+import { surveysColumnsStyles, secondsToMinutes } from './shared/helpers'
 import { UIChip } from 'ui/Card'
 
 const TableCell = styled(
@@ -68,7 +68,7 @@ const SubDescription = styled(props => <Typography component="div" {...props} />
 )
 
 const messages = {
-  called: 'Appelé',
+  called: 'Porte à porteur',
   time: 'Date (Temps)',
   anonymous: 'Anonyme',
 }
@@ -129,7 +129,7 @@ const CampaignDetailSurveys = ({ replies }) => {
             </TableHead>
 
             <TableBody>
-              {rows.map(({ answers, firstName, lastName, startDate, endDate }) => (
+              {rows.map(({ answers, firstName, lastName, startDate, duration }) => (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell key={uuid()} isSticky>
                     <Description>
@@ -139,9 +139,11 @@ const CampaignDetailSurveys = ({ replies }) => {
                   </TableCell>
 
                   <TableCell key={uuid()} sx={{ width: '150px' }}>
-                    <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
-                    {timeDifferenceToString(startDate, endDate) && (
-                      <SubDescription>{timeDifferenceToString(startDate, endDate)}</SubDescription>
+                    {startDate && (
+                      <>
+                        <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
+                        <SubDescription>{secondsToMinutes(duration)}</SubDescription>
+                      </>
                     )}
                   </TableCell>
 
@@ -194,7 +196,7 @@ const CampaignDetailSurveys = ({ replies }) => {
 }
 
 CampaignDetailSurveys.propTypes = {
-  replies: PropTypes.arrayOf(PropTypes.shape(DomainDTDCampaignReply.propTypes)).isRequired,
+  replies: PropTypes.arrayOf(PropTypes.shape(DomainDTDCampaignDetailSurveysReply.propTypes)).isRequired,
 }
 
 export default CampaignDetailSurveys

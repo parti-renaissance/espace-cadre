@@ -24,7 +24,7 @@ const messages = {
   separator: '/',
 }
 
-const DTDRatioProgress = ({ count, totalCount }) => {
+const UIRatioProgress = ({ count, totalCount }) => {
   const value = Math.round((count / totalCount) * 100)
   return (
     <>
@@ -40,9 +40,9 @@ const DTDRatioProgress = ({ count, totalCount }) => {
   )
 }
 
-DTDRatioProgress.propTypes = {
+UIRatioProgress.propTypes = {
   count: PropTypes.number.isRequired,
   totalCount: PropTypes.number.isRequired,
 }
 
-export default DTDRatioProgress
+export default UIRatioProgress

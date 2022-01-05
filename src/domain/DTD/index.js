@@ -1,15 +1,17 @@
-export { DTDGlobalKPI, DTDCampaignsKPI, DTDSurveysKPI, DTDCallsKPI } from './KPI'
-export { DTDCampaigns, DTDCampaignsTeam, DTDCampaignsScore } from './campaigns'
+export { DTDGlobalKPI, DTDGlobalKPICampaigns, DTDGlobalKPISurveys, DTDGlobalKPIDoors } from './campaign-KPI'
+export { DTDCampaignListItem, DTDCampaignListItemScore } from './campaign-list'
+export { DTDCampaignDetail } from './campaign-detail'
 export {
-  DTDCampaign,
-  DTDCampaignCalls,
-  DTDCampaignSurveys,
-  DTDCampaignFilters,
-  DTDCampaignTeam,
-  DTDCampaignSurvey,
-  DTDCampaignZone,
-  DTDCampaignReply,
-  DTDCampaignReplyAnswer,
-} from './campaign'
-export { DTDCampaignCallers } from './callers'
-export { DTDCampaignHistory, DTDCampaignHistoryAdherent, DTDCampaignHistoryCaller } from './history'
+  DTDCampaignDetailKPI,
+  DTDCampaignDetailKPIRemaning,
+  DTDCampaignDetailKPISurveys,
+  DTDCampaignDetailKPIDoors,
+  DTDCampaignDetailKPIContacts,
+} from './campaign-detail-KPI'
+export { DTDCampaignDetailQuestioners } from './campaign-detail-questioners'
+export {
+  DTDCampaignDetailHistory,
+  DTDCampaignDetailHistoryAddress,
+  DTDCampaignDetailHistoryQuestioner,
+} from './campaign-detail-history'
+export { DTDCampaignDetailSurveysReply, DTDCampaignDetailSurveysReplyAnswer } from './campaign-detail-surveys'

@@ -4,7 +4,7 @@ import { differenceInCalendarDays, format } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
 import { PhoningCampaign } from 'domain/phoning'
-import RatioProgress from '../shared/RatioProgress'
+import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import { secondsToMinutesAndSeconds } from './shared/helpers'
 import UICard from 'ui/Card/Card'
 
