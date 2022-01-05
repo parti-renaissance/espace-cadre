@@ -1,14 +1,14 @@
 import { useCallback, useContext, useState } from 'react'
 import { Autocomplete, MenuItem, Typography } from '@mui/material'
 
-import { getPhoningCampaignSurveys, getPhoningCampaignTeams } from 'api/phoning'
+import { getDTDCampaignSurveys, getDTDCampaignTeams } from 'api/DTD'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useDebounce } from 'components/shared/debounce'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { FormError } from 'components/shared/error/components'
-import { CallersAndSurveyContext } from '../shared/context'
-import { Input, Label } from '../shared/components'
-import { fields } from '../shared/constants'
+import { CallersAndSurveyContext } from './shared/context'
+import { Input, Label } from './shared/components'
+import { fields } from './shared/constants'
 
 const messages = {
   input: {
@@ -23,7 +23,7 @@ const messages = {
   noResult: 'Aucun résultat à afficher',
 }
 
-const CallersAndSurvey = () => {
+const CreateEditCallersAndSurvey = () => {
   const { values, initialValues, updateValues } = useContext(CallersAndSurveyContext)
   const [inputValues, setInputValues] = useState({ teamInput: '', surveyInput: '', ...initialValues })
   const [isTeamFetchable, setIsTeamFetchable] = useState(false)
@@ -37,7 +37,7 @@ const CallersAndSurvey = () => {
 
   const { data: teams = [], isFetching: isTeamsFetching } = useQueryWithScope(
     ['teams', inputValues.teamInput],
-    () => getPhoningCampaignTeams(inputValues.teamInput),
+    () => getDTDCampaignTeams(inputValues.teamInput),
     {
       enabled: isTeamFetchable && !!inputValues.teamInput && inputValues.teamInput !== values.team?.name,
       onSuccess: () => {
@@ -48,7 +48,7 @@ const CallersAndSurvey = () => {
   )
   const { data: surveys = [], isFetching: isSurveysFetching } = useQueryWithScope(
     ['surveys', inputValues.surveyInput],
-    () => getPhoningCampaignSurveys(inputValues.surveyInput),
+    () => getDTDCampaignSurveys(inputValues.surveyInput),
     {
       enabled: isSurveyFetchable && !!inputValues.surveyInput && inputValues.surveyInput !== values.survey?.name,
       onSuccess: () => {
@@ -125,4 +125,4 @@ const CallersAndSurvey = () => {
   )
 }
 
-export default CallersAndSurvey
+export default CreateEditCallersAndSurvey

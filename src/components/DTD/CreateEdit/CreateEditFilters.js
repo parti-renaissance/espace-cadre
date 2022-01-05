@@ -10,9 +10,9 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { getDTDCampaignZones } from 'api/DTD'
-import { FiltersContext } from '../shared/context'
-import { Checkbox, Input, Label } from '../shared/components'
-import { fields } from '../shared/constants'
+import { FiltersContext } from './shared/context'
+import { Checkbox, Input, Label } from './shared/components'
+import { fields } from './shared/constants'
 
 const messages = {
   input: {
@@ -49,7 +49,7 @@ const messages = {
   noResult: 'Aucun résultat à afficher',
 }
 
-const Filters = () => {
+const CreateEditFilters = () => {
   const { errors, values, initialValues, updateValues } = useContext(FiltersContext)
   const [inputValues, setInputValues] = useState({ zoneInput: '', ...initialValues })
   const [isZoneFetchable, setIsZoneFetchable] = useState(false)
@@ -291,7 +291,7 @@ const Filters = () => {
   )
 }
 
-Filters.propTypes = {
+CreateEditFilters.propTypes = {
   errors: PropTypes.arrayOf(
     PropTypes.shape({
       field: PropTypes.string.isRequired,
@@ -300,4 +300,4 @@ Filters.propTypes = {
   ),
 }
 
-export default Filters
+export default CreateEditFilters
