@@ -21,6 +21,7 @@ const UpdateTime = styled(Typography)`
 
 const messages = {
   years: 'ans',
+  deletedAdherent: 'Compte supprimé',
   see: 'voir',
 }
 
@@ -34,19 +35,26 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
         rootProps={{ sx: { height: '205px' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
-          adherent && (
-            <>
-              <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
-                {adherent.firstName} {adherent.lastName}
-              </TruncatedText>
-              <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-                {gender && `${gender}, `}
-                {adherent.age && `${adherent.age} ${messages.years}`}
+          <>
+            {adherent && (
+              <>
+                <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
+                  {adherent.firstName} {adherent.lastName}
+                </TruncatedText>
+                <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
+                  {gender && `${gender}, `}
+                  {adherent.age && `${adherent.age} ${messages.years}`}
+                </Typography>
+              </>
+            )}
+            {!adherent && (
+              <Typography variant="subtitle1" sx={{ color: 'gray900', opacity: 0.5 }}>
+                {messages.deletedAdherent}
               </Typography>
-            </>
-          )
+            )}
+          </>
         }
-        contentProps={{ sx: { pt: 1 } }}
+        contentProps={{ sx: { pt: adherent ? 1 : 3 } }}
         content={
           <>
             <div>
