@@ -1,0 +1,62 @@
+const sent = 'send'
+const unsubscribed = 'to-unsubscribe'
+const unreachable = 'to-unjoin'
+const unanswered = 'not-respond'
+const toRemind = 'to-remind'
+const refused = 'failed'
+const abandoned = 'interrupted-dont-remind'
+const interrupted = 'interrupted'
+const completed = 'completed'
+const ongoing = 'ongoing'
+const finished = 'terminated'
+const doorOpen = 'door_open'
+const doorClosed = 'door_closed'
+const answerToQuestions = 'accept_to_answer'
+const DoNotAnswerToQuestions = 'dont_accept_to_answer'
+const contactLater = 'contact_later'
+
+export const defaultChipColor = { color: 'gray700', bgcolor: 'phoning.background.chip.default' }
+export const chipColorsByStatus = {
+  [sent]: { color: 'lightBlue700', bgcolor: 'phoning.background.chip.sent' },
+  [unsubscribed]: { color: 'yellow500', bgcolor: 'phoning.background.chip.unsubscribed' },
+  [unreachable]: defaultChipColor,
+  [unanswered]: defaultChipColor,
+  [toRemind]: defaultChipColor,
+  [refused]: defaultChipColor,
+  [abandoned]: defaultChipColor,
+  [interrupted]: defaultChipColor,
+  [completed]: { color: 'green700', bgcolor: 'phoning.background.chip.completed' },
+  [ongoing]: { color: 'green700', bgcolor: 'phoning.background.chip.ongoing' },
+  [finished]: defaultChipColor,
+  [doorOpen]: defaultChipColor,
+  [doorClosed]: defaultChipColor,
+  [answerToQuestions]: defaultChipColor,
+  [DoNotAnswerToQuestions]: defaultChipColor,
+  [contactLater]: defaultChipColor,
+}
+
+export const chipLabelByStatus = {
+  [sent]: 'Envoyé',
+  [unsubscribed]: 'Désabonné',
+  [unreachable]: 'Non joignable',
+  [unanswered]: 'Sans réponse',
+  [toRemind]: 'A rappeler',
+  [refused]: 'Echec',
+  [abandoned]: 'Abandonné',
+  [interrupted]: 'Interrompu',
+  [completed]: 'Complété',
+  [doorOpen]: 'Non défini',
+  [doorClosed]: 'Non défini',
+  [answerToQuestions]: 'Non défini',
+  [DoNotAnswerToQuestions]: 'Non défini',
+  [contactLater]: 'Non défini',
+}
+
+export const translatedGender = {
+  male: 'Homme',
+  female: 'Femme',
+}
+
+export const simpleField = 'simple_field'
+export const uniqueChoice = 'unique_choice'
+export const multipleChoice = 'multiple_choice'

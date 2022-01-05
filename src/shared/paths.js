@@ -8,5 +8,5 @@ export default {
   groups: '/groupes',
   news: '/actualites',
   phoning: '/phoning',
-  doorKnocking: '/porte-a-porte',
+  DTD: '/porte-a-porte',
 }
