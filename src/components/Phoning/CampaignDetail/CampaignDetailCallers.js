@@ -3,7 +3,7 @@ import { Grid } from '@mui/material'
 
 import { PhoningCampaignCallers as DomainPhoningCampaignCallers } from 'domain/phoning'
 import { TruncatedText } from 'components/shared/styled'
-import RatioProgress from '../shared/RatioProgress'
+import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import UICard from 'ui/Card/Card'
 
 const CampaignDetailCallers = ({ number, firstName, lastName, count, goal }) => (

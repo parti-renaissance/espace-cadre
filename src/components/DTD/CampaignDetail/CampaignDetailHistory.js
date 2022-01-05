@@ -3,12 +3,13 @@ import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
-import { DTDCampaignHistoryAdherent, DTDCampaignHistoryCaller } from 'domain/DTD'
-import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
+import { DTDCampaignDetailHistory as DomainDTDCampaignDetailHistory } from 'domain/DTD'
+import { chipColorsByStatus, chipLabelByStatus, defaultChipColor } from './shared/constants'
+import { secondsToMinutes } from './shared/helpers'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 
-const Author = styled(TruncatedText)`
+const Questioner = styled(TruncatedText)`
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
@@ -23,48 +24,55 @@ const messages = {
   years: 'ans',
   deletedAdherent: 'Compte supprimé',
   see: 'voir',
+  block: 'Batiment',
+  floor: 'étage',
+  door: 'porte',
 }
 
-const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView }) => {
+const CampaignDetailHistory = ({ status, address, questioner, startDate, duration, handleView }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
-  const gender = adherent ? translatedGender?.[adherent.gender] : null
+  const durationInMinutes = secondsToMinutes(duration)
   return (
     <Grid item xs={12} sm={6} md={3} data-cy="DTD-campaign-detail-history">
       <UICard
-        rootProps={{ sx: { height: '205px' } }}
+        rootProps={{ sx: { height: '230px' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
-            {adherent && (
-              <>
-                <TruncatedText variant="subtitle1" title={`${adherent.firstName} ${adherent.lastName}`}>
-                  {adherent.firstName} {adherent.lastName}
-                </TruncatedText>
-                <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-                  {gender && `${gender}, `}
-                  {adherent.age && `${adherent.age} ${messages.years}`}
-                </Typography>
-              </>
-            )}
-            {!adherent && (
-              <Typography variant="subtitle1" sx={{ color: 'gray900', opacity: 0.5 }}>
-                {messages.deletedAdherent}
-              </Typography>
-            )}
+            <TruncatedText variant="subtitle1" title={`${address.number} ${address.street}`}>
+              {address.number}
+              {address.number && ' '}
+              {address.street}
+              {(address.postCode || address.city) && ','}
+            </TruncatedText>
+            <TruncatedText variant="subtitle1">
+              {address.postCode}&nbsp;{address.city}
+            </TruncatedText>
+            <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
+              {address.block && `${messages.block} ${address.block}`}
+              {address.floor && ', '}
+              {address.floor && `${messages.floor} ${address.floor}`}
+              {address.door && ', '}
+              {address.door && `${messages.door} ${address.door}`}
+            </Typography>
           </>
         }
-        contentProps={{ sx: { pt: adherent ? 1 : 3 } }}
+        contentProps={{ sx: { pt: questioner ? 1 : 3 } }}
         content={
           <>
             <div>
               <UIChip label={chipLabel} {...chipColors} />
             </div>
             <VerticalContainer sx={{ py: 2 }}>
-              <Author sx={{ pb: 0.5 }}>
-                {caller.firstName} {caller.lastName}
-              </Author>
-              <UpdateTime>{format(startDate, 'dd/MM/yyyy hh:mm')}</UpdateTime>
+              <Questioner sx={{ pb: 0.5, color: 'gray700' }}>
+                {questioner.firstName} {questioner.lastName}
+              </Questioner>
+              <UpdateTime sx={{ color: 'gray600' }}>
+                {format(startDate, 'dd/MM/yyyy hh:mm')}
+                {(startDate || durationInMinutes) && ' • '}
+                {durationInMinutes}
+              </UpdateTime>
             </VerticalContainer>
           </>
         }
@@ -89,10 +97,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
 }
 
 CampaignDetailHistory.propTypes = {
-  status: PropTypes.string.isRequired,
-  startDate: PropTypes.object.isRequired,
-  adherent: DTDCampaignHistoryAdherent.propTypes,
-  caller: DTDCampaignHistoryCaller.propTypes,
+  ...DomainDTDCampaignDetailHistory.propTypes,
   handleView: PropTypes.func.isRequired,
 }
 

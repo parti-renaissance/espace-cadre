@@ -2,104 +2,81 @@ import { apiClient } from 'services/networking/client'
 
 import {
   DTDGlobalKPI,
-  DTDCampaignsKPI,
-  DTDSurveysKPI,
-  DTDCallsKPI,
-  DTDCampaigns,
-  DTDCampaignsTeam,
-  DTDCampaignsScore,
-  DTDCampaign,
-  DTDCampaignCalls,
-  DTDCampaignCallers,
-  DTDCampaignHistory,
-  DTDCampaignSurveys,
-  DTDCampaignHistoryAdherent,
-  DTDCampaignHistoryCaller,
-  DTDCampaignFilters,
-  DTDCampaignTeam,
-  DTDCampaignSurvey,
-  DTDCampaignZone,
-  DTDCampaignReply,
-  DTDCampaignReplyAnswer,
+  DTDGlobalKPICampaigns,
+  DTDGlobalKPISurveys,
+  DTDGlobalKPIDoors,
+  DTDCampaignListItem,
+  DTDCampaignListItemScore,
+  DTDCampaignDetail,
+  DTDCampaignDetailKPI,
+  DTDCampaignDetailKPIRemaning,
+  DTDCampaignDetailKPISurveys,
+  DTDCampaignDetailKPIDoors,
+  DTDCampaignDetailKPIContacts,
+  DTDCampaignDetailQuestioners,
+  DTDCampaignDetailHistory,
+  DTDCampaignDetailHistoryAddress,
+  DTDCampaignDetailHistoryQuestioner,
+  DTDCampaignDetailSurveysReply,
+  DTDCampaignDetailSurveysReplyAnswer,
 } from 'domain/DTD'
 import { newPaginatedResult } from 'api/pagination'
 
 export const getDTDGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/pap_campaigns/kpi')
-  const campaignsKPI = new DTDCampaignsKPI(data.nb_campaigns, data.nb_ongoing_campaigns)
-  const surveysKPI = new DTDSurveysKPI(data.nb_surveys, data.nb_surveys_last_30d)
-  const callsKPI = new DTDCallsKPI(data.nb_visited_doors, data.nb_visited_doors_last_30d)
-  return new DTDGlobalKPI(campaignsKPI, surveysKPI, callsKPI)
+  const campaigns = new DTDGlobalKPICampaigns(data.nb_campaigns, data.nb_ongoing_campaigns)
+  const surveys = new DTDGlobalKPISurveys(data.nb_surveys, data.nb_surveys_last_30d)
+  const doors = new DTDGlobalKPIDoors(data.nb_visited_doors, data.nb_visited_doors_last_30d)
+  return new DTDGlobalKPI(campaigns, surveys, doors)
 }
 
 export const getDTDCampaignListQuery = async () => {
   const data = await apiClient.get('api/v3/pap_campaigns')
   return data.items.map(c => {
-    const team = new DTDCampaignsTeam(null, null)
-    const score = new DTDCampaignsScore(null, c.goal)
-    return new DTDCampaigns(c.uuid, new Date(c.finish_at), c.title, null, team, score)
+    const score = new DTDCampaignListItemScore(c.nb_surveys, c.goal)
+    return new DTDCampaignListItem(c.uuid, new Date(c.finish_at), c.title, score)
   })
 }
 
-export const getDTDCampaignQuery = async campaignId => {
+export const getDTDCampaignDetailQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}`)
-  const calls = new DTDCampaignCalls(data.nb_visited_doors, data.nb_collected_contacts)
-  const surveys = new DTDCampaignSurveys(data.nb_surveys, data.goal * null)
-  const team = new DTDCampaignTeam(null, null)
-  const survey = new DTDCampaignSurvey(null, null)
-  const filters = data.audience
-    ? new DTDCampaignFilters(
-        data.audience.first_name,
-        data.audience.last_name,
-        data.audience.gender,
-        data.audience.registered_since,
-        data.audience.registered_until,
-        data.audience.age_min,
-        data.audience.age_max,
-        data.audience.is_certified,
-        data.audience.is_committee_member,
-        data.audience.has_email_subscription,
-        data.audience.has_sms_subscription,
-        data.audience.zones.map(z => new DTDCampaignZone(z.uuid, z.name, z.code))
-      )
-    : null
-  return new DTDCampaign(
-    data.uuid,
-    data.title,
-    new Date(null),
-    new Date(data.finish_at),
-    calls,
-    surveys,
-    data.average_visit_time,
-    data.goal,
-    data.brief,
-    team,
-    survey,
-    filters
+  const remaining = new DTDCampaignDetailKPIRemaning(
+    null, // TODO after MEP (6.01.2022) -> has to be provided by API
+    new Date(data.finish_at)
   )
+  const surveys = new DTDCampaignDetailKPISurveys(data.nb_surveys)
+  const doors = new DTDCampaignDetailKPIDoors(data.nb_visited_doors)
+  const contacts = new DTDCampaignDetailKPIContacts(data.nb_collected_contacts)
+  const KPI = new DTDCampaignDetailKPI(remaining, surveys, doors, contacts)
+  return new DTDCampaignDetail(data.uuid, data.title, data.goal, KPI)
 }
 
-export const getDTDCampaignCallers = async campaignId => {
+export const getDTDCampaignQuestioners = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/questioners`)
-  return data.items.map(c => new DTDCampaignCallers(c.first_name, c.last_name, Number(c.nb_surveys)))
+  return data.items.map(c => new DTDCampaignDetailQuestioners(c.first_name, c.last_name, Number(c.nb_surveys)))
 }
 
-export const getDTDCampaignHistory = async ({ campaignId, pageParam: page = 1 }) => {
+export const getDTDCampaignDetailHistory = async ({ campaignId, pageParam: page = 1 }) => {
   const data = await apiClient.get(
     `api/v3/pap_campaign_histories?campaign.uuid=${campaignId}&order[created_at]=desc&page=${page}&page_size=20`
   )
 
   const history = data.items.map(h => {
-    const adherent = h.questioner
-      ? new DTDCampaignHistoryAdherent(
-          h.questioner.first_name,
-          h.questioner.last_name,
-          h.questioner.gender,
-          h.questioner.age
+    const address = h.building
+      ? new DTDCampaignDetailHistoryAddress(
+          h.building.address.number ?? '', // TODO after MEP (6.01.2022) -> must exist everytime
+          h.building.address.address,
+          h.building.address.postal_codes[0],
+          h.building.address.city_name,
+          h.building_block,
+          String(h.floor),
+          h.door
         )
       : null
-    const caller = new DTDCampaignHistoryCaller(h.questioner.first_name, h.questioner.last_name)
-    return new DTDCampaignHistory(h.uuid, h.status, new Date(h.created_at), adherent, caller)
+    const questioner = h.questioner
+      ? new DTDCampaignDetailHistoryQuestioner(h.questioner.first_name, h.questioner.last_name)
+      : null
+    return new DTDCampaignDetailHistory(h.uuid, h.status, address, questioner, new Date(h.created_at), h.duration)
   })
 
   return newPaginatedResult(history, data.metadata)
@@ -111,78 +88,13 @@ export const getDTDCampaignSurveysReplies = async campaignId => {
     totalCount: data.metadata.total_items,
     replies: data.items.map(
       sr =>
-        new DTDCampaignReply(
-          sr.answers.map(a => new DTDCampaignReplyAnswer(a.type, a.answer, a.question)),
+        new DTDCampaignDetailSurveysReply(
+          sr.answers.map(a => new DTDCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
           sr.pap_campaign_history.questioner?.first_name,
           sr.pap_campaign_history.questioner?.last_name,
-          new Date(null),
-          new Date(null)
+          sr.pap_campaign_history.duration,
+          new Date(sr.pap_campaign_history.created_at)
         )
     ),
   }
 }
-
-export const getDTDCampaignTeams = async name => {
-  const data = await apiClient.get(`/api/v3/teams?name=${name}`)
-  return data.items.map(t => new DTDCampaignTeam(t.uuid, t.name, t.creator))
-}
-
-export const getDTDCampaignSurveys = async name => {
-  const data = await apiClient.get(`/api/v3/surveys?name=${name}`)
-  return data.items.map(s => new DTDCampaignSurvey(s.uuid, s.name, s.type))
-}
-
-export const getDTDCampaignZones = async city => {
-  const data = await apiClient.get(`/api/v3/zone/autocomplete?q=${city}`)
-  return data.map(z => new DTDCampaignZone(z.uuid, z.name, z.code))
-}
-
-const formatFiltersData = ({
-  firstName,
-  lastName,
-  gender,
-  adherentFromDate,
-  adherentToDate,
-  ageMin,
-  ageMax,
-  certified,
-  committeeMember,
-  emailSubscribed,
-  SMSSubscribed,
-  zones,
-}) => ({
-  ...(firstName ? { firstName } : {}),
-  ...(lastName ? { lastName } : {}),
-  ...(gender ? { gender } : {}),
-  ...(adherentFromDate ? { registeredSince: adherentFromDate } : {}),
-  ...(adherentToDate ? { registeredUntil: adherentToDate } : {}),
-  ...(ageMin ? { ageMin: +ageMin } : {}),
-  ...(ageMax ? { ageMax: +ageMax } : {}),
-  ...('boolean' === typeof certified ? { isCertified: certified } : {}),
-  ...('boolean' === typeof committeeMember ? { isCommitteeMember: committeeMember } : {}),
-  ...('boolean' === typeof emailSubscribed ? { hasEmailSubscription: emailSubscribed } : {}),
-  ...('boolean' === typeof SMSSubscribed ? { hasSmsSubscription: SMSSubscribed } : {}),
-  zones: zones.map(z => z.id),
-})
-
-export const createDTDCampaignQuery = campaign =>
-  apiClient.post('api/v3/DTD_campaigns', {
-    title: campaign.title,
-    goal: +campaign.goal,
-    finish_at: campaign.endDate,
-    brief: campaign.brief,
-    team: campaign.team.id,
-    survey: campaign.survey.id,
-    ...(Object.keys(campaign.filters).length > 0 ? { audience: formatFiltersData(campaign.filters) } : {}),
-  })
-
-export const updateDTDCampaignQuery = campaign =>
-  apiClient.put(`api/v3/DTD_campaigns/${campaign.id}`, {
-    title: campaign.title,
-    goal: +campaign.goal,
-    finish_at: campaign.endDate,
-    brief: campaign.brief,
-    team: campaign.team.id,
-    survey: campaign.survey.id,
-    ...(Object.keys(campaign.filters).length > 0 ? { audience: formatFiltersData(campaign.filters) } : {}),
-  })

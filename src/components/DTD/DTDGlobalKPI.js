@@ -47,11 +47,12 @@ const messages = {
   ongoingCampaignSuffix: 'en cours',
   survey: 'Questionnaire',
   surveyOnAMonth: 'sur un mois',
-  call: 'Appel',
-  callOnAMonth: 'sur un mois',
+  knocked: 'Porte',
+  door: 'frappée',
+  knockedDoorOnAMonth: 'sur un mois',
 }
 
-const DTDGlobalKPI = ({ campaigns, surveys, calls }) => (
+const DTDGlobalKPI = ({ campaigns, surveys, doors }) => (
   <KPIWrapper>
     <Grid container>
       <KPITitle>{messages.title}</KPITitle>
@@ -97,11 +98,14 @@ const DTDGlobalKPI = ({ campaigns, surveys, calls }) => (
           contentProps={{ sx: { pt: '25px' } }}
           content={
             <>
-              <Score>{calls.count}</Score>
-              <SubTitle>{pluralize(calls.count, messages.call)}</SubTitle>
+              <Score>{doors.count}</Score>
+              <SubTitle>
+                {pluralize(doors.count, messages.knocked)}&nbsp;
+                {pluralize(doors.count, messages.door)}
+              </SubTitle>
               <SubTitleDetail>
-                {calls.onAMonth}&nbsp;
-                {messages.callOnAMonth}
+                {doors.onAMonth}&nbsp;
+                {messages.knockedDoorOnAMonth}
               </SubTitleDetail>
             </>
           }
@@ -111,6 +115,6 @@ const DTDGlobalKPI = ({ campaigns, surveys, calls }) => (
   </KPIWrapper>
 )
 
-DTDGlobalKPI.propTypes = DomainDTDGlobalKPI.PropTypes
+DTDGlobalKPI.propTypes = DomainDTDGlobalKPI.propTypes
 
 export default DTDGlobalKPI

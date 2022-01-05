@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { styled } from '@mui/system'
 import { Box, AppBar as MuiAppBar, Toolbar } from '@mui/material'
-import { NavItem } from 'ui'
+import NavItem from 'ui/NavItem/NavItem'
 import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Mobile from './Mobile'

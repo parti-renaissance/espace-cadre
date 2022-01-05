@@ -3,9 +3,7 @@ import { styled } from '@mui/system'
 import { differenceInCalendarDays, format } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
-import { DTDCampaign } from 'domain/DTD'
-import RatioProgress from '../shared/RatioProgress'
-import { secondsToMinutesAndSeconds } from './shared/helpers'
+import { DTDCampaignDetailKPI as DomainDTDCampaignDetailKPI } from 'domain/DTD'
 import UICard from 'ui/Card/Card'
 
 const KPIWrapper = styled(Paper)(
@@ -50,17 +48,17 @@ const messages = {
   periodFrom: 'Du',
   periodTo: 'au',
   surveys: 'Questionnaire',
-  calls: 'Porte',
-  callsMade: 'frappée',
-  callsToRemindPrefix: 'Dont',
-  callsToRemindSuffix: 'à rappeler',
-  contacts: 'Contacts',
-  averageTime: 'Temps moyen',
-  averageTimeDetail: 'Passé par visite',
+  doors: 'Porte',
+  doorsKnocked: 'frappée',
+  doorsToRemindPrefix: 'Dont',
+  doorsToRemindSuffix: 'ouverte',
+  contacts: 'Contact',
+  contactsCollected: 'collecté',
+  contactsInvitationToJoin: 'invitation à adhérer',
 }
 
-const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) => {
-  const daysRemaining = differenceInCalendarDays(endDate, new Date()) || 0
+const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
+  const daysRemaining = differenceInCalendarDays(remaining.endDate, new Date()) || 0
 
   return (
     <KPIWrapper data-cy="DTD-campaign-detail-KPI">
@@ -80,12 +78,12 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
                   {pluralize(daysRemaining, messages.day)}&nbsp;
                   {pluralize(daysRemaining, messages.remaining)}
                 </SubTitle>
-                {startDate && endDate && (
+                {remaining.startDate && remaining.endDate && (
                   <SubTitleDetail>
                     {messages.periodFrom}&nbsp;
-                    {format(startDate, 'dd/MM/yyyy')}&nbsp;
+                    {format(remaining.startDate, 'dd/MM/yyyy')}&nbsp;
                     {messages.periodTo}&nbsp;
-                    {format(endDate, 'dd/MM/yyyy')}
+                    {format(remaining.endDate, 'dd/MM/yyyy')}
                   </SubTitleDetail>
                 )}
               </>
@@ -95,28 +93,11 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
         <Grid item xs={12} sm={6} md={3}>
           <UICard
             rootProps={{ sx: { height: '125px' } }}
-            headerProps={{ sx: { pt: '21px' } }}
-            contentProps={{ sx: { pt: 3 } }}
-            header={<SubTitle>{pluralize(surveys.count, messages.surveys)}</SubTitle>}
-            content={<RatioProgress count={surveys.count} totalCount={surveys.goal} />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <UICard
-            rootProps={{ sx: { height: '125px' } }}
             contentProps={{ sx: { pt: '25px' } }}
             content={
               <>
-                <Score>{calls.count}</Score>
-                <SubTitle>
-                  {pluralize(calls.count, messages.calls)}&nbsp;
-                  {pluralize(calls.count, messages.callsMade)}
-                </SubTitle>
-                <SubTitleDetail>
-                  {messages.callsToRemindPrefix}&nbsp;
-                  {calls.toRemind}&nbsp;
-                  {messages.callsToRemindSuffix}
-                </SubTitleDetail>
+                <Score>{surveys.count <= 0 ? 0 : surveys.count}</Score>
+                <SubTitle>{pluralize(surveys.count, messages.surveys)}</SubTitle>
               </>
             }
           />
@@ -127,9 +108,39 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
             contentProps={{ sx: { pt: '25px' } }}
             content={
               <>
-                <Score>{secondsToMinutesAndSeconds(averageTime)}</Score>
-                <SubTitle>{messages.averageTime}</SubTitle>
-                <SubTitleDetail>{messages.averageTimeDetail}</SubTitleDetail>
+                <Score>{doors.count}</Score>
+                <SubTitle>
+                  {pluralize(doors.count, messages.doors)}&nbsp;
+                  {pluralize(doors.count, messages.doorsKnocked)}
+                </SubTitle>
+                {doors.open && (
+                  <SubTitleDetail>
+                    {messages.doorsToRemindPrefix}&nbsp;
+                    {doors.open}&nbsp;
+                    {messages.doorsToRemindSuffix}
+                  </SubTitleDetail>
+                )}
+              </>
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <UICard
+            rootProps={{ sx: { height: '125px' } }}
+            contentProps={{ sx: { pt: '25px' } }}
+            content={
+              <>
+                <Score>{contacts.count}</Score>
+                <SubTitle>
+                  {pluralize(contacts.count, messages.contacts)}&nbsp;
+                  {pluralize(contacts.count, messages.contactsCollected)}
+                </SubTitle>
+                {contacts.open && (
+                  <SubTitleDetail>
+                    {contacts.open}
+                    {pluralize(contacts.open, messages.contactsInvitationToJoin)}
+                  </SubTitleDetail>
+                )}
               </>
             }
           />
@@ -139,6 +150,6 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
   )
 }
 
-CampaignDetailKPI.propTypes = DTDCampaign.PropTypes
+CampaignDetailKPI.propTypes = DomainDTDCampaignDetailKPI.propTypes
 
 export default CampaignDetailKPI
