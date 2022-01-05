@@ -1,24 +1,22 @@
-import { Alert } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Alert as MuiAlert } from '@mui/material'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme => ({
-  errorMessage: {
-    color: theme.palette.statusError,
-    background: theme.palette.backgroundError,
-    borderRadius: '8px',
-    elevation: 'none',
-    alignItems: 'center',
-  },
-}))
+const Alert = styled(MuiAlert)(
+  ({ theme }) => `
+  color: ${theme.palette.statusError};
+  background: ${theme.palette.backgroundError};
+  border-radius: 8px;
+  elevation: none;
+  align-items: center;
+  `
+)
 
 function AlertBanner({ severity, message }) {
-  const classes = useStyles()
-
   if (!message) return null
 
   return (
-    <Alert className={classes.errorMessage} elevation={0} variant="filled" severity={severity}>
+    <Alert elevation={0} variant="filled" severity={severity}>
       {typeof message === 'object' ? message.message : message}
     </Alert>
   )

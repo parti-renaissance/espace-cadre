@@ -3,7 +3,7 @@
 exports[`AlertBanner displays AlertBanner with object message 1`] = `
 <div>
   <div
-    class="errorMessage"
+    class="css-23lavf"
     elevation="0"
     severity="foo-severity"
     variant="filled"
@@ -16,7 +16,7 @@ exports[`AlertBanner displays AlertBanner with object message 1`] = `
 exports[`AlertBanner displays AlertBanner with string message 1`] = `
 <div>
   <div
-    class="errorMessage"
+    class="css-23lavf"
     elevation="0"
     severity="foo-severity"
     variant="filled"

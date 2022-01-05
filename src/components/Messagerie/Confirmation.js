@@ -23,25 +23,23 @@ const messages = {
   back: 'Revenir à la messagerie',
 }
 
-const Confirmation = () => {
-  return (
-    <Container>
-      <Paper>
-        <Grid container sx={{ mb: 2 }}>
-          <Grid item xs={12}>
-            {messages.success}
-          </Grid>
+const Confirmation = () => (
+  <Container>
+    <Paper>
+      <Grid container sx={{ mb: 2 }}>
+        <Grid item xs={12}>
+          {messages.success}
         </Grid>
-        <Grid container>
-          <Grid item xs={12}>
-            <Link to="../">
-              <BackButton>{messages.back}</BackButton>
-            </Link>
-          </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Link to="../">
+            <BackButton>{messages.back}</BackButton>
+          </Link>
         </Grid>
-      </Paper>
-    </Container>
-  )
-}
+      </Grid>
+    </Paper>
+  </Container>
+)
 
 export default Confirmation
