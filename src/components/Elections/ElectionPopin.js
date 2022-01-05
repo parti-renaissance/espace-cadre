@@ -1,7 +1,7 @@
 ﻿import PropTypes from 'prop-types'
-import { CardHeader, IconButton, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { CardHeader as MuiCardHeader, IconButton as MuiIconButton, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import { styled } from '@mui/system'
 
 import Percentage from 'ui/Percentage'
 import Loader from 'ui/Loader'
@@ -9,60 +9,63 @@ import { ElectionResult as DomainElectionResult } from 'domain/election'
 import ElectionResult from './ElectionResult'
 import { ElectionFirstStage } from './shared/constants'
 
-const useStyles = makeStyles(theme => ({
-  mapOverlay: {
-    position: 'absolute',
-    top: '8px',
-    right: '8px',
-    zIndex: 1,
-    fontFamily: 'Poppins, sans-serif',
-    color: theme.palette.blackCorner,
-    background: theme.palette.whiteCorner,
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    maxHeight: '93%',
-    width: '330px',
-    borderRadius: '8px',
-  },
-  MUICardRoot: {
+const Popin = styled('div')(
+  ({ theme }) => `
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-Index: 1;
+  color: ${theme.palette.blackCorner};
+  background: ${theme.palette.whiteCorner};
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 93%;
+  width: 330px;
+  border-radius: 8px;
+`
+)
+
+const Error = styled('div')(
+  ({ theme }) => `
+  text-align: center;
+  margin: ${theme.spacing(0, 'auto')};
+  overflow: hidden;
+  padding: ${theme.spacing(2)};
+`
+)
+
+const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
+  '&.MuiCardHeader-root': {
     padding: theme.spacing(2, 2, 2, 4),
   },
-  title: {
-    color: theme.palette.blueCorner,
-    fontSize: '22px',
-    fontWeight: 600,
-  },
-  subTitle: {
-    marginBottom: theme.spacing(1),
-    fontWeight: 400,
-  },
-  icon: {
-    marginTop: 0,
-    padding: theme.spacing(1),
-    color: theme.palette.gray600,
-  },
-  flashInfo: {
-    backgroundColor: theme.palette.grayCornerBg,
-    padding: theme.spacing(4),
-    marginBottom: theme.spacing(4),
-  },
-  flashDiv: {
-    fontSize: '16px',
-    fontWeight: 400,
-    '&:first-child': {
-      marginBottom: theme.spacing(2),
-    },
-  },
-  flashSpan: {
-    fontWeight: 600,
-  },
-  error: {
-    fontSize: '16px',
-    fontWeight: 400,
-    textAlign: 'center',
-    margin: theme.spacing(0, 'auto'),
-    overflow: 'hidden',
-    padding: '16px',
+}))
+
+const Title = styled(Typography)`
+  color: ${({ theme }) => theme.palette.blueCorner};
+  font-size: 22px;
+  font-weight: 600;
+`
+const IconButton = styled(MuiIconButton)(
+  ({ theme }) => `
+  margin-top: 0;
+  padding: ${theme.spacing(1)};
+  color: ${theme.palette.gray600};
+`
+)
+
+const Container = styled('div')(
+  ({ theme }) => `
+  background-color: ${theme.palette.grayCornerBg};
+  padding: ${theme.spacing(4)};
+  margin-bottom: ${theme.spacing(4)};
+`
+)
+
+const Kpi = styled('div')(({ theme }) => ({
+  fontSize: '16px',
+  fontWeight: 400,
+  '&:first-of-type': {
+    marginBottom: theme.spacing(2),
   },
 }))
 
@@ -76,32 +79,30 @@ const messages = {
 }
 
 const ElectionPopin = ({ loader, zone, filterValues, participation, results, handleClose }) => {
-  const classes = useStyles()
   const { election, year, round: stage } = filterValues
   const { registered, voting, votesCast } = participation
 
   return (
-    <div id="map-overlay" className={classes.mapOverlay}>
+    <Popin id="map-overlay">
       {loader && (
-        <div className={`text-center ${classes.error}`}>
+        <Error>
           <Loader />
-        </div>
+        </Error>
       )}
 
       {!loader && (
         <>
           <CardHeader
-            classes={{ root: classes.MUICardRoot }}
-            title={zone && <span className={classes.title}>{zone}</span>}
+            title={zone && <Title>{zone}</Title>}
             subheader={
-              <Typography variant="body2" className={classes.subTitle}>
+              <Typography variant="body2" sx={{ mb: 1, fontWeight: 400 }}>
                 {election} {year}
                 &nbsp;-&nbsp;
                 {stage === ElectionFirstStage ? messages.firstStage : messages.secondStage}
               </Typography>
             }
             action={
-              <IconButton className={classes.icon} onClick={handleClose} size="large">
+              <IconButton onClick={handleClose} size="large">
                 <CloseRoundedIcon />
               </IconButton>
             }
@@ -109,26 +110,26 @@ const ElectionPopin = ({ loader, zone, filterValues, participation, results, han
 
           {Object.keys(participation).length > 0 && results.length > 0 && (
             <>
-              <div className={classes.flashInfo}>
-                <div className={classes.flashDiv}>
-                  <span className={classes.flashSpan}>
+              <Container>
+                <Kpi>
+                  <Typography sx={{ fontWeight: 600 }}>
                     {registered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
                     {messages.registered}
-                  </span>
-                </div>
-                <div className={classes.flashDiv}>
+                  </Typography>
+                </Kpi>
+                <Kpi>
                   {messages.participation}
-                  <span className={classes.flashSpan}>
+                  <Typography sx={{ fontWeight: 600 }}>
                     <Percentage>{voting / registered}</Percentage>
-                  </span>
-                </div>
-                <div className={classes.flashDiv}>
+                  </Typography>
+                </Kpi>
+                <Kpi>
                   {messages.whitesAndNulls}
-                  <span className={classes.flashSpan}>
+                  <Typography sx={{ fontWeight: 600 }}>
                     <Percentage>{(voting - votesCast) / voting}</Percentage>
-                  </span>
-                </div>
-              </div>
+                  </Typography>
+                </Kpi>
+              </Container>
               <div>
                 {results
                   .sort((a, b) => b.votesCount - a.votesCount)
@@ -138,14 +139,10 @@ const ElectionPopin = ({ loader, zone, filterValues, participation, results, han
               </div>
             </>
           )}
-          {results.length === 0 && (
-            <div className="flash-info">
-              <div className="modal-error">{messages.noResult}</div>
-            </div>
-          )}
+          {results.length === 0 && <Container>{messages.noResult}</Container>}
         </>
       )}
-    </div>
+    </Popin>
   )
 }
 

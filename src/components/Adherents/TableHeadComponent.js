@@ -15,19 +15,17 @@ const TableCell = styled(MuiTableCell)(`
   }
 `)
 
-const TableHeadComponent = ({ columnsTitle }) => {
-  return (
-    <TableHead>
-      <TableRow>
-        {columnsTitle.map(columnTitle => (
-          <TableCell key={columnTitle.key}>
-            <Typography>{columnTitle.label}</Typography>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
+const TableHeadComponent = ({ columnsTitle }) => (
+  <TableHead>
+    <TableRow>
+      {columnsTitle.map(columnTitle => (
+        <TableCell key={columnTitle.key}>
+          <Typography>{columnTitle.label}</Typography>
+        </TableCell>
+      ))}
+    </TableRow>
+  </TableHead>
+)
 
 export default TableHeadComponent
 

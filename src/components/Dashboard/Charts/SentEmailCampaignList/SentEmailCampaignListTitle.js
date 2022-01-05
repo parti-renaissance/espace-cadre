@@ -1,25 +1,22 @@
-import { Grid } from '@mui/material'
+import { Grid, Typography as MuiTypography } from '@mui/material'
+import { styled } from '@mui/system'
 
-import { makeStyles } from '@mui/styles'
+const Typography = styled(MuiTypography)`
+  color: ${({ theme }) => theme.palette.blackCorner};
+  font-size: 20px;
+  font-weight: 600;
+`
 
-const useStyles = makeStyles(theme => ({
-  campaignListTitle: {
-    color: theme.palette.blackCorner,
-    fontWeight: '600',
-    fontSize: '20px',
-    marginBottom: theme.spacing(2),
-  },
-}))
-
-function SentEmailCampaignListTitle() {
-  const classes = useStyles()
-  return (
-    <Grid container className={classes.campaignListTitle}>
-      <Grid item xs={12}>
-        Vos dernières campagnes
-      </Grid>
-    </Grid>
-  )
+const messages = {
+  campaigns: 'Vos dernières campagnes',
 }
+
+const SentEmailCampaignListTitle = () => (
+  <Grid container sx={{ mb: 2 }}>
+    <Grid item xs={12}>
+      <Typography>{messages.campaigns}</Typography>
+    </Grid>
+  </Grid>
+)
 
 export default SentEmailCampaignListTitle

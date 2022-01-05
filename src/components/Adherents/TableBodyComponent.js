@@ -59,29 +59,27 @@ Cell.propTypes = {
   }).isRequired,
 }
 
-const TableBodyComponent = ({ columnsTitle, members }) => {
-  return (
-    <TableBody>
-      {members.map((adherent, index) => (
-        <TableRow
-          key={index}
-          hover
-          sx={{
-            '&:hover': {
-              background: 'palette.gray100',
-            },
-          }}
-        >
-          {columnsTitle.map(column => (
-            <TableCell key={`${index}-${column.key}`}>
-              <Cell column={column} member={adherent} />
-            </TableCell>
-          ))}
-        </TableRow>
-      ))}
-    </TableBody>
-  )
-}
+const TableBodyComponent = ({ columnsTitle, members }) => (
+  <TableBody>
+    {members.map((adherent, index) => (
+      <TableRow
+        key={index}
+        hover
+        sx={{
+          '&:hover': {
+            background: 'palette.gray100',
+          },
+        }}
+      >
+        {columnsTitle.map(column => (
+          <TableCell key={`${index}-${column.key}`}>
+            <Cell column={column} member={adherent} />
+          </TableCell>
+        ))}
+      </TableRow>
+    ))}
+  </TableBody>
+)
 
 TableBodyComponent.propTypes = {
   columnsTitle: PropTypes.arrayOf(Cell.propTypes.column).isRequired,

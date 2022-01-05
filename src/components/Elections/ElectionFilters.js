@@ -1,34 +1,36 @@
 ﻿import PropTypes from 'prop-types'
 import { useMemo, Fragment } from 'react'
+import { Grid, Typography } from '@mui/material'
+import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
-import { Grid, Box } from '@mui/material'
-
-import { makeStyles } from '@mui/styles'
-
 import { ElectionDetails, LayersTypes } from './shared/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
-const useStyles = makeStyles(theme => ({
-  mapHelp: {
-    color: theme.palette.blackCorner,
-    fontSize: '12px',
-    marginTop: theme.spacing(1.25),
-  },
-  select: {
-    fontFamily: 'Poppins, sans-serif',
-    fontSize: '16px',
-    padding: theme.spacing(0.75, 1.5),
-    border: 'none',
-    outline: 'none',
-    borderRadius: '6px',
-  },
-}))
+const Contact = styled(Typography)(
+  ({ theme }) => `
+  color: ${theme.palette.blackCorner};
+  font-size: 12px;
+  margin-top: ${theme.spacing(1.25)}
+`
+)
+
+const Select = styled('select')`
+  font-size: 16px;
+  padding: ${({ theme }) => theme.spacing(0.75, 1.5)};
+  border: none;
+  outline: none;
+  border-radius: 6px;
+`
+
+const messages = {
+  help: 'Aidez-nous à améliorer cette carte en écrivant à',
+  mail: 'techsupport@en-marche.fr',
+}
 
 const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelection }) => {
-  const classes = useStyles()
   const { election, year, round } = filterValues
 
   const electionTypesOptions = useMemo(() => Object.entries(LayersTypes).map(([code, label]) => ({ code, label })), [])
@@ -36,16 +38,16 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
   return (
     <Grid container spacing={2}>
       <Grid item>
-        <select className={classes.select} onChange={handleTypeSelection}>
+        <Select onChange={handleTypeSelection}>
           {electionTypesOptions.map(({ code, label }) => (
             <option key={code} value={code}>
               {label}
             </option>
           ))}
-        </select>
+        </Select>
       </Grid>
       <Grid item>
-        <select className={classes.select} onChange={handleDetailSelection} value={`${election}_${year}_${round}`}>
+        <Select onChange={handleDetailSelection} value={`${election}_${year}_${round}`}>
           {ElectionDetails.map(({ label, year, rounds }, index) => (
             <Fragment key={index}>
               <option key={`${label}_${year}_1`} value={`${label}_${year}_1`}>
@@ -58,13 +60,13 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
               )}
             </Fragment>
           ))}
-        </select>
+        </Select>
       </Grid>
       <Grid item>
-        <Box className={classes.mapHelp}>
-          Aidez-nous à améliorer cette carte en écrivant à&nbsp;
-          <a href="mailto:techsupport@en-marche.fr">techsupport@en-marche.fr</a>
-        </Box>
+        <Contact>
+          {messages.help}&nbsp;
+          <a href="mailto:techsupport@en-marche.fr">{messages.mail}</a>
+        </Contact>
       </Grid>
     </Grid>
   )

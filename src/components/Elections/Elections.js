@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
 import { getElectionParticipation, getElectionResults } from 'api/elections'
 
@@ -15,19 +15,16 @@ import PageTitle from 'ui/PageTitle'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
-const useStyles = makeStyles(theme => ({
-  map: {
-    height: '85vh',
-    margin: theme.spacing(1, 0, 2),
-  },
-}))
+const Map = styled(Grid)`
+  height: 85vh;
+  margin: ${({ theme }) => theme.spacing(1, 0, 2)};
+`
 
 const messages = {
   title: 'Élections',
 }
 
 const Elections = () => {
-  const classes = useStyles()
   const mapContainer = useRef(null)
   const map = useRef()
   const [mapLoaded, setMapLoaded] = useState(false)
@@ -118,7 +115,7 @@ const Elections = () => {
         handleTypeSelection={e => setActiveLayer(e.target.value)}
         handleDetailSelection={handleElectionDetailChange}
       />
-      <Grid ref={mapContainer} item className={classes.map}>
+      <Map ref={mapContainer} item>
         {isPopinOpen && (
           <ElectionPopin
             loader={isPopinLoaderActive}
@@ -129,7 +126,7 @@ const Elections = () => {
             handleClose={() => setIsPopinOpen(false)}
           />
         )}
-      </Grid>
+      </Map>
     </>
   )
 }
