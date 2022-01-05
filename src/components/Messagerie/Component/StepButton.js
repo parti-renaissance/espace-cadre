@@ -1,40 +1,37 @@
-import { Button } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Button as MuiButton } from '@mui/material'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Loader from 'ui/Loader'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
-const useStyles = makeStyles(theme => ({
-  materialButton: {
-    width: '100%',
-    borderRadius: '8px',
-    color: ({ disabled }) => (disabled ? '#6B7280 !important' : '#fff'),
-    background: ({ disabled }) => (disabled ? '#E5E7EB' : '#2563EB'),
-    '&:hover': {
-      background: `${theme.palette.blue800} !important`,
-    },
-  },
-  buttonIcon: {
-    marginLeft: '12px',
-  },
-}))
+const Button = styled(
+  MuiButton,
+  shouldForwardProps
+)(
+  ({ theme, disabled }) => `
+  width: 100%;
+  border-radius: 8px;
+  color: ${disabled ? theme.palette.phoning.button.color.disabled : theme.palette.whiteCorner};
+  background: ${disabled ? theme.palette.phoning.button.background.disabled : theme.palette.blue600};
+  &:hover {
+    background: ${theme.palette.blue800};
+  }
+`
+)
 
-const StepButton = ({ disabled, loading, onClick, label }) => {
-  const classes = useStyles({ disabled })
-
-  return (
-    <Button className={classes.materialButton} onClick={disabled ? null : onClick} size="large" disabled={disabled}>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          {label}
-          <ArrowForwardIcon className={classes.buttonIcon} />
-        </>
-      )}
-    </Button>
-  )
-}
+const StepButton = ({ disabled, loading, onClick, label }) => (
+  <Button onClick={disabled ? null : onClick} size="large" disabled={disabled}>
+    {loading ? (
+      <Loader />
+    ) : (
+      <>
+        {label}
+        <ArrowForwardIcon sx={{ ml: 1.5 }} />
+      </>
+    )}
+  </Button>
+)
 
 export default StepButton
 
