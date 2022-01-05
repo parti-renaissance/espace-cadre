@@ -10,6 +10,7 @@ export default {
   DTD: '/porte-a-porte',
   surveys: '/questionnaires',
   myTeam: '/mon-equipe',
+  events: '/evenements',
 }
 
 export const publicPaths = {

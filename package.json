@@ -114,6 +114,7 @@
     ],
     "moduleNameMapper": {
       "^(api)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(assets)/(.*)$": "<rootDir>/src/$1/mock",
       "^(components)/(.*)$": "<rootDir>/src/$1/$2",
       "^(domain)/(.*)$": "<rootDir>/src/$1/$2",
       "^(providers)/(.*)$": "<rootDir>/src/$1/$2",
