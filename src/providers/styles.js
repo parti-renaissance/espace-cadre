@@ -19,6 +19,12 @@ export const styles = {
       lineHeight: '18px',
       textTransform: 'none',
     },
+    button: {
+      fontSize: '13px',
+      fontWeight: 500,
+      lineHeight: '22px',
+      letterSpacing: '0.46px',
+    },
   },
   components: {
     MuiTypography: {

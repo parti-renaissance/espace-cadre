@@ -1,5 +1,7 @@
-import { apiClient } from 'services/networking/client'
+import { saveAs } from 'file-saver'
+import { format } from 'date-fns'
 
+import { apiClient } from 'services/networking/client'
 import {
   DTDGlobalKPI,
   DTDGlobalKPICampaigns,
@@ -97,4 +99,9 @@ export const getDTDCampaignSurveysReplies = async campaignId => {
         )
     ),
   }
+}
+
+export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
+  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/replies.xls`)
+  saveAs(new Blob([data]), `Questionnaires PAP - ${format(new Date(), 'dd.MM.yyyy')}.xlsx`)
 }
