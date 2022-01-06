@@ -31,14 +31,13 @@ const Content = ({ riposte }) => {
       <Grid item>
         <NotificationIcon
           sx={{
-            fontSize: '10px',
+            fontSize: '17px',
             fontWeight: '500',
             borderRadius: '19px',
             py: 0.25,
             px: 1,
             border: 1,
             borderColor: 'gray200',
-            fontSize: '17px',
           }}
         />
       </Grid>
