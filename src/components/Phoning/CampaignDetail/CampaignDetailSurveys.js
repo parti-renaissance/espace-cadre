@@ -24,6 +24,7 @@ import { TruncatedText } from 'components/shared/styled'
 import { multipleChoice, simpleField, uniqueChoice } from './shared/constants'
 import { surveysColumnsStyles, timeDifferenceToString } from './shared/helpers'
 import { UIChip } from 'ui/Card'
+import CampaignDetailSurveysExport from './CampaignDetailSurveysExport'
 
 const TableCell = styled(
   MuiTableCell,
@@ -180,7 +181,14 @@ const CampaignDetailSurveys = ({ replies }) => {
         </TableContainer>
 
         <TablePagination
-          component="div"
+          component={({ children, ...props }) => (
+            <Grid container justifyContent="space-between" alignItems="center">
+              <CampaignDetailSurveysExport />
+              <Grid item {...props}>
+                {children}
+              </Grid>
+            </Grid>
+          )}
           count={replies.length}
           page={currentPage}
           rowsPerPage={rowsPerPage}

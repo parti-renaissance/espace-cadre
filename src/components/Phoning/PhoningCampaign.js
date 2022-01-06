@@ -70,7 +70,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleView, hand
               data-cy="phoning-action-view"
               onClick={handleView}
               sx={{
-                color: 'indigo700',
+                color: 'campaign.color',
                 '&:hover': {
                   bgcolor: 'campaign.background.hover',
                 },

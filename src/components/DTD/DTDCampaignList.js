@@ -62,7 +62,7 @@ const DTDCampaign = ({ endDate, title, score, handleView, handleUpdate }) => {
               data-cy="DTD-action-view"
               onClick={handleView}
               sx={{
-                color: 'indigo700',
+                color: 'campaign.color',
                 '&:hover': {
                   bgcolor: 'campaign.background.hover',
                 },
