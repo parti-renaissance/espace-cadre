@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Box, Grid, TextField } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Grid, TextField } from '@mui/material'
+import { styled } from '@mui/system'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
@@ -14,28 +14,25 @@ import * as Sentry from '@sentry/react'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
-const useStyles = makeStyles(theme => ({
-  pageTitle: {
-    fontSize: '24px',
-    fontWeight: '400',
-    color: theme.palette.blue600,
-    marginBottom: theme.spacing(2),
-  },
-  objectContainer: {
-    background: theme.palette.whiteCorner,
-    padding: theme.spacing(2),
-    borderRadius: '12px 12px 0 0',
-  },
-  mailObject: {
-    width: '100%',
-  },
-  buttonContainer: {
-    justifyContent: 'spaceBetween',
-    marginRight: theme.spacing(2),
-  },
-}))
+const Title = styled('div')(
+  ({ theme }) => `
+  font-size: 24px;
+  font-weight: 400;
+  color: ${theme.palette.blue600};
+  margin-bottom: ${theme.spacing(2)};
+`
+)
+
+const Container = styled(Grid)(
+  ({ theme }) => `
+  background: ${theme.palette.whiteCorner};
+  padding: ${theme.spacing(2)};
+  border-radius: 12px 12px 0 0;
+`
+)
 
 const messages = {
+  title: 'Messagerie > Créer un message',
   createSuccess: 'Message créé avec succès',
   updateSuccess: 'Message modifié avec succès',
 }
@@ -47,7 +44,6 @@ const Template = ({ modeUpdate = false }) => {
   const [currentScope] = useUserScope()
   const navigate = useNavigate()
   const { messageUuid } = useParams()
-  const classes = useStyles()
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const editEmail = () => {
@@ -78,16 +74,16 @@ const Template = ({ modeUpdate = false }) => {
 
   return (
     <>
-      <Box className={classes.pageTitle}>Messagerie &gt; Créer un message</Box>
-      <Grid container className={classes.objectContainer}>
-        <Grid item xs={4} className={classes.buttonContainer}>
+      <Title>{messages.title}</Title>
+      <Container container>
+        <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
           <TextField
             size="small"
             label="Objet du mail"
             variant="outlined"
-            className={classes.mailObject}
             value={messageSubject}
             onChange={event => setMessageSubject(event.target.value)}
+            sx={{ width: '100%' }}
           />
         </Grid>
         <Grid item xs={5} />
@@ -99,7 +95,7 @@ const Template = ({ modeUpdate = false }) => {
             onClick={handleClickNext}
           />
         </Grid>
-      </Grid>
+      </Container>
       <Editor onMessageSubject={setMessageSubject} onMessageUpdate={setMessage} />
     </>
   )

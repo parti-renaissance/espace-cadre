@@ -1,18 +1,15 @@
-import { TextField } from '@mui/material'
+import { TextField as MuiTextField } from '@mui/material'
+import { styled } from '@mui/system'
 
-import { makeStyles } from '@mui/styles'
+const TextField = styled(MuiTextField)`
+  background: ${({ theme }) => theme.palette.whiteCorner};
+  border-radius: 8px;
+  width: 100%;
 
-const useStyles = makeStyles(theme => ({
-  filterBasicStyle: {
-    background: theme.palette.whiteCorner,
-    borderRadius: '8px',
-    width: '100%',
-
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
-    },
-  },
-}))
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+`
 
 class TextFactory {
   getType() {
@@ -20,8 +17,6 @@ class TextFactory {
   }
 
   create({ filter, onChange, value }) {
-    const classes = useStyles()
-
     return (
       <TextField
         variant="outlined"
@@ -29,8 +24,6 @@ class TextFactory {
         label={filter.label}
         value={value}
         onChange={e => onChange(e.target.value)}
-        className={classes.filterBasicStyle}
-        classes={{ root: classes.root }}
       />
     )
   }

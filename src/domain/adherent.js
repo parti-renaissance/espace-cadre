@@ -43,7 +43,7 @@ Adherent.propTypes = PropTypes.shape({
   region: PropTypes.string.isRequired,
   departmentId: PropTypes.string.isRequired,
   department: PropTypes.string.isRequired,
-  cityId: PropTypes.string.isRequired,
+  cityId: PropTypes.string,
   city: PropTypes.string.isRequired,
   postalCode: PropTypes.string.isRequired,
   interests: PropTypes.arrayOf(PropTypes.string).isRequired,

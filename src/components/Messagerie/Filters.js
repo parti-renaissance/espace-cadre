@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, Container, Grid, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Button, Container, Grid, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
@@ -28,60 +27,55 @@ import * as Sentry from '@sentry/react'
 
 export const FEATURE_MESSAGES = 'messages'
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    textAlign: 'center',
-  },
-  pageTitle: {
-    fontSize: '24px',
-    fontWeight: '400',
-    color: theme.palette.blue600,
-    marginBottom: theme.spacing(2),
-  },
-  addresseesCount: {
-    color: theme.palette.blue800,
-  },
-  sendTestButton: {
-    color: theme.palette.blue600,
-    borderColor: theme.palette.blue600,
-    '&:hover': {
-      background: theme.palette.gray200,
-    },
-    width: '250px',
-    height: '35px',
-  },
-  sendButton: {
-    color: theme.palette.whiteCorner,
-    background: theme.palette.blue600,
-    '&:hover': {
-      background: theme.palette.blue800,
-    },
-    width: '250px',
-    height: '35px',
-  },
-  success: {
-    color: `${theme.palette.successButton} !important`,
-    background: `${theme.palette.whiteCorner} !important`,
-  },
-  backButton: {
-    color: theme.palette.blue600,
-  },
-  buttonIcon: {
-    display: 'flex',
-    marginRight: theme.spacing(1),
-  },
-}))
+const Title = styled(Typography)(
+  ({ theme }) => `
+  font-size: 24px;
+  font-weight: 400;
+  color: ${theme.palette.blue600};
+  margin-bottom: ${theme.spacing(2)}
+`
+)
 
 const AudienceCount = styled(Typography)`
   font-size: 18px;
   font-weight: 600;
 `
 
+const AddresseesCount = styled(Typography)`
+  font-size: 18px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.palette.blue800};
+`
+
+const SendTest = styled(Button)(
+  ({ theme }) => `
+  color: ${theme.palette.blue600};
+  border-color: ${theme.palette.blue600};
+  &:hover {
+    background: ${theme.palette.gray200};
+  }
+  width: 250px;
+  height: 35px;
+`
+)
+
+const Send = styled(Button)(
+  ({ theme }) => `
+  color: ${theme.palette.whiteCorner};
+  background: ${theme.palette.blue600};
+  &:hover {
+    background: ${theme.palette.blue800};
+  }
+  width: 250px;
+  height: 35px;
+`
+)
+
 const retryInterval = 1000
 const maxAttempts = 10
 
 const messages = {
-  filtersTitle: 'Messagerie > Filtrer mon message',
+  title: 'Messagerie > Filtrer mon message',
   previous: 'Précédent',
   addresseesCount: 'Vous allez envoyer un message à',
   contact: 'contact',
@@ -94,7 +88,6 @@ const messages = {
 const Filters = () => {
   const { messageUuid } = useParams()
   const navigate = useNavigate()
-  const classes = useStyles()
   const [currentScope] = useUserScope()
   const [audienceId, setAudienceId] = useState(null)
   const [loadingTestButton, setLoadingTestButton] = useState(false)
@@ -195,21 +188,21 @@ const Filters = () => {
   return (
     <>
       <Container maxWidth="xl">
-        <Box className={classes.pageTitle}>{messages.filtersTitle}</Box>
+        <Title>{messages.title}</Title>
         <Grid container>
           <Link to={`../${paths.update}`}>
             <Button
               type="button"
               disableRipple
-              className={classes.backButton}
+              sx={{ color: 'blue600' }}
               size="medium"
-              startIcon={<ArrowBackIcon className={classes.buttonIcon} />}
+              startIcon={<ArrowBackIcon sx={{ display: 'flex', marginRight: 1 }} />}
             >
               {messages.previous}
             </Button>
           </Link>
         </Grid>
-        <Grid container spacing={2} className={classes.container}>
+        <Grid container spacing={2} sx={{ textAlign: 'center' }}>
           <Grid item>
             <DynamicFilters
               feature={FEATURE_MESSAGES}
@@ -219,24 +212,21 @@ const Filters = () => {
             />
           </Grid>
           <Grid container>
-            <Grid item xs={12} sx={{ color: 'gray700', mb: 3, height: '30px' }}>
+            <Grid item xs={12}>
               {audienceSegment && (
-                <div className={classes.message}>
-                  <AudienceCount>
-                    {messages.addresseesCount}&nbsp;
-                    <span className={classes.addresseesCount}>{audienceSegment.recipient_count || 0} </span>
-                    {pluralize(audienceSegment.recipient_count, messages.contact)}
-                  </AudienceCount>
-                </div>
+                <AudienceCount>
+                  {messages.addresseesCount}&nbsp;
+                  <AddresseesCount>{audienceSegment.recipient_count || 0} </AddresseesCount>
+                  {pluralize(audienceSegment.recipient_count, messages.contact)}
+                </AudienceCount>
               )}
               {loadingSegment && <Loader />}
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Button
+            <SendTest
               variant="outlined"
               size="medium"
-              className={classes.sendTestButton}
               onClick={() => {
                 setLoadingTestButton(true)
                 handleSendEmail(true)
@@ -249,13 +239,12 @@ const Filters = () => {
               }
             >
               {loadingTestButton ? <Loader /> : messages.testMessage}
-            </Button>
+            </SendTest>
           </Grid>
           <Grid item xs={12}>
-            <Button
+            <Send
               variant="outlined"
               size="medium"
-              className={classes.sendButton}
               disabled={
                 !audienceSegment?.synchronized ||
                 audienceSegment?.recipient_count < 1 ||
@@ -265,7 +254,7 @@ const Filters = () => {
               onClick={() => setOpen(true)}
             >
               {loadingSendButton ? <Loader color="white" /> : messages.sendEmail}
-            </Button>
+            </Send>
             {open && (
               <ModalComponent
                 open={open}

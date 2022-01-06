@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import EmailEditor from 'react-email-editor'
-import { Button } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Button as MuiButton, Box } from '@mui/material'
+import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useUserScope } from '../../../redux/user/hooks'
@@ -21,24 +21,18 @@ const downloadHtml = html => {
   a.click()
 }
 
-const messages = {
-  errorTemplate: 'Erreur au chargement du template',
-  errorTemplateRecreate: 'Template non conforme, veuillez en créer un nouveau.',
-}
-const useStyles = makeStyles(theme => ({
-  emailEditor: {
-    marginBottom: theme.spacing(2),
-  },
-  exportButton: {
-    color: theme.palette.gray500,
-    background: theme.palette.gray200,
-    margin: theme.spacing(2, 0, 0),
-    '&:hover, &:focus': {
-      color: theme.palette.gray500,
-      background: theme.palette.gray100,
-    },
-  },
-}))
+const Button = styled(MuiButton)(
+  ({ theme }) => `
+  color: ${theme.palette.gray500};
+  background: ${theme.palette.gray200};
+  margin: ${theme.spacing(2, 0, 0)};
+  &:hover, &:focus {
+      color: ${theme.palette.gray500};
+      background: ${theme.palette.gray100}
+  }
+`
+)
+
 const referentTemplate = 60354
 const deputyTemplate = 60376
 const senatorTemplate = 60355
@@ -64,11 +58,17 @@ const editorConfiguration = {
     },
   },
 }
+
+const messages = {
+  errorTemplate: 'Erreur au chargement du template',
+  errorTemplateRecreate: 'Template non conforme, veuillez en créer un nouveau.',
+  export: 'Export HTML',
+}
+
 const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
   const emailEditorRef = useRef(null)
-  const classes = useStyles()
   const { messageUuid } = useParams()
   const [currentScope] = useUserScope()
   const { handleError } = useErrorHandler()
@@ -148,7 +148,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   }
 
   return (
-    <div className={classes.emailEditor}>
+    <Box component="div" sx={{ mb: 2 }}>
       {messageContentError ? (
         <UIFormMessage severity="error">{messages.errorTemplateRecreate}</UIFormMessage>
       ) : (
@@ -166,12 +166,12 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
               features: editorConfiguration.features,
             }}
           />
-          <Button variant="contained" size="medium" className={classes.exportButton} onClick={exportHtml}>
-            Export HTML
+          <Button variant="contained" size="medium" onClick={exportHtml}>
+            {messages.export}
           </Button>
         </>
       )}
-    </div>
+    </Box>
   )
 }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Container, Table, TableContainer, TablePagination, Paper, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
+import { Container, Table, TableContainer as MuiTableContainer, TablePagination, Paper, Grid } from '@mui/material'
 import TableHeadComponent from './TableHeadComponent'
 import TableBodyComponent from './TableBodyComponent'
 import Loader from 'ui/Loader'
@@ -12,27 +12,16 @@ import PageTitle from 'ui/PageTitle'
 
 export const FEATURE_ADHERENTS = 'contacts'
 
-const useStyles = makeStyles({
-  tableContainer: {
-    fontSize: '12px',
-    borderRadius: '12px',
-    height: '70vh',
-  },
-  adherentsContainer: {
-    padding: '0',
-    marginBottom: '16px',
-  },
-  rounded: {
-    borderRadius: '12px',
-  },
-})
+const TableContainer = styled(MuiTableContainer)`
+  border-radius: 12px;
+  height: 70vh;
+`
 
 const messages = {
   title: 'Adhérents',
 }
 
 function Adherents() {
-  const classes = useStyles()
   const [columnsTitle, setColumnsTitle] = useState([])
   const [adherents, setAdherents] = useState(new PaginatedResult([], 0, 0, 0, 0, 0))
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
@@ -63,8 +52,8 @@ function Adherents() {
               setFilters({ page: 1, zones: [] })
             }}
           />
-          <Paper classes={{ rounded: classes.rounded }}>
-            <TableContainer className={classes.tableContainer}>
+          <Paper>
+            <TableContainer>
               <Table stickyHeader>
                 <TableHeadComponent columnsTitle={columnsTitle} />
                 <TableBodyComponent members={adherents.data} columnsTitle={columnsTitle} />
@@ -93,11 +82,7 @@ function Adherents() {
     )
   }
 
-  return (
-    <Container maxWidth="xl" className={classes.adherentsContainer}>
-      {renderContent()}
-    </Container>
-  )
+  return <Container maxWidth="xl">{renderContent()}</Container>
 }
 
 export default Adherents

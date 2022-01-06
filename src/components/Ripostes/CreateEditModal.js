@@ -1,5 +1,4 @@
-import { Box, Button, Checkbox, Dialog, FormControlLabel, Grid, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Paper, Button, Checkbox, Dialog, FormControlLabel, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
@@ -10,41 +9,35 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import ClearIcon from '@mui/icons-material/Clear'
 import Loader from 'ui/Loader'
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(4),
-    width: '664px',
-    borderRadius: '12px',
-  },
-  innerContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  modalTitle: {
-    fontSize: '24px',
-    color: theme.palette.gray800,
-    fontWeight: '400',
-  },
-  textField: {
-    border: `1px solid ${theme.palette.gray200}`,
-    borderRadius: '8px',
-    margin: theme.spacing(1, 0),
-  },
-  modalButton: {
-    color: theme.palette.whiteCorner,
-    background: theme.palette.teal600,
-    border: 'none',
-    borderRadius: '8px',
-    '&:hover': {
-      backgroundColor: theme.palette.teal700,
-    },
-    height: '35px',
-  },
-}))
+const StyledPaper = styled(Paper)`
+  padding: ${({ theme }) => theme.spacing(4)};
+  width: 664px;
+  border-radius: 12px;
+`
 
 const CharactersLimit = styled(Typography)(
   ({ theme }) => `
   font-size: 10px;
   color: ${theme.palette.gray300}
+`
+)
+
+const Title = styled(Typography)`
+  font-size: 24px;
+  color: ${({ theme }) => theme.palette.gray800};
+  font-weight: 400;
+`
+
+const Validate = styled(Button)(
+  ({ theme }) => `
+  color: ${theme.palette.whiteCorner};
+  background: ${theme.palette.teal600};
+  border: none;
+  border-radius: 8px;
+  height: 35px;
+  &:hover {
+    background: ${theme.palette.teal700};
+  }
 `
 )
 
@@ -65,8 +58,6 @@ const riposteSchema = Yup.object({
 })
 
 const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateRiposte, loader = false, errors }) => {
-  const classes = useStyles()
-
   const handleClose = () => {
     onCloseResolve()
   }
@@ -100,13 +91,11 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
   })
 
   return (
-    <Dialog open={open} onClose={handleClose} classes={{ paper: classes.paper }}>
+    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" className={classes.innerContainer}>
+        <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
           <Grid item>
-            <Box component="span" className={classes.modalTitle}>
-              {!riposte?.id ? messages.create : messages.edit}
-            </Box>
+            <Title>{!riposte?.id ? messages.create : messages.edit}</Title>
           </Grid>
           <Grid item>
             <Button type="button" onClick={handleClose}>
@@ -114,7 +103,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
             </Button>
           </Grid>
         </Grid>
-        <Grid container className={classes.innerContainer}>
+        <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>{messages.title}</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
@@ -130,7 +119,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
               </Grid>
             ))}
         </Grid>
-        <Grid container className={classes.innerContainer}>
+        <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>{messages.text}</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
@@ -146,7 +135,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
               </Grid>
             ))}
         </Grid>
-        <Grid container className={classes.innerContainer}>
+        <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 600 }}>{messages.url}</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
@@ -162,7 +151,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
               </Grid>
             ))}
         </Grid>
-        <Grid container className={classes.innerContainer}>
+        <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <FormControlLabel
               control={
@@ -193,9 +182,9 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
           </Grid>
         </Grid>
         <Grid container>
-          <Button type="submit" className={classes.modalButton} fullWidth>
+          <Validate type="submit" fullWidth>
             {loader ? <Loader size={12} color="white" /> : messages.submit}
-          </Button>
+          </Validate>
         </Grid>
       </form>
     </Dialog>

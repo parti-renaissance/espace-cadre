@@ -1,31 +1,17 @@
-import { TableBody, TableRow, TableCell } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { TableBody, TableRow, TableCell, Typography } from '@mui/material'
+import { styled } from '@mui/system'
 import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
 import Adherent from 'domain/adherent'
 
-const useStyles = makeStyles(theme => ({
-  interestsBubble: {
-    backgroundColor: theme.palette.interestsBubble,
-    padding: theme.spacing(0.125, 1),
-    color: theme.palette.blueCorner,
-    borderRadius: '12px',
-    '&:not(:last-child)': {
-      marginRight: theme.spacing(0.5),
-    },
-  },
-  head: {
-    fontSize: '12px',
-    fontWeight: '600',
-    background: theme.palette.whiteCorner,
-    color: theme.palette.gray800,
-    minWidth: '110px',
-  },
-  hoverBackground: {
-    '&:hover': {
-      background: `${theme.palette.gray100} !important`,
-    },
+const Interests = styled('span')(({ theme }) => ({
+  color: theme.palette.blueCorner,
+  background: theme.palette.interestsBubble,
+  padding: theme.spacing(0.125, 1),
+  borderRadius: '12px',
+  '&:not(:last-child)': {
+    marginRight: theme.spacing(0.5),
   },
 }))
 
@@ -41,7 +27,6 @@ const columnKeyMapping = {
 }
 
 const Cell = ({ member, column }) => {
-  const classes = useStyles()
   const value = member[columnKeyMapping[column.key] || column.key]
 
   if (column.type === 'trans' || column.type === 'array|trans') {
@@ -49,9 +34,9 @@ const Cell = ({ member, column }) => {
       ? value.map(
           (el, index) =>
             column.messages[el] && (
-              <span key={index} className={classes.interestsBubble}>
-                {column.messages[el]}
-              </span>
+              <Interests key={index}>
+                <Typography sx={{ bgcolor: 'palette.blueCorner' }}>{column.messages[el]}</Typography>
+              </Interests>
             )
         )
       : column.messages[value]
@@ -74,23 +59,27 @@ Cell.propTypes = {
   }).isRequired,
 }
 
-const TableBodyComponent = ({ columnsTitle, members }) => {
-  const classes = useStyles()
-
-  return (
-    <TableBody>
-      {members.map((adherent, index) => (
-        <TableRow key={index} hover classes={{ hover: classes.hoverBackground }}>
-          {columnsTitle.map(column => (
-            <TableCell key={`${index}-${column.key}`} classes={{ head: classes.head }}>
-              <Cell column={column} member={adherent} />
-            </TableCell>
-          ))}
-        </TableRow>
-      ))}
-    </TableBody>
-  )
-}
+const TableBodyComponent = ({ columnsTitle, members }) => (
+  <TableBody>
+    {members.map((adherent, index) => (
+      <TableRow
+        key={index}
+        hover
+        sx={{
+          '&:hover': {
+            background: 'palette.gray100',
+          },
+        }}
+      >
+        {columnsTitle.map(column => (
+          <TableCell key={`${index}-${column.key}`}>
+            <Cell column={column} member={adherent} />
+          </TableCell>
+        ))}
+      </TableRow>
+    ))}
+  </TableBody>
+)
 
 TableBodyComponent.propTypes = {
   columnsTitle: PropTypes.arrayOf(Cell.propTypes.column).isRequired,

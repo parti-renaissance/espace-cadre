@@ -1,32 +1,31 @@
-import { TableHead, TableRow, TableCell } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { TableHead, TableRow, TableCell as MuiTableCell, Typography as MuiTypography } from '@mui/material'
+import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme => ({
-  head: {
-    fontSize: '12px',
-    fontWeight: '600',
-    background: theme.palette.whiteCorner,
-    color: theme.palette.gray800,
-    minWidth: '110px',
-  },
-}))
+const Typography = styled(MuiTypography)`
+  font-size: 12px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.palette.gray800};
+`
 
-const TableHeadComponent = ({ columnsTitle }) => {
-  const classes = useStyles()
+const TableCell = styled(MuiTableCell)(`
+  &.MuiTableCell-head {
+    background: ${({ theme }) => theme.palette.whiteCorner};
+    min-width: 110px;
+  }
+`)
 
-  return (
-    <TableHead>
-      <TableRow>
-        {columnsTitle.map(columnTitle => (
-          <TableCell key={columnTitle.key} classes={{ head: classes.head }}>
-            {columnTitle.label}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
+const TableHeadComponent = ({ columnsTitle }) => (
+  <TableHead>
+    <TableRow>
+      {columnsTitle.map(columnTitle => (
+        <TableCell key={columnTitle.key}>
+          <Typography>{columnTitle.label}</Typography>
+        </TableCell>
+      ))}
+    </TableRow>
+  </TableHead>
+)
 
 export default TableHeadComponent
 

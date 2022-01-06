@@ -1,25 +1,16 @@
 import { Container, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import bootPage from 'assets/bootPage.svg'
 
-const useStyles = makeStyles({
-  bootPageContainer: {
-    marginTop: 'calc(100vh - 80vh)',
-    textAlign: 'center',
-  },
-  textContainer: {
-    margin: '48px 0',
-  },
-})
+const messages = {
+  welcome: "L'application sera bientôt prête",
+}
 
 function BootPage() {
-  const classes = useStyles()
-
   return (
-    <Container maxWidth="xl" className={classes.bootPageContainer}>
+    <Container maxWidth="xl" sx={{ mt: 'calc(100vh - 80vh)', textAlign: 'center' }}>
       <Grid container>
-        <Grid item xs={12} className={classes.textContainer}>
-          <h2>L&apos;application sera bientôt prête</h2>
+        <Grid item xs={12} sx={{ m: 'theme.spacing(6, 0)' }}>
+          <h2>{messages.welcome}</h2>
         </Grid>
         <Grid item xs={12}>
           <img src={bootPage} alt="loading" />

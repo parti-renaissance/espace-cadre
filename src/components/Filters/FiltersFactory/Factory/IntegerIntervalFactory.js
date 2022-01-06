@@ -1,27 +1,21 @@
-import { Grid, TextField } from '@mui/material'
+import { Grid, TextField as MuiTextField } from '@mui/material'
+import { styled } from '@mui/system'
 
-import { makeStyles } from '@mui/styles'
+const TextField = styled(MuiTextField)`
+  background: ${({ theme }) => theme.palette.whiteCorner};
+  width: 100%;
+  border-radius: 8px;
 
-const useStyles = makeStyles(theme => ({
-  integerInterval: {
-    background: theme.palette.whiteCorner,
-    width: '100%',
-    borderRadius: '8px',
-
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
-    },
-  },
-}))
-
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+`
 class IntegerIntervalFactory {
   getType() {
     return 'integer_interval'
   }
 
   create({ filter, onChange, value }) {
-    const classes = useStyles()
-
     return (
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
@@ -31,7 +25,6 @@ class IntegerIntervalFactory {
             size="small"
             variant="outlined"
             value={value === '' || (typeof value === 'object' && value.min === undefined) ? '' : value.min}
-            className={classes.integerInterval}
             onChange={e => {
               const min = e.target.value
               if (min === '') {
@@ -48,7 +41,6 @@ class IntegerIntervalFactory {
             type="number"
             size="small"
             variant="outlined"
-            className={classes.integerInterval}
             value={value === '' || (typeof value === 'object' && value.max === undefined) ? '' : value.max}
             onChange={e => {
               const max = e.target.value
