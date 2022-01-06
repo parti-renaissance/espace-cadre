@@ -26,7 +26,7 @@ const messages = {
 }
 
 const Events = () => {
-  const [currentEvent, setCurrentEvent] = useState(Event.NULL)
+  const [, setCurrentEvent] = useState(Event.NULL)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const currentUser = useSelector(getCurrentUser)
@@ -69,10 +69,6 @@ const Events = () => {
 
   const handleEditEvent = id => () => {
     setCurrentEvent(events.find(e => e.id === id) || Event.NULL)
-  }
-
-  const handleClose = () => {
-    setCurrentEvent(Event.NULL)
   }
 
   return (
