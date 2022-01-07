@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class DTDCampaignDetailKPIRemaning {
+export class DTDCampaignDetailKPIRemaining {
   constructor(startDate, endDate) {
     this.startDate = startDate
     this.endDate = endDate
@@ -46,7 +46,7 @@ export class DTDCampaignDetailKPI {
     this.contacts = contacts
   }
   static propTypes = {
-    remaining: PropTypes.shape(DTDCampaignDetailKPIRemaning.propTypes),
+    remaining: PropTypes.shape(DTDCampaignDetailKPIRemaining.propTypes),
     surveys: PropTypes.shape(DTDCampaignDetailKPISurveys.propTypes),
     doors: PropTypes.shape(DTDCampaignDetailKPIDoors.propTypes),
     contacts: PropTypes.shape(DTDCampaignDetailKPIContacts.propTypes),

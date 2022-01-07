@@ -29,6 +29,13 @@ const messages = {
   door: 'porte',
 }
 
+const formattedAddress = ({ number, street, postCode, city }) =>
+  `${number}${number && ' '}${street}${(postCode || city) && ','}`
+const formattedBuilding = ({ block, floor, door }) =>
+  `${block && `${messages.block} ${block}`}${floor && ', '}
+  ${floor && `${messages.floor} ${floor}`}${door && ', '}
+  ${door && `${messages.door} ${door}`}`
+
 const CampaignDetailHistory = ({ status, address, questioner, startDate, duration, handleView }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
@@ -41,20 +48,13 @@ const CampaignDetailHistory = ({ status, address, questioner, startDate, duratio
         header={
           <>
             <TruncatedText variant="subtitle1" title={`${address.number} ${address.street}`}>
-              {address.number}
-              {address.number && ' '}
-              {address.street}
-              {(address.postCode || address.city) && ','}
+              {formattedAddress(address)}
             </TruncatedText>
             <TruncatedText variant="subtitle1">
               {address.postCode}&nbsp;{address.city}
             </TruncatedText>
             <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-              {address.block && `${messages.block} ${address.block}`}
-              {address.floor && ', '}
-              {address.floor && `${messages.floor} ${address.floor}`}
-              {address.door && ', '}
-              {address.door && `${messages.door} ${address.door}`}
+              {formattedBuilding(address)}
             </Typography>
           </>
         }
@@ -70,7 +70,7 @@ const CampaignDetailHistory = ({ status, address, questioner, startDate, duratio
               </Questioner>
               <UpdateTime sx={{ color: 'gray600' }}>
                 {format(startDate, 'dd/MM/yyyy hh:mm')}
-                {(startDate || durationInMinutes) && ' • '}
+                {durationInMinutes && ' • '}
                 {durationInMinutes}
               </UpdateTime>
             </VerticalContainer>

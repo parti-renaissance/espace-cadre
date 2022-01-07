@@ -1,0 +1,45 @@
+import { SvgIcon } from '@mui/material'
+
+const MicIcon = props => (
+  <SvgIcon viewBox="0 0 14 14" {...props}>
+    <svg width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clipPath="url(#clip0_2278_58804)">
+        <path
+          d="M7 0.583313C6.53587 0.583313 6.09075 0.767687 5.76256 1.09588C5.43437 1.42406 5.25 1.86918 5.25 2.33331V6.99998C5.25 7.46411 5.43437 7.90923 5.76256 8.23742C6.09075 8.56561 6.53587 8.74998 7 8.74998C7.46413 8.74998 7.90925 8.56561 8.23744 8.23742C8.56563 7.90923 8.75 7.46411 8.75 6.99998V2.33331C8.75 1.86918 8.56563 1.42406 8.23744 1.09588C7.90925 0.767687 7.46413 0.583313 7 0.583313V0.583313Z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M11.0832 5.83331V6.99998C11.0832 8.08295 10.653 9.12156 9.88719 9.88733C9.12142 10.6531 8.08281 11.0833 6.99984 11.0833C5.91687 11.0833 4.87826 10.6531 4.11248 9.88733C3.34671 9.12156 2.9165 8.08295 2.9165 6.99998V5.83331"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7 11.0833V13.4166"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M4.6665 13.4167H9.33317"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_2278_58804">
+          <rect width="14" height="14" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  </SvgIcon>
+)
+
+export default MicIcon

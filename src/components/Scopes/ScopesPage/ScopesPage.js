@@ -6,7 +6,7 @@ import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
 import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
-import BarChartIcon from 'ui/icons/BarChart'
+import BarChartIcon from 'ui/icons/BarChartIcon'
 
 const Container = styled(MuiContainer)`
   height: 400px;

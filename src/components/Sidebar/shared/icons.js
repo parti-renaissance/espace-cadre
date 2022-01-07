@@ -6,6 +6,7 @@ import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded'
 import StarRoundedIcon from '@mui/icons-material/StarRounded'
 import RssFeedIcon from '@mui/icons-material/RssFeed'
 import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded'
+import MicIcon from '../../../ui/icons/MicIccon'
 
 export default {
   dashboard: DashboardRoundedIcon,
@@ -16,5 +17,5 @@ export default {
   groups: StarRoundedIcon,
   news: RssFeedIcon,
   phoning: LocalPhoneRoundedIcon,
-  doorKnocking: LocalPhoneRoundedIcon,
+  DTD: MicIcon,
 }
