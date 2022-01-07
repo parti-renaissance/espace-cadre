@@ -3,7 +3,7 @@ export { DTDCampaignListItem, DTDCampaignListItemScore } from './campaign-list'
 export { DTDCampaignDetail } from './campaign-detail'
 export {
   DTDCampaignDetailKPI,
-  DTDCampaignDetailKPIRemaning,
+  DTDCampaignDetailKPIRemaining,
   DTDCampaignDetailKPISurveys,
   DTDCampaignDetailKPIDoors,
   DTDCampaignDetailKPIContacts,

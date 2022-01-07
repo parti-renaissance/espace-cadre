@@ -9,7 +9,7 @@ import {
   DTDCampaignListItemScore,
   DTDCampaignDetail,
   DTDCampaignDetailKPI,
-  DTDCampaignDetailKPIRemaning,
+  DTDCampaignDetailKPIRemaining,
   DTDCampaignDetailKPISurveys,
   DTDCampaignDetailKPIDoors,
   DTDCampaignDetailKPIContacts,
@@ -40,7 +40,7 @@ export const getDTDCampaignListQuery = async () => {
 
 export const getDTDCampaignDetailQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}`)
-  const remaining = new DTDCampaignDetailKPIRemaning(
+  const remaining = new DTDCampaignDetailKPIRemaining(
     null, // TODO after MEP (6.01.2022) -> has to be provided by API
     new Date(data.finish_at)
   )
@@ -64,7 +64,7 @@ export const getDTDCampaignDetailHistory = async ({ campaignId, pageParam: page 
   const history = data.items.map(h => {
     const address = h.building
       ? new DTDCampaignDetailHistoryAddress(
-          h.building.address.number ?? '', // TODO after MEP (6.01.2022) -> must exist everytime
+          h.building.address.number ?? '',
           h.building.address.address,
           h.building.address.postal_codes[0],
           h.building.address.city_name,

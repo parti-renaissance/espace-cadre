@@ -7,7 +7,7 @@ import MapComponent from './Map/MapComponent'
 import TextChart from './Charts/TextChart/TextChart'
 import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
-import PhoneIcon from 'ui/icons/Phone'
+import PhoneIcon from 'ui/icons/PhoneIcon'
 
 const Container = styled(MuiContainer)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};
