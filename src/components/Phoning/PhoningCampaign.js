@@ -62,7 +62,7 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleView, hand
           </>
         }
         contentProps={{ sx: { pt: 3 } }}
-        content={<RatioProgress count={score.count} totalCount={score.goal} />}
+        content={<RatioProgress count={score.count} totalCount={score.globalGoal} />}
         actionsProps={{ sx: { pt: 2 } }}
         actions={
           <HorizontalContainer>

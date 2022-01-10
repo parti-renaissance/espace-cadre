@@ -19,9 +19,9 @@ export class PhoningCampaignsTeam {
 }
 
 export class PhoningCampaignsScore {
-  constructor(count, goal) {
+  constructor(count, globalGoal) {
     this.count = count
-    this.goal = goal
+    this.globalGoal = globalGoal
   }
 }
 
@@ -41,5 +41,5 @@ PhoningCampaignsTeam.propTypes = {
 
 PhoningCampaignsScore.propTypes = {
   count: PropTypes.number.isRequired,
-  goal: PropTypes.number.isRequired,
+  globalGoal: PropTypes.number.isRequired,
 }
