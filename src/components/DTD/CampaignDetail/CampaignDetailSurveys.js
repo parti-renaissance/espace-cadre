@@ -29,13 +29,19 @@ import CampaignDetailSurveysExport from './CampaignDetailSurveysExport'
 const TableCell = styled(
   MuiTableCell,
   shouldForwardProps
-)(({ theme, isSticky = false, answerType }) => ({
+)(({ theme, isOdd = false, isSticky = false, answerType }) => ({
   padding: theme.spacing(1.5, 2),
+  ...(isOdd
+    ? {
+        backgroundColor: theme.palette.campaign.background.table.cell.odd,
+      }
+    : {}),
   ...(isSticky
     ? {
         position: 'sticky',
         left: 0,
-        background: theme.palette.whiteCorner,
+        backgroundColor: theme.palette.campaign.background.table.cell[isOdd ? 'odd' : 'even'],
+        borderRight: `1px solid ${theme.palette.campaign.background.table.cell.border}`,
       }
     : {}),
   ...surveysColumnsStyles[answerType],
@@ -104,21 +110,21 @@ const CampaignDetailSurveys = ({ replies }) => {
     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} data-cy="campaign-campaign-detail-surveys">
       <Paper sx={{ borderRadius: 3 }}>
         <TableContainer sx={{ borderRadius: 3 }}>
-          <Table>
+          <Table sx={{ borderCollapse: 'separate' }} stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell key={uuid()} answerType="called" isSticky>
                   <ColumnLabel>{messages.called}</ColumnLabel>
                 </TableCell>
 
-                <TableCell key={uuid()} answerType="time">
+                <TableCell key={uuid()} answerType="time" sx={{ zIndex: 1 }}>
                   <TableSortLabel direction={order.startDate} onClick={handleSort('startDate')} active>
                     <ColumnLabel>{messages.time}</ColumnLabel>
                   </TableSortLabel>
                 </TableCell>
 
                 {columns.map(({ question, type }) => (
-                  <TableCell key={uuid()} answerType={type}>
+                  <TableCell key={uuid()} answerType={type} sx={{ zIndex: 1 }}>
                     <TruncateContainer sx={{ width: '245px' }}>
                       <ColumnLabel title={question} isTruncated>
                         {question}
@@ -130,16 +136,16 @@ const CampaignDetailSurveys = ({ replies }) => {
             </TableHead>
 
             <TableBody>
-              {rows.map(({ answers, firstName, lastName, startDate, duration }) => (
+              {rows.map(({ answers, firstName, lastName, startDate, duration }, index) => (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
-                  <TableCell key={uuid()} isSticky>
+                  <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
                     <Description>
                       {lastName || firstName ? `${lastName?.toUpperCase()} ${firstName}` : messages.anonymous}
                     </Description>
                     <SubDescription></SubDescription>
                   </TableCell>
 
-                  <TableCell key={uuid()} sx={{ width: '150px' }}>
+                  <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
                     {startDate && (
                       <>
                         <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
@@ -149,7 +155,7 @@ const CampaignDetailSurveys = ({ replies }) => {
                   </TableCell>
 
                   {answers.map(({ type, answer }) => (
-                    <TableCell key={uuid()} sx={{ width: '245px' }}>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '245px' }}>
                       {answer && (
                         <>
                           {type === simpleField && (

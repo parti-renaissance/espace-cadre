@@ -6,10 +6,9 @@ export class DTDCampaignDetailQuestioners {
     this.lastName = lastName
     this.count = count
   }
-}
-
-DTDCampaignDetailQuestioners.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
+  static propTypes = {
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+  }
 }
