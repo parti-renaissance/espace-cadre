@@ -11,6 +11,7 @@ import {
   getPhoningCampaignSurveysReplies,
 } from 'api/phoning'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
+import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './CampaignDetailKPI'
@@ -21,7 +22,7 @@ import CreateEdit from '../CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
-import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+import EditIcon from 'ui/icons/EditIcon'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -119,7 +120,13 @@ export const CampaignDetail = () => {
               <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
             </>
           }
-          button={<PageHeaderButton onClick={() => setIsCreateEditModalOpen(true)} label={messages.modify} />}
+          button={
+            <PageHeaderButton
+              label={messages.modify}
+              icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+              onClick={() => setIsCreateEditModalOpen(true)}
+            />
+          }
         />
       </Grid>
 
