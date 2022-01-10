@@ -9,7 +9,6 @@ import { DTDCampaignListItem as DomainDTDCampaignListItem } from 'domain/DTD'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import { chipColorsByStatus } from './CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -31,7 +30,7 @@ const messages = {
   ongoing: 'En cours',
 }
 
-const DTDCampaign = ({ endDate, title, score, handleView, handleUpdate }) => {
+const DTDCampaign = ({ endDate, title, score, handleView }) => {
   const chipLabel = isBefore(new Date(), endDate) ? messages.ongoing : messages.finished
   const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
 
@@ -70,9 +69,6 @@ const DTDCampaign = ({ endDate, title, score, handleView, handleUpdate }) => {
             >
               {messages.see}
             </CtaButton>
-            <DotsMenu>
-              <DotsMenuItem onClick={handleUpdate}>{messages.edit}</DotsMenuItem>
-            </DotsMenu>
           </HorizontalContainer>
         }
       />
