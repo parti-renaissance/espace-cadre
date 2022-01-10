@@ -8127,10 +8127,10 @@ react-is@^17.0.1, react-is@^17.0.2:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-leaflet@^3.2.1:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-3.2.2.tgz#3d779662c32a1d8729e73d24e8ad96ee5b38beef"
-  integrity sha512-5W7iWjI9+CdTGVAICe8RUyK0n+uLshr+eLQa8eBCbmstPNpCHZJTUSbju4Ws5dkS/PUCr9t5VmoIE9CXuSBEhw==
+react-leaflet@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-3.2.4.tgz#5c87ca457d126e2f525d68cf169b9331402bcce0"
+  integrity sha512-GY7jUYFMVLqEOcI/NRtuTQ1lYiBqRxK5CWabLNupdqaz+Iy3HZbka/p9athICoAp9Nm87C4yC1YGU7lMr3X7Dg==
   dependencies:
     "@react-leaflet/core" "^1.1.1"
 
