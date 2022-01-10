@@ -21,7 +21,7 @@ import { orderBy } from 'lodash'
 import { DTDCampaignDetailSurveysReply as DomainDTDCampaignDetailSurveysReply } from 'domain/DTD'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
-import { multipleChoice, simpleField, uniqueChoice } from './shared/constants'
+import { multipleChoice, simpleField, translatedGender, uniqueChoice } from './shared/constants'
 import { surveysColumnsStyles, secondsToMinutes } from './shared/helpers'
 import { UIChip } from 'ui/Card'
 import CampaignDetailSurveysExport from './CampaignDetailSurveysExport'
@@ -78,7 +78,11 @@ const messages = {
   called: 'Porte à porteur',
   time: 'Date (Temps)',
   anonymous: 'Anonyme',
+  years: 'ans',
 }
+
+const formatQuestioner = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
+const formatGender = gender => translatedGender[gender]
 
 const CampaignDetailSurveys = ({ replies }) => {
   const [currentPage, setCurrentPage] = useState(0)
@@ -136,13 +140,16 @@ const CampaignDetailSurveys = ({ replies }) => {
             </TableHead>
 
             <TableBody>
-              {rows.map(({ answers, firstName, lastName, startDate, duration }, index) => (
+              {rows.map(({ answers, questioner, startDate, duration }, index) => (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
                     <Description>
-                      {lastName || firstName ? `${lastName?.toUpperCase()} ${firstName}` : messages.anonymous}
+                      {questioner.lastName || questioner.firstName ? formatQuestioner(questioner) : messages.anonymous}
                     </Description>
-                    <SubDescription></SubDescription>
+                    <SubDescription>
+                      {formatGender(questioner.gender) && `${formatGender(questioner.gender)}, `}
+                      {questioner.age && `${questioner.age} ${messages.years}`}
+                    </SubDescription>
                   </TableCell>
 
                   <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>

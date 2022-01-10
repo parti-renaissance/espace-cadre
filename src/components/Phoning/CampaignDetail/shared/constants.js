@@ -38,6 +38,7 @@ export const chipLabelByStatus = {
 }
 
 export const translatedGender = {
+  other: 'Autre',
   male: 'Homme',
   female: 'Femme',
 }

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 
+import { DTDCampaignDetailHistoryQuestioner } from '.'
 export class DTDCampaignDetailSurveysReplyAnswer {
   constructor(type, answer, question) {
     this.type = type
@@ -14,17 +15,15 @@ export class DTDCampaignDetailSurveysReplyAnswer {
 }
 
 export class DTDCampaignDetailSurveysReply {
-  constructor(answers, firstName, lastName, duration, startDate) {
+  constructor(answers, questioner, duration, startDate) {
     this.answers = answers
-    this.firstName = firstName
-    this.lastName = lastName
+    this.questioner = questioner
     this.duration = duration
     this.startDate = startDate
   }
   static propTypes = {
     answers: PropTypes.arrayOf(PropTypes.shape(DTDCampaignDetailSurveysReplyAnswer.propTypes)).isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    questioner: PropTypes.shape(DTDCampaignDetailHistoryQuestioner.propTypes),
     duration: PropTypes.number.isRequired,
     startDate: PropTypes.object.isRequired,
   }

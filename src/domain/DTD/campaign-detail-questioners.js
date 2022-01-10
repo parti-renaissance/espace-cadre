@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class DTDCampaignDetailQuestioners {
+export class DTDCampaignDetailQuestioner {
   constructor(firstName, lastName, count) {
     this.firstName = firstName
     this.lastName = lastName

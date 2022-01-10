@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
 
-import { DTDCampaignDetailQuestioners as DomainDTDCampaignDetailQuestioners } from 'domain/DTD'
+import { DTDCampaignDetailQuestioner as DomainDTDCampaignDetailQuestioner } from 'domain/DTD'
 import { TruncatedText } from 'components/shared/styled'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import UICard from 'ui/Card/Card'
@@ -24,7 +24,7 @@ const CampaignDetailQuestioners = ({ number, firstName, lastName, count, goal })
 
 CampaignDetailQuestioners.propTypes = {
   number: PropTypes.number.isRequired,
-  ...DomainDTDCampaignDetailQuestioners.propTypes,
+  ...DomainDTDCampaignDetailQuestioner.propTypes,
   goal: PropTypes.number,
 }
 

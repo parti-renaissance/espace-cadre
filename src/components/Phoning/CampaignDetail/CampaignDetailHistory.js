@@ -28,7 +28,8 @@ const messages = {
 const CampaignDetailHistory = ({ status, startDate, adherent, caller }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
-  const gender = adherent ? translatedGender?.[adherent.gender] : null
+  const gender = adherent ? translatedGender[adherent.gender] : null
+
   return (
     <Grid item xs={12} sm={6} md={3} data-cy="phoning-campaign-detail-history">
       <UICard

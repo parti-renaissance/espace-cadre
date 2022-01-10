@@ -6,7 +6,7 @@ export class DTDCampaignDetailKPIRemaining {
     this.endDate = endDate
   }
   static propTypes = {
-    startDate: PropTypes.object, // TODO after MEP (6.01.2022) -> has to be isRequired
+    startDate: PropTypes.object.isRequired,
     endDate: PropTypes.object.isRequired,
   }
 }
@@ -21,20 +21,24 @@ export class DTDCampaignDetailKPISurveys {
 }
 
 export class DTDCampaignDetailKPIDoors {
-  constructor(count) {
-    this.count = count
+  constructor(knockedCount, openCount) {
+    this.knockedCount = knockedCount
+    this.openCount = openCount
   }
   static propTypes = {
-    count: PropTypes.number.isRequired,
+    knockedCount: PropTypes.number.isRequired,
+    openCount: PropTypes.number.isRequired,
   }
 }
 
 export class DTDCampaignDetailKPIContacts {
-  constructor(count) {
-    this.count = count
+  constructor(collectedCount, toJoinCount) {
+    this.collectedCount = collectedCount
+    this.toJoinCount = toJoinCount
   }
   static propTypes = {
-    count: PropTypes.number.isRequired,
+    collectedCount: PropTypes.number.isRequired,
+    toJoinCount: PropTypes.number.isRequired,
   }
 }
 

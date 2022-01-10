@@ -54,7 +54,8 @@ const messages = {
   doorsToRemindSuffix: 'ouverte',
   contacts: 'Contact',
   contactsCollected: 'collecté',
-  contactsInvitationToJoin: 'invitation à adhérer',
+  contactsInvitation: 'invitation',
+  contactsToJoin: 'à adhérer',
 }
 
 const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
@@ -108,16 +109,16 @@ const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
             contentProps={{ sx: { pt: '25px' } }}
             content={
               <>
-                <Score>{doors.count}</Score>
+                <Score>{doors.knockedCount}</Score>
                 <SubTitle>
-                  {pluralize(doors.count, messages.doors)}&nbsp;
-                  {pluralize(doors.count, messages.doorsKnocked)}
+                  {pluralize(doors.knockedCount, messages.doors)}&nbsp;
+                  {pluralize(doors.knockedCount, messages.doorsKnocked)}
                 </SubTitle>
-                {doors.open && (
+                {Number.isInteger(doors.openCount) && (
                   <SubTitleDetail>
                     {messages.doorsToRemindPrefix}&nbsp;
-                    {doors.open}&nbsp;
-                    {messages.doorsToRemindSuffix}
+                    {doors.openCount}&nbsp;
+                    {pluralize(doors.openCount, messages.doorsToRemindSuffix)}
                   </SubTitleDetail>
                 )}
               </>
@@ -130,15 +131,16 @@ const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
             contentProps={{ sx: { pt: '25px' } }}
             content={
               <>
-                <Score>{contacts.count}</Score>
+                <Score>{contacts.collectedCount}</Score>
                 <SubTitle>
-                  {pluralize(contacts.count, messages.contacts)}&nbsp;
-                  {pluralize(contacts.count, messages.contactsCollected)}
+                  {pluralize(contacts.collectedCount, messages.contacts)}&nbsp;
+                  {pluralize(contacts.collectedCount, messages.contactsCollected)}
                 </SubTitle>
-                {contacts.open && (
+                {contacts.toJoinCount && (
                   <SubTitleDetail>
-                    {contacts.open}
-                    {pluralize(contacts.open, messages.contactsInvitationToJoin)}
+                    {contacts.toJoinCount}&nbsp;
+                    {pluralize(contacts.toJoinCount, messages.contactsInvitation)}&nbsp;
+                    {messages.contactsToJoin}
                   </SubTitleDetail>
                 )}
               </>
