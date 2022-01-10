@@ -15,7 +15,7 @@ import {
   DTDCampaignDetailKPISurveys,
   DTDCampaignDetailKPIDoors,
   DTDCampaignDetailKPIContacts,
-  DTDCampaignDetailQuestioners,
+  DTDCampaignDetailQuestioner,
   DTDCampaignDetailHistory,
   DTDCampaignDetailHistoryAddress,
   DTDCampaignDetailHistoryQuestioner,
@@ -42,20 +42,17 @@ export const getDTDCampaignListQuery = async () => {
 
 export const getDTDCampaignDetailQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}`)
-  const remaining = new DTDCampaignDetailKPIRemaining(
-    null, // TODO after MEP (6.01.2022) -> has to be provided by API
-    new Date(data.finish_at)
-  )
+  const remaining = new DTDCampaignDetailKPIRemaining(new Date(data.begin_at), new Date(data.finish_at))
   const surveys = new DTDCampaignDetailKPISurveys(data.nb_surveys)
-  const doors = new DTDCampaignDetailKPIDoors(data.nb_visited_doors)
-  const contacts = new DTDCampaignDetailKPIContacts(data.nb_collected_contacts)
+  const doors = new DTDCampaignDetailKPIDoors(data.nb_visited_doors, data.nb_door_open)
+  const contacts = new DTDCampaignDetailKPIContacts(data.nb_collected_contacts, data.nb_to_join)
   const KPI = new DTDCampaignDetailKPI(remaining, surveys, doors, contacts)
   return new DTDCampaignDetail(data.uuid, data.title, data.goal, KPI)
 }
 
 export const getDTDCampaignQuestioners = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/questioners`)
-  return data.items.map(c => new DTDCampaignDetailQuestioners(c.first_name, c.last_name, Number(c.nb_surveys)))
+  return data.items.map(c => new DTDCampaignDetailQuestioner(c.first_name, c.last_name, Number(c.nb_surveys)))
 }
 
 export const getDTDCampaignDetailHistory = async ({ campaignId, pageParam: page = 1 }) => {
@@ -76,7 +73,12 @@ export const getDTDCampaignDetailHistory = async ({ campaignId, pageParam: page 
         )
       : null
     const questioner = h.questioner
-      ? new DTDCampaignDetailHistoryQuestioner(h.questioner.first_name, h.questioner.last_name)
+      ? new DTDCampaignDetailHistoryQuestioner(
+          h.questioner.first_name,
+          h.questioner.last_name,
+          h.questioner.gender,
+          h.questioner.age
+        )
       : null
     return new DTDCampaignDetailHistory(h.uuid, h.status, address, questioner, new Date(h.created_at), h.duration)
   })
@@ -88,16 +90,22 @@ export const getDTDCampaignSurveysReplies = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/replies`)
   return {
     totalCount: data.metadata.total_items,
-    replies: data.items.map(
-      sr =>
-        new DTDCampaignDetailSurveysReply(
-          sr.answers.map(a => new DTDCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
-          sr.pap_campaign_history.questioner?.first_name,
-          sr.pap_campaign_history.questioner?.last_name,
-          sr.pap_campaign_history.duration,
-          new Date(sr.pap_campaign_history.created_at)
-        )
-    ),
+    replies: data.items.map(sr => {
+      const questioner = sr.pap_campaign_history.questioner
+        ? new DTDCampaignDetailHistoryQuestioner(
+            sr.pap_campaign_history.questioner.first_name,
+            sr.pap_campaign_history.questioner.last_name,
+            sr.pap_campaign_history.questioner.gender,
+            sr.pap_campaign_history.questioner.age
+          )
+        : null
+      return new DTDCampaignDetailSurveysReply(
+        sr.answers.map(a => new DTDCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
+        questioner,
+        sr.pap_campaign_history.duration,
+        new Date(sr.pap_campaign_history.created_at)
+      )
+    }),
   }
 }
 

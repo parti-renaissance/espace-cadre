@@ -1,9 +1,6 @@
 import { multipleChoice, simpleField, uniqueChoice } from './constants'
 
-export const secondsToMinutes = seconds => {
-  const minutes = Math.floor(seconds / 60)
-  return minutes > 0 ? `${minutes} min` : ''
-}
+export const secondsToMinutes = seconds => (Number.isInteger(seconds) ? `${Math.floor(seconds / 60)} min` : null)
 
 export const surveysColumnsStyles = {
   called: {

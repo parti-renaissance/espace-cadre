@@ -31,6 +31,7 @@ const messages = {
 
 const formattedAddress = ({ number, street, postCode, city }) =>
   `${number}${number && ' '}${street}${(postCode || city) && ','}`
+
 const formattedBuilding = ({ block, floor, door }) =>
   `${block && `${messages.block} ${block}`}${floor && ', '}
   ${floor && `${messages.floor} ${floor}`}${door && ', '}
@@ -39,7 +40,7 @@ const formattedBuilding = ({ block, floor, door }) =>
 const CampaignDetailHistory = ({ status, address, questioner, startDate, duration, handleView }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
-  const durationInMinutes = secondsToMinutes(duration)
+
   return (
     <Grid item xs={12} sm={6} md={3} data-cy="DTD-campaign-detail-history">
       <UICard
@@ -70,8 +71,8 @@ const CampaignDetailHistory = ({ status, address, questioner, startDate, duratio
               </Questioner>
               <UpdateTime sx={{ color: 'gray600' }}>
                 {format(startDate, 'dd/MM/yyyy hh:mm')}
-                {durationInMinutes && ' • '}
-                {durationInMinutes}
+                {secondsToMinutes(duration) && ' • '}
+                {secondsToMinutes(duration)}
               </UpdateTime>
             </VerticalContainer>
           </>

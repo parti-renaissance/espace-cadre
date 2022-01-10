@@ -8,7 +8,7 @@ export {
   DTDCampaignDetailKPIDoors,
   DTDCampaignDetailKPIContacts,
 } from './campaign-detail-KPI'
-export { DTDCampaignDetailQuestioners } from './campaign-detail-questioners'
+export { DTDCampaignDetailQuestioner } from './campaign-detail-questioners'
 export {
   DTDCampaignDetailHistory,
   DTDCampaignDetailHistoryAddress,

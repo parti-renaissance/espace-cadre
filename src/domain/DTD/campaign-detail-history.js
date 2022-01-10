@@ -21,13 +21,17 @@ export class DTDCampaignDetailHistoryAddress {
 }
 
 export class DTDCampaignDetailHistoryQuestioner {
-  constructor(firstName, lastName) {
+  constructor(firstName, lastName, gender, age) {
     this.firstName = firstName
     this.lastName = lastName
+    this.gender = gender
+    this.age = age
   }
   static propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
+    gender: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
   }
 }
 
