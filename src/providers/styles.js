@@ -146,6 +146,13 @@ export const styles = {
           current: '#4338CA',
           max: 'rgba(85, 113, 141, 0.25)',
         },
+        table: {
+          cell: {
+            even: '#FFFFFF',
+            odd: '#F9FAFB',
+            border: '#E5E7EB',
+          },
+        },
       },
       button: {
         background: {
