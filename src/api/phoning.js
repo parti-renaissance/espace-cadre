@@ -38,7 +38,8 @@ export const getPhoningCampaignListQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns')
   return data.items.map(c => {
     const team = new PhoningCampaignsTeam(c.team.name, c.team.members_count)
-    const score = new PhoningCampaignsScore(c.nb_calls, c.goal)
+    const campaignGlobalGoal = Number(c.goal) * Number(team.membersCount)
+    const score = new PhoningCampaignsScore(c.nb_surveys, campaignGlobalGoal)
     return new PhoningCampaigns(c.uuid, new Date(c.finish_at), c.title, c.creator, team, score)
   })
 }
