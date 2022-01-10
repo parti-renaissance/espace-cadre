@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { PhoningCampaignHistoryAdherent, PhoningCampaignHistoryCaller } from 'domain/phoning'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import UICard, { UIChip, CtaButton } from 'ui/Card'
+import UICard, { UIChip } from 'ui/Card'
 
 const Author = styled(TruncatedText)`
   font-size: 12px;
@@ -25,14 +25,14 @@ const messages = {
   see: 'voir',
 }
 
-const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView }) => {
+const CampaignDetailHistory = ({ status, startDate, adherent, caller }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
   const gender = adherent ? translatedGender?.[adherent.gender] : null
   return (
     <Grid item xs={12} sm={6} md={3} data-cy="phoning-campaign-detail-history">
       <UICard
-        rootProps={{ sx: { height: '205px' } }}
+        rootProps={{ sx: { height: '168px' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
@@ -68,21 +68,6 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller, handleView
             </VerticalContainer>
           </>
         }
-        actions={
-          <div>
-            <CtaButton
-              onClick={handleView}
-              sx={{
-                color: 'indigo700',
-                '&:hover': {
-                  bgcolor: 'campaign.background.hover',
-                },
-              }}
-            >
-              {messages.see}
-            </CtaButton>
-          </div>
-        }
       />
     </Grid>
   )
@@ -93,7 +78,6 @@ CampaignDetailHistory.propTypes = {
   startDate: PropTypes.object.isRequired,
   adherent: PhoningCampaignHistoryAdherent.propTypes,
   caller: PhoningCampaignHistoryCaller.propTypes,
-  handleView: PropTypes.func.isRequired,
 }
 
 export default CampaignDetailHistory

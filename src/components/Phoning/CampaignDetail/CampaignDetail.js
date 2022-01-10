@@ -103,10 +103,6 @@ export const CampaignDetail = () => {
     setSelectedTab(tabId)
   }
 
-  const handleHistoryView = () => {
-    // TODO: implement view modal
-  }
-
   if (!campaignId) return null
 
   return (
@@ -201,7 +197,6 @@ export const CampaignDetail = () => {
                       adherent={call.adherent}
                       caller={call.caller}
                       updateTime={call.updateTime}
-                      handleView={handleHistoryView}
                     />
                   ))}
                 </Grid>
