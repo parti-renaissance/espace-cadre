@@ -6,7 +6,6 @@ import { getDTDGlobalKPIQuery, getDTDCampaignListQuery } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import DTDGlobalKPI from './DTDGlobalKPI'
 import DTDCampaignList from './DTDCampaignList'
-import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
@@ -45,7 +44,7 @@ const DTD = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.title} button={<PageHeaderButton onClick={() => {}} label={messages.create} />} />
+        <PageHeader title={messages.title} />
       </Grid>
 
       <Grid container justifyContent="space-between">
@@ -70,7 +69,6 @@ const DTD = () => {
                 team={campaign.team}
                 score={campaign.score}
                 handleView={handleView(campaign.id)}
-                handleUpdate={() => {}}
               />
             ))}
           </Grid>
