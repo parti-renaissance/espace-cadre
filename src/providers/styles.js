@@ -1,3 +1,5 @@
+import Maax from '../../public/fonts/maax/maax-italic.woff2'
+
 export const styles = {
   typography: {
     fontFamily: 'Poppins, sans-serif',
@@ -31,6 +33,14 @@ export const styles = {
       defaultProps: {
         component: 'span',
       },
+    },
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'Maax';
+          src: local('Maax'), local('maax-italic'), url(${Maax}) format('woff2');
+        }
+      `,
     },
     MuiAutocomplete: {
       styleOverrides: {
