@@ -14,7 +14,7 @@ const BrandingWrapper = styled(Toolbar)(
 
 const SiteName = styled(Typography)(
   ({ theme }) => `
-    font-family: Maax;
+    font-family: MaaxItalic;
     font-size: 22px;
     font-weight: 600;
     margin-right: ${theme.spacing(0.5)}
@@ -24,7 +24,7 @@ const SiteName = styled(Typography)(
 const BetaWrapper = styled('span')(
   ({ theme }) => `
     background: ${theme.palette.menu.background.beta};
-    padding: ${theme.spacing(0, 0.37, 2)};
+    padding: ${theme.spacing(0, 0.37, 0.4)};
     margin-bottom: ${theme.spacing(2)};
     border-radius: 4px;
     line-height: 12px;
