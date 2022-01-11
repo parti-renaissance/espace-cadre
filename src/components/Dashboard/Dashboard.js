@@ -8,6 +8,8 @@ import TextChart from './Charts/TextChart/TextChart'
 import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
 import PhoneIcon from 'ui/icons/PhoneIcon'
+import { useUserScope } from '../../redux/user/hooks'
+import Upcoming from '../Upcoming/Upcoming'
 
 const Container = styled(MuiContainer)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};
@@ -33,37 +35,45 @@ const messages = {
   mobile: 'Application mobile',
 }
 
-const Dashboard = () => (
-  <Container maxWidth="lg">
-    <Grid container>
-      <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
-      <TextChart />
-      <KpiEmailCampaign />
-      <Grid item xs={12}>
-        <Title>
-          <PhoneIcon titleAccess="smartphone-logo" />
-          <span>{messages.mobile}</span>
-        </Title>
-      </Grid>
-      <KPIContainer container spacing={2}>
-        <Grid item xs={12} lg={6}>
+const upcomingFeatureScopes = ['phoning_national_manager', 'pap_national_manager']
+
+const Dashboard = () => {
+  const [currentScope] = useUserScope()
+
+  if (upcomingFeatureScopes.includes(currentScope.code)) return <Upcoming />
+
+  return (
+    <Container maxWidth="lg">
+      <Grid container>
+        <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
+        <TextChart />
+        <KpiEmailCampaign />
+        <Grid item xs={12}>
+          <Title>
+            <PhoneIcon titleAccess="smartphone-logo" />
+            <span>{messages.mobile}</span>
+          </Title>
+        </Grid>
+        <KPIContainer container spacing={2}>
+          <Grid item xs={12} lg={6}>
+            <UIContainer>
+              <DownloadsCount />
+            </UIContainer>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <UIContainer>
+              <ActiveUsers />
+            </UIContainer>
+          </Grid>
+        </KPIContainer>
+        <Grid item xs={12}>
           <UIContainer>
-            <DownloadsCount />
+            <MapComponent />
           </UIContainer>
         </Grid>
-        <Grid item xs={12} lg={6}>
-          <UIContainer>
-            <ActiveUsers />
-          </UIContainer>
-        </Grid>
-      </KPIContainer>
-      <Grid item xs={12}>
-        <UIContainer>
-          <MapComponent />
-        </UIContainer>
       </Grid>
-    </Grid>
-  </Container>
-)
+    </Container>
+  )
+}
 
 export default Dashboard

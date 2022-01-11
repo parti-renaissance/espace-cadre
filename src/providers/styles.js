@@ -123,6 +123,11 @@ export const styles = {
         background: '#DA1414',
       },
     },
+    upcoming: {
+      icon: '#4338CA',
+      title: '#2834C3',
+      description: '#1F2937',
+    },
     campaign: {
       color: '#4338CA',
       background: {
