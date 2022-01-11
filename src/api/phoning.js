@@ -130,13 +130,13 @@ export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   saveAs(new Blob([data]), `Questionnaires Phoning - ${format(new Date(), 'dd.MM.yyyy')}.xlsx`)
 }
 
-export const getPhoningCampaignTeams = async name => {
-  const data = await apiClient.get(`/api/v3/teams?name=${name}`)
-  return data.items.map(t => new PhoningCampaignTeam(t.uuid, t.name, t.creator))
+export const getPhoningCampaignTeams = async ({ itemsPerPage: pageSize = 99999 } = {}) => {
+  const data = await apiClient.get(`/api/v3/teams?page_size=${pageSize}`)
+  return data.items.map(t => new PhoningCampaignTeam(t.uuid, t.name, t.members_count))
 }
 
-export const getPhoningCampaignSurveys = async name => {
-  const data = await apiClient.get(`/api/v3/surveys?name=${name}`)
+export const getPhoningCampaignSurveys = async ({ itemsPerPage: pageSize = 99999 } = {}) => {
+  const data = await apiClient.get(`/api/v3/surveys?page_size=${pageSize}`)
   return data.items.map(s => new PhoningCampaignSurvey(s.uuid, s.name, s.type))
 }
 
