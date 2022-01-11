@@ -1,11 +1,10 @@
 import { useCallback, useContext, useState } from 'react'
 import { Autocomplete, MenuItem, Typography } from '@mui/material'
 
-import { getPhoningCampaignSurveys, getPhoningCampaignTeams } from 'api/phoning'
+import { getPhoningCampaignTeams, getPhoningCampaignSurveys } from 'api/phoning'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import { useDebounce } from 'components/shared/debounce'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { FormError } from 'components/shared/error/components'
+import pluralize from 'components/shared/pluralize/pluralize'
 import { CallersAndSurveyContext } from './shared/context'
 import { Input, Label } from './shared/components'
 import { fields } from './shared/constants'
@@ -21,39 +20,29 @@ const messages = {
   },
   pleaseWait: 'Veuillez patienter..',
   noResult: 'Aucun résultat à afficher',
+  member: 'membre',
 }
 
 const CreateEditCallersAndSurvey = () => {
   const { values, initialValues, updateValues } = useContext(CallersAndSurveyContext)
-  const [inputValues, setInputValues] = useState({ teamInput: '', surveyInput: '', ...initialValues })
-  const [isTeamFetchable, setIsTeamFetchable] = useState(false)
-  const [isSurveyFetchable, setIsSurveyFetchable] = useState(false)
-  const { handleError, errorMessages } = useErrorHandler()
-  const debounce = useDebounce()
+  const [inputValues, setInputValues] = useState(initialValues)
+  const { handleError } = useErrorHandler()
 
   const updateInputValues = useCallback((key, value) => {
     setInputValues(values => ({ ...values, [key]: value }))
   }, [])
 
   const { data: teams = [], isFetching: isTeamsFetching } = useQueryWithScope(
-    ['teams', inputValues.teamInput],
-    () => getPhoningCampaignTeams(inputValues.teamInput),
+    'teams',
+    () => getPhoningCampaignTeams(),
     {
-      enabled: isTeamFetchable && !!inputValues.teamInput && inputValues.teamInput !== values.team?.name,
-      onSuccess: () => {
-        setIsTeamFetchable(false)
-      },
       onError: handleError,
     }
   )
   const { data: surveys = [], isFetching: isSurveysFetching } = useQueryWithScope(
-    ['surveys', inputValues.surveyInput],
-    () => getPhoningCampaignSurveys(inputValues.surveyInput),
+    'surveys',
+    () => getPhoningCampaignSurveys(),
     {
-      enabled: isSurveyFetchable && !!inputValues.surveyInput && inputValues.surveyInput !== values.survey?.name,
-      onSuccess: () => {
-        setIsSurveyFetchable(false)
-      },
       onError: handleError,
     }
   )
@@ -63,13 +52,10 @@ const CreateEditCallersAndSurvey = () => {
       <Label sx={{ pt: 3, pb: 1 }}>{messages.input.team}</Label>
       <Autocomplete
         options={teams}
-        inputValue={inputValues.teamInput}
+        inputValue={inputValues.team?.name ?? ''}
         value={values.team}
-        onInputChange={(_, value) => {
-          updateInputValues('teamInput', value)
-          debounce(() => setIsTeamFetchable(true))
-        }}
         onChange={(_, value) => {
+          updateInputValues(fields.team, value)
           updateValues(fields.team, value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -78,7 +64,13 @@ const CreateEditCallersAndSurvey = () => {
           <MenuItem {...props} key={option.id}>
             <Typography>
               {option.name}
-              {option.author && ` (${option.author})`}
+              {Number.isInteger(option.membersCount) && (
+                <>
+                  &nbsp;{'('}
+                  {option.membersCount}&nbsp;{pluralize(option.membersCount, messages.member)}
+                  {')'}
+                </>
+              )}
             </Typography>
           </MenuItem>
         )}
@@ -89,18 +81,14 @@ const CreateEditCallersAndSurvey = () => {
         autoComplete
         fullWidth
       />
-      <FormError errors={errorMessages} field="team" />
 
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.survey}</Label>
       <Autocomplete
         options={surveys}
-        inputValue={inputValues.surveyInput}
+        inputValue={inputValues.survey?.name ?? ''}
         value={values.survey}
-        onInputChange={(_, value) => {
-          updateInputValues('surveyInput', value)
-          debounce(() => setIsSurveyFetchable(true))
-        }}
         onChange={(_, value) => {
+          updateInputValues(fields.survey, value)
           updateValues(fields.survey, value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -120,7 +108,6 @@ const CreateEditCallersAndSurvey = () => {
         autoComplete
         fullWidth
       />
-      <FormError errors={errorMessages} field="survey" />
     </>
   )
 }
