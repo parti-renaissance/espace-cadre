@@ -24,9 +24,11 @@ const PageHeader = ({ title, button }) => (
     <Grid item data-cy="ui-page-header">
       <PageTitle title={title} />
     </Grid>
-    <Grid item data-cy="ui-page-header-button">
-      {button}
-    </Grid>
+    {button && (
+      <Grid item data-cy="ui-page-header-button">
+        {button}
+      </Grid>
+    )}
   </>
 )
 
@@ -34,5 +36,5 @@ export default PageHeader
 
 PageHeader.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  button: PropTypes.node.isRequired,
+  button: PropTypes.node,
 }

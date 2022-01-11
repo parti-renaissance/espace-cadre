@@ -17,7 +17,6 @@ import CampaignDetailKPI from './CampaignDetailKPI'
 import CampaignDetailQuestioners from './CampaignDetailQuestioners'
 import CampaignDetailHistory from './CampaignDetailHistory'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
-import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
@@ -117,7 +116,6 @@ export const CampaignDetail = () => {
               <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>
             </>
           }
-          button={<PageHeaderButton onClick={() => {}} label={messages.modify} />}
         />
       </Grid>
 

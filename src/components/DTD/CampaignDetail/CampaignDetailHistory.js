@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
@@ -7,7 +6,7 @@ import { DTDCampaignDetailHistory as DomainDTDCampaignDetailHistory } from 'doma
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor } from './shared/constants'
 import { secondsToMinutes } from './shared/helpers'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import UICard, { UIChip, CtaButton } from 'ui/Card'
+import UICard, { UIChip } from 'ui/Card'
 
 const Questioner = styled(TruncatedText)`
   font-size: 12px;
@@ -37,14 +36,14 @@ const formattedBuilding = ({ block, floor, door }) =>
   ${floor && `${messages.floor} ${floor}`}${door && ', '}
   ${door && `${messages.door} ${door}`}`
 
-const CampaignDetailHistory = ({ status, address, questioner, startDate, duration, handleView }) => {
+const CampaignDetailHistory = ({ status, address, questioner, startDate, duration }) => {
   const chipLabel = chipLabelByStatus?.[status]
   const chipColors = chipColorsByStatus?.[status] || defaultChipColor
 
   return (
     <Grid item xs={12} sm={6} md={3} data-cy="DTD-campaign-detail-history">
       <UICard
-        rootProps={{ sx: { height: '230px' } }}
+        rootProps={{ sx: { height: '192px' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
@@ -77,29 +76,11 @@ const CampaignDetailHistory = ({ status, address, questioner, startDate, duratio
             </VerticalContainer>
           </>
         }
-        actions={
-          <div>
-            <CtaButton
-              onClick={handleView}
-              sx={{
-                color: 'indigo700',
-                '&:hover': {
-                  bgcolor: 'campaign.background.hover',
-                },
-              }}
-            >
-              {messages.see}
-            </CtaButton>
-          </div>
-        }
       />
     </Grid>
   )
 }
 
-CampaignDetailHistory.propTypes = {
-  ...DomainDTDCampaignDetailHistory.propTypes,
-  handleView: PropTypes.func.isRequired,
-}
+CampaignDetailHistory.propTypes = DomainDTDCampaignDetailHistory.propTypes
 
 export default CampaignDetailHistory
