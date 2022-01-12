@@ -38,13 +38,17 @@ export const getPhoningGlobalKPIQuery = async () => {
   return new PhoningGlobalKPI(campaignsKPI, surveysKPI, callsKPI)
 }
 
-export const getPhoningCampaignListQuery = async () => {
-  const data = await apiClient.get('api/v3/phoning_campaigns')
-  return data.items.map(c => {
+export const getPhoningCampaignListQuery = async ({ pageParam: page = 1 }) => {
+  const query = `?order[created_at]=desc&page=${page}&page_size=20`
+  const data = await apiClient.get(`api/v3/phoning_campaigns${query}`)
+
+  const campaignList = data.items.map(c => {
     const team = new PhoningCampaignListItemTeam(c.team.name, c.team.members_count)
     const score = new PhoningCampaignListItemScore(c.nb_surveys, Number(c.goal) * Number(team.membersCount))
     return new PhoningCampaignListItem(c.uuid, new Date(c.finish_at), c.title, c.creator, team, score)
   })
+
+  return newPaginatedResult(campaignList, data.metadata)
 }
 
 export const getPhoningCampaignQuery = async campaignId => {

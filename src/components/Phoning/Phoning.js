@@ -2,14 +2,17 @@ import { useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { useQueryWithScope } from 'api/useQueryWithScope'
+import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery, getPhoningCampaignQuery } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
 import CampaignListItem from './Campaign/CampaignListItem'
 import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
 
@@ -39,11 +42,18 @@ const Phoning = () => {
   const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
     onError: handleError,
   })
-  const { data: campaigns = [], refetch: refetchCampaigns } = useQueryWithScope(
-    'campaigns',
-    () => getPhoningCampaignListQuery(),
-    { onError: handleError }
-  )
+
+  const {
+    data: paginatedCampaignList = null,
+    fetchNextPage: fetchNexPageCampaignList,
+    hasNextPage: hasNextPageCampaignList,
+    refetch: refetchCampaignList,
+  } = useInfiniteQueryWithScope('campaignList', pageParams => getPhoningCampaignListQuery(pageParams), {
+    getNextPageParam,
+    onError: handleError,
+  })
+  const campaignList = usePaginatedData(paginatedCampaignList)
+
   const { data: campaignDetail = {} } = useQueryWithScope(
     ['campaign', campaignIdToUpdate],
     () => getPhoningCampaignQuery(campaignIdToUpdate),
@@ -95,28 +105,35 @@ const Phoning = () => {
           <Title data-testid="Campaigns-list-title">{messages.campaigns}</Title>
         </Grid>
 
-        {campaigns.length > 0 && (
-          <Grid container spacing={2}>
-            {campaigns.map(campaign => (
-              <CampaignListItem
-                key={campaign.id}
-                endDate={campaign.endDate}
-                title={campaign.title}
-                author={campaign.author}
-                team={campaign.team}
-                score={campaign.score}
-                handleView={handleView(campaign.id)}
-                handleUpdate={handleUpdate(campaign.id)}
-              />
-            ))}
-          </Grid>
+        {campaignList.length > 0 && (
+          <InfiniteScroll
+            dataLength={history.length}
+            next={() => fetchNexPageCampaignList()}
+            hasMore={hasNextPageCampaignList}
+            loader={<Loader />}
+          >
+            <Grid container spacing={2}>
+              {campaignList.map(campaign => (
+                <CampaignListItem
+                  key={campaign.id}
+                  endDate={campaign.endDate}
+                  title={campaign.title}
+                  author={campaign.author}
+                  team={campaign.team}
+                  score={campaign.score}
+                  handleView={handleView(campaign.id)}
+                  handleUpdate={handleUpdate(campaign.id)}
+                />
+              ))}
+            </Grid>
+          </InfiniteScroll>
         )}
       </Grid>
 
       <CreateEdit
         campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
         isOpen={isCreateEditModalOpen}
-        onCreateResolve={refetchCampaigns}
+        onCreateResolve={refetchCampaignList}
         handleClose={handleClose}
       />
     </Container>
