@@ -1,6 +1,6 @@
 import MaaxItalic from '../../public/fonts/maax/maax-italic.woff2'
 
-export const MaaxFontFace = `
+export const MaaxFontFaces = `
 @font-face {
   font-family: 'MaaxItalic';
   src: local('Maax'), local('maax-italic'), url(${MaaxItalic}) format('woff2');

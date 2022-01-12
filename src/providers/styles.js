@@ -1,4 +1,4 @@
-import { PoppinsFontFaces, MaaxFontFace } from './fonts'
+import { PoppinsFontFaces, MaaxFontFaces } from './fonts'
 
 export const styles = {
   typography: {
@@ -34,7 +34,7 @@ export const styles = {
         component: 'span',
       },
       styleOverrides: {
-        root: [PoppinsFontFaces, MaaxFontFace],
+        root: [PoppinsFontFaces, MaaxFontFaces],
       },
     },
     MuiAutocomplete: {
