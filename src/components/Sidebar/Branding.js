@@ -41,7 +41,7 @@ const Beta = styled(Typography)`
 const IconWrapper = styled('span')(
   ({ theme }) => `
     margin-right: ${theme.spacing(1.5)};
-    margin-top: 5px;
+    margin: ${theme.spacing(1, 1.5, 0, 0)}
   `
 )
 
