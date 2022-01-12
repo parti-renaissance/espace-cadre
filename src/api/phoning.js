@@ -139,14 +139,20 @@ export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   saveAs(new Blob([data]), `Questionnaires Phoning - ${format(new Date(), 'dd.MM.yyyy')}.xlsx`)
 }
 
-export const getPhoningCampaignTeams = async ({ itemsPerPage: pageSize = 99999 } = {}) => {
-  const data = await apiClient.get(`/api/v3/teams?page_size=${pageSize}`)
-  return data.items.map(t => new PhoningCampaignCreateEditTeam(t.uuid, t.name, t.members_count))
+export const getPhoningCampaignTeams = async ({ pageParam: page = 1 }) => {
+  const query = `?page=${page}&page_size=1000`
+  const data = await apiClient.get(`/api/v3/teams${query}`)
+
+  const teams = data.items.map(t => new PhoningCampaignCreateEditTeam(t.uuid, t.name, t.members_count))
+  return newPaginatedResult(teams, data.metadata)
 }
 
-export const getPhoningCampaignSurveys = async ({ itemsPerPage: pageSize = 99999 } = {}) => {
-  const data = await apiClient.get(`/api/v3/surveys?page_size=${pageSize}`)
-  return data.items.map(s => new PhoningCampaignCreateEditSurvey(s.uuid, s.name, s.type))
+export const getPhoningCampaignSurveys = async ({ pageParam: page = 1 }) => {
+  const query = `?page=${page}&page_size=1000`
+  const data = await apiClient.get(`/api/v3/surveys${query}`)
+
+  const surveys = data.items.map(s => new PhoningCampaignCreateEditSurvey(s.uuid, s.name, s.type))
+  return newPaginatedResult(surveys, data.metadata)
 }
 
 export const getPhoningCampaignZones = async city => {
