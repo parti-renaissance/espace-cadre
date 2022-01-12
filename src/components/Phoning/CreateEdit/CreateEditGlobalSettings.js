@@ -7,7 +7,7 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { GlobalSettingsContext } from './shared/context'
-import { Input, Label } from './shared/components'
+import { Input, Label } from './shared/components/styled'
 import { fields } from './shared/constants'
 
 const messages = {

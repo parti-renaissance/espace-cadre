@@ -1,12 +1,14 @@
 import { useCallback, useContext, useState } from 'react'
-import { Autocomplete, MenuItem, Typography } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getPhoningCampaignTeams, getPhoningCampaignSurveys } from 'api/phoning'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { CallersAndSurveyContext } from './shared/context'
-import { Input, Label } from './shared/components'
+import SelectOption from './shared/components/SelectOption'
+import { Input, Label } from './shared/components/styled'
 import { fields } from './shared/constants'
 
 const messages = {
@@ -32,20 +34,25 @@ const CreateEditCallersAndSurvey = () => {
     setInputValues(values => ({ ...values, [key]: value }))
   }, [])
 
-  const { data: teams = [], isFetching: isTeamsFetching } = useQueryWithScope(
+  const { data: paginatedTeams = null, isFetching: isTeamsFetching } = useInfiniteQueryWithScope(
     'teams',
-    () => getPhoningCampaignTeams(),
+    pageParams => getPhoningCampaignTeams(pageParams),
     {
+      getNextPageParam,
       onError: handleError,
     }
   )
-  const { data: surveys = [], isFetching: isSurveysFetching } = useQueryWithScope(
+  const { data: paginatedSurveys = null, isFetching: isSurveysFetching } = useInfiniteQueryWithScope(
     'surveys',
-    () => getPhoningCampaignSurveys(),
+    pageParams => getPhoningCampaignSurveys(pageParams),
     {
+      getNextPageParam,
       onError: handleError,
     }
   )
+
+  const teams = usePaginatedData(paginatedTeams)
+  const surveys = usePaginatedData(paginatedSurveys)
 
   return (
     <>
@@ -54,31 +61,35 @@ const CreateEditCallersAndSurvey = () => {
         options={teams}
         inputValue={inputValues.team?.name ?? ''}
         value={values.team}
+        onInputChange={(_, value) => {
+          updateInputValues(fields.team, { name: value })
+        }}
         onChange={(_, value) => {
-          updateInputValues(fields.team, value)
           updateValues(fields.team, value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={option => option.name ?? ''}
         renderOption={(props, option) => (
-          <MenuItem {...props} key={option.id}>
-            <Typography>
-              {option.name}
-              {Number.isInteger(option.membersCount) && (
-                <>
-                  &nbsp;{'('}
-                  {option.membersCount}&nbsp;{pluralize(option.membersCount, messages.member)}
-                  {')'}
-                </>
-              )}
-            </Typography>
-          </MenuItem>
+          <SelectOption
+            {...props}
+            key={option.id}
+            label={option.name}
+            inputValue={inputValues.team?.name ?? ''}
+            detail={
+              <>
+                {'('}
+                {option.membersCount}&nbsp;{pluralize(option.membersCount, messages.member)}
+                {')'}
+              </>
+            }
+          />
         )}
         renderInput={params => <Input name={fields.team} placeholder={messages.placeholder.team} {...params} />}
         loading={isTeamsFetching}
         loadingText={messages.pleaseWait}
         noOptionsText={messages.noResult}
         autoComplete
+        autoHighlight
         fullWidth
       />
 
@@ -87,22 +98,29 @@ const CreateEditCallersAndSurvey = () => {
         options={surveys}
         inputValue={inputValues.survey?.name ?? ''}
         value={values.survey}
+        onInputChange={(_, value) => {
+          updateInputValues(fields.survey, { name: value })
+        }}
         onChange={(_, value) => {
-          updateInputValues(fields.survey, value)
           updateValues(fields.survey, value)
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={option => option.name ?? ''}
         renderOption={(props, option) => (
-          <MenuItem {...props} key={option.id}>
-            <Typography>{option.name}</Typography>
-          </MenuItem>
+          <SelectOption
+            {...props}
+            key={option.id}
+            label={option.name}
+            inputValue={inputValues.survey?.name ?? ''}
+            detail={<>{option.name}</>}
+          />
         )}
         renderInput={params => <Input name={fields.survey} placeholder={messages.placeholder.survey} {...params} />}
         loading={isSurveysFetching}
         loadingText={messages.pleaseWait}
         noOptionsText={messages.noResult}
         autoComplete
+        autoHighlight
         fullWidth
       />
     </>
