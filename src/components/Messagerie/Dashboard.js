@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/system'
 import { Grid, Container, Typography } from '@mui/material'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
-import SentEmailCampaignList from 'components/Dashboard/Charts/SentEmailCampaignList/SentEmailCampaignList'
+import SentEmailCampaigns from 'components/Dashboard/Charts/SentEmailCampaigns/SentEmailCampaigns'
 import SendIcon from '@mui/icons-material/Send'
 import paths from 'components/Messagerie/shared/paths'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
@@ -58,7 +58,7 @@ const Dashboard = () => {
       </KPIContainer>
       <Grid container>
         <Grid item xs={12}>
-          <SentEmailCampaignList />
+          <SentEmailCampaigns />
         </Grid>
       </Grid>
     </Container>

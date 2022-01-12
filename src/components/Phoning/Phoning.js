@@ -6,10 +6,10 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery, getPhoningCampaignQuery } from 'api/phoning'
+import { getPhoningGlobalKPIQuery, getPhoningCampaignsQuery, getPhoningCampaignQuery } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
-import CampaignListItem from './Campaign/CampaignListItem'
+import CampaignItem from './Campaign/CampaignItem'
 import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
@@ -44,15 +44,15 @@ const Phoning = () => {
   })
 
   const {
-    data: paginatedCampaignList = null,
-    fetchNextPage: fetchNexPageCampaignList,
-    hasNextPage: hasNextPageCampaignList,
-    refetch: refetchCampaignList,
-  } = useInfiniteQueryWithScope('campaignList', pageParams => getPhoningCampaignListQuery(pageParams), {
+    data: paginatedCampaigns = null,
+    fetchNextPage: fetchNexPageCampaigns,
+    hasNextPage: hasNextPageCampaigns,
+    refetch: refetchCampaigns,
+  } = useInfiniteQueryWithScope('campaigns', pageParams => getPhoningCampaignsQuery(pageParams), {
     getNextPageParam,
     onError: handleError,
   })
-  const campaignList = usePaginatedData(paginatedCampaignList)
+  const campaigns = usePaginatedData(paginatedCampaigns)
 
   const { data: campaignDetail = {} } = useQueryWithScope(
     ['campaign', campaignIdToUpdate],
@@ -102,19 +102,19 @@ const Phoning = () => {
 
       <Grid container justifyContent="space-between" sx={{ pt: 4 }}>
         <Grid container>
-          <Title data-testid="Campaigns-list-title">{messages.campaigns}</Title>
+          <Title data-testid="Campaigns-title">{messages.campaigns}</Title>
         </Grid>
 
-        {campaignList.length > 0 && (
+        {campaigns.length > 0 && (
           <InfiniteScroll
             dataLength={history.length}
-            next={() => fetchNexPageCampaignList()}
-            hasMore={hasNextPageCampaignList}
+            next={() => fetchNexPageCampaigns()}
+            hasMore={hasNextPageCampaigns}
             loader={<Loader />}
           >
             <Grid container spacing={2}>
-              {campaignList.map(campaign => (
-                <CampaignListItem
+              {campaigns.map(campaign => (
+                <CampaignItem
                   key={campaign.id}
                   endDate={campaign.endDate}
                   title={campaign.title}
@@ -133,7 +133,7 @@ const Phoning = () => {
       <CreateEdit
         campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
         isOpen={isCreateEditModalOpen}
-        onCreateResolve={refetchCampaignList}
+        onCreateResolve={refetchCampaigns}
         handleClose={handleClose}
       />
     </Container>

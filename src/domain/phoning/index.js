@@ -4,7 +4,7 @@ export {
   PhoningGlobalKPISurveys,
   PhoningGlobalKPICalls,
 } from './campaign-KPI'
-export { PhoningCampaignListItem, PhoningCampaignListItemTeam, PhoningCampaignListItemScore } from './campaign-list'
+export { PhoningCampaignItem, PhoningCampaignItemTeam, PhoningCampaignItemScore } from './campaigns'
 export {
   PhoningCampaignCreateEdit,
   PhoningCampaignCreateEditGlobal,

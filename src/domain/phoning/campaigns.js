@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class PhoningCampaignListItemTeam {
+export class PhoningCampaignItemTeam {
   constructor(name, membersCount) {
     this.name = name
     this.membersCount = membersCount
@@ -11,7 +11,7 @@ export class PhoningCampaignListItemTeam {
   }
 }
 
-export class PhoningCampaignListItemScore {
+export class PhoningCampaignItemScore {
   constructor(count, globalGoal) {
     this.count = count
     this.globalGoal = globalGoal
@@ -22,7 +22,7 @@ export class PhoningCampaignListItemScore {
   }
 }
 
-export class PhoningCampaignListItem {
+export class PhoningCampaignItem {
   constructor(id, endDate, title, author, team, score) {
     this.id = id
     this.endDate = endDate
@@ -36,7 +36,7 @@ export class PhoningCampaignListItem {
     endDate: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-    team: PropTypes.shape(PhoningCampaignListItemTeam.propTypes),
-    score: PropTypes.shape(PhoningCampaignListItemScore.propTypes),
+    team: PropTypes.shape(PhoningCampaignItemTeam.propTypes),
+    score: PropTypes.shape(PhoningCampaignItemScore.propTypes),
   }
 }

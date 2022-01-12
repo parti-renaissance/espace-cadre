@@ -11,7 +11,7 @@ const messages = {
   campaigns: 'Vos dernières campagnes',
 }
 
-const SentEmailCampaignListTitle = () => (
+const SentEmailCampaignsTitle = () => (
   <Grid container sx={{ mb: 2 }}>
     <Grid item xs={12}>
       <Typography>{messages.campaigns}</Typography>
@@ -19,4 +19,4 @@ const SentEmailCampaignListTitle = () => (
   </Grid>
 )
 
-export default SentEmailCampaignListTitle
+export default SentEmailCampaignsTitle

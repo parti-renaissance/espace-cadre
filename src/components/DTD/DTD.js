@@ -5,10 +5,10 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getDTDGlobalKPIQuery, getDTDCampaignListQuery } from 'api/DTD'
+import { getDTDGlobalKPIQuery, getDTDCampaignsQuery } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
-import CampaignListItem from './Campaign/CampaignListItem'
+import CampaignItem from './Campaign/CampaignItem'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 
@@ -34,14 +34,14 @@ const DTD = () => {
   })
 
   const {
-    data: paginatedCampaignList = null,
-    fetchNextPage: fetchNexPageCampaignList,
-    hasNextPage: hasNextPageCampaignList,
-  } = useInfiniteQueryWithScope('campaignList', pageParams => getDTDCampaignListQuery(pageParams), {
+    data: paginatedCampaigns = null,
+    fetchNextPage: fetchNexPageCampaigns,
+    hasNextPage: hasNextPageCampaigns,
+  } = useInfiniteQueryWithScope('campaigns', pageParams => getDTDCampaignsQuery(pageParams), {
     getNextPageParam,
     onError: handleError,
   })
-  const campaignList = usePaginatedData(paginatedCampaignList)
+  const campaigns = usePaginatedData(paginatedCampaigns)
 
   const handleView = campaignId => () => {
     navigate(generatePath('/porte-a-porte/:campaignId', { campaignId }))
@@ -61,19 +61,19 @@ const DTD = () => {
 
       <Grid container justifyContent="space-between" sx={{ pt: 4 }}>
         <Grid container>
-          <Title data-testid="Campaigns-list-title">{messages.campaigns}</Title>
+          <Title data-testid="Campaigns-title">{messages.campaigns}</Title>
         </Grid>
 
-        {campaignList.length > 0 && (
+        {campaigns.length > 0 && (
           <InfiniteScroll
             dataLength={history.length}
-            next={() => fetchNexPageCampaignList()}
-            hasMore={hasNextPageCampaignList}
+            next={() => fetchNexPageCampaigns()}
+            hasMore={hasNextPageCampaigns}
             loader={<Loader />}
           >
             <Grid container spacing={2}>
-              {campaignList.map(campaign => (
-                <CampaignListItem
+              {campaigns.map(campaign => (
+                <CampaignItem
                   key={campaign.id}
                   endDate={campaign.endDate}
                   title={campaign.title}

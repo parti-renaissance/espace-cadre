@@ -1,10 +1,10 @@
 import { Grid, Typography } from '@mui/material'
 import { deleteMessage, getMessages } from 'api/messagerie'
-import SentEmailCampaignListTitle from './SentEmailCampaignListTitle'
+import SentEmailCampaignsTitle from './SentEmailCampaignsTitle'
 import UICard from 'ui/Card'
 import { Header } from './card/Header'
-import Body from 'components/Dashboard/Charts/SentEmailCampaignList/card/Body'
-import Actions from 'components/Dashboard/Charts/SentEmailCampaignList/card/Actions'
+import Body from 'components/Dashboard/Charts/SentEmailCampaigns/card/Body'
+import Actions from 'components/Dashboard/Charts/SentEmailCampaigns/card/Actions'
 import { useMutation } from 'react-query'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
@@ -38,7 +38,7 @@ Title.propTypes = {
 
 const EmptyBlock = () => <div />
 
-const SentEmailCampaignList = () => {
+const SentEmailCampaigns = () => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -64,7 +64,7 @@ const SentEmailCampaignList = () => {
 
   return (
     <>
-      <SentEmailCampaignListTitle />
+      <SentEmailCampaignsTitle />
       {paginatedCampaigns && (
         <InfiniteScroll
           dataLength={campaigns.length}
@@ -103,4 +103,4 @@ const SentEmailCampaignList = () => {
   )
 }
 
-export default SentEmailCampaignList
+export default SentEmailCampaigns
