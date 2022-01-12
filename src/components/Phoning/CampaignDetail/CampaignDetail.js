@@ -15,7 +15,7 @@ import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithSc
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './CampaignDetailKPI'
-import CampaignDetailCallers from './CampaignDetailCallers'
+import CampaignDetailCaller from './CampaignDetailCaller'
 import CampaignDetailHistory from './CampaignDetailHistory'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
 import CreateEdit from '../CreateEdit/CreateEdit'
@@ -57,7 +57,7 @@ export const CampaignDetail = () => {
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: campaign = {}, refetch: refetchCampaign } = useQueryWithScope(
+  const { data: campaignDetail = {}, refetch: refetchCampaignDetail } = useQueryWithScope(
     ['campaign', campaignId],
     () => getPhoningCampaignQuery(campaignId),
     {
@@ -113,7 +113,7 @@ export const CampaignDetail = () => {
             <>
               <PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
-              <PageTitle sx={{ color: 'gray800' }}>{campaign.title}</PageTitle>
+              <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>
             </>
           }
           button={
@@ -127,13 +127,12 @@ export const CampaignDetail = () => {
       </Grid>
 
       <Grid container justifyContent="space-between">
-        {Object.keys(campaign).length > 0 && (
+        {campaignDetail.KPI && Object.keys(campaignDetail.KPI).length > 0 && (
           <CampaignDetailKPI
-            startDate={campaign.startDate}
-            endDate={campaign.endDate}
-            surveys={campaign.surveys}
-            calls={campaign.calls}
-            averageTime={campaign.averageTime}
+            remaining={campaignDetail.KPI.remaining}
+            surveys={campaignDetail.KPI.surveys}
+            calls={campaignDetail.KPI.calls}
+            averageTime={campaignDetail.KPI.averageTime}
           />
         )}
 
@@ -170,13 +169,13 @@ export const CampaignDetail = () => {
             {selectedTab === messages.callers.id && callers.length > 0 && (
               <Grid container spacing={2}>
                 {callers.map((caller, index) => (
-                  <CampaignDetailCallers
+                  <CampaignDetailCaller
                     key={index + 1}
                     number={index + 1}
                     firstName={caller.firstName}
                     lastName={caller.lastName}
                     count={caller.count}
-                    goal={campaign.goal}
+                    goal={campaignDetail.goal}
                   />
                 ))}
               </Grid>
@@ -211,12 +210,14 @@ export const CampaignDetail = () => {
         )}
       </Grid>
 
-      <CreateEdit
-        campaign={Object.keys(campaign).length > 0 ? campaign : null}
-        isOpen={isCreateEditModalOpen}
-        onCreateResolve={refetchCampaign}
-        handleClose={() => setIsCreateEditModalOpen(false)}
-      />
+      {Object.keys(campaignDetail).length > 0 && (
+        <CreateEdit
+          campaign={campaignDetail.createEdit}
+          isOpen={isCreateEditModalOpen}
+          onCreateResolve={refetchCampaignDetail}
+          handleClose={() => setIsCreateEditModalOpen(false)}
+        />
+      )}
     </Container>
   )
 }

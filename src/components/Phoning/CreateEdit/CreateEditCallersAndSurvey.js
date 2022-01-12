@@ -95,10 +95,7 @@ const CreateEditCallersAndSurvey = () => {
         getOptionLabel={option => option.name ?? ''}
         renderOption={(props, option) => (
           <MenuItem {...props} key={option.id}>
-            <Typography>
-              {option.name}
-              {option.type && ` (${option.type})`}
-            </Typography>
+            <Typography>{option.name}</Typography>
           </MenuItem>
         )}
         renderInput={params => <Input name={fields.survey} placeholder={messages.placeholder.survey} {...params} />}

@@ -9,10 +9,10 @@ export const secondsToMinutesAndSeconds = seconds => {
 }
 
 export const campaignToGlobalSettingsValues = campaign => ({
-  title: campaign.title ?? '',
-  goal: campaign.goal ?? '',
-  endDate: campaign.endDate ?? '',
-  brief: campaign.brief ?? '',
+  title: campaign.global.title ?? '',
+  goal: campaign.global.goal ?? '',
+  endDate: campaign.global.endDate ?? '',
+  brief: campaign.global.brief ?? '',
 })
 
 export const campaignToCallersAndSurveyValues = campaign => ({

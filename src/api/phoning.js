@@ -4,54 +4,60 @@ import { format } from 'date-fns'
 import { apiClient } from 'services/networking/client'
 import {
   PhoningGlobalKPI,
-  PhoningCampaignsKPI,
-  PhoningSurveysKPI,
-  PhoningCallsKPI,
-  PhoningCampaigns,
-  PhoningCampaignsTeam,
-  PhoningCampaignsScore,
-  PhoningCampaign,
-  PhoningCampaignCalls,
-  PhoningCampaignCallers,
-  PhoningCampaignHistory,
-  PhoningCampaignSurveys,
-  PhoningCampaignHistoryAdherent,
-  PhoningCampaignHistoryCaller,
-  PhoningCampaignFilters,
-  PhoningCampaignTeam,
-  PhoningCampaignSurvey,
-  PhoningCampaignZone,
-  PhoningCampaignReply,
-  PhoningCampaignReplyAnswer,
+  PhoningGlobalKPICampaigns,
+  PhoningGlobalKPISurveys,
+  PhoningGlobalKPICalls,
+  PhoningCampaignListItem,
+  PhoningCampaignListItemTeam,
+  PhoningCampaignListItemScore,
+  PhoningCampaignDetail,
+  PhoningCampaignDetailKPI,
+  PhoningCampaignDetailKPIRemaining,
+  PhoningCampaignDetailKPISurveys,
+  PhoningCampaignDetailKPICalls,
+  PhoningCampaignDetailCaller,
+  PhoningCampaignDetailHistory,
+  PhoningCampaignDetailHistoryAdherent,
+  PhoningCampaignDetailHistoryCaller,
+  PhoningCampaignDetailSurveysReply,
+  PhoningCampaignDetailSurveysReplyAnswer,
+  PhoningCampaignCreateEdit,
+  PhoningCampaignCreateEditGlobal,
+  PhoningCampaignCreateEditFilters,
+  PhoningCampaignCreateEditTeam,
+  PhoningCampaignCreateEditSurvey,
+  PhoningCampaignCreateEditZone,
 } from 'domain/phoning'
 import { newPaginatedResult } from 'api/pagination'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
-  const campaignsKPI = new PhoningCampaignsKPI(data.nb_campaigns, data.nb_ongoing_campaigns)
-  const surveysKPI = new PhoningSurveysKPI(data.nb_surveys, data.nb_surveys_last_30d)
-  const callsKPI = new PhoningCallsKPI(data.nb_calls, data.nb_calls_last_30d)
+  const campaignsKPI = new PhoningGlobalKPICampaigns(data.nb_campaigns, data.nb_ongoing_campaigns)
+  const surveysKPI = new PhoningGlobalKPISurveys(data.nb_surveys, data.nb_surveys_last_30d)
+  const callsKPI = new PhoningGlobalKPICalls(data.nb_calls, data.nb_calls_last_30d)
   return new PhoningGlobalKPI(campaignsKPI, surveysKPI, callsKPI)
 }
 
 export const getPhoningCampaignListQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns')
   return data.items.map(c => {
-    const team = new PhoningCampaignsTeam(c.team.name, c.team.members_count)
-    const campaignGlobalGoal = Number(c.goal) * Number(team.membersCount)
-    const score = new PhoningCampaignsScore(c.nb_surveys, campaignGlobalGoal)
-    return new PhoningCampaigns(c.uuid, new Date(c.finish_at), c.title, c.creator, team, score)
+    const team = new PhoningCampaignListItemTeam(c.team.name, c.team.members_count)
+    const score = new PhoningCampaignListItemScore(c.nb_surveys, Number(c.goal) * Number(team.membersCount))
+    return new PhoningCampaignListItem(c.uuid, new Date(c.finish_at), c.title, c.creator, team, score)
   })
 }
 
 export const getPhoningCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}`)
-  const calls = new PhoningCampaignCalls(data.nb_calls, data.to_remind)
-  const surveys = new PhoningCampaignSurveys(data.nb_surveys, data.goal * data.team.members_count)
-  const team = new PhoningCampaignTeam(data.team.uuid, data.team.name)
-  const survey = new PhoningCampaignSurvey(data.survey.uuid, data.survey.name)
+  const remaining = new PhoningCampaignDetailKPIRemaining(new Date(data.created_at), new Date(data.finish_at))
+  const surveys = new PhoningCampaignDetailKPISurveys(data.nb_surveys, data.goal * data.team.members_count)
+  const calls = new PhoningCampaignDetailKPICalls(data.nb_calls, data.to_remind)
+  const KPI = new PhoningCampaignDetailKPI(remaining, surveys, calls, data.average_calling_time)
+  const global = new PhoningCampaignCreateEditGlobal(data.title, data.goal, new Date(data.finish_at), data.brief)
+  const team = new PhoningCampaignCreateEditTeam(data.team.uuid, data.team.name, data.team.members_count)
+  const survey = new PhoningCampaignCreateEditSurvey(data.survey.uuid, data.survey.name)
   const filters = data.audience
-    ? new PhoningCampaignFilters(
+    ? new PhoningCampaignCreateEditFilters(
         data.audience.first_name,
         data.audience.last_name,
         data.audience.gender,
@@ -63,28 +69,16 @@ export const getPhoningCampaignQuery = async campaignId => {
         data.audience.is_committee_member,
         data.audience.has_email_subscription,
         data.audience.has_sms_subscription,
-        data.audience.zones.map(z => new PhoningCampaignZone(z.uuid, z.name, z.code))
+        data.audience.zones.map(z => new PhoningCampaignCreateEditZone(z.uuid, z.name, z.code))
       )
     : null
-  return new PhoningCampaign(
-    data.uuid,
-    data.title,
-    new Date(data.created_at),
-    new Date(data.finish_at),
-    calls,
-    surveys,
-    data.average_calling_time,
-    data.goal,
-    data.brief,
-    team,
-    survey,
-    filters
-  )
+  const createEdit = new PhoningCampaignCreateEdit(global, team, survey, filters)
+  return new PhoningCampaignDetail(data.uuid, data.title, data.goal, KPI, createEdit)
 }
 
 export const getPhoningCampaignCallers = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/callers`)
-  return data.map(c => new PhoningCampaignCallers(c.firstName, c.lastName, Number(c.nb_surveys)))
+  return data.map(c => new PhoningCampaignDetailCaller(c.firstName, c.lastName, Number(c.nb_surveys)))
 }
 
 export const getPhoningCampaignHistory = async ({ campaignId, pageParam: page = 1 }) => {
@@ -94,15 +88,20 @@ export const getPhoningCampaignHistory = async ({ campaignId, pageParam: page = 
 
   const history = data.items.map(h => {
     const adherent = h.adherent
-      ? new PhoningCampaignHistoryAdherent(
+      ? new PhoningCampaignDetailHistoryAdherent(
           h.adherent.first_name,
           h.adherent.last_name,
           h.adherent.gender,
           h.adherent.age
         )
       : null
-    const caller = new PhoningCampaignHistoryCaller(h.caller.first_name, h.caller.last_name)
-    return new PhoningCampaignHistory(h.uuid, h.status, new Date(h.begin_at), adherent, caller)
+    const caller = new PhoningCampaignDetailHistoryCaller(
+      h.caller.first_name,
+      h.caller.last_name,
+      h.caller.gender,
+      h.caller.age
+    )
+    return new PhoningCampaignDetailHistory(h.uuid, h.status, adherent, caller, new Date(h.begin_at))
   })
 
   return newPaginatedResult(history, data.metadata)
@@ -112,16 +111,22 @@ export const getPhoningCampaignSurveysReplies = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/replies`)
   return {
     totalCount: data.metadata.total_items,
-    replies: data.items.map(
-      sr =>
-        new PhoningCampaignReply(
-          sr.answers.map(a => new PhoningCampaignReplyAnswer(a.type, a.answer, a.question)),
-          sr.phoning_campaign_history.adherent?.first_name,
-          sr.phoning_campaign_history.adherent?.last_name,
-          new Date(sr.phoning_campaign_history.begin_at),
-          new Date(sr.phoning_campaign_history.finish_at)
-        )
-    ),
+    replies: data.items.map(sr => {
+      const adherent = sr.phoning_campaign_history.adherent
+        ? new PhoningCampaignDetailHistoryAdherent(
+            sr.phoning_campaign_history.adherent.first_name,
+            sr.phoning_campaign_history.adherent.last_name,
+            sr.phoning_campaign_history.adherent.gender,
+            sr.phoning_campaign_history.adherent.age
+          )
+        : null
+      return new PhoningCampaignDetailSurveysReply(
+        sr.answers.map(a => new PhoningCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
+        adherent,
+        new Date(sr.phoning_campaign_history.begin_at),
+        new Date(sr.phoning_campaign_history.finish_at)
+      )
+    }),
   }
 }
 
@@ -132,17 +137,17 @@ export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
 
 export const getPhoningCampaignTeams = async ({ itemsPerPage: pageSize = 99999 } = {}) => {
   const data = await apiClient.get(`/api/v3/teams?page_size=${pageSize}`)
-  return data.items.map(t => new PhoningCampaignTeam(t.uuid, t.name, t.members_count))
+  return data.items.map(t => new PhoningCampaignCreateEditTeam(t.uuid, t.name, t.members_count))
 }
 
 export const getPhoningCampaignSurveys = async ({ itemsPerPage: pageSize = 99999 } = {}) => {
   const data = await apiClient.get(`/api/v3/surveys?page_size=${pageSize}`)
-  return data.items.map(s => new PhoningCampaignSurvey(s.uuid, s.name, s.type))
+  return data.items.map(s => new PhoningCampaignCreateEditSurvey(s.uuid, s.name, s.type))
 }
 
 export const getPhoningCampaignZones = async city => {
   const data = await apiClient.get(`/api/v3/zone/autocomplete?q=${city}`)
-  return data.map(z => new PhoningCampaignZone(z.uuid, z.name, z.code))
+  return data.map(z => new PhoningCampaignCreateEditZone(z.uuid, z.name, z.code))
 }
 
 const formatFiltersData = ({
@@ -173,8 +178,8 @@ const formatFiltersData = ({
   zones: zones.map(z => z.id),
 })
 
-export const createPhoningCampaignQuery = campaign =>
-  apiClient.post('api/v3/phoning_campaigns', {
+export const createOrUpdatePhoningCampaignQuery = campaign => {
+  const body = {
     title: campaign.title,
     goal: +campaign.goal,
     finish_at: campaign.endDate,
@@ -182,15 +187,7 @@ export const createPhoningCampaignQuery = campaign =>
     team: campaign.team.id,
     survey: campaign.survey.id,
     ...(Object.keys(campaign.filters).length > 0 ? { audience: formatFiltersData(campaign.filters) } : {}),
-  })
-
-export const updatePhoningCampaignQuery = campaign =>
-  apiClient.put(`api/v3/phoning_campaigns/${campaign.id}`, {
-    title: campaign.title,
-    goal: +campaign.goal,
-    finish_at: campaign.endDate,
-    brief: campaign.brief,
-    team: campaign.team.id,
-    survey: campaign.survey.id,
-    ...(Object.keys(campaign.filters).length > 0 ? { audience: formatFiltersData(campaign.filters) } : {}),
-  })
+  }
+  if (!campaign.id) return apiClient.post('api/v3/phoning_campaigns', body)
+  return apiClient.put(`api/v3/phoning_campaigns/${campaign.id}`, body)
+}

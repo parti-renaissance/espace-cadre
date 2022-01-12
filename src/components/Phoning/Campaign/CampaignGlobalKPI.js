@@ -51,7 +51,7 @@ const messages = {
   callOnAMonth: 'sur un mois',
 }
 
-const GlobalCampaignsKPI = ({ campaigns, surveys, calls }) => (
+const CampaignGlobalKPI = ({ campaigns, surveys, calls }) => (
   <KPIWrapper>
     <Grid container>
       <KPITitle>{messages.title}</KPITitle>
@@ -111,6 +111,6 @@ const GlobalCampaignsKPI = ({ campaigns, surveys, calls }) => (
   </KPIWrapper>
 )
 
-GlobalCampaignsKPI.propTypes = DomainPhoningGlobalKPI.PropTypes
+CampaignGlobalKPI.propTypes = DomainPhoningGlobalKPI.propTypes
 
-export default GlobalCampaignsKPI
+export default CampaignGlobalKPI

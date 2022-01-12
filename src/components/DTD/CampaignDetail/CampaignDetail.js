@@ -14,7 +14,7 @@ import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './CampaignDetailKPI'
-import CampaignDetailQuestioners from './CampaignDetailQuestioners'
+import CampaignDetailQuestioner from './CampaignDetailQuestioner'
 import CampaignDetailHistory from './CampaignDetailHistory'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
 import PageHeader from 'ui/PageHeader'
@@ -163,7 +163,7 @@ export const CampaignDetail = () => {
             {selectedTab === messages.questioners.id && questioners.length > 0 && (
               <Grid container spacing={2}>
                 {questioners.map((questioner, index) => (
-                  <CampaignDetailQuestioners
+                  <CampaignDetailQuestioner
                     key={index + 1}
                     number={index + 1}
                     firstName={questioner.firstName}

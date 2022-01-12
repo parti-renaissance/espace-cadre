@@ -3,7 +3,8 @@ import { styled } from '@mui/system'
 import { differenceInCalendarDays, format } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
-import { PhoningCampaign } from 'domain/phoning'
+import { PhoningCampaignDetailKPI as DomainPhoningCampaignDetailKPI } from 'domain/phoning'
+
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import { secondsToMinutesAndSeconds } from './shared/helpers'
 import UICard from 'ui/Card/Card'
@@ -139,6 +140,6 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
   )
 }
 
-CampaignDetailKPI.propTypes = PhoningCampaign.PropTypes
+CampaignDetailKPI.propTypes = DomainPhoningCampaignDetailKPI.propTypes
 
 export default CampaignDetailKPI
