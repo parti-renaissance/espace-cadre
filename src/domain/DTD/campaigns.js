@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class DTDCampaignListItemScore {
+export class DTDCampaignItemScore {
   constructor(count, goal) {
     this.count = count
     this.goal = goal
@@ -11,7 +11,7 @@ export class DTDCampaignListItemScore {
   }
 }
 
-export class DTDCampaignListItem {
+export class DTDCampaignItem {
   constructor(id, endDate, title, score) {
     this.id = id
     this.endDate = endDate
@@ -22,6 +22,6 @@ export class DTDCampaignListItem {
     id: PropTypes.string,
     endDate: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
-    score: PropTypes.shape(DTDCampaignListItemScore.propTypes),
+    score: PropTypes.shape(DTDCampaignItemScore.propTypes),
   }
 }

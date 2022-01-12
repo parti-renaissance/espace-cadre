@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types'
-
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format, isBefore } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import { PhoningCampaignListItem as DomainPhoningCampaignListItem } from 'domain/phoning'
+import { DTDCampaignItem as DomainDTDCampaignItem } from 'domain/DTD'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import { chipColorsByStatus } from '../CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -32,14 +30,14 @@ const messages = {
   ongoing: 'En cours',
 }
 
-const CampaignListItem = ({ endDate, title, author, team, score, handleView, handleUpdate }) => {
+const DTDCampaignItem = ({ endDate, title, score, handleView }) => {
   const chipLabel = isBefore(new Date(), endDate) ? messages.ongoing : messages.finished
   const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
 
   return (
     <Grid item xs={12} sm={6} md={3} data-testid="UICard">
       <UICard
-        rootProps={{ sx: { height: '216px' } }}
+        rootProps={{ sx: { height: '198px' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
@@ -51,23 +49,16 @@ const CampaignListItem = ({ endDate, title, author, team, score, handleView, han
               <TruncatedText variant="subtitle1" title={title}>
                 {title}
               </TruncatedText>
-              <TruncatedText
-                variant="subtitle2"
-                title={`${author} • ${team.name} (${team.membersCount})`}
-                sx={{ color: 'gray600' }}
-              >
-                {`${author} • ${team.name} (${team.membersCount})`}
-              </TruncatedText>
             </VerticalContainer>
           </>
         }
         contentProps={{ sx: { pt: 3 } }}
-        content={<RatioProgress count={score.count} totalCount={score.globalGoal} />}
+        content={<RatioProgress count={score.count} totalCount={score.goal} />}
         actionsProps={{ sx: { pt: 2 } }}
         actions={
           <HorizontalContainer>
             <CtaButton
-              data-cy="phoning-action-view"
+              data-cy="DTD-action-view"
               onClick={handleView}
               sx={{
                 color: 'campaign.color',
@@ -78,9 +69,6 @@ const CampaignListItem = ({ endDate, title, author, team, score, handleView, han
             >
               {messages.see}
             </CtaButton>
-            <DotsMenu>
-              <DotsMenuItem onClick={handleUpdate}>{messages.edit}</DotsMenuItem>
-            </DotsMenu>
           </HorizontalContainer>
         }
       />
@@ -88,10 +76,9 @@ const CampaignListItem = ({ endDate, title, author, team, score, handleView, han
   )
 }
 
-CampaignListItem.propTypes = {
-  ...DomainPhoningCampaignListItem.propTypes,
+DTDCampaignItem.propTypes = {
+  ...DomainDTDCampaignItem.propTypes,
   handleView: PropTypes.func.isRequired,
-  handleUpdate: PropTypes.func.isRequired,
 }
 
-export default CampaignListItem
+export default DTDCampaignItem

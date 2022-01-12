@@ -18,7 +18,7 @@ describe('Phoning', () => {
     cy.get(paperRoot).eq(4).contains('Questionnaires')
     cy.get(paperRoot).eq(5).contains('75 sur un mois')
 
-    cy.get('[data-testid="Campaigns-list-title"]').contains('Campagnes')
+    cy.get('[data-testid="Campaigns-title"]').contains('Campagnes')
     cy.get(uiCard).eq(0).contains('Terminé')
     cy.get(uiCard)
       .eq(0)
