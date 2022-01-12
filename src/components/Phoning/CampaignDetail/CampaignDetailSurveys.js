@@ -18,7 +18,7 @@ import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
 import { orderBy } from 'lodash'
 
-import { PhoningCampaignReply as DomainPhoningCampaignReply } from 'domain/phoning'
+import { PhoningCampaignDetailSurveysReply as DomainPhoningCampaignDetailSurveysReply } from 'domain/phoning'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
 import { multipleChoice, simpleField, uniqueChoice } from './shared/constants'
@@ -208,7 +208,7 @@ const CampaignDetailSurveys = ({ replies }) => {
 }
 
 CampaignDetailSurveys.propTypes = {
-  replies: PropTypes.arrayOf(PropTypes.shape(DomainPhoningCampaignReply.propTypes)).isRequired,
+  replies: PropTypes.arrayOf(PropTypes.shape(DomainPhoningCampaignDetailSurveysReply.propTypes)).isRequired,
 }
 
 export default CampaignDetailSurveys

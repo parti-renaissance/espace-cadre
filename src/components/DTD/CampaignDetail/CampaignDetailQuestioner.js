@@ -6,7 +6,7 @@ import { TruncatedText } from 'components/shared/styled'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import UICard from 'ui/Card/Card'
 
-const CampaignDetailQuestioners = ({ number, firstName, lastName, count, goal }) => (
+const CampaignDetailQuestioner = ({ number, firstName, lastName, count, goal }) => (
   <Grid item xs={12} sm={6} md={3} data-cy="DTD-campaign-detail-questioners">
     <UICard
       rootProps={{ sx: { height: '125px' } }}
@@ -22,10 +22,10 @@ const CampaignDetailQuestioners = ({ number, firstName, lastName, count, goal })
   </Grid>
 )
 
-CampaignDetailQuestioners.propTypes = {
+CampaignDetailQuestioner.propTypes = {
   number: PropTypes.number.isRequired,
   ...DomainDTDCampaignDetailQuestioner.propTypes,
   goal: PropTypes.number,
 }
 
-export default CampaignDetailQuestioners
+export default CampaignDetailQuestioner

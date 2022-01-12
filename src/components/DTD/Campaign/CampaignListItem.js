@@ -7,7 +7,7 @@ import { fr } from 'date-fns/locale'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { DTDCampaignListItem as DomainDTDCampaignListItem } from 'domain/DTD'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
-import { chipColorsByStatus } from './CampaignDetail/shared/constants'
+import { chipColorsByStatus } from '../CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 
 const HorizontalContainer = styled('div')`
@@ -30,7 +30,7 @@ const messages = {
   ongoing: 'En cours',
 }
 
-const DTDCampaign = ({ endDate, title, score, handleView }) => {
+const DTDCampaignListItem = ({ endDate, title, score, handleView }) => {
   const chipLabel = isBefore(new Date(), endDate) ? messages.ongoing : messages.finished
   const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
 
@@ -76,10 +76,9 @@ const DTDCampaign = ({ endDate, title, score, handleView }) => {
   )
 }
 
-DTDCampaign.propTypes = {
+DTDCampaignListItem.propTypes = {
   ...DomainDTDCampaignListItem.propTypes,
   handleView: PropTypes.func.isRequired,
-  handleUpdate: PropTypes.func.isRequired,
 }
 
-export default DTDCampaign
+export default DTDCampaignListItem

@@ -3,7 +3,10 @@ import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 
-import { PhoningCampaignHistoryAdherent, PhoningCampaignHistoryCaller } from 'domain/phoning'
+import {
+  PhoningCampaignDetailHistoryAdherent as DomainPhoningCampaignDetailHistoryAdherent,
+  PhoningCampaignDetailHistoryCaller as DomainPhoningCampaignDetailHistoryCaller,
+} from 'domain/phoning'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import UICard, { UIChip } from 'ui/Card'
@@ -77,8 +80,8 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller }) => {
 CampaignDetailHistory.propTypes = {
   status: PropTypes.string.isRequired,
   startDate: PropTypes.object.isRequired,
-  adherent: PhoningCampaignHistoryAdherent.propTypes,
-  caller: PhoningCampaignHistoryCaller.propTypes,
+  adherent: PropTypes.shape(DomainPhoningCampaignDetailHistoryAdherent.propTypes),
+  caller: PropTypes.shape(DomainPhoningCampaignDetailHistoryCaller.propTypes),
 }
 
 export default CampaignDetailHistory

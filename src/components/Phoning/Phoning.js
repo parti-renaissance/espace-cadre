@@ -6,8 +6,8 @@ import { styled } from '@mui/system'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getPhoningGlobalKPIQuery, getPhoningCampaignListQuery, getPhoningCampaignQuery } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import PhoningGlobalKPI from './PhoningGlobalKPI'
-import PhoningCampaign from './PhoningCampaign'
+import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
+import CampaignListItem from './Campaign/CampaignListItem'
 import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
@@ -44,7 +44,7 @@ const Phoning = () => {
     () => getPhoningCampaignListQuery(),
     { onError: handleError }
   )
-  const { data: campaign = {} } = useQueryWithScope(
+  const { data: campaignDetail = {} } = useQueryWithScope(
     ['campaign', campaignIdToUpdate],
     () => getPhoningCampaignQuery(campaignIdToUpdate),
     {
@@ -86,7 +86,7 @@ const Phoning = () => {
 
       <Grid container justifyContent="space-between">
         {Object.keys(globalKPI).length > 0 && (
-          <PhoningGlobalKPI campaigns={globalKPI.campaigns} surveys={globalKPI.surveys} calls={globalKPI.calls} />
+          <CampaignGlobalKPI campaigns={globalKPI.campaigns} surveys={globalKPI.surveys} calls={globalKPI.calls} />
         )}
       </Grid>
 
@@ -98,7 +98,7 @@ const Phoning = () => {
         {campaigns.length > 0 && (
           <Grid container spacing={2}>
             {campaigns.map(campaign => (
-              <PhoningCampaign
+              <CampaignListItem
                 key={campaign.id}
                 endDate={campaign.endDate}
                 title={campaign.title}
@@ -114,7 +114,7 @@ const Phoning = () => {
       </Grid>
 
       <CreateEdit
-        campaign={Object.keys(campaign).length > 0 ? campaign : null}
+        campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
         isOpen={isCreateEditModalOpen}
         onCreateResolve={refetchCampaigns}
         handleClose={handleClose}

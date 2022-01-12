@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import { styled } from '@mui/system'
 import { Grid, Typography, Dialog, IconButton, Paper as MuiPaper } from '@mui/material'
@@ -13,8 +14,8 @@ import {
   campaignToFiltersValues,
   campaignToGlobalSettingsValues,
 } from '../CampaignDetail/shared/helpers'
-import { PhoningCampaign as DomainPhoningCampaign } from 'domain/phoning'
-import { createPhoningCampaignQuery, updatePhoningCampaignQuery } from 'api/phoning'
+import { PhoningCampaignCreateEdit as DomainPhoningCampaignCreateEdit } from 'domain/phoning'
+import { createOrUpdatePhoningCampaignQuery } from 'api/phoning'
 import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
 import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
 
@@ -56,20 +57,18 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
   const [filters, setFilters] = useState(initialValues.filters)
 
+  const { campaignId } = useParams()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
 
-  const { mutate: createOrUpdatePhoningCampaign } = useMutation(
-    !campaign ? createPhoningCampaignQuery : updatePhoningCampaignQuery,
-    {
-      onSuccess: () => {
-        enqueueSnackbar(!campaign ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-        onCreateResolve()
-        handleClose()
-      },
-      onError: handleError,
-    }
-  )
+  const { mutate: createOrUpdatePhoningCampaign } = useMutation(createOrUpdatePhoningCampaignQuery, {
+    onSuccess: () => {
+      enqueueSnackbar(!campaign ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      onCreateResolve()
+      handleClose()
+    },
+    onError: handleError,
+  })
 
   useEffect(() => {
     if (!campaign) return
@@ -94,13 +93,20 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
   }
 
   const handleSubmit = () => {
-    const id = campaign?.id ? campaign.id : {}
+    const id = campaignId ?? {}
     const values = { id, ...globalSettings, ...callersAndSurvey, filters }
     createOrUpdatePhoningCampaign(values)
   }
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} PaperComponent={Paper} sx={{ my: 4 }} data-cy="phoning-create-edit">
+    <Dialog
+      scroll="body"
+      open={isOpen}
+      onClose={handleClose}
+      PaperComponent={Paper}
+      sx={{ my: 4 }}
+      data-cy="phoning-create-edit"
+    >
       <Grid container justifyContent="space-between" alignItems="center">
         <Title>{!campaign ? messages.create : messages.update}</Title>
         <IconButton onClick={handleClose}>
@@ -161,7 +167,7 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
 export default CreateEdit
 
 CreateEdit.propTypes = {
-  campaign: DomainPhoningCampaign.propTypes,
+  campaign: PropTypes.shape(DomainPhoningCampaignCreateEdit.propTypes),
   isOpen: PropTypes.bool.isRequired,
   onCreateResolve: PropTypes.func,
   handleClose: PropTypes.func.isRequired,

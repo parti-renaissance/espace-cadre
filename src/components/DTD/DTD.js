@@ -2,12 +2,12 @@ import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
+import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getDTDGlobalKPIQuery, getDTDCampaignListQuery } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import DTDGlobalKPI from './DTDGlobalKPI'
-import DTDCampaignList from './DTDCampaignList'
+import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
+import CampaignListItem from './Campaign/CampaignListItem'
 import PageHeader from 'ui/PageHeader'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -19,11 +19,7 @@ const Title = styled(Typography)(
 
 const messages = {
   title: 'Porte à porte',
-  create: 'Créer une campagne',
   campaigns: 'Campagnes',
-  over: 'Terminé',
-  ongoing: 'En cours',
-  see: 'Voir',
 }
 
 const DTD = () => {
@@ -49,7 +45,7 @@ const DTD = () => {
 
       <Grid container justifyContent="space-between">
         {Object.keys(globalKPI).length > 0 && (
-          <DTDGlobalKPI campaigns={globalKPI.campaigns} surveys={globalKPI.surveys} doors={globalKPI.calls} />
+          <CampaignGlobalKPI campaigns={globalKPI.campaigns} surveys={globalKPI.surveys} doors={globalKPI.calls} />
         )}
       </Grid>
 
@@ -61,7 +57,7 @@ const DTD = () => {
         {campaigns.length > 0 && (
           <Grid container spacing={2}>
             {campaigns.map(campaign => (
-              <DTDCampaignList
+              <CampaignListItem
                 key={campaign.id}
                 endDate={campaign.endDate}
                 title={campaign.title}

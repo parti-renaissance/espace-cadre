@@ -6,9 +6,9 @@ import { format, isBefore } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import { PhoningCampaigns as DomainPhoningCampaigns } from 'domain/phoning'
+import { PhoningCampaignListItem as DomainPhoningCampaignListItem } from 'domain/phoning'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
-import { chipColorsByStatus } from './CampaignDetail/shared/constants'
+import { chipColorsByStatus } from '../CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
@@ -32,7 +32,7 @@ const messages = {
   ongoing: 'En cours',
 }
 
-const PhoningCampaign = ({ endDate, title, author, team, score, handleView, handleUpdate }) => {
+const CampaignListItem = ({ endDate, title, author, team, score, handleView, handleUpdate }) => {
   const chipLabel = isBefore(new Date(), endDate) ? messages.ongoing : messages.finished
   const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
 
@@ -88,10 +88,10 @@ const PhoningCampaign = ({ endDate, title, author, team, score, handleView, hand
   )
 }
 
-PhoningCampaign.propTypes = {
-  ...DomainPhoningCampaigns.PropTypes,
+CampaignListItem.propTypes = {
+  ...DomainPhoningCampaignListItem.propTypes,
   handleView: PropTypes.func.isRequired,
   handleUpdate: PropTypes.func.isRequired,
 }
 
-export default PhoningCampaign
+export default CampaignListItem
