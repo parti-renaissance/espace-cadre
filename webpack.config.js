@@ -84,7 +84,7 @@ module.exports = (env, argv = {}) => {
           use: ['style-loader', 'css-loader', 'sass-loader'],
         },
         {
-          test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+          test: /\.woff2$/,
           use: [
             {
               loader: 'file-loader',
