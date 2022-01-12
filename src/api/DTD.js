@@ -32,12 +32,16 @@ export const getDTDGlobalKPIQuery = async () => {
   return new DTDGlobalKPI(campaigns, surveys, doors)
 }
 
-export const getDTDCampaignListQuery = async () => {
-  const data = await apiClient.get('api/v3/pap_campaigns')
-  return data.items.map(c => {
+export const getDTDCampaignListQuery = async ({ pageParam: page = 1 }) => {
+  const query = `?order[created_at]=desc&page=${page}&page_size=20`
+  const data = await apiClient.get(`api/v3/pap_campaigns${query}`)
+
+  const campaignList = data.items.map(c => {
     const score = new DTDCampaignListItemScore(c.nb_surveys, c.goal)
     return new DTDCampaignListItem(c.uuid, new Date(c.finish_at), c.title, score)
   })
+
+  return newPaginatedResult(campaignList, data.metadata)
 }
 
 export const getDTDCampaignDetailQuery = async campaignId => {
