@@ -24,6 +24,12 @@ const Title = styled(Typography)(
 `
 )
 
+const infiniteScrollStylesOverrides = {
+  '& .infinite-scroll-component__outerdiv': {
+    width: '100%',
+  },
+}
+
 const messages = {
   title: 'Phoning',
   create: 'Créer une campagne',
@@ -45,7 +51,7 @@ const Phoning = () => {
 
   const {
     data: paginatedCampaigns = null,
-    fetchNextPage: fetchNexPageCampaigns,
+    fetchNextPage: fetchNextPageCampaigns,
     hasNextPage: hasNextPageCampaigns,
     refetch: refetchCampaigns,
   } = useInfiniteQueryWithScope('campaigns', pageParams => getPhoningCampaignsQuery(pageParams), {
@@ -100,15 +106,15 @@ const Phoning = () => {
         )}
       </Grid>
 
-      <Grid container justifyContent="space-between" sx={{ pt: 4 }}>
+      <Grid container justifyContent="space-between" sx={{ pt: 4, ...infiniteScrollStylesOverrides }}>
         <Grid container>
           <Title data-testid="Campaigns-title">{messages.campaigns}</Title>
         </Grid>
 
         {campaigns.length > 0 && (
           <InfiniteScroll
-            dataLength={history.length}
-            next={() => fetchNexPageCampaigns()}
+            dataLength={campaigns.length}
+            next={() => fetchNextPageCampaigns()}
             hasMore={hasNextPageCampaigns}
             loader={<Loader />}
           >
