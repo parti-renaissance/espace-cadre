@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from 'react-query'
-import { Dialog, Paper, Grid, Button, Typography } from '@mui/material'
+import { Dialog, Paper, Grid, Button, Typography, Autocomplete, Input } from '@mui/material'
 import { styled } from '@mui/system'
 import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik'
@@ -8,10 +9,13 @@ import * as Yup from 'yup'
 import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import Loader from 'ui/Loader'
-import { createGroupQuery, updateGroupQuery } from 'api/groups'
+import { createGroupQuery, updateGroupQuery, getUserZones } from 'api/groups'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useUserScope } from '../../redux/user/hooks'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { useDebounce } from 'components/shared/debounce'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -63,6 +67,11 @@ const groupSchema = Yup.object({
 const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
+  const [currentScope] = useUserScope()
+  const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
+  const [zoneInput, setZoneInput] = useState('')
+  const [isZoneFetchable, setIsZoneFetchable] = useState(false)
+  const debounce = useDebounce()
 
   const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation(
     !group?.id ? createGroupQuery : updateGroupQuery,
@@ -75,6 +84,19 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
     }
   )
 
+  const { data: zones = [], isFetching: isZonesFetching } = useQueryWithScope(
+    ['zones', zoneInput],
+    () => {
+      setIsZoneFetchable(false)
+      return getUserZones(zoneInput)
+    },
+    {
+      enabled: isZoneFetchable && !!zoneInput,
+      onSuccess: () => {},
+      onError: handleError,
+    }
+  )
+
   const handleClose = () => {
     onCloseResolve()
   }
@@ -82,11 +104,12 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
   const formik = useFormik({
     initialValues: {
       name: group?.name,
+      zone: group?.zone,
     },
     validationSchema: groupSchema,
     enableReinitialize: true,
     onSubmit: async values => {
-      await createOrUpdateGroup(group.withName(values.name))
+      await createOrUpdateGroup(group.withName(values.name).withZone(values.zone))
       handleClose()
     },
   })
@@ -112,6 +135,39 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
           <Grid item xs={12}>
             <TextField formik={formik} label="name" />
           </Grid>
+          {/* <Grid item xs={12}>
+            {!nationalScopes.includes(currentScope.code) && (
+              <Autocomplete options={zones} renderInput={params => <TextField {...params} label="Zone" />} />
+            )}
+          </Grid> */}
+
+          <Autocomplete
+            options={zones}
+            inputValue={zoneInput}
+            value={group.zone?.name || ''}
+            onInputChange={(_, value) => {
+              setZoneInput(value)
+              debounce(() => setIsZoneFetchable(true))
+            }}
+            onChange={(_, value) => {
+              formik.setFieldValue('zone', value)
+            }}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            getOptionLabel={option => option.name ?? ''}
+            renderOption={(props, option) => (
+              <MenuItem {...props} key={option.id}>
+                <Typography>{option.name}</Typography>
+              </MenuItem>
+            )}
+            renderInput={params => <Input name="zone" placeholder="Zone" {...params} />}
+            loading={isZonesFetching}
+            loadingText="Loading"
+            noOptionsText="No data found"
+            limitTags={3}
+            autoComplete
+            fullWidth
+          />
+
           {errors
             .filter(({ field }) => field === 'name')
             .map(({ field, message }) => (

@@ -1,6 +1,12 @@
 import { Group, GroupMember } from 'domain/group'
 import { apiClient } from 'services/networking/client'
 import { newPaginatedResult } from 'api/pagination'
+import { Zone } from 'domain/zone'
+
+export const getUserZones = async (q = '') => {
+  const data = await apiClient.get(`/api/v3/zone/autocomplete?q=${q}`)
+  return data.map(z => new Zone(z.uuid, z.name, z.code))
+}
 
 const formatGroupMembers = (members = []) =>
   members.map(
@@ -15,7 +21,7 @@ const formatGroupMembers = (members = []) =>
 
 const formatGroup = (group = {}) => {
   const members = new Array(group.members_count).fill(GroupMember.NULL)
-  return new Group(group.uuid, group.name, group.creator, members)
+  return new Group(group.uuid, group.name, group.creator, members, null, null)
 }
 
 export const getGroupsQuery = async ({ pageParam: page = 1 }) => {
@@ -27,16 +33,26 @@ export const getGroupsQuery = async ({ pageParam: page = 1 }) => {
 export const getGroupQuery = async groupId => {
   const group = await apiClient.get(`api/v3/teams/${groupId}`)
   const groupMembers = formatGroupMembers(group.members)
-  return new Group(group.uuid, group.name, group.creator, groupMembers)
+  if (group.visibility === 'national') return new Group(group.uuid, group.name, group.creator, groupMembers, true, null)
+  return new Group(
+    group.uuid,
+    group.name,
+    group.creator,
+    groupMembers,
+    false,
+    new Zone(group.zone.uuid, group.zone.code, group.zone.name)
+  )
 }
 
 export const createGroupQuery = group =>
   apiClient.post('api/v3/teams', {
     name: group.name,
+    zone: group.zone?.id,
   })
 export const updateGroupQuery = group =>
   apiClient.put(`api/v3/teams/${group.id}`, {
     name: group.name,
+    zone: group.zone?.id,
   })
 
 export const addGroupMemberQuery = ({ groupId, memberId }) =>
