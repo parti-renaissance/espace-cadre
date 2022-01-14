@@ -75,7 +75,7 @@ const Area = styled(Typography)`
 `
 
 const messages = {
-  zone: 'zone',
+  zone: ' zone',
   backTo: 'Retour sur en-marche.fr',
 }
 

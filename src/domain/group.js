@@ -1,19 +1,18 @@
 import PropTypes, { arrayOf } from 'prop-types'
 import { Zone } from './zone'
 export class Group {
-  constructor(id, name, creator, members, isNational, zone) {
+  constructor(id, name, creator, members, zone) {
     this.id = id
     this.name = name
     this.creator = creator
     this.members = members
-    this.isNational = isNational
     this.zone = zone
   }
 
-  static NULL = new Group(0, '', '', [], '', null)
+  static NULL = new Group(0, '', '', [], null)
 
-  withName = newName => new Group(this.id, newName, this.creator, this.members, this.isNational, this.zone)
-  withZone = newZone => new Group(this.id, this.name, this.creator, this.members, this.isNational, newZone)
+  withName = newName => new Group(this.id, newName, this.creator, this.members, this.zone)
+  withZone = newZone => new Group(this.id, this.name, this.creator, this.members, newZone)
 }
 
 export class GroupMember {
@@ -41,6 +40,5 @@ Group.propTypes = PropTypes.shape({
   name: PropTypes.string,
   creator: PropTypes.string,
   members: arrayOf(GroupMember).propTypes,
-  isNational: PropTypes.bool,
   zone: Zone.PropTypes,
 })

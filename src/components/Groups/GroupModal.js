@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useMemo } from 'react'
 import { useMutation } from 'react-query'
 import { Dialog, Paper, Grid, Button, Typography } from '@mui/material'
 import TextField from 'ui/TextField'
@@ -19,6 +20,10 @@ const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
   width: 664px;
   border-radius: 12px;
+`
+const Form = styled('form')`
+  display: flex;
+  flex-direction: column;
 `
 
 const ModalTitle = styled(Typography)`
@@ -61,12 +66,13 @@ const messages = {
 const groupSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
+const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
 
 const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const [currentScope] = useUserScope()
-  const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
+  const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
 
   const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation(
     !group?.id ? createGroupQuery : updateGroupQuery,
@@ -86,7 +92,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
   const formik = useFormik({
     initialValues: {
       name: group?.name,
-      zone: group?.zone || currentScope.zones[0].uuid,
+      zone: isNational ? null : group?.zone?.id || currentScope.zones[0].uuid,
     },
     validationSchema: groupSchema,
     enableReinitialize: true,
@@ -98,7 +104,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
-      <form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
         <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
           <Grid item>
             <ModalTitle component="span">{group?.id ? messages.edit : messages.create}</ModalTitle>
@@ -125,26 +131,23 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
               </Grid>
             ))}
         </Grid>
-        {!nationalScopes.includes(currentScope.code) && (
-          <Grid container sx={{ mb: 2 }}>
-            <Grid item xs={12}>
-              <UISelect
-                options={currentScope.zones.map(z => ({ key: z.uuid, value: `${z.name} - ${z.code}` }))}
-                onChange={v => {
-                  formik.setFieldValue('zone', v)
-                }}
-                value={formik.values.zone}
-              />
-            </Grid>
-          </Grid>
+        {!isNational && (
+          <UISelect
+            options={currentScope.zones.map(z => ({ key: z.uuid, value: `${z.name} - ${z.code}` }))}
+            onChange={v => {
+              formik.setFieldValue('zone', v)
+            }}
+            value={formik.values.zone}
+            disabled={currentScope.zones.length === 1}
+          />
         )}
 
-        <Grid container>
+        <Grid container sx={{ mt: 2 }}>
           <SubmitButton type="submit" fullWidth>
             {isLoading ? <Loader size={12} color="white" /> : messages.submit}
           </SubmitButton>
         </Grid>
-      </form>
+      </Form>
     </Dialog>
   )
 }

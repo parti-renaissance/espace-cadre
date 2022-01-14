@@ -1,6 +1,7 @@
 import { ListItemText, MenuItem, Select as MuiSelect } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
+import { useCallback } from 'react'
 
 const Select = styled(MuiSelect)(
   ({ theme }) => `
@@ -15,27 +16,34 @@ const Select = styled(MuiSelect)(
 `
 )
 
-const UISelect = ({ value, onChange, options, placeholder = null }) => (
-  <Select
-    onChange={e => onChange(e.target.value)}
-    value={value}
-    renderValue={selected => options.find(o => o.key === selected)?.value || placeholder || ''}
-    displayEmpty
-    size="small"
-    sx={{ width: '100%' }}
-  >
-    {placeholder && (
-      <MenuItem value="" disabled>
-        <ListItemText primary={placeholder} />
-      </MenuItem>
-    )}
-    {options.map(({ key, value }) => (
-      <MenuItem key={key} value={key}>
-        <ListItemText primary={value} />
-      </MenuItem>
-    ))}
-  </Select>
-)
+const UISelect = ({ value, onChange, options, placeholder = null, renderValue, ...props }) => {
+  const defaultRenderValue = useCallback(
+    selected => options.find(o => o.key === selected)?.value || placeholder,
+    [options, placeholder]
+  )
+
+  return (
+    <Select
+      size="small"
+      {...props}
+      onChange={e => onChange(e.target.value)}
+      value={value}
+      renderValue={renderValue || defaultRenderValue}
+      displayEmpty
+    >
+      {placeholder && (
+        <MenuItem value="" disabled>
+          <ListItemText primary={placeholder} />
+        </MenuItem>
+      )}
+      {options.map(({ key, value, disabled = false }) => (
+        <MenuItem key={key} value={key} disabled={disabled}>
+          <ListItemText primary={value} />
+        </MenuItem>
+      ))}
+    </Select>
+  )
+}
 
 UISelect.propTypes = {
   value: PropTypes.string.isRequired,
@@ -44,9 +52,11 @@ UISelect.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
+      disabled: PropTypes.bool,
     })
   ).isRequired,
   placeholder: PropTypes.string,
+  renderValue: PropTypes.func,
 }
 
 export default UISelect

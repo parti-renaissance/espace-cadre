@@ -16,7 +16,14 @@ const formatGroupMembers = (members = []) =>
 
 const formatGroup = (group = {}) => {
   const members = new Array(group.members_count).fill(GroupMember.NULL)
-  return new Group(group.uuid, group.name, group.creator, members, null, null)
+  if (group.visibility === 'national') return new Group(group.uuid, group.name, group.creator, members, null)
+  return new Group(
+    group.uuid,
+    group.name,
+    group.creator,
+    members,
+    new Zone(group.zone.uuid, group.zone.name, group.zone.code)
+  )
 }
 
 export const getGroupsQuery = async ({ pageParam: page = 1 }) => {
@@ -28,14 +35,13 @@ export const getGroupsQuery = async ({ pageParam: page = 1 }) => {
 export const getGroupQuery = async groupId => {
   const group = await apiClient.get(`api/v3/teams/${groupId}`)
   const groupMembers = formatGroupMembers(group.members)
-  if (group.visibility === 'national') return new Group(group.uuid, group.name, group.creator, groupMembers, true, null)
+  if (group.visibility === 'national') return new Group(group.uuid, group.name, group.creator, groupMembers, null)
   return new Group(
     group.uuid,
     group.name,
     group.creator,
     groupMembers,
-    false,
-    new Zone(group.zone.uuid, group.zone.code, group.zone.name)
+    new Zone(group.zone.uuid, group.zone.name, group.zone.code)
   )
 }
 
