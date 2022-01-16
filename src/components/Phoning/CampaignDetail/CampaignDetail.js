@@ -120,7 +120,7 @@ export const CampaignDetail = () => {
             <PageHeaderButton
               label={messages.modify}
               icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-              onClick={() => setIsCreateEditModalOpen(true)}
+              onClick={() => (Object.keys(campaignDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
             />
           }
         />
@@ -210,10 +210,9 @@ export const CampaignDetail = () => {
         )}
       </Grid>
 
-      {Object.keys(campaignDetail).length > 0 && (
+      {isCreateEditModalOpen && (
         <CreateEdit
-          campaign={campaignDetail.createEdit}
-          isOpen={isCreateEditModalOpen}
+          campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
           onCreateResolve={refetchCampaignDetail}
           handleClose={() => setIsCreateEditModalOpen(false)}
         />

@@ -8,31 +8,44 @@ export const secondsToMinutesAndSeconds = seconds => {
   return textInMinutes || textInSeconds ? `${textInMinutes}${textInSeconds}` : 0
 }
 
-export const campaignToGlobalSettingsValues = campaign => ({
-  title: campaign.global.title ?? '',
-  goal: campaign.global.goal ?? '',
-  endDate: campaign.global.endDate ?? '',
-  brief: campaign.global.brief ?? '',
+export const campaignToGlobalSettingsValues = ({ title, goal, endDate, brief }) => ({
+  title: title ?? '',
+  goal: goal ?? '',
+  endDate: endDate ?? '',
+  brief: brief ?? '',
 })
 
-export const campaignToCallersAndSurveyValues = campaign => ({
-  team: campaign.team ?? null,
-  survey: campaign.survey ?? null,
+export const campaignToCallersAndSurveyValues = ({ team, survey }) => ({
+  team: team ?? null,
+  survey: survey ?? null,
 })
 
-export const campaignToFiltersValues = campaign => ({
-  firstName: campaign.filters?.firstName ?? '',
-  lastName: campaign.filters?.lastName ?? '',
-  gender: campaign.filters?.gender ?? '',
-  adherentFromDate: campaign.filters?.adherentFromDate ?? '',
-  adherentToDate: campaign.filters?.adherentToDate ?? '',
-  ageMin: campaign.filters?.ageMin ?? '',
-  ageMax: campaign.filters?.ageMax ?? '',
-  certified: campaign.filters?.certified ?? false,
-  committeeMember: campaign.filters?.committeeMember ?? false,
-  emailSubscribed: campaign.filters?.emailSubscribed ?? false,
-  SMSSubscribed: campaign.filters?.SMSSubscribed ?? false,
-  zones: campaign.filters?.zones ?? [],
+export const campaignToFiltersValues = ({
+  firstName,
+  lastName,
+  gender,
+  adherentFromDate,
+  adherentToDate,
+  ageMin,
+  ageMax,
+  certified,
+  committeeMember,
+  emailSubscribed,
+  SMSSubscribed,
+  zones,
+}) => ({
+  firstName: firstName ?? '',
+  lastName: lastName ?? '',
+  gender: gender ?? '',
+  adherentFromDate: adherentFromDate ?? '',
+  adherentToDate: adherentToDate ?? '',
+  ageMin: ageMin ?? '',
+  ageMax: ageMax ?? '',
+  certified: certified ?? false,
+  committeeMember: committeeMember ?? false,
+  emailSubscribed: emailSubscribed ?? false,
+  SMSSubscribed: SMSSubscribed ?? false,
+  zones: zones ?? [],
 })
 
 export const timeDifferenceToString = (startDate, endDate) => {

@@ -136,12 +136,13 @@ const Phoning = () => {
         )}
       </Grid>
 
-      <CreateEdit
-        campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
-        isOpen={isCreateEditModalOpen}
-        onCreateResolve={refetchCampaigns}
-        handleClose={handleClose}
-      />
+      {isCreateEditModalOpen && (
+        <CreateEdit
+          campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
+          onCreateResolve={refetchCampaigns}
+          handleClose={handleClose}
+        />
+      )}
     </Container>
   )
 }

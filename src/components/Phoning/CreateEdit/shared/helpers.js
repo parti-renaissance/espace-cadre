@@ -1,19 +1,10 @@
 const validateGlobalSettings = ({ title, goal, endDate, brief }) => !!title && !!goal && !!endDate && !!brief
 const validateCallersAndSurvey = ({ team, survey }) => !!team?.name && !!survey?.name
-const validateFilters = ({ firstName, lastName, gender, adherentFromDate, adherentToDate, ageMin, ageMax, zones }) =>
-  !!firstName &&
-  !!lastName &&
-  !!gender &&
-  !!adherentFromDate &&
-  !!adherentToDate &&
-  !!ageMin &&
-  !!ageMax &&
-  zones?.length > 0
 
 export const validators = {
   globalSettings: validateGlobalSettings,
   callersAndSurvey: validateCallersAndSurvey,
-  filters: validateFilters,
+  filters: () => true,
 }
 
 export const toggleValidStep = (id, isValid) => steps => {
@@ -24,12 +15,15 @@ export const toggleValidStep = (id, isValid) => steps => {
   return validSteps
 }
 
-export const validateAllSteps = data => steps => {
+export const validateAllSteps = data => () => {
   const allValidators = [validators.globalSettings, validators.callersAndSurvey, validators.filters]
   const validSteps = []
   allValidators.forEach((validate, index) => {
-    const isValid = validate(index < 2 ? data : data.filters || {})
-    isValid === true && !steps.includes(index) && validSteps.push(index)
+    let isValid = false
+    if (index === 0) isValid = validate(data.global)
+    if (index === 1) isValid = validate({ team: data.team, survey: data.survey })
+    if (index === 2) isValid = validate(data.filters)
+    isValid === true && !validSteps.includes(index) && validSteps.push(index)
   })
   return validSteps
 }
