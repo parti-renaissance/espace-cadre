@@ -18,8 +18,7 @@ import { PhoningCampaignCreateEdit as DomainPhoningCampaignCreateEdit } from 'do
 import { createOrUpdatePhoningCampaignQuery } from 'api/phoning'
 import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
 import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
-
-import UIStepper from 'ui/Stepper/Stepper'
+import Stepper from './shared/components/Stepper'
 import ValidateAction from './CreateEditValidateAction'
 import GlobalSettings from './CreateEditGlobalSettings'
 import CallersAndSurvey from './CreateEditCallersAndSurvey'
@@ -51,8 +50,8 @@ const messages = {
   },
 }
 
-const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
-  const [validSteps, setValidSteps] = useState([])
+const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
+  const [validSteps, setValidSteps] = useState([2])
   const [globalSettings, setGlobalSettings] = useState(initialValues.globalSettings)
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
   const [filters, setFilters] = useState(initialValues.filters)
@@ -72,9 +71,9 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
 
   useEffect(() => {
     if (!campaign) return
-    setGlobalSettings(campaignToGlobalSettingsValues(campaign))
-    setCallersAndSurvey(campaignToCallersAndSurveyValues(campaign))
-    setFilters(campaignToFiltersValues(campaign))
+    setGlobalSettings(campaignToGlobalSettingsValues(campaign.global))
+    setCallersAndSurvey(campaignToCallersAndSurveyValues({ team: campaign.team, survey: campaign.survey }))
+    setFilters(campaignToFiltersValues(campaign.filters))
     setValidSteps(validateAllSteps(campaign))
   }, [campaign])
 
@@ -87,7 +86,7 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
   const handleChangeAndValidate = (updateValues, validateStep) => (key, value) => {
     updateValues(values => {
       const updatedValues = { ...values, [key]: value }
-      validateStep(updatedValues)
+      validateStep && validateStep(updatedValues)
       return updatedValues
     })
   }
@@ -101,11 +100,11 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
   return (
     <Dialog
       scroll="body"
-      open={isOpen}
+      data-cy="phoning-create-edit"
       onClose={handleClose}
       PaperComponent={Paper}
       sx={{ my: 4 }}
-      data-cy="phoning-create-edit"
+      open
     >
       <Grid container justifyContent="space-between" alignItems="center">
         <Title>{!campaign ? messages.create : messages.update}</Title>
@@ -115,12 +114,12 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
       </Grid>
 
       <Grid container>
-        <UIStepper orientation="vertical" validSteps={validSteps} stepsCount={3} sx={{ width: '100%', pt: 4 }}>
+        <Stepper orientation="vertical" validSteps={validSteps} stepsCount={3} sx={{ width: '100%', pt: 4 }}>
           <GlobalSettingsContext.Provider
             value={{
               errors: errorMessages,
               values: globalSettings,
-              initialValues: campaign ? campaignToGlobalSettingsValues(campaign) : initialValues.globalSettings,
+              initialValues: campaign ? globalSettings : initialValues.globalSettings,
               updateValues: handleChangeAndValidate(
                 setGlobalSettings,
                 handleStepValidation(0, validators.globalSettings)
@@ -133,7 +132,7 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
             value={{
               errors: errorMessages,
               values: callersAndSurvey,
-              initialValues: campaign ? campaignToCallersAndSurveyValues(campaign) : initialValues.callersAndSurvey,
+              initialValues: campaign ? globalSettings : initialValues.callersAndSurvey,
               updateValues: handleChangeAndValidate(
                 setCallersAndSurvey,
                 handleStepValidation(1, validators.callersAndSurvey)
@@ -146,13 +145,13 @@ const CreateEdit = ({ campaign, isOpen, onCreateResolve, handleClose }) => {
             value={{
               errors: errorMessages,
               values: filters,
-              initialValues: campaign ? campaignToFiltersValues(campaign) : initialValues.filters,
-              updateValues: handleChangeAndValidate(setFilters, handleStepValidation(2, validators.filters)),
+              initialValues: campaign ? filters : initialValues.filters,
+              updateValues: handleChangeAndValidate(setFilters),
             }}
           >
             <Filters title={messages.steps.filters} />
           </FiltersContext.Provider>
-        </UIStepper>
+        </Stepper>
 
         <ValidateAction
           label={!campaign ? messages.create : messages.update}
@@ -168,7 +167,6 @@ export default CreateEdit
 
 CreateEdit.propTypes = {
   campaign: PropTypes.shape(DomainPhoningCampaignCreateEdit.propTypes),
-  isOpen: PropTypes.bool.isRequired,
   onCreateResolve: PropTypes.func,
   handleClose: PropTypes.func.isRequired,
 }

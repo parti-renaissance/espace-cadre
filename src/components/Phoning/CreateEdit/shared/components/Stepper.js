@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { styled } from '@mui/system'
 import {
   Button,
-  Stepper,
+  Stepper as MuiStepper,
   Step,
   StepButton as MuiStepButton,
   StepContent,
@@ -19,7 +19,7 @@ const StepConnector = styled(MuiStepConnector)({
   },
 })
 
-const StepButton = styled(
+const StepTitleButton = styled(
   MuiStepButton,
   shouldForwardProps
 )(({ theme, isCurrentStep }) => ({
@@ -65,7 +65,7 @@ const messages = {
   finish: 'Terminer',
 }
 
-const UIStepper = ({ stepsCount, validSteps = [], children, ...props }) => {
+const Stepper = ({ stepsCount, validSteps = [], children, ...props }) => {
   const [activeStep, setActiveStep] = useState(0)
   const handlePrevStep = useCallback(() => setActiveStep(prevStep => prevStep - 1), [])
   const handleNextStep = useCallback(() => setActiveStep(prevStep => prevStep + 1), [])
@@ -79,14 +79,14 @@ const UIStepper = ({ stepsCount, validSteps = [], children, ...props }) => {
   if (!activeStep && activeStep !== 0) return null
 
   return (
-    <Stepper connector={<StepConnector />} activeStep={activeStep} {...props}>
+    <MuiStepper connector={<StepConnector />} activeStep={activeStep} {...props}>
       {React.Children.map(children, (step, index) => (
         <Step key={index}>
           <Grid container direction="column">
             <Grid item>
-              <StepButton disabled={activeStep <= index} onClick={handleRestartFromStep(index)}>
+              <StepTitleButton disabled={activeStep <= index} onClick={handleRestartFromStep(index)}>
                 {step.props.children.props.title}
-              </StepButton>
+              </StepTitleButton>
             </Grid>
 
             <StepContent TransitionProps={{ unmountOnExit: false }}>
@@ -104,14 +104,14 @@ const UIStepper = ({ stepsCount, validSteps = [], children, ...props }) => {
           </Grid>
         </Step>
       ))}
-    </Stepper>
+    </MuiStepper>
   )
 }
 
-UIStepper.propTypes = {
+Stepper.propTypes = {
   stepsCount: PropTypes.number.isRequired,
   validSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
   children: PropTypes.node.isRequired,
 }
 
-export default UIStepper
+export default Stepper

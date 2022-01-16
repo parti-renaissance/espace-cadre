@@ -20,7 +20,7 @@ const SelectOption = ({ label, inputValue, detail, ...props }) => (
 SelectOption.propTypes = {
   label: PropTypes.string.isRequired,
   inputValue: PropTypes.string.isRequired,
-  detail: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+  detail: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 }
 
 export default SelectOption
