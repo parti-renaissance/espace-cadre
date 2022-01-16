@@ -28,6 +28,7 @@ const messages = {
 const CreateEditGlobalSettings = () => {
   const { errors, initialValues, updateValues } = useContext(GlobalSettingsContext)
   const [inputValues, setInputValues] = useState(initialValues)
+  const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false)
   const debounce = useDebounce()
 
   const updateInputValues = useCallback((key, value) => {
@@ -65,13 +66,22 @@ const CreateEditGlobalSettings = () => {
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.endDate}</Label>
       <DatePicker
         inputFormat="dd/MM/yyyy"
+        open={isEndDatePickerOpen}
         value={inputValues.endDate}
         onChange={value => {
           updateInputValues(fields.endDate, value)
           debounce(() => updateValues(fields.endDate, value))
         }}
         renderInput={props => <Input type="date" name={fields.endDate} {...props} />}
-        inputProps={{ placeholder: messages.placeholder.endDate }}
+        inputProps={{ placeholder: messages.placeholder.endDate, autoComplete: 'off' }}
+        InputProps={{
+          onClick: () => {
+            setIsEndDatePickerOpen(true)
+          },
+        }}
+        onClose={() => {
+          setIsEndDatePickerOpen(false)
+        }}
         components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
         InputAdornmentProps={{
           position: 'start',
