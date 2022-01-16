@@ -107,13 +107,7 @@ const CreateEditCallersAndSurvey = () => {
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={option => option.name ?? ''}
         renderOption={(props, option) => (
-          <SelectOption
-            {...props}
-            key={option.id}
-            label={option.name}
-            inputValue={inputValues.survey?.name ?? ''}
-            detail={<>{option.name}</>}
-          />
+          <SelectOption {...props} key={option.id} label={option.name} inputValue={inputValues.survey?.name ?? ''} />
         )}
         renderInput={params => <Input name={fields.survey} placeholder={messages.placeholder.survey} {...params} />}
         loading={isSurveysFetching}
