@@ -49,11 +49,10 @@
     "build": "webpack --mode production",
     "test": "jest",
     "test-coverage": "jest src --coverage",
+    "test:cy": "cypress open",
     "lint": "eslint './src/**/*.{js,jsx}' --ignore-path .gitignore",
     "lint:fix": "yarn run lint --fix",
-    "prepare": "husky install",
-    "itest-debug": "cypress open",
-    "itest": "cypress run --browser chrome"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/core": "7.16.7",
