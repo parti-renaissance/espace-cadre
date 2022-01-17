@@ -4,7 +4,7 @@ import { Integrations } from '@sentry/tracing'
 import App from './App'
 import makeServer from 'api/mock'
 
-if (process.env.NODE_ENV === 'development' && !process.env.REACT_APP_OAUTH_HOST) {
+if (process.env.NODE_ENV === 'development' && !process.env.REACT_APP_API_HOST) {
   makeServer({ environment: process.env.NODE_ENV })
 }
 

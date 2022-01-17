@@ -53,6 +53,7 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY_GCS_PUSHER_DATACORNER }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           bucket: ${{ secrets.GCP_GCS_BUCKET }}
+          react_app_api_host: ${{ secrets.REACT_APP_API_HOST }}
           react_app_oauth_host: ${{ secrets.REACT_APP_OAUTH_HOST }}
           react_app_oauth_client_id: ${{ secrets.REACT_APP_OAUTH_CLIENT_ID }}
           react_app_internal_app_id: ${{ secrets.REACT_APP_INTERNAL_APP_ID }}
@@ -81,6 +82,7 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY_GCS_PUSHER_DATACORNER }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           bucket: ${{ secrets.GCP_GCS_BUCKET }}
+          react_app_api_host: ${{ secrets.REACT_APP_API_HOST }}
           react_app_oauth_host: ${{ secrets.REACT_APP_OAUTH_HOST }}
           react_app_oauth_client_id: ${{ secrets.REACT_APP_OAUTH_CLIENT_ID }}
           react_app_internal_app_id: ${{ secrets.REACT_APP_INTERNAL_APP_ID }}

@@ -33,6 +33,7 @@ module.exports = (env, argv = {}) => {
           REACT_APP_INTERNAL_APP_ID: process.env.REACT_APP_INTERNAL_APP_ID,
           REACT_APP_MAPBOX_STYLE: process.env.REACT_APP_MAPBOX_STYLE,
           REACT_APP_MAPBOX_TOKEN: process.env.REACT_APP_MAPBOX_TOKEN,
+          REACT_APP_API_HOST: process.env.REACT_APP_API_HOST,
           REACT_APP_OAUTH_CLIENT_ID: process.env.REACT_APP_OAUTH_CLIENT_ID,
           REACT_APP_OAUTH_HOST: process.env.REACT_APP_OAUTH_HOST,
           REACT_APP_SENTRY_DSN: process.env.REACT_APP_SENTRY_DSN,
