@@ -43,6 +43,7 @@ runs:
     - shell: bash
       run: |-
         echo "" > .env.production
+        echo "REACT_APP_API_HOST=${{ inputs.react_app_api_host }}" >> .env.production
         echo "REACT_APP_OAUTH_HOST=${{ inputs.react_app_oauth_host }}" >> .env.production
         echo "REACT_APP_OAUTH_CLIENT_ID=${{ inputs.react_app_oauth_client_id }}" >> .env.production
         echo "REACT_APP_INTERNAL_APP_ID=${{ inputs.react_app_internal_app_id }}" >> .env.production

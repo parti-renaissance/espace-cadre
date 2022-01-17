@@ -3,7 +3,7 @@ import { getAccessToken as selectorGetAccessToken, getCurrentScope } from '../..
 import { store } from '../../redux/store'
 import { userLogout } from '../../redux/auth'
 
-const API_BASE_URL = `${process.env.REACT_APP_OAUTH_HOST}/api`
+const API_BASE_URL = `${process.env.REACT_APP_API_HOST}/api`
 
 const handleHttpError = error => {
   const { response = {} } = error

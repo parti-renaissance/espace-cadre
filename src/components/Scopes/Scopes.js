@@ -124,7 +124,7 @@ function Scopes() {
           <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             <MenuItemToMainSite>
               <Scope>
-                <a href={process.env.REACT_APP_OAUTH_HOST}>{messages.backTo}</a>
+                <a href={process.env.REACT_APP_API_HOST}>{messages.backTo}</a>
               </Scope>
             </MenuItemToMainSite>
 
