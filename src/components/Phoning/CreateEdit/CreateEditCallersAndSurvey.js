@@ -1,5 +1,5 @@
 import { useCallback, useContext, useState } from 'react'
-import { Autocomplete } from '@mui/material'
+import { Autocomplete, Paper } from '@mui/material'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
@@ -85,6 +85,8 @@ const CreateEditCallersAndSurvey = () => {
           />
         )}
         renderInput={params => <Input name={fields.team} placeholder={messages.placeholder.team} {...params} />}
+        PaperComponent={props => <Paper {...props} sx={{ border: '1px solid', borderColor: 'gray300' }} />}
+        ListboxProps={{ sx: { padding: 0 } }}
         loading={isTeamsFetching}
         loadingText={messages.pleaseWait}
         noOptionsText={messages.noResult}
@@ -110,6 +112,8 @@ const CreateEditCallersAndSurvey = () => {
           <SelectOption {...props} key={option.id} label={option.name} inputValue={inputValues.survey?.name ?? ''} />
         )}
         renderInput={params => <Input name={fields.survey} placeholder={messages.placeholder.survey} {...params} />}
+        PaperComponent={props => <Paper {...props} sx={{ border: '1px solid', borderColor: 'gray300' }} />}
+        ListboxProps={{ sx: { padding: 0 } }}
         loading={isSurveysFetching}
         loadingText={messages.pleaseWait}
         noOptionsText={messages.noResult}
