@@ -36,12 +36,14 @@ const StepTitleButton = styled(
 }))
 
 const PrevStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
-  backgroundColor: theme.palette.campaign.button.background.prev,
-  color: theme.palette.campaign.button.color.prev,
   borderRadius: '8px',
-  '&:hover': {
+  '&:not(.Mui-disabled)': {
     backgroundColor: theme.palette.campaign.button.background.prev,
     color: theme.palette.campaign.button.color.prev,
+    '&:hover': {
+      backgroundColor: theme.palette.campaign.button.background.prev,
+      color: theme.palette.campaign.button.color.prev,
+    },
   },
   '&:disabled': {
     backgroundColor: theme.palette.campaign.button.background.disabled,
@@ -50,12 +52,18 @@ const PrevStepButton = styled(props => <Button variant="contained" {...props} />
 }))
 
 const NextStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
-  backgroundColor: theme.palette.campaign.button.background.next,
-  color: theme.palette.campaign.button.color.next,
   borderRadius: '8px',
-  '&:hover': {
+  '&:not(.Mui-disabled)': {
     backgroundColor: theme.palette.campaign.button.background.next,
     color: theme.palette.campaign.button.color.next,
+    '&:hover': {
+      backgroundColor: theme.palette.campaign.button.background.next,
+      color: theme.palette.campaign.button.color.next,
+    },
+  },
+  '&:disabled': {
+    backgroundColor: theme.palette.campaign.button.background.disabled,
+    color: theme.palette.campaign.button.color.disabled,
   },
 }))
 
