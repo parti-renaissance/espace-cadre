@@ -10,7 +10,7 @@ const HorizontalContainer = styled('div')`
 `
 
 const messages = {
-  member: 'membre',
+  member: 'militant',
 }
 
 const Header = ({ groupCount }) => (

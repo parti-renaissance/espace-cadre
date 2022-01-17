@@ -7,7 +7,7 @@ import pages from 'shared/authorizedPages'
 import Spinner from 'ui/Spinner/Spinner'
 
 import Dashboard from 'components/Dashboard'
-import Adherents from 'components/Adherents'
+import Activists from 'components/Activists'
 import Messagerie from 'components/Messagerie'
 import Elections from 'components/Elections'
 import Ripostes from 'components/Ripostes'
@@ -28,7 +28,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="*" element={<NoMatch />} />
         <Route path={paths.dashboard} element={authorizedPages.includes(pages.dashboard) && <Dashboard />} />
-        <Route path={paths.adherents} element={authorizedPages.includes(pages.adherents) && <Adherents />} />
+        <Route path={paths.activists} element={authorizedPages.includes(pages.activists) && <Activists />} />
         <Route path={`${paths.messagerie}/*`} element={authorizedPages.includes(pages.messagerie) && <Messagerie />} />
         <Route path={paths.elections} element={authorizedPages.includes(pages.elections) && <Elections />} />
         <Route path={paths.ripostes} element={authorizedPages.includes(pages.ripostes) && <Ripostes />} />

@@ -20,7 +20,7 @@
         },
         "adherent": {
           "uuid": "11111111-1111-1111-1111-111111111111",
-          "first_name": "adherent",
+          "first_name": "militant",
           "last_name": "un"
         },
         "campaign": {
@@ -63,7 +63,7 @@
         },
         "adherent": {
           "uuid": "11111111-1111-1111-1111-111111111111",
-          "first_name": "adherent",
+          "first_name": "militant",
           "last_name": "deux"
         },
         "campaign": {

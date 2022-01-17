@@ -4,7 +4,7 @@ import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import { addGroupMemberQuery, deleteGroupMemberQuery, getGroupQuery } from 'api/groups'
-import { adherentAutocompleteUri } from 'api/adherents'
+import { activistAutocompleteUri } from 'api/activist'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -52,14 +52,14 @@ const Paper = styled(MuiPaper)`
 
 const messages = {
   group: 'Groupe',
-  addMembers: 'Ajouter des membres',
+  addMembers: 'Ajouter des militants',
   add: 'Ajouter',
-  groupMember: 'Membres du groupe',
+  groupMember: 'Militants du groupe',
   noMember: 'Ce groupe ne contient aucun membre',
   editSuccess: 'Membre ajouté avec succès',
   deleteSuccess: 'Membre supprimé avec succès',
-  adhesion: 'adhérent depuis le',
-  placeholder: 'Rechercher un adhérent',
+  adhesion: 'militant depuis le',
+  placeholder: 'Rechercher un militant',
 }
 
 const GroupEdit = () => {
@@ -114,7 +114,7 @@ const GroupEdit = () => {
                 <Autocomplete
                   placeholder={messages.placeholder}
                   customStyle={{ bgcolor: 'gray100' }}
-                  uri={adherentAutocompleteUri}
+                  uri={activistAutocompleteUri}
                   queryParam="q"
                   valueParam="uuid"
                   value={selectedMember}

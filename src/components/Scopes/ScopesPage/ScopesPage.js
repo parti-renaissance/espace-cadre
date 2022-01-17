@@ -124,7 +124,7 @@ function ScopesPage() {
           {currentUser?.firstName} {currentUser?.lastName}
         </UserCardTitle>
         <UserCardRole>
-          {filteredScopes?.length} {messages.roles}
+          {filteredScopes?.length}&nbsp;{messages.roles}
         </UserCardRole>
       </UserCardContainer>
       {filteredScopes?.length > 0 && (
@@ -143,6 +143,7 @@ function ScopesPage() {
                   {userScope?.zones?.length > 1 && (
                     <Typography component="div" variant="subtitle1">
                       {`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length}
+                      &nbsp;
                       {pluralize(userScope.zones.slice(1).length, messages.zone)}
                     </Typography>
                   )}

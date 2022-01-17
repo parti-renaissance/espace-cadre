@@ -44,7 +44,7 @@ const Sidebar = ({ children, window }) => {
   const drawer = (
     <div sx={{ display: 'flex', flexDirection: 'column' }}>
       {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
-      {authorizedPages.includes(pages.adherents) && <NavItem label="Adhérents" {...navInfo('adherents')} />}
+      {authorizedPages.includes(pages.activists) && <NavItem label="Militants" {...navInfo('activists')} />}
       {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
       {authorizedPages.includes(pages.elections) && <NavItem label="&Eacute;lections" {...navInfo('elections')} />}
       {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
@@ -54,7 +54,6 @@ const Sidebar = ({ children, window }) => {
       {authorizedPages.includes(pages.DTD) && <NavItem label="Porte à porte" {...navInfo('DTD')} />}
     </div>
   )
-
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar

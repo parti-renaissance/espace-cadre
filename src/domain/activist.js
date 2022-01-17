@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default class Adherent {
+export default class Activist {
   constructor(
     firstname,
     lastname,
@@ -34,7 +34,7 @@ export default class Adherent {
   }
 }
 
-Adherent.propTypes = PropTypes.shape({
+Activist.propTypes = PropTypes.shape({
   firstname: PropTypes.string.isRequired,
   lastname: PropTypes.string.isRequired,
   gender: PropTypes.string.isRequired,

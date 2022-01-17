@@ -1,6 +1,6 @@
 export default {
   dashboard: 'dashboard',
-  adherents: 'contacts',
+  activists: 'contacts',
   messagerie: 'messages',
   elections: 'elections',
   ripostes: 'ripostes',

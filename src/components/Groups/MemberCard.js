@@ -17,7 +17,7 @@ const Title = styled(Typography)`
 `
 
 const messages = {
-  adherent: ', adhérent(e) depuis le ',
+  adherent: ', militant(e) depuis le ',
 }
 
 const MemberCard = ({ member, handleDelete }) => {

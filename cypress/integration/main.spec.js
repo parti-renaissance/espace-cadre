@@ -22,9 +22,9 @@ export const initialization = () => {
     '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
     'messagerie/messages'
   )
-  mock('GET', '/api/v3/adherents/columns?scope=referent', 'adherents/columns')
-  mock('GET', '/api/v3/adherents?page=1&scope=referent', 'adherents/adherents')
-  mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'adherents/filters')
+  mock('GET', '/api/v3/adherents/columns?scope=referent', 'activists/columns')
+  mock('GET', '/api/v3/adherents?page=1&scope=referent', 'activists/activists')
+  mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'activists/filters')
   mock('GET', '/api/v3/teams?order*=desc&page=1&page_size=20&scope=*', 'groups/groups')
   mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'groups/1')
   mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')

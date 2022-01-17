@@ -5,12 +5,12 @@ import TableHeadComponent from './TableHeadComponent'
 import TableBodyComponent from './TableBodyComponent'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
-import { getAdherents, getColumns } from 'api/adherents'
+import { getActivists, getColumns } from 'api/activist'
 import { PaginatedResult } from 'api/pagination'
 import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
 
-export const FEATURE_ADHERENTS = 'contacts'
+export const FEATURE_ACTIVISTS = 'contacts'
 
 const TableContainer = styled(MuiTableContainer)`
   border-radius: 12px;
@@ -18,12 +18,12 @@ const TableContainer = styled(MuiTableContainer)`
 `
 
 const messages = {
-  title: 'Adhérents',
+  title: 'Militants',
 }
 
-function Adherents() {
+function Activists() {
   const [columnsTitle, setColumnsTitle] = useState([])
-  const [adherents, setAdherents] = useState(new PaginatedResult([], 0, 0, 0, 0, 0))
+  const [activists, setActivists] = useState(new PaginatedResult([], 0, 0, 0, 0, 0))
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
 
@@ -33,7 +33,7 @@ function Adherents() {
 
   useEffect(() => {
     const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
-    getAdherents(filter, setAdherents)
+    getActivists(filter, setActivists)
   }, [filters])
 
   const renderContent = () => {
@@ -44,7 +44,7 @@ function Adherents() {
             <PageTitle breakpoints={{ xs: 12 }} title={messages.title} />
           </Grid>
           <DynamicFilters
-            feature={FEATURE_ADHERENTS}
+            feature={FEATURE_ACTIVISTS}
             values={defaultFilter}
             onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
             onReset={() => {
@@ -56,18 +56,18 @@ function Adherents() {
             <TableContainer>
               <Table stickyHeader>
                 <TableHeadComponent columnsTitle={columnsTitle} />
-                <TableBodyComponent members={adherents.data} columnsTitle={columnsTitle} />
+                <TableBodyComponent members={activists.data} columnsTitle={columnsTitle} />
               </Table>
             </TableContainer>
-            {adherents.total && (
+            {activists.total && (
               <TablePagination
                 rowsPerPageOptions={[100]}
                 labelRowsPerPage="Lignes par page:"
                 component="div"
-                count={adherents.total || 0}
+                count={activists.total || 0}
                 page={filters.page - 1}
                 onPageChange={(event, page) => setFilters(prevState => ({ ...prevState, ...{ page: page + 1 } }))}
-                rowsPerPage={adherents.pageSize}
+                rowsPerPage={activists.pageSize}
               />
             )}
           </Paper>
@@ -85,4 +85,4 @@ function Adherents() {
   return <Container maxWidth="xl">{renderContent()}</Container>
 }
 
-export default Adherents
+export default Activists

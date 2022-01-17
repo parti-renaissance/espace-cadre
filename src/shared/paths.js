@@ -1,7 +1,7 @@
 export default {
   dashboard: '/',
   auth: '/auth',
-  adherents: '/adherents',
+  activists: '/militants',
   messagerie: '/messagerie',
   elections: '/elections',
   ripostes: '/ripostes',

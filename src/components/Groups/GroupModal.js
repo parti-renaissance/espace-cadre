@@ -53,9 +53,9 @@ const SubmitButton = styled(Button)(({ theme }) => ({
 const messages = {
   create: 'Créer un groupe',
   edit: 'Modifier un groupe',
-  addMembers: 'Ajouter des membres',
+  addMembers: 'Ajouter des militants',
   add: 'Ajouter',
-  groupMember: 'Membres du groupe',
+  groupMember: 'Militants du groupe',
   noMember: 'Ce groupe ne contient aucun membre',
   charactersLimit: '(255 charactères)',
   submit: 'Valider',
