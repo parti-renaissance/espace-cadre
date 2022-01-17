@@ -1,14 +1,34 @@
 import PropTypes from 'prop-types'
 import { useCallback, useContext, useState } from 'react'
+import { styled } from '@mui/system'
 import DatePicker from '@mui/lab/DatePicker'
 import { InputAdornment } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
+import MuiPickersDay from '@mui/lab/PickersDay'
 
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { GlobalSettingsContext } from './shared/context'
 import { Input, Label } from './shared/components/styled'
 import { fields } from './shared/constants'
+
+const PickersDay = styled(MuiPickersDay)(({ theme }) => ({
+  '&:not(.Mui-selected)': {
+    borderColor: theme.palette.campaign.color,
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.campaign.color,
+      color: theme.palette.whiteCorner,
+    },
+  },
+  '&.Mui-selected': {
+    borderColor: 'transparent',
+    backgroundColor: theme.palette.campaign.color,
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.campaign.color,
+      color: theme.palette.whiteCorner,
+    },
+  },
+}))
 
 const messages = {
   input: {
@@ -72,6 +92,7 @@ const CreateEditGlobalSettings = () => {
           updateInputValues(fields.endDate, value)
           debounce(() => updateValues(fields.endDate, value))
         }}
+        renderDay={(_, __, props) => <PickersDay {...props} />}
         renderInput={props => <Input type="date" name={fields.endDate} {...props} />}
         inputProps={{ placeholder: messages.placeholder.endDate, autoComplete: 'off' }}
         InputProps={{
