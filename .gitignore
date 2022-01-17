@@ -17,3 +17,4 @@ lerna-debug.log*
 /cypress/videos/
 /cypress/screenshots/
 /cypress/support/
+cypress.env.json

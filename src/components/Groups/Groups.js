@@ -50,6 +50,10 @@ const Groups = () => {
     resetErrorMessages()
   }
 
+  const onCreateEditResolve = updatedGroup => {
+    !currentGroup?.id ? refetch() : refetchUpdatedPage(paginatedGroups, refetch, updatedGroup.id)
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -85,15 +89,15 @@ const Groups = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      <GroupModal
-        open={isModalOpen}
-        group={currentGroup}
-        onCloseResolve={handleCloseModal}
-        errors={errorMessages}
-        onCreateEditResolve={updatedGroup => {
-          !currentGroup?.id ? refetch() : refetchUpdatedPage(paginatedGroups, refetch, updatedGroup.id)
-        }}
-      />
+      {currentGroup && (
+        <GroupModal
+          open={isModalOpen}
+          group={currentGroup}
+          onCloseResolve={handleCloseModal}
+          errors={errorMessages}
+          onCreateEditResolve={onCreateEditResolve}
+        />
+      )}
     </Container>
   )
 }

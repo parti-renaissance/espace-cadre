@@ -10,5 +10,11 @@
       "registered_at": "2019-06-01T12:00:00+02:00",
       "postal_code": "92100"
     }
-  ]
+  ],
+  "visibility": "local",
+  "zone": {
+    "uuid": "11111111-1111-1111-1111-111111111111",
+    "code": "1",
+    "name": "département 1"
+  }
 }

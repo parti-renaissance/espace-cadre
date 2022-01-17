@@ -1,6 +1,7 @@
 import { Group, GroupMember } from 'domain/group'
 import { apiClient } from 'services/networking/client'
 import { newPaginatedResult } from 'api/pagination'
+import { Zone } from 'domain/zone'
 
 const formatGroupMembers = (members = []) =>
   members.map(
@@ -15,7 +16,16 @@ const formatGroupMembers = (members = []) =>
 
 const formatGroup = (group = {}) => {
   const members = new Array(group.members_count).fill(GroupMember.NULL)
-  return new Group(group.uuid, group.name, group.creator, members)
+  const isNational = group.visibility === 'national'
+
+  if (isNational) return new Group(group.uuid, group.name, group.creator, members, null)
+  return new Group(
+    group.uuid,
+    group.name,
+    group.creator,
+    members,
+    new Zone(group.zone.uuid, group.zone.name, group.zone.code)
+  )
 }
 
 export const getGroupsQuery = async ({ pageParam: page = 1 }) => {
@@ -27,16 +37,27 @@ export const getGroupsQuery = async ({ pageParam: page = 1 }) => {
 export const getGroupQuery = async groupId => {
   const group = await apiClient.get(`api/v3/teams/${groupId}`)
   const groupMembers = formatGroupMembers(group.members)
-  return new Group(group.uuid, group.name, group.creator, groupMembers)
+  const isNational = group.visibility === 'national'
+
+  if (isNational) return new Group(group.uuid, group.name, group.creator, groupMembers, null)
+  return new Group(
+    group.uuid,
+    group.name,
+    group.creator,
+    groupMembers,
+    new Zone(group.zone.uuid, group.zone.name, group.zone.code)
+  )
 }
 
 export const createGroupQuery = group =>
   apiClient.post('api/v3/teams', {
     name: group.name,
+    zone: group.zone,
   })
 export const updateGroupQuery = group =>
   apiClient.put(`api/v3/teams/${group.id}`, {
     name: group.name,
+    zone: group.zone,
   })
 
 export const addGroupMemberQuery = ({ groupId, memberId }) =>
