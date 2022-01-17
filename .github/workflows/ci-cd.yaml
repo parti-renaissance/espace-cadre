@@ -24,6 +24,7 @@ jobs:
         shell: bash
         run: |-
           touch .env.local
+          echo "REACT_APP_API_HOST=https://mock.en-marche.fr" >> .env.local
           echo "REACT_APP_OAUTH_HOST=https://mock.en-marche.fr" >> .env.local
       - name: Cypress
         uses: cypress-io/github-action@v2
