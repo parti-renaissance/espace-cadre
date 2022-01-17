@@ -50,6 +50,10 @@ const Groups = () => {
     resetErrorMessages()
   }
 
+  const onCreateEditResolve = updatedGroup => {
+    !currentGroup?.id ? refetch() : refetchUpdatedPage(paginatedGroups, refetch, updatedGroup.id)
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -91,9 +95,7 @@ const Groups = () => {
           group={currentGroup}
           onCloseResolve={handleCloseModal}
           errors={errorMessages}
-          onCreateEditResolve={updatedGroup => {
-            !currentGroup?.id ? refetch() : refetchUpdatedPage(paginatedGroups, refetch, updatedGroup.id)
-          }}
+          onCreateEditResolve={onCreateEditResolve}
         />
       )}
     </Container>

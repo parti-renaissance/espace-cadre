@@ -24,8 +24,8 @@ const UISelect = ({ value, onChange, options, placeholder = null, renderValue, .
 
   return (
     <Select
-      size="small"
       {...props}
+      size="small"
       onChange={e => onChange(e.target.value)}
       value={value}
       renderValue={renderValue || defaultRenderValue}
