@@ -67,6 +67,31 @@ export const styles = {
         elevation: 0,
       },
     },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            backgroundColor: 'unset',
+          },
+        },
+      },
+    },
+    MuiYearPicker: {
+      styleOverrides: {
+        root: {
+          button: {
+            '&.Mui-selected': {
+              backgroundColor: '#000000',
+              color: '#FFFFFF',
+              '&:hover, &:focus': {
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+              },
+            },
+          },
+        },
+      },
+    },
     MuiMenu: {
       defaultProps: {
         elevation: 0,

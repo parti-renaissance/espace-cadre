@@ -6,6 +6,7 @@ import { createTheme } from '@mui/material'
 import { frFR } from '@mui/material/locale'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import { fr } from 'date-fns/locale'
 import { styles } from './styles'
 
 const classNamesOptions = createGenerateClassName({
@@ -18,7 +19,9 @@ const ThemeProvider = ({ children }) => {
   return (
     <StyledEngineProvider generateClassName={classNamesOptions} injectFirst>
       <MuiThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>{children}</LocalizationProvider>
+        <LocalizationProvider locale={fr} dateAdapter={AdapterDateFns}>
+          {children}
+        </LocalizationProvider>
       </MuiThemeProvider>
     </StyledEngineProvider>
   )
