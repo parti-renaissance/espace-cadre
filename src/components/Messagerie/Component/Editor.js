@@ -36,6 +36,7 @@ const Button = styled(MuiButton)(
 const referentTemplate = 60354
 const deputyTemplate = 60376
 const senatorTemplate = 60355
+const correspondantTemplate = 123148
 const defaultTemplate = 41208
 const editorConfiguration = {
   tools: {
@@ -83,6 +84,9 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
     }
     if (currentScope?.code === 'senator') {
       return senatorTemplate
+    }
+    if (currentScope?.code === 'correspondent') {
+      return correspondantTemplate
     }
     return defaultTemplate
   })
