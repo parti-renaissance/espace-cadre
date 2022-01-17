@@ -16,7 +16,9 @@ const formatGroupMembers = (members = []) =>
 
 const formatGroup = (group = {}) => {
   const members = new Array(group.members_count).fill(GroupMember.NULL)
-  if (group.visibility === 'national') return new Group(group.uuid, group.name, group.creator, members, null)
+  const isNational = group.visibility === 'national'
+
+  if (isNational) return new Group(group.uuid, group.name, group.creator, members, null)
   return new Group(
     group.uuid,
     group.name,
@@ -35,7 +37,9 @@ export const getGroupsQuery = async ({ pageParam: page = 1 }) => {
 export const getGroupQuery = async groupId => {
   const group = await apiClient.get(`api/v3/teams/${groupId}`)
   const groupMembers = formatGroupMembers(group.members)
-  if (group.visibility === 'national') return new Group(group.uuid, group.name, group.creator, groupMembers, null)
+  const isNational = group.visibility === 'national'
+
+  if (isNational) return new Group(group.uuid, group.name, group.creator, groupMembers, null)
   return new Group(
     group.uuid,
     group.name,

@@ -75,7 +75,7 @@ const Area = styled(Typography)`
 `
 
 const messages = {
-  zone: ' zone',
+  zone: 'zone',
   backTo: 'Retour sur en-marche.fr',
 }
 
@@ -147,6 +147,7 @@ function Scopes() {
                 {userScope.zones?.length > 1 && (
                   <Area>
                     {`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length}
+                    &nbsp;
                     {pluralize(userScope.zones.slice(1).length, messages.zone)}
                   </Area>
                 )}
