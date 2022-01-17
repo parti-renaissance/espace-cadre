@@ -40,7 +40,7 @@ describe('PHONING > Campaign Detail', () => {
 
     it('should have a clickable action button', () => {
       cy.get(PageHeaderButton).should('exist')
-      cy.get(PageHeaderButton).first().click()
+      cy.get(PageHeaderButton).click()
       cy.get(CreateEdit).should('exist')
     })
   })
