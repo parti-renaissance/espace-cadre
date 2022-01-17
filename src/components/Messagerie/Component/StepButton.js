@@ -12,8 +12,8 @@ const Button = styled(
   ({ theme, disabled }) => `
   width: 100%;
   border-radius: 8px;
-  color: ${disabled ? theme.palette.phoning.button.color.disabled : theme.palette.whiteCorner};
-  background: ${disabled ? theme.palette.phoning.button.background.disabled : theme.palette.blue600};
+  color: ${disabled ? theme.palette.campaign.button.color.disabled : theme.palette.whiteCorner};
+  background: ${disabled ? theme.palette.campaign.button.background.disabled : theme.palette.blue600};
   &:hover {
     background: ${theme.palette.blue800};
   }
