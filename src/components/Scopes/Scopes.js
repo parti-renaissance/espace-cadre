@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Divider, Typography } from '@mui/material'
+import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import paths from 'shared/paths'
@@ -51,17 +51,6 @@ const MenuItem = styled(MuiMenuItem, shouldForwardProps)`
   },
 )`
 
-const MenuItemToMainSite = styled(MuiMenuItem)`
-  color: ${({ theme }) => theme.palette.menu.color.main};
-  padding: ${({ theme }) => theme.spacing(1, 2)};
-  margin-bottom: ${({ theme }) => theme.spacing(1)};
-  border-radius: 6px;
-  &:hover {
-    color: ${({ theme }) => theme.palette.menu.color.main};
-    background: ${({ theme }) => theme.palette.menu.background.hover};
-  }
-`
-
 const Scope = styled(Typography)`
   font-size: 14px;
   font-weight: 400;
@@ -76,7 +65,6 @@ const Area = styled(Typography)`
 
 const messages = {
   zone: 'zone',
-  backTo: 'Retour sur en-marche.fr',
 }
 
 function Scopes() {
@@ -122,14 +110,6 @@ function Scopes() {
             />
           </Button>
           <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
-            <MenuItemToMainSite>
-              <Scope>
-                <a href={process.env.REACT_APP_API_HOST}>{messages.backTo}</a>
-              </Scope>
-            </MenuItemToMainSite>
-
-            <Divider sx={{ bgcolor: 'menu.background.active' }} />
-
             {filteredScopes?.map(userScope => (
               <MenuItem
                 key={userScope.code}
