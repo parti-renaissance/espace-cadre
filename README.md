@@ -5,6 +5,5 @@ Le projet Je m'engage s'efforce de respecter les meilleures pratiques en matièr
 | ------ | ------ |
 | CodeQL |[![CodeQL](https://github.com/EnMarche/Data-Corner/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EnMarche/Data-Corner/actions/workflows/codeql-analysis.yml)|
 | CodeFactor | [![CodeFactor](https://www.codefactor.io/repository/github/enmarche/data-corner/badge)](https://www.codefactor.io/repository/github/enmarche/data-corner)|
-| Codacy | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d7d09589bbe24b6ba2b18ce987d1b386)](https://www.codacy.com/gh/EnMarche/Data-Corner/dashboard)|
 | Better Code Hub |[![BCH compliance](https://bettercodehub.com/edge/badge/EnMarche/Data-Corner?branch=master)](https://bettercodehub.com/)|
 | CI/CD |[![CI & CD](https://github.com/EnMarche/Data-Corner/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/EnMarche/Data-Corner/actions/workflows/ci-cd.yaml)|
