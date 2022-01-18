@@ -11,7 +11,7 @@ import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { FiltersContext } from './shared/context'
-import { Checkbox, Input, Label } from './shared/components/styled'
+import { Checkbox, Input, Label, PickersDay } from './shared/components/styled'
 import { fields } from './shared/constants'
 
 const messages = {
@@ -53,6 +53,8 @@ const CreateEditFilters = () => {
   const { errors, values, initialValues, updateValues } = useContext(FiltersContext)
   const [inputValues, setInputValues] = useState({ zoneInput: '', ...initialValues })
   const [isZoneFetchable, setIsZoneFetchable] = useState(false)
+  const [isAdherentFromDatePickerOpen, setIsAdherentFromDatePickerOpen] = useState(false)
+  const [isAdherentToDatePickerOpen, setIsAdherentToDatePickerOpen] = useState(false)
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce()
 
@@ -163,13 +165,23 @@ const CreateEditFilters = () => {
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</Label>
           <DatePicker
             inputFormat="dd/MM/yyyy"
+            open={isAdherentFromDatePickerOpen}
             value={inputValues.adherentFromDate}
             onChange={value => {
               updateInputValues(fields.adherentFromDate, value)
               debounce(() => updateValues(fields.adherentFromDate, value))
             }}
+            renderDay={(_, __, props) => <PickersDay {...props} />}
             renderInput={props => <Input type="date" name={fields.adherentFromDate} {...props} />}
-            inputProps={{ placeholder: messages.placeholder.adherentFromDate }}
+            inputProps={{ placeholder: messages.placeholder.adherentFromDate, autoComplete: 'off' }}
+            InputProps={{
+              onClick: () => {
+                setIsAdherentFromDatePickerOpen(true)
+              },
+            }}
+            onClose={() => {
+              setIsAdherentFromDatePickerOpen(false)
+            }}
             components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
             InputAdornmentProps={{
               position: 'start',
@@ -186,13 +198,23 @@ const CreateEditFilters = () => {
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</Label>
           <DatePicker
             inputFormat="dd/MM/yyyy"
+            open={isAdherentToDatePickerOpen}
             value={inputValues.adherentToDate}
             onChange={value => {
               updateInputValues(fields.adherentToDate, value)
               debounce(() => updateValues(fields.adherentToDate, value))
             }}
+            renderDay={(_, __, props) => <PickersDay {...props} />}
             renderInput={props => <Input type="date" name={fields.adherentToDate} {...props} />}
-            inputProps={{ placeholder: messages.placeholder.adherentToDate }}
+            inputProps={{ placeholder: messages.placeholder.adherentToDate, autoComplete: 'off' }}
+            InputProps={{
+              onClick: () => {
+                setIsAdherentToDatePickerOpen(true)
+              },
+            }}
+            onClose={() => {
+              setIsAdherentToDatePickerOpen(false)
+            }}
             components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
             InputAdornmentProps={{
               position: 'start',
@@ -233,7 +255,7 @@ const CreateEditFilters = () => {
           renderInput={params => <Input name={fields.zones} placeholder={messages.placeholder.zones} {...params} />}
           loading={isZonesFetching}
           loadingText={messages.pleaseWait}
-          noOptionsText={messages.noResult}
+          noOptionsText={inputValues.zoneInput && messages.noResult}
           limitTags={3}
           multiple
           autoComplete

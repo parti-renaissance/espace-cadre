@@ -89,7 +89,7 @@ const CreateEditCallersAndSurvey = () => {
         ListboxProps={{ sx: { padding: 0 } }}
         loading={isTeamsFetching}
         loadingText={messages.pleaseWait}
-        noOptionsText={messages.noResult}
+        noOptionsText={inputValues.team?.name && messages.noResult}
         autoComplete
         autoHighlight
         fullWidth
@@ -116,7 +116,7 @@ const CreateEditCallersAndSurvey = () => {
         ListboxProps={{ sx: { padding: 0 } }}
         loading={isSurveysFetching}
         loadingText={messages.pleaseWait}
-        noOptionsText={messages.noResult}
+        noOptionsText={inputValues.survey?.name && messages.noResult}
         autoComplete
         autoHighlight
         fullWidth
