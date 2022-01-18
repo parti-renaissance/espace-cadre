@@ -16,6 +16,11 @@ import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
 
+const PageTitle = styled(Typography)`
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 36px;
+`
 const Title = styled(Typography)(
   ({ theme }) => `
     margin: ${theme.spacing(1, 0, 2, 1)};
@@ -31,7 +36,7 @@ const infiniteScrollStylesOverrides = {
 }
 
 const messages = {
-  title: 'Phoning',
+  pageTitle: 'Phoning',
   create: 'Créer une campagne',
   campaigns: 'Campagnes',
   over: 'Terminé',
@@ -89,7 +94,7 @@ const Phoning = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={messages.title}
+          title={<PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>}
           button={
             <PageHeaderButton
               label={messages.create}
@@ -106,9 +111,14 @@ const Phoning = () => {
         )}
       </Grid>
 
-      <Grid container justifyContent="space-between" sx={{ pt: 4, ...infiniteScrollStylesOverrides }}>
+      <Grid
+        container
+        justifyContent="space-between"
+        data-cy="phoning-campaigns-container"
+        sx={{ pt: 4, ...infiniteScrollStylesOverrides }}
+      >
         <Grid container>
-          <Title data-testid="Campaigns-title">{messages.campaigns}</Title>
+          <Title>{messages.campaigns}</Title>
         </Grid>
 
         {campaigns.length > 0 && (
@@ -118,7 +128,7 @@ const Phoning = () => {
             hasMore={hasNextPageCampaigns}
             loader={<Loader />}
           >
-            <Grid container spacing={2}>
+            <Grid container spacing={2} data-cy="phoning-campaigns-list">
               {campaigns.map(campaign => (
                 <CampaignItem
                   key={campaign.id}

@@ -52,7 +52,7 @@ const messages = {
 }
 
 const CampaignGlobalKPI = ({ campaigns, surveys, calls }) => (
-  <KPIWrapper>
+  <KPIWrapper data-cy="phoning-campaigns-KPI">
     <Grid container>
       <KPITitle>{messages.title}</KPITitle>
     </Grid>

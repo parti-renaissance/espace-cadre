@@ -37,7 +37,7 @@ const CampaignItem = ({ endDate, title, author, team, score, handleView, handleU
   const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
 
   return (
-    <Grid item xs={12} sm={6} md={3} data-testid="UICard">
+    <Grid item xs={12} sm={6} md={3}>
       <UICard
         rootProps={{ sx: { height: '216px' } }}
         headerProps={{ sx: { pt: '21px' } }}
@@ -45,15 +45,18 @@ const CampaignItem = ({ endDate, title, author, team, score, handleView, handleU
           <>
             <div>
               <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
-              <EndDate sx={{ color: 'gray600' }}>{format(endDate, 'dd MMMM yyyy', { locale: fr })}</EndDate>
+              <EndDate sx={{ color: 'gray600' }} data-cy="phoning-campaigns-item-end-date">
+                {format(endDate, 'dd MMMM yyyy', { locale: fr })}
+              </EndDate>
             </div>
             <VerticalContainer sx={{ pt: 1 }}>
-              <TruncatedText variant="subtitle1" title={title}>
+              <TruncatedText variant="subtitle1" title={title} data-cy="phoning-campaigns-item-title">
                 {title}
               </TruncatedText>
               <TruncatedText
                 variant="subtitle2"
                 title={`${author} • ${team.name} (${team.membersCount})`}
+                data-cy="phoning-campaigns-item-description"
                 sx={{ color: 'gray600' }}
               >
                 {`${author} • ${team.name} (${team.membersCount})`}
@@ -76,7 +79,9 @@ const CampaignItem = ({ endDate, title, author, team, score, handleView, handleU
                 },
               }}
             >
-              {messages.see}
+              <Typography variant="button" sx={{ textTransform: 'uppercase' }}>
+                {messages.see}
+              </Typography>
             </CtaButton>
             <DotsMenu>
               <DotsMenuItem onClick={handleUpdate}>{messages.edit}</DotsMenuItem>
