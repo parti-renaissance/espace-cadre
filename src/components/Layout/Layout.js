@@ -13,6 +13,7 @@ import paths from 'shared/paths'
 import ErrorBoundary from '../../providers/errorboundary'
 import Signup from 'components/Signup/Signup'
 import CGU from 'components/Signup/Cgu'
+import PPD from 'components/Signup/Ppd'
 
 const publicPaths = [paths.cgu, paths.signup, paths.auth, paths.ppd]
 
@@ -38,7 +39,7 @@ const Layout = ({ children }) => {
   if (pathname === paths.auth) return <Auth />
   if (pathname === paths.signup) return <Signup />
   if (pathname === paths.cgu) return <CGU />
-  // if (pathname === paths.ppd) return <PPD />
+  if (pathname === paths.ppd) return <PPD />
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 

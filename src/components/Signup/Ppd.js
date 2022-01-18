@@ -4,7 +4,12 @@ import { useQuery } from 'react-query'
 
 const PPD = () => {
   const { data: ppd } = useQuery('rgpd', ppdQuery)
-  return <ReactMarkdown>{ppd?.content}</ReactMarkdown>
+  return (
+    <>
+      <h1>{ppd?.title}</h1>
+      <ReactMarkdown>{ppd?.content}</ReactMarkdown>
+    </>
+  )
 }
 
 export default PPD

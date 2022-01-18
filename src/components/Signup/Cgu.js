@@ -4,7 +4,12 @@ import { useQuery } from 'react-query'
 
 const CGU = () => {
   const { data: cgu } = useQuery('rgpd', cguQuery)
-  return <ReactMarkdown>{cgu?.content}</ReactMarkdown>
+  return (
+    <>
+      <h1>{cgu?.title}</h1>
+      <ReactMarkdown>{cgu?.content}</ReactMarkdown>
+    </>
+  )
 }
 
 export default CGU
