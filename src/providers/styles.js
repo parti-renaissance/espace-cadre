@@ -209,6 +209,13 @@ export const styles = {
         color: '#1F2937',
       },
     },
+    signupButton: {
+      color: '#3743C814',
+      background: {
+        main: '#2834c3',
+        hover: '#2834c3',
+      },
+    },
 
     // White
     whiteCorner: '#FFFFFF',

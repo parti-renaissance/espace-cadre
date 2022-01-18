@@ -36,6 +36,19 @@ const Container = styled('div')(
   background-color : ${theme.palette.whiteCorner};
 `
 )
+
+const SubmitButton = styled(Button)(
+  ({ theme }) => `
+  color: ${theme.palette.whiteCorner};
+  background-color: ${theme.palette.signupButton.background.main};
+  &:hover {
+    background-color: ${theme.palette.signupButton.background.hover};
+  };
+  margin: ${theme.spacing(4.5, 0)};
+  height: 52px;
+`
+)
+
 const Title = styled(Typography)`
   font-family: MaaxItalic;
   font-size: 40px;
@@ -131,7 +144,7 @@ const Signup = () => {
       first_name: values.firstName,
       last_name: values.lastName,
       gender: values.gender,
-      birthdate: values.birthdate,
+      birthdate: `${birthdate.year}-${birthdate.month}-${birthdate.day}`,
       phone: values.phone,
       address: {
         address: [address.number, address.number && ' ', address.route].filter(Boolean).join(),
@@ -152,7 +165,6 @@ const Signup = () => {
       firstName: '',
       lastName: '',
       gender: '',
-      birthdate: new Date(),
       prefix: 'FR',
       phone: '',
       cgu: false,
@@ -168,9 +180,7 @@ const Signup = () => {
     formik.setFieldValue('address', adr.route)
   }
 
-  const { data: rgpd } = useQuery('rgpd', rgpdQuery, {
-    enabled: true,
-  })
+  const { data: rgpd } = useQuery('rgpd', rgpdQuery)
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {
@@ -220,7 +230,6 @@ const Signup = () => {
             formik={formik}
             placeholder={messages.firstName}
             inputProps={{ maxLength: 50 }}
-            sx={{}}
           />
           <TextFieldFormik
             label="lastName"
@@ -352,14 +361,13 @@ const Signup = () => {
             sx={{ mx: 1, mb: 3 }}
           />
           <div className="g-recaptcha" data-sitekey="6LdEMgoeAAAAABdXBciYWKZ5dHDVmpdCSvwZ4pSE" />
-          <Button
+          <SubmitButton
             type="submit"
             variant="outlined"
             disabled={!isPhoneValid || isLoading || Object.keys(formik.errors).length > 0}
-            sx={{ color: 'whiteCorner', bgcolor: 'button.color', my: 4.5, height: '52px' }}
           >
             {messages.submit}
-          </Button>
+          </SubmitButton>
           <Typography variant="subtitle2">{rgpd?.content}</Typography>
         </Form>
       </Container>

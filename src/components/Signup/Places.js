@@ -3,6 +3,7 @@ import { styled } from '@mui/system'
 import { TextField as MuiTextField } from '@mui/material'
 import PropTypes from 'prop-types'
 import { Place } from 'domain/place'
+import AlertBanner from 'ui/AlertBanner'
 
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `
@@ -30,19 +31,18 @@ const messages = {
 }
 
 const Places = ({ onSelectPlace, error = null, ...props }) => {
-  const [query, setQuery] = useState('')
+  const [address, setAddress] = useState('')
   const autoCompleteRef = useRef(null)
   const autoComplete = useRef(null)
 
   const handlePlaceSelect = useCallback(() => {
     const addressObject = autoComplete.current.getPlace()
     const formatedAdress = selectPlace(addressObject.address_components, onSelectPlace)
-    setQuery(formatedAdress)
+    setAddress(formatedAdress)
   }, [onSelectPlace])
 
   useEffect(() => {
     autoComplete.current = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
-      componentRestrictions: { country: ['fr'] },
       fields: ['address_components'],
       types: ['address'],
     })
@@ -50,20 +50,23 @@ const Places = ({ onSelectPlace, error = null, ...props }) => {
   }, [handlePlaceSelect])
 
   return (
-    <TextInput
-      {...props}
-      inputRef={autoCompleteRef}
-      onChange={event => setQuery(event.target.value)}
-      fullWidth
-      size="small"
-      variant="outlined"
-      id="adress"
-      name="address"
-      inputProps={{ maxLength: 500 }}
-      placeholder={messages.address}
-      value={query}
-      error={!!error}
-    />
+    <>
+      <TextInput
+        {...props}
+        inputRef={autoCompleteRef}
+        onChange={event => setAddress(event.target.value)}
+        fullWidth
+        size="small"
+        variant="outlined"
+        id="adress"
+        name="address"
+        inputProps={{ maxLength: 500 }}
+        placeholder={messages.address}
+        value={address}
+        error={!!error}
+      />
+      {error && <AlertBanner severity="error" message={error} />}
+    </>
   )
 }
 
