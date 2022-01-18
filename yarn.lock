@@ -1637,7 +1637,7 @@
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.1.0.tgz#5ed928c5a41cfbf9a4be82ea3bbdc47bcc9610d5"
   integrity sha512-Hh7ALdq/GjfIwLvqH3XftuY3bcKhupktTm+S6qRIDGOtPtRuq2L21VWzOK4p7kblirK0XgGVH5BLwa6u8z/6QQ==
 
-"@mui/utils@^5.2.3", "@mui/utils@^5.3.0":
+"@mui/utils@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.3.0.tgz#5f31915063d25c56f1d3ba9e289bf447472a868c"
   integrity sha512-O/E9IQKPMg0OrN7+gkn7Ga5o5WA2iXQGdyqNBFPNrYzxOvwzsEtM5K7MtTCGGYKFe8mhTRM0ZOjh5OM0dglw+Q==
