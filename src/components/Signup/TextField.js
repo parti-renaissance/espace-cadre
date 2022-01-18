@@ -5,21 +5,20 @@ import AlertBanner from 'ui/AlertBanner'
 
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `
-  border-color: ${theme.palette.gray200};
   border-radius: 8px;
-  margin: ${theme.spacing(1, 0)};
+  border: none;
+  color: ${theme.palette.blackCorner};
+  background-color: ${theme.palette.gray100};
 `
 )
 
-const TextField = ({ formik, label, inputProps = { maxLength: 255 }, ...props }) => (
+export const TextFieldFormik = ({ formik, label, inputProps = { maxLength: 255 }, ...props }) => (
   <>
     <TextInput
       {...props}
       error={!!formik.touched[label] && !!formik.errors[label]}
       fullWidth
       size="small"
-      variant="outlined"
-      multiline={label === 'body'}
       id={label}
       name={label}
       inputProps={inputProps}
@@ -30,10 +29,18 @@ const TextField = ({ formik, label, inputProps = { maxLength: 255 }, ...props })
   </>
 )
 
-export default TextField
-
-TextField.propTypes = {
+TextFieldFormik.propTypes = {
   formik: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
+  inputProps: PropTypes.object,
+}
+
+export const TextField = ({ value = '', inputProps = { maxLength: 255 }, onChange = () => {}, ...props }) => (
+  <TextInput {...props} size="small" inputProps={inputProps} value={value} onChange={onChange} />
+)
+
+TextField.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
   inputProps: PropTypes.object,
 }

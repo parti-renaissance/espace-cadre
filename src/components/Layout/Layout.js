@@ -5,12 +5,13 @@ import PropTypes from 'prop-types'
 import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
 import { useUserScope } from '../../redux/user/hooks'
-import ScopesPage from '../Scopes/ScopesPage'
-import BootPage from '../BootPage'
-import Auth from '../Auth'
+import ScopesPage from 'components/Scopes/ScopesPage'
+import BootPage from 'components/BootPage'
+import Auth from 'components/Auth'
+import Sidebar from 'components/Sidebar/Sidebar'
 import paths from 'shared/paths'
-import Sidebar from '../Sidebar/Sidebar'
 import ErrorBoundary from '../../providers/errorboundary'
+import Signup from 'components/Signup/Signup'
 
 const Layout = ({ children }) => {
   const initializeAuth = useInitializeAuth()
@@ -26,12 +27,13 @@ const Layout = ({ children }) => {
       if (currentUser === null) {
         updateUserData()
       }
-    } else if (pathname !== paths.auth) {
+    } else if (pathname !== paths.auth && pathname !== paths.signup) {
       initializeAuth()
     }
   }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
 
   if (pathname === paths.auth) return <Auth />
+  if (pathname === paths.signup) return <Signup />
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 
