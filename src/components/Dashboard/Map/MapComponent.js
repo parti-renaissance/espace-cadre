@@ -18,7 +18,7 @@ const MapContainer = styled(LeafletContainer)(
 )
 
 const messages = {
-  subtitle: 'Répartition géographique dans votre région',
+  subtitle: 'Répartition géographique dans votre région sur ces 30 derniers jours',
   survey: 'Questionnaire',
   filled: 'rempli',
   surveyName: 'Nom du sondage:',
