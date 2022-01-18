@@ -9,4 +9,5 @@ export default {
   news: '/actualites',
   phoning: '/phoning',
   DTD: '/porte-a-porte',
+  signup: '/inscription',
 }

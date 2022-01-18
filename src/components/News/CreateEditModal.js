@@ -154,7 +154,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
-            <TextField formik={formik} label="body" isLong />
+            <TextField formik={formik} label="body" inputProps={{ maxLength: 1000 }} />
           </Grid>
           {errorMessages
             .filter(({ field }) => field === 'text')

@@ -10,7 +10,10 @@ export const handleGenericHttpErrors = (cb, status, stack, message) => {
     return cb(notifyMessages.unauthorizedTitle, notifyVariants.error, notifyMessages.unauthorizedDetail)
 }
 
-const transformViolationToErrorMessage = ({ propertyPath: field, message }) => ({ field, message })
+const transformViolationToErrorMessage = ({ propertyPath: field, message, title }) => ({
+  field,
+  message: message || title,
+})
 export const getFormattedErrorMessages = data => {
   const { violations = [] } = data
   if (violations.length > 0) return violations.map(transformViolationToErrorMessage)
