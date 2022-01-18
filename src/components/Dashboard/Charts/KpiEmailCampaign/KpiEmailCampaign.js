@@ -5,7 +5,6 @@ import Percentage from 'ui/Percentage'
 import UIContainer from 'ui/Container'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { reportsRatio } from 'api/messagerie'
-import { format } from 'date-fns'
 import ErrorComponent from 'components/ErrorComponent'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
@@ -47,7 +46,9 @@ const LoaderContainer = styled(props => <Grid item xs={12} {...props} />)`
 
 const messages = {
   campaign: 'Campagne',
+  email: "d'e-mails",
   sent: 'Envoyée',
+  sentSuffix: 'ces 30 derniers jours',
   opening: 'Ouvertures',
   national: 'au national',
   clicks: 'Clics',
@@ -86,11 +87,11 @@ const KpiEmailCampaign = () => {
         <UIContainer rootProps={{ sx: { p: 2 } }}>
           <MainInfo component="div">{campaignsReportRatios.local.campaignsCount}</MainInfo>
           <MainText component="div">
-            {pluralize(campaignsReportRatios.local.campaignsCount, messages.campaign)}
+            {pluralize(campaignsReportRatios.local.campaignsCount, messages.campaign)}&nbsp;{messages.email}
           </MainText>
           <SecondaryText component="div">
-            {pluralize(campaignsReportRatios.local.campaignsCount, messages.sent)} en{' '}
-            {format(campaignsReportRatios.since, 'yyyy')}
+            {pluralize(campaignsReportRatios.local.campaignsCount, messages.sent)}&nbsp;
+            {messages.sentSuffix}
           </SecondaryText>
         </UIContainer>
       </CardContainer>
