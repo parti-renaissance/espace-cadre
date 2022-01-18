@@ -4,7 +4,7 @@ import Activist from 'domain/activist'
 import { PaginatedResult } from './pagination'
 
 export const activistAutocompleteUri = '/api/v3/adherents/autocomplete'
-export const getActivists = async (filter, cb) => {
+export const getActivists = async filter => {
   const data = await apiClient.get(`v3/adherents?${qs.stringify(filter)}`)
   const activists = data.items.map(
     a =>
@@ -33,11 +33,6 @@ export const getActivists = async (filter, cb) => {
     data.metadata.current_page,
     data.metadata.last_page
   )
-  cb && cb(paginatedActivists)
   return paginatedActivists
 }
-export const getColumns = async cb => {
-  const columns = await apiClient.get('v3/adherents/columns')
-  cb && cb(columns)
-  return columns
-}
+export const getColumns = () => apiClient.get('v3/adherents/columns')
