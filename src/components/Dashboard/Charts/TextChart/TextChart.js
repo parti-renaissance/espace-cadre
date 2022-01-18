@@ -8,8 +8,8 @@ import Error from 'components/Dashboard/shared/Error'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
-  adherent: 'adhérent',
-  errorMessage: 'Les données des adhérents sont indisponibles',
+  adherent: 'militant',
+  errorMessage: 'Les données des militants sont indisponibles',
 }
 
 const TextChart = () => {

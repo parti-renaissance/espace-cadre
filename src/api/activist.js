@@ -1,14 +1,14 @@
 import { apiClient } from 'services/networking/client'
 import qs from 'qs'
-import Adherent from 'domain/adherent'
+import Activist from 'domain/activist'
 import { PaginatedResult } from './pagination'
 
-export const adherentAutocompleteUri = '/api/v3/adherents/autocomplete'
-export const getAdherents = async (filter, cb) => {
+export const activistAutocompleteUri = '/api/v3/adherents/autocomplete'
+export const getActivists = async (filter, cb) => {
   const data = await apiClient.get(`v3/adherents?${qs.stringify(filter)}`)
-  const adherents = data.items.map(
+  const activists = data.items.map(
     a =>
-      new Adherent(
+      new Activist(
         a.first_name,
         a.last_name,
         a.gender,
@@ -25,16 +25,16 @@ export const getAdherents = async (filter, cb) => {
         a.sms_subscription
       )
   )
-  const paginatedAdherents = new PaginatedResult(
-    adherents,
+  const paginatedActivists = new PaginatedResult(
+    activists,
     data.metadata.total_items,
     data.metadata.items_per_page,
     data.metadata.count,
     data.metadata.current_page,
     data.metadata.last_page
   )
-  cb && cb(paginatedAdherents)
-  return paginatedAdherents
+  cb && cb(paginatedActivists)
+  return paginatedActivists
 }
 export const getColumns = async cb => {
   const columns = await apiClient.get('v3/adherents/columns')

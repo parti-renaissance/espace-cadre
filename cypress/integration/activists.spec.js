@@ -1,12 +1,12 @@
 import { initialization } from './main.spec'
 
-describe('Adherents', () => {
+describe('Activists', () => {
   beforeEach(() => {
     initialization()
   })
 
-  it('loads "adherents" page successfully', () => {
+  it('loads "activists" page successfully', () => {
     cy.contains('Référent').click()
-    cy.contains('Adhérents').click()
+    cy.contains('Militants').click()
   })
 })

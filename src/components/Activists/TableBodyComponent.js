@@ -3,7 +3,7 @@ import { styled } from '@mui/system'
 import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
-import Adherent from 'domain/adherent'
+import Activist from 'domain/activist'
 
 const Interests = styled('span')(({ theme }) => ({
   color: theme.palette.blueCorner,
@@ -50,7 +50,7 @@ const Cell = ({ member, column }) => {
 }
 
 Cell.propTypes = {
-  member: Adherent.propTypes.isRequired,
+  member: Activist.propTypes.isRequired,
   column: PropTypes.shape({
     key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -61,7 +61,7 @@ Cell.propTypes = {
 
 const TableBodyComponent = ({ columnsTitle, members }) => (
   <TableBody>
-    {members.map((adherent, index) => (
+    {members.map((activist, index) => (
       <TableRow
         key={index}
         hover
@@ -73,7 +73,7 @@ const TableBodyComponent = ({ columnsTitle, members }) => (
       >
         {columnsTitle.map(column => (
           <TableCell key={`${index}-${column.key}`}>
-            <Cell column={column} member={adherent} />
+            <Cell column={column} member={activist} />
           </TableCell>
         ))}
       </TableRow>
@@ -83,7 +83,7 @@ const TableBodyComponent = ({ columnsTitle, members }) => (
 
 TableBodyComponent.propTypes = {
   columnsTitle: PropTypes.arrayOf(Cell.propTypes.column).isRequired,
-  members: PropTypes.arrayOf(Adherent.propTypes).isRequired,
+  members: PropTypes.arrayOf(Activist.propTypes).isRequired,
 }
 
 export default TableBodyComponent

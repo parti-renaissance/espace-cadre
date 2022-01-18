@@ -10,7 +10,7 @@ import MicIcon from '../../../ui/icons/MicIccon'
 
 export default {
   dashboard: DashboardRoundedIcon,
-  adherents: PeopleRoundedIcon,
+  activists: PeopleRoundedIcon,
   messagerie: EmailRoundedIcon,
   elections: MapRoundedIcon,
   ripostes: PostAddRoundedIcon,
