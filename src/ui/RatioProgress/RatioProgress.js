@@ -28,7 +28,7 @@ const UIRatioProgress = ({ count, totalCount }) => {
   const value = Math.round((count / totalCount) * 100)
   return (
     <>
-      <Grid container alignItems="flex-end">
+      <Grid container alignItems="flex-end" data-cy="ui-ratio-progress">
         <Current>{count}</Current>
         <Typography variant="subtitle1" sx={{ pl: 0.3, color: 'campaign.background.ratio.max' }}>
           {messages.separator}

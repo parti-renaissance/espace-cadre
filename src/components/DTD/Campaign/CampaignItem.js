@@ -35,7 +35,7 @@ const DTDCampaignItem = ({ endDate, title, score, handleView }) => {
   const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
 
   return (
-    <Grid item xs={12} sm={6} md={3} data-testid="UICard">
+    <Grid item xs={12} sm={6} md={3}>
       <UICard
         rootProps={{ sx: { height: '198px' } }}
         headerProps={{ sx: { pt: '21px' } }}

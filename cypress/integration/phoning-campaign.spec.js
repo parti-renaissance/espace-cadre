@@ -6,6 +6,7 @@ const Tab = '.MuiTab-root'
 const HeaderCell = 'thead>tr>th'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
 const PageHeaderButton = '[data-cy="ui-page-header-button"]'
+const CTAButton = '[data-cy="phoning-action-view"]'
 const KPI = '[data-cy="phoning-campaign-detail-KPI"]'
 const Callers = '[data-cy="phoning-campaign-detail-callers"]'
 const History = '[data-cy="phoning-campaign-detail-history"]'
@@ -16,7 +17,7 @@ const navigate = () => {
   cy.contains('Responsable Phoning').click()
   cy.contains('Phoning').click()
   cy.url().should('eq', 'http://localhost:3000/phoning')
-  cy.get('[data-cy="phoning-action-view"]').first().click()
+  cy.get(CTAButton).first().click()
   cy.url().should('eq', 'http://localhost:3000/phoning/11111111-1111-1111-1111-111111111111')
 }
 
