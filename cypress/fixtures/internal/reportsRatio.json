@@ -1,6 +1,6 @@
 {
   "zones": ["Hauts-de-Seine", "Val-d'Oise"],
-  "depuis": "2021-01-01T00:00:00",
+  "since": "2021-01-01T00:00:00",
   "local": {
     "nbCampagnes": 100,
     "txOuverture": 0.1234,
