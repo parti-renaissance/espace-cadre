@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { styled } from '@mui/system'
 import { Container, Table, TableContainer as MuiTableContainer, TablePagination, Paper, Grid } from '@mui/material'
 import TableHeadComponent from './TableHeadComponent'
@@ -9,6 +9,7 @@ import { getActivists, getColumns } from 'api/activist'
 import { PaginatedResult } from 'api/pagination'
 import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 export const FEATURE_ACTIVISTS = 'contacts'
 
@@ -21,60 +22,18 @@ const messages = {
   title: 'Militants',
 }
 
-function Activists() {
-  const [columnsTitle, setColumnsTitle] = useState([])
-  const [activists, setActivists] = useState(new PaginatedResult([], 0, 0, 0, 0, 0))
+const Activists = () => {
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
 
-  useEffect(() => {
-    getColumns(setColumnsTitle)
-  }, [])
+  const { data: columnsTitle = [] } = useQueryWithScope('columns', getColumns)
 
-  useEffect(() => {
+  const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0) } = useQueryWithScope(['activists', filters], () => {
     const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
-    getActivists(filter, setActivists)
-  }, [filters])
+    return getActivists(filter)
+  })
 
-  const renderContent = () => {
-    if (columnsTitle.length > 0) {
-      return (
-        <>
-          <Grid container>
-            <PageTitle breakpoints={{ xs: 12 }} title={messages.title} />
-          </Grid>
-          <DynamicFilters
-            feature={FEATURE_ACTIVISTS}
-            values={defaultFilter}
-            onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
-            onReset={() => {
-              setDefaultFilter({ page: 1, zones: [] })
-              setFilters({ page: 1, zones: [] })
-            }}
-          />
-          <Paper>
-            <TableContainer>
-              <Table stickyHeader>
-                <TableHeadComponent columnsTitle={columnsTitle} />
-                <TableBodyComponent members={activists.data} columnsTitle={columnsTitle} />
-              </Table>
-            </TableContainer>
-            {activists.total && (
-              <TablePagination
-                rowsPerPageOptions={[100]}
-                labelRowsPerPage="Lignes par page:"
-                component="div"
-                count={activists.total || 0}
-                page={filters.page - 1}
-                onPageChange={(event, page) => setFilters(prevState => ({ ...prevState, ...{ page: page + 1 } }))}
-                rowsPerPage={activists.pageSize}
-              />
-            )}
-          </Paper>
-        </>
-      )
-    }
-
+  if (columnsTitle.length === 0) {
     return (
       <UIContainer textAlign="center">
         <Loader />
@@ -82,7 +41,41 @@ function Activists() {
     )
   }
 
-  return <Container maxWidth="xl">{renderContent()}</Container>
+  return (
+    <Container maxWidth="xl">
+      <Grid container>
+        <PageTitle breakpoints={{ xs: 12 }} title={messages.title} />
+      </Grid>
+      <DynamicFilters
+        feature={FEATURE_ACTIVISTS}
+        values={defaultFilter}
+        onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
+        onReset={() => {
+          setDefaultFilter({ page: 1, zones: [] })
+          setFilters({ page: 1, zones: [] })
+        }}
+      />
+      <Paper>
+        <TableContainer>
+          <Table stickyHeader>
+            <TableHeadComponent columnsTitle={columnsTitle} />
+            <TableBodyComponent members={activists.data} columnsTitle={columnsTitle} />
+          </Table>
+        </TableContainer>
+        {activists.total && (
+          <TablePagination
+            rowsPerPageOptions={[100]}
+            labelRowsPerPage="Lignes par page:"
+            component="div"
+            count={activists.total || 0}
+            page={filters.page - 1}
+            onPageChange={(event, page) => setFilters(prevState => ({ ...prevState, ...{ page: page + 1 } }))}
+            rowsPerPage={activists.pageSize}
+          />
+        )}
+      </Paper>
+    </Container>
+  )
 }
 
 export default Activists
