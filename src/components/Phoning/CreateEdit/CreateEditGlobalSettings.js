@@ -73,6 +73,7 @@ const CreateEditGlobalSettings = () => {
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</Label>
       <Input
         type="number"
+        min="0"
         name={fields.goal}
         placeholder={messages.placeholder.goal}
         value={inputValues.goal}
