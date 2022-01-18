@@ -92,8 +92,7 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
   }
 
   const handleSubmit = () => {
-    const id = campaignId ?? {}
-    const values = { id, ...globalSettings, ...callersAndSurvey, filters }
+    const values = { id: campaignId, ...globalSettings, ...callersAndSurvey, filters }
     createOrUpdatePhoningCampaign(values)
   }
 
@@ -119,7 +118,7 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
             value={{
               errors: errorMessages,
               values: globalSettings,
-              initialValues: campaign ? globalSettings : initialValues.globalSettings,
+              initialValues: campaign ? campaignToGlobalSettingsValues(globalSettings) : initialValues.globalSettings,
               updateValues: handleChangeAndValidate(
                 setGlobalSettings,
                 handleStepValidation(0, validators.globalSettings)
@@ -132,7 +131,9 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
             value={{
               errors: errorMessages,
               values: callersAndSurvey,
-              initialValues: campaign ? globalSettings : initialValues.callersAndSurvey,
+              initialValues: campaign
+                ? campaignToCallersAndSurveyValues(callersAndSurvey)
+                : initialValues.callersAndSurvey,
               updateValues: handleChangeAndValidate(
                 setCallersAndSurvey,
                 handleStepValidation(1, validators.callersAndSurvey)
@@ -145,7 +146,7 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
             value={{
               errors: errorMessages,
               values: filters,
-              initialValues: campaign ? filters : initialValues.filters,
+              initialValues: campaign ? campaignToFiltersValues(filters) : initialValues.filters,
               updateValues: handleChangeAndValidate(setFilters),
             }}
           >

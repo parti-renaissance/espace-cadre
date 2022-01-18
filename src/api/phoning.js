@@ -174,17 +174,17 @@ const formatFiltersData = ({
   SMSSubscribed,
   zones,
 }) => ({
-  ...(firstName ? { firstName } : {}),
-  ...(lastName ? { lastName } : {}),
-  ...(gender ? { gender } : {}),
-  ...(adherentFromDate ? { registeredSince: adherentFromDate } : {}),
-  ...(adherentToDate ? { registeredUntil: adherentToDate } : {}),
-  ...(ageMin ? { ageMin: +ageMin } : {}),
-  ...(ageMax ? { ageMax: +ageMax } : {}),
-  ...('boolean' === typeof certified ? { isCertified: certified } : {}),
-  ...('boolean' === typeof committeeMember ? { isCommitteeMember: committeeMember } : {}),
-  ...('boolean' === typeof emailSubscribed ? { hasEmailSubscription: emailSubscribed } : {}),
-  ...('boolean' === typeof SMSSubscribed ? { hasSmsSubscription: SMSSubscribed } : {}),
+  ...(gender && { gender }),
+  ...(firstName && { firstName }),
+  ...(lastName && { lastName }),
+  ...(adherentFromDate && { registeredSince: adherentFromDate }),
+  ...(adherentToDate && { registeredUntil: adherentToDate }),
+  ...(ageMin && { ageMin: +ageMin }),
+  ...(ageMax && { ageMax: +ageMax }),
+  ...('boolean' === typeof certified && { isCertified: certified }),
+  ...('boolean' === typeof committeeMember && { isCommitteeMember: committeeMember }),
+  ...('boolean' === typeof emailSubscribed && { hasEmailSubscription: emailSubscribed }),
+  ...('boolean' === typeof SMSSubscribed && { hasSmsSubscription: SMSSubscribed }),
   zones: zones.map(z => z.id),
 })
 
@@ -196,7 +196,7 @@ export const createOrUpdatePhoningCampaignQuery = campaign => {
     brief: campaign.brief,
     team: campaign.team.id,
     survey: campaign.survey.id,
-    ...(Object.keys(campaign.filters).length > 0 ? { audience: formatFiltersData(campaign.filters) } : {}),
+    audience: formatFiltersData(campaign.filters),
   }
   if (!campaign.id) return apiClient.post('api/v3/phoning_campaigns', body)
   return apiClient.put(`api/v3/phoning_campaigns/${campaign.id}`, body)
