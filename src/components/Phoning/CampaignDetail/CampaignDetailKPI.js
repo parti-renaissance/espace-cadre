@@ -60,8 +60,8 @@ const messages = {
   averageTimeDetail: 'Passé par appel',
 }
 
-const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) => {
-  const daysRemaining = differenceInCalendarDays(endDate, new Date()) || 0
+const CampaignDetailKPI = ({ remaining, surveys, calls, averageTime }) => {
+  const daysRemaining = differenceInCalendarDays(remaining.endDate, new Date()) || 0
 
   return (
     <KPIWrapper data-cy="phoning-campaign-detail-KPI">
@@ -81,12 +81,12 @@ const CampaignDetailKPI = ({ startDate, endDate, surveys, calls, averageTime }) 
                   {pluralize(daysRemaining, messages.day)}&nbsp;
                   {pluralize(daysRemaining, messages.remaining)}
                 </SubTitle>
-                {startDate && endDate && (
+                {remaining.startDate && remaining.endDate && (
                   <SubTitleDetail>
                     {messages.periodFrom}&nbsp;
-                    {format(startDate, 'dd/MM/yyyy')}&nbsp;
+                    {format(remaining.startDate, 'dd/MM/yyyy')}&nbsp;
                     {messages.periodTo}&nbsp;
-                    {format(endDate, 'dd/MM/yyyy')}
+                    {format(remaining.endDate, 'dd/MM/yyyy')}
                   </SubTitleDetail>
                 )}
               </>
