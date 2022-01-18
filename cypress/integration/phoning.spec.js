@@ -55,17 +55,12 @@ describe('Phoning', () => {
         cy.get(KPI).find(UICard).find('>div').eq(0).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(UICard)
-          .find('>div')
-          .eq(0)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '13', subtitle: 'Campagnes', detail: 'Dont 2 en cours' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-          })
+        cy.get(KPI).find(UICard).find('>div').eq(0).find(Typography).each((element, index) => {
+          const content = { score: '13', subtitle: 'Campagnes', detail: 'Dont 2 en cours' }
+          if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+          if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+          if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+        })
       })
     })
 
@@ -74,17 +69,12 @@ describe('Phoning', () => {
         cy.get(KPI).find(UICard).find('>div').eq(1).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(UICard)
-          .find('>div')
-          .eq(1)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '70', subtitle: 'Questionnaires', detail: '12 sur un mois' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-          })
+        cy.get(KPI).find(UICard).find('>div').eq(1).find(Typography).each((element, index) => {
+          const content = { score: '70', subtitle: 'Questionnaires', detail: '12 sur un mois' }
+          if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+          if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+          if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+        })
       })
     })
 
@@ -93,17 +83,12 @@ describe('Phoning', () => {
         cy.get(KPI).find(UICard).find('>div').eq(2).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(UICard)
-          .find('>div')
-          .eq(2)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '452', subtitle: 'Appels', detail: '75 sur un mois' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-          })
+        cy.get(KPI).find(UICard).find('>div').eq(2).find(Typography).each((element, index) => {
+          const content = { score: '452', subtitle: 'Appels', detail: '75 sur un mois' }
+          if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+          if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+          if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+        })
       })
     })
   })
@@ -114,96 +99,38 @@ describe('Phoning', () => {
       cy.get(CampaignsContainer).find('>div').should('have.length', 2)
     })
     it('should have a title', () => {
-      cy.get(CampaignsContainer)
-        .find('>div')
-        .first()
-        .find(Typography)
-        .should('have.text', 'Campagnes')
-        .and('be.visible')
+      cy.get(CampaignsContainer).find('>div').first().find(Typography).should('have.text', 'Campagnes').and('be.visible')
     })
     it('should have a list with at least 1 card', () => {
-      cy.get(CampaignsContainer)
-        .find('>div')
-        .eq(1)
-        .find(CampaignsList)
-        .should('exist')
-        .children()
-        .its('length')
-        .should('be.gte', 1)
+      cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).should('exist').children().its('length').should('be.gte', 1)
     })
 
     describe('The campaign item', () => {
       it('should show a status and a date', () => {
-        cy.get(CampaignsContainer)
-          .find('>div')
-          .eq(1)
-          .find(CampaignsList)
-          .each(element => {
-            cy.wrap(element)
-              .find(UICard)
-              .eq(0)
-              .find(Chip)
-              .find(Typography)
-              .should('exist')
-              .invoke('text')
-              .then(isNotEmpty)
-            cy.wrap(element)
-              .find(UICard)
-              .eq(0)
-              .find(CampaignItemEndDate)
-              .should('exist')
-              .invoke('text')
-              .then(isNotEmpty)
-          })
+        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).each(element => {
+          cy.wrap(element).find(UICard).eq(0).find(Chip).find(Typography).should('exist').invoke('text').then(isNotEmpty)
+          cy.wrap(element).find(UICard).eq(0).find(CampaignItemEndDate).should('exist').invoke('text').then(isNotEmpty)
+        })
       })
       it('should show a title and a description', () => {
-        cy.get(CampaignsContainer)
-          .find('>div')
-          .eq(1)
-          .find(CampaignsList)
-          .each(element => {
-            cy.wrap(element).find(UICard).eq(0).find(CampaignItemTitle).should('exist').invoke('text').then(isNotEmpty)
-            cy.wrap(element)
-              .find(UICard)
-              .eq(0)
-              .find(CampaignItemDescription)
-              .should('exist')
-              .invoke('text')
-              .then(isNotEmpty)
-          })
+        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).each(element => {
+          cy.wrap(element).find(UICard).eq(0).find(CampaignItemTitle).should('exist').invoke('text').then(isNotEmpty)
+          cy.wrap(element).find(UICard).eq(0).find(CampaignItemDescription).should('exist').invoke('text').then(isNotEmpty)
+        })
       })
       it('should show a score and a progress bar', () => {
-        cy.get(CampaignsContainer)
-          .find('>div')
-          .eq(1)
-          .find(CampaignsList)
-          .each(element => {
-            cy.wrap(element)
-              .find(UICard)
-              .eq(0)
-              .find(RatioProgress)
-              .find(Typography)
-              .each((element, index) => {
-                cy.wrap(element)
-                  .should('exist')
-                  .invoke('text')
-                  .then(element => {
-                    cy.wrap(index === 1 ? element.replace('/', '') : element)
-                      .should('match', /^[0-9]*$/)
-                      .then(isNotEmpty)
-                  })
-              })
+        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).each(element => {
+          cy.wrap(element).find(UICard).eq(0).find(RatioProgress).find(Typography).each((element, index) => {
+            cy.wrap(element).should('exist').invoke('text').then(element => {
+              cy.wrap(index === 1 ? element.replace('/', '') : element).should('match', /^[0-9]*$/).then(isNotEmpty)
+            })
           })
+        })
       })
       it('should show a nav button', () => {
-        cy.get(CampaignsContainer)
-          .find('>div')
-          .eq(1)
-          .find(CampaignsList)
-          .find(UICard)
-          .each(element => {
-            cy.wrap(element).find(CTAButton).find(Typography).should('exist').and('have.text', 'voir')
-          })
+        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).find(UICard).each(element => {
+          cy.wrap(element).find(CTAButton).find(Typography).should('exist').and('have.text', 'voir')
+        })
       })
     })
   })
