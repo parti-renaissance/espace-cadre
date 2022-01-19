@@ -12,7 +12,7 @@ export const useUserScope = () => {
     async scope => {
       const authorizedPage = await apiClient.get(`/v3/profile/me/scope/${scope.code}`)
       dispatch(updateCurrentScope(scope))
-      dispatch(updateAuthorizedPages(authorizedPage.features.concat(['delegation'])))
+      dispatch(updateAuthorizedPages(authorizedPage.features))
     },
     [dispatch]
   )
