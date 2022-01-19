@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { styled } from '@mui/system'
-import { Menu, MenuItem as MuiMenuItem } from '@mui/material'
+import { Menu, MenuItem as MuiMenuItem, Typography as MuiTypography } from '@mui/material'
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
 import { Link } from 'react-router-dom'
-import { CGULink, PPDLink } from '../Signup/constants'
+import { CGUPath, PPDPath } from '../Signup/constants'
 
 const LegalNoticesWrapper = styled('span')(
   ({ theme }) => `
@@ -22,14 +22,23 @@ const LegalNoticesIcon = styled(ErrorOutlineRoundedIcon)`
 
 const MenuItem = styled(MuiMenuItem)(
   ({ theme }) => `
-  color: ${theme.palette.menu.color.main};
-  font-size: 10px;
   margin: ${theme.spacing(0.5, 2)};
-  padding: ${theme.spacing(0.5, 1)};
+  padding: ${theme.spacing(0, 1, 0.25)};
   border-radius: 6px;
   &:hover {
-    color: ${theme.palette.menu.color.main};
     background: ${theme.palette.menu.background.hover};
+  }
+`
+)
+
+const Typography = styled(MuiTypography)(
+  ({ theme }) => `
+  color: ${theme.palette.menu.color.main};
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+  &:hover: {
+    color: ${theme.palette.menu.color.main};
   }
 `
 )
@@ -39,28 +48,29 @@ const messages = {
   legalNotices: 'Mentions légales',
   cookiesPolicy: 'Politique de cookies',
   dataProtection: 'Politique de protection des données',
-  warning: "Cellule d'alerte",
+  alertCenter: "Cellule d'alerte",
   signature: 'Designé et assemblé par le Pôle Tech & Innovation',
 }
 
+const alertCenterPath = 'https://www.bkms-system.com/bkwebanon/report/clientInfo?cin=Jp3wHD&c=-1&language=fre'
+
 const MentionsLegales = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  const [menuAnchor, setMenuAnchor] = useState(null)
 
   const handleClick = event => {
-    setAnchorEl(event.currentTarget)
+    setMenuAnchor(event.currentTarget)
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    setMenuAnchor(null)
   }
 
   return (
     <LegalNoticesWrapper>
       <LegalNoticesIcon onClick={handleClick} />
       <Menu
-        anchorEl={anchorEl}
-        open={open}
+        anchorEl={menuAnchor}
+        open={!!menuAnchor}
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'center',
@@ -77,14 +87,18 @@ const MentionsLegales = () => {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <Link to={CGULink}>{messages.legalNotices}</Link>
+          <Link to={CGUPath}>
+            <Typography>{messages.legalNotices}</Typography>
+          </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to={PPDLink}>{messages.dataProtection}</Link>
+          <Link to={PPDPath}>
+            <Typography>{messages.dataProtection}</Typography>
+          </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <a href="https://www.bkms-system.com/bkwebanon/report/clientInfo?cin=Jp3wHD&c=-1&language=fre">
-            {messages.warning}
+          <a href={alertCenterPath}>
+            <Typography>{messages.alertCenter}</Typography>
           </a>
         </MenuItem>
       </Menu>
