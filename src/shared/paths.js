@@ -10,4 +10,6 @@ export default {
   phoning: '/phoning',
   DTD: '/porte-a-porte',
   signup: '/inscription',
+  cgu: '/mentions-legales',
+  ppd: '/politique-protection-donnees',
 }
