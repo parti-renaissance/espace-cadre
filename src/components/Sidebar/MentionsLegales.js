@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { Menu, MenuItem as MuiMenuItem } from '@mui/material'
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
+import { Link } from 'react-router-dom'
+import { CGULink, PPDLink } from '../Signup/constants'
 
 const LegalNoticesWrapper = styled('span')(
   ({ theme }) => `
@@ -22,7 +24,6 @@ const MenuItem = styled(MuiMenuItem)(
   ({ theme }) => `
   color: ${theme.palette.menu.color.main};
   font-size: 10px;
-  display: flex;
   margin: ${theme.spacing(0.5, 2)};
   padding: ${theme.spacing(0.5, 1)};
   border-radius: 6px;
@@ -76,16 +77,10 @@ const MentionsLegales = () => {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <a href="https://donnees.en-marche.fr/">{messages.personalData}</a>
+          <Link to={CGULink}>{messages.legalNotices}</Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <a href="https://en-marche.fr/mentions-legales">{messages.legalNotices}</a>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <a href="https://en-marche.fr/politique-cookies">{messages.cookiesPolicy}</a>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <a href="https://en-marche.fr/politique-protection-donnees">{messages.dataProtection}</a>
+          <Link to={PPDLink}>{messages.dataProtection}</Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <a href="https://www.bkms-system.com/bkwebanon/report/clientInfo?cin=Jp3wHD&c=-1&language=fre">
