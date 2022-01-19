@@ -19,8 +19,6 @@ import Surveys from 'components/Surveys'
 import Delegation from 'components/Delegation'
 import NoMatch from 'components/NoMatch'
 
-const Delegation = () => <div>Upcoming</div>
-
 const AppRoutes = () => {
   const location = useLocation()
   const authorizedPages = useSelector(getAuthorizedPages)
