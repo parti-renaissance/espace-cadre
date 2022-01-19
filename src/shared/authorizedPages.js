@@ -9,4 +9,5 @@ export default {
   phoning: 'phoning_campaign',
   DTD: 'pap',
   surveys: 'survey',
+  delegation: 'delegation',
 }

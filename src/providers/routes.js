@@ -18,6 +18,8 @@ import DTD from 'components/DTD'
 import Surveys from 'components/Surveys'
 import NoMatch from 'components/NoMatch'
 
+const Delegation = () => <div>Upcoming</div>
+
 const AppRoutes = () => {
   const location = useLocation()
   const authorizedPages = useSelector(getAuthorizedPages)
@@ -38,6 +40,7 @@ const AppRoutes = () => {
         <Route path={`${paths.phoning}/*`} element={authorizedPages.includes(pages.phoning) && <Phoning />} />
         <Route path={`${paths.DTD}/*`} element={authorizedPages.includes(pages.DTD) && <DTD />} />
         <Route path={`${paths.surveys}/*`} element={authorizedPages.includes(pages.surveys) && <Surveys />} />
+        <Route path={`${paths.delegation}/*`} element={authorizedPages.includes(pages.delegation) && <Delegation />} />
       </Routes>
     </Suspense>
   )

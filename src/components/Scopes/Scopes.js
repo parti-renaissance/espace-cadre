@@ -80,12 +80,9 @@ function Scopes() {
   }
 
   const redirect = scope => {
-    if (scope.code === 'phoning_national_manager') {
-      return navigate(paths.phoning)
-    }
-    if (scope.code === 'pap_national_manager') {
-      return navigate(paths.DTD)
-    }
+    if (scope.code === 'phoning_national_manager') return navigate(paths.phoning)
+    if (scope.code === 'pap_national_manager') return navigate(paths.DTD)
+    if (scope.code === 'delegation') return navigate(paths.delegation)
     return navigate(paths.dashboard)
   }
 
