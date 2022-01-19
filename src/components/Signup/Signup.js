@@ -11,7 +11,7 @@ import Places from 'components/Signup/Places'
 import { signup as signupQuery } from 'api/signup'
 import UISelect from 'ui/Select/Select'
 import { useMutation, useQuery } from 'react-query'
-import { rgpd as rgpdQuery } from 'api/legal'
+import { RGPDQuery } from 'api/legal'
 import AlertBanner from 'ui/AlertBanner'
 import { getFormattedErrorMessages } from 'components/shared/error/helpers'
 import SignupOk from 'components/Signup/SignupOk'
@@ -139,6 +139,7 @@ const Signup = () => {
 
   const onSubmit = async values => {
     const gresponse = await window.grecaptcha.enterprise.getResponse()
+
     await signup({
       email_address: values.email,
       first_name: values.firstName,
@@ -180,7 +181,7 @@ const Signup = () => {
     formik.setFieldValue('address', adr.route)
   }
 
-  const { data: rgpd } = useQuery('rgpd', rgpdQuery)
+  const { data: rgpd } = useQuery('rgpd', RGPDQuery)
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {
@@ -218,6 +219,7 @@ const Signup = () => {
   )
 
   if (signupOk) return <SignupOk />
+
   return (
     <Page>
       <Container>
