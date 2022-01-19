@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { styled } from '@mui/system'
-import { Popover } from '@mui/material'
+import { Menu, MenuItem as MuiMenuItem, Typography as MuiTypography } from '@mui/material'
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
+import { Link } from 'react-router-dom'
+import { CGUPath, PPDPath } from '../Signup/constants'
 
 const LegalNoticesWrapper = styled('span')(
   ({ theme }) => `
@@ -18,83 +20,88 @@ const LegalNoticesIcon = styled(ErrorOutlineRoundedIcon)`
   cursor: pointer;
 `
 
-const Ul = styled('ul')`
-  padding-left: 0;
-`
-
-const Li = styled('li')`
-  color: ${({ theme }) => theme.palette.menu.color.main};
-  font-size: 10px;
-  display: flex;
-  margin: ${({ theme }) => theme.spacing(0.5, 2)};
-  padding: ${({ theme }) => theme.spacing(0.5, 1)};
+const MenuItem = styled(MuiMenuItem)(
+  ({ theme }) => `
+  margin: ${theme.spacing(0.5, 2)};
+  padding: ${theme.spacing(0, 1, 0.25)};
   border-radius: 6px;
   &:hover {
-    color: ${({ theme }) => theme.palette.menu.color.main};
-    background: ${({ theme }) => theme.palette.menu.background.hover};
+    background: ${theme.palette.menu.background.hover};
   }
 `
+)
+
+const Typography = styled(MuiTypography)(
+  ({ theme }) => `
+  color: ${theme.palette.menu.color.main};
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+  &:hover: {
+    color: ${theme.palette.menu.color.main};
+  }
+`
+)
 
 const messages = {
   personalData: 'Mes données personnelles',
   legalNotices: 'Mentions légales',
   cookiesPolicy: 'Politique de cookies',
   dataProtection: 'Politique de protection des données',
-  warning: "Cellule d'alerte",
+  alertCenter: "Cellule d'alerte",
   signature: 'Designé et assemblé par le Pôle Tech & Innovation',
 }
 
+const alertCenterPath = 'https://www.bkms-system.com/bkwebanon/report/clientInfo?cin=Jp3wHD&c=-1&language=fre'
+
 const MentionsLegales = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
+  const [menuAnchor, setMenuAnchor] = useState(null)
 
   const handleClick = event => {
-    setAnchorEl(event.currentTarget)
+    setMenuAnchor(event.currentTarget)
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    setMenuAnchor(null)
   }
 
   return (
     <LegalNoticesWrapper>
       <LegalNoticesIcon onClick={handleClick} />
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
+      <Menu
+        anchorEl={menuAnchor}
+        open={!!menuAnchor}
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'center',
           horizontal: 'right',
         }}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'left',
+        }}
         sx={{
-          '& .MuiPaper-root': {
+          '& .MuiMenu-paper': {
             bgcolor: 'menu.background.main',
           },
         }}
       >
-        <Ul>
-          <Li>
-            <a href="https://donnees.en-marche.fr/">{messages.personalData}</a>
-          </Li>
-          <Li>
-            <a href="https://en-marche.fr/mentions-legales">{messages.legalNotices}</a>
-          </Li>
-          <Li>
-            <a href="https://en-marche.fr/politique-cookies">{messages.cookiesPolicy}</a>
-          </Li>
-          <Li>
-            <a href="https://en-marche.fr/politique-protection-donnees">{messages.dataProtection}</a>
-          </Li>
-          <Li>
-            <a href="https://www.bkms-system.com/bkwebanon/report/clientInfo?cin=Jp3wHD&c=-1&language=fre">
-              {messages.warning}
-            </a>
-          </Li>
-        </Ul>
-      </Popover>
+        <MenuItem onClick={handleClose}>
+          <Link to={CGUPath}>
+            <Typography>{messages.legalNotices}</Typography>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={PPDPath}>
+            <Typography>{messages.dataProtection}</Typography>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <a href={alertCenterPath}>
+            <Typography>{messages.alertCenter}</Typography>
+          </a>
+        </MenuItem>
+      </Menu>
     </LegalNoticesWrapper>
   )
 }
