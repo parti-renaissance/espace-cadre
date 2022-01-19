@@ -16,6 +16,7 @@ import News from 'components/News'
 import Phoning from 'components/Phoning'
 import DTD from 'components/DTD'
 import Surveys from 'components/Surveys'
+import Delegation from 'components/Delegation'
 import NoMatch from 'components/NoMatch'
 
 const Delegation = () => <div>Upcoming</div>
