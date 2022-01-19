@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { styled } from '@mui/system'
-import { Popover } from '@mui/material'
+import { Menu, MenuItem as MuiMenuItem } from '@mui/material'
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
 
 const LegalNoticesWrapper = styled('span')(
@@ -18,22 +18,20 @@ const LegalNoticesIcon = styled(ErrorOutlineRoundedIcon)`
   cursor: pointer;
 `
 
-const Ul = styled('ul')`
-  padding-left: 0;
-`
-
-const Li = styled('li')`
-  color: ${({ theme }) => theme.palette.menu.color.main};
+const MenuItem = styled(MuiMenuItem)(
+  ({ theme }) => `
+  color: ${theme.palette.menu.color.main};
   font-size: 10px;
   display: flex;
-  margin: ${({ theme }) => theme.spacing(0.5, 2)};
-  padding: ${({ theme }) => theme.spacing(0.5, 1)};
+  margin: ${theme.spacing(0.5, 2)};
+  padding: ${theme.spacing(0.5, 1)};
   border-radius: 6px;
   &:hover {
-    color: ${({ theme }) => theme.palette.menu.color.main};
-    background: ${({ theme }) => theme.palette.menu.background.hover};
+    color: ${theme.palette.menu.color.main};
+    background: ${theme.palette.menu.background.hover};
   }
 `
+)
 
 const messages = {
   personalData: 'Mes données personnelles',
@@ -47,7 +45,6 @@ const messages = {
 const MentionsLegales = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -60,41 +57,42 @@ const MentionsLegales = () => {
   return (
     <LegalNoticesWrapper>
       <LegalNoticesIcon onClick={handleClick} />
-      <Popover
-        id={id}
-        open={open}
+      <Menu
         anchorEl={anchorEl}
+        open={open}
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'center',
           horizontal: 'right',
         }}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'left',
+        }}
         sx={{
-          '& .MuiPaper-root': {
+          '& .MuiMenu-paper': {
             bgcolor: 'menu.background.main',
           },
         }}
       >
-        <Ul>
-          <Li>
-            <a href="https://donnees.en-marche.fr/">{messages.personalData}</a>
-          </Li>
-          <Li>
-            <a href="https://en-marche.fr/mentions-legales">{messages.legalNotices}</a>
-          </Li>
-          <Li>
-            <a href="https://en-marche.fr/politique-cookies">{messages.cookiesPolicy}</a>
-          </Li>
-          <Li>
-            <a href="https://en-marche.fr/politique-protection-donnees">{messages.dataProtection}</a>
-          </Li>
-          <Li>
-            <a href="https://www.bkms-system.com/bkwebanon/report/clientInfo?cin=Jp3wHD&c=-1&language=fre">
-              {messages.warning}
-            </a>
-          </Li>
-        </Ul>
-      </Popover>
+        <MenuItem onClick={handleClose}>
+          <a href="https://donnees.en-marche.fr/">{messages.personalData}</a>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <a href="https://en-marche.fr/mentions-legales">{messages.legalNotices}</a>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <a href="https://en-marche.fr/politique-cookies">{messages.cookiesPolicy}</a>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <a href="https://en-marche.fr/politique-protection-donnees">{messages.dataProtection}</a>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <a href="https://www.bkms-system.com/bkwebanon/report/clientInfo?cin=Jp3wHD&c=-1&language=fre">
+            {messages.warning}
+          </a>
+        </MenuItem>
+      </Menu>
     </LegalNoticesWrapper>
   )
 }
