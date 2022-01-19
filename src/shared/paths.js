@@ -13,6 +13,7 @@ export default {
 }
 
 export const publicPaths = {
+  delegation: '/mon-equipe',
   signup: '/inscription',
   signupConfirm: '/inscription/felicitations',
   auth: '/auth',
