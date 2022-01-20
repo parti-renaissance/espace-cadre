@@ -1,21 +1,21 @@
+import { useMemo, useState } from 'react'
 import { styled } from '@mui/system'
+import { Box, Button, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { TextField, TextFieldFormik } from './TextField'
-import { Box, Button, Checkbox, FormControlLabel, Typography } from '@mui/material'
-import { getDaysInMonth } from 'date-fns'
-import { useMemo, useState } from 'react'
-import prefixes from './prefixes.json'
 import { getCountryCallingCode, isValidPhoneNumber } from 'libphonenumber-js'
-import Places from 'components/Signup/Places'
-import { signup as signupQuery } from 'api/signup'
-import UISelect from 'ui/Select/Select'
+import { getDaysInMonth } from 'date-fns'
 import { useMutation, useQuery } from 'react-query'
-import { rgpd as rgpdQuery } from 'api/legal'
-import AlertBanner from 'ui/AlertBanner'
+import { signupQuery } from 'api/signup'
+import { RGPDQuery } from 'api/legal'
+import Places from 'components/Signup/Places'
 import { getFormattedErrorMessages } from 'components/shared/error/helpers'
-import SignupOk from 'components/Signup/SignupOk'
 import { genders, months, years } from 'components/Signup/data'
+import { TextField, TextFieldFormik } from './TextField'
+import prefixes from './prefixes.json'
+import UISelect from 'ui/Select/Select'
+import AlertBanner from 'ui/AlertBanner'
+import SignupConfirm from './SignupConfirm'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -138,16 +138,15 @@ const Signup = () => {
   const [signupOk, setSignupOk] = useState(false)
 
   const onSubmit = async values => {
-    const gresponse = await window.grecaptcha.enterprise.getResponse()
     await signup({
       email_address: values.email,
       first_name: values.firstName,
       last_name: values.lastName,
       gender: values.gender,
       birthdate: `${birthdate.year}-${birthdate.month}-${birthdate.day}`,
-      phone: values.phone,
+      phone: values.phone || null,
       address: {
-        address: [address.number, address.number && ' ', address.route].filter(Boolean).join(),
+        address: [address.number, address.number && ' ', address.route].filter(Boolean).join(''),
         postal_code: address.postalCode,
         city_name: address.locality,
         country: address.country,
@@ -155,7 +154,6 @@ const Signup = () => {
       cgu_accepted: values.cgu,
       allow_mobile_notifications: values.mobileNotification,
       allow_email_notifications: values.emailNotification,
-      g_recaptcha_response: gresponse,
     })
   }
 
@@ -180,7 +178,7 @@ const Signup = () => {
     formik.setFieldValue('address', adr.route)
   }
 
-  const { data: rgpd } = useQuery('rgpd', rgpdQuery)
+  const { data: rgpd } = useQuery('rgpd', RGPDQuery)
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {
@@ -217,7 +215,8 @@ const Signup = () => {
     [birthdate.month, birthdate.year]
   )
 
-  if (signupOk) return <SignupOk />
+  if (signupOk) return <SignupConfirm />
+
   return (
     <Page>
       <Container>
@@ -360,7 +359,6 @@ const Signup = () => {
             label={<Typography variant="subtitle2">{messages.cgu}</Typography>}
             sx={{ mx: 1, mb: 3 }}
           />
-          <div className="g-recaptcha" data-sitekey="6LdEMgoeAAAAABdXBciYWKZ5dHDVmpdCSvwZ4pSE" />
           <SubmitButton
             type="submit"
             variant="outlined"
