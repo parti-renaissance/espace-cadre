@@ -1,21 +1,21 @@
+import { useMemo, useState } from 'react'
 import { styled } from '@mui/system'
+import { Box, Button, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { TextField, TextFieldFormik } from './TextField'
-import { Box, Button, Checkbox, FormControlLabel, Typography } from '@mui/material'
-import { getDaysInMonth } from 'date-fns'
-import { useMemo, useState } from 'react'
-import prefixes from './prefixes.json'
 import { getCountryCallingCode, isValidPhoneNumber } from 'libphonenumber-js'
-import Places from 'components/Signup/Places'
-import { signupQuery } from 'api/signup'
-import UISelect from 'ui/Select/Select'
+import { getDaysInMonth } from 'date-fns'
 import { useMutation, useQuery } from 'react-query'
+import { signupQuery } from 'api/signup'
 import { RGPDQuery } from 'api/legal'
-import AlertBanner from 'ui/AlertBanner'
+import Places from 'components/Signup/Places'
 import { getFormattedErrorMessages } from 'components/shared/error/helpers'
-import SignupOk from 'components/Signup/SignupOk'
 import { genders, months, years } from 'components/Signup/data'
+import { TextField, TextFieldFormik } from './TextField'
+import prefixes from './prefixes.json'
+import UISelect from 'ui/Select/Select'
+import AlertBanner from 'ui/AlertBanner'
+import SignupConfirm from './SignupConfirm'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -215,7 +215,7 @@ const Signup = () => {
     [birthdate.month, birthdate.year]
   )
 
-  if (signupOk) return <SignupOk />
+  if (signupOk) return <SignupConfirm />
 
   return (
     <Page>
