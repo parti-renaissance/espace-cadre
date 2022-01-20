@@ -67,6 +67,14 @@ export const styles = {
         elevation: 0,
       },
     },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+          paddingBottom: 0,
+        },
+      },
+    },
     MuiPickersDay: {
       styleOverrides: {
         root: {
