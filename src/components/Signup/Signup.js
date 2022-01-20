@@ -139,15 +139,14 @@ const Signup = () => {
 
   const onSubmit = async values => {
     // const gresponse = await window.grecaptcha.enterprise.getResponse()
-    console.log('submit', values)
-    console.log('address', address)
+
     await signup({
       email_address: values.email,
       first_name: values.firstName,
       last_name: values.lastName,
       gender: values.gender,
       birthdate: `${birthdate.year}-${birthdate.month}-${birthdate.day}`,
-      phone: values.phone,
+      phone: values.phone || null,
       address: {
         address: [address.number, address.number && ' ', address.route].filter(Boolean).join(''),
         postal_code: address.postalCode,
