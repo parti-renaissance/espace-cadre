@@ -138,8 +138,9 @@ const Signup = () => {
   const [signupOk, setSignupOk] = useState(false)
 
   const onSubmit = async values => {
-    const gresponse = await window.grecaptcha.enterprise.getResponse()
-
+    // const gresponse = await window.grecaptcha.enterprise.getResponse()
+    console.log('submit', values)
+    console.log('address', address)
     await signup({
       email_address: values.email,
       first_name: values.firstName,
@@ -148,7 +149,7 @@ const Signup = () => {
       birthdate: `${birthdate.year}-${birthdate.month}-${birthdate.day}`,
       phone: values.phone,
       address: {
-        address: [address.number, address.number && ' ', address.route].filter(Boolean).join(),
+        address: [address.number, address.number && ' ', address.route].filter(Boolean).join(''),
         postal_code: address.postalCode,
         city_name: address.locality,
         country: address.country,
@@ -156,7 +157,6 @@ const Signup = () => {
       cgu_accepted: values.cgu,
       allow_mobile_notifications: values.mobileNotification,
       allow_email_notifications: values.emailNotification,
-      g_recaptcha_response: gresponse,
     })
   }
 
