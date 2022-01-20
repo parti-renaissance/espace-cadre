@@ -138,8 +138,6 @@ const Signup = () => {
   const [signupOk, setSignupOk] = useState(false)
 
   const onSubmit = async values => {
-    // const gresponse = await window.grecaptcha.enterprise.getResponse()
-
     await signup({
       email_address: values.email,
       first_name: values.firstName,
@@ -361,7 +359,6 @@ const Signup = () => {
             label={<Typography variant="subtitle2">{messages.cgu}</Typography>}
             sx={{ mx: 1, mb: 3 }}
           />
-          <div className="g-recaptcha" data-sitekey="6LdEMgoeAAAAABdXBciYWKZ5dHDVmpdCSvwZ4pSE" />
           <SubmitButton
             type="submit"
             variant="outlined"
