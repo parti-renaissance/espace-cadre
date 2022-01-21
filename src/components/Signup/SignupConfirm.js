@@ -1,14 +1,5 @@
 import { styled } from '@mui/system'
-import { Typography } from '@mui/material'
-
-const Container = styled('div')`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: ${({ theme }) => theme.spacing(0, 2)};
-`
+import { Typography, Grid } from '@mui/material'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -35,11 +26,11 @@ const messages = {
 }
 
 const SignupConfirm = () => (
-  <Container>
+  <Grid container direction="column" justifyContent="center" alignItems="center" sx={{ height: '100vh', p: 2 }}>
     <Title>{messages.title}</Title>
     <Main sx={{ mb: 4 }}>{messages.subtitle}</Main>
     <Main>{messages.body}</Main>
-  </Container>
+  </Grid>
 )
 
 export default SignupConfirm
