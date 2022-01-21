@@ -14,7 +14,7 @@ import ErrorBoundary from '../../providers/errorboundary'
 import Signup from 'components/Signup/Signup'
 import SignupConfirm from 'components/Signup/SignupConfirm'
 import LegalContainer from '../Signup/LegalContainer'
-import { PPD, CGUWeb, CGUMobile } from '../Signup/constants'
+import { PPD, CGUWeb, CGUMobile, CookiesWeb, CookiesMobile } from '../Signup/constants'
 
 const publicPaths = [paths.cgu, paths.signup, paths.auth, paths.ppd]
 
@@ -44,6 +44,8 @@ const Layout = ({ children }) => {
   if (pathname === paths.ppd) return <LegalContainer type={PPD} />
   if (pathname === paths.cguWeb) return <LegalContainer type={CGUWeb} />
   if (pathname === paths.cguMobile) return <LegalContainer type={CGUMobile} />
+  if (pathname === paths.cookiesWeb) return <LegalContainer type={CookiesWeb} />
+  if (pathname === paths.cookiesMobile) return <LegalContainer type={CookiesMobile} />
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 

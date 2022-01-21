@@ -13,4 +13,8 @@ export default {
   signupConfirm: '/inscription/felicitations',
   cgu: '/mentions-legales',
   ppd: '/politique-protection-donnees',
+  cguWeb: '/mentions-legales-web',
+  cguMobile: '/mentions-legales-mobile',
+  cookiesWeb: '/utilisation-cookies-web',
+  cookiesMobile: '/utilisation-cookies-mobile',
 }

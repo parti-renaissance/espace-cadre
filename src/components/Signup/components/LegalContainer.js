@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { Typography as MuiTypography } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
-import { PPD, CGUWeb, CGUMobile } from './constants'
-import { PPDQuery, CGUQueryWeb, CGUQueryMobile } from 'api/legal'
+import { PPD, CGUWeb, CGUMobile, CookiesWeb, CookiesMobile } from './constants'
+import { PPDQuery, CGUQueryWeb, CGUQueryMobile, CookiesQueryWeb, CookiesQueryMobile } from 'api/legal'
 import { useQuery } from 'react-query'
 
 const Container = styled('div')(
@@ -25,10 +25,18 @@ const LegalContainer = ({ type }) => {
   const { data: ppd } = useQuery('rgpd', PPDQuery, { enabled: type === PPD })
   const { data: cguWebData } = useQuery('rgpd', CGUQueryWeb, { enabled: type === CGUWeb })
   const { data: cguMobileData } = useQuery('rgpd', CGUQueryMobile, { enabled: type === CGUMobile })
+  const { data: cookiesWebData } = useQuery('rgpd', CookiesQueryWeb, { enabled: type === CookiesWeb })
+  const { data: cookiesMobileData } = useQuery('rgpd', CookiesQueryMobile, { enabled: type === CookiesMobile })
 
   return (
     <Container>
-      <ReactMarkdown>{cguWebData?.content || cguMobileData?.content || ppd?.content}</ReactMarkdown>
+      <ReactMarkdown>
+        {ppd?.content ||
+          cguWebData?.content ||
+          cguMobileData?.content ||
+          cookiesWebData?.content ||
+          cookiesMobileData?.content}
+      </ReactMarkdown>
     </Container>
   )
 }
