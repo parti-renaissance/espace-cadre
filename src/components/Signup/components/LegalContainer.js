@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { Typography as MuiTypography } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
-import { CGU, PPD } from './constants'
+import { CGU, PPD } from '../constants'
 import { CGUQuery, PPDQuery } from 'api/legal'
 import { useQuery } from 'react-query'
 

@@ -14,6 +14,10 @@ const TextInput = styled(MuiTextField)(
 `
 )
 
+const messages = {
+  address: 'Adresse',
+}
+
 const selectPlace = (address, cb) => {
   const number = address.find(a => a.types.includes('street_number'))?.long_name || null
   const route = address.find(a => a.types.includes('route'))?.long_name || null
@@ -24,10 +28,6 @@ const selectPlace = (address, cb) => {
   cb(new Place(number, route, postalCode, locality, country))
 
   return [number, number && ' ', route].filter(Boolean).join('')
-}
-
-const messages = {
-  address: 'Adresse',
 }
 
 const Places = ({ onSelectPlace, error = null, ...props }) => {

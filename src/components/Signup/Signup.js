@@ -9,13 +9,14 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import { signupQuery } from 'api/signup'
 import { RGPDQuery } from 'api/legal'
-import Places from 'components/Signup/Places'
 import { getFormattedErrorMessages } from 'components/shared/error/helpers'
-import { genders, months, years } from 'components/Signup/data'
-import { TextField, TextFieldFormik } from './TextField'
-import prefixes from './prefixes.json'
+import Places from './components/Places'
+import { genders, months, years } from './data/data'
+import { TextField, TextFieldFormik } from './components/TextField'
+import prefixes from './data/prefixes.json'
 import UISelect from 'ui/Select/Select'
 import AlertBanner from 'ui/AlertBanner'
+import { messages, mapErrorToField } from './data/wording'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -76,53 +77,6 @@ const Form = styled('form')`
   flex-direction: column;
   width: 100%;
 `
-const messages = {
-  optional: '(optionnel)',
-  jme: "Je m'engage",
-  createAccount: 'Créez votre compte pour vous engager sur le terrain.',
-  personnalInformations: 'Informations personnelles',
-  email: 'Adresse e-mail',
-  firstName: 'Prénom',
-  lastName: 'Nom',
-  gender: 'Genre',
-  birthdate: 'Date de naissance',
-  dd: 'Jour',
-  mm: 'Mois',
-  yyyy: 'Année',
-  address: 'Adresse',
-  prefix: 'Indicatif',
-  phone: 'Téléphone ',
-  cguPrefix: "Oui, j'adhère aux",
-  cgu: "conditions générales d'utilisation",
-  ppdPrefix: 'et à la',
-  ppd: 'politique de protection des données à caractère personnel.',
-  mobileNotification: 'Je souhaite recevoir des notifications par sms ',
-  emailNotification: 'Je souhaite recevoir des notifications par email ',
-  adress: 'Numéro et rue',
-  postalCode: 'CP',
-  city: 'Ville',
-  country: 'Pays',
-  submit: "Je m'inscris",
-  mandatory: 'Champ obligatoire',
-  emailError: "Le format de l'email n'est pas valide",
-  min2: '2 charactères minimum',
-  cguMandatory: 'Vous devez accepter les CGU',
-}
-
-const mapErrorToField = {
-  email_address: 'email',
-  first_name: 'firstName',
-  last_name: 'lastName',
-  gender: 'gender',
-  birthdate: 'birthdate',
-  phone: 'phone',
-  address: 'address',
-  cgu_accepted: 'cgu',
-  'address.address': 'address',
-  'address.country': 'address',
-  'address.postal_code': 'address',
-  'address.city_name': 'address',
-}
 
 const signupSchema = Yup.object({
   email: Yup.string().email(messages.emailError).required(messages.mandatory),
