@@ -95,26 +95,6 @@ const Signup = () => {
   const [address, setAddress] = useState(null)
   const navigate = useNavigate()
 
-  const onSubmit = async values => {
-    await signup({
-      email_address: values.email,
-      first_name: values.firstName,
-      last_name: values.lastName,
-      gender: values.gender,
-      birthdate: `${birthdate.year}-${birthdate.month}-${birthdate.day}`,
-      phone: values.phone || null,
-      address: {
-        address: [address.number, address.number && ' ', address.route].filter(Boolean).join(''),
-        postal_code: address.postalCode,
-        city_name: address.locality,
-        country: address.country,
-      },
-      cgu_accepted: values.cgu,
-      allow_mobile_notifications: values.mobileNotification,
-      allow_email_notifications: values.emailNotification,
-    })
-  }
-
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -128,7 +108,9 @@ const Signup = () => {
       emailNotification: false,
     },
     validationSchema: signupSchema,
-    onSubmit: onSubmit,
+    onSubmit: values => {
+      signup({ ...values, address, birthdate })
+    },
   })
 
   const updateAddress = adr => {
