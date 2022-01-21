@@ -5,6 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { getCountryCallingCode, isValidPhoneNumber } from 'libphonenumber-js'
 import { getDaysInMonth } from 'date-fns'
+import { Link } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import { signupQuery } from 'api/signup'
 import { RGPDQuery } from 'api/legal'
@@ -92,7 +93,10 @@ const messages = {
   address: 'Adresse',
   prefix: 'Indicatif',
   phone: 'Téléphone ',
-  cgu: "Oui, j'adhère aux conditions générales d'utilisation et à la politique de protection des données à caractère personnel.",
+  cguPrefix: "Oui, j'adhère aux",
+  cgu: "conditions générales d'utilisation",
+  ppdPrefix: 'et à la',
+  ppd: 'politique de protection des données à caractère personnel.',
   mobileNotification: 'Je souhaite recevoir des notifications par sms ',
   emailNotification: 'Je souhaite recevoir des notifications par email ',
   adress: 'Numéro et rue',
@@ -356,7 +360,24 @@ const Signup = () => {
                 onChange={formik.handleChange}
               />
             }
-            label={<Typography variant="subtitle2">{messages.cgu}</Typography>}
+            label={
+              <Typography variant="subtitle2">
+                {messages.cguPrefix}&nbsp;
+                <Link to="/mentions-legales">
+                  <Typography variant="subtitle2" sx={{ color: '#2834C3' }}>
+                    {messages.cgu}
+                  </Typography>
+                </Link>
+                &nbsp;
+                {messages.ppdPrefix}
+                &nbsp;
+                <Link to="/politique-protection-donnees">
+                  <Typography variant="subtitle2" sx={{ color: '#2834C3' }}>
+                    {messages.ppd}
+                  </Typography>
+                </Link>
+              </Typography>
+            }
             sx={{ mx: 1, mb: 3 }}
           />
           <SubmitButton
