@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
-import { Typography as MuiTypography } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import { PPD, CGUWeb, CGUMobile, CookiesWeb, CookiesMobile } from '../constants'
 import { PPDQuery, CGUQueryWeb, CGUQueryMobile, CookiesQueryWeb, CookiesQueryMobile } from 'api/legal'
@@ -13,12 +12,6 @@ const Container = styled('div')(
     margin: ${theme.spacing(0, 'auto')};
   `
 )
-
-const Typography = styled(MuiTypography)`
-  font-size: 34px;
-  font-weight: 700;
-  line-height: 38px;
-`
 
 const LegalContainer = ({ type }) => {
   const { data: ppd } = useQuery('rgpd', PPDQuery, { enabled: type === PPD })
