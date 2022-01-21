@@ -16,7 +16,8 @@ import { TextField, TextFieldFormik } from './components/TextField'
 import prefixes from './data/prefixes.json'
 import UISelect from 'ui/Select/Select'
 import AlertBanner from 'ui/AlertBanner'
-import { messages, mapErrorToField } from './data/wording'
+import { messages, placeholders, errorFields } from './data/wording'
+import paths from 'shared/paths'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -139,13 +140,13 @@ const Signup = () => {
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {
-      navigate('/inscription/felicitations')
+      navigate(paths.signupConfirm)
     },
     onError: e => {
       const { data } = e.response
       const errorMessages = getFormattedErrorMessages(data)
       errorMessages?.forEach(e => {
-        const field = mapErrorToField[e.field]
+        const field = errorFields[e.field]
         field && formik.setFieldError(field, e.message)
       })
     },
@@ -182,13 +183,13 @@ const Signup = () => {
           <TextFieldFormik
             label="firstName"
             formik={formik}
-            placeholder={messages.firstName}
+            placeholder={placeholders.firstName}
             inputProps={{ maxLength: 50 }}
           />
           <TextFieldFormik
             label="lastName"
             formik={formik}
-            placeholder={messages.lastName}
+            placeholder={placeholders.lastName}
             inputProps={{ maxLength: 50 }}
             sx={{ mt: 3 }}
           />
@@ -198,7 +199,7 @@ const Signup = () => {
               formik.setFieldValue('gender', v)
             }}
             value={formik.values.gender}
-            placeholder={messages.gender}
+            placeholder={placeholders.gender}
             error={!!formik.touched.gender && !!formik.errors.gender}
             sx={{ mt: 3 }}
           />
@@ -208,7 +209,7 @@ const Signup = () => {
           <TextFieldFormik
             label="email"
             formik={formik}
-            placeholder={messages.email}
+            placeholder={placeholders.email}
             inputProps={{ maxLength: 255 }}
             sx={{ mt: 3 }}
           />
@@ -218,30 +219,30 @@ const Signup = () => {
               options={days}
               onChange={d => setDate(d, 'day')}
               value={birthdate.day}
-              placeholder={messages.dd}
+              placeholder={placeholders.dd}
               sx={{ flex: 1 }}
             />
             <UISelect
               options={months}
               onChange={m => setDate(m, 'month')}
               value={birthdate.month}
-              placeholder={messages.mm}
+              placeholder={placeholders.mm}
               sx={{ flex: 1, mx: 2 }}
             />
             <UISelect
               options={years}
               onChange={y => setDate(y, 'year')}
               value={birthdate.year}
-              placeholder={messages.yyyy}
+              placeholder={placeholders.yyyy}
               sx={{ flex: 1 }}
             />
           </Box>
           <Header sx={{ mt: 3 }}>{messages.address}</Header>
           <Places onSelectPlace={updateAddress} sx={{ mt: 1 }} error={formik.touched.gender && formik.errors.address} />
           <Box component="div" sx={{ display: 'flex', mt: 3 }}>
-            <TextField value={address?.postalCode} placeholder={messages.postalCode} disabled sx={{ flex: 1 }} />
-            <TextField value={address?.locality} placeholder={messages.city} disabled sx={{ flex: 3, mx: 2 }} />
-            <TextField value={address?.country} placeholder={messages.country} disabled sx={{ flex: 1 }} />
+            <TextField value={address?.postalCode} placeholder={placeholders.postalCode} disabled sx={{ flex: 1 }} />
+            <TextField value={address?.locality} placeholder={placeholders.city} disabled sx={{ flex: 3, mx: 2 }} />
+            <TextField value={address?.country} placeholder={placeholders.country} disabled sx={{ flex: 1 }} />
           </Box>
           <Header sx={{ mt: 3 }}>
             {messages.phone}

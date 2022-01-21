@@ -3,14 +3,7 @@ export const messages = {
   jme: "Je m'engage",
   createAccount: 'Créez votre compte pour vous engager sur le terrain.',
   personnalInformations: 'Informations personnelles',
-  email: 'Adresse e-mail',
-  firstName: 'Prénom',
-  lastName: 'Nom',
-  gender: 'Genre',
   birthdate: 'Date de naissance',
-  dd: 'Jour',
-  mm: 'Mois',
-  yyyy: 'Année',
   address: 'Adresse',
   prefix: 'Indicatif',
   phone: 'Téléphone ',
@@ -21,9 +14,6 @@ export const messages = {
   mobileNotification: 'Je souhaite recevoir des notifications par sms ',
   emailNotification: 'Je souhaite recevoir des notifications par email ',
   adress: 'Numéro et rue',
-  postalCode: 'CP',
-  city: 'Ville',
-  country: 'Pays',
   submit: "Je m'inscris",
   mandatory: 'Champ obligatoire',
   emailError: "Le format de l'email n'est pas valide",
@@ -31,7 +21,20 @@ export const messages = {
   cguMandatory: 'Vous devez accepter les CGU',
 }
 
-export const mapErrorToField = {
+export const placeholders = {
+  firstName: 'Prénom',
+  lastName: 'Nom',
+  gender: 'Genre',
+  email: 'Adresse e-mail',
+  dd: 'Jour',
+  mm: 'Mois',
+  yyyy: 'Année',
+  postalCode: 'CP',
+  city: 'Ville',
+  country: 'Pays',
+}
+
+export const errorFields = {
   email_address: 'email',
   first_name: 'firstName',
   last_name: 'lastName',
