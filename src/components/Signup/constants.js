@@ -1,4 +1,7 @@
 export const CGU = 'CGU'
 export const PPD = 'PPD'
-export const CGUPath = '/mentions-legales'
 export const PPDPath = '/politique-protection-donnees'
+export const CGUWeb = 'CGUWeb'
+export const CGUWebPath = '/mentions-legales-web'
+export const CGUMobile = 'CGUWeb'
+export const CGUMobilePath = '/mentions-legales-mobile'
