@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { getCountryCallingCode, isValidPhoneNumber } from 'libphonenumber-js'
 import { getDaysInMonth } from 'date-fns'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import { signupQuery } from 'api/signup'
 import { RGPDQuery } from 'api/legal'
@@ -16,7 +16,6 @@ import { TextField, TextFieldFormik } from './TextField'
 import prefixes from './prefixes.json'
 import UISelect from 'ui/Select/Select'
 import AlertBanner from 'ui/AlertBanner'
-import SignupConfirm from './SignupConfirm'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -139,7 +138,7 @@ const signupSchema = Yup.object({
 const Signup = () => {
   const [birthdate, setBirthdate] = useState({ day: '01', month: '01', year: '2000' })
   const [address, setAddress] = useState(null)
-  const [signupOk, setSignupOk] = useState(false)
+  const navigate = useNavigate()
 
   const onSubmit = async values => {
     await signup({
@@ -186,7 +185,7 @@ const Signup = () => {
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {
-      setSignupOk(true)
+      navigate('/inscription/felicitations')
     },
     onError: e => {
       const { data } = e.response
@@ -218,8 +217,6 @@ const Signup = () => {
         .map(d => ({ key: d < 10 ? `0${d}` : String(d), value: String(d) })),
     [birthdate.month, birthdate.year]
   )
-
-  if (signupOk) return <SignupConfirm />
 
   return (
     <Page>
