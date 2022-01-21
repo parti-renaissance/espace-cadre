@@ -1,23 +1,26 @@
 import { apiClientPublic } from 'services/networking/client'
 
 export const signupQuery = values => {
-  const data = {
-    email_address: values.email,
-    first_name: values.firstName,
-    last_name: values.lastName,
-    gender: values.gender,
-    birthdate: `${values.birthdate.year}-${values.birthdate.month}-${values.birthdate.day}`,
-    phone: values.phone || null,
+  const { email, firstName, lastName, gender, birthdate, phone, address, cgu, mobileNotification, emailNotification } =
+    values
+
+  const body = {
+    email_address: email,
+    first_name: firstName,
+    last_name: lastName,
+    gender: gender,
+    birthdate: `${birthdate.year}-${birthdate.month}-${birthdate.day}`,
+    phone: phone || null,
     address: {
-      address: [values.address.number, values.address.number && ' ', values.address.route].filter(Boolean).join(''),
-      postal_code: values.address.postalCode,
-      city_name: values.address.locality,
-      country: values.address.country,
+      address: [address.number, address.number && ' ', address.route].filter(Boolean).join(''),
+      postal_code: address.postalCode,
+      city_name: address.locality,
+      country: address.country,
     },
-    cgu_accepted: values.cgu,
-    allow_mobile_notifications: values.mobileNotification,
-    allow_email_notifications: values.emailNotification,
+    cgu_accepted: cgu,
+    allow_mobile_notifications: mobileNotification,
+    allow_email_notifications: emailNotification,
   }
 
-  return apiClientPublic('post', 'api/membership?source=jemengage', data)
+  return apiClientPublic('post', 'api/membership?source=jemengage', body)
 }

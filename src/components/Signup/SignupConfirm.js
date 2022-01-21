@@ -12,13 +12,6 @@ const Title = styled(Typography)(
 `
 )
 
-const Main = styled(Typography)`
-  font-size: 16px;
-  ${({ theme }) => theme.palette.gray600};
-  font-weight: 400;
-  line-height: 24px;
-`
-
 const messages = {
   title: "Je m'engage",
   subtitle: 'Vous êtes bien inscrit',
@@ -26,10 +19,14 @@ const messages = {
 }
 
 const SignupConfirm = () => (
-  <Grid container direction="column" justifyContent="center" alignItems="center" sx={{ height: '100vh', p: 2 }}>
+  <Grid container direction="column" justifyContent="center" alignItems="center" sx={{ height: '100vh', px: 2, py: 0 }}>
     <Title>{messages.title}</Title>
-    <Main sx={{ mb: 4 }}>{messages.subtitle}</Main>
-    <Main>{messages.body}</Main>
+    <Typography variant="subtitle1" sx={{ fontWeight: 400, color: 'gray600', mb: 4 }}>
+      {messages.subtitle}
+    </Typography>
+    <Typography variant="subtitle1" sx={{ fontWeight: 400, color: 'gray600' }}>
+      {messages.body}
+    </Typography>
   </Grid>
 )
 
