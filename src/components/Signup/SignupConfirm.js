@@ -1,24 +1,33 @@
 import { styled } from '@mui/system'
-import { Box as MuiBox, Container, Typography as MuiTypography } from '@mui/material'
+import { Typography, Grid } from '@mui/material'
 
-const Box = styled(MuiBox)(
+const Title = styled(Typography)(
   ({ theme }) => `
-    margin: ${theme.spacing(4, 'auto', 0)}
+  font-family: MaaxItalic;
+  color: ${theme.palette.blackCorner};
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 56px;
+  margin-bottom: ${theme.spacing(3)};
 `
 )
 
-const Typography = styled(MuiTypography)`
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 38px;
-`
+const messages = {
+  title: "Je m'engage",
+  subtitle: 'Vous êtes bien inscrit',
+  body: 'Vous avez reçu un email pour valider votre compte et créer votre mot de passe',
+}
 
 const SignupConfirm = () => (
-  <Container maxWidth="md">
-    <Box>
-      <Typography>Merci de vous être inscrit</Typography>
-    </Box>
-  </Container>
+  <Grid container direction="column" justifyContent="center" alignItems="center" sx={{ height: '100vh', px: 2, py: 0 }}>
+    <Title>{messages.title}</Title>
+    <Typography variant="subtitle1" sx={{ fontWeight: 400, color: 'gray600', mb: 4 }}>
+      {messages.subtitle}
+    </Typography>
+    <Typography variant="subtitle1" sx={{ fontWeight: 400, color: 'gray600' }}>
+      {messages.body}
+    </Typography>
+  </Grid>
 )
 
 export default SignupConfirm

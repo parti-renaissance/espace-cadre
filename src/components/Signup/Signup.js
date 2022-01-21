@@ -5,18 +5,19 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { getCountryCallingCode, isValidPhoneNumber } from 'libphonenumber-js'
 import { getDaysInMonth } from 'date-fns'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import { signupQuery } from 'api/signup'
 import { RGPDQuery } from 'api/legal'
-import Places from 'components/Signup/Places'
 import { getFormattedErrorMessages } from 'components/shared/error/helpers'
-import { genders, months, years } from 'components/Signup/data'
-import { TextField, TextFieldFormik } from './TextField'
-import prefixes from './prefixes.json'
+import Places from './components/Places'
+import { genders, months, years } from './data/data'
+import { TextField, TextFieldFormik } from './components/TextField'
+import prefixes from './data/prefixes.json'
 import UISelect from 'ui/Select/Select'
 import AlertBanner from 'ui/AlertBanner'
-import SignupConfirm from './SignupConfirm'
+import { messages, placeholders, errorFields } from './data/wording'
+import paths from 'shared/paths'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -77,53 +78,6 @@ const Form = styled('form')`
   flex-direction: column;
   width: 100%;
 `
-const messages = {
-  optional: '(optionnel)',
-  jme: "Je m'engage",
-  createAccount: 'Créez votre compte pour vous engager sur le terrain.',
-  personnalInformations: 'Informations personnelles',
-  email: 'Adresse e-mail',
-  firstName: 'Prénom',
-  lastName: 'Nom',
-  gender: 'Genre',
-  birthdate: 'Date de naissance',
-  dd: 'Jour',
-  mm: 'Mois',
-  yyyy: 'Année',
-  address: 'Adresse',
-  prefix: 'Indicatif',
-  phone: 'Téléphone ',
-  cguPrefix: "Oui, j'adhère aux",
-  cgu: "conditions générales d'utilisation",
-  ppdPrefix: 'et à la',
-  ppd: 'politique de protection des données à caractère personnel.',
-  mobileNotification: 'Je souhaite recevoir des notifications par sms ',
-  emailNotification: 'Je souhaite recevoir des notifications par email ',
-  adress: 'Numéro et rue',
-  postalCode: 'CP',
-  city: 'Ville',
-  country: 'Pays',
-  submit: "Je m'inscris",
-  mandatory: 'Champ obligatoire',
-  emailError: "Le format de l'email n'est pas valide",
-  min2: '2 charactères minimum',
-  cguMandatory: 'Vous devez accepter les CGU',
-}
-
-const mapErrorToField = {
-  email_address: 'email',
-  first_name: 'firstName',
-  last_name: 'lastName',
-  gender: 'gender',
-  birthdate: 'birthdate',
-  phone: 'phone',
-  address: 'address',
-  cgu_accepted: 'cgu',
-  'address.address': 'address',
-  'address.country': 'address',
-  'address.postal_code': 'address',
-  'address.city_name': 'address',
-}
 
 const signupSchema = Yup.object({
   email: Yup.string().email(messages.emailError).required(messages.mandatory),
@@ -139,27 +93,7 @@ const signupSchema = Yup.object({
 const Signup = () => {
   const [birthdate, setBirthdate] = useState({ day: '01', month: '01', year: '2000' })
   const [address, setAddress] = useState(null)
-  const [signupOk, setSignupOk] = useState(false)
-
-  const onSubmit = async values => {
-    await signup({
-      email_address: values.email,
-      first_name: values.firstName,
-      last_name: values.lastName,
-      gender: values.gender,
-      birthdate: `${birthdate.year}-${birthdate.month}-${birthdate.day}`,
-      phone: values.phone || null,
-      address: {
-        address: [address.number, address.number && ' ', address.route].filter(Boolean).join(''),
-        postal_code: address.postalCode,
-        city_name: address.locality,
-        country: address.country,
-      },
-      cgu_accepted: values.cgu,
-      allow_mobile_notifications: values.mobileNotification,
-      allow_email_notifications: values.emailNotification,
-    })
-  }
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -174,7 +108,9 @@ const Signup = () => {
       emailNotification: false,
     },
     validationSchema: signupSchema,
-    onSubmit: onSubmit,
+    onSubmit: values => {
+      signup({ ...values, address, birthdate })
+    },
   })
 
   const updateAddress = adr => {
@@ -186,13 +122,13 @@ const Signup = () => {
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {
-      setSignupOk(true)
+      navigate(paths.signupConfirm)
     },
     onError: e => {
       const { data } = e.response
       const errorMessages = getFormattedErrorMessages(data)
       errorMessages?.forEach(e => {
-        const field = mapErrorToField[e.field]
+        const field = errorFields[e.field]
         field && formik.setFieldError(field, e.message)
       })
     },
@@ -219,8 +155,6 @@ const Signup = () => {
     [birthdate.month, birthdate.year]
   )
 
-  if (signupOk) return <SignupConfirm />
-
   return (
     <Page>
       <Container>
@@ -231,13 +165,13 @@ const Signup = () => {
           <TextFieldFormik
             label="firstName"
             formik={formik}
-            placeholder={messages.firstName}
+            placeholder={placeholders.firstName}
             inputProps={{ maxLength: 50 }}
           />
           <TextFieldFormik
             label="lastName"
             formik={formik}
-            placeholder={messages.lastName}
+            placeholder={placeholders.lastName}
             inputProps={{ maxLength: 50 }}
             sx={{ mt: 3 }}
           />
@@ -247,7 +181,7 @@ const Signup = () => {
               formik.setFieldValue('gender', v)
             }}
             value={formik.values.gender}
-            placeholder={messages.gender}
+            placeholder={placeholders.gender}
             error={!!formik.touched.gender && !!formik.errors.gender}
             sx={{ mt: 3 }}
           />
@@ -257,7 +191,7 @@ const Signup = () => {
           <TextFieldFormik
             label="email"
             formik={formik}
-            placeholder={messages.email}
+            placeholder={placeholders.email}
             inputProps={{ maxLength: 255 }}
             sx={{ mt: 3 }}
           />
@@ -267,30 +201,30 @@ const Signup = () => {
               options={days}
               onChange={d => setDate(d, 'day')}
               value={birthdate.day}
-              placeholder={messages.dd}
+              placeholder={placeholders.dd}
               sx={{ flex: 1 }}
             />
             <UISelect
               options={months}
               onChange={m => setDate(m, 'month')}
               value={birthdate.month}
-              placeholder={messages.mm}
+              placeholder={placeholders.mm}
               sx={{ flex: 1, mx: 2 }}
             />
             <UISelect
               options={years}
               onChange={y => setDate(y, 'year')}
               value={birthdate.year}
-              placeholder={messages.yyyy}
+              placeholder={placeholders.yyyy}
               sx={{ flex: 1 }}
             />
           </Box>
           <Header sx={{ mt: 3 }}>{messages.address}</Header>
           <Places onSelectPlace={updateAddress} sx={{ mt: 1 }} error={formik.touched.gender && formik.errors.address} />
           <Box component="div" sx={{ display: 'flex', mt: 3 }}>
-            <TextField value={address?.postalCode} placeholder={messages.postalCode} disabled sx={{ flex: 1 }} />
-            <TextField value={address?.locality} placeholder={messages.city} disabled sx={{ flex: 3, mx: 2 }} />
-            <TextField value={address?.country} placeholder={messages.country} disabled sx={{ flex: 1 }} />
+            <TextField value={address?.postalCode} placeholder={placeholders.postalCode} disabled sx={{ flex: 1 }} />
+            <TextField value={address?.locality} placeholder={placeholders.city} disabled sx={{ flex: 3, mx: 2 }} />
+            <TextField value={address?.country} placeholder={placeholders.country} disabled sx={{ flex: 1 }} />
           </Box>
           <Header sx={{ mt: 3 }}>
             {messages.phone}

@@ -12,7 +12,8 @@ import Sidebar from 'components/Sidebar/Sidebar'
 import paths from 'shared/paths'
 import ErrorBoundary from '../../providers/errorboundary'
 import Signup from 'components/Signup/Signup'
-import LegalContainer from '../Signup/LegalContainer'
+import SignupConfirm from 'components/Signup/SignupConfirm'
+import LegalContainer from '../Signup/components/LegalContainer'
 import { CGU, PPD } from '../Signup/constants'
 
 const publicPaths = [paths.cgu, paths.signup, paths.auth, paths.ppd]
@@ -38,6 +39,7 @@ const Layout = ({ children }) => {
 
   if (pathname === paths.auth) return <Auth />
   if (pathname === paths.signup) return <Signup />
+  if (pathname === paths.signupConfirm) return <SignupConfirm />
   if (pathname === paths.cgu) return <LegalContainer type={CGU} />
   if (pathname === paths.ppd) return <LegalContainer type={PPD} />
   if (!currentUser || userScopes.length === 0) return <BootPage />
