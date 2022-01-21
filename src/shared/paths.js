@@ -11,7 +11,6 @@ export default {
   DTD: '/porte-a-porte',
   signup: '/inscription',
   signupConfirm: '/inscription/felicitations',
-  cgu: '/mentions-legales',
   ppd: '/politique-protection-donnees',
   cguWeb: '/mentions-legales-web',
   cguMobile: '/mentions-legales-mobile',

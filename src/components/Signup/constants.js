@@ -1,4 +1,3 @@
-export const CGU = 'CGU'
 export const PPD = 'PPD'
 export const PPDPath = '/politique-protection-donnees'
 export const CGUWeb = 'CGUWeb'
