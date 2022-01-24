@@ -21,6 +21,7 @@ const messages = {
   answers: 'réponse',
   see: 'voir les réponses',
   publish: 'Publier',
+  unpublish: 'Dépublier',
   delete: 'Supprimer',
 }
 
@@ -107,7 +108,7 @@ const SurveyItem = ({
               </Typography>
             </CtaButton>
             <DotsMenu>
-              <DotsMenuItem onClick={handlePublish}>{messages.publish}</DotsMenuItem>
+              <DotsMenuItem onClick={handlePublish}>{isPublished ? messages.unpublish : messages.publish}</DotsMenuItem>
               <DotsMenuItem onClick={handleDelete}>{messages.delete}</DotsMenuItem>
             </DotsMenu>
           </HorizontalContainer>

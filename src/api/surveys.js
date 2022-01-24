@@ -14,3 +14,12 @@ export const getSurveysQuery = async ({ pageParam: page = 1 }) => {
 
   return newPaginatedResult(surveys, data.metadata)
 }
+
+const formatSurvey = ({ isPublished }) => ({
+  ...('boolean' === typeof isPublished && { published: isPublished }),
+})
+export const createOrUpdateSurveyQuery = survey => {
+  const body = formatSurvey(survey)
+  if (!survey.id) return apiClient.post('api/v3/surveys', body)
+  return apiClient.put(`api/v3/surveys/${survey.id}`, body)
+}

@@ -1,11 +1,15 @@
+import { useMutation } from 'react-query'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getSurveysQuery } from 'api/surveys'
+import { getSurveysQuery, createOrUpdateSurveyQuery } from 'api/surveys'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+
 import SurveyItem from './SurveyItem'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
@@ -27,20 +31,37 @@ const infiniteScrollStylesOverrides = {
 const messages = {
   pageTitle: 'Questionnaires',
   create: 'Créer un questionnaire local',
+  publishSuccess: 'Questionnaire publié avec succès',
+  unpublishSuccess: 'Questionnaire dépublié avec succès',
 }
 
 const Surveys = () => {
+  const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
   const {
     data: paginatedSurveys = null,
     fetchNextPage: fetchNextPageSurveys,
     hasNextPage: hasNextPageSurveys,
+    refetch: refetchSurveys,
   } = useInfiniteQueryWithScope('surveys', pageParams => getSurveysQuery(pageParams), {
     getNextPageParam,
     onError: handleError,
   })
   const surveys = usePaginatedData(paginatedSurveys)
+
+  const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
+    onSuccess: ({ published: isPublished }) => {
+      enqueueSnackbar(isPublished ? messages.publishSuccess : messages.unpublishSuccess, notifyVariants.success)
+      refetchSurveys()
+    },
+    onError: handleError,
+  })
+
+  const togglePublish = surveyId => () => {
+    const { id, isPublished } = surveys.find(({ id }) => id === surveyId)
+    createOrUpdateSurvey({ id, isPublished: !isPublished })
+  }
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -80,7 +101,7 @@ const Surveys = () => {
                   questionsCount={survey.questionsCount}
                   answersCount={survey.answersCount}
                   handleView={() => {}}
-                  handlePublish={() => {}}
+                  handlePublish={togglePublish(survey.id)}
                   handleDelete={() => {}}
                 />
               ))}
