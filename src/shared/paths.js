@@ -1,6 +1,5 @@
 export default {
   dashboard: '/',
-  auth: '/auth',
   activists: '/militants',
   messagerie: '/messagerie',
   elections: '/elections',
@@ -9,8 +8,15 @@ export default {
   news: '/actualites',
   phoning: '/phoning',
   DTD: '/porte-a-porte',
+}
+
+export const publicPaths = {
   signup: '/inscription',
   signupConfirm: '/inscription/felicitations',
-  cgu: '/mentions-legales',
+  auth: '/auth',
   ppd: '/politique-protection-donnees',
+  cguWeb: '/mentions-legales-web',
+  cguMobile: '/mentions-legales-mobile',
+  cookiesWeb: '/utilisation-cookies-web',
+  cookiesMobile: '/utilisation-cookies-mobile',
 }

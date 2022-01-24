@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
-import { Typography as MuiTypography } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
-import { CGU, PPD } from '../constants'
-import { CGUQuery, PPDQuery } from 'api/legal'
+import { Ppd, CGUWeb, CGUMobile, CookiesWeb, CookiesMobile } from '../constants'
+import { PPDQuery, CGUQueryWeb, CGUQueryMobile, CookiesQueryWeb, CookiesQueryMobile } from 'api/legal'
 import { useQuery } from 'react-query'
 
 const Container = styled('div')(
@@ -14,20 +13,18 @@ const Container = styled('div')(
   `
 )
 
-const Typography = styled(MuiTypography)`
-  font-size: 34px;
-  font-weight: 700;
-  line-height: 38px;
-`
-
 const LegalContainer = ({ type }) => {
-  const { data: cgu } = useQuery('rgpd', CGUQuery, { enabled: type === CGU })
-  const { data: ppd } = useQuery('rgpd', PPDQuery, { enabled: type === PPD })
+  const { data: ppd } = useQuery('rgpd', PPDQuery, { enabled: type === Ppd })
+  const { data: cguWeb } = useQuery('rgpd', CGUQueryWeb, { enabled: type === CGUWeb })
+  const { data: cguMobile } = useQuery('rgpd', CGUQueryMobile, { enabled: type === CGUMobile })
+  const { data: cookiesWeb } = useQuery('rgpd', CookiesQueryWeb, { enabled: type === CookiesWeb })
+  const { data: cookiesMobile } = useQuery('rgpd', CookiesQueryMobile, { enabled: type === CookiesMobile })
 
   return (
     <Container>
-      <Typography>{cgu?.title || ppd?.title}</Typography>
-      <ReactMarkdown>{cgu?.content || ppd?.content}</ReactMarkdown>
+      <ReactMarkdown>
+        {ppd?.content || cguWeb?.content || cguMobile?.content || cookiesWeb?.content || cookiesMobile?.content}
+      </ReactMarkdown>
     </Container>
   )
 }
