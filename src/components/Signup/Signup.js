@@ -17,8 +17,7 @@ import prefixes from './data/prefixes.json'
 import UISelect from 'ui/Select/Select'
 import AlertBanner from 'ui/AlertBanner'
 import { messages, placeholders, errorFields } from './data/wording'
-import paths from 'shared/paths'
-import { CGUWebPath, PPDPath } from './constants'
+import paths, { publicPaths } from 'shared/paths'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -298,7 +297,7 @@ const Signup = () => {
             label={
               <Typography variant="subtitle2">
                 {messages.cguPrefix}&nbsp;
-                <Link to={CGUWebPath}>
+                <Link to={publicPaths.cguWeb}>
                   <Typography variant="subtitle2" sx={{ color: '#2834C3' }}>
                     {messages.cgu}
                   </Typography>
@@ -306,7 +305,7 @@ const Signup = () => {
                 &nbsp;
                 {messages.ppdPrefix}
                 &nbsp;
-                <Link to={PPDPath}>
+                <Link to={publicPaths.ppd}>
                   <Typography variant="subtitle2" sx={{ color: '#2834C3' }}>
                     {messages.ppd}
                   </Typography>

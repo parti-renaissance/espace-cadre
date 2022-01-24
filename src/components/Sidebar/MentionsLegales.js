@@ -3,7 +3,7 @@ import { styled } from '@mui/system'
 import { Menu, MenuItem as MuiMenuItem, Typography as MuiTypography } from '@mui/material'
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
 import { Link } from 'react-router-dom'
-import { CGUWebPath, PPDPath, CookiesWebPath } from '../Signup/constants'
+import { publicPaths } from '../../shared/paths'
 
 const LegalNoticesWrapper = styled('span')(
   ({ theme }) => `
@@ -87,17 +87,17 @@ const MentionsLegales = () => {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <Link to={CGUWebPath}>
+          <Link to={publicPaths.cguWeb}>
             <Typography>{messages.legalNotices}</Typography>
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to={PPDPath}>
+          <Link to={publicPaths.ppd}>
             <Typography>{messages.dataProtection}</Typography>
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to={CookiesWebPath}>
+          <Link to={publicPaths.cookiesWeb}>
             <Typography>{messages.cookiesPolicy}</Typography>
           </Link>
         </MenuItem>
