@@ -10,7 +10,7 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 
 const Wrapper = styled(SnackbarContent)`
   min-width: 300px;
-  max-width: 345px;
+  max-width: 400px;
   display: flex;
 `
 const CardActions = styled(MuiCardActions)(

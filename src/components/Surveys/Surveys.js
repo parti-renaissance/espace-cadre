@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -36,6 +37,8 @@ const messages = {
 }
 
 const Surveys = () => {
+  const [, setIsCreateEditModalOpen] = useState(false)
+  const [, setSurveyDetail] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
@@ -62,6 +65,16 @@ const Surveys = () => {
     const { id, isPublished } = surveys.find(({ id }) => id === surveyId)
     createOrUpdateSurvey({ id, isPublished: !isPublished })
   }
+
+  const handleUpdate = useCallback(
+    surveyId => () => {
+      const surveyDetail = surveys.find(({ id }) => id === surveyId)
+      if (!surveyDetail) return
+      setSurveyDetail(surveyDetail)
+      setIsCreateEditModalOpen(true)
+    },
+    [surveys]
+  )
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -102,7 +115,7 @@ const Surveys = () => {
                   answersCount={survey.answersCount}
                   handleView={() => {}}
                   handlePublish={togglePublish(survey.id)}
-                  handleDelete={() => {}}
+                  handleUpdate={handleUpdate(survey.id)}
                 />
               ))}
             </Grid>

@@ -22,7 +22,7 @@ const messages = {
   see: 'voir les réponses',
   publish: 'Publier',
   unpublish: 'Dépublier',
-  delete: 'Supprimer',
+  update: 'Modifier',
 }
 
 const SurveyItem = ({
@@ -33,7 +33,7 @@ const SurveyItem = ({
   answersCount,
   handleView,
   handlePublish,
-  handleDelete,
+  handleUpdate,
 }) => {
   const chipLabel = chipLabelByStatus[isPublished ? published : unpublished]
   const chipColors = chipColorsByStatus[isPublished ? published : unpublished]
@@ -109,7 +109,7 @@ const SurveyItem = ({
             </CtaButton>
             <DotsMenu>
               <DotsMenuItem onClick={handlePublish}>{isPublished ? messages.unpublish : messages.publish}</DotsMenuItem>
-              <DotsMenuItem onClick={handleDelete}>{messages.delete}</DotsMenuItem>
+              <DotsMenuItem onClick={handleUpdate}>{messages.update}</DotsMenuItem>
             </DotsMenu>
           </HorizontalContainer>
         }
@@ -122,7 +122,7 @@ SurveyItem.propTypes = {
   ...DomainSurveyItem.propTypes,
   handleView: PropTypes.func.isRequired,
   handlePublish: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  handleUpdate: PropTypes.func.isRequired,
 }
 
 export default SurveyItem
