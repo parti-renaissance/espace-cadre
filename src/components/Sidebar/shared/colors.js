@@ -8,4 +8,5 @@ export default {
   news: { color: 'orange500', bgColor: '#FFF4ED' },
   phoning: { color: 'indigo700', bgColor: '#F0EFFB' },
   DTD: { color: 'indigo700', bgColor: '#F0EFFB' },
+  surveys: { color: 'indigo700', bgColor: '#F0EFFB' },
 }

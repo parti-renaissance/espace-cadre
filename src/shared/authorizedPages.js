@@ -8,4 +8,5 @@ export default {
   news: 'news',
   phoning: 'phoning_campaign',
   DTD: 'pap',
+  surveys: 'survey',
 }
