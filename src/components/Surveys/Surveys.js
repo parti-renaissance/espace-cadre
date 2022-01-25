@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { generatePath, useNavigate } from 'react-router'
 import { useMutation } from 'react-query'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -39,6 +40,7 @@ const messages = {
 const Surveys = () => {
   const [, setIsCreateEditModalOpen] = useState(false)
   const [, setSurveyDetail] = useState()
+  const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
@@ -64,6 +66,10 @@ const Surveys = () => {
   const togglePublish = surveyId => () => {
     const { id, isPublished } = surveys.find(({ id }) => id === surveyId)
     createOrUpdateSurvey({ id, isPublished: !isPublished })
+  }
+
+  const handleView = surveyId => () => {
+    navigate(generatePath('/questionnaires/:surveyId', { surveyId }))
   }
 
   const handleUpdate = useCallback(
@@ -113,7 +119,7 @@ const Surveys = () => {
                   author={survey.author}
                   questionsCount={survey.questionsCount}
                   answersCount={survey.answersCount}
-                  handleView={() => {}}
+                  handleView={handleView(survey.id)}
                   handlePublish={togglePublish(survey.id)}
                   handleUpdate={handleUpdate(survey.id)}
                 />
