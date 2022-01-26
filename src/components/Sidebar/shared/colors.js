@@ -9,5 +9,5 @@ export default {
   phoning: { color: 'indigo700', bgColor: '#F0EFFB' },
   DTD: { color: 'indigo700', bgColor: '#F0EFFB' },
   surveys: { color: 'indigo700', bgColor: '#F0EFFB' },
-  delegation: { color: 'indigo700', bgColor: '#F0EFFB' },
+  myTeam: { color: 'indigo700', bgColor: '#F0EFFB' },
 }

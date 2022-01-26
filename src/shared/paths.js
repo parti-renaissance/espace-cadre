@@ -9,7 +9,7 @@ export default {
   phoning: '/phoning',
   DTD: '/porte-a-porte',
   surveys: '/questionnaires',
-  delegation: '/mon-equipe',
+  myTeam: '/mon-equipe',
 }
 
 export const publicPaths = {

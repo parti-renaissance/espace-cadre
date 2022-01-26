@@ -9,5 +9,5 @@ export default {
   phoning: 'phoning_campaign',
   DTD: 'pap',
   surveys: 'survey',
-  delegation: 'my_team',
+  myTeam: 'my_team',
 }
