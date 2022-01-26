@@ -30,7 +30,7 @@ const DownloadsCount = () => {
     data: downloads = null,
     isLoading,
     isError,
-  } = useQueryWithScope('downloads', downloadsCount, {
+  } = useQueryWithScope(['downloads', { view: 'dashboard' }], downloadsCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })

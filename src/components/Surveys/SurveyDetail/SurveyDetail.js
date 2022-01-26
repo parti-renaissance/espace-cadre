@@ -27,9 +27,13 @@ export const SurveyDetail = () => {
   const { surveyId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: surveyDetail = {} } = useQueryWithScope(['survey', surveyId], () => getSurveyQuery(surveyId), {
-    onError: handleError,
-  })
+  const { data: surveyDetail = {} } = useQueryWithScope(
+    ['surveys', { view: 'feature-detail' }, surveyId],
+    () => getSurveyQuery(surveyId),
+    {
+      onError: handleError,
+    }
+  )
 
   const { data: surveyReplies = [], isLoading: isSurveyRepliesLoading } = useQueryWithScope(
     ['replies', surveyId],

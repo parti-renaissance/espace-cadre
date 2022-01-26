@@ -49,7 +49,7 @@ const Surveys = () => {
     fetchNextPage: fetchNextPageSurveys,
     hasNextPage: hasNextPageSurveys,
     refetch: refetchSurveys,
-  } = useInfiniteQueryWithScope('surveys', pageParams => getSurveysQuery(pageParams), {
+  } = useInfiniteQueryWithScope(['surveys', { view: 'feature' }], pageParams => getSurveysQuery(pageParams), {
     getNextPageParam,
     onError: handleError,
   })

@@ -33,7 +33,7 @@ const MapComponent = () => {
     data: surveys = {},
     isLoading,
     isError,
-  } = useQueryWithScope('surveys', getSurveyMapQuery, {
+  } = useQueryWithScope(['surveys', { view: 'dashboard' }], getSurveyMapQuery, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })
