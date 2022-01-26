@@ -1,5 +1,6 @@
 export const fields = {
   title: 'title',
+  zone: 'zone',
   goal: 'goal',
   endDate: 'endDate',
   brief: 'brief',

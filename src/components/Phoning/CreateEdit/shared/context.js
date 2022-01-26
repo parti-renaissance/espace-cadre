@@ -6,6 +6,7 @@ export const initialValues = {
     goal: '',
     endDate: '',
     brief: '',
+    zone: '',
   },
   callersAndSurvey: {
     team: null,

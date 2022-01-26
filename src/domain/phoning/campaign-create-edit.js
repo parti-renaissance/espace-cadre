@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types'
+import { Zone } from '../zone'
 
 export class PhoningCampaignCreateEditGlobal {
-  constructor(title, goal, endDate, brief) {
+  constructor(title, goal, endDate, brief, zone) {
     this.title = title
     this.goal = goal
     this.endDate = endDate
     this.brief = brief
+    this.zone = zone
   }
   static propTypes = {
     title: PropTypes.string.isRequired,
     goal: PropTypes.number.isRequired,
     endDate: PropTypes.object.isRequired,
     brief: PropTypes.string.isRequired,
+    zone: Zone.PropTypes,
   }
 }
 

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useMemo, useContext, useState } from 'react'
 import DatePicker from '@mui/lab/DatePicker'
-import { InputAdornment } from '@mui/material'
+import { InputAdornment, MenuItem } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
 import { useDebounce } from 'components/shared/debounce'
@@ -9,6 +9,7 @@ import { FormError } from 'components/shared/error/components'
 import { GlobalSettingsContext } from './shared/context'
 import { Input, Label, PickersDay } from './shared/components/styled'
 import { fields } from './shared/constants'
+import { useUserScope } from '../../../redux/user/hooks'
 
 const messages = {
   input: {
@@ -16,20 +17,26 @@ const messages = {
     goal: 'Objectif individuel',
     brief: 'Brief',
     endDate: 'Date de fin',
+    zone: 'Zone',
   },
   placeholder: {
     title: 'Identifiant de la campagne',
+    zone: 'Zone',
     goal: "Nombre de questionnaires à remplir par l'utilisateur",
     endDate: '__  /__  /____',
     brief: 'Rédiger une brève',
   },
 }
 
+const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
+
 const CreateEditGlobalSettings = () => {
   const { errors, initialValues, updateValues } = useContext(GlobalSettingsContext)
   const [inputValues, setInputValues] = useState(initialValues)
   const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false)
   const debounce = useDebounce()
+  const [currentScope] = useUserScope()
+  const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
 
   const updateInputValues = useCallback((key, value) => {
     setInputValues(values => ({ ...values, [key]: value }))
@@ -37,6 +44,29 @@ const CreateEditGlobalSettings = () => {
 
   return (
     <>
+      {!isNational && (
+        <>
+          <Label sx={{ pt: 5, pb: 1 }}>{messages.input.zone}</Label>
+          <Input
+            name={fields.zone}
+            placeholder={messages.placeholder.zone}
+            value={inputValues.zone || ''}
+            onChange={event => {
+              updateInputValues(fields.zone, event.target.value)
+              updateValues(fields.zone, event.target.value)
+            }}
+            select
+            autoFocus
+          >
+            {currentScope.zones.map((z, index) => (
+              <MenuItem key={index} value={z.uuid}>
+                {z.name} - {z.code}
+              </MenuItem>
+            ))}
+          </Input>
+          <FormError errors={errors} field="zone" />{' '}
+        </>
+      )}
       <Label sx={{ pt: 3, pb: 1 }}>{messages.input.title}</Label>
       <Input
         name={fields.title}
