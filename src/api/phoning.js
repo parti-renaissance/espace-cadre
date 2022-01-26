@@ -63,7 +63,7 @@ export const getPhoningCampaignQuery = async campaignId => {
     data.goal,
     new Date(data.finish_at),
     data.brief,
-    new Zone(data.zone.id, data.zone.name, data.zone.code)
+    new Zone(data.zone.uuid, data.zone.name, data.zone.code)
   )
   const team = new PhoningCampaignCreateEditTeam(data.team.uuid, data.team.name, data.team.members_count)
   const survey = new PhoningCampaignCreateEditSurvey(data.survey.uuid, data.survey.name)
@@ -201,7 +201,7 @@ export const createOrUpdatePhoningCampaignQuery = campaign => {
     goal: +campaign.goal,
     finish_at: campaign.endDate,
     brief: campaign.brief,
-    zone: campaign.zone,
+    zone: campaign.zone.uuid,
     team: campaign.team.id,
     survey: campaign.survey.id,
     audience: formatFiltersData(campaign.filters),

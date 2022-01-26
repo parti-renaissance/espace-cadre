@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useContext, useState } from 'react'
 import DatePicker from '@mui/lab/DatePicker'
-import { InputAdornment, MenuItem } from '@mui/material'
+import { InputAdornment, MenuItem, Select, Typography } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
 import { useDebounce } from 'components/shared/debounce'
@@ -47,23 +47,30 @@ const CreateEditGlobalSettings = () => {
       {!isNational && (
         <>
           <Label sx={{ pt: 5, pb: 1 }}>{messages.input.zone}</Label>
-          <Input
+          <Select
             name={fields.zone}
-            placeholder={messages.placeholder.zone}
+            inputProps={{ placeholder: messages.placeholder.zone }}
             value={inputValues.zone || ''}
             onChange={event => {
               updateInputValues(fields.zone, event.target.value)
               updateValues(fields.zone, event.target.value)
             }}
-            select
+            renderValue={value => value.name || currentScope.zones[0].name}
+            disabled={currentScope.zones.length === 1}
             autoFocus
+            displayEmpty
+            size="small"
+            sx={{
+              width: '100%',
+              bgcolor: 'gray100',
+            }}
           >
             {currentScope.zones.map((z, index) => (
-              <MenuItem key={index} value={z.uuid}>
+              <MenuItem key={index} value={z}>
                 {z.name} - {z.code}
               </MenuItem>
             ))}
-          </Input>
+          </Select>
           <FormError errors={errors} field="zone" />{' '}
         </>
       )}

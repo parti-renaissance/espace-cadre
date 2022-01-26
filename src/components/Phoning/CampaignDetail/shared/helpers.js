@@ -13,7 +13,6 @@ export const campaignToGlobalSettingsValues = ({ title, goal, endDate, brief, zo
   goal: goal ?? '',
   endDate: endDate ?? '',
   brief: brief ?? '',
-  zone: zone ?? '',
 })
 
 export const campaignToCallersAndSurveyValues = ({ team, survey }) => ({
