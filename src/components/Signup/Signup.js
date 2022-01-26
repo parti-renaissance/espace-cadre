@@ -17,7 +17,7 @@ import prefixes from './data/prefixes.json'
 import UISelect from 'ui/Select/Select'
 import AlertBanner from 'ui/AlertBanner'
 import { messages, placeholders, errorFields } from './data/wording'
-import paths, { publicPaths } from 'shared/paths'
+import { publicPaths } from 'shared/paths'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -122,7 +122,7 @@ const Signup = () => {
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {
-      navigate(paths.signupConfirm)
+      navigate(publicPaths.signupConfirm)
     },
     onError: e => {
       const { data } = e.response
