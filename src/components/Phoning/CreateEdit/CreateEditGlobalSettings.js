@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useContext, useState } from 'react'
 import DatePicker from '@mui/lab/DatePicker'
-import { InputAdornment, MenuItem, Select, Typography } from '@mui/material'
+import { InputAdornment, MenuItem, Select } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
 import { useDebounce } from 'components/shared/debounce'

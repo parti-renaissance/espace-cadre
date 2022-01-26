@@ -8,7 +8,7 @@ export const secondsToMinutesAndSeconds = seconds => {
   return textInMinutes || textInSeconds ? `${textInMinutes}${textInSeconds}` : 0
 }
 
-export const campaignToGlobalSettingsValues = ({ title, goal, endDate, brief, zone }) => ({
+export const campaignToGlobalSettingsValues = ({ title, goal, endDate, brief }) => ({
   title: title ?? '',
   goal: goal ?? '',
   endDate: endDate ?? '',
