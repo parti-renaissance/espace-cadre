@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import { styled } from '@mui/system'
 import { Grid, Typography, Dialog, IconButton, Paper as MuiPaper } from '@mui/material'
@@ -56,7 +55,6 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
   const [filters, setFilters] = useState(initialValues.filters)
 
-  const { campaignId } = useParams()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
 
@@ -92,7 +90,7 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
   }
 
   const handleSubmit = () => {
-    const values = { id: campaignId, ...globalSettings, ...callersAndSurvey, filters }
+    const values = { id: campaign?.id, ...globalSettings, ...callersAndSurvey, filters }
     createOrUpdatePhoningCampaign(values)
   }
 

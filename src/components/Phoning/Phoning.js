@@ -148,7 +148,9 @@ const Phoning = () => {
 
       {isCreateEditModalOpen && (
         <CreateEdit
-          campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
+          campaign={
+            Object.keys(campaignDetail).length > 0 ? { id: campaignIdToUpdate, ...campaignDetail.createEdit } : null
+          }
           onCreateResolve={refetchCampaigns}
           handleClose={handleClose}
         />
