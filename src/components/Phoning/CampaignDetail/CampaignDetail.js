@@ -212,7 +212,7 @@ export const CampaignDetail = () => {
 
       {isCreateEditModalOpen && (
         <CreateEdit
-          campaign={Object.keys(campaignDetail).length > 0 ? campaignDetail.createEdit : null}
+          campaign={Object.keys(campaignDetail).length > 0 ? { id: campaignId, ...campaignDetail.createEdit } : null}
           onCreateResolve={refetchCampaignDetail}
           handleClose={() => setIsCreateEditModalOpen(false)}
         />
