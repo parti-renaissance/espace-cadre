@@ -21,5 +21,5 @@ export default {
   phoning: LocalPhoneRoundedIcon,
   DTD: MicIcon,
   surveys: ListIcon,
-  delegation: StarRoundedIcon,
+  myTeam: StarRoundedIcon,
 }

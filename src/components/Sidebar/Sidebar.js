@@ -53,7 +53,7 @@ const Sidebar = ({ children, window }) => {
       {authorizedPages.includes(pages.phoning) && <NavItem label="Phoning" {...navInfo('phoning')} />}
       {authorizedPages.includes(pages.DTD) && <NavItem label="Porte à porte" {...navInfo('DTD')} />}
       {authorizedPages.includes(pages.surveys) && <NavItem label="Questionnaires" {...navInfo('surveys')} />}
-      {authorizedPages.includes(pages.delegation) && <NavItem label="Mon équipe" {...navInfo('delegation')} />}
+      {authorizedPages.includes(pages.myTeam) && <NavItem label="Mon équipe" {...navInfo('myTeam')} />}
     </div>
   )
   return (
