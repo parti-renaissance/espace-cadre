@@ -1,17 +1,18 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { useMutation } from 'react-query'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
-import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getMyTeamQuery } from 'api/my-team'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { getMyTeamQuery, removeTeamMemberQuery } from 'api/my-team'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import Loader from 'ui/Loader'
 import EditIcon from 'ui/icons/EditIcon'
 import MyTeamMember from './MyTeamMember'
+import CreateEdit from './CreateEdit/CreateEdit'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -19,39 +20,53 @@ const PageTitle = styled(Typography)`
   line-height: 36px;
 `
 
-const infiniteScrollStylesOverrides = {
-  '& .infinite-scroll-component__outerdiv': {
-    width: '100%',
-  },
-}
-
 const messages = {
   pageTitle: 'Mon équipe',
   create: 'Ajouter un membre',
 }
 
 const MyTeam = () => {
-  const [, setIsCreateEditModalOpen] = useState(false)
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [teamMemberToUpdate, setTeamMemberToUpdate] = useState()
+  const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const {
-    data: paginatedMyTeam = null,
-    fetchNextPage: fetchNextPageMyTeam,
-    hasNextPage: hasNextPageMyTeam,
-  } = useInfiniteQueryWithScope(['my-team', { view: 'feature' }], pageParams => getMyTeamQuery(pageParams), {
-    getNextPageParam,
+  const { data: myTeam = {}, refetch: refetchMyTeam } = useQueryWithScope(
+    ['my-team', { feature: 'MyTeam', view: 'MyTeam' }],
+    () => getMyTeamQuery(),
+    {
+      onError: handleError,
+    }
+  )
+
+  const { mutate: removeTeamMember } = useMutation(removeTeamMemberQuery, {
+    onSuccess: () => {
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+      refetchMyTeam()
+    },
     onError: handleError,
   })
-  const myTeam = usePaginatedData(paginatedMyTeam)
 
-  const handleUpdate = teamId => () => {
-    // TODO
-    teamId
-  }
+  const handleUpdate = useCallback(
+    memberId => () => {
+      const teamMember = myTeam.members.find(({ id }) => id === memberId)
+      if (!teamMember) return
+      setTeamMemberToUpdate(teamMember)
+      setIsCreateEditModalOpen(true)
+    },
+    [myTeam.members]
+  )
 
-  const handleDelete = teamId => () => {
-    // TODO
-    teamId
+  const handleDelete = useCallback(
+    memberId => () => {
+      removeTeamMember(memberId)
+    },
+    [removeTeamMember]
+  )
+
+  const handleClose = () => {
+    setTeamMemberToUpdate(null)
+    setIsCreateEditModalOpen(false)
   }
 
   return (
@@ -69,34 +84,31 @@ const MyTeam = () => {
         />
       </Grid>
 
-      <Grid
-        container
-        justifyContent="space-between"
-        data-cy="my-team-container"
-        sx={{ pt: 4, ...infiniteScrollStylesOverrides }}
-      >
-        {myTeam.length > 0 && (
-          <InfiniteScroll
-            dataLength={myTeam.length}
-            next={() => fetchNextPageMyTeam()}
-            hasMore={hasNextPageMyTeam}
-            loader={<Loader />}
-          >
-            <Grid container spacing={2} data-cy="my-team-list">
-              {myTeam.members.map(member => (
-                <MyTeamMember
-                  key={member.id}
-                  role={member.role}
-                  adherent={member.adherent}
-                  accessCount={member.accessCount}
-                  handleUpdate={handleUpdate(member.id)}
-                  handleDelete={handleDelete(member.id)}
-                />
-              ))}
-            </Grid>
-          </InfiniteScroll>
-        )}
-      </Grid>
+      {myTeam.members?.length > 0 && (
+        <Grid container justifyContent="space-between" data-cy="my-team-container">
+          <Grid container spacing={2} data-cy="my-team-list">
+            {myTeam.members.map(member => (
+              <MyTeamMember
+                key={member.id}
+                role={member.role}
+                adherent={member.adherent}
+                accessCount={member.features.length}
+                handleUpdate={handleUpdate(member.id)}
+                handleDelete={handleDelete(member.id)}
+              />
+            ))}
+          </Grid>
+        </Grid>
+      )}
+
+      {isCreateEditModalOpen && (
+        <CreateEdit
+          teamId={myTeam.id}
+          teamMember={Object.keys(teamMemberToUpdate) > 0 ? teamMemberToUpdate : null}
+          onCreateResolve={refetchMyTeam}
+          handleClose={handleClose}
+        />
+      )}
     </Container>
   )
 }
