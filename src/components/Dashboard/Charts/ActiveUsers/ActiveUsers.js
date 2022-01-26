@@ -34,7 +34,7 @@ const ActiveUsers = () => {
     data: users = null,
     isLoading,
     isError,
-  } = useQueryWithScope('users', usersCount, {
+  } = useQueryWithScope(['users', { view: 'dashboard' }], usersCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })

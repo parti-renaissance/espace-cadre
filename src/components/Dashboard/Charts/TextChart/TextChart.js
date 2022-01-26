@@ -19,7 +19,7 @@ const TextChart = () => {
     data: adherents = null,
     isLoading,
     isError,
-  } = useQueryWithScope('adherents', adherentsCount, {
+  } = useQueryWithScope(['adherents', { view: 'dashboard' }], adherentsCount, {
     cacheTime: DASHBOARD_CACHE_DURATION,
     staleTime: DASHBOARD_CACHE_DURATION,
   })
