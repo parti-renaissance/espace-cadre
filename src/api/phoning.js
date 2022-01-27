@@ -29,6 +29,7 @@ import {
   PhoningCampaignCreateEditZone,
 } from 'domain/phoning'
 import { newPaginatedResult } from 'api/pagination'
+import { Zone } from 'domain/shared/zone'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
@@ -53,11 +54,29 @@ export const getPhoningCampaignsQuery = async ({ pageParam: page = 1 }) => {
 
 export const getPhoningCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}`)
+  const isNational = data.visibility === 'national'
   const remaining = new PhoningCampaignDetailKPIRemaining(new Date(data.created_at), new Date(data.finish_at))
   const surveys = new PhoningCampaignDetailKPISurveys(data.nb_surveys, data.goal * data.team.members_count)
   const calls = new PhoningCampaignDetailKPICalls(data.nb_calls, data.to_remind)
   const KPI = new PhoningCampaignDetailKPI(remaining, surveys, calls, data.average_calling_time)
-  const global = new PhoningCampaignCreateEditGlobal(data.title, data.goal, new Date(data.finish_at), data.brief)
+  const global = isNational
+    ? new PhoningCampaignCreateEditGlobal(
+        data.title,
+        data.goal,
+        new Date(data.finish_at),
+        data.brief,
+        data.visibility,
+        null
+      )
+    : new PhoningCampaignCreateEditGlobal(
+        data.title,
+        data.goal,
+        new Date(data.finish_at),
+        data.brief,
+        data.visibility,
+        new Zone(data.zone.uuid, data.zone.name, data.zone.code)
+      )
+
   const team = new PhoningCampaignCreateEditTeam(data.team.uuid, data.team.name, data.team.members_count)
   const survey = new PhoningCampaignCreateEditSurvey(data.survey.uuid, data.survey.name)
   const filters = data.audience
@@ -194,10 +213,12 @@ export const createOrUpdatePhoningCampaignQuery = campaign => {
     goal: +campaign.goal,
     finish_at: campaign.endDate,
     brief: campaign.brief,
+    zone: campaign.zone.uuid,
     team: campaign.team.id,
     survey: campaign.survey.id,
     audience: formatFiltersData(campaign.filters),
   }
+
   if (!campaign.id) return apiClient.post('api/v3/phoning_campaigns', body)
   return apiClient.put(`api/v3/phoning_campaigns/${campaign.id}`, body)
 }

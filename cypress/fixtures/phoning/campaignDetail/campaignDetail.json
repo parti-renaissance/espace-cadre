@@ -1,6 +1,12 @@
 {
   "title": "Campagne 1",
   "brief": "brief",
+  "visibility": "local",
+  "zone": {
+    "uuid": "11111111-1111-1111-1111-111111111111",
+    "code": "1",
+    "name": "Zone 1"
+  },
   "goal": 10,
   "finish_at": "2021-11-30T00:00:00+01:00",
   "team": {
