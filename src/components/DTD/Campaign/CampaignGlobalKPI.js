@@ -21,7 +21,10 @@ const DTDGlobalKPI = () => {
     data: { campaigns, surveys, calls: doors } = {},
     isLoading,
     isError,
-  } = useQueryWithScope(['DTD', 'globalKPI'], () => getDTDGlobalKPIQuery(), {})
+  } = useQueryWithScope(
+    ['global-KPI', { feature: 'DTD', view: 'DTDGlobalKPI' }],
+    () => getDTDGlobalKPIQuery(),
+  )
 
   return (
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>

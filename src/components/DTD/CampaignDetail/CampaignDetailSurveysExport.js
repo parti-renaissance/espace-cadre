@@ -30,13 +30,17 @@ const CampaignDetailSurveysExport = () => {
   const { handleError } = useErrorHandler()
   const [isExportFetchable, setIsExportFetchable] = useState(false)
 
-  useQueryWithScope(['export', campaignId], () => getPhoningCampaignSurveysRepliesExport(campaignId), {
-    enabled: !!isExportFetchable,
-    onSuccess: () => {
-      setIsExportFetchable(false)
-    },
-    onError: handleError,
-  })
+  useQueryWithScope(
+    ['surveys-export', { feature: 'DTD', view: 'CampaignDetailSurveysExport' }, campaignId],
+    () => getPhoningCampaignSurveysRepliesExport(campaignId),
+    {
+      enabled: !!isExportFetchable,
+      onSuccess: () => {
+        setIsExportFetchable(false)
+      },
+      onError: handleError,
+    }
+  )
 
   const handleExport = () => {
     setIsExportFetchable(true)

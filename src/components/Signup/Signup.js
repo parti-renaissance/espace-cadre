@@ -118,7 +118,7 @@ const Signup = () => {
     formik.setFieldValue('address', adr.route)
   }
 
-  const { data: rgpd } = useQuery('rgpd', RGPDQuery)
+  const { data: rgpd } = useQuery(['RGPD', { feature: 'Signup', view: 'Signup' }], () => RGPDQuery())
 
   const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
     onSuccess: () => {

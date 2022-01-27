@@ -64,9 +64,13 @@ const GroupEdit = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
-  const { data: group, refetch: refetchGroup } = useQueryWithScope(['group', groupId], () => getGroupQuery(groupId), {
-    onError: handleError,
-  })
+  const { data: group, refetch: refetchGroup } = useQueryWithScope(
+    ['group', { feature: 'Groups', view: 'GroupEdit' }, groupId],
+    () => getGroupQuery(groupId),
+    {
+      onError: handleError,
+    }
+  )
   const { mutate: addGroupMember } = useMutation(addGroupMemberQuery, {
     onSuccess: () => {
       refetchGroup()

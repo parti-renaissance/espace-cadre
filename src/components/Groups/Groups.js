@@ -28,10 +28,14 @@ const Groups = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryWithScope('groups', getGroupsQuery, {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQueryWithScope(
+    ['paginated-groups', { feature: 'Groups', view: 'Groups' }],
+    () => getGroupsQuery(),
+    {
+      getNextPageParam,
+      onError: handleError,
+    },
+  )
 
   const groups = usePaginatedData(paginatedGroups)
 

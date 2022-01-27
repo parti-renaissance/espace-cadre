@@ -39,10 +39,14 @@ const DTD = () => {
     data: paginatedCampaigns = null,
     fetchNextPage: fetchNextPageCampaigns,
     hasNextPage: hasNextPageCampaigns,
-  } = useInfiniteQueryWithScope('campaigns', pageParams => getDTDCampaignsQuery(pageParams), {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQueryWithScope(
+    ['paginated-campaigns', { feature: 'DTD', view: 'DTD' }],
+    pageParams => getDTDCampaignsQuery(pageParams),
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
   const campaigns = usePaginatedData(paginatedCampaigns)
 
   const handleView = campaignId => () => {

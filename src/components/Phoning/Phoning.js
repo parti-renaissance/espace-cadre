@@ -65,7 +65,7 @@ const Phoning = () => {
     hasNextPage: hasNextPageCampaigns,
     refetch: refetchCampaigns,
   } = useInfiniteQueryWithScope(
-    'campaigns',
+    ['paginated-campaigns', { feature: 'Phoning', view: 'Phoning' }],
     pageParams => getPhoningCampaignsQuery(pageParams, isNational ? roles.national : roles.local),
     {
       getNextPageParam,
@@ -75,7 +75,7 @@ const Phoning = () => {
   const campaigns = usePaginatedData(paginatedCampaigns)
 
   const { data: campaignDetail = {} } = useQueryWithScope(
-    ['campaign', campaignIdToUpdate],
+    [['campaign-detail', { feature: 'Phoning', view: 'Phoning' }], campaignIdToUpdate],
     () => getPhoningCampaignQuery(campaignIdToUpdate),
     {
       enabled: !!campaignIdToUpdate,

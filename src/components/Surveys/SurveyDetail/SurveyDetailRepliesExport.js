@@ -31,13 +31,17 @@ const SurveyDetailRepliesExport = ({ surveyTitle }) => {
   const { handleError } = useErrorHandler()
   const [isExportFetchable, setIsExportFetchable] = useState(false)
 
-  useQueryWithScope(['export', surveyId], () => getSurveysRepliesExport(surveyId, surveyTitle), {
-    enabled: !!isExportFetchable,
-    onSuccess: () => {
-      setIsExportFetchable(false)
-    },
-    onError: handleError,
-  })
+  useQueryWithScope(
+    ['replies-export', { feature: 'Surveys', view: 'SurveyDetailRepliesExport' }, surveyId],
+    () => getSurveysRepliesExport(surveyId, surveyTitle),
+    {
+      enabled: !!isExportFetchable,
+      onSuccess: () => {
+        setIsExportFetchable(false)
+      },
+      onError: handleError,
+    }
+  )
 
   const handleExport = () => {
     setIsExportFetchable(true)

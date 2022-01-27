@@ -22,7 +22,7 @@ export const SurveyDetail = () => {
   const { handleError } = useErrorHandler()
 
   const { data: surveyDetail = {} } = useQueryWithScope(
-    ['surveys', { view: 'feature-detail' }, surveyId],
+    ['survey-detail', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
     () => getOneSurveyQuery(surveyId),
     {
       onError: handleError,
@@ -30,7 +30,7 @@ export const SurveyDetail = () => {
   )
 
   const { data: surveyReplies = [], isLoading: isSurveyRepliesLoading } = useQueryWithScope(
-    ['replies', surveyId],
+    ['survey-replies', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
     () => getSurveyRepliesQuery(surveyId),
     {
       onError: handleError,

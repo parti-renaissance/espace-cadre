@@ -45,10 +45,14 @@ const Surveys = () => {
     fetchNextPage: fetchNextPageSurveys,
     hasNextPage: hasNextPageSurveys,
     refetch: refetchSurveys,
-  } = useInfiniteQueryWithScope(['surveys', { view: 'feature' }], pageParams => getSurveysQuery(pageParams), {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQueryWithScope(
+    ['paginated-surveys', { feature: 'Surveys', view: 'Surveys' }],
+    pageParams => getSurveysQuery(pageParams),
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
   const surveys = usePaginatedData(paginatedSurveys)
 
   const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
@@ -60,7 +64,7 @@ const Surveys = () => {
   })
 
   const { data: surveyDetail = {} } = useQueryWithScope(
-    ['Surveys', 'Surveys', surveyIdToUpdate],
+    ['survey-detail', { feature: 'Surveys', view: 'Surveys' }, surveyIdToUpdate],
     () => getOneSurveyQuery(surveyIdToUpdate),
     {
       enabled: !!surveyIdToUpdate,
