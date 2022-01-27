@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Zone } from '../zone'
+import { Zone } from '../shared/zone'
 
 export class PhoningCampaignCreateEditGlobal {
   constructor(title, goal, endDate, brief, zone) {
