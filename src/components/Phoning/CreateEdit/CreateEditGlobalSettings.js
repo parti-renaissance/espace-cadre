@@ -50,24 +50,24 @@ const CreateEditGlobalSettings = () => {
           <Select
             name={fields.zone}
             inputProps={{ placeholder: messages.placeholder.zone }}
-            value={inputValues.zone || ''}
+            value={inputValues.zone}
             onChange={event => {
               updateInputValues(fields.zone, event.target.value)
               updateValues(fields.zone, event.target.value)
             }}
             renderValue={value => value.name || currentScope.zones[0].name}
+            displayEmpty
             disabled={currentScope.zones.length === 1}
             autoFocus
-            displayEmpty
             size="small"
             sx={{
               width: '100%',
               bgcolor: 'gray100',
             }}
           >
-            {currentScope.zones.map((z, index) => (
-              <MenuItem key={index} value={z}>
-                {z.name} - {z.code}
+            {currentScope.zones.map(z => (
+              <MenuItem key={z.uuid} value={z} sx={{ py: 1 }}>
+                {z.name}
               </MenuItem>
             ))}
           </Select>
