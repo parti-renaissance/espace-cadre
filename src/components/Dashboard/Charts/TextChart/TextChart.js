@@ -19,10 +19,14 @@ const TextChart = () => {
     data: adherents = null,
     isLoading,
     isError,
-  } = useQueryWithScope(['adherents', { view: 'dashboard' }], adherentsCount, {
-    cacheTime: DASHBOARD_CACHE_DURATION,
-    staleTime: DASHBOARD_CACHE_DURATION,
-  })
+  } = useQueryWithScope(
+    ['adherents', { feature: 'Dashboard', view: 'TextChart' }],
+    () => adherentsCount(),
+    {
+      cacheTime: DASHBOARD_CACHE_DURATION,
+      staleTime: DASHBOARD_CACHE_DURATION,
+    }
+  )
 
   if (isLoading) return <Loading />
   if (isError) return <Error message={messages.errorMessage} />

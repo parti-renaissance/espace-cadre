@@ -20,7 +20,10 @@ const CampaignGlobalKPI = ({ refreshKPIs }) => {
     data: { campaigns, surveys, calls } = {},
     isLoading,
     isError,
-  } = useQueryWithScope(['phoning', 'globalKPI', refreshKPIs], getPhoningGlobalKPIQuery)
+  } = useQueryWithScope(
+    ['global-KPI', { feature: 'Phoning', view: 'CampaignGlobalKPI' }, refreshKPIs],
+    () => getPhoningGlobalKPIQuery(),
+  )
 
   return (
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>

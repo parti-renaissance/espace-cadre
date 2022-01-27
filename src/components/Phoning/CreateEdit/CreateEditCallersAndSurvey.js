@@ -36,7 +36,7 @@ const CreateEditCallersAndSurvey = () => {
   }, [])
 
   const { data: paginatedTeams = null, isFetching: isTeamsFetching } = useInfiniteQueryWithScope(
-    'teams',
+    ['paginated-teams', { feature: 'Phoning', view: 'CreateEditCallersAndSurvey' }],
     pageParams => getPhoningCampaignTeams(pageParams),
     {
       getNextPageParam,
@@ -44,7 +44,7 @@ const CreateEditCallersAndSurvey = () => {
     }
   )
   const { data: paginatedSurveys = null, isFetching: isSurveysFetching } = useInfiniteQueryWithScope(
-    'surveys',
+    ['paginated-surveys', { feature: 'Phoning', view: 'CreateEditCallersAndSurvey' }],
     pageParams => getPhoningCampaignSurveys(pageParams),
     {
       getNextPageParam,

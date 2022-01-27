@@ -53,7 +53,7 @@ export const CampaignDetail = () => {
   const { handleError } = useErrorHandler()
 
   const { data: campaignDetail = {}, refetch: refetchCampaignDetail } = useQueryWithScope(
-    ['campaign', campaignId],
+    ['campaign-detail', { feature: 'Phoning', view: 'CampaignDetail' }, campaignId],
     () => getPhoningCampaignQuery(campaignId),
     {
       onError: handleError,
@@ -63,9 +63,13 @@ export const CampaignDetail = () => {
     data: callers = [],
     isLoading: isCallersLoading,
     refetch: refetchCallers,
-  } = useQueryWithScope(['callers', campaignId], () => getPhoningCampaignCallers(campaignId), {
-    onError: handleError,
-  })
+  } = useQueryWithScope(
+    ['callers', { feature: 'Phoning', view: 'CampaignDetail' }, campaignId],
+    () => getPhoningCampaignCallers(campaignId),
+    {
+      onError: handleError,
+    }
+  )
 
   const {
     data: paginatedHistory = null,
@@ -73,7 +77,7 @@ export const CampaignDetail = () => {
     fetchNextPage: fetchNexPageHistory,
     hasNextPage: hasNextPageHistory,
   } = useInfiniteQueryWithScope(
-    ['history', campaignId],
+    ['paginated-history', { feature: 'Phoning', view: 'CampaignDetail' }, campaignId],
     pageParams => getPhoningCampaignHistory({ campaignId, ...pageParams }),
     {
       getNextPageParam,
@@ -83,7 +87,7 @@ export const CampaignDetail = () => {
   const history = usePaginatedData(paginatedHistory)
 
   const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryWithScope(
-    ['surveys', campaignId],
+    ['surveys', { feature: 'Phoning', view: 'CampaignDetail' }, campaignId],
     () => getPhoningCampaignSurveysReplies(campaignId),
     {
       onError: handleError,

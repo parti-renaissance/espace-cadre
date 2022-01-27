@@ -34,10 +34,14 @@ const ActiveUsers = () => {
     data: users = null,
     isLoading,
     isError,
-  } = useQueryWithScope(['users', { view: 'dashboard' }], usersCount, {
-    cacheTime: DASHBOARD_CACHE_DURATION,
-    staleTime: DASHBOARD_CACHE_DURATION,
-  })
+  } = useQueryWithScope(
+    ['users', { feature: 'Dashboard', view: 'ActiveUsers' }],
+    () => usersCount(),
+    {
+      cacheTime: DASHBOARD_CACHE_DURATION,
+      staleTime: DASHBOARD_CACHE_DURATION,
+    }
+  )
 
   if (isLoading) return <Loading />
   if (isError) return <Error message={messages.errorMessage} />

@@ -47,10 +47,14 @@ const SentEmailCampaigns = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryWithScope('messages', getMessages, {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQueryWithScope(
+    ['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }],
+    getMessages,
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
 
   const campaigns = usePaginatedData(paginatedCampaigns)
 

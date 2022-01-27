@@ -50,14 +50,14 @@ export const CampaignDetail = () => {
   const { handleError } = useErrorHandler()
 
   const { data: campaignDetail = {} } = useQueryWithScope(
-    ['campaign-detail', campaignId],
+    ['campaign-detail', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
     () => getDTDCampaignDetailQuery(campaignId),
     {
       onError: handleError,
     }
   )
   const { data: questioners = [], isLoading: isQuestionersLoading } = useQueryWithScope(
-    ['questioners', campaignId],
+    ['questioners', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
     () => getDTDCampaignQuestioners(campaignId),
     {
       onError: handleError,
@@ -70,7 +70,7 @@ export const CampaignDetail = () => {
     fetchNextPage: fetchNexPageHistory,
     hasNextPage: hasNextPageHistory,
   } = useInfiniteQueryWithScope(
-    ['history', campaignId],
+    ['paginated-history', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
     pageParams => getDTDCampaignDetailHistory({ campaignId, ...pageParams }),
     {
       getNextPageParam,
@@ -80,7 +80,7 @@ export const CampaignDetail = () => {
   const history = usePaginatedData(paginatedHistory)
 
   const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryWithScope(
-    ['surveys', campaignId],
+    ['surveys', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
     () => getDTDCampaignSurveysReplies(campaignId),
     {
       onError: handleError,

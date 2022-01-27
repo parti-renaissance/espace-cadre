@@ -26,12 +26,18 @@ const Activists = () => {
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
 
-  const { data: columnsTitle = [] } = useQueryWithScope('columns', getColumns)
+  const { data: columnsTitle = [] } = useQueryWithScope(
+    ['columns-title', { feature: 'Activists', view: 'Activists' }],
+    getColumns
+  )
 
-  const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0) } = useQueryWithScope(['activists', filters], () => {
-    const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
-    return getActivists(filter)
-  })
+  const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0) } = useQueryWithScope(
+    ['activists', { feature: 'Activists', view: 'Activists' }, filters],
+    () => {
+      const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
+      return getActivists(filter)
+    },
+  )
 
   if (columnsTitle.length === 0) {
     return (

@@ -37,10 +37,14 @@ const Ripostes = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryWithScope('ripostes', getRipostesQuery, {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQueryWithScope(
+    ['paginated-ripostes', { feature: 'Ripostes', view: 'Ripostes' }],
+    () => getRipostesQuery(),
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
 
   const ripostes = usePaginatedData(paginatedRipostes)
 

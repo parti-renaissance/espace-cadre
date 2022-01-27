@@ -22,10 +22,14 @@ const KpiEmailCampaign = () => {
     data: campaignsReportRatios = null,
     isLoading,
     isError,
-  } = useQueryWithScope(['reportsRatio', { view: 'dashboard' }], reportsRatio, {
-    cacheTime: DASHBOARD_CACHE_DURATION,
-    staleTime: DASHBOARD_CACHE_DURATION,
-  })
+  } = useQueryWithScope(
+    ['campaigns-report-ratios', { feature: 'Dashboard', view: 'KpiEmailCampaign' }],
+    () => reportsRatio(),
+    {
+      cacheTime: DASHBOARD_CACHE_DURATION,
+      staleTime: DASHBOARD_CACHE_DURATION,
+    },
+  )
 
   return (
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>

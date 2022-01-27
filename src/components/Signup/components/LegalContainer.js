@@ -14,11 +14,31 @@ const Container = styled('div')(
 )
 
 const LegalContainer = ({ type }) => {
-  const { data: ppd } = useQuery('rgpd', PPDQuery, { enabled: type === Ppd })
-  const { data: cguWeb } = useQuery('rgpd', CGUQueryWeb, { enabled: type === CGUWeb })
-  const { data: cguMobile } = useQuery('rgpd', CGUQueryMobile, { enabled: type === CGUMobile })
-  const { data: cookiesWeb } = useQuery('rgpd', CookiesQueryWeb, { enabled: type === CookiesWeb })
-  const { data: cookiesMobile } = useQuery('rgpd', CookiesQueryMobile, { enabled: type === CookiesMobile })
+  const { data: ppd } = useQuery(
+    ['PPD', { feature: 'Signup', view: 'LegalContainer' }],
+    () => PPDQuery(),
+    { enabled: type === Ppd },
+  )
+  const { data: cguWeb } = useQuery(
+    ['CGU-web', { feature: 'Signup', view: 'LegalContainer' }],
+    () => CGUQueryWeb(),
+    { enabled: type === CGUWeb },
+  )
+  const { data: cguMobile } = useQuery(
+    ['CGU-mobile', { feature: 'Signup', view: 'LegalContainer' }],
+    () => CGUQueryMobile(),
+    { enabled: type === CGUMobile },
+  )
+  const { data: cookiesWeb } = useQuery(
+    ['cookies-web', { feature: 'Signup', view: 'LegalContainer' }],
+    () => CookiesQueryWeb(),
+    { enabled: type === CookiesWeb },
+  )
+  const { data: cookiesMobile } = useQuery(
+    ['cookies-mobile', { feature: 'Signup', view: 'LegalContainer' }],
+    () => CookiesQueryMobile(),
+    { enabled: type === CookiesMobile },
+  )
 
   return (
     <Container>

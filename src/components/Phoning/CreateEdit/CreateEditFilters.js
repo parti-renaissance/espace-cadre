@@ -66,7 +66,7 @@ const CreateEditFilters = () => {
   }, [])
 
   const { data: zones = [], isFetching: isZonesFetching } = useQueryWithScope(
-    ['zones', inputValues.zoneInput],
+    ['zones', { feature: 'Phoning', view: 'CreateEditFilters' }, inputValues.zoneInput],
     () => getPhoningCampaignZones(inputValues.zoneInput),
     {
       enabled: isZoneFetchable && !!inputValues.zoneInput,

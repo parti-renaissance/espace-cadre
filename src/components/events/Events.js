@@ -42,10 +42,14 @@ const Events = () => {
   const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
   const [refetchEvents, setRefetchEvents] = useState(noOp)
 
-  useQuery(['categories', { feature: 'Events', view: 'all' }], getCategories, {
-    cacheTime: ONE_DAY,
-    staleTime: ONE_DAY,
-  })
+  useQuery(
+    ['categories',{ feature: 'Events', view: 'Events' }],
+    () => getCategories(),
+    {
+      cacheTime: ONE_DAY,
+      staleTime: ONE_DAY,
+    },
+  )
 
   const setRefetchEventsRef = useCallback(f => setRefetchEvents(() => f), [])
 

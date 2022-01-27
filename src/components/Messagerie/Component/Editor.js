@@ -76,18 +76,11 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const [templateId] = useState(() => {
-    if (currentScope?.code === 'referent') {
-      return referentTemplate
-    }
-    if (currentScope?.code === 'deputy') {
-      return deputyTemplate
-    }
-    if (currentScope?.code === 'senator') {
-      return senatorTemplate
-    }
-    if (currentScope?.code === 'correspondent') {
-      return correspondantTemplate
-    }
+    const { code } = currentScope || {}
+    if (code === 'referent') return referentTemplate
+    if (code === 'deputy') return deputyTemplate
+    if (code === 'senator') return senatorTemplate
+    if (code === 'correspondent') return correspondantTemplate
     return defaultTemplate
   })
 
@@ -101,7 +94,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   }, [onMessageUpdate])
 
   const { data: messageContent = null } = useQueryWithScope(
-    ['messageContent', messageUuid],
+    ['message-content', { feature: 'Messagerie', view: 'Editor' }, messageUuid],
     () => getMessageContent(messageUuid),
     { onError: handleError, enabled: !!messageUuid && editorLoaded }
   )

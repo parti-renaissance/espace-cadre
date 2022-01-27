@@ -38,20 +38,23 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     refetch,
     isLoading,
     isError,
-  } = useInfiniteQueryWithScope([queryKey, { feature: 'Events', view: 'Events' }], query, {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQueryWithScope(
+    [queryKey, { feature: 'Events', view: 'Events' }],
+    query,
+    {
+      getNextPageParam,
+      onError: handleError,
+    },
+  )
 
   useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
 
   const events = usePaginatedData(paginatedEvents)
 
   const queryClient = useQueryClient()
-  const { data: categoriesByGroup = null } = queryClient.getQueryState([
-    'categories',
-    { feature: 'Events', view: 'all' },
-  ])
+  const { data: categoriesByGroup = null } = queryClient.getQueryState(
+    ['categories', { feature: 'Events', view: 'Events' }]
+  )
   const categoryNameByCategoryId = useMemo(
     () =>
       (categoriesByGroup?.flatMap(g => g.categories) || []).reduce(
