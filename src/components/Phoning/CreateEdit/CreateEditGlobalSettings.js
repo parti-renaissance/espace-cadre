@@ -13,15 +13,15 @@ import { useUserScope } from '../../../redux/user/hooks'
 
 const messages = {
   input: {
-    zone: 'Zone',
     title: 'Titre',
+    zone: 'Zone',
     goal: 'Objectif individuel',
     brief: 'Brief',
     endDate: 'Date de fin',
   },
   placeholder: {
-    zone: 'Zone',
     title: 'Identifiant de la campagne',
+    zone: 'Zone',
     goal: "Nombre de questionnaires à remplir par l'utilisateur",
     endDate: '__  /__  /____',
     brief: 'Rédiger une brève',
@@ -44,6 +44,19 @@ const CreateEditGlobalSettings = () => {
 
   return (
     <>
+      <Label sx={{ pt: 3, pb: 1 }}>{messages.input.title}</Label>
+      <Input
+        name={fields.title}
+        placeholder={messages.placeholder.title}
+        value={inputValues.title}
+        onChange={event => {
+          updateInputValues(fields.title, event.target.value)
+          debounce(() => updateValues(fields.title, event.target.value))
+        }}
+        autoFocus
+      />
+      <FormError errors={errors} field="title" />
+
       {!isNational && (
         <>
           <Label sx={{ pt: 5, pb: 1 }}>{messages.input.zone}</Label>
@@ -74,18 +87,6 @@ const CreateEditGlobalSettings = () => {
           <FormError errors={errors} field="zone" />{' '}
         </>
       )}
-      <Label sx={{ pt: 3, pb: 1 }}>{messages.input.title}</Label>
-      <Input
-        name={fields.title}
-        placeholder={messages.placeholder.title}
-        value={inputValues.title}
-        onChange={event => {
-          updateInputValues(fields.title, event.target.value)
-          debounce(() => updateValues(fields.title, event.target.value))
-        }}
-        autoFocus
-      />
-      <FormError errors={errors} field="title" />
 
       <Label sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</Label>
       <Input
