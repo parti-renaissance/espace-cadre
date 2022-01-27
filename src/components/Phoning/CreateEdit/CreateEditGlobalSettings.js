@@ -13,15 +13,15 @@ import { useUserScope } from '../../../redux/user/hooks'
 
 const messages = {
   input: {
+    zone: 'Zone',
     title: 'Titre',
     goal: 'Objectif individuel',
     brief: 'Brief',
     endDate: 'Date de fin',
-    zone: 'Zone',
   },
   placeholder: {
-    title: 'Identifiant de la campagne',
     zone: 'Zone',
+    title: 'Identifiant de la campagne',
     goal: "Nombre de questionnaires à remplir par l'utilisateur",
     endDate: '__  /__  /____',
     brief: 'Rédiger une brève',
