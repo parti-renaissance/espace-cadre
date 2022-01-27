@@ -20,7 +20,7 @@
     "file-saver": "2.0.5",
     "formik": "2.2.9",
     "leaflet": "1.7.1",
-    "libphonenumber-js": "1.9.44",
+    "libphonenumber-js": "1.9.46",
     "lodash": "4.17.21",
     "mapbox-gl": "2.6.1",
     "notistack": "2.0.3",
