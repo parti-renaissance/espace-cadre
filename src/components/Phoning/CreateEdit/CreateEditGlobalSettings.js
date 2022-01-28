@@ -71,7 +71,6 @@ const CreateEditGlobalSettings = () => {
             renderValue={value => value.name || currentScope.zones[0].name}
             displayEmpty
             disabled={currentScope.zones.length === 1}
-            autoFocus
             size="small"
             sx={{
               width: '100%',
