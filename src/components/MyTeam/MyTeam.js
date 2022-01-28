@@ -23,11 +23,12 @@ const PageTitle = styled(Typography)`
 const messages = {
   pageTitle: 'Mon équipe',
   create: 'Ajouter un membre',
+  noResult: "Il n'y a aucun membre dans votre équipe",
 }
 
 const MyTeam = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
-  const [teamMemberToUpdate, setTeamMemberToUpdate] = useState()
+  const [teamMemberToUpdate, setTeamMemberToUpdate] = useState({})
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
 
@@ -84,8 +85,22 @@ const MyTeam = () => {
         />
       </Grid>
 
-      {myTeam.members?.length > 0 && (
-        <Grid container justifyContent="space-between" data-cy="my-team-container">
+      <Grid container justifyContent="space-between" data-cy="my-team-container">
+        {myTeam.members?.length === 0 && (
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+            data-cy="my-team-not-initialized"
+            sx={{ minHeight: '50vh' }}
+          >
+            <Typography variant="subtitle1" sx={{ fontWeight: '400' }}>
+              {messages.noResult}
+            </Typography>
+          </Grid>
+        )}
+        {myTeam.members?.length > 0 && (
           <Grid container spacing={2} data-cy="my-team-list">
             {myTeam.members.map(member => (
               <MyTeamMember
@@ -98,8 +113,8 @@ const MyTeam = () => {
               />
             ))}
           </Grid>
-        </Grid>
-      )}
+        )}
+      </Grid>
 
       {isCreateEditModalOpen && (
         <CreateEdit
