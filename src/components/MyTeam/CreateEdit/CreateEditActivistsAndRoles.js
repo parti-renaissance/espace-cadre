@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useCallback, useState } from 'react'
-import { Autocomplete, Paper, Typography } from '@mui/material'
+import { Autocomplete, Grid, Paper, Typography } from '@mui/material'
 
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getMyTeamActivists } from 'api/my-team'
@@ -9,7 +9,9 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import SelectOption from './shared/components/SelectOption'
 import { Input, Label, Select } from './shared/components/styled'
-import { roles, fields } from './shared/constants'
+import { roles } from '../shared/constants'
+import { fields } from './shared/constants'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
 
 const messages = {
   input: {
@@ -32,7 +34,7 @@ const initialValues = {
 const areActivistInputAndValueEqual = (input, value) =>
   input.activist === `${value.activist?.firstName ?? ''} ${value.activist?.lastName ?? ''}`
 
-const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues }) => {
+const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, errors = [] }) => {
   const [inputValues, setInputValues] = useState(initialValues)
   const [isActivistFetchable, setIsActivistFetchable] = useState(false)
   const { handleError } = useErrorHandler()
@@ -97,6 +99,13 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues }) =
         autoHighlight
         fullWidth
       />
+      {errors
+        .filter(({ field }) => field === 'adherent')
+        .map(({ field, message }) => (
+          <Grid item xs={12} key={field}>
+            <UIFormMessage severity="error">{message}</UIFormMessage>
+          </Grid>
+        ))}
 
       <Label sx={{ pt: 4, pb: 1 }}>{messages.input.role}</Label>
       <Select
@@ -117,6 +126,13 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues }) =
           </SelectOption>
         ))}
       </Select>
+      {errors
+        .filter(({ field }) => field === 'role')
+        .map(({ field, message }) => (
+          <Grid item xs={12} key={field}>
+            <UIFormMessage severity="error">{message}</UIFormMessage>
+          </Grid>
+        ))}
     </>
   )
 }
@@ -127,6 +143,12 @@ CreateEditActivistsAndRoles.propTypes = {
     role: PropTypes.string,
   }),
   updateValues: PropTypes.func.isRequired,
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      field: PropTypes.string,
+      message: PropTypes.string,
+    })
+  ),
 }
 
 export default CreateEditActivistsAndRoles

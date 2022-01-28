@@ -5,6 +5,7 @@ import { styled } from '@mui/system'
 
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getMyTeamQuery, removeTeamMemberQuery } from 'api/my-team'
+import { roles } from './shared/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
@@ -24,6 +25,7 @@ const messages = {
   pageTitle: 'Mon équipe',
   create: 'Ajouter un membre',
   noResult: "Il n'y a aucun membre dans votre équipe",
+  deleteSuccess: 'Membre retiré avec succès',
 }
 
 const MyTeam = () => {
@@ -66,7 +68,7 @@ const MyTeam = () => {
   )
 
   const handleClose = () => {
-    setTeamMemberToUpdate(null)
+    setTeamMemberToUpdate({})
     setIsCreateEditModalOpen(false)
   }
 
@@ -85,7 +87,7 @@ const MyTeam = () => {
         />
       </Grid>
 
-      <Grid container justifyContent="space-between" data-cy="my-team-container">
+      <Grid container justifyContent="space-between" data-cy="my-team-container" sx={{ pt: 1 }}>
         {myTeam.members?.length === 0 && (
           <Grid
             container
@@ -105,8 +107,8 @@ const MyTeam = () => {
             {myTeam.members.map(member => (
               <MyTeamMember
                 key={member.id}
-                role={member.role}
-                adherent={member.adherent}
+                role={roles[member.role]}
+                activist={member.activist}
                 accessCount={member.features.length}
                 handleUpdate={handleUpdate(member.id)}
                 handleDelete={handleDelete(member.id)}
@@ -119,7 +121,7 @@ const MyTeam = () => {
       {isCreateEditModalOpen && (
         <CreateEdit
           teamId={myTeam.id}
-          teamMember={Object.keys(teamMemberToUpdate) > 0 ? teamMemberToUpdate : null}
+          teamMember={Object.keys(teamMemberToUpdate).length > 0 ? teamMemberToUpdate : null}
           onCreateResolve={refetchMyTeam}
           handleClose={handleClose}
         />
