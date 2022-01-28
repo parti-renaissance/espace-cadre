@@ -3,9 +3,9 @@ export const fields = {
   role: 'role',
 }
 
-export const roles = [
-  { label: 'Responsable mobilisation', value: 'mobilization_manager' },
-  { label: 'Responsable logistique', value: 'logistic_manager' },
-  { label: 'Responsable communication', value: 'communication_manager' },
-  { label: 'Responsable conformité et finance', value: 'finance_manager' },
-]
+export const roles = {
+  mobilization_manager: 'Responsable mobilisation',
+  logistics_manager: 'Responsable logistique',
+  communication_manager: 'Responsable communication',
+  compliance_and_finance_manager: 'Responsable conformité et finance',
+}
