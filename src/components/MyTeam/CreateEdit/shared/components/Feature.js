@@ -13,13 +13,14 @@ const CheckboxLabelStyles = {
   },
 }
 
-const Feature = ({ label, value, handleChange }) => (
+const Feature = ({ name, label, value, handleChange }) => (
   <Grid container direction="column" sx={{ pt: 1 }}>
     <FormControlLabel
-      name={label}
+      name={name}
       label={label}
+      value={value}
       control={<Checkbox size="small" checked={!!value} sx={{ py: 0.25, px: 1.5 }} />}
-      onChange={(_, value) => handleChange(label, value)}
+      onChange={(_, value) => handleChange(name, value)}
       componentsProps={{ typography: { sx: CheckboxLabelStyles } }}
       sx={{ height: '20px', mx: 0 }}
     />
@@ -27,6 +28,7 @@ const Feature = ({ label, value, handleChange }) => (
 )
 
 Feature.propTypes = {
+  name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.bool,
   handleChange: PropTypes.func.isRequired,

@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types'
-
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import { Grid, Typography } from '@mui/material'
 import styled from '@emotion/styled'
 
+import allFeatures from '../../../shared/features'
+import { getAuthorizedPages } from '../../../redux/user/selectors'
 import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import Feature from './shared/components/Feature'
@@ -39,56 +42,68 @@ const messages = {
     'En déléguant vos accès, ce membre de votre équipe agira en votre nom depuis cet espace d’administration.',
 }
 
-const CreateEditDelegatedAccess = ({ features = [], updateFeatures }) => (
-  <>
-    <Grid container direction="column" sx={{ pt: 4 }}>
-      <Grid item>
-        <Title sx={{ color: 'gray800' }}>{messages.title}</Title>&nbsp;
-        <Title sx={{ pt: 1, color: 'gray800' }} suffix>
-          {messages.titleSuffix}
-        </Title>
-      </Grid>
-      <Description sx={{ pt: 1, color: 'form.label.color' }}>{messages.description}</Description>
-    </Grid>
+const skippedFeatures = ['mobile_app']
 
-    {features.length > 0 && (
-      <Grid container sx={{ pt: 3 }}>
-        {features.length <= 8 &&
-          features.map(feature => (
-            <Feature key={feature} label={feature} value={features.includes(feature)} handleChange={updateFeatures} />
-          ))}
-        {features.length > 8 && (
-          <Grid container>
-            <Grid item xs={6}>
-              {features.slice(0, 8).map(feature => (
-                <Feature
-                  key={feature}
-                  label={feature}
-                  value={features.includes(feature)}
-                  handleChange={updateFeatures}
-                />
-              ))}
-            </Grid>
-            <Grid item xs={6}>
-              {features.slice(8, features.length - 1).map(feature => (
-                <Feature
-                  key={feature}
-                  label={feature}
-                  value={features.includes(feature)}
-                  handleChange={updateFeatures}
-                />
-              ))}
-            </Grid>
-          </Grid>
-        )}
+const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeatures }) => {
+  const pages = useSelector(getAuthorizedPages)
+  const features = useMemo(() => pages.filter(p => !skippedFeatures.includes(p)), [pages])
+
+  return (
+    <>
+      <Grid container direction="column" sx={{ pt: 4 }}>
+        <Grid item>
+          <Title sx={{ color: 'gray800' }}>{messages.title}</Title>
+        </Grid>
+        <Description sx={{ pt: 1, color: 'form.label.color' }}>{messages.description}</Description>
       </Grid>
-    )}
-  </>
-)
+
+      {features.length > 0 && (
+        <Grid container sx={{ pt: 3 }}>
+          {features.length <= 6 &&
+            features.map(key => (
+              <Feature
+                key={key}
+                name={key}
+                label={allFeatures[key]}
+                value={delegatedFeatures.includes(key)}
+                handleChange={updateDelegatedFeatures}
+              />
+            ))}
+          {features.length > 6 && (
+            <Grid container>
+              <Grid item xs={6}>
+                {features.slice(0, 6).map(key => (
+                  <Feature
+                    key={key}
+                    name={key}
+                    label={allFeatures[key]}
+                    value={delegatedFeatures.includes(key)}
+                    handleChange={updateDelegatedFeatures}
+                  />
+                ))}
+              </Grid>
+              <Grid item xs={6}>
+                {features.slice(6, features.length - 1).map(key => (
+                  <Feature
+                    key={key}
+                    name={key}
+                    label={allFeatures[key]}
+                    value={delegatedFeatures.includes(key)}
+                    handleChange={updateDelegatedFeatures}
+                  />
+                ))}
+              </Grid>
+            </Grid>
+          )}
+        </Grid>
+      )}
+    </>
+  )
+}
 
 CreateEditDelegatedAccess.propTypes = {
-  features: DomainMyTeamMember.propTypes.features,
-  updateFeatures: PropTypes.func.isRequired,
+  delegatedFeatures: DomainMyTeamMember.propTypes.features,
+  updateDelegatedFeatures: PropTypes.func.isRequired,
 }
 
 export default CreateEditDelegatedAccess

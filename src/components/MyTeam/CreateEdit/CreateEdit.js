@@ -31,26 +31,36 @@ const Paper = styled(MuiPaper)(
 const messages = {
   create: {
     title: 'Ajouter un membre à mon équipe',
-    success: 'Délégation effectuée avec succès',
+    success: 'Membre ajouté avec succès',
     action: 'Ajouter',
   },
   update: {
     title: 'Modifier un membre de mon équipe',
-    success: 'Délégation modifiée avec succès',
+    success: 'Membre modifié avec succès',
     action: 'Modifier',
   },
 }
 
-const validateForm = ({ activist, position }) => activist && Object.keys(activist).length > 0 && position
+const validateForm = ({ activist, role }) => !!(activist && Object.keys(activist).length > 0 && role)
+const addOrRemoveFeature = (initialFeatures = [], name, selected) => {
+  const features = initialFeatures
+  if (selected === true && !features.includes(name)) features.push(name)
+  if (selected === false && features.includes(name)) features.splice(features.indexOf(name), 1)
+  return features
+}
 
 const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) => {
   const [values, setValues] = useState(teamMember || {})
   const isValidForm = useMemo(() => validateForm(values), [values])
   const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError } = useErrorHandler()
+  const { handleError, errorMessages } = useErrorHandler()
 
   const updateValues = useCallback((key, value) => {
     setValues(values => ({ ...values, [key]: value }))
+  }, [])
+
+  const updateFeatures = useCallback((key, selected) => {
+    setValues(values => ({ ...values, features: addOrRemoveFeature(values.features, key, selected) }))
   }, [])
 
   const { mutate: createOrUpdateTeamMember } = useMutation(createOrUpdateTeamMemberQuery, {
@@ -63,7 +73,7 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
   })
 
   const handleSubmit = () => {
-    createOrUpdateTeamMember({ teamId, ...values })
+    createOrUpdateTeamMember({ teamId, teamMember: values })
   }
 
   return (
@@ -76,8 +86,8 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
       </Grid>
 
       <Grid container>
-        <CreateEditActivistsAndRoles values={values} updateValues={updateValues} />
-        <CreateEditDelegatedAccess features={values.features} updateFeatures={updateValues} />
+        <CreateEditActivistsAndRoles values={values} updateValues={updateValues} errors={errorMessages} />
+        <CreateEditDelegatedAccess delegatedFeatures={values.features} updateDelegatedFeatures={updateFeatures} />
         <CreateEditValidateAction
           label={!teamMember ? messages.create.action : messages.update.action}
           handleValidate={handleSubmit}

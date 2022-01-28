@@ -14,19 +14,17 @@ export class MyTeamMemberActivist {
 }
 
 export class MyTeamMember {
-  constructor(id, role, teamId, activist, features) {
+  constructor(id, role, activist, features) {
     this.id = id
     this.role = role
-    this.teamId = teamId
     this.activist = activist
     this.features = features
   }
   static propTypes = {
     id: PropTypes.string,
-    role: PropTypes.bool.isRequired,
-    teamId: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
     activist: PropTypes.shape(MyTeamMemberActivist.propTypes),
-    features: PropTypes.arrayOf(PropTypes.string).isRequired,
+    features: PropTypes.arrayOf(PropTypes.string),
   }
 }
 

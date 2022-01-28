@@ -20,7 +20,7 @@ const messages = {
   delegatedAccess: 'accès délégué',
 }
 
-const MyTeamMember = ({ role, adherent, accessCount, handleUpdate, handleDelete }) => (
+const MyTeamMember = ({ role, activist, accessCount, handleUpdate, handleDelete }) => (
   <Grid item xs={12} sm={6} md={3}>
     <UICard
       rootProps={{ sx: { height: '155px' } }}
@@ -30,15 +30,15 @@ const MyTeamMember = ({ role, adherent, accessCount, handleUpdate, handleDelete 
           <VerticalContainer>
             <TruncatedText
               variant="subtitle1"
-              title={adherent ? `${adherent.firstName} ${adherent.lastName}` : ''}
               data-cy="my-team-member-item-name"
+              title={activist ? `${activist.firstName} ${activist.lastName}` : ''}
               sx={{ color: 'gray900' }}
             >
-              {adherent && `${adherent.firstName} ${adherent.lastName}`}
+              {activist && `${activist.firstName} ${activist.lastName}`}
             </TruncatedText>
-            <Typography variant="subtitle2" data-cy="my-team-member-item-role" sx={{ pt: 0.5, color: 'gray600' }}>
+            <TruncatedText variant="subtitle2" data-cy="my-team-member-item-role" sx={{ pt: 0.5, color: 'gray600' }}>
               {role}
-            </Typography>
+            </TruncatedText>
             <Typography
               variant="subtitle2"
               data-cy="my-team-member-item-access-count"
