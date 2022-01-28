@@ -75,6 +75,9 @@ const CreateEditGlobalSettings = () => {
             sx={{
               width: '100%',
               bgcolor: 'gray100',
+              '& fieldset': {
+                border: 'none',
+              },
             }}
           >
             {currentScope.zones.map(z => (
