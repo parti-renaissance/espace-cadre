@@ -43,7 +43,7 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues }) =
   }, [])
 
   const { data: activists = [], isFetching: isActivistsFetching } = useQueryWithScope(
-    ['activists', inputValues.activist],
+    ['activists', { feature: 'MyTeam', view: 'CreateEditActivistsAndRoles' }, inputValues.activist],
     () => getMyTeamActivists(inputValues.activist),
     {
       enabled: isActivistFetchable && (!!values.id || !areActivistInputAndValueEqual(inputValues, values)),
@@ -102,14 +102,16 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues }) =
       <Select
         name={fields.role}
         inputProps={{ placeholder: messages.placeholder.role }}
-        value={values.role}
+        value={values.role || ''}
         onChange={event => {
           updateValues(fields.role, event.target.value)
         }}
-        renderValue={value => value || <Typography sx={{ opacity: 0.4 }}>{messages.placeholder.role}</Typography>}
+        renderValue={value =>
+          roles[value] || <Typography sx={{ opacity: 0.4 }}>{messages.placeholder.role}</Typography>
+        }
         displayEmpty
       >
-        {roles.map(({ label, value }, index) => (
+        {Object.entries(roles).map(([value, label], index) => (
           <SelectOption key={index} label={label} value={value} sx={{ py: 1 }}>
             {label}
           </SelectOption>
@@ -122,7 +124,7 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues }) =
 CreateEditActivistsAndRoles.propTypes = {
   values: PropTypes.shape({
     activist: DomainMyTeamMember.propTypes.activist,
-    role: DomainMyTeamMember.propTypes.role,
+    role: PropTypes.string,
   }),
   updateValues: PropTypes.func.isRequired,
 }
