@@ -71,11 +71,13 @@ const CreateEditGlobalSettings = () => {
             renderValue={value => value.name || currentScope.zones[0].name}
             displayEmpty
             disabled={currentScope.zones.length === 1}
-            autoFocus
             size="small"
             sx={{
               width: '100%',
               bgcolor: 'gray100',
+              '& fieldset': {
+                border: 'none',
+              },
             }}
           >
             {currentScope.zones.map(z => (
