@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -15,6 +15,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
+import { useUserScope } from '../../redux/user/hooks'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -35,6 +36,8 @@ const infiniteScrollStylesOverrides = {
   },
 }
 
+const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
+
 const messages = {
   pageTitle: 'Phoning',
   create: 'Créer une campagne',
@@ -49,6 +52,9 @@ const Phoning = () => {
   const [campaignIdToUpdate, setCampaignIdToUpdate] = useState()
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
+  const [currentScope] = useUserScope()
+  const isNational = useMemo(() => nationalScopes?.includes(currentScope?.code), [currentScope?.code])
+  const visibilityParam = isNational ? 'national' : 'local'
 
   const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
     onError: handleError,
@@ -59,7 +65,7 @@ const Phoning = () => {
     fetchNextPage: fetchNextPageCampaigns,
     hasNextPage: hasNextPageCampaigns,
     refetch: refetchCampaigns,
-  } = useInfiniteQueryWithScope('campaigns', pageParams => getPhoningCampaignsQuery(pageParams), {
+  } = useInfiniteQueryWithScope('campaigns', pageParams => getPhoningCampaignsQuery(pageParams, visibilityParam), {
     getNextPageParam,
     onError: handleError,
   })
