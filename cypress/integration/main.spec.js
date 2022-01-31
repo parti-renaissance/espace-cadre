@@ -33,7 +33,7 @@ export const initialization = () => {
   mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
   mock(
     'GET',
-    '/api/v3/phoning_campaigns?order[created_at]=desc&page=1&page_size=20&scope=phoning_national_manager',
+    '/api/v3/phoning_campaigns?order[created_at]=desc&page=1&page_size=20&visibility=national&scope=phoning_national_manager',
     'phoning/campaigns'
   )
   mock(

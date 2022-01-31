@@ -39,8 +39,8 @@ export const getPhoningGlobalKPIQuery = async () => {
   return new PhoningGlobalKPI(campaignsKPI, surveysKPI, callsKPI)
 }
 
-export const getPhoningCampaignsQuery = async ({ pageParam: page = 1 }) => {
-  const query = `?order[created_at]=desc&page=${page}&page_size=20`
+export const getPhoningCampaignsQuery = async ({ pageParam: page = 1 }, visibilityParam) => {
+  const query = `?order[created_at]=desc&page=${page}&page_size=20&visibility=${visibilityParam}`
   const data = await apiClient.get(`api/v3/phoning_campaigns${query}`)
 
   const campaigns = data.items.map(c => {
