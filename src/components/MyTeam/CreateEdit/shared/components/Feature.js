@@ -19,7 +19,7 @@ const Feature = ({ name, label, value, handleChange }) => (
       name={name}
       label={label}
       value={value}
-      control={<Checkbox size="small" checked={!!value} sx={{ py: 0.25, px: 1.5 }} />}
+      control={<Checkbox size="small" checked={!!value} sx={{ p: 1.5 }} />}
       onChange={(_, value) => handleChange(name, value)}
       componentsProps={{ typography: { sx: CheckboxLabelStyles } }}
       sx={{ height: '20px', mx: 0 }}
