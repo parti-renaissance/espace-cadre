@@ -18,6 +18,7 @@ const messages = {
   edit: 'modifier',
   delete: 'supprimer',
   delegatedAccess: 'accès délégué',
+  noDelegatedAccess: 'Aucun accès délégué',
 }
 
 const MyTeamMember = ({ role, activist, accessCount, handleUpdate, handleDelete }) => (
@@ -44,8 +45,8 @@ const MyTeamMember = ({ role, activist, accessCount, handleUpdate, handleDelete 
               data-cy="my-team-member-item-access-count"
               sx={{ pt: 1, color: 'gray600', fontWeight: 500 }}
             >
-              {accessCount}&nbsp;
-              {pluralize(accessCount, messages.delegatedAccess)}
+              {accessCount > 0 && `${accessCount} ${pluralize(accessCount, messages.delegatedAccess)}`}
+              {accessCount === 0 && messages.noDelegatedAccess}
             </Typography>
           </VerticalContainer>
         </>
