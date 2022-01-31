@@ -3,8 +3,8 @@ import { Provider as StorageProvider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from './redux/store'
 import { NotifyProvider, QueryProvider, ThemeProvider } from './providers'
-import Layout from './components/Layout'
-import Routes from './providers/routes'
+import AppRoutes from './components/AppRoutes'
+import PrivateRoutes from './providers/routes'
 import './style/index.scss'
 
 const App = () => (
@@ -14,9 +14,9 @@ const App = () => (
         <QueryProvider>
           <ThemeProvider>
             <NotifyProvider>
-              <Layout>
-                <Routes />
-              </Layout>
+              <AppRoutes>
+                <PrivateRoutes />
+              </AppRoutes>
             </NotifyProvider>
           </ThemeProvider>
         </QueryProvider>

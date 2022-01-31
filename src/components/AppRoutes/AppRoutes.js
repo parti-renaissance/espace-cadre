@@ -55,7 +55,11 @@ const PrivatePages = ({ children }) => {
   )
 }
 
-const AllPages = ({ children }) => (
+PrivatePages.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+
+const AppRoutes = ({ children }) => (
   <Routes>
     <Route path={publicPaths.signup} element={<Signup />} />
     <Route path={publicPaths.signupConfirm} element={<SignupConfirm />} />
@@ -68,12 +72,8 @@ const AllPages = ({ children }) => (
     <Route path="*" element={<PrivatePages>{children}</PrivatePages>} />
   </Routes>
 )
-AllPages.propTypes = {
-  children: PropTypes.instanceOf(Object).isRequired,
+AppRoutes.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
-PrivatePages.propTypes = {
-  children: PropTypes.instanceOf(Object).isRequired,
-}
-
-export default AllPages
+export default AppRoutes
