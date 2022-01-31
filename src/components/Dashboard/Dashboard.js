@@ -9,7 +9,7 @@ import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
 import PhoneIcon from 'ui/icons/PhoneIcon'
 import { useUserScope } from '../../redux/user/hooks'
-import Upcoming from '../Upcoming/Upcoming'
+import EmptyContent from 'ui/EmptyContent'
 
 const Container = styled(MuiContainer)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};
@@ -33,6 +33,8 @@ const KPIContainer = styled(Grid)`
 const messages = {
   title: "Vue d'ensemble",
   mobile: 'Application mobile',
+  upcoming: 'Bientôt en ligne',
+  description: 'Cette page sera bientôt disponible sur notre site !',
 }
 
 const upcomingFeatureScopes = ['phoning_national_manager', 'pap_national_manager']
@@ -40,7 +42,8 @@ const upcomingFeatureScopes = ['phoning_national_manager', 'pap_national_manager
 const Dashboard = () => {
   const [currentScope] = useUserScope()
 
-  if (upcomingFeatureScopes.includes(currentScope.code)) return <Upcoming />
+  if (upcomingFeatureScopes.includes(currentScope.code))
+    return <EmptyContent title={messages.upcoming} description={messages.description} />
 
   return (
     <Container maxWidth="lg">

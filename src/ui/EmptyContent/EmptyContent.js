@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-
 import UpcomingRoundedIcon from '@mui/icons-material/UpcomingRounded'
 
 const Container = styled(props => (
@@ -19,17 +19,19 @@ const Description = styled(Typography)`
   line-height: 27px;
 `
 
-const messages = {
-  title: 'Bientôt en ligne',
-  description: 'Cette page sera bientôt disponible sur notre site !',
-}
-
-const Upcoming = () => (
+const EmptyContent = ({ title, description, action }) => (
   <Container>
-    <UpcomingRoundedIcon sx={{ fontSize: '67px', color: 'upcoming.icon' }} />
-    <Title sx={{ pt: 2, color: 'upcoming.title' }}>{messages.title}</Title>
-    <Description sx={{ pt: 2, color: 'upcoming.description' }}>{messages.description}</Description>
+    <UpcomingRoundedIcon sx={{ fontSize: '67px', color: 'emptyContent.icon' }} />
+    {title && <Title sx={{ pt: 2, color: 'emptyContent.title' }}>{title}</Title>}
+    {description && <Description sx={{ py: 2, color: 'emptyContent.description' }}>{description}</Description>}
+    {action}
   </Container>
 )
 
-export default Upcoming
+EmptyContent.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  action: PropTypes.node,
+}
+
+export default EmptyContent
