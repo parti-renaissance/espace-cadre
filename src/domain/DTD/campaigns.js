@@ -12,14 +12,16 @@ export class DTDCampaignItemScore {
 }
 
 export class DTDCampaignItem {
-  constructor(id, endDate, title, score) {
+  constructor(id, startDate, endDate, title, score) {
     this.id = id
+    this.startDate = startDate
     this.endDate = endDate
     this.title = title
     this.score = score
   }
   static propTypes = {
     id: PropTypes.string,
+    startDate: PropTypes.object.isRequired,
     endDate: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     score: PropTypes.shape(DTDCampaignItemScore.propTypes),

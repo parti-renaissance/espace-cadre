@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { format, isBefore } from 'date-fns'
+import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { DTDCampaignItem as DomainDTDCampaignItem } from 'domain/DTD'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
-import { chipColorsByStatus } from '../CampaignDetail/shared/constants'
+import { chipColorsByDate, chipLabelByDate } from '../CampaignDetail/shared/helpers'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 
 const HorizontalContainer = styled('div')`
@@ -26,13 +26,11 @@ const messages = {
   see: 'voir',
   contact: 'contact',
   edit: 'modifier',
-  finished: 'Terminé',
-  ongoing: 'En cours',
 }
 
-const DTDCampaignItem = ({ endDate, title, score, handleView }) => {
-  const chipLabel = isBefore(new Date(), endDate) ? messages.ongoing : messages.finished
-  const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
+const DTDCampaignItem = ({ startDate, endDate, title, score, handleView }) => {
+  const chipLabel = chipLabelByDate(startDate, endDate)
+  const chipColors = chipColorsByDate(startDate, endDate)
 
   return (
     <Grid item xs={12} sm={6} md={3}>
