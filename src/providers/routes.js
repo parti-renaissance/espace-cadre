@@ -41,7 +41,7 @@ const AppPrivateRoutes = () => {
         <Route path={paths.ripostes} element={authorizedFeatures.includes(features.ripostes) && <Ripostes />} />
         <Route path={`${paths.team}/*`} element={authorizedFeatures.includes(features.team) && <Groups />} />
         <Route path={paths.news} element={authorizedFeatures.includes(features.news) && <News />} />
-        <Route path={paths.events} element={<Events />} />
+        <Route path={paths.events} element={authorizedFeatures.includes(features.events) && <Events />} />
         <Route path={`${paths.survey}/*`} element={authorizedFeatures.includes(features.survey) && <Surveys />} />
         <Route
           path={`${paths.phoning_campaign}/*`}
