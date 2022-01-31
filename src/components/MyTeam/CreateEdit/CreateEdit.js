@@ -23,7 +23,6 @@ const Title = styled(Typography)`
 const Paper = styled(MuiPaper)(
   ({ theme }) => `
 	padding: ${theme.spacing(4)};
-	width: 664px;
 	border-radius: 12px;
 `
 )
