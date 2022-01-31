@@ -1,13 +1,9 @@
 import MentionsLegales from './MentionsLegales'
 import { styled } from '@mui/system'
+import { Grid } from '@mui/material'
 
 const FooterWrapper = styled('div')`
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 28px;
-  margin-left: 16px;
-  flex-wrap: wrap;
+  margin: ${({ theme }) => theme.spacing('auto', 0, 2, 2)};
 `
 
 const ReleaseVersion = styled('div')(
@@ -33,10 +29,12 @@ const messages = {
 
 const Footer = () => (
   <FooterWrapper>
-    <MentionsLegales />
-    <ReleaseVersion>
-      {messages.title}@{process.env.REACT_APP_VERSION}
-    </ReleaseVersion>
+    <Grid container alignItems="center">
+      <MentionsLegales />
+      <ReleaseVersion>
+        {messages.title}@{process.env.REACT_APP_VERSION}
+      </ReleaseVersion>
+    </Grid>
     <Signature>{messages.signature}</Signature>
   </FooterWrapper>
 )

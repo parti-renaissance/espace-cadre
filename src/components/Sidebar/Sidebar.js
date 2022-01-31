@@ -42,7 +42,7 @@ const Sidebar = ({ children, window }) => {
   }
 
   const drawer = (
-    <div sx={{ display: 'flex', flexDirection: 'column' }}>
+    <div>
       {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
       {authorizedPages.includes(pages.activists) && <NavItem label="Militants" {...navInfo('activists')} />}
       {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
