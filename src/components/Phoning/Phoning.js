@@ -38,6 +38,11 @@ const infiniteScrollStylesOverrides = {
 
 const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
 
+const roles = {
+  national: 'national',
+  local: 'local',
+}
+
 const messages = {
   pageTitle: 'Phoning',
   create: 'Créer une campagne',
@@ -54,7 +59,6 @@ const Phoning = () => {
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes?.includes(currentScope?.code), [currentScope?.code])
-  const visibilityParam = isNational ? 'national' : 'local'
 
   const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
     onError: handleError,
@@ -65,10 +69,14 @@ const Phoning = () => {
     fetchNextPage: fetchNextPageCampaigns,
     hasNextPage: hasNextPageCampaigns,
     refetch: refetchCampaigns,
-  } = useInfiniteQueryWithScope('campaigns', pageParams => getPhoningCampaignsQuery(pageParams, visibilityParam), {
-    getNextPageParam,
-    onError: handleError,
-  })
+  } = useInfiniteQueryWithScope(
+    'campaigns',
+    pageParams => getPhoningCampaignsQuery(pageParams, isNational ? roles.national : roles.local),
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
   const campaigns = usePaginatedData(paginatedCampaigns)
 
   const { data: campaignDetail = {} } = useQueryWithScope(
