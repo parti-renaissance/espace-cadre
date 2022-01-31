@@ -19,7 +19,7 @@ import Surveys from 'components/Surveys'
 import MyTeam from 'components/MyTeam'
 import NoMatch from 'components/NoMatch'
 
-const AppRoutes = () => {
+const AppPrivateRoutes = () => {
   const location = useLocation()
   const authorizedPages = useSelector(getAuthorizedPages)
 
@@ -45,4 +45,4 @@ const AppRoutes = () => {
   )
 }
 
-export default AppRoutes
+export default AppPrivateRoutes
