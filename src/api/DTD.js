@@ -38,7 +38,7 @@ export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
 
   const campaigns = data.items.map(c => {
     const score = new DTDCampaignItemScore(c.nb_surveys, c.goal)
-    return new DTDCampaignItem(c.uuid, new Date(c.finish_at), c.title, score)
+    return new DTDCampaignItem(c.uuid, new Date(c.begin_at), new Date(c.finish_at), c.title, score)
   })
 
   return newPaginatedResult(campaigns, data.metadata)

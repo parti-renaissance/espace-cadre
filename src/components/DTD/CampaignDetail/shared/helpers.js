@@ -1,6 +1,23 @@
-import { multipleChoice, simpleField, uniqueChoice } from './constants'
+import { isBefore } from 'date-fns'
+import { chipLabelByStatus, chipColorsByStatus, multipleChoice, simpleField, uniqueChoice } from './constants'
+
+const today = new Date()
 
 export const secondsToMinutes = seconds => (Number.isInteger(seconds) ? `${Math.floor(seconds / 60)} min` : null)
+
+export const chipColorsByDate = (startDate, endDate) => {
+  if (isBefore(today, startDate)) return chipColorsByStatus.tocome
+  if (isBefore(today, endDate)) return chipColorsByStatus.ongoing
+  return chipColorsByStatus.finished
+}
+
+export const chipLabelByDate = (startDate, endDate) => {
+  const today = new Date()
+
+  if (isBefore(today, startDate)) return chipLabelByStatus.tocome
+  if (isBefore(today, endDate)) return chipLabelByStatus.ongoing
+  return chipLabelByStatus.finished
+}
 
 export const surveysColumnsStyles = {
   called: {

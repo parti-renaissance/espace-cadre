@@ -81,6 +81,7 @@ const DTD = () => {
               {campaigns.map(campaign => (
                 <CampaignItem
                   key={campaign.id}
+                  startDate={campaign.startDate}
                   endDate={campaign.endDate}
                   title={campaign.title}
                   author={campaign.author}
