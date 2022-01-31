@@ -1,20 +1,20 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { isUserLogged, getUserScopes, getCurrentUser } from '../../redux/user/selectors'
+import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
 import { useUserScope } from '../../redux/user/hooks'
 import ScopesPage from 'components/Scopes/ScopesPage'
 import BootPage from 'components/BootPage'
 import Auth from 'components/Auth'
-import Sidebar from 'components/Sidebar/Sidebar'
 import { publicPaths } from 'shared/paths'
-import ErrorBoundary from '../../providers/errorboundary'
 import Signup from 'components/Signup/Signup'
 import SignupConfirm from 'components/Signup/SignupConfirm'
 import LegalContainer from '../Signup/components/LegalContainer'
-import { Ppd, CGUWeb, CGUMobile, CookiesWeb, CookiesMobile } from '../Signup/constants'
+import { CGUMobile, CGUWeb, CookiesMobile, CookiesWeb, Ppd } from '../Signup/constants'
+import Sidebar from 'components/Sidebar/Sidebar'
+import ErrorBoundary from 'providers/errorboundary'
 
 const publicPathsArray = [
   publicPaths.signup,
@@ -26,7 +26,7 @@ const publicPathsArray = [
   publicPaths.cookiesMobile,
 ]
 
-const Layout = ({ children }) => {
+const PrivatePages = ({ children }) => {
   const initializeAuth = useInitializeAuth()
   const { pathname } = useLocation()
   const isUserLoggedIn = useSelector(isUserLogged)
@@ -45,14 +45,6 @@ const Layout = ({ children }) => {
     }
   }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
 
-  if (pathname === publicPaths.signup) return <Signup />
-  if (pathname === publicPaths.signupConfirm) return <SignupConfirm />
-  if (pathname === publicPaths.auth) return <Auth />
-  if (pathname === publicPaths.ppd) return <LegalContainer type={Ppd} />
-  if (pathname === publicPaths.cguWeb) return <LegalContainer type={CGUWeb} />
-  if (pathname === publicPaths.cguMobile) return <LegalContainer type={CGUMobile} />
-  if (pathname === publicPaths.cookiesWeb) return <LegalContainer type={CookiesWeb} />
-  if (pathname === publicPaths.cookiesMobile) return <LegalContainer type={CookiesMobile} />
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
 
@@ -63,8 +55,25 @@ const Layout = ({ children }) => {
   )
 }
 
-export default Layout
-
-Layout.propTypes = {
+const AllPages = ({ children }) => (
+  <Routes>
+    <Route path={publicPaths.signup} element={<Signup />} />
+    <Route path={publicPaths.signupConfirm} element={<SignupConfirm />} />
+    <Route path={publicPaths.auth} element={<Auth />} />
+    <Route path={publicPaths.ppd} element={<LegalContainer type={Ppd} />} />
+    <Route path={publicPaths.cguWeb} element={<LegalContainer type={CGUWeb} />} />
+    <Route path={publicPaths.cguMobile} element={<LegalContainer type={CGUMobile} />} />
+    <Route path={publicPaths.cookiesWeb} element={<LegalContainer type={CookiesWeb} />} />
+    <Route path={publicPaths.cookiesMobile} element={<LegalContainer type={CookiesMobile} />} />
+    <Route path="*" element={<PrivatePages>{children}</PrivatePages>} />
+  </Routes>
+)
+AllPages.propTypes = {
   children: PropTypes.instanceOf(Object).isRequired,
 }
+
+PrivatePages.propTypes = {
+  children: PropTypes.instanceOf(Object).isRequired,
+}
+
+export default AllPages
