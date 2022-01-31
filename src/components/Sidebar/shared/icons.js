@@ -8,18 +8,20 @@ import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded'
 import ListIcon from '@mui/icons-material/List'
 import StarRoundedIcon from '@mui/icons-material/StarRounded'
 
-import MicIcon from '../../../ui/icons/MicIccon'
+import MicIcon from 'ui/icons/MicIccon'
+import ScheduleIcon from 'ui/icons/ScheduleIcon'
 
 export default {
   dashboard: DashboardRoundedIcon,
-  activists: PeopleRoundedIcon,
-  messagerie: EmailRoundedIcon,
+  contacts: PeopleRoundedIcon,
+  messages: EmailRoundedIcon,
   elections: MapRoundedIcon,
   ripostes: PostAddRoundedIcon,
-  groups: StarRoundedIcon,
+  team: StarRoundedIcon,
   news: RssFeedIcon,
-  phoning: LocalPhoneRoundedIcon,
-  DTD: MicIcon,
-  surveys: ListIcon,
-  myTeam: StarRoundedIcon,
+  phoning_campaign: LocalPhoneRoundedIcon,
+  pap: MicIcon,
+  survey: ListIcon,
+  my_team: StarRoundedIcon,
+  events: ScheduleIcon,
 }

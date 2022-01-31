@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Grid, Typography } from '@mui/material'
 import styled from '@emotion/styled'
 
-import allFeatures from '../../../shared/features'
+import { featuresLabels } from 'shared/features'
 import { getAuthorizedPages } from '../../../redux/user/selectors'
 import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
@@ -45,8 +45,11 @@ const messages = {
 const skippedFeatures = ['mobile_app']
 
 const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeatures }) => {
-  const pages = useSelector(getAuthorizedPages)
-  const features = useMemo(() => pages.filter(p => !skippedFeatures.includes(p)), [pages])
+  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const features = useMemo(
+    () => authorizedFeatures.filter(feature => !skippedFeatures.includes(feature)),
+    [authorizedFeatures]
+  )
 
   return (
     <>
@@ -64,7 +67,7 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
               <Feature
                 key={key}
                 name={key}
-                label={allFeatures[key]}
+                label={featuresLabels[key]}
                 value={delegatedFeatures.includes(key)}
                 handleChange={updateDelegatedFeatures}
               />
@@ -76,7 +79,7 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
                   <Feature
                     key={key}
                     name={key}
-                    label={allFeatures[key]}
+                    label={featuresLabels[key]}
                     value={delegatedFeatures.includes(key)}
                     handleChange={updateDelegatedFeatures}
                   />
@@ -87,7 +90,7 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
                   <Feature
                     key={key}
                     name={key}
-                    label={allFeatures[key]}
+                    label={featuresLabels[key]}
                     value={delegatedFeatures.includes(key)}
                     handleChange={updateDelegatedFeatures}
                   />

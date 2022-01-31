@@ -1,15 +1,15 @@
 export default {
   dashboard: '/',
-  activists: '/militants',
-  messagerie: '/messagerie',
+  contacts: '/militants',
+  messages: '/messagerie',
   elections: '/elections',
   ripostes: '/ripostes',
-  groups: '/groupes',
+  team: '/groupes',
   news: '/actualites',
-  phoning: '/phoning',
-  DTD: '/porte-a-porte',
-  surveys: '/questionnaires',
-  myTeam: '/mon-equipe',
+  phoning_campaign: '/phoning',
+  pap: '/porte-a-porte',
+  survey: '/questionnaires',
+  my_team: '/mon-equipe',
   events: '/evenements',
 }
 
