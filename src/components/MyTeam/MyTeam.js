@@ -11,7 +11,6 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
-import EditIcon from 'ui/icons/EditIcon'
 import EmptyContent from 'ui/EmptyContent'
 import MyTeamMember from './MyTeamMember'
 import CreateEdit from './CreateEdit/CreateEdit'
@@ -73,24 +72,21 @@ const MyTeam = () => {
     setIsCreateEditModalOpen(false)
   }
 
+  if (!myTeam.members) return null
+
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <>
-        {!myTeam.members ||
-          (myTeam.members.length === 0 && (
-            <EmptyContent
-              description={messages.emptyTeam}
-              action={
-                <>
-                  <PageHeaderButton
-                    label={messages.create}
-                    icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-                    onClick={() => setIsCreateEditModalOpen(true)}
-                  />
-                </>
-              }
-            />
-          ))}
+        {myTeam.members && myTeam.members.length === 0 && (
+          <EmptyContent
+            description={messages.emptyTeam}
+            action={
+              <>
+                <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />
+              </>
+            }
+          />
+        )}
 
         {myTeam.members && myTeam.members.length > 0 && (
           <>
@@ -98,11 +94,9 @@ const MyTeam = () => {
               <PageHeader
                 title={<PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>}
                 button={
-                  <PageHeaderButton
-                    label={messages.create}
-                    icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-                    onClick={() => setIsCreateEditModalOpen(true)}
-                  />
+                  <>
+                    <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />
+                  </>
                 }
               />
             </Grid>
