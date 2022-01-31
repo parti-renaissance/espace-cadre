@@ -161,7 +161,7 @@ export const styles = {
         background: '#DA1414',
       },
     },
-    upcoming: {
+    emptyContent: {
       icon: '#4338CA',
       title: '#2834C3',
       description: '#1F2937',
