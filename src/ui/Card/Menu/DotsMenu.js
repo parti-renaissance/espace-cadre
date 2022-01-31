@@ -74,7 +74,7 @@ const DotsMenu = ({ children }) => {
           horizontal: 'center',
         }}
       >
-        {React.Children.map(children, c => React.cloneElement(c, { closeMenu: handleClose }))}
+        {React.Children.map(children, c => c && React.cloneElement(c, { closeMenu: handleClose }))}
       </Menu>
     </Wrapper>
   )

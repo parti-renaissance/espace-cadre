@@ -18,6 +18,7 @@ import DTD from 'components/DTD'
 import Surveys from 'components/Surveys'
 import MyTeam from 'components/MyTeam'
 import NoMatch from 'components/NoMatch'
+import Events from 'components/events/Events'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -36,6 +37,7 @@ const AppPrivateRoutes = () => {
         <Route path={paths.ripostes} element={authorizedPages.includes(pages.ripostes) && <Ripostes />} />
         <Route path={`${paths.groups}/*`} element={authorizedPages.includes(pages.groups) && <Groups />} />
         <Route path={paths.news} element={authorizedPages.includes(pages.news) && <News />} />
+        <Route path={paths.events} element={<Events />} />
         <Route path={`${paths.phoning}/*`} element={authorizedPages.includes(pages.phoning) && <Phoning />} />
         <Route path={`${paths.DTD}/*`} element={authorizedPages.includes(pages.DTD) && <DTD />} />
         <Route path={`${paths.surveys}/*`} element={authorizedPages.includes(pages.surveys) && <Surveys />} />

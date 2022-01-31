@@ -52,7 +52,7 @@
     "test": "jest",
     "test-coverage": "jest src --coverage",
     "test:cy": "cypress open",
-    "lint": "eslint './src/**/*.{js,jsx}' --ignore-path .gitignore",
+    "lint": "eslint './src/**/*.js' --ignore-path .gitignore",
     "lint:fix": "yarn run lint --fix",
     "prepare": "husky install"
   },
@@ -107,13 +107,14 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.js": "babel-jest"
     },
     "testMatch": [
       "<rootDir>/**/*.test.js"
     ],
     "moduleNameMapper": {
       "^(api)/(.*)$": "<rootDir>/src/$1/$2",
+      "^(assets)/(.*)$": "<rootDir>/src/$1/mock",
       "^(components)/(.*)$": "<rootDir>/src/$1/$2",
       "^(domain)/(.*)$": "<rootDir>/src/$1/$2",
       "^(providers)/(.*)$": "<rootDir>/src/$1/$2",
