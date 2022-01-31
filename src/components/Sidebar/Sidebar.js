@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { styled } from '@mui/system'
 import { Box, AppBar as MuiAppBar, Toolbar } from '@mui/material'
@@ -6,12 +7,11 @@ import { useSelector } from 'react-redux'
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import Mobile from './Mobile'
 import Desktop from './Desktop'
-import pages from 'shared/authorizedPages'
 import paths from 'shared/paths'
+import features, { featuresLabels } from 'shared/features'
 import icons from 'components/Sidebar/shared/icons'
 import colors from 'components/Sidebar/shared/colors'
 import Branding from './Branding'
-import PropTypes from 'prop-types'
 
 const drawerWidth = 275
 
@@ -25,16 +25,17 @@ const AppBar = styled(MuiAppBar)(
 `
 )
 
-const navInfo = id => ({
-  path: paths[id],
-  icon: icons[id],
-  color: colors[id].color,
-  bgcolor: colors[id].bgColor,
+const navInfo = featureId => ({
+  path: paths[featureId],
+  icon: icons[featureId],
+  color: colors[featureId].color,
+  bgcolor: colors[featureId].bgColor,
+  label: featuresLabels[featureId],
 })
 
 const Sidebar = ({ children, window }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const authorizedPages = useSelector(getAuthorizedPages)
+  const authorizedFeatures = useSelector(getAuthorizedPages)
   const container = window !== undefined ? () => window().document.body : undefined
 
   const handleDrawerToggle = () => {
@@ -43,17 +44,18 @@ const Sidebar = ({ children, window }) => {
 
   const drawer = (
     <div>
-      {authorizedPages.includes(pages.dashboard) && <NavItem label="Vue d'ensemble" {...navInfo('dashboard')} />}
-      {authorizedPages.includes(pages.activists) && <NavItem label="Militants" {...navInfo('activists')} />}
-      {authorizedPages.includes(pages.messagerie) && <NavItem label="Messagerie" {...navInfo('messagerie')} />}
-      {authorizedPages.includes(pages.elections) && <NavItem label="&Eacute;lections" {...navInfo('elections')} />}
-      {authorizedPages.includes(pages.ripostes) && <NavItem label="Riposte" {...navInfo('ripostes')} />}
-      {authorizedPages.includes(pages.groups) && <NavItem label="Groupes" {...navInfo('groups')} />}
-      {authorizedPages.includes(pages.news) && <NavItem label="Actualités" {...navInfo('news')} />}
-      {authorizedPages.includes(pages.phoning) && <NavItem label="Phoning" {...navInfo('phoning')} />}
-      {authorizedPages.includes(pages.DTD) && <NavItem label="Porte à porte" {...navInfo('DTD')} />}
-      {authorizedPages.includes(pages.surveys) && <NavItem label="Questionnaires" {...navInfo('surveys')} />}
-      {authorizedPages.includes(pages.myTeam) && <NavItem label="Mon équipe" {...navInfo('myTeam')} />}
+      {authorizedFeatures.includes(features.dashboard) && <NavItem {...navInfo(features.dashboard)} />}
+      {authorizedFeatures.includes(features.contacts) && <NavItem {...navInfo(features.contacts)} />}
+      {authorizedFeatures.includes(features.messages) && <NavItem {...navInfo(features.messages)} />}
+      {authorizedFeatures.includes(features.elections) && <NavItem {...navInfo(features.elections)} />}
+      {authorizedFeatures.includes(features.ripostes) && <NavItem {...navInfo(features.ripostes)} />}
+      {authorizedFeatures.includes(features.team) && <NavItem {...navInfo(features.team)} />}
+      {authorizedFeatures.includes(features.news) && <NavItem {...navInfo(features.news)} />}
+      {authorizedFeatures.includes(features.events) && <NavItem {...navInfo(features.events)} />}
+      {authorizedFeatures.includes(features.survey) && <NavItem {...navInfo(features.survey)} />}
+      {authorizedFeatures.includes(features.phoning_campaign) && <NavItem {...navInfo(features.phoning_campaign)} />}
+      {authorizedFeatures.includes(features.pap) && <NavItem {...navInfo(features.pap)} />}
+      {authorizedFeatures.includes(features.my_team) && <NavItem {...navInfo(features.my_team)} />}
     </div>
   )
   return (

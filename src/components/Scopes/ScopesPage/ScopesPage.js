@@ -130,7 +130,7 @@ function ScopesPage() {
       {filteredScopes?.length > 0 && (
         <Grid container sx={{ p: 2 }} spacing={2} justifyContent="center">
           {filteredScopes.map(userScope => {
-            const to = userScope.code === 'phoning_national_manager' ? paths.groups : paths.dashboard
+            const to = userScope.code === 'phoning_national_manager' ? paths.team : paths.dashboard
             return (
               <ScopeCard item xs={12} md={3} lg={2} key={userScope.code}>
                 <Link to={to} value={userScope.code} onClick={() => updateCurrentScope(userScope)}>
