@@ -56,6 +56,10 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
       <Grid container direction="column" sx={{ pt: 4 }}>
         <Grid item>
           <Title sx={{ color: 'gray800' }}>{messages.title}</Title>
+          &nbsp;
+          <Title sx={{ pt: 1, color: 'gray800' }} suffix>
+            {messages.titleSuffix}
+          </Title>
         </Grid>
         <Description sx={{ pt: 1, color: 'form.label.color' }}>{messages.description}</Description>
       </Grid>
