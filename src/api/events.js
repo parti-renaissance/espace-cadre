@@ -100,10 +100,9 @@ export const formatCategories = rawCategories => {
   }, {})
 
   return Object.keys(categoriesByGroup).map(eventGroupSlug => {
-    const eventGroupCategory = rawCategories.find(
-      c => c.event_group_category.slug === eventGroupSlug
-    ).event_group_category
-    return new EventGroupCategory(eventGroupCategory.slug, eventGroupCategory.name, categoriesByGroup[eventGroupSlug])
+    const eventGroupCategory = rawCategories.find(c => c.event_group_category.slug === eventGroupSlug)
+    const { slug, name } = eventGroupCategory.event_group_category
+    return new EventGroupCategory(slug, name, categoriesByGroup[eventGroupSlug])
   })
 }
 

@@ -3,33 +3,34 @@ import { EventCategory, EventGroupCategory } from 'domain/event'
 
 jest.mock()
 describe('events', () => {
+  const rawCategories = [
+    {
+      event_group_category: {
+        name: 'Groupe 1',
+        slug: 'group1',
+      },
+      name: 'category 1',
+      slug: 'category1',
+    },
+    {
+      event_group_category: {
+        name: 'Groupe 1',
+        slug: 'group1',
+      },
+      name: 'category 2',
+      slug: 'category2',
+    },
+    {
+      event_group_category: {
+        name: 'Groupe 2',
+        slug: 'group2',
+      },
+      name: 'category 3',
+      slug: 'category3',
+    },
+  ]
+
   it('getCategories', () => {
-    const rawCategories = [
-      {
-        event_group_category: {
-          name: 'Groupe 1',
-          slug: 'group1',
-        },
-        name: 'category 1',
-        slug: 'category1',
-      },
-      {
-        event_group_category: {
-          name: 'Groupe 1',
-          slug: 'group1',
-        },
-        name: 'category 2',
-        slug: 'category2',
-      },
-      {
-        event_group_category: {
-          name: 'Groupe 2',
-          slug: 'group2',
-        },
-        name: 'category 3',
-        slug: 'category3',
-      },
-    ]
     const result = formatCategories(rawCategories)
 
     expect(result).toEqual([

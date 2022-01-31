@@ -3,12 +3,18 @@ import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import GroupIcon from '@mui/icons-material/Group'
 import { Box, Typography } from '@mui/material'
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import MuiCalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import { fr } from 'date-fns/locale'
 import RoomIcon from '@mui/icons-material/Room'
 import { TruncatedText } from 'components/shared/styled'
 import { Event } from 'domain/event'
 import noImage from 'assets/no-image.png'
+
+const CalendarTodayIcon = styled(MuiCalendarTodayIcon)`
+  margin-right: ${({ theme }) => theme.spacing(1)};
+  font-size: 16px;
+  font-weight: 500;
+`
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -47,6 +53,12 @@ const NoImageContainer = styled('div')`
   align-items: center;
 `
 
+const BeginAtTypography = styled(Typography)`
+  color: ${({ theme }) => theme.palette.gray600};
+  display: flex;
+  align-self: center;
+`
+
 export const formatAddress = ({ address, postalCode, city }) =>
   [address, address && ', ', postalCode, postalCode && ' ', city].filter(Boolean).join('')
 
@@ -77,10 +89,10 @@ const Header = ({ event }) => (
     </HorizontalContainer>
     <Title subject={event.name} author={`Par ${event.organizer}`} sx={{ pt: 1 }} />
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
-      <CalendarTodayIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500' }} />
-      <Typography variant="subtitle2" sx={{ color: 'gray600', display: 'flex', alignSelf: 'center' }}>
+      <CalendarTodayIcon />
+      <BeginAtTypography variant="subtitle2">
         {format(event.beginAt, 'd MMM yyyy HH:mm', { locale: fr })}
-      </Typography>
+      </BeginAtTypography>
     </Box>
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500' }} />
