@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import { addGroupMemberQuery, deleteGroupMemberQuery, getGroupQuery } from 'api/groups'
 import { activistAutocompleteUri } from 'api/activist'
@@ -12,7 +12,6 @@ import MemberCard from './MemberCard'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import { Link } from 'react-router-dom'
 import paths from '../../shared/paths'
 
 const PageTitle = styled(Typography)`
