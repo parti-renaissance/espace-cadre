@@ -10,6 +10,8 @@ import SurveyDetailReplies from './SurveyDetailReplies'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
+import { Link } from 'react-router-dom'
+import paths from 'shared/paths'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -49,7 +51,9 @@ export const SurveyDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>
+              <PageTitle sx={{ color: 'campaigncolor' }}>
+                <Link to={paths.survey}>{messages.pageTitle}</Link>
+              </PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
               <PageTitle sx={{ color: 'gray800' }}>{surveyDetail.title}</PageTitle>
             </>

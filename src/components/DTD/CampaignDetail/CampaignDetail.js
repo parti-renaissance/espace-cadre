@@ -20,6 +20,8 @@ import CampaignDetailSurveys from './CampaignDetailSurveys'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+import { Link } from 'react-router-dom'
+import paths from 'shared/paths'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -111,7 +113,9 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'campaign.color' }}>{messages.pageTitle}</PageTitle>
+              <PageTitle sx={{ color: 'campaign.color' }}>
+                <Link to={paths.pap}>{messages.pageTitle}</Link>
+              </PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
               <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>
             </>
