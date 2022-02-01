@@ -7,7 +7,6 @@ import Branding from './Branding'
 import Footer from './Footer'
 
 const Drawer = styled(MuiDrawer)`
-  position: relative;
   & .MuiDrawer-paper {
     background: ${({ theme }) => theme.palette.menu.background.main};
   }
