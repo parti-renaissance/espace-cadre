@@ -12,7 +12,7 @@ import MemberCard from './MemberCard'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import paths from '../../shared/paths'
+import paths from 'shared/paths'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;

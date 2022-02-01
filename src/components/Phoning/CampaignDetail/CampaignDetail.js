@@ -24,7 +24,7 @@ import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import EditIcon from 'ui/icons/EditIcon'
 import { Link } from 'react-router-dom'
-import paths from '../../../shared/paths'
+import paths from 'shared/paths'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;

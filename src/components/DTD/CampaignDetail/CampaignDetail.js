@@ -21,7 +21,7 @@ import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { Link } from 'react-router-dom'
-import paths from '../../../shared/paths'
+import paths from 'shared/paths'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;

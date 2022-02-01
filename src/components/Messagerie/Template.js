@@ -11,7 +11,7 @@ import { createMessageContent, updateMessageContent } from 'api/messagerie'
 import PropTypes from 'prop-types'
 import messageriePaths from './shared/paths'
 import * as Sentry from '@sentry/react'
-import paths from '../../shared/paths'
+import paths from 'shared/paths'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
