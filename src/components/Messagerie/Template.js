@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Grid, TextField } from '@mui/material'
 import { styled } from '@mui/system'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
@@ -9,8 +9,9 @@ import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
 import { createMessageContent, updateMessageContent } from 'api/messagerie'
 import PropTypes from 'prop-types'
-import paths from 'components/Messagerie/shared/paths'
+import messageriePaths from './shared/paths'
 import * as Sentry from '@sentry/react'
+import paths from '../../shared/paths'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -32,7 +33,8 @@ const Container = styled(Grid)(
 )
 
 const messages = {
-  title: 'Messagerie > Créer un message',
+  title: 'Messagerie',
+  titleSuffix: 'Créer un message',
   createSuccess: 'Message créé avec succès',
   updateSuccess: 'Message modifié avec succès',
 }
@@ -65,7 +67,7 @@ const Template = ({ modeUpdate = false }) => {
       const body = await editEmail()
       setMessage(body)
       enqueueSnackbar(modeUpdate ? messages.updateSuccess : messages.createSuccess, notifyVariants.success)
-      modeUpdate ? navigate(`../${paths.filter}`) : navigate(`../${body.uuid}/${paths.filter}`)
+      modeUpdate ? navigate(`../${messageriePaths.filter}`) : navigate(`../${body.uuid}/${messageriePaths.filter}`)
     } catch (e) {
       Sentry.captureException(e)
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
@@ -74,7 +76,9 @@ const Template = ({ modeUpdate = false }) => {
 
   return (
     <>
-      <Title>{messages.title}</Title>
+      <Title>
+        <Link to={paths.messagerie}>{messages.title}</Link> &gt; {messages.titleSuffix}
+      </Title>
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
           <TextField
