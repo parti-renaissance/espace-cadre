@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getPhoningGlobalKPIQuery, getPhoningCampaignsQuery, getPhoningCampaignQuery } from 'api/phoning'
+import { getPhoningCampaignQuery, getPhoningCampaignsQuery } from 'api/phoning'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
 import CampaignItem from './Campaign/CampaignItem'
@@ -59,10 +59,6 @@ const Phoning = () => {
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes?.includes(currentScope?.code), [currentScope?.code])
-
-  const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getPhoningGlobalKPIQuery(), {
-    onError: handleError,
-  })
 
   const {
     data: paginatedCampaigns = null,
@@ -120,9 +116,7 @@ const Phoning = () => {
       </Grid>
 
       <Grid container justifyContent="space-between">
-        {Object.keys(globalKPI).length > 0 && (
-          <CampaignGlobalKPI campaigns={globalKPI.campaigns} surveys={globalKPI.surveys} calls={globalKPI.calls} />
-        )}
+        <CampaignGlobalKPI />
       </Grid>
 
       <Grid

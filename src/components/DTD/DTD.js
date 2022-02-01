@@ -3,9 +3,9 @@ import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getDTDGlobalKPIQuery, getDTDCampaignsQuery } from 'api/DTD'
+import { getDTDCampaignsQuery } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
 import CampaignItem from './Campaign/CampaignItem'
@@ -35,10 +35,6 @@ const DTD = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
 
-  const { data: globalKPI = {} } = useQueryWithScope('globalKPI', () => getDTDGlobalKPIQuery(), {
-    onError: handleError,
-  })
-
   const {
     data: paginatedCampaigns = null,
     fetchNextPage: fetchNextPageCampaigns,
@@ -60,9 +56,7 @@ const DTD = () => {
       </Grid>
 
       <Grid container justifyContent="space-between">
-        {Object.keys(globalKPI).length > 0 && (
-          <CampaignGlobalKPI campaigns={globalKPI.campaigns} surveys={globalKPI.surveys} doors={globalKPI.calls} />
-        )}
+        <CampaignGlobalKPI />
       </Grid>
 
       <Grid container justifyContent="space-between" sx={{ pt: 4, ...infiniteScrollStylesOverrides }}>

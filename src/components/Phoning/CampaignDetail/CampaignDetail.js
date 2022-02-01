@@ -47,7 +47,6 @@ const messages = {
   pageTitle: 'Phoning',
   modify: 'modifier',
   surveysTitle: 'Questionnaires',
-  KPITitle: 'Indicateurs',
   callers: { id: 'callers', label: 'appelant' },
   history: { id: 'history', label: 'appel' },
   surveys: { id: 'survey', label: 'questionnaire' },
