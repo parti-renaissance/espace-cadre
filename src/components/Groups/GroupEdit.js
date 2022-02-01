@@ -100,7 +100,7 @@ const GroupEdit = () => {
       <Grid container>
         <Grid item sx={{ mb: 2 }}>
           <PageTitle>
-            <Link to={paths.groups}>{messages.group}</Link> &gt; {group?.name}
+            <Link to={paths.team}>{messages.group}</Link> &gt; {group?.name}
           </PageTitle>
         </Grid>
       </Grid>

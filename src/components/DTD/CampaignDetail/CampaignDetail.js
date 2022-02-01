@@ -114,7 +114,7 @@ export const CampaignDetail = () => {
           title={
             <>
               <PageTitle sx={{ color: 'campaign.color' }}>
-                <Link to={paths.DTD}>{messages.pageTitle}</Link>
+                <Link to={paths.pap}>{messages.pageTitle}</Link>
               </PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
               <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>

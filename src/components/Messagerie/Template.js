@@ -77,7 +77,7 @@ const Template = ({ modeUpdate = false }) => {
   return (
     <>
       <Title>
-        <Link to={paths.messagerie}>{messages.title}</Link> &gt; {messages.titleSuffix}
+        <Link to={paths.messages}>{messages.title}</Link> &gt; {messages.titleSuffix}
       </Title>
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
