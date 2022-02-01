@@ -12,6 +12,8 @@ import MemberCard from './MemberCard'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import { Link } from 'react-router-dom'
+import paths from '../../shared/paths'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -99,7 +101,7 @@ const GroupEdit = () => {
       <Grid container>
         <Grid item sx={{ mb: 2 }}>
           <PageTitle>
-            {messages.group} &gt; {group?.name}
+            <Link to={paths.groups}>{messages.group}</Link> &gt; {group?.name}
           </PageTitle>
         </Grid>
       </Grid>
