@@ -23,7 +23,7 @@ const CampaignGlobalKPI = () => {
   } = useQueryWithScope(['phoning', 'globalKPI'], () => getPhoningGlobalKPIQuery(), {})
 
   return (
-    <KPIs isLoading={isLoading} error={isError && messages.errorLoading} data-cy="phoning-campaigns-KPI">
+    <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>
       {!isLoading && !isError && (
         <>
           <KpiCard

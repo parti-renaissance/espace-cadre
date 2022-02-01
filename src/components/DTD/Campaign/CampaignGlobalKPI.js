@@ -24,7 +24,7 @@ const DTDGlobalKPI = () => {
   } = useQueryWithScope(['DTD', 'globalKPI'], () => getDTDGlobalKPIQuery(), {})
 
   return (
-    <KPIs isLoading={isLoading} error={isError && messages.errorLoading} data-cy="phoning-campaigns-KPI">
+    <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>
       {!isLoading && !isError && (
         <>
           <KpiCard

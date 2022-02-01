@@ -59,7 +59,7 @@ const LoaderContainer = styled(props => <Grid item xs={12} {...props} />)`
 `
 
 export const KpiCard = ({ main, title, subtitle }) => (
-  <CardContainer item xs={12} sm={6} lg={3}>
+  <CardContainer item xs={12} sm={6} lg={3} data-cy="KPICard">
     <UIContainer rootProps={{ sx: { p: 2 } }}>
       <MainInfo component="div">{main}</MainInfo>
       <MainText component="div">{title}</MainText>
@@ -74,7 +74,7 @@ KpiCard.propTypes = {
 }
 
 export const KpiProgressCard = ({ title, count, total }) => (
-  <CardContainer item xs={12} sm={6} lg={3}>
+  <CardContainer item xs={12} sm={6} lg={3} data-cy="KPICard">
     <UIContainer
       rootProps={{
         sx: { p: 2, display: 'flex', flexDirection: 'column', height: '134px', justifyContent: 'space-between' },
@@ -112,7 +112,7 @@ export const KPIs = ({ title = messages.kpi, children, isLoading = false, error 
   }
 
   return (
-    <KPIContainer container>
+    <KPIContainer container data-cy="KPI">
       <Grid container>
         <Grid item xs={12} sx={{ m: 2 }}>
           <KPITitle>{title}</KPITitle>

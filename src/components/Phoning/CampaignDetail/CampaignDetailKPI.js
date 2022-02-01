@@ -25,7 +25,7 @@ const CampaignDetailKPI = ({ remaining, surveys, calls, averageTime }) => {
   const daysRemaining = differenceInCalendarDays(remaining.endDate, new Date()) || 0
 
   return (
-    <KPIs data-cy="phoning-campaign-detail-KPI">
+    <KPIs>
       <>
         <KpiCard
           main={daysRemaining <= 0 ? 0 : daysRemaining}

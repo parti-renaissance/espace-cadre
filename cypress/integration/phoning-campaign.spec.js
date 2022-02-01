@@ -7,7 +7,8 @@ const HeaderCell = 'thead>tr>th'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
 const PageHeaderButton = '[data-cy="ui-page-header-button"]'
 const CTAButton = '[data-cy="phoning-action-view"]'
-const KPI = '[data-cy="phoning-campaign-detail-KPI"]'
+const KPI = '[data-cy="KPI"]'
+const KPICard = '[data-cy="KPICard"]'
 const Callers = '[data-cy="phoning-campaign-detail-callers"]'
 const History = '[data-cy="phoning-campaign-detail-history"]'
 const Surveys = '[data-cy="phoning-campaign-detail-surveys"]'
@@ -57,7 +58,7 @@ describe('PHONING > Campaign Detail', () => {
     })
 
     it('should have 4 cards', () => {
-      cy.get(KPI).find('>div').eq(1).children().should('have.length', 4)
+      cy.get(KPI).find(KPICard).should('have.length', 4)
     })
   })
 
