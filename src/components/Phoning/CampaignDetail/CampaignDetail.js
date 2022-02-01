@@ -23,6 +23,8 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import EditIcon from 'ui/icons/EditIcon'
+import { Link } from 'react-router-dom'
+import paths from '../../../shared/paths'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
@@ -111,7 +113,9 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>
+              <PageTitle sx={{ color: 'campaigncolor' }}>
+                <Link to={paths.phoning}>{messages.pageTitle}</Link>
+              </PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
               <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>
             </>
