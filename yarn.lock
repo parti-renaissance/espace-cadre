@@ -1619,10 +1619,10 @@
     jss-plugin-vendor-prefixer "^10.8.2"
     prop-types "^15.7.2"
 
-"@mui/system@5.3.0", "@mui/system@^5.3.0":
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.3.0.tgz#cd2c5fd7631f2c90f0072c866015bb24e319b66e"
-  integrity sha512-mblz3EObrhhIMPwSEe2Az7MbMaXOFgrvItPOzZwcY5O9qERB7Rr8KQgbU8VouWLUqyV2i8BaFpLrkKPA6eX2Aw==
+"@mui/system@5.4.0", "@mui/system@^5.3.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.0.tgz#ff79c4922b8cea8c6e05946587fa9a3b938ab729"
+  integrity sha512-LX7g5gK5yCwiueSUVG73uVNc0yeHjsWUIFLrnPjP3m+J7O38RkPqyao5nZahhaSL1PGNbR9+zfkxljXthO9QqA==
   dependencies:
     "@babel/runtime" "^7.16.7"
     "@mui/private-theming" "^5.3.0"
@@ -6550,7 +6550,7 @@ jest-watcher@^27.4.6:
     jest-util "^27.4.2"
     string-length "^4.0.1"
 
-jest-worker@^27.4.1, jest-worker@^27.4.6:
+jest-worker@^27.4.5, jest-worker@^27.4.6:
   version "27.4.6"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.4.6.tgz#5d2d93db419566cb680752ca0792780e71b3273e"
   integrity sha512-gHWJF/6Xi5CTG5QCvROr6GcmpIqNYpDJyc8A1h/DyXqH1tD6SnRCM0d3U5msV31D2LB/U+E0M+W4oyvKV44oNw==
@@ -6886,10 +6886,10 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libphonenumber-js@1.9.46:
-  version "1.9.46"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.46.tgz#7ddae167654fb96306209b09e4a05cb7e41e0524"
-  integrity sha512-QqTX4UVsGy24njtCgLRspiKpxfRniRBZE/P+d0vQXuYWQ+hwDS6X0ouo0O/SRyf7bhhMCE71b6vAvLMtY5PfEw==
+libphonenumber-js@1.9.47:
+  version "1.9.47"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.47.tgz#0cb3d6a3dd8d917d364da48a5355bc3b1d145f5b"
+  integrity sha512-FIWFLJ2jUJi8SCztgd2k/isQHZedh7xuxOVifqFLwG/ogZtdH9TXFK92w/KWFj1lwoadqVedtLO3Jqp0q67PZw==
 
 lilconfig@2.0.4:
   version "2.0.4"
@@ -6901,10 +6901,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lint-staged@12.3.2:
-  version "12.3.2"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.3.2.tgz#c87fe59dca475b7d1cb56863c5faa03c145e1446"
-  integrity sha512-gtw4Cbj01SuVSfAOXC6ivd/7VKHTj51yj5xV8TgktFmYNMsZzXuSd5/brqJEA93v63wL7R6iDlunMANOechC0A==
+lint-staged@12.3.3:
+  version "12.3.3"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.3.3.tgz#0a465962fe53baa2b4b9da50801ead49a910e03b"
+  integrity sha512-OqcLsqcPOqzvsfkxjeBpZylgJ3SRG1RYqc9LxC6tkt6tNsq1bNVkAixBwX09f6CobcHswzqVOCBpFR1Fck0+ag==
   dependencies:
     cli-truncate "^3.1.0"
     colorette "^2.0.16"
@@ -9080,10 +9080,10 @@ sass-loader@12.4.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@1.49.4:
-  version "1.49.4"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.4.tgz#d2655e03e52b2212ab65d392bdef6d0931d8637c"
-  integrity sha512-xUU5ZlppOjgfEyIIcHpnmY+f+3/ieaadp25S/OqZ5+jBPeTAMJJblkhM6UD9jb4j/lzglz7VOL5kglYt+CvNdQ==
+sass@1.49.7:
+  version "1.49.7"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.7.tgz#22a86a50552b9b11f71404dfad1b9ff44c6b0c49"
+  integrity sha512-13dml55EMIR2rS4d/RDHHP0sXMY3+30e1TKsyXaSz3iLWVoDWEoboY8WzJd5JMnxrRHffKO3wq2mpJ0jxRJiEQ==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
@@ -9751,12 +9751,12 @@ terminal-link@^2.0.0:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
 
-terser-webpack-plugin@5.3.0, terser-webpack-plugin@^5.1.3:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.0.tgz#21641326486ecf91d8054161c816e464435bae9f"
-  integrity sha512-LPIisi3Ol4chwAaPP8toUJ3L4qCM1G0wao7L3qNv57Drezxj6+VEyySpPw4B1HSO2Eg/hDY/MNF5XihCAoqnsQ==
+terser-webpack-plugin@5.3.1, terser-webpack-plugin@^5.1.3:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.1.tgz#0320dcc270ad5372c1e8993fabbd927929773e54"
+  integrity sha512-GvlZdT6wPQKbDNW/GDQzZFg/j4vKU96yl2q6mcUkzKOgW4gwf1Z8cZToUCrz31XHlPWH8MVb1r2tFtdDtTGJ7g==
   dependencies:
-    jest-worker "^27.4.1"
+    jest-worker "^27.4.5"
     schema-utils "^3.1.1"
     serialize-javascript "^6.0.0"
     source-map "^0.6.1"
