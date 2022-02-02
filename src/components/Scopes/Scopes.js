@@ -49,6 +49,9 @@ const MenuItem = styled(MuiMenuItem, shouldForwardProps)`
         ? theme.palette.menu.background.active
         : theme.palette.menu.background.hover}
   },
+  &:first-child {
+    margin-top: ${({ theme }) => theme.spacing(1)};
+  }
 )`
 
 const Scope = styled(Typography)`
