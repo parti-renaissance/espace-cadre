@@ -1,6 +1,6 @@
 import { PhoningGlobalKPI as DomainPhoningGlobalKPI } from 'domain/phoning'
 import pluralize from 'components/shared/pluralize/pluralize'
-import { KpiCard, KPIs } from 'ui/Kpi/KPIs'
+import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getPhoningGlobalKPIQuery } from 'api/phoning'
 
@@ -26,17 +26,17 @@ const CampaignGlobalKPI = () => {
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>
       {!isLoading && !isError && (
         <>
-          <KpiCard
+          <KPICard
             main={campaigns.count}
             title={pluralize(campaigns.count, messages.campaign)}
             subtitle={`${messages.ongoingCampaignPrefix} ${campaigns.ongoing} ${messages.ongoingCampaignSuffix}`}
           />
-          <KpiCard
+          <KPICard
             main={surveys.count}
             title={pluralize(surveys.count, messages.survey)}
             subtitle={`${surveys.onAMonth} ${messages.surveyOnAMonth}`}
           />
-          <KpiCard
+          <KPICard
             main={calls.count}
             title={pluralize(calls.count, messages.call)}
             subtitle={`${calls.onAMonth} ${messages.callOnAMonth}`}

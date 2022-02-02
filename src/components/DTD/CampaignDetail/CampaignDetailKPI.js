@@ -2,7 +2,7 @@ import { differenceInCalendarDays, format } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
 import { DTDCampaignDetailKPI as DomainDTDCampaignDetailKPI } from 'domain/DTD'
-import { KpiCard, KPIs } from 'ui/Kpi/KPIs'
+import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 
 const messages = {
   day: 'Jour',
@@ -26,7 +26,7 @@ const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
   return (
     <KPIs>
       <>
-        <KpiCard
+        <KPICard
           main={daysRemaining <= 0 ? 0 : daysRemaining}
           title={`${pluralize(daysRemaining, messages.day)} ${pluralize(daysRemaining, messages.remaining)}`}
           subtitle={
@@ -38,8 +38,8 @@ const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
             )}`
           }
         />
-        <KpiCard main={surveys.count} title={pluralize(surveys.count, messages.surveys)} />
-        <KpiCard
+        <KPICard main={surveys.count} title={pluralize(surveys.count, messages.surveys)} />
+        <KPICard
           main={doors.knockedCount}
           title={`${pluralize(doors.knockedCount, messages.doors)} ${pluralize(
             doors.knockedCount,
@@ -53,7 +53,7 @@ const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
             )}`
           }
         />
-        <KpiCard
+        <KPICard
           main={contacts.collectedCount}
           title={`${pluralize(contacts.collectedCount, messages.contacts)} ${pluralize(
             contacts.collectedCount,

@@ -1,6 +1,6 @@
 import { DTDGlobalKPI as DomainDTDGlobalKPI } from 'domain/DTD'
 import pluralize from 'components/shared/pluralize/pluralize'
-import { KpiCard, KPIs } from 'ui/Kpi/KPIs'
+import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getDTDGlobalKPIQuery } from 'api/DTD'
 
@@ -27,17 +27,17 @@ const DTDGlobalKPI = () => {
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>
       {!isLoading && !isError && (
         <>
-          <KpiCard
+          <KPICard
             main={campaigns.count}
             title={pluralize(campaigns.count, messages.campaign)}
             subtitle={`${messages.ongoingCampaignPrefix} ${campaigns.ongoing} ${messages.ongoingCampaignSuffix}`}
           />
-          <KpiCard
+          <KPICard
             main={surveys.count}
             title={pluralize(surveys.count, messages.survey)}
             subtitle={`${surveys.onAMonth} ${messages.surveyOnAMonth}`}
           />
-          <KpiCard
+          <KPICard
             main={doors.count}
             title={pluralize(doors.count, messages.knocked)}
             subtitle={`${doors.onAMonth} ${messages.knockedDoorOnAMonth}`}

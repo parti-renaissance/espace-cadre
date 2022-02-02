@@ -3,7 +3,7 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import { reportsRatio } from 'api/messagerie'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
-import { KpiCard, KPIs } from 'ui/Kpi/KPIs'
+import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 
 const messages = {
   campaign: 'Campagne',
@@ -31,12 +31,12 @@ const KpiEmailCampaign = () => {
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>
       {campaignsReportRatios && (
         <>
-          <KpiCard
+          <KPICard
             main={campaignsReportRatios.local.campaignsCount}
             title={`${pluralize(campaignsReportRatios.local.campaignsCount, messages.campaign)} ${messages.email}`}
             subtitle={`${pluralize(campaignsReportRatios.local.campaignsCount, messages.sent)} ${messages.sentSuffix}`}
           />
-          <KpiCard
+          <KPICard
             main={<Percentage>{campaignsReportRatios.local.openRate}</Percentage>}
             title={messages.opening}
             subtitle={
@@ -45,7 +45,7 @@ const KpiEmailCampaign = () => {
               </>
             }
           />
-          <KpiCard
+          <KPICard
             main={<Percentage>{campaignsReportRatios.local.clickRate}</Percentage>}
             title={messages.clicks}
             subtitle={
@@ -54,7 +54,7 @@ const KpiEmailCampaign = () => {
               </>
             }
           />
-          <KpiCard
+          <KPICard
             main={<Percentage>{campaignsReportRatios.local.unsubscribeRate}</Percentage>}
             title={messages.unsubscribing}
             subtitle={

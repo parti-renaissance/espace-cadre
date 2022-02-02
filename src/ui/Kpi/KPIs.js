@@ -58,7 +58,7 @@ const LoaderContainer = styled(props => <Grid item xs={12} {...props} />)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};
 `
 
-export const KpiCard = ({ main, title, subtitle }) => (
+export const KPICard = ({ main, title, subtitle }) => (
   <CardContainer item xs={12} sm={6} lg={3} data-cy="KPICard">
     <UIContainer rootProps={{ sx: { p: 2 } }}>
       <MainInfo component="div">{main}</MainInfo>
@@ -67,13 +67,13 @@ export const KpiCard = ({ main, title, subtitle }) => (
     </UIContainer>
   </CardContainer>
 )
-KpiCard.propTypes = {
+KPICard.propTypes = {
   main: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.node,
 }
 
-export const KpiProgressCard = ({ title, count, total }) => (
+export const KPIProgressCard = ({ title, count, total }) => (
   <CardContainer item xs={12} sm={6} lg={3} data-cy="KPICard">
     <UIContainer
       rootProps={{
@@ -85,7 +85,7 @@ export const KpiProgressCard = ({ title, count, total }) => (
     </UIContainer>
   </CardContainer>
 )
-KpiProgressCard.propTypes = {
+KPIProgressCard.propTypes = {
   title: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
