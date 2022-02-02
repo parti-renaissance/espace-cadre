@@ -10,7 +10,7 @@ export const featuresLabels = {
   pap: 'Porte à porte',
   survey: 'Questionnaires',
   my_team: 'Mon équipe',
-  events: 'Événements',
+  events: 'Évènements',
 }
 
 export default {

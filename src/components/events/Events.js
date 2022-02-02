@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
 
 const messages = {
-  title: 'Evènements',
+  title: 'Évènements',
   create: 'Nouvel évènement',
   deleteSuccess: "L'évènement a bien été supprimé",
   cancelSuccess: "L'évènement a bien été annulé",
