@@ -44,7 +44,6 @@ const messages = {
   pageTitle: 'Porte à porte',
   modify: 'modifier',
   surveysTitle: 'Questionnaires',
-  KPITitle: 'Indicateurs',
   questioners: { id: 'questioners', label: 'porte-à-porteur' },
   history: { id: 'history', label: 'porte' },
   surveys: { id: 'surveys', label: 'questionnaire' },

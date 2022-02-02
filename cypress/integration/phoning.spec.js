@@ -6,13 +6,14 @@ const RatioProgress = '[data-cy="ui-ratio-progress"]'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
 const PageHeaderButton = '[data-cy="ui-page-header-button"]'
 const CTAButton = '[data-cy="phoning-action-view"]'
-const KPI = '[data-cy="phoning-campaigns-KPI"]'
+const KPI = '[data-cy="KPI"]'
 const CampaignsContainer = '[data-cy="phoning-campaigns-container"]'
 const CampaignsList = '[data-cy="phoning-campaigns-list"]'
 const CampaignItemEndDate = '[data-cy="phoning-campaigns-item-end-date"]'
 const CampaignItemTitle = '[data-cy="phoning-campaigns-item-title"]'
 const CampaignItemDescription = '[data-cy="phoning-campaigns-item-description"]'
 const UICard = '[data-cy="ui-card"]'
+const KPICard = '[data-cy="KPICard"]'
 const isNotEmpty = value => expect(value.length).to.be.at.least(1)
 
 const navigate = () => {
@@ -47,15 +48,15 @@ describe('Phoning', () => {
       cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
     })
     it('should have 3 cards', () => {
-      cy.get(KPI).find(UICard).children().should('have.length', 3)
+      cy.get(KPI).find(KPICard).children().should('have.length', 3)
     })
 
     describe('The Campaigns Card', () => {
       it('should contain 3 parts', () => {
-        cy.get(KPI).find(UICard).find('>div').eq(0).find(Typography).should('have.length', 3)
+        cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI).find(UICard).find('>div').eq(0).find(Typography).each((element, index) => {
+        cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).each((element, index) => {
           const content = { score: '13', subtitle: 'Campagnes', detail: 'Dont 2 en cours' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
@@ -66,10 +67,10 @@ describe('Phoning', () => {
 
     describe('The Survey Card', () => {
       it('should contain 3 parts', () => {
-        cy.get(KPI).find(UICard).find('>div').eq(1).find(Typography).should('have.length', 3)
+        cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI).find(UICard).find('>div').eq(1).find(Typography).each((element, index) => {
+        cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
           const content = { score: '70', subtitle: 'Questionnaires', detail: '12 sur un mois' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
@@ -80,10 +81,10 @@ describe('Phoning', () => {
 
     describe('The Calls Card', () => {
       it('should contain 3 parts', () => {
-        cy.get(KPI).find(UICard).find('>div').eq(2).find(Typography).should('have.length', 3)
+        cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI).find(UICard).find('>div').eq(2).find(Typography).each((element, index) => {
+        cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).each((element, index) => {
           const content = { score: '452', subtitle: 'Appels', detail: '75 sur un mois' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
