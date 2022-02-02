@@ -22,6 +22,7 @@ import ValidateAction from './CreateEditValidateAction'
 import GlobalSettings from './CreateEditGlobalSettings'
 import CallersAndSurvey from './CreateEditCallersAndSurvey'
 import Filters from './CreateEditFilters'
+import { useUserScope } from '../../../redux/user/hooks'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -50,8 +51,10 @@ const messages = {
 }
 
 const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
+  const [currentScope] = useUserScope()
+  const initialStateWithZone = { ...initialValues.globalSettings, zone: currentScope.zones[0] }
   const [validSteps, setValidSteps] = useState([2])
-  const [globalSettings, setGlobalSettings] = useState(initialValues.globalSettings)
+  const [globalSettings, setGlobalSettings] = useState(initialStateWithZone)
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
   const [filters, setFilters] = useState(initialValues.filters)
 
@@ -116,7 +119,7 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
             value={{
               errors: errorMessages,
               values: globalSettings,
-              initialValues: campaign ? campaignToGlobalSettingsValues(globalSettings) : initialValues.globalSettings,
+              initialValues: campaign ? campaignToGlobalSettingsValues(globalSettings) : initialStateWithZone,
               updateValues: handleChangeAndValidate(
                 setGlobalSettings,
                 handleStepValidation(0, validators.globalSettings)

@@ -68,7 +68,7 @@ const CreateEditGlobalSettings = () => {
               updateInputValues(fields.zone, event.target.value)
               updateValues(fields.zone, event.target.value)
             }}
-            renderValue={value => value.name || currentScope.zones[0].name}
+            renderValue={value => value.name}
             displayEmpty
             disabled={currentScope.zones.length === 1}
             size="small"
