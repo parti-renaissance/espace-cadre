@@ -7,7 +7,9 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import { createOrUpdateTeamMemberQuery } from 'api/my-team'
 import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import CreateEditActivistsAndRoles from './CreateEditActivistsAndRoles'
@@ -20,10 +22,13 @@ const Title = styled(Typography)`
   line-height: 24px;
 `
 
-const Paper = styled(MuiPaper)(
-  ({ theme }) => `
-	padding: ${theme.spacing(4)};
-	border-radius: 12px;
+const Paper = styled(
+  props => <MuiPaper {...props} />,
+  shouldForwardProps
+)(
+  ({ theme, isMobile }) => `
+  padding: ${theme.spacing(isMobile ? 2 : 4)};
+  ${!isMobile && 'border-radius: 12px;'}
 `
 )
 
@@ -51,6 +56,7 @@ const addOrRemoveFeature = (initialFeatures = [], name, selected) => {
 const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) => {
   const [values, setValues] = useState(teamMember || {})
   const isValidForm = useMemo(() => validateForm(values), [values])
+  const { isMobile, isDesktop } = useCurrentDeviceType()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
 
@@ -76,15 +82,35 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
   }
 
   return (
-    <Dialog scroll="body" data-cy="my-team-create-edit" onClose={handleClose} PaperComponent={Paper} open>
-      <Grid container justifyContent="space-between" alignItems="center">
-        <Title>{!teamMember ? messages.create.title : messages.update.title}</Title>
-        <IconButton onClick={handleClose}>
-          <CloseRoundedIcon />
-        </IconButton>
+    <Dialog
+      scroll={isMobile ? 'paper' : 'body'}
+      data-cy="my-team-create-edit"
+      fullScreen={isMobile}
+      onClose={handleClose}
+      PaperComponent={Paper}
+      PaperProps={{ isMobile }}
+      open
+    >
+      <Grid
+        container
+        justifyContent={isMobile ? 'flex-end' : 'space-between'}
+        alignItems="center"
+        sx={isMobile ? { pt: 4 } : null}
+      >
+        {isMobile && (
+          <IconButton onClick={handleClose}>
+            <CloseRoundedIcon />
+          </IconButton>
+        )}
+        <Title sx={isMobile ? { pt: 1 } : null}>{!teamMember ? messages.create.title : messages.update.title}</Title>
+        {isDesktop && (
+          <IconButton onClick={handleClose}>
+            <CloseRoundedIcon />
+          </IconButton>
+        )}
       </Grid>
 
-      <Grid container>
+      <Grid container sx={isMobile ? { pb: 4 } : null}>
         <CreateEditActivistsAndRoles values={values} updateValues={updateValues} errors={errorMessages} />
         <CreateEditDelegatedAccess delegatedFeatures={values.features} updateDelegatedFeatures={updateFeatures} />
         <CreateEditValidateAction

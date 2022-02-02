@@ -2,12 +2,13 @@ import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { Grid, Typography } from '@mui/material'
-import styled from '@emotion/styled'
+import { styled } from '@mui/system'
 
-import { featuresLabels } from 'shared/features'
 import { getAuthorizedPages } from '../../../redux/user/selectors'
-import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
+import { featuresLabels } from 'shared/features'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
 import Feature from './shared/components/Feature'
 
 const Title = styled(
@@ -28,12 +29,17 @@ const Title = styled(
   }
 `
 )
-const Description = styled(Typography)`
+const Description = styled(
+  Typography,
+  shouldForwardProps
+)(
+  ({ isMobile }) => `
   font-size: 14px;
   font-weight: 400;
-  line-height: 14px;
+  line-height: ${isMobile ? '21px' : '14px'};
   opacity: 0.8;
 `
+)
 
 const messages = {
   title: 'Accès délégués',
@@ -46,6 +52,8 @@ const skippedFeatures = ['mobile_app']
 
 const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeatures }) => {
   const authorizedFeatures = useSelector(getAuthorizedPages)
+  const { isMobile } = useCurrentDeviceType()
+
   const features = useMemo(
     () => authorizedFeatures.filter(feature => !skippedFeatures.includes(feature)),
     [authorizedFeatures]
@@ -61,12 +69,14 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
             {messages.titleSuffix}
           </Title>
         </Grid>
-        <Description sx={{ pt: 1, color: 'form.label.color' }}>{messages.description}</Description>
+        <Description sx={{ pt: 1, color: 'form.label.color' }} isMobile={isMobile}>
+          {messages.description}
+        </Description>
       </Grid>
 
       {features.length > 0 && (
         <Grid container sx={{ pt: 3 }}>
-          {features.length <= 6 &&
+          {isMobile &&
             features.map(key => (
               <Feature
                 key={key}
@@ -76,7 +86,18 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
                 handleChange={updateDelegatedFeatures}
               />
             ))}
-          {features.length > 6 && (
+          {!isMobile &&
+            features.length <= 6 &&
+            features.map(key => (
+              <Feature
+                key={key}
+                name={key}
+                label={featuresLabels[key]}
+                value={delegatedFeatures.includes(key)}
+                handleChange={updateDelegatedFeatures}
+              />
+            ))}
+          {!isMobile && features.length > 6 && (
             <Grid container>
               <Grid item xs={6}>
                 {features.slice(0, 6).map(key => (

@@ -12,6 +12,7 @@ import { Input, Label, Select } from './shared/components/styled'
 import { roles } from '../shared/constants'
 import { fields } from './shared/constants'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 
 const messages = {
   input: {
@@ -95,6 +96,7 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
         loading={isActivistsFetching}
         loadingText={messages.pleaseWait}
         noOptionsText={messages.noResult}
+        popupIcon={<SearchRoundedIcon />}
         autoComplete
         autoHighlight
         fullWidth
