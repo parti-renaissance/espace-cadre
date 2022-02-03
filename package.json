@@ -57,7 +57,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/core": "7.16.12",
+    "@babel/core": "7.17.0",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/preset-env": "7.16.11",
     "@babel/preset-react": "7.16.7",
@@ -65,7 +65,7 @@
     "@cypress/webpack-dev-server": "1.8.0",
     "@sentry/webpack-plugin": "1.18.4",
     "@testing-library/dom": "8.11.3",
-    "@testing-library/jest-dom": "5.16.1",
+    "@testing-library/jest-dom": "5.16.2",
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
     "babel-eslint": "10.1.0",
