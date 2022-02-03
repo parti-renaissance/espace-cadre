@@ -31,7 +31,7 @@ const authSlice = createSlice({
       state.authorizedPages = action.payload
     },
     userLogout() {
-      return initialState
+      return { ...initialState, logoutProcess: true }
     },
   },
 })

@@ -13,9 +13,10 @@ const Auth = () => {
 
     if (typeof code === 'string' && code.length > 0) {
       requestAccessToken(code)
-    } else {
-      initializeAuth()
     }
+    // } else {
+    //   initializeAuth()
+    // }
   }, [initializeAuth, requestAccessToken, search])
 
   return <BootPage />

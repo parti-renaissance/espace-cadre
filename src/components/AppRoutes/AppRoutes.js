@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors'
+import { getCurrentUser, getUserScopes, isUserLogged, isUserLoggedOut } from '../../redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
 import { useUserScope } from '../../redux/user/hooks'
 import ScopesPage from 'components/Scopes/ScopesPage'
@@ -30,6 +30,7 @@ const PrivatePages = ({ children }) => {
   const initializeAuth = useInitializeAuth()
   const { pathname } = useLocation()
   const isUserLoggedIn = useSelector(isUserLogged)
+  const logOut = useSelector(isUserLoggedOut)
   const currentUser = useSelector(getCurrentUser)
   const [currentScope] = useUserScope()
   const userScopes = useSelector(getUserScopes)
@@ -40,10 +41,10 @@ const PrivatePages = ({ children }) => {
       if (currentUser === null) {
         updateUserData()
       }
-    } else if (!publicPathsArray.includes(pathname)) {
+    } else if (!publicPathsArray.includes(pathname) && !logOut) {
       initializeAuth()
     }
-  }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
+  }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData, logOut])
 
   if (!currentUser || userScopes.length === 0) return <BootPage />
   if (userScopes && currentScope === null) return <ScopesPage />
