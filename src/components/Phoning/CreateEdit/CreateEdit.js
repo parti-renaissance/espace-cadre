@@ -50,7 +50,7 @@ const messages = {
   },
 }
 
-const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
+const CreateEdit = ({ campaign, onCreateResolve, handleClose, refetchCallers }) => {
   const [currentScope] = useUserScope()
   const initialStateWithZone = { ...initialValues.globalSettings, zone: currentScope.zones[0] }
   const [validSteps, setValidSteps] = useState([2])
@@ -66,6 +66,7 @@ const CreateEdit = ({ campaign, onCreateResolve, handleClose }) => {
       enqueueSnackbar(!campaign ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       onCreateResolve()
       handleClose()
+      refetchCallers()
     },
     onError: handleError,
   })
@@ -171,4 +172,5 @@ CreateEdit.propTypes = {
   campaign: PropTypes.shape(DomainPhoningCampaignCreateEdit.propTypes),
   onCreateResolve: PropTypes.func,
   handleClose: PropTypes.func.isRequired,
+  refetchCallers: PropTypes.func.isRequired,
 }

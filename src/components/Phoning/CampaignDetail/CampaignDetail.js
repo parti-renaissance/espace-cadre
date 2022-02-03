@@ -65,13 +65,13 @@ export const CampaignDetail = () => {
       onError: handleError,
     }
   )
-  const { data: callers = [], isLoading: isCallersLoading } = useQueryWithScope(
-    ['callers', campaignId],
-    () => getPhoningCampaignCallers(campaignId),
-    {
-      onError: handleError,
-    }
-  )
+  const {
+    data: callers = [],
+    isLoading: isCallersLoading,
+    refetch: refetchCallers,
+  } = useQueryWithScope(['callers', campaignId], () => getPhoningCampaignCallers(campaignId), {
+    onError: handleError,
+  })
 
   const {
     data: paginatedHistory = null,
@@ -105,6 +105,7 @@ export const CampaignDetail = () => {
   }
 
   if (!campaignId) return null
+
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -217,6 +218,7 @@ export const CampaignDetail = () => {
           campaign={Object.keys(campaignDetail).length > 0 ? { id: campaignId, ...campaignDetail.createEdit } : null}
           onCreateResolve={refetchCampaignDetail}
           handleClose={() => setIsCreateEditModalOpen(false)}
+          refetchCallers={refetchCallers}
         />
       )}
     </Container>
