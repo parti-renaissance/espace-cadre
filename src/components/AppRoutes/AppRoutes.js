@@ -15,6 +15,7 @@ import LegalContainer from '../Signup/components/LegalContainer'
 import { CGUMobile, CGUWeb, CookiesMobile, CookiesWeb, Ppd } from '../Signup/constants'
 import Sidebar from 'components/Sidebar/Sidebar'
 import ErrorBoundary from 'providers/errorboundary'
+import Signout from '../Signout/Signout'
 
 const publicPathsArray = [
   publicPaths.signup,
@@ -64,6 +65,7 @@ const AppRoutes = ({ children }) => (
     <Route path={publicPaths.signup} element={<Signup />} />
     <Route path={publicPaths.signupConfirm} element={<SignupConfirm />} />
     <Route path={publicPaths.auth} element={<Auth />} />
+    <Route path={publicPaths.signout} element={<Signout />} />
     <Route path={publicPaths.ppd} element={<LegalContainer type={Ppd} />} />
     <Route path={publicPaths.cguWeb} element={<LegalContainer type={CGUWeb} />} />
     <Route path={publicPaths.cguMobile} element={<LegalContainer type={CGUMobile} />} />

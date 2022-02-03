@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography } from '@mui/material'
+import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
+import { publicPaths } from '../../shared/paths'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -99,6 +100,10 @@ function Scopes() {
     redirect(userScope)
   }
 
+  const logout = () => {
+    navigate(publicPaths.signout)
+  }
+
   return (
     <Grid>
       {currentUser && filteredScopes?.length > 0 && (
@@ -133,6 +138,8 @@ function Scopes() {
                 )}
               </MenuItem>
             ))}
+            <Divider />
+            <MenuItem onClick={logout}>Me déconnecter</MenuItem>
           </Menu>
         </>
       )}
