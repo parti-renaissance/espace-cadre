@@ -65,8 +65,13 @@ export const CampaignDetail = () => {
       onError: handleError,
     }
   )
-  const { data: callers = [], isLoading: isCallersLoading } = useQueryWithScope(
-    ['callers', campaignId],
+
+  const {
+    data: callers = [],
+    isLoading: isCallersLoading,
+    refetch: refetchCallers,
+  } = useQueryWithScope(
+    ['callers', { feature: 'phoning', view: 'CampaignDetailCaller' }, campaignId],
     () => getPhoningCampaignCallers(campaignId),
     {
       onError: handleError,
@@ -216,7 +221,7 @@ export const CampaignDetail = () => {
       {isCreateEditModalOpen && (
         <CreateEdit
           campaign={Object.keys(campaignDetail).length > 0 ? { id: campaignId, ...campaignDetail.createEdit } : null}
-          onCreateResolve={refetchCampaignDetail}
+          onCreateResolve={(refetchCampaignDetail, refetchCallers)}
           handleClose={() => setIsCreateEditModalOpen(false)}
         />
       )}
