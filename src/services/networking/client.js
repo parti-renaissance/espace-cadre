@@ -72,6 +72,7 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient(API_BASE_URL)
+export const authClient = new ApiClient(process.env.REACT_APP_OAUTH_HOST)
 export const apiClientProxy = new ApiClient(`${API_BASE_URL}/v3/internal/${process.env.REACT_APP_INTERNAL_APP_ID}`)
 export const apiClientPublic = async (method, endpoint, body = null) => {
   const { data } = await axios.request({

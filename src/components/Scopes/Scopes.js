@@ -2,13 +2,16 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography } from '@mui/material'
+import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { useQuery } from 'react-query'
+import { logout } from 'api/auth'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -74,6 +77,7 @@ function Scopes() {
   const currentUser = useSelector(getCurrentUser)
   const [currentScope, updateCurrentScope] = useUserScope()
   const userScopes = useSelector(getUserScopes)
+  const { handleError } = useErrorHandler()
   const navigate = useNavigate()
   const filteredScopes = userScopes.filter(scope => scope.apps.includes('data_corner'))
   const [menuAnchor, setMenuAnchor] = useState(null)
@@ -98,6 +102,14 @@ function Scopes() {
     setMenuAnchor(null)
     redirect(userScope)
   }
+
+  const { refetch } = useQuery('logout', () => logout, {
+    onSuccess: () => {
+      console.log('Logout successfully')
+    },
+    onError: handleError,
+    enabled: false,
+  })
 
   return (
     <Grid>
@@ -133,6 +145,8 @@ function Scopes() {
                 )}
               </MenuItem>
             ))}
+            <Divider />
+            <MenuItem onClick={refetch}>Me déconnecter</MenuItem>
           </Menu>
         </>
       )}
