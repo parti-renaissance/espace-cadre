@@ -217,8 +217,8 @@ export const CampaignDetail = () => {
         <CreateEdit
           campaign={Object.keys(campaignDetail).length > 0 ? { id: campaignId, ...campaignDetail.createEdit } : null}
           onCreateResolve={refetchCampaignDetail}
+          onUpdateResolve={refetchCallers}
           handleClose={() => setIsCreateEditModalOpen(false)}
-          refetchCallers={refetchCallers}
         />
       )}
     </Container>
