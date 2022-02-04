@@ -14,7 +14,6 @@ const messages = {
 
 const TextChart = () => {
   const [currentScope] = useUserScope()
-
   const {
     data: adherents = null,
     isLoading,
