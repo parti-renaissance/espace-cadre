@@ -64,8 +64,8 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
   const { mutate: createOrUpdatePhoningCampaign } = useMutation(createOrUpdatePhoningCampaignQuery, {
     onSuccess: () => {
       enqueueSnackbar(!campaign ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-      onCreateResolve()
-      onUpdateResolve()
+      onCreateResolve && onCreateResolve()
+      onUpdateResolve && onUpdateResolve()
       handleClose()
     },
     onError: handleError,
