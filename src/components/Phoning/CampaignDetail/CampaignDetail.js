@@ -104,6 +104,11 @@ export const CampaignDetail = () => {
     setSelectedTab(tabId)
   }
 
+  const handleRefresh = () => {
+    refetchCampaignDetail()
+    refetchCallers()
+  }
+
   if (!campaignId) return null
 
   return (
@@ -216,10 +221,7 @@ export const CampaignDetail = () => {
       {isCreateEditModalOpen && (
         <CreateEdit
           campaign={Object.keys(campaignDetail).length > 0 ? { id: campaignId, ...campaignDetail.createEdit } : null}
-          onUpdateResolve={() => {
-            refetchCampaignDetail()
-            refetchCallers()
-          }}
+          onUpdateResolve={handleRefresh}
           handleClose={() => setIsCreateEditModalOpen(false)}
         />
       )}
