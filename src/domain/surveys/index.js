@@ -1,3 +1,3 @@
 export { SurveyDetailReply, SurveyDetailReplyAnswer, SurveyDetailReplyAuthor } from './survey-detail-reply'
-export { SurveyDetail } from './survey-detail'
-export { SurveyItem, SurveyItemAuthor } from './surveys'
+export { SurveyDetail, SurveyDetailAuthor, SurveyDetailQuestion, SurveyDetailChoice } from './survey-detail'
+export { SurveyItem, SurveyItemAuthor, SurveyItemZone } from './surveys'

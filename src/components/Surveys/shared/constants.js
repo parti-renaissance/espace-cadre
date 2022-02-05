@@ -1,3 +1,5 @@
+import scopes from 'shared/scopes'
+
 export const published = 'published'
 export const unpublished = 'unpublished'
 
@@ -21,3 +23,14 @@ export const translatedGender = {
 export const simpleField = 'simple_field'
 export const uniqueChoice = 'unique_choice'
 export const multipleChoice = 'multiple_choice'
+
+export const visibility = {
+  local: 'local',
+  national: 'national',
+}
+
+export const scopesVisibility = {
+  [scopes.correspondent]: visibility.local,
+  [scopes.referent]: visibility.local,
+  [scopes.national]: visibility.national,
+}

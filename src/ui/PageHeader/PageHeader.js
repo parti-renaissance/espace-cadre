@@ -15,7 +15,7 @@ export const PageHeaderButton = ({ onClick, label, icon = <AddIcon /> }) => (
 
 PageHeaderButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   icon: PropTypes.object,
 }
 

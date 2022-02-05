@@ -10,15 +10,28 @@ export class SurveyItemAuthor {
     lastName: PropTypes.string.isRequired,
   }
 }
-
+export class SurveyItemZone {
+  constructor(id, code, name) {
+    this.id = id
+    this.code = code
+    this.name = name
+  }
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }
+}
 export class SurveyItem {
-  constructor(id, isPublished, title, author, questionsCount, answersCount) {
+  constructor(id, isPublished, title, author, questionsCount, answersCount, type, zone) {
     this.id = id
     this.isPublished = isPublished
     this.title = title
     this.author = author
     this.questionsCount = questionsCount
     this.answersCount = answersCount
+    this.type = type
+    this.zone = zone
   }
   static propTypes = {
     id: PropTypes.string,
@@ -27,5 +40,7 @@ export class SurveyItem {
     author: PropTypes.shape(SurveyItemAuthor.propTypes),
     questionsCount: PropTypes.number.isRequired,
     answersCount: PropTypes.number.isRequired,
+    type: PropTypes.string,
+    zone: PropTypes.shape(SurveyItemZone.propTypes),
   }
 }

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router'
 import { Container, Grid } from '@mui/material'
 
-import { getSurveyQuery, getSurveyRepliesQuery } from 'api/surveys'
+import { getOneSurveyQuery, getSurveyRepliesQuery } from 'api/surveys'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import SurveyDetailReplies from './SurveyDetailReplies'
@@ -23,7 +23,7 @@ export const SurveyDetail = () => {
 
   const { data: surveyDetail = {} } = useQueryWithScope(
     ['surveys', { view: 'feature-detail' }, surveyId],
-    () => getSurveyQuery(surveyId),
+    () => getOneSurveyQuery(surveyId),
     {
       onError: handleError,
     }
