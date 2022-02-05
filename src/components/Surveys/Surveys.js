@@ -1,17 +1,19 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { useMutation } from 'react-query'
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Typography } from '@mui/material'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getSurveysQuery, createOrUpdateSurveyQuery } from 'api/surveys'
+import { getSurveysQuery, getOneSurveyQuery, createOrUpdateSurveyQuery } from 'api/surveys'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
-
+import { useUserScope } from '../../redux/user/hooks'
+import { scopesVisibility, visibility } from './shared/constants'
 import SurveyItem from './SurveyItem'
+import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
@@ -25,14 +27,16 @@ const infiniteScrollStylesOverrides = {
 
 const messages = {
   pageTitle: 'Questionnaires',
-  create: 'Créer un questionnaire local',
+  create: 'Créer un questionnaire',
   publishSuccess: 'Questionnaire publié avec succès',
   unpublishSuccess: 'Questionnaire dépublié avec succès',
 }
 
 const Surveys = () => {
-  const [, setIsCreateEditModalOpen] = useState(false)
-  const [, setSurveyDetail] = useState()
+  const [currentScope] = useUserScope()
+  const { code: scope } = currentScope
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [surveyIdToUpdate, setSurveyIdToUpdate] = useState()
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
@@ -56,6 +60,18 @@ const Surveys = () => {
     onError: handleError,
   })
 
+  const { data: surveyDetail = {} } = useQueryWithScope(
+    ['Surveys', 'Surveys', surveyIdToUpdate],
+    () => getOneSurveyQuery(surveyIdToUpdate),
+    {
+      enabled: !!surveyIdToUpdate,
+      onSuccess: () => {
+        setIsCreateEditModalOpen(true)
+      },
+      onError: handleError,
+    }
+  )
+
   const togglePublish = surveyId => () => {
     const { id, isPublished } = surveys.find(({ id }) => id === surveyId)
     createOrUpdateSurvey({ id, isPublished: !isPublished })
@@ -65,15 +81,14 @@ const Surveys = () => {
     navigate(generatePath('/questionnaires/:surveyId', { surveyId }))
   }
 
-  const handleUpdate = useCallback(
-    surveyId => () => {
-      const surveyDetail = surveys.find(({ id }) => id === surveyId)
-      if (!surveyDetail) return
-      setSurveyDetail(surveyDetail)
-      setIsCreateEditModalOpen(true)
-    },
-    [surveys]
-  )
+  const handleUpdate = surveyId => () => {
+    setSurveyIdToUpdate(surveyId)
+  }
+
+  const handleClose = () => {
+    setSurveyIdToUpdate(undefined)
+    setIsCreateEditModalOpen(false)
+  }
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -82,9 +97,16 @@ const Surveys = () => {
           title={messages.pageTitle}
           button={
             <PageHeaderButton
-              label={messages.create}
+              label={
+                <Typography variant="button">
+                  {messages.create}
+                  &nbsp;
+                  {scopesVisibility[scope] === visibility.local && visibility.local}
+                  {scopesVisibility[scope] === visibility.national && visibility.national}
+                </Typography>
+              }
               icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-              onClick={() => {}}
+              onClick={() => setIsCreateEditModalOpen(true)}
             />
           }
         />
@@ -121,6 +143,14 @@ const Surveys = () => {
           </InfiniteScroll>
         )}
       </Grid>
+
+      {isCreateEditModalOpen && (
+        <CreateEdit
+          survey={Object.keys(surveyDetail).length > 0 ? surveyDetail : null}
+          onCreateResolve={refetchSurveys}
+          handleClose={handleClose}
+        />
+      )}
     </Container>
   )
 }
