@@ -16,6 +16,7 @@ export default {
 export const publicPaths = {
   signup: '/inscription',
   signupConfirm: '/inscription/felicitations',
+  logout: '/deconnexion',
   auth: '/auth',
   ppd: '/politique-protection-donnees',
   cguWeb: '/mentions-legales-web',

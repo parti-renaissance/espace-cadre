@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography } from '@mui/material'
+import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
-import paths from 'shared/paths'
+import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
@@ -54,6 +54,22 @@ const MenuItem = styled(MuiMenuItem, shouldForwardProps)`
   }
 )`
 
+const Logout = styled(MuiMenuItem)(
+  ({ theme }) => `
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 6px;
+  padding: ${theme.spacing(1, 2)};
+  margin-bottom: ${theme.spacing(1)};
+  color: ${theme.palette.menu.color.main};
+  background-color: ${theme.palette.menu.background.main};
+  &:hover {
+    background-color: ${theme.palette.menu.background.hover};
+  },
+  `
+)
+
 const Scope = styled(Typography)`
   font-size: 14px;
   font-weight: 400;
@@ -68,6 +84,7 @@ const Area = styled(Typography)`
 
 const messages = {
   zone: 'zone',
+  logout: 'Me déconnecter',
 }
 
 function Scopes() {
@@ -97,6 +114,10 @@ function Scopes() {
     updateCurrentScope(userScope)
     setMenuAnchor(null)
     redirect(userScope)
+  }
+
+  const logout = () => {
+    navigate(publicPaths.logout)
   }
 
   return (
@@ -133,6 +154,10 @@ function Scopes() {
                 )}
               </MenuItem>
             ))}
+            <Divider sx={{ bgcolor: 'whiteCorner' }} />
+            <Logout onClick={logout}>
+              <Scope>{messages.logout}</Scope>
+            </Logout>
           </Menu>
         </>
       )}
