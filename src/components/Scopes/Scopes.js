@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
-import paths from 'shared/paths'
+import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
-import { publicPaths } from '../../shared/paths'
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
@@ -68,9 +67,6 @@ const Logout = styled(MuiMenuItem)(
   &:hover {
     background-color: ${theme.palette.menu.background.hover};
   },
-  &:first-child {
-    margin-top: ${theme.spacing(1)};
-  }
   `
 )
 
@@ -121,7 +117,7 @@ function Scopes() {
   }
 
   const logout = () => {
-    navigate(publicPaths.signout)
+    navigate(publicPaths.logout)
   }
 
   return (

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { userLogout } from '../../redux/auth'
 
-const Signout = () => {
+const Logout = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -13,4 +13,4 @@ const Signout = () => {
   return <div />
 }
 
-export default Signout
+export default Logout
