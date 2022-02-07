@@ -1,5 +1,22 @@
 import PropTypes from 'prop-types'
 
+export class Participant {
+  constructor(firstName, lastName, subscriptionDate, postalCode, type) {
+    this.firstName = firstName
+    this.lastName = lastName
+    this.subscriptionDate = new Date(subscriptionDate)
+    this.postalCode = postalCode
+    this.isActivist = type === 'adherent'
+  }
+}
+Participant.propTypes = PropTypes.shape({
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  subscriptionDate: PropTypes.object.isRequired,
+  postalCode: PropTypes.string.isRequired,
+  isActivist: PropTypes.bool.isRequired,
+})
+
 export class EventCategory {
   constructor(slug, name, groupSlug, groupName) {
     this.slug = slug
