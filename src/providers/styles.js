@@ -224,6 +224,12 @@ export const styles = {
         hover: '#2834c3',
       },
     },
+    events: {
+      chip: {
+        background: 'rgba(55, 65, 81, 0.08)',
+        color: '#374151',
+      },
+    },
 
     // White
     whiteCorner: '#FFFFFF',

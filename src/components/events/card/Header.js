@@ -22,7 +22,7 @@ const HorizontalContainer = styled('div')`
   align-items: center;
 `
 
-const ParticipantsIcon = styled('div')`
+const AttendeesIcon = styled('div')`
   display: flex;
   align-items: center;
   font-size: 10px;
@@ -82,10 +82,10 @@ const Header = ({ event }) => (
         bgcolor={event.scheduled ? 'activeLabel' : 'inactiveLabel'}
         label={event.scheduled ? messages.scheduled : messages.canceled}
       />
-      <ParticipantsIcon>
+      <AttendeesIcon>
         <GroupIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500' }} />
-        {event.participants}
-      </ParticipantsIcon>
+        {event.attendees}
+      </AttendeesIcon>
     </HorizontalContainer>
     <Title subject={event.name} author={`Par ${event.organizer}`} sx={{ pt: 1 }} />
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>

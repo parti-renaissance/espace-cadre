@@ -19,7 +19,7 @@ export const useInitializeAuth = () => {
       return
     }
 
-    window.location.href = `${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${process.env.REACT_APP_OAUTH_CLIENT_ID}`
+    window.location.href = `${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${process.env.REACT_APP_OAUTH_CLIENT_ID}&scope=jemengage_admin`
   }, [dispatch])
 }
 

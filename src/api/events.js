@@ -1,6 +1,6 @@
 import { apiClient } from 'services/networking/client'
 import { newPaginatedResult } from 'api/pagination'
-import { Address, Event, EventCategory, EventGroupCategory } from 'domain/event'
+import { Address, Event, EventCategory, EventGroupCategory, Attendee } from 'domain/event'
 
 export const getEvents = async ({ pageParam: page = 1 }) => {
   const data = await apiClient.get(`/api/v3/events?order[finish_at]=desc&page=${page}&page_size=20`)
@@ -45,10 +45,20 @@ export const getEvents = async ({ pageParam: page = 1 }) => {
   return newPaginatedResult(events, data.metadata)
 }
 
-export const getEvent = async id => {
-  const { data: event } = await apiClient.get(`/api/v3/events/${id}`)
+export const getEventAttendees = async id => {
+  const data = await apiClient.get(`/api/v3/events/${id}/participants`)
 
-  new Event(
+  const attendees = data.items.map(
+    p => new Attendee(p.first_name, p.last_name, p.subscription_date, p.postal_code, p.type)
+  )
+
+  return newPaginatedResult(attendees, data.metadata)
+}
+
+export const getEvent = async id => {
+  const event = await apiClient.get(`/api/v3/events/${id}`)
+
+  return new Event(
     event.uuid,
     event.name,
     event.time_zone,

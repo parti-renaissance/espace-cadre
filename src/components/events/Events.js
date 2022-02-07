@@ -17,6 +17,8 @@ import { useMutation } from 'react-query'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
+import { generatePath, useNavigate } from 'react-router-dom'
+import paths from 'shared/paths'
 
 const messages = {
   title: 'Évènements',
@@ -30,13 +32,14 @@ const Events = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const currentUser = useSelector(getCurrentUser)
+  const navigate = useNavigate()
 
   const {
     data: paginatedEvents = null,
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryWithScope('events', getEvents, {
+  } = useInfiniteQueryWithScope(['events', { feature: 'Events', view: 'Events' }], getEvents, {
     getNextPageParam,
     onError: handleError,
   })
@@ -63,8 +66,8 @@ const Events = () => {
     setCurrentEvent(Event.NULL)
   }
 
-  const handleViewEvent = id => () => {
-    setCurrentEvent(events.find(e => e.id === id) || Event.NULL)
+  const handleViewEvent = uuid => () => {
+    navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
   const handleEditEvent = id => () => {
@@ -99,7 +102,7 @@ const Events = () => {
                       onView={handleViewEvent(e.id)}
                       onEdit={handleEditEvent(e.id)}
                       onDelete={() => deleteEvent(e.id)}
-                      isDeletable={e.participants === 0 && e.organizerId === currentUser.uuid}
+                      isDeletable={e.attendees === 0 && e.organizerId === currentUser.uuid}
                       onCancel={() => cancelEvent(e.id)}
                       isCancelable={e.organizerId === currentUser.uuid}
                       loader={isLoadingDeleteEvent || isLoadingCancelEvent}
