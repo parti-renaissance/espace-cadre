@@ -32,7 +32,7 @@
     "react-infinite-scroll-component": "6.1.0",
     "react-leaflet": "3.2.5",
     "react-markdown": "8.0.0",
-    "react-query": "3.34.12",
+    "react-query": "3.34.14",
     "react-redux": "7.2.6",
     "react-router-dom": "6.2.1",
     "react-select": "5.2.2",
