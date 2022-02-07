@@ -21,8 +21,7 @@ const Event = () => {
 
   const { data: event = null, isLoading } = useQueryWithScope(
     ['event', eventId, { feature: 'Events', view: 'Event' }],
-    () => getEvent(eventId),
-    {}
+    () => getEvent(eventId)
   )
 
   const {
