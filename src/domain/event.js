@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export class Participant {
+export class Attendee {
   constructor(firstName, lastName, subscriptionDate, postalCode, type) {
     this.firstName = firstName
     this.lastName = lastName
@@ -9,7 +9,7 @@ export class Participant {
     this.isActivist = type === 'adherent'
   }
 }
-Participant.propTypes = PropTypes.shape({
+Attendee.propTypes = PropTypes.shape({
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   subscriptionDate: PropTypes.object.isRequired,
@@ -73,7 +73,7 @@ export class Event {
     localFinishAt,
     organizer,
     organizerId,
-    participants,
+    attendees,
     scheduled,
     capacity,
     address,
@@ -93,7 +93,7 @@ export class Event {
     this.localFinishAt = localFinishAt
     this.organizer = organizer
     this.organizerId = organizerId
-    this.participants = participants
+    this.attendees = attendees
     this.scheduled = scheduled
     this.capacity = capacity
     this.address = address
@@ -138,7 +138,7 @@ Event.propTypes = PropTypes.shape({
   localFinishAt: PropTypes.object.isRequired,
   organizer: PropTypes.string.isRequired,
   organizerId: PropTypes.string.isRequired,
-  participants: PropTypes.number.isRequired,
+  attendees: PropTypes.number.isRequired,
   scheduled: PropTypes.bool.isRequired,
   capacity: PropTypes.number.isRequired,
   address: Address.propTypes.isRequired,

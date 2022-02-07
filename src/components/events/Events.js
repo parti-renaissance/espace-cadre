@@ -102,7 +102,7 @@ const Events = () => {
                       onView={handleViewEvent(e.id)}
                       onEdit={handleEditEvent(e.id)}
                       onDelete={() => deleteEvent(e.id)}
-                      isDeletable={e.participants === 0 && e.organizerId === currentUser.uuid}
+                      isDeletable={e.attendees === 0 && e.organizerId === currentUser.uuid}
                       onCancel={() => cancelEvent(e.id)}
                       isCancelable={e.organizerId === currentUser.uuid}
                       loader={isLoadingDeleteEvent || isLoadingCancelEvent}

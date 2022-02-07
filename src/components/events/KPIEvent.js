@@ -5,12 +5,12 @@ import PropTypes from 'prop-types'
 
 const messages = {
   until: "Jusqu'au",
-  participant: 'participant',
+  attendee: 'participant',
   day: 'Jour',
   remaining: 'restant',
 }
 
-const KpiEvent = ({ participants, date, isLoading = false }) => {
+const KpiEvent = ({ attendees, date, isLoading = false }) => {
   const daysRemaining = differenceInCalendarDays(date, new Date()) || 0
 
   return (
@@ -22,7 +22,7 @@ const KpiEvent = ({ participants, date, isLoading = false }) => {
             title={`${pluralize(daysRemaining, messages.day)} ${pluralize(daysRemaining, messages.remaining)}`}
             subtitle={`${messages.until} ${format(date, 'dd/MM/yyyy')}`}
           />
-          <KPICard main={participants} title={pluralize(participants, messages.participant)} />
+          <KPICard main={attendees} title={pluralize(attendees, messages.attendee)} />
         </>
       )}
     </KPIs>
@@ -30,7 +30,7 @@ const KpiEvent = ({ participants, date, isLoading = false }) => {
 }
 
 KpiEvent.propTypes = {
-  participants: PropTypes.number,
+  attendees: PropTypes.number,
   date: PropTypes.object,
   isLoading: PropTypes.bool.isRequired,
 }
