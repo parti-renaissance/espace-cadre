@@ -55,6 +55,25 @@ const MenuItem = styled(MuiMenuItem, shouldForwardProps)`
   }
 )`
 
+const Logout = styled(MuiMenuItem)(
+  ({ theme }) => `
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 6px;
+  padding: ${theme.spacing(1, 2)};
+  margin-bottom: ${theme.spacing(1)};
+  color: ${theme.palette.menu.color.main};
+  background-color: ${theme.palette.menu.background.main};
+  &:hover {
+    background-color: ${theme.palette.menu.background.hover};
+  },
+  &:first-child {
+    margin-top: ${theme.spacing(1)};
+  }
+  `
+)
+
 const Scope = styled(Typography)`
   font-size: 14px;
   font-weight: 400;
@@ -69,6 +88,7 @@ const Area = styled(Typography)`
 
 const messages = {
   zone: 'zone',
+  logout: 'Me déconnecter',
 }
 
 function Scopes() {
@@ -138,8 +158,10 @@ function Scopes() {
                 )}
               </MenuItem>
             ))}
-            <Divider />
-            <MenuItem onClick={logout}>Me déconnecter</MenuItem>
+            <Divider sx={{ bgcolor: 'whiteCorner' }} />
+            <Logout onClick={logout}>
+              <Scope>{messages.logout}</Scope>
+            </Logout>
           </Menu>
         </>
       )}
