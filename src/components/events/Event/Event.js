@@ -12,7 +12,7 @@ import UICard from 'ui/Card'
 import Header from 'components/events/Event/card/Header'
 
 const messages = {
-  title: 'Événements > Pour une renaissance démocratique',
+  title: 'Évènements > Pour une renaissance démocratique',
 }
 
 const Event = () => {
