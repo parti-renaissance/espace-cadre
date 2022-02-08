@@ -82,7 +82,7 @@ const EventList = ({ query, queryKey }) => {
           <Grid item key={e.id} xs={12} sm={6} md={3}>
             <UICard
               rootProps={{ sx: { height: '360px', borderRadius: '8px' } }}
-              headerProps={{ sx: { pt: '21px' } }}
+              headerProps={{ sx: { pt: 2.5 } }}
               header={<Header event={e} />}
               actionsProps={{ sx: { pt: 1 } }}
               actions={
