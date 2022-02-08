@@ -58,7 +58,7 @@ const Phoning = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
-  const isNational = useMemo(() => nationalScopes?.includes(currentScope?.code), [currentScope?.code])
+  const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
 
   const {
     data: paginatedCampaigns = null,

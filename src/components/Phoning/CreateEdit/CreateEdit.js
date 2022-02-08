@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useMutation } from 'react-query'
 import { styled } from '@mui/system'
 import { Grid, Typography, Dialog, IconButton, Paper as MuiPaper } from '@mui/material'
@@ -50,11 +50,14 @@ const messages = {
   },
 }
 
+const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
+
 const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose }) => {
   const [currentScope] = useUserScope()
   const initialStateWithZone = { ...initialValues.globalSettings, zone: currentScope.zones[0] }
+  const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
+  const [globalSettings, setGlobalSettings] = useState(isNational ? initialValues.globalSettings : initialStateWithZone)
   const [validSteps, setValidSteps] = useState([2])
-  const [globalSettings, setGlobalSettings] = useState(initialStateWithZone)
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
   const [filters, setFilters] = useState(initialValues.filters)
 
