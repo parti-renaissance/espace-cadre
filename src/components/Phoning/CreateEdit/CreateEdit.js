@@ -55,7 +55,7 @@ const nationalScopes = ['national', 'national_communication', 'pap_national_mana
 const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose }) => {
   const [currentScope] = useUserScope()
   const initialStateWithZone = { ...initialValues.globalSettings, zone: currentScope.zones[0] }
-  const isNational = useMemo(() => nationalScopes?.includes(currentScope?.code), [currentScope?.code])
+  const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
   const [globalSettings, setGlobalSettings] = useState(isNational ? initialValues.globalSettings : initialStateWithZone)
   const [validSteps, setValidSteps] = useState([2])
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
