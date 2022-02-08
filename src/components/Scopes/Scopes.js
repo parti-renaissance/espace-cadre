@@ -124,7 +124,7 @@ function Scopes() {
     <Grid>
       {currentUser && filteredScopes?.length > 0 && (
         <>
-          <Button onClick={handleClick}>
+          <Button onClick={handleClick} data-cy="scopes-button">
             {currentUser.firstName} {currentUser.lastName}
             <ExpandMoreRoundedIcon
               sx={{ transform: menuAnchor ? 'rotate(180deg)' : '', transition: 'transform 0.3s' }}
