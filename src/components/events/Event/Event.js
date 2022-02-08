@@ -11,10 +11,6 @@ import Loader from 'ui/Loader'
 import UICard from 'ui/Card'
 import Header from 'components/events/Event/card/Header'
 
-const messages = {
-  title: 'Évènements > Pour une renaissance démocratique',
-}
-
 const Event = () => {
   const { eventId } = useParams()
   const { handleError } = useErrorHandler()
@@ -42,7 +38,7 @@ const Event = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.title} />
+        <PageHeader title={event.name} />
       </Grid>
       <KpiEvent attendees={event?.attendees} date={event?.beginAt} isLoading={isLoading} />
       <Grid container>
