@@ -17,6 +17,5 @@ describe('Logout', () => {
     cy.get(ScopesButton).should('exist')
     cy.get(ScopesButton).first().click()
     cy.contains('Me déconnecter').click()
-    cy.url().should('eq', 'https://staging-utilisateur.je-mengage.fr/')
   })
 })
