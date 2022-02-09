@@ -49,7 +49,7 @@ const MenuItem = styled(MuiMenuItem, shouldForwardProps)`
         ? theme.palette.menu.background.active
         : theme.palette.menu.background.hover}
   },
-  &:first-child {
+  &:first-of-type {
     margin-top: ${({ theme }) => theme.spacing(1)};
   }
 )`
