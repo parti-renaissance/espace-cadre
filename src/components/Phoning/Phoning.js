@@ -59,7 +59,11 @@ const Phoning = () => {
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
-  const [updateKPIS, setUpdateKPIS] = useState(false)
+  const [KPISalt, setKPISalt] = useState(0)
+
+  const refetchKPIs = () => {
+    setKPISalt(prev => prev + 1)
+  }
 
   const {
     data: paginatedCampaigns = null,
@@ -117,7 +121,7 @@ const Phoning = () => {
       </Grid>
 
       <Grid container justifyContent="space-between">
-        <CampaignGlobalKPI refreshKPIS={updateKPIS} />
+        <CampaignGlobalKPI refreshKPIs={KPISalt} />
       </Grid>
 
       <Grid
@@ -162,7 +166,7 @@ const Phoning = () => {
           }
           onCreateResolve={() => {
             refetchCampaigns()
-            setUpdateKPIS(true)
+            refetchKPIs()
           }}
           handleClose={handleClose}
         />

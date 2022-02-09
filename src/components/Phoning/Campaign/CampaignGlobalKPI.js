@@ -1,9 +1,8 @@
-import { PhoningGlobalKPI as DomainPhoningGlobalKPI } from 'domain/phoning'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getPhoningGlobalKPIQuery } from 'api/phoning'
-import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 const messages = {
   campaign: 'Campagne',
@@ -16,17 +15,12 @@ const messages = {
   errorLoading: 'Impossible de récupérer les données',
 }
 
-const CampaignGlobalKPI = ({ refreshKPIS }) => {
+const CampaignGlobalKPI = ({ refreshKPIs }) => {
   const {
     data: { campaigns, surveys, calls } = {},
     isLoading,
     isError,
-    refetch: refetchKPIS,
-  } = useQueryWithScope(['phoning', 'globalKPI'], () => getPhoningGlobalKPIQuery(), {})
-
-  useEffect(() => {
-    refreshKPIS && refetchKPIS()
-  }, [refreshKPIS, refetchKPIS])
+  } = useQueryWithScope(['phoning', 'globalKPI', refreshKPIs], getPhoningGlobalKPIQuery)
 
   return (
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>
@@ -53,6 +47,8 @@ const CampaignGlobalKPI = ({ refreshKPIS }) => {
   )
 }
 
-CampaignGlobalKPI.propTypes = DomainPhoningGlobalKPI.propTypes
+CampaignGlobalKPI.propTypes = {
+  refreshKPIs: PropTypes.number,
+}
 
 export default CampaignGlobalKPI
