@@ -62,7 +62,7 @@
     "@babel/preset-env": "7.16.11",
     "@babel/preset-react": "7.16.7",
     "@cypress/react": "5.12.1",
-    "@cypress/webpack-dev-server": "1.8.0",
+    "@cypress/webpack-dev-server": "1.8.1",
     "@sentry/webpack-plugin": "1.18.5",
     "@testing-library/dom": "8.11.3",
     "@testing-library/jest-dom": "5.16.2",
