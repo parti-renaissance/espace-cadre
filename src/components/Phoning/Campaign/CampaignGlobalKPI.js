@@ -3,6 +3,7 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getPhoningGlobalKPIQuery } from 'api/phoning'
+import { useEffect } from 'react'
 
 const messages = {
   campaign: 'Campagne',
@@ -15,12 +16,17 @@ const messages = {
   errorLoading: 'Impossible de récupérer les données',
 }
 
-const CampaignGlobalKPI = () => {
+const CampaignGlobalKPI = ({ refreshKPIS }) => {
   const {
     data: { campaigns, surveys, calls } = {},
     isLoading,
     isError,
+    refetch: refetchKPIS,
   } = useQueryWithScope(['phoning', 'globalKPI'], () => getPhoningGlobalKPIQuery(), {})
+
+  useEffect(() => {
+    refreshKPIS && refetchKPIS()
+  }, [refreshKPIS, refetchKPIS])
 
   return (
     <KPIs isLoading={isLoading} error={isError && messages.errorLoading}>
