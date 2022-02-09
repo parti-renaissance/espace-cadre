@@ -10,7 +10,7 @@
     "@mui/lab": "5.0.0-alpha.67",
     "@mui/material": "5.4.1",
     "@mui/styles": "5.4.1",
-    "@mui/system": "5.4.0",
+    "@mui/system": "5.4.1",
     "@reduxjs/toolkit": "1.7.2",
     "@sentry/react": "6.17.5",
     "@sentry/tracing": "6.17.6",
