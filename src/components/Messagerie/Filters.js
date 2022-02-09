@@ -5,6 +5,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
+import paths from 'shared/paths'
+import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
 import {
@@ -27,14 +29,12 @@ import * as Sentry from '@sentry/react'
 
 export const FEATURE_MESSAGES = 'messages'
 
-const Title = styled(Typography)(
-  ({ theme }) => `
+const PageTitle = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
-  color: ${theme.palette.blue600};
-  margin-bottom: ${theme.spacing(2)}
+  line-height: 36px;
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
 `
-)
 
 const AudienceCount = styled(Typography)`
   font-size: 18px;
@@ -75,7 +75,8 @@ const retryInterval = 1000
 const maxAttempts = 10
 
 const messages = {
-  title: 'Messagerie > Filtrer mon message',
+  title: 'Messagerie',
+  titleSuffix: 'Filtrer mon message',
   previous: 'Précédent',
   addresseesCount: 'Vous allez envoyer un message à',
   contact: 'contact',
@@ -190,7 +191,17 @@ const Filters = () => {
   return (
     <>
       <Container maxWidth="xl">
-        <Title>{messages.title}</Title>
+        <PageHeader
+          title={
+            <>
+              <PageTitle sx={{ color: 'campaign.color' }}>
+                <Link to={paths.messages}>{messages.title}</Link>
+              </PageTitle>
+              <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
+              <PageTitle sx={{ color: 'gray800' }}>{messages.titleSuffix}</PageTitle>
+            </>
+          }
+        />
         <Grid container>
           <Link to={`../${paths.update}`}>
             <Button

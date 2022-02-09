@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Grid, TextField } from '@mui/material'
+import { Grid, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
@@ -12,17 +12,16 @@ import PropTypes from 'prop-types'
 import messageriePaths from './shared/paths'
 import * as Sentry from '@sentry/react'
 import paths from 'shared/paths'
+import PageHeader from 'ui/PageHeader'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
-const Title = styled('div')(
-  ({ theme }) => `
+const PageTitle = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
-  color: ${theme.palette.blue600};
-  margin-bottom: ${theme.spacing(2)};
+  line-height: 36px;
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
 `
-)
 
 const Container = styled(Grid)(
   ({ theme }) => `
@@ -76,9 +75,17 @@ const Template = ({ modeUpdate = false }) => {
 
   return (
     <>
-      <Title>
-        <Link to={paths.messages}>{messages.title}</Link> &gt; {messages.titleSuffix}
-      </Title>
+      <PageHeader
+        title={
+          <>
+            <PageTitle sx={{ color: 'campaign.color' }}>
+              <Link to={paths.messages}>{messages.title}</Link>
+            </PageTitle>
+            <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
+            <PageTitle sx={{ color: 'gray800' }}>{messages.titleSuffix}</PageTitle>
+          </>
+        }
+      />
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
           <TextField
