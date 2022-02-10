@@ -153,19 +153,21 @@ const Filters = () => {
 
   const handleFiltersSubmit = useCallback(
     async filtersToSend => {
-      const filterWithZoneId = { ...filtersToSend, zone: filtersToSend.zone.uuid }
+      const filterObject = {
+        filter: {
+          ...filtersToSend,
+          scope: currentScope.delegated_access?.type || currentScope.code,
+          zone: filtersToSend.zone.uuid,
+        },
+      }
+
       if (audienceId) {
-        await updateSegmentAudience({
-          id: audienceId,
-          filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
-        })
+        await updateSegmentAudience({ id: audienceId, ...filterObject })
       } else {
-        await createSegmentAudience({
-          filter: { ...{ scope: currentScope.code }, ...filterWithZoneId },
-        })
+        await createSegmentAudience(filterObject)
       }
     },
-    [audienceId, createSegmentAudience, currentScope.code, updateSegmentAudience]
+    [audienceId, createSegmentAudience, currentScope, updateSegmentAudience]
   )
 
   useEffect(() => {
