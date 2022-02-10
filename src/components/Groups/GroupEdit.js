@@ -13,11 +13,12 @@ import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import paths from 'shared/paths'
+import PageHeader from 'ui/PageHeader'
 
 const PageTitle = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
-  color: ${({ theme }) => theme.palette.cyan800};
+  line-height: 36px;
 `
 
 const AutocompleteContainer = styled(Card)(
@@ -99,9 +100,17 @@ const GroupEdit = () => {
     <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container>
         <Grid item sx={{ mb: 2 }}>
-          <PageTitle>
-            <Link to={paths.team}>{messages.group}</Link> &gt; {group?.name}
-          </PageTitle>
+          <PageHeader
+            title={
+              <>
+                <PageTitle sx={{ color: 'campaign.color' }}>
+                  <Link to={paths.team}>{messages.group}</Link>
+                </PageTitle>
+                <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
+                <PageTitle sx={{ color: 'gray800' }}>{group?.name}</PageTitle>
+              </>
+            }
+          />
         </Grid>
       </Grid>
       <Grid container>
