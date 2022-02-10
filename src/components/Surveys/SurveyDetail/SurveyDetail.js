@@ -51,7 +51,7 @@ export const SurveyDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'campaigncolor' }}>
+              <PageTitle sx={{ color: 'campaign.color' }}>
                 <Link to={paths.survey}>{messages.pageTitle}</Link>
               </PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
