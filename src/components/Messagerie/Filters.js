@@ -156,15 +156,13 @@ const Filters = () => {
       const filterObject = {
         filter: {
           ...filtersToSend,
-          ...{
-            scope: currentScope.delegated_access?.type || currentScope.code,
-            zone: filtersToSend.zone.uuid,
-          },
+          scope: currentScope.delegated_access?.type || currentScope.code,
+          zone: filtersToSend.zone.uuid,
         },
       }
 
       if (audienceId) {
-        await updateSegmentAudience({ ...{ id: audienceId }, ...filterObject })
+        await updateSegmentAudience({ id: audienceId, ...filterObject })
       } else {
         await createSegmentAudience(filterObject)
       }
