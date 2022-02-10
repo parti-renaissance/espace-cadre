@@ -117,7 +117,7 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'campaigncolor' }}>
+              <PageTitle sx={{ color: 'campaign.color' }}>
                 <Link to={paths.phoning_campaign}>{messages.pageTitle}</Link>
               </PageTitle>
               <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
