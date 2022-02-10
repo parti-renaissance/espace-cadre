@@ -15,12 +15,6 @@ import { useQueryWithScope } from 'api/useQueryWithScope'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
 
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-`
-
 const AutocompleteContainer = styled(Card)(
   ({ theme }) => `
     border-radius: 8px;
@@ -103,11 +97,15 @@ const GroupEdit = () => {
           <PageHeader
             title={
               <>
-                <PageTitle sx={{ color: 'campaign.color' }}>
+                <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
                   <Link to={paths.team}>{messages.group}</Link>
-                </PageTitle>
-                <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
-                <PageTitle sx={{ color: 'gray800' }}>{group?.name}</PageTitle>
+                </Typography>
+                <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
+                  &nbsp;{'>'}&nbsp;
+                </Typography>
+                <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
+                  {group?.name}
+                </Typography>
               </>
             }
           />

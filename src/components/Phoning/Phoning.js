@@ -17,11 +17,6 @@ import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
 import { useUserScope } from '../../redux/user/hooks'
 
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-`
 const Title = styled(Typography)(
   ({ theme }) => `
     margin: ${theme.spacing(1, 0, 2, 1)};
@@ -109,7 +104,11 @@ const Phoning = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={<PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>}
+          title={
+            <Typography variant="pageTitle" sx={{ color: 'campaigncolor' }}>
+              {messages.pageTitle}
+            </Typography>
+          }
           button={
             <PageHeaderButton
               label={messages.create}

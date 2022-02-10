@@ -12,13 +12,6 @@ import UICard from 'ui/Card'
 import Header from 'components/events/Event/card/Header'
 import { Link } from 'react-router-dom'
 import paths from 'shared/paths'
-import { styled } from '@mui/system'
-
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-`
 
 const messages = {
   events: 'Évènements',
@@ -54,11 +47,15 @@ const Event = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'indigo700' }}>
+              <Typography variant="pageTitle" sx={{ color: 'indigo700' }}>
                 <Link to={paths.events}>{messages.events}</Link>
-              </PageTitle>
-              <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
-              <PageTitle sx={{ color: 'gray800' }}>{event?.name}</PageTitle>
+              </Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
+                &nbsp;{'>'}&nbsp;
+              </Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
+                {event?.name}
+              </Typography>
             </>
           }
         />

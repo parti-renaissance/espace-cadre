@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { useMutation } from 'react-query'
 import { Container, Grid, Typography } from '@mui/material'
-import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
@@ -17,12 +16,6 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
-
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-`
 
 const infiniteScrollStylesOverrides = {
   '& .infinite-scroll-component__outerdiv': {
@@ -86,7 +79,11 @@ const Surveys = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={<PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>}
+          title={
+            <Typography variant="pageTitle" sx={{ color: 'campaigncolor' }}>
+              {messages.pageTitle}
+            </Typography>
+          }
           button={
             <PageHeaderButton
               label={messages.create}

@@ -29,13 +29,6 @@ import * as Sentry from '@sentry/react'
 
 export const FEATURE_MESSAGES = 'messages'
 
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-  margin-bottom: ${({ theme }) => theme.spacing(2)};
-`
-
 const AudienceCount = styled(Typography)`
   font-size: 18px;
   font-weight: 600;
@@ -194,11 +187,15 @@ const Filters = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'campaign.color' }}>
+              <Typography variant="pageTitle" sx={{ color: 'campaign.color', mb: 2 }}>
                 <Link to={paths.messages}>{messages.title}</Link>
-              </PageTitle>
-              <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
-              <PageTitle sx={{ color: 'gray800' }}>{messages.titleSuffix}</PageTitle>
+              </Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
+                &nbsp;{'>'}&nbsp;
+              </Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
+                {messages.titleSuffix}
+              </Typography>
             </>
           }
         />

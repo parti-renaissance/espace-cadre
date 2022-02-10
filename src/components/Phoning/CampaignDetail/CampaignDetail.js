@@ -26,11 +26,6 @@ import EditIcon from 'ui/icons/EditIcon'
 import { Link } from 'react-router-dom'
 import paths from 'shared/paths'
 
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-`
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
   color: theme.palette.gray400,
@@ -117,11 +112,15 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <PageTitle sx={{ color: 'campaign.color' }}>
+              <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
                 <Link to={paths.phoning_campaign}>{messages.pageTitle}</Link>
-              </PageTitle>
-              <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
-              <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>
+              </Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
+                &nbsp;{'>'}&nbsp;
+              </Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
+                {campaignDetail.title}
+              </Typography>
             </>
           }
           button={

@@ -108,11 +108,15 @@ export const CampaignDetail = () => {
         <PageHeader
           title={
             <>
-              <Typography sx={{ color: 'campaign.color' }}>
+              <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
                 <Link to={paths.pap}>{messages.pageTitle}</Link>
               </Typography>
-              <Typography sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</Typography>
-              <Typography sx={{ color: 'gray800' }}>{campaignDetail.title}</Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
+                &nbsp;{'>'}&nbsp;
+              </Typography>
+              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
+                {campaignDetail.title}
+              </Typography>
             </>
           }
         />
