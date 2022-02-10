@@ -11,7 +11,7 @@ export const useUserScope = () => {
   const setCurrentScope = useCallback(
     async scope => {
       const authorizedPage = await apiClient.get(`/v3/profile/me/scope/${scope.code}`)
-      dispatch(updateCurrentScope(scope))
+      dispatch(updateCurrentScope(authorizedPage))
       dispatch(updateAuthorizedPages(authorizedPage.features))
     },
     [dispatch]
