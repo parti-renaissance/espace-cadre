@@ -8,7 +8,8 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { CallersAndSurveyContext } from './shared/context'
 import SelectOption from './shared/components/SelectOption'
-import { Input, Label } from './shared/components/styled'
+import Input from 'ui/Input/Input'
+import Label from 'ui/Stepper/Label'
 import { fields } from './shared/constants'
 
 const messages = {

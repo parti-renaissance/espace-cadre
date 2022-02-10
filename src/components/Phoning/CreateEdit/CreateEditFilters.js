@@ -11,8 +11,11 @@ import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { FiltersContext } from './shared/context'
-import { Checkbox, Input, Label, PickersDay } from './shared/components/styled'
+import { Checkbox } from './shared/components/styled'
+import Input from 'ui/Input/Input'
+import Label from 'ui/Stepper/Label'
 import { fields } from './shared/constants'
+import { PickersDay } from 'ui/DateTime/styled'
 
 const messages = {
   input: {

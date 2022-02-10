@@ -7,9 +7,11 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { GlobalSettingsContext } from './shared/context'
-import { Input, Label, PickersDay } from './shared/components/styled'
+import Input from 'ui/Input/Input'
 import { fields } from './shared/constants'
 import { useUserScope } from '../../../redux/user/hooks'
+import Label from 'ui/Stepper/Label'
+import { PickersDay } from 'ui/DateTime/styled'
 
 const messages = {
   input: {

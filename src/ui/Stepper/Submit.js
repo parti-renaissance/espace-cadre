@@ -25,7 +25,7 @@ const ValidateButton = styled(
   })
 )
 
-const CreateEditValidateAction = ({ label, handleValidate, disabled }) => (
+const Submit = ({ label, handleValidate, disabled }) => (
   <Grid container sx={{ pt: 6 }}>
     <ValidateButton onClick={handleValidate} disabled={disabled}>
       {label}
@@ -33,10 +33,10 @@ const CreateEditValidateAction = ({ label, handleValidate, disabled }) => (
   </Grid>
 )
 
-CreateEditValidateAction.propTypes = {
+Submit.propTypes = {
   label: PropTypes.string.isRequired,
   handleValidate: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 }
 
-export default CreateEditValidateAction
+export default Submit
