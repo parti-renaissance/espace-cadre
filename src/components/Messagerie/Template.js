@@ -9,9 +9,9 @@ import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
 import { createMessageContent, updateMessageContent } from 'api/messagerie'
 import PropTypes from 'prop-types'
-import messageriePaths from './shared/paths'
-import * as Sentry from '@sentry/react'
+import { paths as messageriePaths } from './shared/paths'
 import paths from 'shared/paths'
+import * as Sentry from '@sentry/react'
 import PageHeader from 'ui/PageHeader'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)

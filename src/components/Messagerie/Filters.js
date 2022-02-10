@@ -5,7 +5,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
-import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
@@ -18,7 +17,8 @@ import {
   sendTestMessage as sendTestMessageApi,
   setMessageSegment as setMessageSegmentApi,
 } from 'api/messagerie'
-import paths from 'components/Messagerie/shared/paths'
+import { paths as messageriePaths } from './shared/paths'
+import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { styled } from '@mui/system'
 import { useMutation } from 'react-query'
@@ -99,7 +99,7 @@ const Filters = () => {
 
   const { mutate: sendMessage } = useMutation(sendMessageApi, {
     onSuccess: () => {
-      navigate(`../../${paths.confirmation}`)
+      navigate(`../../${messageriePaths.confirmation}`)
     },
     onError: handleError,
   })
@@ -203,7 +203,7 @@ const Filters = () => {
           }
         />
         <Grid container>
-          <Link to={`../${paths.update}`}>
+          <Link to={`../${messageriePaths.update}`}>
             <Button
               type="button"
               disableRipple

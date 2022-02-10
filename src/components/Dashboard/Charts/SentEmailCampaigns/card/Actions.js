@@ -1,7 +1,7 @@
 import { CtaButton } from 'ui/Card'
 import { styled } from '@mui/system'
 import { generatePath, useNavigate } from 'react-router-dom'
-import paths from 'components/Messagerie/shared/paths'
+import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import PropTypes from 'prop-types'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
@@ -20,7 +20,7 @@ const messages = {
 const Actions = ({ messageId, del, loader = false }) => {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(generatePath(':messageId/' + paths.update, { messageId }))
+    navigate(generatePath(':messageId/' + messageriePaths.update, { messageId }))
   }
 
   return (
