@@ -107,7 +107,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
   const [validSteps, setValidSteps] = useState([])
   const [newEvent, setNewEvent] = useState(event)
   const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError } = useErrorHandler()
+  const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce(500)
 
   const { mutate: createEvent } = useMutation(createEventApi, {
@@ -168,7 +168,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                 }}
                 autoFocus
               />
-              <FormError errors={null} field={fields.name} />
+              <FormError errors={errorMessages} field={fields.name} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.category}</Label>
               <Select
                 options={categories}
@@ -179,6 +179,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                 placeholder={messages.placeholder.category}
                 sx={{ display: 'flex' }}
               />
+              <FormError errors={errorMessages} field={fields.category} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.beginAt}</Label>
               <DateTimePicker
                 value={newEvent.beginAt}
@@ -188,6 +189,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                 name={fields.beginAt}
                 placeholder={messages.placeholder.beginAt}
               />
+              <FormError errors={errorMessages} field={fields.beginAt} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.finishAt}</Label>
               <DateTimePicker
                 value={newEvent.finishAt}
@@ -197,6 +199,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                 name={fields.finishAt}
                 placeholder={messages.placeholder.finishAt}
               />
+              <FormError errors={errorMessages} field={fields.category} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.timezone}</Label>
               <Select
                 options={timezones}
@@ -206,13 +209,14 @@ const CreateEditEvent = ({ handleClose, event }) => {
                 value={newEvent.timezone}
                 sx={{ display: 'flex' }}
               />
+              <FormError errors={errorMessages} field={fields.timezone} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.address}</Label>
               <Places
                 onSelectPlace={p => {
                   setNewEvent(prev => prev.withAddress(p))
                 }}
-                error={null}
               />
+              <FormError errors={errorMessages} field={fields.address} />
               <Box component="div" sx={{ display: 'flex', mt: 3 }}>
                 <Input
                   placeholder={messages.placeholder.postalCode}
@@ -250,6 +254,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                   setNewEvent(prev => prev.withDescription(e.target.value))
                 }}
               />
+              <FormError errors={errorMessages} field={fields.description} />
               <Label optional sx={{ pt: 3, pb: 1 }}>
                 {messages.label.visio}
               </Label>
@@ -261,6 +266,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                   setNewEvent(prev => prev.withVisioUrl(e.target.value))
                 }}
               />
+              <FormError errors={errorMessages} field={fields.visio} />
               <Label optional sx={{ pt: 3, pb: 1 }}>
                 {messages.label.capacity}
               </Label>
@@ -274,6 +280,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                   setNewEvent(prev => prev.withCapacity(e.target.value))
                 }}
               />
+              <FormError errors={errorMessages} field={fields.capacity} />
               <FormControlLabel
                 name={fields.private}
                 label={messages.label.private}
