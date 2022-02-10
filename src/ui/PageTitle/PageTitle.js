@@ -1,19 +1,27 @@
-import { Grid as MuiGrid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 
-const Grid = styled(MuiGrid)(
+const Title = styled(Typography)(
   ({ theme }) => `
   font-size: 24px;
   font-weight: 400;
+  line-height: 36px;
   color: ${theme.palette.gray800};
-  margin-bottom: ${theme.spacing(2)};
-`
+  `
 )
 
 const PageTitle = ({ title, breakpoints = { xs: null, sm: null, md: null, lg: null, xl: null } }) => (
-  <Grid item xs={breakpoints.xs} sm={breakpoints.sm} md={breakpoints.md} lg={breakpoints.lg} xl={breakpoints.xl}>
-    {title}
+  <Grid
+    item
+    xs={breakpoints.xs}
+    sm={breakpoints.sm}
+    md={breakpoints.md}
+    lg={breakpoints.lg}
+    xl={breakpoints.xl}
+    sx={{ mb: 2 }}
+  >
+    <Title>{title}</Title>
   </Grid>
 )
 
