@@ -26,7 +26,9 @@ const Header = ({ attendee }) => (
     </HorizontalContainer>
     <Title
       subject={`${attendee.firstName} ${attendee.lastName}`}
-      author={`${attendee.postalCode} • Le ${format(attendee.subscriptionDate, 'dd MMMM yyyy', { locale: fr })}`}
+      author={`${attendee.postalCode} • Le ${format(attendee.subscriptionDate, 'dd MMMM yyyy à HH:mm ', {
+        locale: fr,
+      })}`}
       sx={{ pt: 1 }}
     />
   </>
