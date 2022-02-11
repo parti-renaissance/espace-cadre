@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Event } from 'domain/event'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
 import PageHeader from 'ui/PageHeader'
@@ -32,16 +32,25 @@ const messages = {
   myEvents: 'Mes évènements',
 }
 
+const noop = () => () => {}
+
 const Events = () => {
   const [currentEvent, setCurrentEvent] = useState(null)
   const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
+  const [refetchEvents, setRefetchEvents] = useState(noop)
+
+  const setRefetchEventsRef = useCallback(f => setRefetchEvents(() => f), [])
 
   const handleCreateEvent = () => {
     setCurrentEvent(Event.NULL)
   }
 
-  const handleChange = (_, tabId) => {
+  const handleChangeTab = (_, tabId) => {
     setSelectedTab(tabId)
+  }
+
+  const handleCreation = async () => {
+    await refetchEvents()
   }
 
   return (
@@ -54,7 +63,7 @@ const Events = () => {
       </Grid>
       <Tabs
         value={selectedTab}
-        onChange={handleChange}
+        onChange={handleChangeTab}
         TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
         sx={{ my: 2 }}
       >
@@ -68,12 +77,13 @@ const Events = () => {
           />
         ))}
       </Tabs>
-      <EventList query={tabs[selectedTab].query} queryKey={selectedTab} />
+      <EventList query={tabs[selectedTab].query} queryKey={selectedTab} setRefetchRef={setRefetchEventsRef} />
       {currentEvent && (
         <CreateEditEvent
           handleClose={() => {
             setCurrentEvent(null)
           }}
+          onUpdate={handleCreation}
           event={currentEvent}
         />
       )}

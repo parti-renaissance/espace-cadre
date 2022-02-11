@@ -12,7 +12,7 @@ import {
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import Stepper from 'ui/Stepper/Stepper'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Checkbox } from 'components/Phoning/CreateEdit/shared/components/styled'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
@@ -56,10 +56,10 @@ const TextArea = styled(MuiTextField)(
 const fields = {
   name: 'name',
   category: 'category',
-  beginAt: 'beginAt',
-  finishAt: 'finishAt',
+  beginAt: 'begin_at',
+  finishAt: 'finish_at',
   timezone: 'timezone',
-  visio: 'visio',
+  visio: 'visioUrl',
   capacity: 'capacity',
   description: 'description',
   private: 'private',
@@ -68,6 +68,7 @@ const fields = {
 
 const messages = {
   create: 'Créer un évènement',
+  edit: "Modifier l'évènement",
   createSuccess: "L'évènement a été créé",
   editSuccess: "L'évènement a été modifié",
   step1: 'Informations générales',
@@ -100,31 +101,47 @@ const messages = {
   },
 }
 
+const noOp = () => () => {}
+
 const isStep0Valid = ({ name, categoryId, beginAt, finishAt, address, timezone }) =>
   !!name && !!categoryId && !!beginAt && !!finishAt && !!address && !!timezone
-const isStep1Valid = ({ description, capacity }) => description.length > 0 && capacity >= 0
+const isStep1Valid = ({ description, capacity }) =>
+  description.length > 10 && (capacity === '' || capacity === null || parseInt(capacity) > 0)
 
-const CreateEditEvent = ({ handleClose, event }) => {
+const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const [validSteps, setValidSteps] = useState([])
   const [newEvent, setNewEvent] = useState(event)
+  const [resetActiveStep, setResetActiveStep] = useState(noOp)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce(500)
 
+  const setResetActiveStepRef = useCallback(f => setResetActiveStep(() => f), [])
+
+  const onError = useCallback(
+    error => {
+      handleError(error)
+      resetActiveStep()
+    },
+    [handleError, resetActiveStep]
+  )
+
   const { mutate: createEvent } = useMutation(createEventApi, {
-    onSuccess: () => {
+    onSuccess: async () => {
+      await onUpdate()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       handleClose()
     },
-    onError: handleError,
+    onError,
   })
 
   const { mutate: updateEvent } = useMutation(updateEventApi, {
-    onSuccess: () => {
+    onSuccess: async () => {
+      await onUpdate()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
       handleClose()
     },
-    onError: handleError,
+    onError,
   })
 
   useEffect(() => {
@@ -169,7 +186,12 @@ const CreateEditEvent = ({ handleClose, event }) => {
       </Grid>
 
       <Grid container>
-        <Stepper orientation="vertical" validSteps={validSteps} stepsCount={3} sx={{ width: '100%', pt: 4 }}>
+        <Stepper
+          orientation="vertical"
+          validSteps={validSteps}
+          sx={{ width: '100%', pt: 4 }}
+          resetActiveStep={setResetActiveStepRef}
+        >
           <div>
             <div title={messages.step1}>
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.name}</Label>
@@ -213,7 +235,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                 name={fields.finishAt}
                 placeholder={messages.placeholder.finishAt}
               />
-              <FormError errors={errorMessages} field={fields.category} />
+              <FormError errors={errorMessages} field={fields.finishAt} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.timezone}</Label>
               <Select
                 options={timezones}
@@ -313,7 +335,11 @@ const CreateEditEvent = ({ handleClose, event }) => {
             </div>
           </div>
         </Stepper>
-        <Submit label={messages.create} handleValidate={createOrEdit} disabled={validSteps.length < 2} />
+        <Submit
+          label={event.id ? messages.edit : messages.create}
+          handleValidate={createOrEdit}
+          disabled={validSteps.length < 2}
+        />
       </Grid>
     </Dialog>
   )
@@ -321,6 +347,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
 
 CreateEditEvent.propTypes = {
   handleClose: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
   event: Event.propTypes,
 }
 

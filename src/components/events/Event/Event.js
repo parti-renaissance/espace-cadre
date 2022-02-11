@@ -14,6 +14,7 @@ import paths from 'shared/paths'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { useState } from 'react'
 import CreateEditEvent from 'components/events/CreateEditEvent'
+import EditIcon from 'ui/icons/EditIcon'
 
 
 const messages = {
@@ -26,13 +27,18 @@ const Event = () => {
   const { eventId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: event = null, isLoading } = useQueryWithScope(
-    ['event', eventId, { feature: 'Events', view: 'Event' }],
-    () => getEvent(eventId)
-  )
+  const {
+    data: event = null,
+    isLoading,
+    refetch: refetchEvent,
+  } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
 
   const handleEditEvent = () => {
     setUpdatedEvent(event)
+  }
+
+  const handleEdited = async () => {
+    await refetchEvent()
   }
 
   const {
@@ -54,7 +60,13 @@ const Event = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader title={messages.events} titleLink={paths.events} titleSuffix={event?.name}
-                    button={<PageHeaderButton onClick={handleEditEvent} label={messages.edit} />}/>
+                    button={
+                      <PageHeaderButton
+                        onClick={handleEditEvent}
+                        label={messages.edit}
+                        icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+                      />
+                    }/>
 
       </Grid>
       <KpiEvent attendees={event?.attendees} date={event?.beginAt} isLoading={isLoading} />
@@ -88,6 +100,7 @@ const Event = () => {
           handleClose={() => {
             setUpdatedEvent(null)
           }}
+          onUpdate={handleEdited}
           event={updatedEvent}
         />
       )}

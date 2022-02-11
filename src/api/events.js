@@ -34,7 +34,7 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
           e.post_address.city_name,
           e.post_address.country
         ),
-        e.category.slug,
+        e.category?.slug || '',
         e.private,
         e.electoral,
         e.visio_url,
@@ -80,7 +80,7 @@ export const getEvent = async id => {
       event.post_address.city_name,
       event.post_address.country
     ),
-    event.category.slug,
+    event.category?.slug || '',
     event.private,
     event.electoral,
     event.visio_url,
@@ -125,7 +125,7 @@ export const updateEvent = event => apiClient.put(`/api/v3/events/${event.id}`, 
 const eventToJson = event => ({
   id: event.id,
   name: event.name,
-  category: event.category,
+  category: event.categoryId,
   description: event.description,
   begin_at: format(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
   finish_at: format(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),

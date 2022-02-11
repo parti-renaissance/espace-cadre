@@ -17,14 +17,14 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
   cancelSuccess: "L'évènement a bien été annulé",
 }
 
-const EventList = ({ query, queryKey }) => {
+const EventList = ({ query, queryKey, setRefetchRef }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
@@ -42,6 +42,8 @@ const EventList = ({ query, queryKey }) => {
     getNextPageParam,
     onError: handleError,
   })
+
+  useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
 
   const events = usePaginatedData(paginatedEvents)
 
@@ -107,6 +109,7 @@ const EventList = ({ query, queryKey }) => {
 EventList.propTypes = {
   query: PropTypes.func.isRequired,
   queryKey: PropTypes.string.isRequired,
+  setRefetchRef: PropTypes.func.isRequired,
 }
 
 export default EventList

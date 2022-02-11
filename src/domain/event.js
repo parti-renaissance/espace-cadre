@@ -384,7 +384,7 @@ export class Event {
     0,
     0,
     false,
-    0,
+    null,
     null,
     '',
     false,

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { styled } from '@mui/system'
 import {
   Button,
@@ -73,7 +73,7 @@ const messages = {
   finish: 'Terminer',
 }
 
-const Stepper = ({ stepsCount, validSteps = [], children, ...props }) => {
+const Stepper = ({ validSteps = [], children, resetActiveStep, ...props }) => {
   const [activeStep, setActiveStep] = useState(0)
   const handlePrevStep = useCallback(() => setActiveStep(prevStep => prevStep - 1), [])
   const handleNextStep = useCallback(() => setActiveStep(prevStep => prevStep + 1), [])
@@ -83,6 +83,12 @@ const Stepper = ({ stepsCount, validSteps = [], children, ...props }) => {
     },
     [activeStep]
   )
+
+  useEffect(() => {
+    resetActiveStep(() => {
+      setActiveStep(0)
+    })
+  }, [resetActiveStep])
 
   if (!activeStep && activeStep !== 0) return null
 
@@ -117,8 +123,8 @@ const Stepper = ({ stepsCount, validSteps = [], children, ...props }) => {
 }
 
 Stepper.propTypes = {
-  stepsCount: PropTypes.number.isRequired,
   validSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
+  resetActiveStep: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 }
 
