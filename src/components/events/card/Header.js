@@ -10,11 +10,14 @@ import { TruncatedText } from 'components/shared/styled'
 import { Event } from 'domain/event'
 import noImage from 'assets/no-image.png'
 
-const CalendarTodayIcon = styled(MuiCalendarTodayIcon)`
-  margin-right: ${({ theme }) => theme.spacing(1)};
+const CalendarTodayIcon = styled(MuiCalendarTodayIcon)(
+  ({ theme }) => `
+  margin-right: ${theme.spacing(1)};
+  color: ${theme.palette.gray500};
   font-size: 16px;
   font-weight: 500;
 `
+)
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -22,18 +25,21 @@ const HorizontalContainer = styled('div')`
   align-items: center;
 `
 
-const AttendeesIcon = styled('div')`
+const AttendeesIcon = styled('div')(
+  ({ theme }) => `
   display: flex;
   align-items: center;
+  color: ${theme.palette.gray600};
   font-size: 10px;
   font-weight: 500;
   border-radius: 19px;
   height: 18px;
-  padding: ${({ theme }) => theme.spacing(0, 0.75)};
-  border-color: ${({ theme }) => theme.palette.gray100};
-  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
-  margin: ${({ theme }) => theme.spacing(0.25, 1, 0, 1)};
+  padding: ${theme.spacing(0, 0.75)};
+  border-color: ${theme.palette.gray100};
+  border: ${`1px solid ${theme.palette.gray200}`};
+  margin: ${theme.spacing(0.25, 1, 0, 1)};
 `
+)
 
 const Image = styled('img')`
   object-fit: cover;
@@ -83,7 +89,7 @@ const Header = ({ event }) => (
         label={event.scheduled ? messages.scheduled : messages.canceled}
       />
       <AttendeesIcon>
-        <GroupIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500' }} />
+        <GroupIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
         {event.attendees}
       </AttendeesIcon>
     </HorizontalContainer>
@@ -95,12 +101,12 @@ const Header = ({ event }) => (
       </BeginAtTypography>
     </Box>
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
-      <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500' }} />
+      <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
       <TruncatedText
         title={formatAddress(event.address)}
         lines={3}
         variant="subtitle2"
-        sx={{ color: 'gray600', height: '55px' }}
+        sx={{ height: '55px', color: 'gray600' }}
       >
         {formatAddress(event.address)}
       </TruncatedText>
