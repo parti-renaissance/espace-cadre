@@ -11,12 +11,18 @@ import Loader from 'ui/Loader'
 import UICard from 'ui/Card'
 import Header from 'components/events/Event/card/Header'
 import paths from 'shared/paths'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import { useState } from 'react'
+import CreateEditEvent from 'components/events/CreateEditEvent'
+
 
 const messages = {
   events: 'Évènements',
+  edit: 'Modifier',
 }
 
 const Event = () => {
+  const [updatedEvent, setUpdatedEvent] = useState(null)
   const { eventId } = useParams()
   const { handleError } = useErrorHandler()
 
@@ -24,6 +30,10 @@ const Event = () => {
     ['event', eventId, { feature: 'Events', view: 'Event' }],
     () => getEvent(eventId)
   )
+
+  const handleEditEvent = () => {
+    setUpdatedEvent(event)
+  }
 
   const {
     data: paginatedAttendees = null,
@@ -43,7 +53,9 @@ const Event = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.events} titleLink={paths.events} titleSuffix={event?.name} />
+        <PageHeader title={messages.events} titleLink={paths.events} titleSuffix={event?.name}
+                    button={<PageHeaderButton onClick={handleEditEvent} label={messages.edit} />}/>
+
       </Grid>
       <KpiEvent attendees={event?.attendees} date={event?.beginAt} isLoading={isLoading} />
       <Grid container>
@@ -71,6 +83,14 @@ const Event = () => {
           )}
         </Grid>
       </Grid>
+      {updatedEvent && (
+        <CreateEditEvent
+          handleClose={() => {
+            setUpdatedEvent(null)
+          }}
+          event={updatedEvent}
+        />
+      )}
     </Container>
   )
 }

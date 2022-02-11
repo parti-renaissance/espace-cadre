@@ -30,8 +30,8 @@ const selectPlace = (address, cb) => {
   return [number, number && ' ', route].filter(Boolean).join('')
 }
 
-const Places = ({ onSelectPlace, error = null, ...props }) => {
-  const [address, setAddress] = useState('')
+const Places = ({ onSelectPlace, initialValue = '', error = null, ...props }) => {
+  const [address, setAddress] = useState(initialValue)
   const autoCompleteRef = useRef(null)
   const autoComplete = useRef(null)
 
@@ -74,5 +74,6 @@ export default Places
 
 Places.propTypes = {
   onSelectPlace: PropTypes.func.isRequired,
+  initialValue: PropTypes.string,
   error: PropTypes.string,
 }

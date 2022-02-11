@@ -17,7 +17,7 @@ import { Checkbox } from 'components/Phoning/CreateEdit/shared/components/styled
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
 import { useMutation, useQuery } from 'react-query'
-import { getCategories, createEvent as createEventApi } from 'api/events'
+import { getCategories, createEvent as createEventApi, updateEvent as updateEventApi } from 'api/events'
 import Places from 'ui/Places/Places'
 import timezones from './timezones.json'
 import Submit from 'ui/Stepper/Submit'
@@ -69,6 +69,7 @@ const fields = {
 const messages = {
   create: 'Créer un évènement',
   createSuccess: "L'évènement a été créé",
+  editSuccess: "L'évènement a été modifié",
   step1: 'Informations générales',
   step2: 'Informations détaillées',
   label: {
@@ -99,8 +100,8 @@ const messages = {
   },
 }
 
-const isStep0Valid = ({ name, category, beginAt, finishAt, address, timezone }) =>
-  !!name && !!category && !!beginAt && !!finishAt && !!address && !!timezone
+const isStep0Valid = ({ name, categoryId, beginAt, finishAt, address, timezone }) =>
+  !!name && !!categoryId && !!beginAt && !!finishAt && !!address && !!timezone
 const isStep1Valid = ({ description, capacity }) => description.length > 0 && capacity >= 0
 
 const CreateEditEvent = ({ handleClose, event }) => {
@@ -113,6 +114,14 @@ const CreateEditEvent = ({ handleClose, event }) => {
   const { mutate: createEvent } = useMutation(createEventApi, {
     onSuccess: () => {
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
+      handleClose()
+    },
+    onError: handleError,
+  })
+
+  const { mutate: updateEvent } = useMutation(updateEventApi, {
+    onSuccess: () => {
+      enqueueSnackbar(messages.editSuccess, notifyVariants.success)
       handleClose()
     },
     onError: handleError,
@@ -145,6 +154,11 @@ const CreateEditEvent = ({ handleClose, event }) => {
     [categoriesByGroup]
   )
 
+  const createOrEdit = () => {
+    if (newEvent.id) updateEvent(newEvent)
+    else createEvent(newEvent)
+  }
+
   return (
     <Dialog scroll="body" data-cy="event-create-edit" onClose={handleClose} PaperComponent={Paper} sx={{ my: 4 }} open>
       <Grid container justifyContent="space-between" alignItems="center">
@@ -175,7 +189,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
                 onChange={value => {
                   setNewEvent(prev => prev.withCategory(value))
                 }}
-                value={newEvent.category}
+                value={newEvent.categoryId}
                 placeholder={messages.placeholder.category}
                 sx={{ display: 'flex' }}
               />
@@ -212,6 +226,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
               <FormError errors={errorMessages} field={fields.timezone} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.address}</Label>
               <Places
+                initialValue={newEvent.address?.route}
                 onSelectPlace={p => {
                   setNewEvent(prev => prev.withAddress(p))
                 }}
@@ -298,7 +313,7 @@ const CreateEditEvent = ({ handleClose, event }) => {
             </div>
           </div>
         </Stepper>
-        <Submit label={messages.create} handleValidate={() => createEvent(newEvent)} disabled={validSteps.length < 2} />
+        <Submit label={messages.create} handleValidate={createOrEdit} disabled={validSteps.length < 2} />
       </Grid>
     </Dialog>
   )

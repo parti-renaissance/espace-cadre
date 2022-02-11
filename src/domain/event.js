@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { Place } from 'domain/place'
 
 export class Attendee {
   constructor(firstName, lastName, subscriptionDate, postalCode, type) {
@@ -78,7 +79,7 @@ export class Event {
     scheduled,
     capacity,
     address,
-    category,
+    categoryId,
     isPrivate,
     electoral,
     visioUrl,
@@ -99,8 +100,8 @@ export class Event {
     this.scheduled = scheduled
     this.capacity = capacity
     this.address = address
-    this.category = category
-    this.isPrivate = isPrivate
+    this.categoryId = categoryId
+    this.private = isPrivate
     this.electoral = electoral
     this.visioUrl = visioUrl
     this.mode = mode
@@ -123,8 +124,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
@@ -147,8 +148,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
@@ -171,8 +172,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
@@ -195,8 +196,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
@@ -218,8 +219,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
@@ -242,8 +243,8 @@ export class Event {
       this.scheduled,
       newCapacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
@@ -266,15 +267,15 @@ export class Event {
       this.scheduled,
       this.capacity,
       newAddress,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
       this.image
     )
 
-  withCategory = newCategory =>
+  withCategory = newCategoryId =>
     new Event(
       this.id,
       this.name,
@@ -290,8 +291,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      newCategory,
-      this.isPrivate,
+      newCategoryId,
+      this.private,
       this.electoral,
       this.visioUrl,
       this.mode,
@@ -314,7 +315,7 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
+      this.categoryId,
       newPrivate,
       this.electoral,
       this.visioUrl,
@@ -338,8 +339,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       newElectoral,
       this.visioUrl,
       this.mode,
@@ -362,8 +363,8 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
-      this.isPrivate,
+      this.categoryId,
+      this.private,
       this.electoral,
       newVisioUrl,
       this.mode,
@@ -395,7 +396,7 @@ export class Event {
 }
 
 Event.propTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   timezone: PropTypes.string.isRequired,
@@ -408,9 +409,9 @@ Event.propTypes = PropTypes.shape({
   attendees: PropTypes.number.isRequired,
   scheduled: PropTypes.bool.isRequired,
   capacity: PropTypes.number,
-  address: Address.propTypes.isRequired,
-  category: EventCategory.propTypes.isRequired,
-  isPrivate: PropTypes.bool.isRequired,
+  address: Place.propTypes.isRequired,
+  categoryId: PropTypes.string.isRequired,
+  private: PropTypes.bool.isRequired,
   electoral: PropTypes.bool.isRequired,
   visioUrl: PropTypes.string,
   mode: PropTypes.string,
