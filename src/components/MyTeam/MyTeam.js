@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { Container, Grid, Typography } from '@mui/material'
-import { styled } from '@mui/system'
+import { Container, Grid } from '@mui/material'
 
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getMyTeamQuery, removeTeamMemberQuery } from 'api/my-team'
@@ -14,12 +13,6 @@ import PageHeader from 'ui/PageHeader'
 import EmptyContent from 'ui/EmptyContent'
 import MyTeamMember from './MyTeamMember'
 import CreateEdit from './CreateEdit/CreateEdit'
-
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-`
 
 const messages = {
   pageTitle: 'Mon équipe',
@@ -92,7 +85,7 @@ const MyTeam = () => {
           <>
             <Grid container justifyContent="space-between">
               <PageHeader
-                title={<PageTitle sx={{ color: 'campaigncolor' }}>{messages.pageTitle}</PageTitle>}
+                title={messages.pageTitle}
                 button={
                   <>
                     <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />

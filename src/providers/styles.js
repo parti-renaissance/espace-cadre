@@ -3,6 +3,12 @@ import { PoppinsFontFaces, MaaxFontFaces } from './fonts'
 export const styles = {
   typography: {
     fontFamily: 'Poppins',
+    pageTitle: {
+      fontSize: '24px',
+      fontWeight: '400',
+      lineHeight: '36px',
+      color: 'gray800',
+    },
     body2: {
       fontSize: '14px',
       fontWeight: 600,

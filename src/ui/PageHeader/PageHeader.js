@@ -19,10 +19,10 @@ PageHeaderButton.propTypes = {
   icon: PropTypes.object,
 }
 
-const PageHeader = ({ title, button }) => (
+const PageHeader = ({ title, titleLink, titleSuffix, button }) => (
   <>
     <Grid item data-cy="ui-page-header">
-      <PageTitle title={title} />
+      <PageTitle title={title} titleLink={titleLink} titleSuffix={titleSuffix} />
     </Grid>
     {button && (
       <Grid item data-cy="ui-page-header-button">
@@ -35,6 +35,8 @@ const PageHeader = ({ title, button }) => (
 export default PageHeader
 
 PageHeader.propTypes = {
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  title: PropTypes.string.isRequired,
+  titleLink: PropTypes.string,
+  titleSuffix: PropTypes.string,
   button: PropTypes.node,
 }

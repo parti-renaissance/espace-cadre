@@ -3,7 +3,7 @@ import { Container, Grid } from '@mui/material'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaigns from 'components/Dashboard/Charts/SentEmailCampaigns/SentEmailCampaigns'
 import SendIcon from '@mui/icons-material/Send'
-import paths from 'components/Messagerie/shared/paths'
+import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 
@@ -21,7 +21,11 @@ const Dashboard = () => {
         <PageHeader
           title={messages.title}
           button={
-            <PageHeaderButton onClick={() => navigate(paths.create)} label={messages.sendEmail} icon={<SendIcon />} />
+            <PageHeaderButton
+              onClick={() => navigate(messageriePaths.create)}
+              label={messages.sendEmail}
+              icon={<SendIcon />}
+            />
           }
         />
       </Grid>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Grid, TextField } from '@mui/material'
 import { styled } from '@mui/system'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
@@ -9,20 +9,12 @@ import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
 import { createMessageContent, updateMessageContent } from 'api/messagerie'
 import PropTypes from 'prop-types'
-import messageriePaths from './shared/paths'
-import * as Sentry from '@sentry/react'
+import { paths as messageriePaths } from './shared/paths'
 import paths from 'shared/paths'
+import * as Sentry from '@sentry/react'
+import PageHeader from 'ui/PageHeader'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
-
-const Title = styled('div')(
-  ({ theme }) => `
-  font-size: 24px;
-  font-weight: 400;
-  color: ${theme.palette.blue600};
-  margin-bottom: ${theme.spacing(2)};
-`
-)
 
 const Container = styled(Grid)(
   ({ theme }) => `
@@ -76,9 +68,7 @@ const Template = ({ modeUpdate = false }) => {
 
   return (
     <>
-      <Title>
-        <Link to={paths.messages}>{messages.title}</Link> &gt; {messages.titleSuffix}
-      </Title>
+      <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
           <TextField

@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
+import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
 import {
@@ -16,7 +17,8 @@ import {
   sendTestMessage as sendTestMessageApi,
   setMessageSegment as setMessageSegmentApi,
 } from 'api/messagerie'
-import paths from 'components/Messagerie/shared/paths'
+import { paths as messageriePaths } from './shared/paths'
+import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { styled } from '@mui/system'
 import { useMutation } from 'react-query'
@@ -26,15 +28,6 @@ import { notifyMessages, notifyVariants } from 'components/shared/notification/c
 import * as Sentry from '@sentry/react'
 
 export const FEATURE_MESSAGES = 'messages'
-
-const Title = styled(Typography)(
-  ({ theme }) => `
-  font-size: 24px;
-  font-weight: 400;
-  color: ${theme.palette.blue600};
-  margin-bottom: ${theme.spacing(2)}
-`
-)
 
 const AudienceCount = styled(Typography)`
   font-size: 18px;
@@ -75,7 +68,8 @@ const retryInterval = 1000
 const maxAttempts = 10
 
 const messages = {
-  title: 'Messagerie > Filtrer mon message',
+  title: 'Messagerie',
+  titleSuffix: 'Filtrer mon message',
   previous: 'Précédent',
   addresseesCount: 'Vous allez envoyer un message à',
   contact: 'contact',
@@ -98,7 +92,7 @@ const Filters = () => {
 
   const { mutate: sendMessage } = useMutation(sendMessageApi, {
     onSuccess: () => {
-      navigate(`../../${paths.confirmation}`)
+      navigate(`../../${messageriePaths.confirmation}`)
     },
     onError: handleError,
   })
@@ -190,9 +184,9 @@ const Filters = () => {
   return (
     <>
       <Container maxWidth="xl">
-        <Title>{messages.title}</Title>
+        <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
         <Grid container>
-          <Link to={`../${paths.update}`}>
+          <Link to={`../${messageriePaths.update}`}>
             <Button
               type="button"
               disableRipple

@@ -3,17 +3,17 @@ import { Route, Routes } from 'react-router-dom'
 import Template from 'components/Messagerie/Template'
 import Filters from 'components/Messagerie/Filters'
 import Confirmation from 'components/Messagerie/Confirmation'
-import paths from 'components/Messagerie/shared/paths'
+import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 
 const MessagerieRoute = () => (
   <Routes>
     <Route path="*" element={<Dashboard />} />
-    <Route path={paths.create} element={<Template />} />
+    <Route path={messageriePaths.create} element={<Template />} />
     <Route path=":messageUuid/*">
-      <Route path={paths.update} element={<Template modeUpdate />} />
-      <Route path={paths.filter} element={<Filters />} />
+      <Route path={messageriePaths.update} element={<Template modeUpdate />} />
+      <Route path={messageriePaths.filter} element={<Filters />} />
     </Route>
-    <Route path={paths.confirmation} element={<Confirmation />} />
+    <Route path={messageriePaths.confirmation} element={<Confirmation />} />
   </Routes>
 )
 

@@ -23,14 +23,8 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import EditIcon from 'ui/icons/EditIcon'
-import { Link } from 'react-router-dom'
 import paths from 'shared/paths'
 
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-`
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
   color: theme.palette.gray400,
@@ -115,15 +109,9 @@ export const CampaignDetail = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={
-            <>
-              <PageTitle sx={{ color: 'campaigncolor' }}>
-                <Link to={paths.phoning_campaign}>{messages.pageTitle}</Link>
-              </PageTitle>
-              <PageTitle sx={{ color: 'gray400' }}>&nbsp;{'>'}&nbsp;</PageTitle>
-              <PageTitle sx={{ color: 'gray800' }}>{campaignDetail.title}</PageTitle>
-            </>
-          }
+          title={messages.pageTitle}
+          titleLink={paths.phoning_campaign}
+          titleSuffix={campaignDetail.title}
           button={
             <PageHeaderButton
               label={messages.modify}

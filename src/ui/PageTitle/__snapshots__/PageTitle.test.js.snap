@@ -1,9 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageTitle displays a title 1`] = `
+exports[`PageTitle displays a breadcrumbs 1`] = `
 <div>
   <div>
-    Title for test
+    <div
+      class="typography"
+    >
+      <div
+        class="Link"
+        data-to="titleLink"
+      >
+        Title for test
+      </div>
+    </div>
+    <div
+      class="typography"
+    >
+       
+      &gt;
+       
+    </div>
+    <div
+      class="typography"
+    >
+      titleSuffix
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PageTitle displays only a title 1`] = `
+<div>
+  <div>
+    <div
+      class="typography"
+    >
+      Title for test
+    </div>
   </div>
 </div>
 `;

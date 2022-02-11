@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import { addGroupMemberQuery, deleteGroupMemberQuery, getGroupQuery } from 'api/groups'
 import { activistAutocompleteUri } from 'api/activist'
@@ -13,12 +13,7 @@ import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import paths from 'shared/paths'
-
-const PageTitle = styled(Typography)`
-  font-size: 24px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.palette.cyan800};
-`
+import PageHeader from 'ui/PageHeader'
 
 const AutocompleteContainer = styled(Card)(
   ({ theme }) => `
@@ -99,9 +94,7 @@ const GroupEdit = () => {
     <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container>
         <Grid item sx={{ mb: 2 }}>
-          <PageTitle>
-            <Link to={paths.team}>{messages.group}</Link> &gt; {group?.name}
-          </PageTitle>
+          <PageHeader title={messages.group} titleLink={paths.team} titleSuffix={group?.name} />
         </Grid>
       </Grid>
       <Grid container>
