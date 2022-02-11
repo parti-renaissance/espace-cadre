@@ -37,7 +37,7 @@
     "react-router-dom": "6.2.1",
     "react-select": "5.2.2",
     "react-use": "17.3.2",
-    "recharts": "2.1.8",
+    "recharts": "2.1.9",
     "redux": "4.1.2",
     "redux-persist": "6.0.0",
     "sass": "1.49.7",
