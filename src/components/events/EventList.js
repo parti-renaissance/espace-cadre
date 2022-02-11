@@ -17,7 +17,7 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
@@ -63,6 +63,22 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     onError: handleError,
   })
 
+  const handleCancel = useCallback(
+    async id => {
+      await cancelEvent(id)
+      await refetch()
+    },
+    [cancelEvent, refetch]
+  )
+
+  const handleDelete = useCallback(
+    async id => {
+      await deleteEvent(id)
+      await refetch()
+    },
+    [deleteEvent, refetch]
+  )
+
   const handleViewEvent = uuid => () => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
@@ -91,10 +107,10 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
                 <Actions
                   onView={handleViewEvent(e.id)}
                   onEdit={handleEditEvent(e.id)}
-                  onDelete={() => deleteEvent(e.id)}
-                  isDeletable={e.attendees === 0 && e.organizerId === currentUser.uuid}
-                  onCancel={() => cancelEvent(e.id)}
-                  isCancelable={e.organizerId === currentUser.uuid}
+                  onDelete={() => handleDelete(e.id)}
+                  isDeletable={e.attendees <= 1 && e.organizerId === currentUser.uuid}
+                  onCancel={() => handleCancel(e.id)}
+                  isCancelable={e.organizerId === currentUser.uuid && e.scheduled}
                   loader={isLoadingDeleteEvent || isLoadingCancelEvent}
                 />
               }

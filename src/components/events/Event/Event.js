@@ -15,7 +15,8 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { useState } from 'react'
 import CreateEditEvent from 'components/events/CreateEditEvent'
 import EditIcon from 'ui/icons/EditIcon'
-
+import { useSelector } from 'react-redux'
+import { getCurrentUser } from '../../../redux/user/selectors'
 
 const messages = {
   events: 'Évènements',
@@ -26,6 +27,7 @@ const Event = () => {
   const [updatedEvent, setUpdatedEvent] = useState(null)
   const { eventId } = useParams()
   const { handleError } = useErrorHandler()
+  const currentUser = useSelector(getCurrentUser)
 
   const {
     data: event = null,
@@ -59,15 +61,20 @@ const Event = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.events} titleLink={paths.events} titleSuffix={event?.name}
-                    button={
-                      <PageHeaderButton
-                        onClick={handleEditEvent}
-                        label={messages.edit}
-                        icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-                      />
-                    }/>
-
+        <PageHeader
+          title={messages.events}
+          titleLink={paths.events}
+          titleSuffix={event?.name}
+          button={
+            currentUser && event?.organizerId === currentUser.uuid ? (
+              <PageHeaderButton
+                onClick={handleEditEvent}
+                label={messages.edit}
+                icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+              />
+            ) : null
+          }
+        />
       </Grid>
       <KpiEvent attendees={event?.attendees} date={event?.beginAt} isLoading={isLoading} />
       <Grid container>
