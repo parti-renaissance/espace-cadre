@@ -3,6 +3,14 @@ import PageTitle from './PageTitle'
 
 jest.mock('@mui/material', () => ({
   Grid: ({ children, breakpoints }) => <div xs={breakpoints}>{children}</div>,
+  Typography: ({ children }) => <div className="typography">{children}</div>,
+}))
+jest.mock('react-router-dom', () => ({
+  Link: ({ to, children }) => (
+    <div className="Link" data-to={to}>
+      {children}
+    </div>
+  ),
 }))
 
 describe('PageTitle', () => {
