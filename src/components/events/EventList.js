@@ -17,14 +17,14 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
   cancelSuccess: "L'évènement a bien été annulé",
 }
 
-const EventList = ({ query, queryKey }) => {
+const EventList = ({ query, queryKey, setRefetchRef }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
@@ -43,6 +43,8 @@ const EventList = ({ query, queryKey }) => {
     onError: handleError,
   })
 
+  useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
+
   const events = usePaginatedData(paginatedEvents)
 
   const { mutateAsync: deleteEvent, isLoading: isLoadingDeleteEvent } = useMutation(deleteEventQuery, {
@@ -60,6 +62,22 @@ const EventList = ({ query, queryKey }) => {
     },
     onError: handleError,
   })
+
+  const handleCancel = useCallback(
+    async id => {
+      await cancelEvent(id)
+      await refetch()
+    },
+    [cancelEvent, refetch]
+  )
+
+  const handleDelete = useCallback(
+    async id => {
+      await deleteEvent(id)
+      await refetch()
+    },
+    [deleteEvent, refetch]
+  )
 
   const handleViewEvent = uuid => () => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
@@ -89,10 +107,10 @@ const EventList = ({ query, queryKey }) => {
                 <Actions
                   onView={handleViewEvent(e.id)}
                   onEdit={handleEditEvent(e.id)}
-                  onDelete={() => deleteEvent(e.id)}
-                  isDeletable={e.attendees === 0 && e.organizerId === currentUser.uuid}
-                  onCancel={() => cancelEvent(e.id)}
-                  isCancelable={e.organizerId === currentUser.uuid}
+                  onDelete={() => handleDelete(e.id)}
+                  isDeletable={e.attendees <= 1 && e.organizerId === currentUser.uuid}
+                  onCancel={() => handleCancel(e.id)}
+                  isCancelable={e.organizerId === currentUser.uuid && e.scheduled}
                   loader={isLoadingDeleteEvent || isLoadingCancelEvent}
                 />
               }
@@ -107,6 +125,7 @@ const EventList = ({ query, queryKey }) => {
 EventList.propTypes = {
   query: PropTypes.func.isRequired,
   queryKey: PropTypes.string.isRequired,
+  setRefetchRef: PropTypes.func.isRequired,
 }
 
 export default EventList

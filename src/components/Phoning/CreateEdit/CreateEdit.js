@@ -118,7 +118,7 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
       </Grid>
 
       <Grid container>
-        <Stepper orientation="vertical" validSteps={validSteps} stepsCount={3} sx={{ width: '100%', pt: 4 }}>
+        <Stepper orientation="vertical" validSteps={validSteps} sx={{ width: '100%', pt: 4 }}>
           <GlobalSettingsContext.Provider
             value={{
               errors: errorMessages,
