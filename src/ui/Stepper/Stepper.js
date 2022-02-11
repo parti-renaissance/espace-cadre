@@ -85,9 +85,10 @@ const Stepper = ({ validSteps = [], children, resetActiveStep, ...props }) => {
   )
 
   useEffect(() => {
-    resetActiveStep(() => {
-      setActiveStep(0)
-    })
+    resetActiveStep &&
+      resetActiveStep(() => {
+        setActiveStep(0)
+      })
   }, [resetActiveStep])
 
   if (!activeStep && activeStep !== 0) return null
@@ -124,7 +125,7 @@ const Stepper = ({ validSteps = [], children, resetActiveStep, ...props }) => {
 
 Stepper.propTypes = {
   validSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
-  resetActiveStep: PropTypes.func.isRequired,
+  resetActiveStep: PropTypes.func,
   children: PropTypes.node.isRequired,
 }
 
