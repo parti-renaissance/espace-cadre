@@ -93,7 +93,7 @@ const Header = ({ event }) => (
         {event.attendees}
       </AttendeesIcon>
     </HorizontalContainer>
-    <Title subject={event.name} author={`Par ${event.organizer}`} sx={{ pt: 1 }} />
+    <Title subject={event.name} author={`Par ${event.organizer}`} lines={2} sx={{ pt: 1 }} />
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <CalendarTodayIcon />
       <BeginAtTypography variant="subtitle2">
@@ -102,12 +102,7 @@ const Header = ({ event }) => (
     </Box>
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
-      <TruncatedText
-        title={formatAddress(event.address)}
-        lines={3}
-        variant="subtitle2"
-        sx={{ height: '55px', color: 'gray600' }}
-      >
+      <TruncatedText lines={1} variant="subtitle2" sx={{ height: '55px', color: 'gray600' }}>
         {formatAddress(event.address)}
       </TruncatedText>
     </Box>
