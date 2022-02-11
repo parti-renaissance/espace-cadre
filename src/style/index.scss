@@ -17,4 +17,8 @@ body {
     color: inherit;
     text-decoration: none !important;
   }
+
+  .pac-container { // google places
+    z-index: 1500 !important;
+  }
 }

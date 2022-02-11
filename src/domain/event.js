@@ -66,6 +66,7 @@ export class Event {
   constructor(
     id,
     name,
+    description,
     timezone,
     createdAt,
     beginAt,
@@ -86,6 +87,7 @@ export class Event {
   ) {
     this.id = id
     this.name = name
+    this.description = description
     this.timezone = timezone
     this.createdAt = createdAt
     this.beginAt = beginAt
@@ -105,25 +107,289 @@ export class Event {
     this.image = image
   }
 
+  withName = newName =>
+    new Event(
+      this.id,
+      newName,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withDescription = newDescription =>
+    new Event(
+      this.id,
+      this.name,
+      newDescription,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withTimezone = newTimezone =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      newTimezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withBeginAt = newBeginAt =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      newBeginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+  withFinishAt = newFinishAt =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      newFinishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withCapacity = newCapacity =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      newCapacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withAddress = newAddress =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      newAddress,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withCategory = newCategory =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      newCategory,
+      this.isPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withPrivate = newPrivate =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      newPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withElectoral = newElectoral =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      newElectoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withVisioUrl = newVisioUrl =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.category,
+      this.isPrivate,
+      this.electoral,
+      newVisioUrl,
+      this.mode,
+      this.image
+    )
+
   static NULL = new Event(
     null,
-    null,
-    null,
-    null,
+    '',
+    '',
+    'Europe/Paris',
     null,
     null,
     null,
     null,
     null,
     0,
+    0,
     false,
     0,
     null,
-    null,
+    '',
     false,
     false,
-    null,
-    null,
+    '',
+    '',
     null
   )
 }
@@ -131,6 +397,7 @@ export class Event {
 Event.propTypes = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   timezone: PropTypes.string.isRequired,
   createdAt: PropTypes.object.isRequired,
   beginAt: PropTypes.object.isRequired,
@@ -146,6 +413,6 @@ Event.propTypes = PropTypes.shape({
   isPrivate: PropTypes.bool.isRequired,
   electoral: PropTypes.bool.isRequired,
   visioUrl: PropTypes.string,
-  mode: PropTypes.string.isRequired,
+  mode: PropTypes.string,
   image: PropTypes.string,
 })

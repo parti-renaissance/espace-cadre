@@ -6,6 +6,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { styled } from '@mui/system'
 import EventList from 'components/events/EventList'
 import { getEvents, getMyEvents } from 'api/events'
+import CreateEditEvent from 'components/events/CreateEditEvent'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -32,7 +33,7 @@ const messages = {
 }
 
 const Events = () => {
-  const [, setCurrentEvent] = useState(Event.NULL)
+  const [currentEvent, setCurrentEvent] = useState(null)
   const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
 
   const handleCreateEvent = () => {
@@ -68,6 +69,14 @@ const Events = () => {
         ))}
       </Tabs>
       <EventList query={tabs[selectedTab].query} queryKey={selectedTab} />
+      {currentEvent && (
+        <CreateEditEvent
+          handleClose={() => {
+            setCurrentEvent(null)
+          }}
+          event={currentEvent}
+        />
+      )}
     </Container>
   )
 }

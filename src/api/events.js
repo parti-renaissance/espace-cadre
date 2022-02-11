@@ -1,12 +1,13 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient, apiClientPublic } from 'services/networking/client'
 import { newPaginatedResult } from 'api/pagination'
 import { Address, Event, EventCategory, EventGroupCategory, Attendee } from 'domain/event'
+import { format } from 'date-fns'
 
 export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 
 export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
   const data = await apiClient.get(
-    `/api/v3/events?order[finish_at]=desc&page=${page}&page_size=20${onlyMine ? '&only_mine' : ''}`
+    `/api/v3/events?order[finishAt]=desc&page=${page}&page_size=20${onlyMine ? '&only_mine' : ''}`
   )
 
   const events = data.items.map(
@@ -14,6 +15,7 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
       new Event(
         e.uuid,
         e.name,
+        '',
         e.time_zone,
         new Date(e.created_at),
         new Date(e.begin_at),
@@ -65,6 +67,7 @@ export const getEvent = async id => {
   return new Event(
     event.uuid,
     event.name,
+    event.description,
     event.time_zone,
     new Date(event.created_at),
     new Date(event.begin_at),
@@ -121,11 +124,30 @@ export const formatCategories = rawCategories => {
 }
 
 export const getCategories = async () => {
-  const { data: rawCategories } = await apiClient.get('/api/v3/event_categories')
+  const rawCategories = await apiClientPublic('get', '/api/event_categories')
   return formatCategories(rawCategories)
 }
 
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
 export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}`)
-export const createEvent = event => apiClient.post('/api/v3/events', event)
+export const createEvent = event =>
+  apiClient.post('/api/v3/events', {
+    name: event.name,
+    category: event.category,
+    description: event.description,
+    begin_at: format(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
+    finish_at: format(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
+    capacity: parseInt(event.capacity),
+    mode: 'meeting',
+    visio_url: event.visioUrl,
+    post_address: {
+      address: [event.address.number, event.address.number && ' ', event.address.route].filter(Boolean).join(''),
+      postal_code: event.address.postalCode,
+      city_name: event.address.locality,
+      country: event.address.country,
+    },
+    time_zone: event.timezone,
+    electoral: event.electoral,
+    private: event.isPrivate,
+  })
 export const updateEvent = event => apiClient.post('/api/v3/events/${event.id}', event)

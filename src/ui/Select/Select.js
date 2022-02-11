@@ -1,4 +1,4 @@
-import { ListItemText, MenuItem, Select as MuiSelect } from '@mui/material'
+import { ListItemText, ListSubheader, MenuItem, Select as MuiSelect } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useCallback } from 'react'
@@ -36,11 +36,15 @@ const UISelect = ({ value, onChange, options, placeholder = null, renderValue, .
           <ListItemText primary={placeholder} />
         </MenuItem>
       )}
-      {options.map(({ key, value, disabled = false }) => (
-        <MenuItem key={key} value={key} disabled={disabled}>
-          <ListItemText primary={value} />
-        </MenuItem>
-      ))}
+      {options.map(({ key, value, group = false, disabled = false }) =>
+        group ? (
+          <ListSubheader key={key}>{value}</ListSubheader>
+        ) : (
+          <MenuItem key={key} value={key} disabled={disabled}>
+            <ListItemText primary={value} />
+          </MenuItem>
+        )
+      )}
     </Select>
   )
 }
@@ -53,6 +57,7 @@ UISelect.propTypes = {
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
       disabled: PropTypes.bool,
+      group: PropTypes.bool,
     })
   ).isRequired,
   placeholder: PropTypes.string,
