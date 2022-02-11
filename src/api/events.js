@@ -138,7 +138,7 @@ export const createEvent = event =>
     begin_at: format(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
     finish_at: format(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
     capacity: parseInt(event.capacity),
-    mode: 'online',
+    mode: 'meeting',
     visio_url: event.visioUrl,
     post_address: {
       address: [event.address.number, event.address.number && ' ', event.address.route].filter(Boolean).join(''),
