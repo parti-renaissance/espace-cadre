@@ -32,12 +32,12 @@ const messages = {
   myEvents: 'Mes évènements',
 }
 
-const noop = () => () => {}
+const noOp = () => () => {}
 
 const Events = () => {
   const [currentEvent, setCurrentEvent] = useState(null)
   const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
-  const [refetchEvents, setRefetchEvents] = useState(noop)
+  const [refetchEvents, setRefetchEvents] = useState(noOp)
 
   const setRefetchEventsRef = useCallback(f => setRefetchEvents(() => f), [])
 
