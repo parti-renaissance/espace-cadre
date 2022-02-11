@@ -104,11 +104,7 @@ const Phoning = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={
-            <Typography variant="pageTitle" sx={{ color: 'campaigncolor' }}>
-              {messages.pageTitle}
-            </Typography>
-          }
+          title={messages.pageTitle}
           button={
             <PageHeaderButton
               label={messages.create}

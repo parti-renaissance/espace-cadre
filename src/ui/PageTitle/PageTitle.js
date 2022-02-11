@@ -1,7 +1,13 @@
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const PageTitle = ({ title, breakpoints = { xs: null, sm: null, md: null, lg: null, xl: null } }) => (
+const PageTitle = ({
+  title,
+  titleLink,
+  titleSuffix,
+  breakpoints = { xs: null, sm: null, md: null, lg: null, xl: null },
+}) => (
   <Grid
     item
     sx={{ fontSize: 24, mb: 2 }}
@@ -11,14 +17,34 @@ const PageTitle = ({ title, breakpoints = { xs: null, sm: null, md: null, lg: nu
     lg={breakpoints.lg}
     xl={breakpoints.xl}
   >
-    {title}
+    {titleLink ? (
+      <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
+        <Link to={titleLink}>{title}</Link>
+      </Typography>
+    ) : (
+      <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
+        {title}
+      </Typography>
+    )}
+    {titleSuffix && (
+      <>
+        <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
+          &nbsp;{'>'}&nbsp;
+        </Typography>
+        <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
+          {titleSuffix}
+        </Typography>
+      </>
+    )}
   </Grid>
 )
 
 export default PageTitle
 
 PageTitle.propTypes = {
-  title: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  titleLink: PropTypes.string,
+  titleSuffix: PropTypes.string,
   breakpoints: PropTypes.shape({
     xs: PropTypes.number,
     sm: PropTypes.number,

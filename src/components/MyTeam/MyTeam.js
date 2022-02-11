@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { Container, Grid, Typography } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getMyTeamQuery, removeTeamMemberQuery } from 'api/my-team'
@@ -85,11 +85,7 @@ const MyTeam = () => {
           <>
             <Grid container justifyContent="space-between">
               <PageHeader
-                title={
-                  <Typography variant="pageTitle" sx={{ color: 'campaigncolor' }}>
-                    {messages.pageTitle}
-                  </Typography>
-                }
+                title={messages.pageTitle}
                 button={
                   <>
                     <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />

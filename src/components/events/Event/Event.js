@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import PageHeader from 'ui/PageHeader'
 import KpiEvent from 'components/events/KPIEvent'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
@@ -10,7 +10,6 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import Loader from 'ui/Loader'
 import UICard from 'ui/Card'
 import Header from 'components/events/Event/card/Header'
-import { Link } from 'react-router-dom'
 import paths from 'shared/paths'
 
 const messages = {
@@ -44,21 +43,7 @@ const Event = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader
-          title={
-            <>
-              <Typography variant="pageTitle" sx={{ color: 'indigo700' }}>
-                <Link to={paths.events}>{messages.events}</Link>
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
-                &nbsp;{'>'}&nbsp;
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
-                {event?.name}
-              </Typography>
-            </>
-          }
-        />
+        <PageHeader title={messages.events} titleLink={paths.events} titleSuffix={event?.name} />
       </Grid>
       <KpiEvent attendees={event?.attendees} date={event?.beginAt} isLoading={isLoading} />
       <Grid container>

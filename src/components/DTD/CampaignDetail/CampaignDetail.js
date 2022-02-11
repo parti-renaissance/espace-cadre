@@ -20,7 +20,6 @@ import CampaignDetailSurveys from './CampaignDetailSurveys'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
-import { Link } from 'react-router-dom'
 import paths from 'shared/paths'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -105,21 +104,7 @@ export const CampaignDetail = () => {
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader
-          title={
-            <>
-              <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
-                <Link to={paths.pap}>{messages.pageTitle}</Link>
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
-                &nbsp;{'>'}&nbsp;
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
-                {campaignDetail.title}
-              </Typography>
-            </>
-          }
-        />
+        <PageHeader title={messages.pageTitle} titleLink={paths.pap} titleSuffix={campaignDetail.title} />
       </Grid>
 
       <Grid container justifyContent="space-between">

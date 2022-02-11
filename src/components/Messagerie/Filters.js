@@ -184,21 +184,7 @@ const Filters = () => {
   return (
     <>
       <Container maxWidth="xl">
-        <PageHeader
-          title={
-            <>
-              <Typography variant="pageTitle" sx={{ color: 'campaign.color', mb: 2 }}>
-                <Link to={paths.messages}>{messages.title}</Link>
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
-                &nbsp;{'>'}&nbsp;
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
-                {messages.titleSuffix}
-              </Typography>
-            </>
-          }
-        />
+        <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
         <Grid container>
           <Link to={`../${messageriePaths.update}`}>
             <Button

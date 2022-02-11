@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Grid, TextField, Typography } from '@mui/material'
+import { Grid, TextField } from '@mui/material'
 import { styled } from '@mui/system'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
@@ -68,21 +68,7 @@ const Template = ({ modeUpdate = false }) => {
 
   return (
     <>
-      <PageHeader
-        title={
-          <>
-            <Typography variant="pageTitle" sx={{ color: 'campaign.color', mb: 2 }}>
-              <Link to={paths.messages}>{messages.title}</Link>
-            </Typography>
-            <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
-              &nbsp;{'>'}&nbsp;
-            </Typography>
-            <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
-              {messages.titleSuffix}
-            </Typography>
-          </>
-        }
-      />
+      <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
           <TextField

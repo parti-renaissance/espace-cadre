@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import { addGroupMemberQuery, deleteGroupMemberQuery, getGroupQuery } from 'api/groups'
 import { activistAutocompleteUri } from 'api/activist'
@@ -94,21 +94,7 @@ const GroupEdit = () => {
     <Container maxWidth="lg" sx={{ mb: 2 }}>
       <Grid container>
         <Grid item sx={{ mb: 2 }}>
-          <PageHeader
-            title={
-              <>
-                <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
-                  <Link to={paths.team}>{messages.group}</Link>
-                </Typography>
-                <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
-                  &nbsp;{'>'}&nbsp;
-                </Typography>
-                <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
-                  {group?.name}
-                </Typography>
-              </>
-            }
-          />
+          <PageHeader title={messages.group} titleLink={paths.team} titleSuffix={group?.name} />
         </Grid>
       </Grid>
       <Grid container>

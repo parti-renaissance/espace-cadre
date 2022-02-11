@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router'
-import { Container, Grid, Typography } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 
 import { getSurveyQuery, getSurveyRepliesQuery } from 'api/surveys'
 import { useQueryWithScope } from 'api/useQueryWithScope'
@@ -9,7 +9,6 @@ import SurveyDetailReplies from './SurveyDetailReplies'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
-import { Link } from 'react-router-dom'
 import paths from 'shared/paths'
 
 const messages = {
@@ -42,19 +41,9 @@ export const SurveyDetail = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={
-            <>
-              <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
-                <Link to={paths.survey}>{messages.pageTitle}</Link>
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray400' }}>
-                &nbsp;{'>'}&nbsp;
-              </Typography>
-              <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
-                {surveyDetail.title}
-              </Typography>
-            </>
-          }
+          title={messages.pageTitle}
+          titleLink={paths.survey}
+          titleSuffix={surveyDetail.title}
           button={
             <PageHeaderButton
               label={messages.modify}

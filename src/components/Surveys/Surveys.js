@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { useMutation } from 'react-query'
-import { Container, Grid, Typography } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
@@ -79,11 +79,7 @@ const Surveys = () => {
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
-          title={
-            <Typography variant="pageTitle" sx={{ color: 'campaigncolor' }}>
-              {messages.pageTitle}
-            </Typography>
-          }
+          title={messages.pageTitle}
           button={
             <PageHeaderButton
               label={messages.create}
