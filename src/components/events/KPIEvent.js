@@ -1,6 +1,7 @@
 import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 import pluralize from 'components/shared/pluralize/pluralize'
-import { differenceInCalendarDays, format } from 'date-fns'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import PropTypes from 'prop-types'
 
 const messages = {
@@ -10,24 +11,16 @@ const messages = {
   remaining: 'restant',
 }
 
-const KpiEvent = ({ attendees, date, isLoading = false }) => {
-  const daysRemaining = differenceInCalendarDays(date, new Date()) || 0
-
-  return (
-    <KPIs isLoading={isLoading}>
-      {date && (
-        <>
-          <KPICard
-            main={daysRemaining <= 0 ? 0 : daysRemaining}
-            title={`${pluralize(daysRemaining, messages.day)} ${pluralize(daysRemaining, messages.remaining)}`}
-            subtitle={`${messages.until} ${format(date, 'dd/MM/yyyy')}`}
-          />
-          <KPICard main={attendees} title={pluralize(attendees, messages.attendee)} />
-        </>
-      )}
-    </KPIs>
-  )
-}
+const KpiEvent = ({ attendees, date, isLoading = false }) => (
+  <KPIs isLoading={isLoading}>
+    {date && (
+      <>
+        <KPICard main={format(date, 'dd', { locale: fr })} title={format(date, 'MMMM yyyy', { locale: fr })} />
+        <KPICard main={attendees} title={pluralize(attendees, messages.attendee)} />
+      </>
+    )}
+  </KPIs>
+)
 
 KpiEvent.propTypes = {
   attendees: PropTypes.number,
