@@ -6,8 +6,16 @@ jest.mock('@mui/material', () => ({
 }))
 
 describe('PageTitle', () => {
-  it('displays a title', () => {
+  it('displays only a title', () => {
     const { container } = render(<PageTitle title="Title for test" xs={0} />)
+
+    expect(container).toMatchSnapshot()
+  })
+
+  it('displays a breadcrumbs', () => {
+    const { container } = render(
+      <PageTitle title="Title for test" titleLink="titleLink" titleSuffix="titleSuffix" xs={0} />
+    )
 
     expect(container).toMatchSnapshot()
   })
