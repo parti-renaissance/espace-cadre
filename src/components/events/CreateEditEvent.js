@@ -13,7 +13,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import Stepper from 'ui/Stepper/Stepper'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Checkbox } from 'components/Phoning/CreateEdit/shared/components/styled'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
 import { useMutation, useQuery } from 'react-query'
@@ -179,7 +179,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   return (
     <Dialog scroll="body" data-cy="event-create-edit" onClose={handleClose} PaperComponent={Paper} sx={{ my: 4 }} open>
       <Grid container justifyContent="space-between" alignItems="center">
-        <Title>{messages.create}</Title>
+        <Title>{event?.id ? messages.edit : messages.create}</Title>
         <IconButton onClick={handleClose}>
           <CloseRoundedIcon />
         </IconButton>

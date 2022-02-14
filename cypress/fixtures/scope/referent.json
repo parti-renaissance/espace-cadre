@@ -14,5 +14,5 @@
     }
   ],
   "apps": ["data_corner"],
-  "features": ["dashboard", "contacts", "messages", "elections", "mobile_app", "news", "team"]
+  "features": ["dashboard", "contacts", "messages", "elections", "mobile_app", "news", "team", "events"]
 }
