@@ -67,9 +67,13 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
 
   const updateQuestionField = useCallback(
     (id, key, value) => {
-      const questions = allQuestions
+      const questions = [...allQuestions]
       const questionIndex = questions.findIndex((_, index) => index === id)
-      questions[questionIndex][key] = value
+      // TODO : ici plutot que de muter questions ca serait ptete plus propre de creer
+      // une nouvelle liste avec filter sans la question avec l index 'questionIndex'
+      // et de rajouter un nouvel objet a cette liste
+      // mais je suis pas sur de bien comprendre le systeme d index
+      questions[questionIndex] = { ...questions[questionIndex], [key]: value }
       return questions
     },
     [allQuestions]
