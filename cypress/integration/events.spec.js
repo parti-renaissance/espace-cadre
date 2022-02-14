@@ -20,7 +20,7 @@ const navigate = () => {
   cy.url().should('eq', 'http://localhost:3000/evenements')
 }
 
-describe('Phoning', () => {
+describe('Events', () => {
   beforeEach(() => {
     initialization()
     navigate()
