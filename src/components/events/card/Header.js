@@ -1,4 +1,4 @@
-import { Title, UIChip } from 'ui/Card'
+import { Title } from 'ui/Card'
 import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import GroupIcon from '@mui/icons-material/Group'
@@ -9,6 +9,7 @@ import RoomIcon from '@mui/icons-material/Room'
 import { TruncatedText } from 'components/shared/styled'
 import { Event } from 'domain/event'
 import noImage from 'assets/no-image.png'
+import EventChip from './EventChip'
 
 const CalendarTodayIcon = styled(MuiCalendarTodayIcon)(
   ({ theme }) => `
@@ -68,11 +69,6 @@ const BeginAtTypography = styled(Typography)`
 export const formatAddress = ({ address, postalCode, city }) =>
   [address, address && ', ', postalCode, postalCode && ' ', city].filter(Boolean).join('')
 
-const messages = {
-  scheduled: 'À venir',
-  canceled: 'Annulé',
-}
-
 const Header = ({ event }) => (
   <>
     {event.img ? (
@@ -83,11 +79,7 @@ const Header = ({ event }) => (
       </NoImageContainer>
     )}
     <HorizontalContainer>
-      <UIChip
-        color={event.scheduled ? 'teal700' : 'red600'}
-        bgcolor={event.scheduled ? 'activeLabel' : 'inactiveLabel'}
-        label={event.scheduled ? messages.scheduled : messages.canceled}
-      />
+      <EventChip event={event} />
       <AttendeesIcon>
         <GroupIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
         {event.attendees}
