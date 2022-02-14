@@ -66,8 +66,8 @@ const BeginAtTypography = styled(Typography)`
   align-self: center;
 `
 
-export const formatAddress = ({ address, postalCode, city }) =>
-  [address, address && ', ', postalCode, postalCode && ' ', city].filter(Boolean).join('')
+export const formatAddress = ({ route, postalCode, locality }) =>
+  [route, route && ', ', postalCode, postalCode && ' ', locality].filter(Boolean).join('')
 
 const Header = ({ event }) => (
   <>
@@ -94,7 +94,7 @@ const Header = ({ event }) => (
     </Box>
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
-      <TruncatedText lines={1} variant="subtitle2" sx={{ height: '55px', color: 'gray600' }}>
+      <TruncatedText lines={2} variant="subtitle2" sx={{ height: '55px', color: 'gray600' }}>
         {formatAddress(event.address)}
       </TruncatedText>
     </Box>

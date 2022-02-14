@@ -8,11 +8,12 @@ import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import SelectOption from './shared/components/SelectOption'
-import { Input, Label, Select } from './shared/components/styled'
+import { Label, Select } from './shared/components/styled'
 import { roles } from '../shared/constants'
 import { fields } from './shared/constants'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import Input from 'ui/Input/Input'
 
 const messages = {
   input: {

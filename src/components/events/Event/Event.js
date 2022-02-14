@@ -66,7 +66,7 @@ const Event = () => {
           titleLink={paths.events}
           titleSuffix={event?.name}
           button={
-            currentUser && event?.organizerId === currentUser.uuid ? (
+            currentUser && event?.organizerId === currentUser.uuid && event?.scheduled ? (
               <PageHeaderButton
                 onClick={handleEditEvent}
                 label={messages.edit}

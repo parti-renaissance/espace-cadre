@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "total_items": 1,
+    "items_per_page": 20,
+    "count": 1,
+    "current_page": 1,
+    "last_page": 1
+  },
+  "items": [
+    {
+      "category": {
+        "event_group_category": {
+          "name": "groupe 1",
+          "slug": "group1"
+        },
+        "name": "categorie 1",
+        "slug": "category1"
+      },
+      "uuid": "11111111-1111-1111-1111-111111111111",
+      "name": "mon evenement",
+      "time_zone": "Europe/Paris",
+      "begin_at": "2030-01-17T12:30:00+01:00",
+      "finish_at": "2030-01-17T14:30:00+01:00",
+      "organizer": {
+        "uuid": "11111111-2222-3333-4444-555555555555",
+        "first_name": "mon",
+        "last_name": "prénom"
+      },
+      "participants_count": 42,
+      "status": "SCHEDULED",
+      "capacity": 42,
+      "post_address": {
+        "address": "1 rue du xxxxx",
+        "postal_code": "75000",
+        "city": "75000-75000",
+        "city_name": "Paris",
+        "country": "FR",
+        "latitude": 0,
+        "longitude": 0
+      },
+      "created_at": "2022-01-10T12:30:00+01:00",
+      "private": true,
+      "electoral": true,
+      "visio_url": "url-du-visio.fr",
+      "mode": "meeting",
+      "local_finish_at": "2022-01-17T14:30:00+01:00",
+      "image_url": null,
+      "user_registered_at": "2022-01-10T12:30:00+01:00"
+    }
+  ]
+}

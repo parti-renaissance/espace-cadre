@@ -54,7 +54,7 @@ const DotsMenu = ({ children }) => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper data-cy="dot-action-menu">
       <IconButton size="small" onClick={handleClick} sx={{ p: 0 }}>
         <MoreVertIcon />
       </IconButton>

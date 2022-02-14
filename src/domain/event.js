@@ -44,25 +44,6 @@ EventGroupCategory.propTypes = PropTypes.shape({
   categories: PropTypes.arrayOf(EventCategory.propTypes).isRequired,
 })
 
-export class Address {
-  constructor(address, postalCode, city, country, lat, lng) {
-    this.address = address
-    this.postalCode = postalCode
-    this.city = city
-    this.country = country
-    this.lat = lat
-    this.lng = lng
-  }
-}
-Address.propTypes = PropTypes.shape({
-  address: PropTypes.string.isRequired,
-  postalCode: PropTypes.string.isRequired,
-  city: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
-  lat: PropTypes.number.isRequired,
-  lng: PropTypes.number.isRequired,
-})
-
 export class Event {
   constructor(
     id,

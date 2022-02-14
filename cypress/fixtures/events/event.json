@@ -1,0 +1,40 @@
+{
+  "category": {
+    "event_group_category": {
+      "name": "groupe 1",
+      "slug": "group1"
+    },
+    "name": "categorie 1",
+    "slug": "category1"
+  },
+  "uuid": "11111111-1111-1111-1111-111111111111",
+  "name": "Mon évènement",
+  "slug": "slug-mon-evenement",
+  "description": "description de l'évènement",
+  "time_zone": "Europe/Paris",
+  "begin_at": "2030-01-01T12:30:00+01:00",
+  "finish_at": "2030-01-01T15:30:00+01:00",
+  "organizer": {
+    "uuid": "11111111-2222-3333-4444-555555555555",
+    "first_name": "mon",
+    "last_name": "nom"
+  },
+  "participants_count": 2,
+  "status": "SCHEDULED",
+  "capacity": null,
+  "post_address": {
+    "address": "1 rue des étoiles",
+    "postal_code": "75000",
+    "city": "75000-75000",
+    "city_name": "Paris",
+    "country": "FR",
+    "latitude": 0,
+    "longitude": 0
+  },
+  "private": false,
+  "electoral": false,
+  "visio_url": "",
+  "mode": null,
+  "image_url": null,
+  "user_registered_at": null
+}

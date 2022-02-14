@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "total_items": 2,
+    "items_per_page": 30,
+    "count": 2,
+    "current_page": 1,
+    "last_page": 1
+  },
+  "items": [
+    {
+      "subscription_date": "2021-01-01T12:30:00+02:00",
+      "type": "adherent",
+      "first_name": "un",
+      "last_name": "adhérent",
+      "postal_code": "75000"
+    },
+    {
+      "subscription_date": "2021-01-02T12:30:00+02:00",
+      "type": "contact",
+      "first_name": "un",
+      "last_name": "contact",
+      "postal_code": "95000"
+    }
+  ]
+}
