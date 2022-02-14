@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types'
+import PropTypes, { element } from 'prop-types'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { styled } from '@mui/system'
 import { Button, Divider as MuiDivider, Grid, IconButton, InputAdornment, Typography } from '@mui/material'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
+import { v4 as uuid } from 'uuid'
 
 import { SurveyDetailQuestion as DomainSurveyDetailQuestion } from 'domain/surveys'
 import { fields } from '../shared/constants'
@@ -56,62 +57,51 @@ const messages = {
   },
 }
 
-const initialValues = [{ type: simpleField, content: '', choices: [] }]
+const initialQuestions = [{ type: simpleField, content: '', choices: [] }]
+const initialChoices = [{ content: '' }, { content: '' }, { content: '' }]
+const addMissingId = element => (element.id ? element : { ...element, id: uuid() })
 
 const Questions = ({ formValues, updateFormField, errors = [] }) => {
-  const [allQuestions, setAllQuestions] = useState(initialValues)
+  const [allQuestions, setAllQuestions] = useState([])
 
   useEffect(() => {
-    setAllQuestions(formValues)
+    const questions = formValues.length > 0 ? formValues : initialQuestions
+    setAllQuestions(questions.map(addMissingId))
   }, [formValues])
 
-  const updateQuestionField = useCallback(
-    (id, key, value) => {
-      const questions = [...allQuestions]
-      const questionIndex = questions.findIndex((_, index) => index === id)
-      // TODO : ici plutot que de muter questions ca serait ptete plus propre de creer
-      // une nouvelle liste avec filter sans la question avec l index 'questionIndex'
-      // et de rajouter un nouvel objet a cette liste
-      // mais je suis pas sur de bien comprendre le systeme d index
-      questions[questionIndex] = { ...questions[questionIndex], [key]: value }
-      return questions
-    },
-    [allQuestions]
-  )
-
-  const updateQuestionMultipleFields = useCallback(
+  const updateQuestionFields = useCallback(
     fields => {
-      let questions = allQuestions
-      fields.forEach(({ id, key, value }) => {
-        const questionIndex = questions.findIndex((_, index) => index === id)
-        questions[questionIndex][key] = value
+      let questions = [].concat(allQuestions)
+      fields.forEach(({ questionId, fieldName, value }) => {
+        const index = questions.findIndex(({ id }) => id === questionId)
+        questions[index] = { ...questions[index], [fieldName]: value }
       })
       return questions
     },
     [allQuestions]
   )
 
-  const handleFieldChange = (questionIndex, fieldName, value) => {
-    const questions = updateQuestionField(questionIndex, fieldName, value)
+  const handleFieldChange = (questionId, fieldName, value) => {
+    const questions = updateQuestionFields([{ questionId, fieldName, value }])
     updateFormField(fields.questions, questions)
   }
 
-  const handleQuestionTypeChange = questionIndex => event => {
+  const handleQuestionTypeChange = questionId => event => {
     const type = event.target.value
-    const questions = updateQuestionMultipleFields([
-      { id: questionIndex, key: fields.type, value: type },
-      { id: questionIndex, key: fields.choices, value: type !== simpleField ? ['', '', ''] : [] },
+    const questions = updateQuestionFields([
+      { questionId, fieldName: fields.type, value: type },
+      { questionId, fieldName: fields.choices, value: type !== simpleField ? initialChoices.map(addMissingId) : [] },
     ])
     updateFormField(fields.questions, questions)
   }
 
   const handleQuestionAdd = () => {
-    const questions = allQuestions.concat(initialValues)
+    const questions = [].concat(allQuestions).concat(initialQuestions)
     updateFormField(fields.questions, questions)
   }
 
-  const handleQuestionDelete = questionIndex => () => {
-    const questions = allQuestions.filter((_, index) => index !== questionIndex)
+  const handleQuestionDelete = questionId => () => {
+    const questions = [].concat(allQuestions).filter(({ id }) => id !== questionId)
     updateFormField(fields.questions, questions)
   }
 
@@ -119,8 +109,8 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
     <>
       <Title sx={{ pt: 4, color: 'gray800' }}>{messages.title}</Title>
 
-      {allQuestions.map((question, questionIndex) => (
-        <Fragment key={questionIndex}>
+      {allQuestions.map(question => (
+        <Fragment key={question.id}>
           <Grid container sx={{ pt: 3, pb: 1 }}>
             <Label>{messages.question.label}</Label>
           </Grid>
@@ -129,11 +119,11 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
             name={fields.content}
             placeholder={messages.question.placeholder}
             value={question.content}
-            onChange={event => handleFieldChange(questionIndex, fields.content, event.target.value)}
+            onChange={event => handleFieldChange(question.id, fields.content, event.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleQuestionDelete(questionIndex)} sx={{ color: 'form.label.color' }}>
+                  <IconButton onClick={handleQuestionDelete(question.id)} sx={{ color: 'form.label.color' }}>
                     <DeleteRoundedIcon />
                   </IconButton>
                 </InputAdornment>
@@ -145,11 +135,11 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
           <Grid container sx={{ pt: 2 }}>
             <Divider orientation="vertical" flexItem />
             <Grid item alignItems="center" sx={{ flex: 1, py: 2 }}>
-              <QuestionTypes selectedType={question.type} handleChange={handleQuestionTypeChange(questionIndex)} />
+              <QuestionTypes selectedType={question.type} handleChange={handleQuestionTypeChange(question.id)} />
               {question.type !== simpleField && (
                 <Choices
                   formValues={question.choices || []}
-                  updateFormField={(field, value) => handleFieldChange(questionIndex, field, value)}
+                  updateFormField={(field, value) => handleFieldChange(question.id, field, value)}
                 />
               )}
             </Grid>
