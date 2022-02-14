@@ -213,7 +213,7 @@ export const createOrUpdatePhoningCampaignQuery = campaign => {
     goal: +campaign.goal,
     finish_at: campaign.endDate,
     brief: campaign.brief,
-    zone: campaign?.zone?.uuid || null,
+    zone: campaign?.zone?.uuid,
     team: campaign.team.id,
     survey: campaign.survey.id,
     audience: formatFiltersData(campaign.filters),
