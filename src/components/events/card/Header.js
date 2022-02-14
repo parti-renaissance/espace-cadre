@@ -69,12 +69,6 @@ const BeginAtTypography = styled(Typography)`
 export const formatAddress = ({ address, postalCode, city }) =>
   [address, address && ', ', postalCode, postalCode && ' ', city].filter(Boolean).join('')
 
-const messages = {
-  scheduled: 'À venir',
-  canceled: 'Annulé',
-  past: 'Passé',
-}
-
 const Header = ({ event }) => (
   <>
     {event.img ? (
@@ -85,7 +79,7 @@ const Header = ({ event }) => (
       </NoImageContainer>
     )}
     <HorizontalContainer>
-      <EventChip event={event} messages={messages} />
+      <EventChip event={event} />
       <AttendeesIcon>
         <GroupIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
         {event.attendees}
