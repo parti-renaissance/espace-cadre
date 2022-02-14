@@ -17,7 +17,7 @@ export class SurveyDetailChoice {
     this.content = content
   }
   static propTypes = {
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     content: PropTypes.string.isRequired,
   }
 }
@@ -30,7 +30,7 @@ export class SurveyDetailQuestion {
     this.choices = choices
   }
   static propTypes = {
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     type: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     choices: PropTypes.arrayOf(PropTypes.shape(SurveyDetailChoice.propTypes)).isRequired,
