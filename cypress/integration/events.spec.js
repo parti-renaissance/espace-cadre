@@ -49,13 +49,13 @@ describe('Events', () => {
       cy.get(UICard).eq(0).contains('42')
       cy.get(UICard).eq(0).get(Chip).contains('Passé')
       cy.get(UICard).eq(0).contains('Par Prénom1 Nom1')
-      cy.get(UICard).eq(0).contains('17 janv. 2022 12:30')
+      cy.get(UICard).eq(0).contains('17 janv. 2022')
       cy.get(UICard).eq(0).contains('17 rue du XXXX, 95000 Jolie-Ville')
 
       cy.get(UICard).eq(1).contains('1')
       cy.get(UICard).eq(1).contains('Annulé')
       cy.get(UICard).eq(1).contains('Par Prénom2 Nom2')
-      cy.get(UICard).eq(1).contains('18 janv. 2022 12:30')
+      cy.get(UICard).eq(1).contains('18 janv. 2022')
       cy.get(UICard).eq(1).contains('75000')
 
       cy.get(DotMenu).should('not.exist')
@@ -66,7 +66,7 @@ describe('Events', () => {
       cy.get(UICard).contains('mon evenement')
       cy.get(UICard).contains('42')
       cy.get(UICard).contains('mon prénom')
-      cy.get(UICard).contains('17 janv. 2030 12:30')
+      cy.get(UICard).contains('17 janv. 2030')
       cy.get(UICard).contains('1 rue du xxxxx, 75000 Paris')
       cy.get(DotMenu).should('exist')
     })
@@ -82,11 +82,11 @@ describe('Events', () => {
 
       cy.get(UICard).eq(0).get(Chip).contains('Adhérent')
       cy.get(UICard).eq(0).contains('un adhérent')
-      cy.get(UICard).eq(0).contains('75000 • Le 01 janvier 2021 à 11:30')
+      cy.get(UICard).eq(0).contains('75000 • Le 01 janvier 2021 à')
 
       cy.get(UICard).eq(0).get(Chip).contains('Contact')
       cy.get(UICard).eq(1).contains('un contact')
-      cy.get(UICard).eq(1).contains('95000 • Le 02 janvier 2021 à 11:30')
+      cy.get(UICard).eq(1).contains('95000 • Le 02 janvier 2021 à')
     })
 
     it('should edit my event', () => {
