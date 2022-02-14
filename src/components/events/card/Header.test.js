@@ -1,4 +1,3 @@
-import { Address } from 'domain/event'
 import { formatAddress } from 'components/events/card/Header'
 import { Place } from 'domain/place'
 
