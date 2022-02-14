@@ -13,8 +13,6 @@ const InputName = 'input[name="name"]'
 const Select = '.MuiSelect-select'
 
 const Typography = '.MuiTypography-root'
-const CTAButton = '[data-cy="phoning-action-view"]'
-const isNotEmpty = value => expect(value.length).to.be.at.least(1)
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -28,7 +26,7 @@ describe('Phoning', () => {
     navigate()
   })
 
-  xdescribe('The header', () => {
+  describe('The header', () => {
     it('should have a title', () => {
       cy.get(PageHeaderTitle).should('exist')
       cy.get(PageHeaderTitle).find('>div').find(Typography).first().should('have.text', 'Évènements').and('be.visible')
