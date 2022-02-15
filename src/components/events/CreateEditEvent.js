@@ -255,7 +255,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                   setNewEvent(prev => prev.withAddress(p))
                 }}
               />
-              <FormError errors={errorMessages} field={fields.address} />
+              <FormError errors={errorMessages} field="post_address" />
               <Box component="div" sx={{ display: 'flex', mt: 3 }}>
                 <Input
                   placeholder={messages.placeholder.postalCode}
