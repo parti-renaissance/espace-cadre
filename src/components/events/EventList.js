@@ -99,7 +99,7 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
         {events.map(e => (
           <Grid item key={e.id} xs={12} sm={6} md={3}>
             <UICard
-              rootProps={{ sx: { height: '360px', borderRadius: '8px' } }}
+              rootProps={{ sx: { height: '380px', borderRadius: '8px' } }}
               headerProps={{ sx: { pt: 2.5 } }}
               header={<Header event={e} />}
               actionsProps={{ sx: { pt: 1 } }}

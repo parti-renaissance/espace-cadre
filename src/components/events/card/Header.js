@@ -85,7 +85,7 @@ const Header = ({ event }) => (
         {event.attendees}
       </AttendeesIcon>
     </HorizontalContainer>
-    <Title subject={event.name} author={`Par ${event.organizer}`} lines={2} sx={{ pt: 1 }} />
+    <Title subject={event.name} author={`Par ${event.organizer}`} lines={2} sx={{ pt: 1, height: '75px' }} />
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <CalendarTodayIcon />
       <BeginAtTypography variant="subtitle2">
