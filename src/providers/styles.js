@@ -129,7 +129,6 @@ export const styles = {
         main: '#1D214F',
         hover: '#FFFFFF14',
         active: '#FFFFFF',
-        beta: '#CC0613',
       },
     },
     form: {
@@ -346,7 +345,6 @@ export const styles = {
 
     // Red
     statusError: '#DA1414',
-    betaBubble: 'rgba(239, 68, 68, 0.1)',
 
     red100: '#FEE2E2',
     red200: '#FECACA',

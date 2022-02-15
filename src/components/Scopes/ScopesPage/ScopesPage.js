@@ -40,22 +40,6 @@ const Title = styled(Typography)(({ theme }) => ({
   },
 }))
 
-const Beta = styled('span')(({ theme }) => ({
-  color: theme.palette.whiteCorner,
-  fontSize: '10px',
-  fontWeight: 600,
-  backgroundColor: theme.palette.blackCorner,
-  padding: theme.spacing(0.25, 0.5, 0),
-  margin: theme.spacing(0.75, 0, 3.25, 0.75),
-  borderRadius: '4px',
-  [theme.breakpoints.up('md')]: {
-    fontSize: '16px',
-    height: '26px',
-    padding: theme.spacing(0.25, 1, 0),
-    marginLeft: theme.spacing(1.25),
-  },
-}))
-
 const UserCardContainer = styled(Grid)(
   ({ theme }) => `
   display: flex;
@@ -101,7 +85,6 @@ const Role = styled(Typography)`
 
 const messages = {
   title: "Je m'engage",
-  beta: 'BÊTA',
   roles: 'rôles',
   zone: 'zone',
 }
@@ -117,7 +100,6 @@ function ScopesPage() {
       <BrandContainer container alignItems="center">
         <UIBarChartIcon fontSize="large" titleAccess="Logo data corner" />
         <Title>{messages.title}</Title>
-        <Beta>{messages.beta}</Beta>
       </BrandContainer>
       <UserCardContainer container>
         <UserCardTitle>
