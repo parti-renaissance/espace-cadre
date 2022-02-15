@@ -31,6 +31,7 @@ const SurveyItem = ({
   author,
   questionsCount,
   answersCount,
+  readOnly,
   handleView,
   handlePublish,
   handleUpdate,
@@ -107,10 +108,14 @@ const SurveyItem = ({
                 {messages.see}
               </Typography>
             </CtaButton>
-            <DotsMenu>
-              <DotsMenuItem onClick={handlePublish}>{isPublished ? messages.unpublish : messages.publish}</DotsMenuItem>
-              <DotsMenuItem onClick={handleUpdate}>{messages.update}</DotsMenuItem>
-            </DotsMenu>
+            {!readOnly && (
+              <DotsMenu>
+                <DotsMenuItem onClick={handlePublish}>
+                  {isPublished ? messages.unpublish : messages.publish}
+                </DotsMenuItem>
+                <DotsMenuItem onClick={handleUpdate}>{messages.update}</DotsMenuItem>
+              </DotsMenu>
+            )}
           </HorizontalContainer>
         }
       />
@@ -120,6 +125,7 @@ const SurveyItem = ({
 
 SurveyItem.propTypes = {
   ...DomainSurveyItem.propTypes,
+  readOnly: PropTypes.bool.isRequired,
   handleView: PropTypes.func.isRequired,
   handlePublish: PropTypes.func.isRequired,
   handleUpdate: PropTypes.func.isRequired,
