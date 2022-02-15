@@ -130,6 +130,7 @@ const Surveys = () => {
                 <SurveyItem
                   key={survey.id}
                   isPublished={survey.isPublished}
+                  readOnly={survey.type !== scopesVisibility[scope]}
                   title={survey.title}
                   author={survey.author}
                   questionsCount={survey.questionsCount}
