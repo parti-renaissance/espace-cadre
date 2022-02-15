@@ -5,8 +5,9 @@ import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { styled } from '@mui/system'
 import EventList from 'components/events/EventList'
-import { getEvents, getMyEvents } from 'api/events'
+import { getCategories, getEvents, getMyEvents } from 'api/events'
 import CreateEditEvent from 'components/events/CreateEditEvent'
+import { useQuery } from 'react-query'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -38,6 +39,8 @@ const Events = () => {
   const [currentEvent, setCurrentEvent] = useState(null)
   const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
   const [refetchEvents, setRefetchEvents] = useState(noOp)
+
+  useQuery(['categories', { feature: 'Events', view: 'all' }], getCategories, {})
 
   const setRefetchEventsRef = useCallback(f => setRefetchEvents(() => f), [])
 

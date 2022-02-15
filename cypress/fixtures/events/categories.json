@@ -6,5 +6,13 @@
     },
     "name": "categorie 1",
     "slug": "category1"
+  },
+  {
+    "event_group_category": {
+      "name": "groupe 1",
+      "slug": "group1"
+    },
+    "name": "categorie 2",
+    "slug": "category2"
   }
 ]
