@@ -16,8 +16,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
-import { useMutation, useQuery } from 'react-query'
-import { getCategories, createEvent as createEventApi, updateEvent as updateEventApi } from 'api/events'
+import { useMutation, useQueryClient } from 'react-query'
+import { createEvent as createEventApi, updateEvent as updateEventApi } from 'api/events'
 import Places from 'ui/Places/Places'
 import timezones from './timezones.json'
 import Submit from 'ui/Stepper/Submit'
@@ -152,10 +152,12 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     })
   }, [debounce, newEvent])
 
-  const { data: categoriesByGroup = null } = useQuery(
-    ['categories', { feature: 'Events', view: 'Events' }],
-    getCategories
-  )
+  const queryClient = useQueryClient()
+  const { data: categoriesByGroup = null } = queryClient.getQueryState([
+    'categories',
+    { feature: 'Events', view: 'all' },
+  ])
+
   const categories = useMemo(
     () =>
       (

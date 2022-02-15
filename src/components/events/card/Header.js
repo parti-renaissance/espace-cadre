@@ -6,10 +6,12 @@ import { Box, Typography } from '@mui/material'
 import MuiCalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import { fr } from 'date-fns/locale'
 import RoomIcon from '@mui/icons-material/Room'
+import TagIcon from '@mui/icons-material/LocalOffer'
 import { TruncatedText } from 'components/shared/styled'
 import { Event } from 'domain/event'
 import noImage from 'assets/no-image.png'
 import EventChip from './EventChip'
+import PropTypes from 'prop-types'
 
 const CalendarTodayIcon = styled(MuiCalendarTodayIcon)(
   ({ theme }) => `
@@ -60,7 +62,7 @@ const NoImageContainer = styled('div')`
   align-items: center;
 `
 
-const BeginAtTypography = styled(Typography)`
+const LabelTypography = styled(Typography)`
   color: ${({ theme }) => theme.palette.gray600};
   display: flex;
   align-self: center;
@@ -69,7 +71,7 @@ const BeginAtTypography = styled(Typography)`
 export const formatAddress = ({ route, postalCode, locality }) =>
   [route, route && ', ', postalCode, postalCode && ' ', locality].filter(Boolean).join('')
 
-const Header = ({ event }) => (
+const Header = ({ event, categoryNameByCategoryId }) => (
   <>
     {event.img ? (
       <Image src={event.img} />
@@ -85,24 +87,32 @@ const Header = ({ event }) => (
         {event.attendees}
       </AttendeesIcon>
     </HorizontalContainer>
-    <Title subject={event.name} author={`Par ${event.organizer}`} lines={2} sx={{ pt: 1, height: '75px' }} />
+    <Title subject={event.name} author={`Par ${event.organizer}`} lines={2} sx={{ pt: 1 }} />
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <CalendarTodayIcon />
-      <BeginAtTypography variant="subtitle2">
-        {format(event.beginAt, 'd MMM yyyy HH:mm', { locale: fr })}
-      </BeginAtTypography>
+      <LabelTypography variant="subtitle2">{format(event.beginAt, 'd MMM yyyy HH:mm', { locale: fr })}</LabelTypography>
     </Box>
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
-      <TruncatedText lines={2} variant="subtitle2" sx={{ height: '55px', color: 'gray600' }}>
+      <TruncatedText
+        lines={2}
+        variant="subtitle2"
+        sx={{ height: '35px', color: 'gray600' }}
+        title={formatAddress(event.address)}
+      >
         {formatAddress(event.address)}
       </TruncatedText>
+    </Box>
+    <Box component="div" sx={{ display: 'flex', mt: 0.5 }}>
+      <TagIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
+      <LabelTypography variant="subtitle2">{categoryNameByCategoryId?.[event.categoryId]}</LabelTypography>
     </Box>
   </>
 )
 
 Header.propTypes = {
   event: Event.propTypes.isRequired,
+  categoryNameByCategoryId: PropTypes.object.isRequired,
 }
 
 export default Header

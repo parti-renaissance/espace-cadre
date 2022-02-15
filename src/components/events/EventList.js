@@ -1,7 +1,7 @@
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
 import { Event } from 'domain/event'
@@ -17,7 +17,7 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
@@ -46,6 +46,20 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
   useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
 
   const events = usePaginatedData(paginatedEvents)
+
+  const queryClient = useQueryClient()
+  const { data: categoriesByGroup = null } = queryClient.getQueryState([
+    'categories',
+    { feature: 'Events', view: 'all' },
+  ])
+  const categoryNameByCategoryId = useMemo(
+    () =>
+      (categoriesByGroup?.flatMap(g => g.categories) || []).reduce(
+        (map, group) => ({ ...map, [group.slug]: group.name }),
+        {}
+      ),
+    [categoriesByGroup]
+  )
 
   const { mutateAsync: deleteEvent, isLoading: isLoadingDeleteEvent } = useMutation(deleteEventQuery, {
     onSuccess: async () => {
@@ -99,9 +113,9 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
         {events.map(e => (
           <Grid item key={e.id} xs={12} sm={6} md={3}>
             <UICard
-              rootProps={{ sx: { height: '380px', borderRadius: '8px' } }}
+              rootProps={{ sx: { height: '370px', borderRadius: '8px' } }}
               headerProps={{ sx: { pt: 2.5 } }}
-              header={<Header event={e} />}
+              header={<Header event={e} categoryNameByCategoryId={categoryNameByCategoryId} />}
               actionsProps={{ sx: { pt: 1 } }}
               actions={
                 <Actions
