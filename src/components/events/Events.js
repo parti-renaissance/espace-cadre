@@ -9,6 +9,8 @@ import { getCategories, getEvents, getMyEvents } from 'api/events'
 import CreateEditEvent from 'components/events/CreateEditEvent'
 import { useQuery } from 'react-query'
 
+const ONE_DAY = 24 * 60 * 60 * 1000
+
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
   color: theme.palette.gray400,
@@ -40,7 +42,10 @@ const Events = () => {
   const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
   const [refetchEvents, setRefetchEvents] = useState(noOp)
 
-  useQuery(['categories', { feature: 'Events', view: 'all' }], getCategories, {})
+  useQuery(['categories', { feature: 'Events', view: 'all' }], getCategories, {
+    cacheTime: ONE_DAY,
+    staleTime: ONE_DAY,
+  })
 
   const setRefetchEventsRef = useCallback(f => setRefetchEvents(() => f), [])
 
