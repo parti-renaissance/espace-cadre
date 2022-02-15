@@ -90,7 +90,7 @@ const Event = () => {
                 {attendees.map(a => (
                   <Grid item key={a.subscriptionDate + a.lastName} xs={12} sm={6} md={3}>
                     <UICard
-                      rootProps={{ sx: { height: '110px', borderRadius: '8px' } }}
+                      rootProps={{ sx: { height: '125px', borderRadius: '8px' } }}
                       headerProps={{ sx: { pt: 2.5 } }}
                       header={<Header attendee={a} />}
                       actionsProps={{ sx: { pt: 1 } }}
