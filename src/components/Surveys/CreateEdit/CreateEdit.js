@@ -43,14 +43,18 @@ const messages = {
 }
 
 const initialValues = {
-  type: visibility.local,
-  isPublished: true,
+  isPublished: false,
   title: '',
   questions: [{ type: simpleField, content: '', choices: [] }],
 }
+const formatFormValues = (survey, zone, scope) => ({
+  ...(survey || initialValues),
+  type: scopesVisibility[scope],
+  zone: formatZone(zone),
+})
 const validateForm = ({ title, questions = [] }) => {
   const filteredQuestions = questions.filter(q => {
-    const filteredChoices = q.choices.filter(c => c)
+    const filteredChoices = q.choices.filter(({ content }) => content)
     const areValidChoices = q.type !== simpleField ? filteredChoices.length > 1 : true
     return !!(q.type && q.content && areValidChoices)
   })
@@ -64,7 +68,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
     zones: [zone],
     code: scope,
   } = currentScope
-  const [formValues, setFormValues] = useState(survey || { ...initialValues, zone: formatZone(zone) })
+  const [formValues, setFormValues] = useState(formatFormValues(survey, zone, scope))
   const isValidForm = useMemo(() => validateForm(formValues), [formValues])
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()

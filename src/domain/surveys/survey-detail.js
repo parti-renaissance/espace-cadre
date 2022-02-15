@@ -1,16 +1,5 @@
 import PropTypes from 'prop-types'
 
-export class SurveyDetailAuthor {
-  constructor(firstName, lastName) {
-    this.firstName = firstName
-    this.lastName = lastName
-  }
-  static propTypes = {
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-  }
-}
-
 export class SurveyDetailChoice {
   constructor(id, content) {
     this.id = id
@@ -38,18 +27,16 @@ export class SurveyDetailQuestion {
 }
 
 export class SurveyDetail {
-  constructor(id, isPublished, title, author, questions) {
+  constructor(id, isPublished, title, questions) {
     this.id = id
     this.isPublished = isPublished
     this.title = title
-    this.author = author
     this.questions = questions
   }
   static propTypes = {
     id: PropTypes.string,
     isPublished: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    author: PropTypes.shape(SurveyDetailAuthor.propTypes),
     questions: PropTypes.arrayOf(PropTypes.shape(SurveyDetailQuestion.propTypes)).isRequired,
   }
 }

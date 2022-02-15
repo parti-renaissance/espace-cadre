@@ -7,7 +7,6 @@ import {
   SurveyItemAuthor,
   SurveyItemZone,
   SurveyDetail,
-  SurveyDetailAuthor,
   SurveyDetailQuestion,
   SurveyDetailChoice,
   SurveyDetailReply,
@@ -33,13 +32,12 @@ export const getSurveysQuery = async ({ pageParam: page = 1 }) => {
 export const getOneSurveyQuery = async surveyId => {
   const data = await apiClient.get(`api/v3/surveys/${surveyId}`)
 
-  const author = data.creator ? new SurveyDetailAuthor(data.creator.first_name, data.creator.last_name) : null
   const questions = data.questions.map(q => {
     const choices = q.choices.map(c => new SurveyDetailChoice(c.id, c.content))
     return new SurveyDetailQuestion(q.id, q.type, q.content, choices)
   })
 
-  return new SurveyDetail(data.uuid, data.published, data.name, author, questions)
+  return new SurveyDetail(data.uuid, data.published, data.name, questions)
 }
 
 export const getSurveyRepliesQuery = async surveyId => {
@@ -63,16 +61,32 @@ export const getSurveysRepliesExport = async (surveyId, surveyTitle) => {
   saveAs(new Blob([data]), `${surveyTitle} - ${format(new Date(), 'dd.MM.yyyy')}.xlsx`)
 }
 
-const formatSurvey = ({ type, title, isPublished, questions, zone }) => ({
-  type,
+const formatChoicePayload =
+  useIds =>
+  ({ id, content }) => ({
+    ...(useIds && 'number' === typeof id && { id }),
+    content,
+  })
+const formatQuestionPayload =
+  useIds =>
+  ({ id, type, content, choices }) => ({
+    ...(useIds && 'number' === typeof id && { id }),
+    question: {
+      type,
+      content,
+      choices: choices.filter(({ content }) => content).map(formatChoicePayload(useIds)),
+    },
+  })
+const formatSurveyPayload = ({ id, isPublished, type, title, zone, questions }) => ({
   ...('boolean' === typeof isPublished && { published: isPublished }),
-  name: title,
-  questions,
-  zone,
+  ...(type && { type }),
+  ...(title && { name: title }),
+  ...(zone && { zone: zone?.id || null }),
+  ...(questions && { questions: questions.map(formatQuestionPayload(!!id)) }),
 })
 
 export const createOrUpdateSurveyQuery = survey => {
-  const body = formatSurvey(survey)
+  const body = formatSurveyPayload(survey)
   if (!survey.id) return apiClient.post('api/v3/surveys', body)
   return apiClient.put(`api/v3/surveys/${survey.id}`, body)
 }
