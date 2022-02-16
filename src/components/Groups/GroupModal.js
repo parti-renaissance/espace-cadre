@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useMutation } from 'react-query'
-import { Dialog, Paper, Grid, Button, Typography } from '@mui/material'
+import { Dialog, Paper, Grid, Button as MuiButton, Typography, IconButton } from '@mui/material'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import TextField from 'ui/TextField'
 import { styled } from '@mui/system'
-import ClearIcon from '@mui/icons-material/Clear'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
@@ -26,10 +26,11 @@ const Form = styled('form')`
   flex-direction: column;
 `
 
-const ModalTitle = styled(Typography)`
+const Title = styled(Typography)`
   font-size: 24px;
-  color: ${({ theme }) => theme.palette.gray800};
+  line-height: 24px;
   font-weight: 400;
+  color: ${({ theme }) => theme.palette.gray800};
 `
 
 const CharactersLimit = styled(Typography)(
@@ -39,13 +40,14 @@ const CharactersLimit = styled(Typography)(
 `
 )
 
-const SubmitButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.whiteCorner,
-  background: theme.palette.cyan600,
+const Button = styled(MuiButton)(({ theme }) => ({
+  color: theme.palette.campaign.button.color.main,
+  background: theme.palette.campaign.button.background.main,
   border: 'none',
   borderRadius: '8px',
   '&:hover': {
-    backgroundColor: theme.palette.cyan700,
+    color: theme.palette.campaign.button.color.main,
+    background: theme.palette.campaign.button.background.main,
   },
   height: '35px',
 }))
@@ -105,15 +107,11 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <Form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
-          <Grid item>
-            <ModalTitle component="span">{group?.id ? messages.edit : messages.create}</ModalTitle>
-          </Grid>
-          <Grid item>
-            <Button type="button" onClick={handleClose}>
-              <ClearIcon />
-            </Button>
-          </Grid>
+        <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+          <Title component="span">{group?.id ? messages.edit : messages.create}</Title>
+          <IconButton onClick={handleClose}>
+            <CloseRoundedIcon />
+          </IconButton>
         </Grid>
         <Grid container sx={{ mb: 1 }}>
           <Grid item xs={12}>
@@ -143,9 +141,9 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
         )}
 
         <Grid container sx={{ mt: 2 }}>
-          <SubmitButton type="submit" fullWidth>
+          <Button type="submit" fullWidth>
             {isLoading ? <Loader size={12} color="white" /> : messages.submit}
-          </SubmitButton>
+          </Button>
         </Grid>
       </Form>
     </Dialog>

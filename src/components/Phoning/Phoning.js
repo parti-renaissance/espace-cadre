@@ -14,7 +14,6 @@ import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
-import EditIcon from 'ui/icons/EditIcon'
 import { useUserScope } from '../../redux/user/hooks'
 
 const Title = styled(Typography)(
@@ -105,13 +104,7 @@ const Phoning = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.pageTitle}
-          button={
-            <PageHeaderButton
-              label={messages.create}
-              icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-              onClick={() => setIsCreateEditModalOpen(true)}
-            />
-          }
+          button={<PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />}
         />
       </Grid>
 

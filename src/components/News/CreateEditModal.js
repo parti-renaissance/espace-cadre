@@ -1,5 +1,14 @@
-import { Dialog, Paper, Grid, Button as MuiButton, FormControlLabel, Checkbox, Typography } from '@mui/material'
-import MuiCloseIcon from '@mui/icons-material/Close'
+import {
+  Dialog,
+  Paper,
+  Grid,
+  Button as MuiButton,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+  IconButton,
+} from '@mui/material'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useMutation } from 'react-query'
@@ -23,18 +32,12 @@ const StyledPaper = styled(Paper)(
 `
 )
 
-const CloseIcon = styled(MuiCloseIcon)(
-  ({ theme }) => `
-  color: ${theme.palette.gray700};
-  cursor: pointer;
-`
-)
-
 const Title = styled(Typography)(
   ({ theme }) => `
   font-size: 24px;
-  color: ${theme.palette.gray800};
+  line-height: 24px;
   font-weight: 400;
+  color: ${theme.palette.gray800};
 `
 )
 
@@ -47,12 +50,13 @@ const CharactersLimit = styled(Typography)(
 
 const Button = styled(MuiButton)(
   ({ theme }) => `
-  color: ${theme.palette.whiteCorner};
-  background: ${theme.palette.orange500};
+  color: ${theme.palette.campaign.button.color.main};
+  background: ${theme.palette.campaign.button.background.main};
   border: none;
   border-radius: 8px;
   &:hover {
-    background-color: ${theme.palette.orange600};
+    color: ${theme.palette.campaign.button.color.main};
+    background-color: ${theme.palette.campaign.button.background.main};
   }
 `
 )
@@ -124,13 +128,11 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" sx={{ marginBottom: 2 }}>
-          <Grid item>
-            <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
-          </Grid>
-          <Grid item>
-            <CloseIcon onClick={handleClose} />
-          </Grid>
+        <Grid container justifyContent="space-between" alignItems="center" sx={{ marginBottom: 2 }}>
+          <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
+          <IconButton onClick={handleClose}>
+            <CloseRoundedIcon />
+          </IconButton>
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>

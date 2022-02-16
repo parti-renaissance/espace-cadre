@@ -17,7 +17,6 @@ import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
-import EditIcon from 'ui/icons/EditIcon'
 
 const infiniteScrollStylesOverrides = {
   '& .infinite-scroll-component__outerdiv': {
@@ -105,7 +104,6 @@ const Surveys = () => {
                   {scopesVisibility[scope] === visibility.national && visibility.national}
                 </Typography>
               }
-              icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
               onClick={() => setIsCreateEditModalOpen(true)}
             />
           }
