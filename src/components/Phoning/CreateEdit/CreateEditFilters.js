@@ -305,8 +305,9 @@ const CreateEditFilters = () => {
             <FormControlLabel
               name={fields.SMSSubscribed}
               label={messages.input.SMSSubscribed}
-              control={<Checkbox checked={!!values.SMSSubscribed} />}
+              control={<Checkbox checked />}
               onChange={(_, value) => updateValues(fields.SMSSubscribed, value)}
+              disabled
             />
             <FormError errors={errors} field="has_sms_subscription" />
           </Grid>
