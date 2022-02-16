@@ -14,7 +14,6 @@ import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
-import EditIcon from 'ui/icons/EditIcon'
 import { useUserScope } from '../../redux/user/hooks'
 
 const Title = styled(Typography)(
