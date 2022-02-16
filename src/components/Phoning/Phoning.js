@@ -105,13 +105,7 @@ const Phoning = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.pageTitle}
-          button={
-            <PageHeaderButton
-              label={messages.create}
-              icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-              onClick={() => setIsCreateEditModalOpen(true)}
-            />
-          }
+          button={<PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />}
         />
       </Grid>
 

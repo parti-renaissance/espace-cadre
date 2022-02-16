@@ -105,7 +105,6 @@ const Surveys = () => {
                   {scopesVisibility[scope] === visibility.national && visibility.national}
                 </Typography>
               }
-              icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
               onClick={() => setIsCreateEditModalOpen(true)}
             />
           }
