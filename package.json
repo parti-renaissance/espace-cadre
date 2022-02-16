@@ -12,7 +12,7 @@
     "@mui/styles": "5.4.1",
     "@mui/system": "5.4.2",
     "@reduxjs/toolkit": "1.7.2",
-    "@sentry/react": "6.17.7",
+    "@sentry/react": "6.17.8",
     "@sentry/tracing": "6.17.8",
     "autosuggest-highlight": "3.2.0",
     "axios": "0.26.0",
@@ -96,7 +96,7 @@
     "source-map-loader": "3.0.1",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.1",
-    "webpack": "5.68.0",
+    "webpack": "5.69.0",
     "webpack-cli": "4.9.2",
     "webpack-dev-server": "4.7.4"
   },
