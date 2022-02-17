@@ -33,10 +33,7 @@ const Event = () => {
     data: event = null,
     isLoading,
     refetch: refetchEvent,
-  } = useQueryWithScope(
-    ['event', eventId, { feature: 'Events', view: 'Event' }],
-    () => getEvent(eventId),
-  )
+  } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
 
   const handleEditEvent = () => {
     setUpdatedEvent(event)
@@ -73,7 +70,7 @@ const Event = () => {
               <PageHeaderButton
                 onClick={handleEditEvent}
                 label={messages.edit}
-                icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+                icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
               />
             ) : null
           }

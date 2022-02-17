@@ -119,7 +119,7 @@ export const CampaignDetail = () => {
           button={
             <PageHeaderButton
               label={messages.modify}
-              icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+              icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
               onClick={() => (Object.keys(campaignDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
             />
           }

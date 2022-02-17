@@ -27,17 +27,17 @@ const QuestionTypes = ({ selectedType, handleChange }) => (
     <Grid container sx={{ pt: 2 }}>
       <RadioGroup name="question-type" defaultValue={simpleField} value={selectedType} row>
         <FormControlLabel
-          control={<Radio onChange={handleChange} sx={{ color: 'campaign.color' }} />}
+          control={<Radio onChange={handleChange} sx={{ color: 'main' }} />}
           label={<ChoiceLabel>{messages.simpleField}</ChoiceLabel>}
           value={simpleField}
         />
         <FormControlLabel
-          control={<Radio onChange={handleChange} sx={{ color: 'campaign.color' }} />}
+          control={<Radio onChange={handleChange} sx={{ color: 'main' }} />}
           label={<ChoiceLabel>{messages.multipleChoice}</ChoiceLabel>}
           value={multipleChoice}
         />
         <FormControlLabel
-          control={<Radio onChange={handleChange} sx={{ color: 'campaign.color' }} />}
+          control={<Radio onChange={handleChange} sx={{ color: 'main' }} />}
           label={<ChoiceLabel>{messages.uniqueChoice}</ChoiceLabel>}
           value={uniqueChoice}
         />
