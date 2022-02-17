@@ -51,12 +51,12 @@ const CharactersLimit = styled(Typography)(
 const Button = styled(MuiButton)(
   ({ theme }) => `
   color: ${theme.palette.campaign.button.color.main};
-  background: ${theme.palette.campaign.button.background.main};
+  background: ${theme.palette.main};
   border: none;
   border-radius: 8px;
   &:hover {
     color: ${theme.palette.campaign.button.color.main};
-    background-color: ${theme.palette.campaign.button.background.main};
+    background-color: ${theme.palette.main};
   }
 `
 )

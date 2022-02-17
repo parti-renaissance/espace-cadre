@@ -39,10 +39,10 @@ const PrevStepButton = styled(props => <Button variant="contained" {...props} />
   borderRadius: '8px',
   '&:not(.Mui-disabled)': {
     backgroundColor: theme.palette.campaign.button.background.prev,
-    color: theme.palette.campaign.button.color.prev,
+    color: theme.palette.main,
     '&:hover': {
       backgroundColor: theme.palette.campaign.button.background.prev,
-      color: theme.palette.campaign.button.color.prev,
+      color: theme.palette.main,
     },
   },
   '&:disabled': {
@@ -54,10 +54,10 @@ const PrevStepButton = styled(props => <Button variant="contained" {...props} />
 const NextStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
   borderRadius: '8px',
   '&:not(.Mui-disabled)': {
-    backgroundColor: theme.palette.campaign.button.background.next,
+    backgroundColor: theme.palette.main,
     color: theme.palette.campaign.button.color.next,
     '&:hover': {
-      backgroundColor: theme.palette.campaign.button.background.next,
+      backgroundColor: theme.palette.main,
       color: theme.palette.campaign.button.color.next,
     },
   },

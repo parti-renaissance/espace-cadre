@@ -198,14 +198,11 @@ export const styles = {
       },
       button: {
         background: {
-          main: '#4338CA',
           prev: '#FFFFFF',
-          next: '#4338CA',
           disabled: '#E5E7EB',
         },
         color: {
           main: '#FFFFFF',
-          prev: '#4338CA',
           next: '#FFFFFF',
           disabled: '#6B7280',
         },

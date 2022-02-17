@@ -10,16 +10,16 @@ const ValidateButton = styled(
 )(
   ({
     theme: {
-      palette: { campaign },
+      palette: { main, campaign },
     },
     disabled,
   }) => ({
     height: '42px',
-    background: !disabled ? campaign.button.background.main : campaign.button.background.disabled,
+    background: !disabled ? main : campaign.button.background.disabled,
     color: !disabled ? campaign.button.color.main : campaign.button.color.disabled,
     borderRadius: '8px',
     '&:hover': {
-      background: !disabled ? campaign.button.background.main : campaign.button.background.disabled,
+      background: !disabled ? main : campaign.button.background.disabled,
       color: !disabled ? campaign.button.color.main : campaign.button.color.disabled,
     },
   })
