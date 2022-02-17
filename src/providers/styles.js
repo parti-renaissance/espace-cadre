@@ -181,14 +181,11 @@ export const styles = {
           unsubscribed: 'rgba(245, 158, 11, 0.08)',
           completed: 'rgba(4, 120, 87, 0.08)',
           ongoing: 'rgba(4, 120, 87, 0.08)',
-          input: '#4338CA',
         },
         progressBar: {
           empty: 'rgba(67, 56, 202, 0.16)',
-          filled: '#4338CA',
         },
         ratio: {
-          current: '#4338CA',
           max: 'rgba(85, 113, 141, 0.25)',
         },
         table: {
