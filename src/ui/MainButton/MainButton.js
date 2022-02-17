@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 
 const Button = styled(MuiButton)`
-  color: ${({ theme }) => theme.palette.button.color};
+  color: ${({ theme }) => theme.palette.main};
   background: ${({ theme }) => theme.palette.button.background.main};
   &:hover {
     background: ${({ theme }) => theme.palette.button.background.hover};

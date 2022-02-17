@@ -11,12 +11,12 @@ import { Input, Label } from '../shared/components/styled'
 import { fields } from '../shared/constants'
 
 const AddChoiceButton = styled(props => <Button variant="outlined" {...props} />)(({ theme }) => ({
-  borderColor: theme.palette.button.color,
-  color: theme.palette.button.color,
+  borderColor: theme.palette.main,
+  color: theme.palette.main,
   padding: theme.spacing(0.5, 1.25),
   '&:hover': {
-    borderColor: theme.palette.button.color,
-    color: theme.palette.button.color,
+    borderColor: theme.palette.main,
+    color: theme.palette.main,
   },
 }))
 

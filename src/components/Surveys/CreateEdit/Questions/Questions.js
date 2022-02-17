@@ -38,12 +38,12 @@ const Divider = styled(MuiDivider)(
 )
 
 const AddQuestionButton = styled(props => <Button variant="outlined" {...props} />)(({ theme }) => ({
-  borderColor: theme.palette.button.color,
-  color: theme.palette.button.color,
+  borderColor: theme.palette.main,
+  color: theme.palette.main,
   padding: theme.spacing(1, 2.75),
   '&:hover': {
-    borderColor: theme.palette.button.color,
-    color: theme.palette.button.color,
+    borderColor: theme.palette.main,
+    color: theme.palette.main,
   },
 }))
 
