@@ -37,14 +37,10 @@ const News = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
-  } = useInfiniteQueryWithScope(
-    ['paginated-news', { feature: 'News', view: 'News' }],
-    () => getNewsQuery(),
-    {
-      getNextPageParam,
-      onError: handleError,
-    },
-  )
+  } = useInfiniteQueryWithScope(['paginated-news', { feature: 'News', view: 'News' }], getNewsQuery, {
+    getNextPageParam,
+    onError: handleError,
+  })
 
   const news = usePaginatedData(paginatedNews)
 

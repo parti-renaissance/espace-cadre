@@ -156,7 +156,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const queryClient = useQueryClient()
   const { data: categoriesByGroup = null } = queryClient.getQueryState([
     'categories',
-    { feature: 'Events', view: 'all' },
+    { feature: 'Events', view: 'Events' },
   ])
 
   const categories = useMemo(
