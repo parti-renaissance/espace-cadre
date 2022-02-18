@@ -86,6 +86,7 @@ export const initialization = () => {
   )
   mock('GET', '/api/v3/pap_campaigns/kpi?scope=pap_national_manager', 'DTD/KPI')
   mock('GET', '/api/v3/pap_campaigns?order[created_at]=desc&page=1&page_size=20&scope=pap_national_manager', 'DTD/campaigns')
+  mock('GET', '/api/v3/my_teams?scope=referent', 'my-team/my-team')
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
