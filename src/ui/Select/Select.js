@@ -8,10 +8,14 @@ const Select = styled(MuiSelect)(
   & .MuiSelect-select {
     background: ${theme.palette.gray100};
     border-radius: 8px;
-  
+
     &:focus {
       background: ${theme.palette.gray100};
     }
+  }
+
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
   }
 `
 )

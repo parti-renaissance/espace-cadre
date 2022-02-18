@@ -7,10 +7,12 @@ import AlertBanner from 'ui/AlertBanner'
 
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `
-  border-color: ${theme.palette.gray200};
   border-radius: 8px;
   color: ${theme.palette.blackCorner};
   background-color: ${theme.palette.gray100};
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
 `
 )
 

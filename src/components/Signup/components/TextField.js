@@ -6,9 +6,12 @@ import AlertBanner from 'ui/AlertBanner'
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `
   border-radius: 8px;
-  border: none;
+  outline: none;
   color: ${theme.palette.blackCorner};
   background-color: ${theme.palette.gray100};
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
 `
 )
 
@@ -16,9 +19,9 @@ export const TextFieldFormik = ({ formik, label, inputProps = { maxLength: 255 }
   <>
     <TextInput
       {...props}
+      size="small"
       error={!!formik.touched[label] && !!formik.errors[label]}
       fullWidth
-      size="small"
       id={label}
       name={label}
       inputProps={inputProps}
