@@ -13,7 +13,7 @@ const Button = styled(
   width: 100%;
   border-radius: 8px;
   color: ${disabled ? theme.palette.campaign.button.color.disabled : theme.palette.whiteCorner};
-  background: ${disabled ? theme.palette.campaign.button.background.disabled : theme.palette.blue600};
+  background: ${disabled ? theme.palette.campaign.button.background.disabled : theme.palette.main};
   &:hover {
     background: ${theme.palette.blue800};
   }
@@ -23,7 +23,7 @@ const Button = styled(
 const StepButton = ({ disabled, loading, onClick, label }) => (
   <Button onClick={disabled ? null : onClick} size="large" disabled={disabled}>
     {loading ? (
-      <Loader />
+      <Loader size={24} />
     ) : (
       <>
         {label}
