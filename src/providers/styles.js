@@ -199,14 +199,14 @@ export const styles = {
       },
       button: {
         background: {
-          main: '#4338CA',
+          main: '#2834C3',
           prev: '#FFFFFF',
-          next: '#4338CA',
+          next: '#2834C3',
           disabled: '#E5E7EB',
         },
         color: {
           main: '#FFFFFF',
-          prev: '#4338CA',
+          prev: '#2834C3',
           next: '#FFFFFF',
           disabled: '#6B7280',
         },
@@ -220,8 +220,8 @@ export const styles = {
     signupButton: {
       color: '#3743C814',
       background: {
-        main: '#2834c3',
-        hover: '#2834c3',
+        main: '#2834C3',
+        hover: '#2834C3',
       },
     },
     events: {
