@@ -30,7 +30,7 @@ const Input = styled(props => <TextField size="small" variant="outlined" fullWid
       '& .MuiChip-root': {
         marginLeft: theme.spacing(1),
         padding: theme.spacing(0.25),
-        backgroundColor: theme.palette.campaign.background.chip.input,
+        backgroundColor: theme.palette.main,
         color: theme.palette.whiteCorner,
         '& .MuiChip-deleteIcon': {
           color: theme.palette.whiteCorner,

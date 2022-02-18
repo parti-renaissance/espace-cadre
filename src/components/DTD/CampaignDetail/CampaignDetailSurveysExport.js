@@ -15,7 +15,7 @@ const Export = styled(props => <Typography variant="button" {...props} />)(({ th
   fontWeight: 500,
   lineHeight: '22px',
   textTransform: 'uppercase',
-  color: theme.palette.campaign.color,
+  color: theme.palette.main,
   '&:hover': {
     backgroundColor: theme.palette.campaign.background.hover,
   },
@@ -51,13 +51,13 @@ const CampaignDetailSurveysExport = () => {
       <CtaButton
         onClick={handleExport}
         sx={{
-          color: 'campaign.color',
+          color: 'main',
           '&:hover': {
             bgcolor: 'campaign.background.hover',
           },
         }}
       >
-        <DownloadIcon sx={{ pr: 1, color: 'campaign.color', fontSize: '18px' }} />
+        <DownloadIcon sx={{ pr: 1, color: 'main', fontSize: '18px' }} />
         <Export>{messages.export}</Export>
       </CtaButton>
     </Grid>

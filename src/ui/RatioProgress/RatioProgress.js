@@ -7,13 +7,13 @@ const ProgressBar = styled(LinearProgress)(({ theme }) => ({
   borderRadius: '6px',
   background: theme.palette.campaign.background.progressBar.empty,
   '& .MuiLinearProgress-bar1Determinate': {
-    background: theme.palette.campaign.background.progressBar.filled,
+    background: theme.palette.main,
   },
 }))
 
 const Current = styled(Typography)(
   ({ theme }) => `
-  color: ${theme.palette.campaign.background.ratio.current};
+  color: ${theme.palette.main};
   font-size: 28px;
   font-weight: 600;
   line-height: 28px;

@@ -168,12 +168,9 @@ export const styles = {
       },
     },
     emptyContent: {
-      icon: '#4338CA',
-      title: '#2834C3',
       description: '#1F2937',
     },
     campaign: {
-      color: '#4338CA',
       background: {
         title: {
           main: '#F0EFFB',
@@ -185,14 +182,11 @@ export const styles = {
           unsubscribed: 'rgba(245, 158, 11, 0.08)',
           completed: 'rgba(4, 120, 87, 0.08)',
           ongoing: 'rgba(4, 120, 87, 0.08)',
-          input: '#4338CA',
         },
         progressBar: {
           empty: 'rgba(67, 56, 202, 0.16)',
-          filled: '#4338CA',
         },
         ratio: {
-          current: '#4338CA',
           max: 'rgba(85, 113, 141, 0.25)',
         },
         table: {
@@ -205,14 +199,14 @@ export const styles = {
       },
       button: {
         background: {
-          main: '#4338CA',
+          main: '#2834C3',
           prev: '#FFFFFF',
-          next: '#4338CA',
+          next: '#2834C3',
           disabled: '#E5E7EB',
         },
         color: {
           main: '#FFFFFF',
-          prev: '#4338CA',
+          prev: '#2834C3',
           next: '#FFFFFF',
           disabled: '#6B7280',
         },
@@ -226,8 +220,8 @@ export const styles = {
     signupButton: {
       color: '#3743C814',
       background: {
-        main: '#2834c3',
-        hover: '#2834c3',
+        main: '#2834C3',
+        hover: '#2834C3',
       },
     },
     events: {

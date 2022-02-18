@@ -14,7 +14,7 @@ const HightlightedText = ({ text, inputText }) => {
           variant="subtitle1"
           sx={{
             fontWeight: part.highlight ? 500 : 400,
-            color: part.highlight ? 'campaign.color' : 'inherit',
+            color: part.highlight ? 'main' : 'inherit',
           }}
         >
           {part.text}

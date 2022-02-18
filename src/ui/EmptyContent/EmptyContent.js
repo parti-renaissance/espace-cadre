@@ -21,8 +21,8 @@ const Description = styled(Typography)`
 
 const EmptyContent = ({ title, description, action }) => (
   <Container>
-    <UpcomingRoundedIcon sx={{ fontSize: '67px', color: 'emptyContent.icon' }} />
-    {title && <Title sx={{ pt: 2, color: 'emptyContent.title' }}>{title}</Title>}
+    <UpcomingRoundedIcon sx={{ fontSize: '67px', color: 'main' }} />
+    {title && <Title sx={{ pt: 2, color: 'main' }}>{title}</Title>}
     {description && <Description sx={{ py: 2, color: 'emptyContent.description' }}>{description}</Description>}
     {action}
   </Container>
