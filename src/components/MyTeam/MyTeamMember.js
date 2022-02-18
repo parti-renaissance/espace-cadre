@@ -58,7 +58,7 @@ const MyTeamMember = ({ role, activist, accessCount, handleUpdate, handleDelete 
             data-cy="my-team-member-action-view"
             onClick={handleUpdate}
             sx={{
-              color: 'campaign.color',
+              color: 'main',
               '&:hover': {
                 bgcolor: 'campaign.background.hover',
               },

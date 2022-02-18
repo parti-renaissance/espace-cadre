@@ -3,17 +3,17 @@ import MuiPickersDay from '@mui/lab/PickersDay'
 
 export const PickersDay = styled(MuiPickersDay)(({ theme }) => ({
   '&:not(.Mui-selected)': {
-    borderColor: theme.palette.campaign.color,
+    borderColor: theme.palette.main,
     '&:hover, &:focus': {
-      backgroundColor: theme.palette.campaign.color,
+      backgroundColor: theme.palette.main,
       color: theme.palette.whiteCorner,
     },
   },
   '&.Mui-selected': {
     borderColor: 'transparent',
-    backgroundColor: theme.palette.campaign.color,
+    backgroundColor: theme.palette.main,
     '&:hover, &:focus': {
-      backgroundColor: theme.palette.campaign.color,
+      backgroundColor: theme.palette.main,
       color: theme.palette.whiteCorner,
     },
   },

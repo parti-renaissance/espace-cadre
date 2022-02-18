@@ -10,7 +10,7 @@ import {
 
 export const Checkbox = styled(MuiCheckbox)(({ theme }) => ({
   '&.Mui-checked': {
-    color: theme.palette.campaign.color,
+    color: theme.palette.main,
   },
 }))
 

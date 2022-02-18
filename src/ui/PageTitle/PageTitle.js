@@ -18,7 +18,7 @@ const PageTitle = ({
     xl={breakpoints.xl}
   >
     {titleLink ? (
-      <Typography variant="pageTitle" sx={{ color: 'campaign.color' }}>
+      <Typography variant="pageTitle" sx={{ color: 'main' }}>
         <Link to={titleLink}>{title}</Link>
       </Typography>
     ) : (

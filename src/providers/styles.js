@@ -171,7 +171,6 @@ export const styles = {
       description: '#1F2937',
     },
     campaign: {
-      color: '#4338CA',
       background: {
         title: {
           main: '#F0EFFB',

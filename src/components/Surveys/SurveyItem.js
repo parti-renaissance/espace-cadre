@@ -98,7 +98,7 @@ const SurveyItem = ({
               data-cy="surveys-action-view"
               onClick={handleView}
               sx={{
-                color: 'campaign.color',
+                color: 'main',
                 '&:hover': {
                   bgcolor: 'campaign.background.hover',
                 },
