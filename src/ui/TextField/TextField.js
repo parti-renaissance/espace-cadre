@@ -17,7 +17,7 @@ const TextField = ({ formik, label, inputProps = { maxLength: 255 }, ...props })
       {...props}
       error={!!formik.touched[label] && !!formik.errors[label]}
       fullWidth
-      size="small"
+      size="medium"
       variant="outlined"
       multiline={label === 'body'}
       id={label}

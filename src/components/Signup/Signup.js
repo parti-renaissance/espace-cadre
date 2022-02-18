@@ -47,20 +47,20 @@ const SubmitButton = styled(Button)(
     background-color: ${theme.palette.signupButton.background.hover};
   };
   margin: ${theme.spacing(4.5, 0)};
-  height: 52px;
+  height: 56px;
 `
 )
 
 const Title = styled(Typography)`
   font-family: MaaxItalic;
   font-size: 40px;
-  font-weight: 500;
-  line-height: 56px;
+  line-height: 40px;
+  font-weight: 600;
 `
 const SubTitle = styled(Typography)`
   font-size: 16px;
-  font-weight: 400;
   line-height: 24px;
+  font-weight: 400;
 `
 const Header = styled(Typography)`
   font-size: 16px;
@@ -173,7 +173,7 @@ const Signup = () => {
             formik={formik}
             placeholder={placeholders.lastName}
             inputProps={{ maxLength: 50 }}
-            sx={{ mt: 3 }}
+            sx={{ mt: 2 }}
           />
           <UISelect
             options={genders}
@@ -183,7 +183,7 @@ const Signup = () => {
             value={formik.values.gender}
             placeholder={placeholders.gender}
             error={!!formik.touched.gender && !!formik.errors.gender}
-            sx={{ mt: 3 }}
+            sx={{ mt: 2 }}
           />
           {formik.touched.gender && formik.errors.gender && (
             <AlertBanner severity="error" message={formik.errors.gender} />
@@ -193,7 +193,7 @@ const Signup = () => {
             formik={formik}
             placeholder={placeholders.email}
             inputProps={{ maxLength: 255 }}
-            sx={{ mt: 3 }}
+            sx={{ mt: 2 }}
           />
           <Header sx={{ mt: 3 }}>{messages.birthdate}</Header>
           <Box component="div" sx={{ display: 'flex', mt: 1 }}>
@@ -221,7 +221,7 @@ const Signup = () => {
           </Box>
           <Header sx={{ mt: 3 }}>{messages.address}</Header>
           <Places onSelectPlace={updateAddress} sx={{ mt: 1 }} error={formik.touched.gender && formik.errors.address} />
-          <Box component="div" sx={{ display: 'flex', mt: 3 }}>
+          <Box component="div" sx={{ display: 'flex', mt: 2 }}>
             <TextField value={address?.postalCode} placeholder={placeholders.postalCode} disabled sx={{ flex: 1 }} />
             <TextField value={address?.locality} placeholder={placeholders.city} disabled sx={{ flex: 3, mx: 2 }} />
             <TextField value={address?.country} placeholder={placeholders.country} disabled sx={{ flex: 1 }} />

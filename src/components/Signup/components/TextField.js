@@ -9,6 +9,7 @@ const TextInput = styled(MuiTextField)(
   outline: none;
   color: ${theme.palette.blackCorner};
   background-color: ${theme.palette.gray100};
+  
   & .MuiOutlinedInput-notchedOutline {
     border: none;
   }
@@ -19,7 +20,7 @@ export const TextFieldFormik = ({ formik, label, inputProps = { maxLength: 255 }
   <>
     <TextInput
       {...props}
-      size="small"
+      size="medium"
       error={!!formik.touched[label] && !!formik.errors[label]}
       fullWidth
       id={label}
@@ -39,7 +40,7 @@ TextFieldFormik.propTypes = {
 }
 
 export const TextField = ({ value = '', inputProps = { maxLength: 255 }, onChange = () => {}, ...props }) => (
-  <TextInput {...props} size="small" inputProps={inputProps} value={value} onChange={onChange} />
+  <TextInput {...props} size="medium" inputProps={inputProps} value={value} onChange={onChange} />
 )
 
 TextField.propTypes = {
