@@ -48,7 +48,7 @@ export const getDTDCampaignDetailQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}`)
   const remaining = new DTDCampaignDetailKPIRemaining(new Date(data.begin_at), new Date(data.finish_at))
   const surveys = new DTDCampaignDetailKPISurveys(data.nb_surveys)
-  const doors = new DTDCampaignDetailKPIDoors(data.nb_visited_doors, data.nb_door_open)
+  const doors = new DTDCampaignDetailKPIDoors(data.nb_visited_doors, data.nb_open_doors)
   const contacts = new DTDCampaignDetailKPIContacts(data.nb_collected_contacts, data.nb_to_join)
   const KPI = new DTDCampaignDetailKPI(remaining, surveys, doors, contacts)
   return new DTDCampaignDetail(data.uuid, data.title, data.goal, KPI)
