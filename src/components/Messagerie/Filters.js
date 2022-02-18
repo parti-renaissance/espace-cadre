@@ -37,15 +37,16 @@ const AudienceCount = styled(Typography)`
 const AddresseesCount = styled(Typography)`
   font-size: 18px;
   font-weight: 600;
-  color: ${({ theme }) => theme.palette.blue800};
+  color: ${({ theme }) => theme.palette.main};
 `
 
 const SendTest = styled(Button)(
   ({ theme }) => `
-  color: ${theme.palette.blue600};
-  border-color: ${theme.palette.blue600};
+  color: ${theme.palette.main};
+  border-color: ${theme.palette.main};
   &:hover {
     background: ${theme.palette.gray200};
+    border-color: ${theme.palette.main};
   }
   width: 250px;
   height: 35px;
@@ -55,9 +56,9 @@ const SendTest = styled(Button)(
 const Send = styled(Button)(
   ({ theme }) => `
   color: ${theme.palette.whiteCorner};
-  background: ${theme.palette.blue600};
+  background: ${theme.palette.main};
   &:hover {
-    background: ${theme.palette.blue800};
+    background: ${theme.palette.main};
   }
   width: 250px;
   height: 35px;
@@ -185,12 +186,12 @@ const Filters = () => {
     <>
       <Container maxWidth="xl">
         <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
-        <Grid container>
+        <Grid container sx={{ mb: 2 }}>
           <Link to={`../${messageriePaths.update}`}>
             <Button
               type="button"
               disableRipple
-              sx={{ color: 'blue600' }}
+              sx={{ color: 'main' }}
               size="medium"
               startIcon={<ArrowBackIcon sx={{ display: 'flex', marginRight: 1 }} />}
             >
