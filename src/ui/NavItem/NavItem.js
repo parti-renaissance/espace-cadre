@@ -24,8 +24,8 @@ const Icon = styled(MUIIcon)`
   padding-right: ${({ theme }) => theme.spacing(2)};
 `
 
-const NavItem = ({ path, label, icon = null }) => (
-  <NavLink to={path}>
+const NavItem = ({ path, label, icon = null, handleClick = null }) => (
+  <NavLink to={path} onClick={handleClick || (() => {})}>
     <Icon component={icon} />
     <Typography variant="body2">{label}</Typography>
   </NavLink>
@@ -35,6 +35,7 @@ NavItem.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.elementType,
+  handleClick: PropTypes.func,
 }
 
 export default NavItem
