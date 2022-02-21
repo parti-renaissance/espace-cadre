@@ -16,6 +16,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { createNewsQuery, updateNewsQuery } from 'api/news'
 import DomainNews from 'domain/news'
@@ -83,6 +84,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
+  const { isMobile } = useCurrentDeviceType()
 
   const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
     !news?.id ? createNewsQuery : updateNewsQuery,
@@ -126,9 +128,20 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   })
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
+    <Dialog
+      scroll={isMobile ? 'paper' : 'body'}
+      fullScreen={isMobile}
+      open={open}
+      onClose={handleClose}
+      PaperComponent={StyledPaper}
+    >
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" alignItems="center" sx={{ marginBottom: 2 }}>
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ marginBottom: 2, ...(isMobile && { pt: 4 }) }}
+        >
           <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
           <IconButton onClick={handleClose}>
             <CloseRoundedIcon />
