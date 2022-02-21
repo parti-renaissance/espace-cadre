@@ -41,7 +41,7 @@ const Places = ({ onSelectPlace, initialValue = '', error = null, ...props }) =>
 
   const handlePlaceSelect = useCallback(() => {
     const addressObject = autoComplete.current.getPlace()
-    if (!addressObject) {
+    if (!addressObject || !addressObject.address_components) {
       onSelectPlace(Place.NULL)
       setAddress('')
     } else {
