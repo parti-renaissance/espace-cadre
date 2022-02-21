@@ -7,6 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getPhoningCampaignQuery, getPhoningCampaignsQuery } from 'api/phoning'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
 import CampaignItem from './Campaign/CampaignItem'
@@ -52,6 +53,7 @@ const Phoning = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
+  const { isMobile } = useCurrentDeviceType()
   const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
   const [KPISalt, setKPISalt] = useState(0)
 
@@ -108,7 +110,7 @@ const Phoning = () => {
         />
       </Grid>
 
-      <Grid container justifyContent="space-between">
+      <Grid container justifyContent="space-between" sx={{ ...(isMobile && { pt: 2 }) }}>
         <CampaignGlobalKPI refreshKPIs={KPISalt} />
       </Grid>
 

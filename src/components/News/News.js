@@ -15,6 +15,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { usePaginatedData, getNextPageParam, refetchUpdatedPage } from 'api/pagination'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
@@ -31,6 +32,7 @@ const News = () => {
   const [isReadModalOpen, setIsReadModalOpen] = useState(false)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
+  const { isMobile } = useCurrentDeviceType()
 
   const {
     data: paginatedNews = null,
@@ -92,7 +94,7 @@ const News = () => {
       </Grid>
       {paginatedNews && (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{ ...(isMobile && { pt: 2 }) }}>
             {news.map(n => (
               <Grid item key={n.id} xs={12} sm={6} md={3}>
                 <UICard
