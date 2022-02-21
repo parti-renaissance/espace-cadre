@@ -139,6 +139,7 @@ export const CampaignDetail = () => {
         {!isLoadingData && (
           <>
             <Tabs
+              variant="scrollable"
               value={selectedTab}
               onChange={handleChange}
               TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
