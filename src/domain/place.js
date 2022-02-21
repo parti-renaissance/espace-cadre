@@ -8,6 +8,8 @@ export class Place {
     this.locality = locality
     this.country = country
   }
+
+  static NULL = new Place('', '', '', '', '')
 }
 
 Place.propTypes = PropTypes.shape({
