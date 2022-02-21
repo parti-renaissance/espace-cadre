@@ -51,10 +51,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-node-yarn
       - uses: ./.github/actions/deploy
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY_CLOUDRUN_DEPLOYER }}
+          service_account_key_pusher: ${{ secrets.GCP_SA_KEY_GCR_PUSHER }}
+          service_account_key_deployer: ${{ secrets.GCP_SA_KEY_CLOUDRUN_DEPLOYER }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           repository_project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
           cloud_run_name: ${{ secrets.CLOUD_RUN_NAME }}
@@ -81,10 +81,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-node-yarn
       - uses: ./.github/actions/deploy
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY_CLOUDRUN_DEPLOYER }}
+          service_account_key_pusher: ${{ secrets.GCP_SA_KEY_GCR_PUSHER }}
+          service_account_key_deployer: ${{ secrets.GCP_SA_KEY_CLOUDRUN_DEPLOYER }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           repository_project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
           cloud_run_name: ${{ secrets.CLOUD_RUN_NAME }}

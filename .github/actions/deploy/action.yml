@@ -2,8 +2,11 @@ name: GCP Deploy
 description: Build Docker Image and deploy on Cloud Run
 
 inputs:
-  service_account_key:
-    description: The GCP Service Account key
+  service_account_key_pusher:
+    description: The GCP Service Account key for Docker image push
+    required: true
+  service_account_key_deployer:
+    description: The GCP Service Account key for Deploy
     required: true
   gcp_zone:
     description: GCP zone
@@ -77,12 +80,12 @@ runs:
         echo "REACT_APP_VERSION=${{ inputs.react_app_version }}" >> .env.production
         echo "REACT_APP_ENVIRONMENT=${{ inputs.react_app_environment }}" >> .env.production
 
-    - uses: google-github-actions/auth@v0.6.0
+    - uses: google-github-actions/auth@v0
       with:
-        credentials_json: ${{ input.service_account_key }}
+        credentials_json: ${{ inputs.service_account_key_pusher }}
 
     - shell: bash
       name: Build & Publish
       run: |-
-        docker build --tag "eu.gcr.io/${{ input.repository_project_id }}/${{ input.cloud_run_name }}:${{ inputs.react_app_version }}" .
-        docker push eu.gcr.io/${{ input.repository_project_id }}/${{ input.cloud_run_name }} --all-tags
+        docker build --tag "eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ inputs.react_app_version }}" .
+        docker push eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }} --all-tags
