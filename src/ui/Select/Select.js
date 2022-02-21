@@ -8,10 +8,14 @@ const Select = styled(MuiSelect)(
   & .MuiSelect-select {
     background: ${theme.palette.gray100};
     border-radius: 8px;
-  
+
     &:focus {
       background: ${theme.palette.gray100};
     }
+  }
+
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
   }
 `
 )
@@ -25,7 +29,7 @@ const UISelect = ({ value, onChange, options, placeholder = null, renderValue, .
   return (
     <Select
       {...props}
-      size="small"
+      size="medium"
       onChange={e => onChange(e.target.value)}
       value={value}
       renderValue={renderValue || defaultRenderValue}

@@ -7,10 +7,14 @@ import AlertBanner from 'ui/AlertBanner'
 
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `
-  border-color: ${theme.palette.gray200};
   border-radius: 8px;
   color: ${theme.palette.blackCorner};
   background-color: ${theme.palette.gray100};
+  margin-bottom: ${theme.spacing(1)};
+
+  & .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
 `
 )
 
@@ -56,8 +60,7 @@ const Places = ({ onSelectPlace, initialValue = '', error = null, ...props }) =>
         inputRef={autoCompleteRef}
         onChange={event => setAddress(event.target.value)}
         fullWidth
-        size="small"
-        variant="outlined"
+        size="medium"
         id="adress"
         name="address"
         inputProps={{ maxLength: 500 }}
