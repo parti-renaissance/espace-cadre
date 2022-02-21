@@ -36,7 +36,7 @@ const Button = styled(MuiButton)(
 const referentTemplate = 60354
 const deputyTemplate = 60376
 const senatorTemplate = 60355
-const correspondantTemplate = 123148
+const correspondentTemplate = 123148
 const defaultTemplate = 41208
 const editorConfiguration = {
   tools: {
@@ -66,6 +66,13 @@ const messages = {
   export: 'Export HTML',
 }
 
+const templates = {
+  referent: referentTemplate,
+  deputy: deputyTemplate,
+  senator: senatorTemplate,
+  correspondent: correspondentTemplate,
+}
+
 const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
@@ -76,12 +83,9 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const [templateId] = useState(() => {
-    const { code } = currentScope || {}
-    if (code === 'referent') return referentTemplate
-    if (code === 'deputy') return deputyTemplate
-    if (code === 'senator') return senatorTemplate
-    if (code === 'correspondent') return correspondantTemplate
-    return defaultTemplate
+    const { code, delegated_access } = currentScope || {}
+
+    return templates[delegated_access?.type || code] || defaultTemplate
   })
 
   const updateMessageTemplateCallback = useCallback(() => {
