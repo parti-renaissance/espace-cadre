@@ -3,6 +3,7 @@ import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import Scopes from '../Scopes'
 import Branding from './Branding'
+import NavMenu from './NavMenu'
 import Footer from './Footer'
 
 const BrandingWrapper = styled('div')`
@@ -19,7 +20,7 @@ const Drawer = styled(MuiDrawer)`
   }
 `
 
-export const Mobile = ({ drawer, handleDrawerToggle, mobileOpen, container }) => (
+export const Mobile = ({ mobileOpen, container, handleDrawerToggle }) => (
   <Drawer
     container={container}
     variant="temporary"
@@ -39,7 +40,7 @@ export const Mobile = ({ drawer, handleDrawerToggle, mobileOpen, container }) =>
       <Branding mobileOpen />
     </BrandingWrapper>
     <Scopes />
-    {drawer}
+    <NavMenu handleItemClick={handleDrawerToggle} />
     <Footer />
   </Drawer>
 )
@@ -47,8 +48,7 @@ export const Mobile = ({ drawer, handleDrawerToggle, mobileOpen, container }) =>
 export default Mobile
 
 Mobile.propTypes = {
-  drawer: PropTypes.node.isRequired,
   mobileOpen: PropTypes.bool.isRequired,
-  handleDrawerToggle: PropTypes.func.isRequired,
   container: PropTypes.number,
+  handleDrawerToggle: PropTypes.func.isRequired,
 }

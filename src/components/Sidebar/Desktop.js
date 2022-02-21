@@ -4,6 +4,7 @@ import { Drawer as MuiDrawer } from '@mui/material'
 import frenchFlag from 'assets/frenchFlag.svg'
 import Scopes from '../Scopes'
 import Branding from './Branding'
+import NavMenu from './NavMenu'
 import Footer from './Footer'
 
 const Drawer = styled(MuiDrawer)`
@@ -15,7 +16,7 @@ const Drawer = styled(MuiDrawer)`
   }
 `
 
-const Desktop = ({ drawer, drawerWidth }) => (
+const Desktop = ({ drawerWidth }) => (
   <Drawer
     variant="permanent"
     sx={{
@@ -30,13 +31,12 @@ const Desktop = ({ drawer, drawerWidth }) => (
     <img src={frenchFlag} alt="drapeau france" />
     <Branding />
     <Scopes />
-    {drawer}
+    <NavMenu />
     <Footer />
   </Drawer>
 )
 
 Desktop.propTypes = {
-  drawer: PropTypes.node.isRequired,
   drawerWidth: PropTypes.number.isRequired,
 }
 
