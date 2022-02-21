@@ -1,18 +1,27 @@
-name: GCS Deploy
-description: Build and push app to Google Cloud Storage
+name: GCP Deploy
+description: Build Docker Image and deploy on Cloud Run
 
 inputs:
   service_account_key:
-    description: The GCP Service Account key used to push on Google Cloud Storage
+    description: The GCP Service Account key
+    required: true
+  gcp_zone:
+    description: GCP zone
     required: true
   project_id:
-    description: The GCP Project ID where the GCS Bucket lives
+    description: The GCP Project ID
     required: true
-  bucket:
-    description: The Google Cloud Storage bucket where the app lives
+  repository_project_id:
+    description: The GCP Repository Project ID
+    required: true
+  cloud_run_name:
+    description: Cloud Run name
     required: true
   react_app_oauth_host:
     description: The OAuth host used by the app
+    required: true
+  react_app_api_host:
+    description: The API host used by the app
     required: true
   react_app_oauth_client_id:
     description: The OAuth client id used by the app
@@ -35,11 +44,22 @@ inputs:
   react_app_version:
     description: The app version
     required: true
+  react_app_environment:
+    description: The app environment
+    required: true
+  sentry_auth_token:
+    description: Sentry token
+    required: true
+  sentry_org:
+    description: Sentry org
+    required: true
+  sentry_project:
+    description: Sentry project
+    required: true
 
 runs:
   using: composite
   steps:
-
     - shell: bash
       run: |-
         echo "" > .env.production
@@ -57,26 +77,12 @@ runs:
         echo "REACT_APP_VERSION=${{ inputs.react_app_version }}" >> .env.production
         echo "REACT_APP_ENVIRONMENT=${{ inputs.react_app_environment }}" >> .env.production
 
-    - shell: bash
-      run: |-
-        yarn build
-
-    - uses: google-github-actions/setup-gcloud@master
+    - uses: google-github-actions/auth@v0.6.0
       with:
-        service_account_key: ${{ inputs.service_account_key }}
-        project_id: ${{ inputs.project_id }}
-        export_default_credentials: true
+        credentials_json: ${{ input.service_account_key }}
 
     - shell: bash
+      name: Build & Publish
       run: |-
-        gsutil mv -r "gs://${{ inputs.bucket }}/*" "gs://${{ inputs.bucket }}/build_old" || true
-
-    - uses: google-github-actions/upload-cloud-storage@main
-      with:
-        path: build
-        destination: ${{ inputs.bucket }}
-        parent: false
-
-    - shell: bash
-      run: |-
-        gsutil rm -r "gs://${{ inputs.bucket }}/build_old" || true
+        docker build --tag "eu.gcr.io/${{ input.repository_project_id }}/${{ input.cloud_run_name }}:${{ inputs.react_app_version }}" .
+        docker push eu.gcr.io/${{ input.repository_project_id }}/${{ input.cloud_run_name }} --all-tags
