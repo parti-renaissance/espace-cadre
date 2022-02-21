@@ -6,6 +6,7 @@ import DatePicker from '@mui/lab/DatePicker'
 import { Autocomplete, FormControlLabel, Grid, InputAdornment, MenuItem, Typography } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
@@ -59,6 +60,7 @@ const CreateEditFilters = () => {
   const [isAdherentFromDatePickerOpen, setIsAdherentFromDatePickerOpen] = useState(false)
   const [isAdherentToDatePickerOpen, setIsAdherentToDatePickerOpen] = useState(false)
   const { handleError, errorMessages } = useErrorHandler()
+  const { isMobile, isDesktop } = useCurrentDeviceType()
   const debounce = useDebounce()
 
   const updateInputValues = useCallback((key, value) => {
@@ -80,7 +82,7 @@ const CreateEditFilters = () => {
   return (
     <>
       <Grid container direction="row" spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.gender}</Label>
           <Input
             name={fields.gender}
@@ -104,7 +106,7 @@ const CreateEditFilters = () => {
       </Grid>
 
       <Grid container direction="row" spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.firstName}</Label>
           <Input
             name={fields.firstName}
@@ -117,7 +119,7 @@ const CreateEditFilters = () => {
           />
           <FormError errors={errors} field="first_name" />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.lastName}</Label>
           <Input
             name={fields.lastName}
@@ -133,7 +135,7 @@ const CreateEditFilters = () => {
       </Grid>
 
       <Grid container direction="row" spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMin}</Label>
           <Input
             type="number"
@@ -147,7 +149,7 @@ const CreateEditFilters = () => {
           />
           <FormError errors={errors} field="age_min" />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMax}</Label>
           <Input
             type="number"
@@ -164,7 +166,7 @@ const CreateEditFilters = () => {
       </Grid>
 
       <Grid container direction="row" spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</Label>
           <DatePicker
             inputFormat="dd/MM/yyyy"
@@ -197,7 +199,7 @@ const CreateEditFilters = () => {
           />
           <FormError errors={errors} field="registered_since" />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</Label>
           <DatePicker
             inputFormat="dd/MM/yyyy"
@@ -232,7 +234,7 @@ const CreateEditFilters = () => {
         </Grid>
       </Grid>
 
-      <Grid item>
+      <Grid item xs={12}>
         <Label sx={{ pt: 3, pb: 1 }}>{messages.input.zones}</Label>
         <Autocomplete
           options={zones}
@@ -267,52 +269,107 @@ const CreateEditFilters = () => {
         <FormError errors={errorMessages} field="zones" />
       </Grid>
 
-      <Grid container direction="row" spacing={2}>
-        <Grid container direction="column" item xs={6}>
-          <Grid item>
-            <FormControlLabel
-              name={fields.certified}
-              label={messages.input.certified}
-              control={<Checkbox checked={!!values.certified} />}
-              onChange={(_, value) => updateValues(fields.certified, value)}
-              sx={{ pt: 3 }}
-            />
-            <FormError errors={errors} field="is_certified" />
+      {isDesktop && (
+        <Grid container direction="row" spacing={2}>
+          <Grid container direction="column" item xs={6}>
+            <Grid item>
+              <FormControlLabel
+                name={fields.certified}
+                label={messages.input.certified}
+                control={<Checkbox checked={!!values.certified} />}
+                onChange={(_, value) => updateValues(fields.certified, value)}
+                sx={{ pt: 3 }}
+              />
+              <FormError errors={errors} field="is_certified" />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                name={fields.committeeMember}
+                label={messages.input.committeeMember}
+                control={<Checkbox checked={!!values.committeeMember} />}
+                onChange={(_, value) => updateValues(fields.committeeMember, value)}
+              />
+              <FormError errors={errors} field="is_committee_member" />
+            </Grid>
           </Grid>
-          <Grid item>
-            <FormControlLabel
-              name={fields.committeeMember}
-              label={messages.input.committeeMember}
-              control={<Checkbox checked={!!values.committeeMember} />}
-              onChange={(_, value) => updateValues(fields.committeeMember, value)}
-            />
-            <FormError errors={errors} field="is_committee_member" />
-          </Grid>
-        </Grid>
 
-        <Grid container direction="column" item xs={6}>
-          <Grid item>
-            <FormControlLabel
-              name={fields.emailSubscribed}
-              label={messages.input.emailSubscribed}
-              control={<Checkbox checked={!!values.emailSubscribed} />}
-              onChange={(_, value) => updateValues(fields.emailSubscribed, value)}
-              sx={{ pt: 3 }}
-            />
-            <FormError errors={errors} field="has_email_subscription" />
-          </Grid>
-          <Grid item>
-            <FormControlLabel
-              name={fields.SMSSubscribed}
-              label={messages.input.SMSSubscribed}
-              control={<Checkbox checked />}
-              onChange={(_, value) => updateValues(fields.SMSSubscribed, value)}
-              disabled
-            />
-            <FormError errors={errors} field="has_sms_subscription" />
+          <Grid container direction="column" item xs={6}>
+            <Grid item>
+              <FormControlLabel
+                name={fields.emailSubscribed}
+                label={messages.input.emailSubscribed}
+                control={<Checkbox checked={!!values.emailSubscribed} />}
+                onChange={(_, value) => updateValues(fields.emailSubscribed, value)}
+                sx={{ pt: 3 }}
+              />
+              <FormError errors={errors} field="has_email_subscription" />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                name={fields.SMSSubscribed}
+                label={messages.input.SMSSubscribed}
+                control={<Checkbox checked />}
+                onChange={(_, value) => updateValues(fields.SMSSubscribed, value)}
+                disabled
+              />
+              <FormError errors={errors} field="has_sms_subscription" />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
+      {isMobile && (
+        <>
+          <Grid container direction="column" item xs={12}>
+            <Grid item>
+              <FormControlLabel
+                name={fields.certified}
+                label={messages.input.certified}
+                control={<Checkbox checked={!!values.certified} />}
+                onChange={(_, value) => updateValues(fields.certified, value)}
+                sx={{ pt: 3 }}
+              />
+              <FormError errors={errors} field="is_certified" />
+            </Grid>
+          </Grid>
+
+          <Grid container direction="column" item xs={12}>
+            <Grid item>
+              <FormControlLabel
+                name={fields.committeeMember}
+                label={messages.input.committeeMember}
+                control={<Checkbox checked={!!values.committeeMember} />}
+                onChange={(_, value) => updateValues(fields.committeeMember, value)}
+              />
+              <FormError errors={errors} field="is_committee_member" />
+            </Grid>
+          </Grid>
+
+          <Grid container direction="column" item xs={12}>
+            <Grid item>
+              <FormControlLabel
+                name={fields.emailSubscribed}
+                label={messages.input.emailSubscribed}
+                control={<Checkbox checked={!!values.emailSubscribed} />}
+                onChange={(_, value) => updateValues(fields.emailSubscribed, value)}
+              />
+              <FormError errors={errors} field="has_email_subscription" />
+            </Grid>
+          </Grid>
+
+          <Grid container direction="column" item xs={12}>
+            <Grid item>
+              <FormControlLabel
+                name={fields.SMSSubscribed}
+                label={messages.input.SMSSubscribed}
+                control={<Checkbox checked />}
+                onChange={(_, value) => updateValues(fields.SMSSubscribed, value)}
+                disabled
+              />
+              <FormError errors={errors} field="has_sms_subscription" />
+            </Grid>
+          </Grid>
+        </>
+      )}
     </>
   )
 }
