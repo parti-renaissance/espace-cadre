@@ -70,6 +70,7 @@ const Events = () => {
         />
       </Grid>
       <Tabs
+        variant="scrollable"
         value={selectedTab}
         onChange={handleChangeTab}
         TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
