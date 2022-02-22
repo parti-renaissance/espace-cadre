@@ -103,6 +103,6 @@ runs:
       name: Deploy to Cloud Run
       with:
         service: ${{ inputs.cloud_run_name }}
-        image: "eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ github.sha }}"
+        image: 'eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ github.sha }}'
         project_id: ${{ inputs.project_id }}
         region: ${{ inputs.gcp_zone }}
