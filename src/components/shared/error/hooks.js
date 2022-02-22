@@ -23,10 +23,16 @@ export const useErrorHandler = () => {
       const { response = { data: {} }, stack, message } = error
       const { status, data } = response
       handleGenericHttpErrors(snackBarWithOptions, status, stack, message)
-      setErrorMessages(getFormattedErrorMessages(data))
+      const formattedErrorMessages = getFormattedErrorMessages(data)
+      setErrorMessages(formattedErrorMessages)
       setErrorRawMessage(message)
+      Sentry.addBreadcrumb({
+        category: 'request',
+        message: Object.keys(data).length ? formattedErrorMessages.map(f => f.message).join(', ') : message,
+        level: Sentry.Severity.Debug,
+      })
       Sentry.captureException(error)
-      return () => resetErrorMessages()
+      return resetErrorMessages
     },
     [snackBarWithOptions, resetErrorMessages]
   )
