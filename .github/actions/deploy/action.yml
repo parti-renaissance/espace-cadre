@@ -1,5 +1,5 @@
 name: GCP Deploy
-description: Build Docker Image and deploy on Cloud Run
+description: Build Docker image and deploy on Cloud Run
 
 inputs:
   service_account_key_pusher:
@@ -87,5 +87,22 @@ runs:
     - shell: bash
       name: Build & Publish
       run: |-
-        docker build --tag "eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ inputs.react_app_version }}" .
+        gcloud auth --quiet configure-docker
+
+        docker build \
+          --tag "eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ github.sha }}" \
+          --tag "eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ inputs.react_app_version }}" \
+          .
         docker push eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }} --all-tags
+
+    - uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ inputs.service_account_key_deployer }}
+
+    - uses: google-github-actions/deploy-cloudrun@v0
+      name: Deploy to Cloud Run
+      with:
+        service: ${{ inputs.cloud_run_name }}
+        image: 'eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ github.sha }}'
+        project_id: ${{ inputs.project_id }}
+        region: ${{ inputs.gcp_zone }}
