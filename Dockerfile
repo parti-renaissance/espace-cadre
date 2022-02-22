@@ -9,11 +9,7 @@ COPY . ./
 
 ENV NODE_ENV=production
 
-<<<<<<< HEAD
 RUN yarn install --pure-lockfile --production=false
-=======
-RUN yarn install --pure-lockfile
->>>>>>> Fix deploy
 RUN yarn build
 
 # Stage 2 - the production environment
