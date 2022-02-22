@@ -11,8 +11,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import Loader from 'ui/Loader'
 import { Grid } from '@mui/material'
 import UICard from 'ui/Card'
-import Header from 'components/events/card/Header'
-import Actions from 'components/events/card/Actions'
+import Header from 'components/Events/card/Header'
+import Actions from 'components/Events/card/Actions'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
@@ -38,23 +38,20 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     refetch,
     isLoading,
     isError,
-  } = useInfiniteQueryWithScope(
-    [queryKey, { feature: 'Events', view: 'Events' }],
-    query,
-    {
-      getNextPageParam,
-      onError: handleError,
-    },
-  )
+  } = useInfiniteQueryWithScope([queryKey, { feature: 'Events', view: 'Events' }], query, {
+    getNextPageParam,
+    onError: handleError,
+  })
 
   useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
 
   const events = usePaginatedData(paginatedEvents)
 
   const queryClient = useQueryClient()
-  const { data: categoriesByGroup = null } = queryClient.getQueryState(
-    ['categories', { feature: 'Events', view: 'Events' }]
-  )
+  const { data: categoriesByGroup = null } = queryClient.getQueryState([
+    'categories',
+    { feature: 'Events', view: 'Events' },
+  ])
   const categoryNameByCategoryId = useMemo(
     () =>
       (categoriesByGroup?.flatMap(g => g.categories) || []).reduce(

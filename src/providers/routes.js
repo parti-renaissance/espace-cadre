@@ -19,7 +19,7 @@ import DTD from 'components/DTD'
 import Surveys from 'components/Surveys'
 import MyTeam from 'components/MyTeam'
 import NoMatch from 'components/NoMatch'
-import Events from 'components/events'
+import Events from 'components/Events'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()

@@ -4,9 +4,9 @@ import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { styled } from '@mui/system'
-import EventList from 'components/events/EventList'
+import EventList from 'components/Events/EventList'
 import { getCategories, getEvents, getMyEvents } from 'api/events'
-import CreateEditEvent from 'components/events/CreateEditEvent'
+import CreateEditEvent from 'components/Events/CreateEditEvent'
 import { useQuery } from 'react-query'
 
 const ONE_DAY = 24 * 60 * 60 * 1000
