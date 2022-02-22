@@ -33,10 +33,7 @@ const Event = () => {
     data: event = null,
     isLoading,
     refetch: refetchEvent,
-  } = useQueryWithScope(
-    ['event', eventId, { feature: 'Events', view: 'Event' }],
-    () => getEvent(eventId),
-  )
+  } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
 
   const handleEditEvent = () => {
     setUpdatedEvent(event)
