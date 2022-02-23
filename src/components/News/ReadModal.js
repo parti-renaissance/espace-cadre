@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/EditRounded'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
 import MainButton from 'ui/MainButton'
+import ReactMarkdown from 'react-markdown'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -122,7 +123,9 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
       <Title title={news?.title}>{news?.title}</Title>
       <Author>{`${messages.author} ${news?.creator}`}</Author>
 
-      <Text sx={{ fontSize: '12px' }}>{news?.body}</Text>
+      <Text sx={{ fontSize: '12px' }}>
+        <ReactMarkdown>{news?.body}</ReactMarkdown>
+      </Text>
     </Dialog>
   )
 }

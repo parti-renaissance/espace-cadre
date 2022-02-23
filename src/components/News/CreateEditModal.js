@@ -24,6 +24,7 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
+import NewsEditor from 'components/News/NewsEditor'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -169,7 +170,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
-            <TextField formik={formik} label="body" inputProps={{ maxLength: 1000 }} />
+            <NewsEditor value={formik.values['body']} onChange={v => formik.setFieldValue('body', v)} />
           </Grid>
           {errorMessages
             .filter(({ field }) => field === 'text')
