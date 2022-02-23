@@ -32,7 +32,11 @@ const DatePicker = ({ value, onChange, label }) => {
       label={label}
       value={value}
       onChange={date => {
-        onChange(format(date, 'yyyy-MM-dd'))
+        if (!date || isNaN(date) || date.getFullYear() < 1900) {
+          onChange('')
+        } else {
+          onChange(format(date, 'yyyy-MM-dd'))
+        }
       }}
       onClose={() => {
         setIsOpen(false)
