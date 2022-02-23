@@ -33,7 +33,7 @@ describe('News', () => {
     cy.get('.MuiPaper-root').eq(3).contains('Voir').click()
     cy.get('button').contains('Modifier').click()
     cy.get('input[name="title"]').should('have.value', 'Titre 2')
-    cy.get('textarea[name="body"]').should('have.value', 'Texte 2')
+    cy.get('textarea.w-md-editor-text-input ').should('have.value', 'Texte 2')
     cy.get('input[name="url"]').should('have.value', '')
     cy.get('[type="checkbox"]').eq(0).should('not.be.checked')
     cy.get('[type="checkbox"]').eq(1).should('be.checked')
