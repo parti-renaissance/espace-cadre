@@ -111,9 +111,9 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
       <Grid container spacing={2}>
         {events.map(e => (
-          <Grid item key={e.id} xs={12} sm={6} md={3}>
+          <Grid item key={e.id} xs={12} sm={6} md={4} lg={3}>
             <UICard
-              rootProps={{ sx: { height: '370px', borderRadius: '8px' } }}
+              rootProps={{ sx: { height: '385px', borderRadius: '8px' } }}
               headerProps={{ sx: { pt: 2.5 } }}
               header={<Header event={e} categoryNameByCategoryId={categoryNameByCategoryId} />}
               actionsProps={{ sx: { pt: 1 } }}

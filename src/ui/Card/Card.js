@@ -6,9 +6,10 @@ import { VerticalContainer } from 'components/shared/styled'
 
 export const Root = styled(Paper)(
   ({ theme }) => `
-  padding: ${theme.spacing(0, 2, 0, 2)};
+  padding: ${theme.spacing(0, 2, 2, 2)};
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-radius: 8px;
   box-shadow: 0px 0px 5px rgba(29, 33, 79, 0.03);
   &:hover {
