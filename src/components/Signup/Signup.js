@@ -314,6 +314,7 @@ const Signup = () => {
             }
             sx={{ mx: 1, mb: 3 }}
           />
+          {formik.errors.cgu && <AlertBanner severity="error" message={formik.errors.cgu} />}
           <SubmitButton
             type="submit"
             variant="outlined"
