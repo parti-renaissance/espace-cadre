@@ -11,7 +11,7 @@ const messages = {
   byTheMonth: 'sur le mois',
 }
 
-const SurveysKPI = ({ local, national, collectedAnswers }) => (
+const SurveysKPI = ({ local, national }) => (
   <KPIs>
     <KPICard
       main={local.count}
@@ -19,14 +19,6 @@ const SurveysKPI = ({ local, national, collectedAnswers }) => (
       subtitle={`${messages.including} ${local.publishedCount} ${pluralize(local.publishedCount, messages.published)}`}
     />
     <KPICard main={national.count} title={national.title} />
-    <KPICard
-      main={collectedAnswers.count}
-      title={`${pluralize(collectedAnswers.count, messages.answer)} ${pluralize(
-        collectedAnswers.count,
-        messages.collected
-      )}`}
-      subtitle={`${collectedAnswers.byTheMonth} ${messages.byTheMonth}`}
-    />
   </KPIs>
 )
 
@@ -39,10 +31,6 @@ SurveysKPI.propTypes = {
   national: PropTypes.shape({
     count: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-  }),
-  collectedAnswers: PropTypes.shape({
-    count: PropTypes.number.isRequired,
-    byTheMonth: PropTypes.number.isRequired,
   }),
 }
 
