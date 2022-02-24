@@ -191,7 +191,7 @@ const Surveys = () => {
                 hasMore={hasNextPageSurveys}
                 loader={<Loader />}
               >
-                <Grid container spacing={2} data-cy="surveys-local">
+                <Grid container spacing={2} data-cy="surveys-list">
                   {localSurveys.map(survey => (
                     <SurveyItem
                       key={survey.id}
@@ -216,7 +216,7 @@ const Surveys = () => {
                 hasMore={hasNextPageSurveys}
                 loader={<Loader />}
               >
-                <Grid container spacing={2} data-cy="surveys-national">
+                <Grid container spacing={2} data-cy="surveys-list">
                   {nationalSurveys.map(survey => (
                     <SurveyItem
                       key={survey.id}
