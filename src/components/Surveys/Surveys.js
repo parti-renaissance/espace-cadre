@@ -74,7 +74,10 @@ const Surveys = () => {
     }
   )
   const surveys = usePaginatedData(paginatedSurveys)
-  const localSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.local), [surveys])
+  const localSurveys = useMemo(
+    () => surveys.filter(({ type, isPublished }) => type === visibility.local && !!isPublished),
+    [surveys]
+  )
   const nationalSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.national), [surveys])
 
   const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
@@ -157,10 +160,6 @@ const Surveys = () => {
               national={{
                 count: nationalSurveys.length,
                 title: nationalSurveys.length > 1 ? messages.nationalSurveys : messages.nationalSurvey,
-              }}
-              collectedAnswers={{
-                count: 19,
-                byTheMonth: 3,
               }}
             />
 

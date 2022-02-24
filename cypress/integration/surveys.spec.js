@@ -48,8 +48,8 @@ describe('Surveys', () => {
     it('should have a title', () => {
       cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
     })
-    it('should have 3 cards', () => {
-      cy.get(KPI).find(KPICard).children().should('have.length', 3)
+    it('should have 2 cards', () => {
+      cy.get(KPI).find(KPICard).children().should('have.length', 2)
     })
 
     describe('The local Survey(s) Card', () => {
@@ -79,7 +79,8 @@ describe('Surveys', () => {
       })
     })
 
-    describe('The collected Answer(s) Card', () => {
+    // TODO: remove ".skip" when feature available
+    describe.skip('The collected Answer(s) Card', () => {
       it('should contain 3 parts', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
       })
