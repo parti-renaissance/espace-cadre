@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { styled } from '@mui/system'
-import { Box, Button, Checkbox, FormControlLabel, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControlLabel, Typography, Grid } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { getCountryCallingCode, isValidPhoneNumber } from 'libphonenumber-js'
@@ -221,11 +221,28 @@ const Signup = () => {
           </Box>
           <Header sx={{ mt: 3 }}>{messages.address}</Header>
           <Places onSelectPlace={updateAddress} sx={{ mt: 1 }} error={formik.touched.gender && formik.errors.address} />
-          <Box component="div" sx={{ display: 'flex', mt: 2 }}>
-            <TextField value={address?.postalCode} placeholder={placeholders.postalCode} disabled sx={{ flex: 1 }} />
-            <TextField value={address?.locality} placeholder={placeholders.city} disabled sx={{ flex: 3, mx: 2 }} />
-            <TextField value={address?.country} placeholder={placeholders.country} disabled sx={{ flex: 1 }} />
-          </Box>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              pt: 1,
+            }}
+          >
+            <Grid item xs={12} sm={3}>
+              <TextField
+                value={address?.postalCode}
+                placeholder={placeholders.postalCode}
+                disabled
+                sx={{ width: '100%' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField value={address?.locality} placeholder={placeholders.city} disabled sx={{ width: '100%' }} />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <TextField value={address?.country} placeholder={placeholders.country} disabled sx={{ width: '100%' }} />
+            </Grid>
+          </Grid>
           <Header sx={{ mt: 3 }}>
             {messages.phone}
             <Italic>{messages.optional}</Italic>
@@ -314,6 +331,7 @@ const Signup = () => {
             }
             sx={{ mx: 1, mb: 3 }}
           />
+          {formik.errors.cgu && <AlertBanner severity="error" message={formik.errors.cgu} />}
           <SubmitButton
             type="submit"
             variant="outlined"
