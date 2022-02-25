@@ -4,7 +4,8 @@ import { SurveyItemZone as DomainSurveyItemZone } from 'domain/surveys'
 import { FormError } from 'components/shared/error/components'
 import SelectOption from './shared/components/SelectOption'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
-import { Input, Select } from './shared/components/styled'
+import UIInput from 'ui/Input/Input'
+import { Select } from './shared/components/styled'
 import { fields } from './shared/constants'
 
 const messages = {
@@ -32,7 +33,7 @@ const CreateEditTitleAndTerritory = ({
     <UIInputLabel data-cy="surveys-create-edit-title-label" sx={{ pt: 4, pb: 1 }}>
       {messages.title.label}
     </UIInputLabel>
-    <Input
+    <UIInput
       data-cy="surveys-create-edit-title-input"
       name={fields.title}
       placeholder={messages.title.placeholder}

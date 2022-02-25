@@ -18,6 +18,14 @@ import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
 import { PickersDay } from 'ui/DateTime/styled'
 
+const DatePickerInputStyles = {
+  pt: 1.75,
+  pr: 2,
+  pb: 1.25,
+  pl: 0,
+  letterSpacing: '-3px',
+}
+
 const messages = {
   input: {
     gender: 'Genre',
@@ -177,7 +185,7 @@ const CreateEditFilters = () => {
               debounce(() => updateValues(fields.adherentFromDate, value))
             }}
             renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => <Input type="date" name={fields.adherentFromDate} {...props} />}
+            renderInput={props => <Input type="date" name={fields.adherentFromDate} {...props} sx={DatePickerInputStyles} />}
             inputProps={{ placeholder: messages.placeholder.adherentFromDate, autoComplete: 'off' }}
             InputProps={{
               onClick: () => {
@@ -210,7 +218,7 @@ const CreateEditFilters = () => {
               debounce(() => updateValues(fields.adherentToDate, value))
             }}
             renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => <Input type="date" name={fields.adherentToDate} {...props} />}
+            renderInput={props => <Input type="date" name={fields.adherentToDate} {...props} sx={DatePickerInputStyles} />}
             inputProps={{ placeholder: messages.placeholder.adherentToDate, autoComplete: 'off' }}
             InputProps={{
               onClick: () => {
