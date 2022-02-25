@@ -13,7 +13,7 @@ import { FormError } from 'components/shared/error/components'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { FiltersContext } from './shared/context'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import Input from 'ui/Input/Input'
+import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
 import { PickersDay } from 'ui/DateTime/styled'
@@ -92,7 +92,7 @@ const CreateEditFilters = () => {
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
           <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.gender}</UIInputLabel>
-          <Input
+          <UIInput
             name={fields.gender}
             placeholder={messages.placeholder.gender}
             value={inputValues.gender || ''}
@@ -108,7 +108,7 @@ const CreateEditFilters = () => {
                 {option.label}
               </MenuItem>
             ))}
-          </Input>
+          </UIInput>
           <FormError errors={errors} field="gender" />
         </Grid>
       </Grid>
@@ -116,7 +116,7 @@ const CreateEditFilters = () => {
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
           <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.firstName}</UIInputLabel>
-          <Input
+          <UIInput
             name={fields.firstName}
             placeholder={messages.placeholder.firstName}
             value={inputValues.firstName}
@@ -129,7 +129,7 @@ const CreateEditFilters = () => {
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
           <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.lastName}</UIInputLabel>
-          <Input
+          <UIInput
             name={fields.lastName}
             placeholder={messages.placeholder.lastName}
             value={inputValues.lastName}
@@ -145,7 +145,7 @@ const CreateEditFilters = () => {
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
           <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.ageMin}</UIInputLabel>
-          <Input
+          <UIInput
             type="number"
             name={fields.ageMin}
             placeholder={messages.placeholder.ageMin}
@@ -159,7 +159,7 @@ const CreateEditFilters = () => {
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
           <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.ageMax}</UIInputLabel>
-          <Input
+          <UIInput
             type="number"
             name={fields.ageMax}
             placeholder={messages.placeholder.ageMax}
@@ -185,7 +185,9 @@ const CreateEditFilters = () => {
               debounce(() => updateValues(fields.adherentFromDate, value))
             }}
             renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => <Input type="date" name={fields.adherentFromDate} {...props} sx={DatePickerInputStyles} />}
+            renderInput={props => (
+              <UIInput type="date" name={fields.adherentFromDate} {...props} sx={DatePickerInputStyles} />
+            )}
             inputProps={{ placeholder: messages.placeholder.adherentFromDate, autoComplete: 'off' }}
             InputProps={{
               onClick: () => {
@@ -218,7 +220,9 @@ const CreateEditFilters = () => {
               debounce(() => updateValues(fields.adherentToDate, value))
             }}
             renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => <Input type="date" name={fields.adherentToDate} {...props} sx={DatePickerInputStyles} />}
+            renderInput={props => (
+              <UIInput type="date" name={fields.adherentToDate} {...props} sx={DatePickerInputStyles} />
+            )}
             inputProps={{ placeholder: messages.placeholder.adherentToDate, autoComplete: 'off' }}
             InputProps={{
               onClick: () => {
@@ -265,7 +269,7 @@ const CreateEditFilters = () => {
               </Typography>
             </MenuItem>
           )}
-          renderInput={params => <Input name={fields.zones} placeholder={messages.placeholder.zones} {...params} />}
+          renderInput={params => <UIInput name={fields.zones} placeholder={messages.placeholder.zones} {...params} />}
           loading={isZonesFetching}
           loadingText={messages.pleaseWait}
           noOptionsText={inputValues.zoneInput && messages.noResult}

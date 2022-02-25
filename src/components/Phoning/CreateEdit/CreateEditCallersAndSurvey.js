@@ -8,7 +8,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { CallersAndSurveyContext } from './shared/context'
 import SelectOption from './shared/components/SelectOption'
-import Input from 'ui/Input/Input'
+import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
 
@@ -85,7 +85,7 @@ const CreateEditCallersAndSurvey = () => {
             }
           />
         )}
-        renderInput={params => <Input name={fields.team} placeholder={messages.placeholder.team} {...params} />}
+        renderInput={params => <UIInput name={fields.team} placeholder={messages.placeholder.team} {...params} />}
         PaperComponent={props => <Paper {...props} sx={{ border: '1px solid', borderColor: 'gray300' }} />}
         ListboxProps={{ sx: { padding: 0 } }}
         loading={isTeamsFetching}
@@ -112,7 +112,7 @@ const CreateEditCallersAndSurvey = () => {
         renderOption={(props, option) => (
           <SelectOption {...props} key={option.id} label={option.name} inputValue={inputValues.survey?.name ?? ''} />
         )}
-        renderInput={params => <Input name={fields.survey} placeholder={messages.placeholder.survey} {...params} />}
+        renderInput={params => <UIInput name={fields.survey} placeholder={messages.placeholder.survey} {...params} />}
         PaperComponent={props => <Paper {...props} sx={{ border: '1px solid', borderColor: 'gray300' }} />}
         ListboxProps={{ sx: { padding: 0 } }}
         loading={isSurveysFetching}
