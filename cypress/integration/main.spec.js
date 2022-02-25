@@ -88,6 +88,11 @@ export const initialization = () => {
   mock('GET', '/api/v3/pap_campaigns?order[created_at]=desc&page=1&page_size=20&scope=pap_national_manager', 'DTD/campaigns')
   mock('GET', '/api/v3/my_teams?scope=referent', 'my-team/my-team')
   mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
+  mock(
+    'GET',
+    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=20&scope=referent',
+    'surveys/surveys'
+  )
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
