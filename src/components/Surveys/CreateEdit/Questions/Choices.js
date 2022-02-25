@@ -7,8 +7,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import { v4 as uuid } from 'uuid'
 
 import { SurveyDetailChoice as DomainSurveyDetailChoice } from 'domain/surveys'
+import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
-import { Input } from '../shared/components/styled'
 import { fields } from '../shared/constants'
 
 const ActionLabel = styled(Typography)`
@@ -78,7 +78,7 @@ const Choices = ({ formValues, updateFormField }) => {
 
       <Grid container>
         {allChoices.map((choice, index) => (
-          <Input
+          <UIInput
             data-cy="surveys-create-edit-choice-input"
             key={choice.id}
             name={fields.question}

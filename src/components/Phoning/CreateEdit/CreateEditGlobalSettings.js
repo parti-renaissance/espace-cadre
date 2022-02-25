@@ -13,6 +13,14 @@ import { useUserScope } from '../../../redux/user/hooks'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { PickersDay } from 'ui/DateTime/styled'
 
+const DatePickerInputStyles = {
+  pt: 1.75,
+  pr: 2,
+  pb: 1.25,
+  pl: 0,
+  letterSpacing: '-3px',
+}
+
 const messages = {
   input: {
     title: 'Titre',
@@ -116,7 +124,7 @@ const CreateEditGlobalSettings = () => {
           debounce(() => updateValues(fields.endDate, value))
         }}
         renderDay={(_, __, props) => <PickersDay {...props} />}
-        renderInput={props => <Input type="date" name={fields.endDate} {...props} />}
+        renderInput={props => <Input type="date" name={fields.endDate} {...props} sx={DatePickerInputStyles} />}
         inputProps={{ placeholder: messages.placeholder.endDate, autoComplete: 'off' }}
         InputProps={{
           onClick: () => {
@@ -150,6 +158,7 @@ const CreateEditGlobalSettings = () => {
         minRows={3}
         maxRows={3}
         multiline
+        sx={{ p: 1.75 }}
       />
       <FormError errors={errors} field="brief" />
     </>

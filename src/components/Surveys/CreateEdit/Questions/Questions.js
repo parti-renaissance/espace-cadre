@@ -9,8 +9,8 @@ import { v4 as uuid } from 'uuid'
 import { SurveyDetailQuestion as DomainSurveyDetailQuestion } from 'domain/surveys'
 import { fields } from '../shared/constants'
 import { simpleField } from '../../shared/constants'
+import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
-import { Input } from '../shared/components/styled'
 import { FormError } from 'components/shared/error/components'
 import QuestionTypes from './QuestionTypes'
 import Choices from './Choices'
@@ -118,7 +118,7 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
             <UIInputLabel data-cy="surveys-create-edit-question-content-label">{messages.question.label}</UIInputLabel>
           </Grid>
 
-          <Input
+          <UIInput
             data-cy="surveys-create-edit-question-content-input"
             name={fields.content}
             placeholder={messages.question.placeholder}
