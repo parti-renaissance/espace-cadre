@@ -61,7 +61,7 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
 
   return (
     <>
-      <Grid container direction="column" sx={{ pt: 4 }}>
+      <Grid container direction="column" sx={{ pt: 4 }} data-cy="my-team-create-edit-delegated-accesses-header">
         <Grid item>
           <Title sx={{ color: 'gray800' }}>{messages.title}</Title>
           &nbsp;
@@ -75,7 +75,7 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
       </Grid>
 
       {features.length > 0 && (
-        <Grid container sx={{ pt: 3 }}>
+        <Grid container sx={{ pt: 3 }} data-cy="my-team-create-edit-delegated-accesses-features">
           {isMobile &&
             features.map(key => (
               <Feature

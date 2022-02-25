@@ -16,6 +16,7 @@ const CheckboxLabelStyles = {
 const Feature = ({ name, label, value, handleChange }) => (
   <Grid container direction="column" sx={{ pt: 1 }}>
     <FormControlLabel
+      data-cy="my-team-create-edit-feature"
       name={name}
       label={label}
       value={value}
