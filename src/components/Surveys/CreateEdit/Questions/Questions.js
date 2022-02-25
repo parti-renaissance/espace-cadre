@@ -107,15 +107,18 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
 
   return (
     <>
-      <Title sx={{ pt: 4, color: 'gray800' }}>{messages.title}</Title>
+      <Title data-cy="surveys-create-edit-questions-label" sx={{ pt: 4, color: 'gray800' }}>
+        {messages.title}
+      </Title>
 
       {allQuestions.map(question => (
         <Fragment key={question.id}>
           <Grid container sx={{ pt: 3, pb: 1 }}>
-            <Label>{messages.question.label}</Label>
+            <Label data-cy="surveys-create-edit-question-content-label">{messages.question.label}</Label>
           </Grid>
 
           <Input
+            data-cy="surveys-create-edit-question-content-input"
             name={fields.content}
             placeholder={messages.question.placeholder}
             value={question.content}
@@ -123,7 +126,11 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleQuestionDelete(question.id)} sx={{ color: 'form.label.color' }}>
+                  <IconButton
+                    data-cy="surveys-create-edit-question-delete-button"
+                    onClick={handleQuestionDelete(question.id)}
+                    sx={{ color: 'form.label.color' }}
+                  >
                     <DeleteRoundedIcon />
                   </IconButton>
                 </InputAdornment>
@@ -148,7 +155,13 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
       ))}
 
       <Grid container>
-        <AddQuestionButton variant="outlined" startIcon={<AddRoundedIcon />} onClick={handleQuestionAdd} sx={{ mt: 3 }}>
+        <AddQuestionButton
+          data-cy="surveys-create-edit-question-add-button"
+          variant="outlined"
+          startIcon={<AddRoundedIcon />}
+          onClick={handleQuestionAdd}
+          sx={{ mt: 3 }}
+        >
           <ActionLabel>{messages.question.add}</ActionLabel>
         </AddQuestionButton>
       </Grid>

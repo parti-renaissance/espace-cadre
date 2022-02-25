@@ -21,22 +21,25 @@ const messages = {
 const QuestionTypes = ({ selectedType, handleChange }) => (
   <>
     <Grid container>
-      <Label>{messages.label}</Label>
+      <Label data-cy="surveys-create-edit-question-type-label">{messages.label}</Label>
     </Grid>
 
     <Grid container sx={{ pt: 2 }}>
       <RadioGroup name="question-type" defaultValue={simpleField} value={selectedType} row>
         <FormControlLabel
+          data-cy="surveys-create-edit-question-type-simple-field"
           control={<Radio onChange={handleChange} sx={{ color: 'main' }} />}
           label={<ChoiceLabel>{messages.simpleField}</ChoiceLabel>}
           value={simpleField}
         />
         <FormControlLabel
+          data-cy="surveys-create-edit-question-type-multiple-choice"
           control={<Radio onChange={handleChange} sx={{ color: 'main' }} />}
           label={<ChoiceLabel>{messages.multipleChoice}</ChoiceLabel>}
           value={multipleChoice}
         />
         <FormControlLabel
+          data-cy="surveys-create-edit-question-type-unique-choice"
           control={<Radio onChange={handleChange} sx={{ color: 'main' }} />}
           label={<ChoiceLabel>{messages.uniqueChoice}</ChoiceLabel>}
           value={uniqueChoice}

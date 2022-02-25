@@ -28,8 +28,11 @@ const CreateEditTitleAndTerritory = ({
   isZoneSelectable,
 }) => (
   <>
-    <Label sx={{ pt: 4, pb: 1 }}>{messages.title.label}</Label>
+    <Label data-cy="surveys-create-edit-title-label" sx={{ pt: 4, pb: 1 }}>
+      {messages.title.label}
+    </Label>
     <Input
+      data-cy="surveys-create-edit-title-input"
       name={fields.title}
       placeholder={messages.title.placeholder}
       value={formValues.title}
@@ -42,8 +45,11 @@ const CreateEditTitleAndTerritory = ({
 
     {formValues.zone && (
       <>
-        <Label sx={{ pt: 4, pb: 1 }}>{messages.territory.label}</Label>
+        <Label data-cy="surveys-create-edit-territory-label" sx={{ pt: 4, pb: 1 }}>
+          {messages.territory.label}
+        </Label>
         <Select
+          data-cy="surveys-create-edit-territory-input"
           name={fields.zone}
           value={formValues.zone}
           onChange={event => {
