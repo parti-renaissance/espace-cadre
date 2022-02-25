@@ -23,6 +23,7 @@ const messages = {
   publish: 'Publier',
   unpublish: 'Dépublier',
   update: 'Modifier',
+  delete: 'Supprimer',
 }
 
 const SurveyItem = ({
@@ -35,6 +36,7 @@ const SurveyItem = ({
   handleView,
   handlePublish,
   handleUpdate,
+  handleDelete,
 }) => {
   const chipLabel = chipLabelByStatus[isPublished ? published : unpublished]
   const chipColors = chipColorsByStatus[isPublished ? published : unpublished]
@@ -114,6 +116,7 @@ const SurveyItem = ({
                   {isPublished ? messages.unpublish : messages.publish}
                 </DotsMenuItem>
                 <DotsMenuItem onClick={handleUpdate}>{messages.update}</DotsMenuItem>
+                <DotsMenuItem onClick={handleDelete}>{messages.delete}</DotsMenuItem>
               </DotsMenu>
             )}
           </HorizontalContainer>

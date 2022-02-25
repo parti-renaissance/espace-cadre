@@ -7,7 +7,7 @@ import { styled } from '@mui/system'
 
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getSurveysQuery, getOneSurveyQuery, createOrUpdateSurveyQuery } from 'api/surveys'
+import { getSurveysQuery, getOneSurveyQuery, createOrUpdateSurveyQuery, deleteSurveyQuery } from 'api/surveys'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
@@ -47,6 +47,7 @@ const messages = {
   localSurveys: 'Questionnaires locaux',
   nationalSurvey: 'Questionnaire national',
   nationalSurveys: 'Questionnaires nationaux',
+  deleteSuccess: 'Questionnaire supprimé avec succès',
 }
 
 const Surveys = () => {
@@ -85,6 +86,14 @@ const Surveys = () => {
     onError: handleError,
   })
 
+  const { mutate: deleteSurvey } = useMutation(deleteSurveyQuery, {
+    onSuccess: () => {
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+      refetchSurveys()
+    },
+    onError: handleError,
+  })
+
   const { data: surveyDetail = {} } = useQueryWithScope(
     ['survey-detail', { feature: 'Surveys', view: 'Surveys' }, surveyIdToUpdate],
     () => getOneSurveyQuery(surveyIdToUpdate),
@@ -108,6 +117,10 @@ const Surveys = () => {
 
   const handleUpdate = surveyId => () => {
     setSurveyIdToUpdate(surveyId)
+  }
+
+  const handleDelete = surveyId => () => {
+    deleteSurvey(surveyId)
   }
 
   const handleClose = () => {
@@ -204,6 +217,7 @@ const Surveys = () => {
                       handleView={handleView(survey.id)}
                       handlePublish={togglePublish(survey.id)}
                       handleUpdate={handleUpdate(survey.id)}
+                      handleDelete={handleDelete(survey.id)}
                     />
                   ))}
                 </Grid>
@@ -229,6 +243,7 @@ const Surveys = () => {
                       handleView={handleView(survey.id)}
                       handlePublish={togglePublish(survey.id)}
                       handleUpdate={handleUpdate(survey.id)}
+                      handleDelete={handleDelete(survey.id)}
                     />
                   ))}
                 </Grid>

@@ -90,3 +90,5 @@ export const createOrUpdateSurveyQuery = survey => {
   if (!survey.id) return apiClient.post('api/v3/surveys', body)
   return apiClient.put(`api/v3/surveys/${survey.id}`, body)
 }
+
+export const deleteSurveyQuery = surveyId => apiClient.delete(`api/v3/surveys/${surveyId}`)
