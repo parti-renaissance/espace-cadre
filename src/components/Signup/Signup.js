@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { styled } from '@mui/system'
-import { Box, Button, Checkbox, FormControlLabel, Typography, Grid } from '@mui/material'
+import { Box, Button, FormControlLabel, Typography, Grid } from '@mui/material'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { getCountryCallingCode, isValidPhoneNumber } from 'libphonenumber-js'
@@ -269,7 +270,6 @@ const Signup = () => {
               <Checkbox
                 name="emailNotification"
                 size="small"
-                color="primary"
                 checked={formik.values.emailNotification}
                 onChange={formik.handleChange}
               />
@@ -287,7 +287,6 @@ const Signup = () => {
               <Checkbox
                 name="mobileNotification"
                 size="small"
-                color="primary"
                 checked={formik.values.mobileNotification}
                 onChange={formik.handleChange}
               />
@@ -306,7 +305,6 @@ const Signup = () => {
                 sx={formik.errors.cgu ? { color: 'red' } : {}}
                 name="cgu"
                 size="small"
-                color="primary"
                 checked={formik.values.cgu}
                 onChange={formik.handleChange}
               />
