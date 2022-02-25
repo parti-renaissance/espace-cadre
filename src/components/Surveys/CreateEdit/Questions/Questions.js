@@ -9,7 +9,8 @@ import { v4 as uuid } from 'uuid'
 import { SurveyDetailQuestion as DomainSurveyDetailQuestion } from 'domain/surveys'
 import { fields } from '../shared/constants'
 import { simpleField } from '../../shared/constants'
-import { Input, Label } from '../shared/components/styled'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
+import { Input } from '../shared/components/styled'
 import { FormError } from 'components/shared/error/components'
 import QuestionTypes from './QuestionTypes'
 import Choices from './Choices'
@@ -114,7 +115,7 @@ const Questions = ({ formValues, updateFormField, errors = [] }) => {
       {allQuestions.map(question => (
         <Fragment key={question.id}>
           <Grid container sx={{ pt: 3, pb: 1 }}>
-            <Label data-cy="surveys-create-edit-question-content-label">{messages.question.label}</Label>
+            <UIInputLabel data-cy="surveys-create-edit-question-content-label">{messages.question.label}</UIInputLabel>
           </Grid>
 
           <Input

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { FormControlLabel, Grid, Radio, RadioGroup, Typography } from '@mui/material'
 
-import { Label } from '../shared/components/styled'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { multipleChoice, simpleField, uniqueChoice } from '../../shared/constants'
 
 const ChoiceLabel = styled(Typography)`
@@ -21,7 +21,7 @@ const messages = {
 const QuestionTypes = ({ selectedType, handleChange }) => (
   <>
     <Grid container>
-      <Label data-cy="surveys-create-edit-question-type-label">{messages.label}</Label>
+      <UIInputLabel data-cy="surveys-create-edit-question-type-label">{messages.label}</UIInputLabel>
     </Grid>
 
     <Grid container sx={{ pt: 2 }}>

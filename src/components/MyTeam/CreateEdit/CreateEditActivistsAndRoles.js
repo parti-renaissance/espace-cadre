@@ -8,7 +8,8 @@ import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import SelectOption from './shared/components/SelectOption'
-import { Label, Select } from './shared/components/styled'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
+import { Select } from './shared/components/styled'
 import { roles } from '../shared/constants'
 import { fields } from './shared/constants'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
@@ -60,9 +61,9 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
 
   return (
     <>
-      <Label data-cy="my-team-create-edit-activist-label" sx={{ pt: 4, pb: 1 }}>
+      <UIInputLabel data-cy="my-team-create-edit-activist-label" sx={{ pt: 4, pb: 1 }}>
         {messages.input.activist}
-      </Label>
+      </UIInputLabel>
       <Autocomplete
         data-cy="my-team-create-edit-activist-input"
         options={activists}
@@ -113,9 +114,9 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
           </Grid>
         ))}
 
-      <Label data-cy="my-team-create-edit-role-label" sx={{ pt: 4, pb: 1 }}>
+      <UIInputLabel data-cy="my-team-create-edit-role-label" sx={{ pt: 4, pb: 1 }}>
         {messages.input.role}
-      </Label>
+      </UIInputLabel>
       <Select
         data-cy="my-team-create-edit-role-input"
         name={fields.role}

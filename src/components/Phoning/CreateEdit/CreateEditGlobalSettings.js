@@ -10,7 +10,7 @@ import { GlobalSettingsContext } from './shared/context'
 import Input from 'ui/Input/Input'
 import { fields } from './shared/constants'
 import { useUserScope } from '../../../redux/user/hooks'
-import Label from 'ui/Stepper/Label'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { PickersDay } from 'ui/DateTime/styled'
 
 const messages = {
@@ -46,7 +46,7 @@ const CreateEditGlobalSettings = () => {
 
   return (
     <>
-      <Label sx={{ pt: 3, pb: 1 }}>{messages.input.title}</Label>
+      <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.title}</UIInputLabel>
       <Input
         name={fields.title}
         placeholder={messages.placeholder.title}
@@ -61,7 +61,7 @@ const CreateEditGlobalSettings = () => {
 
       {!isNational && (
         <>
-          <Label sx={{ pt: 5, pb: 1 }}>{messages.input.zone}</Label>
+          <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.zone}</UIInputLabel>
           <Select
             name={fields.zone}
             inputProps={{ placeholder: messages.placeholder.zone }}
@@ -92,7 +92,7 @@ const CreateEditGlobalSettings = () => {
         </>
       )}
 
-      <Label sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</Label>
+      <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</UIInputLabel>
       <Input
         type="number"
         min="0"
@@ -106,7 +106,7 @@ const CreateEditGlobalSettings = () => {
       />
       <FormError errors={errors} field="goal" />
 
-      <Label sx={{ pt: 5, pb: 1 }}>{messages.input.endDate}</Label>
+      <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.endDate}</UIInputLabel>
       <DatePicker
         inputFormat="dd/MM/yyyy"
         open={isEndDatePickerOpen}
@@ -138,7 +138,7 @@ const CreateEditGlobalSettings = () => {
       />
       <FormError errors={errors} field="finish_at" />
 
-      <Label sx={{ pt: 5, pb: 1 }}>{messages.input.brief}</Label>
+      <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.brief}</UIInputLabel>
       <Input
         name={fields.brief}
         placeholder={messages.placeholder.brief}
