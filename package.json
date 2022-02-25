@@ -12,7 +12,7 @@
     "@mui/styles": "5.4.2",
     "@mui/system": "5.4.3",
     "@reduxjs/toolkit": "1.7.2",
-    "@sentry/react": "6.17.9",
+    "@sentry/react": "6.18.0",
     "@sentry/tracing": "6.17.9",
     "autosuggest-highlight": "3.2.1",
     "axios": "0.26.0",
