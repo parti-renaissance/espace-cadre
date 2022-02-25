@@ -14,6 +14,7 @@ import { useUserScope } from '../../../redux/user/hooks'
 import { simpleField, scopesVisibility, visibility } from '../shared/constants'
 import CreateEditTitleAndTerritory from './CreateEditTitleAndTerritory'
 import CreateEditQuestions from './Questions/Questions'
+import CreateEditVisibility from './CreateEditVisibility'
 import CreateEditValidateAction from './CreateEditValidateAction'
 
 const Title = styled(Typography)`
@@ -117,6 +118,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
           errors={errorMessages}
           readOnly={!!survey?.isPublished}
         />
+        <CreateEditVisibility formValues={{ isPublished: formValues.isPublished }} updateFormField={updateFormField} />
         <CreateEditValidateAction
           label={!survey ? messages.create.action : messages.update.action}
           handleValidate={handleSubmit}

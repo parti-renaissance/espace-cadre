@@ -5,4 +5,5 @@ export const fields = {
   content: 'content',
   questions: 'questions',
   choices: 'choices',
+  isPublished: 'isPublished',
 }
