@@ -1,9 +1,5 @@
 import { styled } from '@mui/system'
-import {
-  OutlinedInput,
-  Select as MuiSelect,
-  TextField,
-} from '@mui/material'
+import { OutlinedInput, Select as MuiSelect, TextField } from '@mui/material'
 
 export const Input = styled(props => <TextField size="small" variant="outlined" fullWidth {...props} />)(
   ({ theme, name }) => ({
@@ -41,6 +37,7 @@ export const Input = styled(props => <TextField size="small" variant="outlined" 
     },
   })
 )
+
 export const Select = styled(props => (
   <MuiSelect
     input={<OutlinedInput size="small" name={props.name} placeholder={props.placeholder} />}
