@@ -139,7 +139,7 @@ export const styles = {
       input: {
         background: '#F3F4F6',
         borderColor: {
-          focus: '#004AD7',
+          focus: '#2834c3',
         },
       },
       error: {
