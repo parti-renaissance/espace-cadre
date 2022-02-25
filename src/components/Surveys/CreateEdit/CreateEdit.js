@@ -94,13 +94,12 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
   return (
     <Dialog scroll="body" data-cy="surveys-create-edit" onClose={handleClose} PaperComponent={Paper} open>
       <Grid container justifyContent="space-between" alignItems="center">
-        <Title>
-          {!survey ? messages.create.title : messages.update.title}
-          &nbsp;
+        <Title data-cy="surveys-create-edit-title">
+          {!survey ? messages.create.title : messages.update.title}{' '}
           {scopesVisibility[scope] === visibility.local && visibility.local}
           {scopesVisibility[scope] === visibility.national && visibility.national}
         </Title>
-        <IconButton onClick={handleClose}>
+        <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close">
           <CloseRoundedIcon />
         </IconButton>
       </Grid>

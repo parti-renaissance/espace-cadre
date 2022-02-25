@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useCallback, useEffect, useState } from 'react'
 import { styled } from '@mui/system'
-import { Button, Grid, IconButton, InputAdornment } from '@mui/material'
+import { Button, Grid, IconButton, InputAdornment, Typography } from '@mui/material'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import { v4 as uuid } from 'uuid'
@@ -9,6 +9,13 @@ import { v4 as uuid } from 'uuid'
 import { SurveyDetailChoice as DomainSurveyDetailChoice } from 'domain/surveys'
 import { Input, Label } from '../shared/components/styled'
 import { fields } from '../shared/constants'
+
+const ActionLabel = styled(Typography)`
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0.46px;
+`
 
 const AddChoiceButton = styled(props => <Button variant="outlined" {...props} />)(({ theme }) => ({
   borderColor: theme.palette.button.color,
@@ -65,12 +72,13 @@ const Choices = ({ formValues, updateFormField }) => {
   return (
     <>
       <Grid container sx={{ pt: 3 }}>
-        <Label>{messages.label}</Label>
+        <Label data-cy="surveys-create-edit-choices-label">{messages.label}</Label>
       </Grid>
 
       <Grid container>
         {allChoices.map((choice, index) => (
           <Input
+            data-cy="surveys-create-edit-choice-input"
             key={choice.id}
             name={fields.question}
             placeholder={messages.placeholder}
@@ -81,7 +89,11 @@ const Choices = ({ formValues, updateFormField }) => {
                 ? {
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={handleDeleteChoice(choice.id)} sx={{ color: 'form.label.color' }}>
+                        <IconButton
+                          data-cy="surveys-create-edit-choice-delete-action"
+                          onClick={handleDeleteChoice(choice.id)}
+                          sx={{ color: 'form.label.color' }}
+                        >
                           <DeleteRoundedIcon />
                         </IconButton>
                       </InputAdornment>
@@ -93,8 +105,14 @@ const Choices = ({ formValues, updateFormField }) => {
           />
         ))}
 
-        <AddChoiceButton variant="outlined" startIcon={<AddRoundedIcon />} onClick={handleAddChoice} sx={{ mt: 1 }}>
-          {messages.add}
+        <AddChoiceButton
+          data-cy="surveys-create-edit-choice-add-button"
+          variant="outlined"
+          startIcon={<AddRoundedIcon />}
+          onClick={handleAddChoice}
+          sx={{ mt: 1 }}
+        >
+          <ActionLabel>{messages.add}</ActionLabel>
         </AddChoiceButton>
       </Grid>
     </>

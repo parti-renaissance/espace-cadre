@@ -27,7 +27,7 @@ const ValidateButton = styled(
 
 const CreateEditValidateAction = ({ label, handleValidate, disabled }) => (
   <Grid container sx={{ pt: 4 }}>
-    <ValidateButton onClick={handleValidate} disabled={disabled}>
+    <ValidateButton data-cy="surveys-create-edit-submit" onClick={handleValidate} disabled={disabled}>
       {label}
     </ValidateButton>
   </Grid>
