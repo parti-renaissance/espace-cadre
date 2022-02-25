@@ -81,6 +81,9 @@ export const initialization = () => {
     '/api/event_categories',
     'events/categories'
   )
+  mock('GET', '/api/v3/profile/me/scope/pap_national_manager', 'DTD/DTDScope')
+  mock('GET', '/api/v3/pap_campaigns/kpi?scope=pap_national_manager', 'DTD/KPI')
+  mock('GET', '/api/v3/pap_campaigns?order[created_at]=desc&page=1&page_size=20&scope=pap_national_manager', 'DTD/campaigns')
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
