@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Grid, TextField } from '@mui/material'
+import { Grid } from '@mui/material'
+import Input from 'ui/Input/Input'
 import { styled } from '@mui/system'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useUserScope } from '../../redux/user/hooks'
@@ -71,7 +72,7 @@ const Template = ({ modeUpdate = false }) => {
       <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
-          <TextField
+          <Input
             size="small"
             label="Objet du mail"
             variant="outlined"

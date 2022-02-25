@@ -32,12 +32,12 @@ const Title = styled(Grid)`
 
 const Button = styled(MuiButton)(({ theme }) => ({
   cursor: 'pointer',
-  background: theme.palette.blue600,
+  background: theme.palette.main,
   '&.Mui-disabled': {
     background: theme.palette.gray100,
   },
   '&:hover': {
-    background: theme.palette.blue800,
+    background: theme.palette.main,
   },
 }))
 
