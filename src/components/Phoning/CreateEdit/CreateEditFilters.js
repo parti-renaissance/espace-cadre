@@ -14,7 +14,7 @@ import { getPhoningCampaignZones } from 'api/phoning'
 import { FiltersContext } from './shared/context'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import Input from 'ui/Input/Input'
-import Label from 'ui/Stepper/Label'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
 import { PickersDay } from 'ui/DateTime/styled'
 
@@ -83,7 +83,7 @@ const CreateEditFilters = () => {
     <>
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.gender}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.gender}</UIInputLabel>
           <Input
             name={fields.gender}
             placeholder={messages.placeholder.gender}
@@ -107,7 +107,7 @@ const CreateEditFilters = () => {
 
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.firstName}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.firstName}</UIInputLabel>
           <Input
             name={fields.firstName}
             placeholder={messages.placeholder.firstName}
@@ -120,7 +120,7 @@ const CreateEditFilters = () => {
           <FormError errors={errors} field="first_name" />
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.lastName}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.lastName}</UIInputLabel>
           <Input
             name={fields.lastName}
             placeholder={messages.placeholder.lastName}
@@ -136,7 +136,7 @@ const CreateEditFilters = () => {
 
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMin}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.ageMin}</UIInputLabel>
           <Input
             type="number"
             name={fields.ageMin}
@@ -150,7 +150,7 @@ const CreateEditFilters = () => {
           <FormError errors={errors} field="age_min" />
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMax}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.ageMax}</UIInputLabel>
           <Input
             type="number"
             name={fields.ageMax}
@@ -167,7 +167,7 @@ const CreateEditFilters = () => {
 
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</UIInputLabel>
           <DatePicker
             inputFormat="dd/MM/yyyy"
             open={isAdherentFromDatePickerOpen}
@@ -200,7 +200,7 @@ const CreateEditFilters = () => {
           <FormError errors={errors} field="registered_since" />
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</UIInputLabel>
           <DatePicker
             inputFormat="dd/MM/yyyy"
             open={isAdherentToDatePickerOpen}
@@ -235,7 +235,7 @@ const CreateEditFilters = () => {
       </Grid>
 
       <Grid item xs={12}>
-        <Label sx={{ pt: 3, pb: 1 }}>{messages.input.zones}</Label>
+        <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.zones}</UIInputLabel>
         <Autocomplete
           options={zones}
           inputValue={inputValues.zoneInput}

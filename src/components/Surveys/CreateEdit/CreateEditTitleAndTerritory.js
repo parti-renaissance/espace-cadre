@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { SurveyItemZone as DomainSurveyItemZone } from 'domain/surveys'
 import { FormError } from 'components/shared/error/components'
 import SelectOption from './shared/components/SelectOption'
-import { Input, Label, Select } from './shared/components/styled'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
+import { Input, Select } from './shared/components/styled'
 import { fields } from './shared/constants'
 
 const messages = {
@@ -28,9 +29,9 @@ const CreateEditTitleAndTerritory = ({
   isZoneSelectable,
 }) => (
   <>
-    <Label data-cy="surveys-create-edit-title-label" sx={{ pt: 4, pb: 1 }}>
+    <UIInputLabel data-cy="surveys-create-edit-title-label" sx={{ pt: 4, pb: 1 }}>
       {messages.title.label}
-    </Label>
+    </UIInputLabel>
     <Input
       data-cy="surveys-create-edit-title-input"
       name={fields.title}
@@ -45,9 +46,9 @@ const CreateEditTitleAndTerritory = ({
 
     {formValues.zone && (
       <>
-        <Label data-cy="surveys-create-edit-territory-label" sx={{ pt: 4, pb: 1 }}>
+        <UIInputLabel data-cy="surveys-create-edit-territory-label" sx={{ pt: 4, pb: 1 }}>
           {messages.territory.label}
-        </Label>
+        </UIInputLabel>
         <Select
           data-cy="surveys-create-edit-territory-input"
           name={fields.zone}

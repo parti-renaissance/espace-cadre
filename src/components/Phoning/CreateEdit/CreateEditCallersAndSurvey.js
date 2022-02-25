@@ -9,7 +9,7 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import { CallersAndSurveyContext } from './shared/context'
 import SelectOption from './shared/components/SelectOption'
 import Input from 'ui/Input/Input'
-import Label from 'ui/Stepper/Label'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
 
 const messages = {
@@ -57,7 +57,7 @@ const CreateEditCallersAndSurvey = () => {
 
   return (
     <>
-      <Label sx={{ pt: 3, pb: 1 }}>{messages.input.team}</Label>
+      <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.team}</UIInputLabel>
       <Autocomplete
         options={teams}
         inputValue={inputValues.team?.name ?? ''}
@@ -96,7 +96,7 @@ const CreateEditCallersAndSurvey = () => {
         fullWidth
       />
 
-      <Label sx={{ pt: 5, pb: 1 }}>{messages.input.survey}</Label>
+      <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.survey}</UIInputLabel>
       <Autocomplete
         options={surveys}
         inputValue={inputValues.survey?.name ?? ''}
