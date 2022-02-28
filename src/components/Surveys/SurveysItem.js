@@ -47,7 +47,7 @@ const SurveyItem = ({
         header={
           <>
             <HorizontalContainer>
-              <UIChip label={chipLabel} {...chipColors} sx={{ height: '16px', mr: 1 }} />
+              <UIChip data-cy="surveys-item-status" label={chipLabel} {...chipColors} sx={{ height: '16px', mr: 1 }} />
             </HorizontalContainer>
             <VerticalContainer>
               <TruncatedText
@@ -75,6 +75,7 @@ const SurveyItem = ({
           <Grid container>
             {Number.isInteger(questionsCount) && (
               <UIChip
+                data-cy="surveys-item-questions-count"
                 variant="outlined"
                 color="gray700"
                 label={`${questionsCount} ${pluralize(questionsCount, messages.questions)}`}
@@ -83,6 +84,7 @@ const SurveyItem = ({
             )}
             {Number.isInteger(answersCount) && (
               <UIChip
+                data-cy="surveys-item-answers-count"
                 variant="outlined"
                 color="gray700"
                 label={`${answersCount} ${pluralize(answersCount, messages.answers)}`}
