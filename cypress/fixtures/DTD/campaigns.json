@@ -1,61 +1,33 @@
 {
-  "metadata": { "total_items": 4, "items_per_page": 20, "count": 4, "current_page": 1, "last_page": 1 },
+  "metadata": { "total_items": 2, "items_per_page": 20, "count": 2, "current_page": 1, "last_page": 1 },
   "items": [
     {
-      "title": "[National] Campagne test",
+      "title": "[National] Campagne 1",
       "brief": null,
-      "goal": 89,
+      "goal": 10,
       "begin_at": "2022-01-31T00:00:00+01:00",
       "finish_at": "2022-03-06T00:00:00+01:00",
-      "uuid": "80c6c5c0-7186-4572-a295-1a414c8d6908",
+      "uuid": "11111111-1111-1111-1111-111111111111",
       "visibility": "national",
       "zone": null,
-      "nb_surveys": 4,
-      "nb_visited_doors": 25,
-      "nb_addresses": 13916450,
-      "nb_voters": 43208624
+      "nb_surveys": 5,
+      "nb_visited_doors": 100,
+      "nb_addresses": 1000,
+      "nb_voters": 1500
     },
     {
-      "title": "[National] Campagne Staging PaP",
-      "brief": "Campagne Staging PaP",
+      "title": "[National] Campagne 2",
+      "brief": "brief 2",
       "goal": 20,
       "begin_at": "2022-01-27T00:00:00+01:00",
       "finish_at": "2022-02-09T00:00:00+01:00",
-      "uuid": "ff9929e2-b176-496b-9bfc-6af7edf84636",
+      "uuid": "22222222-2222-2222-2222-222222222222",
       "visibility": "national",
       "zone": null,
-      "nb_surveys": 38,
-      "nb_visited_doors": 88,
-      "nb_addresses": 13916450,
-      "nb_voters": 43208624
-    },
-    {
-      "title": "[National] Olga est une campagne",
-      "brief": "Bonjour Laila\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis ut diam quam nulla porttitor massa. At auctor urna nunc id cursus metus aliquam. Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Quisque id diam vel quam elementum pulvinar etiam non quam. Elementum pulvinar etiam non quam. Tristique sollicitudin nibh sit amet. Ac feugiat sed lectus vestibulum mattis. Amet nisl purus in mollis nunc sed id semper. Posuere urna nec tincidunt praesent semper feugiat nibh sed. Praesent tristique magna sit amet purus gravida quis blandit turpis. \r\n\r\nAt erat pellentesque adipiscing commodo elit at imperdiet dui accumsan. Eget velit aliquet sagittis id. Sapien et ligula ullamcorper malesuada proin. Scelerisque viverra mauris in aliquam sem fringilla. Morbi blandit cursus risus at ultrices mi. Viverra suspendisse potenti nullam ac. Magna eget est lorem ipsum dolor sit amet consectetur.",
-      "goal": 88,
-      "begin_at": "2021-10-05T00:00:00+02:00",
-      "finish_at": "2022-01-27T00:00:00+01:00",
-      "uuid": "f5c195df-3c8d-453e-8789-7960d6cc05aa",
-      "visibility": "national",
-      "zone": null,
-      "nb_surveys": 211,
-      "nb_visited_doors": 628,
-      "nb_addresses": 13916450,
-      "nb_voters": 43208624
-    },
-    {
-      "title": "[National] Coucou",
-      "brief": "kjrgcu'rbci'rci'rgc",
-      "goal": 50,
-      "begin_at": "2021-11-05T00:00:00+01:00",
-      "finish_at": "2021-11-25T00:00:00+01:00",
-      "uuid": "3f0add3b-bdcd-4aaa-8b56-3e407ee152a0",
-      "visibility": "national",
-      "zone": null,
-      "nb_surveys": 0,
-      "nb_visited_doors": 0,
-      "nb_addresses": 13916450,
-      "nb_voters": 43208624
+      "nb_surveys": 20,
+      "nb_visited_doors": 100,
+      "nb_addresses": 1000,
+      "nb_voters": 2000
     }
   ]
 }

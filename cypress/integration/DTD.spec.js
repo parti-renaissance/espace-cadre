@@ -51,7 +51,7 @@ describe('DTD', () => {
       })
       it('should show a score, a subtitle and its detail', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).each((element, index) => {
-          const content = { score: '4', subtitle: 'Campagnes', detail: 'Dont 1 en cours' }
+          const content = { score: '2', subtitle: 'Campagnes', detail: 'Dont 1 en cours' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
           if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
@@ -65,7 +65,7 @@ describe('DTD', () => {
       })
       it('should show a score, a subtitle and its detail', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
-          const content = { score: '253', subtitle: 'Questionnaires', detail: '27 sur un mois' }
+          const content = { score: '10', subtitle: 'Questionnaires', detail: '5 sur un mois' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
           if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
@@ -79,7 +79,7 @@ describe('DTD', () => {
       })
       it('should show a score, a subtitle and its detail', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).each((element, index) => {
-          const content = { score: '741', subtitle: 'Portes', detail: '79 sur un mois' }
+          const content = { score: '200', subtitle: 'Portes', detail: '50 sur un mois' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
           if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
