@@ -58,7 +58,7 @@ describe('Surveys', () => {
       })
       it('should show a score, a subtitle and its detail', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).each((element, index) => {
-          const content = { score: '3', subtitle: 'Questionnaires locaux', detail: 'Dont 2 publiés' }
+          const content = { score: '1', subtitle: 'Questionnaire local', detail: 'Dont 1 publié' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
           if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
@@ -72,7 +72,7 @@ describe('Surveys', () => {
       })
       it('should show a score, a subtitle and its detail', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
-          const content = { score: '11', subtitle: 'Questionnaires nationaux' }
+          const content = { score: '2', subtitle: 'Questionnaires nationaux' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
         })
@@ -121,17 +121,17 @@ describe('Surveys', () => {
     it('should display 3 cards', () => {
       cy.get(Tab).eq(0).click()
       cy.get(LocalSurveys).should('exist')
-      cy.get(LocalSurveys).children().should('have.length', 3)
-      cy.get(LocalSurveys).find(UICard).should('have.length', 3)
+      cy.get(LocalSurveys).children().should('have.length', 1)
+      cy.get(LocalSurveys).find(UICard).should('have.length', 1)
     })
   })
 
   describe('The national Survey(s) tab', () => {
-    it('should display 11 cards', () => {
+    it('should display 2 cards', () => {
       cy.get(Tab).eq(1).click()
       cy.get(NationalSurveys).should('exist')
-      cy.get(NationalSurveys).children().should('have.length', 11)
-      cy.get(NationalSurveys).find(UICard).should('have.length', 11)
+      cy.get(NationalSurveys).children().should('have.length', 2)
+      cy.get(NationalSurveys).find(UICard).should('have.length', 2)
     })
   })
 
