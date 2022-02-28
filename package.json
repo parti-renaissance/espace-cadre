@@ -11,7 +11,7 @@
     "@mui/material": "5.4.3",
     "@mui/styles": "5.4.2",
     "@mui/system": "5.4.3",
-    "@reduxjs/toolkit": "1.7.2",
+    "@reduxjs/toolkit": "1.8.0",
     "@sentry/react": "6.18.0",
     "@sentry/tracing": "6.18.0",
     "autosuggest-highlight": "3.2.1",
