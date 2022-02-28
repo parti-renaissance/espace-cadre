@@ -14,5 +14,19 @@
     }
   ],
   "apps": ["data_corner"],
-  "features": ["dashboard", "contacts", "messages", "elections", "mobile_app", "news", "team", "events"]
+  "features": [
+    "dashboard",
+    "contacts",
+    "messages",
+    "elections",
+    "mobile_app",
+    "ripostes",
+    "news",
+    "team",
+    "events",
+    "my_team",
+    "survey",
+    "phoning_campaign",
+    "pap"
+  ]
 }

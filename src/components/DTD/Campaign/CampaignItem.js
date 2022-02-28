@@ -41,10 +41,12 @@ const DTDCampaignItem = ({ startDate, endDate, title, score, handleView }) => {
           <>
             <div>
               <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
-              <EndDate sx={{ color: 'gray600' }}>{format(endDate, 'dd MMMM yyyy', { locale: fr })}</EndDate>
+              <EndDate sx={{ color: 'gray600' }} data-cy="DTD-campaigns-item-end-date">
+                {format(endDate, 'dd MMMM yyyy', { locale: fr })}
+              </EndDate>
             </div>
             <VerticalContainer sx={{ pt: 1 }}>
-              <TruncatedText variant="subtitle1" title={title}>
+              <TruncatedText variant="subtitle1" title={title} data-cy="DTD-campaigns-item-title">
                 {title}
               </TruncatedText>
             </VerticalContainer>
@@ -65,7 +67,9 @@ const DTDCampaignItem = ({ startDate, endDate, title, score, handleView }) => {
                 },
               }}
             >
-              {messages.see}
+              <Typography variant="button" sx={{ textTransform: 'uppercase' }}>
+                {messages.see}
+              </Typography>
             </CtaButton>
           </HorizontalContainer>
         }

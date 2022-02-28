@@ -1,0 +1,33 @@
+{
+  "metadata": { "total_items": 2, "items_per_page": 20, "count": 2, "current_page": 1, "last_page": 1 },
+  "items": [
+    {
+      "title": "[National] Campagne 1",
+      "brief": null,
+      "goal": 10,
+      "begin_at": "2022-01-31T00:00:00+01:00",
+      "finish_at": "2022-03-06T00:00:00+01:00",
+      "uuid": "11111111-1111-1111-1111-111111111111",
+      "visibility": "national",
+      "zone": null,
+      "nb_surveys": 5,
+      "nb_visited_doors": 100,
+      "nb_addresses": 1000,
+      "nb_voters": 1500
+    },
+    {
+      "title": "[National] Campagne 2",
+      "brief": "brief 2",
+      "goal": 20,
+      "begin_at": "2022-01-27T00:00:00+01:00",
+      "finish_at": "2022-02-09T00:00:00+01:00",
+      "uuid": "22222222-2222-2222-2222-222222222222",
+      "visibility": "national",
+      "zone": null,
+      "nb_surveys": 20,
+      "nb_visited_doors": 100,
+      "nb_addresses": 1000,
+      "nb_voters": 2000
+    }
+  ]
+}

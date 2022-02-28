@@ -1,0 +1,13 @@
+{
+  "code": "pap_national_manager",
+  "name": "Responsable PAP",
+  "zones": [
+    {
+      "uuid": "5bf9263e-835e-11eb-ba14-42010a84009d",
+      "code": "FR",
+      "name": "France"
+    }
+  ],
+  "apps": ["data_corner"],
+  "features": ["pap"]
+}

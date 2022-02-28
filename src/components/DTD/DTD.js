@@ -63,7 +63,12 @@ const DTD = () => {
         <CampaignGlobalKPI />
       </Grid>
 
-      <Grid container justifyContent="space-between" sx={{ pt: 4, ...infiniteScrollStylesOverrides }}>
+      <Grid
+        container
+        justifyContent="space-between"
+        data-cy="DTD-campaigns-container"
+        sx={{ pt: 4, ...infiniteScrollStylesOverrides }}
+      >
         <Grid container>
           <Title data-testid="Campaigns-title">{messages.campaigns}</Title>
         </Grid>
@@ -75,7 +80,7 @@ const DTD = () => {
             hasMore={hasNextPageCampaigns}
             loader={<Loader />}
           >
-            <Grid container spacing={2}>
+            <Grid container spacing={2} data-cy="DTD-campaigns-list">
               {campaigns.map(campaign => (
                 <CampaignItem
                   key={campaign.id}

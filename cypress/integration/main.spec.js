@@ -12,6 +12,9 @@ export const initialization = () => {
   mock('GET', '/api/v3/profile/me/scopes', 'scopes')
   mock('GET', '/api/v3/profile/me/scope/referent', 'scope/referent')
   mock('GET', '/api/v3/profile/me/scope/national', 'scope/national')
+  mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'scope/phoning_national_manager')
+  mock('GET', '/api/v3/profile/me/scope/pap_national_manager', 'scope/pap_national_manager')
+
   mock('GET', '/api/v3/internal/*/adherents?scope=*', 'internal/adherents')
   mock('GET', '/api/v3/internal/*/jemengage/downloads?scope=*', 'internal/downloads')
   mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
@@ -29,7 +32,7 @@ export const initialization = () => {
   mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'groups/1')
   mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
   mock('GET', '/api/v3/ripostes?order[created_at]=desc&page=1&page_size=20&scope=national', 'ripostes/ripostes')
-  mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'phoning/phoningScope')
+
   mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
   mock(
     'GET',
@@ -81,6 +84,8 @@ export const initialization = () => {
     '/api/event_categories',
     'events/categories'
   )
+  mock('GET', '/api/v3/pap_campaigns/kpi?scope=pap_national_manager', 'DTD/KPI')
+  mock('GET', '/api/v3/pap_campaigns?order[created_at]=desc&page=1&page_size=20&scope=pap_national_manager', 'DTD/campaigns')
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
