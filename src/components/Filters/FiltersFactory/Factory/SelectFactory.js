@@ -1,4 +1,5 @@
-import { Checkbox, ListItemText, MenuItem, Select as MuiSelect, InputLabel, FormControl } from '@mui/material'
+import { ListItemText, MenuItem, Select as MuiSelect, InputLabel, FormControl } from '@mui/material'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 
 const Select = styled(MuiSelect)(
@@ -55,7 +56,7 @@ class SelectFactory {
           )}
           {Object.entries(filter.options.choices).map(([option1, option2]) => (
             <MenuItem key={option1} value={option1}>
-              {multiple && <Checkbox checked={value !== null && value.indexOf(option1) > -1} color="primary" />}
+              {multiple && <Checkbox checked={value !== null && value.indexOf(option1) > -1} />}
               <ListItemText primary={option2} />
             </MenuItem>
           ))}

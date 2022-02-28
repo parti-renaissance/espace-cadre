@@ -1,13 +1,5 @@
-import {
-  Dialog,
-  Paper,
-  Grid,
-  Button as MuiButton,
-  FormControlLabel,
-  Checkbox,
-  Typography,
-  IconButton,
-} from '@mui/material'
+import { Dialog, Paper, Grid, Button as MuiButton, FormControlLabel, Typography, IconButton } from '@mui/material'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
@@ -202,7 +194,6 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
                 <Checkbox
                   name="withNotification"
                   size="small"
-                  color="primary"
                   checked={formik.values.withNotification}
                   onChange={formik.handleChange}
                 />
@@ -213,13 +204,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           <Grid item xs={12}>
             <FormControlLabel
               control={
-                <Checkbox
-                  name="status"
-                  color="primary"
-                  size="small"
-                  checked={formik.values.status}
-                  onChange={formik.handleChange}
-                />
+                <Checkbox name="status" size="small" checked={formik.values.status} onChange={formik.handleChange} />
               }
               label="Active"
             />

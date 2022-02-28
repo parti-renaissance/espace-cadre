@@ -1,4 +1,4 @@
-import { Paper, Button, Checkbox, Dialog, FormControlLabel, Grid, Typography } from '@mui/material'
+import { Paper, Button, Dialog, FormControlLabel, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
@@ -8,6 +8,7 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import ClearIcon from '@mui/icons-material/Clear'
 import Loader from 'ui/Loader'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -31,12 +32,12 @@ const Title = styled(Typography)`
 const Validate = styled(Button)(
   ({ theme }) => `
   color: ${theme.palette.whiteCorner};
-  background: ${theme.palette.teal600};
+  background: ${theme.palette.main};
   border: none;
   border-radius: 8px;
   height: 35px;
   &:hover {
-    background: ${theme.palette.teal700};
+    background: ${theme.palette.main};
   }
 `
 )
@@ -158,7 +159,6 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
                 <Checkbox
                   id="withNotification"
                   size="small"
-                  color="primary"
                   checked={formik.values.withNotification}
                   onChange={formik.handleChange}
                 />
@@ -169,13 +169,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
           <Grid item xs={12}>
             <FormControlLabel
               control={
-                <Checkbox
-                  id="status"
-                  color="primary"
-                  size="small"
-                  checked={formik.values.status}
-                  onChange={formik.handleChange}
-                />
+                <Checkbox id="status" size="small" checked={formik.values.status} onChange={formik.handleChange} />
               }
               label="Active"
             />
