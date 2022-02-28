@@ -11,9 +11,9 @@ const Paper = styled(MuiPaper)`
 const BackButton = styled(Button)(
   ({ theme }) => `
   color: ${theme.palette.whiteCorner};
-  background: ${theme.palette.blue600};
+  background: ${theme.palette.main};
   &:hover {
-    background: ${theme.palette.blue800};
+    background: ${theme.palette.main};
   }
 `
 )

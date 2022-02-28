@@ -27,9 +27,9 @@ const Confirmation = styled(Typography)(
 
 const Cancel = styled(Button)(
   ({ theme }) => `
-  color: ${theme.palette.blue600};
+  color: ${theme.palette.main};
   background: ${theme.palette.whiteCorner};
-  border: 1px solid ${theme.palette.blue600};
+  border: 1px solid ${theme.palette.main};
   border-radius: 8px;
   padding: ${theme.spacing(1, 2)};
   margin-right: ${theme.spacing(2)};
@@ -42,10 +42,11 @@ const Cancel = styled(Button)(
 const Send = styled(Button)(
   ({ theme }) => `
   color: ${theme.palette.whiteCorner};
+  background: ${theme.palette.main};
   border-radius: 8px;
   padding: ${theme.spacing(1, 2)};
   &:hover {
-    background: ${theme.palette.blue800}
+    background: ${theme.palette.main}
   }
 `
 )

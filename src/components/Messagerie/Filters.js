@@ -250,7 +250,7 @@ const Filters = () => {
               }
               onClick={() => setOpen(true)}
             >
-              {loadingSendButton ? <Loader /> : messages.sendEmail}
+              {loadingSendButton ? <Loader color="#FFFFFF" /> : messages.sendEmail}
             </Send>
             {open && (
               <ModalComponent
