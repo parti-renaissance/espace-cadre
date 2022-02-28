@@ -1,72 +1,23 @@
 [
   {
-    "registered_at": "2016-04-07T00:32:39+02:00",
-    "uuid": "f8d70da5-0e23-546d-a1fe-fd02050433b2",
-    "first_name": "Yann",
-    "last_name": "Krebs",
-    "postal_code": "02200"
+    "registered_at": "2022-01-01T12:00:00+02:00",
+    "uuid": "11111111-1111-1111-1111-111111111111",
+    "first_name": "firstname1",
+    "last_name": "lastname1",
+    "postal_code": "92000"
   },
   {
-    "registered_at": "2016-04-07T07:46:12+02:00",
-    "uuid": "d8725e5a-d2f7-58ed-9dfc-c4ab22940214",
-    "first_name": "Jacques",
-    "last_name": "Guillon",
-    "postal_code": "02300"
+    "registered_at": "2022-01-02T12:00:00+02:00",
+    "uuid": "22222222-2222-2222-2222-222222222222",
+    "first_name": "firstname2",
+    "last_name": "lastname2",
+    "postal_code": "92000"
   },
   {
-    "registered_at": "2016-04-07T13:20:03+02:00",
-    "uuid": "ee1004b0-65a7-57ce-aa55-99c4dc66fb1f",
-    "first_name": "Karim",
-    "last_name": "Chafi",
-    "postal_code": "02300"
-  },
-  {
-    "registered_at": "2016-04-07T18:17:58+02:00",
-    "uuid": "d10b386a-500c-5c7b-981b-6a8bdc7f28ca",
-    "first_name": "Jean-Luc",
-    "last_name": "Andral",
-    "postal_code": "02700"
-  },
-  {
-    "registered_at": "2016-04-07T19:30:05+02:00",
-    "uuid": "9daa438d-1d70-5711-a080-3529db3c09d4",
-    "first_name": "Hafit",
-    "last_name": "Omari",
-    "postal_code": "02700"
-  },
-  {
-    "registered_at": "2016-04-07T21:21:08+02:00",
-    "uuid": "b83b4abd-9663-5b82-b177-876ad75baa0b",
-    "first_name": "Romain",
-    "last_name": "Nattier",
-    "postal_code": "02200"
-  },
-  {
-    "registered_at": "2016-04-07T22:16:30+02:00",
-    "uuid": "70fe09b7-4864-5592-a0b1-d14f89d860b3",
-    "first_name": "Jean Pierre",
-    "last_name": "Hery",
-    "postal_code": "02700"
-  },
-  {
-    "registered_at": "2016-04-07T23:05:14+02:00",
-    "uuid": "cef2a908-bacd-58d7-9fa3-0421923fe59f",
-    "first_name": "Herv\u00e9",
-    "last_name": "Burident",
-    "postal_code": "02700"
-  },
-  {
-    "registered_at": "2016-04-08T01:17:12+02:00",
-    "uuid": "1b28fdf1-7523-502d-a520-a7506b6ca270",
-    "first_name": "J\u00e9r\u00e9my",
-    "last_name": "Bartkowiak",
-    "postal_code": "02880"
-  },
-  {
-    "registered_at": "2016-04-10T07:55:49+02:00",
-    "uuid": "2644b9c6-936c-5907-83c9-4390262aa6d0",
-    "first_name": "Larbi",
-    "last_name": "Za\u00efdi",
-    "postal_code": "02300"
+    "registered_at": "2022-01-03T12:00:00+02:00",
+    "uuid": "333333333-3333-3333-3333-333333333333",
+    "first_name": "firstname2",
+    "last_name": "lastname2",
+    "postal_code": "92000"
   }
 ]
