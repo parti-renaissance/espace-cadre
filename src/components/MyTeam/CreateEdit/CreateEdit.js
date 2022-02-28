@@ -98,13 +98,15 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
         sx={isMobile ? { pt: 4 } : null}
       >
         {isMobile && (
-          <IconButton onClick={handleClose}>
+          <IconButton onClick={handleClose} data-cy="my-team-create-edit-action-close">
             <CloseRoundedIcon />
           </IconButton>
         )}
-        <Title sx={isMobile ? { pt: 1 } : null}>{!teamMember ? messages.create.title : messages.update.title}</Title>
+        <Title data-cy="my-team-create-edit-title" sx={isMobile ? { pt: 1 } : null}>
+          {!teamMember ? messages.create.title : messages.update.title}
+        </Title>
         {isDesktop && (
-          <IconButton onClick={handleClose}>
+          <IconButton onClick={handleClose} data-cy="my-team-create-edit-action-close">
             <CloseRoundedIcon />
           </IconButton>
         )}

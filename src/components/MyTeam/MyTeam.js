@@ -94,8 +94,8 @@ const MyTeam = () => {
               />
             </Grid>
 
-            <Grid container justifyContent="space-between" data-cy="my-team-container" sx={{ pt: 1 }}>
-              <Grid container spacing={2} data-cy="my-team-list">
+            <Grid container justifyContent="space-between" data-cy="my-team-members-container" sx={{ pt: 1 }}>
+              <Grid container spacing={2} data-cy="my-team-members-list">
                 {myTeam.members.map(member => (
                   <MyTeamMember
                     key={member.id}

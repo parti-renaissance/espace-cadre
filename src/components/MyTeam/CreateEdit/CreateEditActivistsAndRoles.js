@@ -60,8 +60,11 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
 
   return (
     <>
-      <Label sx={{ pt: 4, pb: 1 }}>{messages.input.activist}</Label>
+      <Label data-cy="my-team-create-edit-activist-label" sx={{ pt: 4, pb: 1 }}>
+        {messages.input.activist}
+      </Label>
       <Autocomplete
+        data-cy="my-team-create-edit-activist-input"
         options={activists}
         inputValue={inputValues.activist || ''}
         value={values.activist || ''}
@@ -110,8 +113,11 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
           </Grid>
         ))}
 
-      <Label sx={{ pt: 4, pb: 1 }}>{messages.input.role}</Label>
+      <Label data-cy="my-team-create-edit-role-label" sx={{ pt: 4, pb: 1 }}>
+        {messages.input.role}
+      </Label>
       <Select
+        data-cy="my-team-create-edit-role-input"
         name={fields.role}
         inputProps={{ placeholder: messages.placeholder.role }}
         value={values.role || ''}
