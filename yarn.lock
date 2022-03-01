@@ -1616,22 +1616,13 @@
     react-is "^17.0.2"
     react-transition-group "^4.4.2"
 
-"@mui/private-theming@^5.4.2", "@mui/private-theming@^5.4.4":
+"@mui/private-theming@^5.4.4":
   version "5.4.4"
   resolved "https://registry.yarnpkg.com/@mui/private-theming/-/private-theming-5.4.4.tgz#cc2b2d897888ce5d1c319adfa2c50c0063a649ab"
   integrity sha512-V/gxttr6736yJoU9q+4xxXsa0K/w9Hn9pg99zsOHt7i/O904w2CX5NHh5WqDXtoUzVcayLF0RB17yr6l79CE+A==
   dependencies:
     "@babel/runtime" "^7.17.2"
     "@mui/utils" "^5.4.4"
-    prop-types "^15.7.2"
-
-"@mui/styled-engine@^5.4.2":
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/@mui/styled-engine/-/styled-engine-5.4.2.tgz#e04903e06bd49fd10072a44ff38e13f5481bb64d"
-  integrity sha512-tz9p3aRtzXHKAg7x3BgP0hVQEoGKaxNCFxsJ+d/iqEHYvywWFSs6oxqYAvDHIRpvMlUZyPNoTrkcNnbdMmH/ng==
-  dependencies:
-    "@babel/runtime" "^7.17.0"
-    "@emotion/cache" "^11.7.1"
     prop-types "^15.7.2"
 
 "@mui/styled-engine@^5.4.4":
@@ -1666,21 +1657,7 @@
     jss-plugin-vendor-prefixer "^10.8.2"
     prop-types "^15.7.2"
 
-"@mui/system@5.4.3":
-  version "5.4.3"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.3.tgz#3bc2547183b8d09b04df1c835cfeb1259f7ec3fd"
-  integrity sha512-Xz5AVe9JMufJVozMzUv93IRtnLNZnw/Q8k+Mg7Q4oRuwdir0TcYkMVUqAHetVKb3rAouIVCu/cQv0jB8gVeVsQ==
-  dependencies:
-    "@babel/runtime" "^7.17.0"
-    "@mui/private-theming" "^5.4.2"
-    "@mui/styled-engine" "^5.4.2"
-    "@mui/types" "^7.1.2"
-    "@mui/utils" "^5.4.2"
-    clsx "^1.1.1"
-    csstype "^3.0.10"
-    prop-types "^15.7.2"
-
-"@mui/system@^5.4.3", "@mui/system@^5.4.4":
+"@mui/system@5.4.4", "@mui/system@^5.4.3", "@mui/system@^5.4.4":
   version "5.4.4"
   resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.4.tgz#cd5d3d35c75594abd88708e715b5e39a8874ff51"
   integrity sha512-Zjbztq2o/VRuRRCWjG44juRrPKYLQMqtQpMHmMttGu5BnvK6PAPW3WOY0r1JCAwLhbd8Kug9nyhGQYKETjo+tQ==
