@@ -8,7 +8,7 @@ export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 
 export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
   const data = await apiClient.get(
-    `/api/v3/events?order[finishAt]=desc&page=${page}&page_size=20${onlyMine ? '&only_mine' : ''}`
+    `/api/v3/events?order[beginAt]=desc&page=${page}&page_size=20${onlyMine ? '&only_mine' : ''}`
   )
 
   const events = data.items.map(
