@@ -28,7 +28,7 @@ export const useErrorHandler = () => {
       setErrorRawMessage(message)
       Sentry.addBreadcrumb({
         category: 'request',
-        message: Object.keys(data).length ? formattedErrorMessages.map(f => f.message).join(', ') : message,
+        message: Object.keys(data).length ? JSON.stringify(data) : message,
         level: Sentry.Severity.Debug,
       })
       Sentry.captureException(error)
