@@ -29,6 +29,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { Event } from 'domain/event'
 import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import Input from 'ui/Input/Input'
+import ImgUploader from './Images/ImgUploader'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -81,6 +82,7 @@ const messages = {
     finishAt: 'Date et heure de fin',
     address: 'Adresse',
     timezone: 'Fuseau horaire',
+    image: 'Ajoutez une image à votre évènement',
     description: 'À propos',
     visio: 'Lien de la visio ou du live',
     capacity: 'Capacité',
@@ -147,7 +149,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   useEffect(() => {
     debounce(() => {
-      const step0Valid = isStep0Valid(newEvent)
+      const step0Valid = true || isStep0Valid(newEvent) // Remove true ||
       const step1Valid = isStep1Valid(newEvent)
       setValidSteps([step0Valid && 0, step1Valid && 1].filter(s => Boolean(s) || s === 0))
     })
@@ -281,6 +283,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
           </div>
           <div>
             <div title={messages.step2}>
+              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
+              <ImgUploader />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
               <TextArea
                 multiline
