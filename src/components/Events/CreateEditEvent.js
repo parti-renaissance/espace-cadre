@@ -17,7 +17,7 @@ import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
 import { useMutation, useQueryClient } from 'react-query'
-import { createEvent as createEventApi, updateEvent as updateEventApi } from 'api/events'
+import { createEvent as createEventApi, updateEvent as updateEventApi, uploadImage as imageUploadApi } from 'api/events'
 import Places from 'ui/Places/Places'
 import timezones from './timezones.json'
 import Submit from 'ui/Stepper/Submit'
@@ -29,6 +29,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { Event } from 'domain/event'
 import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import Input from 'ui/Input/Input'
+import ImageUploader from './Images/ImageUploader'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -81,6 +82,7 @@ const messages = {
     finishAt: 'Date et heure de fin',
     address: 'Adresse',
     timezone: 'Fuseau horaire',
+    image: 'Ajoutez une image à votre évènement',
     description: 'À propos',
     visio: 'Lien de la visio ou du live',
     capacity: 'Capacité',
@@ -110,14 +112,15 @@ const isStep1Valid = ({ description, capacity }) =>
   description.length > 10 && (capacity === '' || capacity === null || parseInt(capacity) > 0)
 
 const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
+  const queryClient = useQueryClient()
   const [validSteps, setValidSteps] = useState([])
   const [newEvent, setNewEvent] = useState(event)
   const [resetActiveStep, setResetActiveStep] = useState(noOp)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce(500)
-
   const setResetActiveStepRef = useCallback(f => setResetActiveStep(() => f), [])
+  const [image, setImage] = useState(event.image || undefined)
 
   const onError = useCallback(
     error => {
@@ -127,8 +130,11 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     [handleError, resetActiveStep]
   )
 
+  const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError })
+
   const { mutate: createEvent } = useMutation(createEventApi, {
-    onSuccess: async () => {
+    onSuccess: async newUuid => {
+      await uploadImage({ eventId: newUuid, image })
       await onUpdate()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       handleClose()
@@ -137,7 +143,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   })
 
   const { mutate: updateEvent } = useMutation(updateEventApi, {
-    onSuccess: async () => {
+    onSuccess: async uuid => {
+      await uploadImage({ eventId: uuid, image })
       await onUpdate()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
       handleClose()
@@ -153,7 +160,6 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     })
   }, [debounce, newEvent])
 
-  const queryClient = useQueryClient()
   const { data: categoriesByGroup = null } = queryClient.getQueryState([
     'categories',
     { feature: 'Events', view: 'Events' },
@@ -281,6 +287,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
           </div>
           <div>
             <div title={messages.step2}>
+              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
+              <ImageUploader image={image} setImage={setImage} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
               <TextArea
                 multiline

@@ -70,11 +70,10 @@ const LabelTypography = styled(Typography)`
 
 export const formatAddress = ({ route, postalCode, locality }) =>
   [route, route && ', ', postalCode, postalCode && ' ', locality].filter(Boolean).join('')
-
 const Header = ({ event, categoryNameByCategoryId }) => (
   <>
-    {event.img ? (
-      <Image src={event.img} />
+    {event.image ? (
+      <Image src={event.image} />
     ) : (
       <NoImageContainer>
         <img src={noImage} height="100px" width="100px" alt="no image" />
