@@ -29,7 +29,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { Event } from 'domain/event'
 import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import Input from 'ui/Input/Input'
-import ImgUploader from './Images/ImgUploader'
+import ImgUploader from './Images/ImageUploader'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -112,6 +112,7 @@ const isStep1Valid = ({ description, capacity }) =>
   description.length > 10 && (capacity === '' || capacity === null || parseInt(capacity) > 0)
 
 const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
+  const queryClient = useQueryClient()
   const [validSteps, setValidSteps] = useState([])
   const [newEvent, setNewEvent] = useState(event)
   const [resetActiveStep, setResetActiveStep] = useState(noOp)
@@ -153,13 +154,12 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   useEffect(() => {
     debounce(() => {
-      const step0Valid = true || isStep0Valid(newEvent) // Remove true ||
+      const step0Valid = isStep0Valid(newEvent)
       const step1Valid = isStep1Valid(newEvent)
       setValidSteps([step0Valid && 0, step1Valid && 1].filter(s => Boolean(s) || s === 0))
     })
   }, [debounce, newEvent])
 
-  const queryClient = useQueryClient()
   const { data: categoriesByGroup = null } = queryClient.getQueryState([
     'categories',
     { feature: 'Events', view: 'Events' },

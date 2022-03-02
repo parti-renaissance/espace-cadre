@@ -1,49 +1,13 @@
 import { useState, useRef } from 'react'
-import { Grid, Button, Typography } from '@mui/material'
-import AddRoundedIcon from '@mui/icons-material/AddRounded'
+import { Grid, Button } from '@mui/material'
 import 'cropperjs/dist/cropper.css'
 import Resizer from 'react-image-file-resizer'
 import { styled } from '@mui/system'
-import Cropper from 'react-cropper'
+import { ImageCropper } from './ImageCropper'
 import PropTypes from 'prop-types'
-
-const InputContainer = styled('div')`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  width: 560px;
-  height: 140px;
-  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
-  border-radius: 8px;
-`
-
-const PlusIconContainer = styled('div')(
-  ({ theme }) => `
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid ${theme.palette.main};
-  border-radius: 50%;
-  height: 32px;
-  width: 32px;
-  margin-bottom: ${theme.spacing(2)}
-`
-)
 
 const HiddenInput = styled('input')`
   display: none;
-`
-
-const Image = styled('img')`
-  margin-top: ${({ theme }) => theme.spacing(2)}
-  width: 100%;
-  height: 100%;
-`
-
-const StyledCropper = styled(Cropper)`
-  width: 100%;
 `
 
 const IMAGE_DIMENSIONS = {
@@ -84,37 +48,6 @@ const ImgUploader = ({ image, setImage }) => {
     }
   }
 
-  const renderTopPart = () => {
-    if (image !== undefined && imageToCrop === undefined) {
-      return <Image src={image} />
-    }
-    if (imageToCrop !== undefined) {
-      return (
-        <StyledCropper
-          aspectRatio={16 / 9}
-          src={imageToCrop}
-          cropend={onCrop}
-          ready={onCrop}
-          ref={cropperRef}
-          guides={false}
-          modal={false}
-          background={false}
-          movable={false}
-          zoomable={false}
-          viewMode={1}
-        />
-      )
-    }
-    return (
-      <InputContainer onClick={openGallery}>
-        <PlusIconContainer>
-          <AddRoundedIcon sx={{ color: '#2834C3' }} />
-        </PlusIconContainer>
-        <Typography>{messages.import}</Typography>
-      </InputContainer>
-    )
-  }
-
   const createOrUpdateBanner = () => {
     if (image !== undefined && imageToCrop === undefined) {
       openGallery()
@@ -140,7 +73,7 @@ const ImgUploader = ({ image, setImage }) => {
 
   return (
     <Grid container flexDirection="column" justifyContent="center" alignItems="center">
-      {renderTopPart()}
+      <ImageCropper image={image} imageToCrop={imageToCrop} onCrop={onCrop} cropperRef={cropperRef} />
       {(image !== undefined && imageToCrop === undefined) || imageToCrop !== undefined ? (
         <Grid container sx={{ mt: 2 }} justifyContent="center" alignItems="center">
           <Button sx={{ color: 'main', mr: 2 }} onClick={createOrUpdateBanner}>
