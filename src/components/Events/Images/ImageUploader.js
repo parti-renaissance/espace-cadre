@@ -18,9 +18,9 @@ const IMAGE_DIMENSIONS = {
 const messages = {
   create: 'Enregistrer',
   edit: 'Modifier',
-  import: 'Importez une image',
   delete: 'Supprimer',
 }
+
 const ImgUploader = ({ image, setImage }) => {
   const [imageToCrop, setImageToCrop] = useState(undefined)
   const [croppedImage, setCroppedImage] = useState(null)
@@ -73,20 +73,17 @@ const ImgUploader = ({ image, setImage }) => {
 
   return (
     <Grid container flexDirection="column" justifyContent="center" alignItems="center">
-      <ImageCropper image={image} imageToCrop={imageToCrop} onCrop={onCrop} cropperRef={cropperRef} />
+      <ImageCropper
+        image={image}
+        imageToCrop={imageToCrop}
+        onCrop={onCrop}
+        cropperRef={cropperRef}
+        openGallery={openGallery}
+      />
       {(image !== undefined && imageToCrop === undefined) || imageToCrop !== undefined ? (
         <Grid container sx={{ mt: 2 }} justifyContent="center" alignItems="center">
           <Button sx={{ color: 'main', mr: 2 }} onClick={createOrUpdateBanner}>
             {image !== undefined && imageToCrop === undefined ? messages.edit : messages.create}
-          </Button>
-          <Button
-            sx={{ color: 'main' }}
-            onClick={() => {
-              setImage(undefined)
-              setImageToCrop(undefined)
-            }}
-          >
-            {messages.delete}
           </Button>
         </Grid>
       ) : null}

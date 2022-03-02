@@ -29,7 +29,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { Event } from 'domain/event'
 import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import Input from 'ui/Input/Input'
-import ImgUploader from './Images/ImageUploader'
+import ImageUploader from './Images/ImageUploader'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -288,7 +288,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
           <div>
             <div title={messages.step2}>
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
-              <ImgUploader image={image} setImage={setImage} />
+              <ImageUploader image={image} setImage={setImage} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
               <TextArea
                 multiline

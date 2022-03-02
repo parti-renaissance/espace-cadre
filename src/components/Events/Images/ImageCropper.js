@@ -39,7 +39,11 @@ const PlusIconContainer = styled('div')(
 `
 )
 
-export const ImageCropper = ({ image, imageToCrop, onCrop, cropperRef }) => {
+const messages = {
+  import: 'Importez une image',
+}
+
+export const ImageCropper = ({ image, imageToCrop, onCrop, cropperRef, openGallery }) => {
   if (image !== undefined && imageToCrop === undefined) {
     return <Image src={image} />
   }
@@ -77,4 +81,5 @@ ImageCropper.propTypes = {
   imageToCrop: PropTypes.string,
   onCrop: PropTypes.func,
   cropperRef: PropTypes.object,
+  openGallery: PropTypes.func,
 }
