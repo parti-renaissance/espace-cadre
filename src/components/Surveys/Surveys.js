@@ -74,11 +74,11 @@ const Surveys = () => {
     }
   )
   const surveys = usePaginatedData(paginatedSurveys)
-  const localSurveys = useMemo(
-    () => surveys.filter(({ type, isPublished }) => type === visibility.local && !!isPublished),
+  const localSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.local), [surveys])
+  const nationalSurveys = useMemo(
+    () => surveys.filter(({ type, isPublished }) => type === visibility.national && !!isPublished),
     [surveys]
   )
-  const nationalSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.national), [surveys])
 
   const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
     onSuccess: ({ published: isPublished }) => {
