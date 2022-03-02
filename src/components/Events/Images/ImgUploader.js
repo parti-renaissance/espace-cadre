@@ -5,6 +5,7 @@ import 'cropperjs/dist/cropper.css'
 import Resizer from 'react-image-file-resizer'
 import { styled } from '@mui/system'
 import Cropper from 'react-cropper'
+import PropTypes from 'prop-types'
 
 const InputContainer = styled('div')`
   display: flex;
@@ -57,8 +58,7 @@ const messages = {
   delete: 'Supprimer',
 }
 
-const ImgUploader = () => {
-  const [image, setImage] = useState(undefined)
+const ImgUploader = ({ image, setImage }) => {
   const [imageToCrop, setImageToCrop] = useState(undefined)
   const [croppedImage, setCroppedImage] = useState(null)
   const inputRef = useRef(null)
@@ -138,7 +138,6 @@ const ImgUploader = () => {
       )
     }
   }
-
   return (
     <Grid container flexDirection="column" justifyContent="center" alignItems="center">
       {renderTopPart()}
@@ -161,6 +160,11 @@ const ImgUploader = () => {
       <HiddenInput type="file" ref={inputRef} onChange={onChange} />
     </Grid>
   )
+}
+
+ImgUploader.propTypes = {
+  image: PropTypes.string,
+  setImage: PropTypes.func.isRequired,
 }
 
 export default ImgUploader

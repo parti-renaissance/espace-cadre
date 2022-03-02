@@ -17,7 +17,7 @@ import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
 import { useMutation, useQueryClient } from 'react-query'
-import { createEvent as createEventApi, updateEvent as updateEventApi } from 'api/events'
+import { createEvent as createEventApi, updateEvent as updateEventApi, uploadImage as imageUploadApi } from 'api/events'
 import Places from 'ui/Places/Places'
 import timezones from './timezones.json'
 import Submit from 'ui/Stepper/Submit'
@@ -118,8 +118,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce(500)
-
   const setResetActiveStepRef = useCallback(f => setResetActiveStep(() => f), [])
+  const [image, setImage] = useState(undefined)
 
   const onError = useCallback(
     error => {
@@ -129,8 +129,11 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     [handleError, resetActiveStep]
   )
 
+  const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError })
+
   const { mutate: createEvent } = useMutation(createEventApi, {
-    onSuccess: async () => {
+    onSuccess: async newUuid => {
+      await uploadImage({ eventId: newUuid, image })
       await onUpdate()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       handleClose()
@@ -284,7 +287,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
           <div>
             <div title={messages.step2}>
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
-              <ImgUploader />
+              <ImgUploader image={image} setImage={setImage} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
               <TextArea
                 multiline

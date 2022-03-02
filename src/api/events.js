@@ -119,8 +119,13 @@ export const getCategories = async () => {
 
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
 export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}/cancel`)
-export const createEvent = event => apiClient.post('/api/v3/events', eventToJson(event))
+export const createEvent = async event => {
+  const data = await apiClient.post('/api/v3/events', eventToJson(event))
+  return data.uuid
+}
 export const updateEvent = event => apiClient.put(`/api/v3/events/${event.id}`, eventToJson(event))
+export const uploadImage = ({ eventId, image }) =>
+  apiClient.post(`/api/v3/events/${eventId}/image`, { content: `${image}` })
 
 const eventToJson = event => ({
   id: event.id,
