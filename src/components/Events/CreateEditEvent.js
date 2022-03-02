@@ -119,7 +119,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const { handleError, errorMessages } = useErrorHandler()
   const debounce = useDebounce(500)
   const setResetActiveStepRef = useCallback(f => setResetActiveStep(() => f), [])
-  const [image, setImage] = useState(undefined)
+  const [image, setImage] = useState(event.image || undefined)
 
   const onError = useCallback(
     error => {
@@ -142,7 +142,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   })
 
   const { mutate: updateEvent } = useMutation(updateEventApi, {
-    onSuccess: async () => {
+    onSuccess: async uuid => {
+      await uploadImage({ eventId: uuid, image })
       await onUpdate()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
       handleClose()

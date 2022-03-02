@@ -123,7 +123,10 @@ export const createEvent = async event => {
   const data = await apiClient.post('/api/v3/events', eventToJson(event))
   return data.uuid
 }
-export const updateEvent = event => apiClient.put(`/api/v3/events/${event.id}`, eventToJson(event))
+export const updateEvent = async event => {
+  const data = await apiClient.put(`/api/v3/events/${event.id}`, eventToJson(event))
+  return data.uuid
+}
 export const uploadImage = ({ eventId, image }) =>
   apiClient.post(`/api/v3/events/${eventId}/image`, { content: `${image}` })
 

@@ -57,7 +57,6 @@ const messages = {
   import: 'Importez une image',
   delete: 'Supprimer',
 }
-
 const ImgUploader = ({ image, setImage }) => {
   const [imageToCrop, setImageToCrop] = useState(undefined)
   const [croppedImage, setCroppedImage] = useState(null)
@@ -138,6 +137,7 @@ const ImgUploader = ({ image, setImage }) => {
       )
     }
   }
+
   return (
     <Grid container flexDirection="column" justifyContent="center" alignItems="center">
       {renderTopPart()}
