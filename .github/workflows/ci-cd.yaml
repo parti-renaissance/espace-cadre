@@ -14,7 +14,7 @@ jobs:
     container: cypress/browsers:node14.17.0-chrome91-ff89
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-node-yarn
       - run: |-
           yarn lint
@@ -50,7 +50,7 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/deploy
         with:
           service_account_key_pusher: ${{ secrets.GCP_SA_KEY_GCR_PUSHER }}
@@ -81,7 +81,7 @@ jobs:
     environment: production
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/deploy
         with:
           service_account_key_pusher: ${{ secrets.GCP_SA_KEY_GCR_PUSHER }}
