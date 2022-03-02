@@ -3,9 +3,10 @@ import { useMemo, Fragment } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
-import { ElectionDetails, LayersTypes } from './shared/constants'
+import { ElectionDetails } from './shared/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { LayersTypes } from 'components/Map/Layers'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 

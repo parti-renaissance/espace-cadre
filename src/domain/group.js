@@ -1,5 +1,5 @@
 import PropTypes, { arrayOf } from 'prop-types'
-import { Zone } from './shared/zone'
+import { Zone } from './zone'
 export class Group {
   constructor(id, name, creator, members, zone) {
     this.id = id

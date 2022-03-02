@@ -6,9 +6,9 @@ export class Zone {
     this.name = name
     this.code = code
   }
-  static propTypes = {
+  static propTypes = PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
-  }
+  })
 }
