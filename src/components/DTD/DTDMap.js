@@ -99,9 +99,10 @@ const DTDMap = ({ userZones }) => {
 DTDMap.propTypes = {
   userZones: PropTypes.arrayOf(
     PropTypes.shape({
-      uuid: PropTypes.string,
-      code: PropTypes.string,
-      name: PropTypes.string,
+      uuid: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
     })
   ),
 }
