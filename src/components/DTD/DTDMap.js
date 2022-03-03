@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
+import { zoneTypes } from 'domain/zone'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -25,19 +26,16 @@ const DTDMap = ({ userZones }) => {
     Object.keys(LayersTypes).map(key => {
       map.current.setLayoutProperty(key, 'visibility', key === DTD_LAYER ? 'visible' : 'none')
     })
-    const codesDepartement = userZones
-      /*.filter(z => z.type === 'department')*/ // TODO: uncomment when zone's type is sent by backend
-      .map(z => z.code)
-    /*
-      // TODO: uncomment when zone's type is sent by backend
-      const codesRegion = userZones
-      .filter(z => z.type === 'region')
-      .map(z => z.code)
-    */
+    const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
+    const codesRegion = userZones.filter(z => z.type === zoneTypes.REGION).map(z => z.code)
+    const codesDistrict = userZones.filter(z => z.type === zoneTypes.DISTRICT).map(z => z.code)
+    const codesCountry = userZones.filter(z => z.type === zoneTypes.COUNTRY).map(z => z.code)
     map.current.setFilter(DTD_LAYER, [
       'any',
-      /*['in', 'CODE_REGION', ...codesRegion],*/ // TODO: uncomment when zone's type is sent by backend
+      ['in', 'CODE_REGION', ...codesRegion],
       ['in', 'CODE_DEPARTMENT', ...codesDepartement],
+      ['in', 'CODE_DISTRICT', ...codesDistrict],
+      ['in', 'CODE_COUNTRY', ...codesCountry],
     ])
     map.current.setPaintProperty(DTD_LAYER, 'fill-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones])

@@ -36,7 +36,7 @@ const messages = {
 const DTD = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
-  const [{ zones }] = useUserScope()
+  const [userScope] = useUserScope()
 
   const {
     data: paginatedCampaigns = null,
@@ -66,7 +66,7 @@ const DTD = () => {
         <CampaignGlobalKPI />
       </Grid>
 
-      <DTDMap userZones={zones} />
+      <DTDMap userZones={userScope.zones} />
 
       <Grid
         container

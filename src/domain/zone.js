@@ -12,3 +12,17 @@ export class Zone {
     code: PropTypes.string.isRequired,
   })
 }
+
+export const zoneTypes = {
+  COUNTRY: 'country',
+  CUSTOM: 'custom',
+  REGION: 'region',
+  DEPARTMENT: 'department',
+  DISTRICT: 'district',
+  CITY: 'city',
+  BOROUGH: 'borough',
+  CITY_COMMUNITY: 'city_community',
+  CANTON: 'canton',
+  FOREIGN_DISTRICT: 'foreign_district',
+  CONSULAR_DISTRICT: 'consular_district',
+}
