@@ -136,15 +136,17 @@ const Ripostes = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      <CreateEditModal
-        open={isModalOpen}
-        riposte={editingRiposte}
-        onCloseResolve={handleClose}
-        createRiposte={createRiposte}
-        updateRiposte={updateRiposte}
-        loader={isCreateLoading || isUpdateLoading}
-        errors={errorMessages}
-      />
+      {isModalOpen && (
+        <CreateEditModal
+          open
+          riposte={editingRiposte}
+          onCloseResolve={handleClose}
+          createRiposte={createRiposte}
+          updateRiposte={updateRiposte}
+          loader={isCreateLoading || isUpdateLoading}
+          errors={errorMessages}
+        />
+      )}
     </Container>
   )
 }
