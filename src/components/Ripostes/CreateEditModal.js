@@ -79,7 +79,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
     },
     validationSchema: riposteSchema,
     enableReinitialize: true,
-    onSubmit: (values, actions) => {
+    onSubmit: values => {
       createOrEditRiposte(
         riposte
           .withTitle(values.title)
@@ -88,7 +88,6 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
           .withWithNotification(values.withNotification)
           .withStatus(values.status)
       )
-      actions.resetForm()
     },
   })
 
