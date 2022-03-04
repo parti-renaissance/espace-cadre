@@ -72,7 +72,13 @@ const ImgUploader = ({ image, setImage }) => {
   }
 
   return (
-    <Grid container flexDirection="column" justifyContent="center" alignItems="center" sx={{ width: '560px' }}>
+    <Grid
+      container
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ width: '560px', height: 'auto' }}
+    >
       <ImageCropper
         image={image}
         imageToCrop={imageToCrop}

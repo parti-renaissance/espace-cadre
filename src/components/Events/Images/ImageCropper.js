@@ -24,6 +24,7 @@ const InputContainer = styled('div')`
   height: 100%;
   border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
   border-radius: 8px;
+  padding: ${({ theme }) => theme.spacing(2, 0)};
 `
 
 const PlusIconContainer = styled('div')(
