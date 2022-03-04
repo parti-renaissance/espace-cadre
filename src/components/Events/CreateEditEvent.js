@@ -139,7 +139,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const { mutate: createEvent } = useMutation(createEventApi, {
     onSuccess: async newUuid => {
-      await uploadImage({ eventId: newUuid, image })
+      image && (await uploadImage({ eventId: newUuid, image }))
       await onUpdate()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       handleClose()
