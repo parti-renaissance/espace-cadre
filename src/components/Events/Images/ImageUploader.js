@@ -11,8 +11,8 @@ const HiddenInput = styled('input')`
 `
 
 const IMAGE_DIMENSIONS = {
-  width: '560px',
-  height: '140px',
+  width: '276px',
+  height: '130px',
 }
 
 const messages = {
@@ -72,7 +72,7 @@ const ImgUploader = ({ image, setImage }) => {
   }
 
   return (
-    <Grid container flexDirection="column" justifyContent="center" alignItems="center">
+    <Grid container flexDirection="column" justifyContent="center" alignItems="center" sx={{ width: '560px' }}>
       <ImageCropper
         image={image}
         imageToCrop={imageToCrop}
