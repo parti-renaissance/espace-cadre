@@ -6,12 +6,13 @@ import PropTypes from 'prop-types'
 
 const Image = styled('img')`
   margin-top: ${({ theme }) => theme.spacing(2)}
-  width: 100%;
-  height: 100%;
+  display: block;
+  max-width: 100%;
 `
 
 const StyledCropper = styled(Cropper)`
-  width: 100%;
+  width: 560px;
+  height: 240px;
 `
 
 const InputContainer = styled('div')`
@@ -21,7 +22,7 @@ const InputContainer = styled('div')`
   justify-content: center;
   cursor: pointer;
   width: 560px;
-  height: 140px;
+  height: 240px;
   border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
   border-radius: 8px;
 `

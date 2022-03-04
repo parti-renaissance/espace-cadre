@@ -16,8 +16,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
-import { useMutation, useQueryClient } from 'react-query'
-import { createEvent as createEventApi, updateEvent as updateEventApi, uploadImage as imageUploadApi } from 'api/events'
+import { useMutation, useQuery } from 'react-query'
+import {
+  createEvent as createEventApi,
+  updateEvent as updateEventApi,
+  uploadImage as imageUploadApi,
+  getCategories,
+} from 'api/events'
 import Places from 'ui/Places/Places'
 import timezones from './timezones.json'
 import Submit from 'ui/Stepper/Submit'
@@ -30,6 +35,7 @@ import { Event } from 'domain/event'
 import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import Input from 'ui/Input/Input'
 import ImageUploader from './Images/ImageUploader'
+import { ONE_DAY } from './constants'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -112,7 +118,6 @@ const isStep1Valid = ({ description, capacity }) =>
   description.length > 10 && (capacity === '' || capacity === null || parseInt(capacity) > 0)
 
 const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
-  const queryClient = useQueryClient()
   const [validSteps, setValidSteps] = useState([])
   const [newEvent, setNewEvent] = useState(event)
   const [resetActiveStep, setResetActiveStep] = useState(noOp)
@@ -160,10 +165,14 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     })
   }, [debounce, newEvent])
 
-  const { data: categoriesByGroup = null } = queryClient.getQueryState([
-    'categories',
-    { feature: 'Events', view: 'Events' },
-  ])
+  const { data: categoriesByGroup = null } = useQuery(
+    ['categories', { feature: 'Events', view: 'Events' }],
+    getCategories,
+    {
+      cacheTime: ONE_DAY,
+      staleTime: ONE_DAY,
+    }
+  )
 
   const categories = useMemo(
     () =>
@@ -323,7 +332,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                 min="0"
                 name={fields.capacity}
                 placeholder={messages.placeholder.capacity}
-                value={newEvent[fields.capacity]}
+                value={newEvent[fields.capacity] || ''}
                 onChange={e => {
                   setNewEvent(prev => prev.withCapacity(e.target.value))
                 }}

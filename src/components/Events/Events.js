@@ -8,8 +8,7 @@ import EventList from 'components/Events/EventList'
 import { getCategories, getEvents, getMyEvents } from 'api/events'
 import CreateEditEvent from 'components/Events/CreateEditEvent'
 import { useQuery } from 'react-query'
-
-const ONE_DAY = 24 * 60 * 60 * 1000
+import { ONE_DAY } from './constants'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',

@@ -16,6 +16,6 @@ Place.propTypes = PropTypes.shape({
   number: PropTypes.string,
   route: PropTypes.string.isRequired,
   postalCode: PropTypes.string.isRequired,
-  locality: PropTypes.string.isRequired,
+  locality: PropTypes.string,
   country: PropTypes.string.isRequired,
 })
