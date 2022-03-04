@@ -11,6 +11,8 @@ import CampaignGlobalKPI from './Campaign/CampaignGlobalKPI'
 import CampaignItem from './Campaign/CampaignItem'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
+import DTDMap from 'components/DTD/DTDMap'
+import { useUserScope } from '../../redux/user/hooks'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -34,6 +36,7 @@ const messages = {
 const DTD = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
+  const [userScope] = useUserScope()
 
   const {
     data: paginatedCampaigns = null,
@@ -62,6 +65,8 @@ const DTD = () => {
       <Grid container justifyContent="space-between">
         <CampaignGlobalKPI />
       </Grid>
+
+      <DTDMap userZones={userScope.zones} />
 
       <Grid
         container

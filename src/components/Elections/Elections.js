@@ -4,7 +4,7 @@ import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
 import { getElectionParticipation, getElectionResults } from 'api/elections'
 
-import { ElectionFirstStage, ElectionTypes, LayersCodes, LayersTypes } from './shared/constants'
+import { ElectionFirstStage, ElectionTypes } from './shared/constants'
 import ElectionPopin from './ElectionPopin'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -12,6 +12,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { getElectionPayload, getMapBoxProperties } from './shared/helpers'
 import ElectionFilters from './ElectionFilters'
 import PageTitle from 'ui/PageTitle'
+import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 

@@ -29,7 +29,7 @@ import {
   PhoningCampaignCreateEditZone,
 } from 'domain/phoning'
 import { newPaginatedResult } from 'api/pagination'
-import { Zone } from 'domain/shared/zone'
+import { Zone } from 'domain/zone'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')

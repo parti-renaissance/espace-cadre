@@ -3,9 +3,10 @@ import { useMemo, Fragment } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
-import { ElectionDetails, LayersTypes } from './shared/constants'
+import { ElectionDetails } from './shared/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -33,7 +34,13 @@ const messages = {
 const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelection }) => {
   const { election, year, round } = filterValues
 
-  const electionTypesOptions = useMemo(() => Object.entries(LayersTypes).map(([code, label]) => ({ code, label })), [])
+  const electionTypesOptions = useMemo(
+    () =>
+      Object.entries(LayersTypes)
+        .filter(([code]) => code !== LayersCodes.ciblagePapShape)
+        .map(([code, label]) => ({ code, label })),
+    []
+  )
 
   return (
     <Grid container spacing={2}>
