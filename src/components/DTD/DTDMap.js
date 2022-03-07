@@ -15,7 +15,8 @@ const Map = styled(Grid)`
   margin: ${({ theme }) => theme.spacing(1, 0, 2)};
 `
 
-const DTD_LAYER = LayersCodes.ciblagePapShape
+const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
+
 const DTDMap = ({ userZones }) => {
   const mapContainer = useRef(null)
   const map = useRef()
@@ -24,20 +25,22 @@ const DTDMap = ({ userZones }) => {
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
-      map.current.setLayoutProperty(key, 'visibility', key === DTD_LAYER ? 'visible' : 'none')
+      map.current.setLayoutProperty(key, 'visibility', key === DTD_LAYER_POINT ? 'visible' : 'none')
     })
+
     const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
     const codesRegion = userZones.filter(z => z.type === zoneTypes.REGION).map(z => z.code)
     const codesDistrict = userZones.filter(z => z.type === zoneTypes.DISTRICT).map(z => z.code)
     const codesCountry = userZones.filter(z => z.type === zoneTypes.COUNTRY).map(z => z.code)
-    map.current.setFilter(DTD_LAYER, [
+
+    map.current.setFilter(DTD_LAYER_POINT, [
       'any',
       ['in', 'CODE_REGION', ...codesRegion],
       ['in', 'CODE_DEPARTMENT', ...codesDepartement],
       ['in', 'CODE_DISTRICT', ...codesDistrict],
       ['in', 'CODE_COUNTRY', ...codesCountry],
     ])
-    map.current.setPaintProperty(DTD_LAYER, 'fill-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
+    map.current.setPaintProperty(DTD_LAYER_POINT, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones])
 
   const onClick = useCallback(({ point, lngLat }) => {
@@ -63,20 +66,20 @@ const DTDMap = ({ userZones }) => {
 
   useEffect(() => {
     if (!currentPoint) return
-    const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, { layers: [DTD_LAYER] })
+    const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
+      layers: [DTD_LAYER_POINT],
+    })
     if (mapBoxProps) {
-      const [props] = mapBoxProps
-      if (props) {
+      const [propsPoint] = mapBoxProps
+      if (propsPoint) {
         /**
          * TODO: get infos when available in mapbox tiles set
          * Nom et numéro du bureau de vote: ??
          * Priorité {x} : PRIORITY
-         * L’adresse postale de ralliement : ??
+         * L'adresse postale de ralliement : ADDRESS
          */
-        const { properties: { PRIORITY: priority, CODE: code, COLOR: color } = {} } = props || {}
-        setInfos({ priority, code, color })
-      } else {
-        setInfos(null)
+        const { properties: { PRIORITY: priority, ADDRESS: address } = {} } = propsPoint || {}
+        setInfos({ priority, address: address || '' })
       }
     }
   }, [map, currentPoint])
@@ -85,7 +88,15 @@ const DTDMap = ({ userZones }) => {
     if (!currentPoint || !infos) return
     new mapboxgl.Popup({ closeOnClick: true })
       .setLngLat(currentPoint.lngLat)
-      .setHTML(`<h3>Bureau de Vote</h3><p>Priorité: ${infos.priority}</p>`)
+      .setHTML(
+        `
+        <h3>Bureau de Vote</h3>
+        <ul>
+          <li>${infos.address}</li>
+          <li>Priorité: ${infos.priority}</li>
+        </ul>
+      `
+      )
       .addTo(map.current)
       .on('close', () => {
         setCurrentPoint(null)

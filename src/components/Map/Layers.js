@@ -5,7 +5,7 @@ export const LayersCodes = {
   circonscription: 'circonscription',
   communes: 'commune',
   pollingStation: 'bureau',
-  ciblagePapShape: 'ciblage-pap-shape',
+  ciblagePapPoint: 'ciblage-pap-point',
 }
 
 export const LayersTypes = {
@@ -15,5 +15,5 @@ export const LayersTypes = {
   [LayersCodes.circonscription]: 'Circonscriptions',
   [LayersCodes.communes]: 'Communes',
   [LayersCodes.pollingStation]: 'Bureaux de vote',
-  [LayersCodes.ciblagePapShape]: 'PAP',
+  [LayersCodes.ciblagePapPoint]: 'PAP',
 }
