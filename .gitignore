@@ -1,4 +1,5 @@
 build
+!ckeditor5/build
 node_modules/
 .env*.local
 .env*.production

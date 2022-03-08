@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/EditRounded'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
 import MainButton from 'ui/MainButton'
+import NewsEditor from './NewsEditor'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -98,6 +99,10 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
     onCloseResolve()
   }
 
+  const readOnlyConfiguration = {
+    toolbar: null,
+  }
+
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper} data-testid="news-read-only-modal">
       <HeaderContainer container>
@@ -121,8 +126,13 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
 
       <Title title={news?.title}>{news?.title}</Title>
       <Author>{`${messages.author} ${news?.creator}`}</Author>
-
-      <Text sx={{ fontSize: '12px' }}>{news?.body}</Text>
+      <NewsEditor
+        config={readOnlyConfiguration}
+        value={news?.body}
+        onReady={editor => {
+          editor.isReadOnly = true
+        }}
+      />
     </Dialog>
   )
 }
