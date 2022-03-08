@@ -4,16 +4,12 @@ import { TextField } from '@mui/material'
 const Input = styled(props => <TextField size="small" variant="outlined" fullWidth {...props} />)(
   ({ theme, name }) => ({
     '& .MuiOutlinedInput-root': {
-      padding: name === 'brief' ? theme.spacing(1.75) : 'inherit',
-      paddingLeft: name !== 'brief' ? 0 : theme.spacing(1.75),
+      paddingLeft: 0,
       background: theme.palette.form.input.background,
       borderRadius: '8px',
       [`& input[name=${name}]`]: {
         height: '24px',
         padding: theme.spacing(1.5, 2),
-        '&::placeholder': {
-          letterSpacing: 'inherit',
-        },
       },
       '& fieldset': {
         border: 'none',

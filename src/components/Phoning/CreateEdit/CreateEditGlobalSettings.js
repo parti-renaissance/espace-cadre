@@ -7,11 +7,19 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { GlobalSettingsContext } from './shared/context'
-import Input from 'ui/Input/Input'
 import { fields } from './shared/constants'
 import { useUserScope } from '../../../redux/user/hooks'
-import Label from 'ui/Stepper/Label'
+import UIInput from 'ui/Input/Input'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { PickersDay } from 'ui/DateTime/styled'
+
+const DatePickerInputStyles = {
+  pt: 1.75,
+  pr: 2,
+  pb: 1.25,
+  pl: 0,
+  letterSpacing: '-3px',
+}
 
 const messages = {
   input: {
@@ -46,8 +54,8 @@ const CreateEditGlobalSettings = () => {
 
   return (
     <>
-      <Label sx={{ pt: 3, pb: 1 }}>{messages.input.title}</Label>
-      <Input
+      <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.title}</UIInputLabel>
+      <UIInput
         name={fields.title}
         placeholder={messages.placeholder.title}
         value={inputValues.title}
@@ -61,7 +69,7 @@ const CreateEditGlobalSettings = () => {
 
       {!isNational && (
         <>
-          <Label sx={{ pt: 5, pb: 1 }}>{messages.input.zone}</Label>
+          <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.zone}</UIInputLabel>
           <Select
             name={fields.zone}
             inputProps={{ placeholder: messages.placeholder.zone }}
@@ -92,8 +100,8 @@ const CreateEditGlobalSettings = () => {
         </>
       )}
 
-      <Label sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</Label>
-      <Input
+      <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</UIInputLabel>
+      <UIInput
         type="number"
         min="0"
         name={fields.goal}
@@ -106,7 +114,7 @@ const CreateEditGlobalSettings = () => {
       />
       <FormError errors={errors} field="goal" />
 
-      <Label sx={{ pt: 5, pb: 1 }}>{messages.input.endDate}</Label>
+      <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.endDate}</UIInputLabel>
       <DatePicker
         inputFormat="dd/MM/yyyy"
         open={isEndDatePickerOpen}
@@ -116,7 +124,7 @@ const CreateEditGlobalSettings = () => {
           debounce(() => updateValues(fields.endDate, value))
         }}
         renderDay={(_, __, props) => <PickersDay {...props} />}
-        renderInput={props => <Input type="date" name={fields.endDate} {...props} />}
+        renderInput={props => <UIInput type="date" name={fields.endDate} {...props} sx={DatePickerInputStyles} />}
         inputProps={{ placeholder: messages.placeholder.endDate, autoComplete: 'off' }}
         InputProps={{
           onClick: () => {
@@ -138,8 +146,8 @@ const CreateEditGlobalSettings = () => {
       />
       <FormError errors={errors} field="finish_at" />
 
-      <Label sx={{ pt: 5, pb: 1 }}>{messages.input.brief}</Label>
-      <Input
+      <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.brief}</UIInputLabel>
+      <UIInput
         name={fields.brief}
         placeholder={messages.placeholder.brief}
         onChange={event => {
@@ -150,6 +158,7 @@ const CreateEditGlobalSettings = () => {
         minRows={3}
         maxRows={3}
         multiline
+        sx={{ p: 1.75 }}
       />
       <FormError errors={errors} field="brief" />
     </>

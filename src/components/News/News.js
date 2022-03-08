@@ -121,12 +121,9 @@ const News = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      <CreateEditModal
-        open={isCreateEditModalOpen}
-        news={viewingNews}
-        onCloseResolve={handleClose}
-        onSubmitResolve={refetch}
-      />
+      {isCreateEditModalOpen && (
+        <CreateEditModal open news={viewingNews} onCloseResolve={handleClose} onSubmitResolve={refetch} />
+      )}
       <ReadModal
         open={isReadModalOpen}
         news={viewingNews}

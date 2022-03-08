@@ -5,13 +5,13 @@ import Cropper from 'react-cropper'
 import PropTypes from 'prop-types'
 
 const Image = styled('img')`
-  margin-top: ${({ theme }) => theme.spacing(2)}
+  display: block;
   width: 100%;
-  height: 100%;
 `
 
 const StyledCropper = styled(Cropper)`
   width: 100%;
+  height: 100%;
 `
 
 const InputContainer = styled('div')`
@@ -20,10 +20,11 @@ const InputContainer = styled('div')`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  width: 560px;
-  height: 140px;
+  width: 100%;
+  height: 100%;
   border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
   border-radius: 8px;
+  padding: ${({ theme }) => theme.spacing(2, 0)};
 `
 
 const PlusIconContainer = styled('div')(
@@ -35,7 +36,6 @@ const PlusIconContainer = styled('div')(
   border-radius: 50%;
   height: 32px;
   width: 32px;
-  margin-bottom: ${theme.spacing(2)}
 `
 )
 

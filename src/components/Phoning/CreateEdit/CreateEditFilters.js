@@ -13,10 +13,18 @@ import { FormError } from 'components/shared/error/components'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { FiltersContext } from './shared/context'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import Input from 'ui/Input/Input'
-import Label from 'ui/Stepper/Label'
+import UIInput from 'ui/Input/Input'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
 import { PickersDay } from 'ui/DateTime/styled'
+
+const DatePickerInputStyles = {
+  pt: 1.75,
+  pr: 2,
+  pb: 1.25,
+  pl: 0,
+  letterSpacing: '-3px',
+}
 
 const messages = {
   input: {
@@ -83,8 +91,8 @@ const CreateEditFilters = () => {
     <>
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.gender}</Label>
-          <Input
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.gender}</UIInputLabel>
+          <UIInput
             name={fields.gender}
             placeholder={messages.placeholder.gender}
             value={inputValues.gender || ''}
@@ -100,15 +108,15 @@ const CreateEditFilters = () => {
                 {option.label}
               </MenuItem>
             ))}
-          </Input>
+          </UIInput>
           <FormError errors={errors} field="gender" />
         </Grid>
       </Grid>
 
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.firstName}</Label>
-          <Input
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.firstName}</UIInputLabel>
+          <UIInput
             name={fields.firstName}
             placeholder={messages.placeholder.firstName}
             value={inputValues.firstName}
@@ -120,8 +128,8 @@ const CreateEditFilters = () => {
           <FormError errors={errors} field="first_name" />
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.lastName}</Label>
-          <Input
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.lastName}</UIInputLabel>
+          <UIInput
             name={fields.lastName}
             placeholder={messages.placeholder.lastName}
             value={inputValues.lastName}
@@ -136,8 +144,8 @@ const CreateEditFilters = () => {
 
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMin}</Label>
-          <Input
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.ageMin}</UIInputLabel>
+          <UIInput
             type="number"
             name={fields.ageMin}
             placeholder={messages.placeholder.ageMin}
@@ -150,8 +158,8 @@ const CreateEditFilters = () => {
           <FormError errors={errors} field="age_min" />
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.ageMax}</Label>
-          <Input
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.ageMax}</UIInputLabel>
+          <UIInput
             type="number"
             name={fields.ageMax}
             placeholder={messages.placeholder.ageMax}
@@ -167,7 +175,7 @@ const CreateEditFilters = () => {
 
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</UIInputLabel>
           <DatePicker
             inputFormat="dd/MM/yyyy"
             open={isAdherentFromDatePickerOpen}
@@ -177,7 +185,9 @@ const CreateEditFilters = () => {
               debounce(() => updateValues(fields.adherentFromDate, value))
             }}
             renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => <Input type="date" name={fields.adherentFromDate} {...props} />}
+            renderInput={props => (
+              <UIInput type="date" name={fields.adherentFromDate} {...props} sx={DatePickerInputStyles} />
+            )}
             inputProps={{ placeholder: messages.placeholder.adherentFromDate, autoComplete: 'off' }}
             InputProps={{
               onClick: () => {
@@ -200,7 +210,7 @@ const CreateEditFilters = () => {
           <FormError errors={errors} field="registered_since" />
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
-          <Label sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</Label>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</UIInputLabel>
           <DatePicker
             inputFormat="dd/MM/yyyy"
             open={isAdherentToDatePickerOpen}
@@ -210,7 +220,9 @@ const CreateEditFilters = () => {
               debounce(() => updateValues(fields.adherentToDate, value))
             }}
             renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => <Input type="date" name={fields.adherentToDate} {...props} />}
+            renderInput={props => (
+              <UIInput type="date" name={fields.adherentToDate} {...props} sx={DatePickerInputStyles} />
+            )}
             inputProps={{ placeholder: messages.placeholder.adherentToDate, autoComplete: 'off' }}
             InputProps={{
               onClick: () => {
@@ -235,7 +247,7 @@ const CreateEditFilters = () => {
       </Grid>
 
       <Grid item xs={12}>
-        <Label sx={{ pt: 3, pb: 1 }}>{messages.input.zones}</Label>
+        <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.zones}</UIInputLabel>
         <Autocomplete
           options={zones}
           inputValue={inputValues.zoneInput}
@@ -257,7 +269,7 @@ const CreateEditFilters = () => {
               </Typography>
             </MenuItem>
           )}
-          renderInput={params => <Input name={fields.zones} placeholder={messages.placeholder.zones} {...params} />}
+          renderInput={params => <UIInput name={fields.zones} placeholder={messages.placeholder.zones} {...params} />}
           loading={isZonesFetching}
           loadingText={messages.pleaseWait}
           noOptionsText={inputValues.zoneInput && messages.noResult}

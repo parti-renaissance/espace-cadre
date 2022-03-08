@@ -1,45 +1,14 @@
 import { styled } from '@mui/system'
-import {
-  Checkbox as MuiCheckbox,
-  InputLabel,
-  OutlinedInput,
-  Select as MuiSelect,
-  TextField,
-  Typography,
-} from '@mui/material'
-
-export const Checkbox = styled(MuiCheckbox)(({ theme }) => ({
-  '&.Mui-checked': {
-    color: theme.palette.main,
-  },
-}))
-
-export const Label = styled(({ children, ...props }) => (
-  <InputLabel {...props}>
-    <Typography variant="subtitle1">{children}</Typography>
-  </InputLabel>
-))(
-  ({ theme }) => `
-	line-height: 16px;
-	color: ${theme.palette.form.label.color};
-`
-)
+import { OutlinedInput, Select as MuiSelect, TextField } from '@mui/material'
 
 export const Input = styled(props => <TextField size="small" variant="outlined" fullWidth {...props} />)(
   ({ theme, name }) => ({
     '& .MuiOutlinedInput-root': {
-      padding: name === 'brief' ? theme.spacing(1.75) : 'inherit',
-      paddingLeft: name !== 'brief' ? 0 : theme.spacing(1.75),
       background: theme.palette.form.input.background,
       borderRadius: '8px',
       [`& input[name=${name}]`]: {
         height: '24px',
-        padding: ['endDate', 'adherentFromDate', 'adherentToDate'].includes(name)
-          ? theme.spacing(1.75, 2, 1.25, 0)
-          : theme.spacing(1.5, 2),
-        '&::placeholder': {
-          letterSpacing: ['endDate', 'adherentFromDate', 'adherentToDate'].includes(name) ? '-3px' : 'inherit',
-        },
+        padding: theme.spacing(1.5, 2),
       },
       '& fieldset': {
         border: 'none',
@@ -68,6 +37,7 @@ export const Input = styled(props => <TextField size="small" variant="outlined" 
     },
   })
 )
+
 export const Select = styled(props => (
   <MuiSelect
     input={<OutlinedInput size="small" name={props.name} placeholder={props.placeholder} />}
