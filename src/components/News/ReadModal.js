@@ -77,12 +77,6 @@ const Author = styled(props => <Typography variant="subtitle2" {...props} />)(
 `
 )
 
-const Text = styled(Typography)`
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 28px;
-`
-
 const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
