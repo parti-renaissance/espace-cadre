@@ -60,7 +60,8 @@
 /*!
  * @license Copyright (c) 2003-2022, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md.
- */ ;(function t(e, n) {
+ */
+;(function t(e, n) {
   if (typeof exports === 'object' && typeof module === 'object') module.exports = n()
   else if (typeof define === 'function' && define.amd) define([], n)
   else if (typeof exports === 'object') exports['ClassicEditor'] = n()
@@ -108,7 +109,7 @@
         var a = s()(o())
         a.push([
           t.id,
-          '.ck.ck-editor{position:relative}.ck.ck-editor .ck-editor__top .ck-sticky-panel .ck-toolbar{z-index:var(--ck-z-modal)}.ck.ck-editor__top .ck-sticky-panel .ck-toolbar{border-radius:0}.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,.ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners{border-radius:var(--ck-border-radius);border-bottom-left-radius:0;border-bottom-right-radius:0}.ck.ck-editor__top .ck-sticky-panel .ck-toolbar{border-bottom-width:0}.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar{border-bottom-width:1px;border-radius:0}.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar,.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar.ck-rounded-corners{border-radius:var(--ck-border-radius);border-radius:0}.ck.ck-editor__main>.ck-editor__editable{background:var(--ck-color-base-background);border-radius:0}.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,.ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{border-radius:var(--ck-border-radius);border-top-left-radius:0;border-top-right-radius:0}.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){border-color:var(--ck-color-base-border)}.ck.ck-editor__main>.ck-editor__editable.ck-read-only:not(.ck-focused){border:0 !important;font-size: 12px;}',
+          '.ck.ck-editor{position:relative}.ck.ck-editor .ck-editor__top .ck-sticky-panel .ck-toolbar{z-index:var(--ck-z-modal)}.ck.ck-editor__top .ck-sticky-panel .ck-toolbar{border-radius:0}.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,.ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners{border-radius:var(--ck-border-radius);border-top-left-radius:8px;border-top-right-radius:8px;border-bottom-left-radius:0;border-bottom-right-radius:0}.ck.ck-editor__top .ck-sticky-panel .ck-toolbar{border-bottom-width:0}.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar{border-bottom-width:1px;border-radius:0}.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar,.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar.ck-rounded-corners{border-radius:var(--ck-border-radius);border-radius:0}.ck.ck-editor__main>.ck-editor__editable{background:var(--ck-color-base-background);border-radius:0}.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,.ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{border-radius:var(--ck-border-radius);border-top-left-radius:0;border-top-right-radius:0}.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){border-color:var(--ck-color-base-border);border-bottom-right-radius:8px;border-bottom-left-radius:8px}.ck.ck-editor__main>.ck-editor__editable.ck-read-only:not(.ck-focused){border:0 !important;}',
           '',
           {
             version: 3,
@@ -23290,6 +23291,7 @@
           this.setTemplate({
             tag: 'div',
             attributes: {
+              name: 'body',
               class: ['ck', 'ck-content', 'ck-editor__editable', 'ck-rounded-corners'],
               lang: t.contentLanguage,
               dir: t.contentLanguageDirection,
@@ -32812,12 +32814,10 @@
           t.model.schema.extend('$text', { allowAttributes: 'linkHref' })
           t.conversion.for('dataDowncast').attributeToElement({ model: 'linkHref', view: kB })
           t.conversion.for('editingDowncast').attributeToElement({ model: 'linkHref', view: (t, e) => kB(bB(t), e) })
-          t.conversion
-            .for('upcast')
-            .elementToAttribute({
-              view: { name: 'a', attributes: { href: true } },
-              model: { key: 'linkHref', value: t => t.getAttribute('href') },
-            })
+          t.conversion.for('upcast').elementToAttribute({
+            view: { name: 'a', attributes: { href: true } },
+            model: { key: 'linkHref', value: t => t.getAttribute('href') },
+          })
           t.commands.add('link', new EB(t))
           t.commands.add('unlink', new SB(t))
           const e = _B(t.t, AB(t.config.get('link.decorators')))
@@ -33325,12 +33325,10 @@
           t.conversion
             .for('editingDowncast')
             .markerToHighlight({ model: tP, view: { classes: ['ck-fake-link-selection'] } })
-          t.conversion
-            .for('editingDowncast')
-            .markerToElement({
-              model: tP,
-              view: { name: 'span', classes: ['ck-fake-link-selection', 'ck-fake-link-selection_collapsed'] },
-            })
+          t.conversion.for('editingDowncast').markerToElement({
+            model: tP,
+            view: { name: 'span', classes: ['ck-fake-link-selection', 'ck-fake-link-selection_collapsed'] },
+          })
         }
         destroy() {
           super.destroy()

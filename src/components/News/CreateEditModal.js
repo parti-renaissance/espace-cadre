@@ -124,6 +124,10 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
     formik.setFieldValue('body', editor.getData())
   }
 
+  const editorConfiguration = {
+    toolbar: ['bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link'],
+  }
+
   return (
     <Dialog
       scroll={isMobile ? 'paper' : 'body'}
@@ -166,7 +170,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
-            <NewsEditor value={formik.values['body']} onChange={newsInputHandler} />
+            <NewsEditor config={editorConfiguration} value={formik.values['body']} onChange={newsInputHandler} />
           </Grid>
           {errorMessages
             .filter(({ field }) => field === 'text')
