@@ -74,5 +74,5 @@
       }
     }
   ],
-  "ignorePatterns": ["webpack.config.js", "ckeditor5/build/ckeditor.js"]
+  "ignorePatterns": ["webpack.config.js"]
 }

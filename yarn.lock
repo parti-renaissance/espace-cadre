@@ -3415,8 +3415,9 @@ cjs-module-lexer@^1.0.0:
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz#9f84ba3244a512f3a54e5277e8eef4c489864e40"
   integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
 
-"ckeditor5-custom-build@file:./ckeditor5":
+ckeditor5-custom-build@gasipari/ckeditor5-custom-build#main:
   version "0.0.1"
+  resolved "https://codeload.github.com/gasipari/ckeditor5-custom-build/tar.gz/9b575415ab661ab581f947b4f46f1bf2e1865178"
 
 class-utils@^0.3.5:
   version "0.3.6"
