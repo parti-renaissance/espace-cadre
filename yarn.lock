@@ -1644,21 +1644,7 @@
     jss-plugin-vendor-prefixer "^10.8.2"
     prop-types "^15.7.2"
 
-"@mui/system@5.4.4":
-  version "5.4.4"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.4.tgz#cd5d3d35c75594abd88708e715b5e39a8874ff51"
-  integrity sha512-Zjbztq2o/VRuRRCWjG44juRrPKYLQMqtQpMHmMttGu5BnvK6PAPW3WOY0r1JCAwLhbd8Kug9nyhGQYKETjo+tQ==
-  dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@mui/private-theming" "^5.4.4"
-    "@mui/styled-engine" "^5.4.4"
-    "@mui/types" "^7.1.2"
-    "@mui/utils" "^5.4.4"
-    clsx "^1.1.1"
-    csstype "^3.0.10"
-    prop-types "^15.7.2"
-
-"@mui/system@^5.5.0":
+"@mui/system@5.5.0", "@mui/system@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.5.0.tgz#df7e540b12218db21a5edb16a6fa1d571d26455b"
   integrity sha512-zFOfERv3Y4m5ehwTRR9cGaPuMvlD2qVXmFKC60P0Gte3aD6vYObyNriZv+mDVGlhDxZTZhxBrNPH3ns25xSFtQ==
@@ -3867,7 +3853,7 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^3.0.10, csstype@^3.0.11, csstype@^3.0.2, csstype@^3.0.6:
+csstype@^3.0.11, csstype@^3.0.2, csstype@^3.0.6:
   version "3.0.11"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.11.tgz#d66700c5eacfac1940deb4e3ee5642792d85cd33"
   integrity sha512-sa6P2wJ+CAbgyy4KFssIb/JNMLxFvKF1pCYCSXS8ZMuqZnMsrxqI2E5sPyoTpxoPU/gVZMzr2zjOfg8GIZOMsw==
