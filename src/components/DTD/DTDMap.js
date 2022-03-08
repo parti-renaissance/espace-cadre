@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
@@ -7,6 +8,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
+import Popin from './Popin'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -22,6 +24,7 @@ const DTDMap = ({ userZones }) => {
   const map = useRef()
   const [currentPoint, setCurrentPoint] = useState(null)
   const [infos, setInfos] = useState(null)
+  const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
@@ -71,32 +74,22 @@ const DTDMap = ({ userZones }) => {
     })
     if (mapBoxProps) {
       const [propsPoint] = mapBoxProps
+
       if (propsPoint) {
-        /**
-         * TODO: get infos when available in mapbox tiles set
-         * Nom et numéro du bureau de vote: ??
-         * Priorité {x} : PRIORITY
-         * L'adresse postale de ralliement : ADDRESS
-         */
-        const { properties: { PRIORITY: priority, ADDRESS: address } = {} } = propsPoint || {}
-        setInfos({ priority, address: address || '' })
+        const { properties: { CODE: code, ADDRESS: address } = {} } = propsPoint || {}
+        setInfos({ code, address: address || '' })
       }
     }
   }, [map, currentPoint])
 
   useEffect(() => {
     if (!currentPoint || !infos) return
-    new mapboxgl.Popup({ closeOnClick: true })
+    const popupNode = document.createElement('div')
+
+    ReactDOM.render(<Popin address={infos.address} code={infos.code} />, popupNode)
+    popUpRef.current
       .setLngLat(currentPoint.lngLat)
-      .setHTML(
-        `
-        <h3>Bureau de Vote</h3>
-        <ul>
-          <li>${infos.address}</li>
-          <li>Priorité: ${infos.priority}</li>
-        </ul>
-      `
-      )
+      .setDOMContent(popupNode)
       .addTo(map.current)
       .on('close', () => {
         setCurrentPoint(null)
