@@ -33,7 +33,7 @@ const Popin = ({ address, code }) => (
     </Kpi>
     <Kpi>
       <Typography component="span" sx={{ fontWeight: 600 }}>
-        {messages.code}
+        {messages.code}&nbsp;
       </Typography>
       {code}
     </Kpi>
