@@ -26,11 +26,15 @@ const Popin = ({ address, code }) => (
   <Grid container flexDirection="column" sx={{ p: 1 }}>
     <Title>{messages.pollingStation}</Title>
     <Kpi sx={{ mb: 2 }}>
-      <Typography sx={{ fontWeight: 600 }}>{messages.address}&nbsp;</Typography>
+      <Typography component="span" sx={{ fontWeight: 600 }}>
+        {messages.address}&nbsp;
+      </Typography>
       {address}
     </Kpi>
     <Kpi>
-      <Typography sx={{ fontWeight: 600 }}>{messages.code}</Typography>
+      <Typography component="span" sx={{ fontWeight: 600 }}>
+        {messages.code}
+      </Typography>
       {code}
     </Kpi>
   </Grid>
