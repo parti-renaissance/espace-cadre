@@ -111,7 +111,7 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
                 ))}
               </Grid>
               <Grid item xs={6}>
-                {features.slice(6, features.length - 1).map(key => (
+                {features.slice(6, features.length).map(key => (
                   <Feature
                     key={key}
                     name={key}
