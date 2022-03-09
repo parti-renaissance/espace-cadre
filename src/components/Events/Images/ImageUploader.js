@@ -22,7 +22,7 @@ const messages = {
   delete: 'Supprimer',
 }
 
-const ImgUploader = ({ image, setImage, deleteImage, isThereImage, isDeleting }) => {
+const ImgUploader = ({ image, setImage, handleImageDelete, isDeleting }) => {
   const [imageToCrop, setImageToCrop] = useState(undefined)
   const [croppedImage, setCroppedImage] = useState(null)
   const inputRef = useRef(null)
@@ -92,8 +92,8 @@ const ImgUploader = ({ image, setImage, deleteImage, isThereImage, isDeleting })
           <Button sx={{ color: 'main', mr: 2 }} onClick={createOrUpdateBanner}>
             {image !== undefined && imageToCrop === undefined ? messages.edit : messages.create}
           </Button>
-          {image !== undefined && isThereImage && (
-            <Button sx={{ color: 'main', mr: 2 }} onClick={deleteImage} disabled={isDeleting}>
+          {image !== undefined && (
+            <Button sx={{ color: 'main', mr: 2 }} onClick={handleImageDelete} disabled={isDeleting}>
               {isDeleting && <Loader />}&nbsp; {messages.delete}
             </Button>
           )}
@@ -107,8 +107,7 @@ const ImgUploader = ({ image, setImage, deleteImage, isThereImage, isDeleting })
 ImgUploader.propTypes = {
   image: PropTypes.string,
   setImage: PropTypes.func.isRequired,
-  deleteImage: PropTypes.func,
-  isThereImage: PropTypes.bool.isRequired,
+  handleImageDelete: PropTypes.func,
   isDeleting: PropTypes.bool,
 }
 

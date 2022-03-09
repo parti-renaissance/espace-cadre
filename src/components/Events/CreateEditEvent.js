@@ -137,9 +137,15 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   )
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError })
-  const { mutateAsync: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(newEvent.id), {
+  const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(newEvent.id), {
     onSuccess: () => setImage(undefined),
+    onError,
   })
+
+  const handleImageDelete = () => {
+    if (image && newEvent.image) return deleteImage()
+    return setImage(undefined)
+  }
 
   const { mutate: createEvent } = useMutation(createEventApi, {
     onSuccess: async newUuid => {
@@ -304,8 +310,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <ImageUploader
                 image={image}
                 setImage={setImage}
-                deleteImage={deleteImage}
-                isThereImage={!!newEvent.image}
+                handleImageDelete={handleImageDelete}
                 isDeleting={isDeleting}
               />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
