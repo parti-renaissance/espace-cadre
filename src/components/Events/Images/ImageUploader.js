@@ -5,6 +5,7 @@ import Resizer from 'react-image-file-resizer'
 import { styled } from '@mui/system'
 import { ImageCropper } from './ImageCropper'
 import PropTypes from 'prop-types'
+import Loader from 'ui/Loader'
 
 const HiddenInput = styled('input')`
   display: none;
@@ -21,7 +22,7 @@ const messages = {
   delete: 'Supprimer',
 }
 
-const ImgUploader = ({ image, setImage }) => {
+const ImgUploader = ({ image, setImage, deleteImage, isThereImage, isDeleting }) => {
   const [imageToCrop, setImageToCrop] = useState(undefined)
   const [croppedImage, setCroppedImage] = useState(null)
   const inputRef = useRef(null)
@@ -91,6 +92,11 @@ const ImgUploader = ({ image, setImage }) => {
           <Button sx={{ color: 'main', mr: 2 }} onClick={createOrUpdateBanner}>
             {image !== undefined && imageToCrop === undefined ? messages.edit : messages.create}
           </Button>
+          {image !== undefined && isThereImage && (
+            <Button sx={{ color: 'main', mr: 2 }} onClick={deleteImage} disabled={isDeleting}>
+              {isDeleting && <Loader />}&nbsp; {messages.delete}
+            </Button>
+          )}
         </Grid>
       ) : null}
       <HiddenInput type="file" ref={inputRef} onChange={onChange} />
@@ -101,6 +107,9 @@ const ImgUploader = ({ image, setImage }) => {
 ImgUploader.propTypes = {
   image: PropTypes.string,
   setImage: PropTypes.func.isRequired,
+  deleteImage: PropTypes.func,
+  isThereImage: PropTypes.bool.isRequired,
+  isDeleting: PropTypes.bool,
 }
 
 export default ImgUploader
