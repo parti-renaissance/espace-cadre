@@ -16,7 +16,7 @@ const CreateEdit = '[data-cy="phoning-create-edit"]'
 
 const navigate = () => {
   cy.contains('Responsable Phoning').click()
-  cy.contains('Phoning').click()
+  cy.contains('a', 'Phoning').click()
   cy.url().should('eq', 'http://localhost:3000/phoning')
   cy.get(CTAButton).first().click()
   cy.url().should('eq', 'http://localhost:3000/phoning/11111111-1111-1111-1111-111111111111')
