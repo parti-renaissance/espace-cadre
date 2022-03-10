@@ -125,7 +125,7 @@ function Scopes() {
       {currentUser && filteredScopes?.length > 0 && (
         <>
           <Button onClick={handleClick} data-cy="scopes-button">
-            {currentUser.firstName} {currentUser.lastName}
+            {currentScope?.name} ({currentScope?.zones[0]?.code})
             <ExpandMoreRoundedIcon
               sx={{ transform: menuAnchor ? 'rotate(180deg)' : '', transition: 'transform 0.3s' }}
             />
