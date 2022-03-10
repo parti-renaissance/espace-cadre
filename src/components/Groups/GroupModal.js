@@ -49,6 +49,10 @@ const Button = styled(MuiButton)(({ theme }) => ({
     color: theme.palette.campaign.button.color.main,
     background: theme.palette.campaign.button.background.main,
   },
+  '&.Mui-disabled': {
+    color: theme.palette.gray500,
+    background: theme.palette.gray400,
+  },
   height: '35px',
 }))
 
@@ -141,7 +145,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
         )}
 
         <Grid container sx={{ mt: 2 }}>
-          <Button type="submit" fullWidth>
+          <Button type="submit" fullWidth disabled={isLoading}>
             {isLoading ? <Loader size={12} color="white" /> : messages.submit}
           </Button>
         </Grid>
