@@ -3,6 +3,7 @@ import { Grid, Button } from '@mui/material'
 import { styled } from '@mui/system'
 
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import Loader from 'ui/Loader'
 
 const ValidateButton = styled(
   props => <Button fullWidth {...props} />,
@@ -25,10 +26,10 @@ const ValidateButton = styled(
   })
 )
 
-const Submit = ({ label, handleValidate, disabled }) => (
+const Submit = ({ label, handleValidate, disabled, loading = false }) => (
   <Grid container sx={{ pt: 6 }}>
     <ValidateButton onClick={handleValidate} disabled={disabled}>
-      {label}
+      {loading && <Loader />}&nbsp;{label}
     </ValidateButton>
   </Grid>
 )
@@ -37,6 +38,7 @@ Submit.propTypes = {
   label: PropTypes.string.isRequired,
   handleValidate: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
 }
 
 export default Submit

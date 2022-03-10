@@ -147,7 +147,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     return setImage(undefined)
   }
 
-  const { mutate: createEvent } = useMutation(createEventApi, {
+  const { mutate: createEvent, isLoading: isCreating } = useMutation(createEventApi, {
     onSuccess: async newUuid => {
       image && (await uploadImage({ eventId: newUuid, image }))
       await onUpdate()
@@ -157,7 +157,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     onError,
   })
 
-  const { mutate: updateEvent } = useMutation(updateEventApi, {
+  const { mutate: updateEvent, isLoading: isEditing } = useMutation(updateEventApi, {
     onSuccess: async uuid => {
       image && (await uploadImage({ eventId: uuid, image }))
       await onUpdate()
@@ -373,7 +373,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
         <Submit
           label={event.id ? messages.edit : messages.create}
           handleValidate={createOrEdit}
-          disabled={validSteps.length < 2}
+          disabled={validSteps.length < 2 || isCreating || isEditing}
+          loading={isCreating || isEditing}
         />
       </Grid>
     </Dialog>
