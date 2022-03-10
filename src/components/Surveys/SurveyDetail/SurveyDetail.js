@@ -22,7 +22,7 @@ export const SurveyDetail = () => {
   const { surveyId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: surveyDetail = {} } = useQueryWithScope(
+  const { data: surveyDetail = {}, refetch: refetchSurvey } = useQueryWithScope(
     ['survey-detail', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
     () => getOneSurveyQuery(surveyId),
     {
@@ -66,7 +66,7 @@ export const SurveyDetail = () => {
       {isCreateEditModalOpen && (
         <CreateEdit
           survey={surveyDetail}
-          onCreateResolve={() => {}}
+          onCreateResolve={refetchSurvey}
           handleClose={() => setIsCreateEditModalOpen(null)}
         />
       )}
