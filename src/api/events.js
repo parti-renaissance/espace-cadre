@@ -130,6 +130,8 @@ export const updateEvent = async event => {
 export const uploadImage = ({ eventId, image }) =>
   apiClient.post(`/api/v3/events/${eventId}/image`, { content: `${image}` })
 
+export const deleteImage = eventId => apiClient.delete(`/api/v3/events/${eventId}/image`)
+
 const eventToJson = event => ({
   id: event.id,
   name: event.name,

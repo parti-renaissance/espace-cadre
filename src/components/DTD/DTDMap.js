@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
@@ -7,6 +8,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
+import Popin from './Popin'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -15,29 +17,33 @@ const Map = styled(Grid)`
   margin: ${({ theme }) => theme.spacing(1, 0, 2)};
 `
 
-const DTD_LAYER = LayersCodes.ciblagePapShape
+const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
+
 const DTDMap = ({ userZones }) => {
   const mapContainer = useRef(null)
   const map = useRef()
   const [currentPoint, setCurrentPoint] = useState(null)
   const [infos, setInfos] = useState(null)
+  const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
-      map.current.setLayoutProperty(key, 'visibility', key === DTD_LAYER ? 'visible' : 'none')
+      map.current.setLayoutProperty(key, 'visibility', key === DTD_LAYER_POINT ? 'visible' : 'none')
     })
+
     const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
     const codesRegion = userZones.filter(z => z.type === zoneTypes.REGION).map(z => z.code)
     const codesDistrict = userZones.filter(z => z.type === zoneTypes.DISTRICT).map(z => z.code)
     const codesCountry = userZones.filter(z => z.type === zoneTypes.COUNTRY).map(z => z.code)
-    map.current.setFilter(DTD_LAYER, [
+
+    map.current.setFilter(DTD_LAYER_POINT, [
       'any',
       ['in', 'CODE_REGION', ...codesRegion],
       ['in', 'CODE_DEPARTMENT', ...codesDepartement],
       ['in', 'CODE_DISTRICT', ...codesDistrict],
       ['in', 'CODE_COUNTRY', ...codesCountry],
     ])
-    map.current.setPaintProperty(DTD_LAYER, 'fill-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
+    map.current.setPaintProperty(DTD_LAYER_POINT, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones])
 
   const onClick = useCallback(({ point, lngLat }) => {
@@ -63,29 +69,27 @@ const DTDMap = ({ userZones }) => {
 
   useEffect(() => {
     if (!currentPoint) return
-    const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, { layers: [DTD_LAYER] })
+    const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
+      layers: [DTD_LAYER_POINT],
+    })
     if (mapBoxProps) {
-      const [props] = mapBoxProps
-      if (props) {
-        /**
-         * TODO: get infos when available in mapbox tiles set
-         * Nom et numéro du bureau de vote: ??
-         * Priorité {x} : PRIORITY
-         * L’adresse postale de ralliement : ??
-         */
-        const { properties: { PRIORITY: priority, CODE: code, COLOR: color } = {} } = props || {}
-        setInfos({ priority, code, color })
-      } else {
-        setInfos(null)
+      const [propsPoint] = mapBoxProps
+
+      if (propsPoint) {
+        const { properties: { CODE: code, ADDRESS: address } = {} } = propsPoint || {}
+        setInfos({ code, address: address || '' })
       }
     }
   }, [map, currentPoint])
 
   useEffect(() => {
     if (!currentPoint || !infos) return
-    new mapboxgl.Popup({ closeOnClick: true })
+    const popupNode = document.createElement('div')
+
+    ReactDOM.render(<Popin address={infos.address} code={infos.code} />, popupNode)
+    popUpRef.current
       .setLngLat(currentPoint.lngLat)
-      .setHTML(`<h3>Bureau de Vote</h3><p>Priorité: ${infos.priority}</p>`)
+      .setDOMContent(popupNode)
       .addTo(map.current)
       .on('close', () => {
         setCurrentPoint(null)
