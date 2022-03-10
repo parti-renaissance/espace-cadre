@@ -10,6 +10,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
 import paths from 'shared/paths'
+import CreateEdit from '../CreateEdit/CreateEdit'
 
 const messages = {
   pageTitle: 'Questionnaires',
@@ -17,11 +18,11 @@ const messages = {
 }
 
 export const SurveyDetail = () => {
-  const [, setIsCreateEditModalOpen] = useState(false)
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { surveyId } = useParams()
   const { handleError } = useErrorHandler()
 
-  const { data: surveyDetail = {} } = useQueryWithScope(
+  const { data: surveyDetail = {}, refetch: refetchSurvey } = useQueryWithScope(
     ['survey-detail', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
     () => getOneSurveyQuery(surveyId),
     {
@@ -61,6 +62,14 @@ export const SurveyDetail = () => {
           </Grid>
         )}
       </Grid>
+
+      {isCreateEditModalOpen && (
+        <CreateEdit
+          survey={surveyDetail}
+          onCreateResolve={refetchSurvey}
+          handleClose={() => setIsCreateEditModalOpen(null)}
+        />
+      )}
     </Container>
   )
 }

@@ -4,7 +4,7 @@ import SurveyDetail from './SurveyDetail/SurveyDetail'
 
 const SurveysRoute = () => (
   <Routes>
-    <Route path="" element={<Surveys />} />
+    <Route path="*" element={<Surveys />} />
     <Route path=":surveyId" element={<SurveyDetail />} />
   </Routes>
 )
