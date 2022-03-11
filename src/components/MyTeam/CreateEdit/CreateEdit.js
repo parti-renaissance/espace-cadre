@@ -68,14 +68,17 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
     setValues(values => ({ ...values, features: addOrRemoveFeature(values.features, key, selected) }))
   }, [])
 
-  const { mutate: createOrUpdateTeamMember } = useMutation(createOrUpdateTeamMemberQuery, {
-    onSuccess: () => {
-      enqueueSnackbar(teamMember ? messages.update.success : messages.create.success, notifyVariants.success)
-      onCreateResolve()
-      handleClose()
-    },
-    onError: handleError,
-  })
+  const { mutate: createOrUpdateTeamMember, isLoading: isCreateOrUpdateLoading } = useMutation(
+    createOrUpdateTeamMemberQuery,
+    {
+      onSuccess: () => {
+        enqueueSnackbar(teamMember ? messages.update.success : messages.create.success, notifyVariants.success)
+        onCreateResolve()
+        handleClose()
+      },
+      onError: handleError,
+    }
+  )
 
   const handleSubmit = () => {
     createOrUpdateTeamMember({ teamId, teamMember: values })
@@ -118,7 +121,8 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
         <CreateEditValidateAction
           label={!teamMember ? messages.create.action : messages.update.action}
           handleValidate={handleSubmit}
-          disabled={!isValidForm}
+          disabled={!isValidForm || isCreateOrUpdateLoading}
+          isLoading={isCreateOrUpdateLoading}
         />
       </Grid>
     </Dialog>
