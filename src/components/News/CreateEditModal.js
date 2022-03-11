@@ -16,8 +16,6 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
-import NewsAlertImage from 'assets/newsAlertImage.svg'
-import EditNewsAlert from '../shared/alert/EditNewsAlert'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -33,15 +31,6 @@ const Title = styled(Typography)(
   line-height: 24px;
   font-weight: 400;
   color: ${theme.palette.gray800};
-`
-)
-
-const SubTitle = styled(Typography)(
-  ({ theme }) => `
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: 600;
-  color: ${theme.palette.neutralBlack};
 `
 )
 
@@ -81,9 +70,6 @@ const messages = {
   charactersLimit1: '(120 caractères)',
   charactersLimit2: '(1000 caractères)',
   charactersLimit3: '(255 caractères)',
-  titlePlaceholder: 'Donnez un titre à votre actualité',
-  newsAlertTitle: '🎉 NOUVEAU',
-  newsAlertContent: 'Mettez en forme vos actualités, elles seront consultables dans l’application mobile.',
 }
 
 const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
@@ -155,10 +141,11 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <SubTitle>{messages.title}</SubTitle>
+            <Typography sx={{ fontWeight: 600 }}>{messages.title}</Typography>&nbsp;
+            <CharactersLimit>{messages.charactersLimit1}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
-            <TextField formik={formik} label="title" placeholder={messages.titlePlaceholder} />
+            <TextField formik={formik} label="title" />
           </Grid>
           {errorMessages
             .filter(({ field }) => field === 'title')
@@ -168,10 +155,10 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
               </Grid>
             ))}
         </Grid>
-        <EditNewsAlert title={messages.newsAlertTitle} content={messages.newsAlertContent} image={NewsAlertImage} />
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <SubTitle>Contenu</SubTitle>
+            <Typography sx={{ fontWeight: 600 }}>Texte</Typography>&nbsp;
+            <CharactersLimit>{messages.charactersLimit2}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
             <TextField formik={formik} label="body" inputProps={{ maxLength: 1000 }} />
@@ -186,7 +173,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>URL</Typography>
+            <Typography sx={{ fontWeight: 600 }}>URL</Typography>&nbsp;
             <CharactersLimit>{messages.charactersLimit3}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>

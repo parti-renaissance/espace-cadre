@@ -236,8 +236,6 @@ export const styles = {
 
     // Black
     blackCorner: '#1A334D',
-    neutralBlack: '#09101D',
-    black800: 'rgba(0,0,0,0.8)',
 
     // Light blue
     lightBlue100: '#E0F2FE',
@@ -255,7 +253,6 @@ export const styles = {
     blue2Corner: '#135CEB',
     blueCornerHover: '#1766ff',
     messagerieButtonHover: '#1f5bc2',
-    blueNewsAlert: 'rgba(40, 52, 196, 0.08)',
     blueBubble: '#D9EAFF',
     blue100: '#DBEAFE',
     blue200: '#BFDBFE',
