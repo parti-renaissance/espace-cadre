@@ -15,7 +15,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useUserScope } from '../../redux/user/hooks'
 import UISelect from 'ui/Select/Select'
-import MainButton from 'ui/MainButton'
+import Button from 'ui/Button'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -130,17 +130,17 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
         )}
 
         <Grid container sx={{ mt: 2 }}>
-          <MainButton
+          <Button
             type="submit"
             onClick={formik.handleSubmit}
             fullWidth
-            disabled={!formik.initialValues.name || isLoading}
+            disabled={isLoading}
             rootProps={{
               sx: {
-                color: 'button.color.main',
+                color: 'whiteCorner',
                 bgcolor: 'button.background.main',
                 '&:hover': {
-                  color: 'button.color.main',
+                  color: 'whiteCorner',
                   bgcolor: 'button.background.main',
                 },
                 '& .Mui-disabled': {
@@ -151,7 +151,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
             }}
           >
             {isLoading ? <Loader size={12} color="white" /> : messages.submit}
-          </MainButton>
+          </Button>
         </Grid>
       </Form>
     </Dialog>
