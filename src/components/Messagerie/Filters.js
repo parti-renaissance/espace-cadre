@@ -60,6 +60,10 @@ const Send = styled(Button)(
   &:hover {
     background: ${theme.palette.main};
   }
+  &.Mui-disabled {
+    color: ${theme.palette.button.color.disabled};
+    background-color: ${theme.palette.button.background.disabled};
+  }
   width: 250px;
   height: 35px;
 `
@@ -250,7 +254,7 @@ const Filters = () => {
               }
               onClick={() => setOpen(true)}
             >
-              {loadingSendButton ? <Loader color="#FFFFFF" /> : messages.sendEmail}
+              {loadingSendButton ? <Loader color="main" /> : messages.sendEmail}
             </Send>
             {open && (
               <ModalComponent
