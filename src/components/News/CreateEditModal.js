@@ -17,7 +17,7 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
 import NewsPaperImage from 'assets/createEditImage.svg'
-import NewsPaper from './NewsPaper'
+import EditNewsAlert from '../shared/alert/EditNewsAlert'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -168,7 +168,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
               </Grid>
             ))}
         </Grid>
-        <NewsPaper title={messages.newsPaperTitle} content={messages.newsPaperContent} image={NewsPaperImage} />
+        <EditNewsAlert title={messages.newsPaperTitle} content={messages.newsPaperContent} image={NewsPaperImage} />
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <SubTitle>Contenu</SubTitle>

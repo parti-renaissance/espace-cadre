@@ -255,7 +255,7 @@ export const styles = {
     blue2Corner: '#135CEB',
     blueCornerHover: '#1766ff',
     messagerieButtonHover: '#1f5bc2',
-    blueNewsPaper: 'rgba(40, 52, 196, 0.08)',
+    blueNewsAlert: 'rgba(40, 52, 196, 0.08)',
     blueBubble: '#D9EAFF',
     blue100: '#DBEAFE',
     blue200: '#BFDBFE',

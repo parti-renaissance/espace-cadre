@@ -2,17 +2,17 @@ import { Grid, Typography, useMediaQuery } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 
-const NewsPaperContainer = styled(Grid)(
+const AlertContainer = styled(Grid)(
   ({ theme }) => `
     padding: ${theme.spacing(2)};
     margin-bottom: ${theme.spacing(2)};
-    background-color: ${theme.palette.blueNewsPaper};
+    background-color: ${theme.palette.blueNewsAlert};
     width: 100%;
     border-radius: 12px;
   `
 )
 
-const NewsPaperTitle = styled(Typography)(
+const AlertTitle = styled(Typography)(
   ({ theme }) => `
     font-size: 14px;
     line-height: 21px;
@@ -21,7 +21,7 @@ const NewsPaperTitle = styled(Typography)(
   `
 )
 
-const NewsPaperBody = styled(Typography)(
+const AlertBody = styled(Typography)(
   ({ theme }) => `
     font-size: 14px;
     line-height: 21px;
@@ -30,11 +30,11 @@ const NewsPaperBody = styled(Typography)(
   `
 )
 
-const NewsPaper = ({ title, content, image }) => {
+const EditNewsAlert = ({ title, content, image }) => {
   const showImage = useMediaQuery('(min-width:600px)')
 
   return (
-    <NewsPaperContainer
+    <AlertContainer
       container
       sx={{
         mb: 2,
@@ -43,23 +43,23 @@ const NewsPaper = ({ title, content, image }) => {
     >
       <Grid item xs={showImage ? 10 : 12}>
         <Grid item xs={12}>
-          <NewsPaperTitle>{title}</NewsPaperTitle>
+          <AlertTitle>{title}</AlertTitle>
         </Grid>
-        <NewsPaperBody>{content}</NewsPaperBody>
+        <AlertBody>{content}</AlertBody>
       </Grid>
       {showImage && (
         <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <img src={image} />
         </Grid>
       )}
-    </NewsPaperContainer>
+    </AlertContainer>
   )
 }
 
-NewsPaper.propTypes = {
+EditNewsAlert.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
 }
 
-export default NewsPaper
+export default EditNewsAlert
