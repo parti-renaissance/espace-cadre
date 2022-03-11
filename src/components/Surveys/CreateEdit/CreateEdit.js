@@ -78,7 +78,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
     setFormValues(values => ({ ...values, [key]: value }))
   }, [])
 
-  const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
+  const { mutate: createOrUpdateSurvey, isLoading: isCreateOrUpdateLoading } = useMutation(createOrUpdateSurveyQuery, {
     onSuccess: () => {
       enqueueSnackbar(survey ? messages.update.success : messages.create.success, notifyVariants.success)
       onCreateResolve()
@@ -121,7 +121,8 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
         <CreateEditValidateAction
           label={!survey ? messages.create.action : messages.update.action}
           handleValidate={handleSubmit}
-          disabled={!isValidForm}
+          disabled={!isValidForm || isCreateOrUpdateLoading}
+          isLoading={isCreateOrUpdateLoading}
         />
       </Grid>
     </Dialog>

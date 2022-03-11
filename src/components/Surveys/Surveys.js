@@ -138,6 +138,7 @@ const Surveys = () => {
                 </Typography>
               }
               onClick={() => setIsCreateEditModalOpen(true)}
+              isMainButton
             />
           }
         />
