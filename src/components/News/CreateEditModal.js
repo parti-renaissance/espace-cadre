@@ -16,7 +16,7 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
-import NewsPaperImage from 'assets/createEditImage.svg'
+import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
 
 const StyledPaper = styled(Paper)(
@@ -82,8 +82,8 @@ const messages = {
   charactersLimit2: '(1000 caractères)',
   charactersLimit3: '(255 caractères)',
   titlePlaceholder: 'Donnez un titre à votre actualité',
-  newsPaperTitle: '🎉 NOUVEAU',
-  newsPaperContent: 'Mettez en forme vos actualités, elles seront consultables dans l’application mobile.',
+  newsAlertTitle: '🎉 NOUVEAU',
+  newsAlertContent: 'Mettez en forme vos actualités, elles seront consultables dans l’application mobile.',
 }
 
 const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
@@ -168,7 +168,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
               </Grid>
             ))}
         </Grid>
-        <EditNewsAlert title={messages.newsPaperTitle} content={messages.newsPaperContent} image={NewsPaperImage} />
+        <EditNewsAlert title={messages.newsAlertTitle} content={messages.newsAlertContent} image={NewsAlertImage} />
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <SubTitle>Contenu</SubTitle>
