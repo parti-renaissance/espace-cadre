@@ -137,16 +137,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
             rootProps={{
               sx: {
                 color: 'whiteCorner',
-                bgcolor: 'button.background.main',
                 width: '100%',
-                '&:hover': {
-                  color: 'whiteCorner',
-                  bgcolor: 'button.background.main',
-                },
-                '& .Mui-disabled': {
-                  color: 'button.color.disabled',
-                  bgcolor: 'button.background.disabled',
-                },
               },
             }}
           >

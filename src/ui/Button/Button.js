@@ -1,13 +1,21 @@
 import { Button as MuiButton } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
-const MainButton = styled(MuiButton)(
-  ({ theme }) => `
+const MainButton = styled(
+  MuiButton,
+  shouldForwardProps
+)(
+  ({ theme, isMainButton }) => `
   color: ${theme.palette.button.color.main};
-  background: rgba(55, 67, 200, 0.08);
+  background: ${isMainButton ? 'rgba(55, 67, 200, 0.08)' : theme.palette.button.background.main};
   &:hover {
-    background: rgba(0, 0, 0, 0.08);
+    background: ${isMainButton ? 'rgba(0, 0, 0, 0.08)' : theme.palette.button.background.main};
+  }
+  &.Mui-disabled {
+    color: ${theme.palette.button.color.disabled};
+    background-color: ${theme.palette.button.background.disabled};
   }
   height: 35px;
   border-radius: 8px;
@@ -16,8 +24,8 @@ const MainButton = styled(MuiButton)(
 `
 )
 
-const Button = ({ children, onClick, rootProps, disabled = false }) => (
-  <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled}>
+const Button = ({ children, onClick, rootProps, disabled = false, isMainButton }) => (
+  <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled} isMainButton={isMainButton}>
     {children}
   </MainButton>
 )
@@ -29,4 +37,5 @@ Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   rootProps: PropTypes.object,
   disabled: PropTypes.bool,
+  isMainButton: PropTypes.bool,
 }

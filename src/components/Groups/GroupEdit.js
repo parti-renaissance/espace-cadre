@@ -123,22 +123,7 @@ const GroupEdit = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button
-                  onClick={handleAddGroupMember}
-                  disabled={!selectedMember || isAddingGroupMember}
-                  rootProps={{
-                    sx: {
-                      cursor: 'pointer',
-                      bgcolor: 'main',
-                      '& .Mui-disabled': {
-                        bgcolor: 'gray100',
-                      },
-                      '&:hover': {
-                        bgcolor: 'main',
-                      },
-                    },
-                  }}
-                >
+                <Button onClick={handleAddGroupMember} disabled={!selectedMember || isAddingGroupMember}>
                   {isAddingGroupMember && <Loader />}&nbsp;
                   <Typography sx={{ color: 'whiteCorner' }}>{messages.add}</Typography>
                 </Button>

@@ -4,8 +4,8 @@ import PageTitle from 'ui/PageTitle'
 import Button from 'ui/Button'
 import AddIcon from '@mui/icons-material/Add'
 
-export const PageHeaderButton = ({ onClick, label, icon = <AddIcon /> }) => (
-  <Button onClick={onClick}>
+export const PageHeaderButton = ({ onClick, label, icon = <AddIcon />, isMainButton = false }) => (
+  <Button onClick={onClick} isMainButton={isMainButton}>
     {icon}
     <Box component="span" sx={{ ml: 1 }}>
       {label}
@@ -17,6 +17,7 @@ PageHeaderButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   icon: PropTypes.object,
+  isMainButton: PropTypes.bool,
 }
 
 const PageHeader = ({ title, titleLink, titleSuffix, button }) => (
