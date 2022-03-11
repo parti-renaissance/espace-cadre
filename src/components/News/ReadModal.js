@@ -105,6 +105,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <DateItem>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
         <Button
           onClick={handleEdit}
+          isMainButton
           rootProps={{
             sx: {
               margin: theme => theme.spacing('auto', 1, 'auto', 'auto'),
