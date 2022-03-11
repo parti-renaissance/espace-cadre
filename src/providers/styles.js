@@ -114,15 +114,6 @@ export const styles = {
   },
   palette: {
     main: '#2834C3',
-    pageButton: {
-      color: {
-        main: '#2834c3',
-      },
-      background: {
-        main: '#3743C814',
-        hover: '#00000014',
-      },
-    },
     button: {
       color: {
         main: '#2834c3',

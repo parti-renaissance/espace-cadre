@@ -15,12 +15,12 @@ const ValidateButton = styled(
     disabled,
   }) => ({
     height: '42px',
-    background: !disabled ? button.background.main : button.background.disabled,
-    color: !disabled ? button.color.main : button.color.disabled,
+    background: !disabled ? campaign.button.background.main : campaign.button.background.disabled,
+    color: !disabled ? campaign.button.color.main : campaign.button.color.disabled,
     borderRadius: '8px',
     '&:hover': {
-      background: !disabled ? button.background.main : button.background.disabled,
-      color: !disabled ? button.color.main : button.color.disabled,
+      background: !disabled ? campaign.button.background.main : campaign.button.background.disabled,
+      color: !disabled ? campaign.button.color.main : campaign.button.color.disabled,
     },
   })
 )

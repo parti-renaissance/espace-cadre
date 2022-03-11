@@ -16,18 +16,17 @@ const MainButton = styled(MuiButton)(
 `
 )
 
-const Button = ({ children, onClick, rootProps, disabled = false, fullWidth = false }) => (
-  <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled} fullWidth={fullWidth}>
+const Button = ({ children, onClick, rootProps, disabled = false }) => (
+  <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled}>
     {children}
   </MainButton>
 )
 
 export default Button
 
-MainButton.propTypes = {
+Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
   rootProps: PropTypes.object,
   disabled: PropTypes.bool,
-  fullWidth: PropTypes.bool,
 }

@@ -133,12 +133,12 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
           <Button
             type="submit"
             onClick={formik.handleSubmit}
-            fullWidth
             disabled={isLoading}
             rootProps={{
               sx: {
                 color: 'whiteCorner',
                 bgcolor: 'button.background.main',
+                width: '100%',
                 '&:hover': {
                   color: 'whiteCorner',
                   bgcolor: 'button.background.main',
