@@ -65,7 +65,7 @@ const Events = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={handleCreateEvent} label={messages.create} />}
+          button={<PageHeaderButton onClick={handleCreateEvent} label={messages.create} isMainButton />}
         />
       </Grid>
       <Tabs
