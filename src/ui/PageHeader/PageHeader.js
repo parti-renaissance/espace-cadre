@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types'
 import { Grid, Box } from '@mui/material'
 import PageTitle from 'ui/PageTitle'
-import MainButton from 'ui/MainButton'
+import Button from 'ui/Button'
 import AddIcon from '@mui/icons-material/Add'
 
 export const PageHeaderButton = ({ onClick, label, icon = <AddIcon /> }) => (
-  <MainButton onClick={onClick}>
+  <Button onClick={onClick}>
     {icon}
     <Box component="span" sx={{ ml: 1 }}>
       {label}
     </Box>
-  </MainButton>
+  </Button>
 )
 
 PageHeaderButton.propTypes = {

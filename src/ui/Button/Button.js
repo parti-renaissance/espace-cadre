@@ -2,7 +2,7 @@ import { Button as MuiButton } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 
-const Button = styled(MuiButton)(
+const MainButton = styled(MuiButton)(
   ({ theme }) => `
   color: ${theme.palette.button.color.main};
   background: rgba(55, 67, 200, 0.08);
@@ -16,13 +16,13 @@ const Button = styled(MuiButton)(
 `
 )
 
-const MainButton = ({ children, onClick, rootProps, disabled = false, fullWidth = false }) => (
-  <Button variant="contained" onClick={onClick} {...rootProps} disabled={disabled} fullWidth={fullWidth}>
+const Button = ({ children, onClick, rootProps, disabled = false, fullWidth = false }) => (
+  <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled} fullWidth={fullWidth}>
     {children}
-  </Button>
+  </MainButton>
 )
 
-export default MainButton
+export default Button
 
 MainButton.propTypes = {
   children: PropTypes.node.isRequired,

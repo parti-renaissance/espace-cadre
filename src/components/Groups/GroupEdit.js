@@ -14,7 +14,7 @@ import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
-import MainButton from 'ui/MainButton'
+import Button from 'ui/Button'
 import Loader from 'ui/Loader'
 
 const AutocompleteContainer = styled(Card)(
@@ -123,7 +123,7 @@ const GroupEdit = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <MainButton
+                <Button
                   onClick={handleAddGroupMember}
                   disabled={!selectedMember || isAddingGroupMember}
                   rootProps={{
@@ -141,7 +141,7 @@ const GroupEdit = () => {
                 >
                   {isAddingGroupMember && <Loader />}&nbsp;
                   <Typography sx={{ color: 'whiteCorner' }}>{messages.add}</Typography>
-                </MainButton>
+                </Button>
               </Grid>
             </Grid>
           </AutocompleteContainer>

@@ -9,7 +9,7 @@ import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import EditIcon from '@mui/icons-material/EditRounded'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
-import MainButton from 'ui/MainButton'
+import Button from 'ui/Button'
 import NewsEditor from './NewsEditor'
 
 const StyledPaper = styled(Paper)`
@@ -103,7 +103,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <StatusIcon active={news?.status}>{news?.status ? messages.published : messages.unpublished}</StatusIcon>
         <NotificationIcon component={Icon} />
         <DateItem>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
-        <MainButton
+        <Button
           onClick={handleEdit}
           rootProps={{
             sx: {
@@ -114,7 +114,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         >
           <EditIcon sx={{ mr: 1 }} />
           {messages.edit}
-        </MainButton>
+        </Button>
         <CloseIcon onClick={handleClose} data-testid="close-icon" />
       </HeaderContainer>
 
