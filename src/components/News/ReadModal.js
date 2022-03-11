@@ -10,7 +10,6 @@ import EditIcon from '@mui/icons-material/EditRounded'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
 import MainButton from 'ui/MainButton'
-import NewsEditor from './NewsEditor'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -77,6 +76,12 @@ const Author = styled(props => <Typography variant="subtitle2" {...props} />)(
 `
 )
 
+const Text = styled(Typography)`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+`
+
 const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
@@ -91,10 +96,6 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
 
   const handleClose = () => {
     onCloseResolve()
-  }
-
-  const readOnlyConfiguration = {
-    toolbar: null,
   }
 
   return (
@@ -120,13 +121,8 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
 
       <Title title={news?.title}>{news?.title}</Title>
       <Author>{`${messages.author} ${news?.creator}`}</Author>
-      <NewsEditor
-        config={readOnlyConfiguration}
-        value={news?.body}
-        onReady={editor => {
-          editor.isReadOnly = true
-        }}
-      />
+
+      <Text sx={{ fontSize: '12px' }}>{news?.body}</Text>
     </Dialog>
   )
 }
