@@ -36,6 +36,5 @@ describe('News', () => {
     cy.get('div[name="body"]').eq(0).should('contain', 'Texte 2')
     cy.get('input[name="url"]').should('have.value', '')
     cy.get('[type="checkbox"]').eq(0).should('not.be.checked')
-    cy.get('[type="checkbox"]').eq(1).should('be.checked')
   })
 })
