@@ -46,7 +46,7 @@ const Body = styled(Typography)(
     font-size: 14px;
     line-height: 21px;
     font-weight: 400;
-    color: ${theme.palette.black800};
+    color: ${theme.palette.gray80};
   `
 )
 

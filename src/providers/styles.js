@@ -236,7 +236,8 @@ export const styles = {
 
     // Black
     blackCorner: '#1A334D',
-    black800: 'rgba(9, 16, 29, 0.8)',
+    neutralBlack: '#09101D',
+    black800: 'rgba(0,0,0,0.8)',
 
     // Light blue
     lightBlue100: '#E0F2FE',
@@ -254,6 +255,7 @@ export const styles = {
     blue2Corner: '#135CEB',
     blueCornerHover: '#1766ff',
     messagerieButtonHover: '#1f5bc2',
+    blueNewsAlert: 'rgba(40, 52, 196, 0.08)',
     blueBubble: '#D9EAFF',
     blue100: '#DBEAFE',
     blue200: '#BFDBFE',
@@ -293,6 +295,7 @@ export const styles = {
     mentionsLegales: '#B0B6C9',
     interestsBubble: '#EFF1F3',
     gray40: 'rgba(9, 16, 29, 0.04)',
+    gray80: 'rgba(9, 16, 29, 0.8)',
     gray50: '#F9FAFB',
     gray100: '#F3F4F6',
     gray200: '#E5E7EB',

@@ -76,8 +76,8 @@ const DTDMap = ({ userZones }) => {
       const [propsPoint] = mapBoxProps
 
       if (propsPoint) {
-        const { properties: { CODE: code, ADDRESS: address } = {} } = propsPoint || {}
-        setInfos({ code, address: address || '' })
+        const { properties: { CODE: code, ADDRESS: address, PRIORITY: priority } = {} } = propsPoint || {}
+        setInfos({ code, address: address || '', priority })
       }
     }
   }, [map, currentPoint])
@@ -86,7 +86,7 @@ const DTDMap = ({ userZones }) => {
     if (!currentPoint || !infos) return
     const popupNode = document.createElement('div')
 
-    ReactDOM.render(<Popin address={infos.address} code={infos.code} />, popupNode)
+    ReactDOM.render(<Popin address={infos.address} code={infos.code} priority={infos.priority} />, popupNode)
     popUpRef.current
       .setLngLat(currentPoint.lngLat)
       .setDOMContent(popupNode)

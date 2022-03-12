@@ -20,22 +20,29 @@ const messages = {
   pollingStation: 'Bureau de vote',
   address: 'Adresse:',
   code: 'Code:',
+  priority: 'Priorité:',
 }
 
-const Popin = ({ address, code }) => (
+const Popin = ({ address, code, priority }) => (
   <Grid container flexDirection="column" sx={{ p: 1 }}>
     <Title>{messages.pollingStation}</Title>
-    <Kpi sx={{ mb: 2 }}>
+    <Kpi sx={{ mb: 1 }}>
       <Typography component="span" sx={{ fontWeight: 600 }}>
         {messages.address}&nbsp;
       </Typography>
       {address}
     </Kpi>
-    <Kpi>
+    <Kpi sx={{ mb: 1 }}>
       <Typography component="span" sx={{ fontWeight: 600 }}>
         {messages.code}&nbsp;
       </Typography>
       {code}
+    </Kpi>
+    <Kpi>
+      <Typography component="span" sx={{ fontWeight: 600 }}>
+        {messages.priority}&nbsp;
+      </Typography>
+      {priority}
     </Kpi>
   </Grid>
 )
@@ -43,6 +50,7 @@ const Popin = ({ address, code }) => (
 Popin.propTypes = {
   address: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
+  priority: PropTypes.string.isRequired,
 }
 
 export default Popin
