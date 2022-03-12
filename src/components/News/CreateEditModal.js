@@ -92,12 +92,13 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
+  const isEditMode = news?.id
 
   const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
-    !news?.id ? createNewsQuery : updateNewsQuery,
+    !isEditMode ? createNewsQuery : updateNewsQuery,
     {
       onSuccess: async () => {
-        const successMessage = !news?.id ? messages.createSuccess : messages.editSuccess
+        const successMessage = !isEditMode ? messages.createSuccess : messages.editSuccess
         await onSubmitResolve()
         enqueueSnackbar(successMessage, notifyVariants.success)
         handleClose()
@@ -157,7 +158,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           alignItems="center"
           sx={{ marginBottom: 2, ...(isMobile && { pt: 4 }) }}
         >
-          <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
+          <Title>{isEditMode ? messages.editNews : messages.createNews}</Title>
           <IconButton onClick={handleClose}>
             <CloseRoundedIcon />
           </IconButton>
