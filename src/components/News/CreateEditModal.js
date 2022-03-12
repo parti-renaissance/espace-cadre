@@ -16,6 +16,7 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
+import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
 
@@ -133,6 +134,14 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
     },
   })
 
+  const newsInputHandler = (_, editor) => {
+    formik.setFieldValue('body', editor.getData())
+  }
+
+  const editorConfiguration = {
+    toolbar: ['bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link'],
+  }
+
   return (
     <Dialog
       scroll={isMobile ? 'paper' : 'body'}
@@ -174,7 +183,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             <SubTitle>Contenu</SubTitle>
           </Grid>
           <Grid item xs={12}>
-            <TextField formik={formik} label="body" inputProps={{ maxLength: 1000 }} />
+            <NewsEditor config={editorConfiguration} value={formik.values['body']} onChange={newsInputHandler} />
           </Grid>
           {errorMessages
             .filter(({ field }) => field === 'text')
