@@ -16,6 +16,7 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
+import NotificationContainer from './NotificationContainer'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -66,7 +67,7 @@ const messages = {
   editNews: "Modifier l'actualité",
   createSuccess: 'Actualité créée avec succès',
   editSuccess: "L'actualité a bien été modifiée",
-  submit: 'Valider',
+  submit: 'Envoyer l’actualité',
   charactersLimit1: '(120 caractères)',
   charactersLimit2: '(1000 caractères)',
   charactersLimit3: '(255 caractères)',
@@ -189,25 +190,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="withNotification"
-                  size="small"
-                  checked={formik.values.withNotification}
-                  onChange={formik.handleChange}
-                />
-              }
-              label="Avec notification"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Checkbox name="status" size="small" checked={formik.values.status} onChange={formik.handleChange} />
-              }
-              label="Active"
-            />
+            <NotificationContainer formik={formik} />
           </Grid>
         </Grid>
 
