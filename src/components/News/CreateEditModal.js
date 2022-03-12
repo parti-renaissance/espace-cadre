@@ -212,7 +212,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <NotificationContainer formik={formik} />
+            <NotificationContainer formik={formik} isDisabled={isEditMode} />
           </Grid>
         </Grid>
 

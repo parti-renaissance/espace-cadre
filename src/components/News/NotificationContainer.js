@@ -50,9 +50,9 @@ const Body = styled(Typography)(
   `
 )
 
-const NotificationContainer = ({ formik }) => (
+const NotificationContainer = ({ formik, isDisabled }) => (
   <Container container sx={{ mb: 2 }}>
-    <Grid item xs={12}>
+    <Grid item xs={12} sx={{ opacity: isDisabled ? 0.15 : 1, pointerEvents: isDisabled ? 'none' : 'initial' }}>
       <Grid item xs={12}>
         <Title>{NEWS_NOTIFICATION_TITLE}</Title>
         <Option>{NEWS_NOTIFICATION_OPTION}</Option>
@@ -80,6 +80,7 @@ const NotificationContainer = ({ formik }) => (
 
 NotificationContainer.propTypes = {
   formik: PropTypes.object.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default NotificationContainer
