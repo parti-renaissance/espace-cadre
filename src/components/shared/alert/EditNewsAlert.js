@@ -59,7 +59,7 @@ const EditNewsAlert = ({ title, content, image }) => {
 EditNewsAlert.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired,
+  image: PropTypes.string.isRequired,
 }
 
 export default EditNewsAlert

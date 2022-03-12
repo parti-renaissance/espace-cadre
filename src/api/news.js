@@ -50,6 +50,6 @@ export const createNewsQuery = news =>
     text: news.body,
     external_link: news.url,
     notification: news.withNotification,
-    published: news.status,
+    published: true,
     zone: news.zoneId,
   })
