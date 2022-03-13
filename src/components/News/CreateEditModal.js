@@ -48,7 +48,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
-  const isEditMode = news?.id
+  const isEditMode = news?.id ? true : false
 
   const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
     !isEditMode ? createNewsQuery : updateNewsQuery,
@@ -140,7 +140,13 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             <SubTitle>{messages.body}</SubTitle>
           </Grid>
           <Grid item xs={12}>
-            <NewsEditor formik={formik} label="body" config={editorConfiguration} onChange={newsInputHandler} />
+            <NewsEditor
+              formik={formik}
+              data={formik.values['body']}
+              label="body"
+              config={editorConfiguration}
+              onChange={newsInputHandler}
+            />
           </Grid>
           {errorMessages
             .filter(({ field }) => field === 'text')
