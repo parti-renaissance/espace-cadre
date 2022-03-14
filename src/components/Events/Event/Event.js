@@ -71,6 +71,7 @@ const Event = () => {
                 onClick={handleEditEvent}
                 label={messages.edit}
                 icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+                isMainButton
               />
             ) : null
           }

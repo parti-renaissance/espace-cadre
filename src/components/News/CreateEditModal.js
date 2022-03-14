@@ -19,7 +19,8 @@ import CallToActionContainer from './CallToActionContainer'
 import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
-import { Button, StyledPaper, SubTitle, Title } from './styles'
+import { StyledPaper, SubTitle, Title } from './styles'
+import Button from 'ui/Button'
 
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(120, 'Maximum 120 charactères').required('Titre obligatoire'),
@@ -107,7 +108,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
       onClose={handleClose}
       PaperComponent={StyledPaper}
     >
-      <form onSubmit={formik.handleSubmit}>
+      <form>
         <Grid
           container
           justifyContent="space-between"
@@ -169,7 +170,12 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
 
         <Grid container sx={{ mb: 2 }}>
-          <Button type="submit" fullWidth sx={{ height: '35px' }}>
+          <Button
+            type="submit"
+            onClick={formik.handleSubmit}
+            rootProps={{ sx: { color: 'whiteCorner', width: '100%' } }}
+            disabled={isCreateOrUpdateLoading}
+          >
             {isCreateOrUpdateLoading ? <Loader size={12} color="white" /> : messages.submit}
           </Button>
         </Grid>
