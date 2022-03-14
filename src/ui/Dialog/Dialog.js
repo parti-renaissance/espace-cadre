@@ -8,7 +8,7 @@ const Paper = styled(MuiPaper)`
   border-radius: 12px;
 `
 
-const Dialog = ({ children, handleClose, open = false, props }) => {
+const Dialog = ({ children, handleClose, open = false, props = {} }) => {
   const { isMobile } = useCurrentDeviceType()
 
   return (
@@ -29,6 +29,9 @@ const Dialog = ({ children, handleClose, open = false, props }) => {
 
 Dialog.propTypes = {
   children: PropTypes.node.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  props: PropTypes.object.isRequired,
 }
 
 export default Dialog

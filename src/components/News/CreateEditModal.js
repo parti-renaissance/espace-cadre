@@ -109,6 +109,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
       fullScreen={isMobile}
       PaperComponent={StyledPaper}
       PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
+      sx={{ my: isMobile ? null : 4 }}
     >
       <form>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2, ...(isMobile && { mt: 2 }) }}>
