@@ -1,14 +1,5 @@
 import PropTypes from 'prop-types'
-import {
-  Box,
-  Dialog,
-  FormControlLabel,
-  Grid,
-  IconButton,
-  Paper as MuiPaper,
-  TextField as MuiTextField,
-  Typography,
-} from '@mui/material'
+import { Box, FormControlLabel, Grid, IconButton, TextField as MuiTextField, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import Stepper from 'ui/Stepper/Stepper'
@@ -38,16 +29,12 @@ import Input from 'ui/Input/Input'
 import ImageUploader from './Images/ImageUploader'
 import { ONE_DAY } from './constants'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import Dialog from 'ui/Dialog'
 
 const Title = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
   line-height: 24px;
-`
-
-const Paper = styled(MuiPaper)`
-  width: 664px;
-  border-radius: 12px;
 `
 
 const TextArea = styled(MuiTextField)(
@@ -204,16 +191,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   }
 
   return (
-    <Dialog
-      scroll={isMobile ? 'paper' : 'body'}
-      onClose={handleClose}
-      PaperComponent={Paper}
-      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
-      fullScreen={isMobile}
-      sx={{ my: isMobile ? null : 4 }}
-      open
-      data-cy="event-create-edit"
-    >
+    <Dialog handleClose={handleClose} open data-cy="event-create-edit">
       <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
         <Title>{event?.id ? messages.edit : messages.create}</Title>
         <IconButton onClick={handleClose}>

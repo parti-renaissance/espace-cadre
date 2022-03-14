@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useState, useMemo } from 'react'
 import { useMutation } from 'react-query'
 import { styled } from '@mui/system'
-import { Grid, Typography, Dialog, IconButton, Paper as MuiPaper } from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import { useUserScope } from '../../../redux/user/hooks'
@@ -24,16 +24,12 @@ import ValidateAction from 'ui/Stepper/Submit'
 import GlobalSettings from './CreateEditGlobalSettings'
 import CallersAndSurvey from './CreateEditCallersAndSurvey'
 import Filters from './CreateEditFilters'
+import Dialog from 'ui/Dialog'
 
 const Title = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
   line-height: 24px;
-`
-
-const Paper = styled(MuiPaper)`
-  width: 664px;
-  border-radius: 12px;
 `
 
 const messages = {
@@ -104,16 +100,7 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
   }
 
   return (
-    <Dialog
-      scroll={isMobile ? 'paper' : 'body'}
-      data-cy="phoning-create-edit"
-      fullScreen={isMobile}
-      onClose={handleClose}
-      PaperComponent={Paper}
-      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
-      sx={{ my: isMobile ? null : 4 }}
-      open
-    >
+    <Dialog data-cy="phoning-create-edit" handleClose={handleClose} open>
       <Grid container justifyContent={'space-between'} alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
         <Title>{!campaign ? messages.create : messages.update}</Title>
         <IconButton onClick={handleClose}>

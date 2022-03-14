@@ -2,12 +2,11 @@ import PropTypes from 'prop-types'
 import { useCallback, useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
 import { styled } from '@mui/system'
-import { Grid, Typography, Dialog, IconButton, Paper as MuiPaper } from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import { createOrUpdateTeamMemberQuery } from 'api/my-team'
 import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -15,22 +14,13 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import CreateEditActivistsAndRoles from './CreateEditActivistsAndRoles'
 import CreateEditDelegatedAccess from './CreateEditDelegatedAccess'
 import CreateEditValidateAction from './CreateEditValidateAction'
+import Dialog from 'ui/Dialog'
 
 const Title = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
   line-height: 24px;
 `
-
-const Paper = styled(
-  props => <MuiPaper {...props} />,
-  shouldForwardProps
-)(
-  ({ theme, isMobile }) => `
-  padding: ${theme.spacing(isMobile ? 2 : 4)};
-  ${!isMobile && 'border-radius: 12px;'}
-`
-)
 
 const messages = {
   create: {
@@ -85,14 +75,7 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
   }
 
   return (
-    <Dialog
-      data-cy="my-team-create-edit"
-      fullScreen={isMobile}
-      onClose={handleClose}
-      PaperComponent={Paper}
-      PaperProps={{ isMobile }}
-      open
-    >
+    <Dialog data-cy="my-team-create-edit" handleClose={handleClose} open>
       <Grid
         container
         justifyContent={isMobile ? 'flex-end' : 'space-between'}

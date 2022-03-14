@@ -1,4 +1,4 @@
-import { Paper, Button, Dialog, FormControlLabel, Grid, Typography } from '@mui/material'
+import { Button, FormControlLabel, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
@@ -10,11 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import Loader from 'ui/Loader'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
-
-const StyledPaper = styled(Paper)`
-  width: 664px;
-  border-radius: 12px;
-`
+import Dialog from 'ui/Dialog'
 
 const CharactersLimit = styled(Typography)(
   ({ theme }) => `
@@ -94,13 +90,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
   })
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      fullScreen={isMobile}
-      PaperComponent={StyledPaper}
-      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
-    >
+    <Dialog open={open} handleClose={handleClose}>
       <form onSubmit={formik.handleSubmit}>
         <Grid container justifyContent="space-between" sx={{ mt: isMobile ? 2 : null, mb: 2 }}>
           <Grid item>

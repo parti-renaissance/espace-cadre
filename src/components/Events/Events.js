@@ -73,7 +73,7 @@ const Events = () => {
         value={selectedTab}
         onChange={handleChangeTab}
         TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
-        sx={{ my: 2 }}
+        sx={{ mb: 2 }}
       >
         {Object.values(tabs).map(tab => (
           <Tab

@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send'
 import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const messages = {
   title: 'Messagerie',
@@ -14,10 +15,11 @@ const messages = {
 
 const Dashboard = () => {
   const navigate = useNavigate()
+  const { isMobile } = useCurrentDeviceType()
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
-      <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
+      <Grid container justifyContent="space-between" sx={{ mb: isMobile ? 2 : null }}>
         <PageHeader
           title={messages.title}
           button={

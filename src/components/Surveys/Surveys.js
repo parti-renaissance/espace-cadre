@@ -19,6 +19,7 @@ import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -58,6 +59,7 @@ const Surveys = () => {
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
+  const { isMobile } = useCurrentDeviceType()
 
   const {
     data: paginatedSurveys = null,
@@ -148,7 +150,7 @@ const Surveys = () => {
         container
         justifyContent="space-between"
         data-cy="surveys-container"
-        sx={{ pt: 4, ...infiniteScrollStylesOverrides }}
+        sx={{ pt: isMobile ? 2 : null, ...infiniteScrollStylesOverrides }}
       >
         {!isSurveysLoading && (
           <>

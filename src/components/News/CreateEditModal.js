@@ -1,4 +1,4 @@
-import { Dialog, Grid, IconButton } from '@mui/material'
+import { Grid, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import PropTypes from 'prop-types'
 import { useMutation } from 'react-query'
@@ -19,8 +19,9 @@ import CallToActionContainer from './CallToActionContainer'
 import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
-import { StyledPaper, SubTitle, Title } from './styles'
+import { SubTitle, Title } from './styles'
 import Button from 'ui/Button'
+import Dialog from 'ui/Dialog'
 
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(120, 'Maximum 120 charactères').required('Titre obligatoire'),
@@ -103,14 +104,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   }
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      fullScreen={isMobile}
-      PaperComponent={StyledPaper}
-      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
-      sx={{ my: isMobile ? null : 4 }}
-    >
+    <Dialog open={open} handleClose={handleClose}>
       <form>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2, ...(isMobile && { mt: 2 }) }}>
           <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
