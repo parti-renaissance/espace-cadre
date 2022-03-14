@@ -16,13 +16,10 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
-<<<<<<< HEAD
 import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
-=======
 import Button from 'ui/Button'
->>>>>>> Refacto with new button component
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
