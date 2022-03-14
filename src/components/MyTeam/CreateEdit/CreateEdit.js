@@ -86,7 +86,6 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
 
   return (
     <Dialog
-      scroll={isMobile ? 'paper' : 'body'}
       data-cy="my-team-create-edit"
       fullScreen={isMobile}
       onClose={handleClose}
