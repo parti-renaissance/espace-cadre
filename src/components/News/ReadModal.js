@@ -123,7 +123,8 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
       <Author>{`${messages.author} ${news?.creator}`}</Author>
       <NewsEditor
         config={readOnlyConfiguration}
-        value={news?.body}
+        data={news?.body}
+        readOnly={true}
         onReady={editor => {
           editor.isReadOnly = true
         }}

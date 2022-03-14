@@ -1,6 +1,5 @@
-import { Dialog, Paper, Grid, Typography, IconButton } from '@mui/material'
+import { Dialog, Grid, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
@@ -16,43 +15,12 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
 import NotificationContainer from './NotificationContainer'
+import CallToActionContainer from './CallToActionContainer'
 import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
+import { StyledPaper, SubTitle, Title } from './styles'
 import Button from 'ui/Button'
-
-const StyledPaper = styled(Paper)(
-  ({ theme }) => `
-  padding: ${theme.spacing(4)};
-  width: 664px;
-  border-radius: 12px;
-`
-)
-
-const Title = styled(Typography)(
-  ({ theme }) => `
-  font-size: 24px;
-  line-height: 24px;
-  font-weight: 400;
-  color: ${theme.palette.gray800};
-`
-)
-
-const SubTitle = styled(Typography)(
-  ({ theme }) => `
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: 600;
-  color: ${theme.palette.neutralBlack};
-`
-)
-
-const CharactersLimit = styled(Typography)(
-  ({ theme }) => `
-  font-size: 10px;
-  color: ${theme.palette.gray300}
-`
-)
 
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(120, 'Maximum 120 charactères').required('Titre obligatoire'),
@@ -62,6 +30,7 @@ const newsSchema = Yup.object({
 
 const messages = {
   title: 'Titre',
+  body: 'Contenu',
   createNews: 'Nouvelle actualité',
   editNews: "Modifier l'actualité",
   createSuccess: 'Actualité créée avec succès',
@@ -80,7 +49,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
-  const isEditMode = news?.id
+  const isEditMode = news?.id ? true : false
 
   const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
     !isEditMode ? createNewsQuery : updateNewsQuery,
@@ -168,11 +137,17 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <EditNewsAlert title={messages.newsAlertTitle} content={messages.newsAlertContent} image={NewsAlertImage} />
         <Grid container sx={{ mb: 2 }}>
-          <Grid item xs={12}>
-            <SubTitle>Contenu</SubTitle>
+          <Grid item xs={12} sx={{ mb: 1 }}>
+            <SubTitle>{messages.body}</SubTitle>
           </Grid>
           <Grid item xs={12}>
-            <NewsEditor config={editorConfiguration} value={formik.values['body']} onChange={newsInputHandler} />
+            <NewsEditor
+              formik={formik}
+              data={formik.values['body']}
+              label="body"
+              config={editorConfiguration}
+              onChange={newsInputHandler}
+            />
           </Grid>
           {errorMessages
             .filter(({ field }) => field === 'text')
@@ -184,20 +159,10 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <Typography sx={{ fontWeight: 600 }}>URL</Typography>
-            <CharactersLimit>{messages.charactersLimit3}</CharactersLimit>
+            <CallToActionContainer formik={formik} isDisabled={isEditMode} />
           </Grid>
-          <Grid item xs={12}>
-            <TextField formik={formik} label="url" />
-          </Grid>
-          {errorMessages
-            .filter(({ field }) => field === 'external_link')
-            .map(({ field, message }) => (
-              <Grid item xs={12} key={field}>
-                <UIFormMessage severity="error">{message}</UIFormMessage>
-              </Grid>
-            ))}
         </Grid>
+
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <NotificationContainer formik={formik} isDisabled={isEditMode} />
