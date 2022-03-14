@@ -104,11 +104,11 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
 
   return (
     <Dialog
-      scroll={isMobile ? 'paper' : 'body'}
-      fullScreen={isMobile}
       open={open}
       onClose={handleClose}
+      fullScreen={isMobile}
       PaperComponent={StyledPaper}
+      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
     >
       <form>
         <Grid
