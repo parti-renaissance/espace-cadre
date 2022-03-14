@@ -1,4 +1,4 @@
-import Editor from 'ckeditor5-custom-build/build/ckeditor'
+import Editor from 'jme-ckeditor5/build/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PropTypes from 'prop-types'
 import AlertBanner from 'ui/AlertBanner'
