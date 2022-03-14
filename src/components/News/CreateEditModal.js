@@ -74,6 +74,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
       title: news?.title,
       body: news?.body,
       url: news?.url || '',
+      urlLabel: news?.urlLabel || '',
       withNotification: news?.withNotification,
       status: news?.status,
     },
@@ -85,6 +86,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           .withTitle(values.title)
           .withBody(values.body)
           .withUrl(values.url)
+          .withUrlLabel(values.urlLabel)
           .withWithNotification(values.withNotification)
           .withStatus(values.status)
           .withZoneId(currentScope.code === 'national' ? null : currentScope.zones[0].uuid)
