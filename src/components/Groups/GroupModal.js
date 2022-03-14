@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useMutation } from 'react-query'
-import { Dialog, Paper, Grid, Typography, IconButton } from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import TextField from 'ui/TextField'
 import { styled } from '@mui/system'
@@ -17,11 +17,7 @@ import { useUserScope } from '../../redux/user/hooks'
 import UISelect from 'ui/Select/Select'
 import Button from 'ui/Button'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
-
-const StyledPaper = styled(Paper)`
-  width: 664px;
-  border-radius: 12px;
-`
+import Dialog from 'ui/Dialog'
 
 const Form = styled('form')`
   display: flex;
@@ -96,13 +92,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
   })
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      PaperComponent={StyledPaper}
-      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
-      fullScreen={isMobile}
-    >
+    <Dialog open={open} handleClose={handleClose}>
       <Form>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2, ...(isMobile && { pt: 2 }) }}>
           <Title component="span">{group?.id ? messages.edit : messages.create}</Title>
