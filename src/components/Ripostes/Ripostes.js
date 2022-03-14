@@ -97,7 +97,7 @@ const Ripostes = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={handleRiposteCreate} label={messages.create} />}
+          button={<PageHeaderButton onClick={handleRiposteCreate} label={messages.create} isMainButton />}
         />
       </Grid>
       {paginatedRipostes && (

@@ -111,13 +111,8 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
       PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
     >
       <form>
-        <Grid
-          container
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ marginBottom: 2, ...(isMobile && { pt: 4 }) }}
-        >
-          <Title>{isEditMode ? messages.editNews : messages.createNews}</Title>
+        <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2, ...(isMobile && { mt: 2 }) }}>
+          <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
           <IconButton onClick={handleClose}>
             <CloseRoundedIcon />
           </IconButton>

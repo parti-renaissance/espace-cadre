@@ -31,13 +31,10 @@ const Title = styled(Typography)`
   line-height: 24px;
 `
 
-const Paper = styled(MuiPaper)(
-  ({ theme }) => `
-	padding: ${theme.spacing(4)};
-	width: 664px;
-	border-radius: 12px;
+const Paper = styled(MuiPaper)`
+  width: 664px;
+  border-radius: 12px;
 `
-)
 
 const messages = {
   create: 'Créer une campagne',
@@ -55,7 +52,7 @@ const nationalScopes = ['national', 'national_communication', 'pap_national_mana
 
 const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose }) => {
   const [currentScope] = useUserScope()
-  const { isMobile, isDesktop } = useCurrentDeviceType()
+  const { isMobile } = useCurrentDeviceType()
   const initialStateWithZone = { ...initialValues.globalSettings, zone: currentScope.zones[0] }
   const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
   const [globalSettings, setGlobalSettings] = useState(isNational ? initialValues.globalSettings : initialStateWithZone)
@@ -113,24 +110,18 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
       fullScreen={isMobile}
       onClose={handleClose}
       PaperComponent={Paper}
-      sx={{ my: 4 }}
+      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
+      sx={{ my: isMobile ? null : 4 }}
       open
     >
-      <Grid container justifyContent={isMobile ? 'flex-end' : 'space-between'} alignItems="center">
-        {isMobile && (
-          <IconButton onClick={handleClose}>
-            <CloseRoundedIcon />
-          </IconButton>
-        )}
-        <Title sx={isMobile ? { width: '100%', pt: 1 } : null}>{!campaign ? messages.create : messages.update}</Title>
-        {isDesktop && (
-          <IconButton onClick={handleClose}>
-            <CloseRoundedIcon />
-          </IconButton>
-        )}
+      <Grid container justifyContent={'space-between'} alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
+        <Title>{!campaign ? messages.create : messages.update}</Title>
+        <IconButton onClick={handleClose}>
+          <CloseRoundedIcon />
+        </IconButton>
       </Grid>
 
-      <Grid container>
+      <Grid container sx={{ mb: isMobile ? 2 : null }}>
         <Stepper orientation="vertical" validSteps={validSteps} sx={{ width: '100%', pt: 4 }}>
           <GlobalSettingsContext.Provider
             value={{

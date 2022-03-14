@@ -45,13 +45,10 @@ const Title = styled(Typography)`
   line-height: 24px;
 `
 
-const Paper = styled(MuiPaper)(
-  ({ theme }) => `
-	padding: ${theme.spacing(4)};
-	width: 664px;
-	border-radius: 12px;
+const Paper = styled(MuiPaper)`
+  width: 664px;
+  border-radius: 12px;
 `
-)
 
 const TextArea = styled(MuiTextField)(
   ({ theme }) => `

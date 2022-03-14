@@ -97,7 +97,7 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
         container
         justifyContent={isMobile ? 'flex-end' : 'space-between'}
         alignItems="center"
-        sx={isMobile ? { pt: 4 } : null}
+        sx={{ mt: isMobile ? 2 : null }}
       >
         {isMobile && (
           <IconButton onClick={handleClose} data-cy="my-team-create-edit-action-close">
@@ -114,7 +114,7 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
         )}
       </Grid>
 
-      <Grid container sx={isMobile ? { pb: 4 } : null}>
+      <Grid container sx={{ mb: isMobile ? 2 : null }}>
         <CreateEditActivistsAndRoles values={values} updateValues={updateValues} errors={errorMessages} />
         <CreateEditDelegatedAccess delegatedFeatures={values.features} updateDelegatedFeatures={updateFeatures} />
         <CreateEditValidateAction

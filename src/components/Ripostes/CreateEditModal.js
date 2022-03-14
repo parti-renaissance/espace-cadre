@@ -9,9 +9,9 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import ClearIcon from '@mui/icons-material/Clear'
 import Loader from 'ui/Loader'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const StyledPaper = styled(Paper)`
-  padding: ${({ theme }) => theme.spacing(4)};
   width: 664px;
   border-radius: 12px;
 `
@@ -59,6 +59,8 @@ const riposteSchema = Yup.object({
 })
 
 const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateRiposte, loader = false, errors }) => {
+  const { isMobile } = useCurrentDeviceType()
+
   const handleClose = () => {
     onCloseResolve()
   }
@@ -92,9 +94,15 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
   })
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullScreen={isMobile}
+      PaperComponent={StyledPaper}
+      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
+    >
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
+        <Grid container justifyContent="space-between" sx={{ mt: isMobile ? 2 : null, mb: 2 }}>
           <Grid item>
             <Title>{!riposte?.id ? messages.create : messages.edit}</Title>
           </Grid>

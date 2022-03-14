@@ -16,6 +16,7 @@ import CreateEditTitleAndTerritory from './CreateEditTitleAndTerritory'
 import CreateEditQuestions from './Questions/Questions'
 import CreateEditVisibility from './CreateEditVisibility'
 import CreateEditValidateAction from './CreateEditValidateAction'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -73,6 +74,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
   const isValidForm = useMemo(() => validateForm(formValues), [formValues])
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
+  const { isMobile, isDesktop } = useCurrentDeviceType()
 
   const updateFormField = useCallback((key, value) => {
     setFormValues(values => ({ ...values, [key]: value }))
@@ -92,19 +94,34 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
   }
 
   return (
-    <Dialog scroll="body" data-cy="surveys-create-edit" onClose={handleClose} PaperComponent={Paper} open>
-      <Grid container justifyContent="space-between" alignItems="center">
+    <Dialog
+      scroll={isMobile ? 'paper' : 'body'}
+      data-cy="surveys-create-edit"
+      onClose={handleClose}
+      fullScreen={isMobile}
+      PaperComponent={Paper}
+      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
+      open
+    >
+      <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
+        {isMobile && (
+          <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close" sx={{ ml: 'auto' }}>
+            <CloseRoundedIcon />
+          </IconButton>
+        )}
         <Title data-cy="surveys-create-edit-title">
           {!survey ? messages.create.title : messages.update.title}{' '}
           {scopesVisibility[scope] === visibility.local && visibility.local}
           {scopesVisibility[scope] === visibility.national && visibility.national}
         </Title>
-        <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close">
-          <CloseRoundedIcon />
-        </IconButton>
+        {isDesktop && (
+          <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close">
+            <CloseRoundedIcon />
+          </IconButton>
+        )}
       </Grid>
 
-      <Grid container>
+      <Grid container sx={{ mb: isMobile ? 2 : null }}>
         <CreateEditTitleAndTerritory
           formValues={{ title: formValues.title, zone: formValues.zone }}
           updateFormField={updateFormField}
