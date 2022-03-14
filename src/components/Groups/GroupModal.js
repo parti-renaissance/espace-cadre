@@ -16,12 +16,13 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useUserScope } from '../../redux/user/hooks'
 import UISelect from 'ui/Select/Select'
 import Button from 'ui/Button'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const StyledPaper = styled(Paper)`
-  padding: ${({ theme }) => theme.spacing(4)};
   width: 664px;
   border-radius: 12px;
 `
+
 const Form = styled('form')`
   display: flex;
   flex-direction: column;
@@ -64,6 +65,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
   const { enqueueSnackbar } = useCustomSnackbar()
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
+  const { isMobile } = useCurrentDeviceType()
 
   const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation(
     !group?.id ? createGroupQuery : updateGroupQuery,
@@ -94,9 +96,15 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
   })
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      PaperComponent={StyledPaper}
+      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
+      fullScreen={isMobile}
+    >
       <Form>
-        <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+        <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2, ...(isMobile && { pt: 2 }) }}>
           <Title component="span">{group?.id ? messages.edit : messages.create}</Title>
           <IconButton onClick={handleClose}>
             <CloseRoundedIcon />
