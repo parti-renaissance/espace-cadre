@@ -37,6 +37,7 @@ import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import Input from 'ui/Input/Input'
 import ImageUploader from './Images/ImageUploader'
 import { ONE_DAY } from './constants'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -127,6 +128,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const debounce = useDebounce(500)
   const setResetActiveStepRef = useCallback(f => setResetActiveStep(() => f), [])
   const [image, setImage] = useState(event.image || undefined)
+  const { isMobile } = useCurrentDeviceType()
 
   const onError = useCallback(
     error => {
@@ -205,15 +207,24 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   }
 
   return (
-    <Dialog scroll="body" data-cy="event-create-edit" onClose={handleClose} PaperComponent={Paper} sx={{ my: 4 }} open>
-      <Grid container justifyContent="space-between" alignItems="center">
+    <Dialog
+      scroll={isMobile ? 'paper' : 'body'}
+      onClose={handleClose}
+      PaperComponent={Paper}
+      PaperProps={{ sx: { p: isMobile ? 2 : 4 } }}
+      fullScreen={isMobile}
+      sx={{ my: isMobile ? null : 4 }}
+      open
+      data-cy="event-create-edit"
+    >
+      <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
         <Title>{event?.id ? messages.edit : messages.create}</Title>
         <IconButton onClick={handleClose}>
           <CloseRoundedIcon />
         </IconButton>
       </Grid>
 
-      <Grid container>
+      <Grid container sx={{ mb: isMobile ? 2 : null }}>
         <Stepper
           orientation="vertical"
           validSteps={validSteps}
