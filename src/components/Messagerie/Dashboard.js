@@ -25,6 +25,7 @@ const Dashboard = () => {
               onClick={() => navigate(messageriePaths.create)}
               label={messages.sendEmail}
               icon={<SendIcon />}
+              isMainButton
             />
           }
         />

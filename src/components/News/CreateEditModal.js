@@ -1,4 +1,4 @@
-import { Dialog, Paper, Grid, Button as MuiButton, FormControlLabel, Typography, IconButton } from '@mui/material'
+import { Dialog, Paper, Grid, FormControlLabel, Typography, IconButton } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
@@ -19,6 +19,7 @@ import Loader from 'ui/Loader'
 import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
+import Button from 'ui/Button'
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `
@@ -50,19 +51,6 @@ const CharactersLimit = styled(Typography)(
   ({ theme }) => `
   font-size: 10px;
   color: ${theme.palette.gray300}
-`
-)
-
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  color: ${theme.palette.campaign.button.color.main};
-  background: ${theme.palette.campaign.button.background.main};
-  border: none;
-  border-radius: 8px;
-  &:hover {
-    color: ${theme.palette.campaign.button.color.main};
-    background-color: ${theme.palette.campaign.button.background.main};
-  }
 `
 )
 
@@ -150,7 +138,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
       onClose={handleClose}
       PaperComponent={StyledPaper}
     >
-      <form onSubmit={formik.handleSubmit}>
+      <form>
         <Grid
           container
           justifyContent="space-between"
@@ -234,7 +222,12 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
 
         <Grid container sx={{ mb: 2 }}>
-          <Button type="submit" fullWidth sx={{ height: '35px' }}>
+          <Button
+            type="submit"
+            onClick={formik.handleSubmit}
+            rootProps={{ sx: { color: 'whiteCorner', width: '100%' } }}
+            disabled={isCreateOrUpdateLoading}
+          >
             {isCreateOrUpdateLoading ? <Loader size={12} color="white" /> : messages.submit}
           </Button>
         </Grid>

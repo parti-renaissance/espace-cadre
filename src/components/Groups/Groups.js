@@ -59,7 +59,7 @@ const Groups = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={handleNewGroup} label={messages.create} />}
+          button={<PageHeaderButton onClick={handleNewGroup} label={messages.create} isMainButton />}
         />
       </Grid>
       {paginatedGroups && (

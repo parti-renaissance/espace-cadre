@@ -115,10 +115,14 @@ export const styles = {
   palette: {
     main: '#2834C3',
     button: {
-      color: '#2834c3',
+      color: {
+        main: '#2834c3',
+        disabled: '#6B7280',
+      },
       background: {
-        main: '#3743C814',
-        hover: '#00000014',
+        main: '#2834c3',
+        disabled: '#E5E7EB',
+        hover: 'rgba(55, 67, 200, 0.08)',
       },
     },
     menu: {

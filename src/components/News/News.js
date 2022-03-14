@@ -89,7 +89,7 @@ const News = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={handleNewsCreate} label={messages.create} />}
+          button={<PageHeaderButton onClick={handleNewsCreate} label={messages.create} isMainButton />}
         />
       </Grid>
       {paginatedNews && (

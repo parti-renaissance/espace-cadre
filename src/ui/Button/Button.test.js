@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import Button from './MainButton'
+import Button from './Button'
 
 jest.mock('@mui/system', () => ({
   styled: c => () => c,
