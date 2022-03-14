@@ -37,6 +37,7 @@ export const updateNewsQuery = news =>
     notification: news.withNotification,
     published: news.status,
     zone: news.zoneId,
+    enriched: true,
   })
 
 export const updateNewsStatusQuery = news =>
@@ -52,4 +53,5 @@ export const createNewsQuery = news =>
     notification: news.withNotification,
     published: true,
     zone: news.zoneId,
+    enriched: true,
   })
