@@ -1,5 +1,4 @@
-import { Dialog, Paper, Grid, FormControlLabel, Typography, IconButton } from '@mui/material'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Dialog, Paper, Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
@@ -16,6 +15,7 @@ import TextField from 'ui/TextField'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
+import NotificationContainer from './NotificationContainer'
 import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import EditNewsAlert from '../shared/alert/EditNewsAlert'
@@ -66,7 +66,7 @@ const messages = {
   editNews: "Modifier l'actualité",
   createSuccess: 'Actualité créée avec succès',
   editSuccess: "L'actualité a bien été modifiée",
-  submit: 'Valider',
+  submit: 'Envoyer l’actualité',
   charactersLimit1: '(120 caractères)',
   charactersLimit2: '(1000 caractères)',
   charactersLimit3: '(255 caractères)',
@@ -80,12 +80,13 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
+  const isEditMode = news?.id
 
   const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
-    !news?.id ? createNewsQuery : updateNewsQuery,
+    !isEditMode ? createNewsQuery : updateNewsQuery,
     {
       onSuccess: async () => {
-        const successMessage = !news?.id ? messages.createSuccess : messages.editSuccess
+        const successMessage = !isEditMode ? messages.createSuccess : messages.editSuccess
         await onSubmitResolve()
         enqueueSnackbar(successMessage, notifyVariants.success)
         handleClose()
@@ -145,7 +146,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           alignItems="center"
           sx={{ marginBottom: 2, ...(isMobile && { pt: 4 }) }}
         >
-          <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
+          <Title>{isEditMode ? messages.editNews : messages.createNews}</Title>
           <IconButton onClick={handleClose}>
             <CloseRoundedIcon />
           </IconButton>
@@ -199,25 +200,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         </Grid>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="withNotification"
-                  size="small"
-                  checked={formik.values.withNotification}
-                  onChange={formik.handleChange}
-                />
-              }
-              label="Avec notification"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Checkbox name="status" size="small" checked={formik.values.status} onChange={formik.handleChange} />
-              }
-              label="Active"
-            />
+            <NotificationContainer formik={formik} isDisabled={isEditMode} />
           </Grid>
         </Grid>
 

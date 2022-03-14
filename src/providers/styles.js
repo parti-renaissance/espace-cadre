@@ -298,6 +298,8 @@ export const styles = {
     grayCorner3: '#717BA0',
     mentionsLegales: '#B0B6C9',
     interestsBubble: '#EFF1F3',
+    gray40: 'rgba(9, 16, 29, 0.04)',
+    gray80: 'rgba(9, 16, 29, 0.8)',
     gray50: '#F9FAFB',
     gray100: '#F3F4F6',
     gray200: '#E5E7EB',
