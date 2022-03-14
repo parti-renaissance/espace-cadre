@@ -1,5 +1,4 @@
-import { Dialog, Paper, Grid, FormControlLabel, Typography, IconButton } from '@mui/material'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Dialog, Paper, Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
