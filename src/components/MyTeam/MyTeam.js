@@ -75,7 +75,7 @@ const MyTeam = () => {
             description={messages.emptyTeam}
             action={
               <>
-                <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />
+                <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} isMainButton />
               </>
             }
           />
@@ -88,7 +88,11 @@ const MyTeam = () => {
                 title={messages.pageTitle}
                 button={
                   <>
-                    <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} />
+                    <PageHeaderButton
+                      label={messages.create}
+                      onClick={() => setIsCreateEditModalOpen(true)}
+                      isMainButton
+                    />
                   </>
                 }
               />

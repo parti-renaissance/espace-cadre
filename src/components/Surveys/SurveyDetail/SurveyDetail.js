@@ -50,6 +50,7 @@ export const SurveyDetail = () => {
               label={messages.modify}
               icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
               onClick={() => (Object.keys(surveyDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
+              isMainButton
             />
           }
         />

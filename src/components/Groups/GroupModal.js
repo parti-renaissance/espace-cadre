@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useMutation } from 'react-query'
-import { Dialog, Paper, Grid, Button as MuiButton, Typography, IconButton } from '@mui/material'
+import { Dialog, Paper, Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import TextField from 'ui/TextField'
 import { styled } from '@mui/system'
@@ -15,6 +15,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useUserScope } from '../../redux/user/hooks'
 import UISelect from 'ui/Select/Select'
+import Button from 'ui/Button'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -39,18 +40,6 @@ const CharactersLimit = styled(Typography)(
   color: ${theme.palette.gray300}
 `
 )
-
-const Button = styled(MuiButton)(({ theme }) => ({
-  color: theme.palette.campaign.button.color.main,
-  background: theme.palette.campaign.button.background.main,
-  border: 'none',
-  borderRadius: '8px',
-  '&:hover': {
-    color: theme.palette.campaign.button.color.main,
-    background: theme.palette.campaign.button.background.main,
-  },
-  height: '35px',
-}))
 
 const messages = {
   create: 'Créer un groupe',
@@ -106,7 +95,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
 
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
-      <Form onSubmit={formik.handleSubmit}>
+      <Form>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
           <Title component="span">{group?.id ? messages.edit : messages.create}</Title>
           <IconButton onClick={handleClose}>
@@ -141,7 +130,17 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
         )}
 
         <Grid container sx={{ mt: 2 }}>
-          <Button type="submit" fullWidth>
+          <Button
+            type="submit"
+            onClick={formik.handleSubmit}
+            disabled={isLoading}
+            rootProps={{
+              sx: {
+                color: 'whiteCorner',
+                width: '100%',
+              },
+            }}
+          >
             {isLoading ? <Loader size={12} color="white" /> : messages.submit}
           </Button>
         </Grid>

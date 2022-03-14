@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Container, Grid, Card, Paper as MuiPaper, Typography, Button as MuiButton, Box } from '@mui/material'
+import { Container, Grid, Card, Paper as MuiPaper, Typography, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
@@ -14,6 +14,8 @@ import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
+import Button from 'ui/Button'
+import Loader from 'ui/Loader'
 
 const AutocompleteContainer = styled(Card)(
   ({ theme }) => `
@@ -29,17 +31,6 @@ const Title = styled(Grid)`
   font-weight: 400;
   color: ${({ theme }) => theme.palette.gray800};
 `
-
-const Button = styled(MuiButton)(({ theme }) => ({
-  cursor: 'pointer',
-  background: theme.palette.main,
-  '&.Mui-disabled': {
-    background: theme.palette.gray100,
-  },
-  '&:hover': {
-    background: theme.palette.main,
-  },
-}))
 
 const Paper = styled(MuiPaper)`
   padding: ${({ theme }) => theme.spacing(1, 2)};
@@ -71,7 +62,7 @@ const GroupEdit = () => {
       onError: handleError,
     }
   )
-  const { mutate: addGroupMember } = useMutation(addGroupMemberQuery, {
+  const { mutate: addGroupMember, isLoading: isAddingGroupMember } = useMutation(addGroupMemberQuery, {
     onSuccess: () => {
       refetchGroup()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
@@ -132,7 +123,8 @@ const GroupEdit = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button onClick={handleAddGroupMember} disabled={!selectedMember}>
+                <Button onClick={handleAddGroupMember} disabled={!selectedMember || isAddingGroupMember}>
+                  {isAddingGroupMember && <Loader />}&nbsp;
                   <Typography sx={{ color: 'whiteCorner' }}>{messages.add}</Typography>
                 </Button>
               </Grid>
