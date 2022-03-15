@@ -1,6 +1,7 @@
-import { Grid, Typography, useMediaQuery } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const AlertContainer = styled(Grid)(
   ({ theme }) => `
@@ -31,7 +32,7 @@ const AlertBody = styled(Typography)(
 )
 
 const EditNewsAlert = ({ title, content, image }) => {
-  const showImage = useMediaQuery('(min-width:600px)')
+  const { isDesktop: showImage } = useCurrentDeviceType()
 
   return (
     <AlertContainer
