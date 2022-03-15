@@ -25,6 +25,7 @@ const Map = styled(Grid)(
 )
 
 const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
+const DTD_LAYER_SHAPE = LayersCodes.ciblagePapShape
 
 const DTDMap = ({ userZones }) => {
   const mapContainer = useRef(null)
@@ -36,7 +37,11 @@ const DTDMap = ({ userZones }) => {
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
-      map.current.setLayoutProperty(key, 'visibility', key === DTD_LAYER_POINT ? 'visible' : 'none')
+      if (key === DTD_LAYER_POINT || key === DTD_LAYER_SHAPE) {
+        map.current.setLayoutProperty(key, 'visibility', 'visible')
+      } else {
+        map.current.setLayoutProperty(key, 'visibility', 'none')
+      }
     })
 
     const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
@@ -53,6 +58,15 @@ const DTDMap = ({ userZones }) => {
     ])
 
     map.current.setPaintProperty(DTD_LAYER_POINT, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
+
+    map.current.setFilter(DTD_LAYER_SHAPE, [
+      'any',
+      ['in', 'CODE_REGION', ...codesRegion],
+      ['in', 'CODE_DEPARTMENT', ...codesDepartement],
+      ['in', 'CODE_DISTRICT', ...codesDistrict],
+      ['in', 'CODE_COUNTRY', ...codesCountry],
+    ])
+    map.current.setPaintProperty(DTD_LAYER_SHAPE, 'fill-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones])
 
   const onClick = useCallback(({ point, lngLat }) => {
@@ -94,7 +108,7 @@ const DTDMap = ({ userZones }) => {
   useEffect(() => {
     if (!currentPoint) return
     const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
-      layers: [DTD_LAYER_POINT],
+      layers: [DTD_LAYER_POINT, DTD_LAYER_SHAPE],
     })
     if (mapBoxProps) {
       const [propsPoint] = mapBoxProps
