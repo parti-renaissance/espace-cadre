@@ -5,7 +5,7 @@ export const styles = {
     fontFamily: 'Poppins',
     pageTitle: {
       fontSize: '24px',
-      fontWeight: '400',
+      fontWeight: 400,
       lineHeight: '36px',
       color: 'gray800',
     },

@@ -1,5 +1,5 @@
 import { generatePath, useNavigate } from 'react-router'
-import { Container, Grid, Typography } from '@mui/material'
+import { Container, Grid, Typography, List, ListItem } from '@mui/material'
 import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
@@ -22,6 +22,15 @@ const Title = styled(Typography)(
 `
 )
 
+const Legend = styled(Grid)(
+  ({ theme }) => `
+  padding: 16px;
+  margin-bottom: ${theme.spacing(2)};
+  border-radius: 8px;
+  background: ${theme.palette.whiteCorner};
+`
+)
+
 const infiniteScrollStylesOverrides = {
   '& .infinite-scroll-component__outerdiv': {
     width: '100%',
@@ -31,6 +40,14 @@ const infiniteScrollStylesOverrides = {
 const messages = {
   title: 'Porte à porte',
   campaigns: 'Campagnes',
+  legendTitle: 'Ciblage du Porte à porte en cours',
+  legendPrefix: 'Sur cette carte, retrouvez les catégories du Porte à porte en cours.',
+  blue: 'Les bleus 🔵 où nous pourrions gagner des voix par rapport à 2017 mais où les électeurs sont encore très indécis.',
+  yellow: 'Les jaunes 🟡 où nous serions stables par rapport à 2017 mais où les électeurs sont encore très indécis.',
+  green:
+    'Les verts 🟢 où nous pourrions perdre des voix par rapport à 2017, mais où les électeurs sont encore très indécis.',
+  purple: "Les roses 🟣 où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère).",
+  legendSuffix: 'Plus la couleur est foncée (5 variations), plus les personnes sont indécises.',
 }
 
 const DTD = () => {
@@ -65,6 +82,20 @@ const DTD = () => {
       <Grid container justifyContent="space-between">
         <CampaignGlobalKPI />
       </Grid>
+
+      <Legend container>
+        <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          {messages.legendTitle}
+        </Typography>
+        <List>
+          <ListItem disablePadding>{messages.legendPrefix}</ListItem>
+          <ListItem disablePadding>{messages.blue}</ListItem>
+          <ListItem disablePadding>{messages.yellow}</ListItem>
+          <ListItem disablePadding>{messages.green}</ListItem>
+          <ListItem disablePadding>{messages.purple}</ListItem>
+          <ListItem disablePadding>{messages.legendSuffix}</ListItem>
+        </List>
+      </Legend>
 
       <DTDMap userZones={userScope.zones} />
 
