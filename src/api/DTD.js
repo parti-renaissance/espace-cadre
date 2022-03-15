@@ -54,9 +54,15 @@ export const getDTDCampaignDetailQuery = async campaignId => {
   return new DTDCampaignDetail(data.uuid, data.title, data.goal, KPI)
 }
 
-export const getDTDCampaignQuestioners = async campaignId => {
-  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/questioners`)
-  return data.items.map(c => new DTDCampaignDetailQuestioner(c.first_name, c.last_name, Number(c.nb_surveys)))
+export const getDTDCampaignQuestioners = async ({ campaignId, pageParam: page = 1 }) => {
+  const data = await apiClient.get(
+    `api/v3/pap_campaigns/${campaignId}/questioners?order[created_at]=desc&page=${page}&page_size=20`
+  )
+  const questioners = data.items.map(
+    c => new DTDCampaignDetailQuestioner(c.first_name, c.last_name, Number(c.nb_surveys))
+  )
+
+  return newPaginatedResult(questioners, data.metadata)
 }
 
 export const getDTDCampaignDetailHistory = async ({ campaignId, pageParam: page = 1 }) => {
