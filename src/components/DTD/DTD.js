@@ -26,7 +26,7 @@ const Legend = styled(Grid)(
   ({ theme }) => `
   padding: 16px;
   margin-bottom: ${theme.spacing(2)};
-  border-radius: 8px;
+  border-radius: 12px;
   background: ${theme.palette.whiteCorner};
 `
 )
