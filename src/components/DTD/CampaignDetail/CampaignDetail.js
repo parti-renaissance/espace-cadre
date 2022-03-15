@@ -56,13 +56,19 @@ export const CampaignDetail = () => {
       onError: handleError,
     }
   )
-  const { data: questioners = [], isLoading: isQuestionersLoading } = useQueryWithScope(
-    ['questioners', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
-    () => getDTDCampaignQuestioners(campaignId),
+  const {
+    data: paginatedQuestioners = null,
+    isLoading: isQuestionersLoading,
+    fetchNextPage: fetchNexPageQuestioners,
+    hasNextPage: hasNextPageQuestioners,
+  } = useInfiniteQueryWithScope(
+    ['paginated-questioners', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
+    pageParams => getDTDCampaignQuestioners({ campaignId, ...pageParams }),
     {
       onError: handleError,
     }
   )
+  const questioners = usePaginatedData(paginatedQuestioners)
 
   const {
     data: paginatedHistory = null,
@@ -149,18 +155,25 @@ export const CampaignDetail = () => {
             </Tabs>
 
             {selectedTab === messages.questioners.id && questioners.length > 0 && (
-              <Grid container spacing={2}>
-                {questioners.map((questioner, index) => (
-                  <CampaignDetailQuestioner
-                    key={index + 1}
-                    number={index + 1}
-                    firstName={questioner.firstName}
-                    lastName={questioner.lastName}
-                    count={questioner.count}
-                    goal={campaignDetail.goal}
-                  />
-                ))}
-              </Grid>
+              <InfiniteScroll
+                dataLength={questioners.length}
+                next={() => fetchNexPageQuestioners()}
+                hasMore={hasNextPageQuestioners}
+                loader={<Loader />}
+              >
+                <Grid container spacing={2}>
+                  {questioners.map((questioner, index) => (
+                    <CampaignDetailQuestioner
+                      key={index + 1}
+                      number={index + 1}
+                      firstName={questioner.firstName}
+                      lastName={questioner.lastName}
+                      count={questioner.count}
+                      goal={campaignDetail.goal}
+                    />
+                  ))}
+                </Grid>
+              </InfiniteScroll>
             )}
             {selectedTab === messages.history.id && history.length > 0 && (
               <InfiniteScroll
