@@ -19,6 +19,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 const Map = styled(Grid)`
   height: 85vh;
   margin: ${({ theme }) => theme.spacing(1, 0, 2)};
+  border-radius: 12px;
 `
 
 const messages = {
