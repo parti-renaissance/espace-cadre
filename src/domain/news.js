@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
 export default class News {
-  constructor(id, title, body, url, creator, createdAt, withNotification, status, zoneId) {
+  constructor(id, title, body, url, urlLabel, creator, createdAt, withNotification, status, zoneId) {
     this.id = id
     this.title = title
     this.body = body
     this.url = url
+    this.urlLabel = urlLabel
     this.creator = creator
     this.createdAt = createdAt
     this.withNotification = withNotification
@@ -12,7 +13,7 @@ export default class News {
     this.zoneId = zoneId
   }
 
-  static NULL = new News(null, '', '', '', '', new Date(), false, false, '')
+  static NULL = new News(null, '', '', '', '', '', new Date(), false, false, '')
 
   withTitle(newTitle) {
     return new News(
@@ -20,6 +21,7 @@ export default class News {
       newTitle,
       this.body,
       this.url,
+      this.urlLabel,
       this.creator,
       this.createdAt,
       this.withNotification,
@@ -34,6 +36,7 @@ export default class News {
       this.title,
       newBody,
       this.url,
+      this.urlLabel,
       this.creator,
       this.createdAt,
       this.withNotification,
@@ -48,6 +51,22 @@ export default class News {
       this.title,
       this.body,
       newUrl,
+      this.urlLabel,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      this.status,
+      this.zoneId
+    )
+  }
+
+  withUrlLabel(newUrlLabel) {
+    return new News(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      newUrlLabel,
       this.creator,
       this.createdAt,
       this.withNotification,
@@ -62,6 +81,7 @@ export default class News {
       this.title,
       this.body,
       this.url,
+      this.urlLabel,
       this.creator,
       this.createdAt,
       newWithNotification,
@@ -76,6 +96,7 @@ export default class News {
       this.title,
       this.body,
       this.url,
+      this.urlLabel,
       this.creator,
       this.createdAt,
       this.withNotification,
@@ -90,6 +111,7 @@ export default class News {
       this.title,
       this.body,
       this.url,
+      this.urlLabel,
       this.creator,
       this.createdAt,
       this.withNotification,
@@ -104,6 +126,7 @@ export default class News {
       this.title,
       this.body,
       this.url,
+      this.urlLabel,
       this.creator,
       this.createdAt,
       this.withNotification,
@@ -118,6 +141,7 @@ News.propTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   url: PropTypes.string,
+  urlLabel: PropTypes.string,
   creator: PropTypes.string,
   createdAt: PropTypes.object.isRequired,
   withNotification: PropTypes.bool,

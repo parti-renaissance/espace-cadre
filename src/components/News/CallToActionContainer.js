@@ -36,10 +36,10 @@ const CallToActionContainer = ({ formik }) => {
           <SubTitle>Texte du bouton</SubTitle>
         </Grid>
         <Grid item xs={12}>
-          <TextField formik={formik} label="cta_text" placeholder={NEWS_CTA_PLACEHOLDER} />
+          <TextField formik={formik} label="urlLabel" placeholder={NEWS_CTA_PLACEHOLDER} />
         </Grid>
         {errorMessages
-          .filter(({ field }) => field === 'cta_text')
+          .filter(({ field }) => field === 'link_label')
           .map(({ field, message }) => (
             <Grid item xs={12} key={field}>
               <UIFormMessage severity="error">{message}</UIFormMessage>
