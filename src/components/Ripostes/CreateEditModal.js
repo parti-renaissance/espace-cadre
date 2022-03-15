@@ -1,4 +1,4 @@
-import { Paper, Button, Dialog, FormControlLabel, Grid, Typography } from '@mui/material'
+import { Button, FormControlLabel, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
@@ -9,12 +9,8 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import ClearIcon from '@mui/icons-material/Clear'
 import Loader from 'ui/Loader'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-
-const StyledPaper = styled(Paper)`
-  padding: ${({ theme }) => theme.spacing(4)};
-  width: 664px;
-  border-radius: 12px;
-`
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import Dialog from 'ui/Dialog'
 
 const CharactersLimit = styled(Typography)(
   ({ theme }) => `
@@ -59,6 +55,8 @@ const riposteSchema = Yup.object({
 })
 
 const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateRiposte, loader = false, errors }) => {
+  const { isMobile } = useCurrentDeviceType()
+
   const handleClose = () => {
     onCloseResolve()
   }
@@ -92,9 +90,9 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
   })
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
+    <Dialog open={open} handleClose={handleClose}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
+        <Grid container justifyContent="space-between" sx={{ mt: isMobile ? 2 : null, mb: 2 }}>
           <Grid item>
             <Title>{!riposte?.id ? messages.create : messages.edit}</Title>
           </Grid>

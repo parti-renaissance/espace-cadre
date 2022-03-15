@@ -13,6 +13,7 @@ import PageHeader from 'ui/PageHeader'
 import EmptyContent from 'ui/EmptyContent'
 import MyTeamMember from './MyTeamMember'
 import CreateEdit from './CreateEdit/CreateEdit'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const messages = {
   pageTitle: 'Mon équipe',
@@ -26,6 +27,7 @@ const MyTeam = () => {
   const [teamMemberToUpdate, setTeamMemberToUpdate] = useState({})
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
+  const { isMobile } = useCurrentDeviceType()
 
   const { data: myTeam = {}, refetch: refetchMyTeam } = useQueryWithScope(
     ['my-team', { feature: 'MyTeam', view: 'MyTeam' }],
@@ -98,7 +100,12 @@ const MyTeam = () => {
               />
             </Grid>
 
-            <Grid container justifyContent="space-between" data-cy="my-team-members-container" sx={{ pt: 1 }}>
+            <Grid
+              container
+              justifyContent="space-between"
+              data-cy="my-team-members-container"
+              sx={{ pt: isMobile ? 2 : null }}
+            >
               <Grid container spacing={2} data-cy="my-team-members-list">
                 {myTeam.members.map(member => (
                   <MyTeamMember

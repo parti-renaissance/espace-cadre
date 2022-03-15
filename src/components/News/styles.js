@@ -1,14 +1,6 @@
 // NEWS styles
-import { Paper, Grid, Button as MuiButton, Typography } from '@mui/material'
+import { Grid, Button as MuiButton, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-
-export const StyledPaper = styled(Paper)(
-  ({ theme }) => `
-    padding: ${theme.spacing(4)};
-    width: 664px;
-    border-radius: 12px;
-  `
-)
 
 export const Title = styled(Typography)(
   ({ theme }) => `

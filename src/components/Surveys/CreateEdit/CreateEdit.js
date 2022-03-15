@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useCallback, useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
 import { styled } from '@mui/system'
-import { Grid, Typography, Dialog, IconButton, Paper as MuiPaper } from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import { createOrUpdateSurveyQuery, formatZone } from 'api/surveys'
@@ -16,19 +16,14 @@ import CreateEditTitleAndTerritory from './CreateEditTitleAndTerritory'
 import CreateEditQuestions from './Questions/Questions'
 import CreateEditVisibility from './CreateEditVisibility'
 import CreateEditValidateAction from './CreateEditValidateAction'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import Dialog from 'ui/Dialog'
 
 const Title = styled(Typography)`
   font-size: 24px;
   font-weight: 400;
   line-height: 24px;
 `
-
-const Paper = styled(MuiPaper)(
-  ({ theme }) => `
-	padding: ${theme.spacing(4)};
-	border-radius: 12px;
-`
-)
 
 const messages = {
   create: {
@@ -73,6 +68,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
   const isValidForm = useMemo(() => validateForm(formValues), [formValues])
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
+  const { isMobile } = useCurrentDeviceType()
 
   const updateFormField = useCallback((key, value) => {
     setFormValues(values => ({ ...values, [key]: value }))
@@ -92,19 +88,19 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
   }
 
   return (
-    <Dialog scroll="body" data-cy="surveys-create-edit" onClose={handleClose} PaperComponent={Paper} open>
-      <Grid container justifyContent="space-between" alignItems="center">
+    <Dialog data-cy="surveys-create-edit" handleClose={handleClose} open>
+      <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
         <Title data-cy="surveys-create-edit-title">
           {!survey ? messages.create.title : messages.update.title}{' '}
           {scopesVisibility[scope] === visibility.local && visibility.local}
           {scopesVisibility[scope] === visibility.national && visibility.national}
         </Title>
-        <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close">
+        <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close" sx={{ ml: 'auto' }}>
           <CloseRoundedIcon />
         </IconButton>
       </Grid>
 
-      <Grid container>
+      <Grid container sx={{ mb: isMobile ? 2 : null }}>
         <CreateEditTitleAndTerritory
           formValues={{ title: formValues.title, zone: formValues.zone }}
           updateFormField={updateFormField}
