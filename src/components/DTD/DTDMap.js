@@ -58,6 +58,7 @@ const DTDMap = ({ userZones }) => {
       style: process.env.REACT_APP_MAPBOX_STYLE,
       minZoom: 4,
     })
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
   }, [])
 
   useEffect(() => {
