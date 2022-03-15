@@ -81,7 +81,7 @@ const messages = {
   years: 'ans',
 }
 
-const formatAdherent = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
+const formatCaller = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
 const formatGender = gender => translatedGender[gender]
 
 const CampaignDetailSurveys = ({ replies }) => {
@@ -140,15 +140,15 @@ const CampaignDetailSurveys = ({ replies }) => {
             </TableHead>
 
             <TableBody>
-              {rows.map(({ answers, adherent, startDate, endDate }, index) => (
+              {rows.map(({ answers, caller, startDate, endDate }, index) => (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
                     <Description>
-                      {adherent.lastName || adherent.firstName ? formatAdherent(adherent) : messages.anonymous}
+                      {caller.lastName || caller.firstName ? formatCaller(caller) : messages.anonymous}
                     </Description>
                     <SubDescription>
-                      {formatGender(adherent.gender) && `${formatGender(adherent.gender)}, `}
-                      {adherent.age && `${adherent.age} ${messages.years}`}
+                      {formatGender(caller.gender) && `${formatGender(caller.gender)}, `}
+                      {caller.age && `${caller.age} ${messages.years}`}
                     </SubDescription>
                   </TableCell>
 

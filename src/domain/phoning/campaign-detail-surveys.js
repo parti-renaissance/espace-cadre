@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import { PhoningCampaignDetailHistoryAdherent } from '.'
+import { PhoningCampaignDetailHistoryCaller } from '.'
 
 export class PhoningCampaignDetailSurveysReplyAnswer {
   constructor(type, answer, question) {
@@ -16,15 +16,15 @@ export class PhoningCampaignDetailSurveysReplyAnswer {
 }
 
 export class PhoningCampaignDetailSurveysReply {
-  constructor(answers, adherent, startDate, endDate) {
+  constructor(answers, caller, startDate, endDate) {
     this.answers = answers
-    this.adherent = adherent
+    this.caller = caller
     this.startDate = startDate
     this.endDate = endDate
   }
   static propTypes = {
     answers: PropTypes.arrayOf(PropTypes.shape(PhoningCampaignDetailSurveysReplyAnswer.propTypes)).isRequired,
-    adherent: PropTypes.shape(PhoningCampaignDetailHistoryAdherent.propTypes),
+    caller: PropTypes.shape(PhoningCampaignDetailHistoryCaller.propTypes),
     startDate: PropTypes.object.isRequired,
     endDate: PropTypes.object.isRequired,
   }
