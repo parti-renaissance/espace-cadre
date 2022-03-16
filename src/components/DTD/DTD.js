@@ -46,7 +46,7 @@ const messages = {
   yellow: 'Les jaunes 🟡 où nous serions stables par rapport à 2017 mais où les électeurs sont encore très indécis.',
   green:
     'Les verts 🟢 où nous pourrions perdre des voix par rapport à 2017, mais où les électeurs sont encore très indécis.',
-  purple: "Les roses 🟣 où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère).",
+  purple: "Les violets 🟣 où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère).",
   legendSuffix: 'Plus la couleur est foncée (5 variations), plus les personnes sont indécises.',
 }
 
