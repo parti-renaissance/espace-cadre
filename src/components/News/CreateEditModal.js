@@ -25,7 +25,10 @@ import Dialog from 'ui/Dialog'
 
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 charactère').max(120, 'Maximum 120 charactères').required('Titre obligatoire'),
-  body: Yup.string().min(1, 'Minimum 1 charactère').max(1000, 'Maximum 1000 charactères').required('Texte obligatoire'),
+  body: Yup.string()
+    .min(1, 'Minimum 1 charactère')
+    .max(10000, 'Maximum 10000 charactères')
+    .required('Texte obligatoire'),
   url: Yup.string().url('Ce champ doit être une URL valide'),
 })
 
