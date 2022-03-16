@@ -349,6 +349,7 @@ export const styles = {
 
     // Red
     statusError: '#DA1414',
+    redSecondary: '#CC0613',
 
     red100: '#FEE2E2',
     red200: '#FECACA',

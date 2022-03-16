@@ -4,13 +4,15 @@ import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import MuiCloseIcon from '@mui/icons-material/Close'
-import DomainNews from 'domain/news'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import EditIcon from '@mui/icons-material/EditRounded'
 import { format } from 'date-fns'
+
+import DomainNews from 'domain/news'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
 import NewsEditor from './NewsEditor'
+import ReadCTA from './ReadCTA'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -19,8 +21,8 @@ const StyledPaper = styled(Paper)`
 `
 
 const HeaderContainer = styled(Grid)`
-  display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.spacing(2)};
 `
 
@@ -50,30 +52,38 @@ const NotificationIcon = styled(MuiIcon)(
 `
 )
 
-const DateItem = styled(Typography)`
-  font-size: 10px;
+const DateItem = styled(Typography)(
+  ({ theme }) => `
+  font-size: 12px;
   font-weight: 400;
-  line-height: 15px;
-  color: ${({ theme }) => theme.palette.gray600};
+  line-height: 18px;
+  color: ${theme.palette.gray600};
 `
+)
 
 const CloseIcon = styled(MuiCloseIcon)`
   color: ${({ theme }) => theme.palette.gray700};
   cursor: pointer;
 `
 
-const Title = styled(TruncatedText)`
+const Title = styled(TruncatedText)(
+  ({ theme }) =>
+    `
   font-size: 24px;
-  font-weight: 400;
-  line-height: 28px;
-  color: ${({ theme }) => theme.palette.gray800};
+  font-weight: 600;
+  line-height: 30px;
+  color: ${theme.palette.gray800}
   width: 400px;
 `
+)
 
-const Author = styled(props => <Typography variant="subtitle2" {...props} />)(
+const Author = styled(Typography)(
   ({ theme }) => `
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
   color: ${theme.palette.gray600};
-  margin-bottom: ${theme.spacing(2)};
+  margin-right: ${theme.spacing(1)}
 `
 )
 
@@ -86,6 +96,7 @@ const messages = {
 
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const Icon = news?.withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
+  const isPublished = news?.status ? true : false
 
   if (!news) return null
 
@@ -100,27 +111,25 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   return (
     <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper} data-testid="news-read-only-modal">
       <HeaderContainer container>
-        <StatusIcon active={news?.status}>{news?.status ? messages.published : messages.unpublished}</StatusIcon>
-        <NotificationIcon component={Icon} />
-        <DateItem>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
-        <Button
-          onClick={handleEdit}
-          isMainButton
-          rootProps={{
-            sx: {
-              margin: theme => theme.spacing('auto', 1, 'auto', 'auto'),
-              padding: theme => theme.spacing(0.75, 1),
-            },
-          }}
-        >
-          <EditIcon sx={{ mr: 1 }} />
+        <Button onClick={handleEdit} isMainButton>
+          <EditIcon />
           {messages.edit}
         </Button>
+
         <CloseIcon onClick={handleClose} data-testid="close-icon" />
       </HeaderContainer>
-
+      <Grid sx={{ mb: 1, display: 'flex', alignItems: 'center' }}>
+        <StatusIcon active={isPublished}>{isPublished ? messages.published : messages.unpublished}</StatusIcon>
+        <NotificationIcon component={Icon} />
+      </Grid>
       <Title title={news?.title}>{news?.title}</Title>
-      <Author>{`${messages.author} ${news?.creator}`}</Author>
+      <Grid>
+        <Author>{`${messages.author} ${news?.creator}`}</Author>
+        <DateItem>{`${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
+          news?.createdAt || new Date(),
+          'hh:mm'
+        )}`}</DateItem>
+      </Grid>
       <NewsEditor
         config={readOnlyConfiguration}
         data={news?.body}
@@ -129,6 +138,10 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
           editor.isReadOnly = true
         }}
       />
+      <Grid>
+        <ReadCTA news={news} />
+        <ReadCTA mode={'publication'} news={news} closeModal={handleClose} />
+      </Grid>
     </Dialog>
   )
 }

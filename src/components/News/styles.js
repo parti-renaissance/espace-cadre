@@ -1,6 +1,7 @@
 // NEWS styles
-import { Grid, Button as MuiButton, Typography } from '@mui/material'
+import { Grid, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 export const Title = styled(Typography)(
   ({ theme }) => `
@@ -20,7 +21,7 @@ export const SubTitle = styled(Typography)(
   `
 )
 
-export const Button = styled(MuiButton)(
+export const CTAButton = styled(Button)(
   ({ theme }) => `
     color: ${theme.palette.campaign.button.color.main};
     background: ${theme.palette.campaign.button.background.main};
@@ -30,6 +31,20 @@ export const Button = styled(MuiButton)(
       color: ${theme.palette.campaign.button.color.main};
       background-color: ${theme.palette.campaign.button.background.main};
     }
+    line-height: 24px;
+    font-size: 14px;
+    width: 154px;
+  `
+)
+
+export const CTAButtonOutlined = styled(LoadingButton)(
+  ({ theme, ispublished }) => `
+    color: ${ispublished === 'true' ? theme.palette.redSecondary : theme.palette.main};
+    border-width: 1px,
+    border-color: yellow !important
+    line-height: 24px;
+    font-size: 14px;
+    width: 140px;
   `
 )
 
