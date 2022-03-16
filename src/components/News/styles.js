@@ -2,6 +2,7 @@
 import { Grid, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import LoadingButton from '@mui/lab/LoadingButton'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
 export const Title = styled(Typography)(
   ({ theme }) => `
@@ -23,12 +24,12 @@ export const SubTitle = styled(Typography)(
 
 export const CTAButton = styled(Button)(
   ({ theme }) => `
-    color: ${theme.palette.whiteCorner};
+    color: ${theme.palette.news.button.main.color};
     background: ${theme.palette.button.background.main};
     border: none;
     border-radius: 8px;
     &:hover {
-      color: ${theme.palette.whiteCorner};
+      color: ${theme.palette.news.button.main.color};
       background-color: ${theme.palette.button.background.main};
     }
     line-height: 24px;
@@ -39,12 +40,18 @@ export const CTAButton = styled(Button)(
 
 export const CTAButtonOutlined = styled(LoadingButton)(
   ({ theme, ispublished }) => `
-    color: ${ispublished === 'true' ? theme.palette.redSecondary : theme.palette.main};
-    border: ${ispublished === 'true' ? `1px ${theme.palette.redSecondary} solid` : `1px ${theme.palette.main} solid`};
+    color: ${ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary};
+    border: 1px ${
+      ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary
+    } solid;
     &:hover {
-      color: ${theme.palette.whiteCorner};
-      background-color: ${ispublished === 'true' ? theme.palette.redSecondary : theme.palette.button.background.main};
-      border: ${ispublished === 'true' ? `1px ${theme.palette.redSecondary} solid` : `1px ${theme.palette.main} solid`};
+      color: ${theme.palette.news.button.main.color};
+      background-color: ${
+        ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary
+      };
+      border: 1px ${
+        ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary
+      } solid;
     }
     line-height: 24px;
     font-size: 14px;
@@ -88,5 +95,15 @@ export const Body = styled(Typography)(
       line-height: 21px;
       font-weight: 400;
       color: ${theme.palette.gray80};
+    `
+)
+
+export const CTAButtonContainer = styled(
+  Grid,
+  shouldForwardProps
+)(
+  () => `
+      display: 'flex';
+      justify-content: 'flex-end';
     `
 )

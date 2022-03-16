@@ -12,21 +12,20 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
-import {
-  NEWS_READ_UNPUBLISH_BUTTON,
-  NEWS_READ_PUBLISH_BUTTON,
-  NEWS_CTA_TITLE,
-  NEWS_READ_CTA_TEXT,
-  NEWS_READ_PUBLISH_TEXT,
-  NEWS_READ_PUBLICATION_TITLE,
-} from './constants'
-import { SectionTitle, Container, Body, CTAButton, CTAButtonOutlined } from './styles'
+import { SectionTitle, Container, Body, CTAButton, CTAButtonOutlined, CTAButtonContainer } from './styles'
+import { ctaModePublication } from './constants'
 
 const messages = {
   toggleSuccess: "L'actualité a bien été modifiée",
+  title: 'Bouton d’action',
+  unpublish: 'Dépublier',
+  publish: 'Publier',
+  ctaText: 'Lorsqu’il existe, un bouton s’affiche en bas de l’actualité. Ajoutez-en un en la modifiant.',
+  publishText: 'Lorsqu’elle est publiée, une actualité est visible de vos militants sur l’application mobile.',
+  publicationTitle: 'Publication',
 }
 
-const CallToActionContainer = ({ mode, news, closeModal }) => {
+const CallToActionContainer = ({ mode, news, handleClose }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -42,7 +41,7 @@ const CallToActionContainer = ({ mode, news, closeModal }) => {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
-      closeModal()
+      handleClose()
     },
     onError: handleError,
   })
@@ -52,38 +51,34 @@ const CallToActionContainer = ({ mode, news, closeModal }) => {
     await updateNewsStatus(toggledNews)
   }, [news, updateNewsStatus])
 
-  const isPublication = mode === 'publication'
-  const isPublished = news.status
-  const hasCTA = news.url && news.urlLabel
+  const isPublication = mode === ctaModePublication
+  const isPublished = !!news.status
+  const hasCTA = !!(news.url && news.urlLabel)
   const CTALabel = news.urlLabel ? news.urlLabel : ''
   const shouldDisplayCTA = !isPublication && hasCTA
 
   return (
-    <Container container sx={{ mb: 2, justifyContent: 'space-between' }}>
+    <Container container sx={{ mb: 2, justifyContent: 'space-between', alignItems: 'center' }}>
       <Grid item xs={shouldDisplayCTA || isPublication ? 8 : 12}>
-        <SectionTitle>{isPublication ? NEWS_READ_PUBLICATION_TITLE : NEWS_CTA_TITLE}</SectionTitle>
+        <SectionTitle>{isPublication ? messages.publicationTitle : messages.title}</SectionTitle>
         <Body component="p" sx={{ mt: 1 }}>
-          {isPublication ? NEWS_READ_PUBLISH_TEXT : NEWS_READ_CTA_TEXT}
+          {isPublication ? messages.publishText : messages.ctaText}
         </Body>
       </Grid>
-      <Grid
-        item
-        xs={shouldDisplayCTA ? 4 : 0}
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
-      >
+      <CTAButtonContainer item xs={shouldDisplayCTA ? 4 : 0}>
         {isPublication && (
           <CTAButtonOutlined
             loading={isToggleStatusLoading}
             variant="outlined"
-            ispublished={isPublished.toString()}
+            ispublished={+isPublished}
             onClick={() => toggleNewsStatus()}
             startIcon={isPublished ? <VisibilityOffIcon /> : <VisibilityIcon />}
           >
-            {isPublished ? NEWS_READ_UNPUBLISH_BUTTON : NEWS_READ_PUBLISH_BUTTON}
+            {isPublished ? messages.unpublish : messages.publish}
           </CTAButtonOutlined>
         )}
         {shouldDisplayCTA && <CTAButton onClick={() => window.open(news.url, '_blank')}>{CTALabel}</CTAButton>}
-      </Grid>
+      </CTAButtonContainer>
     </Container>
   )
 }
@@ -91,7 +86,7 @@ const CallToActionContainer = ({ mode, news, closeModal }) => {
 CallToActionContainer.propTypes = {
   mode: PropTypes.string,
   news: PropTypes.object,
-  closeModal: PropTypes.func,
+  handleClose: PropTypes.func,
 }
 
 export default CallToActionContainer

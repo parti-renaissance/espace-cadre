@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, Paper, Grid, Icon as MuiIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -15,6 +16,7 @@ import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
 import NewsEditor from './NewsEditor'
 import ReadCTA from './ReadCTA'
+import { ctaModePublication } from './constants'
 
 const StyledPaper = styled(Paper)`
   padding: ${({ theme }) => theme.spacing(4)};
@@ -89,25 +91,6 @@ const Author = styled(Typography)(
 `
 )
 
-const UserIcon = styled(PersonIcon)(
-  ({ theme }) => `
-  width: 12px;
-  height: 12px;
-  color: ${theme.palette.gray600};
-  margin-right: ${theme.spacing(0.5)}
-`
-)
-
-const TimeIcon = styled(AccessTimeIcon)(
-  ({ theme }) => `
-  width: 12px;
-  height: 12px;
-  color: ${theme.palette.gray600};
-  margin-right: ${theme.spacing(0.5)};
-  margin-left: ${theme.spacing(2)}
-`
-)
-
 const UserTimeContainer = styled(Grid)(
   () => `
   display: flex;
@@ -123,7 +106,7 @@ const messages = {
 
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const Icon = news?.withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
-  const isPublished = news?.status ? true : false
+  const isPublished = useMemo(() => (news?.status ? true : false), [news])
 
   if (!news) return null
 
@@ -151,9 +134,9 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
       </Grid>
       <Title title={news?.title}>{news?.title}</Title>
       <UserTimeContainer>
-        <UserIcon />
+        <PersonIcon sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
         <Author>{news?.creator}</Author>
-        <TimeIcon />
+        <AccessTimeIcon sx={{ mr: 0.5, ml: 2, color: 'gray600', fontSize: '12px' }} />
         <DateItem>{`Le ${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
           news?.createdAt || new Date(),
           'hh:mm'
@@ -169,7 +152,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
       />
       <Grid>
         <ReadCTA news={news} />
-        <ReadCTA mode={'publication'} news={news} closeModal={handleClose} />
+        <ReadCTA mode={ctaModePublication} news={news} handleClose={handleClose} />
       </Grid>
     </Dialog>
   )
