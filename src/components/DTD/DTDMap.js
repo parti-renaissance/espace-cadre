@@ -26,6 +26,7 @@ const DTDMap = ({ userZones }) => {
   const [currentPoint, setCurrentPoint] = useState(null)
   const [infos, setInfos] = useState(null)
   const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
+  const [hasFeatures, setHasFeatures] = useState(null)
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
@@ -44,6 +45,7 @@ const DTDMap = ({ userZones }) => {
       ['in', 'CODE_DISTRICT', ...codesDistrict],
       ['in', 'CODE_COUNTRY', ...codesCountry],
     ])
+
     map.current.setPaintProperty(DTD_LAYER_POINT, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones])
 
@@ -60,6 +62,13 @@ const DTDMap = ({ userZones }) => {
       minZoom: 4,
     })
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
+    map.current.on('data', () => {
+      setHasFeatures(
+        map.current.queryRenderedFeatures({
+          layers: [DTD_LAYER_POINT],
+        })
+      )
+    })
   }, [])
 
   useEffect(() => {
@@ -98,6 +107,19 @@ const DTDMap = ({ userZones }) => {
         setInfos(null)
       })
   }, [currentPoint, infos])
+
+  useEffect(() => {
+    const bounds = new mapboxgl.LngLatBounds()
+
+    if (hasFeatures?.length > 0) {
+      hasFeatures.map(feature => {
+        console.log(feature.geometry)
+        bounds.extend(feature?.geometry?.coordinates)
+      })
+
+      map.current.fitBounds(bounds)
+    }
+  }, [hasFeatures])
 
   return <Map ref={mapContainer} />
 }
