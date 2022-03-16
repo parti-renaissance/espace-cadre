@@ -79,9 +79,6 @@ const CallToActionContainer = ({ mode, news, closeModal }) => {
             ispublished={isPublished.toString()}
             onClick={() => toggleNewsStatus()}
             startIcon={isPublished ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            sx={{
-              border: isPublished ? '1px #CC0613 solid' : '1px #2834C3 solid',
-            }}
           >
             {isPublished ? NEWS_READ_UNPUBLISH_BUTTON : NEWS_READ_PUBLISH_BUTTON}
           </CTAButtonOutlined>

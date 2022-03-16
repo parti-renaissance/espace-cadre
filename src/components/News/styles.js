@@ -40,8 +40,14 @@ export const CTAButton = styled(Button)(
 export const CTAButtonOutlined = styled(LoadingButton)(
   ({ theme, ispublished }) => `
     color: ${ispublished === 'true' ? theme.palette.redSecondary : theme.palette.main};
-    border-width: 1px,
-    border-color: yellow !important
+    border: ${ispublished === 'true' ? `1px ${theme.palette.redSecondary} solid` : `1px ${theme.palette.main} solid`};
+    &:hover {
+      color: ${theme.palette.campaign.button.color.main};
+      background-color: ${
+        ispublished === 'true' ? theme.palette.redSecondary : theme.palette.campaign.button.background.main
+      };
+      border: ${ispublished === 'true' ? `1px ${theme.palette.redSecondary} solid` : `1px ${theme.palette.main} solid`};
+    }
     line-height: 24px;
     font-size: 14px;
     width: 140px;
