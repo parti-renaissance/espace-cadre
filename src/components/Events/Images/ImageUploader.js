@@ -78,7 +78,7 @@ const ImgUploader = ({ image, setImage, handleImageDelete, isDeleting }) => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ width: '560px', height: 'auto' }}
+      sx={{ width: '100%', height: 'auto' }}
     >
       <ImageCropper
         image={image}
