@@ -5,6 +5,8 @@ import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsAct
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import MuiCloseIcon from '@mui/icons-material/Close'
 import EditIcon from '@mui/icons-material/EditRounded'
+import PersonIcon from '@mui/icons-material/Person'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { format } from 'date-fns'
 
 import DomainNews from 'domain/news'
@@ -87,11 +89,36 @@ const Author = styled(Typography)(
 `
 )
 
+const UserIcon = styled(PersonIcon)(
+  ({ theme }) => `
+  width: 12px;
+  height: 12px;
+  color: ${theme.palette.gray600};
+  margin-right: ${theme.spacing(0.5)}
+`
+)
+
+const TimeIcon = styled(AccessTimeIcon)(
+  ({ theme }) => `
+  width: 12px;
+  height: 12px;
+  color: ${theme.palette.gray600};
+  margin-right: ${theme.spacing(0.5)};
+  margin-left: ${theme.spacing(2)}
+`
+)
+
+const UserTimeContainer = styled(Grid)(
+  () => `
+  display: flex;
+  align-items: center;
+`
+)
+
 const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
   edit: 'Modifier',
-  author: 'Par',
 }
 
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
@@ -123,13 +150,15 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <NotificationIcon component={Icon} />
       </Grid>
       <Title title={news?.title}>{news?.title}</Title>
-      <Grid>
-        <Author>{`${messages.author} ${news?.creator}`}</Author>
-        <DateItem>{`${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
+      <UserTimeContainer>
+        <UserIcon />
+        <Author>{news?.creator}</Author>
+        <TimeIcon />
+        <DateItem>{`Le ${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
           news?.createdAt || new Date(),
           'hh:mm'
         )}`}</DateItem>
-      </Grid>
+      </UserTimeContainer>
       <NewsEditor
         config={readOnlyConfiguration}
         data={news?.body}

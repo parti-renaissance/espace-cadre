@@ -23,13 +23,13 @@ export const SubTitle = styled(Typography)(
 
 export const CTAButton = styled(Button)(
   ({ theme }) => `
-    color: ${theme.palette.campaign.button.color.main};
-    background: ${theme.palette.campaign.button.background.main};
+    color: ${theme.palette.whiteCorner};
+    background: ${theme.palette.button.background.main};
     border: none;
     border-radius: 8px;
     &:hover {
-      color: ${theme.palette.campaign.button.color.main};
-      background-color: ${theme.palette.campaign.button.background.main};
+      color: ${theme.palette.whiteCorner};
+      background-color: ${theme.palette.button.background.main};
     }
     line-height: 24px;
     font-size: 14px;
@@ -42,10 +42,8 @@ export const CTAButtonOutlined = styled(LoadingButton)(
     color: ${ispublished === 'true' ? theme.palette.redSecondary : theme.palette.main};
     border: ${ispublished === 'true' ? `1px ${theme.palette.redSecondary} solid` : `1px ${theme.palette.main} solid`};
     &:hover {
-      color: ${theme.palette.campaign.button.color.main};
-      background-color: ${
-        ispublished === 'true' ? theme.palette.redSecondary : theme.palette.campaign.button.background.main
-      };
+      color: ${theme.palette.whiteCorner};
+      background-color: ${ispublished === 'true' ? theme.palette.redSecondary : theme.palette.button.background.main};
       border: ${ispublished === 'true' ? `1px ${theme.palette.redSecondary} solid` : `1px ${theme.palette.main} solid`};
     }
     line-height: 24px;

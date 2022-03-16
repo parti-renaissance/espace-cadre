@@ -6,7 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import PropTypes from 'prop-types'
 
 import { getNewsQuery, updateNewsStatusQuery } from 'api/news'
-import { getNextPageParam, refetchUpdatedPage } from 'api/pagination'
+import { refetchUpdatedPage } from 'api/pagination'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -34,7 +34,6 @@ const CallToActionContainer = ({ mode, news, closeModal }) => {
     ['paginated-news', { feature: 'News', view: 'News' }],
     getNewsQuery,
     {
-      getNextPageParam,
       onError: handleError,
     }
   )
@@ -63,7 +62,7 @@ const CallToActionContainer = ({ mode, news, closeModal }) => {
     <Container container sx={{ mb: 2, justifyContent: 'space-between' }}>
       <Grid item xs={shouldDisplayCTA || isPublication ? 8 : 12}>
         <SectionTitle>{isPublication ? NEWS_READ_PUBLICATION_TITLE : NEWS_CTA_TITLE}</SectionTitle>
-        <Body component={'p'} sx={{ mt: 1 }}>
+        <Body component="p" sx={{ mt: 1 }}>
           {isPublication ? NEWS_READ_PUBLISH_TEXT : NEWS_READ_CTA_TEXT}
         </Body>
       </Grid>
