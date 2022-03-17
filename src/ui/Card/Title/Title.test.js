@@ -22,7 +22,9 @@ jest.mock('@mui/material', () => ({
 }))
 describe('Title', () => {
   it('displays a Title', () => {
-    const { container } = render(<Title subject="subject" author="author" dateTime={new Date('2022-03-14')}></Title>)
+    const { container } = render(
+      <Title subject="subject" author="author" dateTime={new Date(Date.UTC(2022, 2, 17, 8))}></Title>
+    )
     expect(container).toMatchSnapshot()
   })
 })
