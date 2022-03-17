@@ -42,14 +42,14 @@ const NewsAlert = ({ title, content, image }) => {
         ...(showImage && { pb: 0 }),
       }}
     >
-      <Grid item xs={showImage ? 10 : 12}>
+      <Grid item xs={showImage ? 9 : 12}>
         <Grid item xs={12}>
           <AlertTitle>{title}</AlertTitle>
         </Grid>
         <AlertBody>{content}</AlertBody>
       </Grid>
       {showImage && (
-        <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <img src={image} />
         </Grid>
       )}

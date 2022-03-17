@@ -44,16 +44,10 @@ export const updateNewsQuery = news =>
     enriched: true,
   })
 
-export const updateNewsStatusQuery = news =>
+export const updateNewsPinnedStatusQuery = news =>
   apiClient.put(`api/v3/jecoute/news/${news.id}`, {
     published: news.status,
     pinned: news.pinned,
-  })
-
-export const updateNewsPinnedQuery = news =>
-  apiClient.put(`api/v3/jecoute/news/${news.id}`, {
-    pinned: news.pinned,
-    published: news.status,
   })
 
 export const createNewsQuery = news =>

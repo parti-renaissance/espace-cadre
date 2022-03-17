@@ -22,16 +22,7 @@ const messages = {
   edit: 'Modifier',
 }
 
-const Actions = ({
-  status,
-  pinned,
-  toggleStatus,
-  togglePinned,
-  handleEdit,
-  statusLoader = false,
-  pinnedLoader = false,
-  onView,
-}) => (
+const Actions = ({ status, pinned, toggleStatus, togglePinned, handleEdit, statusLoader = false, onView }) => (
   <HorizontalContainer>
     <CtaButton onClick={onView}>{messages.see}</CtaButton>
     <DotsMenu>
@@ -39,7 +30,7 @@ const Actions = ({
         <VisibilityOffIcon sx={{ mr: 1, fontSize: '12px' }} />
         {status ? messages.unPublished : messages.published}
       </DotsMenuItem>
-      <DotsMenuItem onClick={togglePinned} loader={pinnedLoader}>
+      <DotsMenuItem onClick={togglePinned} loader={statusLoader}>
         <BookmarkIcon sx={{ mr: 1, fontSize: '12px' }} />
         {pinned ? messages.unpinned : messages.pinned}
       </DotsMenuItem>
@@ -59,7 +50,6 @@ Actions.propTypes = {
   toggleStatus: PropTypes.func.isRequired,
   togglePinned: PropTypes.func.isRequired,
   statusLoader: PropTypes.bool,
-  pinnedLoader: PropTypes.bool,
   onView: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
 }

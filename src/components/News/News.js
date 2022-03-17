@@ -1,26 +1,23 @@
 import { useState, useCallback } from 'react'
 import { Container, Grid, Typography } from '@mui/material'
-
 import { useMutation } from 'react-query'
-import { getNewsQuery, updateNewsStatusQuery, updateNewsPinnedQuery } from 'api/news'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
+import { getNewsQuery, updateNewsPinnedStatusQuery } from 'api/news'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import Header from './Card/Header'
 import NewsDomain from 'domain/news'
 import CreateEditModal from './CreateEditModal'
 import ReadModal from './ReadModal'
-import UICard, { Title } from 'ui/Card'
-import Actions from './Card/Actions'
 import Loader from 'ui/Loader'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import { usePaginatedData, getNextPageParam, refetchUpdatedPage } from 'api/pagination'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import NewsAlert from '../shared/alert/NewsAlert'
 import PinnedImage from 'assets/pinned.svg'
+import NewsList from './NewsList'
 
 const messages = {
   title: 'Actualités',
@@ -39,7 +36,6 @@ const News = () => {
   const [isReadModalOpen, setIsReadModalOpen] = useState(false)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
-  const { isMobile } = useCurrentDeviceType()
 
   const {
     data: paginatedNews = null,
@@ -53,15 +49,7 @@ const News = () => {
 
   const news = usePaginatedData(paginatedNews)
 
-  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsStatusQuery, {
-    onSuccess: async (_, updatedNews) => {
-      await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
-      enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
-    },
-    onError: handleError,
-  })
-
-  const { mutateAsync: updateNewsPinned, isLoading: isTogglePinnedLoading } = useMutation(updateNewsPinnedQuery, {
+  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsPinnedStatusQuery, {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
@@ -109,9 +97,9 @@ const News = () => {
       if (!toggledNews.status && toggledNews.pinned) {
         toggledNews.status = true
       }
-      await updateNewsPinned(toggledNews)
+      await updateNewsStatus(toggledNews)
     },
-    [news, updateNewsPinned]
+    [news, updateNewsStatus]
   )
 
   const pinnedNews = news.filter(item => item.pinned)
@@ -134,36 +122,14 @@ const News = () => {
               <Typography sx={{ color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
                 {messages.pinnedSubtitle}
               </Typography>
-
-              <Grid container spacing={2} sx={{ mt: 0, ...(isMobile && { pt: 2 }) }}>
-                {pinnedNews.map(n => (
-                  <Grid item key={n.id} xs={12} sm={6} md={3}>
-                    <UICard
-                      rootProps={{ sx: { height: '180px', borderRadius: '8px' } }}
-                      headerProps={{ sx: { pt: '21px' } }}
-                      header={
-                        <>
-                          <Header {...n} />
-                          <Title subject={n.title} author={n.creator} sx={{ pt: 1 }} dateTime={n.createdAt} />
-                        </>
-                      }
-                      actionsProps={{ sx: { pt: 3 } }}
-                      actions={
-                        <Actions
-                          toggleStatus={() => toggleNewsStatus(n.id)}
-                          togglePinned={() => toggleNewsPinned(n.id)}
-                          handleEdit={handleEdit(n.id)}
-                          onView={handleView(n.id)}
-                          status={n.status}
-                          pinned={n.pinned}
-                          statusLoader={isToggleStatusLoading}
-                          pinnedLoader={isTogglePinnedLoading}
-                        />
-                      }
-                    />
-                  </Grid>
-                ))}
-              </Grid>
+              <NewsList
+                data={pinnedNews}
+                toggleNewsStatus={toggleNewsStatus}
+                toggleNewsPinned={toggleNewsPinned}
+                handleEdit={handleEdit}
+                handleView={handleView}
+                isToggleStatusLoading={isToggleStatusLoading}
+              />
             </Grid>
           )}
           {shouldDisplayDefaultHeader && (
@@ -178,35 +144,14 @@ const News = () => {
             <Typography sx={{ color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
               {messages.defaultSubtitle}
             </Typography>
-            <Grid container spacing={2} sx={{ mt: 1, ...(isMobile && { pt: 2 }) }}>
-              {unpinnedNews.map(n => (
-                <Grid item key={n.id} xs={12} sm={6} md={3}>
-                  <UICard
-                    rootProps={{ sx: { height: '180px', borderRadius: '8px' } }}
-                    headerProps={{ sx: { pt: '21px' } }}
-                    header={
-                      <>
-                        <Header {...n} />
-                        <Title subject={n.title} author={n.creator} sx={{ pt: 1 }} dateTime={n.createdAt} />
-                      </>
-                    }
-                    actionsProps={{ sx: { pt: 3 } }}
-                    actions={
-                      <Actions
-                        toggleStatus={() => toggleNewsStatus(n.id)}
-                        togglePinned={() => toggleNewsPinned(n.id)}
-                        handleEdit={handleEdit(n.id)}
-                        onView={handleView(n.id)}
-                        status={n.status}
-                        pinned={n.pinned}
-                        statusLoader={isToggleStatusLoading}
-                        pinnedLoader={isTogglePinnedLoading}
-                      />
-                    }
-                  />
-                </Grid>
-              ))}
-            </Grid>
+            <NewsList
+              data={unpinnedNews}
+              toggleNewsStatus={toggleNewsStatus}
+              toggleNewsPinned={toggleNewsPinned}
+              handleEdit={handleEdit}
+              handleView={handleView}
+              isToggleStatusLoading={isToggleStatusLoading}
+            />
           </Grid>
         </InfiniteScroll>
       )}
