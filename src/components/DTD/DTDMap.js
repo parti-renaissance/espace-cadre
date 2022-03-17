@@ -9,6 +9,7 @@ import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
 import Popin from './Popin'
+import * as turf from '@turf/turf'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -26,7 +27,7 @@ const DTDMap = ({ userZones }) => {
   const [currentPoint, setCurrentPoint] = useState(null)
   const [infos, setInfos] = useState(null)
   const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
-  const [hasFeatures, setHasFeatures] = useState(null)
+  const [features, setFeatures] = useState(null)
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
@@ -63,7 +64,7 @@ const DTDMap = ({ userZones }) => {
     })
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
     map.current.on('data', () => {
-      setHasFeatures(
+      setFeatures(
         map.current.queryRenderedFeatures({
           layers: [DTD_LAYER_POINT],
         })
@@ -108,18 +109,15 @@ const DTDMap = ({ userZones }) => {
       })
   }, [currentPoint, infos])
 
-  useEffect(() => {
-    const bounds = new mapboxgl.LngLatBounds()
-
-    if (hasFeatures?.length > 0) {
-      hasFeatures.map(feature => {
-        console.log(feature.geometry)
-        bounds.extend(feature?.geometry?.coordinates)
-      })
-
-      map.current.fitBounds(bounds)
-    }
-  }, [hasFeatures])
+  if (features?.length > 0) {
+    const coordinatesArray = []
+    features.map(feature => {
+      coordinatesArray.push(feature.geometry.coordinates)
+    })
+    const line = turf.lineString(coordinatesArray)
+    const bbox = turf.bbox(line)
+    map.current.fitBounds(bbox, { padding: 40 })
+  }
 
   return <Map ref={mapContainer} />
 }
