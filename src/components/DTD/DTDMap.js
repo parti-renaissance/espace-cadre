@@ -9,7 +9,7 @@ import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
 import Popin from './Popin'
-import * as turf from '@turf/turf'
+import { lineString, bbox } from '@turf/turf'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -114,9 +114,9 @@ const DTDMap = ({ userZones }) => {
     features.map(feature => {
       coordinatesArray.push(feature.geometry.coordinates)
     })
-    const line = turf.lineString(coordinatesArray)
-    const bbox = turf.bbox(line)
-    map.current.fitBounds(bbox, { padding: 40 })
+    const line = lineString(coordinatesArray)
+    const boundingBox = bbox(line)
+    map.current.fitBounds(boundingBox, { padding: 40 })
   }
 
   return <Map ref={mapContainer} />
