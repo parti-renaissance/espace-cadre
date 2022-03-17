@@ -94,6 +94,7 @@ const Choices = ({ formValues, updateFormField }) => {
                           data-cy="surveys-create-edit-choice-delete-action"
                           onClick={handleDeleteChoice(choice.id)}
                           sx={{ color: 'form.label.color' }}
+                          disableRipple
                         >
                           <DeleteRoundedIcon />
                         </IconButton>
