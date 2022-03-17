@@ -18,7 +18,7 @@ import NotificationContainer from './NotificationContainer'
 import CallToActionContainer from './CallToActionContainer'
 import NewsEditor from './NewsEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
-import EditNewsAlert from '../shared/alert/EditNewsAlert'
+import NewsAlert from '../shared/alert/NewsAlert'
 import { SubTitle, Title } from './styles'
 import Button from 'ui/Button'
 import Dialog from 'ui/Dialog'
@@ -127,7 +127,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
               </Grid>
             ))}
         </Grid>
-        <EditNewsAlert title={messages.newsAlertTitle} content={messages.newsAlertContent} image={NewsAlertImage} />
+        <NewsAlert title={messages.newsAlertTitle} content={messages.newsAlertContent} image={NewsAlertImage} />
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12} sx={{ mb: 1 }}>
             <SubTitle>{messages.body}</SubTitle>

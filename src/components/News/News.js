@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react'
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Typography } from '@mui/material'
 
 import { useMutation } from 'react-query'
-import { getNewsQuery, updateNewsStatusQuery } from 'api/news'
+import { getNewsQuery, updateNewsStatusQuery, updateNewsPinnedQuery } from 'api/news'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import Header from './Card/Header'
 import NewsDomain from 'domain/news'
@@ -19,11 +19,18 @@ import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import NewsAlert from '../shared/alert/NewsAlert'
+import PinnedImage from 'assets/pinned.svg'
 
 const messages = {
   title: 'Actualités',
   create: 'Nouvelle Actualité',
+  pinnedSubtitle: 'Épinglée dans l’application Je m’engage',
+  defaultSubtitle: 'Dans votre territoire',
   toggleSuccess: "L'actualité a bien été modifiée",
+  alertTitle: '🎉 NOUVEAU',
+  alertText:
+    'Vous pouvez épingler une seule des actualités de votre territoire pour que celle-ci apparaisse toujours en premier dans la section Actualités de l’application mobile.',
 }
 
 const News = () => {
@@ -47,6 +54,14 @@ const News = () => {
   const news = usePaginatedData(paginatedNews)
 
   const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsStatusQuery, {
+    onSuccess: async (_, updatedNews) => {
+      await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
+      enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
+    },
+    onError: handleError,
+  })
+
+  const { mutateAsync: updateNewsPinned, isLoading: isTogglePinnedLoading } = useMutation(updateNewsPinnedQuery, {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
@@ -79,10 +94,30 @@ const News = () => {
     async id => {
       const currentNews = news.find(n => n.id === id)
       const toggledNews = currentNews.toggleStatus()
+      if (!toggledNews.status && toggledNews.pinned) {
+        toggledNews.pinned = false
+      }
       await updateNewsStatus(toggledNews)
     },
     [news, updateNewsStatus]
   )
+
+  const toggleNewsPinned = useCallback(
+    async id => {
+      const currentNews = news.find(n => n.id === id)
+      const toggledNews = currentNews.togglePinned()
+      if (!toggledNews.status && toggledNews.pinned) {
+        toggledNews.status = true
+      }
+      await updateNewsPinned(toggledNews)
+    },
+    [news, updateNewsPinned]
+  )
+
+  const pinnedNews = news.filter(item => item.pinned)
+  const unpinnedNews = news.filter(item => !item.pinned)
+  const shouldDisplayPinned = pinnedNews.length > 0
+  const shouldDisplayDefaultHeader = pinnedNews.length === 0
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -94,30 +129,84 @@ const News = () => {
       </Grid>
       {paginatedNews && (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
-          <Grid container spacing={2} sx={{ ...(isMobile && { pt: 2 }) }}>
-            {news.map(n => (
-              <Grid item key={n.id} xs={12} sm={6} md={3}>
-                <UICard
-                  rootProps={{ sx: { height: '180px', borderRadius: '8px' } }}
-                  headerProps={{ sx: { pt: '21px' } }}
-                  header={
-                    <>
-                      <Header {...n} />
-                      <Title subject={n.title} author={`Par ${n.creator}`} sx={{ pt: 1 }} />
-                    </>
-                  }
-                  actionsProps={{ sx: { pt: 3 } }}
-                  actions={
-                    <Actions
-                      toggleStatus={() => toggleNewsStatus(n.id)}
-                      onView={handleView(n.id)}
-                      status={n.status}
-                      loader={isToggleStatusLoading}
+          {shouldDisplayPinned && (
+            <Grid sx={{ mb: 2 }}>
+              <Typography sx={{ color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
+                {messages.pinnedSubtitle}
+              </Typography>
+
+              <Grid container spacing={2} sx={{ mt: 0, ...(isMobile && { pt: 2 }) }}>
+                {pinnedNews.map(n => (
+                  <Grid item key={n.id} xs={12} sm={6} md={3}>
+                    <UICard
+                      rootProps={{ sx: { height: '180px', borderRadius: '8px' } }}
+                      headerProps={{ sx: { pt: '21px' } }}
+                      header={
+                        <>
+                          <Header {...n} />
+                          <Title subject={n.title} author={n.creator} sx={{ pt: 1 }} dateTime={n.createdAt} />
+                        </>
+                      }
+                      actionsProps={{ sx: { pt: 3 } }}
+                      actions={
+                        <Actions
+                          toggleStatus={() => toggleNewsStatus(n.id)}
+                          togglePinned={() => toggleNewsPinned(n.id)}
+                          handleEdit={handleEdit(n.id)}
+                          onView={handleView(n.id)}
+                          status={n.status}
+                          pinned={n.pinned}
+                          statusLoader={isToggleStatusLoading}
+                          pinnedLoader={isTogglePinnedLoading}
+                        />
+                      }
                     />
-                  }
-                />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
+            </Grid>
+          )}
+          {shouldDisplayDefaultHeader && (
+            <Grid>
+              <Typography component="div" sx={{ mb: 2, color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
+                {messages.pinnedSubtitle}
+              </Typography>
+              <NewsAlert title={messages.alertTitle} content={messages.alertText} image={PinnedImage} />
+            </Grid>
+          )}
+          <Grid>
+            <Typography sx={{ color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
+              {messages.defaultSubtitle}
+            </Typography>
+            <Grid container spacing={2} sx={{ mt: 1, ...(isMobile && { pt: 2 }) }}>
+              {unpinnedNews.map(n => (
+                <Grid item key={n.id} xs={12} sm={6} md={3}>
+                  <UICard
+                    rootProps={{ sx: { height: '180px', borderRadius: '8px' } }}
+                    headerProps={{ sx: { pt: '21px' } }}
+                    header={
+                      <>
+                        <Header {...n} />
+                        <Title subject={n.title} author={n.creator} sx={{ pt: 1 }} dateTime={n.createdAt} />
+                      </>
+                    }
+                    actionsProps={{ sx: { pt: 3 } }}
+                    actions={
+                      <Actions
+                        toggleStatus={() => toggleNewsStatus(n.id)}
+                        togglePinned={() => toggleNewsPinned(n.id)}
+                        handleEdit={handleEdit(n.id)}
+                        onView={handleView(n.id)}
+                        status={n.status}
+                        pinned={n.pinned}
+                        statusLoader={isToggleStatusLoading}
+                        pinnedLoader={isTogglePinnedLoading}
+                      />
+                    }
+                  />
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </InfiniteScroll>
       )}

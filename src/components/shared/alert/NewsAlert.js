@@ -31,7 +31,7 @@ const AlertBody = styled(Typography)(
   `
 )
 
-const EditNewsAlert = ({ title, content, image }) => {
+const NewsAlert = ({ title, content, image }) => {
   const { isDesktop: showImage } = useCurrentDeviceType()
 
   return (
@@ -57,10 +57,10 @@ const EditNewsAlert = ({ title, content, image }) => {
   )
 }
 
-EditNewsAlert.propTypes = {
+NewsAlert.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
 }
 
-export default EditNewsAlert
+export default NewsAlert

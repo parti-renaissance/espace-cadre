@@ -2,24 +2,15 @@ import PropTypes from 'prop-types'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import { UIChip } from 'ui/Card'
-import { format } from 'date-fns'
 import { styled } from '@mui/system'
-import { Typography } from '@mui/material'
-
-const UIDate = styled('span')(
-  ({ theme }) => `
-  display: flex;
-  color: ${theme.palette.gray600};
-`
-)
-const DateTypo = styled(Typography)`
-  font-size: 10px;
-`
+import BookmarkIcon from '@mui/icons-material/Bookmark'
+import { HorizontalContainer as HContainer } from 'components/shared/styled'
 
 const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
   align-items: center;
+  justify-content: space-between;
 `
 
 const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)`
@@ -47,24 +38,24 @@ const messages = {
   unpublished: 'Dépubliée',
 }
 
-const Header = ({ status, withNotification, createdAt }) => (
+const Header = ({ status, pinned, withNotification }) => (
   <HorizontalContainer data-testid="news-header">
-    <UIChip
-      color={status ? 'teal700' : 'red600'}
-      bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
-      label={status ? messages.published : messages.unpublished}
-    />
-    {withNotification ? <NotificationsOnIcon sx={{ mr: 1 }} /> : <NotificationsOffIcon sx={{ mr: 1 }} />}
-    <UIDate>
-      <DateTypo>{format(createdAt, 'dd/MM/yyyy')}</DateTypo>
-    </UIDate>
+    <HContainer>
+      <UIChip
+        color={status ? 'teal700' : 'gray700'}
+        bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
+        label={status ? messages.published : messages.unpublished}
+      />
+      {withNotification ? <NotificationsOnIcon sx={{ mr: 1 }} /> : <NotificationsOffIcon sx={{ mr: 1 }} />}
+    </HContainer>
+    {pinned && <BookmarkIcon sx={{ color: 'main', fontSize: '14px' }} />}
   </HorizontalContainer>
 )
 
 Header.propTypes = {
   status: PropTypes.bool.isRequired,
+  pinned: PropTypes.bool.isRequired,
   withNotification: PropTypes.bool.isRequired,
-  createdAt: PropTypes.object.isRequired,
 }
 
 export default Header
