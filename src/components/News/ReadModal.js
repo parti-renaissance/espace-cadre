@@ -106,7 +106,7 @@ const messages = {
 
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const Icon = news?.withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
-  const isPublished = useMemo(() => (news?.status ? true : false), [news])
+  const isPublished = useMemo(() => !!news?.status, [news])
 
   if (!news) return null
 
