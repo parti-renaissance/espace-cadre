@@ -73,6 +73,18 @@ const DTDMap = ({ userZones }) => {
   }, [])
 
   useEffect(() => {
+    if (features?.length > 0) {
+      const coordinatesArray = []
+      features.map(feature => {
+        coordinatesArray.push(feature.geometry.coordinates)
+      })
+      const line = lineString(coordinatesArray)
+      const boundingBox = bbox(line)
+      map.current.fitBounds(boundingBox, { padding: 40 })
+    }
+  }, [features])
+
+  useEffect(() => {
     if (!map.current) return
     map.current.getCanvas().style.cursor = 'pointer'
     map.current.on('load', onMapReady)
@@ -108,16 +120,6 @@ const DTDMap = ({ userZones }) => {
         setInfos(null)
       })
   }, [currentPoint, infos])
-
-  if (features?.length > 0) {
-    const coordinatesArray = []
-    features.map(feature => {
-      coordinatesArray.push(feature.geometry.coordinates)
-    })
-    const line = lineString(coordinatesArray)
-    const boundingBox = bbox(line)
-    map.current.fitBounds(boundingBox, { padding: 40 })
-  }
 
   return <Map ref={mapContainer} />
 }
