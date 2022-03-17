@@ -4,8 +4,14 @@ import TextField from 'ui/TextField'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 
-import { NEWS_OPTION, NEWS_CTA_TITLE, NEWS_CTA_TEXT, NEWS_CTA_PLACEHOLDER } from './constants'
 import { SectionTitle, SubTitle, Option, Container, Body } from './styles'
+
+const messages = {
+  option: '(Optionnel)',
+  title: 'Bouton d’action',
+  text: 'Vous pouvez ajouter un bouton d’action qui s’affichera dans votre actualité. Réservez cette fonctionnalité aux actions que doivent absolument faire vos militants à la lecture de l’actualité.',
+  placeholder: 'Je m’engage',
+}
 
 const CallToActionContainer = ({ formik }) => {
   const { errorMessages } = useErrorHandler()
@@ -13,11 +19,11 @@ const CallToActionContainer = ({ formik }) => {
     <Container container sx={{ mb: 2 }}>
       <Grid item xs={12}>
         <Grid item xs={12}>
-          <SectionTitle>{NEWS_CTA_TITLE}</SectionTitle>
-          <Option>{NEWS_OPTION}</Option>
+          <SectionTitle>{messages.title}</SectionTitle>
+          <Option>{messages.option}</Option>
         </Grid>
         <Body component={'p'} sx={{ mt: 1 }}>
-          {NEWS_CTA_TEXT}
+          {messages.text}
         </Body>
         <Grid item xs={12} sx={{ mt: 1 }}>
           <SubTitle>Lien</SubTitle>
@@ -36,7 +42,7 @@ const CallToActionContainer = ({ formik }) => {
           <SubTitle>Texte du bouton</SubTitle>
         </Grid>
         <Grid item xs={12}>
-          <TextField formik={formik} label="urlLabel" placeholder={NEWS_CTA_PLACEHOLDER} />
+          <TextField formik={formik} label="urlLabel" placeholder={messages.placeholder} />
         </Grid>
         {errorMessages
           .filter(({ field }) => field === 'link_label')
