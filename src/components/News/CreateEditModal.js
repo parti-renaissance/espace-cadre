@@ -34,6 +34,7 @@ const messages = {
   body: 'Contenu',
   createNews: 'Nouvelle actualité',
   editNews: "Modifier l'actualité",
+  editNewsSubmit: 'Mettre à jour',
   createSuccess: 'Actualité créée avec succès',
   editSuccess: "L'actualité a bien été modifiée",
   submit: 'Envoyer l’actualité',
@@ -168,7 +169,13 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             rootProps={{ sx: { color: 'whiteCorner', width: '100%' } }}
             disabled={isCreateOrUpdateLoading}
           >
-            {isCreateOrUpdateLoading ? <Loader size={12} color="white" /> : messages.submit}
+            {isCreateOrUpdateLoading ? (
+              <Loader size={12} color="white" />
+            ) : news?.id ? (
+              messages.editNewsSubmit
+            ) : (
+              messages.submit
+            )}
           </Button>
         </Grid>
       </form>
