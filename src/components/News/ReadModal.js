@@ -1,22 +1,18 @@
 import PropTypes from 'prop-types'
-import { Dialog, Paper, Grid, Icon as MuiIcon, Typography } from '@mui/material'
+import { Grid, Icon as MuiIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import MuiCloseIcon from '@mui/icons-material/Close'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import EditIcon from '@mui/icons-material/EditRounded'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
 import NewsEditor from './NewsEditor'
-
-const StyledPaper = styled(Paper)`
-  padding: ${({ theme }) => theme.spacing(4)};
-  width: 586px;
-  border-radius: 8px;
-`
+import Dialog from 'ui/Dialog'
 
 const HeaderContainer = styled(Grid)`
   display: flex;
@@ -86,7 +82,7 @@ const messages = {
 
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const Icon = news?.withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
-
+  const { isMobile } = useCurrentDeviceType()
   if (!news) return null
 
   const handleClose = () => {
@@ -98,8 +94,8 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper} data-testid="news-read-only-modal">
-      <HeaderContainer container>
+    <Dialog open={open} handleClose={handleClose}>
+      <HeaderContainer container sx={{ mt: isMobile ? 2 : 0 }}>
         <StatusIcon active={news?.status}>{news?.status ? messages.published : messages.unpublished}</StatusIcon>
         <NotificationIcon component={Icon} />
         <DateItem>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
