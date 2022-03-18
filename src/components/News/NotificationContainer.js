@@ -2,28 +2,30 @@ import { Grid, FormControlLabel } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 
-import {
-  NEWS_OPTION,
-  NEWS_NOTIFICATION_TEXT_1,
-  NEWS_NOTIFICATION_TEXT_2,
-  NEWS_NOTIFICATION_TITLE,
-  NEWS_SEND_NOTIFICATION,
-} from './constants'
-
 import { SectionTitle, Option, Container, Body } from './styles'
+
+const messages = {
+  option: '(Optionnel)',
+  firstText:
+    'Vous pouvez, à la publication de cette actualité, l’envoyer par notification push à tous vos militants connectés et toujours abonnés aux notifications de l’application mobile.',
+  secondText:
+    'Attention, si vous abusez des push, vos militants se désabonneront des notifications de l’application mobile.',
+  title: 'Notification push',
+  sendNotification: 'Envoyer une notification push',
+}
 
 const NotificationContainer = ({ formik, isDisabled }) => (
   <Container container sx={{ mb: 2 }}>
     <Grid item xs={12} sx={{ opacity: isDisabled ? 0.15 : 1, pointerEvents: isDisabled ? 'none' : 'initial' }}>
       <Grid item xs={12}>
-        <SectionTitle>{NEWS_NOTIFICATION_TITLE}</SectionTitle>
-        <Option>{NEWS_OPTION}</Option>
+        <SectionTitle>{messages.title}</SectionTitle>
+        <Option>{messages.option}</Option>
       </Grid>
       <Body component={'p'} sx={{ mt: 1 }}>
-        {NEWS_NOTIFICATION_TEXT_1}
+        {messages.firstText}
       </Body>
       <Body component={'p'} sx={{ my: 1 }}>
-        {NEWS_NOTIFICATION_TEXT_2}
+        {messages.secondText}
       </Body>
       <FormControlLabel
         control={
@@ -34,7 +36,7 @@ const NotificationContainer = ({ formik, isDisabled }) => (
             onChange={formik.handleChange}
           />
         }
-        label={NEWS_SEND_NOTIFICATION}
+        label={messages.sendNotification}
       />
     </Grid>
   </Container>

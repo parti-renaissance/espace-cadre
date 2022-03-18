@@ -1,6 +1,8 @@
 // NEWS styles
-import { Grid, Button as MuiButton, Typography } from '@mui/material'
+import { Grid, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
 export const Title = styled(Typography)(
   ({ theme }) => `
@@ -20,16 +22,40 @@ export const SubTitle = styled(Typography)(
   `
 )
 
-export const Button = styled(MuiButton)(
+export const CTAButton = styled(Button)(
   ({ theme }) => `
-    color: ${theme.palette.campaign.button.color.main};
-    background: ${theme.palette.campaign.button.background.main};
+    color: ${theme.palette.news.button.main.color};
+    background: ${theme.palette.button.background.main};
     border: none;
     border-radius: 8px;
     &:hover {
-      color: ${theme.palette.campaign.button.color.main};
-      background-color: ${theme.palette.campaign.button.background.main};
+      color: ${theme.palette.news.button.main.color};
+      background-color: ${theme.palette.button.background.main};
     }
+    line-height: 24px;
+    font-size: 14px;
+    width: 154px;
+  `
+)
+
+export const CTAButtonOutlined = styled(LoadingButton)(
+  ({ theme, ispublished }) => `
+    color: ${ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary};
+    border: 1px ${
+      ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary
+    } solid;
+    &:hover {
+      color: ${theme.palette.news.button.main.color};
+      background-color: ${
+        ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary
+      };
+      border: 1px ${
+        ispublished ? theme.palette.news.button.outlined.secondary : theme.palette.news.button.outlined.primary
+      } solid;
+    }
+    line-height: 24px;
+    font-size: 14px;
+    width: 140px;
   `
 )
 
@@ -69,5 +95,15 @@ export const Body = styled(Typography)(
       line-height: 21px;
       font-weight: 400;
       color: ${theme.palette.gray80};
+    `
+)
+
+export const CTAButtonContainer = styled(
+  Grid,
+  shouldForwardProps
+)(
+  () => `
+      display: 'flex';
+      justify-content: 'flex-end';
     `
 )

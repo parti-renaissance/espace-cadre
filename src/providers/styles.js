@@ -234,6 +234,18 @@ export const styles = {
         color: '#374151',
       },
     },
+    news: {
+      button: {
+        main: {
+          background: '#2834C3',
+          color: '#FFFFFF',
+        },
+        outlined: {
+          primary: '#2834C3',
+          secondary: '#CC0613',
+        },
+      },
+    },
 
     // White
     whiteCorner: '#FFFFFF',

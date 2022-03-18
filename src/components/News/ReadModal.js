@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Icon as MuiIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -8,15 +9,19 @@ import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import EditIcon from '@mui/icons-material/EditRounded'
+import PersonIcon from '@mui/icons-material/Person'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
 import NewsEditor from './NewsEditor'
 import Dialog from 'ui/Dialog'
+import ReadCTA from './ReadCTA'
+import { ctaModePublication } from './constants'
 
 const HeaderContainer = styled(Grid)`
-  display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.spacing(2)};
 `
 
@@ -46,30 +51,45 @@ const NotificationIcon = styled(MuiIcon)(
 `
 )
 
-const DateItem = styled(Typography)`
-  font-size: 10px;
+const DateItem = styled(Typography)(
+  ({ theme }) => `
+  font-size: 12px;
   font-weight: 400;
-  line-height: 15px;
-  color: ${({ theme }) => theme.palette.gray600};
+  line-height: 18px;
+  color: ${theme.palette.gray600};
 `
+)
 
 const CloseIcon = styled(MuiCloseIcon)`
   color: ${({ theme }) => theme.palette.gray700};
   cursor: pointer;
 `
 
-const Title = styled(TruncatedText)`
+const Title = styled(TruncatedText)(
+  ({ theme }) =>
+    `
   font-size: 24px;
-  font-weight: 400;
-  line-height: 28px;
-  color: ${({ theme }) => theme.palette.gray800};
+  font-weight: 600;
+  line-height: 30px;
+  color: ${theme.palette.gray800}
   width: 400px;
 `
+)
 
-const Author = styled(props => <Typography variant="subtitle2" {...props} />)(
+const Author = styled(Typography)(
   ({ theme }) => `
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
   color: ${theme.palette.gray600};
-  margin-bottom: ${theme.spacing(2)};
+  margin-right: ${theme.spacing(1)}
+`
+)
+
+const UserTimeContainer = styled(Grid)(
+  () => `
+  display: flex;
+  align-items: center;
 `
 )
 
@@ -77,12 +97,13 @@ const messages = {
   published: 'Publiée',
   unpublished: 'Dépubliée',
   edit: 'Modifier',
-  author: 'Par',
 }
 
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const Icon = news?.withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
   const { isMobile } = useCurrentDeviceType()
+  const isPublished = useMemo(() => !!news?.status, [news])
+
   if (!news) return null
 
   const handleClose = () => {
@@ -112,11 +133,23 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
           <EditIcon sx={{ mr: 1 }} />
           {messages.edit}
         </Button>
+
         <CloseIcon onClick={handleClose} data-testid="close-icon" />
       </HeaderContainer>
-
+      <Grid sx={{ mb: 1, display: 'flex', alignItems: 'center' }}>
+        <StatusIcon active={isPublished}>{isPublished ? messages.published : messages.unpublished}</StatusIcon>
+        <NotificationIcon component={Icon} />
+      </Grid>
       <Title title={news?.title}>{news?.title}</Title>
-      <Author>{`${messages.author} ${news?.creator}`}</Author>
+      <UserTimeContainer>
+        <PersonIcon sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
+        <Author>{news?.creator}</Author>
+        <AccessTimeIcon sx={{ mr: 0.5, ml: 2, color: 'gray600', fontSize: '12px' }} />
+        <DateItem>{`Le ${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
+          news?.createdAt || new Date(),
+          'hh:mm'
+        )}`}</DateItem>
+      </UserTimeContainer>
       <NewsEditor
         config={readOnlyConfiguration}
         data={news?.body}
@@ -125,6 +158,10 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
           editor.isReadOnly = true
         }}
       />
+      <Grid>
+        <ReadCTA news={news} />
+        <ReadCTA mode={ctaModePublication} news={news} handleClose={handleClose} />
+      </Grid>
     </Dialog>
   )
 }

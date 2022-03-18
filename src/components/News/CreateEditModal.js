@@ -24,8 +24,8 @@ import Button from 'ui/Button'
 import Dialog from 'ui/Dialog'
 
 const newsSchema = Yup.object({
-  title: Yup.string().min(1, 'Minimum 1 charactère').max(120, 'Maximum 120 charactères').required('Titre obligatoire'),
-  body: Yup.string().min(1, 'Minimum 1 charactère').max(1000, 'Maximum 1000 charactères').required('Texte obligatoire'),
+  title: Yup.string().min(1, 'Minimum 1 caractère').max(120, 'Maximum 120 caractères').required('Titre obligatoire'),
+  body: Yup.string().min(1, 'Minimum 1 caractère').max(10000, 'Maximum 10000 caractères').required('Texte obligatoire'),
   url: Yup.string().url('Ce champ doit être une URL valide'),
 })
 
@@ -34,6 +34,7 @@ const messages = {
   body: 'Contenu',
   createNews: 'Nouvelle actualité',
   editNews: "Modifier l'actualité",
+  editNewsSubmit: 'Mettre à jour',
   createSuccess: 'Actualité créée avec succès',
   editSuccess: "L'actualité a bien été modifiée",
   submit: 'Envoyer l’actualité',
@@ -168,7 +169,13 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             rootProps={{ sx: { color: 'whiteCorner', width: '100%' } }}
             disabled={isCreateOrUpdateLoading}
           >
-            {isCreateOrUpdateLoading ? <Loader size={12} color="white" /> : messages.submit}
+            {isCreateOrUpdateLoading ? (
+              <Loader size={12} color="white" />
+            ) : news?.id ? (
+              messages.editNewsSubmit
+            ) : (
+              messages.submit
+            )}
           </Button>
         </Grid>
       </form>
