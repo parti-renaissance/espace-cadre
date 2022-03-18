@@ -5,7 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import PropTypes from 'prop-types'
 
-import { getNewsQuery, updateNewsStatusQuery } from 'api/news'
+import { getNewsQuery, updateNewsPinnedStatusQuery } from 'api/news'
 import { refetchUpdatedPage } from 'api/pagination'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -37,7 +37,7 @@ const CallToActionContainer = ({ mode, news, handleClose }) => {
     }
   )
 
-  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsStatusQuery, {
+  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsPinnedStatusQuery, {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
