@@ -11,6 +11,7 @@ import { zoneTypes } from 'domain/zone'
 import Popin from './Popin'
 import { lineString, bbox } from '@turf/turf'
 import _ from 'lodash'
+import { useErrorHandler } from 'components/shared/error/hooks'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -29,6 +30,7 @@ const DTDMap = ({ userZones }) => {
   const [infos, setInfos] = useState(null)
   const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
   const [features, setFeatures] = useState(null)
+  const { handleError } = useErrorHandler()
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
@@ -77,14 +79,19 @@ const DTDMap = ({ userZones }) => {
     if (!features || features.length === 0) return
     const coordinatesArray = []
 
-    features.map(feature => {
-      const featureToFlatten = _.flattenDeep(feature.geometry.coordinates)
-      coordinatesArray.push(featureToFlatten)
-    })
-    const line = lineString(coordinatesArray)
-    const boundingBox = bbox(line)
-    map.current.fitBounds(boundingBox, { padding: 40 })
-  }, [features])
+    try {
+      features.length > 0 &&
+        features.map(feature => {
+          const featureToFlatten = _.flattenDeep(feature.geometry.coordinates)
+          coordinatesArray.push(featureToFlatten)
+        })
+      const line = lineString(coordinatesArray)
+      const boundingBox = bbox(line)
+      map.current.fitBounds(boundingBox, { padding: 40 })
+    } catch (e) {
+      handleError(e)
+    }
+  }, [features, handleError])
 
   useEffect(() => {
     if (!map.current) return
