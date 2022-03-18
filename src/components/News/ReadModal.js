@@ -112,7 +112,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   }
 
   return (
-    <Dialog open={open} handleClose={handleClose}>
+    <Dialog open={open} handleClose={handleClose} data-testid="news-read-only-modal">
       <HeaderContainer container sx={{ mt: isMobile ? 2 : 0 }}>
         <Button onClick={handleEdit} isMainButton>
           <EditIcon />
