@@ -43,9 +43,9 @@ const initialValues = {
   title: '',
   questions: [{ type: simpleField, content: '', choices: [] }],
 }
-const formatFormValues = (survey, zone, scope) => ({
+const formatFormValues = (survey, zone, scope, delegatedAccess) => ({
   ...(survey || initialValues),
-  type: scopesVisibility[scope],
+  type: scopesVisibility[scope] || scopesVisibility[delegatedAccess],
   zone: formatZone(zone),
 })
 const validateForm = ({ title, questions = [] }) => {
@@ -63,13 +63,13 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
   const {
     zones: [zone],
     code: scope,
+    delegated_access: delegatedAccess,
   } = currentScope
-  const [formValues, setFormValues] = useState(formatFormValues(survey, zone, scope))
+  const [formValues, setFormValues] = useState(formatFormValues(survey, zone, scope, delegatedAccess?.type))
   const isValidForm = useMemo(() => validateForm(formValues), [formValues])
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const { isMobile } = useCurrentDeviceType()
-
   const updateFormField = useCallback((key, value) => {
     setFormValues(values => ({ ...values, [key]: value }))
   }, [])
