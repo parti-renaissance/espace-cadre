@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
 import Popin from './Popin'
 import { lineString, bbox } from '@turf/turf'
+import _ from 'lodash'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -73,15 +74,16 @@ const DTDMap = ({ userZones }) => {
   }, [])
 
   useEffect(() => {
-    if (features?.length > 0) {
-      const coordinatesArray = []
-      features.map(feature => {
-        coordinatesArray.push(feature.geometry.coordinates)
-      })
-      const line = lineString(coordinatesArray)
-      const boundingBox = bbox(line)
-      map.current.fitBounds(boundingBox, { padding: 40 })
-    }
+    if (!features || features.length === 0) return
+    const coordinatesArray = []
+
+    features.map(feature => {
+      const featureToFlatten = _.flattenDeep(feature.geometry.coordinates)
+      coordinatesArray.push(featureToFlatten)
+    })
+    const line = lineString(coordinatesArray)
+    const boundingBox = bbox(line)
+    map.current.fitBounds(boundingBox, { padding: 40 })
   }, [features])
 
   useEffect(() => {
