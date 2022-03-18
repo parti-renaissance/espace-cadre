@@ -156,7 +156,7 @@ export const getPhoningCampaignSurveysReplies = async campaignId => {
 export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/replies.xls`)
   saveAs(
-    new Blob([data], {type: 'application/vnd.ms-excel'}),
+    new Blob([data]),
     `Questionnaires Phoning - ${format(new Date(), 'dd.MM.yyyy')}.xls`
   )
 }
