@@ -15,7 +15,10 @@ import {
   campaignToFiltersValues,
   campaignToGlobalSettingsValues,
 } from '../CampaignDetail/shared/helpers'
-import { PhoningCampaignCreateEdit as DomainPhoningCampaignCreateEdit } from 'domain/phoning'
+import {
+  PhoningCampaignCreateEdit as DomainPhoningCampaignCreateEdit,
+  PhoningCampaignCreateEditZone as DomainPhoningCampaignCreateEditZone,
+} from 'domain/phoning'
 import { createOrUpdatePhoningCampaignQuery } from 'api/phoning'
 import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
 import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
@@ -44,17 +47,19 @@ const messages = {
   },
 }
 
+const formatCurrentZone = ({ uuid: id, name, code }) => new DomainPhoningCampaignCreateEditZone(id, name, code)
 const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
 
 const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose }) => {
-  const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
-  const initialStateWithZone = { ...initialValues.globalSettings, zone: currentScope.zones[0] }
+  const [currentScope] = useUserScope()
+  const currentZone = formatCurrentZone(currentScope.zones[0])
+  const initialStateWithZone = { ...initialValues.globalSettings, zone: currentZone }
   const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
   const [globalSettings, setGlobalSettings] = useState(isNational ? initialValues.globalSettings : initialStateWithZone)
   const [validSteps, setValidSteps] = useState([2])
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)
-  const [filters, setFilters] = useState(initialValues.filters)
+  const [filters, setFilters] = useState({ ...initialValues.filters, zones: [currentZone] })
 
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
