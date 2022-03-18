@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/EditRounded'
 import PersonIcon from '@mui/icons-material/Person'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { format } from 'date-fns'
+import ReactMarkdown from 'react-markdown'
 
 import Dialog from 'ui/Dialog'
 import DomainNews from 'domain/news'
@@ -16,7 +17,6 @@ import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
-import NewsEditor from './NewsEditor'
 import ReadCTA from './ReadCTA'
 import { ctaModePublication } from './constants'
 
@@ -111,10 +111,6 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
     onCloseResolve()
   }
 
-  const readOnlyConfiguration = {
-    toolbar: null,
-  }
-
   return (
     <Dialog open={open} handleClose={handleClose}>
       <HeaderContainer container sx={{ mt: isMobile ? 2 : 0 }}>
@@ -139,14 +135,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
           'HH:mm'
         )}`}</DateItem>
       </UserTimeContainer>
-      <NewsEditor
-        config={readOnlyConfiguration}
-        data={news?.body}
-        readOnly={true}
-        onReady={editor => {
-          editor.isReadOnly = true
-        }}
-      />
+      <ReactMarkdown>{news?.body}</ReactMarkdown>
       <Grid>
         <ReadCTA news={news} />
         <ReadCTA mode={ctaModePublication} news={news} handleClose={handleClose} />
