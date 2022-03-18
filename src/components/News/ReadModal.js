@@ -115,22 +115,10 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   }
 
   return (
-    <Dialog open={open} handleClose={handleClose}>
+    <Dialog open={open} handleClose={handleClose} data-testid="news-read-only-modal">
       <HeaderContainer container sx={{ mt: isMobile ? 2 : 0 }}>
-        <StatusIcon active={news?.status}>{news?.status ? messages.published : messages.unpublished}</StatusIcon>
-        <NotificationIcon component={Icon} />
-        <DateItem>{format(news?.createdAt || new Date(), 'dd/MM/yyyy')}</DateItem>
-        <Button
-          onClick={handleEdit}
-          isMainButton
-          rootProps={{
-            sx: {
-              margin: theme => theme.spacing('auto', 1, 'auto', 'auto'),
-              padding: theme => theme.spacing(0.75, 1),
-            },
-          }}
-        >
-          <EditIcon sx={{ mr: 1 }} />
+        <Button onClick={handleEdit} isMainButton>
+          <EditIcon />
           {messages.edit}
         </Button>
 
