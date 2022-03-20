@@ -6,9 +6,9 @@ body {
   background-color: #f0f1f3;
   margin: 0;
 
-  ul {
-    list-style: none;
-  }
+  // ul {
+  //   list-style: none;
+  // }
 
   a,
   a:hover,
@@ -18,7 +18,8 @@ body {
     text-decoration: none !important;
   }
 
-  .pac-container { // google places
+  .pac-container {
+    // google places
     z-index: 1500 !important;
   }
 }
