@@ -9,6 +9,9 @@ import { LayersCodes, LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
 import Popin from './Popin'
+import { lineString, bbox } from '@turf/turf'
+import { flattenDeep } from 'lodash'
+import { useErrorHandler } from 'components/shared/error/hooks'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -26,6 +29,7 @@ const DTDMap = ({ userZones }) => {
   const [currentPoint, setCurrentPoint] = useState(null)
   const [infos, setInfos] = useState(null)
   const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
+  const { handleError } = useErrorHandler()
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
@@ -44,6 +48,7 @@ const DTDMap = ({ userZones }) => {
       ['in', 'CODE_DISTRICT', ...codesDistrict],
       ['in', 'CODE_COUNTRY', ...codesCountry],
     ])
+
     map.current.setPaintProperty(DTD_LAYER_POINT, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones])
 
@@ -60,7 +65,21 @@ const DTDMap = ({ userZones }) => {
       minZoom: 4,
     })
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
-  }, [])
+    map.current.on('data', () => {
+      const renderedFeatures = map.current.queryRenderedFeatures({
+        layers: [DTD_LAYER_POINT],
+      })
+
+      if (renderedFeatures.length && map.current.getZoom() < 6) {
+        try {
+          const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
+          map.current.fitBounds(bbox(line), { padding: 40 })
+        } catch (e) {
+          handleError(e)
+        }
+      }
+    })
+  }, [handleError])
 
   useEffect(() => {
     if (!map.current) return
