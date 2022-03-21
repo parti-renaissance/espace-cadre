@@ -155,10 +155,7 @@ export const getPhoningCampaignSurveysReplies = async campaignId => {
 
 export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/replies.xls`)
-  saveAs(
-    new Blob([data]),
-    `Questionnaires Phoning - ${format(new Date(), 'dd.MM.yyyy')}.xls`
-  )
+  saveAs(new Blob([data]), `Questionnaires Phoning - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
 }
 
 export const getPhoningCampaignTeams = async ({ pageParam: page = 1 }) => {
@@ -216,7 +213,7 @@ export const createOrUpdatePhoningCampaignQuery = campaign => {
     goal: +campaign.goal,
     finish_at: campaign.endDate,
     brief: campaign.brief,
-    zone: campaign?.zone?.uuid,
+    zone: campaign?.zone?.id,
     team: campaign.team.id,
     survey: campaign.survey.id,
     audience: formatFiltersData(campaign.filters),
