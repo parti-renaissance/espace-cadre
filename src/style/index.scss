@@ -6,10 +6,6 @@ body {
   background-color: #f0f1f3;
   margin: 0;
 
-  // ul {
-  //   list-style: none;
-  // }
-
   a,
   a:hover,
   a:focus,
@@ -19,7 +15,6 @@ body {
   }
 
   .pac-container {
-    // google places
     z-index: 1500 !important;
   }
 }
