@@ -14,8 +14,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
-import NewsEditor from './NewsEditor'
 import Dialog from 'ui/Dialog'
+import ReactMarkdown from 'react-markdown'
 import ReadCTA from './ReadCTA'
 import { ctaModePublication } from './constants'
 
@@ -110,10 +110,6 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
     onCloseResolve()
   }
 
-  const readOnlyConfiguration = {
-    toolbar: null,
-  }
-
   return (
     <Dialog open={open} handleClose={handleClose} data-testid="news-read-only-modal">
       <HeaderContainer container sx={{ mt: isMobile ? 2 : 0 }}>
@@ -135,17 +131,10 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <AccessTimeIcon sx={{ mr: 0.5, ml: 2, color: 'gray600', fontSize: '12px' }} />
         <DateItem>{`Le ${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
           news?.createdAt || new Date(),
-          'hh:mm'
+          'HH:mm'
         )}`}</DateItem>
       </UserTimeContainer>
-      <NewsEditor
-        config={readOnlyConfiguration}
-        data={news?.body}
-        readOnly={true}
-        onReady={editor => {
-          editor.isReadOnly = true
-        }}
-      />
+      <ReactMarkdown>{news?.body}</ReactMarkdown>
       <Grid>
         <ReadCTA news={news} />
         <ReadCTA mode={ctaModePublication} news={news} handleClose={handleClose} />

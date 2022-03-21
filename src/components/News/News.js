@@ -69,6 +69,7 @@ const News = () => {
 
   const handleEdit = id => () => {
     setViewingNews(news.find(n => n.id === id) || NewsDomain.NULL)
+    setIsReadModalOpen(false)
     setIsCreateEditModalOpen(true)
   }
 

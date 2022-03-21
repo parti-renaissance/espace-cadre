@@ -11,6 +11,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 import { SectionTitle, Container, Body, CTAButton, CTAButtonOutlined, CTAButtonContainer } from './styles'
 import { ctaModePublication } from './constants'
@@ -56,10 +57,12 @@ const CallToActionContainer = ({ mode, news, handleClose }) => {
   const hasCTA = !!(news.url && news.urlLabel)
   const CTALabel = news.urlLabel ? news.urlLabel : ''
   const shouldDisplayCTA = !isPublication && hasCTA
+  const { isMobile } = useCurrentDeviceType()
+  const defaultBreakpoint = shouldDisplayCTA || isPublication ? 8 : 12
 
   return (
     <Container container sx={{ mb: 2, justifyContent: 'space-between', alignItems: 'center' }}>
-      <Grid item xs={shouldDisplayCTA || isPublication ? 8 : 12}>
+      <Grid item xs={isMobile ? 12 : defaultBreakpoint}>
         <SectionTitle>{isPublication ? messages.publicationTitle : messages.title}</SectionTitle>
         <Body component="p" sx={{ mt: 1 }}>
           {isPublication ? messages.publishText : messages.ctaText}
@@ -68,6 +71,7 @@ const CallToActionContainer = ({ mode, news, handleClose }) => {
       <CTAButtonContainer item xs={shouldDisplayCTA ? 4 : 0}>
         {isPublication && (
           <CTAButtonOutlined
+            sx={{ mt: isMobile ? 2 : 0 }}
             loading={isToggleStatusLoading}
             variant="outlined"
             ispublished={+isPublished}
@@ -77,7 +81,11 @@ const CallToActionContainer = ({ mode, news, handleClose }) => {
             {isPublished ? messages.unpublish : messages.publish}
           </CTAButtonOutlined>
         )}
-        {shouldDisplayCTA && <CTAButton onClick={() => window.open(news.url, '_blank')}>{CTALabel}</CTAButton>}
+        {shouldDisplayCTA && (
+          <CTAButton sx={{ mt: isMobile ? 2 : 0 }} onClick={() => window.open(news.url, '_blank')}>
+            {CTALabel}
+          </CTAButton>
+        )}
       </CTAButtonContainer>
     </Container>
   )

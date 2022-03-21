@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "^4.0.0",
+    "@ckeditor/ckeditor5-react": "4.0.0",
     "@date-io/date-fns": "2.13.1",
     "@emotion/is-prop-valid": "1.1.2",
     "@emotion/styled": "11.8.1",
@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "1.8.0",
     "@sentry/react": "6.18.2",
     "@sentry/tracing": "6.18.2",
+    "@turf/turf": "6.5.0",
     "autosuggest-highlight": "3.2.1",
     "axios": "0.26.1",
     "date-fns": "2.28.0",
@@ -24,7 +25,7 @@
     "leaflet": "1.7.1",
     "libphonenumber-js": "1.9.50",
     "lodash": "4.17.21",
-    "mapbox-gl": "2.7.0",
+    "mapbox-gl": "2.7.1",
     "notistack": "2.0.3",
     "prop-types": "15.8.1",
     "qs": "6.10.3",
@@ -61,7 +62,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/core": "7.17.7",
+    "@babel/core": "7.17.8",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/preset-env": "7.16.11",
     "@babel/preset-react": "7.16.7",
