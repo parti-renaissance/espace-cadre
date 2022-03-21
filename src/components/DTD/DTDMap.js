@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
 import Popin from './Popin'
 import { lineString, bbox } from '@turf/turf'
-import _ from 'lodash'
+import { flattenDeep } from 'lodash'
 import { useErrorHandler } from 'components/shared/error/hooks'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
@@ -29,7 +29,6 @@ const DTDMap = ({ userZones }) => {
   const [currentPoint, setCurrentPoint] = useState(null)
   const [infos, setInfos] = useState(null)
   const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
-  const [features, setFeatures] = useState(null)
   const { handleError } = useErrorHandler()
 
   const onMapReady = useCallback(() => {
@@ -67,31 +66,20 @@ const DTDMap = ({ userZones }) => {
     })
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
     map.current.on('data', () => {
-      setFeatures(
-        map.current.queryRenderedFeatures({
-          layers: [DTD_LAYER_POINT],
-        })
-      )
+      const renderedFeatures = map.current.queryRenderedFeatures({
+        layers: [DTD_LAYER_POINT],
+      })
+
+      if (renderedFeatures.length && map.current.getZoom() < 6) {
+        try {
+          const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
+          map.current.fitBounds(bbox(line), { padding: 40 })
+        } catch (e) {
+          handleError(e)
+        }
+      }
     })
-  }, [])
-
-  useEffect(() => {
-    if (!features || features.length === 0) return
-    const coordinatesArray = []
-
-    try {
-      features.length > 0 &&
-        features.map(feature => {
-          const featureToFlatten = _.flattenDeep(feature.geometry.coordinates)
-          coordinatesArray.push(featureToFlatten)
-        })
-      const line = lineString(coordinatesArray)
-      const boundingBox = bbox(line)
-      map.current.fitBounds(boundingBox, { padding: 40 })
-    } catch (e) {
-      handleError(e)
-    }
-  }, [features, handleError])
+  }, [handleError])
 
   useEffect(() => {
     if (!map.current) return
