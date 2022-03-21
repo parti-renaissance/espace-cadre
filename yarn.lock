@@ -7844,6 +7844,7 @@ jest@27.5.1:
 
 jme-ckeditor5@EnMarche/ckeditor5#master:
   version "0.0.2"
+  uid f889de437b6abc2b3db52e852568ea3b6dcdeb90
   resolved "https://codeload.github.com/EnMarche/ckeditor5/tar.gz/f889de437b6abc2b3db52e852568ea3b6dcdeb90"
 
 js-cookie@^2.2.1:
