@@ -4,13 +4,17 @@ import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRou
 import { UIChip } from 'ui/Card'
 import { styled } from '@mui/system'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
-import { HorizontalContainer as HContainer } from 'components/shared/styled'
 
 const HorizontalContainer = styled('div')`
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: space-between;
+`
+const IconContainer = styled('div')`
+  display: flex;
+  flex: 1;
+  align-items: center;
 `
 
 const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)`
@@ -40,14 +44,14 @@ const messages = {
 
 const Header = ({ status, pinned, withNotification }) => (
   <HorizontalContainer data-testid="news-header">
-    <HContainer>
+    <IconContainer>
       <UIChip
         color={status ? 'teal700' : 'gray700'}
         bgcolor={status ? 'activeLabel' : 'inactiveLabel'}
         label={status ? messages.published : messages.unpublished}
       />
       {withNotification ? <NotificationsOnIcon sx={{ mr: 1 }} /> : <NotificationsOffIcon sx={{ mr: 1 }} />}
-    </HContainer>
+    </IconContainer>
     {pinned && <BookmarkIcon sx={{ color: 'main', fontSize: '14px' }} />}
   </HorizontalContainer>
 )
