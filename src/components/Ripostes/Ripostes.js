@@ -19,11 +19,11 @@ import PageHeader from 'ui/PageHeader'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
-  title: 'Ripostes',
-  create: 'Créer une riposte',
-  toggleSuccess: 'La riposte a bien été modifiée',
-  createSuccess: 'Riposte créée avec succès',
-  editSuccess: 'La riposte a bien été modifiée',
+  title: 'Actions numériques',
+  create: 'Créer une action numérique',
+  toggleSuccess: "L'action numérique a bien été modifiée",
+  createSuccess: 'Action numérique créée avec succès',
+  editSuccess: "L'action numérique a bien été modifiée",
 }
 
 const Ripostes = () => {

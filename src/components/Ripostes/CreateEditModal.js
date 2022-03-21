@@ -39,8 +39,8 @@ const Validate = styled(Button)(
 )
 
 const messages = {
-  create: 'Créer une riposte',
-  edit: 'Modifier une riposte',
+  create: 'Créer une action numérique',
+  edit: 'Modifier une action numérique',
   charactersLimit: '(255 caractères)',
   title: 'Titre',
   text: 'Texte',
