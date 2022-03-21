@@ -379,7 +379,7 @@ export const styles = {
     // Riposte Colors
     riposteBackground: 'rgba(20, 184, 166, 0.08)',
     activeLabel: 'rgba(4, 120, 87, 0.08)',
-    inactiveLabel: 'rgba(220, 38, 38, 0.08)',
+    inactiveLabel: 'rgba(55, 65, 81, 0.08)',
     pastLabel: 'rgba(55, 65, 81, 0,08)',
 
     // News Colors

@@ -9,9 +9,26 @@ exports[`Title displays a Title 1`] = `
       subject
     </div>
     <div
-      class="mui-typography-mock"
+      sx="[object Object]"
     >
-      author
+      <div
+        class="mock_PersonIcon"
+      />
+      <div
+        class="mui-typography-mock"
+      >
+        author
+      </div>
+    </div>
+    <div>
+      <div
+        class="mock_AccessTimeIcon"
+      />
+      <div
+        class="mui-typography-mock"
+      >
+        Le 17/03/2022 à 04:00
+      </div>
     </div>
   </div>
 </div>

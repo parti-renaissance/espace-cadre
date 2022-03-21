@@ -5,18 +5,17 @@ import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import MuiCloseIcon from '@mui/icons-material/Close'
+import DomainNews from 'domain/news'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import EditIcon from '@mui/icons-material/EditRounded'
 import PersonIcon from '@mui/icons-material/Person'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { format } from 'date-fns'
-import ReactMarkdown from 'react-markdown'
-
-import Dialog from 'ui/Dialog'
-import DomainNews from 'domain/news'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
+import Dialog from 'ui/Dialog'
+import ReactMarkdown from 'react-markdown'
 import ReadCTA from './ReadCTA'
 import { ctaModePublication } from './constants'
 
@@ -102,8 +101,8 @@ const messages = {
 
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const Icon = news?.withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
-  const isPublished = useMemo(() => !!news?.status, [news])
   const { isMobile } = useCurrentDeviceType()
+  const isPublished = useMemo(() => !!news?.status, [news])
 
   if (!news) return null
 

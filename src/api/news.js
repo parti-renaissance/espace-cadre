@@ -17,6 +17,7 @@ export const getNewsQuery = async ({ pageParam: page = 1 }) => {
         new Date(n.created_at),
         n.notification,
         n.published,
+        n.pinned,
         n.zone?.uuid
       )
   )
@@ -38,13 +39,15 @@ export const updateNewsQuery = news =>
     creator: news.creator,
     notification: news.withNotification,
     published: news.status,
+    pinned: news.pinned,
     zone: news.zoneId,
     enriched: true,
   })
 
-export const updateNewsStatusQuery = news =>
+export const updateNewsPinnedStatusQuery = news =>
   apiClient.put(`api/v3/jecoute/news/${news.id}`, {
     published: news.status,
+    pinned: news.pinned,
   })
 
 export const createNewsQuery = news =>

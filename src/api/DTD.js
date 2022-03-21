@@ -121,8 +121,5 @@ export const getDTDCampaignSurveysReplies = async campaignId => {
 
 export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/replies.xls`)
-  saveAs(
-    new Blob([data]),
-    `Questionnaires PAP - ${format(new Date(), 'dd.MM.yyyy')}.xls`
-  )
+  saveAs(new Blob([data]), `Questionnaires PAP - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
 }
