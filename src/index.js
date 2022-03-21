@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_SENTRY_DSN) {
     release: process.env.REACT_APP_VERSION,
     environment: process.env.REACT_APP_ENVIRONMENT,
     integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 0.33,
+    tracesSampleRate: 0.05,
     beforeSend(event, hint) {
       if (shouldSendError(hint)) return event
       return null
