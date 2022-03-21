@@ -58,10 +58,11 @@ const CallToActionContainer = ({ mode, news, handleClose }) => {
   const CTALabel = news.urlLabel ? news.urlLabel : ''
   const shouldDisplayCTA = !isPublication && hasCTA
   const { isMobile } = useCurrentDeviceType()
+  const defaultBreakpoint = shouldDisplayCTA || isPublication ? 8 : 12
 
   return (
     <Container container sx={{ mb: 2, justifyContent: 'space-between', alignItems: 'center' }}>
-      <Grid item xs={isMobile ? 12 : shouldDisplayCTA || isPublication ? 8 : 12}>
+      <Grid item xs={isMobile ? 12 : defaultBreakpoint}>
         <SectionTitle>{isPublication ? messages.publicationTitle : messages.title}</SectionTitle>
         <Body component="p" sx={{ mt: 1 }}>
           {isPublication ? messages.publishText : messages.ctaText}
