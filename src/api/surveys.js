@@ -58,7 +58,10 @@ export const getSurveyRepliesQuery = async surveyId => {
 
 export const getSurveysRepliesExport = async (surveyId, surveyTitle) => {
   const data = await apiClient.get(`api/v3/surveys/${surveyId}/replies.xls`)
-  saveAs(new Blob([data]), `${surveyTitle} - ${format(new Date(), 'dd.MM.yyyy')}.xlsx`)
+  saveAs(
+    new Blob([data]),
+    `${surveyTitle} - ${format(new Date(), 'dd.MM.yyyy')}.xls`
+  )
 }
 
 const formatChoicePayload =
