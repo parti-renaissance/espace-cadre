@@ -37,7 +37,7 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
   const electionTypesOptions = useMemo(
     () =>
       Object.entries(LayersTypes)
-        .filter(([code]) => code !== LayersCodes.ciblagePapShape)
+        .filter(([code]) => code !== LayersCodes.ciblagePapPoint)
         .map(([code, label]) => ({ code, label })),
     []
   )
