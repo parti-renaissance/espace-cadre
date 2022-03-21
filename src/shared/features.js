@@ -3,7 +3,7 @@ export const featuresLabels = {
   contacts: 'Militants',
   messages: 'Messagerie',
   elections: 'Élections',
-  ripostes: 'Riposte',
+  ripostes: 'Action numérique',
   team: 'Groupes',
   news: 'Actualités',
   phoning_campaign: 'Phoning',

@@ -19,7 +19,7 @@ const Chip = styled('div')(
 const messages = {
   view: 'vue',
   detailed: 'détaillée',
-  riposte: 'riposte',
+  riposte: 'action numérique',
 }
 
 const Content = ({ riposte }) => {
