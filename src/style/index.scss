@@ -6,10 +6,6 @@ body {
   background-color: #f0f1f3;
   margin: 0;
 
-  ul {
-    list-style: none;
-  }
-
   a,
   a:hover,
   a:focus,
@@ -18,7 +14,7 @@ body {
     text-decoration: none !important;
   }
 
-  .pac-container { // google places
+  .pac-container {
     z-index: 1500 !important;
   }
 }
