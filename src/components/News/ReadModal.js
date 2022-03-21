@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, Paper, Grid, Icon as MuiIcon, Typography } from '@mui/material'
+import { Grid, Icon as MuiIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
@@ -11,18 +11,14 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { format } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
 
+import Dialog from 'ui/Dialog'
 import DomainNews from 'domain/news'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
 import ReadCTA from './ReadCTA'
 import { ctaModePublication } from './constants'
-
-const StyledPaper = styled(Paper)`
-  padding: ${({ theme }) => theme.spacing(4)};
-  width: 586px;
-  border-radius: 8px;
-`
 
 const HeaderContainer = styled(Grid)`
   align-items: center;
@@ -107,6 +103,7 @@ const messages = {
 const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const Icon = news?.withNotification ? NotificationsActiveRoundedIcon : NotificationsOffRoundedIcon
   const isPublished = useMemo(() => !!news?.status, [news])
+  const { isMobile } = useCurrentDeviceType()
 
   if (!news) return null
 
@@ -115,8 +112,8 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper} data-testid="news-read-only-modal">
-      <HeaderContainer container>
+    <Dialog open={open} handleClose={handleClose} data-testid="news-read-only-modal">
+      <HeaderContainer container sx={{ mt: isMobile ? 2 : 0 }}>
         <Button onClick={handleEdit} isMainButton>
           <EditIcon />
           {messages.edit}
@@ -135,7 +132,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <AccessTimeIcon sx={{ mr: 0.5, ml: 2, color: 'gray600', fontSize: '12px' }} />
         <DateItem>{`Le ${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
           news?.createdAt || new Date(),
-          'hh:mm'
+          'HH:mm'
         )}`}</DateItem>
       </UserTimeContainer>
       <ReactMarkdown>{news?.body}</ReactMarkdown>
