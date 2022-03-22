@@ -7,10 +7,10 @@ import { TruncatedText, VerticalContainer, HorizontalContainer } from 'component
 
 export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
   <VerticalContainer {...props}>
-    <TruncatedText variant="subtitle1" sx={{ color: 'gray900', height: '45px' }} lines={lines} title={subject}>
+    <TruncatedText variant="subtitle1" sx={{ color: 'gray900', height: '45px', mb: 0.5 }} lines={lines} title={subject}>
       {subject}
     </TruncatedText>
-    <HorizontalContainer sx={{ pt: 0.5 }}>
+    <HorizontalContainer>
       <Person sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
       <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
         {author}
@@ -19,7 +19,7 @@ export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
     <HorizontalContainer>
       <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
       <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-        {`Le ${format(dateTime || new Date(), 'dd/MM/yyyy')} à ${format(dateTime || new Date(), 'hh:mm')}`}
+        {`Le ${format(dateTime || new Date(), 'dd/MM/yyyy')} à ${format(dateTime || new Date(), 'HH:mm')}`}
       </Typography>
     </HorizontalContainer>
   </VerticalContainer>
