@@ -42,12 +42,25 @@ const messages = {
   campaigns: 'Campagnes',
   legendTitle: 'Ciblage du Porte à porte en cours',
   legendPrefix: 'Sur cette carte, retrouvez les catégories du Porte à porte en cours.',
-  blue: 'Les bleus 🔵 où nous pourrions gagner des voix par rapport à 2017 mais où les électeurs sont encore très indécis.',
-  yellow: 'Les jaunes 🟡 où nous serions stables par rapport à 2017 mais où les électeurs sont encore très indécis.',
-  green:
-    'Les verts 🟢 où nous pourrions perdre des voix par rapport à 2017, mais où les électeurs sont encore très indécis.',
-  purple: "Les violets 🟣 où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère).",
-  legendSuffix: 'Plus la couleur est foncée (5 variations), plus les personnes sont indécises.',
+  blue: {
+    title: 'Les bureaux bleus 🔵',
+    main: 'Bureaux où nous pourrions gagner des voix par rapport à 2017 mais où les électeurs sont encore très indécis.',
+    subtitle: 'Plus le bleu est foncé (5 variations), plus les personnes sont indécises.',
+  },
+  yellow: {
+    title: 'Les bureaux jaunes 🟡',
+    main: 'Bureaux où nous serions stables par rapport à 2017 mais où les électeurs sont encore très indécis.',
+    subtitle: 'Plus le jaune est foncé (5 variations), plus les personnes sont indécises.',
+  },
+  green: {
+    title: 'Les bureaux verts 🟢',
+    main: 'Bureaux où nous pourrions perdre des voix par rapport à 2017, mais où les électeurs sont encore très indécis.',
+    subtitle: 'Plus le vert est foncé (5 variations), plus les personnes sont indécises.',
+  },
+  violet: {
+    title: 'Les bureaux violets 🟣',
+    main: "Bureaux où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère)",
+  },
 }
 
 const DTD = () => {
@@ -87,14 +100,33 @@ const DTD = () => {
         <Typography variant="subtitle1" sx={{ mb: 1 }}>
           {messages.legendTitle}
         </Typography>
-        <List>
-          <ListItem disablePadding>{messages.legendPrefix}</ListItem>
-          <ListItem disablePadding>{messages.blue}</ListItem>
-          <ListItem disablePadding>{messages.yellow}</ListItem>
-          <ListItem disablePadding>{messages.green}</ListItem>
-          <ListItem disablePadding>{messages.purple}</ListItem>
-          <ListItem disablePadding>{messages.legendSuffix}</ListItem>
-        </List>
+        <Grid container>
+          <Grid item disablePadding sx={{ mb: 1 }}>
+            {messages.legendPrefix}
+          </Grid>
+          <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
+            <Typography variant="subtitle1">{messages.blue.title}</Typography>
+            <Typography>{messages.blue.main}</Typography>
+            <Typography sx={{ fontStyle: 'italic' }}>{messages.blue.subtitle}</Typography>
+          </Grid>
+          <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
+            <Typography variant="subtitle1">{messages.yellow.title}</Typography>
+            <Typography>{messages.yellow.main}</Typography>
+            <Typography sx={{ fontStyle: 'italic' }}>{messages.yellow.subtitle}</Typography>
+          </Grid>
+          <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
+            <Typography variant="subtitle1">{messages.green.title}</Typography>
+            <Typography>{messages.green.main}</Typography>
+            <Typography sx={{ fontStyle: 'italic' }}>{messages.green.subtitle}</Typography>
+          </Grid>
+          <Grid item disablePadding display="flex" flexDirection="column">
+            <Typography variant="subtitle1">{messages.violet.title}</Typography>
+            <Typography>{messages.violet.main}</Typography>
+          </Grid>
+          <Grid item disablePadding>
+            {messages.legendSuffix}
+          </Grid>
+        </Grid>
       </Legend>
 
       <DTDMap userZones={userScope.zones} />
