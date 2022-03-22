@@ -1,5 +1,5 @@
 import { generatePath, useNavigate } from 'react-router'
-import { Container, Grid, Typography, List, ListItem } from '@mui/material'
+import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
@@ -44,17 +44,26 @@ const messages = {
   legendPrefix: 'Sur cette carte, retrouvez les catégories du Porte à porte en cours.',
   blue: {
     title: 'Les bureaux bleus 🔵',
-    main: 'Bureaux où nous pourrions gagner des voix par rapport à 2017 mais où les électeurs sont encore très indécis.',
+    main1: 'Bureaux où nous pourrions ',
+    bold1: 'gagner des voix ',
+    main2: 'par rapport à 2017 mais où les électeurs sont encore ',
+    bold2: 'très indécis.',
     subtitle: 'Plus le bleu est foncé (5 variations), plus les personnes sont indécises.',
   },
   yellow: {
     title: 'Les bureaux jaunes 🟡',
-    main: 'Bureaux où nous serions stables par rapport à 2017 mais où les électeurs sont encore très indécis.',
+    main1: 'Bureaux où nous serions ',
+    bold1: 'stables ',
+    main2: 'par rapport à 2017 mais où les électeurs sont encore ',
+    bold2: 'très indécis.',
     subtitle: 'Plus le jaune est foncé (5 variations), plus les personnes sont indécises.',
   },
   green: {
     title: 'Les bureaux verts 🟢',
-    main: 'Bureaux où nous pourrions perdre des voix par rapport à 2017, mais où les électeurs sont encore très indécis.',
+    main1: 'Bureaux où nous pourrions ',
+    bold1: 'perdre des voix ',
+    main2: 'par rapport à 2017, mais où les électeurs sont encore ',
+    bold2: 'très indécis.',
     subtitle: 'Plus le vert est foncé (5 variations), plus les personnes sont indécises.',
   },
   violet: {
@@ -106,17 +115,32 @@ const DTD = () => {
           </Grid>
           <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
             <Typography variant="subtitle1">{messages.blue.title}</Typography>
-            <Typography>{messages.blue.main}</Typography>
+            <Typography>
+              {messages.blue.main1}
+              <Typography sx={{ fontWeight: 600 }}>{messages.blue.bold1}</Typography>
+              {messages.blue.main2}
+              <Typography sx={{ fontWeight: 600 }}>{messages.blue.bold2}</Typography>
+            </Typography>
             <Typography sx={{ fontStyle: 'italic' }}>{messages.blue.subtitle}</Typography>
           </Grid>
           <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
             <Typography variant="subtitle1">{messages.yellow.title}</Typography>
-            <Typography>{messages.yellow.main}</Typography>
+            <Typography>
+              {messages.yellow.main1}
+              <Typography sx={{ fontWeight: 600 }}>{messages.yellow.bold1}</Typography>
+              {messages.yellow.main2}
+              <Typography sx={{ fontWeight: 600 }}>{messages.yellow.bold2}</Typography>
+            </Typography>
             <Typography sx={{ fontStyle: 'italic' }}>{messages.yellow.subtitle}</Typography>
           </Grid>
           <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
             <Typography variant="subtitle1">{messages.green.title}</Typography>
-            <Typography>{messages.green.main}</Typography>
+            <Typography>
+              {messages.green.main1}
+              <Typography sx={{ fontWeight: 600 }}>{messages.green.bold1}</Typography>
+              {messages.green.main2}
+              <Typography sx={{ fontWeight: 600 }}>{messages.green.bold2}</Typography>
+            </Typography>
             <Typography sx={{ fontStyle: 'italic' }}>{messages.green.subtitle}</Typography>
           </Grid>
           <Grid item disablePadding display="flex" flexDirection="column">
