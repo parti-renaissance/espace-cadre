@@ -1,25 +1,49 @@
 import { initialization } from './main.spec'
 
-describe('Messagerie', () => {
-  beforeEach(() => {
-    initialization()
-  })
+const DeleteButton = '[data-cy="dot-action-menu"]'
+const MailCard = '[data-cy="email-campaign-card"]'
 
-  it('loads referent messagerie successfully', () => {
+
+  const navigate = () => {
     cy.contains('Référent').click()
     cy.contains('Messagerie').click()
+    cy.url().should('eq', 'http://localhost:3000/messagerie')
+  }
 
-    cy.contains('Indicateurs')
-
-    cy.contains('subject 1')
-    cy.contains('Brouillon')
-    cy.get('.MuiPaper-root').eq(0).get('.MuiChip-label').eq(0).should('contain', 'Envoyé')
-    cy.contains('Le 01/11/2021')
-
-    cy.contains('subject 2')
-    cy.get('.MuiPaper-root').eq(1).get('.MuiChip-label').should('contain', 'Brouillon')
-    cy.contains('Le 02/11/2021')
-
-    cy.contains('Envoyer un email')
+  beforeEach(() => {
+    initialization()
+    navigate()
   })
-})
+
+  describe('Messagerie homepage ', () => {
+    it('should have a page title', () => {
+      cy.contains('Indicateurs')
+    })
+
+    it('should have a card with action buttons', () => {
+      cy.get(MailCard).eq(1).contains('sujet 1')
+      cy.get(MailCard).eq(1).contains('Brouillon')
+
+      cy.get(DeleteButton).click()
+      // cy.contains('Supprimer').click()
+      // cy.wait(2000)
+      // cy.get(MailCard).eq(1).should('not.exist')
+    })
+
+    it('should have a card withoud action buttons', () => {
+      cy.get(MailCard).first().contains('sujet 2')
+      cy.get(MailCard).first().contains('Envoyé')
+      cy.get(MailCard).first().contains(`Le ${new Date(2021, 10, 2).toLocaleDateString()}`)
+
+    })
+
+    it('should have a button that redirects to email editor page', () => {
+      cy.contains('Envoyer un email').click()
+    })
+  })
+
+  // describe('Email editor page', () => {
+
+  // })
+
+  
