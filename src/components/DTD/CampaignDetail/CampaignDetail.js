@@ -155,25 +155,27 @@ export const CampaignDetail = () => {
             </Tabs>
 
             {selectedTab === messages.questioners.id && questioners.length > 0 && (
-              <InfiniteScroll
-                dataLength={questioners.length}
-                next={() => fetchNexPageQuestioners()}
-                hasMore={hasNextPageQuestioners}
-                loader={<Loader />}
-              >
-                <Grid container spacing={2}>
-                  {questioners.map((questioner, index) => (
-                    <CampaignDetailQuestioner
-                      key={index + 1}
-                      number={index + 1}
-                      firstName={questioner.firstName}
-                      lastName={questioner.lastName}
-                      count={questioner.count}
-                      goal={campaignDetail.goal}
-                    />
-                  ))}
-                </Grid>
-              </InfiniteScroll>
+              <Container>
+                <InfiniteScroll
+                  dataLength={questioners.length}
+                  next={() => fetchNexPageQuestioners()}
+                  hasMore={hasNextPageQuestioners}
+                  loader={<Loader />}
+                >
+                  <Grid container spacing={2}>
+                    {questioners.map((questioner, index) => (
+                      <CampaignDetailQuestioner
+                        key={index + 1}
+                        number={index + 1}
+                        firstName={questioner.firstName}
+                        lastName={questioner.lastName}
+                        count={questioner.count}
+                        goal={campaignDetail.goal}
+                      />
+                    ))}
+                  </Grid>
+                </InfiniteScroll>
+              </Container>
             )}
             {selectedTab === messages.history.id && history.length > 0 && (
               <InfiniteScroll
