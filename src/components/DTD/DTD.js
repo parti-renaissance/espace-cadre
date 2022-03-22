@@ -110,10 +110,10 @@ const DTD = () => {
           {messages.legendTitle}
         </Typography>
         <Grid container>
-          <Grid item disablePadding sx={{ mb: 1 }}>
+          <Grid item sx={{ mb: 1 }}>
             {messages.legendPrefix}
           </Grid>
-          <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
+          <Grid item display="flex" flexDirection="column" sx={{ mb: 1 }}>
             <Typography variant="subtitle1">{messages.blue.title}</Typography>
             <Typography>
               {messages.blue.main1}
@@ -123,7 +123,7 @@ const DTD = () => {
             </Typography>
             <Typography sx={{ fontStyle: 'italic' }}>{messages.blue.subtitle}</Typography>
           </Grid>
-          <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
+          <Grid item display="flex" flexDirection="column" sx={{ mb: 1 }}>
             <Typography variant="subtitle1">{messages.yellow.title}</Typography>
             <Typography>
               {messages.yellow.main1}
@@ -133,7 +133,7 @@ const DTD = () => {
             </Typography>
             <Typography sx={{ fontStyle: 'italic' }}>{messages.yellow.subtitle}</Typography>
           </Grid>
-          <Grid item disablePadding display="flex" flexDirection="column" sx={{ mb: 1 }}>
+          <Grid item display="flex" flexDirection="column" sx={{ mb: 1 }}>
             <Typography variant="subtitle1">{messages.green.title}</Typography>
             <Typography>
               {messages.green.main1}
@@ -143,13 +143,11 @@ const DTD = () => {
             </Typography>
             <Typography sx={{ fontStyle: 'italic' }}>{messages.green.subtitle}</Typography>
           </Grid>
-          <Grid item disablePadding display="flex" flexDirection="column">
+          <Grid item display="flex" flexDirection="column">
             <Typography variant="subtitle1">{messages.violet.title}</Typography>
             <Typography>{messages.violet.main}</Typography>
           </Grid>
-          <Grid item disablePadding>
-            {messages.legendSuffix}
-          </Grid>
+          <Grid item>{messages.legendSuffix}</Grid>
         </Grid>
       </Legend>
 
