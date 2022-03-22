@@ -178,26 +178,28 @@ export const CampaignDetail = () => {
               </Container>
             )}
             {selectedTab === messages.history.id && history.length > 0 && (
-              <InfiniteScroll
-                dataLength={history.length}
-                next={() => fetchNexPageHistory()}
-                hasMore={hasNextPageHistory}
-                loader={<Loader />}
-              >
-                <Grid container spacing={2}>
-                  {history.map(door => (
-                    <CampaignDetailHistory
-                      key={door.id}
-                      status={door.status}
-                      questioner={door.questioner}
-                      address={door.address}
-                      startDate={door.startDate}
-                      duration={door.duration}
-                      handleView={handleHistoryView}
-                    />
-                  ))}
-                </Grid>
-              </InfiniteScroll>
+              <Container>
+                <InfiniteScroll
+                  dataLength={history.length}
+                  next={() => fetchNexPageHistory()}
+                  hasMore={hasNextPageHistory}
+                  loader={<Loader />}
+                >
+                  <Grid container spacing={2}>
+                    {history.map(door => (
+                      <CampaignDetailHistory
+                        key={door.id}
+                        status={door.status}
+                        questioner={door.questioner}
+                        address={door.address}
+                        startDate={door.startDate}
+                        duration={door.duration}
+                        handleView={handleHistoryView}
+                      />
+                    ))}
+                  </Grid>
+                </InfiniteScroll>
+              </Container>
             )}
             {selectedTab === messages.surveys.id && surveys.replies?.length > 0 && (
               <Grid container spacing={2}>
