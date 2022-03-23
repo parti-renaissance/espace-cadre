@@ -79,7 +79,7 @@ const Template = ({ modeUpdate = false }) => {
             value={messageSubject}
             onChange={event => setMessageSubject(event.target.value)}
             sx={{ width: '100%' }}
-            data-cy="mail-editor-object"
+            data-cy="mail-object-input"
           />
         </Grid>
         <Grid item xs={5} />

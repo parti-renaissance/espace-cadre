@@ -21,7 +21,7 @@ const Button = styled(
 )
 
 const StepButton = ({ disabled, loading, onClick, label }) => (
-  <Button onClick={disabled ? null : onClick} size="large" disabled={disabled}>
+  <Button onClick={disabled ? null : onClick} size="large" disabled={disabled} data-cy="step-button">
     {loading ? (
       <Loader size={24} />
     ) : (
