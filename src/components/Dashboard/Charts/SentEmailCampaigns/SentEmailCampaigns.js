@@ -67,7 +67,7 @@ const SentEmailCampaigns = () => {
   })
 
   return (
-    <>
+    <div data-cy="sent-campaigns-container">
       <SentEmailCampaignsTitle />
       {paginatedCampaigns && (
         <InfiniteScroll
@@ -103,7 +103,7 @@ const SentEmailCampaigns = () => {
           </Grid>
         </InfiniteScroll>
       )}
-    </>
+    </div>
   )
 }
 
