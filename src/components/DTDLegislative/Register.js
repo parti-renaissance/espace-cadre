@@ -33,7 +33,6 @@ function Register() {
     initialValues: {},
     validationSchema: {},
     enableReinitialize: true,
-    onSubmit: values => {},
   })
   const editorConfiguration = {
     toolbar: ['bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'link'],

@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react'
-import mapboxgl from 'mapbox-gl' // eslint-disable-line import/no-webpack-loader-syntax
+import { useRef, useEffect, useState } from 'react'
+import mapboxgl from 'mapbox-gl'
 
 const REACT_APP_MAPBOX_TOKEN = 'pk.eyJ1IjoibGFyZW0iLCJhIjoiY2tydW56cmRvMWU2ZDJucWM5b3RkenlheSJ9._T-N-tweZoNEEjxnVxXLkA'
 const REACT_APP_MAPBOX_STYLE = 'mapbox://styles/larem/ckrz30i6f0r9m17o10vtn2zu2'
@@ -35,8 +35,3 @@ function Map() {
 }
 
 export default Map
-{
-  /* <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div> */
-}

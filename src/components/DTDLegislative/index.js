@@ -31,7 +31,7 @@ function App() {
 
   const handleClose = () => {
     setOpen(false)
-    window.open('/porte-a-porte', '_blank')
+    window.open('/porte-a-porte', '_self')
   }
 
   const onRegisterSubmit = () => {
