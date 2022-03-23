@@ -8,9 +8,7 @@ exports[`Title displays a Title 1`] = `
     >
       subject
     </div>
-    <div
-      sx="[object Object]"
-    >
+    <div>
       <div
         class="mock_PersonIcon"
       />
