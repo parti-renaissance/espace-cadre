@@ -101,7 +101,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   }
 
   const editorConfiguration = {
-    toolbar: ['bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', '|', 'link'],
+    toolbar: ['bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'link'],
   }
 
   return (
