@@ -54,7 +54,7 @@
     "start": "webpack serve --mode development",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "test": "TZ=America/New_York jest",
+    "test": "TZ=Europe/Paris jest",
     "test-coverage": "jest src --coverage",
     "test:cy": "cypress open",
     "lint": "eslint './src/**/*.js' --ignore-path .gitignore",

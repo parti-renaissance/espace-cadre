@@ -67,7 +67,7 @@ const SentEmailCampaigns = () => {
   })
 
   return (
-    <>
+    <div data-cy="sent-campaigns-container">
       <SentEmailCampaignsTitle />
       {paginatedCampaigns && (
         <InfiniteScroll
@@ -78,7 +78,7 @@ const SentEmailCampaigns = () => {
         >
           <Grid container spacing={2}>
             {campaigns.map(message => (
-              <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3}>
+              <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3} data-cy="email-campaign-card">
                 <UICard
                   rootProps={{ sx: { height: '210px', justifyContent: 'space-between' } }}
                   headerProps={{ sx: { pt: '21px' } }}
@@ -103,7 +103,7 @@ const SentEmailCampaigns = () => {
           </Grid>
         </InfiniteScroll>
       )}
-    </>
+    </div>
   )
 }
 

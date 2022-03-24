@@ -28,7 +28,7 @@ const KpiEmailCampaign = () => {
     {
       cacheTime: DASHBOARD_CACHE_DURATION,
       staleTime: DASHBOARD_CACHE_DURATION,
-    },
+    }
   )
 
   return (

@@ -149,7 +149,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   }
 
   return (
-    <Box component="div" sx={{ mb: 2 }}>
+    <Box component="div" sx={{ mb: 2 }} data-cy="ckeditor-container">
       {messageContentError ? (
         <UIFormMessage severity="error">{messages.errorTemplateRecreate}</UIFormMessage>
       ) : (
