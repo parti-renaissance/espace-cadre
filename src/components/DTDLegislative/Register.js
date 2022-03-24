@@ -4,7 +4,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import TextField from 'ui/TextField'
 import Select from 'ui/Select'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
-import NewsEditor from '../News/NewsEditor'
+import MarkdownEditor from 'ui/MarkdownEditor'
 import { CTAContainer, FormTitle, SectionBody, SectionTitle, SubTitle } from './styles'
 
 const messages = {
@@ -64,7 +64,7 @@ function Register() {
       </Grid>
       <FormTitle>{messages.brief}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, pt: 1 }}>
-        <NewsEditor
+        <MarkdownEditor
           formik={formik}
           data={formik.values['body']}
           label="brief"
