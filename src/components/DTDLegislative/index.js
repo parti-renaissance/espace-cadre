@@ -1,4 +1,4 @@
-import { Grid, Container, Dialog, Button as MUIButon, Slide } from '@mui/material'
+import { Grid, Container, Dialog, Button as MUIButton, Slide } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-material/'
 
@@ -53,14 +53,14 @@ function App() {
         <Grid container sx={{ py: 4, pl: 2 }}>
           <Grid item xs={9}>
             {!shouldDisplayRegister && (
-              <MUIButon
+              <MUIButton
                 startIcon={<ArrowBackIcon />}
                 onClick={onBackClickHandler}
                 size="large"
                 sx={{ color: 'main', mr: 4 }}
               >
-                Retour
-              </MUIButon>
+                {messages.backButton}
+              </MUIButton>
             )}
             <Title>{messages.title}</Title>
           </Grid>
@@ -68,7 +68,7 @@ function App() {
             <Button
               type="submit"
               onClick={onRegisterSubmit}
-              rootProps={{ sx: { color: 'whiteCorner', marginRight: 4 } }}
+              rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
               disabled={false}
             >
               {shouldDisplayRegister ? messages.nextButton : messages.submitButton}
@@ -78,7 +78,7 @@ function App() {
             </IconButton>
           </Grid>
         </Grid>
-        <Grid container sx={{ borderRadius: '12px', background: '#ffffff' }} className="main">
+        <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner' }} className="main">
           <Grid item xs={6} sx={{ px: 4 }}>
             {shouldDisplayRegister && <Register />}
             {!shouldDisplayRegister && <PollingStationSelect />}
