@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { Container, Grid, Typography } from '@mui/material'
 import { useMutation } from 'react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -103,8 +103,9 @@ const News = () => {
     [news, updateNewsStatus]
   )
 
-  const pinnedNews = news.filter(item => item.pinned)
-  const unpinnedNews = news.filter(item => !item.pinned)
+  const pinnedNews = useMemo(() => news.filter(item => item.pinned), [news])
+  const unpinnedNews = useMemo(() => news.filter(item => !item.pinned), [news])
+
   const shouldDisplayPinned = pinnedNews.length > 0
   const shouldDisplayDefaultHeader = pinnedNews.length === 0
 
