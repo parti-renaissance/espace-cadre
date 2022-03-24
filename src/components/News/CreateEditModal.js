@@ -16,7 +16,7 @@ import { useUserScope } from '../../redux/user/hooks'
 import Loader from 'ui/Loader'
 import NotificationContainer from './NotificationContainer'
 import CallToActionContainer from './CallToActionContainer'
-import NewsEditor from './NewsEditor'
+import MarkdownEditor from 'ui/MarkdownEditor'
 import NewsAlertImage from 'assets/newsAlertImage.svg'
 import NewsAlert from '../shared/alert/NewsAlert'
 import { SubTitle, Title } from './styles'
@@ -134,7 +134,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
             <SubTitle>{messages.body}</SubTitle>
           </Grid>
           <Grid item xs={12}>
-            <NewsEditor
+            <MarkdownEditor
               formik={formik}
               data={formik.values['body']}
               label="body"
