@@ -10,7 +10,7 @@ import {
   getDTDCampaignDetailHistory,
   getDTDCampaignSurveysReplies,
 } from 'api/DTD'
-import { getNextPageParam, usePaginatedData } from 'api/pagination'
+import { getNextPageParam, usePaginatedData, usePaginatedDataCount } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './CampaignDetailKPI'
@@ -69,6 +69,7 @@ export const CampaignDetail = () => {
     }
   )
   const questioners = usePaginatedData(paginatedQuestioners)
+  const questionersTotalCount = usePaginatedDataCount(paginatedQuestioners)
 
   const {
     data: paginatedHistory = null,
@@ -138,7 +139,7 @@ export const CampaignDetail = () => {
                   label={
                     <TabLabel>
                       {id === messages.questioners.id &&
-                        `${questioners.length} ${pluralize(questioners.length, label)}`}
+                        `${questionersTotalCount} ${pluralize(questionersTotalCount, label)}`}
                       {id === messages.history.id &&
                         `${paginatedHistory?.pages[0].total || 0} ${pluralize(
                           paginatedHistory?.pages[0].total || 0,
