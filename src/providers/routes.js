@@ -16,6 +16,7 @@ import Groups from 'components/Groups'
 import News from 'components/News'
 import Phoning from 'components/Phoning'
 import DTD from 'components/DTD'
+import DTDLegislative from 'components/DTDLegislative'
 import Surveys from 'components/Surveys'
 import MyTeam from 'components/MyTeam'
 import NoMatch from 'components/NoMatch'
@@ -48,6 +49,10 @@ const AppPrivateRoutes = () => {
           element={authorizedFeatures.includes(features.phoning_campaign) && <Phoning />}
         />
         <Route path={`${paths.pap}/*`} element={authorizedFeatures.includes(features.pap) && <DTD />} />
+        <Route
+          path={`${paths.pap_legislative}/*`}
+          element={authorizedFeatures.includes(features.pap) && <DTDLegislative />}
+        />
         <Route path={`${paths.my_team}/*`} element={authorizedFeatures.includes(features.my_team) && <MyTeam />} />
       </Routes>
     </Suspense>
