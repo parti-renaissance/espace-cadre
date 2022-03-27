@@ -88,11 +88,13 @@ export const CampaignDetail = () => {
 
   const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryWithScope(
     ['surveys', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
-    () => getDTDCampaignSurveysReplies(campaignId),
+    () => getDTDCampaignSurveysReplies({ campaignId, pageSize: 1, pageNumber: 0 }),
     {
       onError: handleError,
     }
   )
+  const surveysTotalCount = surveys?.totalCount
+
   const isLoadingData = useMemo(
     () => !!(isQuestionersLoading || isHistoryLoading || isSurveysLoading),
     [isQuestionersLoading, isHistoryLoading, isSurveysLoading]
@@ -146,7 +148,7 @@ export const CampaignDetail = () => {
                           label
                         )}`}
                       {id === messages.surveys.id &&
-                        `${surveys?.totalCount || 0} ${pluralize(surveys?.totalCount || 0, label)}`}
+                        `${surveysTotalCount || 0} ${pluralize(surveysTotalCount || 0, label)}`}
                     </TabLabel>
                   }
                   disableRipple
@@ -204,7 +206,7 @@ export const CampaignDetail = () => {
             )}
             {selectedTab === messages.surveys.id && surveys.replies?.length > 0 && (
               <Grid container spacing={2}>
-                <CampaignDetailSurveys replies={surveys.replies} />
+                <CampaignDetailSurveys />
               </Grid>
             )}
           </>

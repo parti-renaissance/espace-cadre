@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import { useMemo, useState } from 'react'
+import { useParams } from 'react-router'
 import {
   Grid,
   Paper,
@@ -16,9 +16,11 @@ import {
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
-import { orderBy } from 'lodash'
 
-import { DTDCampaignDetailSurveysReply as DomainDTDCampaignDetailSurveysReply } from 'domain/DTD'
+import Loading from 'components/Dashboard/shared/Loading'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { getDTDCampaignSurveysReplies } from 'api/DTD'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
 import { multipleChoice, simpleField, translatedGender, uniqueChoice } from './shared/constants'
@@ -84,10 +86,12 @@ const messages = {
 const formatQuestioner = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
 const formatGender = gender => translatedGender[gender]
 
-const CampaignDetailSurveys = ({ replies }) => {
+const CampaignDetailSurveys = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, toggleOrder] = useState({ startDate: 'asc' })
+  const { handleError } = useErrorHandler()
+  const { campaignId } = useParams()
 
   const handleChangePage = (_, page) => {
     setCurrentPage(page)
@@ -102,13 +106,24 @@ const CampaignDetailSurveys = ({ replies }) => {
     toggleOrder(order => ({ ...order, [column]: order[column] === 'asc' ? 'desc' : 'asc' }))
   }
 
-  const columns = useMemo(() => replies?.[0]?.answers.map(({ question, type }) => ({ question, type })), [replies])
-  const rows = useMemo(() => {
-    const rows = replies.slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-    return orderBy(rows, Object.keys(order).reverse(), Object.values(order).reverse())
-  }, [replies, currentPage, rowsPerPage, order])
+  const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryWithScope(
+    [
+      'surveys-detail',
+      { feature: 'DTD', view: 'CampaignDetailSurveys', pageNumber: currentPage, pageSize: rowsPerPage },
+      campaignId,
+    ],
+    () => getDTDCampaignSurveysReplies({ campaignId, pageSize: rowsPerPage, pageNumber: currentPage }),
+    {
+      onError: handleError,
+    }
+  )
+  const surveysTotalCount = surveys?.totalCount
+  const replies = surveys?.replies
 
-  if (replies.length === 0) return null
+  const columns = useMemo(() => replies?.[0]?.answers.map(({ question, type }) => ({ question, type })), [replies])
+
+  if (replies?.length === 0) return null
+  if (isSurveysLoading) return <Loading />
 
   return (
     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} data-cy="campaign-campaign-detail-surveys">
@@ -140,7 +155,7 @@ const CampaignDetailSurveys = ({ replies }) => {
             </TableHead>
 
             <TableBody>
-              {rows.map(({ answers, questioner, startDate, duration }, index) => (
+              {replies?.map(({ answers, questioner, startDate, duration }, index) => (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
                     <Description>
@@ -204,7 +219,7 @@ const CampaignDetailSurveys = ({ replies }) => {
               </Grid>
             </Grid>
           )}
-          count={replies.length}
+          count={surveysTotalCount}
           page={currentPage}
           rowsPerPage={rowsPerPage}
           rowsPerPageOptions={[10, 25, 50, 100]}
@@ -214,10 +229,6 @@ const CampaignDetailSurveys = ({ replies }) => {
       </Paper>
     </Grid>
   )
-}
-
-CampaignDetailSurveys.propTypes = {
-  replies: PropTypes.arrayOf(PropTypes.shape(DomainDTDCampaignDetailSurveysReply.propTypes)).isRequired,
 }
 
 export default CampaignDetailSurveys
