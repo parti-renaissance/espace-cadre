@@ -2,7 +2,7 @@ import { Grid, Typography, Checkbox, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import { useState, useEffect } from 'react'
 import PollingStation from './PollingStation'
-import fakePollingStations from './Data'
+import pollingStationsData from './Data'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -42,24 +42,19 @@ const Count = styled(Typography)(
 
 const PollingStationSelect = () => {
   const [allChecked, setAllChecked] = useState(false)
-  const [checkboxesState, setCheckboxesState] = useState([])
-  const checkedCount = checkboxesState.filter(val => val.isChecked).length
+  const [pollingStations, setpollingStations] = useState(pollingStationsData)
+  const checkedCount = pollingStations.filter(val => val.isChecked).length
 
   const handleMainCheckboxChange = event => {
     setAllChecked(event.target.checked)
-    checkboxesState.map(el => (el.isChecked = !el.isChecked))
+    const updatedPollingStation = pollingStations.map(el => ({ ...el, isChecked: !el.isChecked }))
+    setpollingStations(updatedPollingStation)
   }
 
-  const handleIndividualCheckboxChange = (id, updatedItem) => {
-    const updatedCheckedState = checkboxesState.map(el => (el.id === id ? updatedItem : el))
-    setCheckboxesState(updatedCheckedState)
+  const handleIndividualCheckboxChange = id => {
+    const updatedPollingStation = pollingStations.map(el => (el.id === id ? { ...el, isChecked: !el.isChecked } : el))
+    setpollingStations(updatedPollingStation)
   }
-
-  useEffect(() => {
-    fakePollingStations.map(el => {
-      setCheckboxesState(prevState => [...prevState, { id: el.id, isChecked: false }])
-    })
-  }, [])
 
   return (
     <>
@@ -85,13 +80,12 @@ const PollingStationSelect = () => {
               {messages.addressesCount}
             </Count>
           </Grid>
-          {checkboxesState.length > 0 && (
+          {pollingStations.length > 0 && (
             <Grid item sx={{ width: '100%' }}>
-              {fakePollingStations.map((pollingStation, index) => (
+              {pollingStations.map((pollingStation, index) => (
                 <PollingStation
                   key={index}
                   pollingStation={pollingStation}
-                  checkboxesState={checkboxesState}
                   handleIndividualCheckboxChange={handleIndividualCheckboxChange}
                   index={index}
                 />

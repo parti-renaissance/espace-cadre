@@ -39,35 +39,26 @@ const Count = styled(Typography)(
   `
 )
 
-const PollingStation = ({ pollingStation, index, checkboxesState, handleIndividualCheckboxChange }) => {
-  const { id, tag, name, voters, addresses } = pollingStation
-
-  return (
-    <Container container>
-      <Grid item>
-        <Checkbox
-          checked={checkboxesState[index]?.isChecked}
-          onChange={() => handleIndividualCheckboxChange(id, { id: id, isChecked: !checkboxesState[index]?.isChecked })}
-        />
-      </Grid>
-      <Grid item display="flex" justifyContent="space-evenly" alignItems="center" sx={{ width: '90%' }}>
-        <Chip label={tag} variant="outlined" sx={{ px: 1.5, py: 0.5, mr: 1 }} />
-        <Place>{name}</Place>
-        <Count>
-          <Typography sx={{ fontWeight: 700 }}>{voters}</Typography>&nbsp;{messages.voters}
-        </Count>
-        <Count>
-          <Typography sx={{ fontWeight: 700 }}>{addresses}</Typography>&nbsp;{messages.addresses}
-        </Count>
-      </Grid>
-    </Container>
-  )
-}
+const PollingStation = ({ pollingStation, handleIndividualCheckboxChange }) => (
+  <Container container>
+    <Grid item>
+      <Checkbox checked={pollingStation.isChecked} onChange={() => handleIndividualCheckboxChange(pollingStation.id)} />
+    </Grid>
+    <Grid item display="flex" flex={2} justifyContent="space-evenly" alignItems="center">
+      <Chip label={pollingStation.tag} variant="outlined" sx={{ px: 1.5, py: 0.5, mr: 1 }} />
+      <Place>{pollingStation.name}</Place>
+      <Count>
+        <Typography sx={{ fontWeight: 700 }}>{pollingStation.voters}</Typography>&nbsp;{messages.voters}
+      </Count>
+      <Count>
+        <Typography sx={{ fontWeight: 700 }}>{pollingStation.addresses}</Typography>&nbsp;{messages.addresses}
+      </Count>
+    </Grid>
+  </Container>
+)
 
 PollingStation.propTypes = {
   pollingStation: PropTypes.object,
-  index: PropTypes.number,
-  checkboxesState: PropTypes.array,
   handleChange: PropTypes.func,
 }
 
