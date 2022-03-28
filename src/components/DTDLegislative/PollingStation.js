@@ -59,7 +59,7 @@ const PollingStation = ({ pollingStation, handleIndividualCheckboxChange }) => (
 
 PollingStation.propTypes = {
   pollingStation: PropTypes.object,
-  handleChange: PropTypes.func,
+  handleIndividualCheckboxChange: PropTypes.func,
 }
 
 export default PollingStation

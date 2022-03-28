@@ -44,6 +44,7 @@ const PollingStationSelect = () => {
   const [allChecked, setAllChecked] = useState(false)
   const [pollingStations, setpollingStations] = useState(pollingStationsData)
   const checkedCount = pollingStations.filter(val => val.isChecked).length
+  const [votersCount, setVotersCount] = useState(0)
 
   const handleMainCheckboxChange = event => {
     setAllChecked(event.target.checked)
@@ -54,6 +55,14 @@ const PollingStationSelect = () => {
   const handleIndividualCheckboxChange = id => {
     const updatedPollingStation = pollingStations.map(el => (el.id === id ? { ...el, isChecked: !el.isChecked } : el))
     setpollingStations(updatedPollingStation)
+
+    const totalVoters = updatedPollingStation.reduce((total, currentState, index) => {
+      if (currentState.isChecked) {
+        return total + pollingStations[index].voters
+      }
+      return total
+    }, votersCount)
+    setVotersCount(totalVoters)
   }
 
   return (
@@ -72,7 +81,7 @@ const PollingStationSelect = () => {
               </Typography>
             </Box>
             <Count>
-              <strong>X</strong>&nbsp;
+              <strong>{votersCount}</strong>&nbsp;
               {messages.votersCount}
             </Count>
             <Count>
