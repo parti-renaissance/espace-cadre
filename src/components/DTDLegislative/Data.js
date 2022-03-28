@@ -1,12 +1,13 @@
 import { faker } from '@faker-js/faker'
 
-const fakePollingStations = []
+const pollingStationsData = []
 let i = 0
 let id = 1
 
 for (i; i <= 50; i++) {
-  fakePollingStations.push({
+  pollingStationsData.push({
     id: faker.datatype.uuid(),
+    isChecked: false,
     tag: `#${id++}`,
     name: faker.address.streetName(),
     voters: faker.datatype.number(),
@@ -14,4 +15,4 @@ for (i; i <= 50; i++) {
   })
 }
 
-export default fakePollingStations
+export default pollingStationsData
