@@ -16,6 +16,7 @@ import {
 import { styled } from '@mui/system'
 import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
+import { orderBy } from 'lodash'
 
 import Loading from 'components/Dashboard/shared/Loading'
 import { useQueryWithScope } from 'api/useQueryWithScope'
@@ -121,6 +122,10 @@ const CampaignDetailSurveys = () => {
   const replies = surveys?.replies
 
   const columns = useMemo(() => replies?.[0]?.answers.map(({ question, type }) => ({ question, type })), [replies])
+  const rows = useMemo(
+    () => orderBy(replies, Object.keys(order).reverse(), Object.values(order).reverse()),
+    [replies, order]
+  )
 
   if (replies?.length === 0) return null
   if (isSurveysLoading) return <Loading />
@@ -155,7 +160,7 @@ const CampaignDetailSurveys = () => {
             </TableHead>
 
             <TableBody>
-              {replies?.map(({ answers, questioner, startDate, duration }, index) => (
+              {rows?.map(({ answers, questioner, startDate, duration }, index) => (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
                     <Description>
