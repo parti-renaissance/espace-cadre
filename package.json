@@ -67,7 +67,12 @@
     "@babel/preset-env": "7.16.11",
     "@babel/preset-react": "7.16.7",
     "@cypress/react": "5.12.4",
+<<<<<<< HEAD
     "@cypress/webpack-dev-server": "1.8.4",
+=======
+    "@cypress/webpack-dev-server": "1.8.3",
+    "@faker-js/faker": "^6.0.0",
+>>>>>>> Check all checkboxes + check count
     "@sentry/webpack-plugin": "1.18.8",
     "@testing-library/dom": "8.12.0",
     "@testing-library/jest-dom": "5.16.3",

@@ -1,52 +1,8 @@
 import { Grid, Typography, Checkbox, Box } from '@mui/material'
 import { styled } from '@mui/system'
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import PollingStation from './PollingStation'
-
-const fakePollingStations = [
-  {
-    id: '1',
-    tag: '#1',
-    name: 'École élémentaire de la rue des fleurs',
-    voters: 33,
-    addresses: 54,
-  },
-  {
-    id: '2',
-    tag: '#2',
-    name: 'Lycée de la rue des fleurs',
-    voters: 33,
-    addresses: 54,
-  },
-  {
-    id: '3',
-    tag: '#3',
-    name: 'Collège de la rue des fleurs',
-    voters: 33,
-    addresses: 54,
-  },
-  {
-    id: '4',
-    tag: '#4',
-    name: 'École élémentaire de la rue du Rocher',
-    voters: 33,
-    addresses: 54,
-  },
-  {
-    id: '5',
-    tag: '#5',
-    name: 'Collège de la rue du Rocher',
-    voters: 33,
-    addresses: 54,
-  },
-  {
-    id: '6',
-    tag: '#6',
-    name: 'Lycée de la rue du Rocher',
-    voters: 33,
-    addresses: 54,
-  },
-]
+import fakePollingStations from './Data'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -57,10 +13,12 @@ const messages = {
 
 const Container = styled(Grid)(
   ({ theme }) => `
-    flex-direction: column;
+    flex-direction: row;
     padding: ${theme.spacing(2)};
     background: ${theme.palette.whiteCorner};
     border-radius: 8px;
+    height: 90vh;
+    overflow: scroll;
 `
 )
 
@@ -83,57 +41,66 @@ const Count = styled(Typography)(
 )
 
 const PollingStationSelect = () => {
-  const [checked, setChecked] = useState([])
-  const [checkedCount] = useState(0)
+  const [allChecked, setAllChecked] = useState(false)
+  const [checkboxesState, setCheckboxesState] = useState([])
+  const checkedCount = checkboxesState.filter(val => val.isChecked).length
+
+  const handleMainCheckboxChange = event => {
+    setAllChecked(event.target.checked)
+    checkboxesState.map(el => (el.isChecked = !el.isChecked))
+  }
+
+  const handleIndividualCheckboxChange = (id, updatedItem) => {
+    const updatedCheckedState = checkboxesState.map(el => (el.id === id ? updatedItem : el))
+    setCheckboxesState(updatedCheckedState)
+  }
 
   useEffect(() => {
     fakePollingStations.map(el => {
-      setChecked(prevState => [...prevState, { id: el.id, isChecked: false }])
+      setCheckboxesState(prevState => [...prevState, { id: el.id, isChecked: false }])
     })
   }, [])
 
-  const handleChange = (id, updatedItem) => {
-    const updatedCheckedState = checked.map(el => (el.id === id ? updatedItem : el))
-    setChecked(updatedCheckedState)
-  }
-
   return (
-    <Container container>
-      <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
-        <Title>{messages.title}</Title>
-      </Grid>
-      <Grid item xs={12} sx={{ mb: 2, mt: 1 }} display="flex" justifyContent="space-between" alignItems="center">
-        <Box component="span">
-          <Checkbox sx={{ ml: 1, mr: 1 }} />
-          <Typography variant="subtitle1">
-            <strong>{checkedCount}</strong>&nbsp;
-            {messages.selectedCount}
-          </Typography>
-        </Box>
-        <Count>
-          <strong>X</strong>&nbsp;
-          {messages.votersCount}
-        </Count>
-        <Count>
-          <strong>X</strong>&nbsp;
-          {messages.addressesCount}
-        </Count>
-      </Grid>
-      {checked.length > 0 && (
-        <Grid item>
-          {fakePollingStations.map((pollingStation, index) => (
-            <PollingStation
-              key={index}
-              pollingStation={pollingStation}
-              checked={checked}
-              setChecked={setChecked}
-              handleChange={handleChange}
-              index={index}
-            />
-          ))}
-        </Grid>
-      )}
-    </Container>
+    <>
+      {
+        <Container container>
+          <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
+            <Title>{messages.title}</Title>
+          </Grid>
+          <Grid item xs={12} sx={{ mb: 2, mt: 1 }} display="flex" justifyContent="space-between" alignItems="center">
+            <Box component="span">
+              <Checkbox sx={{ ml: 1, mr: 1 }} checked={allChecked} onChange={handleMainCheckboxChange} />
+              <Typography variant="subtitle1">
+                {checkedCount >= 0 && <strong>{checkedCount}</strong>}&nbsp;
+                {messages.selectedCount}
+              </Typography>
+            </Box>
+            <Count>
+              <strong>X</strong>&nbsp;
+              {messages.votersCount}
+            </Count>
+            <Count>
+              <strong>X</strong>&nbsp;
+              {messages.addressesCount}
+            </Count>
+          </Grid>
+          {checkboxesState.length > 0 && (
+            <Grid item sx={{ width: '100%' }}>
+              {fakePollingStations.map((pollingStation, index) => (
+                <PollingStation
+                  key={index}
+                  pollingStation={pollingStation}
+                  checkboxesState={checkboxesState}
+                  handleIndividualCheckboxChange={handleIndividualCheckboxChange}
+                  index={index}
+                />
+              ))}
+            </Grid>
+          )}
+        </Container>
+      }
+    </>
   )
 }
 
