@@ -1,7 +1,13 @@
 import { useRef, useEffect, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
+import { styled } from '@mui/system'
+import { Grid } from '@mui/material'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
+
+const Container = styled(Grid)`
+  border-radius: 12px;
+`
 
 function Map() {
   const mapContainer = useRef(null)
@@ -29,7 +35,7 @@ function Map() {
     })
   })
 
-  return <div ref={mapContainer} className="map-container" />
+  return <Container ref={mapContainer} className="map-container" />
 }
 
 export default Map
