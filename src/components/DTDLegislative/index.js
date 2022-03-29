@@ -162,7 +162,6 @@ function DTDLocal() {
               touched={formik.touched}
               handleBlur={formik.handleBlur}
               handleChange={formik.handleChange}
-              handleSubmit={formik.handleSubmit}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -184,5 +183,4 @@ RenderStep.propTypes = {
   touched: PropTypes.object,
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
-  handleSubmit: PropTypes.handleSubmit,
 }
