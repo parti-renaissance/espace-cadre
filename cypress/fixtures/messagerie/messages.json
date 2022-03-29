@@ -15,7 +15,7 @@
         "last_name": "lastname1"
       },
       "label": "label 1",
-      "subject": "subject 1",
+      "subject": "sujet 1",
       "status": "draft",
       "recipient_count": 1,
       "synchronized": true,
@@ -47,7 +47,7 @@
         "last_name": "lastname2"
       },
       "label": "label 2",
-      "subject": "subject 2",
+      "subject": "sujet 2",
       "status": "sent",
       "recipient_count": 0,
       "synchronized": true,

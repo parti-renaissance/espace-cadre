@@ -96,8 +96,10 @@ export const getDTDCampaignDetailHistory = async ({ campaignId, pageParam: page 
   return newPaginatedResult(history, data.metadata)
 }
 
-export const getDTDCampaignSurveysReplies = async campaignId => {
-  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/replies`)
+export const getDTDCampaignSurveysReplies = async ({ campaignId, pageSize, pageNumber }) => {
+  const data = await apiClient.get(
+    `api/v3/pap_campaigns/${campaignId}/replies?page=${pageNumber + 1}&page_size=${pageSize}`
+  )
   return {
     totalCount: data.metadata.total_items,
     replies: data.items.map(sr => {
