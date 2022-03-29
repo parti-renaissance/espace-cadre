@@ -13,10 +13,10 @@ const Container = styled(
   Grid,
   shouldForwardProps
 )(
-  ({ theme, isChecked }) => `
+  ({ theme, hasBorderColor }) => `
     display: flex;
     justify-content: flex-start;
-    border: 1px solid ${isChecked ? theme.palette.main : 'rgba(0, 0, 0, 0.25)'};
+    border: 1px solid ${hasBorderColor ? theme.palette.main : 'rgba(0, 0, 0, 0.25)'};
     border-radius: 8px;
     padding: ${theme.spacing(2)};
     margin-bottom: ${theme.spacing(1)};
@@ -44,27 +44,35 @@ const Count = styled(Typography)(
   `
 )
 
-const PollingStation = ({ pollingStation, handleSelectOne }) => (
-  <Container container isChecked={pollingStation?.isChecked}>
-    <Grid item>
-      <Checkbox checked={pollingStation.isChecked} onChange={() => handleSelectOne(pollingStation.id)} />
-    </Grid>
-    <Grid item display="flex" flex={2} justifyContent="space-evenly" alignItems="center">
-      <Chip label={pollingStation.tag} variant="outlined" sx={{ px: 1.5, py: 0.5, mr: 1 }} />
-      <Place>{pollingStation.name}</Place>
-      <Count>
-        <Typography sx={{ fontWeight: 700 }}>{pollingStation.voters}</Typography>&nbsp;{messages.voters}
-      </Count>
-      <Count>
-        <Typography sx={{ fontWeight: 700 }}>{pollingStation.addresses}</Typography>&nbsp;{messages.addresses}
-      </Count>
-    </Grid>
-  </Container>
-)
+const PollingStation = ({ pollingStation, handleSelectOne, isCheck }) => {
+  const hasBorderColor = isCheck.includes(pollingStation.id)
+
+  return (
+    <Container container hasBorderColor={hasBorderColor}>
+      <Grid item>
+        <Checkbox
+          checked={isCheck.includes(pollingStation?.id)}
+          onChange={e => handleSelectOne(e, pollingStation.id)}
+        />
+      </Grid>
+      <Grid item display="flex" flex={2} justifyContent="space-evenly" alignItems="center">
+        <Chip label={pollingStation.tag} variant="outlined" sx={{ px: 1.5, py: 0.5, mr: 1 }} />
+        <Place>{pollingStation.name}</Place>
+        <Count>
+          <Typography sx={{ fontWeight: 700 }}>{pollingStation.voters}</Typography>&nbsp;{messages.voters}
+        </Count>
+        <Count>
+          <Typography sx={{ fontWeight: 700 }}>{pollingStation.addresses}</Typography>&nbsp;{messages.addresses}
+        </Count>
+      </Grid>
+    </Container>
+  )
+}
 
 PollingStation.propTypes = {
   pollingStation: PropTypes.object,
   handleSelectOne: PropTypes.func,
+  isCheck: PropTypes.array,
 }
 
 export default PollingStation
