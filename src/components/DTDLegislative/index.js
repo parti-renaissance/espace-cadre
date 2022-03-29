@@ -164,7 +164,6 @@ function App() {
               touched={formik.touched}
               handleBlur={formik.handleBlur}
               handleChange={formik.handleChange}
-              handleSubmit={formik.handleSubmit}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -176,4 +175,14 @@ function App() {
   )
 }
 
-export default App
+export default DTDLocal
+
+RenderStep.propTypes = {
+  formik: PropTypes.func,
+  step: PropTypes.number,
+  values: PropTypes.object,
+  errors: PropTypes.object,
+  touched: PropTypes.object,
+  handleBlur: PropTypes.func,
+  handleChange: PropTypes.func,
+}
