@@ -161,7 +161,7 @@ function App() {
           </Grid>
           <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ActionButton />
-            <IconButton edge="start" color="inherit" onClick={() => {}} aria-label="close">
+            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
             </IconButton>
           </Grid>
