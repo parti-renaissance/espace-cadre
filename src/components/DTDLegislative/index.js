@@ -43,18 +43,7 @@ const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleC
         />
       )
     case 2:
-      return (
-        <PollingStationSelect
-          formik={formik}
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
-          back={back}
-        />
-      )
+      return <PollingStationSelect formik={formik} />
     default:
       return <Register errors={errors} touched={touched} />
   }
@@ -70,7 +59,6 @@ const messages = {
 function App() {
   const [open, setOpen] = useState(true)
   const [step, setStep] = useState(1)
-
   const shouldDisplayRegister = step === 1
 
   const formData = {
@@ -177,8 +165,6 @@ function App() {
               handleBlur={formik.handleBlur}
               handleChange={formik.handleChange}
               handleSubmit={formik.handleSubmit}
-              next={next}
-              back={back}
             />
           </Grid>
           <Grid item xs={12} md={6}>
