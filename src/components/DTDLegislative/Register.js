@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Grid, useTheme } from '@mui/material'
 import DatePicker from '@mui/lab/DatePicker'
+import PropTypes from 'prop-types'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getSurveysQuery } from 'api/surveys'
@@ -36,7 +37,7 @@ const messages = {
   addresses: 'adresses',
 }
 
-function Register({ formik, values, handleChange, handleSubmit, next, errors, touched, handleBlur }) {
+function Register({ formik, values, handleChange, errors, touched, handleBlur }) {
   const theme = useTheme()
   const { handleError } = useErrorHandler()
 
@@ -179,3 +180,12 @@ function Register({ formik, values, handleChange, handleSubmit, next, errors, to
 }
 
 export default Register
+
+Register.propTypes = {
+  formik: PropTypes.func,
+  values: PropTypes.object,
+  errors: PropTypes.object,
+  touched: PropTypes.object,
+  handleBlur: PropTypes.func,
+  handleChange: PropTypes.func,
+}
