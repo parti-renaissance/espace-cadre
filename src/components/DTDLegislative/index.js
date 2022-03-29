@@ -44,7 +44,7 @@ const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleC
         />
       )
     case 2:
-      return <PollingStationSelect formik={formik} errors={errors} values={values} />
+      return <PollingStationSelect formik={formik} />
     default:
       return <Register errors={errors} touched={touched} />
   }
@@ -60,7 +60,6 @@ const messages = {
 function DTDLocal() {
   const [open, setOpen] = useState(true)
   const [step, setStep] = useState(1)
-
   const shouldDisplayRegister = step === 1
 
   const formData = {
@@ -164,8 +163,6 @@ function DTDLocal() {
               handleBlur={formik.handleBlur}
               handleChange={formik.handleChange}
               handleSubmit={formik.handleSubmit}
-              next={next}
-              back={back}
             />
           </Grid>
           <Grid item xs={12} md={6}>
