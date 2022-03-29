@@ -1,22 +1,32 @@
+import { useMemo } from 'react'
 import { Grid, useTheme } from '@mui/material'
-import { useFormik } from 'formik'
+import DatePicker from '@mui/lab/DatePicker'
+
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { getSurveysQuery } from 'api/surveys'
+import { usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import Loading from 'components/Dashboard/shared/Loading'
 import TextField from 'ui/TextField'
 import Select from 'ui/Select'
-import UIFormMessage from 'ui/FormMessage/FormMessage'
 import MarkdownEditor from 'ui/MarkdownEditor'
+import { visibility } from '../Surveys/shared/constants'
 import { CTAContainer, FormTitle, SectionBody, SectionTitle, SubTitle } from './styles'
 
 const messages = {
-  formTitle: 'Titre',
-  titlePlaceHolder: 'Ce titre identifiera la campagne auprès des militants',
-  objective: 'Objectif individuel',
-  objectivePlaceHolder: 'Objectif donné à chaque militant en nombre de questionnaires remplis',
-  startDate: 'Date de début',
-  startDatePlaceHolder: 'JJ/MM/AAAA',
-  endDate: 'Date de fin',
-  endDatePlaceHolder: 'JJ/MM/AAAA',
-  brief: 'Brief',
+  label: {
+    title: 'Titre',
+    objective: 'Objectif individuel',
+    startDate: 'Date de début',
+    endDate: 'Date de fin',
+    brief: 'Brief',
+  },
+  placeholder: {
+    title: 'Ce titre identifiera la campagne auprès des militants',
+    objective: 'Objectif donné à chaque militant en nombre de questionnaires remplis',
+    startDate: 'JJ/MM/AAAA',
+    endDate: 'JJ/MM/AAAA',
+  },
   ctaTitle: 'Questions à poser lors du porte à porte',
   ctaText: 'Vous pouvez lier un questionnaire créé préalablement, même si celui-ci n’est pas publié.',
   ctaDropdownTitle: 'Questionnaire lié',
@@ -26,50 +36,117 @@ const messages = {
   addresses: 'adresses',
 }
 
-function Register() {
+function Register({ formik, values, handleChange, handleSubmit, next, errors, touched, handleBlur }) {
   const theme = useTheme()
-  const { errorMessages } = useErrorHandler()
-  const formik = useFormik({
-    initialValues: {},
-    validationSchema: {},
-    enableReinitialize: true,
-  })
+  const { handleError } = useErrorHandler()
+
+  const titleHasError = errors.title && touched.title
+  const objectiveHasError = errors.objective && touched.objective
+  const startDateHasError = errors.startDate && touched.startDate
+  const endDateHasError = errors.endDate && touched.endDate
+  const briefHasError = errors.brief && touched.brief
+  const surveyHasError = errors.survey && touched.survey
+
+  const editorInputHandler = (_, editor) => {
+    formik.setFieldValue('brief', editor.getData())
+  }
+
+  const surveySelectHandler = changedItem => {
+    formik.setFieldValue('survey', changedItem)
+  }
+
+  const startDateSelectHandler = selectedDate => {
+    formik.setFieldValue('startDate', selectedDate)
+  }
+
+  const endtDateSelectHandler = selectedDate => {
+    formik.setFieldValue('endDate', selectedDate)
+  }
+
   const editorConfiguration = {
     toolbar: ['bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'link'],
   }
 
+  const { data: paginatedSurveys = null, isLoading: isSurveysLoading } = useInfiniteQueryWithScope(
+    ['paginated-surveys', { feature: 'Surveys', view: 'Surveys' }],
+    getSurveysQuery,
+    {
+      onError: handleError,
+    }
+  )
+
+  const surveys = usePaginatedData(paginatedSurveys)
+  const localSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.local), [surveys])
+  const getSurveysOptions = () => {
+    let data = []
+    localSurveys.forEach(item => {
+      data.push({ key: item.id, value: item.title })
+    })
+    return data
+  }
+
   return (
     <Grid container sx={{ flexDirection: 'column' }}>
-      <FormTitle>{messages.formTitle}</FormTitle>
+      <FormTitle>{messages.label.title}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
-        <TextField formik={formik} label="title" placeholder={messages.titlePlaceHolder} />
+        <TextField
+          formik={formik}
+          label="title"
+          placeholder={messages.placeholder.title}
+          onBlur={handleBlur}
+          defaultValue={values.title}
+          onChange={handleChange}
+          error={titleHasError}
+        />
       </Grid>
-      <FormTitle>{messages.objective}</FormTitle>
+      <FormTitle>{messages.label.objective}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
-        <TextField formik={formik} label="objective" placeholder={messages.objectivePlaceHolder} />
+        <TextField
+          formik={formik}
+          label="objective"
+          placeholder={messages.placeholder.objective}
+          onBlur={handleBlur}
+          defaultValue={values.objective}
+          onChange={handleChange}
+          error={objectiveHasError}
+        />
       </Grid>
       <Grid container sx={{ flexDirection: 'row', mb: 2, justifyContent: 'space-between' }}>
         <Grid item xs={5.7}>
-          <FormTitle>{messages.startDate}</FormTitle>
-          <Grid item xs={12}>
-            <TextField formik={formik} label="startDate" placeholder={messages.startDatePlaceHolder} />
-          </Grid>
+          <FormTitle>{messages.label.startDate}</FormTitle>
+          <DatePicker
+            label="startDate"
+            placeholder={messages.placeholder.startDate}
+            value={values.startDate}
+            onChange={startDateSelectHandler}
+            renderInput={params => <TextField formik={formik} {...params} />}
+            minDate={new Date()}
+            error={startDateHasError}
+          />
         </Grid>
         <Grid item xs={5.7}>
-          <FormTitle>{messages.endDate}</FormTitle>
-          <Grid item xs={12}>
-            <TextField formik={formik} label="startDate" placeholder={messages.endDatePlaceHolder} />
-          </Grid>
+          <FormTitle>{messages.label.endDate}</FormTitle>
+          <DatePicker
+            label="endDate"
+            name="startDate"
+            value={values.endDate}
+            onChange={endtDateSelectHandler}
+            renderInput={params => <TextField formik={formik} {...params} />}
+            minDate={new Date()}
+            error={endDateHasError}
+          />
         </Grid>
       </Grid>
-      <FormTitle>{messages.brief}</FormTitle>
+      <FormTitle>{messages.label.brief}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, pt: 1 }}>
         <MarkdownEditor
           formik={formik}
-          data={formik.values['body']}
+          data={values.brief}
           label="brief"
           config={editorConfiguration}
-          onChange={() => {}}
+          defaultValue={values.brief}
+          onChange={editorInputHandler}
+          error={briefHasError}
         />
       </Grid>
       <CTAContainer>
@@ -83,22 +160,19 @@ function Register() {
           <SubTitle>{messages.ctaDropdownTitle}</SubTitle>
         </Grid>
         <Grid item xs={12}>
-          <Select
-            sx={{ width: '100%', border: `1px solid ${theme.palette.gray300}` }}
-            formik={formik}
-            label="survey"
-            value="1"
-            onChange={() => {}}
-            options={[{ key: '1', value: 'test' }]}
-          ></Select>
+          {isSurveysLoading && <Loading />}
+          {!isSurveysLoading && (
+            <Select
+              sx={{ width: '100%', border: `1px solid ${theme.palette.gray300}` }}
+              formik={formik}
+              label="survey"
+              onChange={surveySelectHandler}
+              value={values.survey}
+              options={getSurveysOptions()}
+              error={surveyHasError}
+            />
+          )}
         </Grid>
-        {errorMessages
-          .filter(({ field }) => field === 'external_link')
-          .map(({ field, message }) => (
-            <Grid item xs={12} key={field}>
-              <UIFormMessage severity="error">{message}</UIFormMessage>
-            </Grid>
-          ))}
       </CTAContainer>
     </Grid>
   )
