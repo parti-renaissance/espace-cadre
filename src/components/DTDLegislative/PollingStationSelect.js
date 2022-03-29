@@ -63,7 +63,7 @@ const PollingStationSelect = () => {
     }
   }
 
-  const calculateVotersAndAddresses = () => {
+  useEffect(() => {
     const votersToSum = PollingStations.filter(station => isCheck.includes(station.id)).reduce(
       (total, currentValue) => total + currentValue.voters,
       0
@@ -74,11 +74,7 @@ const PollingStationSelect = () => {
     )
     setVotersCount(votersToSum)
     setAddressesCount(addressesToSum)
-  }
-
-  useEffect(() => {
-    calculateVotersAndAddresses()
-  }, [isCheck, calculateVotersAndAddresses])
+  }, [isCheck])
 
   return (
     <>
