@@ -1,7 +1,7 @@
 import { Grid, Typography, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PollingStation from './PollingStation'
 import PollingStations from './Data'
 
@@ -44,9 +44,9 @@ const Count = styled(Typography)(
 const PollingStationSelect = () => {
   const [isCheckAll, setIsCheckAll] = useState(false)
   const [isCheck, setIsCheck] = useState([])
+  const [votersCount, setVotersCount] = useState(0)
+  const [addressesCount, setAddressesCount] = useState(0)
   const checkedCount = isCheck.length
-  const [votersCount] = useState(0)
-  const [addressesCount] = useState(0)
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll)
@@ -62,6 +62,23 @@ const PollingStationSelect = () => {
       setIsCheck(isCheck.filter(item => item !== id))
     }
   }
+
+  const calculateVotersAndAddresses = () => {
+    const votersToSum = PollingStations.filter(station => isCheck.includes(station.id)).reduce(
+      (total, currentValue) => total + currentValue.voters,
+      0
+    )
+    const addressesToSum = PollingStations.filter(station => isCheck.includes(station.id)).reduce(
+      (total, currentValue) => total + currentValue.addresses,
+      0
+    )
+    setVotersCount(votersToSum)
+    setAddressesCount(addressesToSum)
+  }
+
+  useEffect(() => {
+    calculateVotersAndAddresses()
+  }, [isCheck, calculateVotersAndAddresses])
 
   return (
     <>
