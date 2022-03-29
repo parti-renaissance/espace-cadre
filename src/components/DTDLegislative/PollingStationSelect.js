@@ -1,6 +1,7 @@
-import { Grid, Typography, Checkbox, Box } from '@mui/material'
+import { Grid, Typography, Box } from '@mui/material'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import PollingStation from './PollingStation'
 import pollingStationsData from './Data'
 
@@ -44,7 +45,7 @@ const PollingStationSelect = () => {
   const [allChecked, setAllChecked] = useState(false)
   const [pollingStations, setpollingStations] = useState(pollingStationsData)
   const checkedCount = pollingStations.filter(val => val.isChecked).length
-  const [votersCount, setVotersCount] = useState(0)
+  const [votersCount] = useState(0)
 
   const handleMainCheckboxChange = event => {
     setAllChecked(event.target.checked)
@@ -55,14 +56,6 @@ const PollingStationSelect = () => {
   const handleIndividualCheckboxChange = id => {
     const updatedPollingStation = pollingStations.map(el => (el.id === id ? { ...el, isChecked: !el.isChecked } : el))
     setpollingStations(updatedPollingStation)
-
-    const totalVoters = updatedPollingStation.reduce((total, currentState, index) => {
-      if (currentState.isChecked) {
-        return total + pollingStations[index].voters
-      }
-      return total
-    }, votersCount)
-    setVotersCount(totalVoters)
   }
 
   return (

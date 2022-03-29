@@ -1,17 +1,22 @@
 import { styled } from '@mui/system'
-import { Grid, Checkbox, Chip, Typography } from '@mui/material'
+import { Grid, Chip, Typography } from '@mui/material'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
 const messages = {
   voters: 'électeurs',
   addresses: 'Adresses',
 }
 
-const Container = styled(Grid)(
-  ({ theme }) => `
+const Container = styled(
+  Grid,
+  shouldForwardProps
+)(
+  ({ theme, isChecked }) => `
     display: flex;
     justify-content: flex-start;
-    border: 1px solid rgba(0, 0, 0, 0.25);
+    border: 1px solid ${isChecked ? theme.palette.main : 'rgba(0, 0, 0, 0.25)'};
     border-radius: 8px;
     padding: ${theme.spacing(2)};
     margin-bottom: ${theme.spacing(1)};
@@ -40,7 +45,7 @@ const Count = styled(Typography)(
 )
 
 const PollingStation = ({ pollingStation, handleIndividualCheckboxChange }) => (
-  <Container container>
+  <Container container isChecked={pollingStation?.isChecked}>
     <Grid item>
       <Checkbox checked={pollingStation.isChecked} onChange={() => handleIndividualCheckboxChange(pollingStation.id)} />
     </Grid>
