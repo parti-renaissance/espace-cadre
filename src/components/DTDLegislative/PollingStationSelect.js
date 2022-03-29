@@ -42,18 +42,20 @@ const Count = styled(Typography)(
 )
 
 const PollingStationSelect = () => {
-  const [allChecked, setAllChecked] = useState(false)
+  const [isCheckAll, setIsCheckAll] = useState(false)
+  const [isCheck, setIsCheck] = useState([])
   const [pollingStations, setpollingStations] = useState(pollingStationsData)
   const checkedCount = pollingStations.filter(val => val.isChecked).length
   const [votersCount] = useState(0)
+  const [addressesCount] = useState(0)
 
-  const handleMainCheckboxChange = event => {
-    setAllChecked(event.target.checked)
+  const handleSelectAll = event => {
+    setIsCheckAll(event.target.checked)
     const updatedPollingStation = pollingStations.map(el => ({ ...el, isChecked: !el.isChecked }))
     setpollingStations(updatedPollingStation)
   }
 
-  const handleIndividualCheckboxChange = id => {
+  const handleSelectOne = id => {
     const updatedPollingStation = pollingStations.map(el => (el.id === id ? { ...el, isChecked: !el.isChecked } : el))
     setpollingStations(updatedPollingStation)
   }
@@ -67,7 +69,7 @@ const PollingStationSelect = () => {
           </Grid>
           <Grid item xs={12} sx={{ mb: 2, mt: 1 }} display="flex" justifyContent="space-between" alignItems="center">
             <Box component="span">
-              <Checkbox sx={{ ml: 1, mr: 1 }} checked={allChecked} onChange={handleMainCheckboxChange} />
+              <Checkbox sx={{ ml: 1, mr: 1 }} checked={isCheckAll} onChange={handleSelectAll} />
               <Typography variant="subtitle1">
                 {checkedCount >= 0 && <strong>{checkedCount}</strong>}&nbsp;
                 {messages.selectedCount}
@@ -78,7 +80,7 @@ const PollingStationSelect = () => {
               {messages.votersCount}
             </Count>
             <Count>
-              <strong>X</strong>&nbsp;
+              <strong>{addressesCount}</strong>&nbsp;
               {messages.addressesCount}
             </Count>
           </Grid>
@@ -88,7 +90,7 @@ const PollingStationSelect = () => {
                 <PollingStation
                   key={index}
                   pollingStation={pollingStation}
-                  handleIndividualCheckboxChange={handleIndividualCheckboxChange}
+                  handleSelectOne={handleSelectOne}
                   index={index}
                 />
               ))}

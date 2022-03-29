@@ -44,10 +44,10 @@ const Count = styled(Typography)(
   `
 )
 
-const PollingStation = ({ pollingStation, handleIndividualCheckboxChange }) => (
+const PollingStation = ({ pollingStation, handleSelectOne }) => (
   <Container container isChecked={pollingStation?.isChecked}>
     <Grid item>
-      <Checkbox checked={pollingStation.isChecked} onChange={() => handleIndividualCheckboxChange(pollingStation.id)} />
+      <Checkbox checked={pollingStation.isChecked} onChange={() => handleSelectOne(pollingStation.id)} />
     </Grid>
     <Grid item display="flex" flex={2} justifyContent="space-evenly" alignItems="center">
       <Chip label={pollingStation.tag} variant="outlined" sx={{ px: 1.5, py: 0.5, mr: 1 }} />
@@ -64,7 +64,7 @@ const PollingStation = ({ pollingStation, handleIndividualCheckboxChange }) => (
 
 PollingStation.propTypes = {
   pollingStation: PropTypes.object,
-  handleIndividualCheckboxChange: PropTypes.func,
+  handleSelectOne: PropTypes.func,
 }
 
 export default PollingStation
