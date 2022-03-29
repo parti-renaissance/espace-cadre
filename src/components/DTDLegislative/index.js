@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Grid, Container, Dialog, Button as MUIButton, Slide } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-material/'
