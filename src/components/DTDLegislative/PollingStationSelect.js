@@ -1,4 +1,6 @@
-import TextField from 'ui/TextField'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
 const PollingStationSelect = ({ formik, values, handleChange, handleSubmit, back, errors, touched, handleBlur }) => {
   const firstNameHasError = errors.firstName && touched.firstName
