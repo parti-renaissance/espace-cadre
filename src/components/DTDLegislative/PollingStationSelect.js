@@ -6,12 +6,15 @@ import { useEffect, useState } from 'react'
 import PollingStation from './PollingStation'
 import PollingStations from './Data'
 import PropTypes from 'prop-types'
+import pluralize from '../shared/pluralize/pluralize'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
-  selectedCount: 'bureaux de votes sélectionnés',
-  votersCount: 'électeurs',
-  addressesCount: 'adresses',
+  pollStationPrefix: 'bureau',
+  pollStation: 'de vote',
+  pollStationSuffix: 'sélectionné',
+  votersCount: 'électeur',
+  addressesCount: 'adresse',
 }
 
 const Container = styled(Grid)(
@@ -96,16 +99,17 @@ const PollingStationSelect = ({ formik }) => {
               <Checkbox sx={{ ml: 1, mr: 1 }} checked={isCheckAll} onChange={handleSelectAll} />
               <Typography variant="subtitle1">
                 {checkedCount >= 0 && <strong>{checkedCount}</strong>}&nbsp;
-                {messages.selectedCount}
+                {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
+                {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
               </Typography>
             </Box>
             <Count>
               <strong>{votersCount}</strong>&nbsp;
-              {messages.votersCount}
+              {pluralize(votersCount, messages.votersCount)}
             </Count>
             <Count>
               <strong>{addressesCount}</strong>&nbsp;
-              {messages.addressesCount}
+              {pluralize(addressesCount, messages.addressesCount)}
             </Count>
           </Grid>
           {PollingStations.length > 0 && (
