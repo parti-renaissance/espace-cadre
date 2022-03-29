@@ -3,7 +3,7 @@ import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import { useState } from 'react'
 import PollingStation from './PollingStation'
-import pollingStationsData from './Data'
+import PollingStations from './Data'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -44,20 +44,23 @@ const Count = styled(Typography)(
 const PollingStationSelect = () => {
   const [isCheckAll, setIsCheckAll] = useState(false)
   const [isCheck, setIsCheck] = useState([])
-  const [pollingStations, setpollingStations] = useState(pollingStationsData)
-  const checkedCount = pollingStations.filter(val => val.isChecked).length
+  const checkedCount = isCheck.length
   const [votersCount] = useState(0)
   const [addressesCount] = useState(0)
 
-  const handleSelectAll = event => {
-    setIsCheckAll(event.target.checked)
-    const updatedPollingStation = pollingStations.map(el => ({ ...el, isChecked: !el.isChecked }))
-    setpollingStations(updatedPollingStation)
+  const handleSelectAll = () => {
+    setIsCheckAll(!isCheckAll)
+    setIsCheck(PollingStations.map(station => station.id))
+    if (isCheckAll) {
+      setIsCheck([])
+    }
   }
 
-  const handleSelectOne = id => {
-    const updatedPollingStation = pollingStations.map(el => (el.id === id ? { ...el, isChecked: !el.isChecked } : el))
-    setpollingStations(updatedPollingStation)
+  const handleSelectOne = (e, id) => {
+    setIsCheck([...isCheck, id])
+    if (!e.target.checked) {
+      setIsCheck(isCheck.filter(item => item !== id))
+    }
   }
 
   return (
@@ -84,14 +87,15 @@ const PollingStationSelect = () => {
               {messages.addressesCount}
             </Count>
           </Grid>
-          {pollingStations.length > 0 && (
+          {PollingStations.length > 0 && (
             <Grid item sx={{ width: '100%' }}>
-              {pollingStations.map((pollingStation, index) => (
+              {PollingStations.map((pollingStation, index) => (
                 <PollingStation
                   key={index}
                   pollingStation={pollingStation}
                   handleSelectOne={handleSelectOne}
                   index={index}
+                  isCheck={isCheck}
                 />
               ))}
             </Grid>
