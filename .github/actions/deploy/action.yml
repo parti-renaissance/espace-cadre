@@ -11,6 +11,9 @@ inputs:
   gcp_zone:
     description: GCP zone
     required: true
+  gmaps_api_key:
+    description: Google Maps API key
+    required: true
   project_id:
     description: The GCP Project ID
     required: true
@@ -74,6 +77,7 @@ runs:
         echo "SENTRY_AUTH_TOKEN=${{ inputs.sentry_auth_token }}" >> .env.production
         echo "SENTRY_ORG=${{ inputs.sentry_org }}" >> .env.production
         echo "SENTRY_PROJECT=${{ inputs.sentry_project }}" >> .env.production
+        echo "GMAPS_API_KEY=${{ inputs.gmaps_api_key }}" >> .env.production
         echo "REACT_APP_UNLAYER_PROJECT_ID=${{ inputs.react_app_unlayer_project_id }}" >> .env.production
         echo "REACT_APP_MAPBOX_TOKEN=${{ inputs.react_app_mapbox_token }}" >> .env.production
         echo "REACT_APP_MAPBOX_STYLE=${{ inputs.react_app_mapbox_style }}" >> .env.production
