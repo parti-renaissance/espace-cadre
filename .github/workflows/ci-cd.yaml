@@ -57,6 +57,7 @@ jobs:
           service_account_key_deployer: ${{ secrets.GCP_SA_KEY_CLOUDRUN_DEPLOYER }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           gcp_zone: ${{ secrets.GCP_ZONE }}
+          gmaps_api_key: ${{ secrets.GMAPS_API_KEY }}
           repository_project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
           cloud_run_name: ${{ secrets.CLOUD_RUN_NAME }}
           sentry_auth_token: ${{ secrets.SENTRY_AUTH_TOKEN  }}
@@ -88,6 +89,7 @@ jobs:
           service_account_key_deployer: ${{ secrets.GCP_SA_KEY_CLOUDRUN_DEPLOYER }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           gcp_zone: ${{ secrets.GCP_ZONE }}
+          gmaps_api_key: ${{ secrets.GMAPS_API_KEY }}
           repository_project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
           cloud_run_name: ${{ secrets.CLOUD_RUN_NAME }}
           sentry_auth_token: ${{ secrets.SENTRY_AUTH_TOKEN  }}
