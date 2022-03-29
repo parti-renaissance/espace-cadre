@@ -19,17 +19,19 @@ const Transition = forwardRef(function Transition(props, ref) {
 })
 
 const SignupSchema = Yup.object().shape({
-  title: Yup.string().required('title is required'),
-  objective: Yup.string().required('objective is required'),
-  startDate: Yup.string().required('startDate is required'),
-  endDate: Yup.string().required('endDate is required'),
-  brief: Yup.string().required('brief is required'),
-  survey: Yup.string().required('survey is required'),
-  firstName: Yup.string().required('firstName is required'),
-  lastName: Yup.string().required('lastName is required'),
+  title: Yup.string().min(1, 'Minimum 1 caractère').max(120, 'Maximum 120 caractères').required('Titre obligatoire'),
+  objective: Yup.string()
+    .min(1, 'Minimum 1 caractère')
+    .max(120, 'Maximum 120 caractères')
+    .required('Objectif individuel obligatoire'),
+  startDate: Yup.string().required('Date de début obligatoire'),
+  endDate: Yup.string().required('Date de fin obligatoire'),
+  brief: Yup.string().required('Brief obligatoire'),
+  survey: Yup.string().required('Questionnaire obligatoire'),
+  isCheck: Yup.array().min(1, 'Minimum 1 Bureau de vote'),
 })
 
-const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange, handleSubmit, next, back }) => {
+const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange }) => {
   switch (step) {
     case 1:
       return (
@@ -40,7 +42,6 @@ const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleC
           touched={touched}
           handleChange={handleChange}
           handleBlur={handleBlur}
-          next={next}
         />
       )
     case 2:
@@ -69,8 +70,7 @@ function DTDLocal() {
     endDate: null,
     brief: '',
     survey: '',
-    firstName: '',
-    lastName: '',
+    isCheck: [],
   }
 
   const next = () => {
@@ -84,7 +84,6 @@ function DTDLocal() {
   const formik = useFormik({
     initialValues: formData,
     validationSchema: SignupSchema,
-    onSubmit: async values => {},
   })
 
   const isStepOneValid =
@@ -97,8 +96,7 @@ function DTDLocal() {
     formik.touched.title &&
     formik.touched.objective
 
-  const isStepTwoValid =
-    !formik.errors.firstName && !formik.errors.lastName && formik.touched.firstName && formik.touched.lastName
+  const isStepTwoValid = !formik.errors.isCheck
 
   const handleSubmit = () => {
     console.log('===============Submit form=====================')

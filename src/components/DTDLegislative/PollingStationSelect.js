@@ -2,40 +2,30 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
-const PollingStationSelect = ({ formik, values, handleChange, handleSubmit, back, errors, touched, handleBlur }) => {
-  const firstNameHasError = errors.firstName && touched.firstName
-  const lastNameHasError = errors.lastName && touched.lastName
+const PollingStationSelect = ({ formik }) => {
+  const [isCheck, setIsCheck] = useState([])
+
+  const handleIsCheck = () => {
+    setIsCheck(isCheck => [...isCheck, { id: Math.floor(Math.random() * 10) }])
+  }
+
+  useEffect(() => {
+    if (isCheck.length > 0) {
+      formik.setFieldValue('isCheck', isCheck)
+    }
+  }, [isCheck])
 
   return (
     <>
-      <TextField
-        formik={formik}
-        label="firstName"
-        placeholder="firstname"
-        onBlur={handleBlur}
-        defaultValue={values.firstName}
-        onChange={handleChange}
-        error={firstNameHasError}
-      />
+      <span>Nombre de BV: {isCheck.length}</span>
       <br />
-      <TextField
-        formik={formik}
-        label="lastName"
-        placeholder="lastName"
-        onBlur={handleBlur}
-        defaultValue={values.lastName}
-        onChange={handleChange}
-        error={lastNameHasError}
-      />
-      <br />
-      <button
-        disabled={!touched.firstName || !touched.lastName || lastNameHasError || firstNameHasError}
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+      <button onClick={handleIsCheck}>Ajouter BV</button>
     </>
   )
 }
 
 export default PollingStationSelect
+
+PollingStationSelect.propTypes = {
+  formik: PropTypes.func,
+}
