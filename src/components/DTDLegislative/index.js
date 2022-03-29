@@ -79,11 +79,11 @@ function App() {
           </Grid>
         </Grid>
         <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner' }} className="main">
-          <Grid item xs={6} sx={{ px: 4 }}>
+          <Grid item xs={12} md={6} sx={{ px: 4 }}>
             {shouldDisplayRegister && <Register />}
             {!shouldDisplayRegister && <PollingStationSelect />}
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Map />
           </Grid>
         </Grid>
