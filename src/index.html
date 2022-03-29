@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <script src="<%= htmlWebpackPlugin.options.apiUrl %>"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.REACT_APP_GMAPS_API_KEY %>&libraries=places"></script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R7EY2W4441"></script>
     <script>

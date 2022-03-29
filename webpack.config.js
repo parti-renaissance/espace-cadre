@@ -25,7 +25,6 @@ module.exports = (env, argv = {}) => {
     plugins: [
       new HtmlWebPackPlugin({
         template: './src/index.html',
-        apiUrl: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GMAPS_API_KEY}&libraries=places`,
       }),
       new CleanWebpackPlugin({ verbose: true }),
       new webpack.DefinePlugin({
@@ -41,6 +40,7 @@ module.exports = (env, argv = {}) => {
           REACT_APP_UNLAYER_PROJECT_ID: process.env.REACT_APP_UNLAYER_PROJECT_ID,
           REACT_APP_VERSION: process.env.REACT_APP_VERSION,
           REACT_APP_ENVIRONMENT: process.env.REACT_APP_ENVIRONMENT,
+          REACT_APP_GMAPS_API_KEY: process.env.REACT_APP_GMAPS_API_KEY,
         }),
       }),
       new CopyPlugin({
