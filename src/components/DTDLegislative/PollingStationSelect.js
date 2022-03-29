@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Grid, Typography, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import { useEffect, useState } from 'react'
 import PollingStation from './PollingStation'
 import PollingStations from './Data'
+import PropTypes from 'prop-types'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -41,7 +43,7 @@ const Count = styled(Typography)(
 `
 )
 
-const PollingStationSelect = () => {
+const PollingStationSelect = ({ formik }) => {
   const [isCheckAll, setIsCheckAll] = useState(false)
   const [isCheck, setIsCheck] = useState([])
   const [votersCount, setVotersCount] = useState(0)
@@ -74,6 +76,12 @@ const PollingStationSelect = () => {
     )
     setVotersCount(votersToSum)
     setAddressesCount(addressesToSum)
+
+    if (isCheck.length > 0) {
+      formik.setFieldValue('isCheck', isCheck)
+    } else {
+      formik.setFieldValue('isCheck', [])
+    }
   }, [isCheck])
 
   return (
@@ -119,8 +127,8 @@ const PollingStationSelect = () => {
   )
 }
 
-export default PollingStationSelect
-
 PollingStationSelect.propTypes = {
-  formik: PropTypes.func,
+  formik: PropTypes.object,
 }
+
+export default PollingStationSelect
