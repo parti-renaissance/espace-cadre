@@ -25,6 +25,7 @@ module.exports = (env, argv = {}) => {
     plugins: [
       new HtmlWebPackPlugin({
         template: './src/index.html',
+        apiUrl: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GMAPS_API_KEY}&libraries=places`,
       }),
       new CleanWebpackPlugin({ verbose: true }),
       new webpack.DefinePlugin({
