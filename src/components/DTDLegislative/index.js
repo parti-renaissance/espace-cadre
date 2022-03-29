@@ -2,7 +2,7 @@
 import { Grid, Container, Dialog, Button as MUIButton, Slide } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-material/'
-
+import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
@@ -57,7 +57,7 @@ const messages = {
   submitButton: 'créer la campagne',
 }
 
-function App() {
+function DTDLocal() {
   const [open, setOpen] = useState(true)
   const [step, setStep] = useState(1)
   const shouldDisplayRegister = step === 1
