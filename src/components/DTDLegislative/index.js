@@ -154,7 +154,7 @@ function DTDLocal() {
           </Grid>
         </Grid>
         <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner' }} className="main">
-          <Grid item xs={12} md={6} sx={{ px: 4 }}>
+          <Grid item xs={12} md={6} sx={{ ...(step === 1 && { px: 4 }), ...(step === 2 && { px: 2 }) }}>
             <RenderStep
               formik={formik}
               step={step}
