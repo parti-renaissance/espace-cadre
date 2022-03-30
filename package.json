@@ -14,7 +14,7 @@
     "@mui/system": "5.5.3",
     "@reduxjs/toolkit": "1.8.0",
     "@sentry/react": "6.19.3",
-    "@sentry/tracing": "6.19.2",
+    "@sentry/tracing": "6.19.3",
     "@turf/turf": "6.5.0",
     "autosuggest-highlight": "3.2.1",
     "axios": "0.26.1",
