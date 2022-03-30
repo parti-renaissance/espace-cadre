@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { useUserScope } from '../../../../redux/user/hooks'
 import pluralize from 'components/shared/pluralize/pluralize'
+import formatNumber from 'components/shared/formatNumber/formatNumber'
 import { adherentsCount } from 'api/dashboard'
 import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
 import Loading from 'components/Dashboard/shared/Loading'
@@ -19,14 +20,10 @@ const TextChart = () => {
     data: adherents = null,
     isLoading,
     isError,
-  } = useQueryWithScope(
-    ['adherents', { feature: 'Dashboard', view: 'TextChart' }],
-    () => adherentsCount(),
-    {
-      cacheTime: DASHBOARD_CACHE_DURATION,
-      staleTime: DASHBOARD_CACHE_DURATION,
-    }
-  )
+  } = useQueryWithScope(['adherents', { feature: 'Dashboard', view: 'TextChart' }], () => adherentsCount(), {
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
+  })
 
   if (isLoading) return <Loading />
   if (isError) return <Error message={messages.errorMessage} />
@@ -36,7 +33,7 @@ const TextChart = () => {
       <Typography variant="subtitle1">
         {currentScope.name} &gt;
         {currentScope.zones && currentScope.zones.map((el, index) => `${index ? ', ' : ''} ${el.name}`)} (
-        {adherents.adherentCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}&nbsp;
+        {formatNumber(adherents.adherentCount)}&nbsp;
         {pluralize(adherents.adherentCount, messages.adherent)})
       </Typography>
     </Box>
