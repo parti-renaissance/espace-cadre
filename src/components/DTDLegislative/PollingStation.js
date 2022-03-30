@@ -3,6 +3,8 @@ import { Grid, Chip, Typography } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import formatNumber from '../shared/formatNumber/formatNumber'
 
 const messages = {
   voters: 'électeurs',
@@ -13,13 +15,25 @@ const Container = styled(
   Grid,
   shouldForwardProps
 )(
-  ({ theme, hasBorderColor }) => `
-    display: flex;
-    justify-content: flex-start;
-    border: 1px solid ${hasBorderColor ? theme.palette.main : 'rgba(0, 0, 0, 0.25)'};
-    border-radius: 8px;
-    padding: ${theme.spacing(2)};
-    margin-bottom: ${theme.spacing(1)};
+  ({ theme, hasBorderColor, isMobile }) => ` 
+  display: flex;
+  flex-direction: ${isMobile ? 'column' : 'row'};
+  align-items: center;
+  border: 1px solid ${hasBorderColor ? theme.palette.main : 'rgba(0, 0, 0, 0.25)'};
+  border-radius: 8px;
+  padding: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(1)};
+  height: auto;
+`
+)
+
+const SecondaryContainer = styled(Grid)(
+  ({ isMobile }) => `
+  display: flex;
+  justify-content: ${isMobile ? 'start' : 'space-evenly'};
+  flex-direction: ${isMobile ? 'column' : 'row'};
+  align-items: center;
+  width: 100%;
 `
 )
 
@@ -46,25 +60,27 @@ const Count = styled(Typography)(
 
 const PollingStation = ({ pollingStation, handleSelectOne, isCheck }) => {
   const hasBorderColor = isCheck.includes(pollingStation.id)
+  const { isMobile } = useCurrentDeviceType()
 
   return (
-    <Container container hasBorderColor={hasBorderColor}>
-      <Grid item>
-        <Checkbox
-          checked={isCheck.includes(pollingStation?.id)}
-          onChange={e => handleSelectOne(e, pollingStation.id)}
-        />
-      </Grid>
-      <Grid item display="flex" flex={2} justifyContent="space-evenly" alignItems="center">
-        <Chip label={pollingStation.tag} variant="outlined" sx={{ px: 1.5, py: 0.5, mr: 1 }} />
-        <Place>{pollingStation.name}</Place>
-        <Count>
-          <Typography sx={{ fontWeight: 700 }}>{pollingStation.voters}</Typography>&nbsp;{messages.voters}
+    <Container container hasBorderColor={hasBorderColor} isMobile={isMobile} spacing={1}>
+      <Checkbox checked={isCheck.includes(pollingStation?.id)} onChange={e => handleSelectOne(e, pollingStation.id)} />
+      <Chip
+        label={pollingStation.tag}
+        variant="outlined"
+        size="small"
+        sx={{ px: 1.5, py: 0.5, mr: 1, ...(isMobile && { mb: 1 }) }}
+      />
+      <SecondaryContainer item isMobile={isMobile}>
+        <Place sx={{ ...(isMobile && { mb: 1 }) }}>{pollingStation.name}</Place>
+        <Count sx={{ ...(isMobile && { mb: 1 }) }}>
+          <Typography sx={{ fontWeight: 700 }}>{formatNumber(pollingStation.voters)}</Typography>&nbsp;{messages.voters}
         </Count>
-        <Count>
-          <Typography sx={{ fontWeight: 700 }}>{pollingStation.addresses}</Typography>&nbsp;{messages.addresses}
+        <Count sx={{ ...(isMobile && { mb: 1 }) }}>
+          <Typography sx={{ fontWeight: 700 }}>{formatNumber(pollingStation.addresses)}</Typography>&nbsp;
+          {messages.addresses}
         </Count>
-      </Grid>
+      </SecondaryContainer>
     </Container>
   )
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Grid, Typography, Box } from '@mui/material'
+import { Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import { useEffect, useState } from 'react'
@@ -7,6 +7,9 @@ import PollingStation from './PollingStation'
 import PollingStations from './Data'
 import PropTypes from 'prop-types'
 import pluralize from '../shared/pluralize/pluralize'
+import formatNumber from '../shared/formatNumber/formatNumber'
+import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -17,14 +20,30 @@ const messages = {
   addressesCount: 'adresse',
 }
 
-const Container = styled(Grid)(
-  ({ theme }) => `
-    flex-direction: row;
-    padding: ${theme.spacing(2)};
+const Container = styled(
+  Grid,
+  shouldForwardProps
+)(
+  ({ theme, isMobile }) => `
+    padding: ${isMobile ? 0 : theme.spacing(2)};
     background: ${theme.palette.whiteCorner};
     border-radius: 8px;
     height: 90vh;
-    overflow: scroll;
+    overflow-y: scroll;
+    margin-bottom: ${theme.spacing(2)};
+`
+)
+
+const CountContainer = styled(
+  Grid,
+  shouldForwardProps
+)(
+  ({ theme, isMobile }) => `
+  display: flex;
+  flex-direction: ${isMobile ? 'column' : 'row'};
+  align-items: ${isMobile ? 'start' : 'center'};
+  width: 100%;
+  margin: ${theme.spacing(1, 0, 2)};
 `
 )
 
@@ -52,6 +71,7 @@ const PollingStationSelect = ({ formik }) => {
   const [votersCount, setVotersCount] = useState(0)
   const [addressesCount, setAddressesCount] = useState(0)
   const checkedCount = isCheck.length
+  const { isMobile } = useCurrentDeviceType()
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll)
@@ -90,30 +110,34 @@ const PollingStationSelect = ({ formik }) => {
   return (
     <>
       {
-        <Container container>
-          <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
+        <Container container isMobile={isMobile}>
+          <Grid item xs={12} sx={{ mt: 1, mb: 2 }}>
             <Title>{messages.title}</Title>
           </Grid>
-          <Grid item xs={12} sx={{ mb: 2, mt: 1 }} display="flex" justifyContent="space-between" alignItems="center">
-            <Box component="span">
-              <Checkbox sx={{ ml: 1, mr: 1 }} checked={isCheckAll} onChange={handleSelectAll} />
-              <Typography variant="subtitle1">
-                {checkedCount >= 0 && <strong>{checkedCount}</strong>}&nbsp;
-                {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
-                {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
-              </Typography>
+          <CountContainer container isMobile={isMobile}>
+            <FormControlLabel
+              control={<Checkbox checked={isCheckAll} onChange={handleSelectAll} />}
+              label={
+                <Typography variant="subtitle1">
+                  {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{checkedCount}</Typography>}
+                  &nbsp;
+                  {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
+                  {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
+                </Typography>
+              }
+              sx={{ mr: 1, mb: 1 }}
+            />
+            <Box component="span" sx={{ mr: 1, mb: 1 }}>
+              <Typography sx={{ fontWeight: 700 }}>{formatNumber(votersCount)}</Typography>&nbsp;
+              <Count>{pluralize(votersCount, messages.votersCount)}</Count>
             </Box>
-            <Count>
-              <strong>{votersCount}</strong>&nbsp;
-              {pluralize(votersCount, messages.votersCount)}
-            </Count>
-            <Count>
-              <strong>{addressesCount}</strong>&nbsp;
-              {pluralize(addressesCount, messages.addressesCount)}
-            </Count>
-          </Grid>
+            <Box component="span" sx={{ mb: 1 }}>
+              <Typography sx={{ fontWeight: 700 }}>{formatNumber(addressesCount)}</Typography>&nbsp;
+              <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
+            </Box>
+          </CountContainer>
           {PollingStations.length > 0 && (
-            <Grid item sx={{ width: '100%' }}>
+            <Grid item xs={12}>
               {PollingStations.map((pollingStation, index) => (
                 <PollingStation
                   key={index}
