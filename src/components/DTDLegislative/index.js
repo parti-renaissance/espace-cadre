@@ -138,7 +138,7 @@ function DTDLocal() {
     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
       <Container maxWidth="xl">
         <Grid container sx={{ py: 4, pl: 2 }}>
-          <Grid item xs={9}>
+          <Grid item xs={12} md={9}>
             {!shouldDisplayRegister && (
               <MUIButton startIcon={<ArrowBackIcon />} onClick={back} size="large" sx={{ color: 'main', mr: 4 }}>
                 {messages.backButton}
@@ -146,7 +146,7 @@ function DTDLocal() {
             )}
             <Title>{messages.title}</Title>
           </Grid>
-          <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ActionButton />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
@@ -177,7 +177,7 @@ function DTDLocal() {
 export default DTDLocal
 
 RenderStep.propTypes = {
-  formik: PropTypes.func,
+  formik: PropTypes.object,
   step: PropTypes.number,
   values: PropTypes.object,
   errors: PropTypes.object,
