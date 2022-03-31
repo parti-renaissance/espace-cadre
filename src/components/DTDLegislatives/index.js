@@ -58,7 +58,7 @@ const messages = {
   submitButton: 'créer la campagne',
 }
 
-function DTDLocal() {
+const DTDLegislatives = () => {
   const [open, setOpen] = useState(true)
   const [step, setStep] = useState(1)
   const shouldDisplayRegister = step === 1
@@ -174,7 +174,7 @@ function DTDLocal() {
   )
 }
 
-export default DTDLocal
+export default DTDLegislatives
 
 RenderStep.propTypes = {
   formik: PropTypes.func,

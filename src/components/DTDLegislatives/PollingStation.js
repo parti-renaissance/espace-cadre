@@ -63,7 +63,7 @@ const PollingStation = ({ pollingStation, handleSelectOne, isCheck }) => {
   const { isMobile } = useCurrentDeviceType()
 
   return (
-    <Container container hasBorderColor={hasBorderColor} isMobile={isMobile} spacing={1}>
+    <Container container hasBorderColor={hasBorderColor} isMobile={isMobile}>
       <Checkbox checked={isCheck.includes(pollingStation?.id)} onChange={e => handleSelectOne(e, pollingStation.id)} />
       <Chip
         label={pollingStation.tag}

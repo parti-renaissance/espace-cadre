@@ -8,6 +8,7 @@ export default {
   news: { color: 'orange500', bgColor: '#FFF4ED' },
   phoning_campaign: { color: 'indigo700', bgColor: '#F0EFFB' },
   pap: { color: 'indigo700', bgColor: '#F0EFFB' },
+  pap_v2: { color: 'indigo700', bgColor: '#F0EFFB' },
   survey: { color: 'indigo700', bgColor: '#F0EFFB' },
   my_team: { color: 'indigo700', bgColor: '#F0EFFB' },
   events: { color: 'indigo700', bgColor: '#F0EFFB' },

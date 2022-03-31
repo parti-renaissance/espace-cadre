@@ -10,6 +10,7 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded'
 
 import MicIcon from 'ui/icons/MicIccon'
 import ScheduleIcon from 'ui/icons/ScheduleIcon'
+import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded'
 
 export default {
   dashboard: DashboardRoundedIcon,
@@ -21,6 +22,7 @@ export default {
   news: RssFeedIcon,
   phoning_campaign: LocalPhoneRoundedIcon,
   pap: MicIcon,
+  pap_v2: ConstructionRoundedIcon,
   survey: ListIcon,
   my_team: StarRoundedIcon,
   events: ScheduleIcon,

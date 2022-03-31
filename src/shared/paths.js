@@ -8,7 +8,7 @@ export default {
   news: '/actualites',
   phoning_campaign: '/phoning',
   pap: '/porte-a-porte',
-  pap_legislative: '/porte-a-porte-legislatives',
+  pap_v2: '/porte-a-porte-legislatives',
   survey: '/questionnaires',
   my_team: '/mon-equipe',
   events: '/evenements',
