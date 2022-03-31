@@ -1,16 +1,17 @@
 /* eslint-disable no-console */
 import { useState, forwardRef } from 'react'
-import { Grid, Container, Dialog, Button as MUIButton, Slide } from '@mui/material'
+import PropTypes from 'prop-types'
+import { Grid, Container, Dialog, Button, Slide } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-material/'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import Button from 'ui/Button'
 import Map from './Map'
 import './styles.css'
 import { Title } from './styles'
-import RenderStep from './RenderStep'
+import RenderStep from './Modal/step1/RenderStep'
+import ActionButton from './Modal/step1/ActionButton'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -31,12 +32,10 @@ const SignupSchema = Yup.object().shape({
 
 const messages = {
   title: 'Nouvelle campagne de porte à porte',
-  nextButton: 'suivant',
   backButton: 'retour',
-  submitButton: 'créer la campagne',
 }
 
-const Modal = ({ open, setOpen }) => {
+const Modal = ({ open, handleClose }) => {
   const [step, setStep] = useState(1)
   const shouldDisplayRegister = step === 1
 
@@ -81,49 +80,26 @@ const Modal = ({ open, setOpen }) => {
     console.log('====================================')
   }
 
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const ActionButton = () => {
-    if (shouldDisplayRegister) {
-      return (
-        <Button
-          type="submit"
-          onClick={next}
-          rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
-          disabled={!isStepOneValid}
-        >
-          {messages.nextButton}
-        </Button>
-      )
-    }
-    return (
-      <Button
-        type="submit"
-        onClick={handleSubmit}
-        rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
-        disabled={!isStepTwoValid}
-      >
-        {messages.submitButton}
-      </Button>
-    )
-  }
-
   return (
     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
       <Container maxWidth="xl">
         <Grid container sx={{ py: 4, pl: 2 }}>
           <Grid item xs={12} md={9}>
             {!shouldDisplayRegister && (
-              <MUIButton startIcon={<ArrowBackIcon />} onClick={back} size="large" sx={{ color: 'main', mr: 4 }}>
+              <Button startIcon={<ArrowBackIcon />} onClick={back} size="large" sx={{ color: 'main', mr: 4 }}>
                 {messages.backButton}
-              </MUIButton>
+              </Button>
             )}
             <Title>{messages.title}</Title>
           </Grid>
           <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <ActionButton />
+            <ActionButton
+              shouldDisplayRegister={shouldDisplayRegister}
+              isStepOneValid={isStepOneValid}
+              isStepTwoValid={isStepTwoValid}
+              handleSubmit={handleSubmit}
+              next={next}
+            />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
             </IconButton>
@@ -151,3 +127,8 @@ const Modal = ({ open, setOpen }) => {
 }
 
 export default Modal
+
+Modal.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+}

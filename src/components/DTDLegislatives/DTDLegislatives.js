@@ -12,6 +12,10 @@ const messages = {
 const DTDLegislatives = () => {
   const [open, setOpen] = useState(false)
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
@@ -20,7 +24,7 @@ const DTDLegislatives = () => {
           button={<PageHeaderButton label={messages.create} onClick={() => setOpen(true)} isMainButton />}
         />
       </Grid>
-      {open && <Modal open={open} setOpen={setOpen} />}
+      {open && <Modal open={open} handleClose={handleClose} />}
     </Container>
   )
 }
