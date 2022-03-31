@@ -182,7 +182,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
 export default Register
 
 Register.propTypes = {
-  formik: PropTypes.func,
+  formik: PropTypes.object,
   values: PropTypes.object,
   errors: PropTypes.object,
   touched: PropTypes.object,
