@@ -4,7 +4,7 @@ import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
-import formatNumber from '../shared/formatNumber/formatNumber'
+import formatNumber from '../../../shared/formatNumber/formatNumber'
 
 const messages = {
   voters: 'électeurs',

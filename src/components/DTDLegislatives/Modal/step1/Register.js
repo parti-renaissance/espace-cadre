@@ -11,8 +11,8 @@ import Loading from 'components/Dashboard/shared/Loading'
 import TextField from 'ui/TextField'
 import Select from 'ui/Select'
 import MarkdownEditor from 'ui/MarkdownEditor'
-import { visibility } from '../Surveys/shared/constants'
-import { CTAContainer, FormTitle, SectionBody, SectionTitle, SubTitle } from './styles'
+import { visibility } from '../../../Surveys/shared/constants'
+import { CTAContainer, FormTitle, SectionBody, SectionTitle, SubTitle } from '../../styles'
 
 const messages = {
   label: {

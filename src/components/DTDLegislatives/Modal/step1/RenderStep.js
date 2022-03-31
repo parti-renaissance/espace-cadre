@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Register from './Register'
-import PollingStationSelect from './PollingStationSelect'
+import PollingStationSelect from '../step2/PollingStationSelect'
 
 const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange }) => {
   switch (step) {
@@ -25,7 +25,7 @@ const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleC
 export default RenderStep
 
 RenderStep.propTypes = {
-  formik: PropTypes.func,
+  formik: PropTypes.object,
   step: PropTypes.number,
   values: PropTypes.object,
   errors: PropTypes.object,
