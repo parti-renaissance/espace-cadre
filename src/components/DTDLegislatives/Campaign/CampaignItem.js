@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types'
 import { Grid, Typography as MuiTypography, Divider } from '@mui/material'
 import { styled } from '@mui/system'
+<<<<<<< HEAD
+=======
+import { format, isBefore } from 'date-fns'
+import { fr } from 'date-fns/locale'
+>>>>>>> Homepage cards
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { chipColorsByDate, chipLabelByDate } from '../Campaign/shared/helpers'
@@ -10,7 +15,10 @@ import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import pluralize from '../../shared/pluralize/pluralize'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
+<<<<<<< HEAD
 import DateStatus from './DateStatus'
+=======
+>>>>>>> Homepage cards
 
 const HorizontalContainer = styled('div')`
   display: flex;
