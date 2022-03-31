@@ -1,18 +1,16 @@
 /* eslint-disable no-console */
+import { useState, forwardRef } from 'react'
 import { Grid, Container, Dialog, Button as MUIButton, Slide } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-material/'
-import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import Button from 'ui/Button'
-import Register from './Register'
 import Map from './Map'
 import './styles.css'
-import { useState, forwardRef } from 'react'
-import PollingStationSelect from './PollingStationSelect'
 import { Title } from './styles'
+import RenderStep from './RenderStep'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -30,26 +28,6 @@ const SignupSchema = Yup.object().shape({
   survey: Yup.string().required('Questionnaire obligatoire'),
   isCheck: Yup.array().min(1, 'Minimum 1 Bureau de vote'),
 })
-
-const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange }) => {
-  switch (step) {
-    case 1:
-      return (
-        <Register
-          formik={formik}
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-      )
-    case 2:
-      return <PollingStationSelect formik={formik} />
-    default:
-      return <Register errors={errors} touched={touched} />
-  }
-}
 
 const messages = {
   title: 'Nouvelle campagne de porte à porte',
@@ -175,13 +153,3 @@ const DTDLegislatives = () => {
 }
 
 export default DTDLegislatives
-
-RenderStep.propTypes = {
-  formik: PropTypes.func,
-  step: PropTypes.number,
-  values: PropTypes.object,
-  errors: PropTypes.object,
-  touched: PropTypes.object,
-  handleBlur: PropTypes.func,
-  handleChange: PropTypes.func,
-}
