@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react'
 import { Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
-import { useEffect, useState } from 'react'
 import PollingStation from './PollingStation'
 import PollingStations from './Data'
 import PropTypes from 'prop-types'
