@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker'
 
 const HomepageData = []
 let i = 0
-let id = 1
 
 for (i; i <= 20; i++) {
   HomepageData.push({

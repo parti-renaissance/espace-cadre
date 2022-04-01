@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import { Grid, Typography as MuiTypography, Divider } from '@mui/material'
 import { styled } from '@mui/system'
-import { format, isBefore } from 'date-fns'
-import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { chipColorsByDate, chipLabelByDate } from '../Campaign/shared/helpers'
@@ -12,6 +10,7 @@ import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import pluralize from '../../shared/pluralize/pluralize'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
+import DateStatus from './DateStatus'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -76,7 +75,9 @@ const DTDCampaignItem = ({
             </Grid>
             <Grid container alignItems="center" sx={{ mb: 1 }}>
               <AccessTimeRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
-              <Typography>{format(startDate, 'dd MMMM yyyy', { locale: fr })}</Typography>
+              <Typography>
+                <DateStatus startDate={startDate} endDate={endDate} />
+              </Typography>
             </Grid>
             <Divider sx={{ color: 'rgba(0, 0, 0, 0.16)' }} />
           </>
@@ -94,7 +95,7 @@ const DTDCampaignItem = ({
               <Typography>
                 <PeopleRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
                 <Typography sx={{ fontWeight: 700 }}>{pollingStations}&nbsp;</Typography>
-                {pluralize(pollingStations, messages.pollingStation)}&nbsp;
+                {pluralize(pollingStations, messages.pollingStation, 'x')}&nbsp;
                 {messages.voice}
               </Typography>
             </Grid>
@@ -125,7 +126,6 @@ const DTDCampaignItem = ({
           <HorizontalContainer>
             <CtaButton
               data-cy="DTD-action-view"
-              //   onClick={handleView}
               sx={{
                 color: 'main',
                 '&:hover': {
