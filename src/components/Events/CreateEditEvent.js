@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { Box, FormControlLabel, Grid, IconButton, TextField as MuiTextField, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import Stepper from 'ui/Stepper/Stepper'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
@@ -54,9 +55,9 @@ const eventSchema = Yup.object({
 
 const fields = {
   name: 'name',
-  category: 'category',
-  beginAt: 'begin_at',
-  finishAt: 'finish_at',
+  category: 'categoryId',
+  beginAt: 'beginAt',
+  finishAt: 'finishAt',
   timezone: 'timezone',
   address: 'post_address',
   visio: 'visioUrl',
@@ -177,7 +178,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     [categoriesByGroup]
   )
 
-  const { control, formState, getValues } = useForm({
+  const { control, formState, getValues, reset } = useForm({
     mode: 'onChange',
     resolver: yupResolver(eventSchema),
   })
@@ -185,16 +186,16 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const values = getValues()
   const isStepOneValid =
     !!values.name &&
-    !!values.category &&
-    !!values.begin_at &&
-    !!values.finish_at &&
+    !!values.categoryId &&
+    !!values.beginAt &&
+    !!values.finishAt &&
     !!newEvent.address.postalCode &&
     !!values.timezone
   const isStepTwoValid = formState.isValid
   const areAllStepsValid = [isStepOneValid && 0, isStepTwoValid && 1].filter(s => Boolean(s) || s === 0)
 
   const prepareCreate = () => {
-    const { name, category, begin_at, finish_at, timezone, description, visioUrl, capacity } = values
+    const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity } = values
     const { attendees, address, electoral } = newEvent
 
     const eventObj = new Event(
@@ -203,8 +204,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       description,
       timezone,
       null,
-      begin_at,
-      finish_at,
+      beginAt,
+      finishAt,
       null,
       null,
       null,
@@ -212,7 +213,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       false,
       capacity,
       address,
-      category,
+      categoryId,
       newEvent.private,
       electoral,
       visioUrl,
@@ -229,6 +230,12 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       createEvent(prepareCreate())
     }
   }
+
+  useEffect(() => {
+    if (newEvent.id) {
+      reset(newEvent)
+    }
+  }, [newEvent])
 
   return (
     <Dialog handleClose={handleClose} open data-cy="event-create-edit">
