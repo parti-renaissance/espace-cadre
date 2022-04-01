@@ -48,6 +48,7 @@ const formatFormValues = (survey, zone, scope, delegatedAccess) => ({
   type: scopesVisibility[scope] || scopesVisibility[delegatedAccess],
   zone: formatZone(zone),
 })
+
 const validateForm = ({ title, questions = [] }) => {
   const filteredQuestions = questions.filter(q => {
     const filteredChoices = q.choices.filter(({ content }) => content)

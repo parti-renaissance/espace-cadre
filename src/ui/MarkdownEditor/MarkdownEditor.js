@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import AlertBanner from 'ui/AlertBanner'
 import { Grid } from '@mui/material'
 
-const NewsEditor = ({ formik, label, readOnly, ...props }) => {
+const MarkdownEditor = ({ formik, label, readOnly, ...props }) => {
   if (readOnly) {
     return <CKEditor editor={Editor} {...props} />
   }
@@ -20,10 +20,10 @@ const NewsEditor = ({ formik, label, readOnly, ...props }) => {
   )
 }
 
-NewsEditor.propTypes = {
+MarkdownEditor.propTypes = {
   formik: PropTypes.object,
   label: PropTypes.string,
   readOnly: PropTypes.bool,
 }
 
-export default NewsEditor
+export default MarkdownEditor
