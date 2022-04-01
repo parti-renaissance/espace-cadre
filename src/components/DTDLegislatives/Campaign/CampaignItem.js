@@ -52,10 +52,10 @@ const DTDCampaignItem = ({
   knockedDoors,
   filledSurveys,
   collectedContacts,
+  handleView,
 }) => {
   const chipLabel = chipLabelByDate(startDate, endDate)
   const chipColors = chipColorsByDate(startDate, endDate)
-
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
@@ -128,6 +128,7 @@ const DTDCampaignItem = ({
           <HorizontalContainer>
             <CtaButton
               data-cy="DTD-action-view"
+              onClick={handleView}
               sx={{
                 color: 'main',
                 '&:hover': {
@@ -158,4 +159,5 @@ DTDCampaignItem.propTypes = {
   knockedDoors: PropTypes.number,
   filledSurveys: PropTypes.number,
   collectedContacts: PropTypes.number,
+  handleView: PropTypes.func,
 }
