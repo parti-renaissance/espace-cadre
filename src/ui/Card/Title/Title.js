@@ -29,5 +29,5 @@ Title.propTypes = {
   subject: PropTypes.string.isRequired,
   lines: PropTypes.number,
   author: PropTypes.string.isRequired,
-  dateTime: PropTypes.object.isRequired,
+  dateTime: PropTypes.object,
 }
