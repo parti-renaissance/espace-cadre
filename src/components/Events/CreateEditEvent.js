@@ -262,7 +262,13 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                 defaultValue={newEvent.name}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
-                  <Input onChange={onChange} value={value} placeholder={messages.placeholder.name} autoFocus />
+                  <Input
+                    name={fields.name}
+                    onChange={onChange}
+                    value={value}
+                    placeholder={messages.placeholder.name}
+                    autoFocus
+                  />
                 )}
               />
               <FormError errors={errorMessages} field={fields.name} />
