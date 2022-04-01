@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import { Grid, Typography as MuiTypography, Divider } from '@mui/material'
 import { styled } from '@mui/system'
-import { format, isBefore } from 'date-fns'
-import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { chipColorsByDate, chipLabelByDate } from '../Campaign/shared/helpers'
