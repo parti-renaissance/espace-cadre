@@ -7853,8 +7853,8 @@ jest@27.5.1:
     jest-cli "^27.5.1"
 
 jme-ckeditor5@EnMarche/ckeditor5#master:
-  version "0.0.2"
-  resolved "https://codeload.github.com/EnMarche/ckeditor5/tar.gz/f889de437b6abc2b3db52e852568ea3b6dcdeb90"
+  version "0.0.3"
+  resolved "https://codeload.github.com/EnMarche/ckeditor5/tar.gz/654648ec4b80e7ea6bab53d59db0c0c0bb92554f"
 
 js-cookie@^2.2.1:
   version "2.2.1"
