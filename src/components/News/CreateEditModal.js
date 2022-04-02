@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { useMutation } from 'react-query'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useSelector } from 'react-redux'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
@@ -22,6 +23,7 @@ import NewsAlert from '../shared/alert/NewsAlert'
 import { SubTitle, Title } from './styles'
 import Button from 'ui/Button'
 import Dialog from 'ui/Dialog'
+import { EDITOR_IMAGE_UPLOAD_URL } from './constants'
 
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 caractère').max(120, 'Maximum 120 caractères').required('Titre obligatoire'),
@@ -52,6 +54,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
   const isEditMode = news?.id ? true : false
+  const accessToken = useSelector(state => state.auth.tokens.accessToken)
 
   const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
     !isEditMode ? createNewsQuery : updateNewsQuery,
@@ -101,7 +104,15 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   }
 
   const editorConfiguration = {
-    toolbar: ['bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'link'],
+    toolbar: ['bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'link', 'ImageUpload'],
+    simpleUpload: {
+      uploadUrl: `${EDITOR_IMAGE_UPLOAD_URL}scope=${currentScope.code}`,
+      withCredentials: true,
+      headers: {
+        'X-CSRF-TOKEN': 'CSRF-Token',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
   }
 
   return (
