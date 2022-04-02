@@ -17,7 +17,7 @@ import Button from 'ui/Button'
 import Dialog from 'ui/Dialog'
 import ReactMarkdown from 'react-markdown'
 import ReadCTA from './ReadCTA'
-import { ctaModePublication } from './constants'
+import { CTA_MODE_PUBLICATION } from './constants'
 
 const HeaderContainer = styled(Grid)`
   align-items: center;
@@ -137,7 +137,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
       <ReactMarkdown>{news?.body}</ReactMarkdown>
       <Grid>
         <ReadCTA news={news} />
-        <ReadCTA mode={ctaModePublication} news={news} handleClose={handleClose} />
+        <ReadCTA mode={CTA_MODE_PUBLICATION} news={news} handleClose={handleClose} />
       </Grid>
     </Dialog>
   )
