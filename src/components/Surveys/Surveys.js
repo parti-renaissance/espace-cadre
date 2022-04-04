@@ -59,9 +59,8 @@ const Surveys = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const { isMobile } = useCurrentDeviceType()
-  const isNationalRole =
-    scope === 'national' || scope === 'phoning_national_manager' || scope === 'pap_national_manager'
-  const [selectedTab, setSelectedTab] = useState(isNationalRole ? visibility.national : visibility.local)
+  const isNational = ['national', 'phoning_national_manager', 'pap_national_manager'].includes(scope)
+  const [selectedTab, setSelectedTab] = useState(isNational ? visibility.national : visibility.local)
 
   const {
     data: paginatedSurveys = null,
@@ -172,7 +171,7 @@ const Surveys = () => {
               TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
               sx={{ my: 2 }}
             >
-              {!isNationalRole && (
+              {!isNational && (
                 <Tab
                   value={visibility.local}
                   label={<TabLabel>{messages.localSurveys}</TabLabel>}
