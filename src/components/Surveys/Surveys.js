@@ -53,13 +53,14 @@ const messages = {
 const Surveys = () => {
   const [currentScope] = useUserScope()
   const { code: scope } = currentScope
-  const [selectedTab, setSelectedTab] = useState(visibility.local)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [surveyIdToUpdate, setSurveyIdToUpdate] = useState()
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const { isMobile } = useCurrentDeviceType()
+  const isNational = ['national', 'phoning_national_manager', 'pap_national_manager'].includes(scope)
+  const [selectedTab, setSelectedTab] = useState(isNational ? visibility.national : visibility.local)
 
   const {
     data: paginatedSurveys = null,
@@ -170,12 +171,14 @@ const Surveys = () => {
               TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
               sx={{ my: 2 }}
             >
-              <Tab
-                value={visibility.local}
-                label={<TabLabel>{messages.localSurveys}</TabLabel>}
-                disableRipple
-                disableFocusRipple
-              />
+              {!isNational && (
+                <Tab
+                  value={visibility.local}
+                  label={<TabLabel>{messages.localSurveys}</TabLabel>}
+                  disableRipple
+                  disableFocusRipple
+                />
+              )}
               <Tab
                 value={visibility.national}
                 label={<TabLabel>{messages.nationalSurveys}</TabLabel>}
