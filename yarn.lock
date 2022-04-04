@@ -1076,10 +1076,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@ckeditor/ckeditor5-react@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-react/-/ckeditor5-react-4.0.0.tgz#7b5752ce3c95dfee076eaf759bbfe626dd333541"
-  integrity sha512-1plYEDhrH+7HJ4FSSFxAimxj0RW+s8DspgdiMKQWuB2N2GeKLURMou36GySueQZLC8BYFOv0uPhwXYYwpit3jQ==
+"@ckeditor/ckeditor5-react@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-react/-/ckeditor5-react-4.0.1.tgz#fc09e21295f115b8806f4122f63c4073f06d2b82"
+  integrity sha512-5qKZn8EVBeEYzmDrgpq31dC2rqcJ341xKQmuj7JYzT9szsuIIzI4zOm3cf9IIglRXVWCuWvELJs8qmRNW19dzg==
   dependencies:
     prop-types "^15.7.2"
 
