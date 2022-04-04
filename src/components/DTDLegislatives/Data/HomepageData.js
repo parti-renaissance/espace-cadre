@@ -11,6 +11,8 @@ for (i; i <= 20; i++) {
     startDate: faker.date.soon(),
     endDate: faker.date.soon(),
     voters: faker.datatype.number({ min: 10, max: 10000 }),
+    visitedAddresses: faker.datatype.number({ min: 10, max: 100 }),
+    toVisitAddresses: faker.datatype.number({ min: 10, max: 100 }),
     pollingStations: faker.datatype.number({ min: 10, max: 100 }),
     knockedDoors: faker.datatype.number({ min: 10, max: 100 }),
     filledSurveys: faker.datatype.number({ min: 10, max: 100 }),
