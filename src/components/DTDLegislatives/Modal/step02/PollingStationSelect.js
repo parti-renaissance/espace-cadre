@@ -95,7 +95,7 @@ const PollingStationSelect = ({ formik }) => {
 
   return (
     <Container maxWidth="md" isMobile={isMobile}>
-      <Grid container xs={12} sx={{ mt: 1, mb: 2 }}>
+      <Grid container sx={{ mt: 1, mb: 2 }}>
         <Title>{messages.title}</Title>
       </Grid>
       <CountContainer container isMobile={isMobile}>

@@ -87,7 +87,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
   }
 
   return (
-    <Container maxWidth="sm" flexDirection="column" sx={{ mx: 'auto' }}>
+    <Container maxWidth="sm" sx={{ mx: 'auto', flexDirection: 'column' }}>
       <FormTitle>{messages.label.title}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
         <TextField

@@ -10,7 +10,7 @@ import * as Yup from 'yup'
 import './styles.css'
 import { Title } from './styles'
 import RenderStep from './Modal/RenderStep'
-import ActionButton from './Modal/step1/ActionButton'
+import ActionButton from './Modal/ActionButton'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
