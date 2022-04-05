@@ -15,11 +15,14 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
-const Map = styled(Grid)`
+const Map = styled(Grid)(
+  ({ theme }) => `
   height: 85vh;
-  margin: ${({ theme }) => theme.spacing(1, 0, 2)};
+  margin: ${theme.spacing(1, 0, 2)};
   border-radius: 12px;
+  border: 1px solid ${theme.palette.gray200}
 `
+)
 
 const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
 
