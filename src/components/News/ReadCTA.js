@@ -14,7 +14,7 @@ import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 import { SectionTitle, Container, Body, CTAButton, CTAButtonOutlined, CTAButtonContainer } from './styles'
-import { ctaModePublication } from './constants'
+import { CTA_MODE_PUBLICATION } from './constants'
 
 const messages = {
   toggleSuccess: "L'actualité a bien été modifiée",
@@ -52,7 +52,7 @@ const CallToActionContainer = ({ mode, news, handleClose }) => {
     await updateNewsStatus(toggledNews)
   }, [news, updateNewsStatus])
 
-  const isPublication = mode === ctaModePublication
+  const isPublication = mode === CTA_MODE_PUBLICATION
   const isPublished = !!news.status
   const hasCTA = !!(news.url && news.urlLabel)
   const CTALabel = news.urlLabel ? news.urlLabel : ''
