@@ -8,6 +8,10 @@ const TextInput = styled(MuiTextField)(
   border-color: ${theme.palette.gray200};
   border-radius: 8px;
   margin: ${theme.spacing(1, 0)};
+
+  & .MuiOutlinedInput-root {
+    border-radius: 8px;
+  }
 `
 )
 

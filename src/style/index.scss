@@ -17,4 +17,17 @@ body {
   .pac-container {
     z-index: 1500 !important;
   }
+
+  .ck.ck-balloon-panel {
+    z-index: 10000;
+  }
+  
+  .ck-toolbar {
+    border-top-left-radius:8px !important;
+    border-top-right-radius:8px !important;
+  }
+  .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    border-bottom-right-radius:8px;
+    border-bottom-left-radius:8px
+  }
 }

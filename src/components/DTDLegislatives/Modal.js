@@ -7,11 +7,10 @@ import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-mater
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import Map from './Map'
 import './styles.css'
 import { Title } from './styles'
-import RenderStep from './Modal/step1/RenderStep'
-import ActionButton from './Modal/step1/ActionButton'
+import RenderStep from './Modal/RenderStep'
+import ActionButton from './Modal/ActionButton'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -105,22 +104,15 @@ const Modal = ({ open, handleClose }) => {
             </IconButton>
           </Grid>
         </Grid>
-        <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner' }} className="main">
-          <Grid item xs={12} md={6} sx={{ ...(step === 1 && { px: 4 }), ...(step === 2 && { px: 2 }) }}>
-            <RenderStep
-              formik={formik}
-              step={step}
-              values={formik.values}
-              errors={formik.errors}
-              touched={formik.touched}
-              handleBlur={formik.handleBlur}
-              handleChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Map />
-          </Grid>
-        </Grid>
+        <RenderStep
+          formik={formik}
+          step={step}
+          values={formik.values}
+          errors={formik.errors}
+          touched={formik.touched}
+          handleBlur={formik.handleBlur}
+          handleChange={formik.handleChange}
+        />
       </Container>
     </Dialog>
   )
