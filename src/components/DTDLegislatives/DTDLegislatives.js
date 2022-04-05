@@ -6,6 +6,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Modal from './Modal'
 import CampaignItem from './Campaign/CampaignItem'
 import HomepageData from './Data/HomepageData'
+import { generatePath, useNavigate } from 'react-router'
 
 const Subtitle = styled(Typography)(
   ({ theme }) => `
@@ -22,10 +23,15 @@ const messages = {
 }
 
 const DTDLegislatives = () => {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const handleView = campaignId => () => {
+    navigate(generatePath('/porte-a-porte-legislatives/:campaignId', { campaignId }))
   }
 
   return (
@@ -52,6 +58,7 @@ const DTDLegislatives = () => {
             knockedDoors={campaign.knockedDoors}
             filledSurveys={campaign.filledSurveys}
             collectedContacts={campaign.collectedContacts}
+            handleView={handleView(campaign.id)}
           />
         ))}
       </Grid>
