@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import { Grid, Typography, FormControlLabel, Box } from '@mui/material'
+import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import PollingStation from './PollingStation'
@@ -19,20 +19,6 @@ const messages = {
   votersCount: 'électeur',
   addressesCount: 'adresse',
 }
-
-const Container = styled(
-  Grid,
-  shouldForwardProps
-)(
-  ({ theme, isMobile }) => `
-    padding: ${isMobile ? 0 : theme.spacing(2)};
-    background: ${theme.palette.whiteCorner};
-    border-radius: 8px;
-    height: 90vh;
-    overflow-y: scroll;
-    margin-bottom: ${theme.spacing(2)};
-`
-)
 
 const CountContainer = styled(
   Grid,
@@ -108,50 +94,46 @@ const PollingStationSelect = ({ formik }) => {
   }, [isCheck])
 
   return (
-    <>
-      {
-        <Container container isMobile={isMobile}>
-          <Grid item xs={12} sx={{ mt: 1, mb: 2 }}>
-            <Title>{messages.title}</Title>
-          </Grid>
-          <CountContainer container isMobile={isMobile}>
-            <FormControlLabel
-              control={<Checkbox checked={isCheckAll} onChange={handleSelectAll} />}
-              label={
-                <Typography variant="subtitle1">
-                  {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{checkedCount}</Typography>}
-                  &nbsp;
-                  {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
-                  {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
-                </Typography>
-              }
-              sx={{ mr: 1, mb: 1 }}
+    <Container maxWidth="md" isMobile={isMobile}>
+      <Grid container xs={12} sx={{ mt: 1, mb: 2 }}>
+        <Title>{messages.title}</Title>
+      </Grid>
+      <CountContainer container isMobile={isMobile}>
+        <FormControlLabel
+          control={<Checkbox checked={isCheckAll} onChange={handleSelectAll} />}
+          label={
+            <Typography variant="subtitle1">
+              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{checkedCount}</Typography>}
+              &nbsp;
+              {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
+              {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
+            </Typography>
+          }
+          sx={{ mr: 1, mb: 1 }}
+        />
+        <Box component="span" sx={{ mr: 1, mb: 1 }}>
+          <Typography sx={{ fontWeight: 700 }}>{formatNumber(votersCount)}</Typography>&nbsp;
+          <Count>{pluralize(votersCount, messages.votersCount)}</Count>
+        </Box>
+        <Box component="span" sx={{ mb: 1 }}>
+          <Typography sx={{ fontWeight: 700 }}>{formatNumber(addressesCount)}</Typography>&nbsp;
+          <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
+        </Box>
+      </CountContainer>
+      {PollingStations.length > 0 && (
+        <Grid item xs={12}>
+          {PollingStations.map((pollingStation, index) => (
+            <PollingStation
+              key={index}
+              pollingStation={pollingStation}
+              handleSelectOne={handleSelectOne}
+              index={index}
+              isCheck={isCheck}
             />
-            <Box component="span" sx={{ mr: 1, mb: 1 }}>
-              <Typography sx={{ fontWeight: 700 }}>{formatNumber(votersCount)}</Typography>&nbsp;
-              <Count>{pluralize(votersCount, messages.votersCount)}</Count>
-            </Box>
-            <Box component="span" sx={{ mb: 1 }}>
-              <Typography sx={{ fontWeight: 700 }}>{formatNumber(addressesCount)}</Typography>&nbsp;
-              <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
-            </Box>
-          </CountContainer>
-          {PollingStations.length > 0 && (
-            <Grid item xs={12}>
-              {PollingStations.map((pollingStation, index) => (
-                <PollingStation
-                  key={index}
-                  pollingStation={pollingStation}
-                  handleSelectOne={handleSelectOne}
-                  index={index}
-                  isCheck={isCheck}
-                />
-              ))}
-            </Grid>
-          )}
-        </Container>
-      }
-    </>
+          ))}
+        </Grid>
+      )}
+    </Container>
   )
 }
 

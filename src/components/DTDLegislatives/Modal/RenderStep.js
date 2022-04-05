@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import Register from './Register'
-import PollingStationSelect from '../step2/PollingStationSelect'
+import Register from './step1/Register'
+import PollingStationSelect from './step2/PollingStationSelect'
 
 const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange }) => {
   switch (step) {

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Grid, useTheme } from '@mui/material'
+import { Container, Grid, useTheme } from '@mui/material'
 import DatePicker from '@mui/lab/DatePicker'
 import PropTypes from 'prop-types'
 
@@ -87,7 +87,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
   }
 
   return (
-    <Grid container sx={{ flexDirection: 'column' }}>
+    <Container maxWidth="sm" flexDirection="column" sx={{ mx: 'auto' }}>
       <FormTitle>{messages.label.title}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
         <TextField
@@ -175,7 +175,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
           )}
         </Grid>
       </CTAContainer>
-    </Grid>
+    </Container>
   )
 }
 
