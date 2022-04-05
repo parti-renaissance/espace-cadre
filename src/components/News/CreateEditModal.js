@@ -109,7 +109,8 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
       uploadUrl: `${EDITOR_IMAGE_UPLOAD_URL}scope=${currentScope.code}`,
       withCredentials: true,
       headers: {
-        'X-CSRF-TOKEN': 'CSRF-Token',
+        'content-type': 'multipart/form-data',
+        accept: '*/*',
         Authorization: `Bearer ${accessToken}`,
       },
     },
