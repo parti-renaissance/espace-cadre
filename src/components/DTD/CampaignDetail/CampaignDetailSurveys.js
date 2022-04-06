@@ -175,7 +175,7 @@ const CampaignDetailSurveys = () => {
                   <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
                     {startDate && (
                       <>
-                        <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
+                        <Description>{format(startDate, 'dd/MM/yyyy HH:mm')}</Description>
                         <SubDescription>{secondsToMinutes(duration)}</SubDescription>
                       </>
                     )}
