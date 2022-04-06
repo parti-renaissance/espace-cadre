@@ -68,7 +68,7 @@ export const KPICard = ({ main, title, subtitle }) => (
   </CardContainer>
 )
 KPICard.propTypes = {
-  main: PropTypes.node.isRequired,
+  main: PropTypes.node,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   subtitle: PropTypes.node,
 }
