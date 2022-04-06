@@ -75,18 +75,18 @@ const DTDCampaignItem = ({
               <PersonRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
               <Typography>{author}</Typography>
             </Grid>
-            <Grid container alignItems="center" sx={{ mb: 1 }}>
+            <Grid container alignItems="center">
               <AccessTimeRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
               <Typography>
                 <DateStatus startDate={startDate} endDate={endDate} />
               </Typography>
             </Grid>
-            <Divider sx={{ color: 'rgba(0, 0, 0, 0.16)' }} />
           </>
         }
         contentProps={{ sx: { pt: 1 } }}
         content={
           <>
+            <Divider sx={{ color: 'rgba(0, 0, 0, 0.16)', mb: 1 }} />
             <Grid container alignItems="center" sx={{ mb: 0.5 }}>
               <PeopleRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
               <Typography>

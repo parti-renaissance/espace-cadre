@@ -14,7 +14,6 @@ import { useUserScope } from '../../redux/user/hooks'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getDTDCampaignsQuery } from 'api/DTD'
-import HomepageData from './Data/HomepageData'
 
 const Legend = styled(Grid)(
   ({ theme }) => `
