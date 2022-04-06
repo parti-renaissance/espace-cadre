@@ -17,7 +17,7 @@ import { newPaginatedResult } from 'api/pagination'
 
 export const formatZone = zone => new SurveyItemZone(zone.uuid, zone.code, zone.name)
 export const getSurveysQuery = async ({ pageParam: page = 1 }) => {
-  const query = `?order[created_at]=desc&page=${page}&page_size=20`
+  const query = `?order[created_at]=desc&page=${page}&page_size=50`
   const data = await apiClient.get(`api/v3/surveys${query}`)
 
   const surveys = data.items.map(s => {

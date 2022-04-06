@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { useMutation } from 'react-query'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
@@ -121,6 +122,11 @@ const Surveys = () => {
   const handleTabChange = (_, tabId) => {
     setSelectedTab(tabId)
   }
+
+  useEffect(() => {
+    localSurveys.length < 20 && fetchNextPageSurveys()
+    nationalSurveys.length < 20 && fetchNextPageSurveys()
+  }, [localSurveys, nationalSurveys])
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
