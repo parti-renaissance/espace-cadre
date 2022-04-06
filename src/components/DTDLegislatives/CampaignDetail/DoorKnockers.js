@@ -5,7 +5,7 @@ import { TruncatedText } from 'components/shared/styled'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import UICard from 'ui/Card/Card'
 
-const CampaignDetailCallers = ({ number, author, count, goal }) => (
+const DoorKnockers = ({ number, author, count, goal }) => (
   <Grid item xs={12} sm={6} md={3} data-cy="phoning-campaign-detail-callers">
     <UICard
       rootProps={{ sx: { height: '125px' } }}
@@ -21,11 +21,11 @@ const CampaignDetailCallers = ({ number, author, count, goal }) => (
   </Grid>
 )
 
-CampaignDetailCallers.propTypes = {
+DoorKnockers.propTypes = {
   number: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
   count: PropTypes.number,
   goal: PropTypes.number,
 }
 
-export default CampaignDetailCallers
+export default DoorKnockers
