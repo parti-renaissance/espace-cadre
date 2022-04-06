@@ -1,16 +1,22 @@
 import { useState } from 'react'
+import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
+import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import Loader from 'ui/Loader'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import Modal from './Modal'
 import CampaignItem from './Campaign/CampaignItem'
-import HomepageData from './Data/HomepageData'
-import { generatePath, useNavigate } from 'react-router'
-import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import LegendItem from '../DTD/LegendItem'
 import DTDMap from '../DTD/DTDMap'
 import { useUserScope } from '../../redux/user/hooks'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { getNextPageParam, usePaginatedData } from 'api/pagination'
+import { getDTDCampaignsQuery } from 'api/DTD'
 
 const Legend = styled(Grid)(
   ({ theme }) => `
@@ -81,6 +87,21 @@ const DTDLegislatives = () => {
   const [open, setOpen] = useState(false)
   const [selectedTab, setSelectedTab] = useState(messages.cartography)
   const [userScope] = useUserScope()
+  const { handleError } = useErrorHandler()
+
+  const {
+    data: paginatedCampaigns = null,
+    fetchNextPage: fetchNextPageCampaigns,
+    hasNextPage: hasNextPageCampaigns,
+  } = useInfiniteQueryWithScope(
+    ['paginated-campaigns', { feature: 'DTD', view: 'DTD' }],
+    pageParams => getDTDCampaignsQuery(pageParams),
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
+  const campaigns = usePaginatedData(paginatedCampaigns)
 
   const handleClose = () => {
     setOpen(false)
@@ -161,23 +182,30 @@ const DTDLegislatives = () => {
         </>
       )}
       {selectedTab === messages.campaigns && (
-        <Grid container spacing={2}>
-          {HomepageData.map(campaign => (
-            <CampaignItem
-              key={campaign.id}
-              startDate={campaign.startDate}
-              endDate={campaign.endDate}
-              title={campaign.title}
-              author={campaign.author}
-              voters={campaign.voters}
-              pollingStations={campaign.pollingStations}
-              knockedDoors={campaign.knockedDoors}
-              filledSurveys={campaign.filledSurveys}
-              collectedContacts={campaign.collectedContacts}
-              handleView={handleView(campaign.id)}
-            />
-          ))}
-        </Grid>
+        <InfiniteScroll
+          dataLength={campaigns.length}
+          next={() => fetchNextPageCampaigns()}
+          hasMore={hasNextPageCampaigns}
+          loader={<Loader />}
+        >
+          <Grid container spacing={2}>
+            {campaigns.map(campaign => (
+              <CampaignItem
+                key={campaign.id}
+                startDate={campaign.startDate}
+                endDate={campaign.endDate}
+                title={campaign.title}
+                author="Pépito Sanchez"
+                voters={campaign.score.voters}
+                pollingStations={0}
+                knockedDoors={campaign.score.knockedDoors}
+                count={campaign.score.count}
+                collectedContacts={0}
+                handleView={handleView(campaign.id)}
+              />
+            ))}
+          </Grid>
+        </InfiniteScroll>
       )}
       {open && <Modal open={open} handleClose={handleClose} />}
     </Container>

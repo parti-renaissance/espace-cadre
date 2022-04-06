@@ -4,7 +4,9 @@ import { styled } from '@mui/system'
 import PageHeader from 'ui/PageHeader'
 import paths from 'shared/paths'
 import { useParams } from 'react-router'
-import HomepageData from '../Data/HomepageData'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { getDTDCampaignDetailQuery } from 'api/DTD'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import DTDData from '../Data/DTDData'
 import CampaignDetailKPI from './CampaignDetailKpi'
 import CampaignDetailDTD from './CampaignDetailDTD'
@@ -31,10 +33,17 @@ const messages = {
 }
 
 const DTDCampaignDetail = () => {
+  const { handleError } = useErrorHandler()
   const { campaignId } = useParams()
-  const campaignDataToFill = HomepageData.find(campaign => campaign.id === campaignId)
-  const [campaignData] = useState(campaignDataToFill || {})
   const [selectedTab, setSelectedTab] = useState(messages.dtdSuffix.id)
+
+  const { data: campaign = {} } = useQueryWithScope(
+    ['campaign', { feature: 'DTD', view: 'Campaign' }, campaignId],
+    () => getDTDCampaignDetailQuery(campaignId),
+    {
+      onError: handleError,
+    }
+  )
 
   const handleTabChange = (_, tabId) => {
     setSelectedTab(tabId)
@@ -43,10 +52,10 @@ const DTDCampaignDetail = () => {
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.title} titleLink={paths.pap_v2} titleSuffix={campaignData.title} />
+        <PageHeader title={messages.title} titleLink={paths.pap_v2} titleSuffix={campaign.title} />
       </Grid>
       <Grid container justifyContent="space-between">
-        <CampaignDetailKPI campaignData={campaignData} />
+        <CampaignDetailKPI campaign={campaign} />
         <Tabs
           variant="scrollable"
           value={selectedTab}
