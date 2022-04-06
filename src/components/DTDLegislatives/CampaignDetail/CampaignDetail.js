@@ -9,6 +9,7 @@ import { getDTDCampaignDetailQuery } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import DTDData from '../Data/DTDData'
 import CampaignDetailKPI from './CampaignDetailKpi'
+import CampaignDetailAddresses from './CampaignDetailAddresses'
 import CampaignDetailQuestioners from './CampaignDetailQuestioners'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
 import pluralize from 'components/shared/pluralize/pluralize'
@@ -81,6 +82,11 @@ const DTDCampaignDetail = () => {
             />
           ))}
         </Tabs>
+        {selectedTab === messages.addresses.id && (
+          <Grid container spacing={2}>
+            <CampaignDetailAddresses />
+          </Grid>
+        )}
         {selectedTab === messages.dtdSuffix.id && DTDData.length > 0 && (
           <Grid container spacing={2}>
             {DTDData.map((dtd, index) => (
