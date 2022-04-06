@@ -49,8 +49,8 @@ const DTDCampaignItem = ({
   knockedDoors,
   author,
   count,
-  collectedContacts,
   pollingStations,
+  collectedContacts,
   handleView,
 }) => {
   const chipLabel = chipLabelByDate(startDate, endDate)
@@ -96,7 +96,7 @@ const DTDCampaignItem = ({
               </Typography>
               <Typography>
                 <PeopleRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
-                <Typography sx={{ fontWeight: 700 }}>{pollingStations}&nbsp;</Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(pollingStations)}&nbsp;</Typography>
                 {pluralize(pollingStations, messages.pollingStation, 'x')}&nbsp;
                 {messages.voice}
               </Typography>

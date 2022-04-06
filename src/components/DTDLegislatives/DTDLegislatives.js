@@ -181,7 +181,7 @@ const DTDLegislatives = () => {
           <DTDMap userZones={userScope.zones} />
         </>
       )}
-      {selectedTab === messages.campaigns && (
+      {selectedTab === messages.campaigns && campaigns.length > 0 && (
         <InfiniteScroll
           dataLength={campaigns.length}
           next={() => fetchNextPageCampaigns()}
@@ -195,12 +195,12 @@ const DTDLegislatives = () => {
                 startDate={campaign.startDate}
                 endDate={campaign.endDate}
                 title={campaign.title}
-                author="Pépito Sanchez"
+                author={campaign.author}
                 voters={campaign.score.voters}
-                pollingStations={0}
+                pollingStations={campaign.score.pollingStations}
                 knockedDoors={campaign.score.knockedDoors}
                 count={campaign.score.count}
-                collectedContacts={0}
+                collectedContacts={campaign.score.collectedContacts}
                 handleView={handleView(campaign.id)}
               />
             ))}

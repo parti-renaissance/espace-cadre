@@ -110,8 +110,9 @@ const CampaignDetail = () => {
                     <TabLabel>
                       {id === messages.addresses.id && `${0} ${label}`}
                       {id === messages.dtdSuffix.id &&
-                        `${questionersTotalCount} ${messages.dtdPrefix}${pluralize(DTDData.length, label)}`}
-                      {id === messages.surveys.id && `${surveysTotalCount || 0} ${label}`}
+                        `${questionersTotalCount} ${messages.dtdPrefix}${pluralize(questionersTotalCount, label)}`}
+                      {id === messages.surveys.id &&
+                        `${surveysTotalCount || 0} ${pluralize(questionersTotalCount, label)}`}
                     </TabLabel>
                   }
                   disableRipple
@@ -125,25 +126,27 @@ const CampaignDetail = () => {
               </Grid>
             )}
             {selectedTab === messages.dtdSuffix.id && DTDData.length > 0 && (
-              <InfiniteScroll
-                dataLength={questioners.length}
-                next={() => fetchNexPageQuestioners()}
-                hasMore={hasNextPageQuestioners}
-                loader={<Loader />}
-              >
-                <Grid container spacing={2}>
-                  {questioners.map((questioner, index) => (
-                    <CampaignDetailQuestioners
-                      key={index + 1}
-                      number={index + 1}
-                      firstName={questioner.firstName}
-                      lastName={questioner.lastName}
-                      count={questioner.count}
-                      goal={campaign.goal}
-                    />
-                  ))}
-                </Grid>
-              </InfiniteScroll>
+              <Container>
+                <InfiniteScroll
+                  dataLength={questioners.length}
+                  next={() => fetchNexPageQuestioners()}
+                  hasMore={hasNextPageQuestioners}
+                  loader={<Loader />}
+                >
+                  <Grid container spacing={2}>
+                    {questioners.map((questioner, index) => (
+                      <CampaignDetailQuestioners
+                        key={index + 1}
+                        number={index + 1}
+                        firstName={questioner.firstName}
+                        lastName={questioner.lastName}
+                        count={questioner.count}
+                        goal={campaign.goal}
+                      />
+                    ))}
+                  </Grid>
+                </InfiniteScroll>
+              </Container>
             )}
             {selectedTab === messages.surveys.id && (
               <Grid container spacing={2}>
