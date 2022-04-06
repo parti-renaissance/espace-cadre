@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, Container, Grid, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -92,6 +93,7 @@ const Filters = () => {
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
   const [resetFilter, setResetFilter] = useState(0)
+  const [isReadyToSend, setIsReadyToSend] = useState(false)
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -122,7 +124,7 @@ const Filters = () => {
     messageSynchronizationStatusApi,
     retryInterval,
     maxAttempts,
-    () => sendMessage(messageUuid),
+    () => prepareSendApi(),
     () => {
       Sentry.addBreadcrumb({
         category: 'messages',
@@ -173,6 +175,12 @@ const Filters = () => {
     handleFiltersSubmit(defaultFilter)
   }, [defaultFilter, handleFiltersSubmit])
 
+  useEffect(() => {
+    if (isReadyToSend) {
+      sendMessage(messageUuid)
+    }
+  }, [isReadyToSend])
+
   const handleSendEmail = async (test = false) => {
     if (test) {
       setLoadingTestButton(true)
@@ -183,6 +191,12 @@ const Filters = () => {
     } else {
       await setMessageSegmentApi(messageUuid, audienceId)
       sendMessageIfFiltersAreSaved(messageUuid)
+    }
+  }
+
+  const prepareSendApi = () => {
+    if (!isReadyToSend) {
+      setIsReadyToSend(true)
     }
   }
 
