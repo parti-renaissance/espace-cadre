@@ -114,7 +114,7 @@ const DTDLegislatives = () => {
   const handleView = campaignId => () => {
     navigate(generatePath('/porte-a-porte-legislatives/:campaignId', { campaignId }))
   }
-
+  console.log(campaigns && campaigns)
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
@@ -195,9 +195,9 @@ const DTDLegislatives = () => {
                 startDate={campaign.startDate}
                 endDate={campaign.endDate}
                 title={campaign.title}
-                author="Pépito Sanchez"
+                author={campaign.author}
                 voters={campaign.score.voters}
-                pollingStations={0}
+                pollingStations={campaign.pollingStations}
                 knockedDoors={campaign.score.knockedDoors}
                 count={campaign.score.count}
                 collectedContacts={0}
