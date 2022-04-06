@@ -90,7 +90,7 @@ export const initialization = () => {
   mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
   mock(
     'GET',
-    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=20&scope=referent',
+    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=50&scope=referent',
     'surveys/surveys'
   )
 
