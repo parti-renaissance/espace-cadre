@@ -51,7 +51,7 @@ const messages = {
   time: 'Date (Temps)',
 }
 
-const CampaignDetailSurvey = () => {
+const CampaignDetailSurveys = () => {
   const [order, toggleOrder] = useState({ startDate: 'asc' })
 
   const handleSort = column => () => {
@@ -83,4 +83,4 @@ const CampaignDetailSurvey = () => {
   )
 }
 
-export default CampaignDetailSurvey
+export default CampaignDetailSurveys

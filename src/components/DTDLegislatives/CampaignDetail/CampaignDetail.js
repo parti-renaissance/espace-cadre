@@ -10,7 +10,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import DTDData from '../Data/DTDData'
 import CampaignDetailKPI from './CampaignDetailKpi'
 import CampaignDetailQuestioners from './CampaignDetailQuestioners'
-import CampaignDetailSurvey from './CampaignDetailSurvey'
+import CampaignDetailSurveys from './CampaignDetailSurveys'
 import pluralize from 'components/shared/pluralize/pluralize'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -96,7 +96,7 @@ const DTDCampaignDetail = () => {
         )}
         {selectedTab === messages.surveys.id && (
           <Grid container spacing={2}>
-            <CampaignDetailSurvey />
+            <CampaignDetailSurveys />
           </Grid>
         )}
       </Grid>
