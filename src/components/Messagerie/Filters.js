@@ -69,7 +69,7 @@ const Send = styled(Button)(
 `
 )
 
-const retryInterval = 400
+const retryInterval = 1000
 const maxAttempts = 10
 
 const messages = {
@@ -92,6 +92,7 @@ const Filters = () => {
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
   const [resetFilter, setResetFilter] = useState(0)
+  const [isReadyToSend, setIsReadyToSend] = useState(false)
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -118,11 +119,11 @@ const Filters = () => {
     }
   )
 
-  const [loadingSendButton, , sendMessageIfFiltersAreSaved] = useRetry(
+  const [loadingSendButton, data, sendMessageIfFiltersAreSaved] = useRetry(
     messageSynchronizationStatusApi,
     retryInterval,
     maxAttempts,
-    () => sendMessage(messageUuid),
+    () => prepareSendApi(),
     () => {
       Sentry.addBreadcrumb({
         category: 'messages',
@@ -173,6 +174,14 @@ const Filters = () => {
     handleFiltersSubmit(defaultFilter)
   }, [defaultFilter, handleFiltersSubmit])
 
+  useEffect(() => {
+    if (isReadyToSend) {
+      console.log('====================================')
+      console.log('can now call SEND email')
+      console.log('====================================')
+    }
+  }, [isReadyToSend])
+
   const handleSendEmail = async (test = false) => {
     if (test) {
       setLoadingTestButton(true)
@@ -183,6 +192,12 @@ const Filters = () => {
     } else {
       await setMessageSegmentApi(messageUuid, audienceId)
       sendMessageIfFiltersAreSaved(messageUuid)
+    }
+  }
+
+  const prepareSendApi = () => {
+    if (!isReadyToSend) {
+      setIsReadyToSend(true)
     }
   }
 
