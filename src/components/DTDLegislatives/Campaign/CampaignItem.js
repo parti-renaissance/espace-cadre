@@ -11,6 +11,7 @@ import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import pluralize from '../../shared/pluralize/pluralize'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import DateStatus from './DateStatus'
+import formatNumber from 'components/shared/formatNumber/formatNumber'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -44,16 +45,17 @@ const DTDCampaignItem = ({
   startDate,
   endDate,
   title,
-  author,
   voters,
-  pollingStations,
   knockedDoors,
-  filledSurveys,
+  author,
+  count,
   collectedContacts,
+  pollingStations,
   handleView,
 }) => {
   const chipLabel = chipLabelByDate(startDate, endDate)
   const chipColors = chipColorsByDate(startDate, endDate)
+
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
@@ -88,7 +90,7 @@ const DTDCampaignItem = ({
             <Grid container alignItems="center" sx={{ mb: 0.5 }}>
               <PeopleRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
               <Typography>
-                <Typography sx={{ fontWeight: 700 }}>{voters}&nbsp;</Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(voters)}&nbsp;</Typography>
                 {pluralize(voters, messages.voters)}&nbsp;
                 {pluralize(voters, messages.targeted)}
               </Typography>
@@ -102,19 +104,19 @@ const DTDCampaignItem = ({
             <Grid container alignItems="center">
               <Typography>
                 <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
-                <Typography sx={{ fontWeight: 700 }}>{knockedDoors}&nbsp;</Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(knockedDoors)}&nbsp;</Typography>
                 {pluralize(knockedDoors, messages.door)}&nbsp;
                 {pluralize(knockedDoors, messages.knocked)}
               </Typography>
               <Typography>
                 <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
-                <Typography sx={{ fontWeight: 700 }}>{filledSurveys}&nbsp;</Typography>
-                {pluralize(filledSurveys, messages.survey)}&nbsp;
-                {pluralize(filledSurveys, messages.filled)}
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(count)}&nbsp;</Typography>
+                {pluralize(count, messages.survey)}&nbsp;
+                {pluralize(count, messages.filled)}
               </Typography>
               <Typography>
                 <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
-                <Typography sx={{ fontWeight: 700 }}>{collectedContacts}&nbsp;</Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(collectedContacts)}&nbsp;</Typography>
                 {pluralize(collectedContacts, messages.contact)}&nbsp;
                 {pluralize(collectedContacts, messages.collected)}
               </Typography>
@@ -150,12 +152,12 @@ export default DTDCampaignItem
 DTDCampaignItem.propTypes = {
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
-  title: PropTypes.string,
   author: PropTypes.string,
+  title: PropTypes.string,
   voters: PropTypes.number,
-  pollingStations: PropTypes.number,
   knockedDoors: PropTypes.number,
-  filledSurveys: PropTypes.number,
   collectedContacts: PropTypes.number,
+  count: PropTypes.number,
+  pollingStations: PropTypes.number,
   handleView: PropTypes.func,
 }

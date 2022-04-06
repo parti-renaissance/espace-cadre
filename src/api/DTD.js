@@ -37,7 +37,7 @@ export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
   const data = await apiClient.get(`api/v3/pap_campaigns${query}`)
 
   const campaigns = data.items.map(c => {
-    const score = new DTDCampaignItemScore(c.nb_surveys, c.goal)
+    const score = new DTDCampaignItemScore(c.nb_surveys, c.goal, c.nb_visited_doors, c.nb_addresses, c.nb_voters)
     return new DTDCampaignItem(c.uuid, new Date(c.begin_at), new Date(c.finish_at), c.title, score)
   })
 
