@@ -9,7 +9,7 @@ import { getDTDCampaignDetailQuery } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import DTDData from '../Data/DTDData'
 import CampaignDetailKPI from './CampaignDetailKpi'
-import CampaignDetailDTD from './CampaignDetailDTD'
+import CampaignDetailQuestioners from './CampaignDetailQuestioners'
 import pluralize from 'components/shared/pluralize/pluralize'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -83,7 +83,7 @@ const DTDCampaignDetail = () => {
         {selectedTab === messages.dtdSuffix.id && DTDData.length > 0 && (
           <Grid container spacing={2}>
             {DTDData.map((dtd, index) => (
-              <CampaignDetailDTD
+              <CampaignDetailQuestioners
                 key={index + 1}
                 number={index + 1}
                 author={dtd.author}
