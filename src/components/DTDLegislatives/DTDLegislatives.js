@@ -114,7 +114,7 @@ const DTDLegislatives = () => {
   const handleView = campaignId => () => {
     navigate(generatePath('/porte-a-porte-legislatives/:campaignId', { campaignId }))
   }
-  console.log(campaigns && campaigns)
+
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
@@ -181,7 +181,7 @@ const DTDLegislatives = () => {
           <DTDMap userZones={userScope.zones} />
         </>
       )}
-      {selectedTab === messages.campaigns && (
+      {selectedTab === messages.campaigns && campaigns.length > 0 && (
         <InfiniteScroll
           dataLength={campaigns.length}
           next={() => fetchNextPageCampaigns()}
@@ -197,10 +197,10 @@ const DTDLegislatives = () => {
                 title={campaign.title}
                 author={campaign.author}
                 voters={campaign.score.voters}
-                pollingStations={campaign.pollingStations}
+                pollingStations={campaign.score.pollingStations}
                 knockedDoors={campaign.score.knockedDoors}
                 count={campaign.score.count}
-                collectedContacts={0}
+                collectedContacts={campaign.score.collectedContacts}
                 handleView={handleView(campaign.id)}
               />
             ))}

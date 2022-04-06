@@ -43,7 +43,8 @@ export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
       c.nb_visited_doors,
       c.nb_addresses,
       c.nb_voters,
-      c.nb_vote_places
+      c.nb_vote_places,
+      c.nb_collected_contacts
     )
     return new DTDCampaignItem(c.uuid, c.creator, new Date(c.begin_at), new Date(c.finish_at), c.title, score)
   })

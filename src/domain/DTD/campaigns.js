@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types'
 
 export class DTDCampaignItemScore {
-  constructor(count, goal, knockedDoors, addresses, voters, pollingStations) {
+  constructor(count, goal, knockedDoors, addresses, voters, pollingStations, collectedContacts) {
     this.count = count
     this.goal = goal
     this.knockedDoors = knockedDoors
     this.addresses = addresses
     this.voters = voters
     this.pollingStations = pollingStations
+    this.collectedContacts = collectedContacts
   }
   static propTypes = {
     count: PropTypes.number.isRequired,
@@ -16,6 +17,7 @@ export class DTDCampaignItemScore {
     addresses: PropTypes.number.isRequired,
     voters: PropTypes.number.isRequired,
     pollingStations: PropTypes.number.isRequired,
+    collectedContacts: PropTypes.number.isRequired,
   }
 }
 
