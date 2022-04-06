@@ -1,17 +1,34 @@
-import scopes from 'shared/scopes'
-
-export const published = 'published'
-export const unpublished = 'unpublished'
+const doorOpen = 'door_open'
+const doorClosed = 'door_closed'
+const answerToQuestions = 'accept_to_answer'
+const DoNotAnswerToQuestions = 'dont_accept_to_answer'
+const contactLater = 'contact_later'
+const tocome = 'tocome'
+const ongoing = 'ongoing'
+const finished = 'finished'
 
 export const defaultChipColor = { color: 'gray700', bgcolor: 'campaign.background.chip.default' }
+
 export const chipColorsByStatus = {
-  [published]: { color: 'green700', bgcolor: 'campaign.background.chip.sent' },
-  [unpublished]: defaultChipColor,
+  [doorOpen]: defaultChipColor,
+  [doorClosed]: defaultChipColor,
+  [answerToQuestions]: defaultChipColor,
+  [DoNotAnswerToQuestions]: defaultChipColor,
+  [contactLater]: defaultChipColor,
+  [tocome]: defaultChipColor,
+  [ongoing]: { color: 'green700', bgcolor: 'campaign.background.chip.ongoing' },
+  [finished]: defaultChipColor,
 }
 
 export const chipLabelByStatus = {
-  [published]: 'Publié',
-  [unpublished]: 'Dépublié',
+  [doorOpen]: 'Porte ouverte',
+  [doorClosed]: 'Porte fermée',
+  [answerToQuestions]: 'Complété',
+  [DoNotAnswerToQuestions]: 'Refus',
+  [contactLater]: 'A recontacter',
+  [tocome]: 'À venir',
+  [ongoing]: 'En cours',
+  [finished]: 'Terminé',
 }
 
 export const translatedGender = {
@@ -23,16 +40,3 @@ export const translatedGender = {
 export const simpleField = 'simple_field'
 export const uniqueChoice = 'unique_choice'
 export const multipleChoice = 'multiple_choice'
-
-export const visibility = {
-  local: 'local',
-  national: 'national',
-}
-
-export const scopesVisibility = {
-  [scopes.correspondent]: visibility.local,
-  [scopes.referent]: visibility.local,
-  [scopes.national]: visibility.national,
-  [scopes.phoning_national_manager]: visibility.national,
-  [scopes.pap_national_manager]: visibility.national,
-}
