@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, Container, Grid, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -69,7 +70,7 @@ const Send = styled(Button)(
 `
 )
 
-const retryInterval = 1000
+const retryInterval = 500
 const maxAttempts = 10
 
 const messages = {
@@ -119,7 +120,7 @@ const Filters = () => {
     }
   )
 
-  const [loadingSendButton, data, sendMessageIfFiltersAreSaved] = useRetry(
+  const [loadingSendButton, , sendMessageIfFiltersAreSaved] = useRetry(
     messageSynchronizationStatusApi,
     retryInterval,
     maxAttempts,
@@ -176,9 +177,7 @@ const Filters = () => {
 
   useEffect(() => {
     if (isReadyToSend) {
-      console.log('====================================')
-      console.log('can now call SEND email')
-      console.log('====================================')
+      sendMessage(messageUuid)
     }
   }, [isReadyToSend])
 
