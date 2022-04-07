@@ -1,5 +1,6 @@
 import { generatePath, useNavigate } from 'react-router'
-import { Container, Grid, Typography } from '@mui/material'
+import { useState } from 'react'
+import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
@@ -16,18 +17,23 @@ import { useUserScope } from '../../redux/user/hooks'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import LegendItem from './LegendItem'
 
-const Title = styled(Typography)(
-  ({ theme }) => `
-    margin: ${theme.spacing(1, 0, 2, 1)};
-    font-size: 18px;
-    font-weight: 400px;
+const Tab = styled(MuiTab)(({ theme }) => ({
+  textTransform: 'none',
+  color: theme.palette.gray400,
+  '&.Mui-selected': {
+    color: theme.palette.gray800,
+  },
+}))
+
+const TabLabel = styled(Typography)`
+  font-size: 18px;
+  font-weight: 400;
 `
-)
 
 const Legend = styled(Grid)(
   ({ theme }) => `
   padding: 16px;
-  margin-bottom: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(1)};
   border-radius: 12px;
   background: ${theme.palette.whiteCorner};
 `
@@ -41,7 +47,6 @@ const infiniteScrollStylesOverrides = {
 
 const messages = {
   title: 'Porte à porte',
-  campaigns: 'Campagnes',
   legendTitle: 'Ciblage du Porte à porte en cours',
   legendPrefix: 'Sur cette carte, retrouvez les catégories du Porte à porte en cours.',
   legend: [
@@ -77,12 +82,15 @@ const messages = {
     title: 'Les bureaux roses ',
     main: "Bureaux où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère)",
   },
+  cartography: 'Cartographie',
+  campaigns: 'Campagnes de mon territoire',
 }
 
 const DTD = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const [userScope] = useUserScope()
+  const [selectedTab, setSelectedTab] = useState(messages.cartography)
 
   const {
     data: paginatedCampaigns = null,
@@ -102,6 +110,10 @@ const DTD = () => {
     navigate(generatePath('/porte-a-porte/:campaignId', { campaignId }))
   }
 
+  const handleTabChange = (_, tabId) => {
+    setSelectedTab(tabId)
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -112,73 +124,94 @@ const DTD = () => {
         <CampaignGlobalKPI />
       </Grid>
 
-      <Legend container>
-        <Typography variant="subtitle1" sx={{ mb: 3 }}>
-          {messages.legendTitle}
-        </Typography>
-        <Grid container>
-          <Grid item sx={{ mb: 2 }}>
-            {messages.legendPrefix}
-          </Grid>
-          {messages.legend.map((el, i) => (
-            <LegendItem
-              key={i}
-              title={el?.title}
-              main1={el?.main1}
-              main2={el?.main2}
-              bold1={el?.bold1}
-              bold2={el?.bold2}
-              subtitle={el?.subtitle}
-              color={el?.color}
-            />
-          ))}
-          <Grid item display="flex" flexDirection="column">
-            <Grid item display="flex" alignItems="center">
-              <Typography variant="subtitle1">{messages.pink.title}</Typography>&nbsp;
-              <CircleRoundedIcon sx={{ color: '#FFD1DE' }} />
-            </Grid>
-            <Typography>{messages.pink.main}</Typography>
-          </Grid>
-          <Grid item>{messages.legendSuffix}</Grid>
-        </Grid>
-      </Legend>
+      <Grid container data-cy="DTD-campaigns-tabs">
+        <Tabs
+          variant="scrollable"
+          value={selectedTab}
+          onChange={handleTabChange}
+          TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
+          sx={{ my: 2 }}
+        >
+          <Tab
+            value={messages.cartography}
+            label={<TabLabel>{messages.cartography}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
+          <Tab
+            value={messages.campaigns}
+            label={<TabLabel>{messages.campaigns}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
+        </Tabs>
+      </Grid>
 
-      <DTDMap userZones={userScope.zones} />
-
-      <Grid
-        container
-        justifyContent="space-between"
-        data-cy="DTD-campaigns-container"
-        sx={{ pt: 4, ...infiniteScrollStylesOverrides }}
-      >
-        <Grid container>
-          <Title data-testid="Campaigns-title">{messages.campaigns}</Title>
-        </Grid>
-
-        {campaigns.length > 0 && (
-          <InfiniteScroll
-            dataLength={campaigns.length}
-            next={() => fetchNextPageCampaigns()}
-            hasMore={hasNextPageCampaigns}
-            loader={<Loader />}
-          >
-            <Grid container spacing={2} data-cy="DTD-campaigns-list">
-              {campaigns.map(campaign => (
-                <CampaignItem
-                  key={campaign.id}
-                  startDate={campaign.startDate}
-                  endDate={campaign.endDate}
-                  title={campaign.title}
-                  author={campaign.author}
-                  team={campaign.team}
-                  score={campaign.score}
-                  handleView={handleView(campaign.id)}
+      {selectedTab === messages.cartography && (
+        <Grid container data-cy="DTD-campaigns-map">
+          <Legend container>
+            <Typography variant="subtitle1" sx={{ mb: 3 }}>
+              {messages.legendTitle}
+            </Typography>
+            <Grid container>
+              <Grid item sx={{ mb: 2 }}>
+                {messages.legendPrefix}
+              </Grid>
+              {messages.legend.map((el, i) => (
+                <LegendItem
+                  key={i}
+                  title={el?.title}
+                  main1={el?.main1}
+                  main2={el?.main2}
+                  bold1={el?.bold1}
+                  bold2={el?.bold2}
+                  subtitle={el?.subtitle}
+                  color={el?.color}
                 />
               ))}
+              <Grid item display="flex" flexDirection="column">
+                <Grid item display="flex" alignItems="center">
+                  <Typography variant="subtitle1">{messages.pink.title}</Typography>&nbsp;
+                  <CircleRoundedIcon sx={{ color: '#FFD1DE' }} />
+                </Grid>
+                <Typography>{messages.pink.main}</Typography>
+              </Grid>
+              <Grid item>{messages.legendSuffix}</Grid>
             </Grid>
-          </InfiniteScroll>
-        )}
-      </Grid>
+          </Legend>
+          <Grid item xs={12}>
+            <DTDMap userZones={userScope.zones} />
+          </Grid>
+        </Grid>
+      )}
+
+      {selectedTab === messages.campaigns && (
+        <Grid container justifyContent="space-between" sx={{ ...infiniteScrollStylesOverrides }}>
+          {campaigns.length > 0 && (
+            <InfiniteScroll
+              dataLength={campaigns.length}
+              next={() => fetchNextPageCampaigns()}
+              hasMore={hasNextPageCampaigns}
+              loader={<Loader />}
+            >
+              <Grid container spacing={2} data-cy="DTD-campaigns-list">
+                {campaigns.map(campaign => (
+                  <CampaignItem
+                    key={campaign.id}
+                    startDate={campaign.startDate}
+                    endDate={campaign.endDate}
+                    title={campaign.title}
+                    author={campaign.author}
+                    team={campaign.team}
+                    score={campaign.score}
+                    handleView={handleView(campaign.id)}
+                  />
+                ))}
+              </Grid>
+            </InfiniteScroll>
+          )}
+        </Grid>
+      )}
     </Container>
   )
 }

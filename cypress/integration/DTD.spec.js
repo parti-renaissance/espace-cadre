@@ -8,7 +8,8 @@ const Typography = '.MuiTypography-root'
 const RatioProgress = '[data-cy="ui-ratio-progress"]'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
 const CTAButton = '[data-cy="DTD-action-view"]'
-const CampaignsContainer = '[data-cy="DTD-campaigns-container"]'
+const CampaignsTabs = '[data-cy="DTD-campaigns-tabs"]'
+const CampaignsMap = '[data-cy="DTD-campaigns-map"]'
 const CampaignsList = '[data-cy="DTD-campaigns-list"]'
 const CampaignItemEndDate = '[data-cy="DTD-campaigns-item-end-date"]'
 const CampaignItemTitle = '[data-cy="DTD-campaigns-item-title"]'
@@ -88,42 +89,70 @@ describe('DTD', () => {
     })
   })
 
-  describe('The Campaigns block', () => {
-    it('should contain 2 parts', () => {
-      cy.get(CampaignsContainer).should('exist')
-      cy.get(CampaignsContainer).find('>div').should('have.length', 2)
-    })
-    it('should have a title', () => {
-      cy.get(CampaignsContainer).find('>div').first().find(Typography).should('have.text', 'Campagnes').and('be.visible')
-    })
-    it('should have a list with at least 1 card', () => {
-      cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).should('exist').children().its('length').should('be.gte', 1)
-    })
+  describe('The tabs block', () => {
 
-    describe('The campaign item', () => {
-      it('should show a status and a date', () => {
-        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).each(element => {
-          cy.wrap(element).find(UICard).eq(0).find(Chip).find(Typography).should('exist').invoke('text').then(isNotEmpty)
-          cy.wrap(element).find(UICard).eq(0).find(CampaignItemEndDate).should('exist').invoke('text').then(isNotEmpty)
-        })
+    it('should have 2 tabs', () => {
+      cy.get(CampaignsTabs).should('exist')
+      cy.get(CampaignsTabs).find('button').should('have.length', 2)
+    })
+    
+    describe('The first tab', () => {
+      
+      it('should have a legend and a map', () => {
+        cy.get(CampaignsTabs).find('button').eq(0).should('have.text', 'Cartographie')
+        cy.get(CampaignsMap).find('div:first').contains('Ciblage du Porte à porte en cours')      
+        cy.get(CampaignsMap).find('>div').eq(1).should('exist')
       })
-      it('should show a title', () => {
-        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).each(element => {
-          cy.wrap(element).find(UICard).eq(0).find(CampaignItemTitle).should('exist').invoke('text').then(isNotEmpty)
-        })
+    })
+    
+    describe('The second tab', () => {
+
+      beforeEach(() => {
+        cy.get(CampaignsTabs).find('button').eq(1).click()
       })
-      it('should show a score and a progress bar', () => {
-        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).each(element => {
-          cy.wrap(element).find(UICard).eq(0).find(RatioProgress).find(Typography).each((element, index) => {
-            cy.wrap(element).should('exist').invoke('text').then(element => {
-              cy.wrap(index === 1 ? element.replace('/', '') : element).should('match', /^[0-9]*$/).then(isNotEmpty)
+
+      it('should have a title and be clickable', () => {
+        cy.get(CampaignsTabs).find('button').eq(1).should('have.text', 'Campagnes de mon territoire')
+      })
+    
+    
+      it('should contain 2 parts', () => {
+        cy.get(CampaignsTabs).find('button').eq(1).click()
+        cy.get(CampaignsList).should('exist')
+        cy.get(CampaignsList).find('>div').should('have.length', 2)
+      })
+      it('should have a title', () => {
+        cy.get(CampaignsList).find('>div').first().contains('[National] Campagne 1')
+      })
+      it('should have a list with at least 1 card', () => {
+        cy.get(CampaignsList).find(UICard).its('length').should('be.gte', 1)
+      })
+
+      describe('The campaign item', () => {
+        it('should show a status and a date', () => {
+          cy.get(CampaignsList).find('>div').each(element => {
+            cy.wrap(element).find(UICard).eq(0).find(Chip).find(Typography).should('exist').invoke('text').then(isNotEmpty)
+            cy.wrap(element).find(UICard).eq(0).find(CampaignItemEndDate).should('exist').invoke('text').then(isNotEmpty)
+          })
+        })
+        it('should show a title', () => {
+          cy.get(CampaignsList).find('>div').each(element => {
+            cy.wrap(element).find(UICard).eq(0).find(CampaignItemTitle).should('exist').invoke('text').then(isNotEmpty)
+          })
+        })
+        it('should show a score and a progress bar', () => {
+          cy.get(CampaignsList).find('>div').each(element => {
+            cy.wrap(element).find(UICard).eq(0).find(RatioProgress).find(Typography).each((element, index) => {
+              cy.wrap(element).should('exist').invoke('text').then(element => {
+                cy.wrap(index === 1 ? element.replace('/', '') : element).should('match', /^[0-9]*$/).then(isNotEmpty)
+              })
             })
           })
         })
-      })
-      it('should show a nav button', () => {
-        cy.get(CampaignsContainer).find('>div').eq(1).find(CampaignsList).find(UICard).each(element => {
-          cy.wrap(element).find(CTAButton).find(Typography).should('exist').and('have.text', 'voir')
+        it('should show a nav button', () => {
+          cy.get(CampaignsList).find('>div').eq(1).find(UICard).each(element => {
+            cy.wrap(element).find(CTAButton).find(Typography).should('exist').and('have.text', 'voir')
+          })
         })
       })
     })
