@@ -33,7 +33,7 @@ const TabLabel = styled(Typography)`
 const Legend = styled(Grid)(
   ({ theme }) => `
   padding: 16px;
-  margin-bottom: ${theme.spacing(2)};
+  margin-bottom: ${theme.spacing(1)};
   border-radius: 12px;
   background: ${theme.palette.whiteCorner};
 `
@@ -124,7 +124,7 @@ const DTD = () => {
         <CampaignGlobalKPI />
       </Grid>
 
-      <Grid container data-cy="DTD-campaigns-list">
+      <Grid container data-cy="DTD-campaigns-tabs">
         <Tabs
           variant="scrollable"
           value={selectedTab}
@@ -148,7 +148,7 @@ const DTD = () => {
       </Grid>
 
       {selectedTab === messages.cartography && (
-        <>
+        <Grid container data-cy="DTD-campaigns-map">
           <Legend container>
             <Typography variant="subtitle1" sx={{ mb: 3 }}>
               {messages.legendTitle}
@@ -179,18 +179,14 @@ const DTD = () => {
               <Grid item>{messages.legendSuffix}</Grid>
             </Grid>
           </Legend>
-
-          <DTDMap userZones={userScope.zones} />
-        </>
+          <Grid item xs={12}>
+            <DTDMap userZones={userScope.zones} />
+          </Grid>
+        </Grid>
       )}
 
       {selectedTab === messages.campaigns && (
-        <Grid
-          container
-          justifyContent="space-between"
-          data-cy="DTD-campaigns-container"
-          sx={{ ...infiniteScrollStylesOverrides }}
-        >
+        <Grid container justifyContent="space-between" sx={{ ...infiniteScrollStylesOverrides }}>
           {campaigns.length > 0 && (
             <InfiniteScroll
               dataLength={campaigns.length}
