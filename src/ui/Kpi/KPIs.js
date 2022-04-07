@@ -120,7 +120,18 @@ export const KPIs = ({ title = messages.kpi, children, isLoading = false, error 
       </Grid>
       <Grid container>
         <Grid item xs={12} sx={{ px: 2 }}>
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              flexWrap: 'nowrap',
+              overflowX: 'scroll',
+              overflowY: 'hidden',
+              '::-webkit-scrollbar': {
+                display: 'none',
+              },
+            }}
+          >
             {children}
           </Grid>
         </Grid>
