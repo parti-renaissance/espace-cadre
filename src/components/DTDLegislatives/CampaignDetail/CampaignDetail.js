@@ -7,7 +7,6 @@ import { useParams } from 'react-router'
 import { useQueryWithScope, useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getDTDCampaignDetailQuery, getDTDCampaignQuestioners, getDTDCampaignSurveysReplies } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import DTDData from '../Data/DTDData'
 import CampaignDetailKPI from './CampaignDetailKpi'
 import CampaignDetailAddresses from './CampaignDetailAddresses'
 import CampaignDetailQuestioners from './CampaignDetailQuestioners'
@@ -125,7 +124,7 @@ const CampaignDetail = () => {
                 <CampaignDetailAddresses />
               </Grid>
             )}
-            {selectedTab === messages.dtdSuffix.id && DTDData.length > 0 && (
+            {selectedTab === messages.dtdSuffix.id && questioners.length > 0 && (
               <Container>
                 <InfiniteScroll
                   dataLength={questioners.length}
