@@ -135,17 +135,17 @@ export const getPhoningCampaignSurveysReplies = async campaignId => {
   return {
     totalCount: data.metadata.total_items,
     replies: data.items.map(sr => {
-      const caller = sr.phoning_campaign_history.caller
+      const callee = sr.phoning_campaign_history.adherent
         ? new PhoningCampaignDetailHistoryCaller(
-            sr.phoning_campaign_history.caller.first_name,
-            sr.phoning_campaign_history.caller.last_name,
-            sr.phoning_campaign_history.caller.gender,
-            sr.phoning_campaign_history.caller.age
+            sr.phoning_campaign_history.adherent.first_name,
+            sr.phoning_campaign_history.adherent.last_name,
+            sr.phoning_campaign_history.adherent.gender,
+            sr.phoning_campaign_history.adherent.age
           )
         : null
       return new PhoningCampaignDetailSurveysReply(
         sr.answers.map(a => new PhoningCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
-        caller,
+        callee,
         new Date(sr.phoning_campaign_history.begin_at),
         new Date(sr.phoning_campaign_history.finish_at)
       )
