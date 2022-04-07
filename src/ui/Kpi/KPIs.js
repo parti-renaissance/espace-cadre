@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import UILoader from 'ui/Loader/Loader'
 import ErrorComponent from 'components/ErrorComponent'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 
 const KPIContainer = styled(Grid)(
   ({ theme }) => `
@@ -96,6 +97,8 @@ const messages = {
 }
 
 export const KPIs = ({ title = messages.kpi, children, isLoading = false, error = false }) => {
+  const { isMobile } = useCurrentDeviceType()
+
   if (isLoading) {
     return (
       <LoaderContainer>
@@ -124,7 +127,7 @@ export const KPIs = ({ title = messages.kpi, children, isLoading = false, error 
             container
             spacing={2}
             sx={{
-              flexWrap: 'nowrap',
+              flexWrap: isMobile ? 'wrap' : 'nowrap',
               overflowX: 'scroll',
               overflowY: 'hidden',
               '::-webkit-scrollbar': {
