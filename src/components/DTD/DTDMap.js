@@ -123,11 +123,7 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
 }
 
 DTDMap.propTypes = {
-<<<<<<< HEAD
-  typeOfLayer: PropPropTypes.string.isRequired,
-=======
   typeOfLayer: PropTypes.string.isRequired,
->>>>>>> Add dependencies
   userZones: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,

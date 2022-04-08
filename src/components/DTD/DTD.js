@@ -233,12 +233,12 @@ const DTD = () => {
       )}
 
       {selectedTab === messages.leftVotes && (
-        <Grid container>
+        <Grid item xs={12}>
           <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_LEFT} />
         </Grid>
       )}
       {selectedTab === messages.rightVotes && (
-        <Grid container>
+        <Grid item xs={12}>
           <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_RIGHT} />
         </Grid>
       )}
