@@ -84,6 +84,8 @@ const messages = {
   },
   cartography: 'Cartographie',
   campaigns: 'Campagnes de mon territoire',
+  rightVotes: 'Voix de droite',
+  leftVotes: 'Voix de gauche',
 }
 
 const DTD = () => {
@@ -141,6 +143,18 @@ const DTD = () => {
           <Tab
             value={messages.campaigns}
             label={<TabLabel>{messages.campaigns}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
+          <Tab
+            value={messages.leftVotes}
+            label={<TabLabel>{messages.leftVotes}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
+          <Tab
+            value={messages.rightVotes}
+            label={<TabLabel>{messages.rightVotes}</TabLabel>}
             disableRipple
             disableFocusRipple
           />
