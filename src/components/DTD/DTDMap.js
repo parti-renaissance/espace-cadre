@@ -5,7 +5,7 @@ import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { LayersCodes, LayersTypes } from 'components/Map/Layers'
+import { LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
 import Popin from './Popin'
@@ -24,9 +24,7 @@ const Map = styled(Grid)(
 `
 )
 
-const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
-
-const DTDMap = ({ userZones }) => {
+const DTDMap = ({ userZones, typeOfLayer }) => {
   const mapContainer = useRef(null)
   const map = useRef()
   const [currentPoint, setCurrentPoint] = useState(null)
@@ -36,7 +34,7 @@ const DTDMap = ({ userZones }) => {
 
   const onMapReady = useCallback(() => {
     Object.keys(LayersTypes).map(key => {
-      map.current.setLayoutProperty(key, 'visibility', key === DTD_LAYER_POINT ? 'visible' : 'none')
+      map.current.setLayoutProperty(key, 'visibility', key === typeOfLayer ? 'visible' : 'none')
     })
 
     const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
@@ -44,7 +42,7 @@ const DTDMap = ({ userZones }) => {
     const codesDistrict = userZones.filter(z => z.type === zoneTypes.DISTRICT).map(z => z.code)
     const codesCountry = userZones.filter(z => z.type === zoneTypes.COUNTRY).map(z => z.code)
 
-    map.current.setFilter(DTD_LAYER_POINT, [
+    map.current.setFilter(typeOfLayer, [
       'any',
       ['in', 'CODE_REGION', ...codesRegion],
       ['in', 'CODE_DEPARTMENT', ...codesDepartement],
@@ -52,7 +50,7 @@ const DTDMap = ({ userZones }) => {
       ['in', 'CODE_COUNTRY', ...codesCountry],
     ])
 
-    map.current.setPaintProperty(DTD_LAYER_POINT, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
+    map.current.setPaintProperty(typeOfLayer, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones])
 
   const onClick = useCallback(({ point, lngLat }) => {
@@ -70,7 +68,7 @@ const DTDMap = ({ userZones }) => {
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
     map.current.on('data', () => {
       const renderedFeatures = map.current.queryRenderedFeatures({
-        layers: [DTD_LAYER_POINT],
+        layers: [typeOfLayer],
       })
 
       if (renderedFeatures.length && map.current.getZoom() < 6) {
@@ -94,7 +92,7 @@ const DTDMap = ({ userZones }) => {
   useEffect(() => {
     if (!currentPoint) return
     const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
-      layers: [DTD_LAYER_POINT],
+      layers: [typeOfLayer],
     })
     if (mapBoxProps) {
       const [propsPoint] = mapBoxProps

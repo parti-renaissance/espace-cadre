@@ -16,6 +16,7 @@ import DTDMap from 'components/DTD/DTDMap'
 import { useUserScope } from '../../redux/user/hooks'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import LegendItem from './LegendItem'
+import { LayersCodes } from 'components/Map/Layers'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -87,6 +88,9 @@ const messages = {
   rightVotes: 'Voix de droite',
   leftVotes: 'Voix de gauche',
 }
+const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
+const DTD_LAYER_LEFT = LayersCodes.ciblagePapLeft
+const DTD_LAYER_RIGHT = LayersCodes.ciblagePapRight
 
 const DTD = () => {
   const navigate = useNavigate()
@@ -194,7 +198,7 @@ const DTD = () => {
             </Grid>
           </Legend>
           <Grid item xs={12}>
-            <DTDMap userZones={userScope.zones} />
+            <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_POINT} />
           </Grid>
         </Grid>
       )}
@@ -224,6 +228,17 @@ const DTD = () => {
               </Grid>
             </InfiniteScroll>
           )}
+        </Grid>
+      )}
+
+      {selectedTab === messages.leftVotes && (
+        <Grid container>
+          <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_LEFT} />
+        </Grid>
+      )}
+      {selectedTab === messages.rightVotes && (
+        <Grid container>
+          <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_RIGHT} />
         </Grid>
       )}
     </Container>

@@ -6,6 +6,8 @@ export const LayersCodes = {
   communes: 'commune',
   pollingStation: 'bureau',
   ciblagePapPoint: 'ciblage-pap-point',
+  ciblagePapLeft: 'provenance-gauche',
+  ciblagePapRight: 'provenance-droite',
 }
 
 export const LayersTypes = {
@@ -16,4 +18,6 @@ export const LayersTypes = {
   [LayersCodes.communes]: 'Communes',
   [LayersCodes.pollingStation]: 'Bureaux de vote',
   [LayersCodes.ciblagePapPoint]: 'PAP',
+  [LayersCodes.ciblagePapLeft]: 'Voix de gauche',
+  [LayersCodes.ciblagePapRight]: 'Voix de droite',
 }
