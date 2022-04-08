@@ -4,11 +4,7 @@ import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
-import { useErrorHandler } from 'components/shared/error/hooks'
 import formatNumber from '../../../shared/formatNumber/formatNumber'
-import { getDTDCampaignPollingStations } from 'api/DTD'
-import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
-import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
 
 const messages = {
   voters: 'électeurs',
@@ -31,7 +27,10 @@ const Container = styled(
 `
 )
 
-const SecondaryContainer = styled(Grid)(
+const SecondaryContainer = styled(
+  Grid,
+  shouldForwardProps
+)(
   ({ isMobile }) => `
   display: flex;
   justify-content: ${isMobile ? 'start' : 'space-evenly'};
@@ -62,43 +61,27 @@ const Count = styled(Typography)(
   `
 )
 
-const PollingStation = ({ pollingStation, handleSelectOne, isCheck }) => {
-  const hasBorderColor = isCheck.includes(pollingStation.id)
+const PollingStation = ({ station, index, handleSelectOne, isCheck }) => {
+  const hasBorderColor = isCheck.includes(station?.id)
   const { isMobile } = useCurrentDeviceType()
-  const { handleError } = useErrorHandler()
-
-  const {
-    data: paginatedPollingStations = null,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-  } = useInfiniteQueryWithScope(
-    ['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }],
-    getDTDCampaignPollingStations,
-    {
-      getNextPageParam,
-      onError: handleError,
-    }
-  )
-
-  console.log(paginatedPollingStations)
 
   return (
     <Container container hasBorderColor={hasBorderColor} isMobile={isMobile}>
-      <Checkbox checked={isCheck.includes(pollingStation?.id)} onChange={e => handleSelectOne(e, pollingStation.id)} />
+      <Checkbox checked={isCheck.includes(station?.id)} onChange={e => handleSelectOne(e, station?.id)} />
       <Chip
-        label={pollingStation.tag}
+        label={`#${index + 1}`}
         variant="outlined"
         size="small"
         sx={{ px: 1.5, py: 0.5, mr: 1, ...(isMobile && { mb: 1 }) }}
       />
       <SecondaryContainer item isMobile={isMobile}>
-        <Place sx={{ ...(isMobile && { mb: 1 }) }}>{pollingStation.name}</Place>
+        <Place sx={{ ...(isMobile && { mb: 1 }) }}>{station.code}</Place>
         <Count sx={{ ...(isMobile && { mb: 1 }) }}>
-          <Typography sx={{ fontWeight: 700 }}>{formatNumber(pollingStation.voters)}</Typography>&nbsp;{messages.voters}
+          <Typography sx={{ fontWeight: 700 }}>{formatNumber(station.voters)}</Typography>&nbsp;
+          {messages.voters}
         </Count>
         <Count sx={{ ...(isMobile && { mb: 1 }) }}>
-          <Typography sx={{ fontWeight: 700 }}>{formatNumber(pollingStation.addresses)}</Typography>&nbsp;
+          <Typography sx={{ fontWeight: 700 }}>{formatNumber(station.addresses)}</Typography>&nbsp;
           {messages.addresses}
         </Count>
       </SecondaryContainer>
@@ -107,9 +90,10 @@ const PollingStation = ({ pollingStation, handleSelectOne, isCheck }) => {
 }
 
 PollingStation.propTypes = {
-  pollingStation: PropTypes.object,
+  station: PropTypes.object,
   handleSelectOne: PropTypes.func,
   isCheck: PropTypes.array,
+  index: PropTypes.number,
 }
 
 export default PollingStation

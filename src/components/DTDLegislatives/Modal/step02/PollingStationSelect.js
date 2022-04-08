@@ -1,15 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import PollingStation from './PollingStation'
-import PollingStations from '../../Data/ModalData'
 import PropTypes from 'prop-types'
 import pluralize from '../../../shared/pluralize/pluralize'
 import formatNumber from '../../../shared/formatNumber/formatNumber'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { getNextPageParam, usePaginatedData } from 'api/pagination'
+import { getDTDCampaignPollingStations } from 'api/DTD'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import Loader from 'ui/Loader'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -58,10 +63,25 @@ const PollingStationSelect = ({ formik }) => {
   const [addressesCount, setAddressesCount] = useState(0)
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
+  const { handleError } = useErrorHandler()
+
+  const {
+    data: paginatedPollingStations = null,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQueryWithScope(
+    ['paginated-campaigns', { feature: 'DTD', view: 'PollingStations' }],
+    getDTDCampaignPollingStations,
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
+  const pollingStations = usePaginatedData(paginatedPollingStations)
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll)
-    setIsCheck(PollingStations.map(station => station.id))
+    setIsCheck(pollingStations?.map(station => station.id))
     if (isCheckAll) {
       setIsCheck([])
     }
@@ -75,14 +95,12 @@ const PollingStationSelect = ({ formik }) => {
   }
 
   useEffect(() => {
-    const votersToSum = PollingStations.filter(station => isCheck.includes(station.id)).reduce(
-      (total, currentValue) => total + currentValue.voters,
-      0
-    )
-    const addressesToSum = PollingStations.filter(station => isCheck.includes(station.id)).reduce(
-      (total, currentValue) => total + currentValue.addresses,
-      0
-    )
+    const votersToSum = pollingStations
+      .filter(station => isCheck.includes(station.id))
+      .reduce((total, currentValue) => total + currentValue.voters, 0)
+    const addressesToSum = pollingStations
+      .filter(station => isCheck.includes(station.id))
+      .reduce((total, currentValue) => total + currentValue.addresses, 0)
     setVotersCount(votersToSum)
     setAddressesCount(addressesToSum)
 
@@ -103,7 +121,7 @@ const PollingStationSelect = ({ formik }) => {
           control={<Checkbox checked={isCheckAll} onChange={handleSelectAll} />}
           label={
             <Typography variant="subtitle1">
-              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{checkedCount}</Typography>}
+              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{pollingStations.length}</Typography>}
               &nbsp;
               {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
               {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
@@ -120,18 +138,25 @@ const PollingStationSelect = ({ formik }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      {PollingStations.length > 0 && (
-        <Grid item xs={12}>
-          {PollingStations.map((pollingStation, index) => (
-            <PollingStation
-              key={index}
-              pollingStation={pollingStation}
-              handleSelectOne={handleSelectOne}
-              index={index}
-              isCheck={isCheck}
-            />
-          ))}
-        </Grid>
+      {paginatedPollingStations && (
+        <InfiniteScroll
+          dataLength={pollingStations.length}
+          next={() => fetchNextPage()}
+          hasMore={hasNextPage}
+          loader={<Loader />}
+        >
+          <Grid item xs={12}>
+            {pollingStations?.map((station, index) => (
+              <PollingStation
+                key={index}
+                station={station}
+                handleSelectOne={handleSelectOne}
+                index={index}
+                isCheck={isCheck}
+              />
+            ))}
+          </Grid>
+        </InfiniteScroll>
       )}
     </Container>
   )
