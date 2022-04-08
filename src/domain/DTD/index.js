@@ -16,3 +16,4 @@ export {
 } from './campaign-detail-history'
 export { DTDCampaignDetailSurveysReply, DTDCampaignDetailSurveysReplyAnswer } from './campaign-detail-surveys'
 export { DTDCampaignDetailSurveysAddress } from './campaign-detail-address'
+export { DTDLocalPollingStations } from './campaign-pollingStations'

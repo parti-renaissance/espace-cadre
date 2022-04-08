@@ -22,6 +22,7 @@ import {
   DTDCampaignDetailSurveysReply,
   DTDCampaignDetailSurveysReplyAnswer,
   DTDCampaignDetailSurveysAddress,
+  DTDLocalPollingStations,
 } from 'domain/DTD'
 import { newPaginatedResult } from 'api/pagination'
 
@@ -153,5 +154,16 @@ export const getDTDCampaignSurveysAddress = () => {
         : null
       return new DTDCampaignDetailSurveysAddress(sa.address, sa.buildingType, sa.status, sa.doorsKnocked, questioner)
     }),
+  }
+}
+
+export const getDTDCampaignPollingStations = async () => {
+  const data = await apiClient.get(`api/v3/pap_vote_places`)
+
+  return {
+    totalCount: data.metadata.total_items,
+    pollingStations: data.items.map(
+      station => new DTDLocalPollingStations(station.uuid, station.code, station.addresses, station.voters)
+    ),
   }
 }

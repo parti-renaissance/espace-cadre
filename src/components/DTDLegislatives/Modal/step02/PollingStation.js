@@ -4,7 +4,11 @@ import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import formatNumber from '../../../shared/formatNumber/formatNumber'
+import { getDTDCampaignPollingStations } from 'api/DTD'
+import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
 
 const messages = {
   voters: 'électeurs',
@@ -61,6 +65,23 @@ const Count = styled(Typography)(
 const PollingStation = ({ pollingStation, handleSelectOne, isCheck }) => {
   const hasBorderColor = isCheck.includes(pollingStation.id)
   const { isMobile } = useCurrentDeviceType()
+  const { handleError } = useErrorHandler()
+
+  const {
+    data: paginatedPollingStations = null,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQueryWithScope(
+    ['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }],
+    getDTDCampaignPollingStations,
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
+
+  console.log(paginatedPollingStations)
 
   return (
     <Container container hasBorderColor={hasBorderColor} isMobile={isMobile}>
