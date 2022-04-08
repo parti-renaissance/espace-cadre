@@ -51,7 +51,7 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
     ])
 
     map.current.setPaintProperty(typeOfLayer, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
-  }, [userZones])
+  }, [userZones, typeOfLayer])
 
   const onClick = useCallback(({ point, lngLat }) => {
     if (point) {
@@ -80,7 +80,7 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
         }
       }
     })
-  }, [handleError])
+  }, [handleError, typeOfLayer])
 
   useEffect(() => {
     if (!map.current) return
@@ -102,7 +102,7 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
         setInfos({ code, address: address || '', priority })
       }
     }
-  }, [map, currentPoint])
+  }, [map, currentPoint, typeOfLayer])
 
   useEffect(() => {
     if (!currentPoint || !infos) return
@@ -123,6 +123,7 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
 }
 
 DTDMap.propTypes = {
+  typeOfLayer: PropPropTypes.string.isRequired,
   userZones: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,

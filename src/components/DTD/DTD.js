@@ -199,6 +199,7 @@ const DTD = () => {
           </Legend>
           <Grid item xs={12}>
             <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_POINT} />
+            <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_RIGHT} />
           </Grid>
         </Grid>
       )}
