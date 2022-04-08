@@ -23,6 +23,7 @@ const Tab = styled(MuiTab)(({ theme }) => ({
     color: theme.palette.gray800,
   },
 }))
+
 const TabLabel = styled(Typography)`
   font-size: 18px;
   font-weight: 400;

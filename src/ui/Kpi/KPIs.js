@@ -6,13 +6,25 @@ import UILoader from 'ui/Loader/Loader'
 import ErrorComponent from 'components/ErrorComponent'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 
-const KPIContainer = styled(Grid)(
-  ({ theme }) => `
-  background-color: ${theme.palette.gray200};
-  margin-bottom: ${theme.spacing(2)};
-  border-radius: ${theme.spacing(1.5)};
-`
-)
+const KPIContainer = styled(Grid)(({ theme }) => ({
+  backgroundColor: theme.palette.gray200,
+  marginBottom: theme.spacing(2),
+  borderRadius: theme.spacing(1.5),
+  [theme.breakpoints.up('md')]: {
+    minWidth: '1000px',
+  },
+}))
+
+const ChildrenContainer = styled(Grid)(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    flexWrap: 'nowrap',
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    '::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
+}))
 
 const KPITitle = styled(Typography)(
   ({ theme }) => `
@@ -120,9 +132,9 @@ export const KPIs = ({ title = messages.kpi, children, isLoading = false, error 
       </Grid>
       <Grid container>
         <Grid item xs={12} sx={{ px: 2 }}>
-          <Grid container spacing={2}>
+          <ChildrenContainer container spacing={2}>
             {children}
-          </Grid>
+          </ChildrenContainer>
         </Grid>
       </Grid>
     </KPIContainer>

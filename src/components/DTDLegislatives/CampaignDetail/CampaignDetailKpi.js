@@ -15,26 +15,26 @@ const messages = {
 
 const CampaignDetailKPI = ({ campaign }) => (
   <KPIs>
-    {/* <KPICard
-        main={campaign?.visitedAddresses}
-        title={
-          <>
-            {pluralize(campaign?.visitedAddresses, messages.visitedPrefix)}&nbsp;
-            {pluralize(campaign?.visitedAddresses, messages.visitedSuffix)}
-          </>
-        }
-      />
-      <KPICard
-        main={campaign?.toVisitAddresses}
-        title={
-          <>
-            {pluralize(campaign?.toVisitAddresses, messages.visitedPrefix)}&nbsp;
-            {messages.toVisit}
-          </>
-        }
-      /> */}
     <KPICard
-      main={campaign?.KPI?.doors?.knockedCount}
+      main={campaign?.visitedAddresses || 0}
+      title={
+        <>
+          {pluralize(campaign?.visitedAddresses, messages.visitedPrefix)}&nbsp;
+          {pluralize(campaign?.visitedAddresses, messages.visitedSuffix)}
+        </>
+      }
+    />
+    <KPICard
+      main={campaign?.toVisitAddresses || 0}
+      title={
+        <>
+          {pluralize(campaign?.toVisitAddresses, messages.visitedPrefix)}&nbsp;
+          {messages.toVisit}
+        </>
+      }
+    />
+    <KPICard
+      main={campaign?.KPI?.doors?.knockedCount || 0}
       title={
         <>
           {pluralize(campaign?.KPI?.doors?.knockedCount, messages.door)}&nbsp;
@@ -43,11 +43,11 @@ const CampaignDetailKPI = ({ campaign }) => (
       }
     />
     <KPICard
-      main={campaign?.KPI?.surveys?.count}
+      main={campaign?.KPI?.surveys?.count || 0}
       title={<>{pluralize(campaign?.KPI?.surveys?.count, messages.surveys)}</>}
     />
     <KPICard
-      main={campaign?.KPI?.contacts?.collectedCount}
+      main={campaign?.KPI?.contacts?.collectedCount || 0}
       title={
         <>
           {pluralize(campaign?.KPI?.contacts?.collectedCount, messages.contact)}&nbsp;
