@@ -133,7 +133,6 @@ export const uploadImage = ({ eventId, image }) =>
 export const deleteImage = eventId => apiClient.delete(`/api/v3/events/${eventId}/image`)
 
 const eventToJson = event => ({
-  id: event.id,
   name: event.name,
   category: event.categoryId,
   description: event.description,
