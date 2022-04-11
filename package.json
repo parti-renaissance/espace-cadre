@@ -42,7 +42,7 @@
     "react-query": "3.34.19",
     "react-redux": "7.2.8",
     "react-router-dom": "6.3.0",
-    "react-select": "5.2.2",
+    "react-select": "5.3.0",
     "react-use": "17.3.2",
     "recharts": "2.1.9",
     "redux": "4.1.2",
