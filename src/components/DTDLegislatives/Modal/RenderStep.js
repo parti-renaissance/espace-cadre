@@ -4,7 +4,7 @@ import PollingStationSelect from './step02/PollingStationSelect'
 
 const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange }) => {
   switch (step) {
-    case 2:
+    case 1:
       return (
         <Register
           formik={formik}
@@ -15,7 +15,7 @@ const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleC
           handleBlur={handleBlur}
         />
       )
-    case 1:
+    case 2:
       return <PollingStationSelect formik={formik} />
     default:
       return <Register errors={errors} touched={touched} />

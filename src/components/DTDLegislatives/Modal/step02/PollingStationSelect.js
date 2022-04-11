@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
@@ -11,9 +10,8 @@ import formatNumber from '../../../shared/formatNumber/formatNumber'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getDTDCampaignPollingStations } from 'api/DTD'
-import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
 
 const messages = {
@@ -65,19 +63,13 @@ const PollingStationSelect = ({ formik }) => {
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
 
-  const {
-    data: paginatedPollingStations = null,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQueryWithScope(
+  const { data: pollingStations = [] } = useQueryWithScope(
     ['paginated-campaigns', { feature: 'DTD', view: 'PollingStations' }],
     getDTDCampaignPollingStations,
     {
-      getNextPageParam,
       onError: handleError,
     }
   )
-  const pollingStations = usePaginatedData(paginatedPollingStations)
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll)
@@ -95,6 +87,8 @@ const PollingStationSelect = ({ formik }) => {
   }
 
   useEffect(() => {
+    if (!pollingStations.length > 0) return
+
     const votersToSum = pollingStations
       .filter(station => isCheck.includes(station.id))
       .reduce((total, currentValue) => total + currentValue.voters, 0)
@@ -111,8 +105,15 @@ const PollingStationSelect = ({ formik }) => {
     }
   }, [isCheck])
 
+  if (!pollingStations.length > 0)
+    return (
+      <Grid container justifyContent="center">
+        <Loader />
+      </Grid>
+    )
+
   return (
-    <Container maxWidth="md" isMobile={isMobile}>
+    <Container maxWidth="md">
       <Grid container sx={{ mt: 1, mb: 2 }}>
         <Title>{messages.title}</Title>
       </Grid>
@@ -121,7 +122,7 @@ const PollingStationSelect = ({ formik }) => {
           control={<Checkbox checked={isCheckAll} onChange={handleSelectAll} />}
           label={
             <Typography variant="subtitle1">
-              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{pollingStations.length}</Typography>}
+              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{isCheck?.length}</Typography>}
               &nbsp;
               {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
               {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
@@ -138,25 +139,18 @@ const PollingStationSelect = ({ formik }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      {paginatedPollingStations && (
-        <InfiniteScroll
-          dataLength={pollingStations.length}
-          next={() => fetchNextPage()}
-          hasMore={hasNextPage}
-          loader={<Loader />}
-        >
-          <Grid item xs={12}>
-            {pollingStations?.map((station, index) => (
-              <PollingStation
-                key={index}
-                station={station}
-                handleSelectOne={handleSelectOne}
-                index={index}
-                isCheck={isCheck}
-              />
-            ))}
-          </Grid>
-        </InfiniteScroll>
+      {pollingStations.length > 0 && (
+        <Grid item xs={12}>
+          {pollingStations?.map((station, index) => (
+            <PollingStation
+              key={index}
+              station={station}
+              handleSelectOne={handleSelectOne}
+              index={index}
+              isCheck={isCheck}
+            />
+          ))}
+        </Grid>
       )}
     </Container>
   )

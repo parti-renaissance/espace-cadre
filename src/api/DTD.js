@@ -158,11 +158,11 @@ export const getDTDCampaignSurveysAddress = () => {
 }
 
 export const getDTDCampaignPollingStations = async ({ pageParam: page = 1 }) => {
-  const data = await apiClient.get(`api/v3/pap_vote_places?page=${page}&page_size=20`)
+  const data = await apiClient.get(`api/v3/pap_vote_places`)
 
   const pollingStations = data.items.map(
     station => new DTDLocalPollingStations(station.uuid, station.code, station.nb_addresses, station.nb_voters)
   )
 
-  return newPaginatedResult(pollingStations, data.metadata)
+  return pollingStations
 }
