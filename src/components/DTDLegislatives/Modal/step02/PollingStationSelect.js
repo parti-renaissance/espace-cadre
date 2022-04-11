@@ -4,12 +4,15 @@ import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/materia
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import PollingStation from './PollingStation'
-import PollingStations from '../../Data/ModalData'
 import PropTypes from 'prop-types'
 import pluralize from '../../../shared/pluralize/pluralize'
 import formatNumber from '../../../shared/formatNumber/formatNumber'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { getDTDCampaignPollingStations } from 'api/DTD'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import Loader from 'ui/Loader'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -58,10 +61,19 @@ const PollingStationSelect = ({ formik }) => {
   const [addressesCount, setAddressesCount] = useState(0)
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
+  const { handleError } = useErrorHandler()
+
+  const { data: pollingStations = [] } = useQueryWithScope(
+    ['polling-stations', { feature: 'DTD', view: 'PollingStations' }],
+    getDTDCampaignPollingStations,
+    {
+      onError: handleError,
+    }
+  )
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll)
-    setIsCheck(PollingStations.map(station => station.id))
+    setIsCheck(pollingStations?.map(station => station.id))
     if (isCheckAll) {
       setIsCheck([])
     }
@@ -75,14 +87,14 @@ const PollingStationSelect = ({ formik }) => {
   }
 
   useEffect(() => {
-    const votersToSum = PollingStations.filter(station => isCheck.includes(station.id)).reduce(
-      (total, currentValue) => total + currentValue.voters,
-      0
-    )
-    const addressesToSum = PollingStations.filter(station => isCheck.includes(station.id)).reduce(
-      (total, currentValue) => total + currentValue.addresses,
-      0
-    )
+    if (!pollingStations.length > 0) return
+
+    const votersToSum = pollingStations
+      .filter(station => isCheck.includes(station.id))
+      .reduce((total, currentValue) => total + currentValue.voters, 0)
+    const addressesToSum = pollingStations
+      .filter(station => isCheck.includes(station.id))
+      .reduce((total, currentValue) => total + currentValue.addresses, 0)
     setVotersCount(votersToSum)
     setAddressesCount(addressesToSum)
 
@@ -93,8 +105,15 @@ const PollingStationSelect = ({ formik }) => {
     }
   }, [isCheck])
 
+  if (!pollingStations.length > 0)
+    return (
+      <Grid container justifyContent="center">
+        <Loader />
+      </Grid>
+    )
+
   return (
-    <Container maxWidth="md" isMobile={isMobile}>
+    <Container maxWidth="md">
       <Grid container sx={{ mt: 1, mb: 2 }}>
         <Title>{messages.title}</Title>
       </Grid>
@@ -103,7 +122,7 @@ const PollingStationSelect = ({ formik }) => {
           control={<Checkbox checked={isCheckAll} onChange={handleSelectAll} />}
           label={
             <Typography variant="subtitle1">
-              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{checkedCount}</Typography>}
+              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{isCheck?.length}</Typography>}
               &nbsp;
               {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
               {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
@@ -120,12 +139,12 @@ const PollingStationSelect = ({ formik }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      {PollingStations.length > 0 && (
+      {pollingStations.length > 0 && (
         <Grid item xs={12}>
-          {PollingStations.map((pollingStation, index) => (
+          {pollingStations?.map((station, index) => (
             <PollingStation
               key={index}
-              pollingStation={pollingStation}
+              station={station}
               handleSelectOne={handleSelectOne}
               index={index}
               isCheck={isCheck}

@@ -95,7 +95,6 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
           label="title"
           placeholder={messages.placeholder.title}
           onBlur={handleBlur}
-          defaultValue={values.title}
           onChange={handleChange}
           error={titleHasError}
         />
@@ -107,7 +106,6 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
           label="objective"
           placeholder={messages.placeholder.objective}
           onBlur={handleBlur}
-          defaultValue={values.objective}
           onChange={handleChange}
           error={objectiveHasError}
         />
@@ -145,7 +143,6 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
           data={values.brief}
           label="brief"
           config={editorConfiguration}
-          defaultValue={values.brief}
           onChange={editorInputHandler}
           error={briefHasError}
         />
