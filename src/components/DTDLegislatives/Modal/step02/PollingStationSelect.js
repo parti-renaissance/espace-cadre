@@ -64,7 +64,7 @@ const PollingStationSelect = ({ formik }) => {
   const { handleError } = useErrorHandler()
 
   const { data: pollingStations = [] } = useQueryWithScope(
-    ['paginated-campaigns', { feature: 'DTD', view: 'PollingStations' }],
+    ['polling-stations', { feature: 'DTD', view: 'PollingStations' }],
     getDTDCampaignPollingStations,
     {
       onError: handleError,
