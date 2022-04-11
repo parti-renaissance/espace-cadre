@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
+import { Container, Grid, Typography, FormControlLabel, Box, List } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import PollingStation from './PollingStation'
@@ -55,10 +55,7 @@ const Count = styled(Typography)(
 )
 
 const PollingStationSelect = ({ formik }) => {
-  const [isCheckAll, setIsCheckAll] = useState(false)
   const [isCheck, setIsCheck] = useState([])
-  const [votersCount, setVotersCount] = useState(0)
-  const [addressesCount, setAddressesCount] = useState(0)
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
@@ -71,33 +68,23 @@ const PollingStationSelect = ({ formik }) => {
     }
   )
 
-  const handleSelectAll = () => {
-    setIsCheckAll(!isCheckAll)
-    setIsCheck(pollingStations?.map(station => station.id))
-    if (isCheckAll) {
+  const handleSelectAll = checked => {
+    if (checked) {
+      setIsCheck(pollingStations)
+    } else {
       setIsCheck([])
     }
   }
 
-  const handleSelectOne = (e, id) => {
-    setIsCheck([...isCheck, id])
-    if (!e.target.checked) {
-      setIsCheck(isCheck.filter(item => item !== id))
+  const handleSelectOne = (e, station) => {
+    if (e.target.checked) {
+      setIsCheck([...isCheck, station])
+    } else {
+      setIsCheck(isCheck.filter(item => item.id !== station.id))
     }
   }
 
   useEffect(() => {
-    if (!pollingStations.length > 0) return
-
-    const votersToSum = pollingStations
-      .filter(station => isCheck.includes(station.id))
-      .reduce((total, currentValue) => total + currentValue.voters, 0)
-    const addressesToSum = pollingStations
-      .filter(station => isCheck.includes(station.id))
-      .reduce((total, currentValue) => total + currentValue.addresses, 0)
-    setVotersCount(votersToSum)
-    setAddressesCount(addressesToSum)
-
     if (isCheck.length > 0) {
       formik.setFieldValue('isCheck', isCheck)
     } else {
@@ -112,6 +99,9 @@ const PollingStationSelect = ({ formik }) => {
       </Grid>
     )
 
+  const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
+  const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
+
   return (
     <Container maxWidth="md">
       <Grid container sx={{ mt: 1, mb: 2 }}>
@@ -119,7 +109,12 @@ const PollingStationSelect = ({ formik }) => {
       </Grid>
       <CountContainer container isMobile={isMobile}>
         <FormControlLabel
-          control={<Checkbox checked={isCheckAll} onChange={handleSelectAll} />}
+          control={
+            <Checkbox
+              checked={isCheck.length === pollingStations.length}
+              onChange={e => handleSelectAll(e.target.checked)}
+            />
+          }
           label={
             <Typography variant="subtitle1">
               {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{isCheck?.length}</Typography>}
@@ -139,19 +134,21 @@ const PollingStationSelect = ({ formik }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      {pollingStations.length > 0 && (
-        <Grid item xs={12}>
-          {pollingStations?.map((station, index) => (
-            <PollingStation
-              key={index}
-              station={station}
-              handleSelectOne={handleSelectOne}
-              index={index}
-              isCheck={isCheck}
-            />
-          ))}
-        </Grid>
-      )}
+      <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        {pollingStations.length > 0 && (
+          <Grid item xs={12} sx={{ maxHeight: '600px', overflowY: 'scroll' }}>
+            {pollingStations?.map((station, index) => (
+              <PollingStation
+                key={index}
+                station={station}
+                handleSelectOne={handleSelectOne}
+                index={index}
+                isCheck={isCheck}
+              />
+            ))}
+          </Grid>
+        )}
+      </List>
     </Container>
   )
 }
