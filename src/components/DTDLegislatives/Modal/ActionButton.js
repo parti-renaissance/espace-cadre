@@ -2,7 +2,7 @@ import Button from 'ui/Button'
 import PropTypes from 'prop-types'
 
 const messages = {
-  nextButton: 'suivant',
+  nextButton: 'Créer et cibler',
   submitButton: 'créer la campagne',
 }
 
@@ -19,16 +19,16 @@ const ActionButton = ({ shouldDisplayRegister, isStepOneValid, isStepTwoValid, h
       </Button>
     )
   }
-  return (
-    <Button
-      type="submit"
-      onClick={handleSubmit}
-      rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
-      disabled={!isStepTwoValid}
-    >
-      {messages.submitButton}
-    </Button>
-  )
+  // return (
+  //   <Button
+  //     type="submit"
+  //     onClick={handleSubmit}
+  //     rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
+  //     disabled={!isStepTwoValid}
+  //   >
+  //     {messages.submitButton}
+  //   </Button>
+  // )
 }
 
 export default ActionButton

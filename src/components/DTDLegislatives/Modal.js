@@ -18,15 +18,11 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const SignupSchema = Yup.object().shape({
   title: Yup.string().min(1, 'Minimum 1 caractère').max(120, 'Maximum 120 caractères').required('Titre obligatoire'),
-  objective: Yup.string()
-    .min(1, 'Minimum 1 caractère')
-    .max(120, 'Maximum 120 caractères')
-    .required('Objectif individuel obligatoire'),
+  objective: Yup.number().min(1, 'Minimum 1 caractère').required('Objectif individuel obligatoire'),
   startDate: Yup.string().required('Date de début obligatoire'),
   endDate: Yup.string().required('Date de fin obligatoire'),
   brief: Yup.string().required('Brief obligatoire'),
   survey: Yup.string().required('Questionnaire obligatoire'),
-  isCheck: Yup.array().min(1, 'Minimum 1 Bureau de vote'),
 })
 
 const messages = {
@@ -45,7 +41,6 @@ const Modal = ({ open, handleClose }) => {
     endDate: null,
     brief: '',
     survey: '',
-    isCheck: [],
   }
 
   const next = () => {
@@ -71,8 +66,6 @@ const Modal = ({ open, handleClose }) => {
     formik.touched.title &&
     formik.touched.objective
 
-  const isStepTwoValid = !formik.errors.isCheck
-
   const handleSubmit = () => {
     console.log('===============Submit form=====================')
     console.log(formik.values)
@@ -95,7 +88,7 @@ const Modal = ({ open, handleClose }) => {
             <ActionButton
               shouldDisplayRegister={shouldDisplayRegister}
               isStepOneValid={isStepOneValid}
-              isStepTwoValid={isStepTwoValid}
+              // isStepTwoValid={isStepTwoValid}
               handleSubmit={handleSubmit}
               next={next}
             />

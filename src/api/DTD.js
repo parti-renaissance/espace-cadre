@@ -166,3 +166,9 @@ export const getDTDCampaignPollingStations = async () => {
 
   return pollingStations
 }
+
+export const createDTDLocalCampaign = async campaign => {
+  await apiClient.post('api/v3/pap_campaigns', {})
+
+  return uuid
+}
