@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import { Container, Grid, Typography, FormControlLabel, Box, List } from '@mui/material'
+import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import PollingStation from './PollingStation'
@@ -13,6 +13,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { getDTDCampaignPollingStations } from 'api/DTD'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
+import { FixedSizeList as List } from 'react-window'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -101,6 +102,18 @@ const PollingStationSelect = ({ formik }) => {
 
   const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
   const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
+  const AllPollingStationsRows = ({ data, index }) => {
+    const station = data[index]
+    return (
+      <PollingStation
+        key={station.id}
+        station={station}
+        handleSelectOne={handleSelectOne}
+        index={index}
+        isCheck={isCheck}
+      />
+    )
+  }
 
   return (
     <Container maxWidth="md">
@@ -134,20 +147,15 @@ const PollingStationSelect = ({ formik }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-        {pollingStations.length > 0 && (
-          <Grid item xs={12} sx={{ maxHeight: '600px', overflowY: 'scroll' }}>
-            {pollingStations?.map((station, index) => (
-              <PollingStation
-                key={index}
-                station={station}
-                handleSelectOne={handleSelectOne}
-                index={index}
-                isCheck={isCheck}
-              />
-            ))}
-          </Grid>
-        )}
+      <List
+        height={600}
+        width={'100%'}
+        itemCount={pollingStations.length}
+        itemData={pollingStations}
+        itemSize={35}
+        bgcolor={'background.paper'}
+      >
+        {AllPollingStationsRows}
       </List>
     </Container>
   )
