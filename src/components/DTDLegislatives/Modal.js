@@ -6,11 +6,16 @@ import IconButton from '@mui/material/IconButton'
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-material/'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useMutation } from 'react-query'
 
 import './styles.css'
 import { Title } from './styles'
 import RenderStep from './Modal/RenderStep'
 import ActionButton from './Modal/ActionButton'
+import { useErrorHandler } from 'components/shared/error/hooks'
+
+import { createDTDLocalCampaign } from 'api/DTD'
+import { DTDCampaignCreateEdit } from 'domain/DTD/campaign-create-edit'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -18,16 +23,22 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const SignupSchema = Yup.object().shape({
   title: Yup.string().min(1, 'Minimum 1 caractère').max(120, 'Maximum 120 caractères').required('Titre obligatoire'),
-  objective: Yup.string()
-    .min(1, 'Minimum 1 caractère')
-    .max(120, 'Maximum 120 caractères')
-    .required('Objectif individuel obligatoire'),
+  goal: Yup.number().min(1, 'Minimum 1 caractère').required('Objectif individuel obligatoire'),
   startDate: Yup.string().required('Date de début obligatoire'),
   endDate: Yup.string().required('Date de fin obligatoire'),
   brief: Yup.string().required('Brief obligatoire'),
   survey: Yup.string().required('Questionnaire obligatoire'),
-  isCheck: Yup.array().min(1, 'Minimum 1 Bureau de vote'),
 })
+
+const formData = {
+  title: '',
+  goal: '',
+  startDate: null,
+  endDate: null,
+  brief: '',
+  survey: '',
+  votePlaces: [],
+}
 
 const messages = {
   title: 'Nouvelle campagne de porte à porte',
@@ -36,17 +47,27 @@ const messages = {
 
 const Modal = ({ open, handleClose }) => {
   const [step, setStep] = useState(1)
+  const [campaignId, setCampaignId] = useState()
+  const { handleError } = useErrorHandler()
   const shouldDisplayRegister = step === 1
 
-  const formData = {
-    title: '',
-    objective: '',
-    startDate: null,
-    endDate: null,
-    brief: '',
-    survey: '',
-    isCheck: [],
-  }
+  const formik = useFormik({
+    initialValues: formData,
+    validationSchema: SignupSchema,
+    onSubmit: values => {
+      createCampaign(
+        new DTDCampaignCreateEdit(
+          values.title,
+          values.goal,
+          values.startDate,
+          values.endDate,
+          values.survey,
+          values.brief,
+          values.votePlaces
+        )
+      )
+    },
+  })
 
   const next = () => {
     setStep(s => s + 1)
@@ -56,28 +77,23 @@ const Modal = ({ open, handleClose }) => {
     setStep(s => s - 1)
   }
 
-  const formik = useFormik({
-    initialValues: formData,
-    validationSchema: SignupSchema,
-  })
-
   const isStepOneValid =
     !formik.errors.title &&
-    !formik.errors.objective &&
+    !formik.errors.goal &&
     !formik.errors.startDate &&
     !formik.errors.endDate &&
     !formik.errors.brief &&
     !formik.errors.survey &&
     formik.touched.title &&
-    formik.touched.objective
+    formik.touched.goal
 
-  const isStepTwoValid = !formik.errors.isCheck
-
-  const handleSubmit = () => {
-    console.log('===============Submit form=====================')
-    console.log(formik.values)
-    console.log('====================================')
-  }
+  const { mutateAsync: createCampaign } = useMutation(createDTDLocalCampaign, {
+    onSuccess: campaignId => {
+      setCampaignId(campaignId)
+      next()
+    },
+    onError: handleError,
+  })
 
   return (
     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -95,8 +111,7 @@ const Modal = ({ open, handleClose }) => {
             <ActionButton
               shouldDisplayRegister={shouldDisplayRegister}
               isStepOneValid={isStepOneValid}
-              isStepTwoValid={isStepTwoValid}
-              handleSubmit={handleSubmit}
+              handleSubmit={formik.handleSubmit}
               next={next}
             />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -112,6 +127,7 @@ const Modal = ({ open, handleClose }) => {
           touched={formik.touched}
           handleBlur={formik.handleBlur}
           handleChange={formik.handleChange}
+          campaignId={campaignId}
         />
       </Container>
     </Dialog>
