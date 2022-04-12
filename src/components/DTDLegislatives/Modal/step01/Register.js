@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Container, Grid, useTheme } from '@mui/material'
-import DatePicker from '@mui/lab/DatePicker'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import PropTypes from 'prop-types'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
@@ -17,14 +17,14 @@ import { CTAContainer, FormTitle, SectionBody, SectionTitle, SubTitle } from '..
 const messages = {
   label: {
     title: 'Titre',
-    objective: 'Objectif individuel',
+    goal: 'Objectif individuel',
     startDate: 'Date de début',
     endDate: 'Date de fin',
     brief: 'Brief',
   },
   placeholder: {
     title: 'Ce titre identifiera la campagne auprès des militants',
-    objective: 'Objectif donné à chaque militant en nombre de questionnaires remplis',
+    goal: 'Objectif donné à chaque militant en nombre de questionnaires remplis',
     startDate: 'JJ/MM/AAAA',
     endDate: 'JJ/MM/AAAA',
   },
@@ -42,7 +42,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
   const { handleError } = useErrorHandler()
 
   const titleHasError = errors.title && touched.title
-  const objectiveHasError = errors.objective && touched.objective
+  const goalHasError = errors.goal && touched.goal
   const startDateHasError = errors.startDate && touched.startDate
   const endDateHasError = errors.endDate && touched.endDate
   const briefHasError = errors.brief && touched.brief
@@ -99,23 +99,22 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
           error={titleHasError}
         />
       </Grid>
-      <FormTitle>{messages.label.objective}</FormTitle>
+      <FormTitle>{messages.label.goal}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
         <TextField
           formik={formik}
-          label="objective"
-          placeholder={messages.placeholder.objective}
+          label="goal"
+          placeholder={messages.placeholder.goal}
           onBlur={handleBlur}
           onChange={handleChange}
-          error={objectiveHasError}
+          error={goalHasError}
         />
       </Grid>
       <Grid container sx={{ flexDirection: 'row', mb: 2, justifyContent: 'space-between' }}>
         <Grid item xs={5.7}>
           <FormTitle>{messages.label.startDate}</FormTitle>
           <DatePicker
-            label="startDate"
-            placeholder={messages.placeholder.startDate}
+            label={messages.placeholder.startDate}
             value={values.startDate}
             onChange={startDateSelectHandler}
             renderInput={params => <TextField formik={formik} {...params} />}
@@ -126,8 +125,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
         <Grid item xs={5.7}>
           <FormTitle>{messages.label.endDate}</FormTitle>
           <DatePicker
-            label="endDate"
-            name="startDate"
+            label={messages.placeholder.endDate}
             value={values.endDate}
             onChange={endtDateSelectHandler}
             renderInput={params => <TextField formik={formik} {...params} />}
