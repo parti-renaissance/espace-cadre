@@ -47,6 +47,7 @@ const messages = {
 
 const Modal = ({ open, handleClose }) => {
   const [step, setStep] = useState(1)
+  const [campaignId, setCampaignId] = useState()
   const { handleError } = useErrorHandler()
   const shouldDisplayRegister = step === 1
 
@@ -61,6 +62,7 @@ const Modal = ({ open, handleClose }) => {
           values.startDate,
           values.endDate,
           values.survey,
+          values.brief,
           values.votePlaces
         )
       )
@@ -86,7 +88,10 @@ const Modal = ({ open, handleClose }) => {
     formik.touched.goal
 
   const { mutateAsync: createCampaign } = useMutation(createDTDLocalCampaign, {
-    onSuccess: async () => {},
+    onSuccess: campaignId => {
+      setCampaignId(campaignId)
+      next()
+    },
     onError: handleError,
   })
 
@@ -122,6 +127,7 @@ const Modal = ({ open, handleClose }) => {
           touched={formik.touched}
           handleBlur={formik.handleBlur}
           handleChange={formik.handleChange}
+          campaignId={campaignId}
         />
       </Container>
     </Dialog>

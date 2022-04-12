@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import Register from './step01/Register'
 import PollingStationSelect from './step02/PollingStationSelect'
 
-const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange }) => {
+const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleChange, campaignId }) => {
   switch (step) {
-    case 2:
+    case 1:
       return (
         <Register
           formik={formik}
@@ -15,8 +15,8 @@ const RenderStep = ({ formik, step, values, errors, touched, handleBlur, handleC
           handleBlur={handleBlur}
         />
       )
-    case 1:
-      return <PollingStationSelect formik={formik} />
+    case 2:
+      return <PollingStationSelect formik={formik} campaignId={campaignId} />
     default:
       return <Register errors={errors} touched={touched} />
   }
@@ -32,4 +32,5 @@ RenderStep.propTypes = {
   touched: PropTypes.object,
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
+  campaignId: PropTypes.string,
 }

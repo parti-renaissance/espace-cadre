@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Container, Grid, useTheme } from '@mui/material'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { DateTimePicker } from '@mui/lab'
 import PropTypes from 'prop-types'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
@@ -60,7 +60,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
     formik.setFieldValue('startDate', selectedDate)
   }
 
-  const endtDateSelectHandler = selectedDate => {
+  const endDateSelectHandler = selectedDate => {
     formik.setFieldValue('endDate', selectedDate)
   }
 
@@ -113,7 +113,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
       <Grid container sx={{ flexDirection: 'row', mb: 2, justifyContent: 'space-between' }}>
         <Grid item xs={5.7}>
           <FormTitle>{messages.label.startDate}</FormTitle>
-          <DatePicker
+          <DateTimePicker
             label={messages.placeholder.startDate}
             value={values.startDate}
             onChange={startDateSelectHandler}
@@ -124,10 +124,10 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
         </Grid>
         <Grid item xs={5.7}>
           <FormTitle>{messages.label.endDate}</FormTitle>
-          <DatePicker
+          <DateTimePicker
             label={messages.placeholder.endDate}
             value={values.endDate}
-            onChange={endtDateSelectHandler}
+            onChange={endDateSelectHandler}
             renderInput={params => <TextField formik={formik} {...params} />}
             minDate={new Date()}
             error={endDateHasError}

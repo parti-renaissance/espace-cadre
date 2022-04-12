@@ -19,15 +19,11 @@ const ActionButton = ({ shouldDisplayRegister, isStepOneValid, handleSubmit }) =
       </Button>
     )
   }
-  // return (
-  //   <Button
-  //     type="submit"
-  //     onClick={handleSubmit}
-  //     rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
-  //   >
-  //     {messages.submitButton}
-  //   </Button>
-  // )
+  return (
+    <Button type="submit" onClick={handleSubmit} rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}>
+      {messages.submitButton}
+    </Button>
+  )
 }
 
 export default ActionButton

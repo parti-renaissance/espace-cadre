@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
+
 import { useState, useEffect } from 'react'
 import { Container, Grid, Typography, FormControlLabel, Box, List } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
@@ -54,7 +56,7 @@ const Count = styled(Typography)(
 `
 )
 
-const PollingStationSelect = ({ formik }) => {
+const PollingStationSelect = ({ formik, campaignId }) => {
   const [isCheck, setIsCheck] = useState([])
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
@@ -86,9 +88,9 @@ const PollingStationSelect = ({ formik }) => {
 
   useEffect(() => {
     if (isCheck.length > 0) {
-      formik.setFieldValue('isCheck', isCheck)
+      formik.setFieldValue('votePlaces', isCheck)
     } else {
-      formik.setFieldValue('isCheck', [])
+      formik.setFieldValue('votePlaces', [])
     }
   }, [isCheck])
 
@@ -101,6 +103,8 @@ const PollingStationSelect = ({ formik }) => {
 
   const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
   const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
+
+  console.log(campaignId)
 
   return (
     <Container maxWidth="md">
@@ -155,6 +159,7 @@ const PollingStationSelect = ({ formik }) => {
 
 PollingStationSelect.propTypes = {
   formik: PropTypes.object,
+  campaignId: PropTypes.string,
 }
 
 export default PollingStationSelect

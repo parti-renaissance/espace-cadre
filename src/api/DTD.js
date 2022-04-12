@@ -168,7 +168,7 @@ export const getDTDCampaignPollingStations = async () => {
 }
 
 export const createDTDLocalCampaign = async campaign => {
-  const formatDate = dateToFormat => format(dateToFormat, 'yyyy-MM-dd HH:mm:ss')
+  const formatDate = dateToFormat => format(dateToFormat, 'yyyy-MM-dd HH:mm')
 
   const data = await apiClient.post('api/v3/pap_campaigns', {
     title: campaign.title,
