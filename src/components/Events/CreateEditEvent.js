@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { Box, FormControlLabel, Grid, IconButton, TextField as MuiTextField, Typography } from '@mui/material'
@@ -59,7 +60,7 @@ const fields = {
   beginAt: 'beginAt',
   finishAt: 'finishAt',
   timezone: 'timezone',
-  address: 'post_address',
+  address: 'address',
   visio: 'visioUrl',
   capacity: 'capacity',
   description: 'description',
@@ -178,25 +179,25 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     [categoriesByGroup]
   )
 
-  const { control, formState, getValues, reset } = useForm({
+  const { control, formState, getValues, reset, watch } = useForm({
     mode: 'onChange',
     resolver: yupResolver(eventSchema),
   })
-
+  const watchAllFields = watch()
   const values = getValues()
   const isStepOneValid =
     !!values.name &&
     !!values.categoryId &&
     !!values.beginAt &&
     !!values.finishAt &&
-    !!newEvent.address.postalCode &&
+    !!values.address?.route &&
     !!values.timezone
   const isStepTwoValid = formState.isValid
   const areAllStepsValid = [isStepOneValid && 0, isStepTwoValid && 1].filter(s => Boolean(s) || s === 0)
 
   const prepareCreate = () => {
-    const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity } = values
-    const { attendees, address, electoral } = newEvent
+    const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity, address } = values
+    const { attendees, electoral } = newEvent
 
     const eventObj = new Event(
       null,
@@ -265,8 +266,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                   <Input
                     name={fields.name}
                     onChange={onChange}
-                    value={value}
                     placeholder={messages.placeholder.name}
+                    value={value}
                     autoFocus
                   />
                 )}
@@ -335,29 +336,32 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               />
               <FormError errors={errorMessages} field={fields.timezone} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.address}</Label>
-              <Places
-                initialValue={newEvent.address?.route}
-                onSelectPlace={p => {
-                  setNewEvent(prev => prev.withAddress(p))
-                }}
+              <Controller
+                name={fields.address}
+                control={control}
+                defaultValue={newEvent.address?.route}
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                  <Places initialValue={newEvent.address?.route} onSelectPlace={onChange} />
+                )}
               />
               <FormError errors={errorMessages} field={fields.address} />
               <Box component="div" sx={{ display: 'flex', mt: 3 }}>
                 <Input
                   placeholder={messages.placeholder.postalCode}
-                  value={newEvent.address?.postalCode || ''}
+                  value={values.address?.postalCode || newEvent.address?.postalCode || ''}
                   disabled
                   sx={{ flex: 1 }}
                 />
                 <Input
                   placeholder={messages.placeholder.locality}
-                  value={newEvent.address?.locality || ''}
+                  value={values.address?.locality || newEvent.address?.locality || ''}
                   disabled
                   sx={{ flex: 2, mx: 2 }}
                 />
                 <Input
                   placeholder={messages.placeholder.country}
-                  value={newEvent.address?.country || ''}
+                  value={values.address?.country || newEvent.address?.country || ''}
                   disabled
                   sx={{ flex: 1 }}
                 />

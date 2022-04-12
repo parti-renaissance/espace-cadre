@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { styled } from '@mui/system'
 import { TextField as MuiTextField } from '@mui/material'
@@ -57,6 +58,12 @@ const Places = ({ onSelectPlace, initialValue = '', error = null, ...props }) =>
     })
     autoComplete.current.addListener('place_changed', handlePlaceSelect)
   }, [handlePlaceSelect])
+
+  useEffect(() => {
+    if (address === '') {
+      onSelectPlace(Place.NULL)
+    }
+  }, [address])
 
   return (
     <>
