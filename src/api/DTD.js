@@ -167,6 +167,16 @@ export const getDTDCampaignPollingStations = async () => {
   return pollingStations
 }
 
+export const getDTDCampaignSelectedPollingStations = async campaignId => {
+  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/vote_places?pagination=false`)
+
+  const pollingStations = data.map(
+    station => new DTDLocalPollingStations(station.uuid, station.code, station.nb_addresses, station.nb_voters)
+  )
+
+  return pollingStations
+}
+
 export const createDTDLocalCampaign = async campaign => {
   const formatDate = dateToFormat => format(dateToFormat, 'yyyy-MM-dd HH:mm')
 
