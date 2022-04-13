@@ -23,7 +23,10 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const SignupSchema = Yup.object().shape({
   title: Yup.string().min(1, 'Minimum 1 caractère').max(120, 'Maximum 120 caractères').required('Titre obligatoire'),
-  goal: Yup.number().min(1, 'Minimum 1 caractère').required('Objectif individuel obligatoire'),
+  goal: Yup.number()
+    .typeError('La valeur doit être un nombre')
+    .min(1, 'Minimum 1 caractère')
+    .required('Objectif individuel obligatoire'),
   startDate: Yup.string().required('Date de début obligatoire'),
   endDate: Yup.string().required('Date de fin obligatoire'),
   brief: Yup.string().required('Brief obligatoire'),
@@ -87,7 +90,7 @@ const Modal = ({ open, handleClose }) => {
     formik.touched.title &&
     formik.touched.goal
 
-  const { mutateAsync: createCampaign } = useMutation(createDTDLocalCampaign, {
+  const { mutateAsync: createCampaign, isLoading: isCampaignLoading } = useMutation(createDTDLocalCampaign, {
     onSuccess: campaignId => {
       setCampaignId(campaignId)
       next()
@@ -113,6 +116,7 @@ const Modal = ({ open, handleClose }) => {
               isStepOneValid={isStepOneValid}
               handleSubmit={formik.handleSubmit}
               next={next}
+              isCampaignLoading={isCampaignLoading}
             />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />

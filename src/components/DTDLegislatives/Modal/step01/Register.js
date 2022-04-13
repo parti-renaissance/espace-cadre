@@ -24,7 +24,7 @@ const messages = {
   },
   placeholder: {
     title: 'Ce titre identifiera la campagne auprès des militants',
-    goal: 'Objectif donné à chaque militant en nombre de questionnaires remplis',
+    goal: 'Objectif donné à chaque militant en nombre de questionnaires',
     startDate: 'JJ/MM/AAAA',
     endDate: 'JJ/MM/AAAA',
   },
@@ -104,6 +104,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
         <TextField
           formik={formik}
           label="goal"
+          type="number"
           placeholder={messages.placeholder.goal}
           onBlur={handleBlur}
           onChange={handleChange}
