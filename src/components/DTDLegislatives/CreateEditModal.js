@@ -15,7 +15,7 @@ import ActionButton from './Modal/ActionButton'
 import { useErrorHandler } from 'components/shared/error/hooks'
 
 import { createDTDLocalCampaign } from 'api/DTD'
-import { DTDCampaignCreateEdit } from 'domain/DTD/campaign-create-edit'
+import { DTDCampaign } from 'domain/DTD/campaigns'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -59,7 +59,7 @@ const CreateEditModal = ({ open, handleClose }) => {
     validationSchema: SignupSchema,
     onSubmit: values => {
       createCampaign(
-        new DTDCampaignCreateEdit(
+        new DTDCampaign(
           values.title,
           values.goal,
           values.startDate,

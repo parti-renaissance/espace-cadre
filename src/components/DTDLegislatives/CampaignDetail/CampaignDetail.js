@@ -45,7 +45,7 @@ const CampaignDetail = () => {
   const { handleError } = useErrorHandler()
   const { campaignId } = useParams()
   const [selectedTab, setSelectedTab] = useState(messages.dtdSuffix.id)
-  const [open, setOpen] = useState(false)
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
 
   const { data: campaign = {} } = useQueryWithScope(
     ['campaign', { feature: 'DTD', view: 'Campaign' }, campaignId],
@@ -89,7 +89,7 @@ const CampaignDetail = () => {
   }
 
   const handleClose = () => {
-    setOpen(false)
+    setIsCreateEditModalOpen(false)
   }
 
   if (!campaignId) return null
@@ -103,7 +103,7 @@ const CampaignDetail = () => {
           titleSuffix={campaign.title}
           button={
             <PageHeaderButton
-              onClick={() => setOpen(true)}
+              onClick={() => (Object.keys(campaign).length > 0 ? setIsCreateEditModalOpen(true) : null)}
               label={messages.edit}
               icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
               isMainButton
@@ -177,7 +177,7 @@ const CampaignDetail = () => {
           </>
         )}
       </Grid>
-      {open && <CreateEditModal open={open} handleClose={handleClose} />}
+      {isCreateEditModalOpen && <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} />}
     </Container>
   )
 }
