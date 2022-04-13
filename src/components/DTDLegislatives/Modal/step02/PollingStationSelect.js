@@ -102,17 +102,26 @@ const PollingStationSelect = ({ formik }) => {
 
   const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
   const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
-  const AllPollingStationsRows = ({ data, index }) => {
+
+  const AllPollingStationsRows = ({ data, index, style }) => {
     const station = data[index]
     return (
-      <PollingStation
-        key={station.id}
-        station={station}
-        handleSelectOne={handleSelectOne}
-        index={index}
-        isCheck={isCheck}
-      />
+      <div style={style}>
+        <PollingStation
+          key={station.id}
+          station={station}
+          handleSelectOne={handleSelectOne}
+          index={index}
+          isCheck={isCheck}
+        />
+      </div>
     )
+  }
+
+  AllPollingStationsRows.propTypes = {
+    data: PropTypes.array,
+    index: PropTypes.number,
+    style: PropTypes.object,
   }
 
   return (
@@ -152,7 +161,7 @@ const PollingStationSelect = ({ formik }) => {
         width={'100%'}
         itemCount={pollingStations.length}
         itemData={pollingStations}
-        itemSize={35}
+        itemSize={68}
         bgcolor={'background.paper'}
       >
         {AllPollingStationsRows}
