@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 
 import { useState, useEffect } from 'react'
-import { Container, Grid, Typography, FormControlLabel, Box, List } from '@mui/material'
+import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 import PollingStation from './PollingStation'
@@ -15,6 +15,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { getDTDCampaignPollingStations } from 'api/DTD'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
+import { FixedSizeList as List } from 'react-window'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -104,6 +105,26 @@ const PollingStationSelect = ({ formik, campaignId }) => {
   const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
   const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
 
+  const AllPollingStationsRows = ({ data, index, style }) => {
+    const station = data[index]
+    return (
+      <div style={style}>
+        <PollingStation
+          key={station.id}
+          station={station}
+          handleSelectOne={handleSelectOne}
+          index={index}
+          isCheck={isCheck}
+        />
+      </div>
+    )
+  }
+
+  AllPollingStationsRows.propTypes = {
+    data: PropTypes.array,
+    index: PropTypes.number,
+    style: PropTypes.object,
+  }
   console.log(campaignId)
 
   return (
@@ -138,20 +159,15 @@ const PollingStationSelect = ({ formik, campaignId }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-        {pollingStations.length > 0 && (
-          <Grid item xs={12} sx={{ maxHeight: '600px', overflowY: 'scroll' }}>
-            {pollingStations?.map((station, index) => (
-              <PollingStation
-                key={index}
-                station={station}
-                handleSelectOne={handleSelectOne}
-                index={index}
-                isCheck={isCheck}
-              />
-            ))}
-          </Grid>
-        )}
+      <List
+        height={600}
+        width={'100%'}
+        itemCount={pollingStations.length}
+        itemData={pollingStations}
+        itemSize={68}
+        bgcolor={'background.paper'}
+      >
+        {AllPollingStationsRows}
       </List>
     </Container>
   )
