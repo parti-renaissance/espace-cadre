@@ -48,7 +48,7 @@ const messages = {
   backButton: 'retour',
 }
 
-const Modal = ({ open, handleClose }) => {
+const CreateEditModal = ({ open, handleClose }) => {
   const [step, setStep] = useState(1)
   const [campaignId, setCampaignId] = useState()
   const { handleError } = useErrorHandler()
@@ -138,9 +138,9 @@ const Modal = ({ open, handleClose }) => {
   )
 }
 
-export default Modal
+export default CreateEditModal
 
-Modal.propTypes = {
+CreateEditModal.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
 }

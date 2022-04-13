@@ -9,7 +9,7 @@ import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import Modal from './Modal'
+import CreateEditModal from './CreateEditModal'
 import CampaignItem from './Campaign/CampaignItem'
 import LegendItem from '../DTD/LegendItem'
 import DTDMap from '../DTD/DTDMap'
@@ -207,7 +207,7 @@ const DTDLegislatives = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {open && <Modal open={open} handleClose={handleClose} />}
+      {open && <CreateEditModal open={open} handleClose={handleClose} />}
     </Container>
   )
 }

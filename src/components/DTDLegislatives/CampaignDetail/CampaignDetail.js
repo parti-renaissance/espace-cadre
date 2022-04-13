@@ -9,7 +9,6 @@ import { useParams } from 'react-router'
 import { useQueryWithScope, useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getDTDCampaignDetailQuery, getDTDCampaignQuestioners, getDTDCampaignSurveysReplies } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import Modal from '../Modal'
 import CampaignDetailKPI from './CampaignDetailKpi'
 import CampaignDetailAddresses from './CampaignDetailAddresses'
 import CampaignDetailQuestioners from './CampaignDetailQuestioners'
@@ -18,6 +17,7 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { usePaginatedData, usePaginatedDataCount } from 'api/pagination'
 import Loader from 'ui/Loader'
+import CreateEditModal from '../CreateEditModal'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -177,7 +177,7 @@ const CampaignDetail = () => {
           </>
         )}
       </Grid>
-      {open && <Modal open={open} handleClose={handleClose} />}
+      {open && <CreateEditModal open={open} handleClose={handleClose} />}
     </Container>
   )
 }
