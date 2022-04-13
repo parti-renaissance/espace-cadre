@@ -7,6 +7,7 @@ import {
   DTDGlobalKPICampaigns,
   DTDGlobalKPISurveys,
   DTDGlobalKPIDoors,
+  DTDCampaign,
   DTDCampaignItem,
   DTDCampaignItemScore,
   DTDCampaignDetail,
@@ -54,6 +55,11 @@ export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
   })
 
   return newPaginatedResult(campaigns, data.metadata)
+}
+
+export const getDTDCampaignQuery = async campaignId => {
+  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}`)
+  return new DTDCampaign(data.title, data.goal, data.begin_at, data.finish_at, '', data.brief)
 }
 
 export const getDTDCampaignDetailQuery = async campaignId => {

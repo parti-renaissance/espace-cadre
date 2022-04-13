@@ -11,7 +11,7 @@ export class DTDCampaign {
     this.votePlaces = votePlaces
   }
 
-  static NULL = new DTDCampaign('', '', new Date(), null, '', '', [])
+  static NULL = new DTDCampaign('', '', null, null, '', '', [])
 }
 
 DTDCampaign.propTypes = {

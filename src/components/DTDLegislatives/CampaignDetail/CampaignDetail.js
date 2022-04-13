@@ -7,7 +7,12 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import paths from 'shared/paths'
 import { useParams } from 'react-router'
 import { useQueryWithScope, useInfiniteQueryWithScope } from 'api/useQueryWithScope'
-import { getDTDCampaignDetailQuery, getDTDCampaignQuestioners, getDTDCampaignSurveysReplies } from 'api/DTD'
+import {
+  getDTDCampaignQuery,
+  getDTDCampaignDetailQuery,
+  getDTDCampaignQuestioners,
+  getDTDCampaignSurveysReplies,
+} from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignDetailKPI from './CampaignDetailKpi'
 import CampaignDetailAddresses from './CampaignDetailAddresses'
@@ -47,9 +52,17 @@ const CampaignDetail = () => {
   const [selectedTab, setSelectedTab] = useState(messages.dtdSuffix.id)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
 
-  const { data: campaign = {} } = useQueryWithScope(
+  const { data: campaignDetail = {} } = useQueryWithScope(
     ['campaign', { feature: 'DTD', view: 'Campaign' }, campaignId],
     () => getDTDCampaignDetailQuery(campaignId),
+    {
+      onError: handleError,
+    }
+  )
+
+  const { data: campaign = null } = useQueryWithScope(
+    ['campaign-detail', { feature: 'DTD', view: 'DTD' }],
+    () => getDTDCampaignQuery(campaignId),
     {
       onError: handleError,
     }
@@ -100,10 +113,10 @@ const CampaignDetail = () => {
         <PageHeader
           title={messages.title}
           titleLink={paths.pap_v2}
-          titleSuffix={campaign.title}
+          titleSuffix={campaignDetail.title}
           button={
             <PageHeaderButton
-              onClick={() => (Object.keys(campaign).length > 0 ? setIsCreateEditModalOpen(true) : null)}
+              onClick={() => (Object.keys(campaignDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
               label={messages.edit}
               icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
               isMainButton
@@ -112,7 +125,7 @@ const CampaignDetail = () => {
         />
       </Grid>
       <Grid container justifyContent="space-between">
-        <CampaignDetailKPI campaign={campaign} />
+        <CampaignDetailKPI campaign={campaignDetail} />
         {!isLoadingData && (
           <>
             {' '}
@@ -162,7 +175,7 @@ const CampaignDetail = () => {
                         firstName={questioner.firstName}
                         lastName={questioner.lastName}
                         count={questioner.count}
-                        goal={campaign.goal}
+                        goal={campaignDetail.goal}
                       />
                     ))}
                   </Grid>
@@ -177,7 +190,9 @@ const CampaignDetail = () => {
           </>
         )}
       </Grid>
-      {isCreateEditModalOpen && <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} />}
+      {isCreateEditModalOpen && (
+        <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} campaign={campaign} />
+      )}
     </Container>
   )
 }

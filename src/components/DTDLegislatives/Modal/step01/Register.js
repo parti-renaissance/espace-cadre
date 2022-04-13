@@ -75,8 +75,8 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
       onError: handleError,
     }
   )
-
   const surveys = usePaginatedData(paginatedSurveys)
+
   const localSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.local), [surveys])
   const getSurveysOptions = () => {
     let data = []

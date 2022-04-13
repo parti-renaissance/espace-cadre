@@ -17,6 +17,7 @@ import { useUserScope } from '../../redux/user/hooks'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getDTDCampaignsQuery } from 'api/DTD'
+import { DTDCampaign } from 'domain/DTD'
 
 const Legend = styled(Grid)(
   ({ theme }) => `
@@ -84,6 +85,7 @@ const messages = {
 
 const DTDLegislatives = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [viewingCampaign, setViewingCampaign] = useState(DTDCampaign.NULL)
   const [selectedTab, setSelectedTab] = useState(messages.cartography)
   const navigate = useNavigate()
   const [userScope] = useUserScope()
@@ -104,10 +106,12 @@ const DTDLegislatives = () => {
   const campaigns = usePaginatedData(paginatedCampaigns)
 
   const handleCreate = () => {
+    setViewingCampaign(DTDCampaign.NULL)
     setIsCreateEditModalOpen(true)
   }
 
   const handleClose = () => {
+    setViewingCampaign(DTDCampaign.NULL)
     setIsCreateEditModalOpen(false)
   }
 
@@ -211,7 +215,9 @@ const DTDLegislatives = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {isCreateEditModalOpen && <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} />}
+      {isCreateEditModalOpen && (
+        <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} campaign={viewingCampaign} />
+      )}
     </Container>
   )
 }

@@ -33,30 +33,29 @@ const SignupSchema = Yup.object().shape({
   survey: Yup.string().required('Questionnaire obligatoire'),
 })
 
-const formData = {
-  title: '',
-  goal: '',
-  startDate: null,
-  endDate: null,
-  brief: '',
-  survey: '',
-  votePlaces: [],
-}
-
 const messages = {
   title: 'Nouvelle campagne de porte à porte',
   backButton: 'retour',
 }
 
-const CreateEditModal = ({ open, handleClose }) => {
+const CreateEditModal = ({ open, handleClose, campaign }) => {
   const [step, setStep] = useState(1)
   const [campaignId, setCampaignId] = useState()
   const { handleError } = useErrorHandler()
   const shouldDisplayRegister = step === 1
 
   const formik = useFormik({
-    initialValues: formData,
+    initialValues: {
+      title: campaign?.title,
+      goal: campaign?.goal,
+      startDate: campaign?.startDate,
+      endDate: campaign?.endDate,
+      brief: campaign?.brief,
+      survey: campaign?.survey,
+      votePlaces: campaign?.votePlaces,
+    },
     validationSchema: SignupSchema,
+    enableReinitialize: true,
     onSubmit: values => {
       createCampaign(
         new DTDCampaign(
@@ -141,6 +140,7 @@ const CreateEditModal = ({ open, handleClose }) => {
 export default CreateEditModal
 
 CreateEditModal.propTypes = {
+  campaign: PropTypes.object,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
 }
