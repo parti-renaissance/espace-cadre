@@ -34,6 +34,7 @@ import Dialog from 'ui/Dialog'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import isBase64 from 'is-base64'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -137,7 +138,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const { mutate: createEvent, isLoading: isCreating } = useMutation(createEventApi, {
     onSuccess: async newUuid => {
-      image && (await uploadImage({ eventId: newUuid, image }))
+      image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: newUuid, image }))
       await onUpdate()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       handleClose()
@@ -147,7 +148,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const { mutate: updateEvent, isLoading: isUpdating } = useMutation(updateEventApi, {
     onSuccess: async uuid => {
-      image && (await uploadImage({ eventId: uuid, image }))
+      image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
       await onUpdate()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
       handleClose()
