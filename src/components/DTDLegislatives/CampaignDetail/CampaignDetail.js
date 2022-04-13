@@ -2,11 +2,14 @@ import { useState, useMemo } from 'react'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PageHeader from 'ui/PageHeader'
+import EditIcon from 'ui/icons/EditIcon'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import paths from 'shared/paths'
 import { useParams } from 'react-router'
 import { useQueryWithScope, useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getDTDCampaignDetailQuery, getDTDCampaignQuestioners, getDTDCampaignSurveysReplies } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import Modal from '../Modal'
 import CampaignDetailKPI from './CampaignDetailKpi'
 import CampaignDetailAddresses from './CampaignDetailAddresses'
 import CampaignDetailQuestioners from './CampaignDetailQuestioners'
@@ -35,12 +38,14 @@ const messages = {
   dtdPrefix: 'Porte-à-',
   dtdSuffix: { id: 'dtd', label: 'porteur' },
   surveys: { id: 'survey', label: 'Questionnaire' },
+  edit: 'Modifier',
 }
 
 const CampaignDetail = () => {
   const { handleError } = useErrorHandler()
   const { campaignId } = useParams()
   const [selectedTab, setSelectedTab] = useState(messages.dtdSuffix.id)
+  const [open, setOpen] = useState(false)
 
   const { data: campaign = {} } = useQueryWithScope(
     ['campaign', { feature: 'DTD', view: 'Campaign' }, campaignId],
@@ -83,12 +88,28 @@ const CampaignDetail = () => {
     setSelectedTab(tabId)
   }
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   if (!campaignId) return null
 
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.title} titleLink={paths.pap_v2} titleSuffix={campaign.title} />
+        <PageHeader
+          title={messages.title}
+          titleLink={paths.pap_v2}
+          titleSuffix={campaign.title}
+          button={
+            <PageHeaderButton
+              onClick={() => setOpen(true)}
+              label={messages.edit}
+              icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+              isMainButton
+            />
+          }
+        />
       </Grid>
       <Grid container justifyContent="space-between">
         <CampaignDetailKPI campaign={campaign} />
@@ -156,6 +177,7 @@ const CampaignDetail = () => {
           </>
         )}
       </Grid>
+      {open && <Modal open={open} handleClose={handleClose} />}
     </Container>
   )
 }
