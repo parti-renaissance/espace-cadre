@@ -90,7 +90,7 @@ const Modal = ({ open, handleClose }) => {
     formik.touched.title &&
     formik.touched.goal
 
-  const { mutateAsync: createCampaign } = useMutation(createDTDLocalCampaign, {
+  const { mutateAsync: createCampaign, isLoading: isCampaignLoading } = useMutation(createDTDLocalCampaign, {
     onSuccess: campaignId => {
       setCampaignId(campaignId)
       next()
@@ -116,6 +116,7 @@ const Modal = ({ open, handleClose }) => {
               isStepOneValid={isStepOneValid}
               handleSubmit={formik.handleSubmit}
               next={next}
+              isCampaignLoading={isCampaignLoading}
             />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
