@@ -38,7 +38,7 @@ const messages = {
   backButton: 'retour',
 }
 
-const CreateEditModal = ({ open, handleClose, campaign }) => {
+const CreateEditModal = ({ open, handleClose, campaign, refetchCampaigns }) => {
   const [step, setStep] = useState(1)
   const [campaignId, setCampaignId] = useState()
   const { handleError } = useErrorHandler()
@@ -92,6 +92,7 @@ const CreateEditModal = ({ open, handleClose, campaign }) => {
   const { mutateAsync: createCampaign, isLoading: isCampaignLoading } = useMutation(createDTDLocalCampaign, {
     onSuccess: campaignId => {
       setCampaignId(campaignId)
+      refetchCampaigns()
       next()
     },
     onError: handleError,
@@ -143,4 +144,5 @@ CreateEditModal.propTypes = {
   campaign: PropTypes.object,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
+  refetchCampaigns: PropTypes.func,
 }
