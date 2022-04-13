@@ -59,7 +59,7 @@ export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
 
 export const getDTDCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}`)
-  return new DTDCampaign(data.title, data.goal, data.begin_at, data.finish_at, '', data.brief)
+  return new DTDCampaign('', data.title, data.goal, data.begin_at, data.finish_at, data.survey.uuid, data.brief)
 }
 
 export const getDTDCampaignDetailQuery = async campaignId => {
@@ -184,16 +184,25 @@ export const getDTDCampaignSelectedPollingStations = async campaignId => {
 }
 
 export const createDTDLocalCampaign = async campaign => {
-  const formatDate = dateToFormat => format(dateToFormat, 'yyyy-MM-dd HH:mm')
-
   const data = await apiClient.post('api/v3/pap_campaigns', {
     title: campaign.title,
     brief: campaign.brief,
-    goal: campaign.goal,
-    begin_at: formatDate(campaign.startDate),
-    finish_at: formatDate(campaign.endDate),
+    goal: +campaign.goal,
+    begin_at: campaign.startDate,
+    finish_at: campaign.endDate,
     survey: campaign.survey,
   })
 
   return data.uuid
+}
+
+export const updateDTDLocalCampaign = async campaign => {
+  await apiClient.put(`api/v3/pap_campaigns/${campaign.id}`, {
+    title: campaign.title,
+    brief: campaign.brief,
+    goal: +campaign.goal,
+    begin_at: campaign.startDate,
+    finish_at: campaign.endDate,
+    survey: campaign.survey,
+  })
 }

@@ -14,8 +14,8 @@ import RenderStep from './Modal/RenderStep'
 import ActionButton from './Modal/ActionButton'
 import { useErrorHandler } from 'components/shared/error/hooks'
 
-import { createDTDLocalCampaign } from 'api/DTD'
-import { DTDCampaign } from 'domain/DTD/campaigns'
+import { createDTDLocalCampaign, updateDTDLocalCampaign } from 'api/DTD'
+import { useParams } from 'react-router'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -38,11 +38,23 @@ const messages = {
   backButton: 'retour',
 }
 
-const CreateEditModal = ({ open, handleClose, campaign, refetchCampaigns }) => {
+const CreateEditModal = ({ open, handleClose, campaign }) => {
   const [step, setStep] = useState(1)
-  const [campaignId, setCampaignId] = useState()
   const { handleError } = useErrorHandler()
   const shouldDisplayRegister = step === 1
+  const { campaignId } = useParams()
+  const [creationModeId, setCreationModeId] = useState()
+
+  const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
+    !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
+    {
+      onSuccess: newUuid => {
+        newUuid && setCreationModeId(newUuid)
+        next()
+      },
+      onError: handleError,
+    }
+  )
 
   const formik = useFormik({
     initialValues: {
@@ -56,17 +68,17 @@ const CreateEditModal = ({ open, handleClose, campaign, refetchCampaigns }) => {
     },
     validationSchema: SignupSchema,
     enableReinitialize: true,
-    onSubmit: values => {
-      createCampaign(
-        new DTDCampaign(
-          values.title,
-          values.goal,
-          values.startDate,
-          values.endDate,
-          values.survey,
-          values.brief,
-          values.votePlaces
-        )
+    onSubmit: async values => {
+      await createOrUpdateCampaign(
+        campaign
+          .withId(campaignId || creationModeId)
+          .withTitle(values.title)
+          .withGoal(values.goal)
+          .withStartDate(values.startDate)
+          .withEndDate(values.endDate)
+          .withSurvey(values.survey)
+          .withBrief(values.brief)
+          .withVotePlaces(values.votePlaces)
       )
     },
   })
@@ -85,18 +97,7 @@ const CreateEditModal = ({ open, handleClose, campaign, refetchCampaigns }) => {
     !formik.errors.startDate &&
     !formik.errors.endDate &&
     !formik.errors.brief &&
-    !formik.errors.survey &&
-    formik.touched.title &&
-    formik.touched.goal
-
-  const { mutateAsync: createCampaign, isLoading: isCampaignLoading } = useMutation(createDTDLocalCampaign, {
-    onSuccess: campaignId => {
-      setCampaignId(campaignId)
-      refetchCampaigns()
-      next()
-    },
-    onError: handleError,
-  })
+    !formik.errors.survey
 
   return (
     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -115,7 +116,6 @@ const CreateEditModal = ({ open, handleClose, campaign, refetchCampaigns }) => {
               shouldDisplayRegister={shouldDisplayRegister}
               isStepOneValid={isStepOneValid}
               handleSubmit={formik.handleSubmit}
-              next={next}
               isCampaignLoading={isCampaignLoading}
             />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -144,5 +144,4 @@ CreateEditModal.propTypes = {
   campaign: PropTypes.object,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
-  refetchCampaigns: PropTypes.func,
 }

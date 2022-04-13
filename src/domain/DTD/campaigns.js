@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 
 export class DTDCampaign {
-  constructor(title, goal, startDate, endDate, survey, brief, votePlaces) {
+  constructor(id, title, goal, startDate, endDate, survey, brief, votePlaces) {
+    this.id = id
     this.title = title
     this.goal = goal
     this.startDate = startDate
@@ -11,17 +12,122 @@ export class DTDCampaign {
     this.votePlaces = votePlaces
   }
 
-  static NULL = new DTDCampaign('', '', null, null, '', '', [])
-}
+  static NULL = new DTDCampaign(0, '', '', null, null, '', '', [])
 
-DTDCampaign.propTypes = {
-  title: PropTypes.string.isRequired,
-  goal: PropTypes.number.isRequired,
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired,
-  survey: PropTypes.string.isRequired,
-  brief: PropTypes.string.isRequired,
-  votePlaces: PropTypes.array.isRequired,
+  withId(newId) {
+    return new DTDCampaign(
+      newId,
+      this.title,
+      this.goal,
+      this.startDate,
+      this.endDate,
+      this.survey,
+      this.brief,
+      this.votePlaces
+    )
+  }
+
+  withTitle(newTitle) {
+    return new DTDCampaign(
+      this.id,
+      newTitle,
+      this.goal,
+      this.startDate,
+      this.endDate,
+      this.survey,
+      this.brief,
+      this.votePlaces
+    )
+  }
+
+  withGoal(newGoal) {
+    return new DTDCampaign(
+      this.id,
+      this.title,
+      newGoal,
+      this.startDate,
+      this.endDate,
+      this.survey,
+      this.brief,
+      this.votePlaces
+    )
+  }
+
+  withStartDate(newStartDate) {
+    return new DTDCampaign(
+      this.id,
+      this.title,
+      this.goal,
+      newStartDate,
+      this.endDate,
+      this.survey,
+      this.brief,
+      this.votePlaces
+    )
+  }
+
+  withEndDate(newEndDate) {
+    return new DTDCampaign(
+      this.id,
+      this.title,
+      this.goal,
+      this.startDate,
+      newEndDate,
+      this.survey,
+      this.brief,
+      this.votePlaces
+    )
+  }
+
+  withSurvey(newSurvey) {
+    return new DTDCampaign(
+      this.id,
+      this.title,
+      this.goal,
+      this.startDate,
+      this.endDate,
+      newSurvey,
+      this.brief,
+      this.votePlaces
+    )
+  }
+
+  withBrief(newBrief) {
+    return new DTDCampaign(
+      this.id,
+      this.title,
+      this.goal,
+      this.startDate,
+      this.endDate,
+      this.survey,
+      newBrief,
+      this.votePlaces
+    )
+  }
+
+  withVotePlaces(newVotePlace) {
+    return new DTDCampaign(
+      this.id,
+      this.title,
+      this.goal,
+      this.startDate,
+      this.endDate,
+      this.survey,
+      this.brief,
+      newVotePlace
+    )
+  }
+
+  static propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    goal: PropTypes.number.isRequired,
+    startDate: PropTypes.instanceOf(Date).isRequired,
+    endDate: PropTypes.instanceOf(Date).isRequired,
+    survey: PropTypes.string.isRequired,
+    brief: PropTypes.string.isRequired,
+    votePlaces: PropTypes.array.isRequired,
+  }
 }
 
 export class DTDCampaignItemScore {

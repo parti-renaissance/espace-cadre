@@ -95,7 +95,6 @@ const DTDLegislatives = () => {
     data: paginatedCampaigns = null,
     fetchNextPage: fetchNextPageCampaigns,
     hasNextPage: hasNextPageCampaigns,
-    refetch: refetchCampaigns,
   } = useInfiniteQueryWithScope(
     ['paginated-campaigns', { feature: 'DTD', view: 'DTD' }],
     pageParams => getDTDCampaignsQuery(pageParams),
@@ -217,12 +216,7 @@ const DTDLegislatives = () => {
         </InfiniteScroll>
       )}
       {isCreateEditModalOpen && (
-        <CreateEditModal
-          open={isCreateEditModalOpen}
-          handleClose={handleClose}
-          campaign={viewingCampaign}
-          refetchCampaigns={refetchCampaigns}
-        />
+        <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} campaign={viewingCampaign} />
       )}
     </Container>
   )
