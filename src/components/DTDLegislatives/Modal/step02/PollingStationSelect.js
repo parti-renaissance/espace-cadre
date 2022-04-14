@@ -59,6 +59,7 @@ const Count = styled(Typography)(
 
 const PollingStationSelect = ({ formik, campaignId }) => {
   const [isCheck, setIsCheck] = useState([])
+  const [selected, setSelected] = useState([])
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
@@ -76,7 +77,7 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     {
       onSuccess: data => {
         if (data?.length > 0) {
-          setIsCheck(data)
+          setSelected(data)
         }
       },
       onError: handleError,
@@ -107,6 +108,19 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     return transformed
   }
 
+  const mergePollingStations = () => {
+    const mergedSelection = []
+    pollingStations.forEach(element => {
+      selected.forEach(item => {
+        if (item.id === element.id) {
+          mergedSelection.push(element)
+        }
+      })
+    })
+    // setIsCheck(selected) >> does not work
+    setIsCheck(mergedSelection) // works
+  }
+
   useEffect(() => {
     if (isCheck.length > 0) {
       formik.setFieldValue('votePlaces', transformPollingStations(isCheck))
@@ -120,6 +134,12 @@ const PollingStationSelect = ({ formik, campaignId }) => {
       getSelectedPollingStations(campaignId)
     }
   }, [campaignId])
+
+  useEffect(() => {
+    if (selected.length > 0) {
+      mergePollingStations()
+    }
+  }, [selected])
 
   if (!pollingStations.length > 0 || isGetSelectedPollingStationsLoading)
     return (
@@ -158,6 +178,13 @@ const PollingStationSelect = ({ formik, campaignId }) => {
         <Title>{messages.title}</Title>
       </Grid>
       <CountContainer container isMobile={isMobile}>
+        <button
+          onClick={() => {
+            mergePollingStations()
+          }}
+        >
+          Test
+        </button>
         <FormControlLabel
           control={
             <Checkbox
