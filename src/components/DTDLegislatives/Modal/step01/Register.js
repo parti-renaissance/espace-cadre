@@ -105,6 +105,7 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
           formik={formik}
           label="goal"
           type="number"
+          InputProps={{ inputProps: { min: 1, max: 1000000 } }}
           placeholder={messages.placeholder.goal}
           onBlur={handleBlur}
           onChange={handleChange}

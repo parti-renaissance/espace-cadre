@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
-
 import { useState, useEffect } from 'react'
 import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
@@ -12,10 +11,11 @@ import formatNumber from '../../../shared/formatNumber/formatNumber'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { getDTDCampaignPollingStations } from 'api/DTD'
+import { getDTDCampaignPollingStations, getDTDCampaignSelectedPollingStations } from 'api/DTD'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
 import { FixedSizeList as List } from 'react-window'
+import { useMutation } from 'react-query'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -71,6 +71,18 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     }
   )
 
+  const { mutateAsync: getSelectedPollingStations, isLoading: isGetSelectedPollingStationsLoading } = useMutation(
+    getDTDCampaignSelectedPollingStations,
+    {
+      onSuccess: data => {
+        if (data?.length > 0) {
+          setIsCheck(data)
+        }
+      },
+      onError: handleError,
+    }
+  )
+
   const handleSelectAll = checked => {
     if (checked) {
       setIsCheck(pollingStations)
@@ -87,15 +99,29 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     }
   }
 
+  const transformPollingStations = data => {
+    const transformed = []
+    data.forEach(element => {
+      transformed.push(element.id)
+    })
+    return transformed
+  }
+
   useEffect(() => {
     if (isCheck.length > 0) {
-      formik.setFieldValue('votePlaces', isCheck)
+      formik.setFieldValue('votePlaces', transformPollingStations(isCheck))
     } else {
       formik.setFieldValue('votePlaces', [])
     }
   }, [isCheck])
 
-  if (!pollingStations.length > 0)
+  useEffect(() => {
+    if (campaignId) {
+      getSelectedPollingStations(campaignId)
+    }
+  }, [campaignId])
+
+  if (!pollingStations.length > 0 || isGetSelectedPollingStationsLoading)
     return (
       <Grid container justifyContent="center">
         <Loader />
