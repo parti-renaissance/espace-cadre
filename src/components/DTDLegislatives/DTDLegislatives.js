@@ -9,7 +9,7 @@ import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import Modal from './Modal'
+import CreateEditModal from './CreateEditModal'
 import CampaignItem from './Campaign/CampaignItem'
 import LegendItem from '../DTD/LegendItem'
 import DTDMap from '../DTD/DTDMap'
@@ -17,6 +17,7 @@ import { useUserScope } from '../../redux/user/hooks'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getDTDCampaignsQuery } from 'api/DTD'
+import { DTDCampaign } from 'domain/DTD'
 
 const Legend = styled(Grid)(
   ({ theme }) => `
@@ -83,9 +84,10 @@ const messages = {
 }
 
 const DTDLegislatives = () => {
-  const navigate = useNavigate()
-  const [open, setOpen] = useState(false)
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [viewingCampaign, setViewingCampaign] = useState(DTDCampaign.NULL)
   const [selectedTab, setSelectedTab] = useState(messages.cartography)
+  const navigate = useNavigate()
   const [userScope] = useUserScope()
   const { handleError } = useErrorHandler()
 
@@ -103,8 +105,14 @@ const DTDLegislatives = () => {
   )
   const campaigns = usePaginatedData(paginatedCampaigns)
 
+  const handleCreate = () => {
+    setViewingCampaign(DTDCampaign.NULL)
+    setIsCreateEditModalOpen(true)
+  }
+
   const handleClose = () => {
-    setOpen(false)
+    setViewingCampaign(DTDCampaign.NULL)
+    setIsCreateEditModalOpen(false)
   }
 
   const handleTabChange = (_, tabId) => {
@@ -120,7 +128,7 @@ const DTDLegislatives = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton label={messages.create} onClick={() => setOpen(true)} isMainButton />}
+          button={<PageHeaderButton label={messages.create} onClick={handleCreate} isMainButton />}
         />
       </Grid>
       <Grid container data-cy="DTD-campaigns-list">
@@ -207,7 +215,9 @@ const DTDLegislatives = () => {
           </Grid>
         </InfiniteScroll>
       )}
-      {open && <Modal open={open} handleClose={handleClose} />}
+      {isCreateEditModalOpen && (
+        <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} campaign={viewingCampaign} />
+      )}
     </Container>
   )
 }

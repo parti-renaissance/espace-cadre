@@ -151,7 +151,6 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     index: PropTypes.number,
     style: PropTypes.object,
   }
-  console.log(campaignId)
 
   return (
     <Container maxWidth="md">

@@ -14,8 +14,8 @@ import RenderStep from './Modal/RenderStep'
 import ActionButton from './Modal/ActionButton'
 import { useErrorHandler } from 'components/shared/error/hooks'
 
-import { createDTDLocalCampaign } from 'api/DTD'
-import { DTDCampaignCreateEdit } from 'domain/DTD/campaign-create-edit'
+import { createDTDLocalCampaign, updateDTDLocalCampaign } from 'api/DTD'
+import { useParams } from 'react-router'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -33,41 +33,52 @@ const SignupSchema = Yup.object().shape({
   survey: Yup.string().required('Questionnaire obligatoire'),
 })
 
-const formData = {
-  title: '',
-  goal: '',
-  startDate: null,
-  endDate: null,
-  brief: '',
-  survey: '',
-  votePlaces: [],
-}
-
 const messages = {
   title: 'Nouvelle campagne de porte à porte',
   backButton: 'retour',
 }
 
-const Modal = ({ open, handleClose }) => {
+const CreateEditModal = ({ open, handleClose, campaign }) => {
   const [step, setStep] = useState(1)
-  const [campaignId, setCampaignId] = useState()
   const { handleError } = useErrorHandler()
   const shouldDisplayRegister = step === 1
+  const { campaignId } = useParams()
+  const [creationModeId, setCreationModeId] = useState()
+
+  const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
+    !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
+    {
+      onSuccess: newUuid => {
+        newUuid && setCreationModeId(newUuid)
+        next()
+      },
+      onError: handleError,
+    }
+  )
 
   const formik = useFormik({
-    initialValues: formData,
+    initialValues: {
+      title: campaign?.title,
+      goal: campaign?.goal,
+      startDate: campaign?.startDate,
+      endDate: campaign?.endDate,
+      brief: campaign?.brief,
+      survey: campaign?.survey,
+      votePlaces: campaign?.votePlaces,
+    },
     validationSchema: SignupSchema,
-    onSubmit: values => {
-      createCampaign(
-        new DTDCampaignCreateEdit(
-          values.title,
-          values.goal,
-          values.startDate,
-          values.endDate,
-          values.survey,
-          values.brief,
-          values.votePlaces
-        )
+    enableReinitialize: true,
+    onSubmit: async values => {
+      await createOrUpdateCampaign(
+        campaign
+          .withId(campaignId || creationModeId)
+          .withTitle(values.title)
+          .withGoal(values.goal)
+          .withStartDate(values.startDate)
+          .withEndDate(values.endDate)
+          .withSurvey(values.survey)
+          .withBrief(values.brief)
+          .withVotePlaces(values.votePlaces)
       )
     },
   })
@@ -86,17 +97,7 @@ const Modal = ({ open, handleClose }) => {
     !formik.errors.startDate &&
     !formik.errors.endDate &&
     !formik.errors.brief &&
-    !formik.errors.survey &&
-    formik.touched.title &&
-    formik.touched.goal
-
-  const { mutateAsync: createCampaign, isLoading: isCampaignLoading } = useMutation(createDTDLocalCampaign, {
-    onSuccess: campaignId => {
-      setCampaignId(campaignId)
-      next()
-    },
-    onError: handleError,
-  })
+    !formik.errors.survey
 
   return (
     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -115,8 +116,8 @@ const Modal = ({ open, handleClose }) => {
               shouldDisplayRegister={shouldDisplayRegister}
               isStepOneValid={isStepOneValid}
               handleSubmit={formik.handleSubmit}
-              next={next}
               isCampaignLoading={isCampaignLoading}
+              isInCreationMode={!campaignId && !creationModeId}
             />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
@@ -138,9 +139,10 @@ const Modal = ({ open, handleClose }) => {
   )
 }
 
-export default Modal
+export default CreateEditModal
 
-Modal.propTypes = {
+CreateEditModal.propTypes = {
+  campaign: PropTypes.object,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
 }

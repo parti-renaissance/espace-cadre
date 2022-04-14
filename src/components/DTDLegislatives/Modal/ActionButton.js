@@ -4,10 +4,10 @@ import Loader from 'ui/Loader'
 
 const messages = {
   create: 'Créer et cibler',
-  submitButton: 'Cibler',
+  target: 'Cibler',
 }
 
-const ActionButton = ({ shouldDisplayRegister, isStepOneValid, handleSubmit, isCampaignLoading }) => {
+const ActionButton = ({ shouldDisplayRegister, isStepOneValid, handleSubmit, isCampaignLoading, isInCreationMode }) => {
   if (shouldDisplayRegister) {
     return (
       <Button
@@ -17,13 +17,14 @@ const ActionButton = ({ shouldDisplayRegister, isStepOneValid, handleSubmit, isC
         onClick={handleSubmit}
         sx={{ width: '142px' }}
       >
-        {isCampaignLoading ? <Loader /> : messages.create}
+        {isCampaignLoading && <Loader />}
+        {isInCreationMode ? messages.create : messages.target}
       </Button>
     )
   }
   return (
     <Button type="submit" onClick={handleSubmit} rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}>
-      {messages.submitButton}
+      {messages.target}
     </Button>
   )
 }
@@ -35,4 +36,5 @@ ActionButton.propTypes = {
   isStepOneValid: PropTypes.bool,
   isCampaignLoading: PropTypes.bool,
   handleSubmit: PropTypes.func,
+  isInCreationMode: PropTypes.bool,
 }

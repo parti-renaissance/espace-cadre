@@ -1,5 +1,5 @@
 export { DTDGlobalKPI, DTDGlobalKPICampaigns, DTDGlobalKPISurveys, DTDGlobalKPIDoors } from './campaign-KPI'
-export { DTDCampaignItem, DTDCampaignItemScore } from './campaigns'
+export { DTDCampaign, DTDCampaignItem, DTDCampaignItemScore } from './campaigns'
 export { DTDCampaignDetail } from './campaign-detail'
 export {
   DTDCampaignDetailKPI,
