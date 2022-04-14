@@ -72,17 +72,14 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     }
   )
 
-  const { mutateAsync: getSelectedPollingStations, isLoading: isGetSelectedPollingStationsLoading } = useMutation(
-    getDTDCampaignSelectedPollingStations,
-    {
-      onSuccess: data => {
-        if (data?.length > 0) {
-          setSelected(data)
-        }
-      },
-      onError: handleError,
-    }
-  )
+  const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
+    onSuccess: data => {
+      if (data?.length > 0) {
+        setSelected(data)
+      }
+    },
+    onError: handleError,
+  })
 
   const handleSelectAll = checked => {
     if (checked) {
@@ -117,8 +114,7 @@ const PollingStationSelect = ({ formik, campaignId }) => {
         }
       })
     })
-    // setIsCheck(selected) >> does not work
-    setIsCheck(mergedSelection) // works
+    setIsCheck(mergedSelection)
   }
 
   useEffect(() => {
@@ -130,10 +126,10 @@ const PollingStationSelect = ({ formik, campaignId }) => {
   }, [isCheck])
 
   useEffect(() => {
-    if (campaignId) {
+    if (campaignId && pollingStations.length > 0) {
       getSelectedPollingStations(campaignId)
     }
-  }, [campaignId])
+  }, [campaignId, pollingStations])
 
   useEffect(() => {
     if (selected.length > 0) {
@@ -141,7 +137,7 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     }
   }, [selected])
 
-  if (!pollingStations.length > 0 || isGetSelectedPollingStationsLoading)
+  if (!pollingStations.length > 0)
     return (
       <Grid container justifyContent="center">
         <Loader />
@@ -178,13 +174,6 @@ const PollingStationSelect = ({ formik, campaignId }) => {
         <Title>{messages.title}</Title>
       </Grid>
       <CountContainer container isMobile={isMobile}>
-        <button
-          onClick={() => {
-            mergePollingStations()
-          }}
-        >
-          Test
-        </button>
         <FormControlLabel
           control={
             <Checkbox
