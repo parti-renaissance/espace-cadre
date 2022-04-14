@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 import { useState, useEffect } from 'react'
 import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'

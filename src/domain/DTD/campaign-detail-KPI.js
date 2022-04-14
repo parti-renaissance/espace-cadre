@@ -41,18 +41,33 @@ export class DTDCampaignDetailKPIContacts {
     toJoinCount: PropTypes.number.isRequired,
   }
 }
+export class DTDCampaignDetailKPIAddresses {
+  constructor(todoAddresses, ongoingAddresses, completedAddresses) {
+    this.todoAddresses = todoAddresses
+    this.ongoingAddresses = ongoingAddresses
+    this.completedAddresses = completedAddresses
+  }
+
+  static propTypes = {
+    todoAddresses: PropTypes.number.isRequired,
+    ongoingAddresses: PropTypes.number.isRequired,
+    completedAddresses: PropTypes.number.isRequired,
+  }
+}
 
 export class DTDCampaignDetailKPI {
-  constructor(remaining, surveys, doors, contacts) {
+  constructor(remaining, surveys, doors, contacts, addresses) {
     this.remaining = remaining
     this.surveys = surveys
     this.doors = doors
     this.contacts = contacts
+    this.addresses = addresses
   }
   static propTypes = {
     remaining: PropTypes.shape(DTDCampaignDetailKPIRemaining.propTypes),
     surveys: PropTypes.shape(DTDCampaignDetailKPISurveys.propTypes),
     doors: PropTypes.shape(DTDCampaignDetailKPIDoors.propTypes),
     contacts: PropTypes.shape(DTDCampaignDetailKPIContacts.propTypes),
+    addresses: PropTypes.shape(DTDCampaignDetailKPIAddresses.propTypes),
   }
 }

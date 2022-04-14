@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Container, Dialog, Button, Slide } from '@mui/material'

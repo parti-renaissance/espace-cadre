@@ -125,7 +125,14 @@ const CampaignDetail = () => {
         />
       </Grid>
       <Grid container justifyContent="space-between">
-        <CampaignDetailKPI campaign={campaignDetail} />
+        {campaignDetail.KPI && Object.keys(campaignDetail.KPI).length > 0 && (
+          <CampaignDetailKPI
+            surveys={campaignDetail.KPI.surveys}
+            doors={campaignDetail.KPI.doors}
+            contacts={campaignDetail.KPI.contacts}
+            addresses={campaignDetail.KPI.addresses}
+          />
+        )}
         {!isLoadingData && (
           <>
             {' '}
