@@ -57,7 +57,7 @@ const Count = styled(Typography)(
 `
 )
 
-const PollingStationSelect = ({ formik }) => {
+const PollingStationSelect = ({ formik, campaignId }) => {
   const [isCheck, setIsCheck] = useState([])
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
@@ -200,6 +200,7 @@ const PollingStationSelect = ({ formik }) => {
 
 PollingStationSelect.propTypes = {
   formik: PropTypes.object,
+  campaignId: PropTypes.string,
 }
 
 export default PollingStationSelect

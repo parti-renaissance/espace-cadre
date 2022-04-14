@@ -117,6 +117,7 @@ const CreateEditModal = ({ open, handleClose, campaign }) => {
               isStepOneValid={isStepOneValid}
               handleSubmit={formik.handleSubmit}
               isCampaignLoading={isCampaignLoading}
+              isInCreationMode={!campaignId && !creationModeId}
             />
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />

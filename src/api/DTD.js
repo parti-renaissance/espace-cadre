@@ -191,6 +191,7 @@ export const createDTDLocalCampaign = async campaign => {
     begin_at: campaign.startDate,
     finish_at: campaign.endDate,
     survey: campaign.survey,
+    vote_places: campaign.votePlaces,
   })
 
   return data.uuid
@@ -204,5 +205,6 @@ export const updateDTDLocalCampaign = async campaign => {
     begin_at: campaign.startDate,
     finish_at: campaign.endDate,
     survey: campaign.survey,
+    vote_places: campaign.votePlaces,
   })
 }
