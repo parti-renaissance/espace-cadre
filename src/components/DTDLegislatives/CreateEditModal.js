@@ -48,7 +48,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
   const { campaignId } = useParams()
   const [creationModeId, setCreationModeId] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError } = useErrorHandler()
+  const { handleError, errorMessages } = useErrorHandler()
 
   const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
     !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
@@ -139,7 +139,8 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
           formik={formik}
           step={step}
           values={formik.values}
-          errors={formik.errors}
+          formikErrors={formik.errors}
+          errorMessages={errorMessages}
           touched={formik.touched}
           handleBlur={formik.handleBlur}
           handleChange={formik.handleChange}

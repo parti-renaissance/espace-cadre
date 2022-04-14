@@ -13,6 +13,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { getDTDCampaignPollingStations, getDTDCampaignSelectedPollingStations } from 'api/DTD'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { FixedSizeList as List } from 'react-window'
 import { useMutation } from 'react-query'
 
@@ -56,7 +57,7 @@ const Count = styled(Typography)(
 `
 )
 
-const PollingStationSelect = ({ formik, campaignId }) => {
+const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   const [isCheck, setIsCheck] = useState([])
   const [selected, setSelected] = useState([])
   const checkedCount = isCheck.length
@@ -172,6 +173,11 @@ const PollingStationSelect = ({ formik, campaignId }) => {
       <Grid container sx={{ mt: 1, mb: 2 }}>
         <Title>{messages.title}</Title>
       </Grid>
+      {errorMessages.map(({ message, index }) => (
+        <Grid item xs={12} key={index}>
+          <UIFormMessage severity="error">{message}</UIFormMessage>
+        </Grid>
+      ))}
       <CountContainer container isMobile={isMobile}>
         <FormControlLabel
           control={
@@ -216,6 +222,7 @@ const PollingStationSelect = ({ formik, campaignId }) => {
 PollingStationSelect.propTypes = {
   formik: PropTypes.object,
   campaignId: PropTypes.string,
+  errorMessages: PropTypes.array,
 }
 
 export default PollingStationSelect
