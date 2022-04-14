@@ -11,6 +11,7 @@ import Loading from 'components/Dashboard/shared/Loading'
 import TextField from 'ui/TextField'
 import Select from 'ui/Select'
 import MarkdownEditor from 'ui/MarkdownEditor'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { visibility } from '../../../Surveys/shared/constants'
 import { CTAContainer, FormTitle, SectionBody, SectionTitle, SubTitle } from '../../styles'
 
@@ -37,16 +38,16 @@ const messages = {
   addresses: 'adresses',
 }
 
-function Register({ formik, values, handleChange, errors, touched, handleBlur }) {
+function Register({ formik, values, handleChange, formikErrors, errorMessages, touched, handleBlur }) {
   const theme = useTheme()
   const { handleError } = useErrorHandler()
 
-  const titleHasError = errors.title && touched.title
-  const goalHasError = errors.goal && touched.goal
-  const startDateHasError = errors.startDate && touched.startDate
-  const endDateHasError = errors.endDate && touched.endDate
-  const briefHasError = errors.brief && touched.brief
-  const surveyHasError = errors.survey && touched.survey
+  const titleHasError = formikErrors.title && touched.title
+  const goalHasError = formikErrors.goal && touched.goal
+  const startDateHasError = formikErrors.startDate && touched.startDate
+  const endDateHasError = formikErrors.endDate && touched.endDate
+  const briefHasError = formikErrors.brief && touched.brief
+  const surveyHasError = formikErrors.survey && touched.survey
 
   const editorInputHandler = (_, editor) => {
     formik.setFieldValue('brief', editor.getData())
@@ -88,6 +89,11 @@ function Register({ formik, values, handleChange, errors, touched, handleBlur })
 
   return (
     <Container maxWidth="sm" sx={{ mx: 'auto', flexDirection: 'column' }}>
+      {errorMessages.map(({ message, index }) => (
+        <Grid item xs={12} key={index}>
+          <UIFormMessage severity="error">{message}</UIFormMessage>
+        </Grid>
+      ))}
       <FormTitle>{messages.label.title}</FormTitle>
       <Grid item xs={12} sx={{ mb: 2, mt: 1 }}>
         <TextField
@@ -181,7 +187,8 @@ export default Register
 Register.propTypes = {
   formik: PropTypes.object,
   values: PropTypes.object,
-  errors: PropTypes.object,
+  formikErrors: PropTypes.object,
+  errorMessages: PropTypes.array,
   touched: PropTypes.object,
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
