@@ -28,8 +28,6 @@ import {
 } from 'domain/DTD'
 import { newPaginatedResult } from 'api/pagination'
 
-import AddressesData from 'components/DTDLegislatives/Data/AddressesData'
-
 export const getDTDGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/pap_campaigns/kpi')
   const campaigns = new DTDGlobalKPICampaigns(data.nb_campaigns, data.nb_ongoing_campaigns)
@@ -150,21 +148,25 @@ export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   saveAs(new Blob([data]), `Questionnaires PAP - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
 }
 
-export const getDTDCampaignSurveysAddress = () => {
-  //const data = await apiClient.get(`api/v3/?page=${pageNumber + 1}&page_size=${pageSize}`)
-  const data = AddressesData
+export const getDTDCampaignSurveysAddress = async ({ campaignId, pageSize, pageNumber }) => {
+  const data = await apiClient.get(
+    `api/v3/pap_campaigns/${campaignId}/building_statistics?page=${pageNumber + 1}&page_size=${pageSize}`
+  )
   return {
-    totalCount: data.items.length, //data.metadata.total_items,
+    totalCount: data.metadata.total_items,
     addresses: data.items.map(sa => {
-      const questioner = sa.questioner
-        ? new DTDCampaignDetailHistoryQuestioner(
-            sa.questioner.first_name,
-            sa.questioner.last_name,
-            sa.questioner.gender,
-            sa.questioner.age
-          )
+      const questioner = sa.last_passage_done_by
+        ? new DTDCampaignDetailHistoryQuestioner(sa.last_passage_done_by.first_name, sa.last_passage_done_by.last_name)
         : null
-      return new DTDCampaignDetailSurveysAddress(sa.address, sa.buildingType, sa.status, sa.doorsKnocked, questioner)
+      return new DTDCampaignDetailSurveysAddress(
+        sa.building.address.address,
+        sa.building.address.city_name,
+        sa.building.address.insee_code,
+        sa.building.type,
+        sa.status,
+        sa.nb_visited_doors,
+        questioner
+      )
     }),
   }
 }
