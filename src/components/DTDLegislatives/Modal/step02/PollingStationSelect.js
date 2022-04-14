@@ -58,6 +58,7 @@ const Count = styled(Typography)(
 
 const PollingStationSelect = ({ formik, campaignId }) => {
   const [isCheck, setIsCheck] = useState([])
+  const [selected, setSelected] = useState([])
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
@@ -70,17 +71,14 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     }
   )
 
-  const { mutateAsync: getSelectedPollingStations, isLoading: isGetSelectedPollingStationsLoading } = useMutation(
-    getDTDCampaignSelectedPollingStations,
-    {
-      onSuccess: data => {
-        if (data?.length > 0) {
-          setIsCheck(data)
-        }
-      },
-      onError: handleError,
-    }
-  )
+  const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
+    onSuccess: data => {
+      if (data?.length > 0) {
+        setSelected(data)
+      }
+    },
+    onError: handleError,
+  })
 
   const handleSelectAll = checked => {
     if (checked) {
@@ -106,6 +104,18 @@ const PollingStationSelect = ({ formik, campaignId }) => {
     return transformed
   }
 
+  const mergePollingStations = () => {
+    const mergedSelection = []
+    pollingStations.forEach(element => {
+      selected.forEach(item => {
+        if (item.id === element.id) {
+          mergedSelection.push(element)
+        }
+      })
+    })
+    setIsCheck(mergedSelection)
+  }
+
   useEffect(() => {
     if (isCheck.length > 0) {
       formik.setFieldValue('votePlaces', transformPollingStations(isCheck))
@@ -115,12 +125,18 @@ const PollingStationSelect = ({ formik, campaignId }) => {
   }, [isCheck])
 
   useEffect(() => {
-    if (campaignId) {
+    if (campaignId && pollingStations.length > 0) {
       getSelectedPollingStations(campaignId)
     }
-  }, [campaignId])
+  }, [campaignId, pollingStations])
 
-  if (!pollingStations.length > 0 || isGetSelectedPollingStationsLoading)
+  useEffect(() => {
+    if (selected.length > 0) {
+      mergePollingStations()
+    }
+  }, [selected])
+
+  if (!pollingStations.length > 0)
     return (
       <Grid container justifyContent="center">
         <Loader />
