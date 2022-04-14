@@ -16,6 +16,7 @@ import {
   DTDCampaignDetailKPISurveys,
   DTDCampaignDetailKPIDoors,
   DTDCampaignDetailKPIContacts,
+  DTDCampaignDetailKPIAddresses,
   DTDCampaignDetailQuestioner,
   DTDCampaignDetailHistory,
   DTDCampaignDetailHistoryAddress,
@@ -68,7 +69,12 @@ export const getDTDCampaignDetailQuery = async campaignId => {
   const surveys = new DTDCampaignDetailKPISurveys(data.nb_surveys)
   const doors = new DTDCampaignDetailKPIDoors(data.nb_visited_doors, data.nb_open_doors)
   const contacts = new DTDCampaignDetailKPIContacts(data.nb_collected_contacts, data.nb_to_join)
-  const KPI = new DTDCampaignDetailKPI(remaining, surveys, doors, contacts)
+  const addresses = new DTDCampaignDetailKPIAddresses(
+    data.nb_addresses_todo,
+    data.nb_addresses_ongoing,
+    data.nb_addresses_completed
+  )
+  const KPI = new DTDCampaignDetailKPI(remaining, surveys, doors, contacts, addresses)
   return new DTDCampaignDetail(data.uuid, data.title, data.goal, KPI)
 }
 

@@ -52,7 +52,7 @@ const CampaignDetail = () => {
   const [selectedTab, setSelectedTab] = useState(messages.dtdSuffix.id)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
 
-  const { data: campaignDetail = {} } = useQueryWithScope(
+  const { data: campaignDetail = {}, refetch: refetchCampaignDetail } = useQueryWithScope(
     ['campaign', { feature: 'DTD', view: 'Campaign' }, campaignId],
     () => getDTDCampaignDetailQuery(campaignId),
     {
@@ -60,7 +60,7 @@ const CampaignDetail = () => {
     }
   )
 
-  const { data: campaign = null } = useQueryWithScope(
+  const { data: campaign = null, refetch: refetchCampaign } = useQueryWithScope(
     ['campaign-detail', { feature: 'DTD', view: 'DTD' }],
     () => getDTDCampaignQuery(campaignId),
     {
@@ -125,7 +125,14 @@ const CampaignDetail = () => {
         />
       </Grid>
       <Grid container justifyContent="space-between">
-        <CampaignDetailKPI campaign={campaignDetail} />
+        {campaignDetail.KPI && Object.keys(campaignDetail.KPI).length > 0 && (
+          <CampaignDetailKPI
+            surveys={campaignDetail.KPI.surveys}
+            doors={campaignDetail.KPI.doors}
+            contacts={campaignDetail.KPI.contacts}
+            addresses={campaignDetail.KPI.addresses}
+          />
+        )}
         {!isLoadingData && (
           <>
             {' '}
@@ -191,7 +198,15 @@ const CampaignDetail = () => {
         )}
       </Grid>
       {isCreateEditModalOpen && (
-        <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} campaign={campaign} />
+        <CreateEditModal
+          open={isCreateEditModalOpen}
+          handleClose={handleClose}
+          campaign={campaign}
+          onUpdateResolve={() => {
+            refetchCampaignDetail()
+            refetchCampaign()
+          }}
+        />
       )}
     </Container>
   )

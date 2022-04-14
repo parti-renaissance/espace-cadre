@@ -13,45 +13,42 @@ const messages = {
   collected: 'collecté',
 }
 
-const CampaignDetailKPI = ({ campaign }) => (
+const CampaignDetailKPI = ({ surveys, doors, contacts, addresses }) => (
   <KPIs>
     <KPICard
-      main={campaign?.visitedAddresses || 0}
+      main={addresses.completedAddresses || 0}
       title={
         <>
-          {pluralize(campaign?.visitedAddresses, messages.visitedPrefix)}&nbsp;
-          {pluralize(campaign?.visitedAddresses, messages.visitedSuffix)}
+          {pluralize(addresses.completedAddresses, messages.visitedPrefix)}&nbsp;
+          {pluralize(addresses.completedAddresses, messages.visitedSuffix)}
         </>
       }
     />
     <KPICard
-      main={campaign?.toVisitAddresses || 0}
+      main={addresses.todoAddresses || 0}
       title={
         <>
-          {pluralize(campaign?.toVisitAddresses, messages.visitedPrefix)}&nbsp;
+          {pluralize(addresses.todoAddresses, messages.visitedPrefix)}&nbsp;
           {messages.toVisit}
         </>
       }
     />
     <KPICard
-      main={campaign?.KPI?.doors?.knockedCount || 0}
+      main={doors.knockedCount || 0}
       title={
         <>
-          {pluralize(campaign?.KPI?.doors?.knockedCount, messages.door)}&nbsp;
-          {pluralize(campaign?.KPI?.doors?.knockedCount, messages.knocked)}
+          {pluralize(doors.knockedCount, messages.door)}&nbsp;
+          {pluralize(doors.knockedCount, messages.knocked)}
         </>
       }
     />
+    <KPICard main={surveys.count || 0} title={<>{pluralize(surveys.count, messages.surveys)}</>} />
     <KPICard
-      main={campaign?.KPI?.surveys?.count || 0}
-      title={<>{pluralize(campaign?.KPI?.surveys?.count, messages.surveys)}</>}
-    />
-    <KPICard
-      main={campaign?.KPI?.contacts?.collectedCount || 0}
+      main={contacts.collectedCount || 0}
       title={
         <>
-          {pluralize(campaign?.KPI?.contacts?.collectedCount, messages.contact)}&nbsp;
-          {pluralize(campaign?.KPI?.contacts?.collectedCount, messages.collected)}
+          {pluralize(contacts.collectedCount, messages.contact)}&nbsp;
+          {pluralize(contacts.collectedCount, messages.collected)}
         </>
       }
     />
@@ -61,5 +58,8 @@ const CampaignDetailKPI = ({ campaign }) => (
 export default CampaignDetailKPI
 
 CampaignDetailKPI.propTypes = {
-  campaign: PropTypes.object,
+  surveys: PropTypes.object,
+  doors: PropTypes.object,
+  contacts: PropTypes.object,
+  addresses: PropTypes.object,
 }
