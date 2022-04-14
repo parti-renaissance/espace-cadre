@@ -36,7 +36,8 @@ const SignupSchema = Yup.object().shape({
 })
 
 const messages = {
-  title: 'Nouvelle campagne de porte à porte',
+  creationTitle: 'Nouvelle campagne de porte à porte',
+  editionTitle: 'Modifier la campagne de porte à porte',
   backButton: 'retour',
   createSuccess: 'Campagne créée avec succès',
   editSuccess: 'La campagne a bien été modifiée',
@@ -117,7 +118,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
                 {messages.backButton}
               </Button>
             )}
-            <Title>{messages.title}</Title>
+            <Title>{!campaignId && !creationModeId ? messages.creationTitle : messages.editionTitle}</Title>
           </Grid>
           <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ActionButton
