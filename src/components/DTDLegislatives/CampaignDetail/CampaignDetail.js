@@ -52,7 +52,7 @@ const CampaignDetail = () => {
   const [selectedTab, setSelectedTab] = useState(messages.dtdSuffix.id)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
 
-  const { data: campaignDetail = {} } = useQueryWithScope(
+  const { data: campaignDetail = {}, refreshCampaignDetail } = useQueryWithScope(
     ['campaign', { feature: 'DTD', view: 'Campaign' }, campaignId],
     () => getDTDCampaignDetailQuery(campaignId),
     {
@@ -60,7 +60,7 @@ const CampaignDetail = () => {
     }
   )
 
-  const { data: campaign = null } = useQueryWithScope(
+  const { data: campaign = null, refetch: refreshCampaign } = useQueryWithScope(
     ['campaign-detail', { feature: 'DTD', view: 'DTD' }],
     () => getDTDCampaignQuery(campaignId),
     {
@@ -191,7 +191,15 @@ const CampaignDetail = () => {
         )}
       </Grid>
       {isCreateEditModalOpen && (
-        <CreateEditModal open={isCreateEditModalOpen} handleClose={handleClose} campaign={campaign} />
+        <CreateEditModal
+          open={isCreateEditModalOpen}
+          handleClose={handleClose}
+          campaign={campaign}
+          onUpdateResolve={() => {
+            refreshCampaign()
+            refreshCampaignDetail()
+          }}
+        />
       )}
     </Container>
   )

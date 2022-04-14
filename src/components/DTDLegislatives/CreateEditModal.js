@@ -7,15 +7,17 @@ import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-mater
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useMutation } from 'react-query'
+import { useParams } from 'react-router'
 
 import './styles.css'
 import { Title } from './styles'
 import RenderStep from './Modal/RenderStep'
 import ActionButton from './Modal/ActionButton'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
 
 import { createDTDLocalCampaign, updateDTDLocalCampaign } from 'api/DTD'
-import { useParams } from 'react-router'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -36,20 +38,26 @@ const SignupSchema = Yup.object().shape({
 const messages = {
   title: 'Nouvelle campagne de porte à porte',
   backButton: 'retour',
+  createSuccess: 'Campagne créée avec succès',
+  editSuccess: 'La campagne a bien été modifiée',
 }
 
-const CreateEditModal = ({ open, handleClose, campaign }) => {
+const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdateResolve }) => {
   const [step, setStep] = useState(1)
-  const { handleError } = useErrorHandler()
   const shouldDisplayRegister = step === 1
   const { campaignId } = useParams()
   const [creationModeId, setCreationModeId] = useState()
+  const { enqueueSnackbar } = useCustomSnackbar()
+  const { handleError } = useErrorHandler()
 
   const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
     !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
     {
       onSuccess: newUuid => {
         newUuid && setCreationModeId(newUuid)
+        onCreateResolve && onCreateResolve()
+        onUpdateResolve && onUpdateResolve()
+        enqueueSnackbar(!campaignId ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
         next()
       },
       onError: handleError,
@@ -145,4 +153,6 @@ CreateEditModal.propTypes = {
   campaign: PropTypes.object,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
+  onCreateResolve: PropTypes.func,
+  onUpdateResolve: PropTypes.func,
 }
