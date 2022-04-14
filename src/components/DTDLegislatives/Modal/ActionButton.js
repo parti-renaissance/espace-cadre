@@ -17,7 +17,7 @@ const ActionButton = ({ shouldDisplayRegister, isStepOneValid, handleSubmit, isC
         onClick={handleSubmit}
         sx={{ width: '142px' }}
       >
-        {isCampaignLoading && <Loader />}
+        {isCampaignLoading && <Loader />}&nbsp;
         {isInCreationMode ? messages.create : messages.target}
       </Button>
     )
