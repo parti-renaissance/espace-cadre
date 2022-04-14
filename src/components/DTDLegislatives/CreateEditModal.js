@@ -48,7 +48,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
   const { campaignId } = useParams()
   const [creationModeId, setCreationModeId] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError, errorMessages } = useErrorHandler()
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
 
   const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
     !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
@@ -61,6 +61,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
         )
         onCreateResolve && onCreateResolve()
         onUpdateResolve && onUpdateResolve()
+        resetErrorMessages()
         step === 1 ? next() : handleClose()
       },
       onError: handleError,
