@@ -56,10 +56,13 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
     {
       onSuccess: newUuid => {
         newUuid && setCreationModeId(newUuid)
+        enqueueSnackbar(
+          !campaignId && !creationModeId ? messages.createSuccess : messages.editSuccess,
+          notifyVariants.success
+        )
         onCreateResolve && onCreateResolve()
         onUpdateResolve && onUpdateResolve()
-        enqueueSnackbar(!campaignId ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-        next()
+        step === 1 ? next() : handleClose()
       },
       onError: handleError,
     }

@@ -221,7 +221,7 @@ const DTDLegislatives = () => {
           open={isCreateEditModalOpen}
           handleClose={handleClose}
           campaign={viewingCampaign}
-          onCreateResolve={() => refetchCampaigns()}
+          onCreateResolve={refetchCampaigns}
         />
       )}
     </Container>
