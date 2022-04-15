@@ -8,7 +8,7 @@ export const featuresLabels = {
   news: 'Actualités',
   phoning_campaign: 'Phoning',
   pap: 'Porte à porte',
-  pap_v2: 'Porte à porte législatives',
+  pap_v2: 'Porte à porte local',
   survey: 'Questionnaires',
   my_team: 'Mon équipe',
   events: 'Évènements',

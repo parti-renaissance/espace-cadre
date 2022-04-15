@@ -42,7 +42,7 @@ const TabLabel = styled(Typography)`
 `
 
 const messages = {
-  title: 'Porte à porte législatives',
+  title: 'Porte à porte local',
   create: 'Créer une campagne',
   cartography: 'Cartographie',
   campaigns: 'Campagnes de mon territoire',
