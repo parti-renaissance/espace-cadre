@@ -15,16 +15,42 @@ export class DTDCampaignDetailSurveysReplyAnswer {
 }
 
 export class DTDCampaignDetailSurveysReply {
-  constructor(answers, questioner, duration, startDate) {
+  constructor(
+    answers,
+    questioner,
+    duration,
+    startDate,
+    firstName,
+    lastName,
+    gender,
+    ageRange,
+    profession,
+    emailAddress,
+    postalCode
+  ) {
     this.answers = answers
     this.questioner = questioner
     this.duration = duration
     this.startDate = startDate
+    this.firstName = firstName
+    this.lastName = lastName
+    this.gender = gender
+    this.ageRange = ageRange
+    this.profession = profession
+    this.emailAddress = emailAddress
+    this.postalCode = postalCode
   }
   static propTypes = {
     answers: PropTypes.arrayOf(PropTypes.shape(DTDCampaignDetailSurveysReplyAnswer.propTypes)).isRequired,
     questioner: PropTypes.shape(DTDCampaignDetailHistoryQuestioner.propTypes),
     duration: PropTypes.number.isRequired,
     startDate: PropTypes.object.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    gender: PropTypes.string,
+    ageRange: PropTypes.string,
+    emailAddress: PropTypes.string,
+    postalCode: PropTypes.string,
+    profession: PropTypes.string,
   }
 }

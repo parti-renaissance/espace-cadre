@@ -133,11 +133,19 @@ export const getDTDCampaignSurveysReplies = async ({ campaignId, pageSize, pageN
             sr.pap_campaign_history.questioner.age
           )
         : null
+
       return new DTDCampaignDetailSurveysReply(
         sr.answers.map(a => new DTDCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
         questioner,
         sr.pap_campaign_history.duration,
-        new Date(sr.pap_campaign_history.created_at)
+        new Date(sr.pap_campaign_history.created_at),
+        sr.pap_campaign_history.first_name,
+        sr.pap_campaign_history.last_name,
+        sr.pap_campaign_history.gender,
+        sr.pap_campaign_history.age_range,
+        sr.pap_campaign_history.profession,
+        sr.pap_campaign_history.email_address,
+        sr.pap_campaign_history.voter_postal_code
       )
     }),
   }
