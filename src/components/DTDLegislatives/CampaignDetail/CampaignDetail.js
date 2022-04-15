@@ -38,7 +38,7 @@ const TabLabel = styled(Typography)`
 `
 
 const messages = {
-  title: 'Porte à porte législatives',
+  title: 'Porte à porte local',
   addresses: { id: 'addresses', label: 'Adresse' },
   dtdPrefix: 'Porte-à-',
   dtdSuffix: { id: 'dtd', label: 'porteur' },
