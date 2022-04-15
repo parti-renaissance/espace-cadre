@@ -103,7 +103,7 @@ const CreateEditGlobalSettings = () => {
       <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.goal}</UIInputLabel>
       <UIInput
         type="number"
-        min="0"
+        InputProps={{ inputProps: { min: 1, max: 1000000 } }}
         name={fields.goal}
         placeholder={messages.placeholder.goal}
         value={inputValues.goal}
