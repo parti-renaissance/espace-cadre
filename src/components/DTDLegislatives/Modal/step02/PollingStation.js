@@ -20,8 +20,6 @@ const ListItem = styled(
   flex-direction: ${isMobile ? 'column' : 'row'};
   align-items: center;
   border-radius: 8px;
-  margin-bottom: ${theme.spacing(1)};
-  height: 60px;
   &.MuiListItemButton-root {
     border: 1px solid ${hasBorderColor ? theme.palette.main : 'rgba(0, 0, 0, 0.25)'};
   }
