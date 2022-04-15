@@ -4,7 +4,7 @@ import pluralize from '../../shared/pluralize/pluralize'
 
 const messages = {
   visitedPrefix: 'Adresse',
-  visitedSuffix: 'visitée',
+  visitedSuffix: 'terminée',
   toVisit: 'à visiter',
   surveys: 'Questionnaire',
   door: 'Porte',
