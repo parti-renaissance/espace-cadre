@@ -23,7 +23,6 @@ import { getDTDCampaignSurveysAddress } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { TruncatedText } from 'components/shared/styled'
-import { translatedGender } from './shared/constants'
 import { surveysColumnsStyles } from './shared/helpers'
 import CampaignDetailSurveysExport from './CampaignDetailSurveysExport'
 
@@ -83,7 +82,6 @@ const messages = {
 }
 
 const formatQuestioner = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
-const formatGender = gender => translatedGender[gender]
 
 const CampaignDetailAddresses = () => {
   const [currentPage, setCurrentPage] = useState(0)
@@ -159,32 +157,32 @@ const CampaignDetailAddresses = () => {
             </TableHead>
 
             <TableBody>
-              {rows?.map(({ address, buildingType, status, doorsKnocked, questioner }, index) => (
-                <TableRow key={uuid()} sx={{ width: '175px' }}>
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                    <Description>{address.split(',')[0]}</Description>
-                    <SubDescription>{address.split(',')[1]}</SubDescription>
-                  </TableCell>
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                    <Description>{buildingType}</Description>
-                  </TableCell>
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                    <Description>{status}</Description>
-                  </TableCell>
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                    <Description>{doorsKnocked}</Description>
-                  </TableCell>
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
-                    <Description>
-                      {questioner.lastName || questioner.firstName ? formatQuestioner(questioner) : messages.anonymous}
-                    </Description>
-                    <SubDescription>
-                      {formatGender(questioner.gender) && `${formatGender(questioner.gender)}, `}
-                      {questioner.age && `${questioner.age}`}
-                    </SubDescription>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {rows?.map(
+                ({ address, cityName, inseeCode, buildingType, status, numberVisitedDoors, questioner }, index) => (
+                  <TableRow key={uuid()} sx={{ width: '175px' }}>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
+                      <Description>{address}</Description>
+                      <SubDescription>{`${inseeCode} ${cityName}`}</SubDescription>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
+                      <Description>{buildingType}</Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
+                      <Description>{status}</Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
+                      <Description>{numberVisitedDoors}</Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
+                      <Description>
+                        {questioner?.lastName || questioner?.firstName
+                          ? formatQuestioner(questioner)
+                          : messages.anonymous}
+                      </Description>
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>
