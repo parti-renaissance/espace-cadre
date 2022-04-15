@@ -85,12 +85,20 @@ const messages = {
   },
   cartography: 'Cartographie',
   campaigns: 'Campagnes de mon territoire',
-  rightVotes: 'Voix de droite',
-  leftVotes: 'Voix de gauche',
+  rightVotes: 'Réserve à droite',
+  leftVotes: 'Réserve à gauche',
+  abstainingVotes: "Réserve d'abstentionnistes",
+  leftTitle: "Convaincre l'électorat de gauche de voter pour notre candidat",
+  leftMain: 'Plus la couleur est sombre, plus la réserve de voix de gauche est intéressante',
+  rightTitle: "S'assurer du report de voix de la droite",
+  rightMain: 'Plus la couleur est sombre, plus la réserve de voix de droite (hors Le Pen) est intéressante',
+  absTitle: 'Inciter les abstentionnistes à voter',
+  absMain: "Plus la couleur est sombre, plus le bassin d'abstentionnistes déçus du premier tour est intéressante",
 }
 const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
 const DTD_LAYER_LEFT = LayersCodes.ciblagePapLeft
 const DTD_LAYER_RIGHT = LayersCodes.ciblagePapRight
+const DTD_LAYER_ABSTAINING = LayersCodes.ciblagePapAbstaining
 
 const DTD = () => {
   const navigate = useNavigate()
@@ -125,11 +133,9 @@ const DTD = () => {
       <Grid container justifyContent="space-between">
         <PageHeader title={messages.title} />
       </Grid>
-
       <Grid container justifyContent="space-between">
         <CampaignGlobalKPI />
       </Grid>
-
       <Grid container data-cy="DTD-campaigns-tabs">
         <Tabs
           variant="scrollable"
@@ -162,9 +168,14 @@ const DTD = () => {
             disableRipple
             disableFocusRipple
           />
+          <Tab
+            value={messages.abstainingVotes}
+            label={<TabLabel>{messages.abstainingVotes}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
         </Tabs>
       </Grid>
-
       {selectedTab === messages.cartography && (
         <Grid container data-cy="DTD-campaigns-map">
           <Legend container>
@@ -199,11 +210,9 @@ const DTD = () => {
           </Legend>
           <Grid item xs={12}>
             <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_POINT} />
-            <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_RIGHT} />
           </Grid>
         </Grid>
       )}
-
       {selectedTab === messages.campaigns && (
         <Grid container justifyContent="space-between" sx={{ ...infiniteScrollStylesOverrides }}>
           {campaigns.length > 0 && (
@@ -231,15 +240,49 @@ const DTD = () => {
           )}
         </Grid>
       )}
-
       {selectedTab === messages.leftVotes && (
         <Grid item xs={12}>
+          <Legend container>
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" sx={{ mb: 3 }}>
+                {messages.leftTitle}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2">{messages.leftMain}</Typography>
+            </Grid>
+          </Legend>
           <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_LEFT} />
         </Grid>
       )}
       {selectedTab === messages.rightVotes && (
         <Grid item xs={12}>
+          <Legend container>
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" sx={{ mb: 3 }}>
+                {messages.rightTitle}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2">{messages.rightMain}</Typography>
+            </Grid>
+          </Legend>
           <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_RIGHT} />
+        </Grid>
+      )}
+      {selectedTab === messages.abstainingVotes && (
+        <Grid item xs={12}>
+          <Legend container>
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" sx={{ mb: 3 }}>
+                {messages.absTitle}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2">{messages.absMain}</Typography>
+            </Grid>
+          </Legend>
+          <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_ABSTAINING} />
         </Grid>
       )}
     </Container>
