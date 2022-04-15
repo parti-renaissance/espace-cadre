@@ -147,27 +147,6 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
   const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
 
-  const AllPollingStationsRows = ({ data, index, style }) => {
-    const station = data[index]
-    return (
-      <div style={style}>
-        <PollingStation
-          key={station.id}
-          station={station}
-          handleSelectOne={handleSelectOne}
-          index={index}
-          isCheck={isCheck}
-        />
-      </div>
-    )
-  }
-
-  AllPollingStationsRows.propTypes = {
-    data: PropTypes.array,
-    index: PropTypes.number,
-    style: PropTypes.object,
-  }
-
   return (
     <Container maxWidth="md">
       <Grid container sx={{ mt: 1, mb: 2 }}>
@@ -205,15 +184,21 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      <List
-        height={600}
-        width={'100%'}
-        itemCount={pollingStations.length}
-        itemData={pollingStations}
-        itemSize={68}
-        bgcolor={'background.paper'}
-      >
-        {AllPollingStationsRows}
+      <List height={600} itemCount={pollingStations.length} itemData={pollingStations} itemSize={isMobile ? 120 : 68}>
+        {({ data, index, style }) => {
+          const station = data[index]
+          return (
+            <div style={style}>
+              <PollingStation
+                key={station.id}
+                station={station}
+                handleSelectOne={handleSelectOne}
+                index={index}
+                isCheck={isCheck}
+              />
+            </div>
+          )
+        }}
       </List>
     </Container>
   )
