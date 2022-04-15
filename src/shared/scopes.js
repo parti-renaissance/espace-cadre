@@ -1,6 +1,7 @@
 export default {
   correspondent: 'correspondent',
   deputy: 'deputy',
+  legislative_candidate: 'legislative_candidate',
   national_communication: 'national_communication',
   national: 'national',
   pap_national_manager: 'pap_national_manager',
