@@ -22,6 +22,7 @@ class IntegerIntervalFactory {
           <TextField
             label={`${filter.label} minimum`}
             type="number"
+            InputProps={{ inputProps: { min: 1, max: 1000000 } }}
             size="small"
             variant="outlined"
             value={value === '' || (typeof value === 'object' && value.min === undefined) ? '' : value.min}
@@ -39,6 +40,7 @@ class IntegerIntervalFactory {
           <TextField
             label={`${filter.label} maximum`}
             type="number"
+            InputProps={{ inputProps: { min: 1, max: 1000000 } }}
             size="small"
             variant="outlined"
             value={value === '' || (typeof value === 'object' && value.max === undefined) ? '' : value.max}
