@@ -65,7 +65,8 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
       style: process.env.REACT_APP_MAPBOX_STYLE,
       minZoom: 4,
     })
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
+    map.current.addControl(new mapboxgl.NavigationControl())
+    // map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
     map.current.on('data', () => {
       const renderedFeatures = map.current.queryRenderedFeatures({
         layers: [typeOfLayer],
@@ -118,12 +119,12 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
         setInfos(null)
       })
   }, [currentPoint, infos])
-
+  console.log(typeOfLayer)
   return <Map ref={mapContainer} />
 }
 
 DTDMap.propTypes = {
-  typeOfLayer: PropTypes.string.isRequired,
+  typeOfLayer: PropTypes.string,
   userZones: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,

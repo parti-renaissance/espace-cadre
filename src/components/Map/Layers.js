@@ -8,7 +8,7 @@ export const LayersCodes = {
   ciblagePapPoint: 'ciblage-pap-point',
   ciblagePapLeft: 'ciblage-t2-reserve-gauche',
   ciblagePapRight: 'ciblage-t2-reserve-droite',
-  ciblagePapAbstaining: 'ciblage-t2-reserve-abs',
+  ciblagePapAbstaining: 'ciblage-t2-reserve-abstentionnistes',
 }
 
 export const LayersTypes = {

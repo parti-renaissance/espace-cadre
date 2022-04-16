@@ -93,7 +93,7 @@ const messages = {
   rightTitle: "S'assurer du report de voix de la droite",
   rightMain: 'Plus la couleur est sombre, plus la réserve de voix de droite (hors Le Pen) est intéressante',
   absTitle: 'Inciter les abstentionnistes à voter',
-  absMain: "Plus la couleur est sombre, plus le bassin d'abstentionnistes déçus du premier tour est intéressante",
+  absMain: "Plus la couleur est sombre, plus le bassin d'abstentionnistes déçus du premier tour est intéressant",
 }
 const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
 const DTD_LAYER_LEFT = LayersCodes.ciblagePapLeft
@@ -243,13 +243,15 @@ const DTD = () => {
       {selectedTab === messages.leftVotes && (
         <Grid item xs={12}>
           <Legend container>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ mb: 2 }}>
               <Typography variant="subtitle1" sx={{ mb: 3 }}>
                 {messages.leftTitle}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="subtitle2">{messages.leftMain}</Typography>
+              <Typography variant="subtitle2" sx={{ fontSize: '15px' }}>
+                {messages.leftMain}
+              </Typography>
             </Grid>
           </Legend>
           <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_LEFT} />
@@ -258,13 +260,13 @@ const DTD = () => {
       {selectedTab === messages.rightVotes && (
         <Grid item xs={12}>
           <Legend container>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" sx={{ mb: 3 }}>
-                {messages.rightTitle}
-              </Typography>
+            <Grid item xs={12} sx={{ mb: 2 }}>
+              <Typography variant="subtitle1">{messages.rightTitle}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="subtitle2">{messages.rightMain}</Typography>
+              <Typography variant="subtitle2" sx={{ fontSize: '15px' }}>
+                {messages.rightMain}
+              </Typography>
             </Grid>
           </Legend>
           <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_RIGHT} />
@@ -273,13 +275,15 @@ const DTD = () => {
       {selectedTab === messages.abstainingVotes && (
         <Grid item xs={12}>
           <Legend container>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ mb: 2 }}>
               <Typography variant="subtitle1" sx={{ mb: 3 }}>
                 {messages.absTitle}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="subtitle2">{messages.absMain}</Typography>
+              <Typography variant="subtitle2" sx={{ fontSize: '15px' }}>
+                {messages.absMain}
+              </Typography>
             </Grid>
           </Legend>
           <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_ABSTAINING} />
