@@ -18,6 +18,7 @@ import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getDTDCampaignsQuery } from 'api/DTD'
 import { DTDCampaign } from 'domain/DTD'
+import { LayersCodes } from 'components/Map/Layers'
 
 const Legend = styled(Grid)(
   ({ theme }) => `
@@ -82,6 +83,7 @@ const messages = {
     main: "Bureaux où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère)",
   },
 }
+const DTD_LAYER_POINT = LayersCodes.ciblagePapPoint
 
 const DTDLegislatives = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
@@ -187,7 +189,7 @@ const DTDLegislatives = () => {
             </Grid>
           </Legend>
 
-          <DTDMap userZones={userScope.zones} />
+          <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_POINT} />
         </>
       )}
       {selectedTab === messages.campaigns && campaigns.length > 0 && (

@@ -14,8 +14,7 @@ import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import DTDMap from 'components/DTD/DTDMap'
 import { useUserScope } from '../../redux/user/hooks'
-import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
-import LegendItem from './LegendItem'
+import { LayersCodes } from 'components/Map/Layers'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -47,50 +46,26 @@ const infiniteScrollStylesOverrides = {
 
 const messages = {
   title: 'Porte à porte',
-  legendTitle: 'Ciblage du Porte à porte en cours',
-  legendPrefix: 'Sur cette carte, retrouvez les catégories du Porte à porte en cours.',
-  legend: [
-    {
-      title: 'Les bureaux bleus ',
-      main1: 'Bureaux où nous pourrions ',
-      bold1: 'gagner des voix ',
-      main2: 'par rapport à 2017 mais où les électeurs sont encore ',
-      bold2: 'très indécis.',
-      subtitle: 'Plus le bleu est foncé (5 variations), plus les personnes sont indécises.',
-      color: '#21618C',
-    },
-    {
-      title: 'Les bureaux jaunes ',
-      main1: 'Bureaux où nous serions ',
-      bold1: 'stables ',
-      main2: 'par rapport à 2017 mais où les électeurs sont encore ',
-      bold2: 'très indécis.',
-      subtitle: 'Plus le jaune est foncé (5 variations), plus les personnes sont indécises.',
-      color: '#B7950B',
-    },
-    {
-      title: 'Les bureaux verts ',
-      main1: 'Bureaux où nous pourrions ',
-      bold1: 'perdre des voix ',
-      main2: 'par rapport à 2017, mais où les électeurs sont encore ',
-      bold2: 'très indécis.',
-      subtitle: 'Plus le vert est foncé (5 variations), plus les personnes sont indécises.',
-      color: '#1E8449',
-    },
-  ],
-  pink: {
-    title: 'Les bureaux roses ',
-    main: "Bureaux où le potentiel de voix est le plus élevé (si n'appartenant pas déjà à un autre critère)",
-  },
-  cartography: 'Cartographie',
   campaigns: 'Campagnes de mon territoire',
+  rightVotes: 'Réserve à droite',
+  leftVotes: 'Réserve à gauche',
+  abstainingVotes: "Réserve d'abstentionnistes",
+  leftTitle: "Convaincre l'électorat de gauche de voter pour notre candidat",
+  leftMain: 'Plus la couleur est sombre, plus la réserve de voix de gauche est intéressante',
+  rightTitle: "S'assurer du report de voix de la droite",
+  rightMain: 'Plus la couleur est sombre, plus la réserve de voix de droite (hors Le Pen) est intéressante',
+  absTitle: 'Inciter les abstentionnistes à voter',
+  absMain: "Plus la couleur est sombre, plus le bassin d'abstentionnistes déçus du premier tour est intéressant",
 }
+const DTD_LAYER_LEFT = LayersCodes.ciblagePapLeft
+const DTD_LAYER_RIGHT = LayersCodes.ciblagePapRight
+const DTD_LAYER_ABSTAINING = LayersCodes.ciblagePapAbstaining
 
 const DTD = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const [userScope] = useUserScope()
-  const [selectedTab, setSelectedTab] = useState(messages.cartography)
+  const [selectedTab, setSelectedTab] = useState(messages.campaigns)
 
   const {
     data: paginatedCampaigns = null,
@@ -119,11 +94,9 @@ const DTD = () => {
       <Grid container justifyContent="space-between">
         <PageHeader title={messages.title} />
       </Grid>
-
       <Grid container justifyContent="space-between">
         <CampaignGlobalKPI />
       </Grid>
-
       <Grid container data-cy="DTD-campaigns-tabs">
         <Tabs
           variant="scrollable"
@@ -133,58 +106,31 @@ const DTD = () => {
           sx={{ my: 2 }}
         >
           <Tab
-            value={messages.cartography}
-            label={<TabLabel>{messages.cartography}</TabLabel>}
-            disableRipple
-            disableFocusRipple
-          />
-          <Tab
             value={messages.campaigns}
             label={<TabLabel>{messages.campaigns}</TabLabel>}
             disableRipple
             disableFocusRipple
           />
+          <Tab
+            value={messages.leftVotes}
+            label={<TabLabel>{messages.leftVotes}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
+          <Tab
+            value={messages.rightVotes}
+            label={<TabLabel>{messages.rightVotes}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
+          <Tab
+            value={messages.abstainingVotes}
+            label={<TabLabel>{messages.abstainingVotes}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
         </Tabs>
       </Grid>
-
-      {selectedTab === messages.cartography && (
-        <Grid container data-cy="DTD-campaigns-map">
-          <Legend container>
-            <Typography variant="subtitle1" sx={{ mb: 3 }}>
-              {messages.legendTitle}
-            </Typography>
-            <Grid container>
-              <Grid item sx={{ mb: 2 }}>
-                {messages.legendPrefix}
-              </Grid>
-              {messages.legend.map((el, i) => (
-                <LegendItem
-                  key={i}
-                  title={el?.title}
-                  main1={el?.main1}
-                  main2={el?.main2}
-                  bold1={el?.bold1}
-                  bold2={el?.bold2}
-                  subtitle={el?.subtitle}
-                  color={el?.color}
-                />
-              ))}
-              <Grid item display="flex" flexDirection="column">
-                <Grid item display="flex" alignItems="center">
-                  <Typography variant="subtitle1">{messages.pink.title}</Typography>&nbsp;
-                  <CircleRoundedIcon sx={{ color: '#FFD1DE' }} />
-                </Grid>
-                <Typography>{messages.pink.main}</Typography>
-              </Grid>
-              <Grid item>{messages.legendSuffix}</Grid>
-            </Grid>
-          </Legend>
-          <Grid item xs={12}>
-            <DTDMap userZones={userScope.zones} />
-          </Grid>
-        </Grid>
-      )}
-
       {selectedTab === messages.campaigns && (
         <Grid container justifyContent="space-between" sx={{ ...infiniteScrollStylesOverrides }}>
           {campaigns.length > 0 && (
@@ -210,6 +156,55 @@ const DTD = () => {
               </Grid>
             </InfiniteScroll>
           )}
+        </Grid>
+      )}
+      {selectedTab === messages.leftVotes && (
+        <Grid item xs={12}>
+          <Legend container>
+            <Grid item xs={12} sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ mb: 3 }}>
+                {messages.leftTitle}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2" sx={{ fontSize: '15px' }}>
+                {messages.leftMain}
+              </Typography>
+            </Grid>
+          </Legend>
+          <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_LEFT} />
+        </Grid>
+      )}
+      {selectedTab === messages.rightVotes && (
+        <Grid item xs={12}>
+          <Legend container>
+            <Grid item xs={12} sx={{ mb: 2 }}>
+              <Typography variant="subtitle1">{messages.rightTitle}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2" sx={{ fontSize: '15px' }}>
+                {messages.rightMain}
+              </Typography>
+            </Grid>
+          </Legend>
+          <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_RIGHT} />
+        </Grid>
+      )}
+      {selectedTab === messages.abstainingVotes && (
+        <Grid item xs={12}>
+          <Legend container>
+            <Grid item xs={12} sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ mb: 3 }}>
+                {messages.absTitle}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2" sx={{ fontSize: '15px' }}>
+                {messages.absMain}
+              </Typography>
+            </Grid>
+          </Legend>
+          <DTDMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_ABSTAINING} />
         </Grid>
       )}
     </Container>

@@ -6,6 +6,9 @@ export const LayersCodes = {
   communes: 'commune',
   pollingStation: 'bureau',
   ciblagePapPoint: 'ciblage-pap-point',
+  ciblagePapLeft: 'ciblage-t2-reserve-gauche',
+  ciblagePapRight: 'ciblage-t2-reserve-droite',
+  ciblagePapAbstaining: 'ciblage-t2-reserve-abs',
 }
 
 export const LayersTypes = {
@@ -16,4 +19,7 @@ export const LayersTypes = {
   [LayersCodes.communes]: 'Communes',
   [LayersCodes.pollingStation]: 'Bureaux de vote',
   [LayersCodes.ciblagePapPoint]: 'PAP',
+  [LayersCodes.ciblagePapLeft]: 'Voix de gauche',
+  [LayersCodes.ciblagePapRight]: 'Voix de droite',
+  [LayersCodes.ciblagePapAbstaining]: "Réserve d'abstentionnistes",
 }
