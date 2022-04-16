@@ -9,7 +9,6 @@ const RatioProgress = '[data-cy="ui-ratio-progress"]'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
 const CTAButton = '[data-cy="DTD-action-view"]'
 const CampaignsTabs = '[data-cy="DTD-campaigns-tabs"]'
-const CampaignsMap = '[data-cy="DTD-campaigns-map"]'
 const CampaignsList = '[data-cy="DTD-campaigns-list"]'
 const CampaignItemEndDate = '[data-cy="DTD-campaigns-item-end-date"]'
 const CampaignItemTitle = '[data-cy="DTD-campaigns-item-title"]'
@@ -97,27 +96,14 @@ describe('DTD', () => {
     })
     
     describe('The first tab', () => {
-      
-      it('should have a legend and a map', () => {
-        cy.get(CampaignsTabs).find('button').eq(0).should('have.text', 'Cartographie')
-        cy.get(CampaignsMap).find('div:first').contains('Ciblage du Porte à porte en cours')      
-        cy.get(CampaignsMap).find('>div').eq(1).should('exist')
-      })
-    })
-    
-    describe('The second tab', () => {
-
-      beforeEach(() => {
-        cy.get(CampaignsTabs).find('button').eq(1).click()
-      })
 
       it('should have a title and be clickable', () => {
-        cy.get(CampaignsTabs).find('button').eq(1).should('have.text', 'Campagnes de mon territoire')
+        cy.get(CampaignsTabs).find('button').eq(0).should('have.text', 'Campagnes de mon territoire')
       })
     
     
       it('should contain 2 parts', () => {
-        cy.get(CampaignsTabs).find('button').eq(1).click()
+        cy.get(CampaignsTabs).find('button').eq(0).click()
         cy.get(CampaignsList).should('exist')
         cy.get(CampaignsList).find('>div').should('have.length', 2)
       })
