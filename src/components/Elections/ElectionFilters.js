@@ -31,13 +31,20 @@ const messages = {
   mail: 'techsupport@en-marche.fr',
 }
 
+const layersToHide = [
+  LayersCodes.ciblagePapPoint,
+  LayersCodes.ciblagePapLeft,
+  LayersCodes.ciblagePapRight,
+  LayersCodes.ciblagePapAbstaining,
+]
+
 const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelection }) => {
   const { election, year, round } = filterValues
 
   const electionTypesOptions = useMemo(
     () =>
       Object.entries(LayersTypes)
-        .filter(([code]) => code !== LayersCodes.ciblagePapPoint)
+        .filter(([code]) => !layersToHide.includes(code))
         .map(([code, label]) => ({ code, label })),
     []
   )
