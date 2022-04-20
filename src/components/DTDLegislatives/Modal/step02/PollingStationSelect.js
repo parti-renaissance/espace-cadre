@@ -11,7 +11,6 @@ import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { getDTDCampaignPollingStations, getDTDCampaignSelectedPollingStations } from 'api/DTD'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { FixedSizeList as List } from 'react-window'
@@ -79,19 +78,21 @@ const Count = styled(Typography)(
 )
 
 const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
+  const [pollingStations, setPollingStations] = useState([])
   const [isCheck, setIsCheck] = useState([])
   const [selected, setSelected] = useState([])
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
 
-  const { data: pollingStations = [] } = useQueryWithScope(
-    ['polling-stations', { feature: 'DTD', view: 'PollingStations' }],
-    getDTDCampaignPollingStations,
-    {
-      onError: handleError,
-    }
-  )
+  const { mutateAsync: getDefaultPollingStations } = useMutation(getDTDCampaignPollingStations, {
+    onSuccess: data => {
+      if (data?.length > 0) {
+        setPollingStations(data)
+      }
+    },
+    onError: handleError,
+  })
 
   const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
     onSuccess: data => {
@@ -137,6 +138,12 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     })
     setIsCheck(mergedSelection)
   }
+
+  useEffect(() => {
+    if (campaignId) {
+      getDefaultPollingStations(campaignId)
+    }
+  }, [campaignId])
 
   useEffect(() => {
     if (isCheck.length > 0) {

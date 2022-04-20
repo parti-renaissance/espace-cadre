@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
+import { LayersCodes } from 'components/Map/Layers'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -17,7 +18,7 @@ function Map() {
   const [zoom, setZoom] = useState(5)
 
   useEffect(() => {
-    if (map.current) return // initialize map only once
+    if (map.current) return
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: process.env.REACT_APP_MAPBOX_STYLE,
@@ -27,11 +28,19 @@ function Map() {
   })
 
   useEffect(() => {
-    if (!map.current) return // wait for map to initialize
+    if (!map.current) return
     map.current.on('move', () => {
       setLng(map.current.getCenter().lng.toFixed(4))
       setLat(map.current.getCenter().lat.toFixed(4))
       setZoom(map.current.getZoom().toFixed(2))
+    })
+    map.current.on('load', () => {
+      map.current.setLayoutProperty(LayersCodes.pollingStationLegislatives, 'visibility', 'visible')
+      map.current.setPaintProperty(LayersCodes.pollingStationLegislatives, 'fill-color', [
+        'coalesce',
+        ['get', 'COLOR'],
+        'rgba(0,0,0,0)',
+      ])
     })
   })
 
