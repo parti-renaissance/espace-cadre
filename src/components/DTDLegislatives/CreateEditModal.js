@@ -137,8 +137,8 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
             </IconButton>
           </Grid>
         </Grid>
-        <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner' }} className="main">
-          <Grid item xs={12} md={6} sx={{ ...(step === 1 && { px: 4 }), ...(step === 2 && { px: 2 }) }}>
+        <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner', pb: 1 }} className="main">
+          <Grid item xs={12} md={6}>
             <RenderStep
               formik={formik}
               step={step}

@@ -163,7 +163,7 @@ function Register({ formik, values, handleChange, formikErrors, errorMessages, t
         <Grid item xs={12} sx={{ mt: 1 }}>
           <SubTitle>{messages.ctaDropdownTitle}</SubTitle>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ mb: 1 }}>
           {isSurveysLoading && <Loading />}
           {!isSurveysLoading && (
             <Select
