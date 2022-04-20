@@ -85,14 +85,18 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
 
-  const { mutateAsync: getDefaultPollingStations } = useMutation(getDTDCampaignPollingStations, {
-    onSuccess: data => {
-      if (data?.length > 0) {
-        setPollingStations(data)
-      }
-    },
-    onError: handleError,
-  })
+  const { data: pollingStations = [] } = useQueryWithScope(
+    ['polling-stations', { feature: 'DTD', view: 'PollingStations' }],
+    () => getDTDCampaignPollingStations(campaignId),
+    {
+      onError: handleError,
+    }
+  )
+
+  useEffect(() => {
+    console.log(campaignId)
+    if (campaignId) return getDTDCampaignPollingStations()
+  }, [campaignId])
 
   const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
     onSuccess: data => {
@@ -165,7 +169,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     }
   }, [selected])
 
-  if (!pollingStations.length > 0)
+  if (!pollingStations.length > 0 || !campaignId)
     return (
       <Grid container justifyContent="center">
         <Loader />
@@ -174,7 +178,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
 
   const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
   const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
-
+  console.log(campaignId)
   return (
     <Container maxWidth="md">
       <Grid container sx={{ mt: 1, mb: 2 }}>
