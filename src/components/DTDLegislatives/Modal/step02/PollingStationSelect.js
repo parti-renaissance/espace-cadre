@@ -15,6 +15,7 @@ import Loader from 'ui/Loader'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { FixedSizeList as List } from 'react-window'
 import { useMutation } from 'react-query'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -57,7 +58,6 @@ const Count = styled(Typography)(
 )
 
 const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
-  const [pollingStations, setPollingStations] = useState([])
   const [isCheck, setIsCheck] = useState([])
   const [selected, setSelected] = useState([])
   const checkedCount = isCheck.length
@@ -116,12 +116,6 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     })
     setIsCheck(mergedSelection)
   }
-
-  useEffect(() => {
-    if (campaignId) {
-      getDefaultPollingStations(campaignId)
-    }
-  }, [campaignId])
 
   useEffect(() => {
     if (isCheck.length > 0) {
