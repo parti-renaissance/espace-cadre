@@ -94,7 +94,6 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   )
 
   useEffect(() => {
-    console.log(campaignId)
     if (campaignId) return getDTDCampaignPollingStations()
   }, [campaignId])
 
@@ -178,7 +177,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
 
   const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
   const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
-  console.log(campaignId)
+
   return (
     <Container maxWidth="md">
       <Grid container sx={{ mt: 1, mb: 2 }}>
