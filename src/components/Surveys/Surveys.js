@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { useMutation } from 'react-query'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
@@ -64,27 +64,41 @@ const Surveys = () => {
   const [selectedTab, setSelectedTab] = useState(isNational ? visibility.national : visibility.local)
 
   const {
-    data: paginatedSurveys = null,
-    isLoading: isSurveysLoading,
-    fetchNextPage: fetchNextPageSurveys,
-    hasNextPage: hasNextPageSurveys,
-    refetch: refetchSurveys,
+    data: paginatedNationalSurveys = null,
+    isLoading: isNationalSurveysLoading,
+    fetchNextPage: fetchNextPageNationalSurveys,
+    hasNextPage: hasNextPageNationalSurveys,
+    refetch: refetchNationalSurveys,
   } = useInfiniteQueryWithScope(
-    ['paginated-surveys', { feature: 'Surveys', view: 'Surveys' }],
-    pageParams => getSurveysQuery(pageParams),
+    ['paginated-national-surveys', { feature: 'Surveys', view: 'Surveys' }],
+    pageParams => getSurveysQuery(pageParams, visibility.national),
     {
       getNextPageParam,
       onError: handleError,
     }
   )
-  const surveys = usePaginatedData(paginatedSurveys)
-  const localSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.local), [surveys])
-  const nationalSurveys = useMemo(() => surveys.filter(({ type }) => type === visibility.national), [surveys])
+  const {
+    data: paginatedLocalSurveys = null,
+    isLoading: isLocalSurveysLoading,
+    fetchNextPage: fetchNextPageLocalSurveys,
+    hasNextPage: hasNextPageLocalSurveys,
+    refetch: refetchLocalSurveys,
+  } = useInfiniteQueryWithScope(
+    ['paginated-local-surveys', { feature: 'Surveys', view: 'Surveys' }],
+    pageParams => getSurveysQuery(pageParams, visibility.local),
+    {
+      getNextPageParam,
+      onError: handleError,
+    }
+  )
+
+  const nationalSurveys = usePaginatedData(paginatedNationalSurveys)
+  const localSurveys = usePaginatedData(paginatedLocalSurveys)
 
   const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
     onSuccess: ({ published: isPublished }) => {
       enqueueSnackbar(isPublished ? messages.publishSuccess : messages.unpublishSuccess, notifyVariants.success)
-      refetchSurveys()
+      refetchNationalSurveys() && refetchLocalSurveys()
     },
     onError: handleError,
   })
@@ -102,7 +116,9 @@ const Surveys = () => {
   )
 
   const togglePublish = surveyId => () => {
-    const { id, isPublished } = surveys.find(({ id }) => id === surveyId)
+    const { id, isPublished } = isNational
+      ? nationalSurveys.find(({ id }) => id === surveyId)
+      : localSurveys.find(({ id }) => id === surveyId)
     createOrUpdateSurvey({ id, isPublished: !isPublished })
   }
 
@@ -124,8 +140,8 @@ const Surveys = () => {
   }
 
   useEffect(() => {
-    localSurveys.length < 20 && fetchNextPageSurveys()
-    nationalSurveys.length < 20 && fetchNextPageSurveys()
+    localSurveys.length < 20 && fetchNextPageLocalSurveys()
+    nationalSurveys.length < 20 && fetchNextPageNationalSurveys()
   }, [localSurveys, nationalSurveys])
 
   return (
@@ -156,16 +172,16 @@ const Surveys = () => {
         data-cy="surveys-container"
         sx={{ pt: isMobile ? 2 : null, ...infiniteScrollStylesOverrides }}
       >
-        {!isSurveysLoading && (
+        {!!(!isNationalSurveysLoading && !isLocalSurveysLoading) && (
           <>
             <SurveysKPI
               local={{
-                count: localSurveys.length,
+                count: paginatedLocalSurveys?.pages[0].total || 0,
                 title: localSurveys.length > 1 ? messages.localSurveys : messages.localSurvey,
                 publishedCount: localSurveys.filter(({ isPublished }) => !!isPublished).length,
               }}
               national={{
-                count: nationalSurveys.length,
+                count: paginatedNationalSurveys?.pages[0].total || 0,
                 title: nationalSurveys.length > 1 ? messages.nationalSurveys : messages.nationalSurvey,
               }}
             />
@@ -193,11 +209,11 @@ const Surveys = () => {
               />
             </Tabs>
 
-            {selectedTab === visibility.local && surveys.length > 0 && (
+            {selectedTab === visibility.local && localSurveys.length > 0 && (
               <InfiniteScroll
                 dataLength={localSurveys.length}
-                next={() => fetchNextPageSurveys()}
-                hasMore={hasNextPageSurveys}
+                next={() => fetchNextPageLocalSurveys()}
+                hasMore={hasNextPageLocalSurveys}
                 loader={<Loader />}
               >
                 <Grid container spacing={2} data-cy="surveys-local">
@@ -218,11 +234,11 @@ const Surveys = () => {
                 </Grid>
               </InfiniteScroll>
             )}
-            {selectedTab === visibility.national && surveys.length > 0 && (
+            {selectedTab === visibility.national && nationalSurveys.length > 0 && (
               <InfiniteScroll
                 dataLength={nationalSurveys.length}
-                next={() => fetchNextPageSurveys()}
-                hasMore={hasNextPageSurveys}
+                next={() => fetchNextPageNationalSurveys()}
+                hasMore={hasNextPageNationalSurveys}
                 loader={<Loader />}
               >
                 <Grid container spacing={2} data-cy="surveys-national">
@@ -250,7 +266,7 @@ const Surveys = () => {
       {isCreateEditModalOpen && (
         <CreateEdit
           survey={Object.keys(surveyDetail).length > 0 ? surveyDetail : null}
-          onCreateResolve={refetchSurveys}
+          onCreateResolve={refetchNationalSurveys && refetchLocalSurveys}
           handleClose={handleClose}
         />
       )}
