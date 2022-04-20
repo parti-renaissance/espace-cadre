@@ -18,8 +18,6 @@ import { useMutation } from 'react-query'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
-  warning:
-    "Vérifiez que vous n'avez pas de campagne en cours. Vous ne pouvez pas sélectionner un bureau dans plusieurs campagnes",
   pollStationPrefix: 'bureau',
   pollStation: 'de vote',
   pollStationSuffix: 'sélectionné',
@@ -49,25 +47,6 @@ const Title = styled(Typography)(
 `
 )
 
-const MissingStationsContainer = styled(Grid)(
-  ({ theme }) => `
-    padding: ${theme.spacing(2)};
-    margin-bottom: ${theme.spacing(2)};
-    background-color: ${theme.palette.gray40};
-    width: 100%;
-    border-radius: 8px;
-`
-)
-
-const MissingStations = styled(Typography)(
-  ({ theme }) => `
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 500;
-      color: ${theme.palette.gray800};
-    `
-)
-
 const Count = styled(Typography)(
   ({ theme }) => `
     font-size: 14px;
@@ -92,10 +71,6 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
       onError: handleError,
     }
   )
-
-  useEffect(() => {
-    if (campaignId) return getDTDCampaignPollingStations()
-  }, [campaignId])
 
   const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
     onSuccess: data => {
@@ -184,9 +159,6 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
         <Grid item xs={12} sx={{ mb: 2 }}>
           <Title>{messages.title}</Title>
         </Grid>
-        <MissingStationsContainer item xs={12}>
-          <MissingStations>{messages.warning}</MissingStations>
-        </MissingStationsContainer>
       </Grid>
       {errorMessages.map(({ message, index }) => (
         <Grid item xs={12} key={index}>
