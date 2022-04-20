@@ -15,6 +15,7 @@ import ActionButton from './Modal/ActionButton'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import Map from './Map'
 
 import { createDTDLocalCampaign, updateDTDLocalCampaign } from 'api/DTD'
 
@@ -136,17 +137,24 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
             </IconButton>
           </Grid>
         </Grid>
-        <RenderStep
-          formik={formik}
-          step={step}
-          values={formik.values}
-          formikErrors={formik.errors}
-          errorMessages={errorMessages}
-          touched={formik.touched}
-          handleBlur={formik.handleBlur}
-          handleChange={formik.handleChange}
-          campaignId={campaignId}
-        />
+        <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner' }} className="main">
+          <Grid item xs={12} md={6} sx={{ ...(step === 1 && { px: 4 }), ...(step === 2 && { px: 2 }) }}>
+            <RenderStep
+              formik={formik}
+              step={step}
+              values={formik.values}
+              formikErrors={formik.errors}
+              errorMessages={errorMessages}
+              touched={formik.touched}
+              handleBlur={formik.handleBlur}
+              handleChange={formik.handleChange}
+              campaignId={campaignId}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Map />
+          </Grid>
+        </Grid>
       </Container>
     </Dialog>
   )

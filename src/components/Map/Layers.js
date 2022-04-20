@@ -5,6 +5,7 @@ export const LayersCodes = {
   circonscription: 'circonscription',
   communes: 'commune',
   pollingStation: 'bureau',
+  pollingStationLegislatives: 'pap-shape',
   ciblagePapPoint: 'ciblage-pap-point',
   ciblagePapLeft: 'ciblage-t2-reserve-gauche',
   ciblagePapRight: 'ciblage-t2-reserve-droite',
