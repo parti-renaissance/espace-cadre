@@ -1,6 +1,4 @@
 import { saveAs } from 'file-saver'
-import { format } from 'date-fns'
-
 import { apiClient } from 'services/networking/client'
 import {
   DTDGlobalKPI,
@@ -27,6 +25,7 @@ import {
   DTDLocalPollingStations,
 } from 'domain/DTD'
 import { newPaginatedResult } from 'api/pagination'
+import { format, formatISO } from 'date-fns'
 
 export const getDTDGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/pap_campaigns/kpi')
@@ -171,8 +170,8 @@ export const getDTDCampaignSurveysAddress = async ({ campaignId, pageSize, pageN
   }
 }
 
-export const getDTDCampaignPollingStations = async () => {
-  const data = await apiClient.get('api/v3/pap_vote_places?pagination=false')
+export const getDTDCampaignPollingStations = async campaignId => {
+  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/available_vote_places?pagination=false`)
 
   const pollingStations = data.map(
     station => new DTDLocalPollingStations(station.uuid, station.code, station.nb_addresses, station.nb_voters)
@@ -196,8 +195,9 @@ export const createDTDLocalCampaign = async campaign => {
     title: campaign.title,
     brief: campaign.brief,
     goal: +campaign.goal,
-    begin_at: campaign.startDate,
-    finish_at: campaign.endDate,
+
+    begin_at: formatISO(campaign.startDate),
+    finish_at: formatISO(campaign.endDate),
     survey: campaign.survey,
     vote_places: campaign.votePlaces,
   })
@@ -210,8 +210,8 @@ export const updateDTDLocalCampaign = async campaign => {
     title: campaign.title,
     brief: campaign.brief,
     goal: +campaign.goal,
-    begin_at: campaign.startDate,
-    finish_at: campaign.endDate,
+    begin_at: formatISO(new Date(campaign.startDate)),
+    finish_at: formatISO(new Date(campaign.endDate)),
     survey: campaign.survey,
     vote_places: campaign.votePlaces,
   })

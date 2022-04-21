@@ -148,7 +148,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
               touched={formik.touched}
               handleBlur={formik.handleBlur}
               handleChange={formik.handleChange}
-              campaignId={campaignId}
+              campaignId={campaignId || creationModeId}
             />
           </Grid>
           <Grid item xs={12} md={6}>

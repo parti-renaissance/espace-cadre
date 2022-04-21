@@ -15,11 +15,10 @@ import Loader from 'ui/Loader'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { FixedSizeList as List } from 'react-window'
 import { useMutation } from 'react-query'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
-  warning:
-    "Vérifiez que vous n'avez pas de campagne en cours. Vous ne pouvez pas sélectionner un bureau dans plusieurs campagnes",
   pollStationPrefix: 'bureau',
   pollStation: 'de vote',
   pollStationSuffix: 'sélectionné',
@@ -49,25 +48,6 @@ const Title = styled(Typography)(
 `
 )
 
-const MissingStationsContainer = styled(Grid)(
-  ({ theme }) => `
-    padding: ${theme.spacing(2)};
-    margin-bottom: ${theme.spacing(2)};
-    background-color: ${theme.palette.gray40};
-    width: 100%;
-    border-radius: 8px;
-`
-)
-
-const MissingStations = styled(Typography)(
-  ({ theme }) => `
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 500;
-      color: ${theme.palette.gray800};
-    `
-)
-
 const Count = styled(Typography)(
   ({ theme }) => `
     font-size: 14px;
@@ -78,21 +58,19 @@ const Count = styled(Typography)(
 )
 
 const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
-  const [pollingStations, setPollingStations] = useState([])
   const [isCheck, setIsCheck] = useState([])
   const [selected, setSelected] = useState([])
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
 
-  const { mutateAsync: getDefaultPollingStations } = useMutation(getDTDCampaignPollingStations, {
-    onSuccess: data => {
-      if (data?.length > 0) {
-        setPollingStations(data)
-      }
-    },
-    onError: handleError,
-  })
+  const { data: pollingStations = [] } = useQueryWithScope(
+    ['polling-stations', { feature: 'DTD', view: 'PollingStations' }],
+    () => getDTDCampaignPollingStations(campaignId),
+    {
+      onError: handleError,
+    }
+  )
 
   const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
     onSuccess: data => {
@@ -140,12 +118,6 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   }
 
   useEffect(() => {
-    if (campaignId) {
-      getDefaultPollingStations(campaignId)
-    }
-  }, [campaignId])
-
-  useEffect(() => {
     if (isCheck.length > 0) {
       formik.setFieldValue('votePlaces', transformPollingStations(isCheck))
     } else {
@@ -165,7 +137,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     }
   }, [selected])
 
-  if (!pollingStations.length > 0)
+  if (!pollingStations.length > 0 || !campaignId)
     return (
       <Grid container justifyContent="center">
         <Loader />
@@ -181,9 +153,6 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
         <Grid item xs={12} sx={{ mb: 2 }}>
           <Title>{messages.title}</Title>
         </Grid>
-        <MissingStationsContainer item xs={12}>
-          <MissingStations>{messages.warning}</MissingStations>
-        </MissingStationsContainer>
       </Grid>
       {errorMessages.map(({ message, index }) => (
         <Grid item xs={12} key={index}>
