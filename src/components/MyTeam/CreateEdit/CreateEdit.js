@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
@@ -15,6 +16,8 @@ import CreateEditActivistsAndRoles from './CreateEditActivistsAndRoles'
 import CreateEditDelegatedAccess from './CreateEditDelegatedAccess'
 import CreateEditValidateAction from './CreateEditValidateAction'
 import Dialog from 'ui/Dialog'
+import { getAuthorizedPages } from '../../../redux/user/selectors'
+import { useSelector } from 'react-redux'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -44,7 +47,11 @@ const addOrRemoveFeature = (initialFeatures = [], name, selected) => {
 }
 
 const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) => {
-  const [values, setValues] = useState(teamMember || {})
+  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const [values, setValues] = useState({
+    ...teamMember,
+    ...{ features: teamMember?.features?.filter(feature => authorizedFeatures.includes(feature)) },
+  })
   const isValidForm = useMemo(() => validateForm(values), [values])
   const { isMobile, isDesktop } = useCurrentDeviceType()
   const { enqueueSnackbar } = useCustomSnackbar()
