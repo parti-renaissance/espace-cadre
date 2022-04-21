@@ -1,0 +1,31 @@
+{
+  "metadata": { "total_items": 2, "items_per_page": 50, "count": 2, "current_page": 1, "last_page": 1 },
+  "items": [
+    {
+      "uuid": "22222222-2222-2222-2222-222222222222",
+      "created_at": "2022-02-01T12:00:00+01:00",
+      "type": "national",
+      "name": "Questionnaire 2",
+      "published": true,
+      "nb_questions": 2,
+      "creator": {
+        "first_name": "Pépito",
+        "last_name": "Sanchez"
+      },
+      "nb_answers": 1
+    },
+    {
+      "uuid": "333333333-3333-3333-3333-333333333333",
+      "created_at": "2022-02-01T12:00:00+01:00",
+      "type": "national",
+      "name": "Questionnaire 3",
+      "published": true,
+      "nb_questions": 3,
+      "creator": {
+        "first_name": "Pépito",
+        "last_name": "AvecChez"
+      },
+      "nb_answers": 2
+    }
+  ]
+}
