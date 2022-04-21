@@ -89,7 +89,7 @@ function Map({ currentStep }) {
       <Container ref={mapContainer} className="map-container">
         <div className="infobar">
           {currentStep === 1 && <span>{messages.warning}</span>}
-          {currentStep === 2 && (
+          {currentStep === 2 && pollingStation && (
             <span>{`${messages.title}: ${pollingStation?.CODE} | ${messages.address}: ${pollingStation?.ADDRESS}`}</span>
           )}
         </div>
