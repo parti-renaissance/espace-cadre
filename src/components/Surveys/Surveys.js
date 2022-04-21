@@ -266,7 +266,10 @@ const Surveys = () => {
       {isCreateEditModalOpen && (
         <CreateEdit
           survey={Object.keys(surveyDetail).length > 0 ? surveyDetail : null}
-          onCreateResolve={refetchNationalSurveys && refetchLocalSurveys}
+          onCreateResolve={() => {
+            refetchNationalSurveys()
+            refetchLocalSurveys()
+          }}
           handleClose={handleClose}
         />
       )}
