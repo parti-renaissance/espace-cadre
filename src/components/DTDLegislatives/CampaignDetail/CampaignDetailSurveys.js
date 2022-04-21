@@ -82,6 +82,13 @@ const messages = {
   time: 'Date (Temps)',
   anonymous: 'Anonyme',
   years: 'ans',
+  gender: 'Genre',
+  ageRange: "Tranche d'âge",
+  profession: 'Profession',
+  firstName: 'Prénom',
+  lastName: 'Nom',
+  emailAddress: 'Email',
+  postalCode: 'Code postal',
 }
 
 const formatQuestioner = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
@@ -147,6 +154,25 @@ const CampaignDetailSurveys = () => {
                   </TableSortLabel>
                 </TableCell>
 
+                <TableCell key={uuid()} answerType="called">
+                  <ColumnLabel>{messages.gender}</ColumnLabel>
+                </TableCell>
+                <TableCell key={uuid()} answerType="called">
+                  <ColumnLabel>{messages.ageRange}</ColumnLabel>
+                </TableCell>
+                <TableCell key={uuid()} answerType="called">
+                  <ColumnLabel>{messages.profession}</ColumnLabel>
+                </TableCell>
+                <TableCell key={uuid()} answerType="called">
+                  <ColumnLabel>{`${messages.lastName} ${messages.firstName}`}</ColumnLabel>
+                </TableCell>
+                <TableCell key={uuid()} answerType="called">
+                  <ColumnLabel>{messages.emailAddress}</ColumnLabel>
+                </TableCell>
+                <TableCell key={uuid()} answerType="called">
+                  <ColumnLabel>{messages.postalCode}</ColumnLabel>
+                </TableCell>
+
                 {columns.map(({ question, type }) => (
                   <TableCell key={uuid()} answerType={type} sx={{ zIndex: 1 }}>
                     <TruncateContainer sx={{ width: '245px' }}>
@@ -160,57 +186,108 @@ const CampaignDetailSurveys = () => {
             </TableHead>
 
             <TableBody>
-              {rows?.map(({ answers, questioner, startDate, duration }, index) => (
-                <TableRow key={uuid()} sx={{ width: '175px' }}>
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
-                    <Description>
-                      {questioner.lastName || questioner.firstName ? formatQuestioner(questioner) : messages.anonymous}
-                    </Description>
-                    <SubDescription>
-                      {formatGender(questioner.gender) && `${formatGender(questioner.gender)}, `}
-                      {questioner.age && `${questioner.age} ${messages.years}`}
-                    </SubDescription>
-                  </TableCell>
+              {rows?.map(
+                (
+                  {
+                    answers,
+                    questioner,
+                    startDate,
+                    duration,
+                    firstName,
+                    lastName,
+                    gender,
+                    ageRange,
+                    profession,
+                    emailAddress,
+                    postalCode,
+                  },
+                  index
+                ) => (
+                  <TableRow key={uuid()} sx={{ width: '175px' }}>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
+                      <Description>
+                        {questioner.lastName || questioner.firstName
+                          ? formatQuestioner(questioner)
+                          : messages.anonymous}
+                      </Description>
+                      <SubDescription>
+                        {formatGender(questioner.gender) && `${formatGender(questioner.gender)}, `}
+                        {questioner.age && `${questioner.age} ${messages.years}`}
+                      </SubDescription>
+                    </TableCell>
 
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                    {startDate && (
-                      <>
-                        <Description>{format(startDate, 'dd/MM/yyyy HH:mm')}</Description>
-                        <SubDescription>{secondsToMinutes(duration)}</SubDescription>
-                      </>
-                    )}
-                  </TableCell>
-
-                  {answers.map(({ type, answer }) => (
-                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '245px' }}>
-                      {answer && (
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
+                      {startDate && (
                         <>
-                          {type === simpleField && (
-                            <TruncateContainer>
-                              <TruncatedText key={uuid()} variant="subtitle2" lines={2} sx={{ color: 'gray700' }}>
-                                {answer}
-                              </TruncatedText>
-                            </TruncateContainer>
-                          )}
-                          {type === uniqueChoice && (
-                            <UIChip variant="outlined" key={uuid()} label={answer[0]} sx={{ mr: 1 }} />
-                          )}
-                          {type === multipleChoice &&
-                            answer.map(answerContent => (
-                              <UIChip
-                                key={uuid()}
-                                variant="outlined"
-                                color="gray700"
-                                label={answerContent}
-                                sx={{ mr: 1, my: 0.5 }}
-                              />
-                            ))}
+                          <Description>{format(startDate, 'dd/MM/yyyy HH:mm')}</Description>
+                          <SubDescription>{secondsToMinutes(duration)}</SubDescription>
                         </>
                       )}
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))}
+
+                    {gender && (
+                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                        <Description>{gender}</Description>
+                      </TableCell>
+                    )}
+                    {ageRange && (
+                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                        <Description>{ageRange}</Description>
+                      </TableCell>
+                    )}
+                    {profession && (
+                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                        <Description>{profession}</Description>
+                      </TableCell>
+                    )}
+                    {(lastName || firstName) && (
+                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                        <Description>
+                          {lastName || firstName ? `${lastName} ${firstName}` : messages.anonymous}
+                        </Description>
+                      </TableCell>
+                    )}
+                    {emailAddress && (
+                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                        <Description>{emailAddress}</Description>
+                      </TableCell>
+                    )}
+                    {postalCode && (
+                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                        <Description>{postalCode}</Description>
+                      </TableCell>
+                    )}
+                    {answers.map(({ type, answer }) => (
+                      <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '245px' }}>
+                        {answer && (
+                          <>
+                            {type === simpleField && (
+                              <TruncateContainer>
+                                <TruncatedText key={uuid()} variant="subtitle2" lines={2} sx={{ color: 'gray700' }}>
+                                  {answer}
+                                </TruncatedText>
+                              </TruncateContainer>
+                            )}
+                            {type === uniqueChoice && (
+                              <UIChip variant="outlined" key={uuid()} label={answer[0]} sx={{ mr: 1 }} />
+                            )}
+                            {type === multipleChoice &&
+                              answer.map(answerContent => (
+                                <UIChip
+                                  key={uuid()}
+                                  variant="outlined"
+                                  color="gray700"
+                                  label={answerContent}
+                                  sx={{ mr: 1, my: 0.5 }}
+                                />
+                              ))}
+                          </>
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>
