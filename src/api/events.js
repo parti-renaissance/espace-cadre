@@ -36,7 +36,6 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
         ),
         e.category?.slug || '',
         e.private,
-        e.electoral,
         e.visio_url,
         e.mode,
         e.image_url
@@ -82,7 +81,6 @@ export const getEvent = async id => {
     ),
     event.category?.slug || '',
     event.private,
-    event.electoral,
     event.visio_url,
     event.mode,
     event.image_url
@@ -148,6 +146,5 @@ const eventToJson = event => ({
     country: event.address.country,
   },
   time_zone: event.timezone,
-  electoral: event.electoral,
   private: event.private,
 })
