@@ -37,7 +37,7 @@ function Map({ currentStep }) {
   }
 
   const messages = {
-    warning: "Cette carte n'est pas cliquable. Veuillez d'abord cliquer sur CIBLER.",
+    warning: "Cette carte n'est pas cliquable. Elle le sera à l'étape suivante.",
     title: 'Bureaux de vote',
     address: 'Adresse',
   }
@@ -81,9 +81,7 @@ function Map({ currentStep }) {
       layers: [LayersCodes.pollingStationLegislatives],
     })
     if (!mapBoxProps[0]) return
-    if (currentStep === 1) {
-      return
-    }
+    if (currentStep === 1) return
 
     const { CODE, ADDRESS } = getMapBoxProperties(mapBoxProps)
     if (CODE && ADDRESS) setPollingStation({ CODE, ADDRESS })
