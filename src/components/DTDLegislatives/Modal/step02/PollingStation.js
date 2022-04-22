@@ -1,5 +1,5 @@
 import { styled } from '@mui/system'
-import { Grid, Chip, Typography, ListItemButton } from '@mui/material'
+import { Grid, Typography, ListItemButton } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
@@ -60,7 +60,7 @@ const Count = styled(Typography)(
   `
 )
 
-const PollingStation = ({ station, index, handleSelectOne, isCheck }) => {
+const PollingStation = ({ station, handleSelectOne, isCheck }) => {
   const hasBorderColor = isCheck.includes(station)
   const { isMobile } = useCurrentDeviceType()
 
@@ -68,7 +68,6 @@ const PollingStation = ({ station, index, handleSelectOne, isCheck }) => {
     <ListItem hasBorderColor={hasBorderColor} onClick={e => handleSelectOne(e, station)}>
       <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Checkbox checked={isCheck.includes(station)} />
-        <Chip label={`#${index + 1}`} variant="outlined" size="small" sx={{ px: 1.5, py: 0.5 }} />
       </Grid>
       <SecondaryContainer item isMobile={isMobile}>
         <Place sx={{ ...(isMobile && { mb: 1 }) }}>{station.code}</Place>
@@ -89,7 +88,6 @@ PollingStation.propTypes = {
   station: PropTypes.object,
   handleSelectOne: PropTypes.func,
   isCheck: PropTypes.array,
-  index: PropTypes.number,
 }
 
 export default PollingStation

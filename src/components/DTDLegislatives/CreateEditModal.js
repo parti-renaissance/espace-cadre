@@ -18,6 +18,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import Map from './Map'
 
 import { createDTDLocalCampaign, updateDTDLocalCampaign } from 'api/DTD'
+import MapContext from './MapContext'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -50,6 +51,8 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
   const [creationModeId, setCreationModeId] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
+  const [pollingStationCode, setPollingStationCode] = useState(null)
+  const value = { pollingStationCode, setPollingStationCode }
 
   const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
     !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
@@ -113,50 +116,52 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
     !formik.errors.survey
 
   return (
-    <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-      <Container maxWidth="xl">
-        <Grid container sx={{ py: 4, pl: 2 }}>
-          <Grid item xs={12} md={9}>
-            {!shouldDisplayRegister && (
-              <Button startIcon={<ArrowBackIcon />} onClick={back} size="large" sx={{ color: 'main', mr: 4 }}>
-                {messages.backButton}
-              </Button>
-            )}
-            <Title>{!campaignId && !creationModeId ? messages.creationTitle : messages.editionTitle}</Title>
+    <MapContext.Provider value={value}>
+      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+        <Container maxWidth="xl">
+          <Grid container sx={{ py: 4, pl: 2 }}>
+            <Grid item xs={12} md={9}>
+              {!shouldDisplayRegister && (
+                <Button startIcon={<ArrowBackIcon />} onClick={back} size="large" sx={{ color: 'main', mr: 4 }}>
+                  {messages.backButton}
+                </Button>
+              )}
+              <Title>{!campaignId && !creationModeId ? messages.creationTitle : messages.editionTitle}</Title>
+            </Grid>
+            <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <ActionButton
+                shouldDisplayRegister={shouldDisplayRegister}
+                isStepOneValid={isStepOneValid}
+                handleSubmit={formik.handleSubmit}
+                isCampaignLoading={isCampaignLoading}
+                isInCreationMode={!campaignId && !creationModeId}
+              />
+              <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <ActionButton
-              shouldDisplayRegister={shouldDisplayRegister}
-              isStepOneValid={isStepOneValid}
-              handleSubmit={formik.handleSubmit}
-              isCampaignLoading={isCampaignLoading}
-              isInCreationMode={!campaignId && !creationModeId}
-            />
-            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-              <CloseIcon />
-            </IconButton>
+          <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner', pb: 1 }} className="main">
+            <Grid item xs={12} md={6}>
+              <RenderStep
+                formik={formik}
+                step={step}
+                values={formik.values}
+                formikErrors={formik.errors}
+                errorMessages={errorMessages}
+                touched={formik.touched}
+                handleBlur={formik.handleBlur}
+                handleChange={formik.handleChange}
+                campaignId={campaignId || creationModeId}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Map currentStep={step} />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container sx={{ borderRadius: '12px', background: 'whiteCorner', pb: 1 }} className="main">
-          <Grid item xs={12} md={6}>
-            <RenderStep
-              formik={formik}
-              step={step}
-              values={formik.values}
-              formikErrors={formik.errors}
-              errorMessages={errorMessages}
-              touched={formik.touched}
-              handleBlur={formik.handleBlur}
-              handleChange={formik.handleChange}
-              campaignId={campaignId || creationModeId}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Map />
-          </Grid>
-        </Grid>
-      </Container>
-    </Dialog>
+        </Container>
+      </Dialog>
+    </MapContext.Provider>
   )
 }
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
@@ -16,6 +16,7 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { FixedSizeList as List } from 'react-window'
 import { useMutation } from 'react-query'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import MapContext from '../../MapContext'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',
@@ -63,6 +64,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
+  const { pollingStationCode, setPollingStationCode } = useContext(MapContext)
 
   const { data: pollingStations = [] } = useQueryWithScope(
     ['polling-stations', { feature: 'DTD', view: 'PollingStations' }],
@@ -91,8 +93,10 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
 
   const handleSelectOne = (e, station) => {
     if (e.target.checked) {
+      station.isChecked = true
       setIsCheck([...isCheck, station])
     } else {
+      station.isChecked = false
       setIsCheck(isCheck.filter(item => item.id !== station.id))
     }
   }
@@ -110,12 +114,28 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     pollingStations.forEach(element => {
       selected.forEach(item => {
         if (item.id === element.id) {
+          element.isChecked = true
           mergedSelection.push(element)
         }
       })
     })
     setIsCheck(mergedSelection)
   }
+
+  const handleMapSelectOne = () => {
+    const station = pollingStations.filter(item => item.code === pollingStationCode)[0]
+    if (!station) return
+    if (!station.isChecked) {
+      station.isChecked = true
+      setIsCheck([...isCheck, station])
+    } else {
+      station.isChecked = false
+      setIsCheck(isCheck.filter(item => item.id !== station.id))
+    }
+    setPollingStationCode(null)
+  }
+
+  const moveItemsToTheTop = (a, b) => Number(b.isChecked) - Number(a.isChecked)
 
   useEffect(() => {
     if (isCheck.length > 0) {
@@ -136,6 +156,12 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
       mergePollingStations()
     }
   }, [selected])
+
+  useEffect(() => {
+    if (pollingStationCode && pollingStations.length > 0) {
+      handleMapSelectOne()
+    }
+  }, [pollingStationCode])
 
   if (!pollingStations.length > 0 || !campaignId)
     return (
@@ -169,7 +195,9 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
           }
           label={
             <Typography variant="subtitle1">
-              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{isCheck?.length}</Typography>}
+              {checkedCount >= 0 && (
+                <Typography sx={{ fontWeight: 700 }}>{`${isCheck?.length}/${pollingStations.length}`}</Typography>
+              )}
               &nbsp;
               {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
               {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
@@ -186,18 +214,17 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
           <Count>{pluralize(addressesCount, messages.addressesCount)}</Count>
         </Box>
       </CountContainer>
-      <List height={600} itemCount={pollingStations.length} itemData={pollingStations} itemSize={isMobile ? 120 : 68}>
+      <List
+        height={600}
+        itemCount={pollingStations.length}
+        itemData={pollingStations.sort(moveItemsToTheTop)}
+        itemSize={isMobile ? 120 : 68}
+      >
         {({ data, index, style }) => {
           const station = data[index]
           return (
             <div style={style}>
-              <PollingStation
-                key={station.id}
-                station={station}
-                handleSelectOne={handleSelectOne}
-                index={index}
-                isCheck={isCheck}
-              />
+              <PollingStation key={station.id} station={station} handleSelectOne={handleSelectOne} isCheck={isCheck} />
             </div>
           )
         }}
