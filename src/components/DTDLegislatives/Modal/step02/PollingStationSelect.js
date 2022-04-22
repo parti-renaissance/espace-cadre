@@ -195,7 +195,9 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
           }
           label={
             <Typography variant="subtitle1">
-              {checkedCount >= 0 && <Typography sx={{ fontWeight: 700 }}>{isCheck?.length}</Typography>}
+              {checkedCount >= 0 && (
+                <Typography sx={{ fontWeight: 700 }}>{`${isCheck?.length}/${pollingStations.length}`}</Typography>
+              )}
               &nbsp;
               {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
               {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}

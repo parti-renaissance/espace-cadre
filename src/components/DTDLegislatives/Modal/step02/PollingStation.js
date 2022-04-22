@@ -68,7 +68,6 @@ const PollingStation = ({ station, index, handleSelectOne, isCheck }) => {
     <ListItem hasBorderColor={hasBorderColor} onClick={e => handleSelectOne(e, station)}>
       <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Checkbox checked={isCheck.includes(station)} />
-        <Chip label={`#${index + 1}`} variant="outlined" size="small" sx={{ px: 1.5, py: 0.5 }} />
       </Grid>
       <SecondaryContainer item isMobile={isMobile}>
         <Place sx={{ ...(isMobile && { mb: 1 }) }}>{station.code}</Place>
