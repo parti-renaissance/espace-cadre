@@ -81,7 +81,7 @@ const messages = {
 const ElectionPopin = ({ loader, zone, filterValues, participation, results, handleClose }) => {
   const { election, year, round: stage } = filterValues
   const { registered, voting, votesCast } = participation
-
+  console.log({ filterValues, participation, results })
   return (
     <Popin id="map-overlay">
       {loader && (
