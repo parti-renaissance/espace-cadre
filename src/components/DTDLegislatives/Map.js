@@ -1,9 +1,11 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useRef, useEffect, useState, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 import mapboxgl from 'mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
 import { LayersCodes } from 'components/Map/Layers'
+import MapContext from './MapContext'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -20,6 +22,8 @@ function Map({ currentStep }) {
   const [mapLoaded, setMapLoaded] = useState(false)
   const [currentPoint, setCurrentPoint] = useState()
   const [pollingStation, setPollingStation] = useState(null)
+
+  const { setPollingStationCode } = useContext(MapContext)
 
   const handleCurrentPoint = useCallback(({ point, lngLat }) => {
     if (!point || !lngLat) return
@@ -82,19 +86,18 @@ function Map({ currentStep }) {
 
     const { CODE, ADDRESS } = getMapBoxProperties(mapBoxProps)
     if (CODE && ADDRESS) setPollingStation({ CODE, ADDRESS })
+    setPollingStationCode(CODE)
   }, [mapLoaded, currentPoint, map, currentStep])
 
   return (
-    <div>
-      <Container ref={mapContainer} className="map-container">
-        <div className="infobar">
-          {currentStep === 1 && <span>{messages.warning}</span>}
-          {currentStep === 2 && pollingStation && (
-            <span>{`${messages.title}: ${pollingStation?.CODE} | ${messages.address}: ${pollingStation?.ADDRESS}`}</span>
-          )}
-        </div>
-      </Container>
-    </div>
+    <Container ref={mapContainer} className="map-container">
+      <div className="infobar">
+        {currentStep === 1 && <span>{messages.warning}</span>}
+        {currentStep === 2 && pollingStation && (
+          <span>{`${messages.title}: ${pollingStation?.CODE} | ${messages.address}: ${pollingStation?.ADDRESS}`}</span>
+        )}
+      </div>
+    </Container>
   )
 }
 
