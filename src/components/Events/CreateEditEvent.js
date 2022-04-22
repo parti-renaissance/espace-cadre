@@ -66,7 +66,6 @@ const fields = {
   capacity: 'capacity',
   description: 'description',
   private: 'private',
-  electoral: 'electoral',
 }
 
 const messages = {
@@ -88,7 +87,6 @@ const messages = {
     visio: 'Lien de la visio ou du live',
     capacity: 'Capacité',
     private: 'Cet évènement est réservé aux adhérents',
-    electoral: 'Cet évènement concerne la campagne présidentielle',
   },
   placeholder: {
     name: "Nom de l'évènement",
@@ -198,7 +196,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const prepareCreate = () => {
     const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity, address } = values
-    const { attendees, electoral } = newEvent
+    const { attendees } = newEvent
 
     const eventObj = new Event(
       null,
@@ -217,7 +215,6 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       address,
       categoryId,
       newEvent.private,
-      electoral,
       visioUrl,
       '',
       null
@@ -442,13 +439,6 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                 control={<Checkbox checked={!!newEvent.private} />}
                 onChange={(_, value) => setNewEvent(prev => prev.withPrivate(value))}
                 sx={{ pt: 2 }}
-              />
-              <FormControlLabel
-                name={fields.electoral}
-                label={messages.label.electoral}
-                control={<Checkbox checked={!!newEvent.electoral} />}
-                onChange={(_, value) => setNewEvent(prev => prev.withElectoral(value))}
-                sx={{ pt: 1 }}
               />
             </div>
           </div>
