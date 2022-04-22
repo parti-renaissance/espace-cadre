@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import pluralize from 'components/shared/pluralize/pluralize'
+import scopes from 'shared/scopes'
 
 import { KPICard, KPIs } from 'ui/Kpi/KPIs'
 
@@ -11,14 +12,14 @@ const messages = {
   byTheMonth: 'sur le mois',
 }
 
-const SurveysKPI = ({ local, national }) => (
+const SurveysKPI = ({ local, national, currentScope }) => (
   <KPIs>
     <KPICard
       main={local.count}
       title={local.title}
       subtitle={`${messages.including} ${local.publishedCount} ${pluralize(local.publishedCount, messages.published)}`}
     />
-    <KPICard main={national.count} title={national.title} />
+    {currentScope !== scopes.legislative_candidate && <KPICard main={national.count} title={national.title} />}
   </KPIs>
 )
 
@@ -32,6 +33,7 @@ SurveysKPI.propTypes = {
     count: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
   }),
+  currentScope: PropTypes.string.isRequired,
 }
 
 export default SurveysKPI
