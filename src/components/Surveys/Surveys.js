@@ -21,6 +21,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import scopes from 'shared/scopes'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -184,6 +185,7 @@ const Surveys = () => {
                 count: paginatedNationalSurveys?.pages[0].total || 0,
                 title: nationalSurveys.length > 1 ? messages.nationalSurveys : messages.nationalSurvey,
               }}
+              currentScope={scope}
             />
 
             <Tabs
@@ -201,12 +203,14 @@ const Surveys = () => {
                   disableFocusRipple
                 />
               )}
-              <Tab
-                value={visibility.national}
-                label={<TabLabel>{messages.nationalSurveys}</TabLabel>}
-                disableRipple
-                disableFocusRipple
-              />
+              {scope !== scopes.legislative_candidate && (
+                <Tab
+                  value={visibility.national}
+                  label={<TabLabel>{messages.nationalSurveys}</TabLabel>}
+                  disableRipple
+                  disableFocusRipple
+                />
+              )}
             </Tabs>
 
             {selectedTab === visibility.local && localSurveys.length > 0 && (
