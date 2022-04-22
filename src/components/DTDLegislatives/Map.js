@@ -22,8 +22,9 @@ function Map({ currentStep }) {
   const [mapLoaded, setMapLoaded] = useState(false)
   const [currentPoint, setCurrentPoint] = useState()
   const [pollingStation, setPollingStation] = useState(null)
-
   const { setPollingStationCode } = useContext(MapContext)
+
+  const shouldShowMapInfobar = currentStep === 1 || pollingStation
 
   const handleCurrentPoint = useCallback(({ point, lngLat }) => {
     if (!point || !lngLat) return
@@ -91,12 +92,14 @@ function Map({ currentStep }) {
 
   return (
     <Container ref={mapContainer} className="map-container">
-      <div className="infobar">
-        {currentStep === 1 && <span>{messages.warning}</span>}
-        {currentStep === 2 && pollingStation && (
-          <span>{`${messages.title}: ${pollingStation?.CODE} | ${messages.address}: ${pollingStation?.ADDRESS}`}</span>
-        )}
-      </div>
+      {shouldShowMapInfobar && (
+        <div className="infobar">
+          {currentStep === 1 && <span>{messages.warning}</span>}
+          {currentStep === 2 && (
+            <span>{`${messages.title}: ${pollingStation.CODE} | ${messages.address}: ${pollingStation.ADDRESS}`}</span>
+          )}
+        </div>
+      )}
     </Container>
   )
 }
