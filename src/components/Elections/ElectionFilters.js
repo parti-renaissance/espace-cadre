@@ -67,11 +67,11 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
           {ElectionDetails.map(({ label, year, rounds }, index) => (
             <Fragment key={index}>
               <option key={`${label}_${year}_1`} value={`${label}_${year}_1`}>
-                {`${label} ${year} - ${rounds === 1 ? 'Tour unique' : '1er tour'}`}
+                {`${label} ${year} - ${'1er tour'}`}
               </option>
               {rounds === 2 && (
                 <option key={`${label}_${year}_2`} value={`${label}_${year}_2`}>
-                  {`${label} ${year} - 2er tour`}
+                  {`${label} ${year} - 2e tour`}
                 </option>
               )}
             </Fragment>

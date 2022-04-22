@@ -94,6 +94,7 @@ const Elections = () => {
 
     const params = getElectionPayload(activeLayer, filterValues, zoneCode)
     if (Object.values(params).filter(p => p).length !== Object.keys(params).length) return
+
     setIsPopinOpen(true)
     setIsPopinLoaderActive(true)
     getElectionParticipation(params, setParticipation)
