@@ -224,13 +224,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
           const station = data[index]
           return (
             <div style={style}>
-              <PollingStation
-                key={station.id}
-                station={station}
-                handleSelectOne={handleSelectOne}
-                index={index}
-                isCheck={isCheck}
-              />
+              <PollingStation key={station.id} station={station} handleSelectOne={handleSelectOne} isCheck={isCheck} />
             </div>
           )
         }}
