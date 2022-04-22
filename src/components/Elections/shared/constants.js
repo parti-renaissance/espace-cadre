@@ -56,4 +56,9 @@ export const ElectionDetails = [
     year: 2021,
     rounds: 2,
   },
+  {
+    label: ElectionTypes.Presidential,
+    year: 2022,
+    rounds: 1,
+  },
 ]
