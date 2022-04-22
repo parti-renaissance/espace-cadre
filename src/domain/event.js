@@ -62,6 +62,7 @@ export class Event {
     address,
     categoryId,
     isPrivate,
+    electoral,
     visioUrl,
     mode,
     image
@@ -82,6 +83,7 @@ export class Event {
     this.address = address
     this.categoryId = categoryId
     this.private = isPrivate
+    this.electoral = electoral
     this.visioUrl = visioUrl
     this.mode = mode
     this.image = image
@@ -105,6 +107,7 @@ export class Event {
       this.address,
       this.categoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -128,6 +131,7 @@ export class Event {
       this.address,
       this.categoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -151,6 +155,7 @@ export class Event {
       this.address,
       this.categoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -174,6 +179,7 @@ export class Event {
       this.address,
       this.categoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -196,6 +202,7 @@ export class Event {
       this.address,
       this.categoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -219,6 +226,7 @@ export class Event {
       this.address,
       this.categoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -242,6 +250,7 @@ export class Event {
       newAddress,
       this.categoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -265,6 +274,7 @@ export class Event {
       this.address,
       newCategoryId,
       this.private,
+      this.electoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -288,6 +298,31 @@ export class Event {
       this.address,
       this.categoryId,
       newPrivate,
+      this.electoral,
+      this.visioUrl,
+      this.mode,
+      this.image
+    )
+
+  withElectoral = newElectoral =>
+    new Event(
+      this.id,
+      this.name,
+      this.description,
+      this.timezone,
+      this.createdAt,
+      this.beginAt,
+      this.finishAt,
+      this.localFinishAt,
+      this.organizer,
+      this.organizerId,
+      this.attendees,
+      this.scheduled,
+      this.capacity,
+      this.address,
+      this.categoryId,
+      this.private,
+      newElectoral,
       this.visioUrl,
       this.mode,
       this.image
@@ -311,6 +346,7 @@ export class Event {
       this.address,
       this.categoryId,
       this.private,
+      this.electoral,
       newVisioUrl,
       this.mode,
       this.image
@@ -332,6 +368,7 @@ export class Event {
     '',
     Place.NULL,
     '',
+    false,
     false,
     '',
     '',
@@ -356,6 +393,7 @@ Event.propTypes = PropTypes.shape({
   address: Place.propTypes.isRequired,
   categoryId: PropTypes.string.isRequired,
   private: PropTypes.bool.isRequired,
+  electoral: PropTypes.bool.isRequired,
   visioUrl: PropTypes.string,
   mode: PropTypes.string,
   image: PropTypes.string,
