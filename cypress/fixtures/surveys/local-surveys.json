@@ -1,0 +1,21 @@
+{
+  "metadata": { "total_items": 1, "items_per_page": 50, "count": 1, "current_page": 1, "last_page": 1 },
+  "items": [
+    {
+      "zone": {
+        "uuid": "111111111-1111-1111-1111-111111111111",
+        "code": "02",
+        "name": "Aisne",
+        "created_at": "2020-01-01T12:00:00+02:00"
+      },
+      "uuid": "111111111-1111-1111-1111-111111111111",
+      "created_at": "2022-01-01T01:00:00+01:00",
+      "type": "local",
+      "name": "Questionnaire1",
+      "published": true,
+      "nb_questions": 1,
+      "creator": { "first_name": "firstname", "last_name": "lastname" },
+      "nb_answers": 0
+    }
+  ]
+}

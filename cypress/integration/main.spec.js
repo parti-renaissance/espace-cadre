@@ -90,8 +90,13 @@ export const initialization = () => {
   mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
   mock(
     'GET',
-    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=50&scope=referent',
-    'surveys/surveys'
+    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=50&type=national&scope=referent',
+    'surveys/national-surveys'
+  )
+  mock(
+    'GET',
+    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=50&type=local&scope=referent',
+    'surveys/local-surveys'
   )
 
   cy.visit('/auth?code=fake_authorization_code')
