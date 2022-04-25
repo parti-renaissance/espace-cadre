@@ -92,7 +92,6 @@ runs:
       run: |-
         gcloud auth --quiet configure-docker
         docker build \
-          --tag "eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ github.sha }}" \
           --tag "eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ inputs.react_app_version }}" \
           .
         docker push eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }} --all-tags
@@ -104,6 +103,6 @@ runs:
       name: Deploy to Cloud Run
       with:
         service: ${{ inputs.cloud_run_name }}
-        image: 'eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ github.sha }}'
+        image: 'eu.gcr.io/${{ inputs.repository_project_id }}/${{ inputs.cloud_run_name }}:${{ inputs.react_app_version }}'
         project_id: ${{ inputs.project_id }}
         region: ${{ inputs.gcp_zone }}
