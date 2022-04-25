@@ -51,6 +51,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Get short SHA
+        id: git_short_ref
+        run: echo "::set-output name=ref::$(echo ${GITHUB_SHA} | cut -c1-7)"
+
       - uses: ./.github/actions/deploy
         with:
           service_account_key_pusher: ${{ secrets.GCP_SA_KEY_GCR_PUSHER }}
@@ -71,7 +76,7 @@ jobs:
           react_app_unlayer_project_id: ${{ secrets.REACT_APP_UNLAYER_PROJECT_ID }}
           react_app_mapbox_token: ${{ secrets.REACT_APP_MAPBOX_TOKEN }}
           react_app_mapbox_style: ${{ secrets.REACT_APP_MAPBOX_STYLE }}
-          react_app_version: ${GITHUB_SHA::7}
+          react_app_version: ${{ steps.git_short_ref.outputs.ref }}
           react_app_environment: staging
 
   deploy-prod:
