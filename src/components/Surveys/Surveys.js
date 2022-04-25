@@ -72,7 +72,7 @@ const Surveys = () => {
     refetch: refetchNationalSurveys,
   } = useInfiniteQueryWithScope(
     ['paginated-national-surveys', { feature: 'Surveys', view: 'Surveys' }],
-    pageParams => getSurveysQuery(pageParams, visibility.national),
+    pageParams => getSurveysQuery({ pageParams }, visibility.national),
     {
       getNextPageParam,
       onError: handleError,
@@ -86,7 +86,7 @@ const Surveys = () => {
     refetch: refetchLocalSurveys,
   } = useInfiniteQueryWithScope(
     ['paginated-local-surveys', { feature: 'Surveys', view: 'Surveys' }],
-    pageParams => getSurveysQuery(pageParams, visibility.local),
+    pageParams => getSurveysQuery({ pageParams }, visibility.local),
     {
       getNextPageParam,
       onError: handleError,
