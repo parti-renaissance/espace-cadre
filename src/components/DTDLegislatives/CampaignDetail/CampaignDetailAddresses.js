@@ -73,11 +73,11 @@ const SubDescription = styled(props => <Typography component="div" {...props} />
 )
 
 const messages = {
-  doorKnockers: 'Porte à porteur',
+  doorKnockers: 'Porte-à-porteur',
   address: 'Adresse',
   buildingType: 'Type Bâtiment',
   status: 'Statut',
-  doorsKnocked: 'Portes frappé',
+  doorsKnocked: 'Portes frappées',
   anonymous: 'Anonyme',
 }
 

@@ -12,6 +12,7 @@ import {
   getDTDCampaignDetailQuery,
   getDTDCampaignQuestioners,
   getDTDCampaignSurveysReplies,
+  getDTDCampaignSurveysAddress,
 } from 'api/DTD'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import CampaignDetailKPI from './CampaignDetailKpi'
@@ -92,6 +93,15 @@ const CampaignDetail = () => {
   )
   const surveysTotalCount = surveys?.totalCount
 
+  const { data: addresses = {} } = useQueryWithScope(
+    ['surveys-detail-address', { feature: 'DTD', view: 'CampaignDetailSurveysAddress' }, campaignId],
+    () => getDTDCampaignSurveysAddress({ campaignId }),
+    {
+      onError: handleError,
+    }
+  )
+  const addressesTotalCount = addresses?.totalCount
+
   const isLoadingData = useMemo(
     () => !!(isQuestionersLoading || isSurveysLoading),
     [isQuestionersLoading, isSurveysLoading]
@@ -149,11 +159,11 @@ const CampaignDetail = () => {
                   value={id}
                   label={
                     <TabLabel>
-                      {id === messages.addresses.id && `${0} ${label}`}
+                      {id === messages.addresses.id &&
+                        `${addressesTotalCount} ${pluralize(addressesTotalCount, label)}`}
                       {id === messages.dtdSuffix.id &&
                         `${questionersTotalCount} ${messages.dtdPrefix}${pluralize(questionersTotalCount, label)}`}
-                      {id === messages.surveys.id &&
-                        `${surveysTotalCount || 0} ${pluralize(questionersTotalCount, label)}`}
+                      {id === messages.surveys.id && `${surveysTotalCount || 0} ${pluralize(surveysTotalCount, label)}`}
                     </TabLabel>
                   }
                   disableRipple

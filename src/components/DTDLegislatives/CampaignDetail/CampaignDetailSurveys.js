@@ -78,7 +78,7 @@ const SubDescription = styled(props => <Typography component="div" {...props} />
 )
 
 const messages = {
-  called: 'Porte à porteur',
+  called: 'Porte-à-porteur',
   time: 'Date (Temps)',
   anonymous: 'Anonyme',
   years: 'ans',
@@ -225,38 +225,26 @@ const CampaignDetailSurveys = () => {
                       )}
                     </TableCell>
 
-                    {gender && (
-                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                        <Description>{gender}</Description>
-                      </TableCell>
-                    )}
-                    {ageRange && (
-                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                        <Description>{ageRange}</Description>
-                      </TableCell>
-                    )}
-                    {profession && (
-                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                        <Description>{profession}</Description>
-                      </TableCell>
-                    )}
-                    {(lastName || firstName) && (
-                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                        <Description>
-                          {lastName || firstName ? `${lastName} ${firstName}` : messages.anonymous}
-                        </Description>
-                      </TableCell>
-                    )}
-                    {emailAddress && (
-                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                        <Description>{emailAddress}</Description>
-                      </TableCell>
-                    )}
-                    {postalCode && (
-                      <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                        <Description>{postalCode}</Description>
-                      </TableCell>
-                    )}
+                    <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                      <Description>{gender || ''}</Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                      <Description>{ageRange || ''}</Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                      <Description>{profession || ''}</Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                      <Description>
+                        {lastName || firstName ? `${lastName} ${firstName}` : messages.anonymous}
+                      </Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                      <Description>{emailAddress || ''}</Description>
+                    </TableCell>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)}>
+                      <Description>{postalCode || ''}</Description>
+                    </TableCell>
                     {answers.map(({ type, answer }) => (
                       <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '245px' }}>
                         {answer && (
