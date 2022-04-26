@@ -21,7 +21,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
-import scopes from 'shared/scopes'
+import scopes, { nationalScopes } from 'shared/scopes'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -61,7 +61,7 @@ const Surveys = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const { isMobile } = useCurrentDeviceType()
-  const isNational = ['national', 'phoning_national_manager', 'pap_national_manager'].includes(scope)
+  const isNational = nationalScopes.includes(scope)
   const [selectedTab, setSelectedTab] = useState(isNational ? visibility.national : visibility.local)
 
   const {

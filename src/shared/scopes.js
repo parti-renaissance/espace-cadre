@@ -10,3 +10,5 @@ export default {
   phoning: 'phoning',
   referent: 'referent',
 }
+
+export const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']

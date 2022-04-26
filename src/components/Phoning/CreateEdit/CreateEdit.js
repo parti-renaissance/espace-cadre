@@ -28,6 +28,7 @@ import GlobalSettings from './CreateEditGlobalSettings'
 import CallersAndSurvey from './CreateEditCallersAndSurvey'
 import Filters from './CreateEditFilters'
 import Dialog from 'ui/Dialog'
+import { nationalScopes } from 'shared/scopes'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -48,7 +49,6 @@ const messages = {
 }
 
 const formatCurrentZone = ({ uuid: id, name, code }) => new DomainPhoningCampaignCreateEditZone(id, name, code)
-const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
 
 const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose }) => {
   const { isMobile } = useCurrentDeviceType()

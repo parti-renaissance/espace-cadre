@@ -12,6 +12,7 @@ import { useUserScope } from '../../../redux/user/hooks'
 import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { PickersDay } from 'ui/DateTime/styled'
+import { nationalScopes } from 'shared/scopes'
 
 const DatePickerInputStyles = {
   pt: 1.75,
@@ -37,8 +38,6 @@ const messages = {
     brief: 'Rédiger une brève',
   },
 }
-
-const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
 
 const CreateEditGlobalSettings = () => {
   const { errors, initialValues, updateValues } = useContext(GlobalSettingsContext)

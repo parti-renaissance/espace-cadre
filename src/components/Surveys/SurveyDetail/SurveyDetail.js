@@ -11,6 +11,8 @@ import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
 import paths from 'shared/paths'
 import CreateEdit from '../CreateEdit/CreateEdit'
+import { nationalScopes } from 'shared/scopes'
+import { useUserScope } from '../../../redux/user/hooks'
 
 const messages = {
   pageTitle: 'Questionnaires',
@@ -21,6 +23,8 @@ export const SurveyDetail = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { surveyId } = useParams()
   const { handleError } = useErrorHandler()
+  const [currentScope] = useUserScope()
+  const isLocal = !nationalScopes.includes(currentScope.code)
 
   const { data: surveyDetail = {}, refetch: refetchSurvey } = useQueryWithScope(
     ['survey-detail', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
@@ -46,12 +50,15 @@ export const SurveyDetail = () => {
           titleLink={paths.survey}
           titleSuffix={surveyDetail.title}
           button={
-            <PageHeaderButton
-              label={messages.modify}
-              icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
-              onClick={() => (Object.keys(surveyDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
-              isMainButton
-            />
+            isLocal &&
+            surveyDetail?.isThereZone && (
+              <PageHeaderButton
+                label={messages.modify}
+                icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
+                onClick={() => (Object.keys(surveyDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
+                isMainButton
+              />
+            )
           }
         />
       </Grid>

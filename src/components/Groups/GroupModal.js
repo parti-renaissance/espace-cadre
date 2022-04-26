@@ -18,6 +18,7 @@ import UISelect from 'ui/Select/Select'
 import Button from 'ui/Button'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import Dialog from 'ui/Dialog'
+import { nationalScopes } from 'shared/scopes'
 
 const Form = styled('form')`
   display: flex;
@@ -54,7 +55,6 @@ const messages = {
 const groupSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
-const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
 
 const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }) => {
   const { handleError } = useErrorHandler()
@@ -62,7 +62,6 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
   const { isMobile } = useCurrentDeviceType()
-
   const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation(
     !group?.id ? createGroupQuery : updateGroupQuery,
     {
