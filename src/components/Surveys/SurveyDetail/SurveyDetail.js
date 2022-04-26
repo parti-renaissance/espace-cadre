@@ -11,6 +11,7 @@ import PageHeader from 'ui/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
 import paths from 'shared/paths'
 import CreateEdit from '../CreateEdit/CreateEdit'
+import { nationalScopes } from 'shared/scopes'
 
 const messages = {
   pageTitle: 'Questionnaires',

@@ -16,6 +16,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import { useUserScope } from '../../redux/user/hooks'
+import { nationalScopes } from 'shared/scopes'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -30,8 +31,6 @@ const infiniteScrollStylesOverrides = {
     width: '100%',
   },
 }
-
-const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
 
 const roles = {
   national: 'national',
