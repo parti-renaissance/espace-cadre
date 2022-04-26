@@ -160,7 +160,7 @@ const CampaignDetailAddresses = () => {
               {rows?.map(
                 ({ address, cityName, inseeCode, buildingType, status, numberVisitedDoors, questioner }, index) => (
                   <TableRow key={uuid()} sx={{ width: '175px' }}>
-                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '220px' }}>
                       <Description>{address}</Description>
                       <SubDescription>{`${inseeCode} ${cityName}`}</SubDescription>
                     </TableCell>
