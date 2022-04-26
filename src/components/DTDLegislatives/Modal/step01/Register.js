@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useMemo } from 'react'
 import { Container, Grid, useTheme } from '@mui/material'
 import { DateTimePicker } from '@mui/lab'
@@ -71,7 +72,7 @@ function Register({ formik, values, handleChange, formikErrors, errorMessages, t
 
   const { data: paginatedSurveys = null, isLoading: isSurveysLoading } = useInfiniteQueryWithScope(
     ['paginated-surveys', { feature: 'Surveys', view: 'Surveys' }],
-    getSurveysQuery,
+    () => getSurveysQuery(_, _, true),
     {
       onError: handleError,
     }

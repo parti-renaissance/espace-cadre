@@ -167,7 +167,7 @@ export const getPhoningCampaignTeams = async ({ pageParam: page = 1 }) => {
 }
 
 export const getPhoningCampaignSurveys = async ({ pageParam: page = 1 }) => {
-  const query = `?page=${page}&page_size=1000`
+  const query = `?page=${page}&page_size=1000&published=true`
   const data = await apiClient.get(`/api/v3/surveys${query}`)
 
   const surveys = data.items.map(s => new PhoningCampaignCreateEditSurvey(s.uuid, s.name, s.type))
