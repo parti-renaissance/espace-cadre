@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Grid } from '@mui/material'
 import { styled } from '@mui/system'
-import mapboxgl from '!mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 import { getElectionParticipation, getElectionResults } from 'api/elections'
 
 import { ElectionFirstStage, ElectionTypes } from './shared/constants'
