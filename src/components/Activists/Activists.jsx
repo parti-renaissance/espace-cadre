@@ -36,7 +36,7 @@ const Activists = () => {
     () => {
       const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
       return getActivists(filter)
-    },
+    }
   )
 
   if (columnsTitle.length === 0) {

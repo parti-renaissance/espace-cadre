@@ -30,14 +30,10 @@ const DownloadsCount = () => {
     data: downloads = null,
     isLoading,
     isError,
-  } = useQueryWithScope(
-    ['downloads', { feature: 'Dashboard', view: 'DownloadsCount' }],
-    () => downloadsCount(),
-    {
-      cacheTime: DASHBOARD_CACHE_DURATION,
-      staleTime: DASHBOARD_CACHE_DURATION,
-    },
-  )
+  } = useQueryWithScope(['downloads', { feature: 'Dashboard', view: 'DownloadsCount' }], () => downloadsCount(), {
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
+  })
 
   const theme = useTheme()
 
