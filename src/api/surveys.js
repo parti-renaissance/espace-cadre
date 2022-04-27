@@ -44,7 +44,12 @@ export const getOneSurveyQuery = async surveyId => {
 
 export const getSurveysKpis = async () => {
   const data = await apiClient.get('api/v3/surveys/kpi')
-  return new SurveyKPIs(data.local_surveys_count, data.local_surveys_published_count, data.national_surveys_count)
+  return new SurveyKPIs(
+    data.local_surveys_count,
+    data.local_surveys_published_count,
+    data.national_surveys_count,
+    data.national_surveys_published_count
+  )
 }
 
 export const getSurveyRepliesQuery = async surveyId => {

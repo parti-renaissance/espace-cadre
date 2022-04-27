@@ -46,15 +46,17 @@ export class SurveyItem {
 }
 
 export class SurveyKPIs {
-  constructor(localSurveysCount, localPublishedSurveysCount, nationalSurveysCount) {
+  constructor(localSurveysCount, localPublishedSurveysCount, nationalSurveysCount, nationalPublishedSurveysCount) {
     this.localSurveysCount = localSurveysCount
     this.localPublishedSurveysCount = localPublishedSurveysCount
     this.nationalSurveysCount = nationalSurveysCount
+    this.nationalPublishedSurveysCount = localPublishedSurveysCount
   }
 
   static propTypes = {
     localSurveysCount: PropTypes.number.isRequired,
     localPublishedSurveysCount: PropTypes.number.isRequired,
     nationalSurveysCount: PropTypes.number.isRequired,
+    nationalPublishedSurveysCount: PropTypes.number.isRequired,
   }
 }

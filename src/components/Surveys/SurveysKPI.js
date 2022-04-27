@@ -19,7 +19,16 @@ const SurveysKPI = ({ local, national, currentScope }) => (
       title={local.title}
       subtitle={`${messages.including} ${local.publishedCount} ${pluralize(local.publishedCount, messages.published)}`}
     />
-    {currentScope !== scopes.legislative_candidate && <KPICard main={national.count} title={national.title} />}
+    {currentScope !== scopes.legislative_candidate && (
+      <KPICard
+        main={national.count}
+        title={national.title}
+        subtitle={`${messages.including} ${national.publishedCount} ${pluralize(
+          national.publishedCount,
+          messages.published
+        )}`}
+      />
+    )}
   </KPIs>
 )
 
