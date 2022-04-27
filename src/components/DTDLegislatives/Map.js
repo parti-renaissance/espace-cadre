@@ -33,7 +33,50 @@ function Map({ currentStep }) {
 
   const getMapBoxProperties = mapBoxProps => {
     const properties = mapBoxProps[0].properties
-    return properties
+    const coordinates = mapBoxProps[0].geometry.coordinates
+    return { properties, coordinates }
+  }
+
+  const highlightSelectedPolygon = (coordinates, id) => {
+    const selection = map.current.getSource(id)
+    if (selection) {
+      map.current.removeLayer(`${id}_outline`)
+      map.current.removeLayer(id)
+      map.current.removeSource(id)
+      return
+    }
+    map.current.addSource(id, {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates,
+        },
+      },
+    })
+
+    map.current.addLayer({
+      id,
+      type: 'fill',
+      source: id,
+      layout: {},
+      paint: {
+        'fill-color': '#0080ff',
+        'fill-opacity': 0.5,
+      },
+    })
+
+    map.current.addLayer({
+      id: `${id}_outline`,
+      type: 'line',
+      source: id,
+      layout: {},
+      paint: {
+        'line-color': '#000',
+        'line-width': 3,
+      },
+    })
   }
 
   const messages = {
@@ -83,8 +126,10 @@ function Map({ currentStep }) {
     if (!mapBoxProps[0]) return
     if (currentStep === 1) return
 
-    const { CODE, ADDRESS } = getMapBoxProperties(mapBoxProps)
+    const { CODE, ADDRESS } = getMapBoxProperties(mapBoxProps).properties
     if (CODE && ADDRESS) setPollingStation({ CODE, ADDRESS })
+    const currentPolygonCoordinates = getMapBoxProperties(mapBoxProps).coordinates
+    highlightSelectedPolygon(currentPolygonCoordinates, CODE)
     setPollingStationCode(CODE)
   }, [mapLoaded, currentPoint, map, currentStep])
 
