@@ -1,4 +1,4 @@
-@import '~leaflet/dist/leaflet.css';
+@import './leaflet.css';
 
 body {
   font-family: 'Poppins', sans-serif;
@@ -21,13 +21,13 @@ body {
   .ck.ck-balloon-panel {
     z-index: 10000;
   }
-  
+
   .ck-toolbar {
-    border-top-left-radius:8px !important;
-    border-top-right-radius:8px !important;
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
   }
-  .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
-    border-bottom-right-radius:8px;
-    border-bottom-left-radius:8px
+  .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
 }
