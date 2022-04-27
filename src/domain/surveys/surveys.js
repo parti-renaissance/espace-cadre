@@ -50,7 +50,7 @@ export class SurveyKPIs {
     this.localSurveysCount = localSurveysCount
     this.localPublishedSurveysCount = localPublishedSurveysCount
     this.nationalSurveysCount = nationalSurveysCount
-    this.nationalPublishedSurveysCount = localPublishedSurveysCount
+    this.nationalPublishedSurveysCount = nationalPublishedSurveysCount
   }
 
   static propTypes = {

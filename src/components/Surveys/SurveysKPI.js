@@ -41,6 +41,7 @@ SurveysKPI.propTypes = {
   national: PropTypes.shape({
     count: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
+    publishedCount: PropTypes.number.isRequired,
   }),
   currentScope: PropTypes.string.isRequired,
 }
