@@ -12,6 +12,7 @@ import {
   SurveyDetailReply,
   SurveyDetailReplyAnswer,
   SurveyDetailReplyAuthor,
+  SurveyKPIs,
 } from 'domain/surveys'
 import { newPaginatedResult } from 'api/pagination'
 
@@ -39,6 +40,11 @@ export const getOneSurveyQuery = async surveyId => {
   })
 
   return new SurveyDetail(data.uuid, data.published, data.name, questions, !!data.zone)
+}
+
+export const getSurveysKpis = async () => {
+  const data = await apiClient.get('api/v3/surveys/kpi')
+  return new SurveyKPIs(data.local_surveys_count, data.local_surveys_published_count, data.national_surveys_count)
 }
 
 export const getSurveyRepliesQuery = async surveyId => {

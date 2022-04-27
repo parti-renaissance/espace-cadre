@@ -8,7 +8,7 @@ import { styled } from '@mui/system'
 
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getSurveysQuery, getOneSurveyQuery, createOrUpdateSurveyQuery } from 'api/surveys'
+import { getSurveysQuery, getOneSurveyQuery, createOrUpdateSurveyQuery, getSurveysKpis } from 'api/surveys'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
@@ -116,6 +116,15 @@ const Surveys = () => {
     }
   )
 
+  const { data: surveysKPIs = {} } = useQueryWithScope(
+    ['surveys-kpis', { feature: 'Surveys', view: 'Surveys' }],
+    getSurveysKpis,
+    {
+      onError: handleError,
+    }
+  )
+  const { localSurveysCount, localPublishedSurveysCount, nationalSurveysCount } = surveysKPIs
+
   const togglePublish = surveyId => () => {
     const { id, isPublished } = isNational
       ? nationalSurveys.find(({ id }) => id === surveyId)
@@ -177,13 +186,13 @@ const Surveys = () => {
           <>
             <SurveysKPI
               local={{
-                count: paginatedLocalSurveys?.pages[0].total || 0,
-                title: localSurveys.length > 1 ? messages.localSurveys : messages.localSurvey,
-                publishedCount: localSurveys.filter(({ isPublished }) => !!isPublished).length,
+                count: localSurveysCount || 0,
+                title: localSurveysCount > 1 ? messages.localSurveys : messages.localSurvey,
+                publishedCount: localPublishedSurveysCount,
               }}
               national={{
-                count: paginatedNationalSurveys?.pages[0].total || 0,
-                title: nationalSurveys.length > 1 ? messages.nationalSurveys : messages.nationalSurvey,
+                count: nationalSurveysCount || 0,
+                title: nationalSurveysCount > 1 ? messages.nationalSurveys : messages.nationalSurvey,
               }}
               currentScope={scope}
             />

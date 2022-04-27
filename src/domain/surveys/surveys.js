@@ -44,3 +44,17 @@ export class SurveyItem {
     zone: PropTypes.shape(SurveyItemZone.propTypes),
   }
 }
+
+export class SurveyKPIs {
+  constructor(localSurveysCount, localPublishedSurveysCount, nationalSurveysCount) {
+    this.localSurveysCount = localSurveysCount
+    this.localPublishedSurveysCount = localPublishedSurveysCount
+    this.nationalSurveysCount = nationalSurveysCount
+  }
+
+  static propTypes = {
+    localSurveysCount: PropTypes.number.isRequired,
+    localPublishedSurveysCount: PropTypes.number.isRequired,
+    nationalSurveysCount: PropTypes.number.isRequired,
+  }
+}
