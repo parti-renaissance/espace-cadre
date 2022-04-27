@@ -155,10 +155,21 @@ export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   saveAs(new Blob([data]), `Questionnaires PAP - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
 }
 
-export const getDTDCampaignSurveysAddress = async ({ campaignId, pageSize = 20, pageNumber = 0 }) => {
+export const getDTDCampaignSurveysAddress = async ({ campaignId, pageSize = 20, pageNumber = 0, sortParam }) => {
+  const formatter = {
+    buildingType: 'building.type',
+    status: 'status',
+    doorsKnocked: 'nb_visited_doors',
+  }
+  const formattedKey = sortParam && formatter[Object.keys(sortParam)]
+  const value = sortParam && Object.values(sortParam)
+
   const data = await apiClient.get(
-    `api/v3/pap_campaigns/${campaignId}/building_statistics?page=${pageNumber + 1}&page_size=${pageSize}`
+    `api/v3/pap_campaigns/${campaignId}/building_statistics?page=${pageNumber + 1}&page_size=${pageSize}${
+      formattedKey && value ? `&order[${formattedKey}]=${value}` : ''
+    }`
   )
+
   return {
     totalCount: data.metadata.total_items,
     addresses: data.items.map(sa => {
