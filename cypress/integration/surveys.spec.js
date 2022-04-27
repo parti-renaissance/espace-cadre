@@ -58,7 +58,7 @@ describe('Surveys', () => {
       })
       it('should show a score, a subtitle and its detail', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).each((element, index) => {
-          const content = { score: '1', subtitle: 'Questionnaire local', detail: 'Dont 1 publié' }
+          const content = { score: '90', subtitle: 'Questionnaires locaux', detail: 'Dont 30 publiés' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
           if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
@@ -72,7 +72,7 @@ describe('Surveys', () => {
       })
       it('should show a score, a subtitle and its detail', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
-          const content = { score: '2', subtitle: 'Questionnaires nationaux' }
+          const content = { score: '43', subtitle: 'Questionnaires nationaux', detail: 'Dont 30 publiés' }
           if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
         })

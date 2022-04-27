@@ -98,6 +98,9 @@ export const initialization = () => {
     '/api/v3/surveys?order[created_at]=desc&page=1&page_size=50&type=local&scope=referent',
     'surveys/local-surveys'
   )
+  mock('GET', 
+  '/api/v3/surveys/kpi?scope=referent',
+  'surveys/surveys-kpi')
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
