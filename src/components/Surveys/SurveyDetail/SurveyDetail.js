@@ -17,6 +17,7 @@ import { useUserScope } from '../../../redux/user/hooks'
 const messages = {
   pageTitle: 'Questionnaires',
   modify: 'modifier',
+  local: 'local',
 }
 
 export const SurveyDetail = () => {
@@ -41,7 +42,7 @@ export const SurveyDetail = () => {
       onError: handleError,
     }
   )
-
+  console.log(surveyDetail)
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -51,7 +52,7 @@ export const SurveyDetail = () => {
           titleSuffix={surveyDetail.title}
           button={
             isLocal &&
-            surveyDetail?.isThereZone && (
+            surveyDetail?.type === messages.local && (
               <PageHeaderButton
                 label={messages.modify}
                 icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}

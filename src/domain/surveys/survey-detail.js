@@ -27,18 +27,18 @@ export class SurveyDetailQuestion {
 }
 
 export class SurveyDetail {
-  constructor(id, isPublished, title, questions, isThereZone) {
+  constructor(id, isPublished, title, questions, type) {
     this.id = id
     this.isPublished = isPublished
     this.title = title
     this.questions = questions
-    this.isThereZone = isThereZone
+    this.type = type
   }
   static propTypes = {
     id: PropTypes.string,
     isPublished: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     questions: PropTypes.arrayOf(PropTypes.shape(SurveyDetailQuestion.propTypes)).isRequired,
-    isThereZone: PropTypes.bool,
+    type: PropTypes.string.isRequired,
   }
 }

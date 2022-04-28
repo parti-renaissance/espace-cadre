@@ -39,7 +39,7 @@ export const getOneSurveyQuery = async surveyId => {
     return new SurveyDetailQuestion(q.id, q.type, q.content, choices)
   })
 
-  return new SurveyDetail(data.uuid, data.published, data.name, questions, !!data.zone)
+  return new SurveyDetail(data.uuid, data.published, data.name, questions, data.type)
 }
 
 export const getSurveysKpis = async () => {
