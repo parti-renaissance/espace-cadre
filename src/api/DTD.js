@@ -155,10 +155,13 @@ export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
   saveAs(new Blob([data]), `Questionnaires PAP - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
 }
 
-export const getDTDCampaignSurveysAddress = async ({ campaignId, pageSize = 20, pageNumber = 0 }) => {
-  const data = await apiClient.get(
-    `api/v3/pap_campaigns/${campaignId}/building_statistics?page=${pageNumber + 1}&page_size=${pageSize}`
+export const getDTDCampaignSurveysAddress = async ({ campaignId, pageSize = 20, pageNumber = 0, sortParams = [] }) => {
+  const queryParams = [`page=${pageNumber + 1}`, `page_size=${pageSize}`].concat(
+    sortParams.map(sortItem => `order[${sortItem.key}]=${sortItem.value}`)
   )
+
+  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/building_statistics?${queryParams.join('&')}`)
+
   return {
     totalCount: data.metadata.total_items,
     addresses: data.items.map(sa => {

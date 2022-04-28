@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router'
 import {
   Grid,
@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { v1 as uuid } from 'uuid'
-import { orderBy } from 'lodash'
 
 import Loading from 'components/Dashboard/shared/Loading'
 import { useQueryWithScope } from 'api/useQueryWithScope'
@@ -81,12 +80,33 @@ const messages = {
   anonymous: 'Anonyme',
 }
 
+const headers = [
+  {
+    label: messages.address,
+  },
+  {
+    label: messages.buildingType,
+    sortKey: 'building.type',
+  },
+  {
+    label: messages.status,
+    sortKey: 'status',
+  },
+  {
+    label: messages.doorsKnocked,
+    sortKey: 'nb_visited_doors',
+  },
+  {
+    label: messages.doorKnockers,
+    isSticky: true,
+  },
+]
 const formatQuestioner = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
 
 const CampaignDetailAddresses = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [order, toggleOrder] = useState({ buildingType: 'asc' })
+  const [order, toggleOrder] = useState(null)
   const { handleError } = useErrorHandler()
   const { campaignId } = useParams()
 
@@ -100,27 +120,34 @@ const CampaignDetailAddresses = () => {
   }
 
   const handleSort = column => () => {
-    toggleOrder(order => ({ ...order, [column]: order[column] === 'asc' ? 'desc' : 'asc' }))
+    toggleOrder(order => ({ key: column, value: order?.key === column && order?.value === 'asc' ? 'desc' : 'asc' }))
   }
 
   const { data: surveys = {}, isLoading: isSurveysLoading } = useQueryWithScope(
     [
       'surveys-detail-address',
-      { feature: 'DTD', view: 'CampaignDetailSurveysAddress', pageNumber: currentPage, pageSize: rowsPerPage },
+      {
+        feature: 'DTD',
+        view: 'CampaignDetailSurveysAddress',
+        pageNumber: currentPage,
+        pageSize: rowsPerPage,
+        sortParams: order,
+      },
       campaignId,
     ],
-    () => getDTDCampaignSurveysAddress({ campaignId, pageSize: rowsPerPage, pageNumber: currentPage }),
+    () =>
+      getDTDCampaignSurveysAddress({
+        campaignId,
+        pageSize: rowsPerPage,
+        pageNumber: currentPage,
+        sortParams: order ? [order] : [],
+      }),
     {
       onError: handleError,
     }
   )
   const surveysTotalCount = surveys?.totalCount
   const addresses = surveys?.addresses
-
-  const rows = useMemo(
-    () => orderBy(addresses, Object.keys(order).reverse(), Object.values(order).reverse()),
-    [addresses, order]
-  )
 
   if (addresses?.length === 0) return null
   if (isSurveysLoading) return <Loading />
@@ -132,32 +159,26 @@ const CampaignDetailAddresses = () => {
           <Table sx={{ borderCollapse: 'separate' }} stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell key={uuid()}>
-                  <ColumnLabel>{messages.address}</ColumnLabel>
-                </TableCell>
-                <TableCell key={uuid()}>
-                  <TableSortLabel direction={order.buildingType} onClick={handleSort('buildingType')} active>
-                    <ColumnLabel>{messages.buildingType}</ColumnLabel>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell key={uuid()}>
-                  <TableSortLabel direction={order.status} onClick={handleSort('status')} active>
-                    <ColumnLabel>{messages.status}</ColumnLabel>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell key={uuid()}>
-                  <TableSortLabel direction={order.doorsKnocked} onClick={handleSort('doorsKnocked')} active>
-                    <ColumnLabel>{messages.doorsKnocked}</ColumnLabel>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell key={uuid()} isSticky>
-                  <ColumnLabel>{messages.doorKnockers}</ColumnLabel>
-                </TableCell>
+                {headers.map(header => (
+                  <TableCell key={uuid()} isSticky={!!header.isSticky}>
+                    {header.sortKey ? (
+                      <TableSortLabel
+                        direction={order?.key === header.sortKey ? order.value : 'asc'}
+                        onClick={handleSort(header.sortKey)}
+                        active={order?.key === header.sortKey}
+                      >
+                        <ColumnLabel>{header.label}</ColumnLabel>
+                      </TableSortLabel>
+                    ) : (
+                      <ColumnLabel>{header.label}</ColumnLabel>
+                    )}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {rows?.map(
+              {addresses?.map(
                 ({ address, cityName, inseeCode, buildingType, status, numberVisitedDoors, questioner }, index) => (
                   <TableRow key={uuid()} sx={{ width: '175px' }}>
                     <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '220px' }}>
