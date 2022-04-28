@@ -12,6 +12,7 @@ import {
   SurveyDetailReply,
   SurveyDetailReplyAnswer,
   SurveyDetailReplyAuthor,
+  SurveyDetailCreator,
   SurveyKPIs,
 } from 'domain/surveys'
 import { newPaginatedResult } from 'api/pagination'
@@ -33,13 +34,14 @@ export const getSurveysQuery = async ({ pageParam: page = 1 }, type = '', publis
 
 export const getOneSurveyQuery = async surveyId => {
   const data = await apiClient.get(`api/v3/surveys/${surveyId}`)
+  const creator = new SurveyDetailCreator(data.creator.first_name, data.creator.last_name)
 
   const questions = data.questions.map(q => {
     const choices = q.choices.map(c => new SurveyDetailChoice(c.id, c.content))
     return new SurveyDetailQuestion(q.id, q.type, q.content, choices)
   })
 
-  return new SurveyDetail(data.uuid, data.published, data.name, questions, data.type)
+  return new SurveyDetail(data.uuid, data.published, data.name, questions, data.type, creator)
 }
 
 export const getSurveysKpis = async () => {
