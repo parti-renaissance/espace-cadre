@@ -1,13 +1,14 @@
 import { defineConfig } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
-
+import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import react from '@vitejs/plugin-react'
 
 const path = require('path')
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [
     react(),
+    VitePluginHtmlEnv(),
     EnvironmentPlugin([
       'NODE_ENV',
       'REACT_APP_API_HOST',
@@ -18,7 +19,6 @@ export default defineConfig(({ mode }) => ({
       'REACT_APP_UNLAYER_TEMPLATE_ID',
       'REACT_APP_MAPBOX_TOKEN',
       'REACT_APP_MAPBOX_STYLE',
-      'REACT_APP_GMAPS_API_KEY',
     ]),
   ],
   resolve: {
@@ -37,4 +37,4 @@ export default defineConfig(({ mode }) => ({
   server: {
     open: '/',
   },
-}))
+})
