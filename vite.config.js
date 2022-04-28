@@ -34,4 +34,7 @@ export default defineConfig(({ mode }) => ({
       ui: path.resolve(__dirname, 'src/ui'),
     },
   },
+  server: {
+    open: '/',
+  },
 }))
