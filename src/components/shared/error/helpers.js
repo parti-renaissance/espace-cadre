@@ -15,7 +15,7 @@ const transformViolationToErrorMessage = ({ propertyPath: field, message, title 
   message: message || title,
 })
 export const getFormattedErrorMessages = data => {
-  const { violations = [] } = data
+  const { violations = [] } = data || {}
   if (violations.length > 0) return violations.map(transformViolationToErrorMessage)
   return [{ field: 'name', message: validationMessages.mainError }]
 }

@@ -28,7 +28,7 @@ export const initialization = () => {
   mock('GET', '/api/v3/adherents/columns?scope=referent', 'activists/columns')
   mock('GET', '/api/v3/adherents?page=1&scope=referent', 'activists/activists')
   mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'activists/filters')
-  mock('GET', '/api/v3/teams?order*=desc&page=1&page_size=20&scope=*', 'groups/groups')
+  mock('GET', '/api/v3/teams?*', 'groups/groups')
   mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'groups/1')
   mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
   mock('GET', '/api/v3/ripostes?order[created_at]=desc&page=1&page_size=20&scope=national', 'ripostes/ripostes')
@@ -90,13 +90,18 @@ export const initialization = () => {
   mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
   mock(
     'GET',
-    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=50&type=national&scope=referent',
+    '/api/v3/surveys?*&type=national&*',
     'surveys/national-surveys'
   )
   mock(
     'GET',
-    '/api/v3/surveys?order[created_at]=desc&page=1&page_size=50&type=local&scope=referent',
+    '/api/v3/surveys?*&type=local&*',
     'surveys/local-surveys'
+  )
+  mock(
+    'GET',
+    '/api/v3/surveys?*',
+    'surveys/surveys'
   )
   mock('GET', 
   '/api/v3/surveys/kpi?scope=referent',
