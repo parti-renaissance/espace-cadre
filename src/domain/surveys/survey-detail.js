@@ -26,19 +26,32 @@ export class SurveyDetailQuestion {
   }
 }
 
+export class SurveyDetailCreator {
+  constructor(firstName, lastName) {
+    this.firstName = firstName
+    this.lastName = lastName
+  }
+  static propTypes = {
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+  }
+}
+
 export class SurveyDetail {
-  constructor(id, isPublished, title, questions, isThereZone) {
+  constructor(id, isPublished, title, questions, type, creator) {
     this.id = id
     this.isPublished = isPublished
     this.title = title
     this.questions = questions
-    this.isThereZone = isThereZone
+    this.type = type
+    this.creator = creator
   }
   static propTypes = {
     id: PropTypes.string,
     isPublished: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     questions: PropTypes.arrayOf(PropTypes.shape(SurveyDetailQuestion.propTypes)).isRequired,
-    isThereZone: PropTypes.bool,
+    type: PropTypes.string.isRequired,
+    creator: PropTypes.string.isRequired,
   }
 }

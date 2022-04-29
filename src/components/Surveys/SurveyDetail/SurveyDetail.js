@@ -13,10 +13,14 @@ import paths from 'shared/paths'
 import CreateEdit from '../CreateEdit/CreateEdit'
 import { nationalScopes } from 'shared/scopes'
 import { useUserScope } from '../../../redux/user/hooks'
+import { getCurrentUser } from '../../../redux/user/selectors'
+import { useSelector } from 'react-redux'
 
 const messages = {
   pageTitle: 'Questionnaires',
   modify: 'modifier',
+  local: 'local',
+  national: 'national',
 }
 
 export const SurveyDetail = () => {
@@ -24,7 +28,10 @@ export const SurveyDetail = () => {
   const { surveyId } = useParams()
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
+  const currentUser = useSelector(getCurrentUser)
   const isLocal = !nationalScopes.includes(currentScope.code)
+  const isNational = nationalScopes.includes(currentScope.code)
+  const loggedUser = `${currentUser.firstName} ${currentUser.lastName}`
 
   const { data: surveyDetail = {}, refetch: refetchSurvey } = useQueryWithScope(
     ['survey-detail', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
@@ -33,6 +40,7 @@ export const SurveyDetail = () => {
       onError: handleError,
     }
   )
+  const surveyAuthor = `${surveyDetail?.creator?.firstName} ${surveyDetail?.creator?.lastName}`
 
   const { data: surveyReplies = [], isLoading: isSurveyRepliesLoading } = useQueryWithScope(
     ['survey-replies', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
@@ -41,6 +49,11 @@ export const SurveyDetail = () => {
       onError: handleError,
     }
   )
+  const isButtonVisible =
+    (isLocal && surveyAuthor === loggedUser && surveyDetail?.type === messages.local) ||
+    (isNational && surveyAuthor === loggedUser && surveyDetail?.type === messages.national)
+
+  if (!surveyDetail) return
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -50,8 +63,7 @@ export const SurveyDetail = () => {
           titleLink={paths.survey}
           titleSuffix={surveyDetail.title}
           button={
-            isLocal &&
-            surveyDetail?.isThereZone && (
+            isButtonVisible && (
               <PageHeaderButton
                 label={messages.modify}
                 icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
