@@ -107,6 +107,10 @@ export const initialization = () => {
   '/api/v3/surveys/kpi?scope=referent',
   'surveys/surveys-kpi')
 
+  cy.intercept('*', (req) => {
+    req.destroy();
+  })
+  
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
 }
