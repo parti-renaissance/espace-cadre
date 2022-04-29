@@ -27,7 +27,6 @@ const navigate = () => {
 describe('Surveys', () => {
   beforeEach(() => {
     initialization()
-    navigate()
     mock(
       'GET',
       '/api/v3/surveys?*&type=national&*',
@@ -46,6 +45,7 @@ describe('Surveys', () => {
     mock('GET', 
     '/api/v3/surveys/kpi?scope=referent',
     'surveys/surveys-kpi')
+    navigate()
   })
 
   describe('The header', () => {

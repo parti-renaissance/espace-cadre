@@ -36,12 +36,15 @@ const navigate = () => {
 describe('Surveys - Create Edit', () => {
   beforeEach(() => {
     initialization()
-    navigate()
     mock(
       'GET',
       '/api/v3/surveys?*',
       'surveys/surveys'
     )
+    mock('GET', 
+    '/api/v3/surveys/kpi?scope=referent',
+    'surveys/surveys-kpi')
+    navigate()
   })
 
   describe('The modal', () => {
