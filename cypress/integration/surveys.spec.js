@@ -29,16 +29,6 @@ describe('Surveys', () => {
     initialization()
     mock(
       'GET',
-      '/api/v3/surveys?*&type=national&*',
-      'surveys/national-surveys'
-    )
-    mock(
-      'GET',
-      '/api/v3/surveys?*&type=local&*',
-      'surveys/local-surveys'
-    )
-    mock(
-      'GET',
       '/api/v3/surveys?*',
       'surveys/surveys'
     )
