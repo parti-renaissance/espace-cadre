@@ -1,8 +1,17 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 describe('Activists', () => {
   beforeEach(() => {
     initialization()
+    mock(
+      'GET',
+      '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
+      'messagerie/messages'
+    )
+    mock('GET', '/api/v3/adherents/columns?scope=referent', 'activists/columns')
+    mock('GET', '/api/v3/adherents?page=1&scope=referent', 'activists/activists')
+    mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'activists/filters')
   })
 
   it('loads "activists" page successfully', () => {

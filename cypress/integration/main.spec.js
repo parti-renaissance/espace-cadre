@@ -15,25 +15,9 @@ export const initialization = () => {
   mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'scope/phoning_national_manager')
   mock('GET', '/api/v3/profile/me/scope/pap_national_manager', 'scope/pap_national_manager')
 
-  mock('GET', '/api/v3/internal/*/adherents?scope=*', 'internal/adherents')
-  mock('GET', '/api/v3/internal/*/jemengage/downloads?scope=*', 'internal/downloads')
-  mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
-  mock('GET', '/api/v3/internal/*/jemengage/survey?scope=*', 'internal/survey')
-  mock('GET', '/api/v3/internal/*/jemengage/users?scope=*', 'internal/users')
-  mock(
-    'GET',
-    '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
-    'messagerie/messages'
-  )
-  mock('GET', '/api/v3/adherents/columns?scope=referent', 'activists/columns')
-  mock('GET', '/api/v3/adherents?page=1&scope=referent', 'activists/activists')
-  mock('GET', '/api/v3/adherents/filters?feature=contacts&scope=referent', 'activists/filters')
-  mock('GET', '/api/v3/teams?*', 'groups/groups')
-  mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'groups/1')
-  mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
-  mock('GET', '/api/v3/ripostes?order[created_at]=desc&page=1&page_size=20&scope=national', 'ripostes/ripostes')
-
-  mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
+  // mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'groups/1')
+  // mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
+  // mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
 
 
   cy.visit('/auth?code=fake_authorization_code')

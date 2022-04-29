@@ -1,8 +1,10 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 describe('Groups', () => {
   beforeEach(() => {
     initialization()
+    mock('GET', '/api/v3/teams?*', 'groups/groups')
   })
 
   it('loads referent groups successfully', () => {
