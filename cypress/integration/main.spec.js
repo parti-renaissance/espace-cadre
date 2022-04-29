@@ -1,6 +1,6 @@
 const apiServer = url => `${Cypress.env('REACT_APP_API_HOST')}${url}`
 const oAuthServer = url => `${Cypress.env('REACT_APP_OAUTH_HOST')}${url}`
-const mock = (method, url, fixture) => cy.intercept(method, apiServer(url), { fixture }).as(fixture)
+export const mock = (method, url, fixture) => cy.intercept(method, apiServer(url), { fixture }).as(fixture)
 export const initialization = () => {
   cy.intercept('POST', /sentry/g, {
     statusCode: 201,
@@ -88,24 +88,7 @@ export const initialization = () => {
   mock('GET', '/api/v3/pap_campaigns?order[created_at]=desc&page=1&page_size=20&scope=pap_national_manager', 'DTD/campaigns')
   mock('GET', '/api/v3/my_teams?scope=referent', 'my-team/my-team')
   mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
-  mock(
-    'GET',
-    '/api/v3/surveys?*&type=national&*',
-    'surveys/national-surveys'
-  )
-  mock(
-    'GET',
-    '/api/v3/surveys?*&type=local&*',
-    'surveys/local-surveys'
-  )
-  mock(
-    'GET',
-    '/api/v3/surveys?*',
-    'surveys/surveys'
-  )
-  mock('GET', 
-  '/api/v3/surveys/kpi?scope=referent',
-  'surveys/surveys-kpi')
+
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')

@@ -1,4 +1,5 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 const Typography = '.MuiTypography-root'
 const PageHeaderButton = '[data-cy="ui-page-header-button"]'
@@ -36,6 +37,11 @@ describe('Surveys - Create Edit', () => {
   beforeEach(() => {
     initialization()
     navigate()
+    mock(
+      'GET',
+      '/api/v3/surveys?*',
+      'surveys/surveys'
+    )
   })
 
   describe('The modal', () => {

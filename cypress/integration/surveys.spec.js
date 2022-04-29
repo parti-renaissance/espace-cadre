@@ -1,4 +1,5 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 const UICard = '[data-cy="ui-card"]'
 const KPICard = '[data-cy="KPICard"]'
@@ -27,6 +28,24 @@ describe('Surveys', () => {
   beforeEach(() => {
     initialization()
     navigate()
+    mock(
+      'GET',
+      '/api/v3/surveys?*&type=national&*',
+      'surveys/national-surveys'
+    )
+    mock(
+      'GET',
+      '/api/v3/surveys?*&type=local&*',
+      'surveys/local-surveys'
+    )
+    mock(
+      'GET',
+      '/api/v3/surveys?*',
+      'surveys/surveys'
+    )
+    mock('GET', 
+    '/api/v3/surveys/kpi?scope=referent',
+    'surveys/surveys-kpi')
   })
 
   describe('The header', () => {
