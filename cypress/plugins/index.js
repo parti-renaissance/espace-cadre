@@ -1,6 +1,13 @@
-const injectDevServer = require('@cypress/react/plugins/load-webpack')
+const path = require('path')
+const { startDevServer } = require('@cypress/vite-dev-server')
 
-module.exports = (on, config) => {
-  injectDevServer(on, config)
-  return config
+module.exports = on => {
+  on('dev-server:start', options =>
+    startDevServer({
+      options,
+      viteConfig: {
+        configFile: path.resolve(__dirname, '..', '..', 'vite.config.js'),
+      },
+    })
+  )
 }

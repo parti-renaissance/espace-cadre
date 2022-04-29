@@ -72,7 +72,7 @@
     "@babel/preset-env": "7.16.11",
     "@babel/preset-react": "7.16.7",
     "@cypress/react": "5.12.4",
-    "@cypress/webpack-dev-server": "1.8.4",
+    "@cypress/vite-dev-server": "2.2.2",
     "@faker-js/faker": "6.2.0",
     "@sentry/webpack-plugin": "1.18.9",
     "@testing-library/dom": "8.13.0",

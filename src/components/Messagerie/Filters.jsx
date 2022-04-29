@@ -10,11 +10,13 @@ import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
 import ModalComponent from './Component/ModalComponent'
 import {
+  createSegmentAudience as createSegmentAudienceApi,
+  updateSegmentAudience as updateSegmentAudienceApi,
   messageSynchronizationStatus as messageSynchronizationStatusApi,
-  getMessage as getMessageApi,
-  updateMessageFilter as updateMessageFilterApi,
+  getSegmentAudience as getSegmentAudienceApi,
   sendMessage as sendMessageApi,
   sendTestMessage as sendTestMessageApi,
+  setMessageSegment as setMessageSegmentApi,
 } from 'api/messagerie'
 import { paths as messageriePaths } from './shared/paths'
 import paths from 'shared/paths'
@@ -87,6 +89,7 @@ const Filters = () => {
   const { messageUuid } = useParams()
   const navigate = useNavigate()
   const [currentScope] = useUserScope()
+  const [audienceId, setAudienceId] = useState(null)
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
   const [resetFilter, setResetFilter] = useState(0)
@@ -101,15 +104,21 @@ const Filters = () => {
     onError: handleError,
   })
 
-  const [loadingMessageStatus, message, getMessage] = useRetry(getMessageApi, retryInterval, maxAttempts, null, () => {
-    Sentry.addBreadcrumb({
-      category: 'messages',
-      message: `${messages.errorFilter} id=${messageUuid}`,
-      level: Sentry.Severity.Critical,
-    })
-    Sentry.captureMessage(messages.errorFilter)
-    enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorFilter)
-  })
+  const [loadingSegment, audienceSegment, getSegmentAudience] = useRetry(
+    getSegmentAudienceApi,
+    retryInterval,
+    maxAttempts,
+    null,
+    () => {
+      Sentry.addBreadcrumb({
+        category: 'messages',
+        message: `${messages.errorFilter} id=${messageUuid}`,
+        level: Sentry.Severity.Critical,
+      })
+      Sentry.captureMessage(messages.errorFilter)
+      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorFilter)
+    }
+  )
 
   const [loadingSendButton, , sendMessageIfFiltersAreSaved] = useRetry(
     messageSynchronizationStatusApi,
@@ -127,8 +136,17 @@ const Filters = () => {
     }
   )
 
-  const { mutate: updateMessageFilter } = useMutation(updateMessageFilterApi, {
-    onSuccess: () => getMessage(messageUuid),
+  const { mutate: updateSegmentAudience } = useMutation(updateSegmentAudienceApi, {
+    onSuccess: () => {
+      getSegmentAudience(audienceId)
+    },
+    onError: handleError,
+  })
+  const { mutate: createSegmentAudience } = useMutation(createSegmentAudienceApi, {
+    onSuccess: audience => {
+      setAudienceId(audience.uuid)
+      getSegmentAudience(audience.uuid)
+    },
     onError: handleError,
   })
 
@@ -136,16 +154,21 @@ const Filters = () => {
 
   const handleFiltersSubmit = useCallback(
     async filtersToSend => {
-      await updateMessageFilter({
-        id: messageUuid,
-        data: {
+      const filterObject = {
+        filter: {
           ...filtersToSend,
           scope: currentScope.delegated_access?.type || currentScope.code,
           zone: filtersToSend.zone.uuid,
         },
-      })
+      }
+
+      if (audienceId) {
+        await updateSegmentAudience({ id: audienceId, ...filterObject })
+      } else {
+        await createSegmentAudience(filterObject)
+      }
     },
-    [messageUuid, updateMessageFilter, currentScope]
+    [audienceId, createSegmentAudience, currentScope, updateSegmentAudience]
   )
 
   useEffect(() => {
@@ -166,6 +189,7 @@ const Filters = () => {
         setLoadingTestButton(false)
       }
     } else {
+      await setMessageSegmentApi(messageUuid, audienceId)
       sendMessageIfFiltersAreSaved(messageUuid)
     }
   }
@@ -204,14 +228,14 @@ const Filters = () => {
           </Grid>
           <Grid container>
             <Grid item xs={12}>
-              {message && (
+              {audienceSegment && (
                 <AudienceCount>
                   {messages.addresseesCount}&nbsp;
-                  <AddresseesCount>{message.recipient_count || 0} </AddresseesCount>
-                  {pluralize(message.recipient_count, messages.contact)}
+                  <AddresseesCount>{audienceSegment.recipient_count || 0} </AddresseesCount>
+                  {pluralize(audienceSegment.recipient_count, messages.contact)}
                 </AudienceCount>
               )}
-              {loadingMessageStatus && <Loader />}
+              {loadingSegment && <Loader />}
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -223,7 +247,10 @@ const Filters = () => {
                 handleSendEmail(true)
               }}
               disabled={
-                !message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton
+                !audienceSegment?.synchronized ||
+                audienceSegment?.recipient_count < 1 ||
+                loadingSendButton ||
+                loadingTestButton
               }
             >
               {loadingTestButton ? <Loader /> : messages.testMessage}
@@ -234,7 +261,10 @@ const Filters = () => {
               variant="outlined"
               size="medium"
               disabled={
-                !message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton
+                !audienceSegment?.synchronized ||
+                audienceSegment?.recipient_count < 1 ||
+                loadingSendButton ||
+                loadingTestButton
               }
               onClick={() => setOpen(true)}
             >
@@ -243,7 +273,7 @@ const Filters = () => {
             {open && (
               <ModalComponent
                 open={open}
-                recipientCount={message?.recipient_count || 0}
+                recipientCount={audienceSegment?.recipient_count || 0}
                 handleClose={() => setOpen(false)}
                 handleSendEmail={handleSendEmail}
               />
