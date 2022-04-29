@@ -86,7 +86,7 @@ const Header = ({ event, categoryNameByCategoryId }) => (
         {event.attendees}
       </AttendeesIcon>
     </HorizontalContainer>
-    <Title subject={event.name} author={`Par ${event.organizer}`} lines={2} sx={{ pt: 1 }} />
+    <Title subject={event.name} author={`Par ${event.organizer}`} dateTime={event.createdAt} lines={2} sx={{ pt: 1 }} />
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <CalendarTodayIcon />
       <LabelTypography variant="subtitle2">{format(event.beginAt, 'd MMM yyyy HH:mm', { locale: fr })}</LabelTypography>
