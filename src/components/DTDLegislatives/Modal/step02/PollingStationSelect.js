@@ -64,7 +64,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
-  const { pollingStationCode, setPollingStationCode } = useContext(MapContext)
+  const { pollingStationSelection, setPollingStationSelection } = useContext(MapContext)
 
   const { data: pollingStations = [] } = useQueryWithScope(
     ['polling-stations', { feature: 'DTD', view: 'PollingStations' }],
@@ -83,21 +83,32 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     onError: handleError,
   })
 
+  const handleSelectAllMap = () => {
+    const selected = []
+    pollingStations.forEach(element => {
+      selected.push(element.code)
+    })
+    setPollingStationSelection({ codeList: selected, trigger: 'list' })
+  }
+
   const handleSelectAll = checked => {
     if (checked) {
       setIsCheck(pollingStations)
     } else {
       setIsCheck([])
     }
+    handleSelectAllMap()
   }
 
   const handleSelectOne = (e, station) => {
     if (e.target.checked) {
       station.isChecked = true
       setIsCheck([...isCheck, station])
+      setPollingStationSelection({ code: station.code, trigger: 'list' })
     } else {
       station.isChecked = false
       setIsCheck(isCheck.filter(item => item.id !== station.id))
+      setPollingStationSelection({ code: station.code, trigger: 'list' })
     }
   }
 
@@ -111,19 +122,22 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
 
   const mergePollingStations = () => {
     const mergedSelection = []
+    const mergedSelectionMap = []
     pollingStations.forEach(element => {
       selected.forEach(item => {
         if (item.id === element.id) {
           element.isChecked = true
           mergedSelection.push(element)
+          mergedSelectionMap.push(element.code)
         }
       })
     })
     setIsCheck(mergedSelection)
+    setPollingStationSelection({ codeList: mergedSelectionMap, trigger: 'list' })
   }
 
   const handleMapSelectOne = () => {
-    const station = pollingStations.filter(item => item.code === pollingStationCode)[0]
+    const station = pollingStations.filter(item => item.code === pollingStationSelection.code)[0]
     if (!station) return
     if (!station.isChecked) {
       station.isChecked = true
@@ -132,7 +146,7 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
       station.isChecked = false
       setIsCheck(isCheck.filter(item => item.id !== station.id))
     }
-    setPollingStationCode(null)
+    setPollingStationSelection(null)
   }
 
   const moveItemsToTheTop = (a, b) => Number(b.isChecked) - Number(a.isChecked)
@@ -158,10 +172,10 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   }, [selected])
 
   useEffect(() => {
-    if (pollingStationCode && pollingStations.length > 0) {
+    if (pollingStationSelection && pollingStationSelection.trigger === 'map' && pollingStations.length > 0) {
       handleMapSelectOne()
     }
-  }, [pollingStationCode])
+  }, [pollingStationSelection])
 
   if (!pollingStations.length > 0 || !campaignId)
     return (
