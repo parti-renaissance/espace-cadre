@@ -1,11 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect, useState, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
-import mapboxgl from 'mapbox-gl'
+import mapboxgl from '!mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
+import { lineString, bbox } from '@turf/turf'
+import { flattenDeep } from 'lodash'
 import { LayersCodes } from 'components/Map/Layers'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { zoneTypes } from 'domain/zone'
 import MapContext from './MapContext'
+import { useUserScope } from '../../redux/user/hooks'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -16,13 +21,13 @@ const Container = styled(Grid)`
 function Map({ currentStep }) {
   const mapContainer = useRef(null)
   const map = useRef(null)
-  const [lng, setLng] = useState(2.8319)
-  const [lat, setLat] = useState(46.9145)
-  const [zoom, setZoom] = useState(5)
   const [mapLoaded, setMapLoaded] = useState(false)
   const [currentPoint, setCurrentPoint] = useState()
   const [pollingStation, setPollingStation] = useState(null)
-  const { setPollingStationCode } = useContext(MapContext)
+  const { setPollingStationSelection, pollingStationSelection } = useContext(MapContext)
+  const [userScope] = useUserScope()
+  const { handleError } = useErrorHandler()
+  const userZones = userScope.zones
 
   const shouldShowMapInfobar = currentStep === 1 || pollingStation
 
@@ -35,6 +40,19 @@ function Map({ currentStep }) {
     const properties = mapBoxProps[0].properties
     const coordinates = mapBoxProps[0].geometry.coordinates
     return { properties, coordinates }
+  }
+
+  const getCoordinates = code => {
+    const renderedFeatures = map.current.queryRenderedFeatures(null, {
+      layers: [LayersCodes.pollingStationLegislatives],
+    })
+    let coordinates = []
+    renderedFeatures.forEach(element => {
+      if (element.properties.CODE === code) {
+        coordinates = element.geometry.coordinates
+      }
+    })
+    return coordinates
   }
 
   const highlightSelectedPolygon = (coordinates, id) => {
@@ -85,24 +103,37 @@ function Map({ currentStep }) {
     address: 'Adresse',
   }
 
+  const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
+  const codesRegion = userZones.filter(z => z.type === zoneTypes.REGION).map(z => z.code)
+  const codesDistrict = userZones.filter(z => z.type === zoneTypes.DISTRICT).map(z => z.code)
+  const codesCountry = userZones.filter(z => z.type === zoneTypes.COUNTRY).map(z => z.code)
+
   useEffect(() => {
     if (map.current) return
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: process.env.REACT_APP_MAPBOX_STYLE,
-      center: [lng, lat],
-      zoom: zoom,
+      minZoom: 4,
     })
   })
 
   useEffect(() => {
     if (!map.current) return
-    map.current.on('move', () => {
-      setLng(map.current.getCenter().lng.toFixed(4))
-      setLat(map.current.getCenter().lat.toFixed(4))
-      setZoom(map.current.getZoom().toFixed(2))
-    })
     map.current.getCanvas().style.cursor = 'pointer'
+    map.current.on('data', () => {
+      const renderedFeatures = map.current.queryRenderedFeatures({
+        layers: [LayersCodes.pollingStationLegislatives],
+      })
+
+      if (renderedFeatures.length && map.current.getZoom() < 6) {
+        try {
+          const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
+          map.current.fitBounds(bbox(line), { padding: 140 })
+        } catch (e) {
+          handleError(e)
+        }
+      }
+    })
     map.current.on('load', () => setMapLoaded(true))
     map.current.on('click', handleCurrentPoint)
   }, [map, handleCurrentPoint])
@@ -110,6 +141,13 @@ function Map({ currentStep }) {
   useEffect(() => {
     if (!mapLoaded) return
     map.current.setLayoutProperty(LayersCodes.pollingStationLegislatives, 'visibility', 'visible')
+    map.current.setFilter(LayersCodes.pollingStationLegislatives, [
+      'any',
+      ['in', 'CODE_REGION', ...codesRegion],
+      ['in', 'CODE_DEPARTMENT', ...codesDepartement],
+      ['in', 'CODE_DISTRICT', ...codesDistrict],
+      ['in', 'CODE_COUNTRY', ...codesCountry],
+    ])
     map.current.setPaintProperty(LayersCodes.pollingStationLegislatives, 'fill-color', [
       'coalesce',
       ['get', 'COLOR'],
@@ -130,8 +168,22 @@ function Map({ currentStep }) {
     if (CODE && ADDRESS) setPollingStation({ CODE, ADDRESS })
     const currentPolygonCoordinates = getMapBoxProperties(mapBoxProps).coordinates
     highlightSelectedPolygon(currentPolygonCoordinates, CODE)
-    setPollingStationCode(CODE)
+    setPollingStationSelection({ code: CODE, trigger: 'map' })
   }, [mapLoaded, currentPoint, map, currentStep])
+
+  useEffect(() => {
+    if (pollingStationSelection && pollingStationSelection.trigger === 'list') {
+      if (pollingStationSelection.codeList && pollingStationSelection.codeList.length > 0) {
+        pollingStationSelection.codeList.forEach(code => {
+          const currentPolygonCoordinates = getCoordinates(code)
+          highlightSelectedPolygon(currentPolygonCoordinates, code)
+        })
+      } else {
+        const currentPolygonCoordinates = getCoordinates(pollingStationSelection.code)
+        highlightSelectedPolygon(currentPolygonCoordinates, pollingStationSelection.code)
+      }
+    }
+  }, [pollingStationSelection])
 
   return (
     <Container ref={mapContainer} className="map-container">

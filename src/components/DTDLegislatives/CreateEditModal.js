@@ -51,8 +51,8 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
   const [creationModeId, setCreationModeId] = useState()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
-  const [pollingStationCode, setPollingStationCode] = useState(null)
-  const value = { pollingStationCode, setPollingStationCode }
+  const [pollingStationSelection, setPollingStationSelection] = useState(null)
+  const value = { pollingStationSelection, setPollingStationSelection }
 
   const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
     !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
