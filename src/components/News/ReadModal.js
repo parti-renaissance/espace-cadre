@@ -129,10 +129,9 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <PersonIcon sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
         <Author>{news?.creator}</Author>
         <AccessTimeIcon sx={{ mr: 0.5, ml: 2, color: 'gray600', fontSize: '12px' }} />
-        <DateItem>{`Le ${format(news?.createdAt || new Date(), 'dd/MM/yyyy')} à ${format(
-          news?.createdAt || new Date(),
-          'HH:mm'
-        )}`}</DateItem>
+        <DateItem>
+          {news?.createdAt && `Le ${format(news.createdAt, 'dd/MM/yyyy')} à ${format(news.createdAt, 'HH:mm')}`}
+        </DateItem>
       </UserTimeContainer>
       <ReactMarkdown>{news?.body}</ReactMarkdown>
       <Grid>
