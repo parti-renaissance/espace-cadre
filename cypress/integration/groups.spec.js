@@ -1,16 +1,22 @@
 import { initialization } from './main.spec'
 import { mock } from './main.spec'
 
+const navigate = () => {
+  cy.contains('Référent').click()
+  cy.contains('a', 'Groupes').click()
+  cy.url().should('eq', 'http://localhost:3000/groupes')
+}
+
+
 describe('Groups', () => {
   beforeEach(() => {
     initialization()
     mock('GET', '/api/v3/teams?*', 'groups/groups')
+    mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'groups/1')
+    navigate()
   })
 
   it('loads referent groups successfully', () => {
-    cy.contains('Référent').click()
-    cy.contains('Groupes').click()
-
     cy.contains('Group1')
     cy.contains('1 militant')
     cy.contains('Group2')
