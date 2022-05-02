@@ -30,9 +30,9 @@ const useRetry = (f, duration, maxAttempts, onSuccess, onError) => {
       interval.current = setInterval(async () => {
         const result = await f(...args)
         if (result?.synchronized) {
+          clear()
           setData(result)
           onSuccess?.call()
-          clear()
         }
         iteration.current += 1
         if (iteration.current >= maxAttempts) {
