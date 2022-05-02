@@ -1,4 +1,5 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 const HeaderButton = '[data-cy="ui-page-header-button"]'
 const KPI = '[data-cy="KPI"]'
@@ -19,6 +20,12 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
   describe('Messagerie homepage ', () => {
     beforeEach(() => {
       initialization()
+      mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
+      mock(
+        'GET',
+        '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
+        'messagerie/messages'
+      )
       navigate()
     })
 
@@ -121,6 +128,12 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
   describe('Email editor page', () => {
     beforeEach(() => {
       initialization()
+      mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
+      mock(
+        'GET',
+        '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
+        'messagerie/messages'
+      )
       navigate()
       cy.contains('Envoyer un email').click()
       cy.url().should('eq', 'http://localhost:3000/messagerie/creer')

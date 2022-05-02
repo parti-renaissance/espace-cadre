@@ -1,4 +1,5 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 const Chip = '.MuiChip-root'
 const KPI = '[data-cy="KPI"]'
@@ -23,6 +24,8 @@ const navigate = () => {
 describe('DTD', () => {
   beforeEach(() => {
     initialization()
+    mock('GET', '/api/v3/pap_campaigns/kpi?scope=pap_national_manager', 'DTD/KPI')
+    mock('GET', '/api/v3/pap_campaigns?order[created_at]=desc&page=1&page_size=20&scope=pap_national_manager', 'DTD/campaigns')
     navigate()
   })
 

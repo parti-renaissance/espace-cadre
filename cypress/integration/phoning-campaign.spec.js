@@ -1,4 +1,5 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 const UICard = '[data-cy="ui-card"]'
 const Typography = '.MuiTypography-root'
@@ -25,6 +26,33 @@ const navigate = () => {
 describe('PHONING > Campaign Detail', () => {
   beforeEach(() => {
     initialization()
+    mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
+    mock('GET', '/api/v3/teams?*', 'groups/groups')
+    mock(
+      'GET',
+      '/api/v3/phoning_campaigns?order[created_at]=desc&page=1&page_size=20&visibility=national&scope=phoning_national_manager',
+      'phoning/campaigns'
+    )
+    mock(
+      'GET',
+      '/api/v3/phoning_campaigns/11111111-1111-1111-1111-111111111111?scope=phoning_national_manager',
+      'phoning/campaignDetail/campaignDetail'
+    )
+    mock(
+      'GET',
+      '/api/v3/phoning_campaigns/11111111-1111-1111-1111-111111111111/callers?scope=phoning_national_manager',
+      'phoning/campaignDetail/callers'
+    )
+    mock(
+      'GET',
+      '/api/v3/phoning_campaigns/11111111-1111-1111-1111-111111111111/replies?scope=phoning_national_manager',
+      'phoning/campaignDetail/replies'
+    )
+    mock(
+      'GET',
+      '/api/v3/phoning_campaign_histories?campaign.uuid=11111111-1111-1111-1111-111111111111&order[created_at]=desc&page=1&page_size=20&scope=phoning_national_manager',
+      'phoning/campaignDetail/histories'
+    )
     navigate()
   })
 

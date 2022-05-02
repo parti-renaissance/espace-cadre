@@ -1,8 +1,10 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 describe('Ripostes', () => {
   beforeEach(() => {
     initialization()
+    mock('GET', '/api/v3/ripostes?order[created_at]=desc&page=1&page_size=20&scope=national', 'ripostes/ripostes')
   })
 
   it('loads national ripostes', () => {

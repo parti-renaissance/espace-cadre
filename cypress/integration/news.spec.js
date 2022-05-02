@@ -1,15 +1,21 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
+
+const navigate = () => {
+  cy.contains('Référent').click()
+  cy.contains('Actualités').click()
+  cy.url().should('eq', 'http://localhost:3000/actualites')
+}
 
 describe('News', () => {
   beforeEach(() => {
     initialization()
+    mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
+    navigate()
   })
 
   it('loads referent news successfully', () => {
     const newsReadOnlyModalSelector = 'div[data-testid="news-read-only-modal"]'
-
-    cy.contains('Référent').click()
-    cy.contains('Actualités').click()
 
     cy.contains('Titre 1')
     cy.contains('M Creator 1')

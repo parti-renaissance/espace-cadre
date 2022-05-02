@@ -1,4 +1,5 @@
 import { initialization } from './main.spec'
+import { mock } from './main.spec'
 
 const UICard = '[data-cy="ui-card"]'
 const KPICard = '[data-cy="KPICard"]'
@@ -26,6 +27,14 @@ const navigate = () => {
 describe('Surveys', () => {
   beforeEach(() => {
     initialization()
+    mock(
+      'GET',
+      '/api/v3/surveys?*',
+      'surveys/surveys'
+    )
+    mock('GET', 
+    '/api/v3/surveys/kpi?scope=referent',
+    'surveys/surveys-kpi')
     navigate()
   })
 
