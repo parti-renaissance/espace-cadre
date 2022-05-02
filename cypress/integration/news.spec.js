@@ -17,9 +17,6 @@ describe('News', () => {
   it('loads referent news successfully', () => {
     const newsReadOnlyModalSelector = 'div[data-testid="news-read-only-modal"]'
 
-    cy.contains('Référent').click()
-    cy.contains('Actualités').click()
-
     cy.contains('Titre 1')
     cy.contains('M Creator 1')
     cy.contains('15/10/2020')
