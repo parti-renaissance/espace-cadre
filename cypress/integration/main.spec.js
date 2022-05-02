@@ -21,10 +21,6 @@ export const initialization = () => {
   mock('GET', '/api/v3/internal/*/jemengage/survey?scope=*', 'internal/survey')
   mock('GET', '/api/v3/internal/*/jemengage/users?scope=*', 'internal/users')
 
-  // mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
-  // mock('GET', '/api/v3/adherents/autocomplete?q=e&scope=referent', 'my-team/activist')
-
-
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
 }
