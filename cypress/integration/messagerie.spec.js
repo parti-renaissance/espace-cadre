@@ -29,100 +29,100 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
       navigate()
     })
 
-  //   describe('The header', () => {
-  //     it('should have a page title', () => {
-  //       cy.contains('Indicateurs')
-  //     })
-  //     it('should have a button', () => {
-  //       cy.get(HeaderButton).should('have.text','Envoyer un email')
-  //     })
-  //   })
+    describe('The header', () => {
+      it('should have a page title', () => {
+        cy.contains('Indicateurs')
+      })
+      it('should have a button', () => {
+        cy.get(HeaderButton).should('have.text','Envoyer un email')
+      })
+    })
   
-  //   describe('The KPI block', () => {
-  //     it('should contain 2 parts', () => {
-  //       cy.get(KPI).should('exist')
-  //       cy.get(KPI).find('>div').should('have.length', 2)
-  //     })
-  //     it('should have a title', () => {
-  //       cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
-  //     })
-  //     it('should have 4 cards', () => {
-  //       cy.get(KPI).find(KPICard).children().should('have.length', 4)
-  //     })
+    describe('The KPI block', () => {
+      it('should contain 2 parts', () => {
+        cy.get(KPI).should('exist')
+        cy.get(KPI).find('>div').should('have.length', 2)
+      })
+      it('should have a title', () => {
+        cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
+      })
+      it('should have 4 cards', () => {
+        cy.get(KPI).find(KPICard).children().should('have.length', 4)
+      })
 
-  //     describe('The KPI Cards', () => {
-  //       describe('The campaigns Card count', () => {
-  //         it('should contain 3 parts', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).should('have.length', 3)
-  //         })
-  //         it('should show a score, a subtitle and its detail', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).each((element, index) => {
-  //             const content = { score: '100', subtitle: "Campagnes d'e-mails", detail: 'Envoyées ces 30 derniers jours' }
-  //             if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-  //             if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-  //             if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-  //           })
-  //         })
-  //       })
+      describe('The KPI Cards', () => {
+        describe('The campaigns Card count', () => {
+          it('should contain 3 parts', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).should('have.length', 3)
+          })
+          it('should show a score, a subtitle and its detail', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).each((element, index) => {
+              const content = { score: '100', subtitle: "Campagnes d'e-mails", detail: 'Envoyées ces 30 derniers jours' }
+              if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+              if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+              if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            })
+          })
+        })
   
-  //       describe('The opening rate Card', () => {
-  //         it('should contain 3 parts', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
-  //         })
-  //         it('should show a score, a subtitle and its detail', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
-  //             const content = { score: '12.34%', subtitle: "Ouvertures", detail: '43.21% au national' }
-  //             if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-  //             if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-  //             if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-  //           })
-  //         })
-  //       })
+        describe('The opening rate Card', () => {
+          it('should contain 3 parts', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
+          })
+          it('should show a score, a subtitle and its detail', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
+              const content = { score: '12.34%', subtitle: "Ouvertures", detail: '43.21% au national' }
+              if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+              if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+              if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            })
+          })
+        })
   
-  //       describe('The click Card', () => {
-  //         it('should contain 3 parts', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
-  //         })
-  //         it('should show a score, a subtitle and its detail', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).each((element, index) => {
-  //             const content = { score: '42.42%', subtitle: "Clics", detail: '44.44% au national' }
-  //             if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-  //             if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-  //             if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-  //           })
-  //         })
-  //       })
+        describe('The click Card', () => {
+          it('should contain 3 parts', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
+          })
+          it('should show a score, a subtitle and its detail', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).each((element, index) => {
+              const content = { score: '42.42%', subtitle: "Clics", detail: '44.44% au national' }
+              if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+              if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+              if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            })
+          })
+        })
   
-  //       describe('The unsubscribe Card', () => {
-  //         it('should contain 3 parts', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(3).find(Typography).should('have.length', 3)
-  //         })
-  //         it('should show a score, a subtitle and its detail', () => {
-  //           cy.get(KPI).find(KPICard).find('>div').eq(3).find(Typography).each((element, index) => {
-  //             const content = { score: '0.11%', subtitle: "Désabonnements", detail: '12.12% au national' }
-  //             if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-  //             if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-  //             if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-  //           })
-  //         })
-  //       })
-  //     })
-  //   })
+        describe('The unsubscribe Card', () => {
+          it('should contain 3 parts', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(3).find(Typography).should('have.length', 3)
+          })
+          it('should show a score, a subtitle and its detail', () => {
+            cy.get(KPI).find(KPICard).find('>div').eq(3).find(Typography).each((element, index) => {
+              const content = { score: '0.11%', subtitle: "Désabonnements", detail: '12.12% au national' }
+              if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+              if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+              if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            })
+          })
+        })
+      })
+    })
 
-  //   describe('The sent campaigns', () => {
-  //     it('should have a title', () => {
-  //       cy.get(Campaigns).find(Typography).first().should('have.text', 'Vos dernières campagnes').and('be.visible')
-  //     })
-  //     it('should have 2 cards', () => {
-  //       cy.get(Campaigns).find(Card).children().should('have.length', 2)
-  //     })
+    describe('The sent campaigns', () => {
+      it('should have a title', () => {
+        cy.get(Campaigns).find(Typography).first().should('have.text', 'Vos dernières campagnes').and('be.visible')
+      })
+      it('should have 2 cards', () => {
+        cy.get(Campaigns).find(Card).children().should('have.length', 2)
+      })
 
-  //     it('should have a card with action buttons', () => {
-  //       cy.get(Card).eq(1).contains('sujet 1')
-  //       cy.get(Card).eq(1).contains('Brouillon')
-  //       cy.get(Card).eq(1).contains('Modifier')
-  //     })
-  //   })
+      it('should have a card with action buttons', () => {
+        cy.get(Card).eq(1).contains('sujet 1')
+        cy.get(Card).eq(1).contains('Brouillon')
+        cy.get(Card).eq(1).contains('Modifier')
+      })
+    })
   })
 
   describe('Email editor page', () => {

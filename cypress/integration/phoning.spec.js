@@ -26,6 +26,7 @@ const navigate = () => {
 describe('Phoning', () => {
   beforeEach(() => {
     initialization()
+    mock('GET', '/api/v3/teams?*', 'groups/groups')
     mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
     mock(
       'GET',
