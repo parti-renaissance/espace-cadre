@@ -68,7 +68,7 @@ const Send = styled(Button)(
 `
 )
 
-const retryInterval = 1000
+const retryInterval = 2000
 const maxAttempts = 10
 
 const messages = {
