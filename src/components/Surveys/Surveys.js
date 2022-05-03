@@ -72,7 +72,7 @@ const Surveys = () => {
     refetch: refetchNationalSurveys,
   } = useInfiniteQueryWithScope(
     ['paginated-national-surveys', { feature: 'Surveys', view: 'Surveys' }],
-    pageParams => getSurveysQuery({ pageParams }, visibility.national),
+    pageParams => getSurveysQuery(pageParams, visibility.national),
     {
       getNextPageParam,
       onError: handleError,
@@ -86,20 +86,21 @@ const Surveys = () => {
     refetch: refetchLocalSurveys,
   } = useInfiniteQueryWithScope(
     ['paginated-local-surveys', { feature: 'Surveys', view: 'Surveys' }],
-    pageParams => getSurveysQuery({ pageParams }, visibility.local),
+    pageParams => getSurveysQuery(pageParams, visibility.local),
     {
       getNextPageParam,
       onError: handleError,
     }
   )
 
-  const nationalSurveys = usePaginatedData(paginatedNationalSurveys)
   const localSurveys = usePaginatedData(paginatedLocalSurveys)
+  const nationalSurveys = usePaginatedData(paginatedNationalSurveys)
 
   const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
-    onSuccess: ({ published: isPublished }) => {
+    onSuccess: async ({ published: isPublished }) => {
       enqueueSnackbar(isPublished ? messages.publishSuccess : messages.unpublishSuccess, notifyVariants.success)
-      refetchNationalSurveys() && refetchLocalSurveys()
+      await refetchLocalSurveys()
+      await refetchNationalSurveys()
     },
     onError: handleError,
   })
