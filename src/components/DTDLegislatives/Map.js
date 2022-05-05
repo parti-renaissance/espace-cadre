@@ -1,116 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRef, useEffect, useState, useCallback, useContext } from 'react'
+import { useRef, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import mapboxgl from '!mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
 import { lineString, bbox } from '@turf/turf'
-import { flattenDeep, flatten } from 'lodash'
-import { LayersCodes } from 'components/Map/Layers'
-import { useErrorHandler } from 'components/shared/error/hooks'
+import { flattenDeep } from 'lodash'
 import { zoneTypes } from 'domain/zone'
 import MapContext from './MapContext'
 import { useUserScope } from '../../redux/user/hooks'
+import { uniqWith } from 'lodash/array'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 
 const Container = styled(Grid)`
   border-radius: 12px;
 `
-const featuresFilter = (codesRegion, codesDepartement, codesDistrict, codesCountry) => {
-  return [
-    'any',
-    ['in', 'CODE_REGION', ...codesRegion],
-    ['in', 'CODE_DEPARTMENT', ...codesDepartement],
-    ['in', 'CODE_DISTRICT', ...codesDistrict],
-    ['in', 'CODE_COUNTRY', ...codesCountry],
-  ]
+const featuresFilter = (codesRegion, codesDepartement, codesDistrict, codesCountry) => [
+  'any',
+  ['in', 'CODE_REGION', ...codesRegion],
+  ['in', 'CODE_DEPARTMENT', ...codesDepartement],
+  ['in', 'CODE_DISTRICT', ...codesDistrict],
+  ['in', 'CODE_COUNTRY', ...codesCountry],
+]
+
+const SOURCE_ID = 'voting-places'
+const SOURCE_LAYER = 'ciblage_legislatives'
+const MAIN_LAYER_ID = 'main-layer'
+const LINE_LAYER_ID = 'line-layer'
+
+const messages = {
+  warning: "Cette carte n'est pas cliquable. Elle le sera à l'étape suivante.",
+  title: 'Bureaux de vote',
+  address: 'Adresse',
 }
 
 function Map({ currentStep }) {
   const mapContainer = useRef(null)
   const map = useRef(null)
-  const [mapLoaded, setMapLoaded] = useState(false)
-  const [currentPoint, setCurrentPoint] = useState()
-  const [pollingStation, setPollingStation] = useState(null)
   const { setPollingStationSelection, pollingStationSelection } = useContext(MapContext)
   const [userScope] = useUserScope()
-  const { handleError } = useErrorHandler()
   const userZones = userScope.zones
-
-  const shouldShowMapInfobar = currentStep === 1 || pollingStation
-
-  const handleCurrentPoint = useCallback(({ point, lngLat }) => {
-    if (!point || !lngLat) return
-    setCurrentPoint({ point, lngLat })
-  }, [])
-
-  const getMapBoxProperties = mapBoxProps => {
-    const properties = mapBoxProps[0].properties
-    const coordinates = mapBoxProps[0].geometry.coordinates
-    return { properties, coordinates }
-  }
-
-  const getCoordinates = code => {
-    const renderedFeatures = map.current.queryRenderedFeatures(null, {
-      layers: [LayersCodes.pollingStationLegislatives],
-    })
-    let coordinates = []
-    renderedFeatures.forEach(element => {
-      if (element.properties.CODE === code) {
-        coordinates = element.geometry.coordinates
-      }
-    })
-    return coordinates
-  }
-
-  const highlightSelectedPolygon = (coordinates, id) => {
-    const selection = map.current.getSource(id)
-    if (selection) {
-      map.current.removeLayer(`${id}_outline`)
-      map.current.removeLayer(id)
-      map.current.removeSource(id)
-      return
-    }
-    map.current.addSource(id, {
-      type: 'geojson',
-      data: {
-        type: 'Feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates,
-        },
-      },
-    })
-
-    map.current.addLayer({
-      id,
-      type: 'fill',
-      source: id,
-      layout: {},
-      paint: {
-        'fill-color': '#0080ff',
-        'fill-opacity': 0.5,
-      },
-    })
-
-    map.current.addLayer({
-      id: `${id}_outline`,
-      type: 'line',
-      source: id,
-      layout: {},
-      paint: {
-        'line-color': '#000',
-        'line-width': 3,
-      },
-    })
-  }
-
-  const messages = {
-    warning: "Cette carte n'est pas cliquable. Elle le sera à l'étape suivante.",
-    title: 'Bureaux de vote',
-    address: 'Adresse',
-  }
 
   const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
   const codesRegion = userZones.filter(z => z.type === zoneTypes.REGION).map(z => z.code)
@@ -119,105 +49,118 @@ function Map({ currentStep }) {
 
   const codes = [codesRegion, codesDepartement, codesDistrict, codesCountry]
 
+  const handleMapClick = e => {
+    if (currentStep === 1) {
+      return
+    }
+    const features = map.current.queryRenderedFeatures(e.point, { layers: [MAIN_LAYER_ID] })
+
+    if (features.length) {
+      const code = features[0].properties.CODE
+
+      if (pollingStationSelection.includes(code)) {
+        setPollingStationSelection(pollingStationSelection.filter(item => item !== code))
+      } else {
+        setPollingStationSelection([...pollingStationSelection, code])
+      }
+    }
+  }
+
+  const handleMapClickRef = useRef(handleMapClick)
+  handleMapClickRef.current = handleMapClick
+
   useEffect(() => {
-    if (map.current) return
+    if (map.current) {
+      return
+    }
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: process.env.REACT_APP_MAPBOX_STYLE,
       minZoom: 4,
     })
-  })
 
-  useEffect(() => {
-    if (!map.current) return
     map.current.getCanvas().style.cursor = 'pointer'
 
-    map.current.on('style.load', () => {
+    map.current.on('load', () => {
+      map.current.addSource(SOURCE_ID, {
+        type: 'vector',
+        url: 'mapbox://larem.dp5yhkm6',
+      })
+
       map.current.addLayer({
-        id: 'my-data',
-        source: {
-          type: 'vector',
-          url: 'mapbox://larem.dp5yhkm6',
-        },
+        id: MAIN_LAYER_ID,
+        source: SOURCE_ID,
+        'source-layer': SOURCE_LAYER,
         filter: featuresFilter(...codes),
-        'source-layer': 'ciblage_legislatives',
         type: 'fill',
+        paint: {
+          'fill-color': ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'],
+        },
+      })
+
+      map.current.addLayer({
+        id: LINE_LAYER_ID,
+        source: SOURCE_ID,
+        'source-layer': SOURCE_LAYER,
+        type: 'line',
+        paint: {
+          'line-color': '#000',
+          'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+          'line-width': 3,
+        },
       })
     })
 
     map.current.on('data', () => {
-      const renderedFeatures = map.current.querySourceFeatures('my-data', {
+      const renderedFeatures = map.current.querySourceFeatures(SOURCE_ID, {
         filter: featuresFilter(...codes),
-        sourceLayer: 'ciblage_legislatives',
+        sourceLayer: SOURCE_LAYER,
+        validate: false,
       })
 
       if (renderedFeatures.length === 0 && map.current.getZoom !== 7) {
         map.current.zoomTo(7, { duration: 100 })
       }
 
-      if (renderedFeatures.length) {
+      if (renderedFeatures.length > 2) {
         const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
         map.current.fitBounds(bbox(line), { padding: 140 })
       }
-
-      // if (renderedFeatures.length && map.current.getZoom() < 6) {
-      //   try {
-      //     const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
-      //     map.current.fitBounds(bbox(line), { padding: 140 })
-      //   } catch (e) {
-      //     handleError(e)
-      //   }
-      // }
     })
-    map.current.on('load', () => setMapLoaded(true))
-    map.current.on('click', handleCurrentPoint)
-  }, [map, handleCurrentPoint])
+
+    map.current.on('click', MAIN_LAYER_ID, e => {
+      handleMapClickRef.current(e)
+    })
+  })
 
   useEffect(() => {
-    if (!mapLoaded) return
-    map.current.setLayoutProperty(LayersCodes.pollingStationLegislatives, 'visibility', 'visible')
-    map.current.setFilter(LayersCodes.pollingStationLegislatives, featuresFilter(...codes))
-    map.current.setPaintProperty('my-data', 'fill-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
-  }, [mapLoaded])
+    const features = uniqWith(
+      map.current.querySourceFeatures(SOURCE_ID, {
+        sourceLayer: SOURCE_LAYER,
+        filter: featuresFilter(...codes),
+        validate: false,
+      }),
+      (a, b) => a.id === b.id
+    )
 
-  // useEffect(() => {
-  //   if (!mapLoaded || !currentPoint) return
-
-  //   const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
-  //     layers: [LayersCodes.pollingStationLegislatives],
-  //   })
-  //   if (!mapBoxProps[0]) return
-  //   if (currentStep === 1) return
-
-  //   const { CODE, ADDRESS } = getMapBoxProperties(mapBoxProps).properties
-  //   if (CODE && ADDRESS) setPollingStation({ CODE, ADDRESS })
-  //   const currentPolygonCoordinates = getMapBoxProperties(mapBoxProps).coordinates
-  //   highlightSelectedPolygon(currentPolygonCoordinates, CODE)
-  //   setPollingStationSelection({ code: CODE, trigger: 'map' })
-  // }, [mapLoaded, currentPoint, map, currentStep])
-
-  useEffect(() => {
-    if (pollingStationSelection && pollingStationSelection.trigger === 'list') {
-      if (pollingStationSelection.codeList && pollingStationSelection.codeList.length > 0) {
-        pollingStationSelection.codeList.forEach(code => {
-          const currentPolygonCoordinates = getCoordinates(code)
-          highlightSelectedPolygon(currentPolygonCoordinates, code)
-        })
-      } else {
-        const currentPolygonCoordinates = getCoordinates(pollingStationSelection.code)
-        highlightSelectedPolygon(currentPolygonCoordinates, pollingStationSelection.code)
-      }
-    }
+    features.forEach(feature => {
+      map.current.setFeatureState(
+        {
+          source: SOURCE_ID,
+          sourceLayer: SOURCE_LAYER,
+          id: feature.id,
+        },
+        { active: pollingStationSelection.includes(feature.properties.CODE) }
+      )
+    })
   }, [pollingStationSelection])
 
   return (
     <Container ref={mapContainer} className="map-container">
-      {shouldShowMapInfobar && (
+      {currentStep === 1 && (
         <div className="infobar">
-          {currentStep === 1 && <span>{messages.warning}</span>}
-          {currentStep === 2 && (
-            <span>{`${messages.title}: ${pollingStation.CODE} | ${messages.address}: ${pollingStation.ADDRESS}`}</span>
-          )}
+          <span>{messages.warning}</span>
         </div>
       )}
     </Container>

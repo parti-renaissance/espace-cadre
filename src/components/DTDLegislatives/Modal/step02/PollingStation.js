@@ -61,13 +61,12 @@ const Count = styled(Typography)(
 )
 
 const PollingStation = ({ station, handleSelectOne, isCheck }) => {
-  const hasBorderColor = isCheck.includes(station)
   const { isMobile } = useCurrentDeviceType()
 
   return (
-    <ListItem hasBorderColor={hasBorderColor} onClick={e => handleSelectOne(e, station)}>
+    <ListItem hasBorderColor={isCheck} onClick={e => handleSelectOne(e, station)}>
       <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Checkbox checked={isCheck.includes(station)} />
+        <Checkbox checked={isCheck} />
       </Grid>
       <SecondaryContainer item isMobile={isMobile}>
         <Place sx={{ ...(isMobile && { mb: 1 }) }}>{station.code}</Place>
@@ -87,7 +86,7 @@ const PollingStation = ({ station, handleSelectOne, isCheck }) => {
 PollingStation.propTypes = {
   station: PropTypes.object,
   handleSelectOne: PropTypes.func,
-  isCheck: PropTypes.array,
+  isCheck: PropTypes.bool,
 }
 
 export default PollingStation

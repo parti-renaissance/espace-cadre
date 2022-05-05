@@ -1,8 +1,5 @@
 import { createContext } from 'react'
 
-const MapContext = createContext({
-  pollingStationSelection: {},
-  setPollingStationSelection: () => {},
-})
+const MapContext = createContext()
 
 export default MapContext
