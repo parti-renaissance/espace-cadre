@@ -5,7 +5,7 @@ import mapboxgl from '!mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
 import { lineString, bbox } from '@turf/turf'
-import { flattenDeep } from 'lodash'
+import { flattenDeep, flatten } from 'lodash'
 import { LayersCodes } from 'components/Map/Layers'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { zoneTypes } from 'domain/zone'
@@ -17,6 +17,15 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 const Container = styled(Grid)`
   border-radius: 12px;
 `
+const featuresFilter = (codesRegion, codesDepartement, codesDistrict, codesCountry) => {
+  return [
+    'any',
+    ['in', 'CODE_REGION', ...codesRegion],
+    ['in', 'CODE_DEPARTMENT', ...codesDepartement],
+    ['in', 'CODE_DISTRICT', ...codesDistrict],
+    ['in', 'CODE_COUNTRY', ...codesCountry],
+  ]
+}
 
 function Map({ currentStep }) {
   const mapContainer = useRef(null)
@@ -108,6 +117,8 @@ function Map({ currentStep }) {
   const codesDistrict = userZones.filter(z => z.type === zoneTypes.DISTRICT).map(z => z.code)
   const codesCountry = userZones.filter(z => z.type === zoneTypes.COUNTRY).map(z => z.code)
 
+  const codes = [codesRegion, codesDepartement, codesDistrict, codesCountry]
+
   useEffect(() => {
     if (map.current) return
     map.current = new mapboxgl.Map({
@@ -120,19 +131,43 @@ function Map({ currentStep }) {
   useEffect(() => {
     if (!map.current) return
     map.current.getCanvas().style.cursor = 'pointer'
+
+    map.current.on('style.load', () => {
+      map.current.addLayer({
+        id: 'my-data',
+        source: {
+          type: 'vector',
+          url: 'mapbox://larem.dp5yhkm6',
+        },
+        filter: featuresFilter(...codes),
+        'source-layer': 'ciblage_legislatives',
+        type: 'fill',
+      })
+    })
+
     map.current.on('data', () => {
-      const renderedFeatures = map.current.queryRenderedFeatures({
-        layers: [LayersCodes.pollingStationLegislatives],
+      const renderedFeatures = map.current.querySourceFeatures('my-data', {
+        filter: featuresFilter(...codes),
+        sourceLayer: 'ciblage_legislatives',
       })
 
-      if (renderedFeatures.length && map.current.getZoom() < 6) {
-        try {
-          const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
-          map.current.fitBounds(bbox(line), { padding: 140 })
-        } catch (e) {
-          handleError(e)
-        }
+      if (renderedFeatures.length === 0 && map.current.getZoom !== 7) {
+        map.current.zoomTo(7, { duration: 100 })
       }
+
+      if (renderedFeatures.length) {
+        const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
+        map.current.fitBounds(bbox(line), { padding: 140 })
+      }
+
+      // if (renderedFeatures.length && map.current.getZoom() < 6) {
+      //   try {
+      //     const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
+      //     map.current.fitBounds(bbox(line), { padding: 140 })
+      //   } catch (e) {
+      //     handleError(e)
+      //   }
+      // }
     })
     map.current.on('load', () => setMapLoaded(true))
     map.current.on('click', handleCurrentPoint)
@@ -141,35 +176,25 @@ function Map({ currentStep }) {
   useEffect(() => {
     if (!mapLoaded) return
     map.current.setLayoutProperty(LayersCodes.pollingStationLegislatives, 'visibility', 'visible')
-    map.current.setFilter(LayersCodes.pollingStationLegislatives, [
-      'any',
-      ['in', 'CODE_REGION', ...codesRegion],
-      ['in', 'CODE_DEPARTMENT', ...codesDepartement],
-      ['in', 'CODE_DISTRICT', ...codesDistrict],
-      ['in', 'CODE_COUNTRY', ...codesCountry],
-    ])
-    map.current.setPaintProperty(LayersCodes.pollingStationLegislatives, 'fill-color', [
-      'coalesce',
-      ['get', 'COLOR'],
-      'rgba(0,0,0,0)',
-    ])
+    map.current.setFilter(LayersCodes.pollingStationLegislatives, featuresFilter(...codes))
+    map.current.setPaintProperty('my-data', 'fill-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [mapLoaded])
 
-  useEffect(() => {
-    if (!mapLoaded || !currentPoint) return
+  // useEffect(() => {
+  //   if (!mapLoaded || !currentPoint) return
 
-    const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
-      layers: [LayersCodes.pollingStationLegislatives],
-    })
-    if (!mapBoxProps[0]) return
-    if (currentStep === 1) return
+  //   const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
+  //     layers: [LayersCodes.pollingStationLegislatives],
+  //   })
+  //   if (!mapBoxProps[0]) return
+  //   if (currentStep === 1) return
 
-    const { CODE, ADDRESS } = getMapBoxProperties(mapBoxProps).properties
-    if (CODE && ADDRESS) setPollingStation({ CODE, ADDRESS })
-    const currentPolygonCoordinates = getMapBoxProperties(mapBoxProps).coordinates
-    highlightSelectedPolygon(currentPolygonCoordinates, CODE)
-    setPollingStationSelection({ code: CODE, trigger: 'map' })
-  }, [mapLoaded, currentPoint, map, currentStep])
+  //   const { CODE, ADDRESS } = getMapBoxProperties(mapBoxProps).properties
+  //   if (CODE && ADDRESS) setPollingStation({ CODE, ADDRESS })
+  //   const currentPolygonCoordinates = getMapBoxProperties(mapBoxProps).coordinates
+  //   highlightSelectedPolygon(currentPolygonCoordinates, CODE)
+  //   setPollingStationSelection({ code: CODE, trigger: 'map' })
+  // }, [mapLoaded, currentPoint, map, currentStep])
 
   useEffect(() => {
     if (pollingStationSelection && pollingStationSelection.trigger === 'list') {
