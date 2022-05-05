@@ -43,7 +43,7 @@ const messages = {
 }
 
 const Header = ({ status, pinned, withNotification }) => (
-  <HorizontalContainer data-testid="news-header">
+  <HorizontalContainer>
     <IconContainer>
       <UIChip
         color={status ? 'teal700' : 'gray700'}
