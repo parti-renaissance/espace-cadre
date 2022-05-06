@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
 import { Container, Grid, Typography, FormControlLabel, Box } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
@@ -59,9 +59,6 @@ const Count = styled(Typography)(
 )
 
 const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
-  const [isCheck, setIsCheck] = useState([])
-  const [selected, setSelected] = useState([])
-  const checkedCount = isCheck.length
   const { isMobile } = useCurrentDeviceType()
   const { handleError } = useErrorHandler()
   const { pollingStationSelection, setPollingStationSelection } = useContext(MapContext)
@@ -77,105 +74,38 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
   const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
     onSuccess: data => {
       if (data?.length > 0) {
-        setSelected(data)
+        setPollingStationSelection(data.map(element => element.code))
       }
     },
     onError: handleError,
   })
 
-  const handleSelectAllMap = () => {
-    const selected = []
-    pollingStations.forEach(element => {
-      selected.push(element.code)
-    })
-    setPollingStationSelection({ codeList: selected, trigger: 'list' })
-  }
-
   const handleSelectAll = checked => {
-    if (checked) {
-      setIsCheck(pollingStations)
-    } else {
-      setIsCheck([])
-    }
-    handleSelectAllMap()
+    setPollingStationSelection(checked ? pollingStations.map(element => element.code) : [])
   }
 
   const handleSelectOne = (e, station) => {
     if (e.target.checked) {
-      station.isChecked = true
-      setIsCheck([...isCheck, station])
-      setPollingStationSelection({ code: station.code, trigger: 'list' })
+      setPollingStationSelection([...pollingStationSelection, station.code])
     } else {
-      station.isChecked = false
-      setIsCheck(isCheck.filter(item => item.id !== station.id))
-      setPollingStationSelection({ code: station.code, trigger: 'list' })
+      setPollingStationSelection(pollingStationSelection.filter(item => item !== station.code))
     }
   }
 
-  const transformPollingStations = data => {
-    const transformed = []
-    data.forEach(element => {
-      transformed.push(element.id)
-    })
-    return transformed
-  }
+  const getPollingStationsFromCodes = (list, codes) => list.filter(element => codes.includes(element.code))
 
-  const mergePollingStations = () => {
-    const mergedSelection = []
-    const mergedSelectionMap = []
-    pollingStations.forEach(element => {
-      selected.forEach(item => {
-        if (item.id === element.id) {
-          element.isChecked = true
-          mergedSelection.push(element)
-          mergedSelectionMap.push(element.code)
-        }
-      })
-    })
-    setIsCheck(mergedSelection)
-    setPollingStationSelection({ codeList: mergedSelectionMap, trigger: 'list' })
-  }
-
-  const handleMapSelectOne = () => {
-    const station = pollingStations.filter(item => item.code === pollingStationSelection.code)[0]
-    if (!station) return
-    if (!station.isChecked) {
-      station.isChecked = true
-      setIsCheck([...isCheck, station])
-    } else {
-      station.isChecked = false
-      setIsCheck(isCheck.filter(item => item.id !== station.id))
-    }
-    setPollingStationSelection(null)
-  }
-
-  const moveItemsToTheTop = (a, b) => Number(b.isChecked) - Number(a.isChecked)
+  const transformPollingStations = (data, selection) =>
+    getPollingStationsFromCodes(data, selection).map(element => element.id)
 
   useEffect(() => {
-    if (isCheck.length > 0) {
-      formik.setFieldValue('votePlaces', transformPollingStations(isCheck))
-    } else {
-      formik.setFieldValue('votePlaces', [])
-    }
-  }, [isCheck])
+    formik.setFieldValue('votePlaces', transformPollingStations(pollingStations, pollingStationSelection))
+  }, [pollingStationSelection])
 
   useEffect(() => {
     if (campaignId && pollingStations.length > 0) {
       getSelectedPollingStations(campaignId)
     }
   }, [campaignId, pollingStations])
-
-  useEffect(() => {
-    if (selected.length > 0) {
-      mergePollingStations()
-    }
-  }, [selected])
-
-  useEffect(() => {
-    if (pollingStationSelection && pollingStationSelection.trigger === 'map' && pollingStations.length > 0) {
-      handleMapSelectOne()
-    }
-  }, [pollingStationSelection])
 
   if (!pollingStations.length > 0 || !campaignId)
     return (
@@ -184,8 +114,9 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
       </Grid>
     )
 
-  const votersCount = isCheck.reduce((total, currentValue) => total + currentValue.voters, 0)
-  const addressesCount = isCheck.reduce((total, currentValue) => total + currentValue.addresses, 0)
+  const list = getPollingStationsFromCodes(pollingStations, pollingStationSelection)
+  const votersCount = list.reduce((total, currentValue) => total + currentValue.voters, 0)
+  const addressesCount = list.reduce((total, currentValue) => total + currentValue.addresses, 0)
 
   return (
     <Container maxWidth="md">
@@ -203,18 +134,18 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={isCheck.length === pollingStations.length}
+              checked={pollingStationSelection.length === pollingStations.length}
               onChange={e => handleSelectAll(e.target.checked)}
             />
           }
           label={
             <Typography variant="subtitle1">
-              {checkedCount >= 0 && (
-                <Typography sx={{ fontWeight: 700 }}>{`${isCheck?.length}/${pollingStations.length}`}</Typography>
-              )}
+              <Typography
+                sx={{ fontWeight: 700 }}
+              >{`${pollingStationSelection.length}/${pollingStations.length}`}</Typography>
               &nbsp;
-              {pluralize(checkedCount, messages.pollStationPrefix, 'x')}&nbsp;
-              {messages.pollStation}&nbsp;{pluralize(checkedCount, messages.pollStationSuffix)}
+              {pluralize(pollingStationSelection.length, messages.pollStationPrefix, 'x')}&nbsp;
+              {messages.pollStation}&nbsp;{pluralize(pollingStationSelection.length, messages.pollStationSuffix)}
             </Typography>
           }
           sx={{ mr: 1, mb: 1 }}
@@ -231,14 +162,21 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
       <List
         height={600}
         itemCount={pollingStations.length}
-        itemData={pollingStations.sort(moveItemsToTheTop)}
+        itemData={pollingStations.sort(
+          (a, b) => pollingStationSelection.includes(b.code) - pollingStationSelection.includes(a.code)
+        )}
         itemSize={isMobile ? 120 : 68}
       >
         {({ data, index, style }) => {
           const station = data[index]
           return (
             <div style={style}>
-              <PollingStation key={station.id} station={station} handleSelectOne={handleSelectOne} isCheck={isCheck} />
+              <PollingStation
+                key={station.id}
+                station={station}
+                handleSelectOne={handleSelectOne}
+                isCheck={pollingStationSelection.includes(station.code)}
+              />
             </div>
           )
         }}
