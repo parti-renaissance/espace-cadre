@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 
 const LegendItem = ({ title, main1, main2, bold1, bold2, subtitle, color }) => (
-  <Grid item display="flex" flexDirection="column" sx={{ mb: 1 }}>
+  <Grid item display="flex" flexDirection="column" sx={{ mb: 2, mt: 2 }}>
     <Grid item display="flex" alignItems="center">
       <Typography variant="subtitle1">{title}</Typography>&nbsp;
       <CircleRoundedIcon sx={{ color }} />
