@@ -53,13 +53,13 @@ const messages = {
     {
       title: 'Les bureaux verts ',
       main1: "En vert les zones les plus favorables à l'électorat de la majorité présidentielle.",
-      subtitle: "Plus le vert est foncé (5 variations), plus le potentiel d'électeur est élevé.",
+      subtitle: "Plus le vert est foncé (5 variations), plus le potentiel d'électeurs est élevé.",
       color: 'green',
     },
     {
       title: 'Les bureaux rouge ',
       main1: "En rouge les zones les moins favorables à l'électorat de la majorité présidentielle.",
-      subtitle: "Plus le rouge est foncé (5 variations), plus le potentiel d'électeur est faible.",
+      subtitle: "Plus le rouge est foncé (5 variations), plus le potentiel d'électeurs est faible.",
       color: 'red',
     },
   ],
