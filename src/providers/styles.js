@@ -170,6 +170,9 @@ export const styles = {
       error: {
         background: '#DA1414',
       },
+      info: {
+        background: '#2834C3',
+      },
     },
     emptyContent: {
       description: '#1F2937',
