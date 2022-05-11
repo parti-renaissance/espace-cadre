@@ -1,9 +1,11 @@
 export const notifyVariants = {
   error: 'error',
   success: 'success',
+  info: 'info',
 }
 
 export const notifyMessages = {
+  warningTitle: 'Avertissement',
   errorTitle: 'Une erreur est survenue',
   errorDetail: 'Une erreur est survenue. Veuillez réessayer dans quelques instants',
   notFoundTitle: 'Ressource introuvable',
