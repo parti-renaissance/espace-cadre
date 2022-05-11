@@ -42,6 +42,9 @@ function Map({ currentStep }) {
   const [userScope] = useUserScope()
   const userZones = userScope.zones
 
+  const center =
+    userZones[0].longitude && userZones[0].latitude ? [userZones[0].longitude, userZones[0].latitude] : null
+
   const codesDepartement = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
   const codesRegion = userZones.filter(z => z.type === zoneTypes.REGION).map(z => z.code)
   const codesDistrict = userZones.filter(z => z.type === zoneTypes.DISTRICT).map(z => z.code)
@@ -77,6 +80,7 @@ function Map({ currentStep }) {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: process.env.REACT_APP_MAPBOX_STYLE,
+      ...(center ? { center, zoom: 8 } : {}),
       minZoom: 4,
     })
 
@@ -119,11 +123,11 @@ function Map({ currentStep }) {
         validate: false,
       })
 
-      if (renderedFeatures.length === 0 && map.current.getZoom !== 7) {
+      if (!center && renderedFeatures.length === 0 && map.current.getZoom !== 7) {
         map.current.zoomTo(7, { duration: 100 })
       }
 
-      if (renderedFeatures.length > 2) {
+      if (renderedFeatures.length >= 2) {
         const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
         map.current.fitBounds(bbox(line), { padding: 140 })
       }
