@@ -53,7 +53,7 @@ function Map({ currentStep }) {
   const codes = [codesRegion, codesDepartement, codesDistrict, codesCountry]
 
   const handleMapClick = e => {
-    if (currentStep === 1) {
+    if (currentStep < 2) {
       return
     }
     const features = map.current.queryRenderedFeatures(e.point, { layers: [MAIN_LAYER_ID] })
@@ -161,7 +161,7 @@ function Map({ currentStep }) {
   }, [pollingStationSelection])
 
   return (
-    <Container ref={mapContainer} className="map-container">
+    <Container ref={mapContainer} className={currentStep === 0 ? 'map-container-intro' : 'map-container'}>
       {currentStep === 1 && (
         <div className="infobar">
           <span>{messages.warning}</span>
