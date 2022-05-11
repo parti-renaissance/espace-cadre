@@ -108,7 +108,7 @@ const Filters = () => {
       level: Sentry.Severity.Critical,
     })
     Sentry.captureMessage(messages.errorFilter)
-    enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorFilter)
+    enqueueSnackbar(notifyMessages.warningTitle, notifyVariants.info, messages.errorFilter)
   })
 
   const [loadingSendButton, , sendMessageIfFiltersAreSaved] = useRetry(
