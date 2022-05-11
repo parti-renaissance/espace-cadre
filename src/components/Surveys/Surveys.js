@@ -63,6 +63,7 @@ const Surveys = () => {
   const { isMobile } = useCurrentDeviceType()
   const isNational = nationalScopes.includes(scope)
   const [selectedTab, setSelectedTab] = useState(isNational ? visibility.national : visibility.local)
+  const [isCreateResolved, setIsCreateResolved] = useState(false)
 
   const {
     data: paginatedNationalSurveys = null,
@@ -152,9 +153,17 @@ const Surveys = () => {
   }
 
   useEffect(() => {
-    localSurveys.length < 20 && fetchNextPageLocalSurveys()
-    nationalSurveys.length < 20 && fetchNextPageNationalSurveys()
+    if (!isCreateResolved) {
+      localSurveys.length < 20 && fetchNextPageLocalSurveys()
+      nationalSurveys.length < 20 && fetchNextPageNationalSurveys()
+    }
   }, [localSurveys, nationalSurveys])
+
+  useEffect(() => {
+    if (isCreateEditModalOpen) {
+      setIsCreateResolved(false)
+    }
+  }, [isCreateEditModalOpen])
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -283,6 +292,7 @@ const Surveys = () => {
         <CreateEdit
           survey={Object.keys(surveyDetail).length > 0 ? surveyDetail : null}
           onCreateResolve={() => {
+            setIsCreateResolved(true)
             refetchNationalSurveys()
             refetchLocalSurveys()
           }}
