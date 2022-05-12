@@ -79,7 +79,7 @@ const messages = {
   contact: 'contact',
   testMessage: "M'envoyer un message test",
   sendEmail: "Envoyer l'email",
-  errorFilter: "Impossible d'appliquer les filtres",
+  errorFilter: "Impossible d'appliquer les filtres, rechargez la page.",
   errorSynchro: "Le message n'est pas prêt à être envoyé",
 }
 
