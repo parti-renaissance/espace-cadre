@@ -101,6 +101,7 @@ function Map({ currentStep }) {
         type: 'fill',
         paint: {
           'fill-color': ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'],
+          'fill-opacity': 0.25,
         },
       })
 
