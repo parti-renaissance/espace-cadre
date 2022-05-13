@@ -21,9 +21,9 @@ const LegendItem = ({ title, main1, main2, bold1, bold2, subtitle, color }) => (
 LegendItem.propTypes = {
   title: PropTypes.string.isRequired,
   main1: PropTypes.string.isRequired,
-  main2: PropTypes.string.isRequired,
-  bold1: PropTypes.string.isRequired,
-  bold2: PropTypes.string.isRequired,
+  main2: PropTypes.string,
+  bold1: PropTypes.string,
+  bold2: PropTypes.string,
   subtitle: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 }
