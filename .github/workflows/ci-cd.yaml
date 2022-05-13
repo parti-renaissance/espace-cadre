@@ -11,39 +11,39 @@ env:
   DOCKER_IMAGE: ${{ secrets.GCP_HOST_GCR }}/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}
 
 jobs:
-  test:
-    name: Tests
-    runs-on: ubuntu-latest
-    container: cypress/browsers:node14.17.0-chrome91-ff89
+  # test:
+  #   name: Tests
+  #   runs-on: ubuntu-latest
+  #   container: cypress/browsers:node14.17.0-chrome91-ff89
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node-yarn
-      - run: |-
-          yarn lint
-      - run: |-
-          yarn test src
-      - name: create env file
-        shell: bash
-        run: |-
-          touch .env.local
-          echo "REACT_APP_API_HOST=https://mock.en-marche.fr" >> .env.local
-          echo "REACT_APP_OAUTH_HOST=https://mock-oauth.en-marche.fr" >> .env.local
-          touch cypress.env.json
-          echo "{ \"REACT_APP_API_HOST\": \"https://mock.en-marche.fr\", \"REACT_APP_OAUTH_HOST\": \"https://mock-oauth.en-marche.fr\" }" >> cypress.env.json
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: ./.github/actions/setup-node-yarn
+  #     - run: |-
+  #         yarn lint
+  #     - run: |-
+  #         yarn test src
+  #     - name: create env file
+  #       shell: bash
+  #       run: |-
+  #         touch .env.local
+  #         echo "REACT_APP_API_HOST=https://mock.en-marche.fr" >> .env.local
+  #         echo "REACT_APP_OAUTH_HOST=https://mock-oauth.en-marche.fr" >> .env.local
+  #         touch cypress.env.json
+  #         echo "{ \"REACT_APP_API_HOST\": \"https://mock.en-marche.fr\", \"REACT_APP_OAUTH_HOST\": \"https://mock-oauth.en-marche.fr\" }" >> cypress.env.json
 
-      - name: Cypress
-        uses: cypress-io/github-action@v2
-        with:
-          start: yarn start
-          wait-on: 'http://localhost:3000'
-          browser: chrome
-      - name: Archive test screenshots
-        uses: actions/upload-artifact@v3
-        with:
-          name: screenshots
-          path: cypress/screenshots
-        if: ${{ failure() }}
+  #     - name: Cypress
+  #       uses: cypress-io/github-action@v2
+  #       with:
+  #         start: yarn start
+  #         wait-on: 'http://localhost:3000'
+  #         browser: chrome
+  #     - name: Archive test screenshots
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: screenshots
+  #         path: cypress/screenshots
+  #       if: ${{ failure() }}
 
   deploy-staging:
     name: Deploy to Staging 🍾
