@@ -48,7 +48,7 @@ jobs:
   deploy-staging:
     name: Deploy to Staging 🍾
     runs-on: ubuntu-latest
-    needs: [test]
+    #needs: [test]
     if: github.event.ref == 'refs/heads/master'
     environment: staging
 
@@ -85,7 +85,7 @@ jobs:
   deploy-prod:
     name: Deploy to Prod 🍾
     runs-on: ubuntu-latest
-    needs: [test]
+    #needs: [test]
     if: github.event_name == 'release'
     environment: production
 
