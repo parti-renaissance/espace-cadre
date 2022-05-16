@@ -1,4 +1,4 @@
-import { initialization } from './main.spec'
+import { initialize } from './main.spec'
 
 const ScopesButton = '[data-cy="scopes-button"]'
 
@@ -9,7 +9,7 @@ const navigate = () => {
 
 describe('Logout', () => {
     beforeEach(() => {
-        initialization()
+        initialize()
         navigate()
     })
 

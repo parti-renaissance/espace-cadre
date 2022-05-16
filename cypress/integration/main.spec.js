@@ -1,12 +1,11 @@
-const apiServer = url => `${Cypress.env('REACT_APP_API_HOST')}${url}`
-const oAuthServer = url => `${Cypress.env('REACT_APP_OAUTH_HOST')}${url}`
-export const mock = (method, url, fixture) => cy.intercept(method, apiServer(url), { fixture }).as(fixture)
-export const initialization = () => {
-  cy.intercept('POST', /sentry/g, {
-    statusCode: 201,
-  }).as('sentry')
+export const mock = (method, url, fixture) => cy.intercept(method, url, { fixture }).as(fixture)
 
-  cy.intercept('POST', oAuthServer('/oauth/v2/token'), { statusCode: 201, fixture: 'token' }).as('token')
+export const initialize = () => {
+  cy.intercept('/api/**/*', () => {
+    throw new Error('request not stubbed');
+  })
+
+  cy.intercept('POST', '/oauth/v2/token', { statusCode: 201, fixture: 'token' }).as('token')
 
   mock('GET', '/api/me', 'me')
   mock('GET', '/api/v3/profile/me/scopes', 'scopes')

@@ -3,6 +3,7 @@ import { persistReducer, persistStore, PERSIST } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { createReduxEnhancer } from '@sentry/react'
 import rootReducer from './reducers'
+import { NODE_ENV } from 'shared/environments'
 
 const configureStore = () => {
   const persistConfig = {
@@ -14,7 +15,7 @@ const configureStore = () => {
   const persistedReducer = persistReducer(persistConfig, rootReducer)
 
   const store = reduxConfigureStore({
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: NODE_ENV !== 'production',
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: {

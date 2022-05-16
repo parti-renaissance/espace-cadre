@@ -1,9 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
+import { OAUTH_HOST, OAUTH_CLIENT_ID } from 'shared/environments'
 
 const authCall = async payload => {
   try {
-    const result = await axios.post(`${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/token`, qs.stringify(payload), {
+    const result = await axios.post(`${OAUTH_HOST}/oauth/v2/token`, qs.stringify(payload), {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     })
 
@@ -17,7 +18,7 @@ const authCall = async payload => {
 
 const login = async code => {
   const result = await authCall({
-    client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
+    client_id: OAUTH_CLIENT_ID,
     code,
     grant_type: 'authorization_code',
   })

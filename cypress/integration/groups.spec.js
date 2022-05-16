@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -7,10 +6,9 @@ const navigate = () => {
   cy.url().should('eq', 'http://localhost:3000/groupes')
 }
 
-
 describe('Groups', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock('GET', '/api/v3/teams?*', 'groups/groups')
     mock('GET', '/api/v3/teams/11111111-1111-1111-1111-111111111111?scope=referent', 'groups/1')
     navigate()

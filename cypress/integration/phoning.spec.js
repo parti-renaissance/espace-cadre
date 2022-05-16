@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const Chip = '.MuiChip-root'
 const Typography = '.MuiTypography-root'
@@ -25,13 +24,18 @@ const navigate = () => {
 
 describe('Phoning', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock('GET', '/api/v3/teams?*', 'groups/groups')
     mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
     mock(
       'GET',
       '/api/v3/phoning_campaigns?order[created_at]=desc&page=1&page_size=20&visibility=national&scope=phoning_national_manager',
       'phoning/campaigns'
+    )
+    mock(
+      'GET',
+      '/api/v3/surveys?*',
+      'surveys/surveys'
     )
     navigate()
   })

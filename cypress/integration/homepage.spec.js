@@ -1,8 +1,8 @@
-import { initialization } from './main.spec'
+import { initialize } from './main.spec'
 
 describe('Homepage', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
   })
 
   it('loads homepage successfully', () => {

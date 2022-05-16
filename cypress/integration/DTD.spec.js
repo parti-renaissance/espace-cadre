@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const Chip = '.MuiChip-root'
 const KPI = '[data-cy="KPI"]'
@@ -23,7 +22,7 @@ const navigate = () => {
 
 describe('DTD', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock('GET', '/api/v3/pap_campaigns/kpi?scope=pap_national_manager', 'DTD/KPI')
     mock('GET', '/api/v3/pap_campaigns?order[created_at]=desc&page=1&page_size=20&scope=pap_national_manager', 'DTD/campaigns')
     navigate()
@@ -97,14 +96,13 @@ describe('DTD', () => {
       cy.get(CampaignsTabs).should('exist')
       cy.get(CampaignsTabs).find('button').should('have.length', 4)
     })
-    
+
     describe('The first tab', () => {
 
       it('should have a title and be clickable', () => {
         cy.get(CampaignsTabs).find('button').eq(0).should('have.text', 'Campagnes de mon territoire')
       })
-    
-    
+
       it('should contain 2 parts', () => {
         cy.get(CampaignsTabs).find('button').eq(0).click()
         cy.get(CampaignsList).should('exist')

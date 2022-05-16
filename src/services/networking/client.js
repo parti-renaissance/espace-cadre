@@ -2,8 +2,9 @@ import axios from 'axios'
 import { getAccessToken as selectorGetAccessToken, getCurrentScope } from '../../redux/user/selectors'
 import { store } from '../../redux/store'
 import { userLogout } from '../../redux/auth'
+import { API_HOST, INTERNAL_APP_ID } from 'shared/environments'
 
-const API_BASE_URL = `${process.env.REACT_APP_API_HOST}/api`
+const API_BASE_URL = `${API_HOST}/api`
 
 const handleHttpError = error => {
   const { response = {} } = error
@@ -72,7 +73,7 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient(API_BASE_URL)
-export const apiClientProxy = new ApiClient(`${API_BASE_URL}/v3/internal/${process.env.REACT_APP_INTERNAL_APP_ID}`)
+export const apiClientProxy = new ApiClient(`${API_BASE_URL}/v3/internal/${INTERNAL_APP_ID}`)
 export const apiClientPublic = async (method, endpoint, body = null) => {
   const { data } = await axios.request({
     method,

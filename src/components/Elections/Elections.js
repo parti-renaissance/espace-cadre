@@ -13,8 +13,10 @@ import { getElectionPayload, getMapBoxProperties } from './shared/helpers'
 import ElectionFilters from './ElectionFilters'
 import PageTitle from 'ui/PageTitle'
 import { LayersCodes, LayersTypes } from 'components/Map/Layers'
+import { MAPBOX_TOKEN } from 'shared/environments'
+import { createMap } from 'providers/map'
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
+mapboxgl.accessToken = MAPBOX_TOKEN
 
 const Map = styled(Grid)`
   height: 85vh;
@@ -57,11 +59,7 @@ const Elections = () => {
   }, [map, activeLayer])
 
   useEffect(() => {
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: process.env.REACT_APP_MAPBOX_STYLE,
-      minZoom: 4,
-    })
+    map.current = createMap(mapContainer.current)
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
   }, [])
 

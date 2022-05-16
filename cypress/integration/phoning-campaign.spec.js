@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const UICard = '[data-cy="ui-card"]'
 const Typography = '.MuiTypography-root'
@@ -25,7 +24,7 @@ const navigate = () => {
 
 describe('PHONING > Campaign Detail', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock('GET', '/api/v3/phoning_campaigns/kpi?scope=phoning_national_manager', 'phoning/kpi')
     mock('GET', '/api/v3/teams?*', 'groups/groups')
     mock(
@@ -52,6 +51,11 @@ describe('PHONING > Campaign Detail', () => {
       'GET',
       '/api/v3/phoning_campaign_histories?campaign.uuid=11111111-1111-1111-1111-111111111111&order[created_at]=desc&page=1&page_size=20&scope=phoning_national_manager',
       'phoning/campaignDetail/histories'
+    )
+    mock(
+      'GET',
+      '/api/v3/surveys?*',
+      'surveys/surveys'
     )
     navigate()
   })

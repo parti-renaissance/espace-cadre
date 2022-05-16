@@ -74,9 +74,6 @@ runs:
         echo "REACT_APP_OAUTH_CLIENT_ID=${{ inputs.react_app_oauth_client_id }}" >> .env.production
         echo "REACT_APP_INTERNAL_APP_ID=${{ inputs.react_app_internal_app_id }}" >> .env.production
         echo "REACT_APP_SENTRY_DSN=${{ inputs.react_app_sentry_dsn }}" >> .env.production
-        echo "SENTRY_AUTH_TOKEN=${{ inputs.sentry_auth_token }}" >> .env.production
-        echo "SENTRY_ORG=${{ inputs.sentry_org }}" >> .env.production
-        echo "SENTRY_PROJECT=${{ inputs.sentry_project }}" >> .env.production
         echo "REACT_APP_GMAPS_API_KEY=${{ inputs.gmaps_api_key }}" >> .env.production
         echo "REACT_APP_UNLAYER_PROJECT_ID=${{ inputs.react_app_unlayer_project_id }}" >> .env.production
         echo "REACT_APP_MAPBOX_TOKEN=${{ inputs.react_app_mapbox_token }}" >> .env.production
@@ -106,3 +103,12 @@ runs:
         image: '${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_version }}'
         project_id: ${{ inputs.project_id }}
         region: ${{ inputs.gcp_zone }}
+
+    - name: Create Sentry release
+      uses: getsentry/action-release@v1
+      env:
+        SENTRY_AUTH_TOKEN: ${{ inputs.sentry_auth_token }}
+        SENTRY_ORG: ${{ inputs.sentry_org }}
+        SENTRY_PROJECT: ${{ inputs.sentry_project }}
+      with:
+        environment: staging

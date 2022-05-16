@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const Tabs = '.MuiTabs-root'
 const UICard = '[data-cy="ui-card"]'
@@ -15,15 +14,9 @@ const Select = '.MuiSelect-select'
 
 const Typography = '.MuiTypography-root'
 
-const navigate = () => {
-  cy.contains('Référent').click()
-  cy.contains('Évènements').click()
-  cy.url().should('eq', 'http://localhost:3000/evenements')
-}
-
 describe('Events', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock(
       'GET',
       '/api/v3/events?order*=desc&page=1&page_size=20&scope=*',
@@ -49,7 +42,9 @@ describe('Events', () => {
       '/api/event_categories',
       'events/categories'
     )
-    navigate()
+
+    cy.contains('Référent').click()
+    cy.visit('/evenements')
   })
 
   describe('The header', () => {

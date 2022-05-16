@@ -7,8 +7,9 @@ import { ElectionDetails } from './shared/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { LayersCodes, LayersTypes } from 'components/Map/Layers'
+import { MAPBOX_TOKEN } from 'shared/environments'
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
+mapboxgl.accessToken = MAPBOX_TOKEN
 
 const Contact = styled(Typography)(
   ({ theme }) => `
