@@ -1,15 +1,20 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userLogout } from '../../redux/auth'
-import { OAUTH_HOST } from 'shared/environments'
+import { API_HOST, OAUTH_HOST } from 'shared/environments'
+import { isSwitchUser } from '../../redux/user/selectors'
 
 const Logout = () => {
   const dispatch = useDispatch()
+  const isSwitchedUser = useSelector(isSwitchUser)
 
   useEffect(() => {
-    dispatch(userLogout())
-    window.location.href = `${OAUTH_HOST}/deconnexion`
-  }, [dispatch])
+    const logOutUrl = isSwitchedUser
+      ? `${API_HOST}/admin/app/adherent/list?_switch_user=_exit`
+      : `${OAUTH_HOST}/deconnexion`
+    dispatch(userLogout(isSwitchedUser))
+    window.location.href = logOutUrl
+  })
 
   return <div />
 }

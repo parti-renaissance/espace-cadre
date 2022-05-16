@@ -3,6 +3,7 @@ import { APP_VERSION } from 'shared/environments'
 
 const initialState = {
   isUserLogged: false,
+  isSwitchUser: false,
   user: null,
   scopes: [],
   currentScope: null,
@@ -15,7 +16,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     userLoggedIn(state, action) {
-      state.tokens = action.payload
+      const { tokens, isSwitchUser } = action.payload
+      state.tokens = tokens
+      state.isSwitchUser = isSwitchUser
       state.isUserLogged = true
       state.appVersion = APP_VERSION
     },
@@ -31,8 +34,8 @@ const authSlice = createSlice({
     updateAuthorizedPages(state, action) {
       state.authorizedPages = action.payload
     },
-    userLogout() {
-      return initialState
+    userLogout(state, action) {
+      return { ...initialState, isSwitchUser: action.payload }
     },
   },
 })
