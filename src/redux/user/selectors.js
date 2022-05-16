@@ -1,11 +1,13 @@
-export const getCurrentUser = (state) => state.auth.user;
+import { APP_VERSION } from 'shared/environments'
 
-export const getUserScopes = (state) => state.auth.scopes || [];
+export const getCurrentUser = state => state.auth.user
 
-export const getCurrentScope = (state) => state.auth.currentScope;
+export const getUserScopes = state => state.auth.scopes || []
 
-export const getAuthorizedPages = (state) => state.auth.authorizedPages;
+export const getCurrentScope = state => state.auth.currentScope
 
-export const isUserLogged = (state) => state.auth.isUserLogged && state.auth.appVersion === process.env.REACT_APP_VERSION;
+export const getAuthorizedPages = state => state.auth.authorizedPages
 
-export const getAccessToken = (state) => state.auth.tokens && state.auth.tokens.accessToken;
+export const isUserLogged = state => state.auth.isUserLogged && state.auth.appVersion === APP_VERSION
+
+export const getAccessToken = state => state.auth.tokens && state.auth.tokens.accessToken

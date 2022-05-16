@@ -40,6 +40,13 @@
         "ignoreTrailingComments": true
       }
     ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxEOF": 0
+      }
+    ],
     "no-alert": "error",
     "no-bitwise": "error",
     "no-console": "error",

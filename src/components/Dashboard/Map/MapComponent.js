@@ -33,14 +33,10 @@ const MapComponent = () => {
     data: surveys = {},
     isLoading,
     isError,
-  } = useQueryWithScope(
-    ['surveys', { feature: 'Dashboard', view: 'MapComponent' }],
-    getSurveyMapQuery,
-    {
-      cacheTime: DASHBOARD_CACHE_DURATION,
-      staleTime: DASHBOARD_CACHE_DURATION,
-    },
-  )
+  } = useQueryWithScope(['surveys', { feature: 'Dashboard', view: 'MapComponent' }], getSurveyMapQuery, {
+    cacheTime: DASHBOARD_CACHE_DURATION,
+    staleTime: DASHBOARD_CACHE_DURATION,
+  })
 
   if (isLoading) return <Loading />
   if (isError) return <Error message={messages.errorMessage} />

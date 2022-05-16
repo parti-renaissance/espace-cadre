@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialization, mock } from './main.spec'
 import { format } from 'date-fns'
 
 const UICard = '[data-cy="ui-card"]'
@@ -41,7 +40,7 @@ describe('News', () => {
       it('should contain 4 parts', () => {
         cy.get(UICard).eq(1).find('>div').eq(0).find(Typography).should('have.length', 4)
       })
-  
+
       it('should show a status, a title, a creator and a date', () => {
         cy.get(UICard).eq(1).contains('Publiée')
         cy.get(UICard).eq(1).get(publishedNews).should('be.visible')
@@ -49,7 +48,7 @@ describe('News', () => {
         cy.get(UICard).eq(1).contains('M Creator 1')
         cy.get(UICard).eq(1).contains(`Le ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'dd/MM/yyyy')} à ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'HH:mm')}`)
       })
-  
+
       it('should display an action button with 3 actions', () => {
         cy.get(UICard).eq(1).find(actionButton).click()
         cy.get(actionButtonOptions).eq(1).find('>li').eq(0).contains('Dépublier')
@@ -58,7 +57,7 @@ describe('News', () => {
       })
     })
   })
-  
+
   describe('The readonly modal', () => {
     it('opens a modal in view mode', () => {
       cy.get(UICard).eq(1).find('>div').eq(1).contains('Voir').click()
@@ -75,7 +74,7 @@ describe('News', () => {
     it('close the modal', () => {
       cy.get(UICard).eq(1).find('>div').eq(1).contains('Voir').click()
       cy.get(closeIcon).click()
-      cy.get(readOnlyModal, { timeout: 1000 }).should("not.exist");
+      cy.get(readOnlyModal, { timeout: 1000 }).should('not.exist');
     })
   })
 })

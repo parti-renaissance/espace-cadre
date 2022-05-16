@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialization, mock } from './main.spec'
 
 const HeaderButton = '[data-cy="ui-page-header-button"]'
 const KPI = '[data-cy="KPI"]'
@@ -37,7 +36,7 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
         cy.get(HeaderButton).should('have.text','Envoyer un email')
       })
     })
-  
+
     describe('The KPI block', () => {
       it('should contain 2 parts', () => {
         cy.get(KPI).should('exist')
@@ -64,42 +63,42 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
             })
           })
         })
-  
+
         describe('The opening rate Card', () => {
           it('should contain 3 parts', () => {
             cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
           })
           it('should show a score, a subtitle and its detail', () => {
             cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
-              const content = { score: '12.34%', subtitle: "Ouvertures", detail: '43.21% au national' }
+              const content = { score: '12.34%', subtitle: 'Ouvertures', detail: '43.21% au national' }
               if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
               if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
               if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
             })
           })
         })
-  
+
         describe('The click Card', () => {
           it('should contain 3 parts', () => {
             cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
           })
           it('should show a score, a subtitle and its detail', () => {
             cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).each((element, index) => {
-              const content = { score: '42.42%', subtitle: "Clics", detail: '44.44% au national' }
+              const content = { score: '42.42%', subtitle: 'Clics', detail: '44.44% au national' }
               if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
               if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
               if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
             })
           })
         })
-  
+
         describe('The unsubscribe Card', () => {
           it('should contain 3 parts', () => {
             cy.get(KPI).find(KPICard).find('>div').eq(3).find(Typography).should('have.length', 3)
           })
           it('should show a score, a subtitle and its detail', () => {
             cy.get(KPI).find(KPICard).find('>div').eq(3).find(Typography).each((element, index) => {
-              const content = { score: '0.11%', subtitle: "Désabonnements", detail: '12.12% au national' }
+              const content = { score: '0.11%', subtitle: 'Désabonnements', detail: '12.12% au national' }
               if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
               if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
               if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
@@ -158,5 +157,3 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
       cy.get(Ckeditor)
     })
   })
-
-  

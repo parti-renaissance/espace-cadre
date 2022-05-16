@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { APP_VERSION } from 'shared/environments'
 
 const initialState = {
   isUserLogged: false,
@@ -16,7 +17,7 @@ const authSlice = createSlice({
     userLoggedIn(state, action) {
       state.tokens = action.payload
       state.isUserLogged = true
-      state.appVersion = process.env.REACT_APP_VERSION
+      state.appVersion = APP_VERSION
     },
     userUpdateData(state, action) {
       state.user = action.payload

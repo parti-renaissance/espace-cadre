@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialization, mock } from './main.spec'
 
 const Chip = '.MuiChip-root'
 const Typography = '.MuiTypography-root'
@@ -34,6 +33,11 @@ describe('Phoning', () => {
       'phoning/campaigns'
     )
     navigate()
+
+    cy.intercept('/api/**/*', (req) => {
+      console.log(req);
+      req.destroy();
+    })
   })
 
   describe('The header', () => {

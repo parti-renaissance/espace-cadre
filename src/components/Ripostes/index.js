@@ -1,1 +1,1 @@
-export { default } from './Ripostes';
+export { default } from './Ripostes'

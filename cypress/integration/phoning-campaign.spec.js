@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialization, mock } from './main.spec'
 
 const UICard = '[data-cy="ui-card"]'
 const Typography = '.MuiTypography-root'

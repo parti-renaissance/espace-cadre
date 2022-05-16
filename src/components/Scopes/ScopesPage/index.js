@@ -1,1 +1,1 @@
-export { default } from './ScopesPage';
+export { default } from './ScopesPage'

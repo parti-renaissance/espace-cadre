@@ -1,1 +1,1 @@
-export { default } from './KpiEmailCampaign';
+export { default } from './KpiEmailCampaign'

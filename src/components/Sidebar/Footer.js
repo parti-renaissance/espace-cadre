@@ -1,6 +1,7 @@
 import MentionsLegales from './MentionsLegales'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
+import { APP_VERSION } from 'shared/environments'
 
 const FooterWrapper = styled('div')`
   margin: ${({ theme }) => theme.spacing('auto', 0, 2, 2)};
@@ -32,7 +33,7 @@ const Footer = () => (
     <Grid container alignItems="center">
       <MentionsLegales />
       <ReleaseVersion>
-        {messages.title}@{process.env.REACT_APP_VERSION}
+        {messages.title}@{APP_VERSION}
       </ReleaseVersion>
     </Grid>
     <Signature>{messages.signature}</Signature>

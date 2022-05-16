@@ -1,5 +1,4 @@
-import { initialization } from './main.spec'
-import { mock } from './main.spec'
+import { initialization, mock } from './main.spec'
 
 const Chip = '.MuiChip-root'
 const KPI = '[data-cy="KPI"]'
@@ -97,14 +96,13 @@ describe('DTD', () => {
       cy.get(CampaignsTabs).should('exist')
       cy.get(CampaignsTabs).find('button').should('have.length', 4)
     })
-    
+
     describe('The first tab', () => {
 
       it('should have a title and be clickable', () => {
         cy.get(CampaignsTabs).find('button').eq(0).should('have.text', 'Campagnes de mon territoire')
       })
-    
-    
+
       it('should contain 2 parts', () => {
         cy.get(CampaignsTabs).find('button').eq(0).click()
         cy.get(CampaignsList).should('exist')

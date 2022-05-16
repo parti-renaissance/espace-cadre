@@ -23,19 +23,10 @@ jobs:
           yarn lint
       - run: |-
           yarn test src
-      - name: create env file
-        shell: bash
-        run: |-
-          touch .env.local
-          echo "REACT_APP_API_HOST=https://mock.en-marche.fr" >> .env.local
-          echo "REACT_APP_OAUTH_HOST=https://mock-oauth.en-marche.fr" >> .env.local
-          touch cypress.env.json
-          echo "{ \"REACT_APP_API_HOST\": \"https://mock.en-marche.fr\", \"REACT_APP_OAUTH_HOST\": \"https://mock-oauth.en-marche.fr\" }" >> cypress.env.json
-
       - name: Cypress
         uses: cypress-io/github-action@v2
         with:
-          start: yarn start
+          start: yarn start-test
           wait-on: 'http://localhost:3000'
           browser: chrome
       - name: Archive test screenshots

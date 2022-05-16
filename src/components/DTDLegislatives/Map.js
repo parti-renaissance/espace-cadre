@@ -10,8 +10,10 @@ import { zoneTypes } from 'domain/zone'
 import MapContext from './MapContext'
 import { useUserScope } from '../../redux/user/hooks'
 import { uniqWith } from 'lodash/array'
+import { MAPBOX_TOKEN } from 'shared/environments'
+import { createMap } from 'providers/map'
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
+mapboxgl.accessToken = MAPBOX_TOKEN
 
 const Container = styled(Grid)`
   border-radius: 12px;
@@ -78,12 +80,7 @@ function Map({ currentStep }) {
       return
     }
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: process.env.REACT_APP_MAPBOX_STYLE,
-      ...(center ? { center, zoom: 8 } : {}),
-      minZoom: 4,
-    })
+    map.current = createMap(mapContainer.current, { ...(center ? { center, zoom: 8 } : {}) })
 
     map.current.getCanvas().style.cursor = 'pointer'
 

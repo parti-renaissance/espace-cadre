@@ -12,6 +12,7 @@ import { notifyMessages, notifyVariants } from 'components/shared/notification/c
 import UIFormMessage from 'ui/FormMessage'
 import * as Sentry from '@sentry/react'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import { UNLAYER_PROJECT_ID } from 'shared/environments'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -157,7 +158,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
           <EmailEditor
             minHeight="85vh"
             ref={emailEditorRef}
-            projectId={process.env.REACT_APP_UNLAYER_PROJECT_ID}
+            projectId={UNLAYER_PROJECT_ID}
             onLoad={() => setEditorLoaded(true)}
             options={{
               locale: 'fr-FR',

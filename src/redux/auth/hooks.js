@@ -7,6 +7,7 @@ import { apiClient } from 'services/networking/client'
 import { userLoggedIn, userUpdateData, userUpdateScopes } from './slice'
 import { useUserScope } from '../user/hooks'
 import paths from 'shared/paths'
+import { OAUTH_HOST, OAUTH_CLIENT_ID, NODE_ENV } from 'shared/environments'
 
 export const useInitializeAuth = () => {
   const dispatch = useDispatch()
@@ -14,12 +15,12 @@ export const useInitializeAuth = () => {
   return useCallback(() => {
     dispatch(userUpdateData(null))
 
-    if (process.env.NODE_ENV !== 'production' && !process.env.REACT_APP_OAUTH_HOST) {
+    if (NODE_ENV !== 'production' && !OAUTH_HOST) {
       window.location.href = '/auth?code=fake_authorization_code'
       return
     }
 
-    window.location.href = `${process.env.REACT_APP_OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${process.env.REACT_APP_OAUTH_CLIENT_ID}&scope=jemengage_admin`
+    window.location.href = `${OAUTH_HOST}/oauth/v2/auth?response_type=code&client_id=${OAUTH_CLIENT_ID}&scope=jemengage_admin`
   }, [dispatch])
 }
 

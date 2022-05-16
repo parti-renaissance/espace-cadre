@@ -12,8 +12,10 @@ import Popin from './Popin'
 import { lineString, bbox } from '@turf/turf'
 import { flattenDeep } from 'lodash'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { MAPBOX_TOKEN } from 'shared/environments'
+import { createMap } from 'providers/map'
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
+mapboxgl.accessToken = MAPBOX_TOKEN
 
 const Map = styled(Grid)(
   ({ theme }) => `
@@ -60,11 +62,7 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
   }, [])
 
   useEffect(() => {
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: process.env.REACT_APP_MAPBOX_STYLE,
-      minZoom: 4,
-    })
+    map.current = createMap(mapContainer.current)
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-left')
     map.current.on('data', () => {
       const renderedFeatures = map.current.queryRenderedFeatures({
