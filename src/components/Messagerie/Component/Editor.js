@@ -38,6 +38,7 @@ const referentTemplate = 60354
 const deputyTemplate = 60376
 const senatorTemplate = 60355
 const correspondentTemplate = 123148
+const legislativeCandidateTemplate = 165090
 const defaultTemplate = 41208
 const editorConfiguration = {
   tools: {
@@ -72,6 +73,7 @@ const templates = {
   deputy: deputyTemplate,
   senator: senatorTemplate,
   correspondent: correspondentTemplate,
+  legislative_candidate: legislativeCandidateTemplate,
 }
 
 const Editor = ({ onMessageSubject, onMessageUpdate }) => {
@@ -85,7 +87,6 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
 
   const [templateId] = useState(() => {
     const { code, delegated_access } = currentScope || {}
-
     return templates[delegated_access?.type || code] || defaultTemplate
   })
 
