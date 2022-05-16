@@ -30,7 +30,6 @@ const SOURCE_ID = 'voting-places'
 const SOURCE_LAYER = 'ciblage_legislatives'
 const MAIN_LAYER_ID = 'main-layer'
 const LINE_LAYER_ID = 'line-layer'
-const MAIN_LINE_LAYER_ID = 'main-line-layer'
 
 const messages = {
   warning: "Cette carte n'est pas cliquable. Elle le sera à l'étape suivante.",
@@ -99,19 +98,7 @@ function Map({ currentStep }) {
         paint: {
           'fill-color': ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'],
           'fill-opacity': 0.25,
-        },
-      })
-
-      map.current.addLayer({
-        id: MAIN_LINE_LAYER_ID,
-        source: SOURCE_ID,
-        'source-layer': SOURCE_LAYER,
-        filter: featuresFilter(...codes),
-        type: 'line',
-        paint: {
-          'line-color': '#D3D3D3',
-          'line-opacity': 0.5,
-          'line-width': 1,
+          'fill-outline-color': '#565656',
         },
       })
 
@@ -123,7 +110,7 @@ function Map({ currentStep }) {
         paint: {
           'line-color': '#000',
           'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
-          'line-width': 3,
+          'line-width': 2,
         },
       })
     })
