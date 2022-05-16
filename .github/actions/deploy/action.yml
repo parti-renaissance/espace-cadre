@@ -104,7 +104,6 @@ runs:
         project_id: ${{ inputs.project_id }}
         region: ${{ inputs.gcp_zone }}
 
-
     - name: Create Sentry release
       uses: getsentry/action-release@v1
       env:
