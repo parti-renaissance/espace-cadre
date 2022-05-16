@@ -1,4 +1,4 @@
-import { initialization, mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const Tabs = '.MuiTabs-root'
 const UICard = '[data-cy="ui-card"]'
@@ -16,7 +16,7 @@ const Typography = '.MuiTypography-root'
 
 describe('Events', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock(
       'GET',
       '/api/v3/events?order*=desc&page=1&page_size=20&scope=*',

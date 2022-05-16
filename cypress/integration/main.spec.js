@@ -1,6 +1,10 @@
 export const mock = (method, url, fixture) => cy.intercept(method, url, { fixture }).as(fixture)
 
-export const initialization = () => {
+export const initialize = () => {
+  cy.intercept('/api/**/*', () => {
+    throw new Error('request not stubbed');
+  })
+
   cy.intercept('POST', '/oauth/v2/token', { statusCode: 201, fixture: 'token' }).as('token')
 
   mock('GET', '/api/me', 'me')

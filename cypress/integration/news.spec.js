@@ -1,4 +1,4 @@
-import { initialization, mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 import { format } from 'date-fns'
 
 const UICard = '[data-cy="ui-card"]'
@@ -18,7 +18,7 @@ const navigate = () => {
 
 describe('News', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock('GET', '/api/v3/jecoute/news?order[created_at]=desc&page=1&page_size=20&scope=referent', 'news/news')
     navigate()
   })

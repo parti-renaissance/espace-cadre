@@ -1,4 +1,4 @@
-import { initialization, mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const Typography = '.MuiTypography-root'
 const PageHeaderButton = '[data-cy="ui-page-header-button"]'
@@ -27,7 +27,7 @@ const navigate = () => {
 
 describe('My Team - Create Edit', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock('GET', '/api/v3/my_teams?scope=referent', 'my-team/my-team')
 
     navigate()

@@ -1,8 +1,8 @@
-import { initialization, mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 describe('Activists', () => {
   beforeEach(() => {
-    initialization()
+    initialize()
     mock(
       'GET',
       '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',

@@ -1,4 +1,4 @@
-import { initialization, mock } from './main.spec'
+import { initialize, mock } from './main.spec'
 
 const HeaderButton = '[data-cy="ui-page-header-button"]'
 const KPI = '[data-cy="KPI"]'
@@ -18,7 +18,7 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
 
   describe('Messagerie homepage ', () => {
     beforeEach(() => {
-      initialization()
+      initialize()
       mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
       mock(
         'GET',
@@ -126,7 +126,7 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
 
   describe('Email editor page', () => {
     beforeEach(() => {
-      initialization()
+      initialize()
       mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
       mock(
         'GET',
