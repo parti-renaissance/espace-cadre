@@ -10,7 +10,7 @@
     "@hookform/resolvers": "2.8.10",
     "@mui/icons-material": "5.8.0",
     "@mui/lab": "5.0.0-alpha.82",
-    "@mui/material": "5.7.0",
+    "@mui/material": "5.8.0",
     "@mui/styles": "5.8.0",
     "@mui/system": "5.8.0",
     "@reduxjs/toolkit": "1.8.1",
