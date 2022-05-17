@@ -12,7 +12,7 @@ const Auth = () => {
     const code = new URLSearchParams(search).get('code')
 
     if (typeof code === 'string' && code.length > 0) {
-      requestAccessToken(code)
+      requestAccessToken(code, new URLSearchParams(search).has('_switch_user'))
     } else {
       initializeAuth()
     }

@@ -28,9 +28,9 @@ export const useRequestAccessToken = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  return useAsyncFn(async code => {
+  return useAsyncFn(async (code, isSwitchUser) => {
     const data = await login(code)
-    dispatch(userLoggedIn(data))
+    dispatch(userLoggedIn({ tokens: data, isSwitchUser }))
     navigate(paths.dashboard)
   }, [])
 }

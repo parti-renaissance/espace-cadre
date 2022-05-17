@@ -3,7 +3,7 @@ import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
-import { getCurrentUser, getUserScopes } from '../../redux/user/selectors'
+import { getCurrentUser, getUserScopes, isSwitchUser } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
@@ -85,11 +85,13 @@ const Area = styled(Typography)`
 const messages = {
   zone: 'zone',
   logout: 'Me déconnecter',
+  exitSwitchUser: 'Quitter l’impersonnification',
 }
 
 function Scopes() {
   const currentUser = useSelector(getCurrentUser)
   const [currentScope, updateCurrentScope] = useUserScope()
+  const isSwitchedUser = useSelector(isSwitchUser)
   const userScopes = useSelector(getUserScopes)
   const navigate = useNavigate()
   const filteredScopes = userScopes.filter(scope => scope.apps.includes('data_corner'))
@@ -156,7 +158,7 @@ function Scopes() {
             ))}
             <Divider sx={{ bgcolor: 'whiteCorner' }} />
             <Logout onClick={logout}>
-              <Scope>{messages.logout}</Scope>
+              <Scope>{isSwitchedUser ? messages.exitSwitchUser : messages.logout}</Scope>
             </Logout>
           </Menu>
         </>
