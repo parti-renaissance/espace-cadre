@@ -56,8 +56,8 @@ const groupSchema = Yup.object({
   name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
 })
 
-const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }) => {
-  const { handleError } = useErrorHandler()
+const GroupModal = ({ open, group, onCloseResolve, onCreateEditResolve }) => {
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
@@ -75,6 +75,7 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
 
   const handleClose = () => {
     onCloseResolve()
+    resetErrorMessages()
   }
 
   const formik = useFormik({
@@ -107,13 +108,11 @@ const GroupModal = ({ open, group, onCloseResolve, errors, onCreateEditResolve }
           <Grid item xs={12}>
             <TextField formik={formik} label="name" />
           </Grid>
-          {errors
-            .filter(({ field }) => field === 'name')
-            .map(({ field, message }) => (
-              <Grid item xs={12} key={field}>
-                <UIFormMessage severity="error">{message}</UIFormMessage>
-              </Grid>
-            ))}
+          {errorMessages.map(({ message, index }) => (
+            <Grid item xs={12} key={index}>
+              <UIFormMessage severity="error">{message}</UIFormMessage>
+            </Grid>
+          ))}
         </Grid>
         {!isNational && (
           <UISelect
@@ -157,10 +156,4 @@ GroupModal.propTypes = {
   group: PropTypes.object,
   onCloseResolve: PropTypes.func.isRequired,
   onCreateEditResolve: PropTypes.func.isRequired,
-  errors: PropTypes.arrayOf(
-    PropTypes.shape({
-      field: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 }

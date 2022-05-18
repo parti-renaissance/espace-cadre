@@ -22,7 +22,7 @@ const messages = {
 const Groups = () => {
   const [currentGroup, setCurrentGroup] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
+  const { handleError, resetErrorMessages } = useErrorHandler()
   const {
     data: paginatedGroups = null,
     fetchNextPage,
@@ -94,7 +94,6 @@ const Groups = () => {
           open={isModalOpen}
           group={currentGroup}
           onCloseResolve={handleCloseModal}
-          errors={errorMessages}
           onCreateEditResolve={onCreateEditResolve}
         />
       )}
