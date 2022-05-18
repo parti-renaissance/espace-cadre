@@ -115,26 +115,33 @@ function Map({ currentStep }) {
       })
     })
 
-    map.current.on('data', () => {
-      const renderedFeatures = map.current.querySourceFeatures(SOURCE_ID, {
-        filter: featuresFilter(...codes),
-        sourceLayer: SOURCE_LAYER,
-        validate: false,
+    let zoomed = false
+
+    map.current
+      .once('click', () => (zoomed = true))
+      .once('dbclick', () => (zoomed = true))
+      .once('wheel', () => (zoomed = true))
+      .on('click', MAIN_LAYER_ID, e => handleMapClickRef.current(e))
+      .on('data', () => {
+        if (zoomed) {
+          return
+        }
+
+        const renderedFeatures = map.current.querySourceFeatures(SOURCE_ID, {
+          filter: featuresFilter(...codes),
+          sourceLayer: SOURCE_LAYER,
+          validate: false,
+        })
+
+        if (!center && renderedFeatures.length === 0 && map.current.getZoom !== 7) {
+          map.current.zoomTo(7, { duration: 100 })
+        }
+
+        if (renderedFeatures.length >= 2) {
+          const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
+          map.current.fitBounds(bbox(line), { padding: 140 })
+        }
       })
-
-      if (!center && renderedFeatures.length === 0 && map.current.getZoom !== 7) {
-        map.current.zoomTo(7, { duration: 100 })
-      }
-
-      if (renderedFeatures.length >= 2) {
-        const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
-        map.current.fitBounds(bbox(line), { padding: 140 })
-      }
-    })
-
-    map.current.on('click', MAIN_LAYER_ID, e => {
-      handleMapClickRef.current(e)
-    })
   })
 
   useEffect(() => {
