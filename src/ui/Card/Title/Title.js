@@ -16,12 +16,14 @@ export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
         {author}
       </Typography>
     </HorizontalContainer>
-    <HorizontalContainer>
-      <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
-      <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-        {dateTime && `Le ${format(dateTime, 'dd/MM/yyyy')} à ${format(dateTime, 'HH:mm')}`}
-      </Typography>
-    </HorizontalContainer>
+    {dateTime && (
+      <HorizontalContainer>
+        <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
+        <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
+          Le {format(dateTime, 'dd/MM/yyyy')} à {format(dateTime, 'HH:mm')}
+        </Typography>
+      </HorizontalContainer>
+    )}
   </VerticalContainer>
 )
 

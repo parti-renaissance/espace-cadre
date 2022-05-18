@@ -25,7 +25,10 @@ exports[`Title displays a Title 1`] = `
       <div
         class="mui-typography-mock"
       >
-        Le 17/03/2022 à 09:00
+        Le 
+        17/03/2022
+         à 
+        09:00
       </div>
     </div>
   </div>
