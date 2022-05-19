@@ -155,7 +155,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
                 campaignId={campaignId || creationModeId}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ height: '750px' }}>
               <Map currentStep={step} />
             </Grid>
           </Grid>
