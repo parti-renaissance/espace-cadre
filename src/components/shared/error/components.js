@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material'
+import PropTypes from 'prop-types'
 
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 
@@ -11,4 +12,9 @@ export const FormError = ({ errors, field: fieldName }) => {
         <UIFormMessage severity="error">{message}</UIFormMessage>
       </Grid>
     ))
+}
+
+FormError.propTypes = {
+  errors: PropTypes.array.isRequired,
+  field: PropTypes.string.isRequired,
 }
