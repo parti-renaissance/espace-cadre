@@ -17,6 +17,7 @@ mapboxgl.accessToken = MAPBOX_TOKEN
 
 const Container = styled(Grid)`
   border-radius: 12px;
+  height: 100%;
 `
 const featuresFilter = (codesRegion, codesDepartement, codesDistrict, codesCountry) => [
   'any',
@@ -167,7 +168,7 @@ function Map({ currentStep }) {
   }, [pollingStationSelection])
 
   return (
-    <Container ref={mapContainer} className={currentStep === 0 ? 'map-container-intro' : 'map-container'}>
+    <Container ref={mapContainer}>
       {currentStep === 1 && (
         <div className="infobar">
           <span>{messages.warning}</span>

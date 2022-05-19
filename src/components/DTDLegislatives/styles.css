@@ -1,11 +1,3 @@
-.map-container {
-  height: 100vh;
-}
-
-.map-container-intro {
-  height: 70vh;
-}
-
 .mapboxgl-control-container {
   display: none;
 }

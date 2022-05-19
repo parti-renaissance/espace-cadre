@@ -163,7 +163,16 @@ const DTDLegislatives = () => {
                 </Grid>
               </Legend>
             </Grid>
-            <Grid item xs={12} md={6} sx={{ background: 'white', p: 2 }}>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                background: 'white',
+                p: 2,
+                height: '600px',
+              }}
+            >
               <Map currentStep={0} />
             </Grid>
           </Grid>
