@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from '!mapbox-gl'
 import { getElectionParticipation, getElectionResults } from 'api/elections'
@@ -19,7 +19,8 @@ import { createMap } from 'providers/map'
 mapboxgl.accessToken = MAPBOX_TOKEN
 
 const Map = styled(Grid)`
-  height: 85vh;
+  height: 700px;
+  width: 100%;
   margin: ${({ theme }) => theme.spacing(1, 0, 2)};
   border-radius: 12px;
 `
@@ -109,26 +110,32 @@ const Elections = () => {
   }
 
   return (
-    <>
-      <PageTitle title={messages.title} />
-      <ElectionFilters
-        filterValues={filterValues}
-        handleTypeSelection={e => setActiveLayer(e.target.value)}
-        handleDetailSelection={handleElectionDetailChange}
-      />
-      <Map ref={mapContainer} item>
-        {isPopinOpen && (
-          <ElectionPopin
-            loader={isPopinLoaderActive}
-            zone={zone}
-            filterValues={filterValues}
-            participation={participation[0] || {}}
-            results={results}
-            handleClose={() => setIsPopinOpen(false)}
-          />
-        )}
-      </Map>
-    </>
+    <Box maxWidth="xl" display="flex" flexDirection="column" justifyContent="flexStart">
+      <Grid container>
+        <PageTitle title={messages.title} />
+      </Grid>
+      <Grid container>
+        <ElectionFilters
+          filterValues={filterValues}
+          handleTypeSelection={e => setActiveLayer(e.target.value)}
+          handleDetailSelection={handleElectionDetailChange}
+        />
+      </Grid>
+      <Grid container>
+        <Map ref={mapContainer} item>
+          {isPopinOpen && (
+            <ElectionPopin
+              loader={isPopinLoaderActive}
+              zone={zone}
+              filterValues={filterValues}
+              participation={participation[0] || {}}
+              results={results}
+              handleClose={() => setIsPopinOpen(false)}
+            />
+          )}
+        </Map>
+      </Grid>
+    </Box>
   )
 }
 
