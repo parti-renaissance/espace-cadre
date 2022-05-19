@@ -38,7 +38,7 @@ const messages = {
   address: 'Adresse',
 }
 
-function Map({ currentStep }) {
+const Map = ({ currentStep }) => {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const { setPollingStationSelection, pollingStationSelection } = useContext(MapContext)
