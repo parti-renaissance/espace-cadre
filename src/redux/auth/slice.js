@@ -21,6 +21,9 @@ const authSlice = createSlice({
       state.isSwitchUser = isSwitchUser
       state.isUserLogged = true
       state.appVersion = APP_VERSION
+      state.user = null
+      state.scopes = []
+      state.currentScope = null
     },
     userUpdateData(state, action) {
       state.user = action.payload
