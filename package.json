@@ -50,7 +50,7 @@
     "recharts": "2.1.10",
     "redux": "4.2.0",
     "redux-persist": "6.0.0",
-    "sass": "1.51.0",
+    "sass": "1.52.0",
     "uuid": "8.3.2",
     "web-vitals": "2.1.4",
     "yup": "0.32.11"
