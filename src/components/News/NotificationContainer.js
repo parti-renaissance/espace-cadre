@@ -15,7 +15,7 @@ const messages = {
 }
 
 const NotificationContainer = ({ formik, isDisabled }) => (
-  <Container container sx={{ mb: 2 }}>
+  <Container container sx={{ mb: 2 }} data-testid="notification-container">
     <Grid item xs={12} sx={{ opacity: isDisabled ? 0.15 : 1, pointerEvents: isDisabled ? 'none' : 'initial' }}>
       <Grid item xs={12}>
         <SectionTitle>{messages.title}</SectionTitle>
