@@ -37,7 +37,7 @@ const authSlice = createSlice({
     updateAuthorizedPages(state, action) {
       state.authorizedPages = action.payload
     },
-    getRefreshToken(state, action) {
+    updateRefreshToken(state, action) {
       state.tokens = action.payload.tokens
     },
     userLogout(state, action) {
@@ -53,6 +53,6 @@ export const {
   userUpdateScopes,
   updateCurrentScope,
   updateAuthorizedPages,
-  getRefreshToken,
+  updateRefreshToken,
 } = authSlice.actions
 export default authSlice.reducer

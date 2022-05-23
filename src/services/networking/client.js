@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios'
 import {
   getAccessToken as selectorGetAccessToken,
@@ -5,7 +6,7 @@ import {
   getCurrentScope,
 } from '../../redux/user/selectors'
 import { store } from '../../redux/store'
-import { userLogout, getRefreshToken } from '../../redux/auth'
+import { userLogout, updateRefreshToken } from '../../redux/auth'
 import { API_HOST, INTERNAL_APP_ID } from 'shared/environments'
 import login from './auth'
 
@@ -13,6 +14,9 @@ const API_BASE_URL = `${API_HOST}/api`
 
 class ApiClient {
   constructor(baseURL) {
+    this.refreshingToken = null
+    this.handleRefreshingToken = async token => await login(true, token)
+
     this.client = axios.create({ baseURL })
     this.client.interceptors.request.use(
       config => {
@@ -27,23 +31,28 @@ class ApiClient {
     this.client.interceptors.response.use(
       res => res,
       async error => {
-        const config = error.config
+        if (!error.response || error.response.status !== 401) {
+          return Promise.reject(error)
+        }
+
         const currentRefreshToken = ApiClient.getRefreshToken()
-        if (error.response && error.response.status === 401 && !config._retry) {
-          if (currentRefreshToken) {
-            config._retry = true
-            try {
-              const data = await login('token', currentRefreshToken)
-              store.dispatch(getRefreshToken({ tokens: data }))
-              return this.client(config)
-            } catch (_error) {
-              return Promise.reject(_error)
-            }
-          } else {
-            store.dispatch(userLogout())
+
+        if (currentRefreshToken) {
+          try {
+            this.refreshingToken = this.refreshingToken
+              ? this.refreshingToken
+              : this.handleRefreshingToken(currentRefreshToken)
+
+            const tokens = await this.refreshingToken
+            store.dispatch(updateRefreshToken({ tokens }))
+            this.refreshingToken = null
+            return this.client(error.config)
+          } catch (exception) {
+            //
           }
         }
-        return Promise.reject(error)
+
+        store.dispatch(userLogout())
       }
     )
   }
@@ -77,12 +86,8 @@ class ApiClient {
       config.params = { scope: userScope.code }
     }
 
-    try {
-      const result = await this.client.request(config)
-      return result.data
-    } catch (error) {
-      return error
-    }
+    const result = await this.client.request(config)
+    return result.data
   }
 
   get(endpoint, headers = {}) {
