@@ -72,7 +72,7 @@ function Register({ formik, values, handleChange, formikErrors, errorMessages, t
 
   const { data: paginatedSurveys = null, isLoading: isSurveysLoading } = useInfiniteQueryWithScope(
     ['paginated-surveys', { feature: 'Surveys', view: 'Surveys' }],
-    () => getSurveysQuery(_, _, true),
+    () => getSurveysQuery('', '', true),
     {
       onError: handleError,
     }
