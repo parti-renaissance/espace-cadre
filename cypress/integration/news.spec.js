@@ -1,14 +1,20 @@
 import { initialize, mock } from './main.spec'
 import { format } from 'date-fns'
+import { eq } from 'lodash'
 
 const UICard = '[data-cy="ui-card"]'
 const Typography = '.MuiTypography-root'
 const publishedNews = '[data-testid="NotificationsActiveRoundedIcon"]'
-const readOnlyModal = 'div[data-testid="news-read-only-modal"]'
+const readOnlyModal = '[data-testid="news-read-only-modal"]'
+const createModal = '[data-testid="create-modal"]'
 const actionButton = '[data-cy="dot-action-menu"]'
 const actionButtonOptions = '.MuiList-root'
 const closeIcon = '[data-testid="close-icon"]'
 const pinnedIcon = '[data-testid="BookmarkIcon"]'
+const createNewsButton = '[data-cy="ui-page-header-button"]'
+const ckeditor = '.ck-editor'
+const callToActionContainer = '[data-testid="callToAction-container"]'
+const notificationContainer = '[data-testid="notification-container"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -75,6 +81,48 @@ describe('News', () => {
       cy.get(UICard).eq(1).find('>div').eq(1).contains('Voir').click()
       cy.get(closeIcon).click()
       cy.get(readOnlyModal, { timeout: 1000 }).should('not.exist');
+    })
+  })
+
+  describe('The create modal', () => {
+    beforeEach(() => {
+      cy.get(createNewsButton).find('>button').contains('Nouvelle Actualité')
+      cy.get(createNewsButton).find('>button').click()
+    })
+
+    describe('displays a modal with a form', () => {
+      it('displays a modal title', () => {
+        cy.get(createModal).contains('Nouvelle actualité')
+      })
+
+      it('displays a title input with a placeholder', () => {
+        cy.get(createModal).contains('Titre')
+        cy.get('input').eq(0).invoke('attr', 'placeholder').should('contain', 'Donnez un titre à votre actualité')
+      })
+
+      it('displays a text editor', () => {
+        cy.get(ckeditor).should('exist')
+      })
+
+      it('contains a call to action block with two empty inputs', () => {
+        cy.get(callToActionContainer).contains('Bouton d’action')
+        cy.get(callToActionContainer).find('input').eq(0).invoke('attr', 'placeholder').should('contain', 'https://')
+        cy.get(callToActionContainer).find('input').eq(1).invoke('attr', 'placeholder').should('contain', 'Je m’engage')
+      })
+
+      it('contains a notification push block with a text and a checkbox', () => {
+        cy.get(notificationContainer).find('[name="withNotification"]').should('exist')
+        cy.get(notificationContainer).contains('Envoyer une notification push')
+      })
+
+      it('contains a submit button', () => {
+        cy.get(createModal).contains('Envoyer l’actualité').click()
+      })
+
+      it('contains a button to close the modal', () => {
+        cy.get(createModal).find('button').eq(0).click()
+        cy.get(createModal, { timeout: 1000 }).should('not.exist');
+      })
     })
   })
 })

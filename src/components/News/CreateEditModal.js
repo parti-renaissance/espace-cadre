@@ -115,7 +115,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   }
 
   return (
-    <Dialog open={open} handleClose={handleClose} disableEnforceFocus={true}>
+    <Dialog open={open} handleClose={handleClose} disableEnforceFocus={true} data-testid="create-modal">
       <form>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2, ...(isMobile && { mt: 2 }) }}>
           <Title>{news?.id ? messages.editNews : messages.createNews}</Title>
