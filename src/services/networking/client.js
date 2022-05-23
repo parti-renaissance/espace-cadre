@@ -11,12 +11,6 @@ import login from './auth'
 
 const API_BASE_URL = `${API_HOST}/api`
 
-const handleHttpError = error => {
-  const { response = {} } = error
-  if (response.status === 401) store.dispatch(userLogout())
-  throw error
-}
-
 class ApiClient {
   constructor(baseURL) {
     this.client = axios.create({ baseURL })
@@ -34,15 +28,19 @@ class ApiClient {
       res => res,
       async error => {
         const config = error.config
+        const currentRefreshToken = ApiClient.getRefreshToken()
         if (error.response && error.response.status === 401 && !config._retry) {
-          config._retry = true
-          try {
-            const currentRefreshToken = ApiClient.getRefreshToken()
-            const data = await login('token', currentRefreshToken)
-            store.dispatch(getRefreshToken({ tokens: data }))
-            return this.client(config)
-          } catch (_error) {
-            return Promise.reject(_error)
+          if (currentRefreshToken) {
+            config._retry = true
+            try {
+              const data = await login('token', currentRefreshToken)
+              store.dispatch(getRefreshToken({ tokens: data }))
+              return this.client(config)
+            } catch (_error) {
+              return Promise.reject(_error)
+            }
+          } else {
+            store.dispatch(userLogout())
           }
         }
         return Promise.reject(error)
@@ -62,16 +60,10 @@ class ApiClient {
     return getCurrentScope(store.getState())
   }
 
-  async request(method, endpoint, data = null, headers = {}) {
+  async request(method, endpoint, data = null) {
     const config = {
       method,
       url: endpoint.replace(/^\/?api/, ''),
-      headers: {
-        ...{
-          Authorization: `Bearer ${ApiClient.getAccessToken()}`,
-        },
-        ...headers,
-      },
     }
 
     if (['post', 'put', 'patch'].includes(method) && data) {
@@ -88,7 +80,7 @@ class ApiClient {
       const result = await this.client.request(config)
       return result.data
     } catch (error) {
-      return handleHttpError(error)
+      return error
     }
   }
 
