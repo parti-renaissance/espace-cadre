@@ -60,10 +60,11 @@ class ApiClient {
     return getCurrentScope(store.getState())
   }
 
-  async request(method, endpoint, data = null) {
+  async request(method, endpoint, data = null, headers = {}) {
     const config = {
       method,
       url: endpoint.replace(/^\/?api/, ''),
+      headers,
     }
 
     if (['post', 'put', 'patch'].includes(method) && data) {
