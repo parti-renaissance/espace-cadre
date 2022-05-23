@@ -1,4 +1,4 @@
-import MaaxItalic from '../../public/fonts/maax/maax-italic.woff2'
+import MaaxItalic from '/fonts/maax/maax-italic.woff2'
 
 export const MaaxFontFaces = `
 @font-face {
