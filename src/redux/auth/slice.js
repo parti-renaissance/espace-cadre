@@ -37,12 +37,22 @@ const authSlice = createSlice({
     updateAuthorizedPages(state, action) {
       state.authorizedPages = action.payload
     },
+    getRefreshToken(state, action) {
+      state.tokens = action.payload.tokens
+    },
     userLogout(state, action) {
       return { ...initialState, isSwitchUser: action.payload }
     },
   },
 })
 
-export const { userLoggedIn, userUpdateData, userLogout, userUpdateScopes, updateCurrentScope, updateAuthorizedPages } =
-  authSlice.actions
+export const {
+  userLoggedIn,
+  userUpdateData,
+  userLogout,
+  userUpdateScopes,
+  updateCurrentScope,
+  updateAuthorizedPages,
+  getRefreshToken,
+} = authSlice.actions
 export default authSlice.reducer

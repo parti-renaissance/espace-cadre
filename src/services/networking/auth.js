@@ -16,12 +16,16 @@ const authCall = async payload => {
   return {}
 }
 
-const login = async code => {
-  const result = await authCall({
+const login = async (type, params) => {
+  let authPayload = {
     client_id: OAUTH_CLIENT_ID,
-    code,
-    grant_type: 'authorization_code',
-  })
+  }
+  if (type === 'code') {
+    authPayload = { ...authPayload, code: params, grant_type: 'authorization_code' }
+  } else {
+    authPayload = { ...authPayload, refresh_token: params, grant_type: 'refresh_token' }
+  }
+  const result = await authCall(authPayload)
 
   if (result.access_token) {
     return {

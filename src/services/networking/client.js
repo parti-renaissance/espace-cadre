@@ -1,8 +1,13 @@
 import axios from 'axios'
-import { getAccessToken as selectorGetAccessToken, getCurrentScope } from '../../redux/user/selectors'
+import {
+  getAccessToken as selectorGetAccessToken,
+  getRefreshToken as selectorGetRefreshToken,
+  getCurrentScope,
+} from '../../redux/user/selectors'
 import { store } from '../../redux/store'
-import { userLogout } from '../../redux/auth'
+import { userLogout, getRefreshToken } from '../../redux/auth'
 import { API_HOST, INTERNAL_APP_ID } from 'shared/environments'
+import login from './auth'
 
 const API_BASE_URL = `${API_HOST}/api`
 
@@ -15,10 +20,42 @@ const handleHttpError = error => {
 class ApiClient {
   constructor(baseURL) {
     this.client = axios.create({ baseURL })
+    this.client.interceptors.request.use(
+      config => {
+        const token = ApiClient.getAccessToken()
+        if (token) {
+          config.headers['Authorization'] = 'Bearer ' + token
+        }
+        return config
+      },
+      error => Promise.reject(error)
+    )
+    this.client.interceptors.response.use(
+      res => res,
+      async error => {
+        const config = error.config
+        if (error.response && error.response.status === 401 && !config._retry) {
+          config._retry = true
+          try {
+            const currentRefreshToken = ApiClient.getRefreshToken()
+            const data = await login('token', currentRefreshToken)
+            store.dispatch(getRefreshToken({ tokens: data }))
+            return this.client(config)
+          } catch (_error) {
+            return Promise.reject(_error)
+          }
+        }
+        return Promise.reject(error)
+      }
+    )
   }
 
   static getAccessToken() {
     return selectorGetAccessToken(store.getState())
+  }
+
+  static getRefreshToken() {
+    return selectorGetRefreshToken(store.getState())
   }
 
   static getUserScope() {
