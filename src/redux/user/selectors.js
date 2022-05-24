@@ -13,3 +13,5 @@ export const isUserLogged = state => state.auth.isUserLogged && state.auth.appVe
 export const isSwitchUser = state => state.auth.isSwitchUser || false
 
 export const getAccessToken = state => state.auth.tokens && state.auth.tokens.accessToken
+
+export const getRefreshToken = state => state.auth.tokens && state.auth.tokens.refreshToken
