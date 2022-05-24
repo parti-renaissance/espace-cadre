@@ -315,7 +315,7 @@ export const styles = {
 
     // Riposte Colors
     activeLabel: 'rgba(4, 120, 87, 0.08)',
-    inactiveLabel: 'rgba(55, 65, 81, 0.08)',
+    inactiveLabel: 'rgba(220, 38, 38, 0.08)',
     pastLabel: 'rgba(55, 65, 81, 0,08)',
 
     // Messages Colors
