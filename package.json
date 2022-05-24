@@ -57,7 +57,7 @@
   },
   "scripts": {
     "start": "vite",
-    "start-test": "NODE_ENV=test webpack serve --mode=development",
+    "start-test": "NODE_ENV=test vite",
     "dev": "vite preview",
     "build": "vite build",
     "test": "TZ=Europe/Paris jest",
