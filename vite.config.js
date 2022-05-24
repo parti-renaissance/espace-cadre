@@ -16,7 +16,6 @@ export default defineConfig({
       'REACT_APP_OAUTH_CLIENT_ID',
       'REACT_APP_INTERNAL_APP_ID',
       'REACT_APP_UNLAYER_PROJECT_ID',
-      'REACT_APP_UNLAYER_TEMPLATE_ID',
       'REACT_APP_MAPBOX_TOKEN',
       'REACT_APP_MAPBOX_STYLE',
     ]),
