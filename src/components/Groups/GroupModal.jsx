@@ -92,7 +92,7 @@ const GroupModal = ({ open, group, onCloseResolve, onCreateEditResolve }) => {
   })
 
   return (
-    <Dialog open={open} handleClose={handleClose}>
+    <Dialog open={open} handleClose={handleClose} data-testid="create-edit-modal">
       <Form>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 2, ...(isMobile && { pt: 2 }) }}>
           <Title component="span">{group?.id ? messages.edit : messages.create}</Title>
@@ -106,7 +106,7 @@ const GroupModal = ({ open, group, onCloseResolve, onCreateEditResolve }) => {
             <CharactersLimit>{messages.charactersLimit}</CharactersLimit>
           </Grid>
           <Grid item xs={12}>
-            <TextField formik={formik} label="name" />
+            <TextField formik={formik} label="name" data-cy="group-title-input" />
           </Grid>
           {errorMessages.map(({ message, index }) => (
             <Grid item xs={12} key={index}>
@@ -122,6 +122,7 @@ const GroupModal = ({ open, group, onCloseResolve, onCreateEditResolve }) => {
             }}
             value={formik.values.zone}
             disabled={currentScope.zones.length === 1}
+            data-cy="group-area-select"
           />
         )}
 

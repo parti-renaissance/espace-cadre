@@ -1,24 +1,68 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios'
-import { getAccessToken as selectorGetAccessToken, getCurrentScope } from '../../redux/user/selectors'
+import {
+  getAccessToken as selectorGetAccessToken,
+  getRefreshToken as selectorGetRefreshToken,
+  getCurrentScope,
+} from '../../redux/user/selectors'
 import { store } from '../../redux/store'
-import { userLogout } from '../../redux/auth'
+import { userLogout, updateRefreshToken } from '../../redux/auth'
 import { API_HOST, INTERNAL_APP_ID } from 'shared/environments'
+import login from './auth'
 
 const API_BASE_URL = `${API_HOST}/api`
 
-const handleHttpError = error => {
-  const { response = {} } = error
-  if (response.status === 401) store.dispatch(userLogout())
-  throw error
-}
-
 class ApiClient {
   constructor(baseURL) {
+    this.refreshingToken = null
+    this.handleRefreshingToken = async token => await login(true, token)
+
     this.client = axios.create({ baseURL })
+    this.client.interceptors.request.use(
+      config => {
+        const token = ApiClient.getAccessToken()
+        if (token) {
+          config.headers['Authorization'] = 'Bearer ' + token
+        }
+        return config
+      },
+      error => Promise.reject(error)
+    )
+    this.client.interceptors.response.use(
+      res => res,
+      async error => {
+        if (!error.response || error.response.status !== 401) {
+          return Promise.reject(error)
+        }
+
+        const currentRefreshToken = ApiClient.getRefreshToken()
+
+        if (currentRefreshToken) {
+          try {
+            this.refreshingToken = this.refreshingToken
+              ? this.refreshingToken
+              : this.handleRefreshingToken(currentRefreshToken)
+
+            const tokens = await this.refreshingToken
+            store.dispatch(updateRefreshToken({ tokens }))
+            this.refreshingToken = null
+            return this.client(error.config)
+          } catch (exception) {
+            //
+          }
+        }
+
+        store.dispatch(userLogout())
+      }
+    )
   }
 
   static getAccessToken() {
     return selectorGetAccessToken(store.getState())
+  }
+
+  static getRefreshToken() {
+    return selectorGetRefreshToken(store.getState())
   }
 
   static getUserScope() {
@@ -29,12 +73,7 @@ class ApiClient {
     const config = {
       method,
       url: endpoint.replace(/^\/?api/, ''),
-      headers: {
-        ...{
-          Authorization: `Bearer ${ApiClient.getAccessToken()}`,
-        },
-        ...headers,
-      },
+      headers,
     }
 
     if (['post', 'put', 'patch'].includes(method) && data) {
@@ -47,12 +86,8 @@ class ApiClient {
       config.params = { scope: userScope.code }
     }
 
-    try {
-      const result = await this.client.request(config)
-      return result.data
-    } catch (error) {
-      return handleHttpError(error)
-    }
+    const result = await this.client.request(config)
+    return result.data
   }
 
   get(endpoint, headers = {}) {
