@@ -1,11 +1,11 @@
 import { initialize, mock } from './main.spec'
 
-const groupCard = '[data-cy="ui-card"]'
-const createGroupButton = '[data-cy="ui-page-header-button"]'
-const dotActionButton = '[data-cy="dot-action-menu"]'
-const createEditModal = '[data-testid="create-edit-modal"]'
-const groupTitleInput = '[data-cy="group-title-input"]'
-const groupAreaSelect = '[data-cy="group-area-select"]'
+const GroupCard = '[data-cy="ui-card"]'
+const CreateGroupButton = '[data-cy="ui-page-header-button"]'
+const DotActionButton = '[data-cy="dot-action-menu"]'
+const CreateEditModal = '[data-testid="create-edit-modal"]'
+const GroupTitleInput = '[data-cy="group-title-input"]'
+const GroupAreaSelect = '[data-cy="group-area-select"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -27,22 +27,22 @@ describe('Groups', () => {
 
   describe('Homepage', () => {
     it('displays two cards', () => {
-      cy.get(groupCard).should('have.length', 2)
+      cy.get(GroupCard).should('have.length', 2)
     })
 
     it('displays cards with a chip, a title, a creator, a "Voir" button and an edit button', () => {
       cy.contains('1 militant')
       cy.contains('Group1')
       cy.contains('Voir')
-      cy.get(dotActionButton).should('exist')
+      cy.get(DotActionButton).should('exist')
     })
 
     it('displays edition modal with data', () => {
-      cy.get(dotActionButton).eq(0).click()
+      cy.get(DotActionButton).eq(0).click()
       cy.contains('Modifier').click()
-      cy.get(createEditModal).contains('Modifier un groupe')
-      cy.get(groupTitleInput).find('>div').find('>input').should('have.value', 'Group1')
-      cy.get(createEditModal).contains('Valider')
+      cy.get(CreateEditModal).contains('Modifier un groupe')
+      cy.get(GroupTitleInput).find('>div').find('>input').should('have.value', 'Group1')
+      cy.get(CreateEditModal).contains('Valider')
     })
 
     it('should have a "Voir" clickable button ', () => {
@@ -56,23 +56,23 @@ describe('Groups', () => {
 
   describe('Create modal', () => {
     it('displays a button to open a modal and create a group', () => {
-      cy.get(createGroupButton).find('>button')
+      cy.get(CreateGroupButton).find('>button')
     })
 
     beforeEach(()=>{
-      cy.get(createGroupButton).find('>button').click()
+      cy.get(CreateGroupButton).find('>button').click()
     })
     
     it('displays a form', () => {
       cy.contains('Créer un groupe')
       cy.contains('Nom (255 charactères)')
-      cy.get(groupTitleInput).should('have.value', '')
-      cy.get(groupAreaSelect).should('exist')
+      cy.get(GroupTitleInput).should('have.value', '')
+      cy.get(GroupAreaSelect).should('exist')
     })
 
     it('contains a button to close the modal', () => {
-      cy.get(createEditModal).find('button').eq(0).click()
-      cy.get(createEditModal).should('not.exist');
+      cy.get(CreateEditModal).find('button').eq(0).click()
+      cy.get(CreateEditModal).should('not.exist');
     })
   })
 })
