@@ -22,24 +22,23 @@ describe('Ripostes', () => {
   })
 
   describe('Homepage', () => {
-    xit('displays a title', () => {
+    it('displays a title', () => {
       cy.contains('Actions numériques')
     })
 
-    xit('displays two cards', () => {
+    it('displays two cards', () => {
       cy.get(GroupCard).should('have.length', 2)
     })
 
-    describe.skip('The riposte card', () => {
+    describe('The riposte card', () => {
       it('should contain 3 parts', () => {
         cy.get(UICard).should('exist')
         cy.get(UICard).eq(0).find('>div').should('have.length', 3)
       })
 
-      it('should show a chip, a date, a title and an author', () => {
+      it('should show a chip, a title and an author', () => {
         cy.get(UICard).eq(0).find('>div').eq(0).find(Typography).each((element, index) => {
           if (index === 0) cy.wrap(element).should('exist').and('have.text', 'Inactive').and('be.visible')
-          if (index === 1) cy.wrap(element).should('exist').and('have.text', new Date(2021, 11, 2, 12, 0).toLocaleDateString()).and('be.visible')
           if (index === 2) cy.wrap(element).should('exist').and('have.text', 'Riposte 2').and('be.visible')
           if (index === 3) cy.wrap(element).should('exist').and('have.text', 'Par author 2').and('be.visible')
         })
@@ -71,27 +70,64 @@ describe('Ripostes', () => {
       cy.get(CreateRiposteButton).find('>button').click()
     })
 
-
-    xit('displays the modal title', () => {
+    it('displays the modal title', () => {
       cy.contains('Créer une action numérique')
     })
 
-    xit('displays an empty title input', () => {
+    it('displays an empty title input', () => {
       cy.contains('Titre (255 caractères)')
       cy.get('#title').should('be.empty')
     })
 
-    xit('displays an empty text input', () => {
+    it('displays an empty text input', () => {
       cy.contains('Texte (255 caractères)')
       cy.get('#body').should('be.empty')
     })
 
-    xit('displays an empty URL input', () => {
+    it('displays an empty URL input', () => {
       cy.contains('URL (255 caractères)')
       cy.get('#url').should('be.empty')
     })
 
-    xit('displays a Avec notification checkbox', () => {
+    it('displays a Avec notification checkbox', () => {
+      cy.contains('Avec notification')
+    })
+
+    it('displays a Active checkbox', () => {
+      cy.get(Checkbox).eq(1).find('+span').contains('Active')
+    })
+
+    it('contains a button to close the modal', () => {
+      cy.get(CreateEditModal).find('button').eq(0).click()
+      cy.get(CreateEditModal).should('not.exist');
+    })
+  })
+
+  describe('The edit modal', () => {
+    beforeEach(() => {
+      cy.get(UICard).eq(0).find('>div').eq(2).contains('Éditer').click()
+    })
+
+    it('displays the modal title', () => {
+      cy.contains('Modifier une action numérique')
+    })
+
+    it('displays a title input', () => {
+      cy.contains('Titre (255 caractères)')
+      cy.get('#title').should('have.value', 'Riposte 2')
+    })
+
+    it('displays a text input', () => {
+      cy.contains('Texte (255 caractères)')
+      cy.get('#body').should('have.value', 'Répondez à Candidat X')
+    })
+
+    it('displays an URL input', () => {
+      cy.contains('URL (255 caractères)')
+      cy.get('#url').should('have.value', 'https://www.en-marche.fr')
+    })
+
+    it('displays a Avec notification checkbox', () => {
       cy.contains('Avec notification')
     })
 
