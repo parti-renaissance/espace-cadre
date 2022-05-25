@@ -6,6 +6,7 @@ const Typography = '.MuiTypography-root'
 const ActivateButton = '[data-cy="dot-action-menu"]'
 const CreateRiposteButton = '[data-cy="ui-page-header-button"]'
 const CreateEditModal = '[data-cy="create-edit-modal"]'
+const Checkbox = '[data-cy="ui-checkbox"]'
 
 const navigate = () => {
   cy.contains('National').click()
@@ -65,16 +66,42 @@ describe('Ripostes', () => {
     })
   })
 
-  describe('The create or edit modal', () => {
+  describe('The create modal', () => {
     beforeEach(() => {
       cy.get(CreateRiposteButton).find('>button').click()
     })
 
-    it('displays an empty modal with a form', () => {
+
+    xit('displays the modal title', () => {
       cy.contains('Créer une action numérique')
-      cy.contains('Titre (255 caractères)')
-      cy.contains('Texte (255 caractères)')
-      cy.contains('URL (255 caractères)')
     })
-  })  
+
+    xit('displays an empty title input', () => {
+      cy.contains('Titre (255 caractères)')
+      cy.get('#title').should('be.empty')
+    })
+
+    xit('displays an empty text input', () => {
+      cy.contains('Texte (255 caractères)')
+      cy.get('#body').should('be.empty')
+    })
+
+    xit('displays an empty URL input', () => {
+      cy.contains('URL (255 caractères)')
+      cy.get('#url').should('be.empty')
+    })
+
+    xit('displays a Avec notification checkbox', () => {
+      cy.contains('Avec notification')
+    })
+
+    it('displays a Active checkbox', () => {
+      cy.get(Checkbox).eq(1).find('+span').contains('Active')
+    })
+
+    it('contains a button to close the modal', () => {
+      cy.get(CreateEditModal).find('button').eq(0).click()
+      cy.get(CreateEditModal).should('not.exist');
+    })
+  })
 })

@@ -72,7 +72,7 @@ describe('Groups', () => {
 
     it('contains a button to close the modal', () => {
       cy.get(createEditModal).find('button').eq(0).click()
-      cy.get(createEditModal, { timeout: 1000 }).should('not.exist');
+      cy.get(createEditModal).should('not.exist');
     })
   })
 })
