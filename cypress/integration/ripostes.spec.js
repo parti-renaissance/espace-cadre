@@ -3,14 +3,15 @@ import { initialize, mock } from './main.spec'
 const GroupCard = '[data-cy="ui-card"]'
 const UICard = '[data-cy="ui-card"]'
 const Typography = '.MuiTypography-root'
-const activateButton = '[data-cy="dot-action-menu"]'
+const ActivateButton = '[data-cy="dot-action-menu"]'
+const CreateRiposteButton = '[data-cy="ui-page-header-button"]'
+const CreateEditModal = '[data-cy="create-edit-modal"]'
 
 const navigate = () => {
   cy.contains('National').click()
   cy.contains('a', 'Action numérique').click()
   cy.url().should('eq', 'http://localhost:3000/ripostes')
 }
-
 
 describe('Ripostes', () => {
   beforeEach(() => {
@@ -28,13 +29,13 @@ describe('Ripostes', () => {
       cy.get(GroupCard).should('have.length', 2)
     })
 
-    describe('The riposte card', () => {
-      xit('should contain 3 parts', () => {
+    describe.skip('The riposte card', () => {
+      it('should contain 3 parts', () => {
         cy.get(UICard).should('exist')
         cy.get(UICard).eq(0).find('>div').should('have.length', 3)
       })
 
-      xit('should show a chip, a date, a title and an author', () => {
+      it('should show a chip, a date, a title and an author', () => {
         cy.get(UICard).eq(0).find('>div').eq(0).find(Typography).each((element, index) => {
           if (index === 0) cy.wrap(element).should('exist').and('have.text', 'Inactive').and('be.visible')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', new Date(2021, 11, 2, 12, 0).toLocaleDateString()).and('be.visible')
@@ -43,7 +44,7 @@ describe('Ripostes', () => {
         })
       })
 
-      xit('should show kpis', () => {
+      it('should show kpis', () => {
         cy.get(UICard).eq(0).find('>div').eq(1).find('>div').find('>div').each((element, index) => {
           if (index === 0) cy.wrap(element).should('exist').should('exist')
           if (index === 1) cy.wrap(element).should('exist').and('have.text', '2 vues').and('be.visible')
@@ -54,24 +55,26 @@ describe('Ripostes', () => {
 
       it('should show an edit button and an activate button', () => {
         cy.get(UICard).eq(0).find('>div').eq(2).contains('Éditer')
-        cy.get(activateButton).eq(0).should('exist')
+        cy.get(ActivateButton).eq(0).should('exist')
       })
 
       it('should have an activate button', () => {
-        cy.get(activateButton).eq(0).click()
+        cy.get(ActivateButton).eq(0).click()
         cy.contains('Activer')
       })
     })
   })
 
-    // cy.contains('Éditer').first().click()
-    // const modal = 'div[role="dialog"]'
-    // cy.get(modal).contains('Modifier une action numérique')
-    // cy.get(modal).get('input[name="title"]').should('have.value', 'Riposte 2')
-    // cy.get(modal).get('textarea[name="body"]').should('have.value', 'Répondez à Candidat X')
-    // cy.get(modal).get('input[name="url"]').should('have.value', 'https://www.en-marche.fr')
-    // cy.get(modal + ' button')
-    //   .first()
-    //   .click()
-    // cy.get(modal).should('not.exist')
+  describe('The create or edit modal', () => {
+    beforeEach(() => {
+      cy.get(CreateRiposteButton).find('>button').click()
+    })
+
+    it('displays an empty modal with a form', () => {
+      cy.contains('Créer une action numérique')
+      cy.contains('Titre (255 caractères)')
+      cy.contains('Texte (255 caractères)')
+      cy.contains('URL (255 caractères)')
+    })
+  })  
 })
