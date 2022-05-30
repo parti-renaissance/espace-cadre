@@ -35,6 +35,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import isBase64 from 'is-base64'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -110,7 +111,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const [newEvent, setNewEvent] = useState(event)
   const [resetActiveStep, setResetActiveStep] = useState(noOp)
   const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError, errorMessages } = useErrorHandler()
+  const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const setResetActiveStepRef = useCallback(f => setResetActiveStep(() => f), [])
   const [image, setImage] = useState(event.image || undefined)
   const { isMobile } = useCurrentDeviceType()
@@ -244,7 +245,11 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
           <CloseRoundedIcon />
         </IconButton>
       </Grid>
-
+      {errorMessages.map(({ message, index }) => (
+        <Grid item xs={12} key={index}>
+          <UIFormMessage severity="error">{message}</UIFormMessage>
+        </Grid>
+      ))}
       <Grid container sx={{ mb: isMobile ? 2 : null }}>
         <Stepper
           orientation="vertical"
