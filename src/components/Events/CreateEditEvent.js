@@ -52,7 +52,7 @@ const TextArea = styled(MuiTextField)(
 )
 
 const eventSchema = Yup.object({
-  description: Yup.string().min(10, 'Minimum 1 caractère').required('Description obligatoire'),
+  description: Yup.string().min(10, 'Minimum 10 caractères').required('Description obligatoire'),
 })
 
 const fields = {
@@ -62,6 +62,7 @@ const fields = {
   finishAt: 'finishAt',
   timezone: 'timezone',
   address: 'address',
+  addressError: 'post_address',
   visio: 'visioUrl',
   capacity: 'capacity',
   description: 'description',
@@ -224,7 +225,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const createOrEdit = () => {
     if (!isCreateMode) {
-      updateEvent(newEvent)
+      updateEvent(values)
     } else {
       createEvent(prepareCreate())
     }
@@ -251,6 +252,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
           validSteps={areAllStepsValid}
           sx={{ width: '100%', pt: 4 }}
           resetActiveStep={setResetActiveStepRef}
+          errors={!!errorMessages.length}
         >
           <div>
             <div title={messages.step1}>
@@ -343,7 +345,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                   <Places initialValue={newEvent.address?.route} onSelectPlace={onChange} />
                 )}
               />
-              <FormError errors={errorMessages} field={fields.address} />
+              <FormError errors={errorMessages} field={fields.addressError} />
               <Box component="div" sx={{ display: 'flex', mt: 3 }}>
                 <Input
                   placeholder={messages.placeholder.postalCode}
