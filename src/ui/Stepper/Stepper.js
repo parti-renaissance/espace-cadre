@@ -73,7 +73,7 @@ const messages = {
   finish: 'Terminer',
 }
 
-const Stepper = ({ validSteps = [], children, resetActiveStep, ...props }) => {
+const Stepper = ({ validSteps = [], children, resetActiveStep, errors, ...props }) => {
   const [activeStep, setActiveStep] = useState(0)
   const handlePrevStep = useCallback(() => setActiveStep(prevStep => prevStep - 1), [])
   const handleNextStep = useCallback(() => setActiveStep(prevStep => prevStep + 1), [])
@@ -96,7 +96,7 @@ const Stepper = ({ validSteps = [], children, resetActiveStep, ...props }) => {
   return (
     <MuiStepper connector={<StepConnector />} activeStep={activeStep} {...props}>
       {React.Children.map(children, (step, index) => (
-        <Step key={index}>
+        <Step key={index} expanded={errors}>
           <Grid container direction="column">
             <Grid item>
               <StepTitleButton disabled={activeStep <= index} onClick={handleRestartFromStep(index)}>
@@ -127,6 +127,7 @@ Stepper.propTypes = {
   validSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
   resetActiveStep: PropTypes.func,
   children: PropTypes.node.isRequired,
+  errors: PropTypes.bool,
 }
 
 export default Stepper
