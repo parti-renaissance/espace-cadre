@@ -225,7 +225,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const createOrEdit = () => {
     if (!isCreateMode) {
-      updateEvent(newEvent)
+      updateEvent(values)
     } else {
       createEvent(prepareCreate())
     }

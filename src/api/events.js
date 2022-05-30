@@ -122,7 +122,6 @@ export const createEvent = async event => {
   return data.uuid
 }
 export const updateEvent = async event => {
-  console.log(event)
   const data = await apiClient.put(`/api/v3/events/${event.id}`, eventToJson(event))
   return data.uuid
 }
