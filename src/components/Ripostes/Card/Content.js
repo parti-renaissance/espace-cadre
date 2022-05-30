@@ -19,7 +19,8 @@ const Chip = styled('div')(
 const messages = {
   view: 'vue',
   detailed: 'détaillée',
-  riposte: 'action numérique',
+  action: 'action',
+  numeric: 'numérique',
 }
 
 const Content = ({ riposte }) => {
@@ -53,7 +54,7 @@ const Content = ({ riposte }) => {
       </Grid>
       <Grid item>
         <Chip>
-          {ripostes} {pluralize(ripostes, messages.riposte)}
+          {ripostes} {pluralize(ripostes, messages.action)} {pluralize(ripostes, messages.numeric)}
         </Chip>
       </Grid>
     </Grid>
