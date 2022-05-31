@@ -6,20 +6,7 @@ import react from '@vitejs/plugin-react'
 const path = require('path')
 
 export default defineConfig({
-  plugins: [
-    react(),
-    VitePluginHtmlEnv(),
-    EnvironmentPlugin([
-      'NODE_ENV',
-      'REACT_APP_API_HOST',
-      'REACT_APP_OAUTH_HOST',
-      'REACT_APP_OAUTH_CLIENT_ID',
-      'REACT_APP_INTERNAL_APP_ID',
-      'REACT_APP_UNLAYER_PROJECT_ID',
-      'REACT_APP_MAPBOX_TOKEN',
-      'REACT_APP_MAPBOX_STYLE',
-    ]),
-  ],
+  plugins: [react(), VitePluginHtmlEnv(), EnvironmentPlugin('all', { prefix: 'REACT_APP_' })],
   resolve: {
     alias: {
       api: path.resolve(__dirname, 'src/api'),
