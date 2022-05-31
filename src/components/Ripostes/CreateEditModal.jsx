@@ -90,7 +90,7 @@ const CreateEditModal = ({ open, riposte, onCloseResolve, createRiposte, updateR
   })
 
   return (
-    <Dialog open={open} handleClose={handleClose}>
+    <Dialog open={open} handleClose={handleClose} data-cy="create-edit-modal">
       <form onSubmit={formik.handleSubmit}>
         <Grid container justifyContent="space-between" sx={{ mt: isMobile ? 2 : null, mb: 2 }}>
           <Grid item>
