@@ -227,3 +227,5 @@ export const updateDTDLocalCampaign = async campaign => {
     vote_places: campaign.votePlaces,
   })
 }
+
+export const deleteDTDCampaignQuery = campaignId => apiClient.delete(`api/v3/pap_campaigns/${campaignId}`)
