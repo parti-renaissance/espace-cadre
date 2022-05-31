@@ -42,10 +42,10 @@ export const campaignToFiltersValues = ({
   adherentToDate: adherentToDate ?? '',
   ageMin: ageMin ?? '',
   ageMax: ageMax ?? '',
-  certified: certified ?? false,
-  committeeMember: committeeMember ?? false,
-  emailSubscribed: emailSubscribed ?? false,
-  SMSSubscribed: SMSSubscribed ?? false,
+  certified: certified ?? null,
+  committeeMember: committeeMember ?? null,
+  emailSubscribed: emailSubscribed ?? null,
+  SMSSubscribed: SMSSubscribed ?? true,
   zones: zones ?? [],
 })
 
