@@ -17,7 +17,7 @@ import LegendItem from '../DTD/LegendItem'
 import Map from './Map'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getDTDCampaignsQuery, deleteDTDCampaignQuery } from 'api/DTD'
+import { getDTDCampaignsQuery, deleteDTDCampaignQuery, toggleActivateCampaign } from 'api/DTD'
 import { DTDCampaign } from 'domain/DTD'
 import MapContext from './MapContext'
 
@@ -67,6 +67,8 @@ const messages = {
     },
   ],
   deleteSuccess: 'Campagne supprimée avec succès',
+  publishSuccess: 'Campagne publiée avec succès',
+  unpublishSuccess: 'Campagne dépubliée avec succès',
 }
 
 const DTDLegislatives = () => {
@@ -76,7 +78,7 @@ const DTDLegislatives = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
-  const [selectedTab, setSelectedTab] = useState(messages.cartography)
+  const [selectedTab, setSelectedTab] = useState(messages.campaigns)
   const value = { pollingStationSelection, setPollingStationSelection }
 
   const {
@@ -98,6 +100,14 @@ const DTDLegislatives = () => {
     onSuccess: () => {
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
       refetchCampaigns()
+    },
+    onError: handleError,
+  })
+
+  const { mutateAsync: updateCampaign } = useMutation(toggleActivateCampaign, {
+    onSuccess: async isPublished => {
+      enqueueSnackbar(isPublished ? messages.publishSuccess : messages.unpublishSuccess, notifyVariants.success)
+      await refetchCampaigns()
     },
     onError: handleError,
   })
@@ -127,6 +137,10 @@ const DTDLegislatives = () => {
     navigate(generatePath('/porte-a-porte-legislatives/:campaignId', { campaignId }))
   }
 
+  const togglePublish = campaign => () => {
+    const { id, isPublished } = campaign
+    updateCampaign({ id, isPublished: !isPublished })
+  }
   return (
     <MapContext.Provider value={value}>
       <Container maxWidth="lg">
@@ -217,8 +231,10 @@ const DTDLegislatives = () => {
                   knockedDoors={campaign.score.knockedDoors}
                   count={campaign.score.count}
                   collectedContacts={campaign.score.collectedContacts}
+                  isPublished={campaign.isPublished}
                   handleView={handleView(campaign.id)}
                   handleDelete={handleDelete(campaign.id)}
+                  handlePublish={togglePublish(campaign)}
                 />
               ))}
             </Grid>

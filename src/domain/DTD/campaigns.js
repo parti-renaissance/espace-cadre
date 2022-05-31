@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 export class DTDCampaign {
-  constructor(id, title, goal, startDate, endDate, survey, brief, votePlaces) {
+  constructor(id, title, goal, startDate, endDate, survey, brief, votePlaces, isPublished) {
     this.id = id
     this.title = title
     this.goal = goal
@@ -10,9 +10,10 @@ export class DTDCampaign {
     this.survey = survey
     this.brief = brief
     this.votePlaces = votePlaces
+    this.isPublished = isPublished
   }
 
-  static NULL = new DTDCampaign(0, '', '', null, null, '', '', [])
+  static NULL = new DTDCampaign(0, '', '', null, null, '', '', [], true)
 
   withId(newId) {
     return new DTDCampaign(
@@ -118,6 +119,20 @@ export class DTDCampaign {
     )
   }
 
+  withIsPublished(newIsPublished) {
+    return new DTDCampaign(
+      this.id,
+      this.title,
+      this.goal,
+      this.startDate,
+      this.endDate,
+      this.survey,
+      this.brief,
+      this.votePlaces,
+      newIsPublished
+    )
+  }
+
   static propTypes = {
     id: PropTypes.string,
     title: PropTypes.string.isRequired,
@@ -127,6 +142,7 @@ export class DTDCampaign {
     survey: PropTypes.string.isRequired,
     brief: PropTypes.string.isRequired,
     votePlaces: PropTypes.array.isRequired,
+    isPublished: PropTypes.bool.isRequired,
   }
 }
 
@@ -152,13 +168,14 @@ export class DTDCampaignItemScore {
 }
 
 export class DTDCampaignItem {
-  constructor(id, author, startDate, endDate, title, score) {
+  constructor(id, author, startDate, endDate, title, score, isPublished) {
     this.id = id
     this.author = author
     this.startDate = startDate
     this.endDate = endDate
     this.title = title
     this.score = score
+    this.isPublished = isPublished
   }
   static propTypes = {
     id: PropTypes.string,
@@ -167,5 +184,6 @@ export class DTDCampaignItem {
     endDate: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     score: PropTypes.shape(DTDCampaignItemScore.propTypes),
+    isPublished: PropTypes.bool.isRequired,
   }
 }
