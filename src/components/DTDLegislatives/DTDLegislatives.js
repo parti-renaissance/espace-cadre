@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import { useMutation } from 'react-query'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'
@@ -7,14 +8,16 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
 import CreateEditModal from './CreateEditModal'
 import CampaignItem from './Campaign/CampaignItem'
 import LegendItem from '../DTD/LegendItem'
 import Map from './Map'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getDTDCampaignsQuery } from 'api/DTD'
+import { getDTDCampaignsQuery, deleteDTDCampaignQuery } from 'api/DTD'
 import { DTDCampaign } from 'domain/DTD'
 import MapContext from './MapContext'
 
@@ -63,6 +66,7 @@ const messages = {
       color: 'red',
     },
   ],
+  deleteSuccess: 'Campagne supprimée avec succès',
 }
 
 const DTDLegislatives = () => {
@@ -71,7 +75,8 @@ const DTDLegislatives = () => {
   const [viewingCampaign, setViewingCampaign] = useState(DTDCampaign.NULL)
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
-  const [selectedTab, setSelectedTab] = useState(messages.cartography)
+  const { enqueueSnackbar } = useCustomSnackbar()
+  const [selectedTab, setSelectedTab] = useState(messages.campaigns)
   const value = { pollingStationSelection, setPollingStationSelection }
 
   const {
@@ -89,10 +94,25 @@ const DTDLegislatives = () => {
   )
   const campaigns = usePaginatedData(paginatedCampaigns)
 
+  const { mutate: deleteDTDCampaign } = useMutation(deleteDTDCampaignQuery, {
+    onSuccess: () => {
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+      refetchCampaigns()
+    },
+    onError: handleError,
+  })
+
   const handleCreate = () => {
     setViewingCampaign(DTDCampaign.NULL)
     setIsCreateEditModalOpen(true)
   }
+
+  const handleDelete = useCallback(
+    campaignId => () => {
+      deleteDTDCampaign(campaignId)
+    },
+    [deleteDTDCampaign]
+  )
 
   const handleClose = () => {
     setViewingCampaign(DTDCampaign.NULL)
@@ -198,6 +218,7 @@ const DTDLegislatives = () => {
                   count={campaign.score.count}
                   collectedContacts={campaign.score.collectedContacts}
                   handleView={handleView(campaign.id)}
+                  handleDelete={handleDelete(campaign.id)}
                 />
               ))}
             </Grid>

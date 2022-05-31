@@ -12,6 +12,8 @@ import pluralize from '../../shared/pluralize/pluralize'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import DateStatus from './DateStatus'
 import formatNumber from 'components/shared/formatNumber/formatNumber'
+import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
+import { isBefore } from 'date-fns'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -39,6 +41,7 @@ const messages = {
   survey: 'questionnaire',
   filled: 'rempli',
   collected: 'collecté',
+  delete: 'Supprimer',
 }
 
 const DTDCampaignItem = ({
@@ -52,10 +55,12 @@ const DTDCampaignItem = ({
   pollingStations,
   collectedContacts,
   handleView,
+  handleDelete,
 }) => {
   const chipLabel = chipLabelByDate(startDate, endDate)
   const chipColors = chipColorsByDate(startDate, endDate)
-
+  const today = new Date()
+  const isCampaignDeletable = isBefore(today, startDate)
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
@@ -140,6 +145,11 @@ const DTDCampaignItem = ({
                 {messages.see}
               </MuiTypography>
             </CtaButton>
+            {isCampaignDeletable && (
+              <DotsMenu>
+                <DotsMenuItem onClick={() => handleDelete()}>{messages.delete}</DotsMenuItem>
+              </DotsMenu>
+            )}
           </HorizontalContainer>
         }
       />
@@ -160,4 +170,5 @@ DTDCampaignItem.propTypes = {
   count: PropTypes.number,
   pollingStations: PropTypes.number,
   handleView: PropTypes.func,
+  handleDelete: PropTypes.func,
 }
