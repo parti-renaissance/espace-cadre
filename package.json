@@ -55,8 +55,8 @@
     "yup": "0.32.11"
   },
   "scripts": {
-    "start": "vite --mode=development",
-    "start-test": "vite --mode=test",
+    "start": "vite",
+    "start-test": "yarn rollup:dev & yarn rollup:preview --mode=test",
     "dev": "vite preview",
     "build": "vite build",
     "test": "TZ=Europe/Paris jest",
@@ -64,7 +64,10 @@
     "test:cy": "cypress open",
     "lint": "eslint './src/**/*.js' --ignore-path .gitignore",
     "lint:fix": "yarn run lint --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "rollup:start": "NODE_ENV=development yarn rollup:dev & yarn rollup:preview",
+    "rollup:dev": "yarn vite build --config rollup.config.js",
+    "rollup:preview": "yarn vite preview --config rollup.config.js"
   },
   "devDependencies": {
     "@babel/core": "7.18.2",
