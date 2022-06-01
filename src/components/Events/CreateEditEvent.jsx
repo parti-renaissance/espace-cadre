@@ -59,7 +59,9 @@ const fields = {
   name: 'name',
   category: 'categoryId',
   beginAt: 'beginAt',
+  beginAtError: 'begin_at',
   finishAt: 'finishAt',
+  finishAtError: 'finish_at',
   timezone: 'timezone',
   address: 'address',
   addressError: 'post_address',
@@ -306,7 +308,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                   />
                 )}
               />
-              <FormError errors={errorMessages} field={fields.beginAt} />
+              <FormError errors={errorMessages} field={fields.beginAtError} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.finishAt}</Label>
               <Controller
                 name={fields.finishAt}
@@ -323,7 +325,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                   />
                 )}
               />
-              <FormError errors={errorMessages} field={fields.finishAt} />
+              <FormError errors={errorMessages} field={fields.finishAtError} />
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.timezone}</Label>
               <Controller
                 name={fields.timezone}
