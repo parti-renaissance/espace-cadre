@@ -76,7 +76,7 @@ const DTDLegislatives = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
-  const [selectedTab, setSelectedTab] = useState(messages.campaigns)
+  const [selectedTab, setSelectedTab] = useState(messages.cartography)
   const value = { pollingStationSelection, setPollingStationSelection }
 
   const {
