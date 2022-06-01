@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const mock = (method, url, fixture) => cy.intercept(method, url, { fixture }).as(fixture)
 
 const initialize = () => {
