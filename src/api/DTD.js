@@ -38,7 +38,6 @@ export const getDTDGlobalKPIQuery = async () => {
 export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
   const query = `?order[created_at]=desc&page=${page}&page_size=20`
   const data = await apiClient.get(`api/v3/pap_campaigns${query}`)
-
   const campaigns = data.items.map(c => {
     const score = new DTDCampaignItemScore(
       c.nb_surveys,
@@ -49,7 +48,15 @@ export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
       c.nb_vote_places,
       c.nb_collected_contacts
     )
-    return new DTDCampaignItem(c.uuid, c.creator, new Date(c.begin_at), new Date(c.finish_at), c.title, score)
+    return new DTDCampaignItem(
+      c.uuid,
+      c.creator,
+      new Date(c.begin_at),
+      new Date(c.finish_at),
+      c.title,
+      score,
+      c.enabled
+    )
   })
 
   return newPaginatedResult(campaigns, data.metadata)
@@ -206,13 +213,11 @@ export const createDTDLocalCampaign = async campaign => {
     title: campaign.title,
     brief: campaign.brief,
     goal: +campaign.goal,
-
     begin_at: formatISO(campaign.startDate),
     finish_at: formatISO(campaign.endDate),
     survey: campaign.survey,
     vote_places: campaign.votePlaces,
   })
-
   return data.uuid
 }
 
@@ -226,6 +231,11 @@ export const updateDTDLocalCampaign = async campaign => {
     survey: campaign.survey,
     vote_places: campaign.votePlaces,
   })
+}
+
+export const toggleActivateCampaign = async ({ id, isPublished }) => {
+  await apiClient.put(`api/v3/pap_campaigns/${id}`, { enabled: isPublished })
+  return isPublished
 }
 
 export const deleteDTDCampaignQuery = campaignId => apiClient.delete(`api/v3/pap_campaigns/${campaignId}`)

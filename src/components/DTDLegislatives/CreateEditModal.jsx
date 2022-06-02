@@ -81,6 +81,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
       brief: campaign?.brief,
       survey: campaign?.survey,
       votePlaces: campaign?.votePlaces,
+      isPublished: true,
     },
     validationSchema: SignupSchema,
     enableReinitialize: true,
@@ -95,6 +96,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
           .withSurvey(values.survey)
           .withBrief(values.brief)
           .withVotePlaces(values.votePlaces)
+          .withIsPublished(values.isPublished)
       )
     },
   })

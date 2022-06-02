@@ -13,7 +13,9 @@ import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import DateStatus from './DateStatus'
 import formatNumber from 'components/shared/formatNumber/formatNumber'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
-import { isBefore } from 'date-fns'
+import { isBefore, isAfter } from 'date-fns'
+import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
+import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -21,11 +23,37 @@ const HorizontalContainer = styled('div')`
   justify-content: space-between;
 `
 
+const IconContainer = styled('div')`
+  display: flex;
+  flex: 1;
+  align-items: center;
+`
+
 const Typography = styled(MuiTypography)`
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;
   color: ${({ theme }) => theme.palette.gray600};
+`
+
+const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)`
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 19px;
+  padding: ${({ theme }) => theme.spacing(0.25)};
+  border-color: ${({ theme }) => theme.palette.gray100};
+  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
+  margin: ${({ theme }) => theme.spacing(0.25, 1, 0, 1)};
+`
+
+const NotificationsOffIcon = styled(NotificationsOffRoundedIcon)`
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 19px;
+  padding: ${({ theme }) => theme.spacing(0.25)};
+  border-color: ${({ theme }) => theme.palette.gray100};
+  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
+  margin: ${({ theme }) => theme.spacing(0.25, 0, 0, 1)};
 `
 
 const messages = {
@@ -42,6 +70,8 @@ const messages = {
   filled: 'rempli',
   collected: 'collecté',
   delete: 'Supprimer',
+  publish: 'Publier',
+  unpublish: 'Dépublier',
 }
 
 const DTDCampaignItem = ({
@@ -56,11 +86,15 @@ const DTDCampaignItem = ({
   collectedContacts,
   handleView,
   handleDelete,
+  handlePublish,
+  isPublished,
 }) => {
   const chipLabel = chipLabelByDate(startDate, endDate)
   const chipColors = chipColorsByDate(startDate, endDate)
   const today = new Date()
-  const isCampaignDeletable = isBefore(today, startDate)
+  const isCampaignToCome = isBefore(today, startDate)
+  const isCampaignInProgress = isAfter(today, startDate) && isBefore(today, endDate)
+
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
@@ -68,9 +102,12 @@ const DTDCampaignItem = ({
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
-            <div>
-              <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
-            </div>
+            <HorizontalContainer>
+              <IconContainer>
+                <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
+                {isPublished ? <NotificationsOnIcon /> : <NotificationsOffIcon />}
+              </IconContainer>
+            </HorizontalContainer>
             <VerticalContainer sx={{ pt: 1 }}>
               <TruncatedText variant="subtitle1" title={title} lines={2} data-cy="DTD-campaigns-item-title">
                 {title}
@@ -145,9 +182,14 @@ const DTDCampaignItem = ({
                 {messages.see}
               </MuiTypography>
             </CtaButton>
-            {isCampaignDeletable && (
+            {(isCampaignInProgress || isCampaignToCome) && (
               <DotsMenu>
-                <DotsMenuItem onClick={() => handleDelete()}>{messages.delete}</DotsMenuItem>
+                {isCampaignInProgress && (
+                  <DotsMenuItem onClick={handlePublish}>
+                    {isPublished ? messages.unpublish : messages.publish}
+                  </DotsMenuItem>
+                )}
+                {isCampaignToCome && <DotsMenuItem onClick={() => handleDelete()}>{messages.delete}</DotsMenuItem>}
               </DotsMenu>
             )}
           </HorizontalContainer>
@@ -171,4 +213,6 @@ DTDCampaignItem.propTypes = {
   pollingStations: PropTypes.number,
   handleView: PropTypes.func,
   handleDelete: PropTypes.func,
+  handlePublish: PropTypes.func,
+  isPublished: PropTypes.bool.isRequired,
 }
