@@ -32,7 +32,7 @@ export function generateConfig() {
       EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
     ],
     server: {
-      open: '/',
+      open: true,
     },
     build: {
       outDir: 'build',

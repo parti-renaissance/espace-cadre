@@ -51,12 +51,11 @@
     "redux-persist": "6.0.0",
     "sass": "1.52.1",
     "uuid": "8.3.2",
-    "vite-plugin-html": "3.2.0",
     "yup": "0.32.11"
   },
   "scripts": {
     "start": "vite",
-    "start-test": "yarn rollup:dev & yarn rollup:preview --mode=test",
+    "start-test": "NODE_ENV=test yarn rollup:dev & yarn rollup:preview --mode=test",
     "dev": "vite preview",
     "build": "vite build",
     "test": "TZ=Europe/Paris jest",
@@ -94,6 +93,7 @@
     "prettier": "2.6.2",
     "vite": "2.9.9",
     "vite-plugin-environment": "1.1.1",
+    "vite-plugin-html": "3.2.0",
     "vite-plugin-html-env": "1.1.2"
   },
   "lint-staged": {
