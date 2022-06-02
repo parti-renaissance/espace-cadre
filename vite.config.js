@@ -22,13 +22,7 @@ export function generateConfig() {
         ui: path.resolve(__dirname, 'src/ui'),
       },
     },
-    plugins: [
-      react({
-        jsxRuntime: 'classic',
-      }),
-      VitePluginHtmlEnv(),
-      EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
-    ],
+    plugins: [react(), VitePluginHtmlEnv(), EnvironmentPlugin('all', { prefix: 'REACT_APP_' })],
     server: {
       open: true,
     },
