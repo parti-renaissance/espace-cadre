@@ -14,11 +14,11 @@ export const initialize = () => {
   mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'scope/phoning_national_manager')
   mock('GET', '/api/v3/profile/me/scope/pap_national_manager', 'scope/pap_national_manager')
 
-  mock('GET', '/api/v3/internal/*/adherents?scope=*', 'internal/adherents')
-  mock('GET', '/api/v3/internal/*/jemengage/downloads?scope=*', 'internal/downloads')
-  mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
-  mock('GET', '/api/v3/internal/*/jemengage/survey?scope=*', 'internal/survey')
-  mock('GET', '/api/v3/internal/*/jemengage/users?scope=*', 'internal/users')
+  mock('GET', '/api/v3/internal/adherents?scope=*', 'internal/adherents')
+  mock('GET', '/api/v3/internal/jemengage/downloads?scope=*', 'internal/downloads')
+  mock('GET', '/api/v3/internal/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
+  mock('GET', '/api/v3/internal/jemengage/survey?scope=*', 'internal/survey')
+  mock('GET', '/api/v3/internal/jemengage/users?scope=*', 'internal/users')
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
