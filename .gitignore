@@ -1,4 +1,5 @@
 build
+dist-rollup
 node_modules/
 .env*.local
 .env*.production
