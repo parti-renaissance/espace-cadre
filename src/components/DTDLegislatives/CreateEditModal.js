@@ -116,7 +116,7 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
     !formik.errors.endDate &&
     !formik.errors.brief &&
     !formik.errors.survey
-  console.log(campaignId)
+
   return (
     <MapContext.Provider value={value}>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>

@@ -13,7 +13,7 @@ import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import DateStatus from './DateStatus'
 import formatNumber from 'components/shared/formatNumber/formatNumber'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
-import { isBefore } from 'date-fns'
+import { isBefore, isAfter } from 'date-fns'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 
@@ -93,6 +93,7 @@ const DTDCampaignItem = ({
   const chipColors = chipColorsByDate(startDate, endDate)
   const today = new Date()
   const isCampaignDeletable = isBefore(today, startDate)
+  const isCampaignInProgress = isAfter(today, startDate) && isBefore(today, endDate)
 
   return (
     <Grid item xs={12} sm={6} md={3}>
@@ -181,10 +182,16 @@ const DTDCampaignItem = ({
                 {messages.see}
               </MuiTypography>
             </CtaButton>
-            <DotsMenu>
-              <DotsMenuItem onClick={handlePublish}>{isPublished ? messages.unpublish : messages.publish}</DotsMenuItem>
-              {isCampaignDeletable && <DotsMenuItem onClick={() => handleDelete()}>{messages.delete}</DotsMenuItem>}
-            </DotsMenu>
+            {(isCampaignInProgress || isCampaignDeletable) && (
+              <DotsMenu>
+                {isCampaignInProgress && (
+                  <DotsMenuItem onClick={handlePublish}>
+                    {isPublished ? messages.unpublish : messages.publish}
+                  </DotsMenuItem>
+                )}
+                {isCampaignDeletable && <DotsMenuItem onClick={() => handleDelete()}>{messages.delete}</DotsMenuItem>}
+              </DotsMenu>
+            )}
           </HorizontalContainer>
         }
       />
