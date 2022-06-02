@@ -92,7 +92,7 @@ const DTDCampaignItem = ({
   const chipLabel = chipLabelByDate(startDate, endDate)
   const chipColors = chipColorsByDate(startDate, endDate)
   const today = new Date()
-  const isCampaignDeletable = isBefore(today, startDate)
+  const isCampaignToCome = isBefore(today, startDate)
   const isCampaignInProgress = isAfter(today, startDate) && isBefore(today, endDate)
 
   return (
@@ -182,14 +182,14 @@ const DTDCampaignItem = ({
                 {messages.see}
               </MuiTypography>
             </CtaButton>
-            {(isCampaignInProgress || isCampaignDeletable) && (
+            {(isCampaignInProgress || isCampaignToCome) && (
               <DotsMenu>
                 {isCampaignInProgress && (
                   <DotsMenuItem onClick={handlePublish}>
                     {isPublished ? messages.unpublish : messages.publish}
                   </DotsMenuItem>
                 )}
-                {isCampaignDeletable && <DotsMenuItem onClick={() => handleDelete()}>{messages.delete}</DotsMenuItem>}
+                {isCampaignToCome && <DotsMenuItem onClick={() => handleDelete()}>{messages.delete}</DotsMenuItem>}
               </DotsMenu>
             )}
           </HorizontalContainer>
