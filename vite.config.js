@@ -23,11 +23,9 @@ export function generateConfig() {
       },
     },
     plugins: [
-      process.env.MODE !== 'production'
-        ? react({
-            jsxRuntime: 'classic',
-          })
-        : react(),
+      react({
+        jsxRuntime: 'classic',
+      }),
       VitePluginHtmlEnv(),
       EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
     ],
