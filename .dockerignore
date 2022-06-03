@@ -2,17 +2,12 @@
 **/*.md
 **/._*
 **/.dockerignore
-**/.DS_Store
 **/.git/
-**/.gitattributes
 **/.gitignore
-**/.gitmodules
 **/Dockerfile
 **/Thumbs.db
-.editorconfig
 .env.*.local
 .env.local
 build/
 node_modules/
 cypress*
-yarn-error.log

@@ -104,6 +104,13 @@ runs:
         project_id: ${{ inputs.project_id }}
         region: ${{ inputs.gcp_zone }}
 
+    - shell: bash
+      name: Copy sourceMap
+      run: |-
+        container_id=$(docker create "${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_version }}")
+        docker cp "$container_id:/usr/share/nginx/html" ./build
+        docker rm "$container_id"
+
     - name: Create Sentry release
       uses: getsentry/action-release@v1
       env:
@@ -112,3 +119,4 @@ runs:
         SENTRY_PROJECT: ${{ inputs.sentry_project }}
       with:
         environment: staging
+        sourcemaps: './build'
