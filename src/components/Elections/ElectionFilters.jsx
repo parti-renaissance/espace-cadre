@@ -2,7 +2,7 @@
 import { useMemo, Fragment } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import mapboxgl from '!mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 import { ElectionDetails } from './shared/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
