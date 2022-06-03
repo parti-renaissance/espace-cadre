@@ -114,46 +114,44 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
       </Grid>
 
       <Grid container sx={{ mb: isMobile ? 2 : null }}>
-        <Stepper orientation="vertical" validSteps={validSteps} sx={{ width: '100%', pt: 4 }}>
-          <GlobalSettingsContext.Provider
-            value={{
-              errors: errorMessages,
-              values: globalSettings,
-              initialValues: campaign ? campaignToGlobalSettingsValues(globalSettings) : initialStateWithZone,
-              updateValues: handleChangeAndValidate(
-                setGlobalSettings,
-                handleStepValidation(0, validators.globalSettings)
-              ),
-            }}
-          >
-            <GlobalSettings title={messages.steps.globalSettings} />
-          </GlobalSettingsContext.Provider>
-          <CallersAndSurveyContext.Provider
-            value={{
-              errors: errorMessages,
-              values: callersAndSurvey,
-              initialValues: campaign
-                ? campaignToCallersAndSurveyValues(callersAndSurvey)
-                : initialValues.callersAndSurvey,
-              updateValues: handleChangeAndValidate(
-                setCallersAndSurvey,
-                handleStepValidation(1, validators.callersAndSurvey)
-              ),
-            }}
-          >
-            <CallersAndSurvey title={messages.steps.callersAndSurvey} />
-          </CallersAndSurveyContext.Provider>
-          <FiltersContext.Provider
-            value={{
-              errors: errorMessages,
-              values: filters,
-              initialValues: campaign ? campaignToFiltersValues(filters) : initialValues.filters,
-              updateValues: handleChangeAndValidate(setFilters),
-            }}
-          >
-            <Filters title={messages.steps.filters} />
-          </FiltersContext.Provider>
-        </Stepper>
+        <GlobalSettingsContext.Provider
+          value={{
+            errors: errorMessages,
+            values: globalSettings,
+            initialValues: campaign ? campaignToGlobalSettingsValues(globalSettings) : initialStateWithZone,
+            updateValues: handleChangeAndValidate(
+              setGlobalSettings,
+              handleStepValidation(0, validators.globalSettings)
+            ),
+          }}
+        >
+          <GlobalSettings title={messages.steps.globalSettings} />
+        </GlobalSettingsContext.Provider>
+        <CallersAndSurveyContext.Provider
+          value={{
+            errors: errorMessages,
+            values: callersAndSurvey,
+            initialValues: campaign
+              ? campaignToCallersAndSurveyValues(callersAndSurvey)
+              : initialValues.callersAndSurvey,
+            updateValues: handleChangeAndValidate(
+              setCallersAndSurvey,
+              handleStepValidation(1, validators.callersAndSurvey)
+            ),
+          }}
+        >
+          <CallersAndSurvey title={messages.steps.callersAndSurvey} />
+        </CallersAndSurveyContext.Provider>
+        <FiltersContext.Provider
+          value={{
+            errors: errorMessages,
+            values: filters,
+            initialValues: campaign ? campaignToFiltersValues(filters) : initialValues.filters,
+            updateValues: handleChangeAndValidate(setFilters),
+          }}
+        >
+          <Filters title={messages.steps.filters} />
+        </FiltersContext.Provider>
 
         <ValidateAction
           label={!campaign ? messages.create : messages.update}
