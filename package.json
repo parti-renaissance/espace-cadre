@@ -55,7 +55,7 @@
   },
   "scripts": {
     "start": "vite",
-    "start-test": "yarn rollup:dev & yarn rollup:preview --mode=test",
+    "start-test": "yarn rollup:dev & yarn rollup:preview",
     "dev": "vite preview",
     "build": "vite build",
     "test": "TZ=Europe/Paris jest",
@@ -64,7 +64,7 @@
     "lint": "eslint './src/**/*.js' --ignore-path .gitignore",
     "lint:fix": "yarn run lint --fix",
     "prepare": "husky install",
-    "rollup:dev": "yarn vite build --config rollup.config.js",
+    "rollup:dev": "yarn vite build --config rollup.config.js --mode test",
     "rollup:preview": "yarn vite preview --config rollup.config.js"
   },
   "devDependencies": {
