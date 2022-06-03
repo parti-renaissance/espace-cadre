@@ -22,7 +22,6 @@ import {
 import { createOrUpdatePhoningCampaignQuery } from 'api/phoning'
 import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
 import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
-import Stepper from 'ui/Stepper/Stepper'
 import ValidateAction from 'ui/Stepper/Submit'
 import GlobalSettings from './CreateEditGlobalSettings'
 import CallersAndSurvey from './CreateEditCallersAndSurvey'
