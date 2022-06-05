@@ -57,7 +57,7 @@
     "start": "vite",
     "start-test": "yarn rollup:dev & yarn rollup:preview",
     "dev": "vite preview",
-    "build": "vite build",
+    "build": "vite build --mode production",
     "test": "TZ=Europe/Paris jest",
     "test-coverage": "jest src --coverage",
     "test:cy": "cypress open",
