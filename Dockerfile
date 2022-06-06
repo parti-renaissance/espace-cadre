@@ -4,13 +4,14 @@ ARG NGINX_VERSION=1.21
 # Stage 1 - the build process
 FROM node:${NODE_VERSION}-alpine AS react-build
 
-WORKDIR /app
-COPY . ./
-
 ENV NODE_ENV=production
+WORKDIR /app
 
+COPY package.json yarn.lock ./
 RUN yarn install --pure-lockfile --production=false
-RUN NODE_OPTIONS='--max-old-space-size=4096' yarn build
+
+COPY . ./
+RUN yarn build
 
 # Stage 2 - the production environment
 FROM nginx:${NGINX_VERSION}-alpine
