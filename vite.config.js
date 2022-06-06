@@ -33,6 +33,7 @@ export function generateConfig() {
     },
     build: {
       outDir: 'build',
+      sourcemap: true,
     },
   }
 }

@@ -11,7 +11,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --pure-lockfile --production=false
 
 COPY . ./
-RUN yarn build
+RUN NODE_OPTIONS='--max-old-space-size=4096' yarn build
 
 # Stage 2 - the production environment
 FROM nginx:${NGINX_VERSION}-alpine
