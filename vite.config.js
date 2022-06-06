@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import react from '@vitejs/plugin-react'
@@ -22,13 +22,17 @@ export function generateConfig() {
         ui: path.resolve(__dirname, 'src/ui'),
       },
     },
-    plugins: [react(), VitePluginHtmlEnv(), EnvironmentPlugin('all', { prefix: 'REACT_APP_' })],
+    plugins: [
+      react(),
+      VitePluginHtmlEnv(),
+      EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
+      splitVendorChunkPlugin(),
+    ],
     server: {
       open: true,
     },
     build: {
       outDir: 'build',
-      sourcemap: true,
     },
   }
 }
