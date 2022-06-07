@@ -1,4 +1,4 @@
-import { initialize } from './main.spec'
+import { initialize } from './main.cy'
 
 const ScopesButton = '[data-cy="scopes-button"]'
 

@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const HeaderButton = '[data-cy="ui-page-header-button"]'
 const KPI = '[data-cy="KPI"]'

@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const Typography = '.MuiTypography-root'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'

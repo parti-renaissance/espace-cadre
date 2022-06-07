@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const Chip = '.MuiChip-root'
 const KPI = '[data-cy="KPI"]'

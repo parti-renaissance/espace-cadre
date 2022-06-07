@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const GroupCard = '[data-cy="ui-card"]'
 const CreateGroupButton = '[data-cy="ui-page-header-button"]'

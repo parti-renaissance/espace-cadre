@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const Tabs = '.MuiTabs-root'
 const UICard = '[data-cy="ui-card"]'
