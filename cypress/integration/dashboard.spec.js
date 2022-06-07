@@ -5,7 +5,7 @@ describe('Dashboard', () => {
     initialize()
     mock('GET', '/api/v3/internal/*/adherents?scope=*', 'internal/adherents')
     mock('GET', '/api/v3/internal/*/jemengage/downloads?scope=*', 'internal/downloads')
-    mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
+    mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
     mock('GET', '/api/v3/internal/*/jemengage/survey?scope=*', 'internal/survey')
     mock('GET', '/api/v3/internal/*/jemengage/users?scope=*', 'internal/users')
   })

@@ -19,7 +19,7 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
   describe('Messagerie homepage ', () => {
     beforeEach(() => {
       initialize()
-      mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
+      mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
       mock(
         'GET',
         '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
@@ -127,7 +127,7 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
   describe('Email editor page', () => {
     beforeEach(() => {
       initialize()
-      mock('GET', '/api/v3/internal/*/mailCampaign/reportsRatios?scope=*', 'internal/reportsRatio')
+      mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
       mock(
         'GET',
         '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
