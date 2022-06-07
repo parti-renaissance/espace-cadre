@@ -35,38 +35,6 @@ const StepTitleButton = styled(
   },
 }))
 
-const PrevStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
-  borderRadius: '8px',
-  '&:not(.Mui-disabled)': {
-    backgroundColor: theme.palette.campaign.button.background.prev,
-    color: theme.palette.campaign.button.color.prev,
-    '&:hover': {
-      backgroundColor: theme.palette.campaign.button.background.prev,
-      color: theme.palette.campaign.button.color.prev,
-    },
-  },
-  '&:disabled': {
-    backgroundColor: theme.palette.campaign.button.background.disabled,
-    color: theme.palette.campaign.button.color.disabled,
-  },
-}))
-
-const NextStepButton = styled(props => <Button variant="contained" {...props} />)(({ theme }) => ({
-  borderRadius: '8px',
-  '&:not(.Mui-disabled)': {
-    backgroundColor: theme.palette.campaign.button.background.next,
-    color: theme.palette.campaign.button.color.next,
-    '&:hover': {
-      backgroundColor: theme.palette.campaign.button.background.next,
-      color: theme.palette.campaign.button.color.next,
-    },
-  },
-  '&:disabled': {
-    backgroundColor: theme.palette.campaign.button.background.disabled,
-    color: theme.palette.campaign.button.color.disabled,
-  },
-}))
-
 const messages = {
   prev: 'Précédent',
   next: 'Suivant',
@@ -96,7 +64,7 @@ const Stepper = ({ validSteps = [], children, resetActiveStep, errors, ...props 
   return (
     <MuiStepper connector={<StepConnector />} activeStep={activeStep} {...props}>
       {React.Children.map(children, (step, index) => (
-        <Step key={index} expanded={errors}>
+        <Step key={index} expanded>
           <Grid container direction="column">
             <Grid item>
               <StepTitleButton disabled={activeStep <= index} onClick={handleRestartFromStep(index)}>
@@ -106,15 +74,6 @@ const Stepper = ({ validSteps = [], children, resetActiveStep, errors, ...props 
 
             <StepContent TransitionProps={{ unmountOnExit: false }}>
               <Grid item>{React.cloneElement(step, step.props)}</Grid>
-
-              <Grid item sx={{ pt: 3 }}>
-                <PrevStepButton disabled={activeStep === 0} onClick={handlePrevStep}>
-                  {messages.prev}
-                </PrevStepButton>
-                <NextStepButton disabled={!validSteps.includes(activeStep)} onClick={handleNextStep} sx={{ ml: 2 }}>
-                  {activeStep !== children.length - 1 ? messages.next : messages.finish}
-                </NextStepButton>
-              </Grid>
             </StepContent>
           </Grid>
         </Step>
