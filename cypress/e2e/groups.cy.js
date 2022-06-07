@@ -51,7 +51,6 @@ describe('Groups', () => {
       cy.contains('firstname1 lastname1')
       cy.contains('92100, militant(e) depuis le ' + new Date(2019, 5, 1, 12, 0).toLocaleDateString())
     })
-  
   })
 
   describe('Create modal', () => {
@@ -59,10 +58,10 @@ describe('Groups', () => {
       cy.get(CreateGroupButton).find('>button')
     })
 
-    beforeEach(()=>{
+    beforeEach(() => {
       cy.get(CreateGroupButton).find('>button').click()
     })
-    
+
     it('displays a form', () => {
       cy.contains('Créer un groupe')
       cy.contains('Nom (255 charactères)')
@@ -72,7 +71,7 @@ describe('Groups', () => {
 
     it('contains a button to close the modal', () => {
       cy.get(CreateEditModal).find('button').eq(0).click()
-      cy.get(CreateEditModal).should('not.exist');
+      cy.get(CreateEditModal).should('not.exist')
     })
   })
 })

@@ -29,13 +29,12 @@ describe('News', () => {
     navigate()
   })
 
-  describe('The pinned card section' , () => {
+  describe('The pinned card section', () => {
     it('should have a title', () => {
       cy.contains('Épinglée dans l’application Je m’engage')
     })
     it('should have a pinned card', () => {
       cy.get(UICard).eq(0).find('>div').eq(0).get(`svg${pinnedIcon}`).should('exist')
-
     })
   })
   describe('The cards section', () => {
@@ -52,7 +51,14 @@ describe('News', () => {
         cy.get(UICard).eq(1).get(publishedNews).should('be.visible')
         cy.get(UICard).eq(1).contains('Titre 1')
         cy.get(UICard).eq(1).contains('M Creator 1')
-        cy.get(UICard).eq(1).contains(`Le ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'dd/MM/yyyy')} à ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'HH:mm')}`)
+        cy.get(UICard)
+          .eq(1)
+          .contains(
+            `Le ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'dd/MM/yyyy')} à ${format(
+              new Date(Date.UTC(2020, 9, 15, 10)),
+              'HH:mm'
+            )}`
+          )
       })
 
       it('should display an action button with 3 actions', () => {
@@ -71,7 +77,12 @@ describe('News', () => {
       cy.get(readOnlyModal).get(publishedNews).should('be.visible')
       cy.get(readOnlyModal).contains('Titre 1')
       cy.get(readOnlyModal).contains('M Creator 1')
-      cy.get(readOnlyModal).contains(`Le ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'dd/MM/yyyy')} à ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'HH:mm')}`)
+      cy.get(readOnlyModal).contains(
+        `Le ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'dd/MM/yyyy')} à ${format(
+          new Date(Date.UTC(2020, 9, 15, 10)),
+          'HH:mm'
+        )}`
+      )
       cy.get(readOnlyModal).contains('Texte 1')
       cy.get(readOnlyModal).find('button').eq(1).contains('AvecVous')
       cy.get(readOnlyModal).find('button').eq(2).contains('Dépublier')
@@ -80,7 +91,7 @@ describe('News', () => {
     it('close the modal', () => {
       cy.get(UICard).eq(1).find('>div').eq(1).contains('Voir').click()
       cy.get(closeIcon).click()
-      cy.get(readOnlyModal, { timeout: 1000 }).should('not.exist');
+      cy.get(readOnlyModal, { timeout: 1000 }).should('not.exist')
     })
   })
 
@@ -121,7 +132,7 @@ describe('News', () => {
 
       it('contains a button to close the modal', () => {
         cy.get(createModal).find('button').eq(0).click()
-        cy.get(createModal, { timeout: 1000 }).should('not.exist');
+        cy.get(createModal, { timeout: 1000 }).should('not.exist')
       })
     })
   })

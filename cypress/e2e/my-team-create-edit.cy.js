@@ -45,7 +45,12 @@ describe('My Team - Create Edit', () => {
 
     describe('The Activist and Role block', () => {
       it('should have 2 inputs', () => {
-        cy.get(ModalContainer).find(ActivistInput).should('exist').find('input').invoke('attr', 'name').should('eq', 'activist')
+        cy.get(ModalContainer)
+          .find(ActivistInput)
+          .should('exist')
+          .find('input')
+          .invoke('attr', 'name')
+          .should('eq', 'activist')
         cy.get(ModalContainer).find(RoleInput).should('exist').find('input').invoke('attr', 'name').should('eq', 'role')
       })
 
@@ -76,12 +81,28 @@ describe('My Team - Create Edit', () => {
 
       describe('The header part', () => {
         it('should show a header title with context information', () => {
-          cy.get(ModalContainer).find(DelegatedAccessesHeader).find('>div').find(Typography).its('length').should('eq', 2)
-          cy.get(ModalContainer).find(DelegatedAccessesHeader).find('>div').find(Typography).eq(0).should('have.text', 'Accès délégués')
-          cy.get(ModalContainer).find(DelegatedAccessesHeader).find('>div').find(Typography).eq(1).should('have.text', '(optionnel)')
+          cy.get(ModalContainer)
+            .find(DelegatedAccessesHeader)
+            .find('>div')
+            .find(Typography)
+            .its('length')
+            .should('eq', 2)
+          cy.get(ModalContainer)
+            .find(DelegatedAccessesHeader)
+            .find('>div')
+            .find(Typography)
+            .eq(0)
+            .should('have.text', 'Accès délégués')
+          cy.get(ModalContainer)
+            .find(DelegatedAccessesHeader)
+            .find('>div')
+            .find(Typography)
+            .eq(1)
+            .should('have.text', '(optionnel)')
         })
         it('should show a header description', () => {
-          const disclaimer = 'En déléguant vos accès, ce membre de votre équipe agira en votre nom depuis cet espace d’administration.'
+          const disclaimer =
+            'En déléguant vos accès, ce membre de votre équipe agira en votre nom depuis cet espace d’administration.'
           cy.get(ModalContainer).find(DelegatedAccessesHeader).children().eq(1).should('exist')
           cy.get(ModalContainer).find(DelegatedAccessesHeader).children().eq(1).should('have.text', disclaimer)
         })
@@ -89,18 +110,36 @@ describe('My Team - Create Edit', () => {
 
       describe('The features part', () => {
         it('should have at least 1 item', () => {
-          cy.get(ModalContainer).find(DelegatedAccessesFeatures).find(Checkbox).should('exist').its('length').then(hasAtLeastOneItem)
+          cy.get(ModalContainer)
+            .find(DelegatedAccessesFeatures)
+            .find(Checkbox)
+            .should('exist')
+            .its('length')
+            .then(hasAtLeastOneItem)
         })
 
         describe('Each item', () => {
           it('should show a clickable checkbox', () => {
             cy.get(ModalContainer).find(DelegatedAccessesFeatures).find(Checkbox).eq(0).find('>input').should('exist')
-            cy.get(ModalContainer).find(DelegatedAccessesFeatures).find(Checkbox).eq(0).find('>input').click().then(element => {
-              cy.wrap(element).should('have.value', 'true')
-            })
+            cy.get(ModalContainer)
+              .find(DelegatedAccessesFeatures)
+              .find(Checkbox)
+              .eq(0)
+              .find('>input')
+              .click()
+              .then(element => {
+                cy.wrap(element).should('have.value', 'true')
+              })
           })
           it('should show a label', () => {
-            cy.get(ModalContainer).find(DelegatedAccessesFeatures).find(Feature).find('>span').eq(1).should('exist').invoke('text').then(isNotEmpty)
+            cy.get(ModalContainer)
+              .find(DelegatedAccessesFeatures)
+              .find(Feature)
+              .find('>span')
+              .eq(1)
+              .should('exist')
+              .invoke('text')
+              .then(isNotEmpty)
           })
         })
       })

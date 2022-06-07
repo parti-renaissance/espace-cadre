@@ -52,11 +52,7 @@ describe('PHONING > Campaign Detail', () => {
       '/api/v3/phoning_campaign_histories?campaign.uuid=11111111-1111-1111-1111-111111111111&order[created_at]=desc&page=1&page_size=20&scope=phoning_national_manager',
       'phoning/campaignDetail/histories'
     )
-    mock(
-      'GET',
-      '/api/v3/surveys?*',
-      'surveys/surveys'
-    )
+    mock('GET', '/api/v3/surveys?*', 'surveys/surveys')
     navigate()
   })
 
