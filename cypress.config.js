@@ -18,6 +18,6 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
   },
   component: {
-    specPattern: 'src/**/*.spec.js',
+    specPattern: 'src/**/*.cy.js',
   },
 })
