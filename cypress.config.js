@@ -1,4 +1,6 @@
 const { defineConfig } = require('cypress')
+const path = require('path')
+const { startDevServer } = require('@cypress/vite-dev-server')
 
 module.exports = defineConfig({
   chromeWebSecurity: false,
@@ -7,15 +9,15 @@ module.exports = defineConfig({
   video: false,
   blockHosts: ['*.sentry.io', 'www.google-analytics.com'],
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config)
+      const viteConfig = { configFile: path.resolve(__dirname, '..', '..', 'vite.config.js') }
+
+      on('dev-server:start', options => startDevServer({ options, viteConfig }))
+      return config
     },
     baseUrl: 'http://localhost:3000',
   },
   component: {
-    setupNodeEvents(on, config) {},
     specPattern: 'src/**/*.spec.js',
   },
 })
