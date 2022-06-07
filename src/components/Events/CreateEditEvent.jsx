@@ -299,7 +299,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
                   value={value}
                   onChange={onChange}
                   name={fields.finishAt}
-                  minDate={new Date()}
+                  minDate={values.beginAt ? values.beginAt : new Date()}
                   placeholder={messages.placeholder.finishAt}
                 />
               )}
