@@ -1,4 +1,4 @@
-import { apiClient, apiClientProxy } from 'services/networking/client'
+import { apiClient } from 'services/networking/client'
 import Message, { Statistics } from 'domain/message'
 import { newPaginatedResult } from 'api/pagination'
 import ReportRatio, { GeoRatio } from 'domain/reportRatio'
@@ -42,14 +42,19 @@ export const sendMessage = id => apiClient.post(`/v3/adherent_messages/${id}/sen
 export const sendTestMessage = id => apiClient.post(`/v3/adherent_messages/${id}/send-test`)
 
 export const reportsRatio = async () => {
-  const data = await apiClientProxy.get('/mailCampaign/reportsRatios')
+  const data = await apiClient.get('/v3/adherent_messages/kpi')
   return new ReportRatio(
-    new GeoRatio(data.local.nbCampagnes, data.local.txOuverture, data.local.txClique, data.local.txDesabonnement),
     new GeoRatio(
-      data.national.nbCampagnes,
-      data.national.txOuverture,
-      data.national.txClique,
-      data.national.txDesabonnement
+      data.local.nb_campaigns,
+      data.local.opened_rate,
+      data.local.clicked_rate,
+      data.local.unsubscribed_rate
+    ),
+    new GeoRatio(
+      data.national.nb_campaigns,
+      data.national.opened_rate,
+      data.national.clicked_rate,
+      data.national.unsubscribed_rate
     ),
     new Date(data.since)
   )

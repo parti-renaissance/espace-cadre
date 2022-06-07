@@ -2,14 +2,14 @@
   "zones": ["Hauts-de-Seine", "Val-d'Oise"],
   "since": "2021-01-01T00:00:00",
   "local": {
-    "nbCampagnes": 100,
-    "txOuverture": 0.1234,
-    "txClique": 0.4242,
-    "txDesabonnement": 0.0011
+    "nb_campaigns": 100,
+    "opened_rate": 0.1234,
+    "clicked_rate": 0.4242,
+    "unsubscribed_rate": 0.0011
   },
   "national": {
-    "txOuverture": 0.4321,
-    "txClique": 0.4444,
-    "txDesabonnement": 0.1212
+    "opened_rate": 0.4321,
+    "clicked_rate": 0.4444,
+    "unsubscribed_rate": 0.1212
   }
 }
