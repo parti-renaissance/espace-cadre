@@ -101,7 +101,6 @@ const CreateEditFilters = () => {
               updateValues(fields.gender, event.target.value)
             }}
             select
-            autoFocus
           >
             {messages.options.gender.map((option, index) => (
               <MenuItem key={index} value={option.value}>
