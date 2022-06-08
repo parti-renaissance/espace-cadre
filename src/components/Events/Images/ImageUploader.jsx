@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { Grid, Button } from '@mui/material'
 import 'cropperjs/dist/cropper.css'
-import Resizer from 'react-image-file-resizer'
+import { Resizer } from 'components/shared/react-image-file-resizer'
 import { styled } from '@mui/system'
 import { ImageCropper } from './ImageCropper'
 import PropTypes from 'prop-types'
