@@ -17,7 +17,7 @@ jobs:
   test:
     name: Tests
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.17.0-chrome91-ff89
+    container: cypress/included:10.0.3
 
     steps:
       - uses: actions/checkout@v3
