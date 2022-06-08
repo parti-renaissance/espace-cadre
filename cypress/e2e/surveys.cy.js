@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const UICard = '[data-cy="ui-card"]'
 const KPICard = '[data-cy="KPICard"]'
@@ -26,23 +26,20 @@ const navigate = () => {
 describe('Surveys', () => {
   beforeEach(() => {
     initialize()
-    mock(
-      'GET',
-      '/api/v3/surveys?*',
-      'surveys/surveys'
-    )
-    mock(
-      'GET',
-      '/api/v3/surveys/kpi?scope=referent',
-      'surveys/surveys-kpi'
-    )
+    mock('GET', '/api/v3/surveys?*', 'surveys/surveys')
+    mock('GET', '/api/v3/surveys/kpi?scope=referent', 'surveys/surveys-kpi')
     navigate()
   })
 
   describe('The header', () => {
     it('should have a title', () => {
       cy.get(PageHeaderTitle).should('exist')
-      cy.get(PageHeaderTitle).find('>div').find(Typography).first().should('have.text', 'Questionnaires').and('be.visible')
+      cy.get(PageHeaderTitle)
+        .find('>div')
+        .find(Typography)
+        .first()
+        .should('have.text', 'Questionnaires')
+        .and('be.visible')
     })
     it('should have a clickable action button', () => {
       cy.get(PageHeaderButton).should('exist')
@@ -67,12 +64,17 @@ describe('Surveys', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).each((element, index) => {
-          const content = { score: '90', subtitle: 'Questionnaires locaux', detail: 'Dont 30 publiés' }
-          if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-          if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-          if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-        })
+        cy.get(KPI)
+          .find(KPICard)
+          .find('>div')
+          .eq(0)
+          .find(Typography)
+          .each((element, index) => {
+            const content = { score: '90', subtitle: 'Questionnaires locaux', detail: 'Dont 30 publiés' }
+            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+          })
       })
     })
 
@@ -81,11 +83,16 @@ describe('Surveys', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).each((element, index) => {
-          const content = { score: '43', subtitle: 'Questionnaires nationaux', detail: 'Dont 30 publiés' }
-          if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-          if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-        })
+        cy.get(KPI)
+          .find(KPICard)
+          .find('>div')
+          .eq(1)
+          .find(Typography)
+          .each((element, index) => {
+            const content = { score: '43', subtitle: 'Questionnaires nationaux', detail: 'Dont 30 publiés' }
+            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+          })
       })
     })
 
@@ -95,12 +102,17 @@ describe('Surveys', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).each((element, index) => {
-          const content = { score: '19', subtitle: 'Réponses collectées', detail: '3 sur le mois' }
-          if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-          if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-          if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-        })
+        cy.get(KPI)
+          .find(KPICard)
+          .find('>div')
+          .eq(2)
+          .find(Typography)
+          .each((element, index) => {
+            const content = { score: '19', subtitle: 'Réponses collectées', detail: '3 sur le mois' }
+            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+          })
       })
     })
   })
@@ -148,34 +160,46 @@ describe('Surveys', () => {
 
   describe('The Survey item', () => {
     it('should show a status', () => {
-      cy.get(LocalSurveys).find(UICard).each(element => {
-        cy.wrap(element).find(ItemStatus).find(Typography).should('exist').invoke('text').then(isNotEmpty)
-      })
+      cy.get(LocalSurveys)
+        .find(UICard)
+        .each(element => {
+          cy.wrap(element).find(ItemStatus).find(Typography).should('exist').invoke('text').then(isNotEmpty)
+        })
     })
     it('should show a title', () => {
-      cy.get(LocalSurveys).find(UICard).each(element => {
-        cy.wrap(element).find(ItemTitle).should('exist').invoke('text').then(isNotEmpty)
-      })
+      cy.get(LocalSurveys)
+        .find(UICard)
+        .each(element => {
+          cy.wrap(element).find(ItemTitle).should('exist').invoke('text').then(isNotEmpty)
+        })
     })
     it('should show an author', () => {
-      cy.get(LocalSurveys).find(UICard).each(element => {
-        cy.wrap(element).find(ItemAuthor).should('exist').invoke('text').then(isNotEmpty)
-      })
+      cy.get(LocalSurveys)
+        .find(UICard)
+        .each(element => {
+          cy.wrap(element).find(ItemAuthor).should('exist').invoke('text').then(isNotEmpty)
+        })
     })
     it('should show a questions count', () => {
-      cy.get(LocalSurveys).find(UICard).each(element => {
-        cy.wrap(element).find(ItemQuestionsCount).find(Typography).should('exist').invoke('text').then(isNotEmpty)
-      })
+      cy.get(LocalSurveys)
+        .find(UICard)
+        .each(element => {
+          cy.wrap(element).find(ItemQuestionsCount).find(Typography).should('exist').invoke('text').then(isNotEmpty)
+        })
     })
     it('should show an answers count', () => {
-      cy.get(LocalSurveys).find(UICard).each(element => {
-        cy.wrap(element).find(ItemAnswersCount).find(Typography).should('exist').invoke('text').then(isNotEmpty)
-      })
+      cy.get(LocalSurveys)
+        .find(UICard)
+        .each(element => {
+          cy.wrap(element).find(ItemAnswersCount).find(Typography).should('exist').invoke('text').then(isNotEmpty)
+        })
     })
     it('should show a nav button', () => {
-      cy.get(LocalSurveys).find(NavButton).each(element => {
-        cy.wrap(element).find(Typography).should('exist').and('have.text', 'voir les réponses')
-      })
+      cy.get(LocalSurveys)
+        .find(NavButton)
+        .each(element => {
+          cy.wrap(element).find(Typography).should('exist').and('have.text', 'voir les réponses')
+        })
     })
   })
 })

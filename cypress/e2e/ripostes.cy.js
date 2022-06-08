@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const GroupCard = '[data-cy="ui-card"]'
 const UICard = '[data-cy="ui-card"]'
@@ -37,20 +37,31 @@ describe('Ripostes', () => {
       })
 
       it('should show a chip, a title and an author', () => {
-        cy.get(UICard).eq(0).find('>div').eq(0).find(Typography).each((element, index) => {
-          if (index === 0) cy.wrap(element).should('exist').and('have.text', 'Inactive').and('be.visible')
-          if (index === 2) cy.wrap(element).should('exist').and('have.text', 'Riposte 2').and('be.visible')
-          if (index === 3) cy.wrap(element).should('exist').and('have.text', 'Par author 2').and('be.visible')
-        })
+        cy.get(UICard)
+          .eq(0)
+          .find('>div')
+          .eq(0)
+          .find(Typography)
+          .each((element, index) => {
+            if (index === 0) cy.wrap(element).should('exist').and('have.text', 'Inactive').and('be.visible')
+            if (index === 2) cy.wrap(element).should('exist').and('have.text', 'Riposte 2').and('be.visible')
+            if (index === 3) cy.wrap(element).should('exist').and('have.text', 'Par author 2').and('be.visible')
+          })
       })
 
       it('should show kpis', () => {
-        cy.get(UICard).eq(0).find('>div').eq(1).find('>div').find('>div').each((element, index) => {
-          if (index === 0) cy.wrap(element).should('exist').should('exist')
-          if (index === 1) cy.wrap(element).should('exist').and('have.text', '2 vues').and('be.visible')
-          if (index === 2) cy.wrap(element).should('exist').and('have.text', '2 vues détaillées').and('be.visible')
-          if (index === 3) cy.wrap(element).should('exist').and('have.text', '2 actions numériques').and('be.visible')
-        })
+        cy.get(UICard)
+          .eq(0)
+          .find('>div')
+          .eq(1)
+          .find('>div')
+          .find('>div')
+          .each((element, index) => {
+            if (index === 0) cy.wrap(element).should('exist').should('exist')
+            if (index === 1) cy.wrap(element).should('exist').and('have.text', '2 vues').and('be.visible')
+            if (index === 2) cy.wrap(element).should('exist').and('have.text', '2 vues détaillées').and('be.visible')
+            if (index === 3) cy.wrap(element).should('exist').and('have.text', '2 actions numériques').and('be.visible')
+          })
       })
 
       it('should show an edit button and an activate button', () => {
@@ -99,7 +110,7 @@ describe('Ripostes', () => {
 
     it('contains a button to close the modal', () => {
       cy.get(CreateEditModal).find('button').eq(0).click()
-      cy.get(CreateEditModal).should('not.exist');
+      cy.get(CreateEditModal).should('not.exist')
     })
   })
 
@@ -137,7 +148,7 @@ describe('Ripostes', () => {
 
     it('contains a button to close the modal', () => {
       cy.get(CreateEditModal).find('button').eq(0).click()
-      cy.get(CreateEditModal).should('not.exist');
+      cy.get(CreateEditModal).should('not.exist')
     })
   })
 })

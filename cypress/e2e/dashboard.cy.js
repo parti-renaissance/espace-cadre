@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 describe('Dashboard', () => {
   beforeEach(() => {

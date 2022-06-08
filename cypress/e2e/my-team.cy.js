@@ -1,4 +1,4 @@
-import { initialize, mock } from './main.spec'
+import { initialize, mock } from './main.cy'
 
 const Typography = '.MuiTypography-root'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
@@ -45,27 +45,39 @@ describe('My Team', () => {
 
     describe('The member item', () => {
       it('should show a full name', () => {
-        cy.get(MembersContainer).find(MembersList).find(UICard).each(element => {
-          cy.wrap(element).find(MemberItemName).should('exist').invoke('text').then(isNotEmpty)
-          cy.wrap(element).find(MemberItemName).should('exist').invoke('text').then(isNotEmpty)
-        })
+        cy.get(MembersContainer)
+          .find(MembersList)
+          .find(UICard)
+          .each(element => {
+            cy.wrap(element).find(MemberItemName).should('exist').invoke('text').then(isNotEmpty)
+            cy.wrap(element).find(MemberItemName).should('exist').invoke('text').then(isNotEmpty)
+          })
       })
       it('should show a position', () => {
-        cy.get(MembersContainer).find(MembersList).find(UICard).each(element => {
-          cy.wrap(element).find(MemberItemRole).should('exist').invoke('text').then(isNotEmpty)
-          cy.wrap(element).find(MemberItemRole).should('exist').invoke('text').then(isNotEmpty)
-        })
+        cy.get(MembersContainer)
+          .find(MembersList)
+          .find(UICard)
+          .each(element => {
+            cy.wrap(element).find(MemberItemRole).should('exist').invoke('text').then(isNotEmpty)
+            cy.wrap(element).find(MemberItemRole).should('exist').invoke('text').then(isNotEmpty)
+          })
       })
       it('should show the number of delegated accesses', () => {
-        cy.get(MembersContainer).find(MembersList).find(UICard).each(element => {
-          cy.wrap(element).find(MemberItemAccessCount).should('exist').invoke('text').then(isNotEmpty)
-          cy.wrap(element).find(MemberItemAccessCount).should('exist').invoke('text').then(isNotEmpty)
-        })
+        cy.get(MembersContainer)
+          .find(MembersList)
+          .find(UICard)
+          .each(element => {
+            cy.wrap(element).find(MemberItemAccessCount).should('exist').invoke('text').then(isNotEmpty)
+            cy.wrap(element).find(MemberItemAccessCount).should('exist').invoke('text').then(isNotEmpty)
+          })
       })
       it('should show an update action button', () => {
-        cy.get(MembersContainer).find(MembersList).find(UICard).each(element => {
-          cy.wrap(element).find(MemberActionButton).find(Typography).should('exist').and('have.text', 'modifier')
-        })
+        cy.get(MembersContainer)
+          .find(MembersList)
+          .find(UICard)
+          .each(element => {
+            cy.wrap(element).find(MemberActionButton).find(Typography).should('exist').and('have.text', 'modifier')
+          })
       })
     })
   })
