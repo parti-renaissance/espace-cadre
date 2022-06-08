@@ -30,7 +30,7 @@ const StepTitleButton = styled(
     lineHeight: '18px',
     color: theme.palette.stepper.stepTitle.color,
   },
-  '& .MuiStepIcon-root.Mui-active, & .MuiStepIcon-root.Mui-completed': {
+  '& .MuiStepIcon-root.Mui-active, & .MuiStepIcon-root': {
     color: theme.palette.main,
   },
 }))
