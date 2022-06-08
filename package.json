@@ -60,7 +60,7 @@
     "build": "vite build --mode production",
     "test": "TZ=Europe/Paris jest",
     "test-coverage": "jest src --coverage",
-    "test:cy": "cypress open --config-file=cypress.config.js",
+    "test:cy": "cypress open --config-file cypress.config.js",
     "lint": "eslint './src/**/*.js' --ignore-path .gitignore",
     "lint:fix": "yarn run lint --fix",
     "prepare": "husky install",

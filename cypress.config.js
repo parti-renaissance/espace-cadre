@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress')
 const path = require('path')
 const { startDevServer } = require('@cypress/vite-dev-server')
+const viteConfig = require('./vite.config.js')
 
 module.exports = defineConfig({
   chromeWebSecurity: false,
@@ -17,7 +18,13 @@ module.exports = defineConfig({
     },
     baseUrl: 'http://localhost:3000',
   },
+  screenshotsFolder: 'cypress/screenshots',
   component: {
     specPattern: 'src/**/*.cy.js',
+    devServer: {
+      framework: 'react',
+      bundler: 'vite',
+      viteConfig,
+    },
   },
 })
