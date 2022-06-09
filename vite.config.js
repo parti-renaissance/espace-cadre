@@ -24,7 +24,11 @@ export function generateConfig() {
     },
     plugins: [
       react(),
-      VitePluginHtmlEnv(),
+      VitePluginHtmlEnv({
+        prefix: '<{',
+        suffix: '}>',
+        envPrefixes: ['REACT_APP_'],
+      }),
       EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
       splitVendorChunkPlugin(),
     ],
