@@ -21,8 +21,8 @@ const StepConnector = styled(MuiStepConnector)({
 const StepTitleButton = styled(
   MuiStepButton,
   shouldForwardProps
-)(({ theme, isCurrentStep }) => ({
-  cursor: !isCurrentStep ? 'pointer' : 'inherit',
+)(({ theme }) => ({
+  cursor: 'inherit',
   '& .MuiStepLabel-label.Mui-active, & .MuiStepLabel-label.Mui-completed, & .MuiStepLabel-label.Mui-disabled': {
     fontSize: '18px',
     fontWeight: 600,
