@@ -106,30 +106,18 @@ const messages = {
   },
 }
 
-const noOp = () => () => {}
-
 const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const isCreateMode = !event.id
   const [newEvent, setNewEvent] = useState(event)
-  const [resetActiveStep, setResetActiveStep] = useState(noOp)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const setResetActiveStepRef = useCallback(f => setResetActiveStep(() => f), [])
   const [image, setImage] = useState(event.image || undefined)
   const { isMobile } = useCurrentDeviceType()
 
-  const onError = useCallback(
-    error => {
-      handleError(error)
-      resetActiveStep()
-    },
-    [handleError, resetActiveStep]
-  )
-
-  const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError })
+  const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })
   const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(newEvent.id), {
     onSuccess: () => setImage(undefined),
-    onError,
+    onError: handleError,
   })
 
   const handleImageDelete = () => {
@@ -144,7 +132,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       handleClose()
     },
-    onError,
+    onError: handleError,
   })
 
   const { mutate: updateEvent, isLoading: isUpdating } = useMutation(updateEventApi, {
@@ -154,7 +142,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
       handleClose()
     },
-    onError,
+    onError: handleError,
   })
 
   const { data: categoriesByGroup = null } = useQuery(
@@ -253,7 +241,6 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
           orientation="vertical"
           validSteps={areAllStepsValid}
           sx={{ width: '100%', pt: 4 }}
-          resetActiveStep={setResetActiveStepRef}
           errors={!!errorMessages.length}
         >
           <div>
