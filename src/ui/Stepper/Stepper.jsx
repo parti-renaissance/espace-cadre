@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { styled } from '@mui/system'
 import {
-  Button,
   Stepper as MuiStepper,
   Step,
   StepButton as MuiStepButton,
@@ -35,15 +34,13 @@ const StepTitleButton = styled(
   },
 }))
 
-const Stepper = ({ validSteps = [], children, errors, ...props }) => (
+const Stepper = ({ children, ...props }) => (
   <MuiStepper connector={<StepConnector />} {...props}>
     {React.Children.map(children, (step, index) => (
       <Step key={index} expanded>
         <Grid container direction="column">
           <Grid item>
-            <StepTitleButton disabled={activeStep <= index} onClick={handleRestartFromStep(index)}>
-              {step.props.children.props.title}
-            </StepTitleButton>
+            <StepTitleButton>{step.props.children.props.title}</StepTitleButton>
           </Grid>
 
           <StepContent TransitionProps={{ unmountOnExit: false }}>
@@ -56,9 +53,7 @@ const Stepper = ({ validSteps = [], children, errors, ...props }) => (
 )
 
 Stepper.propTypes = {
-  validSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
   children: PropTypes.node.isRequired,
-  errors: PropTypes.bool,
 }
 
 export default Stepper

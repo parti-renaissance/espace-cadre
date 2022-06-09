@@ -5,7 +5,7 @@ import { Box, FormControlLabel, Grid, IconButton, TextField as MuiTextField, Typ
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 import Stepper from 'ui/Stepper/Stepper'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
@@ -237,12 +237,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       </Grid>
 
       <Grid container sx={{ mb: isMobile ? 2 : null }}>
-        <Stepper
-          orientation="vertical"
-          validSteps={areAllStepsValid}
-          sx={{ width: '100%', pt: 4 }}
-          errors={!!errorMessages.length}
-        >
+        <Stepper orientation="vertical" sx={{ width: '100%', pt: 4 }}>
           <div>
             <div title={messages.step1}>
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.name}</Label>
