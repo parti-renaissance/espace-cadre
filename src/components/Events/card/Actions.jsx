@@ -16,18 +16,26 @@ const messages = {
   cancel: 'Annuler',
 }
 
-const Actions = ({ onView, onDelete, isDeletable, onCancel, isCancelable, loader = false }) => (
+const Actions = ({
+  onView,
+  onDelete,
+  isDeletable,
+  onCancel,
+  isCancelable,
+  cancelLoader = false,
+  deleteLoader = false,
+}) => (
   <HorizontalContainer>
     <CtaButton onClick={onView}>{messages.see}</CtaButton>
     {(isCancelable || isDeletable) && (
       <DotsMenu>
         {isCancelable && (
-          <DotsMenuItem onClick={onCancel} loader={loader}>
+          <DotsMenuItem onClick={onCancel} loader={cancelLoader}>
             {messages.cancel}
           </DotsMenuItem>
         )}
         {isDeletable && (
-          <DotsMenuItem onClick={onDelete} loader={loader}>
+          <DotsMenuItem onClick={onDelete} loader={deleteLoader}>
             {messages.delete}
           </DotsMenuItem>
         )}
@@ -40,10 +48,10 @@ export default Actions
 
 Actions.propTypes = {
   onView: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   isDeletable: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
   isCancelable: PropTypes.bool.isRequired,
-  loader: PropTypes.bool,
+  cancelLoader: PropTypes.bool,
+  deleteLoader: PropTypes.bool,
 }

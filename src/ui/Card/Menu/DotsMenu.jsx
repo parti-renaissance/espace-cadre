@@ -29,7 +29,7 @@ export const DotsMenuItem = ({ onClick, closeMenu, loader = false, children }) =
   }
   return (
     <MenuItem onClick={handleClick}>
-      {loader && <Loader size={12} />}
+      {loader && <Loader size={12} />}&nbsp;
       {children}
     </MenuItem>
   )
