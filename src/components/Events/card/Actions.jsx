@@ -30,12 +30,12 @@ const Actions = ({
     {(isCancelable || isDeletable) && (
       <DotsMenu>
         {isCancelable && (
-          <DotsMenuItem onClick={onCancel} loader={cancelLoader}>
+          <DotsMenuItem onClick={onCancel} cancelLoader={cancelLoader}>
             {messages.cancel}
           </DotsMenuItem>
         )}
         {isDeletable && (
-          <DotsMenuItem onClick={onDelete} loader={deleteLoader}>
+          <DotsMenuItem onClick={onDelete} deleteLoader={deleteLoader}>
             {messages.delete}
           </DotsMenuItem>
         )}

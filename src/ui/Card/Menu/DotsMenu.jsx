@@ -29,10 +29,18 @@ export const DotsMenuItem = ({ onClick, closeMenu, children, cancelLoader = fals
   }
   return (
     <MenuItem onClick={handleClick}>
-      {cancelLoader && <Loader size={12} />}
-      {cancelLoader && ' '}
-      {deleteLoader && <Loader size={12} />}
-      {deleteLoader && ' '}
+      {cancelLoader && (
+        <>
+          <Loader size={12} />
+          &nbsp;
+        </>
+      )}
+      {deleteLoader && (
+        <>
+          <Loader size={12} />
+          &nbsp;
+        </>
+      )}
       {children}
     </MenuItem>
   )
