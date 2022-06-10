@@ -22,14 +22,17 @@ const MenuItem = styled(MuiMenuItem)`
   },
 `
 
-export const DotsMenuItem = ({ onClick, closeMenu, loader = false, children }) => {
+export const DotsMenuItem = ({ onClick, closeMenu, children, cancelLoader = false, deleteLoader = false }) => {
   const handleClick = async () => {
     await onClick()
     closeMenu()
   }
   return (
     <MenuItem onClick={handleClick}>
-      {loader && <Loader size={12} />}&nbsp;
+      {cancelLoader && <Loader size={12} />}
+      {cancelLoader && ' '}
+      {deleteLoader && <Loader size={12} />}
+      {deleteLoader && ' '}
       {children}
     </MenuItem>
   )
@@ -38,8 +41,9 @@ export const DotsMenuItem = ({ onClick, closeMenu, loader = false, children }) =
 DotsMenuItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   closeMenu: PropTypes.func,
-  loader: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  cancelLoader: PropTypes.bool,
+  deleteLoader: PropTypes.bool,
 }
 
 const DotsMenu = ({ children }) => {
