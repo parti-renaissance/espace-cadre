@@ -99,8 +99,14 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
     })
   }
 
+  const handleFilterSelection = data => {
+    if (!data.filters.certified) delete data.filters.certified
+    if (!data.filters.committeeMember) delete data.filters.committeeMember
+    if (!data.filters.emailSubscribed) delete data.filters.emailSubscribed
+  }
   const handleSubmit = () => {
     const values = { id: campaign?.id, ...globalSettings, ...callersAndSurvey, filters }
+    handleFilterSelection(values)
     createOrUpdatePhoningCampaign(values)
   }
 
