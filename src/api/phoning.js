@@ -45,7 +45,11 @@ export const getPhoningCampaignsQuery = async ({ pageParam: page = 1 }, visibili
 
   const campaigns = data.items.map(c => {
     const team = new PhoningCampaignItemTeam(c.team.name, c.team.members_count)
-    const score = new PhoningCampaignItemScore(c.nb_surveys, Number(c.goal) * Number(team.membersCount))
+    const score = new PhoningCampaignItemScore(
+      c.nb_surveys,
+      Number(c.goal) * Number(team.membersCount),
+      Number(c.nb_adherents_called)
+    )
     return new PhoningCampaignItem(c.uuid, new Date(c.finish_at), c.title, c.creator, team, score)
   })
 
