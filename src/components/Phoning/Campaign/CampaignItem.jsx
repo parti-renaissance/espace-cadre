@@ -62,11 +62,13 @@ const CampaignItem = ({ endDate, title, author, team, score, handleView, handleU
             </VerticalContainer>
             <Grid container alignItems="center">
               <PersonRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
-              <Typography>{author}</Typography>
+              <Typography data-cy="phoning-campaigns-item-author">{author}</Typography>
             </Grid>
             <Grid container alignItems="center">
               <AccessTimeRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
-              <Typography>{format(endDate, 'dd MMMM yyyy', { locale: fr })}</Typography>
+              <Typography data-cy="phoning-campaigns-item-end-date">
+                {format(endDate, 'dd MMMM yyyy', { locale: fr })}
+              </Typography>
             </Grid>
             <Grid container alignItems="center">
               <Typography>{team.name}</Typography>
