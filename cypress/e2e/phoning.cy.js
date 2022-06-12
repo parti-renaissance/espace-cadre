@@ -2,16 +2,13 @@ import { initialize, mock } from './main.cy'
 
 const Chip = '.MuiChip-root'
 const Typography = '.MuiTypography-root'
-const RatioProgress = '[data-cy="ui-ratio-progress"]'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
 const PageHeaderButton = '[data-cy="ui-page-header-button"]'
 const CTAButton = '[data-cy="phoning-action-view"]'
 const KPI = '[data-cy="KPI"]'
 const CampaignsContainer = '[data-cy="phoning-campaigns-container"]'
 const CampaignsList = '[data-cy="phoning-campaigns-list"]'
-const CampaignItemEndDate = '[data-cy="phoning-campaigns-item-end-date"]'
 const CampaignItemTitle = '[data-cy="phoning-campaigns-item-title"]'
-const CampaignItemDescription = '[data-cy="phoning-campaigns-item-description"]'
 const UICard = '[data-cy="ui-card"]'
 const KPICard = '[data-cy="KPICard"]'
 const isNotEmpty = value => expect(value.length).to.be.at.least(1)
@@ -142,7 +139,7 @@ describe('Phoning', () => {
     })
 
     describe('The campaign item', () => {
-      it('should show a status and a date', () => {
+      it('should show a status', () => {
         cy.get(CampaignsContainer)
           .find('>div')
           .eq(1)
@@ -156,52 +153,15 @@ describe('Phoning', () => {
               .should('exist')
               .invoke('text')
               .then(isNotEmpty)
-            cy.wrap(element)
-              .find(UICard)
-              .eq(0)
-              .find(CampaignItemEndDate)
-              .should('exist')
-              .invoke('text')
-              .then(isNotEmpty)
           })
       })
-      it('should show a title and a description', () => {
+      it('should show a title', () => {
         cy.get(CampaignsContainer)
           .find('>div')
           .eq(1)
           .find(CampaignsList)
           .each(element => {
             cy.wrap(element).find(UICard).eq(0).find(CampaignItemTitle).should('exist').invoke('text').then(isNotEmpty)
-            cy.wrap(element)
-              .find(UICard)
-              .eq(0)
-              .find(CampaignItemDescription)
-              .should('exist')
-              .invoke('text')
-              .then(isNotEmpty)
-          })
-      })
-      it('should show a score and a progress bar', () => {
-        cy.get(CampaignsContainer)
-          .find('>div')
-          .eq(1)
-          .find(CampaignsList)
-          .each(element => {
-            cy.wrap(element)
-              .find(UICard)
-              .eq(0)
-              .find(RatioProgress)
-              .find(Typography)
-              .each((element, index) => {
-                cy.wrap(element)
-                  .should('exist')
-                  .invoke('text')
-                  .then(element => {
-                    cy.wrap(index === 1 ? element.replace('/', '') : element)
-                      .should('match', /^[0-9]*$/)
-                      .then(isNotEmpty)
-                  })
-              })
           })
       })
       it('should show a nav button', () => {

@@ -12,13 +12,15 @@ export class PhoningCampaignItemTeam {
 }
 
 export class PhoningCampaignItemScore {
-  constructor(count, globalGoal) {
+  constructor(count, globalGoal, called) {
     this.count = count
     this.globalGoal = globalGoal
+    this.called = called
   }
   static propTypes = {
     count: PropTypes.number.isRequired,
     globalGoal: PropTypes.number.isRequired,
+    called: PropTypes.number.isRequired,
   }
 }
 

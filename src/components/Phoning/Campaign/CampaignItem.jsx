@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types'
 
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography as MuiTypography, Divider } from '@mui/material'
 import { styled } from '@mui/system'
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
+import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
+import pluralize from '../../shared/pluralize/pluralize'
+import formatNumber from 'components/shared/formatNumber/formatNumber'
 import { format, isBefore } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { PhoningCampaignItem as DomainPhoningCampaignItem } from 'domain/phoning'
-import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import { chipColorsByStatus } from '../CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
@@ -17,11 +22,11 @@ const HorizontalContainer = styled('div')`
   align-items: center;
   justify-content: space-between;
 `
-
-const EndDate = styled(Typography)`
-  font-size: 10px;
+const Typography = styled(MuiTypography)`
+  font-size: 12px;
   font-weight: 400;
-  line-height: 15px;
+  line-height: 18px;
+  color: ${({ theme }) => theme.palette.gray600};
 `
 
 const messages = {
@@ -30,42 +35,72 @@ const messages = {
   edit: 'modifier',
   finished: 'Terminé',
   ongoing: 'En cours',
+  people: 'personne',
+  calls: 'appel',
+  toCall: 'à appeler',
+  called: 'appelées',
+  callsMade: 'passés',
 }
 
 const CampaignItem = ({ endDate, title, author, team, score, handleView, handleUpdate }) => {
   const chipLabel = isBefore(new Date(), endDate) ? messages.ongoing : messages.finished
   const chipColors = chipColorsByStatus?.[isBefore(new Date(), endDate) ? 'ongoing' : 'finished']
-
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
-        rootProps={{ sx: { height: '216px' } }}
+        rootProps={{ sx: { height: '280px' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
             <div>
               <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
-              <EndDate sx={{ color: 'gray600' }} data-cy="phoning-campaigns-item-end-date">
-                {format(endDate, 'dd MMMM yyyy', { locale: fr })}
-              </EndDate>
             </div>
             <VerticalContainer sx={{ pt: 1 }}>
-              <TruncatedText variant="subtitle1" title={title} data-cy="phoning-campaigns-item-title">
+              <TruncatedText variant="subtitle1" title={title} lines={2} data-cy="phoning-campaigns-item-title">
                 {title}
               </TruncatedText>
-              <TruncatedText
-                variant="subtitle2"
-                title={`${author} • ${team.name} (${team.membersCount})`}
-                data-cy="phoning-campaigns-item-description"
-                sx={{ color: 'gray600' }}
-              >
-                {`${author} • ${team.name} (${team.membersCount})`}
-              </TruncatedText>
             </VerticalContainer>
+            <Grid container alignItems="center">
+              <PersonRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
+              <Typography data-cy="phoning-campaigns-item-author">{author}</Typography>
+            </Grid>
+            <Grid container alignItems="center">
+              <AccessTimeRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
+              <Typography data-cy="phoning-campaigns-item-end-date">
+                {format(endDate, 'dd MMMM yyyy', { locale: fr })}
+              </Typography>
+            </Grid>
+            <Grid container alignItems="center">
+              <Typography>{team.name}</Typography>
+            </Grid>
           </>
         }
-        contentProps={{ sx: { pt: 3 } }}
-        content={<RatioProgress count={score.count} totalCount={score.globalGoal} />}
+        contentProps={{ sx: { pt: 1 } }}
+        content={
+          <>
+            <Divider sx={{ color: 'rgba(0, 0, 0, 0.16)', mb: 1 }} />
+            <Grid container alignItems="center" sx={{ mb: 0.5 }}>
+              <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
+              <Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(score.globalGoal)}&nbsp;</Typography>
+                {pluralize(score.globalGoal, messages.people, 's')}&nbsp;
+                {messages.toCall}
+              </Typography>
+              <Typography>
+                <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(score.count)}&nbsp;</Typography>
+                {pluralize(score.called, messages.people, 's')}&nbsp;
+                {messages.called}
+              </Typography>
+              <Typography>
+                <PeopleRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(score.count)}&nbsp;</Typography>
+                {pluralize(score.count, messages.calls, 's')}&nbsp;
+                {messages.callsMade}
+              </Typography>
+            </Grid>
+          </>
+        }
         actionsProps={{ sx: { pt: 2 } }}
         actions={
           <HorizontalContainer>
@@ -79,9 +114,9 @@ const CampaignItem = ({ endDate, title, author, team, score, handleView, handleU
                 },
               }}
             >
-              <Typography variant="button" sx={{ textTransform: 'uppercase' }}>
+              <MuiTypography variant="button" sx={{ textTransform: 'uppercase' }}>
                 {messages.see}
-              </Typography>
+              </MuiTypography>
             </CtaButton>
             <DotsMenu>
               <DotsMenuItem onClick={handleUpdate}>{messages.edit}</DotsMenuItem>
