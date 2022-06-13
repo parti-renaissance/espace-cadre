@@ -140,7 +140,6 @@ const Phoning = () => {
                   title={campaign.title}
                   author={campaign.author}
                   team={campaign.team}
-                  score={campaign.score}
                   handleView={handleView(campaign.id)}
                   handleUpdate={handleUpdate(campaign.id)}
                   numberOfCalls={campaign.numberOfCalls}
