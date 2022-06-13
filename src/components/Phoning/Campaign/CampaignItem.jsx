@@ -47,7 +47,6 @@ const CampaignItem = ({
   title,
   author,
   team,
-  score,
   handleView,
   handleUpdate,
   numberOfCalls,
@@ -93,19 +92,19 @@ const CampaignItem = ({
             <Grid container alignItems="center" sx={{ mb: 0.5 }}>
               <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
               <Typography>
-                <Typography sx={{ fontWeight: 700 }}>{formatNumber(score.globalGoal)}&nbsp;</Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(numberOfUsersToBeCalled)}&nbsp;</Typography>
                 {pluralize(numberOfUsersToBeCalled, messages.people, 's')}&nbsp;
                 {messages.toCall}
               </Typography>
               <Typography>
                 <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
-                <Typography sx={{ fontWeight: 700 }}>{formatNumber(score.count)}&nbsp;</Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(numberOfUsersCalled)}&nbsp;</Typography>
                 {pluralize(numberOfUsersCalled, messages.people, 's')}&nbsp;
                 {messages.called}
               </Typography>
               <Typography>
                 <PeopleRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
-                <Typography sx={{ fontWeight: 700 }}>{formatNumber(score.count)}&nbsp;</Typography>
+                <Typography sx={{ fontWeight: 700 }}>{formatNumber(numberOfCalls)}&nbsp;</Typography>
                 {pluralize(numberOfCalls, messages.calls, 's')}&nbsp;
                 {messages.callsMade}
               </Typography>
