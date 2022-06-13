@@ -18,9 +18,9 @@ import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
 import { orderBy } from 'lodash'
 
-import { SurveyDetailReply as DomainSurveyDetailReply } from 'domain/surveys'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { SurveyDetail as DomainSurveyDetail, SurveyDetailReply as DomainSurveyDetailReply } from 'domain/surveys'
 import { TruncatedText } from 'components/shared/styled'
+import { shouldForwardProps } from '../../shared/shouldForwardProps'
 import { multipleChoice, simpleField, translatedGender, uniqueChoice } from '../shared/constants'
 import { surveysColumnsStyles, timeDifferenceToString } from '../shared/helpers'
 import { UIChip } from 'ui/Card'
@@ -29,7 +29,8 @@ import CampaignDetailSurveysExport from './SurveyDetailRepliesExport'
 const TableCell = styled(
   MuiTableCell,
   shouldForwardProps
-)(({ theme, isOdd = false, isSticky = false, answerType }) => ({
+)(({ align = 'inherit', theme, isOdd = false, isSticky = false, answerType }) => ({
+  textAlign: align,
   padding: theme.spacing(1.5, 2),
   ...(isOdd
     ? {
@@ -84,7 +85,7 @@ const messages = {
 const formatAuthor = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
 const formatGender = gender => translatedGender[gender]
 
-const SurveyDetailReplies = ({ surveyTitle, replies }) => {
+const SurveyDetailReplies = ({ survey, replies }) => {
   const [currentPage, setCurrentPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [order, toggleOrder] = useState({ startDate: 'asc' })
@@ -102,13 +103,14 @@ const SurveyDetailReplies = ({ surveyTitle, replies }) => {
     toggleOrder(order => ({ ...order, [column]: order[column] === 'asc' ? 'desc' : 'asc' }))
   }
 
-  const columns = useMemo(() => replies?.[0]?.answers.map(({ question, type }) => ({ question, type })), [replies])
+  const columns = useMemo(
+    () => survey.questions.map(({ content, type, id }) => ({ question: content, type, questionId: id })),
+    [survey]
+  )
   const rows = useMemo(() => {
     const rows = replies.slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
     return orderBy(rows, Object.keys(order).reverse(), Object.values(order).reverse())
   }, [replies, currentPage, rowsPerPage, order])
-
-  if (replies.length === 0) return null
 
   return (
     <Grid item xs={12} data-cy="survey-detail-replies">
@@ -140,82 +142,96 @@ const SurveyDetailReplies = ({ surveyTitle, replies }) => {
             </TableHead>
 
             <TableBody>
-              {rows.map(({ answers, author, startDate, endDate }, index) => (
-                <TableRow key={uuid()} sx={{ width: '175px' }}>
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
-                    <Description>
-                      {author?.lastName || author?.firstName ? formatAuthor(author) : messages.anonymous}
-                    </Description>
-                    <SubDescription>
-                      {formatGender(author?.gender) && `${formatGender(author.gender)}, `}
-                      {author?.age && `${author.age} ${messages.years}`}
-                    </SubDescription>
-                  </TableCell>
+              {rows.length ? (
+                rows.map(({ answers, author, startDate, endDate }, index) => (
+                  <TableRow key={uuid()} sx={{ width: '175px' }}>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} isSticky>
+                      <Description>
+                        {author?.lastName || author?.firstName ? formatAuthor(author) : messages.anonymous}
+                      </Description>
+                      <SubDescription>
+                        {formatGender(author?.gender) && `${formatGender(author.gender)}, `}
+                        {author?.age && `${author.age} ${messages.years}`}
+                      </SubDescription>
+                    </TableCell>
 
-                  <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                    <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
-                    {timeDifferenceToString(startDate, endDate) && (
-                      <SubDescription>{timeDifferenceToString(startDate, endDate)}</SubDescription>
-                    )}
-                  </TableCell>
-
-                  {answers.map(({ type, answer }) => (
-                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '245px' }}>
-                      {answer && (
-                        <>
-                          {type === simpleField && (
-                            <TruncateContainer>
-                              <TruncatedText key={uuid()} variant="subtitle2" lines={2} sx={{ color: 'gray700' }}>
-                                {answer}
-                              </TruncatedText>
-                            </TruncateContainer>
-                          )}
-                          {type === uniqueChoice && (
-                            <UIChip variant="outlined" key={uuid()} label={answer[0]} sx={{ mr: 1 }} />
-                          )}
-                          {type === multipleChoice &&
-                            answer.map(answerContent => (
-                              <UIChip
-                                key={uuid()}
-                                variant="outlined"
-                                color="gray700"
-                                label={answerContent}
-                                sx={{ mr: 1, my: 0.5 }}
-                              />
-                            ))}
-                        </>
+                    <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
+                      <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
+                      {timeDifferenceToString(startDate, endDate) && (
+                        <SubDescription>{timeDifferenceToString(startDate, endDate)}</SubDescription>
                       )}
                     </TableCell>
-                  ))}
+
+                    {columns.map(({ questionId }) => {
+                      const row = answers.find(item => item.questionId === questionId)
+
+                      return (
+                        <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '245px' }}>
+                          {row && row.answer && (
+                            <>
+                              {row.type === simpleField && (
+                                <TruncateContainer>
+                                  <TruncatedText key={uuid()} variant="subtitle2" lines={2} sx={{ color: 'gray700' }}>
+                                    {row.answer}
+                                  </TruncatedText>
+                                </TruncateContainer>
+                              )}
+                              {row.type === uniqueChoice && (
+                                <UIChip variant="outlined" key={uuid()} label={row.answer[0]} sx={{ mr: 1 }} />
+                              )}
+                              {row.type === multipleChoice &&
+                                row.answer.map(answerContent => (
+                                  <UIChip
+                                    key={uuid()}
+                                    variant="outlined"
+                                    color="gray700"
+                                    label={answerContent}
+                                    sx={{ mr: 1, my: 0.5 }}
+                                  />
+                                ))}
+                            </>
+                          )}
+                        </TableCell>
+                      )
+                    })}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow key={uuid()} sx={{ width: '175px' }}>
+                  <TableCell colSpan={columns.length + 2} key={uuid()} sx={{ width: '245px' }} align="center">
+                    Aucun élément
+                  </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
 
-        <TablePagination
-          component={({ children, ...props }) => (
-            <Grid container justifyContent="space-between" alignItems="center">
-              <CampaignDetailSurveysExport surveyTitle={surveyTitle} />
-              <Grid item {...props}>
-                {children}
+        {replies.length > 0 && (
+          <TablePagination
+            component={({ children, ...props }) => (
+              <Grid container justifyContent="space-between" alignItems="center">
+                <CampaignDetailSurveysExport surveyTitle={survey.title} />
+                <Grid item {...props}>
+                  {children}
+                </Grid>
               </Grid>
-            </Grid>
-          )}
-          count={replies.length}
-          page={currentPage}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[10, 25, 50, 100]}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+            )}
+            count={replies.length}
+            page={currentPage}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        )}
       </Paper>
     </Grid>
   )
 }
 
 SurveyDetailReplies.propTypes = {
-  surveyTitle: PropTypes.string.isRequired,
+  survey: PropTypes.shape(DomainSurveyDetail.propTypes).isRequired,
   replies: PropTypes.arrayOf(PropTypes.shape(DomainSurveyDetailReply.propTypes)).isRequired,
 }
 

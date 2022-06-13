@@ -33,7 +33,7 @@ export const SurveyDetail = () => {
   const isNational = nationalScopes.includes(currentScope.code)
   const loggedUser = `${currentUser.firstName} ${currentUser.lastName}`
 
-  const { data: surveyDetail = {}, refetch: refetchSurvey } = useQueryWithScope(
+  const { data: surveyDetail = null, refetch: refetchSurvey } = useQueryWithScope(
     ['survey-detail', { feature: 'Surveys', view: 'SurveyDetail' }, surveyId],
     () => getOneSurveyQuery(surveyId),
     {
@@ -53,7 +53,7 @@ export const SurveyDetail = () => {
     (isLocal && surveyAuthor === loggedUser && surveyDetail?.type === messages.local) ||
     (isNational && surveyAuthor === loggedUser && surveyDetail?.type === messages.national)
 
-  if (!surveyDetail) return
+  if (!surveyDetail) return null
 
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
@@ -76,9 +76,9 @@ export const SurveyDetail = () => {
       </Grid>
 
       <Grid container justifyContent="space-between" sx={{ pt: 2 }}>
-        {!isSurveyRepliesLoading && surveyReplies.length > 0 && (
+        {!isSurveyRepliesLoading && (
           <Grid container spacing={2}>
-            <SurveyDetailReplies surveyTitle={surveyDetail.title} replies={surveyReplies} />
+            <SurveyDetailReplies survey={surveyDetail} replies={surveyReplies} />
           </Grid>
         )}
       </Grid>

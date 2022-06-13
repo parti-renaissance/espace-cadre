@@ -125,7 +125,7 @@ const Surveys = () => {
       onError: handleError,
     }
   )
-  const { localSurveysCount, localPublishedSurveysCount, nationalSurveysCount, nationalPublishedSurveysCount } =
+  const { localSurveysCount, localSurveysPublishedCount, nationalSurveysCount, nationalSurveysPublishedCount } =
     surveysKPIs
 
   const togglePublish = surveyId => () => {
@@ -199,12 +199,12 @@ const Surveys = () => {
               local={{
                 count: localSurveysCount || 0,
                 title: localSurveysCount > 1 ? messages.localSurveys : messages.localSurvey,
-                publishedCount: localPublishedSurveysCount,
+                publishedCount: localSurveysPublishedCount,
               }}
               national={{
                 count: nationalSurveysCount || 0,
                 title: nationalSurveysCount > 1 ? messages.nationalSurveys : messages.nationalSurvey,
-                publishedCount: nationalPublishedSurveysCount,
+                publishedCount: nationalSurveysPublishedCount,
               }}
               currentScope={scope}
             />
