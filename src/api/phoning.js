@@ -50,7 +50,17 @@ export const getPhoningCampaignsQuery = async ({ pageParam: page = 1 }, visibili
       Number(c.goal) * Number(team.membersCount),
       Number(c.nb_adherents_called)
     )
-    return new PhoningCampaignItem(c.uuid, new Date(c.finish_at), c.title, c.creator, team, score)
+    return new PhoningCampaignItem(
+      c.uuid,
+      new Date(c.finish_at),
+      c.title,
+      c.creator,
+      team,
+      score,
+      c.nb_calls,
+      c.nb_adherents_called,
+      c.participants_count
+    )
   })
 
   return newPaginatedResult(campaigns, data.metadata)

@@ -143,6 +143,9 @@ const Phoning = () => {
                   score={campaign.score}
                   handleView={handleView(campaign.id)}
                   handleUpdate={handleUpdate(campaign.id)}
+                  numberOfCalls={campaign.numberOfCalls}
+                  numberOfUsersCalled={campaign.numberOfUsersCalled}
+                  numberOfUsersToBeCalled={campaign.numberOfUsersToBeCalled}
                 />
               ))}
             </Grid>
