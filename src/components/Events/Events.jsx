@@ -87,7 +87,7 @@ const Events = () => {
           handleClose={() => {
             setCurrentEvent(null)
           }}
-          refetchEventsOnResolve={refetchEvents}
+          refreshEvents={refetchEvents}
           event={currentEvent}
         />
       )}
