@@ -106,7 +106,7 @@ const messages = {
   },
 }
 
-const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
+const CreateEditEvent = ({ handleClose, event, refetchEventsOnResolve }) => {
   const isCreateMode = !event.id
   const [newEvent, setNewEvent] = useState(event)
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -128,7 +128,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const { mutate: createEvent, isLoading: isCreating } = useMutation(createEventApi, {
     onSuccess: async newUuid => {
       image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: newUuid, image }))
-      await onUpdate()
+      await refetchEventsOnResolve()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
       handleClose()
     },
@@ -138,7 +138,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
   const { mutate: updateEvent, isLoading: isUpdating } = useMutation(updateEventApi, {
     onSuccess: async uuid => {
       image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
-      await onUpdate()
+      await refetchEventsOnResolve()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
       handleClose()
     },
@@ -442,7 +442,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
 CreateEditEvent.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  refetchEventsOnResolve: PropTypes.func,
   event: Event.propTypes,
 }
 

@@ -12,17 +12,19 @@ const HorizontalContainer = styled('div')`
 
 const messages = {
   see: 'Voir',
-  delete: 'Supprimer',
   cancel: 'Annuler',
+  edit: 'Modifier',
+  delete: 'Supprimer',
 }
 
 const Actions = ({
   onView,
-  onDelete,
-  isDeletable,
-  onCancel,
   isCancelable,
+  onCancel,
   cancelLoader = false,
+  onEdit,
+  isDeletable,
+  onDelete,
   deleteLoader = false,
 }) => (
   <HorizontalContainer>
@@ -34,6 +36,7 @@ const Actions = ({
             {messages.cancel}
           </DotsMenuItem>
         )}
+        <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>
         {isDeletable && (
           <DotsMenuItem onClick={onDelete} deleteLoader={deleteLoader}>
             {messages.delete}
@@ -48,10 +51,11 @@ export default Actions
 
 Actions.propTypes = {
   onView: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  isDeletable: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
   isCancelable: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
   cancelLoader: PropTypes.bool,
+  onEdit: PropTypes.func.isRequired,
+  isDeletable: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
   deleteLoader: PropTypes.bool,
 }
