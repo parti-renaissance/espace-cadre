@@ -7,8 +7,8 @@ import { APP_ENVIRONMENT, APP_VERSION, SENTRY_DSN, NODE_ENV } from 'shared/envir
 if (NODE_ENV === 'production' || SENTRY_DSN) {
   const shouldSendError = hint => {
     const error = hint.originalException
-    if (error?.response?.status === 401) return false
-    return true
+
+    return error?.response?.status !== 401
   }
 
   Sentry.init({

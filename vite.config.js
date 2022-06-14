@@ -7,7 +7,7 @@ const path = require('path')
 
 export default defineConfig(generateConfig)
 
-export function generateConfig() {
+export function generateConfig({ mode }) {
   return {
     resolve: {
       alias: {
@@ -24,11 +24,7 @@ export function generateConfig() {
     },
     plugins: [
       react(),
-      VitePluginHtmlEnv({
-        prefix: '<{',
-        suffix: '}>',
-        envPrefixes: ['REACT_APP_'],
-      }),
+      VitePluginHtmlEnv({ envPrefixes: ['REACT_APP_'] }),
       EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
       splitVendorChunkPlugin(),
     ],
@@ -37,7 +33,7 @@ export function generateConfig() {
     },
     build: {
       outDir: 'build',
-      sourcemap: true,
+      sourcemap: mode === 'production' ? 'hidden' : true,
     },
   }
 }
