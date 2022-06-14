@@ -29,8 +29,7 @@ import CampaignDetailSurveysExport from './SurveyDetailRepliesExport'
 const TableCell = styled(
   MuiTableCell,
   shouldForwardProps
-)(({ align = 'inherit', theme, isOdd = false, isSticky = false, answerType }) => ({
-  textAlign: align,
+)(({ theme, isOdd = false, isSticky = false, answerType }) => ({
   padding: theme.spacing(1.5, 2),
   ...(isOdd
     ? {
@@ -80,6 +79,7 @@ const messages = {
   time: 'Date (Temps)',
   anonymous: 'Anonyme',
   years: 'ans',
+  empty_replies: 'Aucun élément',
 }
 
 const formatAuthor = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
@@ -198,8 +198,8 @@ const SurveyDetailReplies = ({ survey, replies }) => {
                 ))
               ) : (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
-                  <TableCell colSpan={columns.length + 2} key={uuid()} sx={{ width: '245px' }} align="center">
-                    Aucun élément
+                  <TableCell colSpan={columns.length + 2} key={uuid()} sx={{ width: '245px', textAlign: 'center' }}>
+                    {messages.empty_replies}
                   </TableCell>
                 </TableRow>
               )}
