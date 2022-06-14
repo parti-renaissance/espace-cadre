@@ -121,13 +121,13 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
               actions={
                 <Actions
                   onView={handleViewEvent(e.id)}
+                  isCancelable={e.organizerId === currentUser.uuid && e.scheduled}
+                  onCancel={() => handleCancel(e.id)}
+                  cancelLoader={isLoadingCancelEvent}
                   onEdit={handleEditEvent(e.id)}
                   isDeletable={e.attendees <= 1 && e.organizerId === currentUser.uuid}
                   onDelete={() => handleDelete(e.id)}
                   deleteLoader={isLoadingDeleteEvent}
-                  isCancelable={e.organizerId === currentUser.uuid && e.scheduled}
-                  onCancel={() => handleCancel(e.id)}
-                  cancelLoader={isLoadingCancelEvent}
                 />
               }
             />

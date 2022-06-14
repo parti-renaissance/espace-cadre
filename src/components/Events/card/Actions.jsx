@@ -12,19 +12,19 @@ const HorizontalContainer = styled('div')`
 
 const messages = {
   see: 'Voir',
-  delete: 'Supprimer',
   cancel: 'Annuler',
   edit: 'Modifier',
+  delete: 'Supprimer',
 }
 
 const Actions = ({
   onView,
-  onDelete,
-  isDeletable,
-  onCancel,
   isCancelable,
-  onEdit,
+  onCancel,
   cancelLoader = false,
+  onEdit,
+  isDeletable,
+  onDelete,
   deleteLoader = false,
 }) => (
   <HorizontalContainer>
@@ -51,11 +51,11 @@ export default Actions
 
 Actions.propTypes = {
   onView: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  isDeletable: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
   isCancelable: PropTypes.bool.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   cancelLoader: PropTypes.bool,
+  onEdit: PropTypes.func.isRequired,
+  isDeletable: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
   deleteLoader: PropTypes.bool,
 }

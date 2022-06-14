@@ -56,10 +56,6 @@ const Events = () => {
     setSelectedTab(tabId)
   }
 
-  const handleCreation = async () => {
-    await refetchEvents()
-  }
-
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -91,7 +87,7 @@ const Events = () => {
           handleClose={() => {
             setCurrentEvent(null)
           }}
-          onUpdate={handleCreation}
+          refetchOnResolve={refetchEvents}
           event={currentEvent}
         />
       )}
