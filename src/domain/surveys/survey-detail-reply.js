@@ -16,15 +16,17 @@ export class SurveyDetailReplyAuthor {
 }
 
 export class SurveyDetailReplyAnswer {
-  constructor(type, answer, question) {
+  constructor(type, answer, question, questionId) {
     this.type = type
     this.answer = answer
     this.question = question
+    this.questionId = questionId
   }
   static propTypes = {
     type: PropTypes.string.isRequired,
     answer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string.isRequired), PropTypes.string.isRequired]),
     question: PropTypes.string.isRequired,
+    questionId: PropTypes.number.isRequired,
   }
 }
 

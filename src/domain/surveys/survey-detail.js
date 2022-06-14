@@ -52,6 +52,6 @@ export class SurveyDetail {
     title: PropTypes.string.isRequired,
     questions: PropTypes.arrayOf(PropTypes.shape(SurveyDetailQuestion.propTypes)).isRequired,
     type: PropTypes.string.isRequired,
-    creator: PropTypes.string.isRequired,
+    creator: PropTypes.shape(SurveyDetailCreator.propTypes),
   }
 }

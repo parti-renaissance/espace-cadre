@@ -34,7 +34,7 @@ export const getSurveysQuery = async ({ pageParam: page = 1 }, type = '') => {
 
 export const getOneSurveyQuery = async surveyId => {
   const data = await apiClient.get(`api/v3/surveys/${surveyId}`)
-  const creator = new SurveyDetailCreator(data.creator.first_name, data.creator.last_name)
+  const creator = data.creator ? new SurveyDetailCreator(data.creator.first_name, data.creator.last_name) : null
 
   const questions = data.questions.map(q => {
     const choices = q.choices.map(c => new SurveyDetailChoice(c.id, c.content))
@@ -62,7 +62,7 @@ export const getSurveyRepliesQuery = async surveyId => {
       ? new SurveyDetailReplyAuthor(sr.author.first_name, sr.author.last_name, sr.author.gender, sr.author.age)
       : null
     return new SurveyDetailReply(
-      sr.answers.map(a => new SurveyDetailReplyAnswer(a.type, a.answer, a.question)),
+      sr.answers.map(a => new SurveyDetailReplyAnswer(a.type, a.answer, a.question, a.question_id)),
       author,
       new Date(sr.begin_at),
       new Date(sr.finish_at)
