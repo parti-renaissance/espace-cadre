@@ -13,10 +13,10 @@ export const LayersCodes = {
 }
 
 export const LayersTypes = {
+  [LayersCodes.circonscription]: 'Circonscriptions',
   [LayersCodes.region]: 'Régions',
   [LayersCodes.department]: 'Départements',
   [LayersCodes.cantons]: 'Cantons',
-  [LayersCodes.circonscription]: 'Circonscriptions',
   [LayersCodes.communes]: 'Communes',
   [LayersCodes.pollingStation]: 'Bureaux de vote',
   [LayersCodes.ciblagePapPoint]: 'PAP',

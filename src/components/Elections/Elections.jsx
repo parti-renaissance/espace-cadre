@@ -34,7 +34,7 @@ const Elections = () => {
   const map = useRef()
   const [mapLoaded, setMapLoaded] = useState(false)
   const [currentPoint, setCurrentPoint] = useState()
-  const [activeLayer, setActiveLayer] = useState(LayersCodes.region)
+  const [activeLayer, setActiveLayer] = useState(LayersCodes.circonscription)
 
   const [isPopinOpen, setIsPopinOpen] = useState(false)
   const [isPopinLoaderActive, setIsPopinLoaderActive] = useState(false)
@@ -44,7 +44,7 @@ const Elections = () => {
   const [zone, setZone] = useState()
   const [filterValues, setFilterValues] = useState({
     election: ElectionTypes.Presidential,
-    year: 2017,
+    year: 2022,
     round: ElectionFirstStage,
   })
 
