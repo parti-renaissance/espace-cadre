@@ -7,7 +7,7 @@ const path = require('path')
 
 export default defineConfig(generateConfig)
 
-export function generateConfig() {
+export function generateConfig({ mode }) {
   return {
     resolve: {
       alias: {
@@ -37,7 +37,7 @@ export function generateConfig() {
     },
     build: {
       outDir: 'build',
-      sourcemap: true,
+      sourcemap: mode === 'production' ? 'hidden' : true,
     },
   }
 }

@@ -6,21 +6,13 @@ export const LayersCodes = {
   communes: 'commune',
   pollingStation: 'bureau',
   pollingStationLegislatives: 'ciblage-legislatives',
-  ciblagePapPoint: 'ciblage-pap-point',
-  ciblagePapLeft: 'ciblage-t2-reserve-gauche',
-  ciblagePapRight: 'ciblage-t2-reserve-droite',
-  ciblagePapAbstaining: 'ciblage-t2-reserve-abs',
 }
 
 export const LayersTypes = {
+  [LayersCodes.circonscription]: 'Circonscriptions',
   [LayersCodes.region]: 'Régions',
   [LayersCodes.department]: 'Départements',
   [LayersCodes.cantons]: 'Cantons',
-  [LayersCodes.circonscription]: 'Circonscriptions',
   [LayersCodes.communes]: 'Communes',
   [LayersCodes.pollingStation]: 'Bureaux de vote',
-  [LayersCodes.ciblagePapPoint]: 'PAP',
-  [LayersCodes.ciblagePapLeft]: 'Voix de gauche',
-  [LayersCodes.ciblagePapRight]: 'Voix de droite',
-  [LayersCodes.ciblagePapAbstaining]: "Réserve d'abstentionnistes",
 }

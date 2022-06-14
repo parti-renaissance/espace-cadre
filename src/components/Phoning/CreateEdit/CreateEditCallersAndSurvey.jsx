@@ -14,7 +14,7 @@ import { fields } from './shared/constants'
 
 const messages = {
   input: {
-    team: 'Equipe',
+    team: 'Groupe',
     survey: 'Questionnaire',
   },
   placeholder: {

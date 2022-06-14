@@ -1,0 +1,11 @@
+{
+  "transform": {
+    "^.+\\.js": "babel-jest"
+  },
+  "testMatch": ["<rootDir>/**/*.test.js"],
+  "testEnvironment": "jsdom",
+  "moduleNameMapper": {
+    "^(assets)/(.*)$": "<rootDir>/src/$1/mock"
+  },
+  "moduleDirectories": ["node_modules", "src"]
+}
