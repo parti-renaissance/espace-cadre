@@ -41,6 +41,7 @@
     "react-markdown": "8.0.3",
     "react-query": "3.39.1",
     "react-redux": "8.0.2",
+    "react-router": "6.3.0",
     "react-router-dom": "6.3.0",
     "react-select": "5.3.2",
     "react-use": "17.4.0",
@@ -86,7 +87,7 @@
     "jest": "27.5.1",
     "lint-staged": "13.0.0",
     "prettier": "2.6.2",
-    "vite": "2.9.10",
+    "vite": "2.9.12",
     "vite-plugin-environment": "1.1.1",
     "vite-plugin-html": "3.2.0",
     "vite-plugin-html-env": "1.1.2"
@@ -95,25 +96,5 @@
     "*.{js,jsx,json}": [
       "prettier --write"
     ]
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.js": "babel-jest"
-    },
-    "testMatch": [
-      "<rootDir>/**/*.test.js"
-    ],
-    "moduleNameMapper": {
-      "^(api)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(assets)/(.*)$": "<rootDir>/src/$1/mock",
-      "^(components)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(domain)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(providers)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(shared)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(services)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(style)/(.*)$": "<rootDir>/src/$1/$2",
-      "^(ui)/(.*)$": "<rootDir>/src/$1/$2"
-    },
-    "testEnvironment": "jsdom"
   }
 }
