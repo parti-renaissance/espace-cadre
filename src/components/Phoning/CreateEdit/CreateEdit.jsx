@@ -147,7 +147,7 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
               ),
             }}
           >
-            <CallersAndSurvey title={messages.steps.callersAndSurvey} />
+            <CallersAndSurvey title={messages.steps.callersAndSurvey} expanded />
           </CallersAndSurveyContext.Provider>
           <FiltersContext.Provider
             value={{
@@ -157,7 +157,7 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
               updateValues: handleChangeAndValidate(setFilters),
             }}
           >
-            <Filters title={messages.steps.filters} />
+            <Filters title={messages.steps.filters} isStepExpandable expanded={false} />
           </FiltersContext.Provider>
         </Stepper>
 

@@ -353,7 +353,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
             </div>
           </div>
           <div>
-            <div title={messages.step2}>
+            <div title={messages.step2} expanded>
               <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
               <ImageUploader
                 image={image}
