@@ -79,7 +79,7 @@ const messages = {
   time: 'Date (Temps)',
   anonymous: 'Anonyme',
   years: 'ans',
-  empty_replies: 'Aucun élément',
+  emptyReplies: 'Aucun élément',
 }
 
 const formatAuthor = ({ firstName, lastName }) => `${lastName?.toUpperCase()} ${firstName}`
@@ -199,7 +199,7 @@ const SurveyDetailReplies = ({ survey, replies }) => {
               ) : (
                 <TableRow key={uuid()} sx={{ width: '175px' }}>
                   <TableCell colSpan={columns.length + 2} key={uuid()} sx={{ width: '245px', textAlign: 'center' }}>
-                    {messages.empty_replies}
+                    {messages.emptyReplies}
                   </TableCell>
                 </TableRow>
               )}
