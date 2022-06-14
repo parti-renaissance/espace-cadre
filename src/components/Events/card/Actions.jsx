@@ -14,6 +14,7 @@ const messages = {
   see: 'Voir',
   delete: 'Supprimer',
   cancel: 'Annuler',
+  edit: 'Modifier',
 }
 
 const Actions = ({
@@ -22,6 +23,7 @@ const Actions = ({
   isDeletable,
   onCancel,
   isCancelable,
+  onEdit,
   cancelLoader = false,
   deleteLoader = false,
 }) => (
@@ -34,6 +36,7 @@ const Actions = ({
             {messages.cancel}
           </DotsMenuItem>
         )}
+        <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>
         {isDeletable && (
           <DotsMenuItem onClick={onDelete} deleteLoader={deleteLoader}>
             {messages.delete}
@@ -52,6 +55,7 @@ Actions.propTypes = {
   isDeletable: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   isCancelable: PropTypes.bool.isRequired,
+  onEdit: PropTypes.func.isRequired,
   cancelLoader: PropTypes.bool,
   deleteLoader: PropTypes.bool,
 }
