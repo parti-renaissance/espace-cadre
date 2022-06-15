@@ -117,6 +117,7 @@ const EventList = ({ setCurrentEvent, query, queryKey, setRefetchRef }) => {
               actionsProps={{ sx: { pt: 1 } }}
               actions={
                 <Actions
+                  event={e}
                   onView={handleViewEvent(e.id)}
                   isCancelable={e.organizerId === currentUser.uuid && e.scheduled}
                   onCancel={() => handleCancel(e.id)}

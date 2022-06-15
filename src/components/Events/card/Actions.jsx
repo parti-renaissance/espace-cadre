@@ -18,6 +18,7 @@ const messages = {
 }
 
 const Actions = ({
+  event,
   onView,
   isCancelable,
   onCancel,
@@ -36,7 +37,7 @@ const Actions = ({
             {messages.cancel}
           </DotsMenuItem>
         )}
-        <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>
+        {event?.scheduled && <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>}
         {isDeletable && (
           <DotsMenuItem onClick={onDelete} deleteLoader={deleteLoader}>
             {messages.delete}
@@ -50,6 +51,7 @@ const Actions = ({
 export default Actions
 
 Actions.propTypes = {
+  event: PropTypes.object.isRequired,
   onView: PropTypes.func.isRequired,
   isCancelable: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
