@@ -25,11 +25,10 @@ const messages = {
   noEvent: 'Aucun évènement trouvé',
 }
 
-const EventList = ({ query, queryKey, setRefetchRef }) => {
+const EventList = ({ setCurrentEvent, query, queryKey, setRefetchRef }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
-  const [, setCurrentEvent] = useState(Event.NULL)
   const navigate = useNavigate()
 
   const {
@@ -98,9 +97,7 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
-  const handleEditEvent = id => () => {
-    setCurrentEvent(events.find(e => e.id === id) || Event.NULL)
-  }
+  const handleEditEvent = id => () => setCurrentEvent(events.find(e => e.id === id))
 
   if (isLoading || isError) {
     return null
@@ -139,6 +136,7 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
 }
 
 EventList.propTypes = {
+  setCurrentEvent: PropTypes.func.isRequired,
   query: PropTypes.func.isRequired,
   queryKey: PropTypes.string.isRequired,
   setRefetchRef: PropTypes.func.isRequired,

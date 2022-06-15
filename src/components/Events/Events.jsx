@@ -81,7 +81,12 @@ const Events = () => {
           />
         ))}
       </Tabs>
-      <EventList query={tabs[selectedTab].query} queryKey={selectedTab} setRefetchRef={setRefetchEventsRef} />
+      <EventList
+        setCurrentEvent={setCurrentEvent}
+        query={tabs[selectedTab].query}
+        queryKey={selectedTab}
+        setRefetchRef={setRefetchEventsRef}
+      />
       {currentEvent && (
         <CreateEditEvent
           handleClose={() => {
