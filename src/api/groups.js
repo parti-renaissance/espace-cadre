@@ -18,13 +18,14 @@ const formatGroup = (group = {}) => {
   const members = new Array(group.members_count).fill(GroupMember.NULL)
   const isNational = group.visibility === 'national'
 
-  if (isNational) return new Group(group.uuid, group.name, group.creator, members, null)
+  if (isNational) return new Group(group.uuid, group.name, group.creator, members, null, group.is_deletable)
   return new Group(
     group.uuid,
     group.name,
     group.creator,
     members,
-    new Zone(group.zone.uuid, group.zone.name, group.zone.code)
+    new Zone(group.zone.uuid, group.zone.name, group.zone.code),
+    group.is_deletable
   )
 }
 
@@ -39,13 +40,14 @@ export const getGroupQuery = async groupId => {
   const groupMembers = formatGroupMembers(group.members)
   const isNational = group.visibility === 'national'
 
-  if (isNational) return new Group(group.uuid, group.name, group.creator, groupMembers, null)
+  if (isNational) return new Group(group.uuid, group.name, group.creator, groupMembers, null, group.is_deletable)
   return new Group(
     group.uuid,
     group.name,
     group.creator,
     groupMembers,
-    new Zone(group.zone.uuid, group.zone.name, group.zone.code)
+    new Zone(group.zone.uuid, group.zone.name, group.zone.code),
+    group.is_deletable
   )
 }
 
@@ -65,3 +67,5 @@ export const addGroupMemberQuery = ({ groupId, memberId }) =>
 
 export const deleteGroupMemberQuery = ({ groupId, memberId }) =>
   apiClient.delete(`api/v3/teams/${groupId}/members/${memberId}`)
+
+export const deleteGroupQuery = groupId => apiClient.delete(`api/v3/teams/${groupId}`)

@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import { useMutation } from 'react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Container, Grid } from '@mui/material'
 import GroupModal from './GroupModal'
-import { getGroupsQuery } from 'api/groups'
+import { getGroupsQuery, deleteGroupQuery } from 'api/groups'
 import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { Group } from 'domain/group'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
 import Header from './Card/Header'
 import UICard, { Title } from 'ui/Card'
 import Loader from 'ui/Loader'
@@ -17,12 +20,14 @@ import Actions from './Card/Actions'
 const messages = {
   title: 'Groupes',
   create: 'Créer un groupe',
+  deleteSuccess: 'Groupe supprimé avec succès',
 }
 
 const Groups = () => {
   const [currentGroup, setCurrentGroup] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { handleError, resetErrorMessages } = useErrorHandler()
+  const { enqueueSnackbar } = useCustomSnackbar()
   const {
     data: paginatedGroups = null,
     fetchNextPage,
@@ -32,7 +37,13 @@ const Groups = () => {
     getNextPageParam,
     onError: handleError,
   })
-
+  const { mutate: deleteGroup } = useMutation(deleteGroupQuery, {
+    onSuccess: () => {
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+      refetch()
+    },
+    onError: handleError,
+  })
   const groups = usePaginatedData(paginatedGroups)
 
   const handleNewGroup = () => {
@@ -45,9 +56,12 @@ const Groups = () => {
     setIsModalOpen(true)
   }
 
-  const handleDeleteGroup = id => {
-    // alert('delete: ' + id)
-  }
+  const handleDeleteGroup = useCallback(
+    groupId => () => {
+      deleteGroup(groupId)
+    },
+    [deleteGroup]
+  )
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
@@ -90,7 +104,8 @@ const Groups = () => {
                     <Actions
                       groupId={group.id}
                       onEdit={() => handleEditGroup(group.id)}
-                      onDelete={() => handleDeleteGroup(group.id)}
+                      onDelete={handleDeleteGroup(group.id)}
+                      isDeletable={group.isDeletable}
                     />
                   }
                 />

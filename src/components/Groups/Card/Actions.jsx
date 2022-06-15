@@ -18,7 +18,7 @@ const messages = {
   delete: 'Supprimer',
 }
 
-const Actions = ({ groupId, onEdit, onDelete }) => {
+const Actions = ({ groupId, onEdit, onDelete, isDeletable }) => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate(generatePath(`:groupId/${paths.update}`, { groupId }))
@@ -29,7 +29,7 @@ const Actions = ({ groupId, onEdit, onDelete }) => {
       <CtaButton onClick={handleClick}>{messages.see}</CtaButton>
       <DotsMenu>
         <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>
-        <DotsMenuItem onClick={onDelete}>{messages.delete}</DotsMenuItem>
+        {isDeletable && <DotsMenuItem onClick={onDelete}>{messages.delete}</DotsMenuItem>}
       </DotsMenu>
     </HorizontalContainer>
   )
@@ -41,4 +41,5 @@ Actions.propTypes = {
   groupId: PropTypes.string.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  isDeletable: PropTypes.bool.isRequired,
 }
