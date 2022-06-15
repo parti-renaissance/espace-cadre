@@ -45,6 +45,10 @@ const Groups = () => {
     setIsModalOpen(true)
   }
 
+  const handleDeleteGroup = id => {
+    // alert('delete: ' + id)
+  }
+
   const handleCloseModal = () => {
     setIsModalOpen(false)
     resetErrorMessages()
@@ -82,7 +86,13 @@ const Groups = () => {
                     </>
                   }
                   actionsProps={{ sx: { pt: 3 } }}
-                  actions={<Actions groupId={group.id} onEdit={() => handleEditGroup(group.id)} />}
+                  actions={
+                    <Actions
+                      groupId={group.id}
+                      onEdit={() => handleEditGroup(group.id)}
+                      onDelete={() => handleDeleteGroup(group.id)}
+                    />
+                  }
                 />
               </Grid>
             ))}
