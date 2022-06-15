@@ -30,10 +30,11 @@ export const visibility = {
 }
 
 export const scopesVisibility = {
+  [scopes.referent]: visibility.local,
   [scopes.correspondent]: visibility.local,
+  [scopes.deputy]: visibility.local,
   [scopes.legislative_candidate]: visibility.local,
   [scopes.national]: visibility.national,
   [scopes.phoning_national_manager]: visibility.national,
   [scopes.pap_national_manager]: visibility.national,
-  [scopes.referent]: visibility.local,
 }
