@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/system'
 import {
+  Button,
   Stepper as MuiStepper,
   Step,
   StepButton as MuiStepButton,
@@ -9,6 +10,8 @@ import {
   StepConnector as MuiStepConnector,
   Grid,
 } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 
@@ -34,21 +37,45 @@ const StepTitleButton = styled(
   },
 }))
 
+const messages = {
+  show: 'Afficher',
+  hide: 'Masquer',
+}
+
 const Stepper = ({ children, ...props }) => (
   <MuiStepper connector={<StepConnector />} {...props}>
-    {React.Children.map(children, (step, index) => (
-      <Step key={index} expanded>
-        <Grid container direction="column">
-          <Grid item>
-            <StepTitleButton>{step.props.children.props.title}</StepTitleButton>
+    {React.Children.map(children, (step, index) => {
+      const isStepExpandable = step.props.children.props.isStepExpandable
+      const [isStepExpanded, setIsStepExpanded] = useState(step.props.children.props.expanded)
+      return (
+        <Step key={index} expanded={isStepExpanded}>
+          <Grid container direction="column">
+            <Grid container>
+              <Grid item>
+                <StepTitleButton>{step.props.children.props.title}</StepTitleButton>
+              </Grid>
+              {isStepExpandable && (
+                <Grid item>
+                  <Button
+                    variant="text"
+                    startIcon={isStepExpanded ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    onClick={() => {
+                      setIsStepExpanded(!isStepExpanded)
+                    }}
+                    sx={{ ml: 3, mt: 0.5 }}
+                  >
+                    {isStepExpanded ? messages.hide : messages.show}
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+            <StepContent TransitionProps={{ unmountOnExit: false }}>
+              <Grid item>{React.cloneElement(step, step.props)}</Grid>
+            </StepContent>
           </Grid>
-
-          <StepContent TransitionProps={{ unmountOnExit: false }}>
-            <Grid item>{React.cloneElement(step, step.props)}</Grid>
-          </StepContent>
-        </Grid>
-      </Step>
-    ))}
+        </Step>
+      )
+    })}
   </MuiStepper>
 )
 
