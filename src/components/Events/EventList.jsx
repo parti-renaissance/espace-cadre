@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { generatePath, useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
@@ -6,9 +6,9 @@ import { Grid } from '@mui/material'
 import { useSelector } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
-import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
+import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery, getEvent as getEventQuery } from 'api/events'
 import Loader from 'ui/Loader'
 import UICard from 'ui/Card'
 import paths from 'shared/paths'
@@ -30,13 +30,14 @@ const EventList = ({ setCurrentEvent, query, queryKey, setRefetchRef }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
   const navigate = useNavigate()
+  const [eventId, setEventId] = useState(null)
 
   const {
     data: paginatedEvents = null,
     fetchNextPage,
     hasNextPage,
     refetch,
-    isLoading,
+    isLoadingEvents,
     isError,
   } = useInfiniteQueryWithScope([queryKey, { feature: 'Events', view: 'Events' }], query, {
     getNextPageParam,
@@ -46,6 +47,12 @@ const EventList = ({ setCurrentEvent, query, queryKey, setRefetchRef }) => {
   useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
 
   const events = usePaginatedData(paginatedEvents)
+
+  const { data: event = null } = useQueryWithScope(
+    ['event', eventId, { feature: 'Events', view: 'Event' }],
+    () => getEventQuery(eventId),
+    { enabled: !!eventId }
+  )
 
   const queryClient = useQueryClient()
   const { data: categoriesByGroup = null } = queryClient.getQueryState([
@@ -77,6 +84,10 @@ const EventList = ({ setCurrentEvent, query, queryKey, setRefetchRef }) => {
     onError: handleError,
   })
 
+  useEffect(() => {
+    setCurrentEvent(event)
+  }, [event])
+
   const handleCancel = useCallback(
     async id => {
       await cancelEvent(id)
@@ -97,9 +108,7 @@ const EventList = ({ setCurrentEvent, query, queryKey, setRefetchRef }) => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
-  const handleEditEvent = id => () => setCurrentEvent(events.find(e => e.id === id))
-
-  if (isLoading || isError) {
+  if (isLoadingEvents || isError) {
     return null
   }
 
@@ -122,7 +131,9 @@ const EventList = ({ setCurrentEvent, query, queryKey, setRefetchRef }) => {
                   isCancelable={e.organizerId === currentUser.uuid && e.scheduled}
                   onCancel={() => handleCancel(e.id)}
                   cancelLoader={isLoadingCancelEvent}
-                  onEdit={handleEditEvent(e.id)}
+                  onEdit={() => {
+                    setEventId(e.id)
+                  }}
                   isDeletable={e.attendees <= 1 && e.organizerId === currentUser.uuid}
                   onDelete={() => handleDelete(e.id)}
                   deleteLoader={isLoadingDeleteEvent}

@@ -30,18 +30,13 @@ const Event = () => {
   const { handleError } = useErrorHandler()
   const currentUser = useSelector(getCurrentUser)
 
-  const {
-    data: event = null,
-    isLoading,
-    refetch: refetchEvent,
-  } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
+  const { data: event = null, isLoading } = useQueryWithScope(
+    ['event', eventId, { feature: 'Events', view: 'Event' }],
+    () => getEvent(eventId)
+  )
 
   const handleEditEvent = () => {
     setUpdatedEvent(event)
-  }
-
-  const handleEdited = async () => {
-    await refetchEvent()
   }
 
   const {
@@ -109,7 +104,6 @@ const Event = () => {
           handleClose={() => {
             setUpdatedEvent(null)
           }}
-          onUpdate={handleEdited}
           event={updatedEvent}
         />
       )}
