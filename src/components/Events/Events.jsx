@@ -1,13 +1,14 @@
 import { useCallback, useState } from 'react'
-import { Event } from 'domain/event'
+import { useQuery } from 'react-query'
+import { styled } from '@mui/system'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
+
+import { Event } from 'domain/event'
+import { getCategories, getEvents, getMyEvents } from 'api/events'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import { styled } from '@mui/system'
 import EventList from 'components/Events/EventList'
-import { getCategories, getEvents, getMyEvents } from 'api/events'
 import CreateEditEvent from 'components/Events/CreateEditEvent'
-import { useQuery } from 'react-query'
 import { ONE_DAY } from './constants'
 
 const Tab = styled(MuiTab)(({ theme }) => ({

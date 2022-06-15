@@ -1,17 +1,18 @@
-import { Title } from 'ui/Card'
-import { format } from 'date-fns'
+import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import GroupIcon from '@mui/icons-material/Group'
 import { Box, Typography } from '@mui/material'
 import MuiCalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import { fr } from 'date-fns/locale'
 import RoomIcon from '@mui/icons-material/Room'
 import TagIcon from '@mui/icons-material/LocalOffer'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
+
+import { Title } from 'ui/Card'
 import { TruncatedText } from 'components/shared/styled'
 import { Event } from 'domain/event'
 import noImage from 'assets/no-image.png'
 import EventChip from './EventChip'
-import PropTypes from 'prop-types'
 
 const CalendarTodayIcon = styled(MuiCalendarTodayIcon)(
   ({ theme }) => `
@@ -70,6 +71,7 @@ const LabelTypography = styled(Typography)`
 
 export const formatAddress = ({ route, postalCode, locality }) =>
   [route, route && ', ', postalCode, postalCode && ' ', locality].filter(Boolean).join('')
+
 const Header = ({ event, categoryNameByCategoryId }) => (
   <>
     {event.image ? (
