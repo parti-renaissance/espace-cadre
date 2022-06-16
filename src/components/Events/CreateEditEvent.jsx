@@ -122,7 +122,10 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     () => getEvent(eventId),
     {
       enabled: !isCreateMode,
-      onSuccess: data => setEvent(data),
+      onSuccess: data => {
+        setEvent(data)
+        setImage(data.image)
+      },
     }
   )
 
@@ -137,18 +140,15 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     return setImage(undefined)
   }
 
-  const { mutate: createOrUpdateEvent, isLoading } = useMutation(
-    data => (isCreateMode ? createEventApi(data) : updateEventApi(data)),
-    {
-      onSuccess: async uuid => {
-        image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
-        await onUpdate()
-        enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-        handleClose()
-      },
-      onError: handleError,
-    }
-  )
+  const { mutate: createOrUpdateEvent, isLoading } = useMutation(isCreateMode ? createEventApi : updateEventApi, {
+    onSuccess: async uuid => {
+      image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
+      await onUpdate()
+      enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      handleClose()
+    },
+    onError: handleError,
+  })
 
   const { data: categoriesByGroup = null } = useQuery(
     ['categories', { feature: 'Events', view: 'Events' }],
@@ -336,7 +336,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                     defaultValue={event.address?.route}
                     rules={{ required: true }}
                     render={({ field: { onChange, value } }) => (
-                      <Places initialValue={event.address?.route} onSelectPlace={onChange} />
+                      <Places initialValue={event.address?.route} onSelectPlace={onChange} key={event.address?.route} />
                     )}
                   />
                   <FormError errors={errorMessages} field={fields.addressError} />
@@ -423,7 +423,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                         min="0"
                         name={fields.capacity}
                         placeholder={messages.placeholder.capacity}
-                        value={value}
+                        value={value || ''}
                         onChange={onChange}
                       />
                     )}
