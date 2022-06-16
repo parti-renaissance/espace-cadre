@@ -2,6 +2,7 @@ import { Container, Grid } from '@mui/material'
 import PageHeader from 'ui/PageHeader'
 import KpiEvent from 'components/Events/KPIEvent'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+
 import { getEvent, getEventAttendees } from 'api/events'
 import { useParams } from 'react-router'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
