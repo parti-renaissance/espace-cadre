@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react'
-import { Event } from 'domain/event'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
@@ -37,9 +36,10 @@ const messages = {
 const noOp = () => () => {}
 
 const Events = () => {
-  const [currentEvent, setCurrentEvent] = useState(null)
   const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
   const [refetchEvents, setRefetchEvents] = useState(noOp)
+
+  const [eventId, setEventId] = useState(null)
 
   useQuery(['categories', { feature: 'Events', view: 'Events' }], () => getCategories(), {
     cacheTime: ONE_DAY,
@@ -47,10 +47,6 @@ const Events = () => {
   })
 
   const setRefetchEventsRef = useCallback(f => setRefetchEvents(() => f), [])
-
-  const handleCreateEvent = () => {
-    setCurrentEvent(Event.NULL)
-  }
 
   const handleChangeTab = (_, tabId) => {
     setSelectedTab(tabId)
@@ -60,12 +56,24 @@ const Events = () => {
     await refetchEvents()
   }
 
+  const handleEditEvent = id => () => {
+    setEventId(id)
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={handleCreateEvent} label={messages.create} isMainButton />}
+          button={
+            <PageHeaderButton
+              onClick={() => {
+                setEventId('-1')
+              }}
+              label={messages.create}
+              isMainButton
+            />
+          }
         />
       </Grid>
       <Tabs
@@ -85,14 +93,19 @@ const Events = () => {
           />
         ))}
       </Tabs>
-      <EventList query={tabs[selectedTab].query} queryKey={selectedTab} setRefetchRef={setRefetchEventsRef} />
-      {currentEvent && (
+      <EventList
+        onEdit={handleEditEvent}
+        query={tabs[selectedTab].query}
+        queryKey={selectedTab}
+        setRefetchRef={setRefetchEventsRef}
+      />
+      {eventId !== null && (
         <CreateEditEvent
           handleClose={() => {
-            setCurrentEvent(null)
+            setEventId(null)
           }}
           onUpdate={handleCreation}
-          event={currentEvent}
+          eventId={eventId}
         />
       )}
     </Container>

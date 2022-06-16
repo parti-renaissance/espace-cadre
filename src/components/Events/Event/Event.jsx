@@ -2,6 +2,7 @@ import { Container, Grid } from '@mui/material'
 import PageHeader from 'ui/PageHeader'
 import KpiEvent from 'components/Events/KPIEvent'
 import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+
 import { getEvent, getEventAttendees } from 'api/events'
 import { useParams } from 'react-router'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
@@ -24,20 +25,16 @@ const messages = {
 }
 
 const Event = () => {
-  const [updatedEvent, setUpdatedEvent] = useState(null)
   const { eventId } = useParams()
   const { handleError } = useErrorHandler()
   const currentUser = useSelector(getCurrentUser)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const {
     data: event = null,
     isLoading,
     refetch: refetchEvent,
   } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
-
-  const handleEditEvent = () => {
-    setUpdatedEvent(event)
-  }
 
   const handleEdited = async () => {
     await refetchEvent()
@@ -68,7 +65,7 @@ const Event = () => {
           button={
             currentUser && event?.organizerId === currentUser.uuid && event?.scheduled ? (
               <PageHeaderButton
-                onClick={handleEditEvent}
+                onClick={() => setIsModalOpen(true)}
                 label={messages.edit}
                 icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
                 isMainButton
@@ -103,13 +100,13 @@ const Event = () => {
           )}
         </Grid>
       </Grid>
-      {updatedEvent && (
+      {isModalOpen && (
         <CreateEditEvent
           handleClose={() => {
-            setUpdatedEvent(null)
+            setIsModalOpen(false)
           }}
           onUpdate={handleEdited}
-          event={updatedEvent}
+          eventId={eventId}
         />
       )}
     </Container>
