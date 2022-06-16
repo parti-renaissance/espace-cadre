@@ -25,7 +25,7 @@ const messages = {
   noEvent: 'Aucun évènement trouvé',
 }
 
-const EventList = ({ query, queryKey, setRefetchRef }) => {
+const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
@@ -98,10 +98,6 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
-  const handleEditEvent = id => () => {
-    setCurrentEvent(events.find(e => e.id === id) || Event.NULL)
-  }
-
   if (isLoading || isError) {
     return null
   }
@@ -120,8 +116,9 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
               actionsProps={{ sx: { pt: 1 } }}
               actions={
                 <Actions
+                  event={e}
                   onView={handleViewEvent(e.id)}
-                  onEdit={handleEditEvent(e.id)}
+                  onEdit={onEdit(e.id)}
                   isDeletable={e.attendees <= 1 && e.organizerId === currentUser.uuid}
                   onDelete={() => handleDelete(e.id)}
                   deleteLoader={isLoadingDeleteEvent}
@@ -139,6 +136,7 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
 }
 
 EventList.propTypes = {
+  onEdit: PropTypes.func.isRequired,
   query: PropTypes.func.isRequired,
   queryKey: PropTypes.string.isRequired,
   setRefetchRef: PropTypes.func.isRequired,

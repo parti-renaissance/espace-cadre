@@ -60,6 +60,10 @@ const Events = () => {
     await refetchEvents()
   }
 
+  const handleEditEvent = id => () => {
+    console.log(id)
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -85,7 +89,12 @@ const Events = () => {
           />
         ))}
       </Tabs>
-      <EventList query={tabs[selectedTab].query} queryKey={selectedTab} setRefetchRef={setRefetchEventsRef} />
+      <EventList
+        onEdit={handleEditEvent}
+        query={tabs[selectedTab].query}
+        queryKey={selectedTab}
+        setRefetchRef={setRefetchEventsRef}
+      />
       {currentEvent && (
         <CreateEditEvent
           handleClose={() => {
