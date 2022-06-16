@@ -16,8 +16,11 @@ import {
   uploadImage as imageUploadApi,
   deleteImage as deleteImageApi,
   getCategories,
+  getEvent,
 } from 'api/events'
 import Places from 'ui/Places/Places'
+import { useQueryWithScope } from '../../api/useQueryWithScope'
+import Loader from '../../ui/Loader'
 import timezones from './timezones.json'
 import Submit from 'ui/Stepper/Submit'
 import Label from 'ui/Stepper/Label'
@@ -106,44 +109,46 @@ const messages = {
   },
 }
 
-const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
-  const isCreateMode = !event.id
-  const [newEvent, setNewEvent] = useState(event)
+const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
+  const isCreateMode = eventId === '-1'
+  const [event, setEvent] = useState(Event.NULL)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const [image, setImage] = useState(event.image || undefined)
   const { isMobile } = useCurrentDeviceType()
 
+  const { isLoading: isSingleEventLoading } = useQueryWithScope(
+    ['event', eventId, { feature: 'Events', view: 'Event' }],
+    () => getEvent(eventId),
+    {
+      enabled: !isCreateMode,
+      onSuccess: data => setEvent(data),
+    }
+  )
+
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })
-  const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(newEvent.id), {
+  const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(event.id), {
     onSuccess: () => setImage(undefined),
     onError: handleError,
   })
 
   const handleImageDelete = () => {
-    if (image && newEvent.image) return deleteImage()
+    if (image && event.image) return deleteImage()
     return setImage(undefined)
   }
 
-  const { mutate: createEvent, isLoading: isCreating } = useMutation(createEventApi, {
-    onSuccess: async newUuid => {
-      image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: newUuid, image }))
-      await onUpdate()
-      enqueueSnackbar(messages.createSuccess, notifyVariants.success)
-      handleClose()
-    },
-    onError: handleError,
-  })
-
-  const { mutate: updateEvent, isLoading: isUpdating } = useMutation(updateEventApi, {
-    onSuccess: async uuid => {
-      image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
-      await onUpdate()
-      enqueueSnackbar(messages.editSuccess, notifyVariants.success)
-      handleClose()
-    },
-    onError: handleError,
-  })
+  const { mutate: createOrUpdateEvent, isLoading } = useMutation(
+    data => (isCreateMode ? createEventApi(data) : updateEventApi(data)),
+    {
+      onSuccess: async uuid => {
+        image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
+        await onUpdate()
+        enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+        handleClose()
+      },
+      onError: handleError,
+    }
+  )
 
   const { data: categoriesByGroup = null } = useQuery(
     ['categories', { feature: 'Events', view: 'Events' }],
@@ -173,7 +178,9 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     mode: 'onChange',
     resolver: yupResolver(eventSchema),
   })
-  const watchAllFields = watch()
+
+  watch()
+
   const values = getValues()
   const isStepOneValid =
     !!values.name &&
@@ -187,9 +194,9 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const prepareCreate = () => {
     const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity, address } = values
-    const { attendees } = newEvent
+    const { attendees } = event
 
-    const eventObj = new Event(
+    return new Event(
       null,
       name,
       description,
@@ -205,27 +212,30 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       capacity,
       address,
       categoryId,
-      newEvent.private,
+      event.private,
       visioUrl,
       '',
       null
     )
-    return eventObj
   }
 
   const createOrEdit = () => {
-    if (!isCreateMode) {
-      updateEvent(values)
+    if (isCreateMode) {
+      createOrUpdateEvent(prepareCreate())
     } else {
-      createEvent(prepareCreate())
+      createOrUpdateEvent(values)
     }
   }
 
   useEffect(() => {
-    if (newEvent.id) {
-      reset(newEvent)
+    if (event.id) {
+      reset(event)
     }
-  }, [newEvent])
+  }, [event])
+
+  if (!isCreateMode && isSingleEventLoading) {
+    return <Loader />
+  }
 
   return (
     <Dialog handleClose={handleClose} open data-cy="event-create-edit">
@@ -244,14 +254,14 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.name}
                 control={control}
-                defaultValue={newEvent.name}
+                defaultValue={event.name}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     name={fields.name}
                     onChange={onChange}
                     placeholder={messages.placeholder.name}
-                    value={value}
+                    value={value === null ? '' : value}
                     autoFocus
                   />
                 )}
@@ -261,7 +271,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.category}
                 control={control}
-                defaultValue={newEvent.categoryId}
+                defaultValue={event.categoryId}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
                   <Select
@@ -278,7 +288,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.beginAt}
                 control={control}
-                defaultValue={newEvent.beginAt}
+                defaultValue={event.beginAt}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
                   <DateTimePicker
@@ -295,7 +305,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.finishAt}
                 control={control}
-                defaultValue={newEvent.finishAt}
+                defaultValue={event.finishAt}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
                   <DateTimePicker
@@ -312,7 +322,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.timezone}
                 control={control}
-                defaultValue={newEvent.timezone}
+                defaultValue={event.timezone}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
                   <Select options={timezones} onChange={onChange} value={value} sx={{ display: 'flex' }} />
@@ -323,29 +333,29 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.address}
                 control={control}
-                defaultValue={newEvent.address?.route}
+                defaultValue={event.address?.route}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
-                  <Places initialValue={newEvent.address?.route} onSelectPlace={onChange} />
+                  <Places initialValue={event.address?.route} onSelectPlace={onChange} />
                 )}
               />
               <FormError errors={errorMessages} field={fields.addressError} />
               <Box component="div" sx={{ display: 'flex', mt: 3 }}>
                 <Input
                   placeholder={messages.placeholder.postalCode}
-                  value={values.address?.postalCode || newEvent.address?.postalCode || ''}
+                  value={values.address?.postalCode || event.address?.postalCode || ''}
                   disabled
                   sx={{ flex: 1 }}
                 />
                 <Input
                   placeholder={messages.placeholder.locality}
-                  value={values.address?.locality || newEvent.address?.locality || ''}
+                  value={values.address?.locality || event.address?.locality || ''}
                   disabled
                   sx={{ flex: 2, mx: 2 }}
                 />
                 <Input
                   placeholder={messages.placeholder.country}
-                  value={values.address?.country || newEvent.address?.country || ''}
+                  value={values.address?.country || event.address?.country || ''}
                   disabled
                   sx={{ flex: 1 }}
                 />
@@ -365,7 +375,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.description}
                 control={control}
-                defaultValue={newEvent.description}
+                defaultValue={event.description}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
                   <TextArea
@@ -387,7 +397,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.visio}
                 control={control}
-                defaultValue={newEvent.visioUrl}
+                defaultValue={event.visioUrl}
                 rules={{ required: false }}
                 render={({ field: { onChange, value } }) => (
                   <Input
@@ -405,7 +415,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <Controller
                 name={fields.capacity}
                 control={control}
-                defaultValue={newEvent.capacity}
+                defaultValue={event.capacity}
                 rules={{ required: false }}
                 render={({ field: { onChange, value } }) => (
                   <Input
@@ -422,8 +432,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
               <FormControlLabel
                 name={fields.private}
                 label={messages.label.private}
-                control={<Checkbox checked={!!newEvent.private} />}
-                onChange={(_, value) => setNewEvent(prev => prev.withPrivate(value))}
+                control={<Checkbox checked={!!event.private} />}
+                onChange={(_, value) => setEvent(prev => prev.withPrivate(value))}
                 sx={{ pt: 2 }}
               />
             </div>
@@ -432,8 +442,8 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
         <Submit
           label={isCreateMode ? messages.create : messages.edit}
           handleValidate={createOrEdit}
-          disabled={areAllStepsValid.length < 2 || isCreating || isUpdating}
-          isLoading={isCreating || isUpdating}
+          disabled={areAllStepsValid.length < 2 || isLoading}
+          isLoading={isLoading}
         />
       </Grid>
     </Dialog>
@@ -443,7 +453,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 CreateEditEvent.propTypes = {
   handleClose: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  event: Event.propTypes,
+  eventId: PropTypes.string.isRequired,
 }
 
 export default CreateEditEvent
