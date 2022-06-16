@@ -4,7 +4,6 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useMutation, useQueryClient } from 'react-query'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
-import { Event } from 'domain/event'
 import { generatePath, useNavigate } from 'react-router-dom'
 import paths from 'shared/paths'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -17,18 +16,18 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
   cancelSuccess: "L'évènement a bien été annulé",
+  noEvent: 'Aucun évènement trouvé',
 }
 
-const EventList = ({ query, queryKey, setRefetchRef }) => {
+const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
-  const [, setCurrentEvent] = useState(Event.NULL)
   const navigate = useNavigate()
 
   const {
@@ -97,15 +96,11 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
-  const handleEditEvent = id => () => {
-    setCurrentEvent(events.find(e => e.id === id) || Event.NULL)
-  }
-
   if (isLoading || isError) {
     return null
   }
 
-  if (!events.length) return <div>Aucun évènement trouvé</div>
+  if (!events.length) return <div>{messages.noEvent}</div>
 
   return (
     <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
@@ -119,8 +114,9 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
               actionsProps={{ sx: { pt: 1 } }}
               actions={
                 <Actions
+                  event={e}
                   onView={handleViewEvent(e.id)}
-                  onEdit={handleEditEvent(e.id)}
+                  onEdit={onEdit(e.id)}
                   isDeletable={e.attendees <= 1 && e.organizerId === currentUser.uuid}
                   onDelete={() => handleDelete(e.id)}
                   deleteLoader={isLoadingDeleteEvent}
@@ -138,6 +134,7 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
 }
 
 EventList.propTypes = {
+  onEdit: PropTypes.func.isRequired,
   query: PropTypes.func.isRequired,
   queryKey: PropTypes.string.isRequired,
   setRefetchRef: PropTypes.func.isRequired,

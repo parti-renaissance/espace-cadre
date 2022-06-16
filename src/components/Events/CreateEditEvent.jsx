@@ -16,8 +16,11 @@ import {
   uploadImage as imageUploadApi,
   deleteImage as deleteImageApi,
   getCategories,
+  getEvent,
 } from 'api/events'
 import Places from 'ui/Places/Places'
+import { useQueryWithScope } from '../../api/useQueryWithScope'
+import Loader from '../../ui/Loader'
 import timezones from './timezones.json'
 import Submit from 'ui/Stepper/Submit'
 import Label from 'ui/Stepper/Label'
@@ -106,40 +109,42 @@ const messages = {
   },
 }
 
-const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
-  const isCreateMode = !event.id
-  const [newEvent, setNewEvent] = useState(event)
+const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
+  const isCreateMode = eventId === '-1'
+  const [event, setEvent] = useState(Event.NULL)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const [image, setImage] = useState(event.image || undefined)
   const { isMobile } = useCurrentDeviceType()
 
+  const { isLoading: isSingleEventLoading } = useQueryWithScope(
+    ['event', eventId, { feature: 'Events', view: 'Event' }],
+    () => getEvent(eventId),
+    {
+      enabled: !isCreateMode,
+      onSuccess: data => {
+        setEvent(data)
+        setImage(data.image)
+      },
+    }
+  )
+
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })
-  const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(newEvent.id), {
+  const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(event.id), {
     onSuccess: () => setImage(undefined),
     onError: handleError,
   })
 
   const handleImageDelete = () => {
-    if (image && newEvent.image) return deleteImage()
+    if (image && event.image) return deleteImage()
     return setImage(undefined)
   }
 
-  const { mutate: createEvent, isLoading: isCreating } = useMutation(createEventApi, {
-    onSuccess: async newUuid => {
-      image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: newUuid, image }))
-      await onUpdate()
-      enqueueSnackbar(messages.createSuccess, notifyVariants.success)
-      handleClose()
-    },
-    onError: handleError,
-  })
-
-  const { mutate: updateEvent, isLoading: isUpdating } = useMutation(updateEventApi, {
+  const { mutate: createOrUpdateEvent, isLoading } = useMutation(isCreateMode ? createEventApi : updateEventApi, {
     onSuccess: async uuid => {
       image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
       await onUpdate()
-      enqueueSnackbar(messages.editSuccess, notifyVariants.success)
+      enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       handleClose()
     },
     onError: handleError,
@@ -173,7 +178,9 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
     mode: 'onChange',
     resolver: yupResolver(eventSchema),
   })
-  const watchAllFields = watch()
+
+  watch()
+
   const values = getValues()
   const isStepOneValid =
     !!values.name &&
@@ -187,9 +194,9 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 
   const prepareCreate = () => {
     const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity, address } = values
-    const { attendees } = newEvent
+    const { attendees } = event
 
-    const eventObj = new Event(
+    return new Event(
       null,
       name,
       description,
@@ -205,27 +212,26 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       capacity,
       address,
       categoryId,
-      newEvent.private,
+      event.private,
       visioUrl,
       '',
       null
     )
-    return eventObj
   }
 
   const createOrEdit = () => {
-    if (!isCreateMode) {
-      updateEvent(values)
+    if (isCreateMode) {
+      createOrUpdateEvent(prepareCreate())
     } else {
-      createEvent(prepareCreate())
+      createOrUpdateEvent(values)
     }
   }
 
   useEffect(() => {
-    if (newEvent.id) {
-      reset(newEvent)
+    if (event.id) {
+      reset(event)
     }
-  }, [newEvent])
+  }, [event])
 
   return (
     <Dialog handleClose={handleClose} open data-cy="event-create-edit">
@@ -237,204 +243,210 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
       </Grid>
 
       <Grid container sx={{ mb: isMobile ? 2 : null }}>
-        <Stepper orientation="vertical" sx={{ width: '100%', pt: 4 }}>
-          <div>
-            <div title={messages.step1}>
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.name}</Label>
-              <Controller
-                name={fields.name}
-                control={control}
-                defaultValue={newEvent.name}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
+        {!isCreateMode && isSingleEventLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Stepper orientation="vertical" sx={{ width: '100%', pt: 4 }}>
+              <div>
+                <div title={messages.step1}>
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.name}</Label>
+                  <Controller
                     name={fields.name}
-                    onChange={onChange}
-                    placeholder={messages.placeholder.name}
-                    value={value}
-                    autoFocus
+                    control={control}
+                    defaultValue={event.name}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        name={fields.name}
+                        onChange={onChange}
+                        placeholder={messages.placeholder.name}
+                        value={value === null ? '' : value}
+                        autoFocus
+                      />
+                    )}
                   />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.name} />
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.category}</Label>
-              <Controller
-                name={fields.category}
-                control={control}
-                defaultValue={newEvent.categoryId}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    options={categories}
-                    onChange={onChange}
-                    value={value}
-                    placeholder={messages.placeholder.category}
-                    sx={{ display: 'flex' }}
+                  <FormError errors={errorMessages} field={fields.name} />
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.category}</Label>
+                  <Controller
+                    name={fields.category}
+                    control={control}
+                    defaultValue={event.categoryId}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <Select
+                        options={categories}
+                        onChange={onChange}
+                        value={value}
+                        placeholder={messages.placeholder.category}
+                        sx={{ display: 'flex' }}
+                      />
+                    )}
                   />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.category} />
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.beginAt}</Label>
-              <Controller
-                name={fields.beginAt}
-                control={control}
-                defaultValue={newEvent.beginAt}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    value={value}
-                    onChange={onChange}
+                  <FormError errors={errorMessages} field={fields.category} />
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.beginAt}</Label>
+                  <Controller
                     name={fields.beginAt}
-                    minDate={new Date()}
-                    placeholder={messages.placeholder.beginAt}
+                    control={control}
+                    defaultValue={event.beginAt}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <DateTimePicker
+                        value={value}
+                        onChange={onChange}
+                        name={fields.beginAt}
+                        minDate={new Date()}
+                        placeholder={messages.placeholder.beginAt}
+                      />
+                    )}
                   />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.beginAtError} />
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.finishAt}</Label>
-              <Controller
-                name={fields.finishAt}
-                control={control}
-                defaultValue={newEvent.finishAt}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    value={value}
-                    onChange={onChange}
+                  <FormError errors={errorMessages} field={fields.beginAtError} />
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.finishAt}</Label>
+                  <Controller
                     name={fields.finishAt}
-                    minDate={values.beginAt ? values.beginAt : new Date()}
-                    placeholder={messages.placeholder.finishAt}
+                    control={control}
+                    defaultValue={event.finishAt}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <DateTimePicker
+                        value={value}
+                        onChange={onChange}
+                        name={fields.finishAt}
+                        minDate={values.beginAt ? values.beginAt : new Date()}
+                        placeholder={messages.placeholder.finishAt}
+                      />
+                    )}
                   />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.finishAtError} />
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.timezone}</Label>
-              <Controller
-                name={fields.timezone}
-                control={control}
-                defaultValue={newEvent.timezone}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <Select options={timezones} onChange={onChange} value={value} sx={{ display: 'flex' }} />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.timezone} />
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.address}</Label>
-              <Controller
-                name={fields.address}
-                control={control}
-                defaultValue={newEvent.address?.route}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <Places initialValue={newEvent.address?.route} onSelectPlace={onChange} />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.addressError} />
-              <Box component="div" sx={{ display: 'flex', mt: 3 }}>
-                <Input
-                  placeholder={messages.placeholder.postalCode}
-                  value={values.address?.postalCode || newEvent.address?.postalCode || ''}
-                  disabled
-                  sx={{ flex: 1 }}
-                />
-                <Input
-                  placeholder={messages.placeholder.locality}
-                  value={values.address?.locality || newEvent.address?.locality || ''}
-                  disabled
-                  sx={{ flex: 2, mx: 2 }}
-                />
-                <Input
-                  placeholder={messages.placeholder.country}
-                  value={values.address?.country || newEvent.address?.country || ''}
-                  disabled
-                  sx={{ flex: 1 }}
-                />
-              </Box>
-            </div>
-          </div>
-          <div>
-            <div title={messages.step2} expanded>
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
-              <ImageUploader
-                image={image}
-                setImage={setImage}
-                handleImageDelete={handleImageDelete}
-                isDeleting={isDeleting}
-              />
-              <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
-              <Controller
-                name={fields.description}
-                control={control}
-                defaultValue={newEvent.description}
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <TextArea
-                    multiline
-                    rows={6}
-                    fullWidth
-                    size="small"
+                  <FormError errors={errorMessages} field={fields.finishAtError} />
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.timezone}</Label>
+                  <Controller
+                    name={fields.timezone}
+                    control={control}
+                    defaultValue={event.timezone}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <Select options={timezones} onChange={onChange} value={value} sx={{ display: 'flex' }} />
+                    )}
+                  />
+                  <FormError errors={errorMessages} field={fields.timezone} />
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.address}</Label>
+                  <Controller
+                    name={fields.address}
+                    control={control}
+                    defaultValue={event.address?.route}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <Places initialValue={event.address?.route} onSelectPlace={onChange} key={event.address?.route} />
+                    )}
+                  />
+                  <FormError errors={errorMessages} field={fields.addressError} />
+                  <Box component="div" sx={{ display: 'flex', mt: 3 }}>
+                    <Input
+                      placeholder={messages.placeholder.postalCode}
+                      value={values.address?.postalCode || event.address?.postalCode || ''}
+                      disabled
+                      sx={{ flex: 1 }}
+                    />
+                    <Input
+                      placeholder={messages.placeholder.locality}
+                      value={values.address?.locality || event.address?.locality || ''}
+                      disabled
+                      sx={{ flex: 2, mx: 2 }}
+                    />
+                    <Input
+                      placeholder={messages.placeholder.country}
+                      value={values.address?.country || event.address?.country || ''}
+                      disabled
+                      sx={{ flex: 1 }}
+                    />
+                  </Box>
+                </div>
+              </div>
+              <div>
+                <div title={messages.step2} expanded>
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
+                  <ImageUploader
+                    image={image}
+                    setImage={setImage}
+                    handleImageDelete={handleImageDelete}
+                    isDeleting={isDeleting}
+                  />
+                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
+                  <Controller
                     name={fields.description}
-                    placeholder={messages.placeholder.description}
-                    value={value}
-                    onChange={onChange}
+                    control={control}
+                    defaultValue={event.description}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <TextArea
+                        multiline
+                        rows={6}
+                        fullWidth
+                        size="small"
+                        name={fields.description}
+                        placeholder={messages.placeholder.description}
+                        value={value}
+                        onChange={onChange}
+                      />
+                    )}
                   />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.description} />
-              <Label optional sx={{ pt: 3, pb: 1 }}>
-                {messages.label.visio}
-              </Label>
-              <Controller
-                name={fields.visio}
-                control={control}
-                defaultValue={newEvent.visioUrl}
-                rules={{ required: false }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
+                  <FormError errors={errorMessages} field={fields.description} />
+                  <Label optional sx={{ pt: 3, pb: 1 }}>
+                    {messages.label.visio}
+                  </Label>
+                  <Controller
                     name={fields.visio}
-                    placeholder={messages.placeholder.visio}
-                    value={value}
-                    onChange={onChange}
+                    control={control}
+                    defaultValue={event.visioUrl}
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        name={fields.visio}
+                        placeholder={messages.placeholder.visio}
+                        value={value}
+                        onChange={onChange}
+                      />
+                    )}
                   />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.visio} />
-              <Label optional sx={{ pt: 3, pb: 1 }}>
-                {messages.label.capacity}
-              </Label>
-              <Controller
-                name={fields.capacity}
-                control={control}
-                defaultValue={newEvent.capacity}
-                rules={{ required: false }}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    type="number"
-                    min="0"
+                  <FormError errors={errorMessages} field={fields.visio} />
+                  <Label optional sx={{ pt: 3, pb: 1 }}>
+                    {messages.label.capacity}
+                  </Label>
+                  <Controller
                     name={fields.capacity}
-                    placeholder={messages.placeholder.capacity}
-                    value={value}
-                    onChange={onChange}
+                    control={control}
+                    defaultValue={event.capacity}
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        type="number"
+                        min="0"
+                        name={fields.capacity}
+                        placeholder={messages.placeholder.capacity}
+                        value={value || ''}
+                        onChange={onChange}
+                      />
+                    )}
                   />
-                )}
-              />
-              <FormError errors={errorMessages} field={fields.capacity} />
-              <FormControlLabel
-                name={fields.private}
-                label={messages.label.private}
-                control={<Checkbox checked={!!newEvent.private} />}
-                onChange={(_, value) => setNewEvent(prev => prev.withPrivate(value))}
-                sx={{ pt: 2 }}
-              />
-            </div>
-          </div>
-        </Stepper>
-        <Submit
-          label={isCreateMode ? messages.create : messages.edit}
-          handleValidate={createOrEdit}
-          disabled={areAllStepsValid.length < 2 || isCreating || isUpdating}
-          isLoading={isCreating || isUpdating}
-        />
+                  <FormError errors={errorMessages} field={fields.capacity} />
+                  <FormControlLabel
+                    name={fields.private}
+                    label={messages.label.private}
+                    control={<Checkbox checked={!!event.private} />}
+                    onChange={(_, value) => setEvent(prev => prev.withPrivate(value))}
+                    sx={{ pt: 2 }}
+                  />
+                </div>
+              </div>
+            </Stepper>
+            <Submit
+              label={isCreateMode ? messages.create : messages.edit}
+              handleValidate={createOrEdit}
+              disabled={areAllStepsValid.length < 2 || isLoading}
+              isLoading={isLoading}
+            />
+          </>
+        )}
       </Grid>
     </Dialog>
   )
@@ -443,7 +455,7 @@ const CreateEditEvent = ({ handleClose, event, onUpdate }) => {
 CreateEditEvent.propTypes = {
   handleClose: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  event: Event.propTypes,
+  eventId: PropTypes.string.isRequired,
 }
 
 export default CreateEditEvent
