@@ -22,6 +22,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
   cancelSuccess: "L'évènement a bien été annulé",
+  noEvent: 'Aucun évènement trouvé',
 }
 
 const EventList = ({ query, queryKey, setRefetchRef }) => {
@@ -105,7 +106,7 @@ const EventList = ({ query, queryKey, setRefetchRef }) => {
     return null
   }
 
-  if (!events.length) return <div>Aucun évènement trouvé</div>
+  if (!events.length) return <div>{messages.noEvent}</div>
 
   return (
     <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
