@@ -4,7 +4,6 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useMutation, useQueryClient } from 'react-query'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
-import { Event } from 'domain/event'
 import { generatePath, useNavigate } from 'react-router-dom'
 import paths from 'shared/paths'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -17,7 +16,7 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '../../redux/user/selectors'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
@@ -29,7 +28,6 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
-  const [, setCurrentEvent] = useState(Event.NULL)
   const navigate = useNavigate()
 
   const {
