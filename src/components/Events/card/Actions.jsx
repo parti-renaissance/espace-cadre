@@ -12,8 +12,9 @@ const HorizontalContainer = styled('div')`
 
 const messages = {
   see: 'Voir',
-  delete: 'Supprimer',
   cancel: 'Annuler',
+  edit: 'Modifier',
+  delete: 'Supprimer',
 }
 
 const Actions = ({
@@ -34,6 +35,7 @@ const Actions = ({
             {messages.cancel}
           </DotsMenuItem>
         )}
+        <DotsMenuItem>{messages.edit}</DotsMenuItem>
         {isDeletable && (
           <DotsMenuItem onClick={onDelete} deleteLoader={deleteLoader}>
             {messages.delete}
