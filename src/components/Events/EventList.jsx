@@ -21,7 +21,7 @@ import { useCallback, useEffect, useMemo } from 'react'
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
   cancelSuccess: "L'évènement a bien été annulé",
-  noEvent: 'Aucun évènement trouvé',
+  noEvent: 'Aucun évènement à afficher',
 }
 
 const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
@@ -36,7 +36,6 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
     hasNextPage,
     refetch,
     isLoading,
-    isError,
   } = useInfiniteQueryWithScope([queryKey, { feature: 'Events', view: 'Events' }], query, {
     getNextPageParam,
     onError: handleError,
@@ -96,10 +95,7 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
-  if (isLoading || isError) {
-    return null
-  }
-
+  if (isLoading) return <Loader />
   if (!events.length) return <div>{messages.noEvent}</div>
 
   return (

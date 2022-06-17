@@ -44,6 +44,7 @@ const messages = {
   over: 'Terminé',
   ongoing: 'En cours',
   see: 'Voir',
+  noPhoningCampaign: 'Aucune campagne à afficher',
 }
 
 const Phoning = () => {
@@ -65,6 +66,7 @@ const Phoning = () => {
     fetchNextPage: fetchNextPageCampaigns,
     hasNextPage: hasNextPageCampaigns,
     refetch: refetchCampaigns,
+    isLoading: isPhoningCampaignsLoading,
   } = useInfiniteQueryWithScope(
     ['paginated-campaigns', { feature: 'Phoning', view: 'Phoning' }],
     pageParams => getPhoningCampaignsQuery(pageParams, isNational ? roles.national : roles.local),
@@ -124,8 +126,10 @@ const Phoning = () => {
         <Grid container>
           <Title>{messages.campaigns}</Title>
         </Grid>
-
-        {campaigns.length > 0 && (
+        {!isPhoningCampaignsLoading && !campaigns.length && <div>{messages.noPhoningCampaign}</div>}
+        {isPhoningCampaignsLoading ? (
+          <Loader />
+        ) : (
           <InfiniteScroll
             dataLength={campaigns.length}
             next={() => fetchNextPageCampaigns()}

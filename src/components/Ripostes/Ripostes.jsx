@@ -24,6 +24,7 @@ const messages = {
   toggleSuccess: "L'action numérique a bien été modifiée",
   createSuccess: 'Action numérique créée avec succès',
   editSuccess: "L'action numérique a bien été modifiée",
+  noRiposte: 'Aucune action numérique à afficher',
 }
 
 const Ripostes = () => {
@@ -37,6 +38,7 @@ const Ripostes = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
+    isLoading: isRipostesLoading,
   } = useInfiniteQueryWithScope(['paginated-ripostes', { feature: 'Ripostes', view: 'Ripostes' }], getRipostesQuery, {
     getNextPageParam,
     onError: handleError,
@@ -100,7 +102,10 @@ const Ripostes = () => {
           button={<PageHeaderButton onClick={handleRiposteCreate} label={messages.create} isMainButton />}
         />
       </Grid>
-      {paginatedRipostes && (
+      {!isRipostesLoading && !ripostes.length && <Grid>{messages.noRiposte}</Grid>}
+      {isRipostesLoading ? (
+        <Loader />
+      ) : (
         <InfiniteScroll
           dataLength={ripostes.length}
           next={() => fetchNextPage()}

@@ -17,7 +17,7 @@ import PropTypes from 'prop-types'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
-  nocampaign: 'Aucune campagne à afficher',
+  noCampaign: 'Aucune campagne à afficher',
   deleteSuccess: 'Brouillon supprimé avec succès',
 }
 
@@ -47,6 +47,7 @@ const SentEmailCampaigns = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
+    isLoading,
   } = useInfiniteQueryWithScope(
     ['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }],
     getMessages,
@@ -66,43 +67,44 @@ const SentEmailCampaigns = () => {
     onError: handleError,
   })
 
+  if (isLoading) return <Loader />
+  if (!campaigns.length) return <div>{messages.noCampaign}</div>
+
   return (
     <div data-cy="sent-campaigns-container">
       <SentEmailCampaignsTitle />
-      {paginatedCampaigns && (
-        <InfiniteScroll
-          dataLength={campaigns.length}
-          next={() => fetchNextPage()}
-          hasMore={hasNextPage}
-          loader={<Loader />}
-        >
-          <Grid container spacing={2}>
-            {campaigns.map(message => (
-              <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3} data-cy="email-campaign-card">
-                <UICard
-                  rootProps={{ sx: { height: '210px', justifyContent: 'space-between' } }}
-                  headerProps={{ sx: { pt: '21px' } }}
-                  header={
-                    <>
-                      <Header createdAt={message.createdAt} draft={message.draft} />
-                      <Title subject={message.subject} author={message.author} />
-                    </>
-                  }
-                  content={message.draft ? null : <Body statistics={message.statistics} />}
-                  actionsProps={{ sx: { pb: 1, height: '40px' } }}
-                  actions={
-                    message.draft ? (
-                      <Actions messageId={message.id} del={() => deleteDraft(message.id)} loader={isDeleteLoading} />
-                    ) : (
-                      <EmptyBlock />
-                    )
-                  }
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </InfiniteScroll>
-      )}
+      <InfiniteScroll
+        dataLength={campaigns.length}
+        next={() => fetchNextPage()}
+        hasMore={hasNextPage}
+        loader={<Loader />}
+      >
+        <Grid container spacing={2}>
+          {campaigns.map(message => (
+            <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3} data-cy="email-campaign-card">
+              <UICard
+                rootProps={{ sx: { height: '210px', justifyContent: 'space-between' } }}
+                headerProps={{ sx: { pt: '21px' } }}
+                header={
+                  <>
+                    <Header createdAt={message.createdAt} draft={message.draft} />
+                    <Title subject={message.subject} author={message.author} />
+                  </>
+                }
+                content={message.draft ? null : <Body statistics={message.statistics} />}
+                actionsProps={{ sx: { pb: 1, height: '40px' } }}
+                actions={
+                  message.draft ? (
+                    <Actions messageId={message.id} del={() => deleteDraft(message.id)} loader={isDeleteLoading} />
+                  ) : (
+                    <EmptyBlock />
+                  )
+                }
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </InfiniteScroll>
     </div>
   )
 }
