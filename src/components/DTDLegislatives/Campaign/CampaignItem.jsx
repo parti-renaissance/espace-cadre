@@ -36,25 +36,29 @@ const Typography = styled(MuiTypography)`
   color: ${({ theme }) => theme.palette.gray600};
 `
 
-const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)`
+const NotificationsOnIcon = styled(NotificationsActiveRoundedIcon)(
+  ({ theme }) => `
   font-size: 16px;
   font-weight: 500;
   border-radius: 19px;
-  padding: ${({ theme }) => theme.spacing(0.25)};
-  border-color: ${({ theme }) => theme.palette.gray100};
-  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
-  margin: ${({ theme }) => theme.spacing(0.25, 1, 0, 1)};
+  padding: ${theme.spacing(0.25)};
+  border-color: ${theme.palette.gray100};
+  border: ${`1px solid ${theme.palette.gray200}`};
+  margin: ${theme.spacing(0.25, 1, 0, 1)};
 `
+)
 
-const NotificationsOffIcon = styled(NotificationsOffRoundedIcon)`
+const NotificationsOffIcon = styled(NotificationsOffRoundedIcon)(
+  ({ theme }) => `
   font-size: 16px;
   font-weight: 500;
   border-radius: 19px;
-  padding: ${({ theme }) => theme.spacing(0.25)};
-  border-color: ${({ theme }) => theme.palette.gray100};
-  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
-  margin: ${({ theme }) => theme.spacing(0.25, 0, 0, 1)};
+  padding: ${theme.spacing(0.25)};
+  border-color: ${theme.palette.gray100};
+  border: ${`1px solid ${theme.palette.gray200}`};
+  margin: ${theme.spacing(0.25, 0, 0, 1)};
 `
+)
 
 const messages = {
   see: 'voir',

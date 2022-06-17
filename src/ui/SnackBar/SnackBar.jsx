@@ -24,11 +24,16 @@ const CardActions = styled(MuiCardActions)(
 const Title = styled(props => <Typography variant="body2" {...props} />, shouldForwardProps)`
   padding: ${({ theme }) => theme.spacing(0, 3, 0, 1)};
 `
-const ExpandButton = styled(IconButton, shouldForwardProps)`
-  transform: rotate(${({ expanded }) => (expanded ? 180 : 0)}deg);
-  transition: ${({ theme }) =>
-    theme.transitions.create('transform', { duration: theme.transitions.duration.shortest })};
+const ExpandButton = styled(
+  IconButton,
+  shouldForwardProps
+)(
+  ({ theme, expanded }) => `
+transform: rotate(${expanded ? 180 : 0}deg);
+transition: ${theme.transitions.create('transform', { duration: theme.transitions.duration.shortest })};
 `
+)
+
 const ColoredExpandIcon = styled(ExpandMoreIcon)`
   color: ${({ theme }) => theme.palette.whiteCorner};
 `

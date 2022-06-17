@@ -80,6 +80,7 @@ const Elections = () => {
       ['get', `${election.charAt(0)}_${year}_${round}`],
       'rgba(0,0,0,0)',
     ])
+    map.current.setPaintProperty(activeLayer, 'fill-outline-color', '#095228')
   }, [mapLoaded, switchLayer, filterValues, map, activeLayer])
 
   useEffect(() => {
