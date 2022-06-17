@@ -3,21 +3,23 @@ import { NavLink as MUINavLink } from 'react-router-dom'
 import { Icon as MUIIcon, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-const NavLink = styled(MUINavLink)`
-  color: ${({ theme }) => theme.palette.menu.color.main};
+const NavLink = styled(MUINavLink)(
+  ({ theme }) => `
+  color: ${theme.palette.menu.color.main};
   display: flex;
-  margin: ${({ theme }) => theme.spacing(1, 2)};
-  padding: ${({ theme }) => theme.spacing(1.5, 2)};
+  margin: ${theme.spacing(1, 2)};
+  padding: ${theme.spacing(1.5, 2)};
   border-radius: 8px;
   &:hover {
-    color: ${({ theme }) => theme.palette.menu.color.main};
-    background: ${({ theme }) => theme.palette.menu.background.hover};
+    color: ${theme.palette.menu.color.main};
+    background: ${theme.palette.menu.background.hover};
   }
   &.active {
-    color: ${({ theme }) => theme.palette.menu.color.active};
-    background: ${({ theme }) => theme.palette.menu.background.active};
+    color: ${theme.palette.menu.color.active};
+    background: ${theme.palette.menu.background.active};
   }
 `
+)
 
 const Icon = styled(MUIIcon)`
   font-size: 14px;

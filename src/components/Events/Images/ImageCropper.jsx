@@ -14,7 +14,8 @@ const StyledCropper = styled(Cropper)`
   height: 100%;
 `
 
-const InputContainer = styled('div')`
+const InputContainer = styled('div')(
+  ({ theme }) => `
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,10 +23,11 @@ const InputContainer = styled('div')`
   cursor: pointer;
   width: 100%;
   height: 100%;
-  border: ${({ theme }) => `1px solid ${theme.palette.gray200}`};
+  border: ${`1px solid ${theme.palette.gray200}`};
   border-radius: 8px;
-  padding: ${({ theme }) => theme.spacing(2, 0)};
+  padding: ${theme.spacing(2, 0)};
 `
+)
 
 const PlusIconContainer = styled('div')(
   ({ theme }) => `

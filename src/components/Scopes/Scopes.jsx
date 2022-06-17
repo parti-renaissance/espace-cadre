@@ -32,27 +32,34 @@ const Menu = styled(MuiMenu)`
   }
 `
 
-const MenuItem = styled(MuiMenuItem, shouldForwardProps)`
+const MenuItem = styled(
+  MuiMenuItem,
+  shouldForwardProps
+)(
+  ({ theme, userScope, currentScope }) => `
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   border-radius: 6px;
-  padding: ${({ theme }) => theme.spacing(1, 2)};
-  margin-bottom: ${({ theme }) => theme.spacing(1)};
-  color: ${({ theme, userScope, currentScope }) =>
-    userScope?.code === currentScope?.code ? theme.palette.menu.color.active : theme.palette.menu.color.main};
-  background-color: ${({ theme, userScope, currentScope }) =>
-    userScope?.code === currentScope?.code ? theme.palette.menu.background.active : theme.palette.menu.background.main};
+  padding: ${theme.spacing(1, 2)};
+  margin-bottom: ${theme.spacing(1)};
+  color: ${userScope?.code === currentScope?.code ? theme.palette.menu.color.active : theme.palette.menu.color.main};
+  background-color: ${
+    userScope?.code === currentScope?.code ? theme.palette.menu.background.active : theme.palette.menu.background.main
+  };
   &:hover {
-    background-color: ${({ theme, userScope, currentScope }) =>
+    background-color: ${
       userScope?.code === currentScope?.code
         ? theme.palette.menu.background.active
-        : theme.palette.menu.background.hover}
+        : theme.palette.menu.background.hover
+    }
   },
   &:first-of-type {
-    margin-top: ${({ theme }) => theme.spacing(1)};
+    margin-top: ${theme.spacing(1)};
   }
-)`
+  )
+`
+)
 
 const Logout = styled(MuiMenuItem)(
   ({ theme }) => `
