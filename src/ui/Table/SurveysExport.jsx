@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { getPhoningCampaignSurveysRepliesExport } from 'api/phoning'
 import { getDTDCampaignSurveysRepliesExport } from 'api/DTD'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
@@ -25,14 +27,14 @@ const messages = {
   export: 'Exporter',
 }
 
-const CampaignDetailSurveysExport = () => {
+const SurveysExport = ({ isDTD }) => {
   const { campaignId } = useParams()
   const { handleError } = useErrorHandler()
   const [isExportFetchable, setIsExportFetchable] = useState(false)
 
   useQueryWithScope(
-    ['surveys-export', { feature: 'DTD', view: 'CampaignDetailSurveysExport' }, campaignId],
-    () => getDTDCampaignSurveysRepliesExport(campaignId),
+    ['surveys-export', { feature: 'Phoning', view: 'CampaignDetailSurveysExport' }, campaignId],
+    () => (isDTD ? getDTDCampaignSurveysRepliesExport(campaignId) : getPhoningCampaignSurveysRepliesExport(campaignId)),
     {
       enabled: !!isExportFetchable,
       onSuccess: () => {
@@ -64,4 +66,8 @@ const CampaignDetailSurveysExport = () => {
   )
 }
 
-export default CampaignDetailSurveysExport
+export default SurveysExport
+
+SurveysExport.propTypes = {
+  isDTD: PropTypes.bool.isRequired,
+}

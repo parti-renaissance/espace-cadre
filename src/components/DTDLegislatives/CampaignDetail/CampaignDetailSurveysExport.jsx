@@ -4,7 +4,7 @@ import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { getPhoningCampaignSurveysRepliesExport } from 'api/DTD'
+import { getDTDCampaignSurveysRepliesExport } from 'api/DTD'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
 import { CtaButton } from 'ui/Card'
@@ -32,7 +32,7 @@ const CampaignDetailSurveysExport = () => {
 
   useQueryWithScope(
     ['surveys-export', { feature: 'DTD', view: 'CampaignDetailSurveysExport' }, campaignId],
-    () => getPhoningCampaignSurveysRepliesExport(campaignId),
+    () => getDTDCampaignSurveysRepliesExport(campaignId),
     {
       enabled: !!isExportFetchable,
       onSuccess: () => {

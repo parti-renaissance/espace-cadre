@@ -64,8 +64,8 @@ export const getSurveyRepliesQuery = async surveyId => {
     return new SurveyDetailReply(
       sr.answers.map(a => new SurveyDetailReplyAnswer(a.type, a.answer, a.question, a.question_id)),
       author,
-      new Date(sr.begin_at),
-      new Date(sr.finish_at)
+      sr.begin_at ? new Date(sr.begin_at) : new Date(),
+      sr.finish_at ? new Date(sr.finish_at) : new Date()
     )
   })
 }
