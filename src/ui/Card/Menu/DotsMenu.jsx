@@ -9,24 +9,23 @@ const Wrapper = styled('div')`
   display: flex;
 `
 
-const MenuItem = styled(MuiMenuItem)`
-  font-size: 13px;
-  padding: ${({ theme }) => theme.spacing(0.5, 1)};
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${({ theme }) => theme.palette.gray100};
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.palette.whiteCorner};
-  &:hover {
-    background-color: ${({ theme }) => theme.palette.gray100};
-  },
-`
+const MenuItem = styled(MuiMenuItem)(
+  ({ theme }) => `
+    font-size: 13px;
+    padding: ${theme.spacing(0.5, 1)};
+    background-color: ${theme.palette.whiteCorner};
+    &:hover {
+      background-color: ${theme.palette.gray100};
+    },
+  `
+)
 
 export const DotsMenuItem = ({ onClick, closeMenu, children, cancelLoader = false, deleteLoader = false }) => {
   const handleClick = async () => {
     await onClick()
     closeMenu()
   }
+
   return (
     <MenuItem onClick={handleClick}>
       {cancelLoader && (
