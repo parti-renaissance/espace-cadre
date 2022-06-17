@@ -26,14 +26,12 @@ const ChildrenContainer = styled(Grid)(({ theme }) => ({
   },
 }))
 
-const KPITitle = styled(Typography)(
-  ({ theme }) => `
-  color: ${theme.palette.blackCorner};
+const KPITitle = styled(Typography)`
+  color: ${({ theme }) => theme.palette.blackCorner};
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
 `
-)
 
 const CardContainer = styled(Grid)`
   &:last-child {
@@ -60,15 +58,17 @@ const SecondaryText = styled(Typography)`
   color: ${({ theme }) => theme.palette.grayCorner3};
 `
 
-const LoaderContainer = styled(props => <Grid item xs={12} {...props} />)`
+const LoaderContainer = styled(props => <Grid item xs={12} {...props} />)(
+  ({ theme }) => `
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.palette.whiteCorner};
+  background-color: ${theme.palette.whiteCorner};
   border-radius: 6px;
   height: 120px;
-  margin-bottom: ${({ theme }) => theme.spacing(2)};
+  margin-bottom: ${theme.spacing(2)};
 `
+)
 
 export const KPICard = ({ main, title, subtitle }) => (
   <CardContainer item xs={12} sm={6} lg={3} data-cy="KPICard">

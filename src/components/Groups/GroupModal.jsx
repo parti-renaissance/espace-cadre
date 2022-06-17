@@ -32,12 +32,10 @@ const Title = styled(Typography)`
   color: ${({ theme }) => theme.palette.gray800};
 `
 
-const CharactersLimit = styled(Typography)(
-  ({ theme }) => `
+const CharactersLimit = styled(Typography)`
   font-size: 10px;
-  color: ${theme.palette.gray300}
+  color: ${({ theme }) => theme.palette.gray300};
 `
-)
 
 const messages = {
   create: 'Créer un groupe',

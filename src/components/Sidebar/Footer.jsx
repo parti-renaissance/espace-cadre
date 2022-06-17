@@ -17,11 +17,13 @@ const ReleaseVersion = styled('div')(
 `
 )
 
-const Signature = styled('div')`
-  color: ${({ theme }) => theme.palette.mentionsLegales};
+const Signature = styled('div')(
+  ({ theme }) => `
+  color: ${theme.palette.mentionsLegales};
   font-size: 10px;
-  margin: ${({ theme }) => theme.spacing(1, 2, 0, 0)};
+  margin: ${theme.spacing(1, 2, 0, 0)};
 `
+)
 
 const messages = {
   title: "Je m'engage",
