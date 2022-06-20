@@ -25,8 +25,6 @@ export function generateConfig({ mode }) {
     plugins: [
       react(),
       VitePluginHtmlEnv({
-        prefix: '<{',
-        suffix: '}>',
         envPrefixes: ['REACT_APP_'],
       }),
       EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
