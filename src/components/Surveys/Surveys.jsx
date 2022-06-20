@@ -193,7 +193,9 @@ const Surveys = () => {
         data-cy="surveys-container"
         sx={{ pt: isMobile ? 2 : null, ...infiniteScrollStylesOverrides }}
       >
-        {!!(!isNationalSurveysLoading && !isLocalSurveysLoading) && (
+        {isNationalSurveysLoading && isLocalSurveysLoading ? (
+          <Loader />
+        ) : (
           <>
             <SurveysKPI
               local={{

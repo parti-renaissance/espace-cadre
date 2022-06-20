@@ -28,6 +28,7 @@ const messages = {
   alertTitle: '🎉 NOUVEAU',
   alertText:
     'Vous pouvez épingler une seule des actualités de votre territoire pour que celle-ci apparaisse toujours en premier dans la section Actualités de l’application mobile.',
+  noNews: 'Aucune actualité à afficher',
 }
 
 const News = () => {
@@ -42,6 +43,7 @@ const News = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
+    isLoading: isNewsLoading,
   } = useInfiniteQueryWithScope(['paginated-news', { feature: 'News', view: 'News' }], getNewsQuery, {
     getNextPageParam,
     onError: handleError,
@@ -117,7 +119,9 @@ const News = () => {
           button={<PageHeaderButton onClick={handleNewsCreate} label={messages.create} isMainButton />}
         />
       </Grid>
-      {paginatedNews && (
+      {isNewsLoading ? (
+        <Loader />
+      ) : (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
           {shouldDisplayPinned && (
             <Grid sx={{ mb: 2 }}>
@@ -146,14 +150,18 @@ const News = () => {
             <Typography sx={{ color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
               {messages.defaultSubtitle}
             </Typography>
-            <NewsList
-              data={unpinnedNews}
-              toggleNewsStatus={toggleNewsStatus}
-              toggleNewsPinned={toggleNewsPinned}
-              handleEdit={handleEdit}
-              handleView={handleView}
-              isToggleStatusLoading={isToggleStatusLoading}
-            />
+            {news.length ? (
+              <NewsList
+                data={unpinnedNews}
+                toggleNewsStatus={toggleNewsStatus}
+                toggleNewsPinned={toggleNewsPinned}
+                handleEdit={handleEdit}
+                handleView={handleView}
+                isToggleStatusLoading={isToggleStatusLoading}
+              />
+            ) : (
+              <Grid sx={{ mt: 2 }}>{messages.noNews}</Grid>
+            )}
           </Grid>
         </InfiniteScroll>
       )}
