@@ -61,4 +61,9 @@ export const ElectionDetails = [
     year: 2022,
     rounds: 2,
   },
+  {
+    label: ElectionTypes.Legislative,
+    year: 2022,
+    rounds: 2,
+  },
 ]
