@@ -3774,12 +3774,12 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-autosuggest-highlight@3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/autosuggest-highlight/-/autosuggest-highlight-3.2.1.tgz#0c1338deba395ab7552b0502f567ad369d7fea3c"
-  integrity sha512-PZk89g6W6cyE+fbnWF2CCIUAmP55o5wceKVqqL6oosgvbWHKa2Mes6nRC/PGj7OwqBgIy65Nd21Dw3h6qodOmg==
+autosuggest-highlight@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/autosuggest-highlight/-/autosuggest-highlight-3.3.0.tgz#f39cf33ab2bcda5d07eb4912ff1e361f43b97948"
+  integrity sha512-Ogc+Ol7FdV6cE2bY4avVwcGDBav9MYTzfG2RGDMutjao4VQoZAOD8lZOATxjnjFXqJ3u7BFZIWcbbe0Hi78vAA==
   dependencies:
-    diacritic "0.0.2"
+    remove-accents "^0.4.2"
 
 aws-sign2@~0.7.0:
   version "0.7.0"
@@ -4816,11 +4816,6 @@ detect-node@^2.0.4, detect-node@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.1.0.tgz#c9c70775a49c3d03bc2c06d9a73be550f978f8b1"
   integrity sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==
-
-diacritic@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/diacritic/-/diacritic-0.0.2.tgz#fc2a887b5a5bc0a0a854fb614c7c2f209061ee04"
-  integrity sha1-/CqIe1pbwKCoVPthTHwvIJBh7gQ=
 
 diff-sequences@^27.5.1:
   version "27.5.1"
@@ -8762,7 +8757,7 @@ remark-rehype@^10.0.0:
     mdast-util-to-hast "^12.1.0"
     unified "^10.0.0"
 
-remove-accents@0.4.2:
+remove-accents@0.4.2, remove-accents@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
   integrity sha1-CkPTqq4egNuRngeuJUsoXZ4ce7U=
