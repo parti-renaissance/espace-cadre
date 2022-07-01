@@ -14,7 +14,7 @@
     "@mui/styles": "5.8.6",
     "@mui/system": "5.8.3",
     "@reduxjs/toolkit": "1.8.3",
-    "@sentry/react": "6.19.7",
+    "@sentry/react": "7.4.1",
     "@sentry/tracing": "7.4.1",
     "@turf/turf": "6.5.0",
     "autosuggest-highlight": "3.3.0",
