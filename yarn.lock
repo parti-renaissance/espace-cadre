@@ -4288,12 +4288,7 @@ color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-colorette@^2.0.16:
-  version "2.0.16"
-  resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.16.tgz#713b9af84fdb000139f04546bd4a93f62a5085da"
-  integrity sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==
-
-colorette@^2.0.17:
+colorette@^2.0.16, colorette@^2.0.17:
   version "2.0.19"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.19.tgz#cdf044f47ad41a0f4b56b3a0d5b4e6e1a2d5a798"
   integrity sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==
@@ -7224,10 +7219,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lint-staged@13.0.1:
-  version "13.0.1"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-13.0.1.tgz#899e78065ab29b88fdd922482411121664ef66be"
-  integrity sha512-Ykaf4QTi0a02BF7cnq7JIPGOJxH4TkNMWhSlJdH9wOekd0X+gog47Jfh/0L31DqZe5AiydLGC7LkPqpaNm+Kvg==
+lint-staged@13.0.3:
+  version "13.0.3"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-13.0.3.tgz#d7cdf03a3830b327a2b63c6aec953d71d9dc48c6"
+  integrity sha512-9hmrwSCFroTSYLjflGI8Uk+GWAwMB4OlpU4bMJEAT5d/llQwtYKoim4bLOyLCuWFAhWEupE0vkIFqtw/WIsPug==
   dependencies:
     cli-truncate "^3.1.0"
     colorette "^2.0.17"
