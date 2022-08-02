@@ -7259,10 +7259,10 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libphonenumber-js@^1.10.8:
-  version "1.10.8"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.8.tgz#21925db0f16d4f1553dff2bbc62afdaeb03f21f0"
-  integrity sha512-MGgHrKRGE7sg7y0DikHybRDgTXcYv4HL+WwhDm5UAiChCNb5tcy5OEaU8XTTt5bDBwhZGCJNxoGMVBpZ4RfhIg==
+libphonenumber-js@^1.10.11:
+  version "1.10.11"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.11.tgz#0078756857bcc5c9dfe097123c6e04ea930e309b"
+  integrity sha512-ehoihx4HpRXO6FH/uJ0EnaEV4dVU+FDny+jv0S6k9JPyPsAIr0eXDAFvGRMBKE1daCtyHAaFSKCiuCxrOjVAzQ==
 
 lilconfig@2.0.5:
   version "2.0.5"
@@ -7438,10 +7438,10 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-mapbox-gl@^2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-2.9.1.tgz#7efe019fb40e1280e227e6aaf65ef7a740402be7"
-  integrity sha512-PWEyI0FUeWaCbDnKmzHBi6CIB264SG6O894PJL1q4Cz/ZiHNyAROonCD48bxVWSQnXXAEDPyhJS5MiJ2K5DTjw==
+mapbox-gl@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-2.9.2.tgz#c35f9fa2b2fd4feae6e8ed0d9f5c8264e2c33908"
+  integrity sha512-RQOUB+l8p5sUyR+vRdd4aRY1/nwOhyYxSWThr2bjXW8u8QtN4cjrb/R7W+CkLyoscISjkSvCS22nDAO69s5T4Q==
   dependencies:
     "@mapbox/geojson-rewind" "^0.5.1"
     "@mapbox/geojson-types" "^1.0.2"
