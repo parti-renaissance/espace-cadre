@@ -1372,7 +1372,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.9.0.tgz#c5153d50401ee3c027a57a177bc269b16d889cb7"
   integrity sha512-14FtKiHhy2QoPIzdTcvh//8OyBlknNs2nXRwIhG904opCby3l+9Xaf/wuPvICBF0rc1ZCNBd3nKe9cd2mecVkQ==
 
-"@emotion/is-prop-valid@^1.1.2", "@emotion/is-prop-valid@^1.1.3", "@emotion/is-prop-valid@^1.2.0":
+"@emotion/is-prop-valid@^1.1.2", "@emotion/is-prop-valid@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.2.0.tgz#7f2d35c97891669f7e276eb71c83376a5dc44c83"
   integrity sha512-3aDpDprjM0AwaxGE09bOPkNxHpBd+kA6jty3RnaEXdweX1DF1U3VQpPYb0g1IStAuK7SVQ1cy+bNBBKp4W3Fjg==
@@ -1815,19 +1815,24 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/base@5.0.0-alpha.92":
-  version "5.0.0-alpha.92"
-  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.92.tgz#5c2ca31801fe21a8fec9bfda2cf5f44b1e3c7284"
-  integrity sha512-ZgnSLrTXL4iUdLQhjp01dAOTQPQlnwrqjZRwDT3E6LZXEYn6cMv1MY6LZkWcF/zxrUnyasnsyMAgZ5d8AXS7bA==
+"@mui/base@5.0.0-alpha.95":
+  version "5.0.0-alpha.95"
+  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.95.tgz#eac88ddb6ded633a73cd3c19638241f0f9fa274f"
+  integrity sha512-fcxnDeO7rBwzP0buVdI5fn0aA7NQ/AeUV5RzIIH0kOXVVT21HB4JFf41Qhwd0PIq63PXxmc6Fs2mdlzMYuPo9g==
   dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@emotion/is-prop-valid" "^1.1.3"
-    "@mui/types" "^7.1.5"
-    "@mui/utils" "^5.9.3"
-    "@popperjs/core" "^2.11.5"
+    "@babel/runtime" "^7.18.9"
+    "@emotion/is-prop-valid" "^1.2.0"
+    "@mui/types" "^7.2.0"
+    "@mui/utils" "^5.10.3"
+    "@popperjs/core" "^2.11.6"
     clsx "^1.2.1"
     prop-types "^15.8.1"
     react-is "^18.2.0"
+
+"@mui/core-downloads-tracker@^5.10.3":
+  version "5.10.3"
+  resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.10.3.tgz#e17a3cd87c7814ff35592284b19ae39ad52b85ac"
+  integrity sha512-mX2S0d1oboKBbWQqWIgRmyALAEzh37yiknpD3mKx8bcoMKbp1VtqzIt0aeHP16Uhsd0eValDFILxLNHWi0oddQ==
 
 "@mui/icons-material@^5.8.4":
   version "5.8.4"
@@ -1852,16 +1857,17 @@
     react-transition-group "^4.4.2"
     rifm "^0.12.1"
 
-"@mui/material@5.10.0":
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.10.0.tgz#35f6484b7dec40a38874fa948a44a073f4d3a4c7"
-  integrity sha512-MSEzkE2vhpM37m8Gh3+TcZCWL70p+MxzNvS8FHugBB6YZpafhBFmFKX7/pYJ2kVD87PpUhNR4szWub7/ohE02Q==
+"@mui/material@^5.10.0":
+  version "5.10.3"
+  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.10.3.tgz#5497128ea7c8de1d40ba9bd95437d46d441fa1d1"
+  integrity sha512-g0lzHcqWHYeOEAxTzcwpM1I7b+wyiRTeXkEdRsspnOpZtb0H/1xg386tMFRGbxBJ4zfVGT+TWublofw7pyQkqw==
   dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@mui/base" "5.0.0-alpha.92"
-    "@mui/system" "^5.10.0"
-    "@mui/types" "^7.1.5"
-    "@mui/utils" "^5.9.3"
+    "@babel/runtime" "^7.18.9"
+    "@mui/base" "5.0.0-alpha.95"
+    "@mui/core-downloads-tracker" "^5.10.3"
+    "@mui/system" "^5.10.3"
+    "@mui/types" "^7.2.0"
+    "@mui/utils" "^5.10.3"
     "@types/react-transition-group" "^4.4.5"
     clsx "^1.2.1"
     csstype "^3.1.0"
@@ -1930,7 +1936,7 @@
     jss-plugin-vendor-prefixer "^10.9.1"
     prop-types "^15.8.1"
 
-"@mui/system@^5.10.0":
+"@mui/system@^5.10.0", "@mui/system@^5.10.3":
   version "5.10.3"
   resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.10.3.tgz#26f82e506af506f4fddde265c20e1100baaca03e"
   integrity sha512-uLW/CIz3zk1jr5zH0ahOUqJIrpWP02Mv4emfrplh7Mh5JCb/oumhYaC/ALJJEjzUHKg9wwiyuM0pCwK/kSf1jQ==
@@ -2030,6 +2036,11 @@
   version "2.11.5"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
   integrity sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==
+
+"@popperjs/core@^2.11.6":
+  version "2.11.6"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
+  integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
 "@react-leaflet/core@^2.0.0":
   version "2.0.0"
