@@ -12,7 +12,7 @@
     "@mui/lab": "^5.0.0-alpha.88",
     "@mui/material": "^5.9.3",
     "@mui/styles": "^5.9.3",
-    "@mui/system": "^5.8.6",
+    "@mui/system": "^5.10.0",
     "@reduxjs/toolkit": "^1.8.3",
     "@sentry/react": "^7.9.0",
     "@sentry/tracing": "^7.9.0",
