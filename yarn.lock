@@ -1271,14 +1271,15 @@
     tunnel-agent "^0.6.0"
     uuid "^8.3.2"
 
-"@cypress/vite-dev-server@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@cypress/vite-dev-server/-/vite-dev-server-3.0.0.tgz#b8252859a0ab52c9ece18fc1521fc168a80e4185"
-  integrity sha512-BD/SvxdHb3PsxpkvnORDWsezJ4vHarRNqR5P9Fn2NYYPaS8Av5vmDMSyjUFIp0l6ltiSoPXDNLG9ZkmgWFVLEw==
+"@cypress/vite-dev-server@^3.1.0":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@cypress/vite-dev-server/-/vite-dev-server-3.1.1.tgz#5cea460460ef921a3370f18acdc6f49f1b8a73c2"
+  integrity sha512-bZhDt3D3KEu8RDCxMb4GpFJoAEZOMOdFPB1xebHyjTZ6wmTs6i3oi4zXhN6FgGL8kXCI7JZXwC70LthEmxIZfw==
   dependencies:
     debug "4.3.3"
     find-up "6.3.0"
     local-pkg "0.4.1"
+    node-html-parser "5.3.3"
     pathe "0.2.0"
 
 "@cypress/xvfb@^1.2.4":
@@ -7916,7 +7917,7 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
-node-html-parser@^5.3.3:
+node-html-parser@5.3.3, node-html-parser@^5.3.3:
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-5.3.3.tgz#2845704f3a7331a610e0e551bf5fa02b266341b6"
   integrity sha512-ncg1033CaX9UexbyA7e1N0aAoAYRDiV8jkTvzEnfd1GDvzFdrsXLzR4p4ik8mwLgnaKP/jyUFWDy9q3jvRT2Jw==
