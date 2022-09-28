@@ -37,5 +37,8 @@ export function generateConfig({ mode }) {
       outDir: 'build',
       sourcemap: mode === 'production' ? 'hidden' : true,
     },
+    esbuild: {
+      logOverride: { 'this-is-undefined-in-esm': 'silent' },
+    },
   }
 }
