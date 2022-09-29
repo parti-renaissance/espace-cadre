@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { useMemo } from 'react'
 import { Container, Grid, useTheme } from '@mui/material'
-import { DateTimePicker } from '@mui/lab'
+import { DateTimePicker } from '@mui/x-date-pickers'
 import PropTypes from 'prop-types'
 
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
