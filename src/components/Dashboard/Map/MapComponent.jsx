@@ -1,7 +1,7 @@
 import { getSurveyMapQuery } from 'api/surveyMap'
 import { styled } from '@mui/system'
 import L from 'leaflet'
-import { MapContainer as LeafletContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer as LeafletContainer, TileLayer, Marker, Popup, AttributionControl } from 'react-leaflet'
 import pluralize from 'components/shared/pluralize/pluralize'
 import DashboardHeader from 'components/Dashboard/shared/DashboardHeader'
 import Loading from 'components/Dashboard/shared/Loading'
@@ -51,11 +51,14 @@ const MapComponent = () => {
         )}`}
         subtitle={messages.subtitle}
       />
-      <MapContainer center={[surveys.latitude, surveys.longitude]} zoom={8}>
+      <MapContainer center={[surveys.latitude, surveys.longitude]} zoom={8} attributionControl={false}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         />
+
+        <AttributionControl prefix={'Leaflet'} />
+
         {surveys.surveyResults.map((data, i) => (
           <Marker key={i} position={[data.latitude, data.longitude]}>
             <Popup>
