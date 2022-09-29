@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useContext, useState } from 'react'
-import DatePicker from '@mui/lab/DatePicker'
+import { DatePicker } from '@mui/x-date-pickers'
 import { InputAdornment, MenuItem, Select } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 

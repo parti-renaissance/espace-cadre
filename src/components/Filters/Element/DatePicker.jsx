@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import { IconButton, TextField as MuiTextField } from '@mui/material'
 import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
-import MuiDatePicker from '@mui/lab/DatePicker'
+import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers'
 
 const TextField = styled(MuiTextField)`
   background: ${({ theme }) => theme.palette.whiteCorner};

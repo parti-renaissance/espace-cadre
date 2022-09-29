@@ -4,8 +4,8 @@ import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/ma
 import { createGenerateClassName } from '@mui/styles'
 import { createTheme } from '@mui/material'
 import { frFR } from '@mui/material/locale'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { fr } from 'date-fns/locale'
 import { styles } from './styles'
 
@@ -19,7 +19,7 @@ const ThemeProvider = ({ children }) => {
   return (
     <StyledEngineProvider generateClassName={classNamesOptions} injectFirst>
       <MuiThemeProvider theme={theme}>
-        <LocalizationProvider locale={fr} dateAdapter={AdapterDateFns}>
+        <LocalizationProvider adapterLocale={fr} dateAdapter={AdapterDateFns}>
           {children}
         </LocalizationProvider>
       </MuiThemeProvider>

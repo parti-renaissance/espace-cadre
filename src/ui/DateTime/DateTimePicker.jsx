@@ -2,7 +2,7 @@ import { PickersDay } from './styled'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 import { InputAdornment } from '@mui/material'
 
-import { DateTimePicker as MuiDateTimePicker } from '@mui/lab'
+import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import Input from 'ui/Input/Input'

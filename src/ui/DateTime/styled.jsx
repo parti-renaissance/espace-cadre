@@ -1,5 +1,5 @@
 import { styled } from '@mui/system'
-import MuiPickersDay from '@mui/lab/PickersDay'
+import { PickersDay as MuiPickersDay } from '@mui/x-date-pickers/PickersDay'
 
 export const PickersDay = styled(MuiPickersDay)(({ theme }) => ({
   '&:not(.Mui-selected)': {

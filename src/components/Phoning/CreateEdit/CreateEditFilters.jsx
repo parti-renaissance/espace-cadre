@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useCallback, useContext, useState } from 'react'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
-import DatePicker from '@mui/lab/DatePicker'
+import { DatePicker } from '@mui/x-date-pickers'
 import { Autocomplete, FormControlLabel, Grid, InputAdornment, MenuItem, Typography } from '@mui/material'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 
