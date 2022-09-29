@@ -34,8 +34,8 @@ const Button = styled(MuiButton)(
 `
 )
 
-const referentTemplate = 60354
-const deputyTemplate = 60376
+const referentTemplate = 228742
+const deputyTemplate = 228747
 const senatorTemplate = 60355
 const correspondentTemplate = 123148
 const legislativeCandidateTemplate = 165090
