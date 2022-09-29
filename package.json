@@ -38,7 +38,7 @@
     "react-email-editor": "^1.6.1",
     "react-hook-form": "^7.36.1",
     "react-infinite-scroll-component": "^6.1.0",
-    "react-leaflet": "^4.0.2",
+    "react-leaflet": "^4.1.0",
     "react-markdown": "^8.0.3",
     "react-query": "^4.0.0",
     "react-redux": "^8.0.4",
