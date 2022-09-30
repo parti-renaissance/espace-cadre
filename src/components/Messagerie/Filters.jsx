@@ -222,9 +222,7 @@ const Filters = () => {
                 setLoadingTestButton(true)
                 handleSendEmail(true)
               }}
-              disabled={
-                !message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton
-              }
+              disabled={!message?.synchronized || loadingSendButton || loadingTestButton}
             >
               {loadingTestButton ? <Loader /> : messages.testMessage}
             </SendTest>
