@@ -27,7 +27,7 @@ const columnKeyMapping = {
 }
 
 const Cell = ({ member, column }) => {
-  const value = member[columnKeyMapping[column.key] || column.key]
+  const value = member.getValue(columnKeyMapping[column.key] || column.key)
 
   if (column.type === 'trans' || column.type === 'array|trans') {
     return Array.isArray(value)
