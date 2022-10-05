@@ -22,7 +22,8 @@ export const getActivists = async filter => {
         a.postal_code,
         a.interests,
         a.email_subscription,
-        a.sms_subscription
+        a.sms_subscription,
+        a
       )
   )
   const paginatedActivists = new PaginatedResult(

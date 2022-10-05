@@ -15,8 +15,10 @@ export default class Activist {
     postalCode,
     interests,
     emailSubscription,
-    smsSubscription
+    smsSubscription,
+    raw
   ) {
+    this.raw = raw
     this.firstname = firstname
     this.lastname = lastname
     this.gender = gender
@@ -31,6 +33,14 @@ export default class Activist {
     this.interests = interests
     this.emailSubscription = emailSubscription
     this.smsSubscription = smsSubscription
+  }
+
+  getValue(key) {
+    if (typeof this[key] === 'undefined') {
+      return this.raw[key]
+    }
+
+    return this[key]
   }
 }
 
