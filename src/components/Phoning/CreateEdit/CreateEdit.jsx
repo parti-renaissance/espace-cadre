@@ -153,7 +153,7 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
             value={{
               errors: errorMessages,
               values: filters,
-              initialValues: campaign ? campaignToFiltersValues(filters) : initialValues.filters,
+              initialValues: campaign ? campaignToFiltersValues(campaign.filters) : initialValues.filters,
               updateValues: handleChangeAndValidate(setFilters),
             }}
           >

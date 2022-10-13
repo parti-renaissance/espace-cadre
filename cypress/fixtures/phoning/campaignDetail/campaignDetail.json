@@ -31,7 +31,8 @@
     "is_committee_member": null,
     "is_certified": null,
     "has_email_subscription": null,
-    "has_sms_subscription": true
+    "has_sms_subscription": true,
+    "is_renaissance_membership": true
   },
   "survey": {
     "uuid": "333333333-3333-3333-3333-333333333333",
