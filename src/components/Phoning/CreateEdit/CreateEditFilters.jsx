@@ -35,6 +35,7 @@ const messages = {
     ageMax: 'Age maximum',
     adherentFromDate: 'Militant depuis le',
     adherentToDate: "Militant jusqu'au",
+    isRenaissanceMembership: 'Adhérent Renaissance',
     certified: 'Certifié',
     committeeMember: "Membre d'un comité",
     emailSubscribed: 'Abonné Email',
@@ -52,6 +53,10 @@ const messages = {
     zones: 'Lieu géographique',
   },
   options: {
+    yesNo: [
+      { label: 'Oui', value: true },
+      { label: 'Non', value: false },
+    ],
     gender: [
       { label: 'Homme', value: 'Male' },
       { label: 'Femme', value: 'Female' },
@@ -109,6 +114,32 @@ const CreateEditFilters = () => {
             ))}
           </UIInput>
           <FormError errors={errors} field="gender" />
+        </Grid>
+
+        <Grid item xs={isMobile ? 12 : 6}>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.isRenaissanceMembership}</UIInputLabel>
+          <UIInput
+            name={fields.isRenaissanceMembership}
+            value={inputValues.isRenaissanceMembership}
+            onChange={event => {
+              updateInputValues(fields.isRenaissanceMembership, event.target.value)
+              updateValues(fields.isRenaissanceMembership, event.target.value)
+            }}
+            select
+            SelectProps={{
+              displayEmpty: true,
+            }}
+          >
+            <MenuItem value="">
+              <em>Tous</em>
+            </MenuItem>
+            {messages.options.yesNo.map((option, index) => (
+              <MenuItem key={index} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </UIInput>
+          <FormError errors={errors} field="is_renaissance_membership" />
         </Grid>
       </Grid>
 

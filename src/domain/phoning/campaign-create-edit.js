@@ -16,7 +16,7 @@ export class PhoningCampaignCreateEditGlobal {
     endDate: PropTypes.object.isRequired,
     brief: PropTypes.string.isRequired,
     visibility: PropTypes.string.isRequired,
-    zone: Zone.PropTypes,
+    zone: PropTypes.shape(Zone.propTypes),
   }
 }
 
@@ -70,6 +70,7 @@ export class PhoningCampaignCreateEditFilters {
     committeeMember,
     emailSubscribed,
     SMSSubscribed,
+    isRenaissanceMembership,
     zones
   ) {
     this.firstName = firstName
@@ -83,20 +84,22 @@ export class PhoningCampaignCreateEditFilters {
     this.committeeMember = committeeMember
     this.emailSubscribed = emailSubscribed
     this.SMSSubscribed = SMSSubscribed
+    this.isRenaissanceMembership = isRenaissanceMembership
     this.zones = zones
   }
   static propTypes = {
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    gender: PropTypes.string.isRequired,
-    adherentFromDate: PropTypes.string.isRequired,
-    adherentToDate: PropTypes.string.isRequired,
-    ageMin: PropTypes.number.isRequired,
-    ageMax: PropTypes.number.isRequired,
-    certified: PropTypes.bool.isRequired,
-    committeeMember: PropTypes.bool.isRequired,
-    emailSubscribed: PropTypes.bool.isRequired,
-    SMSSubscribed: PropTypes.bool.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    gender: PropTypes.string,
+    adherentFromDate: PropTypes.string,
+    adherentToDate: PropTypes.string,
+    ageMin: PropTypes.number,
+    ageMax: PropTypes.number,
+    certified: PropTypes.bool,
+    committeeMember: PropTypes.bool,
+    emailSubscribed: PropTypes.bool,
+    SMSSubscribed: PropTypes.bool,
+    isRenaissanceMembership: PropTypes.bool,
     zones: PropTypes.arrayOf(PropTypes.shape(PhoningCampaignCreateEditZone.propTypes)).isRequired,
   }
 }

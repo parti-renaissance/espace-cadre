@@ -106,6 +106,7 @@ export const getPhoningCampaignQuery = async campaignId => {
         data.audience.is_committee_member,
         data.audience.has_email_subscription,
         data.audience.has_sms_subscription,
+        data.audience.is_renaissance_membership,
         data.audience.zones.map(z => new PhoningCampaignCreateEditZone(z.uuid, z.name, z.code))
       )
     : null
@@ -205,6 +206,7 @@ const formatFiltersData = ({
   committeeMember,
   emailSubscribed,
   SMSSubscribed,
+  isRenaissanceMembership,
   zones,
 }) => ({
   ...(gender && { gender }),
@@ -214,6 +216,7 @@ const formatFiltersData = ({
   ...(adherentToDate && { registeredUntil: adherentToDate }),
   ...(ageMin && { ageMin: +ageMin }),
   ...(ageMax && { ageMax: +ageMax }),
+  ...('boolean' === typeof isRenaissanceMembership && { isRenaissanceMembership }),
   ...('boolean' === typeof certified && { isCertified: certified }),
   ...('boolean' === typeof committeeMember && { isCommitteeMember: committeeMember }),
   ...('boolean' === typeof emailSubscribed && { hasEmailSubscription: emailSubscribed }),

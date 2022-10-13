@@ -33,6 +33,7 @@ export const campaignToFiltersValues = ({
   committeeMember,
   emailSubscribed,
   SMSSubscribed,
+  isRenaissanceMembership,
   zones,
 }) => ({
   firstName: firstName ?? '',
@@ -46,6 +47,8 @@ export const campaignToFiltersValues = ({
   committeeMember: committeeMember ?? null,
   emailSubscribed: emailSubscribed ?? null,
   SMSSubscribed: SMSSubscribed ?? true,
+  isRenaissanceMembership:
+    typeof isRenaissanceMembership === 'undefined' || isRenaissanceMembership === null ? '' : isRenaissanceMembership,
   zones: zones ?? [],
 })
 
