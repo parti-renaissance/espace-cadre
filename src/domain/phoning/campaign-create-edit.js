@@ -70,7 +70,7 @@ export class PhoningCampaignCreateEditFilters {
     committeeMember,
     emailSubscribed,
     SMSSubscribed,
-    isRenaissanceMembership,
+    renaissanceMembership,
     zones
   ) {
     this.firstName = firstName
@@ -84,7 +84,7 @@ export class PhoningCampaignCreateEditFilters {
     this.committeeMember = committeeMember
     this.emailSubscribed = emailSubscribed
     this.SMSSubscribed = SMSSubscribed
-    this.isRenaissanceMembership = isRenaissanceMembership
+    this.renaissanceMembership = renaissanceMembership
     this.zones = zones
   }
   static propTypes = {
@@ -99,7 +99,7 @@ export class PhoningCampaignCreateEditFilters {
     committeeMember: PropTypes.bool,
     emailSubscribed: PropTypes.bool,
     SMSSubscribed: PropTypes.bool,
-    isRenaissanceMembership: PropTypes.bool,
+    renaissanceMembership: PropTypes.string,
     zones: PropTypes.arrayOf(PropTypes.shape(PhoningCampaignCreateEditZone.propTypes)).isRequired,
   }
 }

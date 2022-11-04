@@ -32,7 +32,7 @@
     "is_certified": null,
     "has_email_subscription": null,
     "has_sms_subscription": true,
-    "is_renaissance_membership": true
+    "renaissance_membership": null
   },
   "survey": {
     "uuid": "333333333-3333-3333-3333-333333333333",
