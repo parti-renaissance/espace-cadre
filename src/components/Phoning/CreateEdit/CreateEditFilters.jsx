@@ -35,7 +35,7 @@ const messages = {
     ageMax: 'Age maximum',
     adherentFromDate: 'Militant depuis le',
     adherentToDate: "Militant jusqu'au",
-    isRenaissanceMembership: 'Adhérent Renaissance',
+    renaissanceMembership: 'Adhérent Renaissance',
     certified: 'Certifié',
     committeeMember: "Membre d'un comité",
     emailSubscribed: 'Abonné Email',
@@ -53,9 +53,11 @@ const messages = {
     zones: 'Lieu géographique',
   },
   options: {
-    yesNo: [
-      { label: 'Oui', value: true },
-      { label: 'Non', value: false },
+    renaissanceMembership: [
+      { label: 'Adhérent RE ou sympathisant RE', value: 'adherent_or_sympathizer_re' },
+      { label: 'Adhérent RE seulement', value: 'adherent_re' },
+      { label: 'Sympathisant RE seulement', value: 'sympathizer_re' },
+      { label: 'Ni adhérent RE ni sympathisant RE', value: 'others_adherent' },
     ],
     gender: [
       { label: 'Homme', value: 'Male' },
@@ -117,13 +119,13 @@ const CreateEditFilters = () => {
         </Grid>
 
         <Grid item xs={isMobile ? 12 : 6}>
-          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.isRenaissanceMembership}</UIInputLabel>
+          <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.renaissanceMembership}</UIInputLabel>
           <UIInput
-            name={fields.isRenaissanceMembership}
-            value={inputValues.isRenaissanceMembership}
+            name={fields.renaissanceMembership}
+            value={inputValues.renaissanceMembership}
             onChange={event => {
-              updateInputValues(fields.isRenaissanceMembership, event.target.value)
-              updateValues(fields.isRenaissanceMembership, event.target.value)
+              updateInputValues(fields.renaissanceMembership, event.target.value)
+              updateValues(fields.renaissanceMembership, event.target.value)
             }}
             select
             SelectProps={{
@@ -133,13 +135,13 @@ const CreateEditFilters = () => {
             <MenuItem value="">
               <em>Tous</em>
             </MenuItem>
-            {messages.options.yesNo.map((option, index) => (
+            {messages.options.renaissanceMembership.map((option, index) => (
               <MenuItem key={index} value={option.value}>
                 {option.label}
               </MenuItem>
             ))}
           </UIInput>
-          <FormError errors={errors} field="is_renaissance_membership" />
+          <FormError errors={errors} field="renaissance_membership" />
         </Grid>
       </Grid>
 

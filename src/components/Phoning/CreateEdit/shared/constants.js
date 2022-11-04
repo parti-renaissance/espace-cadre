@@ -18,5 +18,5 @@ export const fields = {
   committeeMember: 'committeeMember',
   emailSubscribed: 'emailSubscribed',
   SMSSubscribed: 'SMSSubscribed',
-  isRenaissanceMembership: 'isRenaissanceMembership',
+  renaissanceMembership: 'renaissanceMembership',
 }
