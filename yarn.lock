@@ -9894,10 +9894,10 @@ vite-plugin-environment@^1.1.2:
   resolved "https://registry.yarnpkg.com/vite-plugin-environment/-/vite-plugin-environment-1.1.2.tgz#4048256370592e25f1b76345eafdbf23b35823fc"
   integrity sha512-WFgM/ibceOEIuficZVaLcmJvcMZiyTkGzeS8+pzfByGYRdewqil7LSLDV1DwJfFQIx/YzcW9YRSWQG7cJ2XT1w==
 
-vite-plugin-html-env@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/vite-plugin-html-env/-/vite-plugin-html-env-1.2.4.tgz#0341cb324b8ffc85a5295f645ba6abcfdca0754b"
-  integrity sha512-Yvh3/UPl4cBZICs2D0HwOgLzcJdOXpekTqZnHX+5hEf3pYebfLYY2ZQJ30Qy/sbr8D/C5zg4EYD4VBkudsBA0w==
+vite-plugin-html-env@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/vite-plugin-html-env/-/vite-plugin-html-env-1.2.7.tgz#6354e12ed3e642d91c9e1168c0b3ffc18e69616b"
+  integrity sha512-vdTnKtuBeB8Zp93DCbN0Qjf4odW2msVRq45r7lGKA6nwQGJFj6YemU54u3xPPkvDeZhG8DEEU64xbLwzVEBilQ==
 
 vite-plugin-html@^3.2.0:
   version "3.2.0"
