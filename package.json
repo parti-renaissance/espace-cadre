@@ -47,7 +47,7 @@
     "react-select": "^5.6.0",
     "react-use": "^17.4.0",
     "react-window": "^1.8.8",
-    "recharts": "^2.1.14",
+    "recharts": "^2.1.16",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "sass": "^1.55.0",
