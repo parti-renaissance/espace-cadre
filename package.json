@@ -15,7 +15,7 @@
     "@mui/system": "^5.10.8",
     "@mui/x-date-pickers": "^5.0.7",
     "@reduxjs/toolkit": "^1.9.0",
-    "@sentry/react": "^7.17.4",
+    "@sentry/react": "^7.24.2",
     "@sentry/tracing": "^7.17.4",
     "@turf/turf": "^6.5.0",
     "autosuggest-highlight": "^3.3.4",
