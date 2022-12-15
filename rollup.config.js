@@ -1,5 +1,6 @@
-import { generateConfig } from './vite.config'
+import postcss from 'rollup-plugin-postcss'
 import { defineConfig } from 'vite'
+import { generateConfig } from './vite.config'
 
 export default defineConfig(({ mode }) => {
   const config = generateConfig({ mode })
@@ -15,6 +16,14 @@ export default defineConfig(({ mode }) => {
     rollupOptions: { ...config.build.rollupOptions, treeshake: false },
     outDir: './dist-rollup/',
   }
+
+  config.plugins = [
+    postcss({
+      config: {
+        path: './postcss.config.js',
+      },
+    }),
+  ]
 
   return config
 })
