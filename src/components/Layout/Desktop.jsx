@@ -23,7 +23,7 @@ const Desktop = ({ drawerWidth }) => (
       display: { xs: 'none', sm: 'block' },
       '& .MuiDrawer-paper': {
         boxSizing: 'border-box',
-        width: drawerWidth,
+        width: '100%',
       },
     }}
     open

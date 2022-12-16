@@ -1,0 +1,9 @@
+.navigation {
+  .nav-link {
+    @apply flex items-center px-2 py-1.5 text-slate-600 rounded-md text-sm leading-5 font-medium hover:bg-gray-50 hover:text-slate-900 ease-in-out duration-200;
+  
+    &.active {
+      @apply bg-re-blue-50 text-re-blue-500;
+    }
+  }
+}

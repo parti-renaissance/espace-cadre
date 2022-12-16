@@ -1,31 +1,17 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
+import { Grid, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography } from '@mui/material'
+import { Menu, Transition } from '@headlessui/react'
 import { getCurrentUser, getUserScopes, isSwitchUser } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
+import { classNames, getInitialNames } from 'shared/helpers'
 
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  display: flex;
-  justify-content: space-between;
-  align-item: center;
-  text-transform: capitalize;
-  color: ${theme.palette.menu.color.main};
-  background: ${theme.palette.menu.background.hover};
-  padding: ${theme.spacing(0.75, 2)};
-  margin: ${theme.spacing(0, 2, 3)};
-  border-radius: 6px;
-  width: 243px;
-`
-)
-
-const Menu = styled(MuiMenu)`
+const MenuM = styled(MuiMenu)`
   & .MuiMenu-paper {
     background: ${({ theme }) => theme.palette.menu.background.main};
     width: 243px;
@@ -133,41 +119,73 @@ function Scopes() {
     <Grid>
       {currentUser && filteredScopes?.length > 0 && (
         <>
-          <Button onClick={handleClick} data-cy="scopes-button">
-            {currentScope?.name} ({currentScope?.zones[0]?.code})
-            <ExpandMoreRoundedIcon
-              sx={{ transform: menuAnchor ? 'rotate(180deg)' : '', transition: 'transform 0.3s' }}
-            />
-          </Button>
-          <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
-            {filteredScopes?.map(userScope => (
-              <MenuItem
-                key={userScope.code}
-                onClick={() => handleChange(userScope)}
-                disableGutters
-                userScope={userScope}
-                currentScope={currentScope}
-              >
-                <Scope>{userScope.name}</Scope>
-                {userScope.zones?.length === 1 && (
-                  <Area>
-                    {userScope.zones[0].name} ({userScope.zones[0].code})
-                  </Area>
-                )}
-                {userScope.zones?.length > 1 && (
-                  <Area>
-                    {`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length}
-                    &nbsp;
-                    {pluralize(userScope.zones.slice(1).length, messages.zone)}
-                  </Area>
-                )}
-              </MenuItem>
-            ))}
-            <Divider sx={{ bgcolor: 'whiteCorner' }} />
+          <Menu as="div" className="relative">
+            <div className="flex items-center justify-center">
+              <Menu.Button className="inline-flex items-center justify-center w-8 h-8 text-sm font-medium rounded-full bg-re-blue-100 text-re-blue-900 hover:bg-re-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                {getInitialNames(currentScope?.name)}
+              </Menu.Button>
+            </div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute left-0 w-56 mt-2 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  {filteredScopes?.map(userScope => (
+                    <Menu.Item key={userScope.code}>
+                      {({ active }) => (
+                        <a
+                          href="javascript:void"
+                          onClick={() => handleChange(userScope)}
+                          className={classNames(
+                            userScope?.code === currentScope?.code
+                              ? 'bg-re-blue-500 text-white'
+                              : 'text-gray-700 hover:bg-gray-100',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          {userScope.name}
+                          {userScope.zones?.length === 1 && (
+                            <span
+                              className={classNames(
+                                userScope?.code === currentScope?.code ? 'text-re-blue-100' : 'text-gray-400',
+                                'block mt-0.5 text-xs leading-4'
+                              )}
+                            >
+                              {userScope.zones[0].name} ({userScope.zones[0].code})
+                            </span>
+                          )}
+                          {userScope.zones?.length > 1 && (
+                            <span
+                              className={classNames(
+                                userScope?.code === currentScope?.code ? 'text-re-blue-100' : 'text-gray-400',
+                                'block mt-0.5 text-xs leading-4'
+                              )}
+                            >
+                              {`${userScope.zones[0].name} (${userScope.zones[0].code})`} +{' '}
+                              {userScope.zones.slice(1).length}
+                              &nbsp;
+                              {pluralize(userScope.zones.slice(1).length, messages.zone)}
+                            </span>
+                          )}
+                        </a>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+          {/* <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             <Logout onClick={logout}>
               <Scope>{isSwitchedUser ? messages.exitSwitchUser : messages.logout}</Scope>
             </Logout>
-          </Menu>
+          </Menu> */}
         </>
       )}
     </Grid>
