@@ -29,7 +29,7 @@
     "libphonenumber-js": "^1.10.14",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.10.0",
-    "notistack": "^2.0.5",
+    "notistack": "^2.0.8",
     "prop-types": "^15.8.1",
     "qs": "^6.11.0",
     "react": "^18.2.0",
