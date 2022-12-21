@@ -1,0 +1,9 @@
+.aside-navigation {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0.5rem; /* 20px 8px */
+
+  > * + *	 {
+    margin-top: 2rem; /* 32px */
+  }
+}

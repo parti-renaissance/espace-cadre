@@ -2,28 +2,13 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
+import { Grid, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
 import { getCurrentUser, getUserScopes, isSwitchUser } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
-
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  display: flex;
-  justify-content: space-between;
-  align-item: center;
-  text-transform: capitalize;
-  color: ${theme.palette.menu.color.main};
-  background: ${theme.palette.menu.background.hover};
-  padding: ${theme.spacing(0.75, 2)};
-  margin: ${theme.spacing(0, 2, 3)};
-  border-radius: 6px;
-  width: 243px;
-`
-)
+import { getInitialNames } from 'shared/helpers'
 
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {
@@ -130,15 +115,18 @@ function Scopes() {
   }
 
   return (
-    <Grid>
+    <Grid
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       {currentUser && filteredScopes?.length > 0 && (
         <>
-          <Button onClick={handleClick} data-cy="scopes-button">
-            {currentScope?.name} ({currentScope?.zones[0]?.code})
-            <ExpandMoreRoundedIcon
-              sx={{ transform: menuAnchor ? 'rotate(180deg)' : '', transition: 'transform 0.3s' }}
-            />
-          </Button>
+          <button type="button" className="button button-circle mx-auto" onClick={handleClick} data-cy="scopes-button">
+            {getInitialNames(currentScope?.name)}
+          </button>
           <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             {filteredScopes?.map(userScope => (
               <MenuItem

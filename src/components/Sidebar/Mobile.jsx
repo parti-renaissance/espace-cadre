@@ -1,10 +1,12 @@
-import { Drawer as MuiDrawer } from '@mui/material'
+import { Drawer as MuiDrawer, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import Scopes from '../Scopes'
 import Branding from './Branding'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
+import Logo from 'ui/Logo/Logo'
+import Desktop from './Desktop'
 
 const BrandingWrapper = styled('div')`
   display: flex;
@@ -16,11 +18,11 @@ const BrandingWrapper = styled('div')`
 
 const Drawer = styled(MuiDrawer)`
   & .MuiDrawer-paper {
-    background: ${({ theme }) => theme.palette.menu.background.main};
+    background-color: #fff;
   }
 `
 
-export const Mobile = ({ mobileOpen, container, handleDrawerToggle }) => (
+export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth }) => (
   <Drawer
     container={container}
     variant="temporary"
@@ -30,18 +32,41 @@ export const Mobile = ({ mobileOpen, container, handleDrawerToggle }) => (
       keepMounted: true,
     }}
     sx={{
-      display: { xs: 'block', sm: 'none' },
+      display: { xs: 'block', lg: 'none' },
       '& .MuiDrawer-paper': {
         boxSizing: 'border-box',
       },
     }}
   >
-    <BrandingWrapper onClick={handleDrawerToggle}>
+    {/* <BrandingWrapper onClick={handleDrawerToggle}>
       <Branding mobileOpen />
-    </BrandingWrapper>
-    <Scopes />
-    <NavMenu handleItemClick={handleDrawerToggle} />
-    <Footer />
+    </BrandingWrapper> */}
+    <Box sx={{ display: 'flex', height: '100%' }}>
+      <Box
+        sx={{
+          width: 54,
+          backgroundColor: '#1254D8',
+        }}
+        className="aside-navigation"
+      >
+        <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
+        <Scopes />
+      </Box>
+      <Box
+        sx={{
+          flex: '1 1 0%',
+          width: drawerWidth,
+          padding: '20px 16px',
+        }}
+      >
+        <Desktop drawerWidth={drawerWidth} />
+      </Box>
+    </Box>
+    {/* <div style={{ padding: '20px 16px' }}>
+      <Scopes />
+      <NavMenu handleItemClick={handleDrawerToggle} />
+      <Footer />
+    </div> */}
   </Drawer>
 )
 

@@ -1,39 +1,17 @@
 import PropTypes from 'prop-types'
-import { styled } from '@mui/system'
-import { Drawer as MuiDrawer } from '@mui/material'
-import frenchFlag from 'assets/frenchFlag.svg'
-import Scopes from '../Scopes'
-import Branding from './Branding'
+import { Drawer as MuiDrawer, Box } from '@mui/material'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
 
-const Drawer = styled(MuiDrawer)`
-  & .MuiDrawer-paper {
-    background: ${({ theme }) => theme.palette.menu.background.main};
-  }
-  & .MuiPaper-root {
-    border: none;
-  }
-`
-
 const Desktop = ({ drawerWidth }) => (
-  <Drawer
-    variant="permanent"
+  <Box
     sx={{
-      display: { xs: 'none', sm: 'block' },
-      '& .MuiDrawer-paper': {
-        boxSizing: 'border-box',
-        width: drawerWidth,
-      },
+      width: '100%',
     }}
-    open
   >
-    <img src={frenchFlag} alt="drapeau france" />
-    <Branding />
-    <Scopes />
     <NavMenu />
-    <Footer />
-  </Drawer>
+    {/* <Footer /> */}
+  </Box>
 )
 
 Desktop.propTypes = {

@@ -1,0 +1,16 @@
+.button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+
+  &-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}

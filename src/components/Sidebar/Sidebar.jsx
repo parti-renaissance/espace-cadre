@@ -5,16 +5,19 @@ import { Box, AppBar as MuiAppBar, Toolbar } from '@mui/material'
 import Mobile from './Mobile'
 import Desktop from './Desktop'
 import Branding from './Branding'
+import Logo from 'ui/Logo/Logo'
+import Scopes from 'components/Scopes'
 
-const drawerWidth = 275
+const drawerWidth = 284
+const asideWidth = 54
 
 const AppBar = styled(MuiAppBar)(
   ({ theme }) => `
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${theme.spacing(1.5, 3.5)};
-  background-color: ${theme.palette.menu.background.main};
+  padding: 16px;
+  background-color: ${theme.palette.colors.blue['500']};
 `
 )
 
@@ -27,35 +30,61 @@ const Sidebar = ({ children, window }) => {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar
-        position="fixed"
-        sx={{
-          display: { sm: 'none' },
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
-        <Branding handleDrawerToggle={handleDrawerToggle} />
-      </AppBar>
+    <Box sx={{ display: 'flex', height: '100vh' }}>
       <Box
-        component="nav"
         sx={{
-          width: { sm: drawerWidth },
-          flexShrink: { sm: 0 },
+          backgroundColor: '#fff',
+          width: drawerWidth,
+          display: {
+            xs: 'none',
+            lg: 'flex',
+          },
         }}
       >
-        <Desktop drawerWidth={drawerWidth} />
-        <Mobile
-          container={container}
-          drawerWidth={drawerWidth}
-          mobileOpen={mobileOpen}
-          handleDrawerToggle={handleDrawerToggle}
-        />
+        <Box
+          sx={{
+            width: asideWidth,
+            backgroundColor: '#1254D8',
+          }}
+          className="aside-navigation"
+        >
+          <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
+          <Scopes />
+        </Box>
+        <Box
+          sx={{
+            flex: '1 1 0%',
+            width: drawerWidth - asideWidth,
+            padding: '20px 16px',
+          }}
+        >
+          <Desktop drawerWidth={drawerWidth - asideWidth} />
+        </Box>
       </Box>
-      <Box component="main" sx={{ flexGrow: 1, p: 2, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-        <Toolbar sx={{ p: 2, display: { sm: 'none' } }} />
-        {children}
+      <Mobile
+        container={container}
+        drawerWidth={drawerWidth - asideWidth}
+        mobileOpen={mobileOpen}
+        handleDrawerToggle={handleDrawerToggle}
+      />
+      <Box sx={{ flexGrow: 1, width: '100%', overflowY: 'scroll', backgroundColor: '#f1f5f9' }}>
+        <AppBar position="fixed" sx={{ display: { lg: 'none' } }}>
+          <Branding handleDrawerToggle={handleDrawerToggle} />
+        </AppBar>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 2,
+            mt: {
+              xs: '100px',
+              lg: '0',
+            },
+            flex: '1 1 0%',
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   )
