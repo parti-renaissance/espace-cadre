@@ -1,11 +1,13 @@
-.h-4 {
-  height: 16px;
+.sr-only {
+  display: none;
 }
 
-.w-auto {
-  width: auto;
-}
+/**
+* Flexbox & Grid
+*/
+.flex { display: flex; }
+.flex-1 { flex: 1 1 0%; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
 
-.mx-auto {
-  margin: 0 auto;
-}

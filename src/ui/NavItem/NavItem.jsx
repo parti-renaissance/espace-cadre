@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { NavLink as MUINavLink } from 'react-router-dom'
-import { Icon as MUIIcon, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
 const NavLink = styled(MUINavLink)(
@@ -22,7 +22,7 @@ const NavLink = styled(MUINavLink)(
 `
 )
 
-const NavItem = ({ path, label, icon = null, handleClick = null }) => (
+const NavItem = ({ path, label, handleClick = null }) => (
   <NavLink to={path} onClick={handleClick || (() => {})}>
     <Typography variant="menu">{label}</Typography>
   </NavLink>

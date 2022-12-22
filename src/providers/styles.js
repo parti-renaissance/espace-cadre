@@ -290,6 +290,7 @@ export const styles = {
         800: '#1e293b',
         900: '#0f172a',
       },
+      white: '#FFF',
     },
 
     // White

@@ -12,8 +12,11 @@ import { getInitialNames } from 'shared/helpers'
 
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {
-    background: ${({ theme }) => theme.palette.menu.background.main};
-    width: 243px;
+    background: ${({ theme }) => theme.palette.colors.white};
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    width: 224px;
+    padding: 4px 0;
+    margin-top: 8px;
   }
 `
 
@@ -25,18 +28,13 @@ const MenuItem = styled(
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border-radius: 6px;
   padding: ${theme.spacing(1, 2)};
   margin-bottom: ${theme.spacing(1)};
-  color: ${userScope?.code === currentScope?.code ? theme.palette.menu.color.active : theme.palette.menu.color.main};
-  background-color: ${
-    userScope?.code === currentScope?.code ? theme.palette.menu.background.active : theme.palette.menu.background.main
-  };
+  color: ${userScope?.code === currentScope?.code ? theme.palette.colors.white : theme.palette.colors.gray['700']};
+  background-color: ${userScope?.code === currentScope?.code ? theme.palette.colors.blue['500'] : 'transparent'};
   &:hover {
     background-color: ${
-      userScope?.code === currentScope?.code
-        ? theme.palette.menu.background.active
-        : theme.palette.menu.background.hover
+      userScope?.code === currentScope?.code ? theme.palette.colors.blue['500'] : theme.palette.colors.gray['100']
     }
   },
   &:first-of-type {
@@ -49,15 +47,12 @@ const MenuItem = styled(
 const Logout = styled(MuiMenuItem)(
   ({ theme }) => `
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border-radius: 6px;
+  align-items: center;
   padding: ${theme.spacing(1, 2)};
-  margin-bottom: ${theme.spacing(1)};
-  color: ${theme.palette.menu.color.main};
-  background-color: ${theme.palette.menu.background.main};
+  color: ${theme.palette.colors.gray['700']};
+  background-color: ${theme.palette.colors.gray['50']};
   &:hover {
-    background-color: ${theme.palette.menu.background.hover};
+    background-color: ${theme.palette.colors.gray['100']};
   },
   `
 )

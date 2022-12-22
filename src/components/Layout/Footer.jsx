@@ -19,7 +19,7 @@ const ReleaseVersion = styled('div')(
 
 const Signature = styled('div')(
   ({ theme }) => `
-  color: ${theme.palette.mentionsLegales};
+  color: ${theme.palette.colors.gray['600']};
   font-size: 10px;
   margin: ${theme.spacing(1, 2, 0, 0)};
 `

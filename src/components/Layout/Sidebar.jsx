@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { styled } from '@mui/system'
-import { Box, AppBar as MuiAppBar, Toolbar } from '@mui/material'
+import { Box, AppBar as MuiAppBar } from '@mui/material'
 import Mobile from './Mobile'
-import Desktop from './Desktop'
+import Navigation from './Navigation'
 import Branding from './Branding'
 import Logo from 'ui/Logo/Logo'
 import Scopes from 'components/Scopes'
+import Header from './Header'
+import Footer from './Footer'
 
 const drawerWidth = 284
 const asideWidth = 54
@@ -33,7 +35,7 @@ const Sidebar = ({ children, window }) => {
     <Box sx={{ display: 'flex', height: '100vh' }}>
       <Box
         sx={{
-          backgroundColor: '#fff',
+          backgroundColor: theme => theme.palette.colors.white,
           width: drawerWidth,
           display: {
             xs: 'none',
@@ -42,10 +44,7 @@ const Sidebar = ({ children, window }) => {
         }}
       >
         <Box
-          sx={{
-            width: asideWidth,
-            backgroundColor: '#1254D8',
-          }}
+          sx={{ width: asideWidth, backgroundColor: theme => theme.palette.colors.blue['600'] }}
           className="aside-navigation"
         >
           <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
@@ -54,11 +53,15 @@ const Sidebar = ({ children, window }) => {
         <Box
           sx={{
             flex: '1 1 0%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
             width: drawerWidth - asideWidth,
             padding: '20px 16px',
           }}
         >
-          <Desktop drawerWidth={drawerWidth - asideWidth} />
+          <Navigation drawerWidth={drawerWidth - asideWidth} />
+          <Footer />
         </Box>
       </Box>
       <Mobile
@@ -67,10 +70,18 @@ const Sidebar = ({ children, window }) => {
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
-      <Box sx={{ flexGrow: 1, width: '100%', overflowY: 'scroll', backgroundColor: '#f1f5f9' }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          width: '100%',
+          overflowY: 'scroll',
+          backgroundColor: theme => theme.palette.colors.gray['100'],
+        }}
+      >
         <AppBar position="fixed" sx={{ display: { lg: 'none' } }}>
           <Branding handleDrawerToggle={handleDrawerToggle} />
         </AppBar>
+        <Header handleDrawerToggle={handleDrawerToggle} />
         <Box
           component="main"
           sx={{
