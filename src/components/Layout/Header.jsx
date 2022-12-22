@@ -5,7 +5,7 @@ import { useUserScope } from '../../redux/user/hooks'
 import { LogoLarge } from 'ui/Logo/Logo'
 
 const Header = ({ handleDrawerToggle }) => {
-  const [currentScope, updateCurrentScope] = useUserScope()
+  const [currentScope] = useUserScope()
 
   return (
     <div className="header">

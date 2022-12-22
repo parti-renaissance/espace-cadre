@@ -5,7 +5,6 @@ jest.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
 jest.mock('@mui/material', () => ({
-  Icon: ({ component }) => <div className="mock-icon">{component}</div>,
   Typography: ({ children }) => <div className="mock-typography">{children}</div>,
 }))
 
@@ -15,7 +14,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('NavItem', () => {
   it('displays a NavItem', () => {
-    const { container } = render(<NavItem path="path" label="foo" color="color" bgColor="bgColor" icon="icon" />)
+    const { container } = render(<NavItem path="path" label="foo" />)
 
     expect(container).toMatchSnapshot()
   })
