@@ -6,11 +6,6 @@ exports[`NavItem displays a NavItem 1`] = `
     class="mock-navlink"
   >
     <div
-      class="mock-icon"
-    >
-      icon
-    </div>
-    <div
       class="mock-typography"
     >
       foo
