@@ -32,6 +32,7 @@ export const visibility = {
 export const scopesVisibility = {
   [scopes.referent]: visibility.local,
   [scopes.correspondent]: visibility.local,
+  [scopes.regional_coordinator]: visibility.local,
   [scopes.deputy]: visibility.local,
   [scopes.legislative_candidate]: visibility.local,
   [scopes.national]: visibility.national,
