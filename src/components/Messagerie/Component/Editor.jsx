@@ -39,6 +39,7 @@ const deputyTemplate = 228747
 const senatorTemplate = 60355
 const correspondentTemplate = 123148
 const legislativeCandidateTemplate = 165090
+const regionalCoordinatorTemplate = 276759
 const defaultTemplate = 41208
 const editorConfiguration = {
   tools: {
@@ -74,6 +75,7 @@ const templates = {
   senator: senatorTemplate,
   correspondent: correspondentTemplate,
   legislative_candidate: legislativeCandidateTemplate,
+  regional_coordinator: regionalCoordinatorTemplate,
 }
 
 const Editor = ({ onMessageSubject, onMessageUpdate }) => {

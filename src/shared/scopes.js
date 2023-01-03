@@ -1,4 +1,5 @@
 export default {
+  regional_coordinator: 'regional_coordinator',
   correspondent: 'correspondent',
   deputy: 'deputy',
   legislative_candidate: 'legislative_candidate',
