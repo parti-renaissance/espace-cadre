@@ -81,7 +81,7 @@ const Sidebar = ({ children, window }) => {
         <AppBar position="fixed" sx={{ display: { lg: 'none' } }}>
           <Branding handleDrawerToggle={handleDrawerToggle} />
         </AppBar>
-        <Header handleDrawerToggle={handleDrawerToggle} />
+        <Header />
         <Box
           component="main"
           sx={{
