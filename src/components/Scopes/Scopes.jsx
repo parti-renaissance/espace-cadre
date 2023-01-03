@@ -2,33 +2,21 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Grid, Button as MuiButton, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
+import { Grid, Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider } from '@mui/material'
 import { getCurrentUser, getUserScopes, isSwitchUser } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
 import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
-
-const Button = styled(MuiButton)(
-  ({ theme }) => `
-  display: flex;
-  justify-content: space-between;
-  align-item: center;
-  text-transform: capitalize;
-  color: ${theme.palette.menu.color.main};
-  background: ${theme.palette.menu.background.hover};
-  padding: ${theme.spacing(0.75, 2)};
-  margin: ${theme.spacing(0, 2, 3)};
-  border-radius: 6px;
-  width: 243px;
-`
-)
+import { getInitialNames } from 'shared/helpers'
 
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {
-    background: ${({ theme }) => theme.palette.menu.background.main};
-    width: 243px;
+    background: ${({ theme }) => theme.palette.colors.white};
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    width: 224px;
+    padding: 4px 0;
+    margin-top: 8px;
   }
 `
 
@@ -40,18 +28,13 @@ const MenuItem = styled(
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border-radius: 6px;
   padding: ${theme.spacing(1, 2)};
   margin-bottom: ${theme.spacing(1)};
-  color: ${userScope?.code === currentScope?.code ? theme.palette.menu.color.active : theme.palette.menu.color.main};
-  background-color: ${
-    userScope?.code === currentScope?.code ? theme.palette.menu.background.active : theme.palette.menu.background.main
-  };
+  color: ${userScope?.code === currentScope?.code ? theme.palette.colors.white : theme.palette.colors.gray['700']};
+  background-color: ${userScope?.code === currentScope?.code ? theme.palette.colors.blue['500'] : 'transparent'};
   &:hover {
     background-color: ${
-      userScope?.code === currentScope?.code
-        ? theme.palette.menu.background.active
-        : theme.palette.menu.background.hover
+      userScope?.code === currentScope?.code ? theme.palette.colors.blue['500'] : theme.palette.colors.gray['100']
     }
   },
   &:first-of-type {
@@ -64,15 +47,12 @@ const MenuItem = styled(
 const Logout = styled(MuiMenuItem)(
   ({ theme }) => `
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border-radius: 6px;
+  align-items: center;
   padding: ${theme.spacing(1, 2)};
-  margin-bottom: ${theme.spacing(1)};
-  color: ${theme.palette.menu.color.main};
-  background-color: ${theme.palette.menu.background.main};
+  color: ${theme.palette.colors.gray['700']};
+  background-color: ${theme.palette.colors.gray['50']};
   &:hover {
-    background-color: ${theme.palette.menu.background.hover};
+    background-color: ${theme.palette.colors.gray['100']};
   },
   `
 )
@@ -130,15 +110,18 @@ function Scopes() {
   }
 
   return (
-    <Grid>
+    <Grid
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       {currentUser && filteredScopes?.length > 0 && (
         <>
-          <Button onClick={handleClick} data-cy="scopes-button">
-            {currentScope?.name} ({currentScope?.zones[0]?.code})
-            <ExpandMoreRoundedIcon
-              sx={{ transform: menuAnchor ? 'rotate(180deg)' : '', transition: 'transform 0.3s' }}
-            />
-          </Button>
+          <button type="button" className="button button-circle mx-auto" onClick={handleClick} data-cy="scopes-button">
+            {getInitialNames(currentScope?.name)}
+          </button>
           <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             {filteredScopes?.map(userScope => (
               <MenuItem

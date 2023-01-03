@@ -46,7 +46,7 @@ describe('Groups', () => {
     })
 
     it('should have a "Voir" clickable button ', () => {
-      cy.contains('Voir').first().click()
+      cy.get(GroupCard).eq(0).find('button').eq(0).click()
       cy.url().should('eq', 'http://localhost:3000/groupes/11111111-1111-1111-1111-111111111111/editer')
       cy.contains('firstname1 lastname1')
       cy.contains('92100, militant(e) depuis le ' + new Date(2019, 5, 1, 12, 0).toLocaleDateString())

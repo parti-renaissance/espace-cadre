@@ -1,0 +1,33 @@
+import PropTypes from 'prop-types'
+
+import { useUserScope } from '../../redux/user/hooks'
+import { LogoLarge } from 'ui/Logo/Logo'
+
+const Header = () => {
+  const [currentScope] = useUserScope()
+
+  return (
+    <div className="header">
+      <div className="flex justify-between flex-1 px-4">
+        <div className="flex flex-1">
+          <div className="logo-large">
+            <LogoLarge classes="h-6 w-auto" fillColor="#0f172a" strokeColor="#0f172a" />
+          </div>
+        </div>
+        <div className="header-scope">
+          <div className="pr-4">
+            <span className="scope-badge">
+              {currentScope?.name} ({currentScope?.zones[0]?.code})
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Header
+
+Header.propTypes = {
+  handleDrawerToggle: PropTypes.func.isRequired,
+}

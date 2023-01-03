@@ -16,7 +16,7 @@ const LegalNoticesWrapper = styled('span')(
 
 const LegalNoticesIcon = styled(ErrorOutlineRoundedIcon)`
   font-size: 14px;
-  color: ${({ theme }) => theme.palette.menu.color.main};
+  color: ${({ theme }) => theme.palette.colors.gray['600']};
   cursor: pointer;
 `
 
@@ -82,7 +82,7 @@ const MentionsLegales = () => {
         }}
         sx={{
           '& .MuiMenu-paper': {
-            bgcolor: 'menu.background.main',
+            bgcolor: 'colors.blue.500',
           },
         }}
       >

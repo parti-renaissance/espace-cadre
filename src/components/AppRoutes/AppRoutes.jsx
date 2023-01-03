@@ -13,7 +13,7 @@ import Signup from 'components/Signup/Signup'
 import SignupConfirm from 'components/Signup/SignupConfirm'
 import LegalContainer from '../Signup/components/LegalContainer'
 import { CGUMobile, CGUWeb, CookiesMobile, CookiesWeb, Ppd } from '../Signup/constants'
-import Sidebar from 'components/Sidebar/Sidebar'
+import Sidebar from 'components/Layout/Sidebar'
 import ErrorBoundary from 'providers/errorboundary'
 import Logout from '../Logout/Logout'
 
