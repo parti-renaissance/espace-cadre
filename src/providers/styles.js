@@ -315,7 +315,7 @@ export const styles = {
     blue800: '#1E40AF',
 
     // Indigo
-    indigo700: '#4338CA',
+    indigo700: '#104CC2',
 
     // Orange
     orange500: '#F97316',
