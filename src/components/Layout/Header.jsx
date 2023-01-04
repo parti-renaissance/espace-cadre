@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 import { useUserScope } from '../../redux/user/hooks'
 import { LogoLarge } from 'ui/Logo/Logo'
 
@@ -16,7 +14,7 @@ const Header = () => {
         </div>
         <div className="header-scope">
           <div className="pr-4">
-            <span className="scope-badge">
+            <span className="badge badge-primary">
               {currentScope?.name} ({currentScope?.zones[0]?.code})
             </span>
           </div>
@@ -27,7 +25,3 @@ const Header = () => {
 }
 
 export default Header
-
-Header.propTypes = {
-  handleDrawerToggle: PropTypes.func.isRequired,
-}
