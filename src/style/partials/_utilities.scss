@@ -1,4 +1,4 @@
-.sr-only {
+.sr-only, .hidden {
   display: none;
 }
 
@@ -11,3 +11,35 @@
 .justify-center { justify-content: center; }
 .justify-between { justify-content: space-between; }
 
+.badge {
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+
+  &-primary {
+    background-color: $color-blue-100;
+    color: $color-blue-500;
+  }
+
+  &-light {
+    background-color: $color-blue-50;
+    color: $color-blue-500;
+  }
+
+  &-sm {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 35%;
+
+    @media screen and (min-width: 768px) {
+      width: auto;
+    }
+  }
+}
+
+.pac-container {
+  z-index: 2000;
+}

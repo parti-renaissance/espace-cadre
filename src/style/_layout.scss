@@ -1,3 +1,12 @@
+.sidebar {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 50;
+}
+
 .aside-navigation {
   display: flex;
   flex-direction: column;
@@ -15,7 +24,7 @@
   display: none;
   align-items: center;
   padding: .75rem 0;
-  background-color: var(--color-white);
+  background-color: $color-white;
 
   @media screen and (min-width: 1024px) {
     display: block;
@@ -40,15 +49,8 @@
       margin-left: 6px;
     }
 
-    .scope-badge {
+    .badge {
       display: none;
-      align-items: center;
-      border-radius: 6px;
-      background-color: #D2DFFB;
-      padding: 6px 12px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #1254D8;
 
       @media screen and (min-width: 648px) {
         display: inline-flex;
@@ -64,5 +66,29 @@
     @media screen and (min-width: 1024px) {
       display: none;
     }
+  }
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media screen and (min-width: 1024px) {
+    padding: 0 1.5rem;
+  }
+
+  @media screen and (min-width: 1024px) {
+    padding: 0 2rem;
+  }
+}
+
+.app-content {
+  margin-top: 4rem; /* 88px */
+  padding: 1.5rem 0;
+  overflow: hidden;
+
+  @media screen and (min-width: 1024px) {
+    margin-top: 0; 
   }
 }

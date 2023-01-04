@@ -48,7 +48,7 @@ const Activists = () => {
   }
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="lg">
       <Grid container>
         <PageTitle breakpoints={{ xs: 12 }} title={messages.title} />
       </Grid>

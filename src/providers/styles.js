@@ -117,14 +117,14 @@ export const styles = {
     },
   },
   palette: {
-    main: '#2834C3',
+    main: '#1254D8',
     button: {
       color: {
-        main: '#2834c3',
+        main: '#1254D8',
         disabled: '#6B7280',
       },
       background: {
-        main: '#2834c3',
+        main: '#1254D8',
         disabled: '#E5E7EB',
         hover: 'rgba(55, 67, 200, 0.08)',
       },
@@ -132,10 +132,10 @@ export const styles = {
     menu: {
       color: {
         main: '#FFFFFF',
-        active: '#1D214F',
+        active: '#0B3282',
       },
       background: {
-        main: '#1D214F',
+        main: '#0B3282',
         hover: '#FFFFFF14',
         active: '#FFFFFF',
       },
@@ -147,7 +147,7 @@ export const styles = {
       input: {
         background: '#F3F4F6',
         borderColor: {
-          focus: '#2834c3',
+          focus: '#1254D8',
         },
       },
       error: {
@@ -175,7 +175,7 @@ export const styles = {
         background: '#DA1414',
       },
       info: {
-        background: '#2834C3',
+        background: '#1254D8',
       },
     },
     emptyContent: {
@@ -210,14 +210,14 @@ export const styles = {
       },
       button: {
         background: {
-          main: '#2834C3',
+          main: '#1254D8',
           prev: '#FFFFFF',
-          next: '#2834C3',
+          next: '#1254D8',
           disabled: '#E5E7EB',
         },
         color: {
           main: '#FFFFFF',
-          prev: '#2834C3',
+          prev: '#1254D8',
           next: '#FFFFFF',
           disabled: '#6B7280',
         },
@@ -231,8 +231,8 @@ export const styles = {
     signupButton: {
       color: '#3743C814',
       background: {
-        main: '#2834C3',
-        hover: '#2834C3',
+        main: '#1254D8',
+        hover: '#1254D8',
       },
     },
     events: {
@@ -244,11 +244,11 @@ export const styles = {
     news: {
       button: {
         main: {
-          background: '#2834C3',
+          background: '#1254D8',
           color: '#FFFFFF',
         },
         outlined: {
-          primary: '#2834C3',
+          primary: '#1254D8',
           secondary: '#CC0613',
         },
       },
@@ -306,7 +306,7 @@ export const styles = {
     lightBlue700: '#0369A1',
 
     // Blue
-    blueCorner: '#0049C6',
+    blueCorner: '#1254D8',
     blue2Corner: '#135CEB',
     blueNewsAlert: 'rgba(40, 52, 196, 0.08)',
     blueBubble: '#D9EAFF',
@@ -315,7 +315,7 @@ export const styles = {
     blue800: '#1E40AF',
 
     // Indigo
-    indigo700: '#4338CA',
+    indigo700: '#104CC2',
 
     // Orange
     orange500: '#F97316',

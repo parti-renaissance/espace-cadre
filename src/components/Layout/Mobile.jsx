@@ -7,7 +7,7 @@ import Navigation from './Navigation'
 
 const Drawer = styled(MuiDrawer)`
   & .MuiDrawer-paper {
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.palette.colors.white};
   }
 `
 
@@ -28,7 +28,7 @@ export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth 
     }}
   >
     <Box sx={{ display: 'flex', height: '100%' }}>
-      <Box sx={{ width: 54, backgroundColor: '#1254D8' }} className="aside-navigation">
+      <Box sx={{ width: 54, backgroundColor: theme => theme.palette.colors.blue['500'] }} className="aside-navigation">
         <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
         <Scopes />
       </Box>

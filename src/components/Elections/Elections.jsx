@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { Box, Grid } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from 'mapbox-gl'
 import { getElectionParticipation, getElectionResults } from 'api/elections'
@@ -111,7 +111,7 @@ const Elections = () => {
   }
 
   return (
-    <Box maxWidth="xl" display="flex" flexDirection="column" justifyContent="flexStart">
+    <Container maxWidth="lg">
       <Grid container>
         <PageTitle title={messages.title} />
       </Grid>
@@ -136,7 +136,7 @@ const Elections = () => {
           )}
         </Map>
       </Grid>
-    </Box>
+    </Container>
   )
 }
 
