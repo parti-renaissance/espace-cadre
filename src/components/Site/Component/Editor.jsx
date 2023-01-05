@@ -1,18 +1,16 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import PropTypes from 'prop-types'
 import EmailEditor from 'react-email-editor'
 import { Button as MuiButton, Box } from '@mui/material'
+import * as Sentry from '@sentry/react'
 import { styled } from '@mui/system'
-import { useParams } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { useUserScope } from '../../../redux/user/hooks'
-import { getMessageContent } from 'api/messagerie'
+import { UNLAYER_PROJECT_ID } from 'shared/environments'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
-import UIFormMessage from 'ui/FormMessage'
-import * as Sentry from '@sentry/react'
+import UIFormMessage from 'ui/FormMessage/FormMessage'
+import { getSiteContent } from 'api/site'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import { UNLAYER_PROJECT_ID } from 'shared/environments'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -28,19 +26,13 @@ const Button = styled(MuiButton)(
   background: ${theme.palette.colors.gray['200']};
   margin: ${theme.spacing(2, 0, 0)};
   &:hover, &:focus {
-    color: ${theme.palette.colors.gray['500']};
-    background: ${theme.palette.colors.gray['300']}
+      color: ${theme.palette.colors.gray['500']};
+      background: ${theme.palette.colors.gray['100']}
   }
 `
 )
 
-const referentTemplate = 228742
-const deputyTemplate = 228747
-const senatorTemplate = 60355
-const correspondentTemplate = 123148
-const legislativeCandidateTemplate = 165090
-const regionalCoordinatorTemplate = 276759
-const defaultTemplate = 41208
+const defaultTemplate = 278003
 const editorConfiguration = {
   tools: {
     button: { enabled: true },
@@ -67,74 +59,59 @@ const messages = {
   errorTemplate: 'Erreur au chargement du template',
   errorTemplateRecreate: 'Template non conforme, veuillez en créer un nouveau.',
   export: 'Export HTML',
+  save: 'Enregistrer',
+  update: 'Mettre à jour',
 }
 
-const templates = {
-  referent: referentTemplate,
-  deputy: deputyTemplate,
-  senator: senatorTemplate,
-  correspondent: correspondentTemplate,
-  legislative_candidate: legislativeCandidateTemplate,
-  regional_coordinator: regionalCoordinatorTemplate,
-}
-
-const Editor = ({ onMessageSubject, onMessageUpdate }) => {
+const Editor = ({ onContentUpdate }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
-  const emailEditorRef = useRef(null)
-  const { messageUuid } = useParams()
-  const [currentScope] = useUserScope()
+  const editorRef = useRef(null)
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
-  const [templateId] = useState(() => {
-    const { code, delegated_access } = currentScope || {}
-    return templates[delegated_access?.type || code] || defaultTemplate
-  })
-
-  const updateMessageTemplateCallback = useCallback(() => {
-    emailEditorRef.current.exportHtml(data => {
-      onMessageUpdate({
+  const updateContentTemplateCallback = useCallback(() => {
+    editorRef.current.exportHtml(data => {
+      onContentUpdate({
         design: data.design,
         chunks: data.chunks,
       })
     })
-  }, [onMessageUpdate])
+  }, [onContentUpdate])
 
-  const { data: messageContent = null } = useQueryWithScope(
-    ['message-content', { feature: 'Messagerie', view: 'Editor' }, messageUuid],
-    () => getMessageContent(messageUuid),
-    { onError: handleError, enabled: !!messageUuid && editorLoaded }
+  const { data: siteContent = null } = useQueryWithScope(
+    ['message-content', { feature: 'Site', view: 'Editor' }],
+    () => getSiteContent('51e507e5-3d7c-4f08-b05d-b7cb45e960d3'),
+    { onError: handleError, enabled: editorLoaded }
   )
 
   useEffect(() => {
-    const editor = emailEditorRef.current?.editor
-    if (messageContent) {
-      onMessageSubject(messageContent.subject)
-      if (messageContent.json_content) {
-        const design = JSON.parse(messageContent.json_content)
+    const editor = editorRef.current?.editor
+    if (siteContent) {
+      if (siteContent.json_content) {
+        const design = JSON.parse(siteContent.json_content)
         editor.loadDesign(design)
-        onMessageUpdate({
+        onContentUpdate({
           design: design,
-          chunks: { body: messageContent.content },
+          chunks: { body: siteContent.content },
         })
       } else {
         setMessageContentError(true)
         enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
         Sentry.addBreadcrumb({
           category: 'messages',
-          message: `${messages.errorTemplate} id=${messageUuid}`,
+          message: `${messages.errorTemplate}`,
           level: Sentry.Severity.Critical,
         })
         Sentry.captureMessage(messages.errorTemplate)
       }
     }
-  }, [enqueueSnackbar, messageContent, messageUuid, onMessageSubject, onMessageUpdate])
+  }, [enqueueSnackbar, siteContent, onContentUpdate])
 
   useEffect(() => {
-    const editor = emailEditorRef.current?.editor
+    const editor = editorRef.current?.editor
     const onEditorLoaded = () => {
-      editor.addEventListener('design:updated', updateMessageTemplateCallback)
+      editor.addEventListener('design:updated', updateContentTemplateCallback)
     }
 
     if (editorLoaded && editor) {
@@ -142,12 +119,12 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
     }
 
     return () => {
-      editor?.removeEventListener('design:updated', updateMessageTemplateCallback)
+      editor?.removeEventListener('design:updated', updateContentTemplateCallback)
     }
-  }, [editorLoaded, updateMessageTemplateCallback])
+  }, [editorLoaded, updateContentTemplateCallback])
 
   const exportHtml = () => {
-    emailEditorRef.current.editor.exportHtml(data => {
+    editorRef.current.editor.exportHtml(data => {
       downloadHtml(data.html)
     })
   }
@@ -160,13 +137,13 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
         <>
           <EmailEditor
             minHeight="85vh"
-            ref={emailEditorRef}
+            ref={editorRef}
             projectId={UNLAYER_PROJECT_ID}
             onLoad={() => setEditorLoaded(true)}
             options={{
               locale: 'fr-FR',
               safeHtml: true,
-              templateId: messageUuid ? null : templateId,
+              templateId: defaultTemplate,
               tools: editorConfiguration.tools,
               features: editorConfiguration.features,
             }}
@@ -181,8 +158,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
 }
 
 Editor.propTypes = {
-  onMessageSubject: PropTypes.func.isRequired,
-  onMessageUpdate: PropTypes.func.isRequired,
+  onContentUpdate: PropTypes.func.isRequired,
 }
 
 export default Editor

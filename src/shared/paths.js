@@ -12,6 +12,7 @@ export default {
   survey: '/questionnaires',
   my_team: '/mon-equipe',
   events: '/evenements',
+  department_site: '/site-departemental',
 }
 
 export const publicPaths = {
