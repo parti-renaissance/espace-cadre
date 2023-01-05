@@ -39,7 +39,7 @@
     "react-hook-form": "^7.39.7",
     "react-infinite-scroll-component": "^6.1.0",
     "react-leaflet": "^4.2.0",
-    "react-markdown": "^8.0.3",
+    "react-markdown": "^8.0.4",
     "react-query": "^4.0.0",
     "react-redux": "^8.0.5",
     "react-router": "^6.3.0",
