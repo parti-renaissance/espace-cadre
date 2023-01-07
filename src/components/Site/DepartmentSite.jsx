@@ -1,33 +1,61 @@
-import { Container } from '@mui/system'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Container, Grid } from '@mui/material'
+import { styled } from '@mui/system'
 import * as Sentry from '@sentry/react'
 // import { useUserScope } from '../../redux/user/hooks'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
-import { createSiteContent } from 'api/site'
+import { createSiteContent, getSites, updateSiteContent } from 'api/site'
 import Editor from './Component/Editor'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import Loader from 'ui/Loader'
+import StepButton from 'components/Messagerie/Component/StepButton'
+import { useUserScope } from '../../redux/user/hooks'
+
+const SectionHeader = styled(Grid)(
+  ({ theme }) => `
+  background: ${theme.palette.colors.white};
+  padding: ${theme.spacing(2)};
+  border-radius: 12px 12px 0 0;
+`
+)
 
 const messages = {
   title: 'Site Departemental',
   titleSuffix: 'Gestion du site',
   createSuccess: 'Site créé avec succès',
   updateSuccess: 'Site modifié avec succès',
+  save: 'Enregistrer',
+  update: 'Mettre à jour',
 }
-
-const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
 const DepartmentSite = () => {
   const [content, setContent] = useState(null)
-  const [, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [sites, setSites] = useState([])
+  const [siteUuid, setSiteUuid] = useState(null)
+  const [currentScope] = useUserScope()
+  const {
+    data: { items = [] },
+    isLoading,
+  } = useQueryWithScope(['departments-sites', { feature: 'Sites', view: 'DepartmentSite' }], getSites, {})
+
+  useEffect(() => {
+    setSites(items || [])
+
+    if (items.length > 0) {
+      setSiteUuid(items[0].uuid)
+    }
+  }, [items])
 
   const editContent = () => {
     const body = {
-      zone: 'zone-uuid',
-      content: clearBody(content.chunks.body),
+      zone: currentScope?.zones[0]?.uuid,
+      content: content.chunks.body,
       json_content: JSON.stringify(content.design),
     }
 
-    return createSiteContent(body)
+    return sites.length === 0 ? createSiteContent(body) : updateSiteContent(siteUuid, body)
   }
 
   const handleSubmit = async () => {
@@ -42,10 +70,29 @@ const DepartmentSite = () => {
     }
   }
 
+  if (isLoading)
+    return (
+      <Container maxWidth="lg">
+        <Loader />
+      </Container>
+    )
+
   return (
     <Container maxWidth="lg">
       <PageHeader title={messages.title} titleLink={paths.department_site} titleSuffix={messages.titleSuffix} />
-      <Editor onContentUpdate={setContent} />
+      <SectionHeader container>
+        <Grid item xs={10} />
+        <Grid item xs>
+          <StepButton
+            label={sites.length === 0 ? messages.save : messages.update}
+            loading={loading}
+            disabled={loading}
+            onClick={handleSubmit}
+            showIcon={false}
+          />
+        </Grid>
+      </SectionHeader>
+      <Editor siteUuid={siteUuid} onContentUpdate={setContent} />
     </Container>
   )
 }

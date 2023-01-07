@@ -5,10 +5,10 @@ import { Button as MuiButton, Box } from '@mui/material'
 import * as Sentry from '@sentry/react'
 import { styled } from '@mui/system'
 import { UNLAYER_PROJECT_ID } from 'shared/environments'
-import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import { getSiteContent } from 'api/site'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 
@@ -26,8 +26,8 @@ const Button = styled(MuiButton)(
   background: ${theme.palette.colors.gray['200']};
   margin: ${theme.spacing(2, 0, 0)};
   &:hover, &:focus {
-      color: ${theme.palette.colors.gray['500']};
-      background: ${theme.palette.colors.gray['100']}
+    color: ${theme.palette.colors.gray['500']};
+    background: ${theme.palette.colors.gray['100']}
   }
 `
 )
@@ -59,11 +59,9 @@ const messages = {
   errorTemplate: 'Erreur au chargement du template',
   errorTemplateRecreate: 'Template non conforme, veuillez en créer un nouveau.',
   export: 'Export HTML',
-  save: 'Enregistrer',
-  update: 'Mettre à jour',
 }
 
-const Editor = ({ onContentUpdate }) => {
+const Editor = ({ siteUuid, onContentUpdate }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
   const editorRef = useRef(null)
@@ -80,8 +78,8 @@ const Editor = ({ onContentUpdate }) => {
   }, [onContentUpdate])
 
   const { data: siteContent = null } = useQueryWithScope(
-    ['message-content', { feature: 'Site', view: 'Editor' }],
-    () => getSiteContent('51e507e5-3d7c-4f08-b05d-b7cb45e960d3'),
+    ['departments-sites', { feature: 'Site', view: 'Editor' }, siteUuid],
+    () => getSiteContent(siteUuid),
     { onError: handleError, enabled: editorLoaded }
   )
 
@@ -146,6 +144,7 @@ const Editor = ({ onContentUpdate }) => {
               templateId: defaultTemplate,
               tools: editorConfiguration.tools,
               features: editorConfiguration.features,
+              displayMode: 'web',
             }}
           />
           <Button variant="contained" size="medium" onClick={exportHtml}>
@@ -157,7 +156,12 @@ const Editor = ({ onContentUpdate }) => {
   )
 }
 
+Editor.defaultProps = {
+  siteUuid: null,
+}
+
 Editor.propTypes = {
+  siteUuid: PropTypes.string,
   onContentUpdate: PropTypes.func.isRequired,
 }
 
