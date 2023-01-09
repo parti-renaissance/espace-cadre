@@ -10,7 +10,6 @@ import { notifyMessages, notifyVariants } from 'components/shared/notification/c
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { getSiteContent } from 'api/site'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -77,34 +76,34 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
     })
   }, [onContentUpdate])
 
-  const { data: siteContent = null } = useQueryWithScope(
-    ['departments-sites', { feature: 'Site', view: 'Editor' }, siteUuid],
-    () => getSiteContent(siteUuid),
-    { onError: handleError, enabled: editorLoaded }
-  )
-
   useEffect(() => {
     const editor = editorRef.current?.editor
-    if (siteContent) {
-      if (siteContent.json_content) {
-        const design = JSON.parse(siteContent.json_content)
-        editor.loadDesign(design)
-        onContentUpdate({
-          design: design,
-          chunks: { body: siteContent.content },
-        })
-      } else {
-        setMessageContentError(true)
-        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
-        Sentry.addBreadcrumb({
-          category: 'messages',
-          message: `${messages.errorTemplate}`,
-          level: Sentry.Severity.Critical,
-        })
-        Sentry.captureMessage(messages.errorTemplate)
+
+    if (editorLoaded && siteUuid) {
+      const currentSite = async () => {
+        const site = await getSiteContent(siteUuid)
+        if (site.json_content) {
+          const design = JSON.parse(site.json_content)
+          editor.loadDesign(design)
+          onContentUpdate({
+            design: design,
+            chunks: { body: site.content },
+          })
+        } else {
+          setMessageContentError(true)
+          enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
+          Sentry.addBreadcrumb({
+            category: 'messages',
+            message: `${messages.errorTemplate}`,
+            level: Sentry.Severity.Critical,
+          })
+          Sentry.captureMessage(messages.errorTemplate)
+        }
       }
+
+      currentSite()
     }
-  }, [enqueueSnackbar, siteContent, onContentUpdate])
+  }, [enqueueSnackbar, handleError, onContentUpdate, editorLoaded, siteUuid])
 
   useEffect(() => {
     const editor = editorRef.current?.editor
@@ -162,6 +161,7 @@ Editor.defaultProps = {
 
 Editor.propTypes = {
   siteUuid: PropTypes.string,
+  // siteContent: PropTypes.object,
   onContentUpdate: PropTypes.func.isRequired,
 }
 
