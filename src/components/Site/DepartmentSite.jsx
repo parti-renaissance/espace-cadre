@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Link as MuiLink } from '@mui/material'
 import { styled } from '@mui/system'
 import * as Sentry from '@sentry/react'
 import { useUserScope } from '../../redux/user/hooks'
@@ -12,12 +12,30 @@ import Loader from 'ui/Loader'
 import StepButton from 'components/Messagerie/Component/StepButton'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import { RE_HOST } from 'shared/environments'
 
 const SectionHeader = styled(Grid)(
   ({ theme }) => `
+  display: flex;
+  align-items: center;
   background: ${theme.palette.colors.white};
   padding: ${theme.spacing(2)};
   border-radius: 12px 12px 0 0;
+`
+)
+
+const Link = styled(MuiLink)(
+  ({ theme, disabled }) => `
+  display: inline-block;
+  margin-left: 8px;
+  width: auto;
+  border-radius: 8px;
+  padding: ${theme.spacing(1, 2)};
+  color: ${disabled ? theme.palette.colors.disabled : theme.palette.colors.gray['800']};
+  background: ${disabled ? theme.palette.colors.gray['300'] : theme.palette.colors.gray['100']};
+  &:hover {
+    background: ${theme.palette.colors.gray['200']};
+  }
 `
 )
 
@@ -29,6 +47,7 @@ const messages = {
   error: 'Erreur lors de la création/édition du site',
   save: 'Enregistrer',
   update: 'Mettre à jour',
+  preview: 'Previsualiser',
 }
 
 const DepartmentSite = () => {
@@ -69,6 +88,11 @@ const DepartmentSite = () => {
       const body = await editContent()
       setContent(body)
       enqueueSnackbar(siteUuid ? messages.updateSuccess : messages.createSuccess)
+
+      if (!siteUuid) {
+        const sites = await getSites()
+        setSiteUuid(sites[0].uuid)
+      }
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -88,7 +112,7 @@ const DepartmentSite = () => {
     <Container maxWidth="lg">
       <PageHeader title={messages.title} titleLink={paths.department_site} titleSuffix={messages.titleSuffix} />
       <SectionHeader container>
-        <Grid item xs={10} />
+        <Grid item xs={8} />
         <Grid item xs>
           <StepButton
             label={sites.length === 0 ? messages.save : messages.update}
@@ -98,6 +122,13 @@ const DepartmentSite = () => {
             showIcon={false}
           />
         </Grid>
+        {siteUuid && (
+          <Grid item xs>
+            <Link href={`${RE_HOST}/federations/${sites[0].slug}`} target="_blank" rel="noreferrer" underline="none">
+              {messages.preview}
+            </Link>
+          </Grid>
+        )}
       </SectionHeader>
       <Editor siteUuid={siteUuid} onContentUpdate={setContent} />
     </Container>
