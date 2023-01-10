@@ -10,6 +10,8 @@ import Editor from './Component/Editor'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
 import StepButton from 'components/Messagerie/Component/StepButton'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
 
 const SectionHeader = styled(Grid)(
   ({ theme }) => `
@@ -24,6 +26,7 @@ const messages = {
   titleSuffix: 'Gestion du site',
   createSuccess: 'Site créé avec succès',
   updateSuccess: 'Site modifié avec succès',
+  error: 'Erreur lors de la création/édition du site',
   save: 'Enregistrer',
   update: 'Mettre à jour',
 }
@@ -33,6 +36,7 @@ const DepartmentSite = () => {
   const [loading, setLoading] = useState(false)
   const [sites, setSites] = useState([])
   const [siteUuid, setSiteUuid] = useState(null)
+  const { enqueueSnackbar } = useCustomSnackbar()
   const [currentScope] = useUserScope()
   const { data, isLoading } = useQueryWithScope(
     ['departments-sites', { feature: 'Sites', view: 'DepartmentSite' }],
@@ -46,15 +50,6 @@ const DepartmentSite = () => {
 
     if (items.length > 0) {
       setSiteUuid(items[0].uuid)
-      // if (siteUuid) {
-      //   const currentSite = async () => {
-      //     const site =  await getSiteContent(siteUuid)
-      //     console.log(site);
-      //     setContent(site)
-      //   }
-
-      //   currentSite()
-      // }
     }
   }, [data, siteUuid])
 
@@ -65,7 +60,7 @@ const DepartmentSite = () => {
       json_content: JSON.stringify(content.design),
     }
 
-    return sites.length === 0 ? createSiteContent(body) : updateSiteContent(siteUuid, body)
+    return siteUuid ? updateSiteContent(siteUuid, body) : createSiteContent(body)
   }
 
   const handleSubmit = async () => {
@@ -73,9 +68,11 @@ const DepartmentSite = () => {
       setLoading(true)
       const body = await editContent()
       setContent(body)
+      enqueueSnackbar(siteUuid ? messages.updateSuccess : messages.createSuccess)
       setLoading(false)
     } catch (error) {
       setLoading(false)
+      enqueueSnackbar(messages.error, notifyVariants.error)
       Sentry.captureException(error)
     }
   }
