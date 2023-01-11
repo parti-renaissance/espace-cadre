@@ -11,7 +11,6 @@ import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
 import StepButton from 'components/Messagerie/Component/StepButton'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyVariants } from 'components/shared/notification/constants'
 import { RE_HOST } from 'shared/environments'
 
 const SectionHeader = styled(Grid)(
@@ -50,6 +49,10 @@ const messages = {
   preview: 'Prévisualiser',
 }
 
+const clearHtml = html =>
+  html.substring(html.indexOf('<style'), html.indexOf('</style>') + 8) +
+  html.substring(html.indexOf('<body>') + 6, html.indexOf('</body>'))
+
 const DepartmentSite = () => {
   const [content, setContent] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -75,7 +78,7 @@ const DepartmentSite = () => {
   const editContent = () => {
     const body = {
       zone: currentScope?.zones[0]?.uuid,
-      content: content.chunks.body,
+      content: clearHtml(content.html),
       json_content: JSON.stringify(content.design),
     }
 
@@ -96,7 +99,6 @@ const DepartmentSite = () => {
       setLoading(false)
     } catch (error) {
       setLoading(false)
-      enqueueSnackbar(messages.error, notifyVariants.error)
       Sentry.captureException(error)
     }
   }

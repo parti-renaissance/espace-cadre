@@ -72,7 +72,7 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
     editorRef.current.exportHtml(data => {
       onContentUpdate({
         design: data.design,
-        chunks: data.chunks,
+        html: data.html,
       })
     })
   }, [onContentUpdate])
@@ -92,7 +92,7 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
         editor.loadDesign(design)
         onContentUpdate({
           design: design,
-          chunks: { body: siteContent.content },
+          html: siteContent.content,
         })
       } else {
         setMessageContentError(true)
