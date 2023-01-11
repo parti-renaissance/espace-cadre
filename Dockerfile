@@ -1,4 +1,4 @@
-ARG NODE_VERSION=14
+ARG NODE_VERSION=16.19
 ARG NGINX_VERSION=1.21
 
 # Stage 1 - the build process
@@ -6,6 +6,8 @@ FROM node:${NODE_VERSION}-alpine AS react-build
 
 ENV NODE_ENV=production
 WORKDIR /app
+
+RUN apk add --no-cache git
 
 COPY package.json yarn.lock ./
 RUN yarn install --pure-lockfile --production=false
