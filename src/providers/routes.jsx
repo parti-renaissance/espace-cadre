@@ -21,6 +21,7 @@ import Surveys from 'components/Surveys'
 import MyTeam from 'components/MyTeam'
 import NoMatch from 'components/NoMatch'
 import Events from 'components/Events'
+import Site from 'components/Site'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -46,6 +47,10 @@ const AppPrivateRoutes = () => {
         <Route
           path={`${paths.phoning_campaign}/*`}
           element={authorizedFeatures.includes(features.phoning_campaign) && <Phoning />}
+        />
+        <Route
+          path={`${paths.department_site}/*`}
+          element={authorizedFeatures.includes(features.department_site) && <Site />}
         />
         <Route path={`${paths.pap}/*`} element={authorizedFeatures.includes(features.pap) && <DTD />} />
         <Route

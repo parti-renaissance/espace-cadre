@@ -12,6 +12,7 @@ export const featuresLabels = {
   survey: 'Questionnaires',
   my_team: 'Mon équipe',
   events: 'Évènements',
+  department_site: 'Site départemental',
 }
 
 export default {
@@ -28,4 +29,5 @@ export default {
   survey: 'survey',
   my_team: 'my_team',
   events: 'events',
+  department_site: 'department_site',
 }

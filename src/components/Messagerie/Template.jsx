@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Grid } from '@mui/material'
+import { Grid, Container as MuiContainer } from '@mui/material'
 import Input from 'ui/Input/Input'
 import { styled } from '@mui/system'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -19,7 +19,7 @@ const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexO
 
 const Container = styled(Grid)(
   ({ theme }) => `
-  background: ${theme.palette.whiteCorner};
+  background: ${theme.palette.colors.white};
   padding: ${theme.spacing(2)};
   border-radius: 12px 12px 0 0;
 `
@@ -68,7 +68,7 @@ const Template = ({ modeUpdate = false }) => {
   }
 
   return (
-    <>
+    <MuiContainer maxWidth="lg">
       <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
@@ -93,7 +93,7 @@ const Template = ({ modeUpdate = false }) => {
         </Grid>
       </Container>
       <Editor onMessageSubject={setMessageSubject} onMessageUpdate={setMessage} />
-    </>
+    </MuiContainer>
   )
 }
 

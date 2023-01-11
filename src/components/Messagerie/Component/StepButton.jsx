@@ -20,14 +20,14 @@ const Button = styled(
 `
 )
 
-const StepButton = ({ disabled, loading, onClick, label }) => (
+const StepButton = ({ disabled, loading, onClick, label, showIcon }) => (
   <Button onClick={disabled ? null : onClick} size="large" disabled={disabled} data-cy="step-button">
     {loading ? (
       <Loader size={24} />
     ) : (
       <>
         {label}
-        <ArrowForwardIcon sx={{ ml: 1.5 }} />
+        {showIcon && <ArrowForwardIcon sx={{ ml: 1.5 }} />}
       </>
     )}
   </Button>
@@ -38,6 +38,7 @@ export default StepButton
 StepButton.defaultProps = {
   disabled: false,
   loading: false,
+  showIcon: true,
 }
 
 StepButton.propTypes = {
@@ -45,4 +46,5 @@ StepButton.propTypes = {
   loading: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
+  showIcon: PropTypes.bool,
 }
