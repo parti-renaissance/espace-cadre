@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import EmailEditor from 'react-email-editor/src'
+import EmailEditor from 'react-email-editor'
 import { Button as MuiButton, Box } from '@mui/material'
 import * as Sentry from '@sentry/react'
 import { styled } from '@mui/system'
