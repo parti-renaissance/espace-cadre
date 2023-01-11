@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import EmailEditor from 'react-email-editor'
+import EmailEditor from 'react-email-editor/src'
 import { Button as MuiButton, Box } from '@mui/material'
 import * as Sentry from '@sentry/react'
 import { styled } from '@mui/system'
@@ -139,13 +139,13 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
             ref={editorRef}
             projectId={UNLAYER_PROJECT_ID}
             onLoad={() => setEditorLoaded(true)}
+            displayMode={'web'}
             options={{
               locale: 'fr-FR',
               safeHtml: true,
               templateId: siteUuid ? null : defaultTemplate,
               tools: editorConfiguration.tools,
               features: editorConfiguration.features,
-              displayMode: 'web',
             }}
           />
           <Button variant="contained" size="medium" onClick={exportHtml}>

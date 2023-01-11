@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import EmailEditor from 'react-email-editor'
+import EmailEditor from 'react-email-editor/src'
 import { Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'

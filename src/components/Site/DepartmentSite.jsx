@@ -40,14 +40,14 @@ const Link = styled(MuiLink)(
 )
 
 const messages = {
-  title: 'Site Departemental',
+  title: 'Site Départemental',
   titleSuffix: 'Gestion du site',
   createSuccess: 'Site créé avec succès',
   updateSuccess: 'Site modifié avec succès',
   error: 'Erreur lors de la création/édition du site',
   save: 'Enregistrer',
   update: 'Mettre à jour',
-  preview: 'Previsualiser',
+  preview: 'Prévisualiser',
 }
 
 const DepartmentSite = () => {
