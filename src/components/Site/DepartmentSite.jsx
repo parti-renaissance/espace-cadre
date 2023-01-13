@@ -70,7 +70,7 @@ const DepartmentSite = () => {
     const items = data?.items || []
     setSites(items)
 
-    if (items.length > 0) {
+    if (items.length > 0 && !siteUuid) {
       setSiteUuid(items[0].uuid)
     }
   }, [data, siteUuid])
