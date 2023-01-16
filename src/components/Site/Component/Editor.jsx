@@ -63,6 +63,7 @@ const messages = {
 
 const Editor = ({ siteUuid, onContentUpdate }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
+  const [editorReady, setEditorReady] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
   const editorRef = useRef(null)
   const { handleError } = useErrorHandler()
@@ -86,7 +87,7 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
   useEffect(() => {
     const editor = editorRef.current?.editor
 
-    if (siteUuid && siteContent && editorLoaded) {
+    if (siteUuid && siteContent && editorReady) {
       if (siteContent.json_content) {
         const design = JSON.parse(siteContent.json_content)
         editor.loadDesign(design)
@@ -105,7 +106,7 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
         Sentry.captureMessage(messages.errorTemplate)
       }
     }
-  }, [enqueueSnackbar, editorLoaded, onContentUpdate, siteContent, siteUuid])
+  }, [enqueueSnackbar, editorReady, onContentUpdate, siteContent, siteUuid])
 
   useEffect(() => {
     const editor = editorRef.current?.editor
@@ -139,6 +140,7 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
             ref={editorRef}
             projectId={UNLAYER_PROJECT_ID}
             onLoad={() => setEditorLoaded(true)}
+            onReady={() => setEditorReady(true)}
             displayMode={'web'}
             options={{
               locale: 'fr-FR',
