@@ -1,8 +1,6 @@
-import { Drawer as MuiDrawer, Box } from '@mui/material'
+import { Drawer as MuiDrawer } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
-import Scopes from '../Scopes'
-import Logo from 'ui/Logo/Logo'
 import Navigation from './Navigation'
 
 const Drawer = styled(MuiDrawer)`
@@ -11,7 +9,7 @@ const Drawer = styled(MuiDrawer)`
   }
 `
 
-export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth }) => (
+export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth, asideWidth }) => (
   <Drawer
     container={container}
     variant="temporary"
@@ -27,21 +25,7 @@ export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth 
       },
     }}
   >
-    <Box sx={{ display: 'flex', height: '100%' }}>
-      <Box sx={{ width: 54, backgroundColor: theme => theme.palette.colors.blue['500'] }} className="aside-navigation">
-        <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
-        <Scopes />
-      </Box>
-      <Box
-        sx={{
-          flex: '1 1 0%',
-          width: drawerWidth,
-          padding: '20px 16px',
-        }}
-      >
-        <Navigation drawerWidth={drawerWidth} />
-      </Box>
-    </Box>
+    <Navigation {...{ drawerWidth, asideWidth }} />
   </Drawer>
 )
 
@@ -52,4 +36,5 @@ Mobile.propTypes = {
   container: PropTypes.number,
   handleDrawerToggle: PropTypes.func.isRequired,
   drawerWidth: PropTypes.number,
+  asideWidth: PropTypes.number,
 }

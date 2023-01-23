@@ -10,6 +10,7 @@ const Checkbox = '[data-cy="ui-checkbox"]'
 
 const navigate = () => {
   cy.contains('National').click()
+  cy.contains('Communication').click()
   cy.contains('a', 'Action numérique').click()
   cy.url().should('eq', 'http://localhost:3000/ripostes')
 }

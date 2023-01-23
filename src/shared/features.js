@@ -1,3 +1,21 @@
+export const featuresGroup = [
+  {
+    label: 'Communication',
+    slug: 'communication',
+    features: ['messages', 'news', 'department_site', 'phoning_campaign', 'ripostes'],
+  },
+  {
+    label: 'Militantisme',
+    slug: 'militantisme',
+    features: ['contacts', 'events', 'team', 'pap', 'pap_v2', 'survey'],
+  },
+  {
+    label: 'Gestion territoriale',
+    slug: 'gestion_territoriale',
+    features: ['elections', 'my_team'],
+  },
+]
+
 export const featuresLabels = {
   dashboard: 'Vue d’ensemble',
   contacts: 'Militants',

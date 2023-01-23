@@ -38,7 +38,8 @@ const Sidebar = ({ children, window }) => {
       <Desktop asideWidth={asideWidth} drawerWidth={drawerWidth} />
       <Mobile
         container={container}
-        drawerWidth={drawerWidth - asideWidth}
+        drawerWidth={drawerWidth}
+        asideWidth={asideWidth}
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
@@ -46,7 +47,7 @@ const Sidebar = ({ children, window }) => {
         sx={{
           flexGrow: 1,
           padding: {
-            lg: `0 0 0 ${drawerWidth}px`,
+            lg: `0 0 0 ${drawerWidth + asideWidth}px`,
           },
         }}
       >
