@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 
 import { getAuthorizedPages } from '../../redux/user/selectors'
 import paths from 'shared/paths'
-import features, { featuresLabels } from 'shared/features'
+import { featuresLabels } from 'shared/features'
 import NavItem from 'ui/NavItem/NavItem'
 
-export const NavMenu = ({ handleItemClick }) => {
+export const NavMenu = ({ handleItemClick, features }) => {
   const authorizedFeatures = useSelector(getAuthorizedPages)
   return (
     <div>
@@ -29,4 +29,5 @@ export default NavMenu
 
 NavMenu.propTypes = {
   handleItemClick: PropTypes.func,
+  features: PropTypes.object,
 }

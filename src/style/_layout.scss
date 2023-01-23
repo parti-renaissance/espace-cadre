@@ -15,6 +15,10 @@
   > * + *	 {
     margin-top: 2rem; /* 32px */
   }
+
+  .menu-group  > * + *	 {
+    margin-top: 0.75rem; /* 8px */
+  }
 }
 
 .header {
