@@ -10,7 +10,7 @@ export const NavMenu = ({ handleItemClick, features }) => {
   const authorizedFeatures = useSelector(getAuthorizedPages)
   return (
     <div>
-      {Object.keys(features).map(
+      {features.map(
         featureKey =>
           authorizedFeatures.includes(featureKey) && (
             <NavItem

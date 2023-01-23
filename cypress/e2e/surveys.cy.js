@@ -19,6 +19,7 @@ const isNotEmpty = value => expect(value.length).to.be.at.least(1)
 
 const navigate = () => {
   cy.contains('Référent').click()
+  cy.contains('Militantisme').click()
   cy.contains('Questionnaires').click()
   cy.url().should('eq', 'http://localhost:3000/questionnaires')
 }

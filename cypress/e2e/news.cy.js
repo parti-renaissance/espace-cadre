@@ -1,6 +1,5 @@
 import { initialize, mock } from './main.cy'
 import { format } from 'date-fns'
-import { eq } from 'lodash'
 
 const UICard = '[data-cy="ui-card"]'
 const Typography = '.MuiTypography-root'
@@ -18,6 +17,7 @@ const notificationContainer = '[data-testid="notification-container"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
+  cy.contains('Communication').click()
   cy.contains('Actualités').click()
   cy.url().should('eq', 'http://localhost:3000/actualites')
 }

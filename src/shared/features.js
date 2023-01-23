@@ -2,38 +2,17 @@ export const featuresGroup = [
   {
     label: 'Communication',
     slug: 'communication',
-    icon: null,
-    prefix: 'c',
-    features: {
-      messages: 'messages',
-      news: 'news',
-      department_site: 'department_site',
-      phoning_campaign: 'phoning_campaign',
-    },
+    features: ['messages', 'news', 'department_site', 'phoning_campaign'],
   },
   {
     label: 'Militantisme',
     slug: 'militantisme',
-    icon: null,
-    prefix: 'm',
-    features: {
-      contacts: 'contacts',
-      events: 'events',
-      team: 'team',
-      pap: 'pap',
-      pap_v2: 'pap_v2',
-      survey: 'survey',
-    },
+    features: ['contacts', 'events', 'team', 'pap', 'pap_v2', 'survey'],
   },
   {
     label: 'Gestion territoriale',
     slug: 'gestion_territoriale',
-    icon: null,
-    prefix: 'gt',
-    features: {
-      elections: 'elections',
-      my_team: 'my_team',
-    },
+    features: ['elections', 'my_team'],
   },
 ]
 
