@@ -2,7 +2,7 @@ export const featuresGroup = [
   {
     label: 'Communication',
     slug: 'communication',
-    features: ['messages', 'news', 'department_site', 'phoning_campaign'],
+    features: ['messages', 'news', 'department_site', 'phoning_campaign', 'ripostes'],
   },
   {
     label: 'Militantisme',
