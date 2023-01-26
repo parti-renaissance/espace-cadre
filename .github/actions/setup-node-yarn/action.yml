@@ -4,9 +4,9 @@ description: Install node modules and yarn dependencies
 runs:
   using: composite
   steps:
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
-        node-version: '14'
+        node-version: 16
         cache: 'yarn'
 
     - shell: bash

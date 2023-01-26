@@ -18,8 +18,10 @@ env:
 jobs:
   test:
     name: Tests
-    runs-on: ubuntu-latest
-    container: cypress/browsers:node14.17.0-chrome91-ff89
+    runs-on: ubuntu-22.04
+    container:
+      image: cypress/browsers:node16.16.0-chrome107-ff107-edge
+      options: --user 1001
 
     steps:
       - uses: actions/checkout@v3
