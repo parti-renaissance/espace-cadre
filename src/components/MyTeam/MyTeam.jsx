@@ -70,7 +70,7 @@ const MyTeam = () => {
   if (!myTeam.members) return null
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 3 }}>
+    <Container maxWidth={false} sx={{ mb: 3 }}>
       <>
         {myTeam.members && myTeam.members.length === 0 && (
           <EmptyContent

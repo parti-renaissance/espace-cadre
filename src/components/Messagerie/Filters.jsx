@@ -178,7 +178,7 @@ const Filters = () => {
 
   return (
     <>
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
         <Grid container sx={{ mb: 2 }}>
           <Link to={`../${messageriePaths.update}`}>

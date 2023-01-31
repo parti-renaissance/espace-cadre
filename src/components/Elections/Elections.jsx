@@ -111,7 +111,7 @@ const Elections = () => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth={false}>
       <Grid container>
         <PageTitle title={messages.title} />
       </Grid>

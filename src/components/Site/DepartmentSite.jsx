@@ -105,13 +105,13 @@ const DepartmentSite = () => {
 
   if (isLoading)
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Loader />
       </Container>
     )
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth={false}>
       <PageHeader title={messages.title} titleLink={paths.department_site} titleSuffix={messages.titleSuffix} />
       <SectionHeader container>
         <Grid item xs={8} />

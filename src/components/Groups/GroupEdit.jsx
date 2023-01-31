@@ -86,7 +86,7 @@ const GroupEdit = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 2 }}>
+    <Container maxWidth={false} sx={{ mb: 2 }}>
       <Grid container>
         <Grid item sx={{ mb: 2 }}>
           <PageHeader title={messages.group} titleLink={paths.team} titleSuffix={group?.name} />

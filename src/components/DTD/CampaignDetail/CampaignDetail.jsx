@@ -111,7 +111,7 @@ export const CampaignDetail = () => {
   if (!campaignId) return null
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 3 }}>
+    <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader title={messages.pageTitle} titleLink={paths.pap} titleSuffix={campaignDetail.title} />
       </Grid>

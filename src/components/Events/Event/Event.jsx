@@ -56,7 +56,7 @@ const Event = () => {
   const attendees = usePaginatedData(paginatedAttendees)
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 3 }}>
+    <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
         <PageHeader
           title={messages.events}

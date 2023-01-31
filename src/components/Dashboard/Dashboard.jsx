@@ -46,7 +46,7 @@ const Dashboard = () => {
     return <EmptyContent title={messages.upcoming} description={messages.description} />
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth={false}>
       <Grid container>
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <TextChart />
