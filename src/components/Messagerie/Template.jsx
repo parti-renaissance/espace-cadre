@@ -68,7 +68,7 @@ const Template = ({ modeUpdate = false }) => {
   }
 
   return (
-    <MuiContainer maxWidth="lg">
+    <MuiContainer maxWidth={false}>
       <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>

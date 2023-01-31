@@ -24,7 +24,7 @@ const messages = {
 }
 
 const Confirmation = () => (
-  <Container>
+  <Container maxWidth={false}>
     <Paper>
       <Grid container sx={{ mb: 2 }}>
         <Grid item xs={12}>

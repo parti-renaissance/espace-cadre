@@ -118,7 +118,7 @@ const CampaignDetail = () => {
   if (!campaignId) return null
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth={false}>
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}

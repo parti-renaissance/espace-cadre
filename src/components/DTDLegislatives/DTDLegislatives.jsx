@@ -143,7 +143,7 @@ const DTDLegislatives = () => {
   }
   return (
     <MapContext.Provider value={value}>
-      <Container maxWidth="lg">
+      <Container maxWidth={false}>
         <Grid container justifyContent="space-between">
           <PageHeader
             title={messages.title}

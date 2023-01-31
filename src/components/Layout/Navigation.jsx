@@ -32,11 +32,11 @@ const IconButton = styled(MuiButton)(
 )
 
 const Navigation = ({ asideWidth, drawerWidth }) => {
-  const [features, setFeatures] = useState(featuresGroup[0].features)
+  const [group, setGroup] = useState(featuresGroup[0])
   const [current, setCurrent] = useState(featuresGroup[0].slug)
 
   const activateFeatures = group => {
-    setFeatures(group.features)
+    setGroup(group)
     setCurrent(group.slug)
   }
 
@@ -72,7 +72,7 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
           padding: '20px 16px',
         }}
       >
-        <NavMenu features={features} />
+        <NavMenu group={group} />
         <Footer />
       </Box>
     </Box>

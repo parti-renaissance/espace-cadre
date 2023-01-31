@@ -21,6 +21,22 @@
   }
 }
 
+.menu-list {
+  &__header {
+    margin: 0;
+    padding: 0 0.5rem;
+    font-size: small;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: $color-gray-700;
+  }
+
+  &__links {
+    margin-top: 14px;
+  }
+}
+
 .header {
   position: sticky;
   top: 0;

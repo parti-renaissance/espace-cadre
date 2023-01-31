@@ -61,7 +61,7 @@ const Events = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 3 }}>
+    <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}

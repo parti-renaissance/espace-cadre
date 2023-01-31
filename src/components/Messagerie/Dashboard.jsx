@@ -18,7 +18,7 @@ const Dashboard = () => {
   const { isMobile } = useCurrentDeviceType()
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 3 }}>
+    <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between" sx={{ mb: isMobile ? 2 : null }}>
         <PageHeader
           title={messages.title}

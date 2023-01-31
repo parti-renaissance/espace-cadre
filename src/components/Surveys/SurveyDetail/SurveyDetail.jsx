@@ -56,7 +56,7 @@ export const SurveyDetail = () => {
   if (!surveyDetail) return null
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 3 }}>
+    <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.pageTitle}

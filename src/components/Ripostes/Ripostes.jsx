@@ -95,7 +95,7 @@ const Ripostes = () => {
   )
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 2 }}>
+    <Container maxWidth={false} sx={{ mb: 2 }}>
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
