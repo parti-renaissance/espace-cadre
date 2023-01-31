@@ -11,7 +11,7 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useUserScope } from '../../../redux/user/hooks'
-import { simpleField, scopesVisibility, visibility } from '../shared/constants'
+import { simpleField, getScopeVisibility, visibility } from '../shared/constants'
 import CreateEditTitleAndTerritory from './CreateEditTitleAndTerritory'
 import CreateEditQuestions from './Questions/Questions'
 import CreateEditVisibility from './CreateEditVisibility'
@@ -45,7 +45,7 @@ const initialValues = {
 }
 const formatFormValues = (survey, zone, scope, delegatedAccess) => ({
   ...(survey || initialValues),
-  type: scopesVisibility[scope] || scopesVisibility[delegatedAccess],
+  type: getScopeVisibility(scope) || getScopeVisibility(delegatedAccess),
   zone: formatZone(zone),
 })
 
@@ -92,9 +92,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
     <Dialog data-cy="surveys-create-edit" handleClose={handleClose} open>
       <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
         <Title data-cy="surveys-create-edit-title">
-          {!survey ? messages.create.title : messages.update.title}{' '}
-          {scopesVisibility[scope] === visibility.local && visibility.local}
-          {scopesVisibility[scope] === visibility.national && visibility.national}
+          {!survey ? messages.create.title : messages.update.title} {getScopeVisibility(scope)}
         </Title>
         <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close" sx={{ ml: 'auto' }}>
           <CloseRoundedIcon />
@@ -106,7 +104,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
           formValues={{ title: formValues.title, zone: formValues.zone }}
           updateFormField={updateFormField}
           errors={errorMessages}
-          isZoneSelectable={scopesVisibility[scope] === visibility.national}
+          isZoneSelectable={getScopeVisibility(scope) === visibility.national}
         />
         <CreateEditQuestions
           formValues={formValues.questions || []}

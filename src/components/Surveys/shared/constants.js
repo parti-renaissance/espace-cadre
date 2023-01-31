@@ -1,4 +1,4 @@
-import scopes from 'shared/scopes'
+import { nationalScopes } from 'shared/scopes'
 
 export const published = 'published'
 export const unpublished = 'unpublished'
@@ -29,13 +29,4 @@ export const visibility = {
   national: 'national',
 }
 
-export const scopesVisibility = {
-  [scopes.referent]: visibility.local,
-  [scopes.correspondent]: visibility.local,
-  [scopes.regional_coordinator]: visibility.local,
-  [scopes.deputy]: visibility.local,
-  [scopes.legislative_candidate]: visibility.local,
-  [scopes.national]: visibility.national,
-  [scopes.phoning_national_manager]: visibility.national,
-  [scopes.pap_national_manager]: visibility.national,
-}
+export const getScopeVisibility = scope => (nationalScopes.includes(scope) ? visibility.national : visibility.local)

@@ -6,6 +6,7 @@ export default {
   national_communication: 'national_communication',
   national: 'national',
   pap_national_manager: 'pap_national_manager',
+  president_departmental_assembly: 'president_departmental_assembly',
   pap: 'pap',
   phoning_national_manager: 'phoning_national_manager',
   phoning: 'phoning',
