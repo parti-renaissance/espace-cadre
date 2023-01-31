@@ -10,6 +10,7 @@ import PageTitle from 'ui/PageTitle'
 import PhoneIcon from 'ui/icons/PhoneIcon'
 import { useUserScope } from '../../redux/user/hooks'
 import EmptyContent from 'ui/EmptyContent'
+import scopes from 'shared/scopes'
 
 const Container = styled(MuiContainer)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};
@@ -37,7 +38,7 @@ const messages = {
   description: 'Cette page sera bientôt disponible sur notre site !',
 }
 
-const upcomingFeatureScopes = ['phoning_national_manager', 'pap_national_manager']
+const upcomingFeatureScopes = [scopes.phoning_national_manager, scopes.pap_national_manager]
 
 const Dashboard = () => {
   const [currentScope] = useUserScope()

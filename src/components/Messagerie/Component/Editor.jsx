@@ -13,6 +13,7 @@ import UIFormMessage from 'ui/FormMessage'
 import * as Sentry from '@sentry/react'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { UNLAYER_PROJECT_ID } from 'shared/environments'
+import scopes from 'shared/scopes'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -70,12 +71,12 @@ const messages = {
 }
 
 const templates = {
-  referent: referentTemplate,
-  deputy: deputyTemplate,
-  senator: senatorTemplate,
-  correspondent: correspondentTemplate,
-  legislative_candidate: legislativeCandidateTemplate,
-  regional_coordinator: regionalCoordinatorTemplate,
+  [scopes.referent]: referentTemplate,
+  [scopes.deputy]: deputyTemplate,
+  [scopes.senator]: senatorTemplate,
+  [scopes.correspondent]: correspondentTemplate,
+  [scopes.legislative_candidate]: legislativeCandidateTemplate,
+  [scopes.regional_coordinator]: regionalCoordinatorTemplate,
 }
 
 const Editor = ({ onMessageSubject, onMessageUpdate }) => {

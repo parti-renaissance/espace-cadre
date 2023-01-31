@@ -13,7 +13,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useUserScope } from '../../redux/user/hooks'
-import { scopesVisibility, visibility } from './shared/constants'
+import { getScopeVisibility, visibility } from './shared/constants'
 import SurveyItem from './SurveysItem'
 import SurveysKPI from './SurveysKPI'
 import CreateEdit from './CreateEdit/CreateEdit'
@@ -176,8 +176,7 @@ const Surveys = () => {
                 <Typography variant="button">
                   {messages.create}
                   &nbsp;
-                  {scopesVisibility[scope] === visibility.local && visibility.local}
-                  {scopesVisibility[scope] === visibility.national && visibility.national}
+                  {getScopeVisibility(scope)}
                 </Typography>
               }
               onClick={() => setIsCreateEditModalOpen(true)}
@@ -248,7 +247,7 @@ const Surveys = () => {
                     <SurveyItem
                       key={survey.id}
                       isPublished={survey.isPublished}
-                      readOnly={survey.type !== scopesVisibility[scope]}
+                      readOnly={survey.type !== getScopeVisibility(scope)}
                       title={survey.title}
                       author={survey.author}
                       questionsCount={survey.questionsCount}
@@ -273,7 +272,7 @@ const Surveys = () => {
                     <SurveyItem
                       key={survey.id}
                       isPublished={survey.isPublished}
-                      readOnly={survey.type !== scopesVisibility[scope]}
+                      readOnly={survey.type !== getScopeVisibility(scope)}
                       title={survey.title}
                       author={survey.author}
                       questionsCount={survey.questionsCount}

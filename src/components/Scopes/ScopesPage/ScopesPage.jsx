@@ -7,6 +7,7 @@ import { useUserScope } from '../../../redux/user/hooks'
 import paths from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import BarChartIcon from 'ui/icons/BarChartIcon'
+import scopes from 'shared/scopes'
 
 const Container = styled(MuiContainer)`
   height: 400px;
@@ -112,7 +113,7 @@ function ScopesPage() {
       {filteredScopes?.length > 0 && (
         <Grid container sx={{ p: 2 }} spacing={2} justifyContent="center">
           {filteredScopes.map(userScope => {
-            const to = userScope.code === 'phoning_national_manager' ? paths.team : paths.dashboard
+            const to = userScope.code === scopes.phoning_national_manager ? paths.team : paths.dashboard
             return (
               <ScopeCard item xs={12} md={3} lg={2} key={userScope.code}>
                 <Link to={to} value={userScope.code} onClick={() => updateCurrentScope(userScope)}>
