@@ -35,13 +35,17 @@ const Button = styled(MuiButton)(
 `
 )
 
-const referentTemplate = 228742
-const deputyTemplate = 228747
-const senatorTemplate = 60355
-const correspondentTemplate = 123148
-const legislativeCandidateTemplate = 165090
-const regionalCoordinatorTemplate = 276759
+const templates = {
+  [scopes.referent]: 228742,
+  [scopes.deputy]: 228747,
+  [scopes.senator]: 60355,
+  [scopes.correspondent]: 123148,
+  [scopes.legislative_candidate]: 165090,
+  [scopes.regional_coordinator]: 276759,
+  [scopes.president_departmental_assembly]: 293625,
+}
 const defaultTemplate = 41208
+
 const editorConfiguration = {
   tools: {
     button: { enabled: true },
@@ -68,15 +72,6 @@ const messages = {
   errorTemplate: 'Erreur au chargement du template',
   errorTemplateRecreate: 'Template non conforme, veuillez en créer un nouveau.',
   export: 'Export HTML',
-}
-
-const templates = {
-  [scopes.referent]: referentTemplate,
-  [scopes.deputy]: deputyTemplate,
-  [scopes.senator]: senatorTemplate,
-  [scopes.correspondent]: correspondentTemplate,
-  [scopes.legislative_candidate]: legislativeCandidateTemplate,
-  [scopes.regional_coordinator]: regionalCoordinatorTemplate,
 }
 
 const Editor = ({ onMessageSubject, onMessageUpdate }) => {
