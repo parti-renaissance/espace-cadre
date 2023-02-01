@@ -9,7 +9,7 @@ import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { getInitialNames } from 'shared/helpers'
-import scopes from 'shared/scopes'
+import scopes, { scopesAliases } from 'shared/scopes'
 
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {
@@ -121,7 +121,7 @@ function Scopes() {
       {currentUser && filteredScopes?.length > 0 && (
         <>
           <button type="button" className="button button-circle mx-auto" onClick={handleClick} data-cy="scopes-button">
-            {getInitialNames(currentScope?.name)}
+            {scopesAliases[currentScope?.code] || getInitialNames(currentScope?.name)}
           </button>
           <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             {filteredScopes?.map(userScope => (
