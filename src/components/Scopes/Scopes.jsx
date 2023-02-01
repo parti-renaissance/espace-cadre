@@ -9,6 +9,7 @@ import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { getInitialNames } from 'shared/helpers'
+import scopes from 'shared/scopes'
 
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {
@@ -90,8 +91,8 @@ function Scopes() {
 
   const redirect = scope => {
     // TODO: remove the 2 next lines when Dashboard page is ready on Phoning and Door to door
-    if (scope.code === 'phoning_national_manager') return navigate(paths.phoning_campaign)
-    if (scope.code === 'pap_national_manager') return navigate(paths.pap)
+    if (scope.code === scopes.phoning_national_manager) return navigate(paths.phoning_campaign)
+    if (scope.code === scopes.pap_national_manager) return navigate(paths.pap)
     return navigate(paths.dashboard)
   }
 

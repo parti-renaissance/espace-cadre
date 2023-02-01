@@ -24,6 +24,7 @@ import { SubTitle, Title } from './styles'
 import Button from 'ui/Button'
 import Dialog from 'ui/Dialog'
 import { EDITOR_IMAGE_UPLOAD_URL } from './constants'
+import scopes from 'shared/scopes'
 
 const newsSchema = Yup.object({
   title: Yup.string().min(1, 'Minimum 1 caractère').max(120, 'Maximum 120 caractères').required('Titre obligatoire'),
@@ -94,7 +95,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           .withUrlLabel(values.urlLabel)
           .withWithNotification(values.withNotification)
           .withStatus(values.status)
-          .withZoneId(currentScope.code === 'national' ? null : currentScope.zones[0].uuid)
+          .withZoneId(currentScope.code === scopes.national ? null : currentScope.zones[0].uuid)
       )
     },
   })

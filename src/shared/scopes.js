@@ -1,7 +1,8 @@
-export default {
+const scopes = {
   regional_coordinator: 'regional_coordinator',
   correspondent: 'correspondent',
   deputy: 'deputy',
+  senator: 'senator',
   legislative_candidate: 'legislative_candidate',
   national_communication: 'national_communication',
   national: 'national',
@@ -12,4 +13,11 @@ export default {
   referent: 'referent',
 }
 
-export const nationalScopes = ['national', 'national_communication', 'pap_national_manager', 'phoning_national_manager']
+export default scopes
+
+export const nationalScopes = [
+  scopes.national,
+  scopes.national_communication,
+  scopes.pap_national_manager,
+  scopes.phoning_national_manager,
+]
