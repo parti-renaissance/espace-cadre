@@ -11,9 +11,14 @@ const scopes = {
   phoning_national_manager: 'phoning_national_manager',
   phoning: 'phoning',
   referent: 'referent',
+  president_departmental_assembly: 'president_departmental_assembly',
 }
 
 export default scopes
+
+export const scopesAliases = {
+  [scopes.president_departmental_assembly]: 'AD',
+}
 
 export const nationalScopes = [
   scopes.national,
