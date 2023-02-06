@@ -12,11 +12,11 @@ import EmptyContent from 'ui/EmptyContent'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getElected } from 'api/elected-representative'
-import { mandats, functions } from './mandats_functions'
+import { mandats, functions } from 'shared/constants'
 import Button from 'ui/Button'
 
 const messages = {
-  title: 'Registres des élus',
+  title: 'Registre des élus',
   create: 'Ajouter un élu',
   update: 'Modifier',
   noElected: "Vous n'avez aucun élu à afficher",
