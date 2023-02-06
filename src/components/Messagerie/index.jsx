@@ -1,5 +1,5 @@
-import Dashboard from 'components/Messagerie/Dashboard'
 import { Route, Routes } from 'react-router-dom'
+import Dashboard from 'components/Messagerie/Dashboard'
 import Template from 'components/Messagerie/Template'
 import Filters from 'components/Messagerie/Filters'
 import Confirmation from 'components/Messagerie/Confirmation'

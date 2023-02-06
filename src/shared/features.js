@@ -12,7 +12,7 @@ export const featuresGroup = [
   {
     label: 'Gestion territoriale',
     slug: 'gestion_territoriale',
-    features: ['elections', 'my_team'],
+    features: ['elections', 'elected_representative', 'my_team'],
   },
 ]
 
@@ -31,6 +31,7 @@ export const featuresLabels = {
   my_team: 'Mon équipe',
   events: 'Évènements',
   department_site: 'Site départemental',
+  elected_representative: 'Gestion des Élus',
 }
 
 export default {
@@ -48,4 +49,5 @@ export default {
   my_team: 'my_team',
   events: 'events',
   department_site: 'department_site',
+  elected_representative: 'elected_representative',
 }

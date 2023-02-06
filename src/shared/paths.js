@@ -13,6 +13,7 @@ export default {
   my_team: '/mon-equipe',
   events: '/evenements',
   department_site: '/site-departemental',
+  elected_representative: '/gestion-elus',
 }
 
 export const publicPaths = {
