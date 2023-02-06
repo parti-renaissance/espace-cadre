@@ -1,0 +1,34 @@
+.elected {
+  &-heading__name {
+    font-weight: normal;
+    font-size: 16px;
+    color: $color-gray-500;
+
+    span {
+      font-weight: 600;
+      color: $color-gray-900;
+    }
+  }
+
+  &-content {
+    padding: 12px 0;
+
+    .badge {
+      font-size: 12px;
+      padding: 6px 8px;
+      margin-top: 4px;
+    }
+
+    &__head {
+      font-size: 14px;
+      color: $color-gray-700;
+      font-weight: normal;
+      text-decoration: underline;
+    }
+
+    .empty-text {
+      font-size: 14px;
+      color: $color-gray-500
+    }
+  }
+}

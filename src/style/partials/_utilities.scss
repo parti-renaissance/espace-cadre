@@ -23,6 +23,11 @@
     color: $color-blue-500;
   }
 
+  &-default {
+    background-color: $color-gray-100;
+    color: $color-gray-800;
+  }
+
   &-light {
     background-color: $color-blue-50;
     color: $color-blue-500;
