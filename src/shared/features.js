@@ -31,7 +31,7 @@ export const featuresLabels = {
   my_team: 'Mon équipe',
   events: 'Évènements',
   department_site: 'Site départemental',
-  elected_representative: 'Gestion des Élus',
+  elected_representative: 'Registre des élus',
 }
 
 export default {
