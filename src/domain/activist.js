@@ -15,7 +15,6 @@ export default class Activist {
     postalCode,
     interests,
     emailSubscription,
-    smsSubscription,
     raw
   ) {
     this.raw = raw
@@ -32,7 +31,6 @@ export default class Activist {
     this.postalCode = postalCode
     this.interests = interests
     this.emailSubscription = emailSubscription
-    this.smsSubscription = smsSubscription
   }
 
   getValue(key) {
@@ -47,7 +45,7 @@ export default class Activist {
 Activist.propTypes = PropTypes.shape({
   firstname: PropTypes.string.isRequired,
   lastname: PropTypes.string.isRequired,
-  gender: PropTypes.string.isRequired,
+  gender: PropTypes.string,
   country: PropTypes.string.isRequired,
   regionId: PropTypes.string.isRequired,
   region: PropTypes.string.isRequired,
@@ -58,5 +56,4 @@ Activist.propTypes = PropTypes.shape({
   postalCode: PropTypes.string.isRequired,
   interests: PropTypes.arrayOf(PropTypes.string).isRequired,
   emailSubscription: PropTypes.bool.isRequired,
-  smsSubscription: PropTypes.bool.isRequired,
 })
