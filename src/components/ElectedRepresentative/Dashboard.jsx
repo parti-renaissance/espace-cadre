@@ -69,15 +69,11 @@ const Dashboard = () => {
     data: paginatedElected = null,
     fetchNextPage,
     hasNextPage,
+    isLoading,
   } = useInfiniteQueryWithScope(
     ['paginated-elected-representative', { feature: 'ElectedRepresentative', view: 'Dashboard' }, filters],
     () => {
-      const filter = {
-        ...filters,
-        zones: filters.zones.map(z => z.uuid),
-        mandates: filters.mandates.map(m => m),
-        political_functions: filters.political_functions.map(p => p),
-      }
+      const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
       return getElected(filter)
     },
     {
@@ -106,6 +102,8 @@ const Dashboard = () => {
           setFilters(initialFilter)
         }}
       />
+
+      {isLoading && <Loader />}
 
       {electedRepresentative && electedRepresentative.length === 0 && (
         <EmptyContent
