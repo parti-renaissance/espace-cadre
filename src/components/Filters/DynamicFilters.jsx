@@ -5,21 +5,21 @@ import ErrorComponent from 'components/ErrorComponent'
 import Loader from 'ui/Loader'
 import { getFilters } from 'api/filters'
 
-const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
+const DynamicFilters = ({ feature, values, onSubmit, onReset, apiUrl }) => {
   const [filters, setFilters] = useState([])
   const [errorMessage, setErrorMessage] = useState()
 
   useEffect(() => {
     const getColumnsTitle = async () => {
       try {
-        await getFilters(feature, setFilters)
+        await getFilters(feature, setFilters, apiUrl)
       } catch (error) {
         setErrorMessage(error)
       }
     }
 
     getColumnsTitle()
-  }, [feature])
+  }, [feature, apiUrl])
 
   if (errorMessage) {
     return <ErrorComponent errorMessage={errorMessage} />
@@ -49,4 +49,5 @@ DynamicFilters.propTypes = {
   onReset: PropTypes.func,
   values: PropTypes.object,
   defaultValues: PropTypes.object,
+  apiUrl: PropTypes.string,
 }

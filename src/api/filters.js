@@ -1,7 +1,8 @@
 import { apiClient } from 'services/networking/client'
 
-export const getFilters = async (feature, cb) => {
-  const filters = await apiClient.get(`v3/adherents/filters?feature=${feature}`)
+export const getFilters = async (feature, cb, apiUrl) => {
+  const api = apiUrl ?? `adherents/filters?feature=${feature}`
+  const filters = await apiClient.get(`v3/${api}`)
   cb && cb(filters)
   return filters
 }
