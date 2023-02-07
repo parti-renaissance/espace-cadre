@@ -22,6 +22,7 @@ import MyTeam from 'components/MyTeam'
 import NoMatch from 'components/NoMatch'
 import Events from 'components/Events'
 import Site from 'components/Site'
+import ElectedRepresentative from 'components/ElectedRepresentative'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -37,6 +38,10 @@ const AppPrivateRoutes = () => {
         <Route
           path={`${paths.messages}/*`}
           element={authorizedFeatures.includes(features.messages) && <Messagerie />}
+        />
+        <Route
+          path={`${paths.elected_representative}/*`}
+          element={authorizedFeatures.includes(features.elected_representative) && <ElectedRepresentative />}
         />
         <Route path={paths.elections} element={authorizedFeatures.includes(features.elections) && <Elections />} />
         <Route path={paths.ripostes} element={authorizedFeatures.includes(features.ripostes) && <Ripostes />} />
