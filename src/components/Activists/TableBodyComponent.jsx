@@ -19,7 +19,6 @@ const columnKeyMapping = {
   first_name: 'firstname',
   last_name: 'lastname',
   email_subscription: 'emailSubscription',
-  sms_subscription: 'smsSubscription',
   postal_code: 'postalCode',
   city_code: 'cityId',
   department_code: 'departmentId',
@@ -30,16 +29,25 @@ const Cell = ({ member, column }) => {
   const value = member.getValue(columnKeyMapping[column.key] || column.key)
 
   if (column.type === 'trans' || column.type === 'array|trans') {
-    return Array.isArray(value)
-      ? value.map(
-          (el, index) =>
-            column.messages[el] && (
-              <Interests key={index}>
-                <Typography sx={{ bgcolor: 'palette.blueCorner' }}>{column.messages[el]}</Typography>
-              </Interests>
-            )
-        )
-      : column.messages[value]
+    if (Array.isArray(value)) {
+      return value
+        .filter(el => el !== '')
+        .map((el, index) => {
+          return (
+            <Interests key={index}>
+              <Typography sx={{ bgcolor: 'palette.blueCorner' }}>
+                {typeof column.messages[el] !== 'undefined' ? column.messages[el] : el}
+              </Typography>
+            </Interests>
+          )
+        })
+    }
+
+    if (typeof column.messages[value] !== 'undefined') {
+      return column.messages[value]
+    }
+
+    return value
   }
 
   if (column.type === 'boolean') {

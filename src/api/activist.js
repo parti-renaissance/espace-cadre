@@ -22,11 +22,10 @@ export const getActivists = async filter => {
         a.postal_code,
         a.interests,
         a.email_subscription,
-        a.sms_subscription,
         a
       )
   )
-  const paginatedActivists = new PaginatedResult(
+  return new PaginatedResult(
     activists,
     data.metadata.total_items,
     data.metadata.items_per_page,
@@ -34,6 +33,5 @@ export const getActivists = async filter => {
     data.metadata.current_page,
     data.metadata.last_page
   )
-  return paginatedActivists
 }
 export const getColumns = () => apiClient.get('v3/adherents/columns')
