@@ -7,7 +7,7 @@ const Select = styled(MuiSelect)(
   & .MuiSelect-select {
     background: ${theme.palette.whiteCorner};
     border-radius: 8px;
-  
+
     &:focus {
       background: ${theme.palette.whiteCorner};
     }

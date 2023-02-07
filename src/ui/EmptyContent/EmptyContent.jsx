@@ -5,7 +5,7 @@ import UpcomingRoundedIcon from '@mui/icons-material/UpcomingRounded'
 
 const Container = styled(props => (
   <Grid container justifyContent="center" alignItems="center" direction="column" {...props} />
-))(({ theme }) => `height: calc(100vh - ${theme.spacing(6)});`)
+))(({ theme }) => `height: calc(50vh - ${theme.spacing(6)});`)
 
 const Title = styled(Typography)`
   font-size: 24px;

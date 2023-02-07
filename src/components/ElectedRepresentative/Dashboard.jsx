@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Container, Grid, Box, Badge } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
@@ -9,11 +10,15 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import Loader from 'ui/Loader'
 import UICard from 'ui/Card'
 import EmptyContent from 'ui/EmptyContent'
+import DynamicFilters from '../Filters/DynamicFilters'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getElected } from 'api/elected-representative'
 import { mandats, functions } from 'shared/constants'
 import Button from 'ui/Button'
+
+export const FEATURE_ELECTED_REPRESENTATIVE = 'elected_representative'
+export const FEATURE_API = 'elected_representatives/filters'
 
 const messages = {
   title: 'Registre des élus',
@@ -55,15 +60,22 @@ Content.propTypes = {
 }
 
 const Dashboard = () => {
+  const initialFilter = { page: 1, zones: [], mandates: [], political_functions: [] }
+  const [defaultFilter, setDefaultFilter] = useState(initialFilter)
+  const [filters, setFilters] = useState(defaultFilter)
   const { handleError } = useErrorHandler()
 
   const {
     data: paginatedElected = null,
     fetchNextPage,
     hasNextPage,
+    isLoading,
   } = useInfiniteQueryWithScope(
-    ['paginated-elected-representative', { feature: 'ElectedRepresentative', view: 'Dashboard' }],
-    getElected,
+    ['paginated-elected-representative', { feature: 'ElectedRepresentative', view: 'Dashboard' }, filters],
+    () => {
+      const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
+      return getElected(filter)
+    },
     {
       getNextPageParam,
       onError: handleError,
@@ -71,19 +83,6 @@ const Dashboard = () => {
   )
 
   const electedRepresentative = usePaginatedData(paginatedElected)
-
-  if (!electedRepresentative || electedRepresentative.length === 0) {
-    return (
-      <EmptyContent
-        description={messages.noElected}
-        action={
-          <>
-            <PageHeaderButton label={messages.create} onClick={() => {}} icon={<PersonAddIcon />} isMainButton />
-          </>
-        }
-      />
-    )
-  }
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>
@@ -93,69 +92,95 @@ const Dashboard = () => {
           button={<PageHeaderButton onClick={() => {}} label={messages.create} icon={<PersonAddIcon />} isMainButton />}
         />
       </Grid>
-      <Grid container sx={{ pt: 4 }}>
-        <Grid item xs={12}>
-          <InfiniteScroll
-            dataLength={electedRepresentative.length}
-            next={() => fetchNextPage()}
-            hasMore={hasNextPage}
-            loader={<Loader />}
-          >
-            <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={2.5}>
-              {electedRepresentative.map(elected => (
-                <UICard
-                  key={elected.uuid}
-                  rootProps={{ sx: { pt: 2 } }}
-                  header={
-                    <Box sx={{ display: 'flex', alignContent: 'center' }} className="elected-heading">
-                      <h5 className="elected-heading__name">
-                        {elected.first_name} <span>{elected.last_name}</span>
-                      </h5>
-                    </Box>
-                  }
-                  content={
-                    <Box className="elected-content">
-                      <Content title="Mandats Actifs" hasBadge={true} badge={elected.current_mandates.length}>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
-                          {elected.current_mandates.map((mandat, index) => (
-                            <span key={index} className="badge badge-default">
-                              {mandats[mandat.type]} -{' '}
-                              <span>{`${mandat.geo_zone.name} (${mandat.geo_zone.code})`}</span>
-                            </span>
-                          ))}
-                        </Box>
-                      </Content>
-                      {elected.current_political_functions.length > 0 && (
-                        <Content sx={{ mt: 1, pt: 1.5 }} title="Fonctions politiques" hasBadge={false}>
-                          <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
-                            {elected.current_political_functions.length > 0 &&
-                              elected.current_political_functions.map((political_functions, index) => (
-                                <span key={index} className="badge badge-default">
-                                  {functions[political_functions.name]}
-                                </span>
-                              ))}
+      <DynamicFilters
+        feature={FEATURE_ELECTED_REPRESENTATIVE}
+        apiUrl={FEATURE_API}
+        values={defaultFilter}
+        onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
+        onReset={() => {
+          setDefaultFilter(initialFilter)
+          setFilters(initialFilter)
+        }}
+      />
 
-                            {elected.current_political_functions.length === 0 && (
-                              <p className="empty-text">Ne possede aucune fonction politique</p>
-                            )}
+      {isLoading && <Loader />}
+
+      {electedRepresentative && electedRepresentative.length === 0 && (
+        <EmptyContent
+          description={messages.noElected}
+          action={
+            <>
+              <PageHeaderButton label={messages.create} onClick={() => {}} icon={<PersonAddIcon />} isMainButton />
+            </>
+          }
+        />
+      )}
+
+      {electedRepresentative && electedRepresentative.length > 0 && (
+        <Grid container sx={{ mt: 4 }}>
+          <Grid item xs={12}>
+            <InfiniteScroll
+              dataLength={electedRepresentative.length}
+              next={() => fetchNextPage()}
+              hasMore={hasNextPage}
+              loader={<Loader />}
+            >
+              <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={2.5}>
+                {electedRepresentative.map(elected => (
+                  <UICard
+                    key={elected.uuid}
+                    rootProps={{ sx: { pt: 2 } }}
+                    header={
+                      <Box sx={{ display: 'flex', alignContent: 'center' }} className="elected-heading">
+                        <h5 className="elected-heading__name">
+                          {elected.first_name} <span>{elected.last_name}</span>
+                        </h5>
+                      </Box>
+                    }
+                    content={
+                      <Box className="elected-content">
+                        <Content title="Mandats Actifs" hasBadge={true} badge={elected.current_mandates.length}>
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
+                            {elected.current_mandates.map((mandat, index) => (
+                              <span key={index} className="badge badge-default">
+                                {mandats[mandat.type]} -{' '}
+                                <span>{`${mandat.geo_zone.name} (${mandat.geo_zone.code})`}</span>
+                              </span>
+                            ))}
                           </Box>
                         </Content>
-                      )}
-                    </Box>
-                  }
-                  actions={
-                    <Box sx={{ display: 'flex', mt: 2.5 }}>
-                      <Button onClick={() => {}} isMainButton>
-                        {messages.update}
-                      </Button>
-                    </Box>
-                  }
-                />
-              ))}
-            </Masonry>
-          </InfiniteScroll>
+                        {elected.current_political_functions.length > 0 && (
+                          <Content sx={{ mt: 1, pt: 1.5 }} title="Fonctions politiques" hasBadge={false}>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
+                              {elected.current_political_functions.length > 0 &&
+                                elected.current_political_functions.map((political_functions, index) => (
+                                  <span key={index} className="badge badge-default">
+                                    {functions[political_functions.name]}
+                                  </span>
+                                ))}
+
+                              {elected.current_political_functions.length === 0 && (
+                                <p className="empty-text">Ne possede aucune fonction politique</p>
+                              )}
+                            </Box>
+                          </Content>
+                        )}
+                      </Box>
+                    }
+                    actions={
+                      <Box sx={{ display: 'flex', mt: 2.5 }}>
+                        <Button onClick={() => {}} isMainButton>
+                          {messages.update}
+                        </Button>
+                      </Box>
+                    }
+                  />
+                ))}
+              </Masonry>
+            </InfiniteScroll>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Container>
   )
 }
