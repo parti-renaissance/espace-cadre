@@ -72,7 +72,7 @@ const Dashboard = () => {
 
   const electedRepresentative = usePaginatedData(paginatedElected)
 
-  if (!electedRepresentative && electedRepresentative.length === 0) {
+  if (!electedRepresentative || electedRepresentative.length === 0) {
     return (
       <EmptyContent
         description={messages.noElected}
