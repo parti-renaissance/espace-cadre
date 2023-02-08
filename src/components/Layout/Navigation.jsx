@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, IconButton as MuiButton, Icon } from '@mui/material'
 import { styled } from '@mui/system'
@@ -37,32 +37,25 @@ const IconButton = styled(MuiButton)(
 
 const Navigation = ({ asideWidth, drawerWidth }) => {
   const authorizedFeatures = useSelector(getAuthorizedPages)
-  const [group, setGroup] = useState()
-  const [currentGroup, setCurrentGroup] = useState()
-  const authorizedFeaturesGroup = useCallback(
+
+  const [currentGroup, setCurrentGroup] = useState(featuresGroup[0])
+
+  const authorizedFeaturesGroup = useMemo(
     () =>
-      featuresGroup.map(group => {
-        let arrayFeatures = []
-        group.features.map(featureKey => {
-          if (authorizedFeatures.includes(featureKey)) {
-            arrayFeatures.push(featureKey)
-          }
+      featuresGroup
+        .map(group => {
+          let arrayFeatures = []
+          group.features.forEach(featureKey => {
+            if (authorizedFeatures.includes(featureKey)) {
+              arrayFeatures.push(featureKey)
+            }
+          })
+
+          return arrayFeatures.length ? { ...group, features: arrayFeatures } : null
         })
-        return { ...group, features: arrayFeatures }
-      }),
+        .filter(group => group !== null),
     [authorizedFeatures]
   )
-
-  useEffect(() => {
-    const groups = authorizedFeaturesGroup().filter(group => group.features.length > 0)
-    setGroup(groups[0])
-    setCurrentGroup(groups[0].slug ?? null)
-  }, [authorizedFeaturesGroup])
-
-  const activateFeatures = group => {
-    setGroup(group)
-    setCurrentGroup(group.slug)
-  }
 
   return (
     <Box sx={{ display: 'flex', height: '100%' }}>
@@ -73,20 +66,18 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
         <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
         <Scopes />
         <div className="menu-group">
-          {authorizedFeaturesGroup().map((group, key) => {
-            if (group.features.length > 0) {
-              return (
-                <IconButton
-                  disableRipple={true}
-                  onClick={() => activateFeatures(group)}
-                  key={key}
-                  className={currentGroup && currentGroup === group.slug ? 'active' : ''}
-                >
-                  <Icon component={icons[group.slug]} />
-                  <span className="sr-only">{group.label}</span>
-                </IconButton>
-              )
-            }
+          {authorizedFeaturesGroup.map((group, key) => {
+            return (
+              <IconButton
+                disableRipple={true}
+                onClick={() => setCurrentGroup(group)}
+                key={key}
+                className={currentGroup.slug === group.slug ? 'active' : ''}
+              >
+                <Icon component={icons[group.slug]} />
+                <span className="sr-only">{group.label}</span>
+              </IconButton>
+            )
           })}
         </div>
       </Box>
@@ -100,8 +91,7 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
           padding: '20px 16px',
         }}
       >
-        <NavItem path={paths.dashboard} label={featuresLabels.dashboard} />
-        <NavMenu group={group} />
+        <NavMenu group={currentGroup} />
         <Footer />
       </Box>
     </Box>
