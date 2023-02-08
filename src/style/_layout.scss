@@ -27,7 +27,6 @@
     padding: 0 0.5rem;
     font-size: small;
     font-weight: 600;
-    font-family: 'Maax';
     text-transform: uppercase;
     letter-spacing: .05em;
     color: $color-gray-700;
@@ -110,6 +109,6 @@
   overflow: hidden;
 
   @media screen and (min-width: 1024px) {
-    margin-top: 0; 
+    margin-top: 0;
   }
 }

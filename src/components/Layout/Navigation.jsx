@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, IconButton as MuiButton, Icon } from '@mui/material'
 import { styled } from '@mui/system'
+import { useSelector } from 'react-redux'
 
 import Logo from 'ui/Logo/Logo'
 import icons from 'components/Layout/shared/icons'
-import { featuresGroup } from 'shared/features'
+import { featuresGroup, featuresLabels } from 'shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
+import NavItem from 'ui/NavItem/NavItem'
+import paths from 'shared/paths'
+import { getAuthorizedPages } from '../../redux/user/selectors'
 
 const IconButton = styled(MuiButton)(
   ({ theme }) => `
@@ -32,12 +36,32 @@ const IconButton = styled(MuiButton)(
 )
 
 const Navigation = ({ asideWidth, drawerWidth }) => {
-  const [group, setGroup] = useState(featuresGroup[0])
-  const [current, setCurrent] = useState(featuresGroup[0].slug)
+  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const [group, setGroup] = useState()
+  const [currentGroup, setCurrentGroup] = useState()
+  const authorizedFeaturesGroup = useCallback(
+    () =>
+      featuresGroup.map(group => {
+        let arrayFeatures = []
+        group.features.map(featureKey => {
+          if (authorizedFeatures.includes(featureKey)) {
+            arrayFeatures.push(featureKey)
+          }
+        })
+        return { ...group, features: arrayFeatures }
+      }),
+    [authorizedFeatures]
+  )
+
+  useEffect(() => {
+    const groups = authorizedFeaturesGroup().filter(group => group.features.length > 0)
+    setGroup(groups[0])
+    setCurrentGroup(groups[0].slug ?? null)
+  }, [authorizedFeaturesGroup])
 
   const activateFeatures = group => {
     setGroup(group)
-    setCurrent(group.slug)
+    setCurrentGroup(group.slug)
   }
 
   return (
@@ -49,17 +73,21 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
         <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
         <Scopes />
         <div className="menu-group">
-          {featuresGroup.map((group, key) => (
-            <IconButton
-              disableRipple={true}
-              onClick={() => activateFeatures(group)}
-              key={key}
-              className={current === group.slug ? 'active' : ''}
-            >
-              <Icon component={icons[group.slug]} />
-              <span className="sr-only">{group.label}</span>
-            </IconButton>
-          ))}
+          {authorizedFeaturesGroup().map((group, key) => {
+            if (group.features.length > 0) {
+              return (
+                <IconButton
+                  disableRipple={true}
+                  onClick={() => activateFeatures(group)}
+                  key={key}
+                  className={currentGroup && currentGroup === group.slug ? 'active' : ''}
+                >
+                  <Icon component={icons[group.slug]} />
+                  <span className="sr-only">{group.label}</span>
+                </IconButton>
+              )
+            }
+          })}
         </div>
       </Box>
       <Box
@@ -72,6 +100,7 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
           padding: '20px 16px',
         }}
       >
+        <NavItem path={paths.dashboard} label={featuresLabels.dashboard} />
         <NavMenu group={group} />
         <Footer />
       </Box>
