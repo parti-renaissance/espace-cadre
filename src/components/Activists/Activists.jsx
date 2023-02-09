@@ -10,8 +10,7 @@ import { PaginatedResult } from 'api/pagination'
 import UIContainer from 'ui/Container'
 import PageTitle from 'ui/PageTitle'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-
-export const FEATURE_ACTIVISTS = 'contacts'
+import features from 'shared/features'
 
 const TableContainer = styled(MuiTableContainer)`
   border-radius: 12px;
@@ -53,7 +52,7 @@ const Activists = () => {
         <PageTitle breakpoints={{ xs: 12 }} title={messages.title} />
       </Grid>
       <DynamicFilters
-        feature={FEATURE_ACTIVISTS}
+        feature={features.contacts}
         values={defaultFilter}
         onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
         onReset={() => {

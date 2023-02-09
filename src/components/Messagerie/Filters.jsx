@@ -25,8 +25,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import * as Sentry from '@sentry/react'
-
-export const FEATURE_MESSAGES = 'messages'
+import features from 'shared/features'
 
 const AudienceCount = styled(Typography)`
   font-size: 18px;
@@ -196,7 +195,7 @@ const Filters = () => {
         <Grid container spacing={2} sx={{ textAlign: 'center' }}>
           <Grid item>
             <DynamicFilters
-              feature={FEATURE_MESSAGES}
+              feature={features.messages}
               onSubmit={handleFiltersSubmit}
               values={defaultFilter}
               onReset={() => setResetFilter(p => p + 1)}
