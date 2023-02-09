@@ -20,7 +20,7 @@ export default features
 
 export const featuresGroup = [
   {
-    label: 'Dashboard',
+    label: 'Tableau de bord',
     slug: 'dashboard',
     features: [features.dashboard],
   },

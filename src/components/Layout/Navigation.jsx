@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, IconButton as MuiButton, Icon } from '@mui/material'
 import { styled } from '@mui/system'
@@ -6,12 +6,10 @@ import { useSelector } from 'react-redux'
 
 import Logo from 'ui/Logo/Logo'
 import icons from 'components/Layout/shared/icons'
-import { featuresGroup, featuresLabels } from 'shared/features'
+import { featuresGroup } from 'shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
-import NavItem from 'ui/NavItem/NavItem'
-import paths from 'shared/paths'
 import { getAuthorizedPages } from '../../redux/user/selectors'
 
 const IconButton = styled(MuiButton)(
@@ -37,7 +35,6 @@ const IconButton = styled(MuiButton)(
 
 const Navigation = ({ asideWidth, drawerWidth }) => {
   const authorizedFeatures = useSelector(getAuthorizedPages)
-
   const [currentGroup, setCurrentGroup] = useState(featuresGroup[0])
 
   const authorizedFeaturesGroup = useMemo(
@@ -66,19 +63,17 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
         <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
         <Scopes />
         <div className="menu-group">
-          {authorizedFeaturesGroup.map((group, key) => {
-            return (
-              <IconButton
-                disableRipple={true}
-                onClick={() => setCurrentGroup(group)}
-                key={key}
-                className={currentGroup.slug === group.slug ? 'active' : ''}
-              >
-                <Icon component={icons[group.slug]} />
-                <span className="sr-only">{group.label}</span>
-              </IconButton>
-            )
-          })}
+          {authorizedFeaturesGroup.map((group, key) => (
+            <IconButton
+              disableRipple={true}
+              onClick={() => setCurrentGroup(group)}
+              key={key}
+              className={currentGroup.slug === group.slug ? 'active' : ''}
+            >
+              <Icon component={icons[group.slug]} />
+              <span className="sr-only">{group.label}</span>
+            </IconButton>
+          ))}
         </div>
       </Box>
       <Box

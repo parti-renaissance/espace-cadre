@@ -1,9 +1,11 @@
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
-import ArchiveIcon from '@mui/icons-material/Archive'
+import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded'
+import PublicRoundedIcon from '@mui/icons-material/PublicRounded'
 
 export default {
-  communication: DashboardRoundedIcon,
+  dashboard: DashboardRoundedIcon,
+  communication: CampaignRoundedIcon,
   militantisme: PeopleRoundedIcon,
-  gestion_territoriale: ArchiveIcon,
+  gestion_territoriale: PublicRoundedIcon,
 }
