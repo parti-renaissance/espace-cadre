@@ -13,9 +13,10 @@ import EmptyContent from 'ui/EmptyContent'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getElected } from 'api/elected-representative'
+import { getAllElected } from 'api/elected-representative'
 import { mandats, functions } from 'shared/constants'
 import Button from 'ui/Button'
+import CreateEditModal from './CreateEditModal'
 
 export const FEATURE_ELECTED_REPRESENTATIVE = 'elected_representative'
 export const FEATURE_API = 'elected_representatives/filters'
@@ -24,6 +25,7 @@ const messages = {
   title: 'Registre des élus',
   create: 'Ajouter un élu',
   update: 'Modifier',
+  view: 'Voir',
   noElected: "Vous n'avez aucun élu à afficher",
 }
 
@@ -63,6 +65,8 @@ const Dashboard = () => {
   const initialFilter = { page: 1, zones: [], mandates: [], political_functions: [] }
   const [defaultFilter, setDefaultFilter] = useState(initialFilter)
   const [filters, setFilters] = useState(defaultFilter)
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [elected, setElected] = useState(null)
   const { handleError } = useErrorHandler()
 
   const {
@@ -70,17 +74,27 @@ const Dashboard = () => {
     fetchNextPage,
     hasNextPage,
     isLoading,
+    refetch: refetchElectedRepresentative,
   } = useInfiniteQueryWithScope(
     ['paginated-elected-representative', { feature: 'ElectedRepresentative', view: 'Dashboard' }, filters],
     () => {
       const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
-      return getElected(filter)
+      return getAllElected(filter)
     },
     {
       getNextPageParam,
       onError: handleError,
     }
   )
+
+  const handleOpen = () => {
+    setIsCreateEditModalOpen(true)
+  }
+
+  const handleClose = () => {
+    setElected(null)
+    setIsCreateEditModalOpen(false)
+  }
 
   const electedRepresentative = usePaginatedData(paginatedElected)
 
@@ -89,7 +103,9 @@ const Dashboard = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={() => {}} label={messages.create} icon={<PersonAddIcon />} isMainButton />}
+          button={
+            <PageHeaderButton onClick={handleOpen} label={messages.create} icon={<PersonAddIcon />} isMainButton />
+          }
         />
       </Grid>
       <DynamicFilters
@@ -170,7 +186,7 @@ const Dashboard = () => {
                     actions={
                       <Box sx={{ display: 'flex', mt: 2.5 }}>
                         <Button onClick={() => {}} isMainButton>
-                          {messages.update}
+                          {messages.view}
                         </Button>
                       </Box>
                     }
@@ -180,6 +196,10 @@ const Dashboard = () => {
             </InfiniteScroll>
           </Grid>
         </Grid>
+      )}
+
+      {isCreateEditModalOpen && (
+        <CreateEditModal elected={elected} handleClose={handleClose} onCreateResolve={refetchElectedRepresentative} />
       )}
     </Container>
   )
