@@ -7,16 +7,7 @@ export const getAllElected = async filter => {
   return newPaginatedResult(data.items, data.metadata)
 }
 
-export const getElected = async uuid => {
-  const data = await apiClient.get(`/api/v3/elected_representatives/${uuid}`)
-  return data
-}
-
-export const createElected = async elected => {
-  const data = await apiClient.post('/api/v3/elected_representatives', elected)
-  return data
-}
-export const updateElected = async elected => {
-  const data = await apiClient.put(`/api/v3/elected_representatives/${elected.uuid}`, elected)
-  return data
-}
+export const getElected = async uuid => await apiClient.get(`/api/v3/elected_representatives/${uuid}`)
+export const createElected = async elected => await apiClient.post('/api/v3/elected_representatives', elected)
+export const updateElected = async elected =>
+  await apiClient.put(`/api/v3/elected_representatives/${elected.uuid}`, elected)

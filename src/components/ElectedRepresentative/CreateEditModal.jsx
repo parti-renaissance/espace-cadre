@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { Grid, Box, Typography, IconButton, FormControlLabel } from '@mui/material'
@@ -23,7 +21,8 @@ import Dialog from 'ui/Dialog'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { activistAutocompleteUri } from 'api/activist'
 import { createElected, updateElected } from 'api/elected-representative'
-import { useNavigate } from 'react-router'
+import { generatePath, useNavigate } from 'react-router'
+import paths from 'shared/paths'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -72,8 +71,8 @@ const messages = {
   close: 'Fermer',
   creationTitle: "Creation d'un élu",
   editionTitle: "Modification de l'élu",
-  createSuccess: 'Elu créée avec succès',
-  editSuccess: "L'élu a bien été modifiée",
+  createSuccess: 'Élu créé avec succès',
+  editSuccess: "L'élu a bien été modifié",
 }
 
 const fields = {
@@ -88,8 +87,8 @@ const fields = {
 }
 
 const electedSchema = Yup.object({
-  firstName: Yup.string().required('Le Nom est obligatoire'),
-  lastName: Yup.string().required('Le Prenom est obligatoire'),
+  firstName: Yup.string().required('Le nom est obligatoire'),
+  lastName: Yup.string().required('Le prénom est obligatoire'),
   gender: Yup.string().required('Le genre est obligatoire'),
   birthDate: Yup.date().required('La date de naissance est obligatoire'),
   contactEmail: Yup.string().email("L'email est invalide"),
@@ -113,7 +112,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
       onUpdateResolve && onUpdateResolve()
       enqueueSnackbar(elected ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       handleClose()
-      navigate(`/elected_representatives/${elected.uuid}`)
+      navigate(generatePath(`${paths.elected_representative}/:uuid`, { uuid: elected.uuid }))
     },
     onError: handleError,
   })
@@ -121,14 +120,14 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
   const values = getValues()
 
   const createOrEdit = () => {
-    createOrUpdate({ ...values, adherent: selectedAdherent.uuid, uuid: elected?.uuid })
+    createOrUpdate({ ...values, adherent: selectedAdherent?.uuid, uuid: elected?.uuid })
   }
 
   useEffect(() => {
     if (elected && elected.uuid) {
       reset(elected)
     }
-  }, [elected])
+  }, [elected, reset])
 
   return (
     <Dialog data-cy="elected-create-edit" handleClose={handleClose} open>
@@ -151,7 +150,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
               defaultValue={elected?.first_name}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
-                <Input name={fields.firstName} onChange={onChange} placeholder="Nom de l'elu" value={value} autoFocus />
+                <Input name={fields.firstName} onChange={onChange} placeholder="Nom de l'élu" value={value} autoFocus />
               )}
             />
             <FormError errors={errorMessages} field={fields.firstName} />
@@ -167,7 +166,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
                 <Input
                   name={fields.lastName}
                   onChange={onChange}
-                  placeholder="Prenom de l'elu"
+                  placeholder="Prénom de l'élu"
                   value={value === null ? '' : value}
                 />
               )}
@@ -226,7 +225,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
               render={({ field: { onChange, value } }) => (
                 <Select
                   options={[
-                    { key: 'male', value: 'Home' },
+                    { key: 'male', value: 'Homme' },
                     { key: 'female', value: 'Femme' },
                   ]}
                   onChange={onChange}
