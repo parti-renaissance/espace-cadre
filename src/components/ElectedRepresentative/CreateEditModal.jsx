@@ -143,7 +143,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
       >
         <Box sx={{ flex: '1 1 0%' }}>
           <Box>
-            <UIInputLabel isRequired>Nom</UIInputLabel>
+            <UIInputLabel required>Nom</UIInputLabel>
             <Controller
               name={fields.firstName}
               control={control}
@@ -156,7 +156,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
             <FormError errors={errorMessages} field={fields.firstName} />
           </Box>
           <Box sx={{ mt: 2 }}>
-            <UIInputLabel isRequired>Prénom</UIInputLabel>
+            <UIInputLabel required>Prénom</UIInputLabel>
             <Controller
               name={fields.lastName}
               control={control}
@@ -187,7 +187,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
             <FormError errors={errorMessages} field={fields.contactEmail} />
           </Box>
           <Box sx={{ mt: 2 }}>
-            <UIInputLabel isRequired>Date de naissance</UIInputLabel>
+            <UIInputLabel required>Date de naissance</UIInputLabel>
             <Controller
               name={fields.birthDate}
               control={control}
@@ -216,7 +216,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
             <FormError errors={errorMessages} field={fields.birthPlace} />
           </Box>
           <Box sx={{ mt: 2 }}>
-            <UIInputLabel isRequired>Genre</UIInputLabel>
+            <UIInputLabel required>Genre</UIInputLabel>
             <Controller
               name={fields.gender}
               control={control}
