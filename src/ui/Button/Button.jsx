@@ -2,6 +2,7 @@ import { Button as MuiButton } from '@mui/material'
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import Loader from 'ui/Loader'
 
 const MainButton = styled(
   MuiButton,
@@ -30,6 +31,13 @@ const Button = ({ children, onClick, rootProps, disabled = false, isMainButton =
   </MainButton>
 )
 
+export const ActionButton = ({ children, handleSubmit, isLoading = false }) => (
+  <Button disabled={isLoading} onClick={handleSubmit} rootProps={{ sx: { color: 'whiteCorner', mr: 2 } }}>
+    {isLoading && <Loader />}&nbsp;
+    {children}
+  </Button>
+)
+
 export default Button
 
 Button.propTypes = {
@@ -38,4 +46,11 @@ Button.propTypes = {
   rootProps: PropTypes.object,
   disabled: PropTypes.bool,
   isMainButton: PropTypes.bool,
+}
+
+ActionButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  isLoading: PropTypes.bool,
+  handleSubmit: PropTypes.func,
+  rootProps: PropTypes.object,
 }
