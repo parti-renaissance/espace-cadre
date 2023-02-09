@@ -1,8 +1,11 @@
 import { apiClient } from 'services/networking/client'
 
-export const getFilters = async (feature, cb, apiUrl) => {
-  const api = apiUrl ?? `adherents/filters?feature=${feature}`
-  const filters = await apiClient.get(`v3/${api}`)
-  cb && cb(filters)
+export const getFilters = async (feature, callback = null) => {
+  const filters = await apiClient.get(`/v3/filters?feature=${feature}`)
+
+  if (typeof callback === 'function') {
+    callback(filters)
+  }
+
   return filters
 }

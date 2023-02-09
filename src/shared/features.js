@@ -1,40 +1,4 @@
-export const featuresGroup = [
-  {
-    label: 'Communication',
-    slug: 'communication',
-    features: ['messages', 'news', 'department_site', 'phoning_campaign', 'ripostes'],
-  },
-  {
-    label: 'Militantisme',
-    slug: 'militantisme',
-    features: ['contacts', 'events', 'team', 'pap', 'pap_v2', 'survey'],
-  },
-  {
-    label: 'Gestion territoriale',
-    slug: 'gestion_territoriale',
-    features: ['elections', 'elected_representative', 'my_team'],
-  },
-]
-
-export const featuresLabels = {
-  dashboard: 'Vue d’ensemble',
-  contacts: 'Militants',
-  messages: 'Messagerie',
-  elections: 'Élections',
-  ripostes: 'Action numérique',
-  team: 'Groupes',
-  news: 'Actualités',
-  phoning_campaign: 'Phoning',
-  pap: 'Porte à porte',
-  pap_v2: 'Porte à porte local',
-  survey: 'Questionnaires',
-  my_team: 'Mon équipe',
-  events: 'Évènements',
-  department_site: 'Site départemental',
-  elected_representative: 'Registre des élus',
-}
-
-export default {
+const features = {
   dashboard: 'dashboard',
   contacts: 'contacts',
   messages: 'messages',
@@ -50,4 +14,48 @@ export default {
   events: 'events',
   department_site: 'department_site',
   elected_representative: 'elected_representative',
+}
+
+export default features
+
+export const featuresGroup = [
+  {
+    label: 'Communication',
+    slug: 'communication',
+    features: [
+      features.messages,
+      features.news,
+      features.department_site,
+      features.phoning_campaign,
+      features.ripostes,
+    ],
+  },
+  {
+    label: 'Militantisme',
+    slug: 'militantisme',
+    features: [features.contacts, features.events, features.team, features.pap, features.pap_v2, features.survey],
+  },
+  {
+    label: 'Gestion territoriale',
+    slug: 'gestion_territoriale',
+    features: [features.elections, features.elected_representative, features.my_team],
+  },
+]
+
+export const featuresLabels = {
+  [features.dashboard]: 'Vue d’ensemble',
+  [features.contacts]: 'Militants',
+  [features.messages]: 'Messagerie',
+  [features.elections]: 'Élections',
+  [features.ripostes]: 'Action numérique',
+  [features.team]: 'Groupes',
+  [features.news]: 'Actualités',
+  [features.phoning_campaign]: 'Phoning',
+  [features.pap]: 'Porte à porte',
+  [features.pap_v2]: 'Porte à porte local',
+  [features.survey]: 'Questionnaires',
+  [features.my_team]: 'Mon équipe',
+  [features.events]: 'Évènements',
+  [features.department_site]: 'Site départemental',
+  [features.elected_representative]: 'Registre des élus',
 }

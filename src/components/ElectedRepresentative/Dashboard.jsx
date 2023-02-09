@@ -17,9 +17,7 @@ import { getAllElected } from 'api/elected-representative'
 import { mandats, functions } from 'shared/constants'
 import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
-
-export const FEATURE_ELECTED_REPRESENTATIVE = 'elected_representative'
-export const FEATURE_API = 'elected_representatives/filters'
+import features from 'shared/features'
 
 const messages = {
   title: 'Registre des élus',
@@ -109,8 +107,7 @@ const Dashboard = () => {
         />
       </Grid>
       <DynamicFilters
-        feature={FEATURE_ELECTED_REPRESENTATIVE}
-        apiUrl={FEATURE_API}
+        feature={features.elected_representative}
         values={defaultFilter}
         onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
         onReset={() => {
