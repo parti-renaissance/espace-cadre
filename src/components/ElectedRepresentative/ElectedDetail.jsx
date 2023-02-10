@@ -7,6 +7,7 @@ import ErrorIcon from '@mui/icons-material/Error'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
+import { DateRange } from '@mui/icons-material'
 import { getElected } from 'api/elected-representative'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -19,12 +20,11 @@ import Button from 'ui/Button'
 import EmptyContent from 'ui/EmptyContent'
 import Loader from 'ui/Loader'
 import { mandats } from 'shared/constants'
-import { DateRange } from '@mui/icons-material'
 
 const messages = {
   pageTitle: 'Registre des élus',
   heading: 'Informations générales',
-  modify: 'modifier',
+  modify: 'Modifier',
   add: 'Ajouter',
   edit: 'Editer',
   delete: 'Supprimer',
