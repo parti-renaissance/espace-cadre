@@ -257,7 +257,7 @@ const ElectedDetail = () => {
 
       {isCreateEditModalOpen && (
         <CreateEditModal
-          elected={Object.keys(electedDetail).length > 0 ? { id: electedId, ...electedDetail.createEdit } : null}
+          elected={electedDetail}
           onUpdateResolve={refetch}
           handleClose={() => setIsCreateEditModalOpen(false)}
         />

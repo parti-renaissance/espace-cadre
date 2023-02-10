@@ -125,6 +125,9 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
 
   useEffect(() => {
     if (elected && elected.uuid) {
+      if (elected.adherent) {
+        setSelectedAdherent(elected.adherent)
+      }
       reset(elected)
     }
   }, [elected, reset])
