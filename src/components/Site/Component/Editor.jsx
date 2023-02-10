@@ -101,11 +101,8 @@ const Editor = ({ siteUuid, onContentUpdate, refreshContent }) => {
     }
 
     if (site?.json_content) {
-      console.log('# load content')
-      console.log(JSON.parse(site?.json_content))
       editorRef.current.editor.loadDesign(JSON.parse(site?.json_content))
     } else {
-      console.log('# load default template')
       editorRef.current.editor.loadTemplate(defaultTemplate)
     }
   }, [editorRef, editorLoaded, site])
