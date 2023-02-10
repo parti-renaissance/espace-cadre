@@ -53,9 +53,6 @@ inputs:
   react_app_environment:
     description: The app environment
     required: true
-  react_app_re_host:
-    description: The renaissance site host
-    required: true
   sentry_auth_token:
     description: Sentry token
     required: true
@@ -83,7 +80,6 @@ runs:
         echo "REACT_APP_MAPBOX_STYLE=${{ inputs.react_app_mapbox_style }}" >> .env.production
         echo "REACT_APP_VERSION=${{ inputs.react_app_version }}" >> .env.production
         echo "REACT_APP_ENVIRONMENT=${{ inputs.react_app_environment }}" >> .env.production
-        echo "REACT_APP_RE_HOST=${{ inputs.react_app_re_host }}" >> .env.production
 
     - name: Docker login
       uses: docker/login-action@v2

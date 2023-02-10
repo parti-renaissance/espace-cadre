@@ -1,17 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Container, Grid, Link as MuiLink } from '@mui/material'
 import { styled } from '@mui/system'
 import * as Sentry from '@sentry/react'
 import { useUserScope } from '../../redux/user/hooks'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
-import { createSiteContent, getSites, updateSiteContent } from 'api/site'
+import { createDepartmentalSite, getDepartmentalSites, updateDepartmentalSite } from 'api/departmental-site'
 import Editor from './Component/Editor'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import Loader from 'ui/Loader'
 import StepButton from 'components/Messagerie/Component/StepButton'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { RE_HOST } from 'shared/environments'
 
 const SectionHeader = styled(Grid)(
   ({ theme }) => `
@@ -39,7 +38,7 @@ const Link = styled(MuiLink)(
 )
 
 const messages = {
-  title: 'Site Départemental',
+  title: 'Site départemental',
   titleSuffix: 'Gestion du site',
   createSuccess: 'Site créé avec succès',
   updateSuccess: 'Site modifié avec succès',
@@ -53,62 +52,67 @@ const clearHtml = html =>
   html.substring(html.indexOf('<style'), html.indexOf('</style>') + 8) +
   html.substring(html.indexOf('<body>') + 6, html.indexOf('</body>'))
 
+const editContent = (siteUuid, { currentScope, content }) => {
+  const body = {
+    zone: currentScope?.zones[0]?.uuid,
+    content: clearHtml(content.html),
+    json_content: JSON.stringify(content.design),
+  }
+
+  return siteUuid ? updateDepartmentalSite(siteUuid, body) : createDepartmentalSite(body)
+}
+
 const DepartmentSite = () => {
-  const [content, setContent] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [sites, setSites] = useState([])
-  const [siteUuid, setSiteUuid] = useState(null)
+  const [currentSite, setCurrentSite] = useState()
+  const [isLoading, setIsLoading] = useState(true)
+  const [isButtonLoading, setIsButtonLoading] = useState(false)
+  const [needRefreshContent, setNeedRefreshContent] = useState(false)
+  const [contentState, setContentState] = useState({
+    content: null,
+    persisted: true,
+  })
   const { enqueueSnackbar } = useCustomSnackbar()
   const [currentScope] = useUserScope()
-  const { data, isLoading } = useQueryWithScope(
-    ['departments-sites', { feature: 'Sites', view: 'DepartmentSite' }],
-    getSites,
-    {}
-  )
 
-  useEffect(() => {
-    const items = data?.items || []
-    setSites(items)
+  useQueryWithScope(['departments-sites', { feature: 'Sites', view: 'DepartmentSite' }], getDepartmentalSites, {
+    onSuccess: response => {
+      const items = response?.items || []
 
-    if (items.length > 0 && !siteUuid) {
-      setSiteUuid(items[0].uuid)
-    }
-  }, [data, siteUuid])
-
-  const editContent = () => {
-    const body = {
-      zone: currentScope?.zones[0]?.uuid,
-      content: clearHtml(content.html),
-      json_content: JSON.stringify(content.design),
-    }
-
-    return siteUuid ? updateSiteContent(siteUuid, body) : createSiteContent(body)
-  }
-
-  const handleSubmit = async () => {
-    try {
-      setLoading(true)
-      const body = await editContent()
-      setContent(body)
-      enqueueSnackbar(siteUuid ? messages.updateSuccess : messages.createSuccess)
-
-      if (!siteUuid) {
-        const sites = await getSites()
-        setSiteUuid(sites[0].uuid)
+      if (items.length) {
+        setCurrentSite(items[0])
+        setNeedRefreshContent(true)
       }
-      setLoading(false)
-    } catch (error) {
-      setLoading(false)
-      Sentry.captureException(error)
-    }
-  }
 
-  if (isLoading)
+      setIsLoading(false)
+    },
+  })
+
+  if (isLoading) {
     return (
       <Container maxWidth="xl">
         <Loader />
       </Container>
     )
+  }
+
+  const handleSubmit = async () => {
+    setIsButtonLoading(true)
+
+    try {
+      const body = await editContent(currentSite?.uuid, { currentScope, content: contentState.content })
+      enqueueSnackbar(currentSite ? messages.updateSuccess : messages.createSuccess)
+
+      setContentState(prevState => ({ ...prevState, persisted: true }))
+
+      if (!currentSite) {
+        setCurrentSite(body)
+      }
+    } catch (error) {
+      Sentry.captureException(error)
+    }
+
+    setIsButtonLoading(false)
+  }
 
   return (
     <Container maxWidth={false}>
@@ -117,22 +121,27 @@ const DepartmentSite = () => {
         <Grid item xs={8} />
         <Grid item xs>
           <StepButton
-            label={sites.length === 0 ? messages.save : messages.update}
-            loading={loading}
-            disabled={loading}
+            label={currentSite ? messages.update : messages.save}
+            loading={isButtonLoading}
+            disabled={isButtonLoading || contentState.persisted}
             onClick={handleSubmit}
             showIcon={false}
           />
         </Grid>
-        {siteUuid && (
+        {currentSite && (
           <Grid item xs>
-            <Link href={`${RE_HOST}/federations/${sites[0].slug}`} target="_blank" rel="noreferrer" underline="none">
+            <Link href={currentSite.url} target="_blank" rel="noreferrer" underline="none">
               {messages.preview}
             </Link>
           </Grid>
         )}
       </SectionHeader>
-      <Editor siteUuid={siteUuid} onContentUpdate={setContent} />
+
+      <Editor
+        siteUuid={currentSite?.uuid}
+        onContentUpdate={data => setContentState(prevState => ({ ...prevState, content: data, persisted: false }))}
+        refreshContent={needRefreshContent}
+      />
     </Container>
   )
 }
