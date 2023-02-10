@@ -26,7 +26,7 @@ const messages = {
   heading: 'Informations générales',
   modify: 'Modifier',
   add: 'Ajouter',
-  edit: 'Editer',
+  edit: 'Éditer',
   delete: 'Supprimer',
   associate: 'Cet élu est associé à un compte adhérent',
   noAssociate: "Cet élu n'est pas associé à un compte adhérent",
