@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Container, Grid, Box, Badge } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import Masonry from '@mui/lab/Masonry'
+import { generatePath, useNavigate } from 'react-router'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
@@ -18,6 +19,7 @@ import { mandats, functions } from 'shared/constants'
 import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
 import features from 'shared/features'
+import paths from 'shared/paths'
 
 const messages = {
   title: 'Registre des élus',
@@ -66,6 +68,7 @@ const Dashboard = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [elected, setElected] = useState(null)
   const { handleError } = useErrorHandler()
+  const navigate = useNavigate()
 
   const {
     data: paginatedElected = null,
@@ -92,6 +95,10 @@ const Dashboard = () => {
   const handleClose = () => {
     setElected(null)
     setIsCreateEditModalOpen(false)
+  }
+
+  const handleView = electedId => () => {
+    navigate(generatePath(`${paths.elected_representative}/:electedId`, { electedId }))
   }
 
   const electedRepresentative = usePaginatedData(paginatedElected)
@@ -171,10 +178,6 @@ const Dashboard = () => {
                                     {functions[political_functions.name]}
                                   </span>
                                 ))}
-
-                              {elected.current_political_functions.length === 0 && (
-                                <p className="empty-text">Ne possede aucune fonction politique</p>
-                              )}
                             </Box>
                           </Content>
                         )}
@@ -182,7 +185,7 @@ const Dashboard = () => {
                     }
                     actions={
                       <Box sx={{ display: 'flex', mt: 2.5 }}>
-                        <Button onClick={() => {}} isMainButton>
+                        <Button onClick={handleView(elected.uuid)} isMainButton>
                           {messages.view}
                         </Button>
                       </Box>

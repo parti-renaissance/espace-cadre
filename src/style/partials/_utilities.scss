@@ -10,6 +10,7 @@
 .items-center { align-items: center; }
 .justify-center { justify-content: center; }
 .justify-between { justify-content: space-between; }
+.font-bold { font-weight: 700; }
 
 .badge {
   border-radius: 6px;
@@ -47,4 +48,11 @@
 
 .pac-container {
   z-index: 2000;
+}
+
+.divider > * + * {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-bottom-width: 0px;
+  border-color: $color-gray-200;
 }

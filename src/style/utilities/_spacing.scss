@@ -1,5 +1,6 @@
 $spaces: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 $sides: 'top', 'right', 'bottom', 'left';
+$axes: 'x', 'y';
 
 @each $space in $spaces {
   .m-#{$space} {
@@ -45,6 +46,20 @@ $sides: 'top', 'right', 'bottom', 'left';
 
     .p#{str-slice($side, 0, 1)}-#{$space} {
       padding-#{$side}: #{calc($space / 4)}rem;
+    }
+
+    @each $axis in $axes {
+      $direction: '';
+      @if $side == 'top' or $side == 'bottom' {
+        $axis: 'y';
+        $direction: 'top'
+      } @else if $side == 'left' or $side == 'right' {
+        $axis: 'x';
+        $direction: 'left'
+      }
+      .space-#{$axis}-#{$space} > * + * {
+        margin-#{$direction}: #{calc($space / 4)}rem;
+      }
     }
   }
 }
