@@ -10,7 +10,7 @@ const PageTitle = ({
 }) => (
   <Grid
     item
-    sx={{ fontSize: 24, mb: 2 }}
+    sx={{ fontSize: 24 }}
     xs={breakpoints.xs}
     sm={breakpoints.sm}
     md={breakpoints.md}

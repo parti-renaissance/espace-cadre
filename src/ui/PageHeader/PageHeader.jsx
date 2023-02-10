@@ -22,7 +22,7 @@ PageHeaderButton.propTypes = {
 
 const PageHeader = ({ title, titleLink, titleSuffix, button }) => (
   <>
-    <Grid item data-cy="ui-page-header">
+    <Grid item data-cy="ui-page-header" sx={{ mb: 2.5 }}>
       <PageTitle title={title} titleLink={titleLink} titleSuffix={titleSuffix} />
     </Grid>
     {button && (
