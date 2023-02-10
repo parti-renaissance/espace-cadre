@@ -1,16 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import EmailEditor from 'react-email-editor'
-import { Button as MuiButton, Box } from '@mui/material'
-import * as Sentry from '@sentry/react'
+import { Button as MuiButton, Box, Container } from '@mui/material'
 import { styled } from '@mui/system'
 import { UNLAYER_PROJECT_ID } from 'shared/environments'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
-import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { getSiteContent } from 'api/site'
+import { getDepartmentalSite } from 'api/departmental-site'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import Loader from 'ui/Loader'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -61,57 +58,32 @@ const messages = {
   export: 'Export HTML',
 }
 
-const Editor = ({ siteUuid, onContentUpdate }) => {
-  const [editorLoaded, setEditorLoaded] = useState(false)
-  const [editorReady, setEditorReady] = useState(false)
-  const [messageContentError, setMessageContentError] = useState(false)
+const Editor = ({ siteUuid, onContentUpdate, refreshContent }) => {
   const editorRef = useRef(null)
+  const [editorLoaded, setEditorLoaded] = useState(false)
+  const [site, setSite] = useState()
   const { handleError } = useErrorHandler()
-  const { enqueueSnackbar } = useCustomSnackbar()
 
-  const updateContentTemplateCallback = useCallback(() => {
-    editorRef.current.exportHtml(data => {
-      onContentUpdate({
-        design: data.design,
-        html: data.html,
-      })
-    })
-  }, [onContentUpdate])
+  const updateContentCallback = useCallback(
+    () =>
+      editorRef.current.editor.exportHtml(({ design, html }) => onContentUpdate({ design, html }), { minify: true }),
+    [onContentUpdate]
+  )
 
-  const { data: siteContent = null } = useQueryWithScope(
-    ['departments-sites', { feature: 'Site', view: 'Editor' }, siteUuid],
-    () => (siteUuid ? getSiteContent(siteUuid) : null),
-    { onError: handleError, enabled: !!siteUuid && editorLoaded }
+  const { isFetching } = useQueryWithScope(
+    ['departments-site-content', siteUuid],
+    () => getDepartmentalSite(siteUuid),
+    {
+      enabled: refreshContent && !!siteUuid,
+      onSuccess: response => setSite(response),
+      onError: handleError,
+    }
   )
 
   useEffect(() => {
     const editor = editorRef.current?.editor
-
-    if (siteUuid && siteContent && editorReady) {
-      if (siteContent.json_content) {
-        const design = JSON.parse(siteContent.json_content)
-        editor.loadDesign(design)
-        onContentUpdate({
-          design: design,
-          html: siteContent.content,
-        })
-      } else {
-        setMessageContentError(true)
-        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
-        Sentry.addBreadcrumb({
-          category: 'messages',
-          message: `${messages.errorTemplate}`,
-          level: Sentry.Severity.Critical,
-        })
-        Sentry.captureMessage(messages.errorTemplate)
-      }
-    }
-  }, [enqueueSnackbar, editorReady, onContentUpdate, siteContent, siteUuid])
-
-  useEffect(() => {
-    const editor = editorRef.current?.editor
     const onEditorLoaded = () => {
-      editor.addEventListener('design:updated', updateContentTemplateCallback)
+      editor.addEventListener('design:updated', updateContentCallback)
     }
 
     if (editorLoaded && editor) {
@@ -119,42 +91,52 @@ const Editor = ({ siteUuid, onContentUpdate }) => {
     }
 
     return () => {
-      editor?.removeEventListener('design:updated', updateContentTemplateCallback)
+      editor?.removeEventListener('design:updated', updateContentCallback)
     }
-  }, [editorLoaded, updateContentTemplateCallback])
+  }, [editorRef, editorLoaded, updateContentCallback])
+
+  useEffect(() => {
+    if (!editorLoaded) {
+      return
+    }
+
+    if (site?.json_content) {
+      editorRef.current.editor.loadDesign(JSON.parse(site?.json_content))
+    } else {
+      editorRef.current.editor.loadTemplate(defaultTemplate)
+    }
+  }, [editorRef, editorLoaded, site])
 
   const exportHtml = () => {
-    editorRef.current.editor.exportHtml(data => {
-      downloadHtml(data.html)
-    })
+    editorRef.current.editor.exportHtml(data => downloadHtml(data.html), { minify: true })
+  }
+
+  if (isFetching) {
+    return (
+      <Container maxWidth="xl">
+        <Loader />
+      </Container>
+    )
   }
 
   return (
     <Box component="div" sx={{ mb: 2 }} data-cy="ckeditor-container">
-      {messageContentError ? (
-        <UIFormMessage severity="error">{messages.errorTemplateRecreate}</UIFormMessage>
-      ) : (
-        <>
-          <EmailEditor
-            minHeight="85vh"
-            ref={editorRef}
-            projectId={UNLAYER_PROJECT_ID}
-            onLoad={() => setEditorLoaded(true)}
-            onReady={() => setEditorReady(true)}
-            displayMode={'web'}
-            options={{
-              locale: 'fr-FR',
-              safeHtml: true,
-              templateId: siteUuid ? null : defaultTemplate,
-              tools: editorConfiguration.tools,
-              features: editorConfiguration.features,
-            }}
-          />
-          <Button variant="contained" size="medium" onClick={exportHtml}>
-            {messages.export}
-          </Button>
-        </>
-      )}
+      <EmailEditor
+        minHeight="85vh"
+        ref={editorRef}
+        projectId={UNLAYER_PROJECT_ID}
+        onLoad={() => setEditorLoaded(true)}
+        displayMode={'web'}
+        options={{
+          locale: 'fr-FR',
+          safeHtml: true,
+          tools: editorConfiguration.tools,
+          features: editorConfiguration.features,
+        }}
+      />
+      <Button variant="contained" size="medium" onClick={exportHtml}>
+        {messages.export}
+      </Button>
     </Box>
   )
 }
@@ -164,8 +146,9 @@ Editor.defaultProps = {
 }
 
 Editor.propTypes = {
-  siteUuid: PropTypes.string,
   onContentUpdate: PropTypes.func.isRequired,
+  siteUuid: PropTypes.string,
+  refreshContent: PropTypes.bool,
 }
 
 export default Editor

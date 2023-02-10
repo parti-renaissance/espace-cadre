@@ -9,7 +9,6 @@ const NODE_ENV = process.env.NODE_ENV
 const OAUTH_CLIENT_ID = process.env.REACT_APP_OAUTH_CLIENT_ID
 const INTERNAL_APP_ID = process.env.REACT_APP_INTERNAL_APP_ID
 const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
-const RE_HOST = process.env.REACT_APP_RE_HOST
 
 export {
   NODE_ENV,
@@ -23,5 +22,4 @@ export {
   OAUTH_CLIENT_ID,
   INTERNAL_APP_ID,
   SENTRY_DSN,
-  RE_HOST,
 }

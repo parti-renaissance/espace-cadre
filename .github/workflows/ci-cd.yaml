@@ -79,7 +79,6 @@ jobs:
           react_app_mapbox_style: ${{ secrets.REACT_APP_MAPBOX_STYLE }}
           react_app_version: ${{ steps.git_short_ref.outputs.ref }}
           react_app_environment: staging
-          react_app_re_host: https://staging.parti-renaissance.fr
 
   deploy-prod:
     name: Deploy to Prod 🍾
@@ -112,4 +111,3 @@ jobs:
           react_app_mapbox_style: ${{ secrets.REACT_APP_MAPBOX_STYLE }}
           react_app_version: ${{ github.event.release.tag_name }}
           react_app_environment: production
-          react_app_re_host: https://parti-renaissance.fr
