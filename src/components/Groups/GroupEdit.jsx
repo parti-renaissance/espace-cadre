@@ -4,18 +4,17 @@ import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import { addGroupMemberQuery, deleteGroupMemberQuery, getGroupQuery } from 'api/groups'
-import { activistAutocompleteUri } from 'api/activist'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import MemberCard from './MemberCard'
-import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
 import Button from 'ui/Button'
 import Loader from 'ui/Loader'
+import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
 
 const AutocompleteContainer = styled(Card)(
   ({ theme }) => `
@@ -100,16 +99,11 @@ const GroupEdit = () => {
                 {messages.addMembers}
               </Grid>
               <Grid item xs={12}>
-                <Autocomplete
+                <AdherentAutocomplete
                   placeholder={messages.placeholder}
                   customStyle={{ bgcolor: 'gray100' }}
-                  uri={activistAutocompleteUri}
-                  queryParam="q"
-                  valueParam="uuid"
                   value={selectedMember}
-                  onChange={v => {
-                    setSelectedMember(v.uuid ? v : null)
-                  }}
+                  onChange={setSelectedMember}
                   renderOption={(props, option) => (
                     <li key={option.uuid} {...props}>
                       {option.first_name} {option.last_name}&#44;&nbsp;
@@ -119,7 +113,6 @@ const GroupEdit = () => {
                       </Box>
                     </li>
                   )}
-                  getOptionLabel={option => `${option.first_name} ${option.last_name}`}
                 />
               </Grid>
               <Grid item xs={12}>

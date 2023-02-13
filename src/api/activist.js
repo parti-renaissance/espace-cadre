@@ -3,7 +3,6 @@ import qs from 'qs'
 import Activist from 'domain/activist'
 import { PaginatedResult } from './pagination'
 
-export const activistAutocompleteUri = '/api/v3/adherents/autocomplete'
 export const getActivists = async filter => {
   const data = await apiClient.get(`v3/adherents?${qs.stringify(filter)}`)
   const activists = data.items.map(

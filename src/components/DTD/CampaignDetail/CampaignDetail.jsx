@@ -59,7 +59,7 @@ export const CampaignDetail = () => {
   const {
     data: paginatedQuestioners = null,
     isLoading: isQuestionersLoading,
-    fetchNextPage: fetchNexPageQuestioners,
+    fetchNextPage: fetchNextPageQuestioners,
     hasNextPage: hasNextPageQuestioners,
   } = useInfiniteQueryWithScope(
     ['paginated-questioners', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
@@ -74,7 +74,7 @@ export const CampaignDetail = () => {
   const {
     data: paginatedHistory = null,
     isLoading: isHistoryLoading,
-    fetchNextPage: fetchNexPageHistory,
+    fetchNextPage: fetchNextPageHistory,
     hasNextPage: hasNextPageHistory,
   } = useInfiniteQueryWithScope(
     ['paginated-history', { feature: 'DTD', view: 'CampaignDetail' }, campaignId],
@@ -161,7 +161,7 @@ export const CampaignDetail = () => {
               <Container>
                 <InfiniteScroll
                   dataLength={questioners.length}
-                  next={() => fetchNexPageQuestioners()}
+                  next={() => fetchNextPageQuestioners()}
                   hasMore={hasNextPageQuestioners}
                   loader={<Loader />}
                 >
@@ -184,7 +184,7 @@ export const CampaignDetail = () => {
               <Container>
                 <InfiniteScroll
                   dataLength={history.length}
-                  next={() => fetchNexPageHistory()}
+                  next={() => fetchNextPageHistory()}
                   hasMore={hasNextPageHistory}
                   loader={<Loader />}
                 >
