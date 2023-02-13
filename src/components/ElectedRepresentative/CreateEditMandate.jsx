@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Grid, IconButton } from '@mui/material'
+import { Box, Grid, IconButton, FormControlLabel } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from 'react-query'
@@ -15,7 +16,11 @@ import Button, { ActionButton } from 'ui/Button/Button'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
 import { Title } from './CreateEditModal'
-import { mandats } from 'shared/constants'
+import { mandats, affiliations, supports } from 'shared/constants'
+import Input from 'ui/Input/Input'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { createMandate, updateMandate, zoneAutocompleteUri } from 'api/elected-representative'
+import Autocomplete from 'components/Filters/Element/Autocomplete'
 
 const messages = {
   create: 'Créer',
@@ -42,15 +47,35 @@ const fields = {
 const mandateSchema = Yup.object({
   type: Yup.string().required('Le type de mandat est obligatoire'),
   beginAt: Yup.date().required('La date de début est obligatoire'),
+  finishAt: Yup.date().optional(),
   electedRepresentative: Yup.string().required("L'élu est obligatoire"),
   geoZone: Yup.string().required('La zone géographique est obligatoire'),
   isElected: Yup.boolean().optional(),
   laREMSupport: Yup.boolean().optional(),
   onGoing: Yup.boolean().optional(),
-  finishAt: Yup.date().optional(),
 })
 
+const UISelect = ({ options, ...props }) => (
+  <Select
+    options={options}
+    sx={{
+      display: 'flex',
+      border: '1px solid',
+      borderColor: theme => theme.palette.colors.gray[300],
+      mt: 1.5,
+      borderRadius: '8px',
+      overflow: 'hidden',
+    }}
+    {...props}
+  />
+)
+
+UISelect.propTypes = {
+  options: PropTypes.array.isRequired,
+}
+
 const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose }) => {
+  const [selectedZone, setSelectedZone] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const { control, getValues, reset, watch } = useForm({
@@ -59,10 +84,10 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
   })
 
   watch()
-
+  const watchOnGoing = watch(fields.onGoing, false)
   const values = getValues()
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!mandate ? () => {} : () => {}, {
+  const { mutate: createOrUpdate, isLoading } = useMutation(!mandate ? createMandate : updateMandate, {
     onSuccess: mandate => {
       onUpdateResolve && onUpdateResolve()
       enqueueSnackbar(mandate ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
@@ -72,11 +97,17 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
   })
 
   const createOrEdit = () => {
-    createOrUpdate({ ...values, elected_representative: electedId, uuid: mandate?.uuid })
+    createOrUpdate({
+      ...values,
+      elected_representative: electedId,
+      geo_zone: selectedZone?.uuid || mandate?.geo_zone?.uuid,
+      uuid: mandate?.uuid,
+    })
   }
 
   useEffect(() => {
     if (mandate && mandate.uuid) {
+      setSelectedZone(mandate.geo_zone)
       reset(mandate)
     }
   }, [mandate, reset])
@@ -93,8 +124,8 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         sx={{ mt: 4, position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}
         role="presentation"
       >
-        <Box sx={{ flex: '1 1 0%' }}>
-          <Box sx={{ mt: 2 }}>
+        <Box sx={{ flex: '1 1 0%' }} className="space-y-4">
+          <Box>
             <UIInputLabel required>Type de Mandat</UIInputLabel>
             <Controller
               name={fields.type}
@@ -102,21 +133,144 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
               defaultValue={mandate?.type || ''}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
-                <Select
+                <UISelect
                   options={Object.keys(mandats).map(key => ({ key, value: mandats[key] }))}
                   onChange={onChange}
                   value={value}
-                  sx={{
-                    display: 'flex',
-                    border: '1px solid',
-                    borderColor: theme => theme.palette.colors.gray[300],
-                    mt: 1.5,
-                    borderRadius: '8px',
-                  }}
                 />
               )}
             />
             <FormError errors={errorMessages} field={fields.type} />
+          </Box>
+          <Grid container columnSpacing={4}>
+            <Grid item xs={12} sm={6}>
+              <Box>
+                <Controller
+                  name={fields.isElected}
+                  control={control}
+                  defaultValue={mandate?.is_elected || false}
+                  render={({ field: { onChange, value } }) => (
+                    <FormControlLabel
+                      name={fields.isElected}
+                      label="C'est un élu !"
+                      onChange={onChange}
+                      control={<Checkbox checked={value} />}
+                    />
+                  )}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box>
+                <Controller
+                  name={fields.onGoing}
+                  control={control}
+                  defaultValue={mandate?.on_going || false}
+                  render={({ field: { onChange, value } }) => (
+                    <FormControlLabel
+                      name={fields.onGoing}
+                      label="Mandat en cours !"
+                      onChange={onChange}
+                      control={<Checkbox checked={value} />}
+                    />
+                  )}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid container columnSpacing={4}>
+            <Grid item xs={12} sm={6}>
+              <Box>
+                <UIInputLabel required>Date de début de mandat </UIInputLabel>
+                <Controller
+                  name={fields.beginAt}
+                  control={control}
+                  defaultValue={mandate?.begin_at}
+                  rules={{ required: true }}
+                  render={({ field: { onChange, value } }) => (
+                    <DatePicker
+                      value={value}
+                      onChange={onChange}
+                      renderInput={params => <Input type="date" name={fields.beginAt} {...params} />}
+                    />
+                  )}
+                />
+                <FormError errors={errorMessages} field={fields.beginAt} />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box>
+                <UIInputLabel>Date de fin de mandat </UIInputLabel>
+                <Controller
+                  name={fields.finishAt}
+                  control={control}
+                  defaultValue={mandate?.finish_at}
+                  rules={{ required: true }}
+                  render={({ field: { onChange, value } }) => (
+                    <DatePicker
+                      value={value}
+                      onChange={onChange}
+                      readOnly={watchOnGoing ?? false}
+                      disabled={watchOnGoing ?? false}
+                      renderInput={params => <Input type="date" name={fields.finishAt} {...params} />}
+                    />
+                  )}
+                />
+                <FormError errors={errorMessages} field={fields.finishAt} />
+              </Box>
+            </Grid>
+          </Grid>
+          <Box>
+            <UIInputLabel required>Zone géographique</UIInputLabel>
+            <Autocomplete
+              customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
+              uri={zoneAutocompleteUri}
+              queryParam="q"
+              valueParam="uuid"
+              value={selectedZone}
+              onChange={v => {
+                setSelectedZone(v)
+              }}
+              renderOption={(props, option) => (
+                <li key={option.uuid} {...props}>
+                  {option.name} ({option.code})
+                </li>
+              )}
+              getOptionLabel={option => `${option.name} (${option.code})`}
+            />
+            <FormError errors={errorMessages} field={fields.geoZone} />
+          </Box>
+          <Box>
+            <UIInputLabel required>Nuance politique</UIInputLabel>
+            <Controller
+              name={fields.politicalAffiliation}
+              control={control}
+              defaultValue={mandate?.political_affiliation || ''}
+              rules={{ required: true }}
+              render={({ field: { onChange, value } }) => (
+                <UISelect
+                  options={Object.keys(affiliations).map(key => ({ key, value: affiliations[key] }))}
+                  onChange={onChange}
+                  value={value}
+                />
+              )}
+            />
+            <FormError errors={errorMessages} field={fields.politicalAffiliation} />
+          </Box>
+          <Box>
+            <UIInputLabel>Soutien LaREM</UIInputLabel>
+            <Controller
+              name={fields.laREMSupport}
+              control={control}
+              defaultValue={mandate?.la_r_e_m_support || ''}
+              render={({ field: { onChange, value } }) => (
+                <UISelect
+                  options={Object.keys(supports).map(key => ({ key, value: supports[key] }))}
+                  onChange={onChange}
+                  value={value}
+                />
+              )}
+            />
           </Box>
         </Box>
         <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>

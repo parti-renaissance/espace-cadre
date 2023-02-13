@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useParams } from 'react-router'
 import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
 import { format } from 'date-fns'
@@ -8,7 +8,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import { DateRange } from '@mui/icons-material'
-import { getElected } from 'api/elected-representative'
+import { useMutation } from 'react-query'
+import { deleteMandate, getElected } from 'api/elected-representative'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import paths from 'shared/paths'
@@ -21,6 +22,8 @@ import EmptyContent from 'ui/EmptyContent'
 import Loader from 'ui/Loader'
 import { mandats } from 'shared/constants'
 import CreateEditMandate from './CreateEditMandate'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -33,6 +36,7 @@ const messages = {
   noAssociate: "Cet élu n'est pas associé à un compte adhérent",
   mandatesTitle: "Mandats de l'élu",
   noMandates: 'Cet élu ne possède aucun mandat',
+  deleteSuccess: 'Mandat supprimée avec succès',
 }
 
 const Content = ({ sx, title, content = null, children }) => (
@@ -68,6 +72,7 @@ const ElectedDetail = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isMandateModalOpen, setIsMandateModalOpen] = useState(false)
   const [mandate, setMandate] = useState({})
+  const { enqueueSnackbar } = useCustomSnackbar()
   const { electedId } = useParams()
   const { handleError } = useErrorHandler()
 
@@ -83,8 +88,23 @@ const ElectedDetail = () => {
     }
   )
 
+  const { mutate: remove } = useMutation(deleteMandate, {
+    onSuccess: () => {
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+      refetch()
+    },
+    onError: handleError,
+  })
+
+  const handleDelete = useCallback(
+    mandateId => () => {
+      remove(mandateId)
+    },
+    [remove]
+  )
+
   const handleAddMandate = () => {
-    setMandate({})
+    setMandate(null)
     setIsMandateModalOpen(true)
   }
 
@@ -94,7 +114,7 @@ const ElectedDetail = () => {
   }
 
   const handleCloseMandate = () => {
-    setMandate({})
+    setMandate(null)
     setIsMandateModalOpen(false)
   }
 
@@ -258,10 +278,9 @@ const ElectedDetail = () => {
                         {messages.edit}
                       </Button>
                       <IconButton
-                        disabled={true}
                         edge="start"
                         color="inherit"
-                        onClick={() => {}}
+                        onClick={handleDelete(mandate.uuid)}
                         aria-label="delete"
                         sx={{ ml: 0.5 }}
                       >
