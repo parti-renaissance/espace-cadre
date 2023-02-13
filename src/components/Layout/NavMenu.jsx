@@ -9,7 +9,7 @@ import NavItem from 'ui/NavItem/NavItem'
 export const NavMenu = ({ handleItemClick, group }) => {
   const authorizedFeatures = useSelector(getAuthorizedPages)
   return (
-    <div className="menu-list">
+    <div className="menu-list mt-6">
       <h5 className="menu-list__header">{group.label}</h5>
       <nav className="menu-list__links">
         {group.features.map(

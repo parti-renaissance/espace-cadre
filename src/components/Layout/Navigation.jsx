@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, IconButton as MuiButton, Icon } from '@mui/material'
 import { styled } from '@mui/system'
+import { useSelector } from 'react-redux'
 
 import Logo from 'ui/Logo/Logo'
 import icons from 'components/Layout/shared/icons'
@@ -9,6 +10,7 @@ import { featuresGroup } from 'shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
+import { getAuthorizedPages } from '../../redux/user/selectors'
 
 const IconButton = styled(MuiButton)(
   ({ theme }) => `
@@ -32,13 +34,25 @@ const IconButton = styled(MuiButton)(
 )
 
 const Navigation = ({ asideWidth, drawerWidth }) => {
-  const [group, setGroup] = useState(featuresGroup[0])
-  const [current, setCurrent] = useState(featuresGroup[0].slug)
+  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const [currentGroup, setCurrentGroup] = useState(featuresGroup[0])
 
-  const activateFeatures = group => {
-    setGroup(group)
-    setCurrent(group.slug)
-  }
+  const authorizedFeaturesGroup = useMemo(
+    () =>
+      featuresGroup
+        .map(group => {
+          let arrayFeatures = []
+          group.features.forEach(featureKey => {
+            if (authorizedFeatures.includes(featureKey)) {
+              arrayFeatures.push(featureKey)
+            }
+          })
+
+          return arrayFeatures.length ? { ...group, features: arrayFeatures } : null
+        })
+        .filter(group => group !== null),
+    [authorizedFeatures]
+  )
 
   return (
     <Box sx={{ display: 'flex', height: '100%' }}>
@@ -49,12 +63,12 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
         <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
         <Scopes />
         <div className="menu-group">
-          {featuresGroup.map((group, key) => (
+          {authorizedFeaturesGroup.map((group, key) => (
             <IconButton
               disableRipple={true}
-              onClick={() => activateFeatures(group)}
+              onClick={() => setCurrentGroup(group)}
               key={key}
-              className={current === group.slug ? 'active' : ''}
+              className={currentGroup.slug === group.slug ? 'active' : ''}
             >
               <Icon component={icons[group.slug]} />
               <span className="sr-only">{group.label}</span>
@@ -72,7 +86,7 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
           padding: '20px 16px',
         }}
       >
-        <NavMenu group={group} />
+        <NavMenu group={currentGroup} />
         <Footer />
       </Box>
     </Box>
