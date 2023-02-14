@@ -7,7 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from 'react-query'
-import Autocomplete from 'components/Filters/Element/Autocomplete'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -19,10 +18,10 @@ import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
 import Dialog from 'ui/Dialog'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import { activistAutocompleteUri } from 'api/activist'
 import { createElected, updateElected } from 'api/elected-representative'
 import { generatePath, useNavigate } from 'react-router'
 import paths from 'shared/paths'
+import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -257,22 +256,10 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
             <FormHeading title="Identité adhérent" description="Ces informations sont celles du profil de l'adhérent" />
             <Box sx={{ mt: 2 }}>
               <Grid item xs={12}>
-                <Autocomplete
-                  placeholder="Rechercher un adhérent"
+                <AdherentAutocomplete
                   customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
-                  uri={activistAutocompleteUri}
-                  queryParam="q"
-                  valueParam="uuid"
                   value={selectedAdherent}
-                  onChange={v => {
-                    setSelectedAdherent(v.uuid ? v : null)
-                  }}
-                  renderOption={(props, option) => (
-                    <li key={option.uuid} {...props}>
-                      {option.first_name} {option.last_name}
-                    </li>
-                  )}
-                  getOptionLabel={option => `${option.first_name} ${option.last_name}`}
+                  onChange={setSelectedAdherent}
                 />
               </Grid>
             </Box>

@@ -53,8 +53,7 @@ const Autocomplete = ({
 
   const handleChange = (_, selectedValues) => {
     const selectItems = [].concat(selectedValues).filter(selection => !!selection)
-    if (multiple) return onChange(selectItems)
-    return onChange(selectItems.shift() || {})
+    return onChange(multiple ? selectItems : selectItems.shift())
   }
 
   const Input = params => (

@@ -71,7 +71,7 @@ const CampaignDetail = () => {
 
   const {
     data: paginatedQuestioners = null,
-    fetchNextPage: fetchNexPageQuestioners,
+    fetchNextPage: fetchNextPageQuestioners,
     hasNextPage: hasNextPageQuestioners,
     isLoading: isQuestionersLoading,
   } = useInfiniteQueryWithScope(
@@ -180,7 +180,7 @@ const CampaignDetail = () => {
               <Container>
                 <InfiniteScroll
                   dataLength={questioners.length}
-                  next={() => fetchNexPageQuestioners()}
+                  next={() => fetchNextPageQuestioners()}
                   hasMore={hasNextPageQuestioners}
                   loader={<Loader />}
                 >

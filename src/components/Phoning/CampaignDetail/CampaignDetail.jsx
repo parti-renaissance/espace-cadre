@@ -74,7 +74,7 @@ export const CampaignDetail = () => {
   const {
     data: paginatedHistory = null,
     isLoading: isHistoryLoading,
-    fetchNextPage: fetchNexPageHistory,
+    fetchNextPage: fetchNextPageHistory,
     hasNextPage: hasNextPageHistory,
   } = useInfiniteQueryWithScope(
     ['paginated-history', { feature: 'Phoning', view: 'CampaignDetail' }, campaignId],
@@ -186,7 +186,7 @@ export const CampaignDetail = () => {
               <Container>
                 <InfiniteScroll
                   dataLength={history.length}
-                  next={() => fetchNexPageHistory()}
+                  next={() => fetchNextPageHistory()}
                   hasMore={hasNextPageHistory}
                   loader={<Loader />}
                 >
