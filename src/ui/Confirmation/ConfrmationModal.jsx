@@ -15,7 +15,7 @@ const ConfirmationModal = ({ title, description, onConfirm, onCancel, ...props }
       <DialogContentText id="alert-dialog-slide-description">{description}</DialogContentText>
     </DialogContent>
     <DialogActions>
-      <DangerButton onClick={onConfirm}>Confirmer</DangerButton>
+      <Button onClick={onConfirm}>Confirmer</Button>
       <Button onClick={onCancel} isMainButton>
         Annuler
       </Button>

@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
-import { zoneAutocompleteUri } from 'api/elected-representative'
+
+export const ZONE_AUTOCOMPLETE_URI = '/api/v3/zone/autocomplete'
 
 const ZoneAutocomplete = ({ onChange, value, customStyle, ...props }) => (
   <Autocomplete
     onChange={onChange}
     value={value}
     customStyle={customStyle}
-    uri={zoneAutocompleteUri}
+    uri={ZONE_AUTOCOMPLETE_URI}
     queryParam="q"
     valueParam="uuid"
+    getOptionLabel={option => `${option.name} (${option.code})`}
     {...props}
   />
 )

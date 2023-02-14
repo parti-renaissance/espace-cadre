@@ -222,15 +222,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <ZoneAutocomplete
               customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
               value={selectedZone}
-              onChange={v => {
-                setSelectedZone(v)
-              }}
-              renderOption={(props, option) => (
-                <li key={option.uuid} {...props}>
-                  {option.name} ({option.code})
-                </li>
-              )}
-              getOptionLabel={option => `${option.name} (${option.code})`}
+              onChange={setSelectedZone}
             />
             <FormError errors={errorMessages} field={fields.geoZone} />
           </Box>

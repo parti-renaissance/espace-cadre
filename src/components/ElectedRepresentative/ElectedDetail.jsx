@@ -25,6 +25,7 @@ import CreateEditMandate from './CreateEditMandate'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import ConfirmationModal from 'ui/Confirmation/ConfrmationModal'
+import ConfirmButton from 'ui/Button/ConfirmButton'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -103,14 +104,13 @@ const ElectedDetail = () => {
   const handleDelete = useCallback(
     mandateId => () => {
       remove(mandateId)
-      setConfirmDeleteModalOpen(false)
+      // setConfirmDeleteModalOpen(false)
     },
     [remove]
   )
 
-  const handleDeleMandate = mandate => {
-    setMandate(mandate)
-    setConfirmDeleteModalOpen(true)
+  const handleDeleteMandate = mandate => {
+    remove(mandate.uuid)
   }
 
   const handleAddMandate = () => {
@@ -149,7 +149,6 @@ const ElectedDetail = () => {
           }
         />
       </Grid>
-
       <Box className="space-y-8">
         <UICard
           rootProps={{ sx: { p: 0 } }}
@@ -292,10 +291,15 @@ const ElectedDetail = () => {
                       <Button isMainButton onClick={() => handleEditMandate(mandate)}>
                         {messages.edit}
                       </Button>
+
+                      <ConfirmButton onClick={() => handleDeleteMandate(mandate)}>
+                        <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
+                      </ConfirmButton>
+
                       <IconButton
                         edge="start"
                         color="inherit"
-                        onClick={() => handleDeleMandate(mandate)}
+                        onClick={() => handleDeleteMandate(mandate)}
                         aria-label="delete"
                         sx={{ ml: 0.5 }}
                       >
@@ -308,7 +312,6 @@ const ElectedDetail = () => {
           }
         />
       </Box>
-
       {isCreateEditModalOpen && (
         <CreateEditModal
           elected={electedDetail}
@@ -316,7 +319,6 @@ const ElectedDetail = () => {
           handleClose={() => setIsCreateEditModalOpen(false)}
         />
       )}
-
       {isMandateModalOpen && (
         <CreateEditMandate
           electedId={electedId}
@@ -325,17 +327,6 @@ const ElectedDetail = () => {
           handleClose={handleCloseMandate}
         />
       )}
-
-      {confirmDeleteModalOpen && mandate && (
-        <ConfirmationModal
-          title={messages.confirmDeleteTitle}
-          description={messages.confirmDeleteDescription}
-          onCancel={() => {
-            setConfirmDeleteModalOpen(false)
-            setMandate(null)
-          }}
-          onConfirm={handleDelete(mandate.uuid)}
-        />
       )}
     </Container>
   )

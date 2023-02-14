@@ -12,8 +12,6 @@ export const createElected = async elected => await apiClient.post('/api/v3/elec
 export const updateElected = async elected =>
   await apiClient.put(`/api/v3/elected_representatives/${elected.uuid}`, elected)
 
-export const zoneAutocompleteUri = '/api/v3/zone/autocomplete'
-export const getMandate = async uuid => await apiClient.get(`/api/v3/elected_mandates/${uuid}`)
 export const createMandate = async mandate => await apiClient.post('/api/v3/elected_mandates', mandate)
 export const updateMandate = async mandate => await apiClient.put(`/api/v3/elected_mandates/${mandate.uuid}`, mandate)
 export const deleteMandate = async uuid => await apiClient.delete(`/api/v3/elected_mandates/${uuid}`)
