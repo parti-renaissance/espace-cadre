@@ -91,7 +91,7 @@ const ElectedDetail = () => {
     }
   )
 
-  const { mutate: remove, isLoading: loading } = useMutation(deleteMandate, {
+  const { mutate: removeMandate, isLoading: loading } = useMutation(deleteMandate, {
     onSuccess: () => {
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
       refetch()
@@ -99,23 +99,9 @@ const ElectedDetail = () => {
     onError: handleError,
   })
 
-  const handleDeleteMandate = mandateId => {
-    remove(mandateId)
-  }
-
-  const handleAddMandate = () => {
-    setMandate(null)
-    setIsMandateModalOpen(true)
-  }
-
-  const handleEditMandate = mandate => {
+  const toggleEditMandateModal = (mandate, open) => {
     setMandate(mandate)
-    setIsMandateModalOpen(true)
-  }
-
-  const handleCloseMandate = () => {
-    setMandate(null)
-    setIsMandateModalOpen(false)
+    setIsMandateModalOpen(open)
   }
 
   if (isLoading) {
@@ -229,7 +215,7 @@ const ElectedDetail = () => {
                 </Typography>
                 {loading && <Loader />}
               </Box>
-              <Button isMainButton onClick={handleAddMandate}>
+              <Button isMainButton onClick={() => toggleEditMandateModal(null, true)}>
                 {messages.add}
               </Button>
             </Box>
@@ -243,7 +229,7 @@ const ElectedDetail = () => {
                     <>
                       <PageHeaderButton
                         label={messages.add}
-                        onClick={handleAddMandate}
+                        onClick={() => toggleEditMandateModal(null, true)}
                         icon={<AddIcon />}
                         isMainButton
                       />
@@ -278,14 +264,14 @@ const ElectedDetail = () => {
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', ml: 2 }}>
-                      <Button isMainButton onClick={() => handleEditMandate(mandate)}>
+                      <Button isMainButton onClick={() => toggleEditMandateModal(mandate, true)}>
                         {messages.edit}
                       </Button>
 
                       <ConfirmButton
                         title={messages.confirmDeleteTitle}
                         description={messages.confirmDeleteDescription}
-                        onClick={() => handleDeleteMandate(mandate.uuid)}
+                        onClick={() => removeMandate(mandate.uuid)}
                       >
                         <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
                       </ConfirmButton>
@@ -308,7 +294,7 @@ const ElectedDetail = () => {
           electedId={electedId}
           mandate={mandate}
           onUpdateResolve={refetch}
-          handleClose={handleCloseMandate}
+          handleClose={() => toggleEditMandateModal(null, false)}
         />
       )}
     </Container>

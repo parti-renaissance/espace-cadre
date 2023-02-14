@@ -32,7 +32,6 @@ export function generateConfig({ mode }) {
     ],
     server: {
       open: true,
-      port: 3000,
     },
     build: {
       outDir: 'build',
