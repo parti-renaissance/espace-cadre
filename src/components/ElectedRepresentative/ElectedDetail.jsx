@@ -20,6 +20,7 @@ import Button from 'ui/Button'
 import EmptyContent from 'ui/EmptyContent'
 import Loader from 'ui/Loader'
 import { mandats } from 'shared/constants'
+import CreateEditMandate from './CreateEditMandate'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -66,6 +67,7 @@ Content.propTypes = {
 const ElectedDetail = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isMandateModalOpen, setIsMandateModalOpen] = useState(false)
+  const [mandate, setMandate] = useState({})
   const { electedId } = useParams()
   const { handleError } = useErrorHandler()
 
@@ -82,7 +84,18 @@ const ElectedDetail = () => {
   )
 
   const handleAddMandate = () => {
+    setMandate({})
     setIsMandateModalOpen(true)
+  }
+
+  const handleEditMandate = mandate => {
+    setMandate(mandate)
+    setIsMandateModalOpen(true)
+  }
+
+  const handleCloseMandate = () => {
+    setMandate({})
+    setIsMandateModalOpen(false)
   }
 
   if (isLoading) {
@@ -241,10 +254,17 @@ const ElectedDetail = () => {
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', ml: 2 }}>
-                      <Button isMainButton onClick={() => {}}>
+                      <Button isMainButton onClick={() => handleEditMandate(mandate)}>
                         {messages.edit}
                       </Button>
-                      <IconButton edge="start" color="inherit" onClick={() => {}} aria-label="delete" sx={{ ml: 0.5 }}>
+                      <IconButton
+                        disabled={true}
+                        edge="start"
+                        color="inherit"
+                        onClick={() => {}}
+                        aria-label="delete"
+                        sx={{ ml: 0.5 }}
+                      >
                         <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
                       </IconButton>
                     </Box>
@@ -263,7 +283,14 @@ const ElectedDetail = () => {
         />
       )}
 
-      {isMandateModalOpen && <></>}
+      {isMandateModalOpen && (
+        <CreateEditMandate
+          electedId={electedId}
+          mandate={mandate}
+          onUpdateResolve={refetch}
+          handleClose={handleCloseMandate}
+        />
+      )}
     </Container>
   )
 }

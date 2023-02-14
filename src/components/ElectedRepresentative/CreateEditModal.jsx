@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from 'react-query'
+import { generatePath, useNavigate } from 'react-router'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -19,11 +20,10 @@ import Select from 'ui/Select/Select'
 import Dialog from 'ui/Dialog'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { createElected, updateElected } from 'api/elected-representative'
-import { generatePath, useNavigate } from 'react-router'
 import paths from 'shared/paths'
 import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
 
-const Title = styled(Typography)(
+export const Title = styled(Typography)(
   ({ theme }) => `
   color: ${theme.palette.colors.gray[900]};
   font-size: 1.525rem;
