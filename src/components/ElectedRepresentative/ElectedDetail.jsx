@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useParams } from 'react-router'
-import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Container, Grid, Typography } from '@mui/material'
 import { format } from 'date-fns'
 import ErrorIcon from '@mui/icons-material/Error'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import { DateRange } from '@mui/icons-material'
-import { getElected } from 'api/elected-representative'
+import { useMutation } from 'react-query'
+import { deleteMandate, getElected } from 'api/elected-representative'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import paths from 'shared/paths'
@@ -20,6 +21,10 @@ import Button from 'ui/Button'
 import EmptyContent from 'ui/EmptyContent'
 import Loader from 'ui/Loader'
 import { mandats } from 'shared/constants'
+import CreateEditMandate from './CreateEditMandate'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+import ConfirmButton from 'ui/Button/ConfirmButton'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -32,6 +37,9 @@ const messages = {
   noAssociate: "Cet élu n'est pas associé à un compte adhérent",
   mandatesTitle: "Mandats de l'élu",
   noMandates: 'Cet élu ne possède aucun mandat',
+  confirmDeleteTitle: 'Suppression du mandat',
+  confirmDeleteDescription: 'Êtes-vous sûr de vouloir supprimer ce mandat ?',
+  deleteSuccess: 'Mandat supprimé avec succès',
 }
 
 const Content = ({ sx, title, content = null, children }) => (
@@ -66,6 +74,8 @@ Content.propTypes = {
 const ElectedDetail = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isMandateModalOpen, setIsMandateModalOpen] = useState(false)
+  const [mandate, setMandate] = useState(null)
+  const { enqueueSnackbar } = useCustomSnackbar()
   const { electedId } = useParams()
   const { handleError } = useErrorHandler()
 
@@ -81,8 +91,17 @@ const ElectedDetail = () => {
     }
   )
 
-  const handleAddMandate = () => {
-    setIsMandateModalOpen(true)
+  const { mutate: removeMandate, isLoading: loading } = useMutation(deleteMandate, {
+    onSuccess: () => {
+      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
+      refetch()
+    },
+    onError: handleError,
+  })
+
+  const toggleEditMandateModal = (mandate, open) => {
+    setMandate(mandate)
+    setIsMandateModalOpen(open)
   }
 
   if (isLoading) {
@@ -106,7 +125,6 @@ const ElectedDetail = () => {
           }
         />
       </Grid>
-
       <Box className="space-y-8">
         <UICard
           rootProps={{ sx: { p: 0 } }}
@@ -189,10 +207,15 @@ const ElectedDetail = () => {
                 borderColor: theme => theme.palette.colors.gray[200],
               }}
             >
-              <Typography sx={{ fontSize: '18px', fontWeight: 500, color: theme => theme.palette.colors.gray[700] }}>
-                {messages.mandatesTitle}
-              </Typography>
-              <Button isMainButton onClick={handleAddMandate}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography
+                  sx={{ fontSize: '18px', fontWeight: 500, color: theme => theme.palette.colors.gray[700], mr: 2 }}
+                >
+                  {messages.mandatesTitle}
+                </Typography>
+                {loading && <Loader />}
+              </Box>
+              <Button isMainButton onClick={() => toggleEditMandateModal(null, true)}>
                 {messages.add}
               </Button>
             </Box>
@@ -206,7 +229,7 @@ const ElectedDetail = () => {
                     <>
                       <PageHeaderButton
                         label={messages.add}
-                        onClick={handleAddMandate}
+                        onClick={() => toggleEditMandateModal(null, true)}
                         icon={<AddIcon />}
                         isMainButton
                       />
@@ -216,7 +239,7 @@ const ElectedDetail = () => {
               )}
               {electedDetail.mandates.length > 0 &&
                 electedDetail.mandates.map(mandate => (
-                  <Box key={mandate.id} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
+                  <Box key={mandate.uuid} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ flex: '1 1 0%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Typography
@@ -241,12 +264,17 @@ const ElectedDetail = () => {
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', ml: 2 }}>
-                      <Button isMainButton onClick={() => {}}>
+                      <Button isMainButton onClick={() => toggleEditMandateModal(mandate, true)}>
                         {messages.edit}
                       </Button>
-                      <IconButton edge="start" color="inherit" onClick={() => {}} aria-label="delete" sx={{ ml: 0.5 }}>
+
+                      <ConfirmButton
+                        title={messages.confirmDeleteTitle}
+                        description={messages.confirmDeleteDescription}
+                        onClick={() => removeMandate(mandate.uuid)}
+                      >
                         <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
-                      </IconButton>
+                      </ConfirmButton>
                     </Box>
                   </Box>
                 ))}
@@ -254,7 +282,6 @@ const ElectedDetail = () => {
           }
         />
       </Box>
-
       {isCreateEditModalOpen && (
         <CreateEditModal
           elected={electedDetail}
@@ -262,8 +289,14 @@ const ElectedDetail = () => {
           handleClose={() => setIsCreateEditModalOpen(false)}
         />
       )}
-
-      {isMandateModalOpen && <></>}
+      {isMandateModalOpen && (
+        <CreateEditMandate
+          electedId={electedId}
+          mandate={mandate}
+          onUpdateResolve={refetch}
+          handleClose={() => toggleEditMandateModal(null, false)}
+        />
+      )}
     </Container>
   )
 }

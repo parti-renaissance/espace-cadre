@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from 'react-query'
+import { generatePath, useNavigate } from 'react-router'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -19,18 +20,9 @@ import Select from 'ui/Select/Select'
 import Dialog from 'ui/Dialog'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { createElected, updateElected } from 'api/elected-representative'
-import { generatePath, useNavigate } from 'react-router'
 import paths from 'shared/paths'
+import Title from 'ui/Title'
 import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
-
-const Title = styled(Typography)(
-  ({ theme }) => `
-  color: ${theme.palette.colors.gray[900]};
-  font-size: 1.525rem;
-  line-height: 1.75rem;
-  font-weight: 500;
-`
-)
 
 const FormTitle = styled(Typography)(
   ({ theme }) => `
@@ -134,7 +126,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
   return (
     <Dialog data-cy="elected-create-edit" handleClose={handleClose} open>
       <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title>{!elected ? messages.creationTitle : messages.editionTitle}</Title>
+        <Title title={!elected ? messages.creationTitle : messages.editionTitle} />
         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
           <CloseIcon />
         </IconButton>

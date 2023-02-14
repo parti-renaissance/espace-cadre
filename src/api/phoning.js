@@ -30,6 +30,7 @@ import {
 } from 'domain/phoning'
 import { newPaginatedResult } from 'api/pagination'
 import { Zone } from 'domain/zone'
+import { ZONE_AUTOCOMPLETE_URI } from 'components/Filters/Element/ZoneAutocomplete'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
@@ -190,7 +191,7 @@ export const getPhoningCampaignSurveys = async ({ pageParam: page = 1 }) => {
 }
 
 export const getPhoningCampaignZones = async city => {
-  const data = await apiClient.get(`/api/v3/zone/autocomplete?q=${city}`)
+  const data = await apiClient.get(`${ZONE_AUTOCOMPLETE_URI}?q=${city}`)
   return data.map(z => new PhoningCampaignCreateEditZone(z.uuid, z.name, z.code))
 }
 
