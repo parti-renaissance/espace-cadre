@@ -25,6 +25,23 @@ const MainButton = styled(
 `
 )
 
+const MainDangerButton = styled(
+  MainButton,
+  shouldForwardProps
+)(
+  ({ theme }) => `
+  color: ${theme.palette.colors.white};
+  background: ${theme.palette.statusError};
+  &:hover {
+    background: ${theme.palette.red600};
+  }
+  &.Mui-disabled {
+    color: ${theme.palette.colors.white};
+    background-color: ${theme.palette.red600};
+  }
+`
+)
+
 const Button = ({ children, onClick, rootProps, disabled = false, isMainButton = false }) => (
   <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled} isMainButton={isMainButton}>
     {children}
@@ -36,6 +53,13 @@ export const ActionButton = ({ children, handleSubmit, isLoading = false }) => (
     {isLoading && <Loader />}&nbsp;
     {children}
   </Button>
+)
+
+export const DangerButton = ({ children, onClick, rootProps, isLoading = false }) => (
+  <MainDangerButton variant="contained" onClick={onClick} {...rootProps} disabled={isLoading}>
+    {isLoading && <Loader />}&nbsp;
+    {children}
+  </MainDangerButton>
 )
 
 export default Button
@@ -53,4 +77,11 @@ ActionButton.propTypes = {
   isLoading: PropTypes.bool,
   handleSubmit: PropTypes.func,
   rootProps: PropTypes.object,
+}
+
+DangerButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+  rootProps: PropTypes.object,
+  isLoading: PropTypes.bool,
 }

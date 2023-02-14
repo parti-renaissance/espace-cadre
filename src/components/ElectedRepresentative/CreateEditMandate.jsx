@@ -7,20 +7,20 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from 'react-query'
-import Dialog from 'ui/Dialog'
+import { createMandate, updateMandate } from 'api/elected-representative'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { FormError } from 'components/shared/error/components'
+import ZoneAutocomplete from 'components/Filters/Element/ZoneAutocomplete'
+import { mandats, affiliations, supports } from 'shared/constants'
 import Button, { ActionButton } from 'ui/Button/Button'
+import Dialog from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
-import { Title } from './CreateEditModal'
-import { mandats, affiliations, supports } from 'shared/constants'
 import Input from 'ui/Input/Input'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import { createMandate, updateMandate, zoneAutocompleteUri } from 'api/elected-representative'
-import Autocomplete from 'components/Filters/Element/Autocomplete'
+import Title from 'ui/Title'
 
 const messages = {
   create: 'Créer',
@@ -41,18 +41,15 @@ const fields = {
   isElected: 'is_elected',
   laREMSupport: 'la_r_e_m_support',
   politicalAffiliation: 'political_affiliation',
-  electedRepresentative: 'elected_representative',
 }
 
 const mandateSchema = Yup.object({
   type: Yup.string().required('Le type de mandat est obligatoire'),
   beginAt: Yup.date().required('La date de début est obligatoire'),
   finishAt: Yup.date().optional(),
-  electedRepresentative: Yup.string().required("L'élu est obligatoire"),
   geoZone: Yup.string().required('La zone géographique est obligatoire'),
-  isElected: Yup.boolean().optional(),
-  laREMSupport: Yup.boolean().optional(),
   onGoing: Yup.boolean().optional(),
+  politicalAffiliation: Yup.string().required("L'affiliation politique est obligatoire"),
 })
 
 const UISelect = ({ options, ...props }) => (
@@ -115,7 +112,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
   return (
     <Dialog data-cy="mandate-create-edit" handleClose={handleClose} open>
       <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title>{!mandate ? messages.creationTitle : messages.editionTitle}</Title>
+        <Title title={!mandate ? messages.creationTitle : messages.editionTitle} />
         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
           <CloseIcon />
         </IconButton>
@@ -126,7 +123,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
       >
         <Box sx={{ flex: '1 1 0%' }} className="space-y-4">
           <Box>
-            <UIInputLabel required>Type de Mandat</UIInputLabel>
+            <UIInputLabel required>Type de mandat</UIInputLabel>
             <Controller
               name={fields.type}
               control={control}
@@ -152,7 +149,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
                   render={({ field: { onChange, value } }) => (
                     <FormControlLabel
                       name={fields.isElected}
-                      label="C'est un élu !"
+                      label="C'est un élu"
                       onChange={onChange}
                       control={<Checkbox checked={value} />}
                     />
@@ -169,7 +166,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
                   render={({ field: { onChange, value } }) => (
                     <FormControlLabel
                       name={fields.onGoing}
-                      label="Mandat en cours !"
+                      label="Mandat en cours"
                       onChange={onChange}
                       control={<Checkbox checked={value} />}
                     />
@@ -222,11 +219,8 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
           </Grid>
           <Box>
             <UIInputLabel required>Zone géographique</UIInputLabel>
-            <Autocomplete
+            <ZoneAutocomplete
               customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
-              uri={zoneAutocompleteUri}
-              queryParam="q"
-              valueParam="uuid"
               value={selectedZone}
               onChange={v => {
                 setSelectedZone(v)
@@ -258,7 +252,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <FormError errors={errorMessages} field={fields.politicalAffiliation} />
           </Box>
           <Box>
-            <UIInputLabel>Soutien LaREM</UIInputLabel>
+            <UIInputLabel>Soutien</UIInputLabel>
             <Controller
               name={fields.laREMSupport}
               control={control}
