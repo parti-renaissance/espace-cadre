@@ -1,13 +1,16 @@
+import { IconButton } from '@mui/material'
 import { useState } from 'react'
-import Button from 'ui/Button/Button'
+import PropTypes from 'prop-types'
 import ConfirmationModal from 'ui/Confirmation/ConfrmationModal'
 
-const ConfirmButton = ({ children, onClick }) => {
+const ConfirmButton = ({ title, description, children, onClick }) => {
   const [open, setOpen] = useState(false)
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>{children}</Button>
+      <IconButton edge="start" color="inherit" onClick={() => setOpen(true)} aria-label="delete" sx={{ ml: 0.5 }}>
+        {children}
+      </IconButton>
       {open && (
         <ConfirmationModal
           onCancel={() => setOpen(false)}
@@ -15,8 +18,8 @@ const ConfirmButton = ({ children, onClick }) => {
             onClick()
             setOpen(false)
           }}
-          description={'Desc'}
-          title={'Confirmation'}
+          title={title}
+          description={description}
         />
       )}
     </>
@@ -24,3 +27,10 @@ const ConfirmButton = ({ children, onClick }) => {
 }
 
 export default ConfirmButton
+
+ConfirmButton.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+}

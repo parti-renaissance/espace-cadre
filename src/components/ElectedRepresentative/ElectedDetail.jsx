@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router'
-import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Container, Grid, Typography } from '@mui/material'
 import { format } from 'date-fns'
 import ErrorIcon from '@mui/icons-material/Error'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -24,7 +24,6 @@ import { mandats } from 'shared/constants'
 import CreateEditMandate from './CreateEditMandate'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
-import ConfirmationModal from 'ui/Confirmation/ConfrmationModal'
 import ConfirmButton from 'ui/Button/ConfirmButton'
 
 const messages = {
@@ -75,7 +74,6 @@ Content.propTypes = {
 const ElectedDetail = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isMandateModalOpen, setIsMandateModalOpen] = useState(false)
-  const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false)
   const [mandate, setMandate] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { electedId } = useParams()
@@ -101,16 +99,8 @@ const ElectedDetail = () => {
     onError: handleError,
   })
 
-  const handleDelete = useCallback(
-    mandateId => () => {
-      remove(mandateId)
-      // setConfirmDeleteModalOpen(false)
-    },
-    [remove]
-  )
-
-  const handleDeleteMandate = mandate => {
-    remove(mandate.uuid)
+  const handleDeleteMandate = mandateId => {
+    remove(mandateId)
   }
 
   const handleAddMandate = () => {
@@ -292,19 +282,13 @@ const ElectedDetail = () => {
                         {messages.edit}
                       </Button>
 
-                      <ConfirmButton onClick={() => handleDeleteMandate(mandate)}>
-                        <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
-                      </ConfirmButton>
-
-                      <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={() => handleDeleteMandate(mandate)}
-                        aria-label="delete"
-                        sx={{ ml: 0.5 }}
+                      <ConfirmButton
+                        title={messages.confirmDeleteTitle}
+                        description={messages.confirmDeleteDescription}
+                        onClick={() => handleDeleteMandate(mandate.uuid)}
                       >
                         <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
-                      </IconButton>
+                      </ConfirmButton>
                     </Box>
                   </Box>
                 ))}
@@ -326,7 +310,6 @@ const ElectedDetail = () => {
           onUpdateResolve={refetch}
           handleClose={handleCloseMandate}
         />
-      )}
       )}
     </Container>
   )
