@@ -5,6 +5,34 @@ import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
 import Activist from 'domain/activist'
 
+const renderCellValue = ({ value, column, member }) => {
+  if (column?.dependency) {
+    const isSuccess = !(column.dependency?.fields || [])
+      .map(field => {
+        const fieldValue = member.getValue(columnKeyMapping[field.code] || field.code)
+
+        if (typeof fieldValue === 'undefined') {
+          return true
+        }
+
+        for (const validValue of field.valid_values) {
+          if (validValue === fieldValue) {
+            return true
+          }
+        }
+
+        return false
+      })
+      .includes(false)
+
+    if (column.dependency.mode === 'color_invalid' && !isSuccess) {
+      return <span style={{ color: '#f44336' }}>{value}</span>
+    }
+  }
+
+  return value
+}
+
 const Interests = styled('span')(({ theme }) => ({
   color: theme.palette.blueCorner,
   background: theme.palette.interestsBubble,
@@ -36,7 +64,11 @@ const Cell = ({ member, column }) => {
           return (
             <Interests key={index}>
               <Typography sx={{ bgcolor: 'palette.blueCorner' }}>
-                {typeof column.messages[el] !== 'undefined' ? column.messages[el] : el}
+                {renderCellValue({
+                  value: typeof column.messages[el] !== 'undefined' ? column.messages[el] : el,
+                  member,
+                  column,
+                })}
               </Typography>
             </Interests>
           )
@@ -44,17 +76,17 @@ const Cell = ({ member, column }) => {
     }
 
     if (typeof column.messages[value] !== 'undefined') {
-      return column.messages[value]
+      return renderCellValue({ value: column.messages[value], member, column })
     }
 
-    return value
+    return renderCellValue({ value, member, column })
   }
 
   if (column.type === 'boolean') {
     return value ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />
   }
 
-  return <>{value}</>
+  return renderCellValue({ value, member, column })
 }
 
 Cell.propTypes = {
