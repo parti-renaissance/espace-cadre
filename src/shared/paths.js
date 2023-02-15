@@ -14,6 +14,7 @@ export default {
   events: '/evenements',
   department_site: '/site-departemental',
   elected_representative: '/registre-elus',
+  adherent_formations: '/formations',
 }
 
 export const publicPaths = {

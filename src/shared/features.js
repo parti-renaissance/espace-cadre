@@ -12,6 +12,7 @@ const features = {
   survey: 'survey',
   my_team: 'my_team',
   events: 'events',
+  adherent_formations: 'adherent_formations',
   department_site: 'department_site',
   elected_representative: 'elected_representative',
 }
@@ -38,7 +39,15 @@ export const featuresGroup = [
   {
     label: 'Militantisme',
     slug: 'militantisme',
-    features: [features.contacts, features.events, features.team, features.pap, features.pap_v2, features.survey],
+    features: [
+      features.contacts,
+      features.events,
+      features.team,
+      features.pap,
+      features.pap_v2,
+      features.survey,
+      features.adherent_formations,
+    ],
   },
   {
     label: 'Gestion territoriale',
@@ -63,4 +72,5 @@ export const featuresLabels = {
   [features.events]: 'Évènements',
   [features.department_site]: 'Site départemental',
   [features.elected_representative]: 'Registre des élus',
+  [features.adherent_formations]: 'Formations',
 }
