@@ -121,7 +121,8 @@ function Scopes() {
       {currentUser && filteredScopes?.length > 0 && (
         <>
           <button type="button" className="button button-circle mx-auto" onClick={handleClick} data-cy="scopes-button">
-            {scopesAliases[currentScope?.code] || getInitialNames(currentScope?.name)}
+            {scopesAliases[currentScope.delegated_access?.type || currentScope.code] ||
+              getInitialNames(currentScope?.name)}
           </button>
           <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={handleClose}>
             {filteredScopes?.map(userScope => (
