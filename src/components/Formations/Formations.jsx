@@ -74,18 +74,21 @@ const Formations = () => {
 
   const formations = usePaginatedData(paginatedFormations)
 
-  if (!formations || formations.length === 0)
-    <EmptyContent
-      description={messages.noFormation}
-      action={
-        <>
-          <PageHeaderButton label={messages.create} onClick={() => {}} icon={<SchoolRoundedIcon />} isMainButton />
-        </>
-      }
-    />
+  if (!formations || formations.length === 0) {
+    return (
+      <EmptyContent
+        description={messages.noFormation}
+        action={
+          <>
+            <PageHeaderButton label={messages.create} onClick={() => {}} icon={<SchoolRoundedIcon />} isMainButton />
+          </>
+        }
+      />
+    )
+  }
 
-  {
-    isLoading && <Loader />
+  if (isLoading) {
+    return <Loader />
   }
 
   return (
@@ -101,7 +104,7 @@ const Formations = () => {
 
       <InfiniteScroll
         dataLength={formations.length}
-        next={() => fetchNextPage()}
+        next={fetchNextPage}
         hasMore={hasNextPage}
         loader={<Loader />}
         style={{ marginTop: '8px' }}
