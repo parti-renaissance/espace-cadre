@@ -104,7 +104,7 @@ const Filters = () => {
     Sentry.addBreadcrumb({
       category: 'messages',
       message: `${messages.errorFilter} id=${messageUuid}`,
-      level: Sentry.Severity.Critical,
+      level: 'error',
     })
     Sentry.captureMessage(messages.errorFilter)
     enqueueSnackbar(notifyMessages.warningTitle, notifyVariants.info, messages.errorFilter)
@@ -119,7 +119,7 @@ const Filters = () => {
       Sentry.addBreadcrumb({
         category: 'messages',
         message: `${messages.errorSynchro} id=${messageUuid}`,
-        level: Sentry.Severity.Critical,
+        level: 'error',
       })
       Sentry.captureMessage(messages.errorSynchro)
       enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorSynchro)

@@ -29,7 +29,7 @@ export const useErrorHandler = () => {
       Sentry.addBreadcrumb({
         category: 'request',
         message: Object.keys(data).length ? JSON.stringify(data) : message,
-        level: Sentry.Severity.Debug,
+        level: 'debug',
       })
       Sentry.captureException(error)
       return resetErrorMessages
