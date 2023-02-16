@@ -120,7 +120,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
         Sentry.addBreadcrumb({
           category: 'messages',
           message: `${messages.errorTemplate} id=${messageUuid}`,
-          level: Sentry.Severity.Critical,
+          level: 'error',
         })
         Sentry.captureMessage(messages.errorTemplate)
       }
