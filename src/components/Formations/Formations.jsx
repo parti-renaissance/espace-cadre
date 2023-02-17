@@ -21,6 +21,7 @@ import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
 import ConfirmButton from 'ui/Button/ConfirmButton'
+import { apiClient } from 'services/networking/client'
 
 const messages = {
   title: 'Formations',
@@ -167,7 +168,23 @@ const Formations = () => {
                             {messages.view}
                           </Typography>
                         ) : (
-                          <button className="button button-link" onClick={formation.file_path}>
+                          <button
+                            className="button button-link"
+                            onClick={async () => {
+                              const response = await apiClient.request(
+                                'GET',
+                                formation.file_path,
+                                null,
+                                {},
+                                { responseType: 'blob' }
+                              )
+                              const file = new Blob([response])
+                              const a = document.createElement('a')
+                              a.href = URL.createObjectURL(file)
+                              a.download = 'formation.pdf'
+                              a.click()
+                            }}
+                          >
                             {messages.download}
                           </button>
                         )}
