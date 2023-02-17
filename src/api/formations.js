@@ -10,7 +10,5 @@ export const updateFormation = async formation => await apiClient.put(`/api/v3/f
 export const uploadFile = async ({ uuid, file }) => {
   const formData = new FormData()
   formData.append('file', file)
-  return await apiClient.post(`/api/v3/formations/${uuid}/file`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  })
+  return await apiClient.post(`/api/v3/formations/${uuid}/file`, formData, { 'Content-Type': 'multipart/form-data' })
 }
