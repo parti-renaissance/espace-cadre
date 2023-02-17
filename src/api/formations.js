@@ -12,3 +12,5 @@ export const uploadFile = async ({ uuid, file }) => {
   formData.append('file', file)
   return await apiClient.post(`/api/v3/formations/${uuid}/file`, formData, { 'Content-Type': 'multipart/form-data' })
 }
+export const getFile = async uuid => await apiClient.get(`/api/v3/formations/${uuid}/file`)
+export const deleteFormation = async uuid => await apiClient.delete(`/api/v3/formations/${uuid}`)

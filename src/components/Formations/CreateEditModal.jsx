@@ -119,6 +119,8 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
       setAction('')
       setFiles(null)
       setLoading(false)
+
+      onUpdateResolve && onUpdateResolve()
       enqueueSnackbar(!formation ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       handleClose()
     }
@@ -213,6 +215,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
                 instantUpload={false}
                 files={files}
                 onupdatefiles={setFiles}
+                allowProcess={false}
                 labelIdle='Glissez-déposez vos fichiers ou <span class="filepond--label-action">Parcourir</span>'
                 server="/"
               />

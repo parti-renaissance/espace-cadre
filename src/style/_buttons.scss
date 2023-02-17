@@ -44,4 +44,17 @@
       color: #64748b;
     }
   }
+
+  &-link {
+    background-color: transparent;
+    padding: 0;
+    display: inline-flex;
+    color: $color-blue-500;
+    font-size: 14px;
+    font-weight: 500;
+
+    &:focus {
+      color: $color-blue-900;
+    }
+  }
 }
