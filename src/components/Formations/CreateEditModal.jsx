@@ -212,12 +212,10 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
           {contentType === 'file' && (
             <Box>
               <FilePond
-                instantUpload={false}
                 files={files}
                 onupdatefiles={setFiles}
                 allowProcess={false}
                 labelIdle='Glissez-déposez vos fichiers ou <span class="filepond--label-action">Parcourir</span>'
-                server="/"
               />
             </Box>
           )}

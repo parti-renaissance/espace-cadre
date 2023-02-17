@@ -9,7 +9,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useMutation } from 'react-query'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getFormations, deleteFormation } from 'api/formations'
+import { getFormations, deleteFormation, getFile } from 'api/formations'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -21,7 +21,6 @@ import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
 import ConfirmButton from 'ui/Button/ConfirmButton'
-import { apiClient } from 'services/networking/client'
 
 const messages = {
   title: 'Formations',
@@ -171,18 +170,9 @@ const Formations = () => {
                           <button
                             className="button button-link"
                             onClick={async () => {
-                              const response = await apiClient.request(
-                                'GET',
-                                formation.file_path,
-                                null,
-                                {},
-                                { responseType: 'blob' }
-                              )
-                              const file = new Blob([response])
-                              const a = document.createElement('a')
-                              a.href = URL.createObjectURL(file)
-                              a.download = 'formation.pdf'
-                              a.click()
+                              const { blob, fileName } = await getFile(formation.uuid)
+
+                              saveAs(blob, fileName)
                             }}
                           >
                             {messages.download}
