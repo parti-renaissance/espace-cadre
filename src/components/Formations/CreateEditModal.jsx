@@ -120,7 +120,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
       setFiles(null)
       setLoading(false)
       enqueueSnackbar(!formation ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-      //handleClose()
+      handleClose()
     }
   }
 
