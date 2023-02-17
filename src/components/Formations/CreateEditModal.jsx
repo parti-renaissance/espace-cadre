@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Grid, IconButton, FormControlLabel, RadioGroup, Radio, Typography } from '@mui/material'
@@ -77,15 +77,22 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
   const [action, setAction] = useState('')
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const { control, getValues, watch } = useForm({
+  const { control, getValues, reset, watch } = useForm({
     mode: 'onChange',
     resolver: yupResolver(formationSchema),
   })
 
   const contentType = watch(fields.contentType, 'link')
   const zone = watch(fields.zone, formation?.zone?.uuid || '')
+  const position = watch(fields.position, formation ? parseInt(formation.position) : 0)
   const values = getValues()
   watch()
+
+  useEffect(() => {
+    if (formation) {
+      reset({ ...formation, zone: formation.zone.uuid })
+    }
+  }, [formation, reset])
 
   const { mutateAsync: createOrUpdate } = useMutation(!formation ? createFormation : updateFormation, {
     onSuccess: () => {
@@ -108,7 +115,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
     setAction(messages.createAction)
 
     try {
-      response = await createOrUpdate(values)
+      response = await createOrUpdate({ ...values, position: parseInt(position), zone })
     } catch (error) {
       handleError(error)
     } finally {
@@ -165,7 +172,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
             <Controller
               name={fields.description}
               control={control}
-              defaultValue={formation?.description}
+              defaultValue={formation?.description || ''}
               render={({ field: { onChange, value } }) => (
                 <Input name={fields.description} onChange={onChange} value={value} multiline maxRows={4} />
               )}
@@ -210,7 +217,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
                 files={files}
                 onupdatefiles={setFiles}
                 allowProcess={false}
-                labelIdle='Glissez-déposez vos fichiers ou <span class="filepond--label-action">Parcourir</span>'
+                labelIdle='Glissez-déposez votre fichier ou <span class="filepond--label-action">parcourir</span>'
               />
             </Box>
           )}
@@ -230,6 +237,17 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
               )}
             />
             <FormError errors={errorMessages} field={fields.zone} />
+          </Box>
+          <Box>
+            <UIInputLabel>Position</UIInputLabel>
+            <Controller
+              name={fields.position}
+              control={control}
+              defaultValue={position}
+              render={({ field: { onChange, value } }) => (
+                <Input name={fields.position} onChange={onChange} value={value} />
+              )}
+            />
           </Box>
           <Box>
             <Controller
