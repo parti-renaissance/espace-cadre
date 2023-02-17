@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Grid, IconButton, FormControlLabel, RadioGroup, Radio, Typography } from '@mui/material'
@@ -77,14 +77,15 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
   const [action, setAction] = useState('')
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const { control, getValues, reset, watch } = useForm({
+  const { control, getValues, watch } = useForm({
     mode: 'onChange',
     resolver: yupResolver(formationSchema),
   })
 
-  watch()
   const contentType = watch(fields.contentType, 'link')
+  const zone = watch(fields.zone, formation?.zone?.uuid || '')
   const values = getValues()
+  watch()
 
   const { mutateAsync: createOrUpdate } = useMutation(!formation ? createFormation : updateFormation, {
     onSuccess: () => {
@@ -126,12 +127,6 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
     }
   }
 
-  useEffect(() => {
-    if (formation && formation.uuid) {
-      reset(formation)
-    }
-  }, [formation, reset])
-
   return (
     <Dialog data-cy="formation-create-edit" handleClose={handleClose} open>
       <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -151,7 +146,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
             <Controller
               name={fields.title}
               control={control}
-              defaultValue={formation?.title}
+              defaultValue={formation?.title || ''}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
                 <Input
@@ -197,7 +192,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
               <Controller
                 name={fields.link}
                 control={control}
-                defaultValue={formation?.link}
+                defaultValue={formation?.link || ''}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     name={fields.link}
@@ -224,7 +219,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
             <Controller
               name={fields.zone}
               control={control}
-              defaultValue={formation?.zone?.uuid || ''}
+              defaultValue={zone}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
                 <UISelect
