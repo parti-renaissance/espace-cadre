@@ -5,3 +5,12 @@ export const getFormations = async ({ pageParam: page = 1 }) => {
   const data = await apiClient.get(`/v3/formations?page=${page}&page_size=20`)
   return newPaginatedResult(data.items, data.metadata)
 }
+export const createFormation = async formation => await apiClient.post('/api/v3/formations', formation)
+export const updateFormation = async formation => await apiClient.put(`/api/v3/formations/${formation.uuid}`, formation)
+export const uploadFile = async ({ uuid, file }) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  return await apiClient.post(`/api/v3/formations/${uuid}/file`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+}

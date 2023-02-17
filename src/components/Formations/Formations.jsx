@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
@@ -16,6 +17,7 @@ import Loader from 'ui/Loader'
 import EmptyContent from 'ui/EmptyContent'
 import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
+import CreateEditModal from './CreateEditModal'
 
 const messages = {
   title: 'Formations',
@@ -57,11 +59,15 @@ Link.propTypes = {
 }
 
 const Formations = () => {
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [formation, setFormation] = useState(null)
   const { handleError } = useErrorHandler()
+
   const {
     data: paginatedFormations = null,
     fetchNextPage,
     hasNextPage,
+    refresh,
     isLoading,
   } = useInfiniteQueryWithScope(
     ['paginated-formations', { feature: 'Formations', view: 'Formations' }],
@@ -71,6 +77,11 @@ const Formations = () => {
       onError: handleError,
     }
   )
+
+  const toggleCreateEditModal = (formation, open) => {
+    setFormation(formation)
+    setIsCreateEditModalOpen(open)
+  }
 
   const formations = usePaginatedData(paginatedFormations)
 
@@ -97,7 +108,12 @@ const Formations = () => {
         <PageHeader
           title={messages.title}
           button={
-            <PageHeaderButton onClick={() => {}} label={messages.create} icon={<SchoolRoundedIcon />} isMainButton />
+            <PageHeaderButton
+              onClick={() => toggleCreateEditModal(null, true)}
+              label={messages.create}
+              icon={<SchoolRoundedIcon />}
+              isMainButton
+            />
           }
         />
       </Grid>
@@ -168,7 +184,7 @@ const Formations = () => {
                 }
                 actions={
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                    <Button onClick={() => {}} isMainButton>
+                    <Button onClick={() => toggleCreateEditModal(formation, true)} isMainButton>
                       {messages.edit}
                     </Button>
                     <IconButton edge="start" color="inherit" onClick={() => {}} aria-label="delete" sx={{ ml: 0.5 }}>
@@ -181,6 +197,15 @@ const Formations = () => {
           ))}
         </Grid>
       </InfiniteScroll>
+
+      {isCreateEditModalOpen && (
+        <CreateEditModal
+          formation={formation}
+          handleClose={() => toggleCreateEditModal(null, false)}
+          onUpdateResolved={refresh}
+          onCreateResolve={refresh}
+        />
+      )}
     </Container>
   )
 }
