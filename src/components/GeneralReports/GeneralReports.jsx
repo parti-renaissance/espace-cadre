@@ -22,8 +22,6 @@ const messages = {
   create: 'Ajouter',
   edit: 'Modifier',
   noDocuments: "Vous n'avez aucun document créé",
-  published: 'Publiée',
-  unpublished: 'Non publiée',
   view: 'Afficher',
   download: 'Télécharger',
 }

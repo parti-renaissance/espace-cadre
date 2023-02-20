@@ -20,7 +20,7 @@ const Select = styled(MuiSelect)(
 `
 )
 
-const UISelect = ({ value, onChange, options, placeholder = null, renderValue, ...props }) => {
+const UISelect = ({ value, onChange, options, placeholder = null, renderValue, sx, ...props }) => {
   const defaultRenderValue = useCallback(
     selected => options.find(o => o.key === selected)?.value || placeholder,
     [options, placeholder]
@@ -29,6 +29,15 @@ const UISelect = ({ value, onChange, options, placeholder = null, renderValue, .
   return (
     <Select
       {...props}
+      sx={{
+        display: 'flex',
+        border: '1px solid',
+        borderColor: theme => theme.palette.colors.gray[300],
+        mt: 1.5,
+        borderRadius: '8px',
+        overflow: 'hidden',
+        ...sx,
+      }}
       size="medium"
       onChange={e => onChange(e.target.value)}
       value={value}
@@ -66,6 +75,7 @@ UISelect.propTypes = {
   ).isRequired,
   placeholder: PropTypes.string,
   renderValue: PropTypes.func,
+  sx: PropTypes.object,
 }
 
 export default UISelect

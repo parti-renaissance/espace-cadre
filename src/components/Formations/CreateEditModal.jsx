@@ -52,25 +52,6 @@ const formationSchema = Yup.object({
   zone: Yup.string().required('La zone est obligatoire'),
 })
 
-const UISelect = ({ options, ...props }) => (
-  <Select
-    options={options}
-    sx={{
-      display: 'flex',
-      border: '1px solid',
-      borderColor: theme => theme.palette.colors.gray[300],
-      mt: 1.5,
-      borderRadius: '8px',
-      overflow: 'hidden',
-    }}
-    {...props}
-  />
-)
-
-UISelect.propTypes = {
-  options: PropTypes.array.isRequired,
-}
-
 const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleClose }) => {
   const [currentScope] = useUserScope()
   const [files, setFiles] = useState(null)
@@ -234,7 +215,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
               defaultValue={zone}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
-                <UISelect
+                <Select
                   options={currentScope.zones.map(z => ({ key: z.uuid, value: `${z.name} (${z.code})` }))}
                   onChange={onChange}
                   value={value}
