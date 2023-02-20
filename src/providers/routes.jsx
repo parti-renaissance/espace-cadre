@@ -24,6 +24,7 @@ import Events from 'components/Events'
 import Site from 'components/Site'
 import ElectedRepresentative from 'components/ElectedRepresentative'
 import Formations from 'components/Formations'
+import GeneralReports from 'components/GeneralReports'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -47,6 +48,10 @@ const AppPrivateRoutes = () => {
         <Route
           path={`${paths.adherent_formations}/*`}
           element={authorizedFeatures.includes(features.adherent_formations) && <Formations />}
+        />
+        <Route
+          path={`${paths.general_meeting_reports}/*`}
+          element={authorizedFeatures.includes(features.general_meeting_reports) && <GeneralReports />}
         />
         <Route path={paths.elections} element={authorizedFeatures.includes(features.elections) && <Elections />} />
         <Route path={paths.ripostes} element={authorizedFeatures.includes(features.ripostes) && <Ripostes />} />

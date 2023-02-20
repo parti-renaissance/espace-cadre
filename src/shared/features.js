@@ -15,6 +15,7 @@ const features = {
   adherent_formations: 'adherent_formations',
   department_site: 'department_site',
   elected_representative: 'elected_representative',
+  general_meeting_reports: 'general_meeting_reports',
 }
 
 export default features
@@ -47,6 +48,7 @@ export const featuresGroup = [
       features.pap_v2,
       features.survey,
       features.adherent_formations,
+      features.general_meeting_reports,
     ],
   },
   {
@@ -73,4 +75,5 @@ export const featuresLabels = {
   [features.department_site]: 'Site départemental',
   [features.elected_representative]: 'Registre des élus',
   [features.adherent_formations]: 'Formations',
+  [features.general_meeting_reports]: 'Centre documentaire',
 }
