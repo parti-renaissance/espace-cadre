@@ -78,8 +78,8 @@ const Dashboard = () => {
     refetch: refetchElectedRepresentative,
   } = useInfiniteQueryWithScope(
     ['paginated-elected-representative', { feature: 'ElectedRepresentative', view: 'Dashboard' }, filters],
-    () => {
-      const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
+    ({ pageParam: page = 1 }) => {
+      const filter = { ...filters, page, zones: filters.zones.map(z => z.uuid) }
       return getAllElected(filter)
     },
     {
