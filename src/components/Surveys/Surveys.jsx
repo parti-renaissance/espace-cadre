@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { styled } from '@mui/system'

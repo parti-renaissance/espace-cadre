@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { styled } from '@mui/system'
 import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'

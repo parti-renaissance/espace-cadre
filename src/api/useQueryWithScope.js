@@ -1,5 +1,5 @@
 import { useUserScope } from '../redux/user/hooks'
-import { useInfiniteQuery, useQuery } from 'react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
 const scopedQueryKey = (queryKey, scope) => {
   const keys = Array.isArray(queryKey) ? queryKey : [queryKey]

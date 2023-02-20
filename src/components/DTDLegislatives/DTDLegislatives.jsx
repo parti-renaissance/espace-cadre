@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
 import { styled } from '@mui/system'

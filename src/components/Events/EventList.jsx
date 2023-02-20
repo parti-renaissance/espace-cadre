@@ -1,7 +1,7 @@
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
 import { generatePath, useNavigate } from 'react-router-dom'

@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { FormError } from 'components/shared/error/components'
 import Select from 'ui/Select/Select'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   createEvent as createEventApi,
   updateEvent as updateEventApi,

@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon } from '@mui/icons-material/'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useParams } from 'react-router'
 
 import './styles.css'

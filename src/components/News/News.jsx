@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 import { Container, Grid, Typography } from '@mui/material'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { getNewsQuery, updateNewsPinnedStatusQuery } from 'api/news'

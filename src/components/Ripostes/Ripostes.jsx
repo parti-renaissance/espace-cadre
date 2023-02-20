@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { Container, Grid } from '@mui/material'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import CreateEditModal from './CreateEditModal'
 import Riposte from 'domain/riposte'
 import { createRiposteQuery, getRipostesQuery, updateRiposteQuery, updateRiposteStatusQuery } from 'api/ripostes'

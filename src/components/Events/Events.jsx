@@ -6,7 +6,7 @@ import { styled } from '@mui/system'
 import EventList from 'components/Events/EventList'
 import { getCategories, getEvents, getMyEvents } from 'api/events'
 import CreateEditEvent from 'components/Events/CreateEditEvent'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { ONE_DAY } from './constants'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
