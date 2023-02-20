@@ -15,6 +15,7 @@ export default {
   department_site: '/site-departemental',
   elected_representative: '/registre-elus',
   adherent_formations: '/formations',
+  general_meeting_reports: '/proces-verbal',
 }
 
 export const publicPaths = {

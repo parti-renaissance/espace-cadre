@@ -1,20 +1,13 @@
 import { useState } from 'react'
 import { saveAs } from 'file-saver'
 import { Box, Container, Grid, Typography } from '@mui/material'
-import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
-import LinkIcon from '@mui/icons-material/Link'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
-import DeleteIcon from '@mui/icons-material/Delete'
-import { styled } from '@mui/system'
+import AttachFileIcon from '@mui/icons-material/AttachFile'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useMutation } from 'react-query'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getFormations, deleteFormation } from 'api/formations'
 import { getFile } from 'api/upload'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { notifyVariants } from 'components/shared/notification/constants'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
@@ -22,74 +15,43 @@ import EmptyContent from 'ui/EmptyContent'
 import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
-import ConfirmButton from 'ui/Button/ConfirmButton'
+import { getDocuments } from 'api/general-meeting-report'
 
 const messages = {
-  title: 'Formations',
+  title: 'Centre documentaire',
   create: 'Ajouter',
   edit: 'Modifier',
-  noFormation: "Vous n'avez aucune formation créée",
-  published: 'Publiée',
-  unpublished: 'Non publiée',
+  noDocuments: "Vous n'avez aucun document créé",
   view: 'Afficher',
   download: 'Télécharger',
-  confirmDeleteTitle: 'Suppression de la formation',
-  confirmDeleteDescription: 'Êtes-vous sûr de vouloir supprimer cette formation ?',
-  deleteSuccess: 'Formation supprimée avec succès',
 }
 
-const Badge = styled('span')(({ theme, isPublish = false }) => ({
-  ...(isPublish
-    ? {
-        backgroundColor: theme.palette.colors.blue[500],
-        color: theme.palette.colors.white,
-      }
-    : {
-        backgroundColor: '#fee2e2',
-        color: '#991b1b',
-      }),
-  borderRadius: '4px',
-  padding: '4px 8px',
-  fontSize: '12px',
-  fontWeight: '500',
-  marginRight: '8px',
-}))
-
-const Formations = () => {
+const GenericReports = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
-  const [formation, setFormation] = useState(null)
+  const [document, setDocument] = useState(null)
   const { handleError } = useErrorHandler()
-  const { enqueueSnackbar } = useCustomSnackbar()
 
   const {
-    data: paginatedFormations = null,
+    data: paginatedDocuments = null,
     fetchNextPage,
     hasNextPage,
     refetch,
     isLoading,
   } = useInfiniteQueryWithScope(
-    ['paginated-formations', { feature: 'Formations', view: 'Formations' }],
-    getFormations,
+    ['paginated-documents', { feature: 'GeneralMeetingReports', view: 'GeneralReports' }],
+    getDocuments,
     {
       getNextPageParam,
       onError: handleError,
     }
   )
 
-  const { mutate: remove } = useMutation(deleteFormation, {
-    onSuccess: () => {
-      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
-      refetch()
-    },
-    onError: handleError,
-  })
-
-  const toggleCreateEditModal = (formation, open) => {
-    setFormation(formation)
+  const toggleCreateEditModal = (document, open) => {
+    setDocument(document)
     setIsCreateEditModalOpen(open)
   }
 
-  const formations = usePaginatedData(paginatedFormations)
+  const documents = usePaginatedData(paginatedDocuments)
 
   if (isLoading) {
     return <Loader />
@@ -104,47 +66,40 @@ const Formations = () => {
             <PageHeaderButton
               onClick={() => toggleCreateEditModal(null, true)}
               label={messages.create}
-              icon={<SchoolRoundedIcon />}
+              icon={<AttachFileIcon />}
               isMainButton
             />
           }
         />
       </Grid>
 
-      {(!formations || formations.length === 0) && <EmptyContent description={messages.noFormation} />}
+      {(!documents || documents.length === 0) && <EmptyContent description={messages.noDocuments} />}
 
-      {formations && formations.length > 0 && (
+      {documents && documents.length > 0 && (
         <InfiniteScroll
-          dataLength={formations.length}
+          dataLength={documents.length}
           next={fetchNextPage}
           hasMore={hasNextPage}
           loader={<Loader />}
           style={{ marginTop: '8px' }}
         >
           <Grid container spacing={2}>
-            {formations.map(formation => (
-              <Grid key={formation.uuid} item xs={12} sm={6} lg={4}>
+            {documents.map(document => (
+              <Grid key={document.uuid} item xs={12} sm={6} lg={4}>
                 <UICard
                   rootProps={{ sx: { pt: 2 } }}
                   header={
                     <Box className="space-y-3">
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Badge isPublish={formation.published}>
-                          {formation.published ? messages.published : messages.unpublished}
-                        </Badge>
-                        {formation.content_type === 'link' ? (
-                          <LinkIcon sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '20px' }} />
-                        ) : (
-                          <InsertDriveFileIcon
-                            sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '20px' }}
-                          />
-                        )}
+                        <InsertDriveFileIcon
+                          sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '32px' }}
+                        />
                       </Box>
                       <Typography
                         component="h2"
                         sx={{ fontWeight: '500', color: theme => theme.palette.colors.gray[900], fontSize: '16px' }}
                       >
-                        {formation.title}
+                        {document.title}
                       </Typography>
                     </Box>
                   }
@@ -154,7 +109,7 @@ const Formations = () => {
                         component="p"
                         sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '14px' }}
                       >
-                        {formation.description}
+                        {document.description}
                       </Typography>
                       <Box
                         sx={{
@@ -164,22 +119,15 @@ const Formations = () => {
                           mt: 4,
                         }}
                       >
-                        {formation.content_type === 'link' ? (
-                          <Typography component="a" sx={{ fontSize: '14px' }} href={formation.link}>
-                            {messages.view}
-                          </Typography>
-                        ) : (
-                          <button
-                            className="button button-link"
-                            onClick={async () => {
-                              const { blob, fileName } = await getFile(formation.uuid, 'formations')
-
-                              saveAs(blob, fileName)
-                            }}
-                          >
-                            {messages.download}
-                          </button>
-                        )}
+                        <button
+                          className="button button-link"
+                          onClick={async () => {
+                            const { blob, fileName } = await getFile(document.uuid, 'general_meeting_reports')
+                            saveAs(blob, fileName)
+                          }}
+                        >
+                          {messages.download}
+                        </button>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -199,16 +147,9 @@ const Formations = () => {
                   }
                   actions={
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                      <Button onClick={() => toggleCreateEditModal(formation, true)} isMainButton>
+                      <Button onClick={() => toggleCreateEditModal(document, true)} isMainButton>
                         {messages.edit}
                       </Button>
-                      <ConfirmButton
-                        title={messages.confirmDeleteTitle}
-                        description={messages.confirmDeleteDescription}
-                        onClick={() => remove(formation.uuid)}
-                      >
-                        <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
-                      </ConfirmButton>
                     </Box>
                   }
                 />
@@ -220,7 +161,7 @@ const Formations = () => {
 
       {isCreateEditModalOpen && (
         <CreateEditModal
-          formation={formation}
+          document={document}
           handleClose={() => toggleCreateEditModal(null, false)}
           onUpdateResolved={refetch}
           onCreateResolve={refetch}
@@ -230,4 +171,4 @@ const Formations = () => {
   )
 }
 
-export default Formations
+export default GenericReports
