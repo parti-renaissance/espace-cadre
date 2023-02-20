@@ -16,6 +16,7 @@ export default {
   elected_representative: '/registre-elus',
   adherent_formations: '/formations',
   general_meeting_reports: '/proces-verbal',
+  committee: '/comites',
 }
 
 export const publicPaths = {
