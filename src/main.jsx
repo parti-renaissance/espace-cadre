@@ -17,6 +17,9 @@ if (NODE_ENV === 'production' || SENTRY_DSN) {
     environment: APP_ENVIRONMENT,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: APP_ENVIRONMENT === 'production' ? 0.05 : 0,
+    ignoreErrors: [
+      'ResizeObserver loop limit exceeded', // https://forum.sentry.io/t/resizeobserver-loop-limit-exceeded/8402/5
+    ],
     beforeSend(event, hint) {
       if (shouldSendError(hint)) return event
       return null
