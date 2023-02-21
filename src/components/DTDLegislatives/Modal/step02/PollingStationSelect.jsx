@@ -14,7 +14,7 @@ import { getDTDCampaignPollingStations, getDTDCampaignSelectedPollingStations } 
 import Loader from 'ui/Loader'
 import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { FixedSizeList as List } from 'react-window'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import MapContext from '../../MapContext'
 

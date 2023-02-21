@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Container, Grid } from '@mui/material'
 import GroupModal from './GroupModal'

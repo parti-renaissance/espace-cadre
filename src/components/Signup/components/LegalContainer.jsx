@@ -3,7 +3,7 @@ import { styled } from '@mui/system'
 import ReactMarkdown from 'react-markdown'
 import { Ppd, CGUWeb, CGUMobile, CookiesWeb, CookiesMobile } from '../constants'
 import { PPDQuery, CGUQueryWeb, CGUQueryMobile, CookiesQueryWeb, CookiesQueryMobile } from 'api/legal'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const Container = styled('div')(
   ({ theme }) => `

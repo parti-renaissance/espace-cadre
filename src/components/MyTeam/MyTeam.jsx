@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Container, Grid } from '@mui/material'
 
 import { useQueryWithScope } from 'api/useQueryWithScope'
