@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Box, Container, Grid, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -13,6 +14,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { getCommittees } from 'api/committees'
 import Button from 'ui/Button'
 import UICard from 'ui/Card/Card'
+import CreateEditModal from './CreateEditModal'
 
 const messages = {
   title: 'Comités',
@@ -22,12 +24,20 @@ const messages = {
 }
 
 const Committees = () => {
+  const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
+  const [committeeId, setCommitteeId] = useState(null)
+
+  const toggleCreateEditModal = (committeeId, open) => {
+    setCommitteeId(committeeId)
+    setIsCreateEditModalOpen(open)
+  }
 
   const {
     data: paginatedCommittees = null,
     fetchNextPage,
     hasNextPage,
+    refetch,
     isLoading,
   } = useInfiniteQueryWithScope(
     ['paginated-committees', { feature: 'Committees', view: 'Committees' }],
@@ -45,7 +55,14 @@ const Committees = () => {
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
-          button={<PageHeaderButton onClick={() => {}} label={messages.create} icon={<AddIcon />} isMainButton />}
+          button={
+            <PageHeaderButton
+              onClick={() => toggleCreateEditModal('-1', true)}
+              label={messages.create}
+              icon={<AddIcon />}
+              isMainButton
+            />
+          }
         />
       </Grid>
 
@@ -63,7 +80,7 @@ const Committees = () => {
         >
           <Grid container spacing={2}>
             {committees.map(committee => (
-              <Grid item xs={12} sm={6} md={3} lg={4} key={committee.id}>
+              <Grid item xs={12} sm={6} md={3} lg={4} key={committee.uuid}>
                 <UICard
                   rootProps={{ sx: { pt: 2 } }}
                   header={
@@ -97,7 +114,7 @@ const Committees = () => {
                   }
                   actions={
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                      <Button onClick={() => {}} isMainButton>
+                      <Button onClick={() => toggleCreateEditModal(committee.uuid, true)} isMainButton>
                         {messages.edit}
                       </Button>
                     </Box>
@@ -107,6 +124,15 @@ const Committees = () => {
             ))}
           </Grid>
         </InfiniteScroll>
+      )}
+
+      {isCreateEditModalOpen && (
+        <CreateEditModal
+          open={isCreateEditModalOpen}
+          committeeId={committeeId}
+          handleClose={() => toggleCreateEditModal('-1', false)}
+          onCreateResolve={refetch}
+        />
       )}
     </Container>
   )
