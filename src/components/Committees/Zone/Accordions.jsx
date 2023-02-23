@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material'
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box, IconButton } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import DeleteIcon from '@mui/icons-material/Delete'
 import _ from 'lodash'
 import { zonesTypes } from 'shared/constants'
 import EmptyContent from 'ui/EmptyContent'
@@ -9,7 +10,7 @@ const messages = {
   noData: 'Aucune zone sélectionnée',
 }
 
-const ZonesAccordion = ({ selectedZones }) => {
+const ZonesAccordion = ({ selectedZones, onRemoveZone }) => {
   const zonesGroup = _.groupBy(selectedZones, 'type')
 
   if (!selectedZones.length) {
@@ -35,9 +36,20 @@ const ZonesAccordion = ({ selectedZones }) => {
             <AccordionDetails>
               <Box sx={{ display: 'flex', flexDirection: 'column' }} className="space-y-2">
                 {zones.map(zone => (
-                  <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }} key={zone.uuid}>
-                    {zone.name}
-                  </Typography>
+                  <Box key={zone.uuid} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
+                      {zone.name}
+                    </Typography>
+                    <IconButton
+                      edge="start"
+                      color="inherit"
+                      onClick={() => onRemoveZone(zone)}
+                      aria-label="remove-zone"
+                      sx={{ ml: 1.5 }}
+                    >
+                      <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '18px' }} />
+                    </IconButton>
+                  </Box>
                 ))}
               </Box>
             </AccordionDetails>
@@ -52,4 +64,5 @@ export default ZonesAccordion
 
 ZonesAccordion.propTypes = {
   selectedZones: PropTypes.array,
+  onRemoveZone: PropTypes.func,
 }

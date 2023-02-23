@@ -184,7 +184,16 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
               {messages.selectedTitle} ({zones.length})
             </Typography>
             <Box className="mt-5">
-              <ZonesAccordion selectedZones={zones} />
+              <ZonesAccordion
+                selectedZones={zones}
+                onRemoveZone={zone => {
+                  setZones(zones.filter(z => z.uuid !== zone.uuid))
+                  setValue(
+                    fields.zones,
+                    zones.filter(z => z.uuid !== zone.uuid).map(zone => zone.uuid)
+                  )
+                }}
+              />
             </Box>
           </Grid>
         </Grid>

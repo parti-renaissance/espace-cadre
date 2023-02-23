@@ -85,9 +85,7 @@ export const affiliations = {
 }
 
 export const zonesTypes = {
-  department: 'Département',
-  district: 'Circonscription',
-  foreign_district: 'Circonscription consulaire',
+  country: 'Pays',
   city_community: 'Communauté de commune',
   city: 'Commune',
   canton: 'Canton',
