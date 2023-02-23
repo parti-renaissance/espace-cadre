@@ -85,7 +85,6 @@ export const affiliations = {
 }
 
 export const zonesTypes = {
-  department: 'Département',
   country: 'Pays',
   city_community: 'Communauté de commune',
   city: 'Commune',
