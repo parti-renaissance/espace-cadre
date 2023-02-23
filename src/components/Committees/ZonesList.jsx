@@ -48,14 +48,14 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
   }, [watch, filters])
 
   const handleSelectAll = checked => {
-    updatedSelectedZones(checked ? zonesData.map(zone => zone.uuid) : [])
+    updatedSelectedZones(checked ? zonesData.map(zone => ({ uuid: zone.uuid, name: zone.name, type: zone.type })) : [])
   }
 
   const handleSelectOne = (e, zone) => {
     if (e.target.checked) {
-      updatedSelectedZones([...zones, zone.uuid])
+      updatedSelectedZones([...zones, { uuid: zone.uuid, name: zone.name, type: zone.type }])
     } else {
-      updatedSelectedZones(zones.filter(item => item !== zone.uuid))
+      updatedSelectedZones(zones.filter(item => item.uuid !== zone.uuid))
     }
   }
 
@@ -145,7 +145,7 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
                       key={zone.uuid}
                       zone={zone}
                       handleSelectOne={handleSelectOne}
-                      isCheck={zones.includes(zone.uuid)}
+                      isCheck={zones.some(item => item.uuid === zone.uuid)}
                     />
                   </div>
                 )

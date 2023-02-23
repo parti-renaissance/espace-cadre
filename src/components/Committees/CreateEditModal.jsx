@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Container, Dialog, Slide, Box } from '@mui/material'
+import { Grid, Container, Dialog, Slide, Box, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { Close as CloseIcon } from '@mui/icons-material/'
 import * as Yup from 'yup'
@@ -19,6 +19,7 @@ import ZonesList from './ZonesList'
 import { createCommittee, getCommittee, updateCommittee } from 'api/committees'
 import Loader from 'ui/Loader'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import ZonesAccordion from './Zone/Accordions'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -27,6 +28,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 const messages = {
   creationTitle: "Création d'un comité",
   editionTitle: 'Modification du comité',
+  selectedTitle: 'Zones sélectionnées',
   create: 'Créer',
   edit: 'Modifier',
   createSuccess: 'Comité créé avec succès',
@@ -91,7 +93,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
 
   useEffect(() => {
     if (committee?.uuid) {
-      setZones(committee.zones.map(zone => zone.uuid))
+      setZones(committee.zones.map(zone => ({ uuid: zone.uuid, type: zone.type, name: zone.name })))
       reset(committee)
     }
   }, [committee, reset])
@@ -154,7 +156,10 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
                 zones={zones}
                 updatedSelectedZones={zones => {
                   setZones(zones)
-                  setValue(fields.zones, zones)
+                  setValue(
+                    fields.zones,
+                    zones.map(zone => zone.uuid)
+                  )
                 }}
               />
             </Box>
@@ -164,12 +169,20 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
             xs={12}
             md={6}
             sx={{
-              minHeight: '750px',
               height: '100%',
               borderRadius: '8px',
-              backgroundColor: theme => theme.palette.colors.gray[50],
+              border: '1px solid',
+              borderColor: theme => theme.palette.colors.gray[200],
+              p: 2,
             }}
-          />
+          >
+            <Typography variant="h4" sx={{ fontSize: '20px', color: theme => theme.palette.colors.blue[500] }}>
+              {messages.selectedTitle}
+            </Typography>
+            <Box className="mt-5">
+              <ZonesAccordion selectedZones={zones} />
+            </Box>
+          </Grid>
         </Grid>
       </Container>
     </Dialog>
