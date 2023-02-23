@@ -77,13 +77,11 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
           <Controller
             name={fields.types}
             control={control}
-            defaultValue={[]}
             render={({ field: { onChange, value } }) => (
               <Select
                 options={Object.keys(zonesTypes).map(key => ({ key, value: zonesTypes[key] }))}
-                onChange={onChange}
-                value={value}
-                multiple
+                onChange={type => onChange([type])}
+                value={Array.isArray(value) && value.length > 0 ? value[0] : ''}
               />
             )}
           />
