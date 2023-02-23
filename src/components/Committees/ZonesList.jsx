@@ -14,6 +14,7 @@ import Loader from 'ui/Loader'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { zonesTypes } from 'shared/constants'
 import ZoneItem from './Zone/ZoneItem'
+import { useDebounce } from 'components/shared/debounce'
 
 const messages = {
   title: 'Sélectionnez une liste de zones',
@@ -29,6 +30,7 @@ const fields = {
 const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
   const [filters, setFilters] = useState({ searchEvenEmptyTerm: 1, availableForCommittee: 1 })
   const { handleError } = useErrorHandler()
+  const debounce = useDebounce()
 
   watch()
 
@@ -41,11 +43,11 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === fields.search || name === fields.types) {
-        setFilters({ ...filters, [name]: value[name] })
+        debounce(() => setFilters({ ...filters, [name]: value[name] }))
       }
     })
     return () => subscription.unsubscribe()
-  }, [watch, filters])
+  }, [debounce, watch, filters])
 
   const handleSelectAll = checked => {
     updatedSelectedZones(checked ? zonesData.map(zone => ({ uuid: zone.uuid, name: zone.name, type: zone.type })) : [])
