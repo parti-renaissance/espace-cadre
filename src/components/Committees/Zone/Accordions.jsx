@@ -28,7 +28,9 @@ const ZonesAccordion = ({ selectedZones }) => {
               aria-controls={`panel${index}a-content`}
               id={`panel${index}a-header`}
             >
-              <Typography>{zonesTypes[group]}</Typography>
+              <Typography>
+                {zonesTypes[group]} ({zones.length})
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Box sx={{ display: 'flex', flexDirection: 'column' }} className="space-y-2">

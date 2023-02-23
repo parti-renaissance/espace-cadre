@@ -5,7 +5,6 @@ import { Controller } from 'react-hook-form'
 import { FixedSizeList as List } from 'react-window'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getZones } from 'api/committees'
-import pluralize from 'components/shared/pluralize/pluralize'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
@@ -18,8 +17,8 @@ import { useDebounce } from 'components/shared/debounce'
 
 const messages = {
   title: 'Sélectionnez une liste de zones',
-  zonePrefix: 'zone',
-  zoneSuffix: 'sélectionnée',
+  checkAll: 'Tout sélectionner',
+  noZones: 'Aucune zone disponible',
 }
 
 const fields = {
@@ -106,7 +105,7 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
         </Grid>
       </Grid>
       <Box className="space-y-4">
-        {(!zonesData.length > 0 || isLoading) && (
+        {(!zonesData || isLoading) && (
           <Grid container justifyContent="center">
             <Loader />
           </Grid>
@@ -123,10 +122,7 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
                 }
                 label={
                   <Typography variant="subtitle1">
-                    <Typography sx={{ fontWeight: 700 }}>{`${zones.length}/${zonesData.length}`}</Typography>
-                    &nbsp;
-                    {pluralize(zones.length, messages.zonePrefix, 's')}&nbsp;
-                    {pluralize(zones.length, messages.zoneSuffix)}
+                    <Typography sx={{ fontWeight: 700 }}>{messages.checkAll}</Typography>
                   </Typography>
                 }
               />
@@ -152,6 +148,12 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
               }}
             </List>
           </>
+        )}
+
+        {zonesData.length === 0 && !isLoading && (
+          <Typography component="p" sx={{ color: theme => theme.palette.colors.gray[700], textAlign: 'center', py: 3 }}>
+            {messages.noZones}
+          </Typography>
         )}
       </Box>
     </Box>

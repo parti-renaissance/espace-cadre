@@ -88,7 +88,11 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
     delete values.types
     delete values.q
 
-    createOrUpdateCommittee(values)
+    if (isCreateMode) {
+      createOrUpdateCommittee(values)
+    } else {
+      createOrUpdateCommittee({ ...values, zones: zones.map(zone => zone.uuid) })
+    }
   }
 
   useEffect(() => {
@@ -177,7 +181,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
             }}
           >
             <Typography variant="h4" sx={{ fontSize: '20px', color: theme => theme.palette.colors.blue[500] }}>
-              {messages.selectedTitle}
+              {messages.selectedTitle} ({zones.length})
             </Typography>
             <Box className="mt-5">
               <ZonesAccordion selectedZones={zones} />
