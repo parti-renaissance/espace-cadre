@@ -26,8 +26,10 @@ const messages = {
 const Committees = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
+  const [committeeId, setCommitteeId] = useState(null)
 
-  const toggleCreateEditModal = open => {
+  const toggleCreateEditModal = (committeeId, open) => {
+    setCommitteeId(committeeId)
     setIsCreateEditModalOpen(open)
   }
 
@@ -55,7 +57,7 @@ const Committees = () => {
           title={messages.title}
           button={
             <PageHeaderButton
-              onClick={() => toggleCreateEditModal(true)}
+              onClick={() => toggleCreateEditModal('-1', true)}
               label={messages.create}
               icon={<AddIcon />}
               isMainButton
@@ -112,7 +114,7 @@ const Committees = () => {
                   }
                   actions={
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                      <Button onClick={() => {}} isMainButton>
+                      <Button onClick={() => toggleCreateEditModal(committee.uuid, true)} isMainButton>
                         {messages.edit}
                       </Button>
                     </Box>
@@ -127,7 +129,8 @@ const Committees = () => {
       {isCreateEditModalOpen && (
         <CreateEditModal
           open={isCreateEditModalOpen}
-          handleClose={() => toggleCreateEditModal(false)}
+          committeeId={committeeId}
+          handleClose={() => toggleCreateEditModal('-1', false)}
           onCreateResolve={refetch}
         />
       )}

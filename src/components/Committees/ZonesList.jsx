@@ -26,9 +26,8 @@ const fields = {
   types: 'types',
 }
 
-const ZonesList = ({ control, watch }) => {
+const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
   const [filters, setFilters] = useState({ searchEvenEmptyTerm: 1, availableForCommittee: 1 })
-  const [zonesSelection, setZonesSelection] = useState([])
   const { handleError } = useErrorHandler()
 
   watch()
@@ -41,20 +40,22 @@ const ZonesList = ({ control, watch }) => {
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
-      setFilters({ ...filters, [name]: value[name] })
+      if (name === fields.search || name === fields.types) {
+        setFilters({ ...filters, [name]: value[name] })
+      }
     })
     return () => subscription.unsubscribe()
   }, [watch, filters])
 
   const handleSelectAll = checked => {
-    setZonesSelection(checked ? zonesData.map(zone => zone.uuid) : [])
+    updatedSelectedZones(checked ? zonesData.map(zone => zone.uuid) : [])
   }
 
   const handleSelectOne = (e, zone) => {
     if (e.target.checked) {
-      setZonesSelection([...zonesSelection, zone.uuid])
+      updatedSelectedZones([...zones, zone.uuid])
     } else {
-      setZonesSelection(zonesSelection.filter(item => item !== zone.uuid))
+      updatedSelectedZones(zones.filter(item => item !== zone.uuid))
     }
   }
 
@@ -63,7 +64,7 @@ const ZonesList = ({ control, watch }) => {
       sx={{ borderTop: '1px solid', borderColor: theme => theme.palette.colors.gray[200], mt: 4, pt: 3 }}
       className="space-y-4"
     >
-      <Typography variant="h5" sx={{ fontSize: '18px' }}>
+      <Typography variant="h5" sx={{ fontSize: '18px', color: theme => theme.palette.colors.gray[700] }}>
         {messages.title} (
         <Typography component="span" sx={{ color: '#991b1b' }}>
           *
@@ -82,6 +83,7 @@ const ZonesList = ({ control, watch }) => {
                 options={Object.keys(zonesTypes).map(key => ({ key, value: zonesTypes[key] }))}
                 onChange={onChange}
                 value={value}
+                multiple
               />
             )}
           />
@@ -115,16 +117,16 @@ const ZonesList = ({ control, watch }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={zonesSelection.length === zonesData.length}
+                    checked={zones.length === zonesData.length}
                     onChange={e => handleSelectAll(e.target.checked)}
                   />
                 }
                 label={
                   <Typography variant="subtitle1">
-                    <Typography sx={{ fontWeight: 700 }}>{`${zonesSelection.length}/${zonesData.length}`}</Typography>
+                    <Typography sx={{ fontWeight: 700 }}>{`${zones.length}/${zonesData.length}`}</Typography>
                     &nbsp;
-                    {pluralize(zonesSelection.length, messages.zonePrefix, 's')}&nbsp;
-                    {pluralize(zonesSelection.length, messages.zoneSuffix)}
+                    {pluralize(zones.length, messages.zonePrefix, 's')}&nbsp;
+                    {pluralize(zones.length, messages.zoneSuffix)}
                   </Typography>
                 }
               />
@@ -132,7 +134,7 @@ const ZonesList = ({ control, watch }) => {
             <List
               height={600}
               itemCount={zonesData.length}
-              itemData={zonesData.sort((a, b) => zonesSelection.includes(b.uuid) - zonesSelection.includes(a.uuid))}
+              itemData={zonesData.sort((a, b) => zones.includes(b.uuid) - zones.includes(a.uuid))}
               itemSize={68}
             >
               {({ index, style, data }) => {
@@ -143,7 +145,7 @@ const ZonesList = ({ control, watch }) => {
                       key={zone.uuid}
                       zone={zone}
                       handleSelectOne={handleSelectOne}
-                      isCheck={zonesSelection.includes(zone.uuid)}
+                      isCheck={zones.includes(zone.uuid)}
                     />
                   </div>
                 )
@@ -161,4 +163,6 @@ export default ZonesList
 ZonesList.propTypes = {
   watch: PropTypes.func,
   control: PropTypes.object,
+  zones: PropTypes.array,
+  updatedSelectedZones: PropTypes.func,
 }

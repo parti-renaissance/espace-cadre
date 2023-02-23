@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Container, Dialog, Slide, Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
@@ -16,7 +16,9 @@ import Input from 'ui/Input/Input'
 import Title from 'ui/Title'
 import Button from 'ui/Button'
 import ZonesList from './ZonesList'
-import { createCommittee, updateCommittee } from 'api/committees'
+import { createCommittee, getCommittee, updateCommittee } from 'api/committees'
+import Loader from 'ui/Loader'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -24,9 +26,11 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const messages = {
   creationTitle: "Création d'un comité",
+  editionTitle: 'Modification du comité',
   create: 'Créer',
+  edit: 'Modifier',
   createSuccess: 'Comité créé avec succès',
-  editSuccess: 'La comité a bien été modifié',
+  editSuccess: 'Le comité a bien été modifié',
 }
 
 const fields = {
@@ -40,26 +44,35 @@ const committeeSchema = Yup.object({
   zones: Yup.array().required('Les zones sont obligatoire'),
 })
 
-const CreateEditModal = ({ open, handleClose, committee, onCreateResolve, onUpdateResolve }) => {
+const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUpdateResolve }) => {
+  const isCreateMode = committeeId === '-1'
   const { handleError, errorMessages } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
-  const {
-    control,
-    getValues,
-    watch,
-    formState: { isDirty },
-  } = useForm({
+  const [committee, setCommittee] = useState(null)
+  const [zones, setZones] = useState([])
+  const { control, getValues, watch, reset, setValue } = useForm({
     mode: 'onChange',
     resolver: yupResolver(committeeSchema),
   })
 
+  const { isLoading: isSingleCommitteeLoading } = useQueryWithScope(
+    ['single-committee', committeeId, { feature: 'Committees', view: 'Committees' }],
+    () => getCommittee(committeeId),
+    {
+      enabled: !isCreateMode,
+      onSuccess: data => {
+        setCommittee(data)
+      },
+    }
+  )
+
   const { mutateAsync: createOrUpdateCommittee, isLoading: isCommitteeLoading } = useMutation(
-    !committee ? createCommittee : updateCommittee,
+    isCreateMode ? createCommittee : updateCommittee,
     {
       onSuccess: () => {
         onCreateResolve && onCreateResolve()
         onUpdateResolve && onUpdateResolve()
-        enqueueSnackbar(!committee ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+        enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
         handleClose()
       },
       onError: handleError,
@@ -68,26 +81,33 @@ const CreateEditModal = ({ open, handleClose, committee, onCreateResolve, onUpda
 
   watch()
   const values = getValues()
-  console.log(values)
+
   const createOrEdit = () => {
+    delete values.types
+    delete values.q
+
     createOrUpdateCommittee(values)
   }
+
+  useEffect(() => {
+    if (committee?.uuid) {
+      setZones(committee.zones.map(zone => zone.uuid))
+      reset(committee)
+    }
+  }, [committee, reset])
 
   return (
     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
       <Container maxWidth="xl">
         <Grid container sx={{ py: 4 }}>
-          <Grid item xs={12} md={9}>
-            <Title title={messages.creationTitle} />
+          <Grid item xs={12} md={9} sx={{ display: 'flex', alignItems: 'center' }} className="space-x-2">
+            <Title title={isCreateMode ? messages.creationTitle : messages.editionTitle} />
+            {!isCreateMode && isSingleCommitteeLoading ? <Loader /> : null}
           </Grid>
           <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-              type="submit"
-              disabled={!isDirty}
-              rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
-              onClick={createOrEdit}
-            >
-              {messages.create}
+            <Button type="submit" rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }} onClick={createOrEdit}>
+              {isCommitteeLoading && <Loader color="whiteCorner" />}&nbsp;
+              {isCreateMode ? messages.create : messages.edit}
             </Button>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
@@ -127,7 +147,16 @@ const CreateEditModal = ({ open, handleClose, committee, onCreateResolve, onUpda
             </Box>
             <Box>
               <FormError errors={errorMessages} field={fields.zones} />
-              <ZonesList watch={watch} control={control} />
+              <ZonesList
+                watch={watch}
+                control={control}
+                setValue={setValue}
+                zones={zones}
+                updatedSelectedZones={zones => {
+                  setZones(zones)
+                  setValue(fields.zones, zones)
+                }}
+              />
             </Box>
           </Grid>
           <Grid
@@ -152,7 +181,7 @@ export default CreateEditModal
 CreateEditModal.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
-  committee: PropTypes.object,
+  committeeId: PropTypes.string,
   onCreateResolve: PropTypes.func,
   onUpdateResolve: PropTypes.func,
 }
