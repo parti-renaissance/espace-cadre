@@ -7,6 +7,7 @@ import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { FilePond } from 'react-filepond'
 import { useMutation } from '@tanstack/react-query'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { uploadFile } from 'api/upload'
 import { createDocument, updateDocument } from 'api/general-meeting-report'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -42,7 +43,9 @@ const fields = {
 }
 
 const documentSchema = Yup.object({
-  title: Yup.string().required('Le titre est obligatoire'),
+  title: Yup.string().required('Le titre est obligatoire').min('2'),
+  description: Yup.string().min('2'),
+  date: Yup.date().required('La date est obligatoire'),
   zone: Yup.string().required('La zone est obligatoire'),
 })
 
@@ -58,9 +61,9 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
     resolver: yupResolver(documentSchema),
   })
 
-  const zone = watch(fields.zone, document?.zone?.uuid || '')
-  const values = getValues()
   watch()
+  const zone = watch(fields.zone, document ? document.zone?.uuid : currentScope.zones[0].uuid)
+  const values = getValues()
 
   useEffect(() => {
     if (document) {
@@ -90,9 +93,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
 
     try {
       response = await createOrUpdate({ ...values, zone })
-    } catch (error) {
-      handleError(error)
-    } finally {
+
       setAction(messages.uploadAction)
       uploadFormationFile({
         uuid: response?.uuid,
@@ -100,14 +101,15 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
         endpoint: 'general_meeting_reports',
       })
 
-      setAction('')
-      setFiles(null)
-      setLoading(false)
-
-      onUpdateResolve && onUpdateResolve()
       enqueueSnackbar(!document ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       handleClose()
+    } catch (error) {
+      handleError(error)
     }
+
+    setAction('')
+    setFiles(null)
+    setLoading(false)
   }
 
   return (
@@ -147,6 +149,20 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
                 <Input name={fields.description} onChange={onChange} value={value} multiline maxRows={4} />
               )}
             />
+            <FormError errors={errorMessages} field={fields.description} />
+          </Box>
+          <Box>
+            <UIInputLabel required>Date</UIInputLabel>
+            <Controller
+              name={fields.date}
+              control={control}
+              defaultValue={document?.date || ''}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <DatePicker {...field} renderInput={params => <Input type="date" name={fields.date} {...params} />} />
+              )}
+            />
+            <FormError errors={errorMessages} field={fields.date} />
           </Box>
           <Box>
             <UIInputLabel>Votre fichier</UIInputLabel>
@@ -169,6 +185,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
                   options={currentScope.zones.map(z => ({ key: z.uuid, value: `${z.name} (${z.code})` }))}
                   onChange={onChange}
                   value={value}
+                  disabled={currentScope.zones.length === 1}
                 />
               )}
             />
