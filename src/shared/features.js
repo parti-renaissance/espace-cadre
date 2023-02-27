@@ -17,6 +17,7 @@ const features = {
   elected_representative: 'elected_representative',
   general_meeting_reports: 'general_meeting_reports',
   committee: 'committee',
+  documents: 'documents',
 }
 
 export default features
@@ -51,6 +52,7 @@ export const featuresGroup = [
       features.survey,
       features.adherent_formations,
       features.general_meeting_reports,
+      features.documents,
     ],
   },
   {
@@ -77,6 +79,7 @@ export const featuresLabels = {
   [features.department_site]: 'Site départemental',
   [features.elected_representative]: 'Registre des élus',
   [features.adherent_formations]: 'Formations',
-  [features.general_meeting_reports]: 'Centre documentaire',
+  [features.general_meeting_reports]: "Procès-verbal d'AG",
   [features.committee]: 'Comités',
+  [features.documents]: 'Documents',
 }

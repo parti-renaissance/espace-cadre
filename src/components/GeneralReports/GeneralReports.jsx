@@ -18,7 +18,7 @@ import CreateEditModal from './CreateEditModal'
 import { getDocuments } from 'api/general-meeting-report'
 
 const messages = {
-  title: 'Centre documentaire',
+  title: "Procès-verbal d'AG",
   create: 'Ajouter',
   edit: 'Modifier',
   noDocuments: "Vous n'avez aucun document créé",

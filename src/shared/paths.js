@@ -17,6 +17,7 @@ export default {
   adherent_formations: '/formations',
   general_meeting_reports: '/proces-verbal',
   committee: '/comites',
+  documents: '/documents',
 }
 
 export const publicPaths = {
