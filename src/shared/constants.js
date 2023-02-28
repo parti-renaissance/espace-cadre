@@ -83,12 +83,3 @@ export const affiliations = {
   MDC: 'Mouvement des citoyens',
   MNR: 'Mouvement national républicain',
 }
-
-export const zonesTypes = {
-  country: 'Pays',
-  city_community: 'Communauté de commune',
-  city: 'Commune',
-  canton: 'Canton',
-  borough: 'Arrondissement',
-  vote_place: 'Bureau de vote',
-}

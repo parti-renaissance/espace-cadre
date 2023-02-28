@@ -25,4 +25,14 @@ export const zoneTypes = {
   CANTON: 'canton',
   FOREIGN_DISTRICT: 'foreign_district',
   CONSULAR_DISTRICT: 'consular_district',
+  VOTE_PLACE: 'vote_place',
+}
+
+export const zoneLabels = {
+  [zoneTypes.COUNTRY]: 'Pays',
+  [zoneTypes.CITY_COMMUNITY]: 'Communauté de commune',
+  [zoneTypes.CITY]: 'Commune',
+  [zoneTypes.CANTON]: 'Canton',
+  [zoneTypes.BOROUGH]: 'Arrondissement',
+  [zoneTypes.VOTE_PLACE]: 'Bureau de vote',
 }

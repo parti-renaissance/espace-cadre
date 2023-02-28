@@ -3,7 +3,7 @@ import { ListItemButton, Typography, Grid } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import { zonesTypes } from 'shared/constants'
+import { zoneLabels } from 'domain/zone'
 
 const ListItem = styled(
   ListItemButton,
@@ -52,7 +52,7 @@ const ZoneItem = ({ zone, handleSelectOne, isCheck }) => (
       <Typography sx={{ fontWeight: 700, mr: 1 }}>
         {zone.name} ({zone.code})
       </Typography>
-      - <Badge>{zonesTypes[zone.type]}</Badge>
+      - <Badge>{zoneLabels[zone.type]}</Badge>
     </GridContainer>
   </ListItem>
 )

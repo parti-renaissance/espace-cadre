@@ -1,4 +1,4 @@
-import { useRef, useEffect, createContext, useContext, useMemo } from 'react'
+import { useRef, useEffect, createContext, useContext, useMemo, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
@@ -6,9 +6,9 @@ import { lineString, bbox } from '@turf/turf'
 import { flattenDeep } from 'lodash'
 import { zoneTypes } from 'domain/zone'
 import { useUserScope } from '../../redux/user/hooks'
-import { uniqWith } from 'lodash/array'
 import { MAPBOX_TOKEN } from 'shared/environments'
 import { createMap } from 'providers/map'
+import { committeeZones } from 'components/Committees/constants'
 
 export const MapContext = createContext()
 
@@ -21,47 +21,70 @@ const Container = styled(Grid)`
   min-height: 650px;
 `
 
-const featuresFilter = (codesRegion, codesCountry) => [
-  'any',
-  ['in', 'CODE_REGION', ...codesRegion],
-  ['in', 'CODE_COUNTRY', ...codesCountry],
-]
+const defaultLayerOption = dptCodes => ({
+  type: 'line',
+  filter: ['in', ['get', 'dpt'], ['literal', dptCodes]],
+  paint: {
+    'line-color': '#565656',
+    'line-opacity': 0.25,
+    'line-width': 0.5,
+  },
+})
 
-const SOURCE_ID = 'voting-places'
-const SOURCE_LAYER = 'ciblage_legislatives'
-const MAIN_LAYER_ID = 'main-layer'
-const LINE_LAYER_ID = 'line-layer'
+const filledLayerOption = zoneCodes => ({
+  type: 'fill',
+  filter: ['in', ['get', 'code'], ['literal', zoneCodes]],
+  paint: {
+    'fill-color': '#1dbc60',
+    'fill-opacity': 0.9,
+    'fill-outline-color': '#565656',
+  },
+})
+
+const aggregateZonesByType = zones => {
+  const zonesByTypes = {}
+
+  for (const zone of zones) {
+    if (typeof zonesByTypes[zone.type] === 'undefined') {
+      zonesByTypes[zone.type] = []
+    }
+    zonesByTypes[zone.type].push(zone.code)
+  }
+
+  return zonesByTypes
+}
+
+const MAP_SOURCES = {
+  [zoneTypes.VOTE_PLACE]: 'mapbox://larem.1bbbj2b2',
+  [zoneTypes.BOROUGH]: 'mapbox://larem.0mxjf8sw',
+  [zoneTypes.CANTON]: 'mapbox://larem.dcl6d90t',
+  [zoneTypes.CITY]: 'mapbox://larem.6hmep1lo',
+  [zoneTypes.CITY_COMMUNITY]: 'mapbox://larem.9xnlykmn',
+}
 
 const Map = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)
-  const { zones, setZones } = useContext(MapContext)
+  const [mapLayersLoaded, setMapLayersLoaded] = useState(false)
+
+  const { zones } = useContext(MapContext)
   const [userScope] = useUserScope()
   const userZones = userScope.zones
 
-  const center =
-    userZones[0].longitude && userZones[0].latitude ? [userZones[0].longitude, userZones[0].latitude] : null
-  const codesRegion = userZones.filter(z => z.type === zoneTypes.REGION).map(z => z.code)
-  const codesCountry = userZones.filter(z => z.type === zoneTypes.COUNTRY).map(z => z.code)
-
-  const codes = useMemo(() => [codesRegion, codesCountry], [codesRegion, codesCountry])
-
-  const handleMapClick = e => {
-    const features = map.current.queryRenderedFeatures(e.point, { layers: [MAIN_LAYER_ID] })
-
-    if (features.length) {
-      const code = features[0].properties.CODE
-
-      if (zones.includes(code)) {
-        setZones(zones.filter(item => item !== code))
-      } else {
-        setZones([...zones, code])
-      }
-    }
+  const dptCodes = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
+  if (!dptCodes.length) {
+    dptCodes.concat(
+      userZones
+        .filter(z => [zoneTypes.CITY, zoneTypes.BOROUGH, zoneTypes.DISTRICT, zoneTypes.CANTON].includes(z.type))
+        .map(z => z.code)
+        .map(code => code.substring(0, 2))
+    )
   }
 
-  const handleMapClickRef = useRef(handleMapClick)
-  handleMapClickRef.current = handleMapClick
+  const center =
+    userZones[0].longitude && userZones[0].latitude ? [userZones[0].longitude, userZones[0].latitude] : null
+
+  const zoneCodesByTypes = useMemo(() => aggregateZonesByType(zones), [zones])
 
   useEffect(() => {
     if (map.current) {
@@ -70,91 +93,110 @@ const Map = () => {
 
     map.current = createMap(mapContainer.current, { ...(center ? { center, zoom: 8 } : {}) })
 
-    map.current.getCanvas().style.cursor = 'pointer'
-
     map.current.on('load', () => {
-      map.current.addSource(SOURCE_ID, {
-        type: 'vector',
-        url: 'mapbox://larem.dp5yhkm6',
+      // Load all sources
+      map.current
+        .addSource(zoneTypes.DEPARTMENT, { type: 'vector', url: 'mapbox://larem.8tm42bsz' })
+        .addLayer({
+          id: `${zoneTypes.DEPARTMENT}_layer_line`,
+          source: zoneTypes.DEPARTMENT,
+          'source-layer': zoneTypes.DEPARTMENT,
+          type: 'line',
+          filter: ['in', ['get', 'code'], ['literal', dptCodes]],
+          paint: {
+            'line-color': '#000',
+            'line-opacity': 0.5,
+            'line-width': 1,
+          },
+        })
+        .addLayer({
+          id: `${zoneTypes.DEPARTMENT}_layer_fill`,
+          source: zoneTypes.DEPARTMENT,
+          'source-layer': zoneTypes.DEPARTMENT,
+          type: 'fill',
+          filter: ['in', ['get', 'code'], ['literal', dptCodes]],
+          paint: {
+            'fill-color': '#f00',
+            'fill-opacity': 0.25,
+            'fill-outline-color': '#565656',
+          },
+        })
+
+      committeeZones.map(zoneType => map.current.addSource(zoneType, { type: 'vector', url: MAP_SOURCES[zoneType] }))
+
+      committeeZones.map(zoneType => {
+        map.current.addLayer({
+          id: `${zoneType}_layer_line`,
+          source: zoneType,
+          'source-layer': zoneType,
+          ...defaultLayerOption(dptCodes),
+        })
+
+        map.current.addLayer({
+          id: `${zoneType}_layer_fill`,
+          source: zoneType,
+          'source-layer': zoneType,
+          ...filledLayerOption([]),
+        })
       })
 
-      map.current.addLayer({
-        id: MAIN_LAYER_ID,
-        source: SOURCE_ID,
-        'source-layer': SOURCE_LAYER,
-        filter: featuresFilter(...codes),
-        type: 'fill',
-        paint: {
-          'fill-color': ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'],
-          'fill-opacity': 0.25,
-          'fill-outline-color': '#565656',
-        },
-      })
+      map.current.on('data', () => {
+        if (mapLayersLoaded) {
+          return
+        }
+        const results = committeeZones.map(zoneType =>
+          map.current.isSourceLoaded(zoneType) && typeof map.current.getLayer(`${zoneType}_layer_line`) !== 'undefined'
+            ? 1
+            : 0
+        )
 
-      map.current.addLayer({
-        id: LINE_LAYER_ID,
-        source: SOURCE_ID,
-        'source-layer': SOURCE_LAYER,
-        type: 'line',
-        paint: {
-          'line-color': '#000',
-          'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
-          'line-width': 2,
-        },
+        if (results.reduce((a, b) => a + b) === committeeZones.length) {
+          setMapLayersLoaded(true)
+        }
       })
     })
 
     let zoomed = false
+    let onFly = false
 
     map.current
       .once('click', () => (zoomed = true))
       .once('dbclick', () => (zoomed = true))
       .once('wheel', () => (zoomed = true))
-      .on('click', MAIN_LAYER_ID, e => handleMapClickRef.current(e))
       .on('data', () => {
-        if (zoomed) {
+        if (onFly || zoomed || 'undefined' === typeof map.current.getLayer('department_layer_line')) {
           return
         }
 
-        const renderedFeatures = map.current.querySourceFeatures(SOURCE_ID, {
-          filter: featuresFilter(...codes),
-          sourceLayer: SOURCE_LAYER,
+        const renderedFeatures = map.current.queryRenderedFeatures({
+          layers: ['department_layer_line'],
           validate: false,
         })
 
-        if (!center && renderedFeatures.length === 0 && map.current.getZoom !== 7) {
-          map.current.zoomTo(7, { duration: 100 })
-        }
-
         if (renderedFeatures.length >= 2) {
+          onFly = true
+
           const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
-          map.current.fitBounds(bbox(line), { padding: 140 })
+          map.current.fitBounds(bbox(line), { maxZoom: 9 })
         }
       })
-  })
+  }, [map, center, dptCodes])
 
   useEffect(() => {
-    const features = uniqWith(
-      map.current.querySourceFeatures(SOURCE_ID, {
-        sourceLayer: SOURCE_LAYER,
-        filter: featuresFilter(...codes),
-        validate: false,
-      }),
-      (a, b) => a.id === b.id
+    if (!map.current || !mapLayersLoaded) {
+      return
+    }
+
+    committeeZones.map(zoneType =>
+      map.current.setFilter(`${zoneType}_layer_fill`, ['in', ['get', 'code'], ['literal', []]])
     )
 
-    features.forEach(feature => {
-      map.current.setFeatureState(
-        {
-          source: SOURCE_ID,
-          sourceLayer: SOURCE_LAYER,
-          id: feature.id,
-        },
-        { active: zones.includes(feature.properties.CODE) }
-      )
-    })
-  }, [zones, codes])
-
+    for (const key in zoneCodesByTypes) {
+      if (committeeZones.includes(key)) {
+        map.current.setFilter(`${key}_layer_fill`, ['in', ['get', 'code'], ['literal', zoneCodesByTypes[key]]])
+      }
+    }
+  }, [map, zoneCodesByTypes, mapLayersLoaded])
   return <Container ref={mapContainer} />
 }
 

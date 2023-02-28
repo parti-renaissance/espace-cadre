@@ -11,7 +11,8 @@ import Input from 'ui/Input/Input'
 import Select from 'ui/Select'
 import Loader from 'ui/Loader'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import { zonesTypes } from 'shared/constants'
+import { committeeZones } from './constants'
+import { zoneLabels } from 'domain/zone'
 import ZoneItem from './Zone/ZoneItem'
 import { useDebounce } from 'components/shared/debounce'
 
@@ -49,12 +50,12 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
   }, [debounce, watch, filters])
 
   const handleSelectAll = checked => {
-    updatedSelectedZones(checked ? zonesData.map(zone => ({ uuid: zone.uuid, name: zone.name, type: zone.type })) : [])
+    updatedSelectedZones(checked ? zonesData : [])
   }
 
   const handleSelectOne = (e, zone) => {
     if (e.target.checked) {
-      updatedSelectedZones([...zones, { uuid: zone.uuid, name: zone.name, type: zone.type }])
+      updatedSelectedZones(zones.concat([zone]))
     } else {
       updatedSelectedZones(zones.filter(item => item.uuid !== zone.uuid))
     }
@@ -80,7 +81,7 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Select
-                options={Object.keys(zonesTypes).map(key => ({ key, value: zonesTypes[key] }))}
+                options={committeeZones.map(key => ({ key, value: zoneLabels[key] }))}
                 onChange={type => onChange([type])}
                 value={Array.isArray(value) && value.length > 0 ? value[0] : ''}
               />

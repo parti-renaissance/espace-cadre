@@ -57,7 +57,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   const [committee, setCommittee] = useState(null)
   const [currentTab, setCurrentTab] = useState(0)
   const [zones, setZones] = useState([])
-  const value = { zones, setZones }
+  const mapContextValue = { zones, setZones }
   const { control, getValues, watch, reset, setValue } = useForm({
     mode: 'onChange',
     resolver: yupResolver(committeeSchema),
@@ -103,13 +103,13 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
 
   useEffect(() => {
     if (committee?.uuid) {
-      setZones(committee.zones.map(zone => ({ uuid: zone.uuid, type: zone.type, name: zone.name })))
+      setZones(committee.zones)
       reset(committee)
     }
   }, [committee, reset])
 
   return (
-    <MapContext.Provider value={value}>
+    <MapContext.Provider value={mapContextValue}>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <Container maxWidth="xl">
           <Grid container sx={{ py: 4 }}>
@@ -181,6 +181,8 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
                   borderRadius: '8px',
                   border: '1px solid',
                   borderColor: theme => theme.palette.colors.gray[200],
+                  position: 'sticky',
+                  top: '1rem',
                 }}
               >
                 <Tabs value={currentTab} onChange={(e, v) => setCurrentTab(v)} aria-label="basic tabs example">
