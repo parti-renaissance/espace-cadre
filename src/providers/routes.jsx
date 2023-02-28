@@ -26,6 +26,7 @@ import ElectedRepresentative from 'components/ElectedRepresentative'
 import Formations from 'components/Formations'
 import GeneralReports from 'components/GeneralReports'
 import Committees from 'components/Committees'
+import Documents from 'components/Documents'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -57,6 +58,10 @@ const AppPrivateRoutes = () => {
         <Route
           path={`${paths.committee}/*`}
           element={authorizedFeatures.includes(features.committee) && <Committees />}
+        />
+        <Route
+          path={`${paths.documents}/*`}
+          element={authorizedFeatures.includes(features.documents) && <Documents />}
         />
         <Route path={paths.elections} element={authorizedFeatures.includes(features.elections) && <Elections />} />
         <Route path={paths.ripostes} element={authorizedFeatures.includes(features.ripostes) && <Ripostes />} />
