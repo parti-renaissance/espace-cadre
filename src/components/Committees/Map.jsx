@@ -95,32 +95,18 @@ const Map = () => {
 
     map.current.on('load', () => {
       // Load all sources
-      map.current
-        .addSource(zoneTypes.DEPARTMENT, { type: 'vector', url: 'mapbox://larem.8tm42bsz' })
-        .addLayer({
-          id: `${zoneTypes.DEPARTMENT}_layer_line`,
-          source: zoneTypes.DEPARTMENT,
-          'source-layer': zoneTypes.DEPARTMENT,
-          type: 'line',
-          filter: ['in', ['get', 'code'], ['literal', dptCodes]],
-          paint: {
-            'line-color': '#000',
-            'line-opacity': 0.5,
-            'line-width': 1,
-          },
-        })
-        .addLayer({
-          id: `${zoneTypes.DEPARTMENT}_layer_fill`,
-          source: zoneTypes.DEPARTMENT,
-          'source-layer': zoneTypes.DEPARTMENT,
-          type: 'fill',
-          filter: ['in', ['get', 'code'], ['literal', dptCodes]],
-          paint: {
-            'fill-color': '#f00',
-            'fill-opacity': 0.25,
-            'fill-outline-color': '#565656',
-          },
-        })
+      map.current.addSource(zoneTypes.DEPARTMENT, { type: 'vector', url: 'mapbox://larem.8tm42bsz' }).addLayer({
+        id: `${zoneTypes.DEPARTMENT}_layer_fill`,
+        source: zoneTypes.DEPARTMENT,
+        'source-layer': zoneTypes.DEPARTMENT,
+        type: 'fill',
+        filter: ['in', ['get', 'code'], ['literal', dptCodes]],
+        paint: {
+          'fill-color': '#f00',
+          'fill-opacity': 0.25,
+          'fill-outline-color': '#000',
+        },
+      })
 
       committeeZones.map(zoneType => map.current.addSource(zoneType, { type: 'vector', url: MAP_SOURCES[zoneType] }))
 
@@ -164,12 +150,12 @@ const Map = () => {
       .once('dbclick', () => (zoomed = true))
       .once('wheel', () => (zoomed = true))
       .on('data', () => {
-        if (onFly || zoomed || 'undefined' === typeof map.current.getLayer('department_layer_line')) {
+        if (onFly || zoomed || 'undefined' === typeof map.current.getLayer('department_layer_fill')) {
           return
         }
 
         const renderedFeatures = map.current.queryRenderedFeatures({
-          layers: ['department_layer_line'],
+          layers: ['department_layer_fill'],
           validate: false,
         })
 
