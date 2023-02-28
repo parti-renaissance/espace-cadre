@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box, IconButton } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DeleteIcon from '@mui/icons-material/Delete'
-import _ from 'lodash'
-import { zonesTypes } from 'shared/constants'
+import { groupBy } from 'lodash'
+import { zoneLabels } from 'domain/zone'
 import EmptyContent from 'ui/EmptyContent'
 
 const messages = {
@@ -11,7 +11,7 @@ const messages = {
 }
 
 const ZonesAccordion = ({ selectedZones, onRemoveZone }) => {
-  const zonesGroup = _.groupBy(selectedZones, 'type')
+  const zonesGroup = groupBy(selectedZones, 'type')
 
   if (!selectedZones.length) {
     return <EmptyContent description={messages.noData} />
@@ -30,7 +30,7 @@ const ZonesAccordion = ({ selectedZones, onRemoveZone }) => {
               id={`panel${index}a-header`}
             >
               <Typography>
-                {zonesTypes[group]} ({zones.length})
+                {zoneLabels[group]} ({zones.length})
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
