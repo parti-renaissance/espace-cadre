@@ -4,9 +4,12 @@ import { Box, Container, Grid, Typography } from '@mui/material'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { AccessTime } from '@mui/icons-material'
+import { format } from 'date-fns'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getFile } from 'api/upload'
+import { getDocuments } from 'api/general-meeting-report'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
@@ -15,13 +18,12 @@ import EmptyContent from 'ui/EmptyContent'
 import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
-import { getDocuments } from 'api/general-meeting-report'
 
 const messages = {
-  title: "Procès-verbal d'AG",
+  title: "Centre d'archives",
   create: 'Ajouter',
   edit: 'Modifier',
-  noDocuments: "Vous n'avez aucun document créé",
+  noDocuments: "Vous n'avez aucun procès-verbal créé",
   view: 'Afficher',
   download: 'Télécharger',
 }
@@ -111,6 +113,15 @@ const GenericReports = () => {
                       >
                         {document.description}
                       </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+                        <AccessTime
+                          sx={{ mr: 0.5, color: theme => theme.palette.colors.gray[400], fontSize: '15px' }}
+                        />
+                        <Typography variant="subtitle2" sx={{ color: theme => theme.palette.colors.gray[500] }}>
+                          Ajouté le {format(new Date(document.date), 'dd/MM/yyyy')} à{' '}
+                          {format(new Date(document.date), 'HH:mm')}
+                        </Typography>
+                      </Box>
                       <Box
                         sx={{
                           display: 'flex',
