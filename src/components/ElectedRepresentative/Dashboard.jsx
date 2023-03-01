@@ -136,14 +136,14 @@ const Dashboard = () => {
           description={messages.noElected}
           action={
             <>
-              <PageHeaderButton label={messages.create} onClick={() => {}} icon={<PersonAddIcon />} isMainButton />
+              <PageHeaderButton label={messages.create} onClick={handleOpen} icon={<PersonAddIcon />} isMainButton />
             </>
           }
         />
       )}
 
       {electedRepresentative && electedRepresentative.length > 0 && (
-        <Grid container sx={{ mt: 4 }}>
+        <Grid container sx={{ mt: 4 }} data-cy="elected-representative-container">
           <Grid item xs={12}>
             <InfiniteScroll
               dataLength={electedRepresentative.length}
@@ -153,50 +153,51 @@ const Dashboard = () => {
             >
               <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={2.5}>
                 {electedRepresentative.map(elected => (
-                  <UICard
-                    key={elected.uuid}
-                    rootProps={{ sx: { pt: 2 } }}
-                    header={
-                      <Box sx={{ display: 'flex', alignContent: 'center' }} className="elected-heading">
-                        <h5 className="elected-heading__name">
-                          {elected.first_name} <span>{elected.last_name}</span>
-                        </h5>
-                      </Box>
-                    }
-                    content={
-                      <Box className="elected-content">
-                        <Content title="Mandats Actifs" hasBadge={true} badge={elected.current_mandates.length}>
-                          <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
-                            {elected.current_mandates.map((mandat, index) => (
-                              <span key={index} className="badge badge-default">
-                                {mandats[mandat.type]} -{' '}
-                                <span>{`${mandat.geo_zone.name} (${mandat.geo_zone.code})`}</span>
-                              </span>
-                            ))}
-                          </Box>
-                        </Content>
-                        {elected.current_political_functions.length > 0 && (
-                          <Content sx={{ mt: 1, pt: 1.5 }} title="Fonctions politiques" hasBadge={false}>
+                  <Box key={elected.uuid} data-cy="elected-representative-card">
+                    <UICard
+                      rootProps={{ sx: { pt: 2 } }}
+                      header={
+                        <Box sx={{ display: 'flex', alignContent: 'center' }} className="elected-heading">
+                          <h5 className="elected-heading__name">
+                            {elected.first_name} <span>{elected.last_name}</span>
+                          </h5>
+                        </Box>
+                      }
+                      content={
+                        <Box className="elected-content">
+                          <Content title="Mandats Actifs" hasBadge={true} badge={elected.current_mandates.length}>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
-                              {elected.current_political_functions.length > 0 &&
-                                elected.current_political_functions.map((political_functions, index) => (
-                                  <span key={index} className="badge badge-default">
-                                    {functions[political_functions.name]}
-                                  </span>
-                                ))}
+                              {elected.current_mandates.map((mandat, index) => (
+                                <span key={index} className="badge badge-default">
+                                  {mandats[mandat.type]} -{' '}
+                                  <span>{`${mandat.geo_zone.name} (${mandat.geo_zone.code})`}</span>
+                                </span>
+                              ))}
                             </Box>
                           </Content>
-                        )}
-                      </Box>
-                    }
-                    actions={
-                      <Box sx={{ display: 'flex', mt: 2.5 }}>
-                        <Button onClick={handleView(elected.uuid)} isMainButton>
-                          {messages.view}
-                        </Button>
-                      </Box>
-                    }
-                  />
+                          {elected.current_political_functions.length > 0 && (
+                            <Content sx={{ mt: 1, pt: 1.5 }} title="Fonctions politiques" hasBadge={false}>
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
+                                {elected.current_political_functions.length > 0 &&
+                                  elected.current_political_functions.map((political_functions, index) => (
+                                    <span key={index} className="badge badge-default">
+                                      {functions[political_functions.name]}
+                                    </span>
+                                  ))}
+                              </Box>
+                            </Content>
+                          )}
+                        </Box>
+                      }
+                      actions={
+                        <Box sx={{ display: 'flex', mt: 2.5 }}>
+                          <Button onClick={handleView(elected.uuid)} isMainButton>
+                            {messages.view}
+                          </Button>
+                        </Box>
+                      }
+                    />
+                  </Box>
                 ))}
               </Masonry>
             </InfiniteScroll>

@@ -178,7 +178,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
           <Grid container columnSpacing={4}>
             <Grid item xs={12} sm={6}>
               <Box>
-                <UIInputLabel required>Date de début de mandat </UIInputLabel>
+                <UIInputLabel required>Date de début de mandat</UIInputLabel>
                 <Controller
                   name={fields.beginAt}
                   control={control}
@@ -197,7 +197,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box>
-                <UIInputLabel>Date de fin de mandat </UIInputLabel>
+                <UIInputLabel>Date de fin de mandat</UIInputLabel>
                 <Controller
                   name={fields.finishAt}
                   control={control}
@@ -244,7 +244,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <FormError errors={errorMessages} field={fields.politicalAffiliation} />
           </Box>
           <Box>
-            <UIInputLabel>Soutien</UIInputLabel>
+            <UIInputLabel required>Soutien</UIInputLabel>
             <Controller
               name={fields.laREMSupport}
               control={control}
@@ -257,6 +257,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
                 />
               )}
             />
+            <FormError errors={errorMessages} field={fields.laREMSupport} />
           </Box>
         </Box>
         <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
