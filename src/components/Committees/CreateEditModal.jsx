@@ -57,7 +57,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   const [committee, setCommittee] = useState(null)
   const [currentTab, setCurrentTab] = useState(0)
   const [zones, setZones] = useState([])
-  const mapContextValue = { zones, setZones }
+  const mapContextValue = { zones }
   const { control, getValues, watch, reset, setValue } = useForm({
     mode: 'onChange',
     resolver: yupResolver(committeeSchema),
