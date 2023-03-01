@@ -50,14 +50,19 @@ export const featuresGroup = [
       features.pap_v2,
       features.survey,
       features.adherent_formations,
-      features.general_meeting_reports,
       features.documents,
     ],
   },
   {
     label: 'Gestion territoriale',
     slug: 'gestion_territoriale',
-    features: [features.elections, features.elected_representative, features.committee, features.my_team],
+    features: [
+      features.elections,
+      features.elected_representative,
+      features.committee,
+      features.general_meeting_reports,
+      features.my_team,
+    ],
   },
 ]
 
