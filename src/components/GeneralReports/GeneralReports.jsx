@@ -23,7 +23,7 @@ const messages = {
   title: "Centre d'archives",
   create: 'Ajouter',
   edit: 'Modifier',
-  noDocuments: "Vous n'avez aucun proces-verbal créé",
+  noDocuments: "Vous n'avez aucun procès-verbal créé",
   view: 'Afficher',
   download: 'Télécharger',
 }
@@ -118,7 +118,7 @@ const GenericReports = () => {
                           sx={{ mr: 0.5, color: theme => theme.palette.colors.gray[400], fontSize: '15px' }}
                         />
                         <Typography variant="subtitle2" sx={{ color: theme => theme.palette.colors.gray[500] }}>
-                          Ajouté Le {format(new Date(document.date), 'dd/MM/yyyy')} à{' '}
+                          Ajouté le {format(new Date(document.date), 'dd/MM/yyyy')} à{' '}
                           {format(new Date(document.date), 'HH:mm')}
                         </Typography>
                       </Box>
