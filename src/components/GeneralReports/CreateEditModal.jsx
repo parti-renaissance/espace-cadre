@@ -27,12 +27,13 @@ const messages = {
   create: 'Créer',
   update: 'Modifier',
   close: 'Fermer',
-  creationTitle: "Ajout d'un document",
-  editionTitle: 'Modification du document',
-  createSuccess: 'Document créé avec succès',
-  editSuccess: 'Le document a bien été modifié',
-  createAction: 'Document en cours de création/édition',
+  creationTitle: "Ajout d'un procès-verbal d'AG",
+  editionTitle: "Modification du procès-verbal d'AG",
+  createSuccess: 'Procès-verbal créé avec succès',
+  editSuccess: 'Le procès-verbal a bien été modifié',
+  createAction: 'Procès-verbal en cours de création/édition',
   uploadAction: "Fichier en cours d'upload",
+  fileErrorMessage: 'Le fichier est obligatoire',
 }
 
 const fields = {
@@ -87,6 +88,11 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
   })
 
   const createOrEdit = async () => {
+    if ((!files || files.length === 0) && !document) {
+      enqueueSnackbar(messages.fileErrorMessage, notifyVariants.error)
+      return
+    }
+
     let response = null
     setLoading(true)
     setAction(messages.createAction)
@@ -94,12 +100,14 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
     try {
       response = await createOrUpdate({ ...values, zone })
 
-      setAction(messages.uploadAction)
-      uploadFormationFile({
-        uuid: response?.uuid,
-        file: files[0].file,
-        endpoint: 'general_meeting_reports',
-      })
+      if (files && files.length > 0) {
+        setAction(messages.uploadAction)
+        uploadFormationFile({
+          uuid: response?.uuid,
+          file: files[0].file,
+          endpoint: 'general_meeting_reports',
+        })
+      }
 
       enqueueSnackbar(!document ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       handleClose()
@@ -156,16 +164,20 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
             <Controller
               name={fields.date}
               control={control}
-              defaultValue={document?.date || ''}
+              defaultValue={document?.date}
               rules={{ required: true }}
-              render={({ field }) => (
-                <DatePicker {...field} renderInput={params => <Input type="date" name={fields.date} {...params} />} />
+              render={({ field: { onChange, value } }) => (
+                <DatePicker
+                  value={value}
+                  onChange={onChange}
+                  renderInput={params => <Input type="date" name={fields.date} {...params} />}
+                />
               )}
             />
             <FormError errors={errorMessages} field={fields.date} />
           </Box>
           <Box>
-            <UIInputLabel>Votre fichier</UIInputLabel>
+            <UIInputLabel required={document ? false : true}>Votre fichier</UIInputLabel>
             <FilePond
               files={files}
               onupdatefiles={setFiles}

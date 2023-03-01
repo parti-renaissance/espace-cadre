@@ -46,7 +46,6 @@ export const featuresGroup = [
       features.contacts,
       features.events,
       features.team,
-      features.committee,
       features.pap,
       features.pap_v2,
       features.survey,
@@ -58,7 +57,7 @@ export const featuresGroup = [
   {
     label: 'Gestion territoriale',
     slug: 'gestion_territoriale',
-    features: [features.elections, features.elected_representative, features.my_team],
+    features: [features.elections, features.elected_representative, features.committee, features.my_team],
   },
 ]
 
@@ -66,7 +65,7 @@ export const featuresLabels = {
   [features.dashboard]: 'Vue d’ensemble',
   [features.contacts]: 'Militants',
   [features.messages]: 'Messagerie',
-  [features.elections]: 'Élections',
+  [features.elections]: 'Historique élections',
   [features.ripostes]: 'Action numérique',
   [features.team]: 'Groupes',
   [features.news]: 'Actualités',
@@ -79,7 +78,7 @@ export const featuresLabels = {
   [features.department_site]: 'Site départemental',
   [features.elected_representative]: 'Registre des élus',
   [features.adherent_formations]: 'Formations',
-  [features.general_meeting_reports]: "Procès-verbal d'AG",
+  [features.general_meeting_reports]: "Centre d'archives",
   [features.committee]: 'Comités',
   [features.documents]: 'Documents',
 }
