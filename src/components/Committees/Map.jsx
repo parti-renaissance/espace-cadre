@@ -3,12 +3,15 @@ import mapboxgl from 'mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
 import { lineString, bbox } from '@turf/turf'
-import { flattenDeep } from 'lodash'
+import { flattenDeep, uniqWith } from 'lodash'
+import { getUsedZones } from 'api/committees'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { committeeZones } from 'components/Committees/constants'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import { zoneTypes } from 'domain/zone'
-import { useUserScope } from '../../redux/user/hooks'
 import { MAPBOX_TOKEN } from 'shared/environments'
 import { createMap } from 'providers/map'
-import { committeeZones } from 'components/Committees/constants'
+import { useUserScope } from '../../redux/user/hooks'
 
 export const MapContext = createContext()
 
@@ -33,10 +36,9 @@ const defaultLayerOption = dptCodes => ({
 
 const filledLayerOption = zoneCodes => ({
   type: 'fill',
-  filter: ['in', ['get', 'code'], ['literal', zoneCodes]],
+  filter: ['in', ['get', 'dpt'], ['literal', zoneCodes]],
   paint: {
-    'fill-color': '#1dbc60',
-    'fill-opacity': 0.9,
+    'fill-color': ['coalesce', ['feature-state', 'color'], 'rgba(0,0,0,0)'],
     'fill-outline-color': '#565656',
   },
 })
@@ -68,8 +70,17 @@ const Map = () => {
   const [mapLayersLoaded, setMapLayersLoaded] = useState(false)
 
   const { zones } = useContext(MapContext)
+  const { handleError } = useErrorHandler()
   const [userScope] = useUserScope()
   const userZones = userScope.zones
+
+  const { data: usedZones = [] } = useQueryWithScope(
+    ['used-zones', { feature: 'Committees', view: 'Committees' }],
+    getUsedZones,
+    {
+      onError: handleError,
+    }
+  )
 
   const dptCodes = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
   if (!dptCodes.length) {
@@ -81,10 +92,13 @@ const Map = () => {
     )
   }
 
-  const center =
-    userZones[0].longitude && userZones[0].latitude ? [userZones[0].longitude, userZones[0].latitude] : null
+  const center = useMemo(
+    () => (userZones[0].longitude && userZones[0].latitude ? [userZones[0].longitude, userZones[0].latitude] : null),
+    [userZones]
+  )
 
   const zoneCodesByTypes = useMemo(() => aggregateZonesByType(zones), [zones])
+  const usedZoneCodesByTypes = useMemo(() => aggregateZonesByType(usedZones), [usedZones])
 
   useEffect(() => {
     if (map.current) {
@@ -122,23 +136,12 @@ const Map = () => {
           id: `${zoneType}_layer_fill`,
           source: zoneType,
           'source-layer': zoneType,
-          ...filledLayerOption([]),
+          ...filledLayerOption(dptCodes),
         })
       })
 
-      map.current.on('data', () => {
-        if (mapLayersLoaded) {
-          return
-        }
-        const results = committeeZones.map(zoneType =>
-          map.current.isSourceLoaded(zoneType) && typeof map.current.getLayer(`${zoneType}_layer_line`) !== 'undefined'
-            ? 1
-            : 0
-        )
-
-        if (results.reduce((a, b) => a + b) === committeeZones.length) {
-          setMapLayersLoaded(true)
-        }
+      map.current.on('idle', () => {
+        setMapLayersLoaded(true)
       })
     })
 
@@ -166,23 +169,53 @@ const Map = () => {
           map.current.fitBounds(bbox(line), { maxZoom: 9 })
         }
       })
-  }, [map, center, dptCodes])
+  }, [map, center, dptCodes, mapLayersLoaded])
 
   useEffect(() => {
     if (!map.current || !mapLayersLoaded) {
       return
     }
 
-    committeeZones.map(zoneType =>
-      map.current.setFilter(`${zoneType}_layer_fill`, ['in', ['get', 'code'], ['literal', []]])
-    )
-
-    for (const key in zoneCodesByTypes) {
-      if (committeeZones.includes(key)) {
-        map.current.setFilter(`${key}_layer_fill`, ['in', ['get', 'code'], ['literal', zoneCodesByTypes[key]]])
+    const chooseColor = (code, zoneCurrentCommittee, usedZones) => {
+      if (zoneCurrentCommittee.includes(code)) {
+        return '#22c55e'
       }
+
+      if (usedZones.includes(code)) {
+        return '#bbf7d0'
+      }
+
+      return 'rgba(0,0,0, 0)'
     }
-  }, [map, zoneCodesByTypes, mapLayersLoaded])
+
+    committeeZones.map(zoneType => {
+      const features = uniqWith(
+        map.current.querySourceFeatures(zoneType, {
+          sourceLayer: `${zoneType}`,
+          filter: ['in', ['get', 'dpt'], ['literal', dptCodes]],
+          validate: false,
+        }),
+        (a, b) => a.id === b.id
+      )
+
+      features.forEach(feature => {
+        map.current.setFeatureState(
+          {
+            source: zoneType,
+            sourceLayer: `${zoneType}`,
+            id: feature.id,
+          },
+          {
+            color: chooseColor(
+              feature.properties.code,
+              zoneCodesByTypes[zoneType] || [],
+              usedZoneCodesByTypes[zoneType] || []
+            ),
+          }
+        )
+      })
+    })
+  }, [map, zoneCodesByTypes, usedZoneCodesByTypes, mapLayersLoaded, dptCodes])
   return <Container ref={mapContainer} />
 }
 
