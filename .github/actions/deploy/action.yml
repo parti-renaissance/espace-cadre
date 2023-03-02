@@ -139,5 +139,6 @@ runs:
         SENTRY_ORG: ${{ inputs.sentry_org }}
         SENTRY_PROJECT: ${{ inputs.sentry_project }}
       with:
-        environment: staging
+        environment: ${{ inputs.react_app_environment }}
         sourcemaps: './build'
+        version: ${{ inputs.react_app_version }}
