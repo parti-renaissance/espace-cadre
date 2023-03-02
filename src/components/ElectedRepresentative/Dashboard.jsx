@@ -62,7 +62,13 @@ Content.propTypes = {
 }
 
 const Dashboard = () => {
-  const initialFilter = { page: 1, zones: [], mandates: [], political_functions: [] }
+  const initialFilter = {
+    page: 1,
+    zones: [],
+    mandates: [],
+    political_functions: [],
+    renaissance_membership: 'adherent_re',
+  }
   const [defaultFilter, setDefaultFilter] = useState(initialFilter)
   const [filters, setFilters] = useState(defaultFilter)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
