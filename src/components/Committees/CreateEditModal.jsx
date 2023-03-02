@@ -20,8 +20,9 @@ import { createCommittee, getCommittee, updateCommittee } from 'api/committees'
 import Loader from 'ui/Loader'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import ZonesAccordion from './Zone/Accordions'
-import Map, { MapContext } from './Map'
+import Map from './Map'
 import TabPanel from './Panel'
+import ZoneContext from './zoneContext'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -57,7 +58,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   const [committee, setCommittee] = useState(null)
   const [currentTab, setCurrentTab] = useState(0)
   const [zones, setZones] = useState([])
-  const mapContextValue = { zones }
+
   const { control, getValues, watch, reset, setValue } = useForm({
     mode: 'onChange',
     resolver: yupResolver(committeeSchema),
@@ -68,9 +69,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
     () => getCommittee(committeeId),
     {
       enabled: !isCreateMode,
-      onSuccess: data => {
-        setCommittee(data)
-      },
+      onSuccess: setCommittee,
     }
   )
 
@@ -90,16 +89,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   watch()
   const values = getValues()
 
-  const createOrEdit = () => {
-    delete values.types
-    delete values.q
-
-    if (isCreateMode) {
-      createOrUpdateCommittee(values)
-    } else {
-      createOrUpdateCommittee({ ...values, zones: zones.map(zone => zone.uuid) })
-    }
-  }
+  const createOrEdit = () => createOrUpdateCommittee({ ...values, zones: zones.map(zone => zone.uuid) })
 
   useEffect(() => {
     if (committee?.uuid) {
@@ -109,7 +99,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   }, [committee, reset])
 
   return (
-    <MapContext.Provider value={mapContextValue}>
+    <ZoneContext.Provider value={{ zones, setZones }}>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <Container maxWidth="xl">
           <Grid container sx={{ py: 4 }}>
@@ -160,19 +150,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
               </Box>
               <Box>
                 <FormError errors={errorMessages} field={fields.zones} />
-                <ZonesList
-                  watch={watch}
-                  control={control}
-                  setValue={setValue}
-                  zones={zones}
-                  updatedSelectedZones={zones => {
-                    setZones(zones)
-                    setValue(
-                      fields.zones,
-                      zones.map(zone => zone.uuid)
-                    )
-                  }}
-                />
+                <ZonesList />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -214,7 +192,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
           </Grid>
         </Container>
       </Dialog>
-    </MapContext.Provider>
+    </ZoneContext.Provider>
   )
 }
 

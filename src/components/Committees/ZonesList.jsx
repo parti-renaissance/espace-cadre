@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import { useContext, useState } from 'react'
 import { Box, FormControlLabel, Grid, Typography } from '@mui/material'
-import { Controller } from 'react-hook-form'
 import { FixedSizeList as List } from 'react-window'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getZones } from 'api/committees'
@@ -12,9 +10,10 @@ import Select from 'ui/Select'
 import Loader from 'ui/Loader'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { committeeZones } from './constants'
-import { zoneLabels } from 'domain/zone'
+import { zoneLabels, zoneTypes } from 'domain/zone'
 import ZoneItem from './Zone/ZoneItem'
 import { useDebounce } from 'components/shared/debounce'
+import ZoneContext from 'components/Committees/zoneContext'
 
 const messages = {
   title: 'Sélectionnez une liste de zones',
@@ -22,17 +21,11 @@ const messages = {
   noZones: 'Aucune zone disponible',
 }
 
-const fields = {
-  search: 'q',
-  types: 'types',
-}
-
-const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
-  const [filters, setFilters] = useState({ searchEvenEmptyTerm: 1, availableForCommittee: 1 })
+const ZonesList = () => {
+  const [filters, setFilters] = useState({ types: [zoneTypes.CITY] })
   const { handleError } = useErrorHandler()
+  const { zones, setZones } = useContext(ZoneContext)
   const debounce = useDebounce()
-
-  watch()
 
   const { data: zonesData = [], isLoading } = useQueryWithScope(
     ['committees-zones-available', { feature: 'Committees', view: 'ZonesList' }, filters],
@@ -40,24 +33,15 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
     { onError: handleError }
   )
 
-  useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      if (name === fields.search || name === fields.types) {
-        debounce(() => setFilters({ ...filters, [name]: value[name] }))
-      }
-    })
-    return () => subscription.unsubscribe()
-  }, [debounce, watch, filters])
-
   const handleSelectAll = checked => {
-    updatedSelectedZones(checked ? zonesData : [])
+    setZones(checked ? zonesData : [])
   }
 
-  const handleSelectOne = (e, zone) => {
-    if (e.target.checked) {
-      updatedSelectedZones(zones.concat([zone]))
+  const handleSelectOne = (zone, checked) => {
+    if (checked) {
+      setZones(prevState => prevState.concat([zone]))
     } else {
-      updatedSelectedZones(zones.filter(item => item.uuid !== zone.uuid))
+      setZones(prevState => prevState.filter(item => item.uuid !== zone.uuid))
     }
   }
 
@@ -76,32 +60,17 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <UIInputLabel>Types de zone</UIInputLabel>
-          <Controller
-            name={fields.types}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Select
-                options={committeeZones.map(key => ({ key, value: zoneLabels[key] }))}
-                onChange={type => onChange([type])}
-                value={Array.isArray(value) && value.length > 0 ? value[0] : ''}
-              />
-            )}
+          <Select
+            options={committeeZones.map(key => ({ key, value: zoneLabels[key] }))}
+            onChange={type => setFilters(prevState => ({ ...prevState, types: [type] }))}
+            value={filters?.types?.length > 0 ? filters.types[0] : ''}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <UIInputLabel sx={{ mb: 1.5 }}>Rechercher une zone</UIInputLabel>
-          <Controller
-            name={fields.search}
-            control={control}
-            defaultValue={''}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                name={fields.search}
-                onChange={onChange}
-                value={value}
-                placeholder="Rechercher par nom ou par code postal"
-              />
-            )}
+          <Input
+            onChange={e => debounce(() => setFilters(prevState => ({ ...prevState, q: e.target.value })))}
+            placeholder="Rechercher par nom ou par code postal"
           />
         </Grid>
       </Grid>
@@ -131,7 +100,7 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
             <List
               height={600}
               itemCount={zonesData.length}
-              itemData={zonesData.sort((a, b) => zones.includes(b.uuid) - zones.includes(a.uuid))}
+              itemData={zonesData.sort((a, b) => zones.includes(b) - zones.includes(a))}
               itemSize={68}
             >
               {({ index, style, data }) => {
@@ -162,10 +131,3 @@ const ZonesList = ({ control, watch, zones, updatedSelectedZones }) => {
 }
 
 export default ZonesList
-
-ZonesList.propTypes = {
-  watch: PropTypes.func,
-  control: PropTypes.object,
-  zones: PropTypes.array,
-  updatedSelectedZones: PropTypes.func,
-}
