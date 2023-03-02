@@ -44,7 +44,7 @@ const GridContainer = styled(
 )
 
 const ZoneItem = ({ zone, handleSelectOne, isCheck }) => (
-  <ListItem hasBorderColor={isCheck} onClick={e => handleSelectOne(e, zone)}>
+  <ListItem hasBorderColor={isCheck} onClick={() => handleSelectOne(zone, !isCheck)}>
     <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Checkbox checked={isCheck} />
     </Grid>

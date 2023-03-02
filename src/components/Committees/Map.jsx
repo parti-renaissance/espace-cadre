@@ -1,9 +1,9 @@
-import { useRef, useEffect, createContext, useContext, useMemo, useState } from 'react'
+import { useRef, useEffect, useContext, useMemo, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
 import { lineString, bbox } from '@turf/turf'
-import { flattenDeep, uniqWith } from 'lodash'
+import { flatten, uniqWith } from 'lodash'
 import { getUsedZones } from 'api/committees'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { committeeZones } from 'components/Committees/constants'
@@ -12,8 +12,7 @@ import { zoneTypes } from 'domain/zone'
 import { MAPBOX_TOKEN } from 'shared/environments'
 import { createMap } from 'providers/map'
 import { useUserScope } from '../../redux/user/hooks'
-
-export const MapContext = createContext()
+import ZoneContext from 'providers/context'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 
@@ -24,9 +23,11 @@ const Container = styled(Grid)`
   min-height: 650px;
 `
 
+const getLayerFilter = codes => ['in', ['get', 'dpt'], ['literal', codes]]
+
 const defaultLayerOption = dptCodes => ({
   type: 'line',
-  filter: ['in', ['get', 'dpt'], ['literal', dptCodes]],
+  filter: getLayerFilter(dptCodes),
   paint: {
     'line-color': '#565656',
     'line-opacity': 0.25,
@@ -34,11 +35,11 @@ const defaultLayerOption = dptCodes => ({
   },
 })
 
-const filledLayerOption = zoneCodes => ({
+const filledLayerOption = dptCodes => ({
   type: 'fill',
-  filter: ['in', ['get', 'dpt'], ['literal', zoneCodes]],
+  filter: getLayerFilter(dptCodes),
   paint: {
-    'fill-color': ['coalesce', ['feature-state', 'color'], 'rgba(0,0,0,0)'],
+    'fill-color': ['coalesce', ['feature-state', 'color'], 'rgba(0, 0, 0, 0)'],
     'fill-outline-color': '#565656',
   },
 })
@@ -68,19 +69,14 @@ const Map = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const [mapLayersLoaded, setMapLayersLoaded] = useState(false)
-
-  const { zones } = useContext(MapContext)
+  const { zones } = useContext(ZoneContext)
   const { handleError } = useErrorHandler()
   const [userScope] = useUserScope()
   const userZones = userScope.zones
 
-  const { data: usedZones = [] } = useQueryWithScope(
-    ['used-zones', { feature: 'Committees', view: 'Committees' }],
-    getUsedZones,
-    {
-      onError: handleError,
-    }
-  )
+  const { data: usedZones = [] } = useQueryWithScope('used-zones', getUsedZones, {
+    onError: handleError,
+  })
 
   const dptCodes = userZones.filter(z => z.type === zoneTypes.DEPARTMENT).map(z => z.code)
   if (!dptCodes.length) {
@@ -162,10 +158,10 @@ const Map = () => {
           validate: false,
         })
 
-        if (renderedFeatures.length >= 2) {
+        if (renderedFeatures.length >= 1) {
           onFly = true
 
-          const line = lineString(renderedFeatures.map(feature => flattenDeep(feature.geometry.coordinates)))
+          const line = lineString(flatten(renderedFeatures.map(feature => flatten(feature.geometry.coordinates))))
           map.current.fitBounds(bbox(line), { maxZoom: 9 })
         }
       })
@@ -185,14 +181,14 @@ const Map = () => {
         return '#bbf7d0'
       }
 
-      return 'rgba(0,0,0, 0)'
+      return 'rgba(0, 0, 0, 0)'
     }
 
     committeeZones.map(zoneType => {
       const features = uniqWith(
         map.current.querySourceFeatures(zoneType, {
           sourceLayer: `${zoneType}`,
-          filter: ['in', ['get', 'dpt'], ['literal', dptCodes]],
+          filter: getLayerFilter(dptCodes),
           validate: false,
         }),
         (a, b) => a.id === b.id
