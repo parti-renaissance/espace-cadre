@@ -1,14 +1,14 @@
+import PropTypes from 'prop-types'
 import { useContext, useState } from 'react'
-import { Box, FormControlLabel, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { FixedSizeList as List } from 'react-window'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import { getZones } from 'api/committees'
+import { getZones, getZoneMembers } from 'api/committees'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
 import Select from 'ui/Select'
 import Loader from 'ui/Loader'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { committeeZones } from './constants'
 import { zoneLabels, zoneTypes } from 'domain/zone'
 import ZoneItem from './Zone/ZoneItem'
@@ -17,11 +17,10 @@ import ZoneContext from 'providers/context'
 
 const messages = {
   title: 'Sélectionnez une liste de zones',
-  checkAll: 'Tout sélectionner',
   noZones: 'Aucune zone disponible',
 }
 
-const ZonesList = () => {
+const ZonesList = ({ onZoneSelect }) => {
   const [filters, setFilters] = useState({ types: [zoneTypes.CITY] })
   const { handleError } = useErrorHandler()
   const { zones, setZones } = useContext(ZoneContext)
@@ -33,9 +32,7 @@ const ZonesList = () => {
     { onError: handleError }
   )
 
-  const handleSelectAll = checked => {
-    setZones(checked ? zonesData : [])
-  }
+  const getCountZoneMembers = async () => await getZoneMembers(zones.map(zone => zone.uuid))
 
   const handleSelectOne = (zone, checked) => {
     if (checked) {
@@ -43,6 +40,7 @@ const ZonesList = () => {
     } else {
       setZones(prevState => prevState.filter(item => item.uuid !== zone.uuid))
     }
+    onZoneSelect(getCountZoneMembers(zones))
   }
 
   return (
@@ -81,43 +79,26 @@ const ZonesList = () => {
           </Grid>
         )}
         {zonesData.length > 0 && (
-          <>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={zones.length === zonesData.length}
-                    onChange={e => handleSelectAll(e.target.checked)}
+          <List
+            height={600}
+            itemCount={zonesData.length}
+            itemData={zonesData.sort((a, b) => zones.includes(b.uuid) - zones.includes(a.uuid))}
+            itemSize={68}
+          >
+            {({ index, style, data }) => {
+              const zone = data[index]
+              return (
+                <div style={style}>
+                  <ZoneItem
+                    key={zone.uuid}
+                    zone={zone}
+                    handleSelectOne={handleSelectOne}
+                    isCheck={zones.some(item => item.uuid === zone.uuid)}
                   />
-                }
-                label={
-                  <Typography variant="subtitle1">
-                    <Typography sx={{ fontWeight: 700 }}>{messages.checkAll}</Typography>
-                  </Typography>
-                }
-              />
-            </Box>
-            <List
-              height={600}
-              itemCount={zonesData.length}
-              itemData={zonesData.sort((a, b) => zones.includes(b) - zones.includes(a))}
-              itemSize={68}
-            >
-              {({ index, style, data }) => {
-                const zone = data[index]
-                return (
-                  <div style={style}>
-                    <ZoneItem
-                      key={zone.uuid}
-                      zone={zone}
-                      handleSelectOne={handleSelectOne}
-                      isCheck={zones.some(item => item.uuid === zone.uuid)}
-                    />
-                  </div>
-                )
-              }}
-            </List>
-          </>
+                </div>
+              )
+            }}
+          </List>
         )}
 
         {zonesData.length === 0 && !isLoading && (
@@ -131,3 +112,7 @@ const ZonesList = () => {
 }
 
 export default ZonesList
+
+ZonesList.propTypes = {
+  onZoneSelect: PropTypes.func,
+}

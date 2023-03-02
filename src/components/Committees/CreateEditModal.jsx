@@ -7,22 +7,23 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
+import { createCommittee, getCommittee, getZoneMembers, updateCommittee } from 'api/committees'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import pluralize from 'components/shared/pluralize/pluralize'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
 import Title from 'ui/Title'
 import Button from 'ui/Button'
-import ZonesList from './ZonesList'
-import { createCommittee, getCommittee, updateCommittee } from 'api/committees'
 import Loader from 'ui/Loader'
-import { useQueryWithScope } from 'api/useQueryWithScope'
+import ZoneContext from 'providers/context'
 import ZonesAccordion from './Zone/Accordions'
 import Map from './Map'
 import TabPanel from './Panel'
-import ZoneContext from 'providers/context'
+import ZonesList from './ZonesList'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -57,6 +58,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   const { enqueueSnackbar } = useCustomSnackbar()
   const [committee, setCommittee] = useState(null)
   const [currentTab, setCurrentTab] = useState(0)
+  const [countMembers, setCountMembers] = useState({ x: 10, y: 10 })
   const [zones, setZones] = useState([])
 
   const { control, getValues, watch, reset, setValue } = useForm({
@@ -98,6 +100,16 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
     }
   }, [committee, reset])
 
+  useEffect(() => {
+    async function countMembers() {
+      if (zones.length > 0) {
+        const values = await getZoneMembers(zones.map(zone => zone.uuid))
+        setCountMembers(values)
+      }
+    }
+    countMembers()
+  }, [zones])
+
   return (
     <ZoneContext.Provider value={{ zones, setZones }}>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -108,7 +120,12 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
               {!isCreateMode && isSingleCommitteeLoading ? <Loader /> : null}
             </Grid>
             <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button type="submit" rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }} onClick={createOrEdit}>
+              <Button
+                disabled={countMembers.x < 10}
+                type="submit"
+                rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
+                onClick={createOrEdit}
+              >
                 {isCommitteeLoading && <Loader color="whiteCorner" />}&nbsp;
                 {isCreateMode ? messages.create : messages.edit}
               </Button>
@@ -150,10 +167,26 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
               </Box>
               <Box>
                 <FormError errors={errorMessages} field={fields.zones} />
-                <ZonesList />
+                <ZonesList onZoneSelect={setCountMembers} />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
+              <Typography
+                component="p"
+                sx={{
+                  fontSize: '14px',
+                  color: theme => theme.palette.colors.gray[800],
+                  backgroundColor: theme => theme.palette.colors.gray[100],
+                  borderRadius: '4px',
+                  padding: '8px 12px',
+                  mb: 2,
+                }}
+              >
+                {`(${countMembers.x}) ${pluralize(countMembers.x, 'adhérent')} et (${countMembers.y}) ${pluralize(
+                  countMembers.y,
+                  'sympathisant'
+                )}  dans les zones selectionnées`}
+              </Typography>
               <Box
                 sx={{
                   borderRadius: '8px',
