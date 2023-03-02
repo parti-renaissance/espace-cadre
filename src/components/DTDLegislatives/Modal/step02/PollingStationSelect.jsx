@@ -16,7 +16,7 @@ import UIFormMessage from 'ui/FormMessage/FormMessage'
 import { FixedSizeList as List } from 'react-window'
 import { useMutation } from '@tanstack/react-query'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import MapContext from '../../MapContext'
+import MapContext from 'providers/context'
 
 const messages = {
   title: 'Sélectionnez une liste de bureaux de vote',

@@ -13,7 +13,7 @@ import { committeeZones } from './constants'
 import { zoneLabels, zoneTypes } from 'domain/zone'
 import ZoneItem from './Zone/ZoneItem'
 import { useDebounce } from 'components/shared/debounce'
-import ZoneContext from 'components/Committees/zoneContext'
+import ZoneContext from 'providers/context'
 
 const messages = {
   title: 'Sélectionnez une liste de zones',

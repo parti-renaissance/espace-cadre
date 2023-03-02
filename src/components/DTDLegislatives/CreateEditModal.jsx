@@ -18,7 +18,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import Map from './Map'
 
 import { createDTDLocalCampaign, updateDTDLocalCampaign } from 'api/DTD'
-import MapContext from './MapContext'
+import MapContext from 'providers/context'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />

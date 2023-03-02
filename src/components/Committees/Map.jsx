@@ -12,7 +12,7 @@ import { zoneTypes } from 'domain/zone'
 import { MAPBOX_TOKEN } from 'shared/environments'
 import { createMap } from 'providers/map'
 import { useUserScope } from '../../redux/user/hooks'
-import ZoneContext from 'components/Committees/zoneContext'
+import ZoneContext from 'providers/context'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 

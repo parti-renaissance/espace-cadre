@@ -22,7 +22,7 @@ import { useQueryWithScope } from 'api/useQueryWithScope'
 import ZonesAccordion from './Zone/Accordions'
 import Map from './Map'
 import TabPanel from './Panel'
-import ZoneContext from './zoneContext'
+import ZoneContext from 'providers/context'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />

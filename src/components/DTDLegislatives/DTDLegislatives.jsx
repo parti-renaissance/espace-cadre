@@ -19,7 +19,7 @@ import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getDTDCampaignsQuery, deleteDTDCampaignQuery, toggleActivateCampaign } from 'api/DTD'
 import { DTDCampaign } from 'domain/DTD'
-import MapContext from './MapContext'
+import MapContext from 'providers/context'
 
 const Legend = styled(Grid)(
   ({ theme }) => `
