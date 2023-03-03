@@ -7,22 +7,24 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
+import { createCommittee, getCommittee, updateCommittee } from 'api/committees'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import pluralize from 'components/shared/pluralize/pluralize'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
 import Title from 'ui/Title'
 import Button from 'ui/Button'
-import ZonesList from './ZonesList'
-import { createCommittee, getCommittee, updateCommittee } from 'api/committees'
 import Loader from 'ui/Loader'
-import { useQueryWithScope } from 'api/useQueryWithScope'
+import ZoneContext from 'providers/context'
 import ZonesAccordion from './Zone/Accordions'
 import Map from './Map'
 import TabPanel from './Panel'
-import ZoneContext from 'providers/context'
+import ZonesList from './ZonesList'
+import { countAdherents } from 'api/activist'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -58,6 +60,12 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   const [committee, setCommittee] = useState(null)
   const [currentTab, setCurrentTab] = useState(0)
   const [zones, setZones] = useState([])
+
+  const { data: adherentsCount, isFetching: adherentsCountFetching } = useQueryWithScope(
+    ['count-adherent', zones],
+    () => countAdherents(zones.map(zone => zone.uuid)),
+    { enabled: zones.length > 0, onError: handleError }
+  )
 
   const { control, getValues, watch, reset, setValue } = useForm({
     mode: 'onChange',
@@ -108,7 +116,12 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
               {!isCreateMode && isSingleCommitteeLoading ? <Loader /> : null}
             </Grid>
             <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button type="submit" rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }} onClick={createOrEdit}>
+              <Button
+                disabled={!adherentsCount || adherentsCount?.adherent < 10}
+                type="submit"
+                rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
+                onClick={createOrEdit}
+              >
                 {isCommitteeLoading && <Loader color="whiteCorner" />}&nbsp;
                 {isCreateMode ? messages.create : messages.edit}
               </Button>
@@ -154,6 +167,25 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
+              <Typography
+                component="p"
+                sx={{
+                  fontSize: '14px',
+                  color: theme => theme.palette.colors.gray[800],
+                  backgroundColor: theme => theme.palette.colors.gray[100],
+                  borderRadius: '4px',
+                  padding: '8px 12px',
+                  mb: 2,
+                }}
+              >
+                {adherentsCountFetching ? (
+                  <Loader />
+                ) : (
+                  `${adherentsCount?.adherent || 0} ${pluralize(adherentsCount?.adherent || 0, 'adhérent')} et (${
+                    adherentsCount?.sympathizer || 0
+                  }) ${pluralize(adherentsCount?.sympathizer || 0, 'sympathisant')} dans les zones sélectionnées`
+                )}
+              </Typography>
               <Box
                 sx={{
                   borderRadius: '8px',
