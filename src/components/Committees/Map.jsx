@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
 import { lineString, bbox } from '@turf/turf'
-import { flatten, uniqWith } from 'lodash'
+import { flatten, flattenDepth, uniqWith } from 'lodash'
 import { getUsedZones } from 'api/committees'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { committeeZones } from 'components/Committees/constants'
@@ -136,9 +136,7 @@ const Map = () => {
         })
       })
 
-      map.current.on('idle', () => {
-        setMapLayersLoaded(true)
-      })
+      map.current.on('idle', () => setMapLayersLoaded(true))
     })
 
     let zoomed = false
@@ -153,16 +151,25 @@ const Map = () => {
           return
         }
 
-        const renderedFeatures = map.current.queryRenderedFeatures({
-          layers: ['department_layer_fill'],
+        const renderedFeatures = map.current.querySourceFeatures(zoneTypes.DEPARTMENT, {
+          filter: ['in', ['get', 'code'], ['literal', dptCodes]],
+          sourceLayer: zoneTypes.DEPARTMENT,
           validate: false,
         })
 
         if (renderedFeatures.length >= 1) {
           onFly = true
 
-          const line = lineString(flatten(renderedFeatures.map(feature => flatten(feature.geometry.coordinates))))
-          map.current.fitBounds(bbox(line), { maxZoom: 9 })
+          const coordinates = renderedFeatures.map(feature => {
+            if (feature.geometry.type === 'MultiPolygon') {
+              return flattenDepth(feature.geometry.coordinates, 2)
+            }
+
+            return flatten(feature.geometry.coordinates)
+          })
+
+          const line = lineString(flatten(coordinates))
+          map.current.fitBounds(bbox(line))
         }
       })
   }, [map, center, dptCodes, mapLayersLoaded])
