@@ -34,3 +34,4 @@ export const getActivists = async filter => {
   )
 }
 export const getColumns = () => apiClient.get('v3/adherents/columns')
+export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)

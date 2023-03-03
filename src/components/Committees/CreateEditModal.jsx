@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
-import { createCommittee, getCommittee, getZoneMembers, updateCommittee } from 'api/committees'
+import { createCommittee, getCommittee, updateCommittee } from 'api/committees'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -24,6 +24,7 @@ import ZonesAccordion from './Zone/Accordions'
 import Map from './Map'
 import TabPanel from './Panel'
 import ZonesList from './ZonesList'
+import { countAdherents } from 'api/activist'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -58,8 +59,13 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   const { enqueueSnackbar } = useCustomSnackbar()
   const [committee, setCommittee] = useState(null)
   const [currentTab, setCurrentTab] = useState(0)
-  const [countMembers, setCountMembers] = useState({ x: 10, y: 10 })
   const [zones, setZones] = useState([])
+
+  const { data: adherentsCount } = useQueryWithScope(
+    ['count-adherent', zones],
+    () => countAdherents(zones.map(zone => zone.uuid)),
+    { enabled: zones.length > 0, onError: handleError }
+  )
 
   const { control, getValues, watch, reset, setValue } = useForm({
     mode: 'onChange',
@@ -100,16 +106,6 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
     }
   }, [committee, reset])
 
-  useEffect(() => {
-    async function countMembers() {
-      if (zones.length > 0) {
-        const values = await getZoneMembers(zones.map(zone => zone.uuid))
-        setCountMembers(values)
-      }
-    }
-    countMembers()
-  }, [zones])
-
   return (
     <ZoneContext.Provider value={{ zones, setZones }}>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -121,7 +117,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
             </Grid>
             <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button
-                disabled={countMembers.x < 10}
+                disabled={!adherentsCount || adherentsCount?.adherent < 10}
                 type="submit"
                 rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
                 onClick={createOrEdit}
@@ -167,7 +163,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
               </Box>
               <Box>
                 <FormError errors={errorMessages} field={fields.zones} />
-                <ZonesList onZoneSelect={setCountMembers} />
+                <ZonesList />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -182,10 +178,13 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
                   mb: 2,
                 }}
               >
-                {`(${countMembers.x}) ${pluralize(countMembers.x, 'adhérent')} et (${countMembers.y}) ${pluralize(
-                  countMembers.y,
-                  'sympathisant'
-                )}  dans les zones selectionnées`}
+                {adherentsCount ? (
+                  `${adherentsCount.adherent} ${pluralize(adherentsCount.adherent, 'adhérent')} et (${
+                    adherentsCount.sympathizer
+                  }) ${pluralize(adherentsCount.sympathizer, 'sympathisant')} dans les zones sélectionnées`
+                ) : (
+                  <Loader />
+                )}
               </Typography>
               <Box
                 sx={{

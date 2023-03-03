@@ -18,6 +18,5 @@ export const getZones = async filters =>
     })}`
   )
 export const getUsedZones = async () => await apiClient.get('/v3/committees/used-zones')
-export const getZoneMembers = async zoneId => await apiClient.get(`/v3/zone/${zoneId}/members`)
 export const createCommittee = async committee => await apiClient.post('/v3/committees', committee)
 export const updateCommittee = async committee => await apiClient.put(`/v3/committees/${committee.uuid}`, committee)

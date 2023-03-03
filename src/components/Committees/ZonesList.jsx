@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types'
 import { useContext, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { FixedSizeList as List } from 'react-window'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import { getZones, getZoneMembers } from 'api/committees'
+import { getZones } from 'api/committees'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
@@ -20,7 +19,7 @@ const messages = {
   noZones: 'Aucune zone disponible',
 }
 
-const ZonesList = ({ onZoneSelect }) => {
+const ZonesList = () => {
   const [filters, setFilters] = useState({ types: [zoneTypes.CITY] })
   const { handleError } = useErrorHandler()
   const { zones, setZones } = useContext(ZoneContext)
@@ -32,15 +31,12 @@ const ZonesList = ({ onZoneSelect }) => {
     { onError: handleError }
   )
 
-  const getCountZoneMembers = async () => await getZoneMembers(zones.map(zone => zone.uuid))
-
   const handleSelectOne = (zone, checked) => {
     if (checked) {
       setZones(prevState => prevState.concat([zone]))
     } else {
       setZones(prevState => prevState.filter(item => item.uuid !== zone.uuid))
     }
-    onZoneSelect(getCountZoneMembers(zones))
   }
 
   return (
@@ -112,7 +108,3 @@ const ZonesList = ({ onZoneSelect }) => {
 }
 
 export default ZonesList
-
-ZonesList.propTypes = {
-  onZoneSelect: PropTypes.func,
-}
