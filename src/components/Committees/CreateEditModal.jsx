@@ -61,7 +61,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
   const [currentTab, setCurrentTab] = useState(0)
   const [zones, setZones] = useState([])
 
-  const { data: adherentsCount } = useQueryWithScope(
+  const { data: adherentsCount, isFetching: adherentsCountFetching } = useQueryWithScope(
     ['count-adherent', zones],
     () => countAdherents(zones.map(zone => zone.uuid)),
     { enabled: zones.length > 0, onError: handleError }
@@ -178,12 +178,12 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
                   mb: 2,
                 }}
               >
-                {adherentsCount ? (
-                  `${adherentsCount.adherent} ${pluralize(adherentsCount.adherent, 'adhérent')} et (${
-                    adherentsCount.sympathizer
-                  }) ${pluralize(adherentsCount.sympathizer, 'sympathisant')} dans les zones sélectionnées`
-                ) : (
+                {adherentsCountFetching ? (
                   <Loader />
+                ) : (
+                  `${adherentsCount?.adherent || 0} ${pluralize(adherentsCount?.adherent || 0, 'adhérent')} et (${
+                    adherentsCount?.sympathizer || 0
+                  }) ${pluralize(adherentsCount?.sympathizer || 0, 'sympathisant')} dans les zones sélectionnées`
                 )}
               </Typography>
               <Box
