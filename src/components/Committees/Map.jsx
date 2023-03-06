@@ -210,7 +210,7 @@ const Map = () => {
           },
           {
             color: chooseColor(
-              feature.properties.code,
+              `${feature.properties.code}`,
               zoneCodesByTypes[zoneType] || [],
               usedZoneCodesByTypes[zoneType] || []
             ),
