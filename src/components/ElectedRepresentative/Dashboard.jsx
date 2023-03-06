@@ -110,7 +110,7 @@ const Dashboard = () => {
   const electedRepresentative = usePaginatedData(paginatedElected)
 
   return (
-    <Container maxWidth={false} sx={{ mb: 3 }}>
+    <Container maxWidth={false} sx={{ mb: 3 }} data-cy="elected-representative-container">
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
@@ -143,7 +143,7 @@ const Dashboard = () => {
       )}
 
       {electedRepresentative && electedRepresentative.length > 0 && (
-        <Grid container sx={{ mt: 4 }} data-cy="elected-representative-container">
+        <Grid container sx={{ mt: 4 }} data-cy="elected-representative-grid">
           <Grid item xs={12}>
             <InfiniteScroll
               dataLength={electedRepresentative.length}

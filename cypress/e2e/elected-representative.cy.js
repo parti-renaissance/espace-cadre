@@ -1,7 +1,8 @@
 import { initialize, mock } from './main.cy'
 
 const HeaderButton = '[data-cy="ui-page-header-button"]'
-const Elected = '[data-cy="elected-representative-container"]'
+const ElectedContainer = '[data-cy="elected-representative-container"]'
+const ElectedGrid = '[data-cy="elected-representative-grid"]'
 const Card = '[data-cy="elected-representative-card"]'
 
 const navigate = () => {
@@ -31,9 +32,29 @@ describe('Elected Representative', () => {
 
   describe('the elected list', () => {
     it('should have 2 cards', () => {
-      cy.get(Elected).find(Card).children().should('have.length', 2)
+      cy.get(ElectedGrid).find(Card).children().should('have.length', 2)
     })
   })
 
-  describe('the elected filters', () => {})
+  describe('the elected filters', () => {
+    it('should have filters form', () => {
+      cy.get(ElectedContainer).find('form').should('exist')
+    })
+
+    it('can select a filter', () => {
+      cy.get(ElectedContainer).find('form')
+        .find('>div')
+        .find('>div + div')
+        .find('input')
+        .eq(0)
+        .invoke('val', 'Arthur')
+        .should('have.value', 'Arthur')
+
+      cy.get(ElectedContainer).find('form').find('>div + div button').eq(0).click()
+    })
+
+    it('can show filter results', () => {
+      cy.get(ElectedGrid).find(Card).children().should('have.length', 1)
+    })
+  })
 })
