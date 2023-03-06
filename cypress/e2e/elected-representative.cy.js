@@ -50,10 +50,7 @@ describe('Elected Representative', () => {
         .invoke('val', 'Arthur')
         .should('have.value', 'Arthur')
 
-      cy.get(ElectedContainer).find('form').find('>div + div button').eq(0).click()
-    })
-
-    it('can show filter results', () => {
+      cy.get(ElectedContainer).find('form').submit()
       cy.get(ElectedGrid).find(Card).children().should('have.length', 1)
     })
   })
