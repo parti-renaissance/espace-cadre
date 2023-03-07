@@ -16,43 +16,30 @@ describe('Elected Representative', () => {
   beforeEach(() => {
     initialize()
     mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&scope=referent', 'elected-representative/elected-representative')
-    mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&lastName=Arthur&scope=referent', 'elected-representative/elected-filter')
+    mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&firstName=Arthur&scope=referent', 'elected-representative/elected-filter')
     mock('GET', '/api/v3/filters?feature=elected_representative&scope=referent', 'elected-representative/filters')
 
     navigate()
   })
 
-  describe('The header', () => {
-    it('should have a page title', () => {
-      cy.contains('Registre des élus')
-    })
-    it('should have a button', () => {
-      cy.get(HeaderButton).should('have.text', 'Ajouter un élu')
-    })
-  })
-
-  describe('the elected list', () => {
-    it('should have 2 cards', () => {
-      cy.get(ElectedGrid).find(Card).children().should('have.length', 2)
-    })
-  })
-
   describe('the elected filters', () => {
-    it('should have filters form', () => {
-      cy.get(ElectedContainer).find('form').should('exist')
-    })
-
     it('can select a filter', () => {
+      cy.get(ElectedContainer).find('form').should('exist')
+      cy.get(HeaderButton).should('have.text', 'Ajouter un élu')
+      cy.contains('Registre des élus')
+
+      cy.get(ElectedGrid).find(Card).children().should('have.length', 2)
+
       cy.get(ElectedContainer).find('form')
         .find('>div')
         .find('>div + div')
         .find('input')
         .eq(0)
-        .invoke('val', 'Arthur')
-        .should('have.value', 'Arthur')
+        .type('Arthur')
 
       cy.get(ElectedContainer).find('form').submit()
-      cy.get(ElectedGrid).find(Card).children().should('have.length', 2)
+
+      cy.get(ElectedGrid).find(Card).children().should('have.length', 1)
     })
   })
 })

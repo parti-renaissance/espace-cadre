@@ -24,7 +24,15 @@
     "type": "text"
   },
   {
-    "code": "emailSubscribed",
+    "code": "contributionActive",
+    "label": "Cotisation à jour",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "emailSubscription",
     "label": "Abonné email",
     "options": {
       "choices": ["Non", "Oui"]
@@ -46,7 +54,8 @@
         "euro_depute": "Député(e) européen(ne)",
         "conseiller_d_arrondissement": "Conseiller(ère) d'arrondissement",
         "conseiller_consulaire": "Conseiller(ère) FDE"
-      }
+      },
+      "multiple": true
     },
     "type": "select"
   },
@@ -75,6 +84,20 @@
         "vice_president_of_epci": "Vice-président(e) d'EPCI",
         "other_member_of_standing_committee": "Autre membre commission permanente",
         "other_member": "Autre membre"
+      },
+      "multiple": true
+    },
+    "type": "select"
+  },
+  {
+    "code": "renaissance_membership",
+    "label": "Renaissance",
+    "options": {
+      "choices": {
+        "adherent_or_sympathizer_re": "Adhérent RE ou sympathisant RE",
+        "adherent_re": "Adhérent RE seulement",
+        "sympathizer_re": "Sympathisant RE seulement",
+        "others_adherent": "Ni adhérent RE ni sympathisant RE"
       }
     },
     "type": "select"
