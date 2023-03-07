@@ -1,0 +1,36 @@
+{
+  "description": "Un petit comité avec seulement 3 communes",
+  "zones": [
+    {
+      "uuid": "e3f2c255-906e-11eb-a875-0242ac150002",
+      "type": "city",
+      "code": "92012",
+      "name": "Boulogne-Billancourt",
+      "created_at": "2020-12-04T15:24:38+01:00",
+      "updated_at": "2021-04-22T12:08:51+02:00"
+    },
+    {
+      "uuid": "e3f2c2b5-906e-11eb-a875-0242ac150002",
+      "type": "city",
+      "code": "92014",
+      "name": "Bourg-la-Reine",
+      "created_at": "2020-12-04T15:24:38+01:00",
+      "updated_at": "2021-04-22T12:08:51+02:00"
+    },
+    {
+      "uuid": "e3f2c316-906e-11eb-a875-0242ac150002",
+      "type": "city",
+      "code": "92019",
+      "name": "Châtenay-Malabry",
+      "created_at": "2020-12-04T15:24:38+01:00",
+      "updated_at": "2021-04-22T12:08:51+02:00"
+    }
+  ],
+  "uuid": "5e00c264-1d4b-43b8-862e-29edc38389b3",
+  "created_at": "2023-03-02T15:41:48+01:00",
+  "updated_at": "2023-03-02T15:41:48+01:00",
+  "name": "Second Comité des 3 communes",
+  "committee_election": {
+    "uuid": "e17ce6f3-513c-4ee6-a6bd-b57b9aa89763"
+  }
+}

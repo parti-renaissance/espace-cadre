@@ -86,9 +86,9 @@ const Committees = () => {
           loader={<Loader />}
           style={{ marginTop: '8px' }}
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={2} data-cy="committees-grid">
             {committees.map(committee => (
-              <Grid item xs={12} sm={6} md={3} lg={4} key={committee.uuid}>
+              <Grid item xs={12} sm={6} md={3} lg={4} key={committee.uuid} data-cy="committee-card">
                 <UICard
                   rootProps={{ sx: { pt: 2 } }}
                   header={
