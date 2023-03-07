@@ -16,6 +16,7 @@ describe('Elected Representative', () => {
   beforeEach(() => {
     initialize()
     mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&scope=referent', 'elected-representative/elected-representative')
+    mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&lastName=Arthur&scope=referent', 'elected-representative/elected-filter')
     mock('GET', '/api/v3/filters?feature=elected_representative&scope=referent', 'elected-representative/filters')
 
     navigate()
@@ -37,10 +38,6 @@ describe('Elected Representative', () => {
   })
 
   describe('the elected filters', () => {
-    beforeEach(() => {
-      mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&lastName=Arthur&scope=referent', 'elected-representative/elected-filter')
-    })
-
     it('should have filters form', () => {
       cy.get(ElectedContainer).find('form').should('exist')
     })
