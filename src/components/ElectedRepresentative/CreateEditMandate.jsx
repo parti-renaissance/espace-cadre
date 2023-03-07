@@ -98,7 +98,6 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
       ...values,
       elected_representative: electedId,
       geo_zone: selectedZone?.uuid || mandate?.geo_zone?.uuid,
-      uuid: mandate?.uuid,
     })
   }
 

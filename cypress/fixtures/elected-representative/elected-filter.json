@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "total_items": 1,
+    "items_per_page": 100,
+    "count": 1,
+    "current_page": 1,
+    "last_page": 1
+  },
+  "items": [
+    {
+      "last_name": "Arthur",
+      "first_name": "Pacha",
+      "gender": "male",
+      "contact_phone": null,
+      "uuid": "684aa9a0-4803-4c54-8817-ea3dfc28388e",
+      "current_mandates": [
+        {
+          "type": "conseiller_municipal",
+          "geo_zone": {
+            "uuid": "e3f2fbec-906e-11eb-a875-0242ac150002",
+            "code": "75105",
+            "name": "Paris 5ème"
+          }
+        }
+      ],
+      "current_political_functions": [
+        {
+          "name": "secretary"
+        }
+      ]
+    }
+  ]
+}
