@@ -37,10 +37,7 @@ const InformationTab = ({ committee }) => (
             <LineContent label="Nom du comité" value={committee.name} />
             <LineContent
               label="Date de création"
-              value={`${format(new Date(committee.created_at), 'dd/MM/yyyy')} à ${format(
-                new Date(committee.created_at),
-                'HH:mm'
-              )}`}
+              value={format(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm:ss')}
             />
             <LineContent label="Description" value={committee.description} />
             <Box sx={{ px: 3, py: 2 }}>

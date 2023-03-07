@@ -60,8 +60,7 @@ const ElectionsTab = () => {
         </Tabs>
       </Box>
 
-      {selectedTab === messages.current && <h2>Aucune Election</h2>}
-      {selectedTab === messages.all && <h2>Toutes les elections</h2>}
+      <h2>Aucune élection</h2>
     </Container>
   )
 }
