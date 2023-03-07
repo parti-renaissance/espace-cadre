@@ -98,7 +98,6 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
       ...values,
       elected_representative: electedId,
       geo_zone: selectedZone?.uuid || mandate?.geo_zone?.uuid,
-      uuid: mandate?.uuid,
     })
   }
 
@@ -178,7 +177,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
           <Grid container columnSpacing={4}>
             <Grid item xs={12} sm={6}>
               <Box>
-                <UIInputLabel required>Date de début de mandat </UIInputLabel>
+                <UIInputLabel required>Date de début de mandat</UIInputLabel>
                 <Controller
                   name={fields.beginAt}
                   control={control}
@@ -197,7 +196,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box>
-                <UIInputLabel>Date de fin de mandat </UIInputLabel>
+                <UIInputLabel>Date de fin de mandat</UIInputLabel>
                 <Controller
                   name={fields.finishAt}
                   control={control}
