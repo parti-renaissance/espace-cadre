@@ -243,7 +243,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <FormError errors={errorMessages} field={fields.politicalAffiliation} />
           </Box>
           <Box>
-            <UIInputLabel required>Soutien</UIInputLabel>
+            <UIInputLabel>Soutien</UIInputLabel>
             <Controller
               name={fields.laREMSupport}
               control={control}
@@ -256,7 +256,6 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
                 />
               )}
             />
-            <FormError errors={errorMessages} field={fields.laREMSupport} />
           </Box>
         </Box>
         <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
