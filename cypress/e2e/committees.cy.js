@@ -29,6 +29,8 @@ describe('Committees', () => {
       cy.url().should('eq', 'http://localhost:3000/comites/5e00c264-1d4b-43b8-862e-29edc38389b3')
       cy.contains('Informations')
       cy.contains('Élections')
+      cy.contains('Second Comité des 3 communes')
+      cy.contains('Un petit comité avec seulement 3 communes')
     })
   })
 })

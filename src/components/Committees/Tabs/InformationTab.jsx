@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import InfoIcon from '@mui/icons-material/Info'
 import UICard from 'ui/Card'
 import ZonesAccordion from '../Zone/Accordions'
+import { format } from 'date-fns'
 
 const LineContent = ({ label, value }) => (
   <Grid
@@ -34,7 +35,13 @@ const InformationTab = ({ committee }) => (
         content={
           <>
             <LineContent label="Nom du comité" value={committee.name} />
-            <LineContent label="Date de création" value="23/02/2023 à 11:29" />
+            <LineContent
+              label="Date de création"
+              value={`${format(new Date(committee.created_at), 'dd/MM/yyyy')} à ${format(
+                new Date(committee.created_at),
+                'HH:mm'
+              )}`}
+            />
             <LineContent label="Description" value={committee.description} />
             <Box sx={{ px: 3, py: 2 }}>
               <Typography sx={{ fontSize: '14px', fontWeight: '500', color: theme => theme.palette.colors.gray[500] }}>
@@ -65,7 +72,7 @@ const InformationTab = ({ committee }) => (
                   overflow: 'hidden',
                 }}
               >
-                <ZonesAccordion selectedZones={committee.zones} canRemoveZone={false} />
+                <ZonesAccordion selectedZones={committee.zones} />
               </Box>
             </Box>
           </>

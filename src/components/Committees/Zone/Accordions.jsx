@@ -10,7 +10,7 @@ const messages = {
   noData: 'Aucune zone sélectionnée',
 }
 
-const ZonesAccordion = ({ selectedZones, onRemoveZone, canRemoveZone = true }) => {
+const ZonesAccordion = ({ selectedZones, onRemoveZone }) => {
   const zonesGroup = groupBy(selectedZones, 'type')
 
   if (!selectedZones.length) {
@@ -40,7 +40,7 @@ const ZonesAccordion = ({ selectedZones, onRemoveZone, canRemoveZone = true }) =
                     <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
                       {zone.name}
                     </Typography>
-                    {canRemoveZone && (
+                    {onRemoveZone && (
                       <IconButton
                         edge="start"
                         color="inherit"
@@ -67,5 +67,4 @@ export default ZonesAccordion
 ZonesAccordion.propTypes = {
   selectedZones: PropTypes.array,
   onRemoveZone: PropTypes.func,
-  canRemoveZone: PropTypes.bool,
 }
