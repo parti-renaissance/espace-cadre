@@ -11,6 +11,8 @@ import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import paths from 'shared/paths'
 import CreateEditModal from './CreateEditModal'
+import InformationTab from './Tabs/InformationTab'
+import ElectionsTab from './Tabs/ElectionsTab'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -21,7 +23,6 @@ const Tab = styled(MuiTab)(({ theme }) => ({
 }))
 
 const TabLabel = styled(Typography)`
-  font-size: 18px;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -61,7 +62,7 @@ const DetailCommittee = () => {
   }
 
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth={false} data-cy="committee-detail-container">
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
@@ -78,7 +79,7 @@ const DetailCommittee = () => {
         />
       </Grid>
 
-      <Grid container data-cy="DTD-campaigns-list">
+      <Grid container data-cy="committee-detail-tabs" sx={{ mb: 1 }}>
         <Tabs
           variant="scrollable"
           value={selectedTab}
@@ -101,8 +102,8 @@ const DetailCommittee = () => {
         </Tabs>
       </Grid>
 
-      {selectedTab === messages.informations && <div>Information</div>}
-      {selectedTab === messages.elections && <div>Elections</div>}
+      {selectedTab === messages.informations && <InformationTab committee={committeeDetail} />}
+      {selectedTab === messages.elections && <ElectionsTab />}
 
       {isCreateEditModalOpen && (
         <CreateEditModal
