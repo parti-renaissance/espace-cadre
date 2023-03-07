@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { format } from 'date-fns'
 import { AccessTime } from '@mui/icons-material'
+import { generatePath, useNavigate } from 'react-router'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -15,18 +16,21 @@ import { getCommittees } from 'api/committees'
 import Button from 'ui/Button'
 import UICard from 'ui/Card/Card'
 import CreateEditModal from './CreateEditModal'
+import paths from 'shared/paths'
 
 const messages = {
   title: 'Comités',
   create: 'Créer un comité',
   noData: 'Aucun comité trouvé',
   edit: 'Modifier',
+  view: 'Voir',
 }
 
 const Committees = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
   const [committeeId, setCommitteeId] = useState(null)
+  const navigate = useNavigate()
 
   const toggleCreateEditModal = (committeeId, open) => {
     setCommitteeId(committeeId)
@@ -49,6 +53,10 @@ const Committees = () => {
   )
 
   const committees = usePaginatedData(paginatedCommittees)
+
+  const handleView = committeeId => () => {
+    navigate(generatePath(`${paths.committee}/:committeeId`, { committeeId }))
+  }
 
   return (
     <Container maxWidth={false}>
@@ -78,9 +86,9 @@ const Committees = () => {
           loader={<Loader />}
           style={{ marginTop: '8px' }}
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={2} data-cy="committees-grid">
             {committees.map(committee => (
-              <Grid item xs={12} sm={6} md={3} lg={4} key={committee.uuid}>
+              <Grid item xs={12} sm={6} md={3} lg={4} key={committee.uuid} data-cy="committee-card">
                 <UICard
                   rootProps={{ sx: { pt: 2 } }}
                   header={
@@ -114,7 +122,13 @@ const Committees = () => {
                   }
                   actions={
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                      <Button onClick={() => toggleCreateEditModal(committee.uuid, true)} isMainButton>
+                      <Button onClick={handleView(committee.uuid)} isMainButton>
+                        {messages.view}
+                      </Button>
+                      <Button
+                        onClick={() => toggleCreateEditModal(committee.uuid, true)}
+                        rootProps={{ sx: { color: 'whiteCorner', ml: 2 } }}
+                      >
                         {messages.edit}
                       </Button>
                     </Box>

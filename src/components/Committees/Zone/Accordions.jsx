@@ -40,15 +40,17 @@ const ZonesAccordion = ({ selectedZones, onRemoveZone }) => {
                     <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
                       {zone.name}
                     </Typography>
-                    <IconButton
-                      edge="start"
-                      color="inherit"
-                      onClick={() => onRemoveZone(zone)}
-                      aria-label="remove-zone"
-                      sx={{ ml: 1.5 }}
-                    >
-                      <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '18px' }} />
-                    </IconButton>
+                    {onRemoveZone && (
+                      <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={() => onRemoveZone(zone)}
+                        aria-label="remove-zone"
+                        sx={{ ml: 1.5 }}
+                      >
+                        <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '18px' }} />
+                      </IconButton>
+                    )}
                   </Box>
                 ))}
               </Box>

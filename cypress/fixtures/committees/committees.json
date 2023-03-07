@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "total_items": 1,
+    "items_per_page": 10,
+    "count": 1,
+    "current_page": 1,
+    "last_page": 1
+  },
+  "items": [
+    {
+      "description": "Un petit comité avec seulement 3 communes",
+      "uuid": "5e00c264-1d4b-43b8-862e-29edc38389b3",
+      "created_at": "2023-02-14T23:39:02+01:00",
+      "updated_at": "2023-02-14T23:39:02+01:00",
+      "name": "Comité des 3 communes"
+    }
+  ]
+}
