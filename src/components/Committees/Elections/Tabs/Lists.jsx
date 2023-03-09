@@ -96,13 +96,16 @@ const Lists = ({ election }) => {
                 >
                   {list.candidacies.length === 0 && <Typography>{messages.noCandidate}</Typography>}
                   {list.candidacies.length > 0 &&
-                    list.candidacies.map((candidacy, index) => (
-                      <Box display="flex" alignItems="center" my={1.5} key={candidacy.uuid}>
-                        <Typography key={index}>Bonjour</Typography>
+                    list.candidacies.map(candidate => (
+                      <Box display="flex" alignItems="center" my={1.5} key={candidate.uuid}>
+                        <Typography sx={{ color: theme => theme.palette.colors.gray[900] }}>
+                          {candidate.committee_membership.adherent.first_name}{' '}
+                          {candidate.committee_membership.adherent.last_name}
+                        </Typography>
                         <IconButton
                           edge="start"
                           color="inherit"
-                          onClick={() => handleDelete(candidacy.uuid, 'candidate')}
+                          onClick={() => handleDelete(candidate.committee_membership.adherent.uuid, 'candidate')}
                           aria-label="delete"
                           sx={{ ml: 0.25 }}
                         >
