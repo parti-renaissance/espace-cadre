@@ -1,6 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
-import InfoIcon from '@mui/icons-material/Info'
 import UICard from 'ui/Card'
 import ZonesAccordion from '../Zone/Accordions'
 import { format } from 'date-fns'
@@ -44,22 +43,6 @@ const InformationTab = ({ committee }) => (
               <Typography sx={{ fontSize: '14px', fontWeight: '500', color: theme => theme.palette.colors.gray[500] }}>
                 Zones
               </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  mt: 1,
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: '#EFF6FF',
-                  borderRadius: '8px',
-                  color: theme => theme.palette.colors.blue[600],
-                }}
-              >
-                <InfoIcon sx={{ fontSize: '20px', mr: 2 }} />
-                <Typography sx={{ fontSize: '14px', fontWeight: '500' }}>
-                  Les zones en vert foncé sont les zones appartenant à ce comité
-                </Typography>
-              </Box>
               <Box
                 sx={{
                   mt: 1.5,

@@ -30,7 +30,7 @@ const TabLabel = styled(Typography)`
 
 const messages = {
   title: 'Comités',
-  modify: 'Modifier',
+  modify: 'Modifier le comité',
   informations: 'Informations',
   elections: 'Élections',
 }
@@ -103,7 +103,9 @@ const DetailCommittee = () => {
       </Grid>
 
       {selectedTab === messages.informations && <InformationTab committee={committeeDetail} />}
-      {selectedTab === messages.elections && <ElectionsTab />}
+      {selectedTab === messages.elections && (
+        <ElectionsTab committeeUuid={committeeId} committeeElectionId={committeeDetail.committee_election?.uuid} />
+      )}
 
       {isCreateEditModalOpen && (
         <CreateEditModal
