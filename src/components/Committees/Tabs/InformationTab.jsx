@@ -1,36 +1,15 @@
 import { Box, Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
-import UICard from 'ui/Card'
-import ZonesAccordion from '../Zone/Accordions'
 import { format } from 'date-fns'
-
-const LineContent = ({ label, value }) => (
-  <Grid
-    container
-    spacing={3}
-    sx={{ py: 2, px: 3, borderBottom: '1px solid', borderBottomColor: theme => theme.palette.colors.gray[200] }}
-  >
-    <Grid item xs={12} md={4}>
-      <Typography sx={{ fontSize: '14px', fontWeight: '500', color: theme => theme.palette.colors.gray[500] }}>
-        {label}
-      </Typography>
-    </Grid>
-    <Grid item xs={12} md={8}>
-      <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}>{value}</Typography>
-    </Grid>
-  </Grid>
-)
-
-LineContent.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.any,
-}
+import UICard from 'ui/Card'
+import { LineContent } from '../styles'
+import ZonesAccordion from '../Zone/Accordions'
 
 const InformationTab = ({ committee }) => (
   <Grid container spacing={2}>
     <Grid item xs={12} md={6}>
       <UICard
-        rootProps={{ sx: { overflow: 'hidden', pt: 1 } }}
+        rootProps={{ sx: { overflow: 'hidden', pt: 1, pr: 0 } }}
         content={
           <>
             <LineContent label="Nom du comité" value={committee.name} />

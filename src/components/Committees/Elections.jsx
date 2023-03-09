@@ -10,9 +10,10 @@ import EditIcon from 'ui/icons/EditIcon'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
 import paths from 'shared/paths'
-import { Tab, TabLabel } from './Tabs/styles'
+import { Tab, TabLabel } from './styles'
 import CreateEditModal from './Elections/CreateEditModal'
 import Lists from './Elections/Tabs/Lists'
+import About from './Elections/Tabs/About'
 
 const messages = {
   modify: 'Modifier',
@@ -110,6 +111,7 @@ const Elections = () => {
         </Box>
       </Box>
 
+      {selectedTab === messages.about && <About election={election} />}
       {selectedTab === messages.list && <Lists election={election} />}
 
       {isCreateEditModalOpen && (

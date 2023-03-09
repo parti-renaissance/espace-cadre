@@ -14,8 +14,8 @@ import UICard from 'ui/Card/Card'
 import { UIChip } from 'ui/Card'
 import EmptyContent from 'ui/EmptyContent'
 import paths from 'shared/paths'
-import { Tab, TabLabel } from './styles'
 import CreateEditModal from '../Elections/CreateEditModal'
+import { Tab, TabLabel } from '../styles'
 
 const messages = {
   history: 'Historiques',
