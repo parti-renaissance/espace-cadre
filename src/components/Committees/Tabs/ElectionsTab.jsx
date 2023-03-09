@@ -4,7 +4,7 @@ import { Container, Tabs, Tab as MuiTab, Typography, Box, Grid } from '@mui/mate
 import { styled } from '@mui/system'
 import { AccessTime } from '@mui/icons-material'
 import { format } from 'date-fns'
-import { getCommitteeElections } from 'api/committees'
+import { getCommitteeElection } from 'api/committees'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { TruncatedText, HorizontalContainer } from 'components/shared/styled'
@@ -38,20 +38,20 @@ const messages = {
 
 const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
   const [selectedTab, setSelectedTab] = useState(messages.current)
-  const [designation, setDesignation] = useState(messages.current)
+  const [designation, setDesignation] = useState()
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
 
-  const { data: committeeElections = {}, isLoading } = useQueryWithScope(
+  const { data: committeeElection = {}, isLoading } = useQueryWithScope(
     ['committee-election', { feature: 'Committees', view: 'DetailCommittee' }, committeeElectionId],
-    () => getCommitteeElections(committeeElectionId),
+    () => getCommitteeElection(committeeElectionId),
     {
       enabled: !!committeeElectionId,
       onError: handleError,
     }
   )
 
-  const { designation: election } = committeeElections
+  const { designation: election } = committeeElection
 
   const toggleCreateEditModal = (designation, open) => {
     setDesignation(designation)
@@ -125,8 +125,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                         variant="span"
                         sx={{ color: theme => theme.palette.colors.gray[600], fontSize: '14px' }}
                       >
-                        Date de debut : {format(new Date(election.vote_start_date), 'dd/MM/yyyy')} à{' '}
-                        {format(new Date(election.vote_start_date), 'HH:mm')}
+                        Date de debut : {format(new Date(election.vote_start_date), 'dd/MM/yyyy à HH:mm:ss')}
                       </Typography>
                     </HorizontalContainer>
                     <HorizontalContainer>
@@ -135,8 +134,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                         variant="span"
                         sx={{ color: theme => theme.palette.colors.gray[600], fontSize: '14px' }}
                       >
-                        Date de fin : {format(new Date(election.vote_end_date), 'dd/MM/yyyy')} à{' '}
-                        {format(new Date(election.vote_end_date), 'HH:mm')}
+                        Date de fin : {format(new Date(election.vote_end_date), 'dd/MM/yyyy à HH:mm:ss')}
                       </Typography>
                     </HorizontalContainer>
                   </>

@@ -18,10 +18,10 @@ import { ModalForm } from 'ui/Dialog'
 const messages = {
   create: 'Créer',
   update: 'Modifier',
-  creationTitle: "Creation d'une élection",
+  creationTitle: "Création d'une élection",
   editionTitle: "Modification de l'élection",
-  createSuccess: 'La élection a été créé avec succès, veuillez patienter pendant la configuration de votre élection',
-  editSuccess: 'La élection a été modifié avec succès',
+  createSuccess: "L'élection a été créée avec succès",
+  editSuccess: "L'élection a été modifiée avec succès",
 }
 
 const fields = {
@@ -91,7 +91,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
             <Input
               name={fields.customTitle}
               onChange={onChange}
-              placeholder="Titre de cette éléction"
+              placeholder="Titre de cette élection"
               value={value}
               autoFocus
             />
