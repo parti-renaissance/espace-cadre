@@ -85,7 +85,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
         <Controller
           name={fields.customTitle}
           control={control}
-          defaultValue={designation?.custom_title}
+          defaultValue={designation?.custom_title || ''}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Input

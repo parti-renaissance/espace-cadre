@@ -104,7 +104,11 @@ const DetailCommittee = () => {
 
       {selectedTab === messages.informations && <InformationTab committee={committeeDetail} />}
       {selectedTab === messages.elections && (
-        <ElectionsTab committeeUuid={committeeId} committeeElectionId={committeeDetail.committee_election?.uuid} />
+        <ElectionsTab
+          committeeUuid={committeeId}
+          committeeElectionId={committeeDetail.committee_election?.uuid}
+          refetchCommittee={() => refetch()}
+        />
       )}
 
       {isCreateEditModalOpen && (
