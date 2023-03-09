@@ -23,7 +23,9 @@ const AddCandidateModal = ({ listId, handleClose, onAddSuccess }) => {
   const [selectedAdherent, setSelectedAdherent] = useState(null)
 
   const { mutate, isLoading: isLoading } = useMutation(addCandidate, {
-    onSuccess: onAddSuccess,
+    onSuccess: () => {
+      onAddSuccess && onAddSuccess(), handleClose()
+    },
     onError: handleError,
   })
 

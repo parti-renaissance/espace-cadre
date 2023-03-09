@@ -47,7 +47,7 @@ const Lists = ({ election }) => {
 
   const { mutate: deleteList, isLoading: isDeleting } = useMutation(deleteGroup, { onSuccess: onSuccess })
 
-  const { mutate: deleteCandidate, isLoading: isRemoving } = useMutation(removeCandidate, { onSuccess: onSuccess })
+  const { mutate: deleteCandidate } = useMutation(removeCandidate, { onSuccess: onSuccess })
 
   const toggleCreateEditModal = (list, open) => {
     setSelectedList(list)
@@ -83,7 +83,6 @@ const Lists = ({ election }) => {
                   className="space-x-4"
                 >
                   <Typography>Liste {index + 1}</Typography>
-                  {isRemoving && <Loader />}
                 </Box>
               </AccordionSummary>
               <AccordionDetails>
@@ -105,9 +104,9 @@ const Lists = ({ election }) => {
                         <IconButton
                           edge="start"
                           color="inherit"
-                          onClick={() => handleDelete(candidate.committee_membership.adherent.uuid, 'candidate')}
+                          onClick={() => handleDelete(candidate.uuid, 'candidate')}
                           aria-label="delete"
-                          sx={{ ml: 0.25 }}
+                          sx={{ ml: 1 }}
                         >
                           <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
                         </IconButton>
