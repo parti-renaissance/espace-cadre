@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Grid, IconButton, Typography } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
+import { Box, Typography } from '@mui/material'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { FilePond } from 'react-filepond'
@@ -14,11 +13,9 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { FormError } from 'components/shared/error/components'
-import Button, { ActionButton } from 'ui/Button/Button'
-import Dialog from 'ui/Dialog'
+import { ModalForm } from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
-import Title from 'ui/Title'
 import Select from 'ui/Select'
 import { useUserScope } from '../../redux/user/hooks'
 import 'filepond/dist/filepond.min.css'
@@ -121,96 +118,14 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
   }
 
   return (
-    <Dialog data-cy="document-create-edit" handleClose={handleClose} open>
-      <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title title={!document ? messages.creationTitle : messages.editionTitle} />
-        <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-          <CloseIcon />
-        </IconButton>
-      </Grid>
-
-      <Box
-        sx={{ mt: 4, position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}
-        role="presentation"
-      >
-        <Box sx={{ flex: '1 1 0%' }} className="space-y-4">
-          <Box>
-            <UIInputLabel required>Titre</UIInputLabel>
-            <Controller
-              name={fields.title}
-              control={control}
-              defaultValue={document?.title || ''}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  name={fields.title}
-                  onChange={onChange}
-                  placeholder="Titre de l'archive"
-                  value={value}
-                  autoFocus
-                />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.title} />
-          </Box>
-          <Box>
-            <UIInputLabel>Description</UIInputLabel>
-            <Controller
-              name={fields.description}
-              control={control}
-              defaultValue={document?.description || ''}
-              render={({ field: { onChange, value } }) => (
-                <Input name={fields.description} onChange={onChange} value={value} multiline maxRows={4} />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.description} />
-          </Box>
-          <Box>
-            <UIInputLabel required>Date</UIInputLabel>
-            <Controller
-              name={fields.date}
-              control={control}
-              defaultValue={document?.date}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <DatePicker
-                  value={value}
-                  onChange={onChange}
-                  renderInput={params => <Input type="date" name={fields.date} {...params} />}
-                />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.date} />
-          </Box>
-          <Box>
-            <UIInputLabel required={document ? false : true}>Votre fichier</UIInputLabel>
-            <FilePond
-              files={files}
-              onupdatefiles={setFiles}
-              allowProcess={false}
-              labelIdle='Glissez-déposez votre fichier ou <span class="filepond--label-action">parcourir</span>'
-            />
-          </Box>
-          <Box>
-            <UIInputLabel required>Zone</UIInputLabel>
-            <Controller
-              name={fields.zone}
-              control={control}
-              defaultValue={zone}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <Select
-                  options={currentScope.zones.map(z => ({ key: z.uuid, value: `${z.name} (${z.code})` }))}
-                  onChange={onChange}
-                  value={value}
-                  disabled={currentScope.zones.length === 1}
-                />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.zone} />
-          </Box>
-        </Box>
-        <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', mt: 4 }}>
+    <ModalForm
+      handleClose={handleClose}
+      title={!document ? messages.creationTitle : messages.editionTitle}
+      submitLabel={!document ? messages.create : messages.update}
+      isLoading={loading}
+      createOrEdit={createOrEdit}
+      actions={
+        <>
           {action !== '' && (
             <Typography
               component="span"
@@ -224,15 +139,79 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
               {action}...
             </Typography>
           )}
-          <ActionButton type="submit" handleSubmit={createOrEdit} isLoading={loading}>
-            {!document ? messages.create : messages.update}
-          </ActionButton>
-          <Button onClick={handleClose} aria-label="close" isMainButton>
-            {messages.close}
-          </Button>
-        </Grid>
+        </>
+      }
+    >
+      <Box>
+        <UIInputLabel required>Titre</UIInputLabel>
+        <Controller
+          name={fields.title}
+          control={control}
+          defaultValue={document?.title || ''}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <Input name={fields.title} onChange={onChange} placeholder="Titre de l'archive" value={value} autoFocus />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.title} />
       </Box>
-    </Dialog>
+      <Box>
+        <UIInputLabel>Description</UIInputLabel>
+        <Controller
+          name={fields.description}
+          control={control}
+          defaultValue={document?.description || ''}
+          render={({ field: { onChange, value } }) => (
+            <Input name={fields.description} onChange={onChange} value={value} multiline maxRows={4} />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.description} />
+      </Box>
+      <Box>
+        <UIInputLabel required>Date</UIInputLabel>
+        <Controller
+          name={fields.date}
+          control={control}
+          defaultValue={document?.date || ''}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <DatePicker
+              value={value}
+              onChange={onChange}
+              renderInput={params => <Input type="date" name={fields.date} {...params} />}
+            />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.date} />
+      </Box>
+      <Box>
+        <UIInputLabel required={document ? false : true}>Votre fichier</UIInputLabel>
+        <FilePond
+          files={files}
+          onupdatefiles={setFiles}
+          allowProcess={false}
+          labelIdle='Glissez-déposez votre fichier ou <span class="filepond--label-action">parcourir</span>'
+        />
+      </Box>
+      <Box>
+        <UIInputLabel required>Zone</UIInputLabel>
+        <Controller
+          name={fields.zone}
+          control={control}
+          defaultValue={zone}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              options={currentScope.zones.map(z => ({ key: z.uuid, value: `${z.name} (${z.code})` }))}
+              onChange={onChange}
+              value={value}
+              disabled={currentScope.zones.length === 1}
+            />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.zone} />
+      </Box>
+    </ModalForm>
   )
 }
 
