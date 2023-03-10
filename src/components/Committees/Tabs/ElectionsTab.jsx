@@ -28,7 +28,7 @@ const messages = {
   noElectionDescription: 'Aucune élection n’est en cours pour ce comité.',
 }
 
-const ElectionsTab = ({ committeeUuid, committeeElectionId, refetchCommittee }) => {
+const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
   const [selectedTab, setSelectedTab] = useState(messages.current)
   const [designation, setDesignation] = useState()
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
@@ -172,7 +172,6 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId, refetchCommittee }) 
           committeeUuid={committeeUuid}
           designation={designation}
           handleClose={() => toggleCreateEditModal(null, false)}
-          onCreateResolve={refetchCommittee}
         />
       )}
     </Container>
@@ -184,5 +183,4 @@ export default ElectionsTab
 ElectionsTab.propTypes = {
   committeeUuid: PropTypes.string.isRequired,
   committeeElectionId: PropTypes.string,
-  refetchCommittee: PropTypes.func,
 }

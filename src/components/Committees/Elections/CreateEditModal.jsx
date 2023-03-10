@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { createDesignation, updateDesignation } from 'api/designations'
 import { FormError } from 'components/shared/error/components'
@@ -40,6 +40,7 @@ const designationSchema = Yup.object({
 const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
+  const queryClient = useQueryClient()
   const { control, getValues, reset, watch } = useForm({
     mode: 'onChange',
     resolver: yupResolver(designationSchema),
@@ -51,6 +52,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
     onSuccess: designation => {
       onCreateResolve && onCreateResolve()
       enqueueSnackbar(designation ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      queryClient.invalidateQueries({ queryKey: 'committee-detail' })
       handleClose()
     },
     onError: handleError,

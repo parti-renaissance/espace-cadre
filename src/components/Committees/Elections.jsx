@@ -19,7 +19,6 @@ const messages = {
   modify: 'Modifier',
   about: 'À propos',
   list: 'Listes',
-  result: 'Résultats',
 }
 
 const Elections = () => {
@@ -36,15 +35,16 @@ const Elections = () => {
     }
   )
 
+  const electionId = committeeElectionId ?? committee.committee_election.uuid
   const {
     data: election = {},
     refetch,
     isLoading,
   } = useQueryWithScope(
-    ['committee-election', { feature: 'Committees', view: 'Elections' }, committeeElectionId],
-    () => getCommitteeElection(committeeElectionId),
+    ['committee-election', { feature: 'Committees', view: 'Elections' }, electionId],
+    () => getCommitteeElection(electionId),
     {
-      enabled: !!committeeElectionId,
+      enabled: !!electionId,
       onError: handleError,
     }
   )
@@ -100,13 +100,6 @@ const Elections = () => {
               disableFocusRipple
             />
             <Tab value={messages.list} label={<TabLabel>{messages.list}</TabLabel>} disableRipple disableFocusRipple />
-            <Tab
-              value={messages.result}
-              label={<TabLabel>{messages.result}</TabLabel>}
-              disableRipple
-              disableFocusRipple
-              disabled
-            />
           </Tabs>
         </Box>
       </Box>

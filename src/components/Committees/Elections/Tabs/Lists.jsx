@@ -37,14 +37,6 @@ const Lists = ({ election }) => {
     },
   })
 
-  const handleDelete = (resourceId, resourceName = 'list') => {
-    if (resourceName === 'candidate') {
-      deleteCandidate(resourceId)
-    } else {
-      deleteList(resourceId)
-    }
-  }
-
   const { mutate: deleteList, isLoading: isDeleting } = useMutation(deleteGroup, { onSuccess: onSuccess })
 
   const { mutate: deleteCandidate } = useMutation(removeCandidate, { onSuccess: onSuccess })
@@ -104,7 +96,7 @@ const Lists = ({ election }) => {
                         <IconButton
                           edge="start"
                           color="inherit"
-                          onClick={() => handleDelete(candidate.uuid, 'candidate')}
+                          onClick={() => deleteCandidate(candidate.uuid)}
                           aria-label="delete"
                           sx={{ ml: 1 }}
                         >
@@ -127,7 +119,7 @@ const Lists = ({ election }) => {
                     <IconButton
                       edge="start"
                       color="inherit"
-                      onClick={() => handleDelete(list.uuid)}
+                      onClick={() => deleteList(list.uuid)}
                       aria-label="delete"
                       sx={{ ml: 0.25 }}
                     >

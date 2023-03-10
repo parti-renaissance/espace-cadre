@@ -29,7 +29,7 @@ const AddCandidateModal = ({ listId, handleClose, onAddSuccess }) => {
     onError: handleError,
   })
 
-  const AddNewCandidate = () => {
+  const addNewCandidate = () => {
     if (!selectedAdherent) {
       enqueueSnackbar(messages.error, notifyVariants.error)
       return
@@ -42,7 +42,7 @@ const AddCandidateModal = ({ listId, handleClose, onAddSuccess }) => {
     <ModalForm
       title={messages.title}
       handleClose={handleClose}
-      createOrEdit={AddNewCandidate}
+      createOrEdit={addNewCandidate}
       isLoading={isLoading}
       submitLabel={messages.add}
     >
