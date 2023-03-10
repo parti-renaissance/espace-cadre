@@ -84,6 +84,6 @@ export const featuresLabels = {
   [features.elected_representative]: 'Registre des élus',
   [features.adherent_formations]: 'Formations',
   [features.general_meeting_reports]: "Centre d'archives",
-  [features.committee]: 'Comités',
+  [features.committee]: 'Comités locaux',
   [features.documents]: 'Documents',
 }
