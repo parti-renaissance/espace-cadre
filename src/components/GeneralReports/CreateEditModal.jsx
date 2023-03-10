@@ -27,11 +27,11 @@ const messages = {
   create: 'Créer',
   update: 'Modifier',
   close: 'Fermer',
-  creationTitle: "Ajout d'un procès-verbal d'AG",
-  editionTitle: "Modification du procès-verbal d'AG",
-  createSuccess: 'Procès-verbal créé avec succès',
-  editSuccess: 'Le procès-verbal a bien été modifié',
-  createAction: 'Procès-verbal en cours de création/édition',
+  creationTitle: "Ajout d'une archive",
+  editionTitle: "Modification de l'archive",
+  createSuccess: 'Archive créée avec succès',
+  editSuccess: "L'archive a bien été modifiée",
+  createAction: "Création de l'archive en cours",
   uploadAction: "Fichier en cours d'upload",
   fileErrorMessage: 'Le fichier est obligatoire',
 }
@@ -142,7 +142,13 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
               defaultValue={document?.title || ''}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
-                <Input name={fields.title} onChange={onChange} placeholder="Titre du PV" value={value} autoFocus />
+                <Input
+                  name={fields.title}
+                  onChange={onChange}
+                  placeholder="Titre de l'archive"
+                  value={value}
+                  autoFocus
+                />
               )}
             />
             <FormError errors={errorMessages} field={fields.title} />

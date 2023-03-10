@@ -23,7 +23,7 @@ const messages = {
   title: "Centre d'archives",
   create: 'Ajouter',
   edit: 'Modifier',
-  noDocuments: "Vous n'avez aucun procès-verbal créé",
+  noDocuments: "Vous n'avez aucune archive créée",
   view: 'Afficher',
   download: 'Télécharger',
 }
