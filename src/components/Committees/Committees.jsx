@@ -19,7 +19,7 @@ import CreateEditModal from './CreateEditModal'
 import paths from 'shared/paths'
 
 const messages = {
-  title: 'Comités',
+  title: 'Comités locaux',
   create: 'Créer un comité',
   noData: 'Aucun comité trouvé',
   edit: 'Modifier',
