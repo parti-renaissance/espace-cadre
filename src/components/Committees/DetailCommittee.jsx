@@ -42,7 +42,7 @@ const DetailCommittee = () => {
   const { handleError } = useErrorHandler()
 
   const {
-    data: committeeDetail = {},
+    data: committee = {},
     refetch,
     isLoading,
   } = useQueryWithScope(
@@ -67,7 +67,7 @@ const DetailCommittee = () => {
         <PageHeader
           title={messages.title}
           titleLink={paths.committee}
-          titleSuffix={committeeDetail.name}
+          titleSuffix={committee.name}
           button={
             <PageHeaderButton
               label={messages.modify}
@@ -102,9 +102,9 @@ const DetailCommittee = () => {
         </Tabs>
       </Grid>
 
-      {selectedTab === messages.informations && <InformationTab committee={committeeDetail} />}
+      {selectedTab === messages.informations && <InformationTab committee={committee} />}
       {selectedTab === messages.elections && (
-        <ElectionsTab committeeUuid={committeeId} committeeElectionId={committeeDetail.committee_election?.uuid} />
+        <ElectionsTab committeeUuid={committeeId} committeeElectionId={committee.committee_election?.uuid} />
       )}
 
       {isCreateEditModalOpen && (

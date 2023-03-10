@@ -1,32 +1,21 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { Container, Tabs, Tab as MuiTab, Typography, Box, Grid } from '@mui/material'
-import { styled } from '@mui/system'
+import { Container, Tabs, Typography, Box, Grid } from '@mui/material'
 import { AccessTime } from '@mui/icons-material'
 import { format } from 'date-fns'
-import { getCommitteeElection } from 'api/committees'
+import { generatePath, useNavigate } from 'react-router'
+import { getCommitteeElection } from 'api/committee_election'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { TruncatedText, HorizontalContainer } from 'components/shared/styled'
 import Button from 'ui/Button'
 import Loader from 'ui/Loader'
 import UICard from 'ui/Card/Card'
-import CreateEditModal from '../Elections/CreateEditModal'
 import { UIChip } from 'ui/Card'
-
-const Tab = styled(MuiTab)(({ theme }) => ({
-  textTransform: 'none',
-  color: theme.palette.colors.gray[400],
-  '&.Mui-selected': {
-    color: theme.palette.colors.blue[500],
-  },
-}))
-
-const TabLabel = styled(Typography)`
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-`
+import EmptyContent from 'ui/EmptyContent'
+import paths from 'shared/paths'
+import CreateEditModal from '../Elections/CreateEditModal'
+import { Tab, TabLabel } from '../styles'
 
 const messages = {
   history: 'Historiques',
@@ -34,6 +23,9 @@ const messages = {
   all: 'Toutes',
   create: 'Créer une élection',
   soon: 'Bientôt disponible',
+  view: 'Afficher',
+  noElection: 'Aucune élection en cours',
+  noElectionDescription: 'Aucune élection n’est en cours pour ce comité.',
 }
 
 const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
@@ -41,15 +33,25 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
   const [designation, setDesignation] = useState()
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
+  const navigate = useNavigate()
 
   const { data: committeeElection = {}, isLoading } = useQueryWithScope(
-    ['committee-election', { feature: 'Committees', view: 'DetailCommittee' }, committeeElectionId],
+    ['committee-election-tab', { feature: 'Committees', view: 'DetailCommittee' }, committeeElectionId],
     () => getCommitteeElection(committeeElectionId),
     {
       enabled: !!committeeElectionId,
       onError: handleError,
     }
   )
+
+  const handleView = (committeeId, committeeElectionId) => () => {
+    navigate(
+      generatePath(`${paths.committee}/:committeeId/elections/:committeeElectionId`, {
+        committeeId,
+        committeeElectionId,
+      })
+    )
+  }
 
   const { designation: election } = committeeElection
 
@@ -99,12 +101,12 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
         </Button>
       </Box>
 
-      {isLoading && <Loader />}
+      {isLoading && committeeElectionId && <Loader />}
 
       {selectedTab === messages.current && (
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} lg={4}>
-            {election && (
+          {election && (
+            <Grid item xs={12} sm={6} lg={4}>
               <UICard
                 rootProps={{ sx: { pt: 1 } }}
                 headerProps={{ sx: { pt: 2 } }}
@@ -139,9 +141,23 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                     </HorizontalContainer>
                   </>
                 }
+                actionsProps={{ sx: { justifyContent: 'flex-end', mt: 3, width: 'fit-content' } }}
+                actions={
+                  <>
+                    <Button onClick={handleView(committeeUuid, committeeElectionId)} isMainButton>
+                      {messages.view}
+                    </Button>
+                  </>
+                }
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
+
+          {!election && (
+            <Grid item xs={12}>
+              <EmptyContent title={messages.noElection} description={messages.noElectionDescription} />
+            </Grid>
+          )}
         </Grid>
       )}
 
