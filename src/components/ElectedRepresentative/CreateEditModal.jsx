@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { Grid, Box, Typography, IconButton, FormControlLabel } from '@mui/material'
-import { Close as CloseIcon } from '@mui/icons-material'
+import { Grid, Box, Typography, FormControlLabel } from '@mui/material'
 import { styled } from '@mui/system'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
@@ -13,15 +12,13 @@ import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
-import Button, { ActionButton } from 'ui/Button/Button'
 import Input from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
-import Dialog from 'ui/Dialog'
+import { ModalForm } from 'ui/Dialog'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import { createElected, updateElected } from 'api/elected-representative'
 import paths from 'shared/paths'
-import Title from 'ui/Title'
 import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
 
 const FormTitle = styled(Typography)(
@@ -59,7 +56,6 @@ FormHeading.propTypes = {
 const messages = {
   create: 'Créer',
   update: 'Modifier',
-  close: 'Fermer',
   creationTitle: "Creation d'un élu",
   editionTitle: "Modification de l'élu",
   createSuccess: 'Élu créé avec succès',
@@ -124,149 +120,134 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
   }, [elected, reset])
 
   return (
-    <Dialog data-cy="elected-create-edit" handleClose={handleClose} open>
-      <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title title={!elected ? messages.creationTitle : messages.editionTitle} />
-        <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-          <CloseIcon />
-        </IconButton>
-      </Grid>
-      <Box
-        sx={{ mt: 4, position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}
-        role="presentation"
-      >
-        <Box sx={{ flex: '1 1 0%' }}>
-          <Box>
-            <UIInputLabel required>Nom</UIInputLabel>
-            <Controller
-              name={fields.firstName}
-              control={control}
-              defaultValue={elected?.first_name}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <Input name={fields.firstName} onChange={onChange} placeholder="Nom de l'élu" value={value} autoFocus />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.firstName} />
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <UIInputLabel required>Prénom</UIInputLabel>
-            <Controller
-              name={fields.lastName}
-              control={control}
-              defaultValue={elected?.last_name}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  name={fields.lastName}
-                  onChange={onChange}
-                  placeholder="Prénom de l'élu"
-                  value={value === null ? '' : value}
-                />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.lastName} />
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <UIInputLabel>Adresse E-mail</UIInputLabel>
-            <Controller
-              name={fields.contactEmail}
-              control={control}
-              defaultValue={elected?.contact_email}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <Input name={fields.contactEmail} onChange={onChange} value={value === null ? '' : value} />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.contactEmail} />
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <UIInputLabel required>Date de naissance</UIInputLabel>
-            <Controller
-              name={fields.birthDate}
-              control={control}
-              defaultValue={elected?.birth_date}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <DatePicker
-                  value={value}
-                  onChange={onChange}
-                  renderInput={params => <Input type="date" name={fields.birthDate} {...params} />}
-                />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.birthDate} />
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <UIInputLabel>Lieu de naissance</UIInputLabel>
-            <Controller
-              name={fields.birthPlace}
-              control={control}
-              defaultValue={elected?.birth_place}
-              render={({ field: { onChange, value } }) => (
-                <Input name={fields.birthPlace} onChange={onChange} value={value === null ? '' : value} />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.birthPlace} />
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <UIInputLabel required>Genre</UIInputLabel>
-            <Controller
-              name={fields.gender}
-              control={control}
-              defaultValue={elected?.gender || 'male'}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <Select
-                  options={[
-                    { key: 'male', value: 'Homme' },
-                    { key: 'female', value: 'Femme' },
-                  ]}
-                  onChange={onChange}
-                  value={value}
-                  sx={{ display: 'flex' }}
-                />
-              )}
-            />
-            <FormError errors={errorMessages} field={fields.gender} />
-            <Controller
-              name={fields.hasFollowedTraining}
-              control={control}
-              defaultValue={elected?.has_followed_training}
-              render={({ field: { onChange, value } }) => (
-                <FormControlLabel
-                  name={fields.hasFollowedTraining}
-                  label="Formation Tous Politiques !"
-                  onChange={onChange}
-                  control={<Checkbox checked={value} />}
-                  sx={{ pt: 2 }}
-                />
-              )}
-            />
-          </Box>
-          <Box sx={{ mt: 4 }}>
-            <FormHeading title="Identité adhérent" description="Ces informations sont celles du profil de l'adhérent" />
-            <Box sx={{ mt: 2 }}>
-              <Grid item xs={12}>
-                <AdherentAutocomplete
-                  customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
-                  value={selectedAdherent}
-                  onChange={setSelectedAdherent}
-                />
-              </Grid>
-            </Box>
-          </Box>
-        </Box>
-        <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
-          <ActionButton type="submit" handleSubmit={createOrEdit} isLoading={isLoading}>
-            {!elected ? messages.create : messages.update}
-          </ActionButton>
-          <Button onClick={handleClose} aria-label="close" isMainButton>
-            {messages.close}
-          </Button>
-        </Grid>
+    <ModalForm
+      title={!elected ? messages.creationTitle : messages.editionTitle}
+      handleClose={handleClose}
+      createOrEdit={createOrEdit}
+      isLoading={isLoading}
+      submitLabel={!elected ? messages.create : messages.update}
+    >
+      <Box>
+        <UIInputLabel required>Nom</UIInputLabel>
+        <Controller
+          name={fields.firstName}
+          control={control}
+          defaultValue={elected?.first_name}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <Input name={fields.firstName} onChange={onChange} placeholder="Nom de l'élu" value={value} autoFocus />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.firstName} />
       </Box>
-    </Dialog>
+      <Box sx={{ mt: 2 }}>
+        <UIInputLabel required>Prénom</UIInputLabel>
+        <Controller
+          name={fields.lastName}
+          control={control}
+          defaultValue={elected?.last_name}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              name={fields.lastName}
+              onChange={onChange}
+              placeholder="Prénom de l'élu"
+              value={value === null ? '' : value}
+            />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.lastName} />
+      </Box>
+      <Box sx={{ mt: 2 }}>
+        <UIInputLabel>Adresse E-mail</UIInputLabel>
+        <Controller
+          name={fields.contactEmail}
+          control={control}
+          defaultValue={elected?.contact_email}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <Input name={fields.contactEmail} onChange={onChange} value={value === null ? '' : value} />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.contactEmail} />
+      </Box>
+      <Box sx={{ mt: 2 }}>
+        <UIInputLabel required>Date de naissance</UIInputLabel>
+        <Controller
+          name={fields.birthDate}
+          control={control}
+          defaultValue={elected?.birth_date}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <DatePicker
+              value={value}
+              onChange={onChange}
+              renderInput={params => <Input type="date" name={fields.birthDate} {...params} />}
+            />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.birthDate} />
+      </Box>
+      <Box sx={{ mt: 2 }}>
+        <UIInputLabel>Lieu de naissance</UIInputLabel>
+        <Controller
+          name={fields.birthPlace}
+          control={control}
+          defaultValue={elected?.birth_place}
+          render={({ field: { onChange, value } }) => (
+            <Input name={fields.birthPlace} onChange={onChange} value={value === null ? '' : value} />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.birthPlace} />
+      </Box>
+      <Box sx={{ mt: 2 }}>
+        <UIInputLabel required>Genre</UIInputLabel>
+        <Controller
+          name={fields.gender}
+          control={control}
+          defaultValue={elected?.gender || 'male'}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              options={[
+                { key: 'male', value: 'Homme' },
+                { key: 'female', value: 'Femme' },
+              ]}
+              onChange={onChange}
+              value={value}
+              sx={{ display: 'flex' }}
+            />
+          )}
+        />
+        <FormError errors={errorMessages} field={fields.gender} />
+        <Controller
+          name={fields.hasFollowedTraining}
+          control={control}
+          defaultValue={elected?.has_followed_training}
+          render={({ field: { onChange, value } }) => (
+            <FormControlLabel
+              name={fields.hasFollowedTraining}
+              label="Formation Tous Politiques !"
+              onChange={onChange}
+              control={<Checkbox checked={value} />}
+              sx={{ pt: 2 }}
+            />
+          )}
+        />
+      </Box>
+      <Box sx={{ mt: 4 }}>
+        <FormHeading title="Identité adhérent" description="Ces informations sont celles du profil de l'adhérent" />
+        <Box sx={{ mt: 2 }}>
+          <Grid item xs={12}>
+            <AdherentAutocomplete
+              customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
+              value={selectedAdherent}
+              onChange={setSelectedAdherent}
+            />
+          </Grid>
+        </Box>
+      </Box>
+    </ModalForm>
   )
 }
 
@@ -274,7 +255,6 @@ export default CreateEditModal
 
 CreateEditModal.propTypes = {
   elected: PropTypes.object,
-  open: PropTypes.bool,
   handleClose: PropTypes.func,
   onCreateResolve: PropTypes.func,
   onUpdateResolve: PropTypes.func,
