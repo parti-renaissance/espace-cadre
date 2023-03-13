@@ -5,14 +5,15 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { createDesignation, updateDesignation } from 'api/designations'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import { Designation } from 'domain/committee_election'
 import Input from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
+import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import { ModalForm } from 'ui/Dialog'
 
 const messages = {
@@ -48,10 +49,10 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
 
   watch()
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!designation ? createDesignation : updateDesignation, {
-    onSuccess: designation => {
+  const { mutate: createOrUpdate, isLoading } = useMutation(!designation.id ? createDesignation : updateDesignation, {
+    onSuccess: uuid => {
       onCreateResolve && onCreateResolve()
-      enqueueSnackbar(designation ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      enqueueSnackbar(uuid ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       queryClient.invalidateQueries({ queryKey: 'committee-detail' })
       handleClose()
     },
@@ -60,34 +61,40 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
 
   const values = getValues()
 
+  const prepareCreateOrUpdate = () => {
+    const { custom_title, description, vote_start_date, vote_end_date } = values
+
+    return new Designation(null, custom_title, description, null, vote_start_date, vote_end_date)
+  }
+
   const createOrEdit = () => {
     createOrUpdate({
-      ...values,
-      type: 'committee_supervisor',
-      election_entity_identifier: committeeUuid,
+      ...prepareCreateOrUpdate(),
+      committeeUuid,
+      id: designation.id,
     })
   }
 
   useEffect(() => {
-    if (designation && designation.uuid) {
+    if (designation && designation.id) {
       reset(designation)
     }
   }, [designation, reset])
 
   return (
     <ModalForm
-      title={designation ? messages.editionTitle : messages.creationTitle}
+      title={designation.id ? messages.editionTitle : messages.creationTitle}
       handleClose={handleClose}
       createOrEdit={createOrEdit}
       isLoading={isLoading}
-      submitLabel={designation ? messages.update : messages.create}
+      submitLabel={designation.id ? messages.update : messages.create}
     >
       <Box>
         <UIInputLabel required>Titre</UIInputLabel>
         <Controller
           name={fields.customTitle}
           control={control}
-          defaultValue={designation?.custom_title || ''}
+          defaultValue={designation.title}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Input
@@ -106,7 +113,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
         <Controller
           name={fields.description}
           control={control}
-          defaultValue={designation?.description || ''}
+          defaultValue={designation.description}
           render={({ field: { value, onChange } }) => (
             <Input name={fields.description} value={value} onChange={onChange} multiline maxRows={4} />
           )}
@@ -117,14 +124,10 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
         <Controller
           name={fields.voteStartDate}
           control={control}
-          defaultValue={designation?.vote_start_date || ''}
+          defaultValue={designation.voteStartDate}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DatePicker
-              value={value}
-              onChange={onChange}
-              renderInput={params => <Input type="date" name={fields.voteStartDate} {...params} />}
-            />
+            <DateTimePicker value={value} onChange={onChange} name={fields.voteStartDate} minDate={new Date()} />
           )}
         />
         <FormError errors={errorMessages} field={fields.voteStartDate} />
@@ -134,14 +137,10 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
         <Controller
           name={fields.voteEndDate}
           control={control}
-          defaultValue={designation?.vote_end_date || ''}
+          defaultValue={designation.voteEndDate}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DatePicker
-              value={value}
-              onChange={onChange}
-              renderInput={params => <Input type="date" name={fields.voteEndDate} {...params} />}
-            />
+            <DateTimePicker value={value} onChange={onChange} name={fields.voteEndDate} minDate={new Date()} />
           )}
         />
         <FormError errors={errorMessages} field={fields.voteEndDate} />
@@ -153,7 +152,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
 export default CreateEditModal
 
 CreateEditModal.propTypes = {
-  designation: PropTypes.object,
+  designation: Designation.propTypes,
   committeeUuid: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
   onCreateResolve: PropTypes.func,

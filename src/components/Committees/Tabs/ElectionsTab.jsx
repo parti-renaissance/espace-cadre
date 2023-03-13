@@ -16,6 +16,7 @@ import EmptyContent from 'ui/EmptyContent'
 import paths from 'shared/paths'
 import CreateEditModal from '../Elections/CreateEditModal'
 import { Tab, TabLabel } from '../styles'
+import { CommitteeElection, Designation } from 'domain/committee_election'
 
 const messages = {
   history: 'Historiques',
@@ -30,16 +31,18 @@ const messages = {
 
 const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
   const [selectedTab, setSelectedTab] = useState(messages.current)
-  const [designation, setDesignation] = useState()
+  const [designation, setDesignation] = useState(Designation.NULL)
+  const [committeeElection, setCommitteeElection] = useState(CommitteeElection.NULL)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
   const navigate = useNavigate()
 
-  const { data: committeeElection = {}, isLoading } = useQueryWithScope(
+  const { isLoading } = useQueryWithScope(
     ['committee-election-tab', { feature: 'Committees', view: 'DetailCommittee' }, committeeElectionId],
     () => getCommitteeElection(committeeElectionId),
     {
       enabled: !!committeeElectionId,
+      onSuccess: setCommitteeElection,
       onError: handleError,
     }
   )
@@ -53,7 +56,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
     )
   }
 
-  const { designation: election } = committeeElection
+  const { designation: designationElection } = committeeElection
 
   const toggleCreateEditModal = (designation, open) => {
     setDesignation(designation)
@@ -96,7 +99,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
             <Tab value={messages.all} label={<TabLabel>{messages.all}</TabLabel>} disableRipple disableFocusRipple />
           </Tabs>
         </Box>
-        <Button onClick={() => toggleCreateEditModal(null, true)} rootProps={{ sx: { color: 'whiteCorner' } }}>
+        <Button onClick={() => toggleCreateEditModal(designation, true)} rootProps={{ sx: { color: 'whiteCorner' } }}>
           {messages.create}
         </Button>
       </Box>
@@ -105,7 +108,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
 
       {selectedTab === messages.current && (
         <Grid container spacing={3}>
-          {election && (
+          {committeeElection.id && designationElection.id ? (
             <Grid item xs={12} sm={6} lg={4}>
               <UICard
                 rootProps={{ sx: { pt: 1 } }}
@@ -119,7 +122,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                       sx={{ display: 'inline-flex', width: 'fit-content', mb: 1 }}
                     />
                     <TruncatedText variant="h6" sx={{ mb: 2 }} lines={2}>
-                      {election.custom_title}
+                      {designationElection.title}
                     </TruncatedText>
                     <HorizontalContainer>
                       <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '16px' }} />
@@ -127,7 +130,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                         variant="span"
                         sx={{ color: theme => theme.palette.colors.gray[600], fontSize: '14px' }}
                       >
-                        Date de debut : {format(new Date(election.vote_start_date), 'dd/MM/yyyy à HH:mm:ss')}
+                        Date de debut : {format(designationElection.voteStartDate, 'dd/MM/yyyy à HH:mm:ss')}
                       </Typography>
                     </HorizontalContainer>
                     <HorizontalContainer>
@@ -136,7 +139,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                         variant="span"
                         sx={{ color: theme => theme.palette.colors.gray[600], fontSize: '14px' }}
                       >
-                        Date de fin : {format(new Date(election.vote_end_date), 'dd/MM/yyyy à HH:mm:ss')}
+                        Date de fin : {format(designationElection.voteEndDate, 'dd/MM/yyyy à HH:mm:ss')}
                       </Typography>
                     </HorizontalContainer>
                   </>
@@ -151,9 +154,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                 }
               />
             </Grid>
-          )}
-
-          {!election && (
+          ) : (
             <Grid item xs={12}>
               <EmptyContent title={messages.noElection} description={messages.noElectionDescription} />
             </Grid>

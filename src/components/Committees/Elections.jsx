@@ -44,7 +44,7 @@ const Elections = () => {
     ['committee-election', { feature: 'Committees', view: 'Elections' }, electionId],
     () => getCommitteeElection(electionId),
     {
-      enabled: !!electionId,
+      enabled: !!electionId && Object.keys(committee).length > 0,
       onError: handleError,
     }
   )
@@ -63,7 +63,7 @@ const Elections = () => {
         <PageHeader
           title={committee.name}
           titleLink={`${paths.committee}/${committeeId}`}
-          titleSuffix={election.designation.custom_title}
+          titleSuffix={election.designation.title}
           button={
             <PageHeaderButton
               label={messages.modify}
