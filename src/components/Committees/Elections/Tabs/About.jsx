@@ -23,6 +23,7 @@ const About = ({ election }) => {
                 label="Date de fin du vote"
                 value={format(designation.voteEndDate, 'dd/MM/yyyy à HH:mm:ss')}
               />
+              <LineContent label="Description" value={designation.description} />
             </>
           }
         />

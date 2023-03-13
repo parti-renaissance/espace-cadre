@@ -14,6 +14,7 @@ import { Tab, TabLabel } from './styles'
 import CreateEditModal from './Elections/CreateEditModal'
 import Lists from './Elections/Tabs/Lists'
 import About from './Elections/Tabs/About'
+import { CommitteeElection } from 'domain/committee_election'
 
 const messages = {
   modify: 'Modifier',
@@ -24,6 +25,7 @@ const messages = {
 const Elections = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [selectedTab, setSelectedTab] = useState(messages.about)
+  const [election, setElection] = useState(CommitteeElection.NULL)
   const { committeeElectionId, committeeId } = useParams()
   const { handleError } = useErrorHandler()
 
@@ -36,15 +38,12 @@ const Elections = () => {
   )
 
   const electionId = committeeElectionId ?? committee.committee_election.uuid
-  const {
-    data: election = {},
-    refetch,
-    isLoading,
-  } = useQueryWithScope(
+  const { refetch, isLoading } = useQueryWithScope(
     ['committee-election', { feature: 'Committees', view: 'Elections' }, electionId],
     () => getCommitteeElection(electionId),
     {
       enabled: !!electionId && Object.keys(committee).length > 0,
+      onSuccess: setElection,
       onError: handleError,
     }
   )

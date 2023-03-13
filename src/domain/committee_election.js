@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { add } from 'date-fns'
 
 export class Designation {
   constructor(id, title, description, electionDate, voteStartDate, voteEndDate) {
@@ -10,7 +11,7 @@ export class Designation {
     this.voteEndDate = new Date(voteEndDate)
   }
 
-  static NULL = new Designation(null, '', '', new Date(), new Date(), new Date().setHours(new Date().getHours() + 1))
+  static NULL = new Designation(null, '', '', new Date(), add(new Date(), { days: 15 }), add(new Date(), { days: 16 }))
 }
 
 Designation.propTypes = PropTypes.shape({
@@ -34,8 +35,8 @@ export class CommitteeElection {
 }
 
 CommitteeElection.propTypes = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   designation: Designation.propTypes.isRequired,
   groups: PropTypes.array.isRequired,
-  committeeId: PropTypes.string.isRequired,
+  committeeId: PropTypes.string,
 })

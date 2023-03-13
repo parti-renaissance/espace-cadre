@@ -4,6 +4,7 @@ import { Box } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
+import { add, compareAsc } from 'date-fns'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createDesignation, updateDesignation } from 'api/designations'
 import { FormError } from 'components/shared/error/components'
@@ -26,9 +27,9 @@ const messages = {
 }
 
 const fields = {
-  customTitle: 'custom_title',
-  voteStartDate: 'vote_start_date',
-  voteEndDate: 'vote_end_date',
+  customTitle: 'title',
+  voteStartDate: 'voteStartDate',
+  voteEndDate: 'voteEndDate',
   description: 'description',
 }
 
@@ -50,9 +51,9 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
   watch()
 
   const { mutate: createOrUpdate, isLoading } = useMutation(!designation.id ? createDesignation : updateDesignation, {
-    onSuccess: uuid => {
+    onSuccess: () => {
       onCreateResolve && onCreateResolve()
-      enqueueSnackbar(uuid ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      enqueueSnackbar(!designation.id ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       queryClient.invalidateQueries({ queryKey: 'committee-detail' })
       handleClose()
     },
@@ -62,17 +63,27 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
   const values = getValues()
 
   const prepareCreateOrUpdate = () => {
-    const { custom_title, description, vote_start_date, vote_end_date } = values
+    const { title, description, voteStartDate, voteEndDate } = values
 
-    return new Designation(null, custom_title, description, null, vote_start_date, vote_end_date)
+    return new Designation(null, title, description, null, voteStartDate, voteEndDate)
   }
 
   const createOrEdit = () => {
-    createOrUpdate({
-      ...prepareCreateOrUpdate(),
-      committeeUuid,
-      id: designation.id,
-    })
+    const { voteStartDate, voteEndDate } = values
+    if (compareAsc(voteStartDate, voteEndDate) === 1) {
+      enqueueSnackbar('La date de fin de vote ne doit être supérieure à la date de début de vote', notifyVariants.error)
+      return
+    }
+
+    if (!designation.id) {
+      createOrUpdate({ ...prepareCreateOrUpdate(), committeeUuid })
+    } else {
+      createOrUpdate({
+        ...values,
+        committeeUuid,
+        id: designation.id,
+      })
+    }
   }
 
   useEffect(() => {
@@ -127,7 +138,12 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
           defaultValue={designation.voteStartDate}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DateTimePicker value={value} onChange={onChange} name={fields.voteStartDate} minDate={new Date()} />
+            <DateTimePicker
+              value={value}
+              onChange={onChange}
+              name={fields.voteStartDate}
+              minDate={add(new Date(), { days: 15 })}
+            />
           )}
         />
         <FormError errors={errorMessages} field={fields.voteStartDate} />
@@ -140,7 +156,12 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
           defaultValue={designation.voteEndDate}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DateTimePicker value={value} onChange={onChange} name={fields.voteEndDate} minDate={new Date()} />
+            <DateTimePicker
+              value={value}
+              onChange={onChange}
+              name={fields.voteEndDate}
+              minDate={add(new Date(), { days: 16 })}
+            />
           )}
         />
         <FormError errors={errorMessages} field={fields.voteEndDate} />
