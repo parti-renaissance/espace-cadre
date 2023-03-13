@@ -29,7 +29,7 @@ const Lists = ({ election }) => {
   const queryClient = useQueryClient()
   const onSuccess = () => queryClient.invalidateQueries({ queryKey: 'committee-election' })
 
-  const { mutate: addList, isLoading } = useMutation(() => createGroup(election.uuid), {
+  const { mutate: addList, isLoading } = useMutation(() => createGroup(election.id), {
     onSuccess: onSuccess,
     onError: error => {
       handleError(error)
