@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { formatISO } from 'date-fns'
 import { apiClient } from 'services/networking/client'
 
 export const createDesignation = async designation => {
@@ -14,8 +14,8 @@ const designationToJson = designation => ({
   id: designation.id,
   custom_title: designation.title,
   description: designation.description,
-  vote_start_date: format(designation.voteStartDate, 'yyyy-MM-dd HH:mm'),
-  vote_end_date: format(designation.voteEndDate, 'yyyy-MM-dd HH:mm'),
+  vote_start_date: formatISO(designation.voteStartDate),
+  vote_end_date: formatISO(designation.voteEndDate),
   type: 'committee_supervisor',
   election_entity_identifier: designation.committeeUuid,
 })

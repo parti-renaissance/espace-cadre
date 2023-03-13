@@ -1,5 +1,6 @@
 import { Grid } from '@mui/material'
 import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import { CommitteeElection } from 'domain/committee_election'
 import UICard from 'ui/Card'
 import { LineContent } from '../../styles'
@@ -17,11 +18,11 @@ const About = ({ election }) => {
               <LineContent label="Titre de l'élection" value={designation.title} />
               <LineContent
                 label="Date de début du vote"
-                value={format(designation.voteStartDate, 'dd/MM/yyyy à HH:mm:ss')}
+                value={format(designation.voteStartDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
               />
               <LineContent
                 label="Date de fin du vote"
-                value={format(designation.voteEndDate, 'dd/MM/yyyy à HH:mm:ss')}
+                value={format(designation.voteEndDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
               />
               <LineContent label="Description" value={designation.description} />
             </>
