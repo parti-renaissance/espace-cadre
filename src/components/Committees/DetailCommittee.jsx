@@ -93,6 +93,12 @@ const DetailCommittee = () => {
             disableRipple
             disableFocusRipple
           />
+          <Tab
+            value={messages.elections}
+            label={<TabLabel>{messages.elections}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
         </Tabs>
       </Grid>
 
