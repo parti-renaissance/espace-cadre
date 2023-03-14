@@ -64,6 +64,33 @@ const Lists = ({ election }) => {
       <Grid container spacing={3} sx={{ mt: 1 }}>
         {election.groups.map((list, index) => (
           <Grid item xs={12} sm={6} lg={4} key={list.uuid} data-cy="election-list-card">
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{
+                bgcolor: 'whiteCorner',
+                px: 1.5,
+                py: 1,
+                borderTopRightRadius: '6px',
+                borderTopLeftRadius: '6px',
+              }}
+            >
+              <Typography sx={{ fontSize: '16px', color: theme => theme.palette.colors.gray[500] }}>
+                Liste {index + 1}
+              </Typography>
+              {list.candidacies.length === 0 && (
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  onClick={() => deleteList(list.uuid)}
+                  aria-label="delete"
+                  sx={{ ml: 0.25 }}
+                >
+                  <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
+                </IconButton>
+              )}
+            </Box>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -74,7 +101,7 @@ const Lists = ({ election }) => {
                   sx={{ display: 'flex', flex: '1 1 0%', justifyContent: 'space-between', alignItems: 'center' }}
                   className="space-x-4"
                 >
-                  <Typography>Liste {index + 1}</Typography>
+                  <Typography>Les candidats</Typography>
                 </Box>
               </AccordionSummary>
               <AccordionDetails>
@@ -115,17 +142,6 @@ const Lists = ({ election }) => {
                     <AddIcon sx={{ color: theme => theme.palette.colors.blue[500], fontSize: '20px' }} />
                     {messages.addCandidate}
                   </Button>
-                  {list.candidacies.length === 0 && (
-                    <IconButton
-                      edge="start"
-                      color="inherit"
-                      onClick={() => deleteList(list.uuid)}
-                      aria-label="delete"
-                      sx={{ ml: 0.25 }}
-                    >
-                      <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
-                    </IconButton>
-                  )}
                 </Box>
               </AccordionDetails>
             </Accordion>

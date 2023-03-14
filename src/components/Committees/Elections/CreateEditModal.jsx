@@ -142,7 +142,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
               value={value}
               onChange={onChange}
               name={fields.voteStartDate}
-              minDate={add(new Date(), { days: 15 })}
+              minDate={add(new Date(), { days: 16 })}
             />
           )}
         />
@@ -160,7 +160,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
               value={value}
               onChange={onChange}
               name={fields.voteEndDate}
-              minDate={add(new Date(), { days: 16 })}
+              minDate={add(new Date(), { days: 17 })}
             />
           )}
         />

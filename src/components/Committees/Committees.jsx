@@ -22,7 +22,6 @@ const messages = {
   title: 'Comités locaux',
   create: 'Créer un comité',
   noData: 'Aucun comité trouvé',
-  edit: 'Modifier',
   view: 'Voir',
 }
 
@@ -124,12 +123,6 @@ const Committees = () => {
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                       <Button onClick={handleView(committee.uuid)} isMainButton>
                         {messages.view}
-                      </Button>
-                      <Button
-                        onClick={() => toggleCreateEditModal(committee.uuid, true)}
-                        rootProps={{ sx: { color: 'whiteCorner', ml: 2 } }}
-                      >
-                        {messages.edit}
                       </Button>
                     </Box>
                   }
