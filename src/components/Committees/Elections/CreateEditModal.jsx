@@ -4,15 +4,17 @@ import { Box } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
+import { add, compareAsc } from 'date-fns'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { createDesignation, updateDesignation } from 'api/designations'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import { Designation } from 'domain/committee_election'
 import Input from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
+import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import { ModalForm } from 'ui/Dialog'
 
 const messages = {
@@ -25,9 +27,9 @@ const messages = {
 }
 
 const fields = {
-  customTitle: 'custom_title',
-  voteStartDate: 'vote_start_date',
-  voteEndDate: 'vote_end_date',
+  customTitle: 'title',
+  voteStartDate: 'voteStartDate',
+  voteEndDate: 'voteEndDate',
   description: 'description',
 }
 
@@ -48,10 +50,10 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
 
   watch()
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!designation ? createDesignation : updateDesignation, {
-    onSuccess: designation => {
+  const { mutate: createOrUpdate, isLoading } = useMutation(!designation.id ? createDesignation : updateDesignation, {
+    onSuccess: () => {
       onCreateResolve && onCreateResolve()
-      enqueueSnackbar(designation ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      enqueueSnackbar(!designation.id ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       queryClient.invalidateQueries({ queryKey: 'committee-detail' })
       handleClose()
     },
@@ -60,34 +62,50 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
 
   const values = getValues()
 
+  const prepareCreateOrUpdate = () => {
+    const { title, description, voteStartDate, voteEndDate } = values
+
+    return new Designation(null, title, description, null, voteStartDate, voteEndDate)
+  }
+
   const createOrEdit = () => {
-    createOrUpdate({
-      ...values,
-      type: 'committee_supervisor',
-      election_entity_identifier: committeeUuid,
-    })
+    const { voteStartDate, voteEndDate } = values
+    if (compareAsc(voteStartDate, voteEndDate) === 1) {
+      enqueueSnackbar('La date de fin de vote ne doit être supérieure à la date de début de vote', notifyVariants.error)
+      return
+    }
+
+    if (!designation.id) {
+      createOrUpdate({ ...prepareCreateOrUpdate(), committeeUuid })
+    } else {
+      createOrUpdate({
+        ...values,
+        committeeUuid,
+        id: designation.id,
+      })
+    }
   }
 
   useEffect(() => {
-    if (designation && designation.uuid) {
+    if (designation && designation.id) {
       reset(designation)
     }
   }, [designation, reset])
 
   return (
     <ModalForm
-      title={designation ? messages.editionTitle : messages.creationTitle}
+      title={designation.id ? messages.editionTitle : messages.creationTitle}
       handleClose={handleClose}
       createOrEdit={createOrEdit}
       isLoading={isLoading}
-      submitLabel={designation ? messages.update : messages.create}
+      submitLabel={designation.id ? messages.update : messages.create}
     >
       <Box>
         <UIInputLabel required>Titre</UIInputLabel>
         <Controller
           name={fields.customTitle}
           control={control}
-          defaultValue={designation?.custom_title || ''}
+          defaultValue={designation.title}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Input
@@ -106,7 +124,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
         <Controller
           name={fields.description}
           control={control}
-          defaultValue={designation?.description || ''}
+          defaultValue={designation.description}
           render={({ field: { value, onChange } }) => (
             <Input name={fields.description} value={value} onChange={onChange} multiline maxRows={4} />
           )}
@@ -117,13 +135,14 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
         <Controller
           name={fields.voteStartDate}
           control={control}
-          defaultValue={designation?.vote_start_date || ''}
+          defaultValue={designation.voteStartDate}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DatePicker
+            <DateTimePicker
               value={value}
               onChange={onChange}
-              renderInput={params => <Input type="date" name={fields.voteStartDate} {...params} />}
+              name={fields.voteStartDate}
+              minDate={add(new Date(), { days: 15 })}
             />
           )}
         />
@@ -134,13 +153,14 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
         <Controller
           name={fields.voteEndDate}
           control={control}
-          defaultValue={designation?.vote_end_date || ''}
+          defaultValue={designation.voteEndDate}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DatePicker
+            <DateTimePicker
               value={value}
               onChange={onChange}
-              renderInput={params => <Input type="date" name={fields.voteEndDate} {...params} />}
+              name={fields.voteEndDate}
+              minDate={add(new Date(), { days: 16 })}
             />
           )}
         />
@@ -153,7 +173,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
 export default CreateEditModal
 
 CreateEditModal.propTypes = {
-  designation: PropTypes.object,
+  designation: Designation.propTypes,
   committeeUuid: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
   onCreateResolve: PropTypes.func,

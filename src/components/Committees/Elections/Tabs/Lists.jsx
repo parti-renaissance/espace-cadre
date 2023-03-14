@@ -1,5 +1,5 @@
+import { useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Grid, Typography } from '@mui/material'
-import PropTypes from 'prop-types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
@@ -8,9 +8,9 @@ import { createGroup, removeCandidate, deleteGroup } from 'api/committee_electio
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import { CommitteeElection } from 'domain/committee_election'
 import Button from 'ui/Button'
 import Loader from 'ui/Loader'
-import { useState } from 'react'
 import AddCandidateModal from '../AddCandidateModal'
 
 const messages = {
@@ -29,7 +29,7 @@ const Lists = ({ election }) => {
   const queryClient = useQueryClient()
   const onSuccess = () => queryClient.invalidateQueries({ queryKey: 'committee-election' })
 
-  const { mutate: addList, isLoading } = useMutation(() => createGroup(election.uuid), {
+  const { mutate: addList, isLoading } = useMutation(() => createGroup(election.id), {
     onSuccess: onSuccess,
     onError: error => {
       handleError(error)
@@ -62,7 +62,7 @@ const Lists = ({ election }) => {
       </Box>
 
       <Grid container spacing={3} sx={{ mt: 1 }}>
-        {election.candidacies_groups.map((list, index) => (
+        {election.groups.map((list, index) => (
           <Grid item xs={12} sm={6} lg={4} key={list.uuid} data-cy="election-list-card">
             <Accordion>
               <AccordionSummary
@@ -147,5 +147,5 @@ const Lists = ({ election }) => {
 export default Lists
 
 Lists.propTypes = {
-  election: PropTypes.object.isRequired,
+  election: CommitteeElection.propTypes.isRequired,
 }
