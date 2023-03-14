@@ -356,10 +356,12 @@ export const styles = {
     // Yellow
     yellow400: '#FBBF24',
     yellow500: '#F59E0B',
+    yellow800: '#854d0e',
 
     // Riposte Colors
     activeLabel: 'rgba(4, 120, 87, 0.08)',
     inactiveLabel: 'rgba(220, 38, 38, 0.08)',
+    pendingLabel: 'rgba(245, 158, 11, 0.08)',
     pastLabel: 'rgba(55, 65, 81, 0,08)',
 
     // Messages Colors

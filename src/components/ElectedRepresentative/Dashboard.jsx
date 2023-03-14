@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Container, Grid, Box, Badge } from '@mui/material'
+import { Container, Grid, Box, Badge, Typography } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import Masonry from '@mui/lab/Masonry'
 import { generatePath, useNavigate } from 'react-router'
@@ -9,7 +9,7 @@ import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import Loader from 'ui/Loader'
-import UICard from 'ui/Card'
+import UICard, { UIChip } from 'ui/Card'
 import EmptyContent from 'ui/EmptyContent'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
@@ -20,6 +20,8 @@ import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
 import features from 'shared/features'
 import paths from 'shared/paths'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 
 const messages = {
   title: 'Registre des élus',
@@ -27,14 +29,37 @@ const messages = {
   update: 'Modifier',
   view: 'Voir',
   noElected: "Vous n'avez aucun élu à afficher",
+  status: {
+    active: {
+      label: 'Actif',
+      color: 'teal700',
+      bgcolor: 'activeLabel',
+    },
+    pending: {
+      label: 'En attente',
+      color: 'yellow800',
+      bgcolor: 'pendingLabel',
+    },
+    inactive: {
+      label: 'Inactif',
+      color: 'red600',
+      bgcolor: 'inactiveLabel',
+    },
+  },
+  type: {
+    mandate: 'prélèvement',
+    check: 'chèque',
+    transfer: 'virement',
+  },
 }
 
-const Content = ({ sx, title, hasBadge, badge, children }) => (
+const Content = ({ sx, title, subtitle, hasBadge, badge, children }) => (
   <Box sx={sx}>
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
         borderTop: '1px solid',
         borderColor: theme => theme.palette.colors.gray[200],
         pt: 1.5,
@@ -48,6 +73,7 @@ const Content = ({ sx, title, hasBadge, badge, children }) => (
       ) : (
         <h6 className="elected-content__head">{title}</h6>
       )}
+      {subtitle}
     </Box>
     {children}
   </Box>
@@ -56,6 +82,7 @@ const Content = ({ sx, title, hasBadge, badge, children }) => (
 Content.propTypes = {
   sx: PropTypes.object,
   title: PropTypes.string,
+  subtitle: PropTypes.node,
   hasBadge: PropTypes.bool,
   badge: PropTypes.number,
   children: PropTypes.node,
@@ -187,6 +214,41 @@ const Dashboard = () => {
                               </Box>
                             </Content>
                           )}
+                          <Content
+                            sx={{ mt: 1, pt: 1.5 }}
+                            title="Status cotisation"
+                            subtitle={
+                              <UIChip
+                                color={messages.status[elected.last_contribution.status].color}
+                                bgcolor={messages.status[elected.last_contribution.status].bgcolor}
+                                label={messages.status[elected.last_contribution.status].label}
+                                sx={{ height: 'auto', borderRadius: '8px' }}
+                              />
+                            }
+                          >
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
+                              <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
+                                Par:{' '}
+                              </Typography>
+                              <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}>
+                                {messages.type[elected.last_contribution.type]}
+                              </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
+                              <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
+                                Date de cotisation:{' '}
+                              </Typography>
+                              {elected.last_contribution.type === 'check' ||
+                              elected.last_contribution.type === 'cash' ? (
+                                <Typography
+                                  sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}
+                                  className="capitalize"
+                                >
+                                  {format(new Date(elected.last_contribution.date), 'dd MMMM yyyy', { locale: fr })}
+                                </Typography>
+                              ) : null}
+                            </Box>
+                          </Content>
                         </Box>
                       }
                       actions={
