@@ -11,7 +11,7 @@ export class Designation {
     this.voteEndDate = new Date(voteEndDate)
   }
 
-  static NULL = new Designation(null, '', '', new Date(), add(new Date(), { days: 15 }), add(new Date(), { days: 16 }))
+  static NULL = new Designation(null, '', '', new Date(), add(new Date(), { days: 16 }), add(new Date(), { days: 17 }))
 }
 
 Designation.propTypes = PropTypes.shape({
