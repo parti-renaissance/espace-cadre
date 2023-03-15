@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { Box } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
+import { useParams } from 'react-router'
 import { addCandidate } from 'api/committee_election'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -20,6 +21,7 @@ const messages = {
 const AddCandidateModal = ({ listId, handleClose, onAddSuccess }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
+  const { committeeId } = useParams()
   const [selectedAdherent, setSelectedAdherent] = useState(null)
 
   const { mutate, isLoading: isLoading } = useMutation(addCandidate, {
@@ -52,6 +54,7 @@ const AddCandidateModal = ({ listId, handleClose, onAddSuccess }) => {
           customStyle={{ bgcolor: theme => theme.palette.colors.gray[50], mt: 2 }}
           value={selectedAdherent}
           onChange={setSelectedAdherent}
+          initialParams={{ committee: committeeId }}
         />
       </Box>
     </ModalForm>
