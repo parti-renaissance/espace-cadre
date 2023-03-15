@@ -104,7 +104,7 @@ const DetailCommittee = () => {
 
       {selectedTab === messages.informations && <InformationTab committee={committee} />}
       {selectedTab === messages.elections && (
-        <ElectionsTab committeeUuid={committeeId} committeeElectionId={committee.committee_election?.uuid} />
+        <ElectionsTab committee={committee} committeeElectionId={committee.committee_election?.uuid} />
       )}
 
       {isCreateEditModalOpen && (
