@@ -1,5 +1,6 @@
-import Autocomplete from 'components/Filters/Element/Autocomplete'
 import PropTypes from 'prop-types'
+import qs from 'qs'
+import Autocomplete from 'components/Filters/Element/Autocomplete'
 
 export const ADHERENT_AUTOCOMPLETE_URI = '/api/v3/adherents/autocomplete'
 
@@ -19,10 +20,9 @@ const AdherentAutocomplete = ({
       ? choiceLabelRenderCallback
       : value => (value ? `${value?.first_name} ${value?.last_name}` : '')
 
-  const fullUri = Object.keys(initialParams).reduce((uri, key) => {
-    const separator = uri.includes('?') ? '&' : '?'
-    return `${uri}${separator}${key}=${initialParams[key]}`
-  }, ADHERENT_AUTOCOMPLETE_URI)
+  const fullUri = `${ADHERENT_AUTOCOMPLETE_URI}${ADHERENT_AUTOCOMPLETE_URI.includes('?') ? '&' : '?'}${qs.stringify(
+    initialParams
+  )}`
 
   return (
     <Autocomplete
