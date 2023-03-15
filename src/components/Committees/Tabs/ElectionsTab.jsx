@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { Container, Tabs, Typography, Box, Grid } from '@mui/material'
+import { Container, Tabs, Typography, Box, Grid, Alert } from '@mui/material'
 import { AccessTime } from '@mui/icons-material'
 import { format } from 'date-fns'
 import { generatePath, useNavigate } from 'react-router'
 import { getCommitteeElection } from 'api/committee_election'
+import { countAdherents } from 'api/activist'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { TruncatedText, HorizontalContainer } from 'components/shared/styled'
@@ -29,10 +30,11 @@ const messages = {
   noElectionDescription: 'Aucune élection n’est en cours pour ce comité.',
 }
 
-const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
+const ElectionsTab = ({ committee, committeeElectionId }) => {
   const [selectedTab, setSelectedTab] = useState(messages.current)
   const [designation, setDesignation] = useState(Designation.NULL)
   const [committeeElection, setCommitteeElection] = useState(CommitteeElection.NULL)
+  const [adherentCount, setAdherentCount] = useState(0)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
   const navigate = useNavigate()
@@ -47,10 +49,19 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
     }
   )
 
-  const handleView = (committeeId, committeeElectionId) => () => {
+  const { isFetching } = useQueryWithScope(
+    ['count-adherent', committee.zones],
+    () => countAdherents(committee.zones.map(zone => zone.uuid)),
+    {
+      enabled: committee.zones.length > 0,
+      onSuccess: count => setAdherentCount(count.adherent),
+    }
+  )
+
+  const handleView = committeeElectionId => () => {
     navigate(
       generatePath(`${paths.committee}/:committeeId/elections/:committeeElectionId`, {
-        committeeId,
+        committeeId: committee.uuid,
         committeeElectionId,
       })
     )
@@ -69,6 +80,12 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
 
   return (
     <Container maxWidth={false} data-cy="committee-detail-elections">
+      {adherentCount < 10 && (
+        <Alert severity="warning" sx={{ mb: 2 }}>
+          Attention - Votre commité possède moins de 10 adhérents!
+        </Alert>
+      )}
+
       <Box
         data-cy="committee-detail-tabs"
         sx={{
@@ -98,6 +115,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
             />
             <Tab value={messages.all} label={<TabLabel>{messages.all}</TabLabel>} disableRipple disableFocusRipple />
           </Tabs>
+          {isFetching && <Loader />}
         </Box>
         <Button onClick={() => toggleCreateEditModal(designation, true)} rootProps={{ sx: { color: 'whiteCorner' } }}>
           {messages.create}
@@ -147,7 +165,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
                 actionsProps={{ sx: { justifyContent: 'flex-end', mt: 3, width: 'fit-content' } }}
                 actions={
                   <>
-                    <Button onClick={handleView(committeeUuid, committeeElectionId)} isMainButton>
+                    <Button onClick={handleView(committeeElectionId)} isMainButton>
                       {messages.view}
                     </Button>
                   </>
@@ -170,7 +188,7 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
 
       {isCreateEditModalOpen && (
         <CreateEditModal
-          committeeUuid={committeeUuid}
+          committeeUuid={committee.uuid}
           designation={designation}
           handleClose={() => toggleCreateEditModal(null, false)}
         />
@@ -182,6 +200,6 @@ const ElectionsTab = ({ committeeUuid, committeeElectionId }) => {
 export default ElectionsTab
 
 ElectionsTab.propTypes = {
-  committeeUuid: PropTypes.string.isRequired,
+  committee: PropTypes.object,
   committeeElectionId: PropTypes.string,
 }
