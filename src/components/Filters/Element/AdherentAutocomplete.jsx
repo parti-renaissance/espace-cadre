@@ -20,9 +20,7 @@ const AdherentAutocomplete = ({
       ? choiceLabelRenderCallback
       : value => (value ? `${value?.first_name} ${value?.last_name}` : '')
 
-  const fullUri = `${ADHERENT_AUTOCOMPLETE_URI}${ADHERENT_AUTOCOMPLETE_URI.includes('?') ? '&' : '?'}${qs.stringify(
-    initialParams
-  )}`
+  const fullUri = `${ADHERENT_AUTOCOMPLETE_URI}?${qs.stringify(initialParams)}`
 
   return (
     <Autocomplete
