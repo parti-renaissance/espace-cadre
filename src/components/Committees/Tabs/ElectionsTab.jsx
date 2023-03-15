@@ -82,7 +82,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     <Container maxWidth={false} data-cy="committee-detail-elections">
       {adherentCount < 10 && (
         <Alert severity="warning" sx={{ mb: 2 }}>
-          Attention - Votre commité possède moins de 10 adhérents!
+          Attention - Votre comité possède moins de 10 adhérents!
         </Alert>
       )}
 
