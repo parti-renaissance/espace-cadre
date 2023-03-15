@@ -1,5 +1,6 @@
-import Autocomplete from 'components/Filters/Element/Autocomplete'
 import PropTypes from 'prop-types'
+import qs from 'qs'
+import Autocomplete from 'components/Filters/Element/Autocomplete'
 
 export const ADHERENT_AUTOCOMPLETE_URI = '/api/v3/adherents/autocomplete'
 
@@ -12,11 +13,14 @@ const AdherentAutocomplete = ({
   placeholder = 'Rechercher un adhérent',
   choiceLabelRenderCallback = null,
   renderOption = null,
+  initialParams = {},
 }) => {
   const getOptionLabel =
     typeof choiceLabelRenderCallback === 'function'
       ? choiceLabelRenderCallback
       : value => (value ? `${value?.first_name} ${value?.last_name}` : '')
+
+  const fullUri = `${ADHERENT_AUTOCOMPLETE_URI}?${qs.stringify(initialParams)}`
 
   return (
     <Autocomplete
@@ -24,7 +28,7 @@ const AdherentAutocomplete = ({
       required={required}
       placeholder={placeholder}
       customStyle={customStyle}
-      uri={ADHERENT_AUTOCOMPLETE_URI}
+      uri={fullUri}
       queryParam="q"
       valueParam="uuid"
       value={value}
@@ -37,7 +41,7 @@ const AdherentAutocomplete = ({
 
 export default AdherentAutocomplete
 
-Autocomplete.propTypes = {
+AdherentAutocomplete.propTypes = {
   onChange: PropTypes.func.isRequired,
   renderOption: PropTypes.func,
   choiceLabelRenderCallback: PropTypes.func,
@@ -46,4 +50,5 @@ Autocomplete.propTypes = {
   required: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   customStyle: PropTypes.object,
+  initialParams: PropTypes.object,
 }
