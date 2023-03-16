@@ -56,10 +56,8 @@ const Lists = ({ election }) => {
       }}
     >
       <Box maxWidth="40%">
-        <Box display="flex" alignItems="center" className="space-x-2">
-          <Typography component="h3" variant="h4" sx={{ color: 'gray900' }}>
-            Listes
-          </Typography>
+        <Box display="flex" alignItems="center" className="space-x-4">
+          <Typography sx={{ color: 'gray900', fontSize: '24px', fontWeight: '500' }}>Candidatures</Typography>
           <Button onClick={addList} isMainButton>
             <AddIcon sx={{ color: 'main', fontSize: '20px' }} />
             {messages.add}
