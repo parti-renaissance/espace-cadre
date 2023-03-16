@@ -16,6 +16,9 @@ export const getCommitteeElection = async committeeElectionId => {
     committeeElection.uuid,
     designation,
     committeeElection.candidacies_groups,
+    committeeElection.status,
+    committeeElection.voters_count,
+    committeeElection.votes_count,
     committeeElection.committee.uuid
   )
 }

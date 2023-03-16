@@ -3,11 +3,12 @@ import { Alert, Box, Grid } from '@mui/material'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { CommitteeElection } from 'domain/committee_election'
-import UICard, { UIChip } from 'ui/Card'
+import UICard from 'ui/Card'
 import { LineContent } from '../../styles'
+import Status from 'components/Committees/Status'
 
 const About = ({ election, adherentCount }) => {
-  const { designation } = election
+  const { designation, status } = election
 
   return (
     <Box>
@@ -18,14 +19,7 @@ const About = ({ election, adherentCount }) => {
             content={
               <>
                 <LineContent label="Titre de l'élection" value={designation.title} />
-                <LineContent
-                  label="Status"
-                  value={
-                    <>
-                      <UIChip label="A venir" color="teal700" bgcolor="activeLabel" />
-                    </>
-                  }
-                />
+                <LineContent label="Status" value={<Status status={status} />} />
                 <LineContent
                   label="Date de début du vote"
                   value={format(designation.voteStartDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}

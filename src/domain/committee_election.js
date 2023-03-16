@@ -24,19 +24,25 @@ Designation.propTypes = PropTypes.shape({
 })
 
 export class CommitteeElection {
-  constructor(id, designation, groups, committeeId) {
+  constructor(id, designation, groups, status, votersCount, voteCount, committeeId) {
     this.id = id
     this.designation = designation
     this.groups = groups
+    this.status = status
+    this.votersCount = votersCount || 0
+    this.voteCount = voteCount || 0
     this.committeeId = committeeId
   }
 
-  static NULL = new CommitteeElection(null, Designation.NULL, [], null)
+  static NULL = new CommitteeElection(null, Designation.NULL, [], null, 0, 0, null)
 }
 
 CommitteeElection.propTypes = PropTypes.shape({
   id: PropTypes.string,
   designation: Designation.propTypes.isRequired,
   groups: PropTypes.array.isRequired,
+  status: PropTypes.string,
+  votersCount: PropTypes.number,
+  voteCount: PropTypes.number,
   committeeId: PropTypes.string,
 })
