@@ -1,29 +1,21 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { Container, Tabs, Typography, Box, Grid, Alert } from '@mui/material'
-import { AccessTime } from '@mui/icons-material'
-import { format } from 'date-fns'
-import { generatePath, useNavigate } from 'react-router'
+import { Container, Box, Grid } from '@mui/material'
 import { getCommitteeElection } from 'api/committee_election'
 import { countAdherents } from 'api/activist'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { TruncatedText, HorizontalContainer } from 'components/shared/styled'
-import Button from 'ui/Button'
-import Loader from 'ui/Loader'
-import UICard from 'ui/Card/Card'
-import { UIChip } from 'ui/Card'
-import EmptyContent from 'ui/EmptyContent'
-import paths from 'shared/paths'
-import CreateEditModal from '../Elections/CreateEditModal'
-import { Tab, TabLabel } from '../styles'
 import { CommitteeElection, Designation } from 'domain/committee_election'
+import Loader from 'ui/Loader'
+import EmptyContent from 'ui/EmptyContent'
+import Button from 'ui/Button'
+import About from '../Elections/Tabs/About'
+import Lists from '../Elections/Tabs/Lists'
+import CreateEditModal from '../Elections/CreateEditModal'
 
 const messages = {
-  history: 'Historiques',
-  current: 'En cours',
-  all: 'Toutes',
   create: 'Créer une élection',
+  update: 'Modifier l’élection',
   soon: 'Bientôt disponible',
   view: 'Afficher',
   noElection: 'Aucune élection en cours',
@@ -31,13 +23,11 @@ const messages = {
 }
 
 const ElectionsTab = ({ committee, committeeElectionId }) => {
-  const [selectedTab, setSelectedTab] = useState(messages.current)
   const [designation, setDesignation] = useState(Designation.NULL)
   const [committeeElection, setCommitteeElection] = useState(CommitteeElection.NULL)
   const [adherentCount, setAdherentCount] = useState(0)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const { handleError } = useErrorHandler()
-  const navigate = useNavigate()
 
   const { isLoading } = useQueryWithScope(
     ['committee-election-tab', { feature: 'Committees', view: 'DetailCommittee' }, committeeElectionId],
@@ -58,139 +48,44 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     }
   )
 
-  const handleView = committeeElectionId => () => {
-    navigate(
-      generatePath(`${paths.committee}/:committeeId/elections/:committeeElectionId`, {
-        committeeId: committee.uuid,
-        committeeElectionId,
-      })
-    )
-  }
-
-  const { designation: designationElection } = committeeElection
-
   const toggleCreateEditModal = (designation, open) => {
     setDesignation(designation)
     setIsCreateEditModalOpen(open)
   }
 
-  const handleTabChange = (_, tabId) => {
-    setSelectedTab(tabId)
-  }
+  const { designation: electionDesignation } = committeeElection
 
   return (
     <Container maxWidth={false} data-cy="committee-detail-elections">
-      {adherentCount < 10 && (
-        <Alert severity="warning" sx={{ mb: 2 }}>
-          Attention - Votre comité possède moins de 10 adhérents!
-        </Alert>
-      )}
+      {isLoading && <Loader />}
 
-      <Box
-        data-cy="committee-detail-tabs"
-        sx={{
-          mb: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          borderBottom: '1px solid',
-          borderColor: theme => theme.palette.colors.gray[200],
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6" sx={{ mr: 2 }}>
-            {messages.history}
-          </Typography>
-          <Tabs
-            variant="scrollable"
-            value={selectedTab}
-            onChange={handleTabChange}
-            TabIndicatorProps={{ sx: { bgcolor: theme => theme.palette.colors.blue[500] } }}
-          >
-            <Tab
-              value={messages.current}
-              label={<TabLabel>{messages.current}</TabLabel>}
-              disableRipple
-              disableFocusRipple
-            />
-            <Tab value={messages.all} label={<TabLabel>{messages.all}</TabLabel>} disableRipple disableFocusRipple />
-          </Tabs>
-          {isFetching && <Loader />}
+      {committeeElection && committeeElection.id ? (
+        <Box className="space-y-8">
+          <Box>
+            <Box display="flex" alignItems="center" className="space-x-3">
+              <Button
+                onClick={() => toggleCreateEditModal(electionDesignation, true)}
+                rootProps={{ sx: { color: 'whiteCorner' } }}
+              >
+                {!electionDesignation.id ? messages.create : messages.update}
+              </Button>
+              {isFetching && <Loader />}
+            </Box>
+            <About election={committeeElection} adherentCount={adherentCount} />
+          </Box>
+          <Lists election={committeeElection} />
         </Box>
-        <Button onClick={() => toggleCreateEditModal(designation, true)} rootProps={{ sx: { color: 'whiteCorner' } }}>
-          {messages.create}
-        </Button>
-      </Box>
-
-      {isLoading && committeeElectionId && <Loader />}
-
-      {selectedTab === messages.current && (
-        <Grid container spacing={3}>
-          {committeeElection.id && designationElection.id ? (
-            <Grid item xs={12} sm={6} lg={4}>
-              <UICard
-                rootProps={{ sx: { pt: 1 } }}
-                headerProps={{ sx: { pt: 2 } }}
-                header={
-                  <>
-                    <UIChip
-                      color="teal700"
-                      bgcolor="activeLabel"
-                      label={messages.current}
-                      sx={{ display: 'inline-flex', width: 'fit-content', mb: 1 }}
-                    />
-                    <TruncatedText variant="h6" sx={{ mb: 2 }} lines={2}>
-                      {designationElection.title}
-                    </TruncatedText>
-                    <HorizontalContainer>
-                      <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '16px' }} />
-                      <Typography
-                        variant="span"
-                        sx={{ color: theme => theme.palette.colors.gray[600], fontSize: '14px' }}
-                      >
-                        Date de debut : {format(designationElection.voteStartDate, 'dd/MM/yyyy à HH:mm:ss')}
-                      </Typography>
-                    </HorizontalContainer>
-                    <HorizontalContainer>
-                      <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '16px' }} />
-                      <Typography
-                        variant="span"
-                        sx={{ color: theme => theme.palette.colors.gray[600], fontSize: '14px' }}
-                      >
-                        Date de fin : {format(designationElection.voteEndDate, 'dd/MM/yyyy à HH:mm:ss')}
-                      </Typography>
-                    </HorizontalContainer>
-                  </>
-                }
-                actionsProps={{ sx: { justifyContent: 'flex-end', mt: 3, width: 'fit-content' } }}
-                actions={
-                  <>
-                    <Button onClick={handleView(committeeElectionId)} isMainButton>
-                      {messages.view}
-                    </Button>
-                  </>
-                }
-              />
-            </Grid>
-          ) : (
-            <Grid item xs={12}>
-              <EmptyContent title={messages.noElection} description={messages.noElectionDescription} />
-            </Grid>
-          )}
+      ) : (
+        <Grid item xs={12}>
+          <EmptyContent title={messages.noElection} description={messages.noElectionDescription} />
         </Grid>
-      )}
-
-      {selectedTab === messages.all && (
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          {messages.soon}
-        </Typography>
       )}
 
       {isCreateEditModalOpen && (
         <CreateEditModal
           committeeUuid={committee.uuid}
           designation={designation}
-          handleClose={() => toggleCreateEditModal(null, false)}
+          handleClose={() => toggleCreateEditModal(designation, false)}
         />
       )}
     </Container>

@@ -28,12 +28,16 @@ export const LineContent = ({ label, value }) => (
       </Typography>
     </Grid>
     <Grid item xs={12} md={8}>
-      <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}>{value}</Typography>
+      {value instanceof String ? (
+        <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}>{value}</Typography>
+      ) : (
+        value
+      )}
     </Grid>
   </Grid>
 )
 
 LineContent.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.any,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 }
