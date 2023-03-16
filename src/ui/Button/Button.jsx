@@ -48,8 +48,8 @@ const Button = ({ children, onClick, rootProps, disabled = false, isMainButton =
   </MainButton>
 )
 
-export const ActionButton = ({ children, handleSubmit, isLoading = false }) => (
-  <Button disabled={isLoading} onClick={handleSubmit} rootProps={{ sx: { color: 'whiteCorner', mr: 2 } }}>
+export const ActionButton = ({ children, handleSubmit, isLoading = false, disabled = false }) => (
+  <Button disabled={isLoading || disabled} onClick={handleSubmit} rootProps={{ sx: { color: 'whiteCorner', mr: 2 } }}>
     {isLoading && <Loader />}&nbsp;
     {children}
   </Button>
@@ -75,6 +75,7 @@ Button.propTypes = {
 ActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   isLoading: PropTypes.bool,
+  disabled: PropTypes.bool,
   handleSubmit: PropTypes.func,
   rootProps: PropTypes.object,
 }
