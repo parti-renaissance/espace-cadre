@@ -9,7 +9,16 @@ const messages = {
   close: 'Fermer',
 }
 
-export const ModalForm = ({ title, handleClose, createOrEdit, submitLabel, actions, isLoading, children }) => (
+export const ModalForm = ({
+  title,
+  handleClose,
+  createOrEdit,
+  submitLabel,
+  actions,
+  isLoading,
+  disabledButton = false,
+  children,
+}) => (
   <Dialog data-cy="modal-create-edit" handleClose={handleClose} open>
     <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Title title={title} />
@@ -26,7 +35,7 @@ export const ModalForm = ({ title, handleClose, createOrEdit, submitLabel, actio
       </Box>
       <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
         {actions}
-        <ActionButton type="submit" handleSubmit={createOrEdit} isLoading={isLoading}>
+        <ActionButton type="submit" disabled={disabledButton} handleSubmit={createOrEdit} isLoading={isLoading}>
           {submitLabel}
         </ActionButton>
         <Button onClick={handleClose} aria-label="close" isMainButton>
@@ -44,5 +53,6 @@ ModalForm.propTypes = {
   isLoading: PropTypes.bool,
   submitLabel: PropTypes.string,
   actions: PropTypes.node,
+  disabledButton: PropTypes.bool,
   children: PropTypes.node,
 }

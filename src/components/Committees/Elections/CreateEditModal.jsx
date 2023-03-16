@@ -28,15 +28,18 @@ const messages = {
 
 const fields = {
   customTitle: 'title',
+  customTitleError: 'custom_title',
   voteStartDate: 'voteStartDate',
+  voteStartDateError: 'vote_start_date',
   voteEndDate: 'voteEndDate',
+  voteEndDateError: 'vote_end_date',
   description: 'description',
 }
 
 const designationSchema = Yup.object({
-  customTitle: Yup.string().required('Le titre est obligatoire'),
-  voteStartDate: Yup.date().required('La date de début de vote est requise'),
-  voteEndDate: Yup.date().required('La date de fin de vote est requise'),
+  customTitleError: Yup.string().required('Le titre est obligatoire'),
+  voteStartDateError: Yup.date().required('La date de début de vote est requise'),
+  voteEndDateError: Yup.date().required('La date de fin de vote est requise'),
 })
 
 const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateResolve }) => {
@@ -61,6 +64,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
   })
 
   const values = getValues()
+  const formIsValid = !!values.title && !!values.voteStartDate && !!values.voteEndDate
 
   const prepareCreateOrUpdate = () => {
     const { title, description, voteStartDate, voteEndDate } = values
@@ -98,6 +102,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
       handleClose={handleClose}
       createOrEdit={createOrEdit}
       isLoading={isLoading}
+      disabledButton={!formIsValid}
       submitLabel={designation.id ? messages.update : messages.create}
     >
       <Box>
@@ -117,7 +122,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
             />
           )}
         />
-        <FormError errors={errorMessages} field={fields.customTitle} />
+        <FormError errors={errorMessages} field={fields.customTitleError} />
       </Box>
       <Box>
         <UIInputLabel>Description</UIInputLabel>
@@ -146,7 +151,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
             />
           )}
         />
-        <FormError errors={errorMessages} field={fields.voteStartDate} />
+        <FormError errors={errorMessages} field={fields.voteStartDateError} />
       </Box>
       <Box>
         <UIInputLabel required>Date de fin du vote</UIInputLabel>
@@ -164,7 +169,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
             />
           )}
         />
-        <FormError errors={errorMessages} field={fields.voteEndDate} />
+        <FormError errors={errorMessages} field={fields.voteEndDateError} />
       </Box>
     </ModalForm>
   )
