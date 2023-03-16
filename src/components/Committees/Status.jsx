@@ -4,9 +4,8 @@ import { UIChip } from 'ui/Card'
 const values = {
   not_started: 'Non commencée',
   scheduled: 'Planifiée',
-  opened: 'Ouverte',
   in_progress: 'En cours',
-  closed: 'Fermée',
+  closed: 'Terminée',
 }
 
 const Status = ({ status }) => <UIChip label={values[status]} color="teal700" bgcolor="activeLabel" />
