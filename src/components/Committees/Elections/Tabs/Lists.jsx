@@ -47,9 +47,19 @@ const Lists = ({ election }) => {
   }
 
   return (
-    <Box data-cy="committee-detail-elections">
+    <Box
+      data-cy="committee-detail-elections"
+      sx={{
+        borderTop: '1px solid',
+        borderTopColor: theme => theme.palette.colors.gray[200],
+        pt: 2.5,
+      }}
+    >
       <Box maxWidth="40%">
         <Box display="flex" alignItems="center" className="space-x-2">
+          <Typography component="h3" variant="h4" sx={{ color: 'gray900' }}>
+            Listes
+          </Typography>
           <Button onClick={addList} isMainButton>
             <AddIcon sx={{ color: 'main', fontSize: '20px' }} />
             {messages.add}
