@@ -42,9 +42,10 @@ const designationSchema = Yup.object({
   voteEndDateError: Yup.date().required('La date de fin de vote est requise'),
 })
 
-const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateResolve }) => {
+const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCreateResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
+  const disabledDate = status === 'in_progress' || status === 'closed'
   const queryClient = useQueryClient()
   const { control, getValues, reset, watch } = useForm({
     mode: 'onChange',
@@ -146,6 +147,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
             <DateTimePicker
               value={value}
               onChange={onChange}
+              disabled={disabledDate}
               name={fields.voteStartDate}
               minDate={add(new Date(), { days: 16 })}
             />
@@ -164,6 +166,7 @@ const CreateEditModal = ({ designation, committeeUuid, handleClose, onCreateReso
             <DateTimePicker
               value={value}
               onChange={onChange}
+              disabled={disabledDate}
               name={fields.voteEndDate}
               minDate={add(new Date(), { days: 17 })}
             />
@@ -181,5 +184,6 @@ CreateEditModal.propTypes = {
   designation: Designation.propTypes,
   committeeUuid: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
+  status: PropTypes.string,
   onCreateResolve: PropTypes.func,
 }

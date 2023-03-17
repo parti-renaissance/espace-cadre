@@ -7,7 +7,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import Input from 'ui/Input/Input'
 
-const DateTimePicker = ({ value, onChange, name, minDate, placeholder = '' }) => {
+const DateTimePicker = ({ value, onChange, name, minDate, placeholder = '', ...props }) => {
   const [isStartDatePickerOpen, setIsStartDatePickerOpen] = useState(false)
 
   return (
@@ -37,6 +37,7 @@ const DateTimePicker = ({ value, onChange, name, minDate, placeholder = '' }) =>
           </InputAdornment>
         ),
       }}
+      {...props}
     />
   )
 }
