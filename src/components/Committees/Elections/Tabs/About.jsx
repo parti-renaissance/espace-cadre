@@ -19,11 +19,11 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount }) =
               <LineContent label="Titre de l'élection" value={designation.title} />
               <LineContent label="Status" value={<Status status={status} />} />
               <LineContent
-                label="Date de début du vote"
+                label="Date d'ouverture du vote"
                 value={format(designation.voteStartDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
               />
               <LineContent
-                label="Date de fin du vote"
+                label="Date de clôture du vote"
                 value={format(designation.voteEndDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
               />
               <LineContent label="Description" value={designation.description} />
