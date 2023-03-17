@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Alert, Box, Grid } from '@mui/material'
+import { Alert, Box, Grid, Typography } from '@mui/material'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { useQueryWithScope } from 'api/useQueryWithScope'
@@ -11,10 +11,11 @@ import { CommitteeElection, Designation } from 'domain/committee_election'
 import UICard from 'ui/Card'
 import Loader from 'ui/Loader'
 import { LineContent } from '../../styles'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const About = ({ election, adherentCount }) => {
   const [designation, setDesignation] = useState(Designation.NULL)
-  const { status } = election
+  const { status, votersCount, voteCount } = election
   const { handleError } = useErrorHandler()
 
   const { isLoading } = useQueryWithScope(
@@ -57,6 +58,34 @@ const About = ({ election, adherentCount }) => {
               Attention - Votre comité possède moins de 10 adhérents!
             </Alert>
           )}
+          <Box className="ml-4 space-y-4">
+            <Typography sx={{ fontSize: '22px', fontWeight: '500', color: theme => theme.palette.colors.gray[900] }}>
+              Détails du vote
+            </Typography>
+            <Box display="flex" alignItems="center" className="space-x-2">
+              <Typography component="dt" sx={{ fontSize: '18px', color: theme => theme.palette.colors.gray[500] }}>
+                Corps électoral :
+              </Typography>
+              <Typography
+                component="dd"
+                sx={{ fontWeight: '600', fontSize: '20px', color: theme => theme.palette.colors.gray[900] }}
+              >
+                {votersCount} inscrits
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" className="space-x-2">
+              <Typography component="dt" sx={{ fontSize: '18px', color: theme => theme.palette.colors.gray[500] }}>
+                Participation :
+              </Typography>
+              <Typography
+                component="dd"
+                sx={{ fontWeight: '600', fontSize: '20px', color: theme => theme.palette.colors.gray[900] }}
+              >
+                {voteCount} ({votersCount > 0 ? Math.round((voteCount * 100) / votersCount) : 0} %){' '}
+                {pluralize(voteCount, 'votant')}
+              </Typography>
+            </Box>
+          </Box>
         </Grid>
       </Grid>
     </Box>
