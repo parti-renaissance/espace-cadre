@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { Container, Box, Grid } from '@mui/material'
+import { Container, Box } from '@mui/material'
 import { getCommitteeElection } from 'api/committee_election'
 import { countAdherents } from 'api/activist'
 import { useQueryWithScope } from 'api/useQueryWithScope'
@@ -9,6 +9,7 @@ import { CommitteeElection, Designation } from 'domain/committee_election'
 import Loader from 'ui/Loader'
 import EmptyContent from 'ui/EmptyContent'
 import Button from 'ui/Button'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import About from '../Elections/Tabs/About'
 import Lists from '../Elections/Tabs/Lists'
 import CreateEditModal from '../Elections/CreateEditModal'
@@ -57,7 +58,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
 
   return (
     <Container maxWidth={false} data-cy="committee-detail-elections">
-      {isLoading && <Loader />}
+      {committeeElectionId && isLoading && <Loader />}
 
       {committeeElection && committeeElection.id ? (
         <Box className="space-y-8">
@@ -76,9 +77,19 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
           <Lists election={committeeElection} />
         </Box>
       ) : (
-        <Grid item xs={12}>
-          <EmptyContent title={messages.noElection} description={messages.noElectionDescription} />
-        </Grid>
+        <EmptyContent
+          title={messages.noElection}
+          description={messages.noElectionDescription}
+          action={
+            <>
+              <PageHeaderButton
+                label={messages.create}
+                onClick={() => toggleCreateEditModal(designation, true)}
+                isMainButton
+              />
+            </>
+          }
+        />
       )}
 
       {isCreateEditModalOpen && (
