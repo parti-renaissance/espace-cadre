@@ -20,7 +20,7 @@ export const LineContent = ({ label, value }) => (
   <Grid
     container
     spacing={3}
-    sx={{ py: 2, px: 3, borderBottom: '1px solid', borderBottomColor: theme => theme.palette.colors.gray[200] }}
+    sx={{ py: 1.5, px: 1, borderBottom: '1px solid', borderBottomColor: theme => theme.palette.colors.gray[200] }}
   >
     <Grid item xs={12} md={4}>
       <Typography sx={{ fontSize: '14px', fontWeight: '500', color: theme => theme.palette.colors.gray[500] }}>
