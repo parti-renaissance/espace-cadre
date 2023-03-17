@@ -13,6 +13,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import About from '../Elections/Tabs/About'
 import Lists from '../Elections/Tabs/Lists'
 import CreateEditModal from '../Elections/CreateEditModal'
+import { getDesignation } from 'api/designations'
 
 const messages = {
   create: 'Créer une élection',
@@ -40,6 +41,16 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     }
   )
 
+  const { isLoading: isDesignationLoading } = useQueryWithScope(
+    ['election-designation', { feature: 'Committees', view: 'AboutDesignation' }, committeeElection.designation.id],
+    () => getDesignation(committeeElection.designation.id),
+    {
+      enabled: !!committeeElection?.designation?.id,
+      onSuccess: setDesignation,
+      onError: handleError,
+    }
+  )
+
   const { isFetching } = useQueryWithScope(
     ['count-adherent', committee.zones],
     () => countAdherents(committee.zones.map(zone => zone.uuid)),
@@ -54,28 +65,36 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     setIsCreateEditModalOpen(open)
   }
 
-  const { designation: electionDesignation } = committeeElection
-
   return (
     <Container maxWidth={false} data-cy="committee-detail-elections">
       {committeeElectionId && isLoading && <Loader />}
 
       {committeeElection && committeeElection.id ? (
-        <Box className="space-y-8">
-          <Box>
+        <>
+          <div>
             <Box display="flex" alignItems="center" className="space-x-3">
               <Button
-                onClick={() => toggleCreateEditModal(electionDesignation, true)}
+                onClick={() => toggleCreateEditModal(designation, true)}
                 rootProps={{ sx: { color: 'whiteCorner' } }}
               >
-                {!electionDesignation.id ? messages.create : messages.update}
+                {!designation.id ? messages.create : messages.update}
               </Button>
-              {isFetching && <Loader />}
+              {isFetching || (isDesignationLoading && <Loader />)}
             </Box>
-            <About election={committeeElection} adherentCount={adherentCount} />
-          </Box>
-          <Lists election={committeeElection} />
-        </Box>
+            {designation.id && (
+              <About
+                status={committeeElection.status}
+                voteCount={committeeElection.voteCount}
+                votersCount={committeeElection.votersCount}
+                designation={designation}
+                adherentCount={adherentCount}
+              />
+            )}
+          </div>
+          <div className="mt-8">
+            <Lists election={committeeElection} />
+          </div>
+        </>
       ) : (
         <EmptyContent
           title={messages.noElection}
