@@ -1,6 +1,8 @@
-import { FormControl as MuiFormControl } from '@mui/material'
+import { Box, FormControl as MuiFormControl, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
+import { zoneLabels, zoneTypeColors } from 'domain/zone'
+import { UIChip } from 'ui/Card'
 
 const FormControl = styled(MuiFormControl)`
   width: 100%;
@@ -9,9 +11,9 @@ const FormControl = styled(MuiFormControl)`
   }
 `
 
-class AutocompleteFactory {
+class ZoneAutocompleteFactory {
   getType() {
-    return 'autocomplete'
+    return 'zone_autocomplete'
   }
 
   create({ filter, onChange, value, defaultValue }) {
@@ -28,6 +30,14 @@ class AutocompleteFactory {
           required={filter.options.required || false}
           multiple={filter.options.multiple}
           getOptionLabel={option => option[filter.options.label_param]}
+          renderOption={(props, option) => (
+            <li {...props} key={option[filter.options.value_param]}>
+              <Box className="space-x-2">
+                <Typography size="small">{option[filter.options.label_param]}</Typography>
+                <UIChip color="whiteCorner" bgcolor={zoneTypeColors[option.type]} label={zoneLabels[option.type]} />
+              </Box>
+            </li>
+          )}
           defaultValue={defaultValue}
         />
       </FormControl>
@@ -35,4 +45,4 @@ class AutocompleteFactory {
   }
 }
 
-export default AutocompleteFactory
+export default ZoneAutocompleteFactory

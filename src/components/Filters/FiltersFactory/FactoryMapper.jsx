@@ -3,6 +3,7 @@ import TextFactory from './Factory/TextFactory'
 import DateIntervalFactory from './Factory/DateIntervalFactory'
 import IntegerIntervalFactory from './Factory/IntegerIntervalFactory'
 import AutocompleteFactory from './Factory/AutocompleteFactory'
+import ZoneAutocompleteFactory from './Factory/ZoneAutocompleteFactory'
 
 class FactoryMapper {
   constructor() {
@@ -11,6 +12,7 @@ class FactoryMapper {
     const dateIntervalFactory = new DateIntervalFactory()
     const integerIntervalFactory = new IntegerIntervalFactory()
     const autocompleteFactory = new AutocompleteFactory()
+    const zoneAutocompleteFactory = new ZoneAutocompleteFactory()
 
     this.factories = {}
     this.factories[selectFactory.getType()] = selectFactory
@@ -18,6 +20,7 @@ class FactoryMapper {
     this.factories[dateIntervalFactory.getType()] = dateIntervalFactory
     this.factories[integerIntervalFactory.getType()] = integerIntervalFactory
     this.factories[autocompleteFactory.getType()] = autocompleteFactory
+    this.factories[zoneAutocompleteFactory.getType()] = zoneAutocompleteFactory
   }
 
   factory(type) {
