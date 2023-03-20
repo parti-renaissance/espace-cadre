@@ -28,7 +28,7 @@
     "is-base64": "1.1.0",
     "jme-ckeditor5": "EnMarche/ckeditor5#master",
     "leaflet": "^1.9.3",
-    "libphonenumber-js": "^1.10.14",
+    "libphonenumber-js": "^1.10.24",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.11.0",
     "notistack": "^2.0.8",
