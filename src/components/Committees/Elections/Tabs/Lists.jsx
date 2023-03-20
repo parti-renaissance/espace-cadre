@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Grid, Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -28,6 +28,7 @@ const Lists = ({ election }) => {
   const [selectedList, setSelectedList] = useState(null)
   const queryClient = useQueryClient()
   const onSuccess = () => queryClient.invalidateQueries({ queryKey: 'committee-election' })
+  const candidates = useMemo(() => election.groups.flatMap(group => group.candidacies), [election])
 
   const { mutate: addList, isLoading } = useMutation(() => createGroup(election.id), {
     onSuccess: onSuccess,
@@ -160,6 +161,7 @@ const Lists = ({ election }) => {
       {isCreateEditModalOpen && (
         <AddCandidateModal
           listId={selectedList}
+          candidates={candidates}
           onAddSuccess={onSuccess}
           handleClose={() => toggleCreateEditModal(null, false)}
         />
