@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { UIChip } from 'ui/Card'
 
 const values = {
-  not_started: 'Non commencée',
+  not_started: 'A venir',
   scheduled: 'Planifiée',
   in_progress: 'En cours',
   closed: 'Terminée',
