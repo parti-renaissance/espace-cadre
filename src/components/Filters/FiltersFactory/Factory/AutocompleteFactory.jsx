@@ -1,6 +1,7 @@
 import { FormControl as MuiFormControl } from '@mui/material'
 import { styled } from '@mui/system'
 import Autocomplete from 'components/Filters/Element/Autocomplete'
+import { zoneLabels } from 'domain/zone'
 
 const FormControl = styled(MuiFormControl)`
   width: 100%;
@@ -24,10 +25,16 @@ class AutocompleteFactory {
           onChange={onChange}
           queryParam={filter.options.query_param}
           valueParam={filter.options.value_param}
-          labelParam={filter.options.label_param}
+          labelParam={
+            typeof filter.options.label_param === 'string' ? filter.options.label_param : filter.options.label_param[0]
+          }
           required={filter.options.required || false}
           multiple={filter.options.multiple}
-          getOptionLabel={option => option[filter.options.label_param]}
+          getOptionLabel={option =>
+            typeof filter.options.label_param === 'string'
+              ? option[filter.options.label_param]
+              : `${option[filter.options.label_param[0]]} (${zoneLabels[option[filter.options.label_param[1]]]})`
+          }
           defaultValue={defaultValue}
         />
       </FormControl>

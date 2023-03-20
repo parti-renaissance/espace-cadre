@@ -33,6 +33,9 @@ export const zoneLabels = {
   [zoneTypes.CITY_COMMUNITY]: 'Communauté de commune',
   [zoneTypes.CITY]: 'Commune',
   [zoneTypes.CANTON]: 'Canton',
+  [zoneTypes.DISTRICT]: 'Circonscription',
   [zoneTypes.BOROUGH]: 'Arrondissement',
+  [zoneTypes.FOREIGN_DISTRICT]: 'Circonscription FDE',
   [zoneTypes.VOTE_PLACE]: 'Bureau de vote',
+  [zoneTypes.CUSTOM]: 'Zone personnalisée',
 }
