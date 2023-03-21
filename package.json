@@ -5,7 +5,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^5.1.0",
     "@emotion/is-prop-valid": "^1.2.0",
-    "@emotion/react": "^11.10.5",
+    "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@hookform/resolvers": "^3.0.0",
     "@mui/icons-material": "^5.11.11",
