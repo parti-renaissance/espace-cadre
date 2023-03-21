@@ -45,7 +45,7 @@
     "react-markdown": "^8.0.6",
     "react-redux": "^8.0.5",
     "react-router": "^6.3.0",
-    "react-router-dom": "^6.4.4",
+    "react-router-dom": "^6.9.0",
     "react-select": "^5.7.1",
     "react-use": "^17.4.0",
     "react-window": "^1.8.8",
