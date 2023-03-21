@@ -14,7 +14,7 @@ class AutocompleteFactory {
     return 'autocomplete'
   }
 
-  create({ filter, onChange, value, defaultValue }) {
+  create({ filter, onChange, value, defaultValue, renderOption }) {
     return (
       <FormControl size="small">
         <Autocomplete
@@ -28,6 +28,7 @@ class AutocompleteFactory {
           required={filter.options.required || false}
           multiple={filter.options.multiple}
           getOptionLabel={option => option[filter.options.label_param]}
+          renderOption={renderOption}
           defaultValue={defaultValue}
         />
       </FormControl>
