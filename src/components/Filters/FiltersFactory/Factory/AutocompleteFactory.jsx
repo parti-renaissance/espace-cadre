@@ -14,7 +14,8 @@ class AutocompleteFactory {
     return 'autocomplete'
   }
 
-  create({ filter, onChange, value, defaultValue }) {
+  create({ filter, onChange, value, defaultValue, renderOption, isOptionEqualToValue }) {
+    const equalValue = isOptionEqualToValue || ((option, value) => option === value)
     return (
       <FormControl size="small">
         <Autocomplete
@@ -28,6 +29,8 @@ class AutocompleteFactory {
           required={filter.options.required || false}
           multiple={filter.options.multiple}
           getOptionLabel={option => option[filter.options.label_param]}
+          renderOption={renderOption}
+          isOptionEqualToValue={equalValue}
           defaultValue={defaultValue}
         />
       </FormControl>
