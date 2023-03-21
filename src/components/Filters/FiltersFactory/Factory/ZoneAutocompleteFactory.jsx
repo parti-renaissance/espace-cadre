@@ -20,7 +20,6 @@ class ZoneAutocompleteFactory extends AutocompleteFactory {
           </Box>
         </li>
       ),
-      isOptionEqualToValue: (option, value) => option.uuid === value,
     })
   }
 }
