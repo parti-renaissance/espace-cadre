@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import PageTitle from './PageTitle'
 
 jest.mock('@mui/material', () => ({
-  Grid: ({ children, breakpoints }) => <div xs={breakpoints}>{children}</div>,
+  Grid: ({ children }) => <div>{children}</div>,
   Typography: ({ children }) => <div className="typography">{children}</div>,
 }))
 jest.mock('react-router-dom', () => ({
@@ -15,14 +15,14 @@ jest.mock('react-router-dom', () => ({
 
 describe('PageTitle', () => {
   it('displays only a title', () => {
-    const { container } = render(<PageTitle title="Title for test" xs={0} />)
+    const { container } = render(<PageTitle title="Title for test" breakpoints={{ xs: 0 }} />)
 
     expect(container).toMatchSnapshot()
   })
 
   it('displays a breadcrumbs', () => {
     const { container } = render(
-      <PageTitle title="Title for test" titleLink="titleLink" titleSuffix="titleSuffix" xs={0} />
+      <PageTitle title="Title for test" titleLink="titleLink" titleSuffix="titleSuffix" breakpoints={{ xs: 0 }} />
     )
 
     expect(container).toMatchSnapshot()
