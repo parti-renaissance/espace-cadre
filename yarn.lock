@@ -8750,10 +8750,10 @@ rbush@^3.0.1:
   dependencies:
     quickselect "^2.0.0"
 
-react-cropper@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/react-cropper/-/react-cropper-2.3.1.tgz#91f59062b1e95d7910a93a629f218a1238c3305a"
-  integrity sha512-PZU/4QGN80PTjFTaOOPh2/RXTHBiRpha3vOu0ViGRbSNJ//6YlTU3KCpA87lfrKDkQjQY18Ssw10VKPeDOPbKQ==
+react-cropper@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-cropper/-/react-cropper-2.3.2.tgz#5fbacd1ad39ed8ca60dec4a5767f76ca0ee3b0a7"
+  integrity sha512-1ug25ZC8d8/49KkEnv4HZiyZL1yJ90JEIVvjRpt1FoIn5/SAatOd8QMaPRN6f/fPFwWL3hwTdZV5GsC6Wz6QSg==
   dependencies:
     cropperjs "^1.5.13"
 
