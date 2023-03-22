@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { format } from 'date-fns'
 import { AccessTime } from '@mui/icons-material'
+import GroupsIcon from '@mui/icons-material/Groups'
 import { generatePath, useNavigate } from 'react-router'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
@@ -17,6 +18,7 @@ import Button from 'ui/Button'
 import UICard from 'ui/Card/Card'
 import CreateEditModal from './CreateEditModal'
 import paths from 'shared/paths'
+import pluralize from 'components/shared/pluralize/pluralize'
 
 const messages = {
   title: 'Comités locaux',
@@ -120,7 +122,13 @@ const Committees = () => {
                     </Box>
                   }
                   actions={
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+                      <Box display="flex" alignItems="center" className="space-x-2">
+                        <GroupsIcon sx={{ color: theme => theme.palette.colors.gray[400], fontSize: '22px' }} />
+                        <Typography variant="subtitle2" sx={{ color: theme => theme.palette.colors.gray[500] }}>
+                          0 {pluralize(0, 'adhérent')} et 0 {pluralize(0, 'sympathisant')}
+                        </Typography>
+                      </Box>
                       <Button onClick={handleView(committee.uuid)} isMainButton>
                         {messages.view}
                       </Button>
