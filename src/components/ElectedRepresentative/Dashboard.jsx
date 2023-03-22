@@ -35,7 +35,7 @@ const messages = {
       color: 'teal700',
       bgcolor: 'activeLabel',
     },
-    pending: {
+    pending_submission: {
       label: 'En attente',
       color: 'yellow800',
       bgcolor: 'pendingLabel',
@@ -214,41 +214,43 @@ const Dashboard = () => {
                               </Box>
                             </Content>
                           )}
-                          <Content
-                            sx={{ mt: 1, pt: 1.5 }}
-                            title="Status cotisation"
-                            subtitle={
-                              <UIChip
-                                color={messages.status[elected.last_contribution.status].color}
-                                bgcolor={messages.status[elected.last_contribution.status].bgcolor}
-                                label={messages.status[elected.last_contribution.status].label}
-                                sx={{ height: 'auto', borderRadius: '8px' }}
-                              />
-                            }
-                          >
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
-                              <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
-                                Par:{' '}
-                              </Typography>
-                              <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}>
-                                {messages.type[elected.last_contribution.type]}
-                              </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
-                              <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
-                                Date de cotisation:{' '}
-                              </Typography>
+                          {elected.last_contribution && (
+                            <Content
+                              sx={{ mt: 1, pt: 1.5 }}
+                              title="Status cotisation"
+                              subtitle={
+                                <UIChip
+                                  {...messages.status[elected.last_contribution.status]}
+                                  sx={{ height: 'auto', borderRadius: '8px' }}
+                                />
+                              }
+                            >
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
+                                <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
+                                  Moyen:{' '}
+                                </Typography>
+                                <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}>
+                                  {messages.type[elected.last_contribution.type]}
+                                </Typography>
+                              </Box>
                               {elected.last_contribution.type === 'check' ||
                               elected.last_contribution.type === 'cash' ? (
-                                <Typography
-                                  sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}
-                                  className="capitalize"
-                                >
-                                  {format(new Date(elected.last_contribution.date), 'dd MMMM yyyy', { locale: fr })}
-                                </Typography>
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
+                                  <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
+                                    Date de cotisation:{' '}
+                                  </Typography>
+                                  <Typography
+                                    sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}
+                                    className="capitalize"
+                                  >
+                                    {format(new Date(elected.last_contribution.start_date), 'dd MMMM yyyy', {
+                                      locale: fr,
+                                    })}
+                                  </Typography>
+                                </Box>
                               ) : null}
-                            </Box>
-                          </Content>
+                            </Content>
+                          )}
                         </Box>
                       }
                       actions={
