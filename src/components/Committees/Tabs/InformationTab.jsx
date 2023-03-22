@@ -24,7 +24,9 @@ const InformationTab = ({ committee }) => (
               <LineContent label="Description" value={committee.description} />
               <LineContent
                 label="Membres"
-                value={`0 ${pluralize(0, 'adhérent')} et 0 ${pluralize(0, 'sympathisant')}`}
+                value={`${committee.members_count} ${pluralize(committee.members_count, 'adhérent')} et ${
+                  committee.sympathizers_count
+                } ${pluralize(committee.sympathizers_count, 'sympathisant')}`}
               />
               <Box sx={{ px: 3, py: 2 }} className="space-y-3">
                 <Typography

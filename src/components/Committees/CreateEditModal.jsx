@@ -181,9 +181,9 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
                 {adherentsCountFetching ? (
                   <Loader />
                 ) : (
-                  `${adherentsCount?.adherent || 0} ${pluralize(adherentsCount?.adherent || 0, 'adhérent')} et (${
+                  `${adherentsCount?.adherent || 0} ${pluralize(adherentsCount?.adherent || 0, 'adhérent')} et ${
                     adherentsCount?.sympathizer || 0
-                  }) ${pluralize(adherentsCount?.sympathizer || 0, 'sympathisant')} dans les zones sélectionnées`
+                  } ${pluralize(adherentsCount?.sympathizer || 0, 'sympathisant')} dans les zones sélectionnées`
                 )}
               </Typography>
               <Box

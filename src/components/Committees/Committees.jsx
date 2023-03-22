@@ -126,7 +126,8 @@ const Committees = () => {
                       <Box display="flex" alignItems="center" className="space-x-2">
                         <GroupsIcon sx={{ color: theme => theme.palette.colors.gray[400], fontSize: '22px' }} />
                         <Typography variant="subtitle2" sx={{ color: theme => theme.palette.colors.gray[500] }}>
-                          0 {pluralize(0, 'adhérent')} et 0 {pluralize(0, 'sympathisant')}
+                          {committee.members_count} {pluralize(committee.members_count, 'adhérent')} et{' '}
+                          {committee.sympathizers_count} {pluralize(committee.sympathizers_count, 'sympathisant')}
                         </Typography>
                       </Box>
                       <Button onClick={handleView(committee.uuid)} isMainButton>
