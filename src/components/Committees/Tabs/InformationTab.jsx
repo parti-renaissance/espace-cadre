@@ -2,10 +2,11 @@ import { Box, Grid, Typography, Alert } from '@mui/material'
 import PropTypes from 'prop-types'
 import { format } from 'date-fns'
 import UICard from 'ui/Card'
-import { LineContent } from '../styles'
+import pluralize from 'components/shared/pluralize/pluralize'
 import ZoneContext from 'providers/context'
-import ZonesAccordion from '../Zone/Accordions'
 import Map from '../Map'
+import { LineContent } from '../styles'
+import ZonesAccordion from '../Zone/Accordions'
 
 const InformationTab = ({ committee }) => (
   <ZoneContext.Provider value={{ zones: committee.zones }}>
@@ -21,6 +22,12 @@ const InformationTab = ({ committee }) => (
                 value={format(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm:ss')}
               />
               <LineContent label="Description" value={committee.description} />
+              <LineContent
+                label="Membres"
+                value={`${committee.members_count} ${pluralize(committee.members_count, 'adhérent')} et ${
+                  committee.sympathizers_count
+                } ${pluralize(committee.sympathizers_count, 'sympathisant')}`}
+              />
               <Box sx={{ px: 3, py: 2 }} className="space-y-3">
                 <Typography
                   sx={{ fontSize: '14px', fontWeight: '500', color: theme => theme.palette.colors.gray[500] }}
