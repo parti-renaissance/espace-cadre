@@ -1,31 +1,12 @@
 import PropTypes from 'prop-types'
 
 export default class Activist {
-  constructor(
-    firstname,
-    lastname,
-    gender,
-    country,
-    regionId,
-    region,
-    departmentId,
-    department,
-    cityId,
-    city,
-    postalCode,
-    interests,
-    emailSubscription,
-    raw
-  ) {
+  constructor(firstname, lastname, gender, country, cityId, city, postalCode, interests, emailSubscription, raw) {
     this.raw = raw
     this.firstname = firstname
     this.lastname = lastname
     this.gender = gender
     this.country = country
-    this.regionId = regionId
-    this.region = region
-    this.departmentId = departmentId
-    this.department = department
     this.cityId = cityId
     this.city = city
     this.postalCode = postalCode
@@ -47,10 +28,6 @@ Activist.propTypes = PropTypes.shape({
   lastname: PropTypes.string.isRequired,
   gender: PropTypes.string,
   country: PropTypes.string.isRequired,
-  regionId: PropTypes.string.isRequired,
-  region: PropTypes.string.isRequired,
-  departmentId: PropTypes.string.isRequired,
-  department: PropTypes.string.isRequired,
   cityId: PropTypes.string,
   city: PropTypes.string.isRequired,
   postalCode: PropTypes.string.isRequired,

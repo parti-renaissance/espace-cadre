@@ -26,3 +26,8 @@ h1, h2, h3, h4 {
 .capitalize {
   text-transform: capitalize;
 }
+
+.unstyled-button {
+  all: initial;
+  cursor: pointer;
+}

@@ -8,12 +8,12 @@ const Label = styled(Typography)({
   lineHeight: '15px',
 })
 
-export const UIChip = ({ variant = 'filled', label, color, bgcolor, sx = {}, ...props }) => (
+export const UIChip = ({ variant = 'filled', label, color, bgcolor, sx = {}, labelStyle = {}, ...props }) => (
   <MuiChip
     size="small"
     variant={variant}
-    label={<Label sx={{ px: 1, py: 0.25 }}>{label}</Label>}
-    sx={{ color, bgcolor, height: '19px', borderRadius: '19px', ...sx }}
+    label={<Label sx={{ px: 1, py: 0.25, ...labelStyle }}>{label}</Label>}
+    sx={{ color, bgcolor, borderRadius: '20px', ...sx }}
     {...props}
   />
 )
@@ -24,4 +24,5 @@ UIChip.propTypes = {
   color: PropTypes.string,
   bgcolor: PropTypes.string,
   sx: PropTypes.object,
+  labelStyle: PropTypes.object,
 }
