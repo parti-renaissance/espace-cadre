@@ -18,7 +18,7 @@ const messages = {
   error: 'Vous devez sélectionner un adhérent',
 }
 
-const AddCandidateModal = ({ listId, handleClose, onAddSuccess }) => {
+const AddCandidateModal = ({ listId, candidates, handleClose, onAddSuccess }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const { committeeId } = useParams()
@@ -34,6 +34,11 @@ const AddCandidateModal = ({ listId, handleClose, onAddSuccess }) => {
   const addNewCandidate = () => {
     if (!selectedAdherent) {
       enqueueSnackbar(messages.error, notifyVariants.error)
+      return
+    }
+
+    if (candidates.find(candidate => candidate.committee_membership.adherent.uuid === selectedAdherent.uuid)) {
+      enqueueSnackbar('Cet adhérent appartient déjà à une liste pour cette élection.', notifyVariants.error)
       return
     }
 
@@ -65,6 +70,7 @@ export default AddCandidateModal
 
 AddCandidateModal.propTypes = {
   listId: PropTypes.string,
+  candidates: PropTypes.array,
   onAddSuccess: PropTypes.func,
   handleClose: PropTypes.func,
 }
