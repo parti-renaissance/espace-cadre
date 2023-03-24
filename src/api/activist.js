@@ -12,15 +12,13 @@ export const getActivists = async filter => {
         a.last_name,
         a.gender,
         a.country,
-        a.region_code,
-        a.region,
-        a.department_code,
-        a.department,
         a.city_code,
         a.city,
         a.postal_code,
         a.interests,
         a.email_subscription,
+        a.last_membership_donation,
+        a.created_at,
         a
       )
   )
@@ -33,5 +31,4 @@ export const getActivists = async filter => {
     data.metadata.last_page
   )
 }
-export const getColumns = () => apiClient.get('v3/adherents/columns')
 export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)

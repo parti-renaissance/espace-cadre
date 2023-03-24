@@ -6,15 +6,13 @@ export default class Activist {
     lastname,
     gender,
     country,
-    regionId,
-    region,
-    departmentId,
-    department,
     cityId,
     city,
     postalCode,
     interests,
     emailSubscription,
+    contributingDate,
+    joinedDate,
     raw
   ) {
     this.raw = raw
@@ -22,23 +20,13 @@ export default class Activist {
     this.lastname = lastname
     this.gender = gender
     this.country = country
-    this.regionId = regionId
-    this.region = region
-    this.departmentId = departmentId
-    this.department = department
     this.cityId = cityId
     this.city = city
+    this.contributingDate = contributingDate ? new Date(contributingDate) : null
+    this.joinedDate = joinedDate ? new Date(joinedDate) : null
     this.postalCode = postalCode
     this.interests = interests
     this.emailSubscription = emailSubscription
-  }
-
-  getValue(key) {
-    if (typeof this[key] === 'undefined') {
-      return this.raw[key]
-    }
-
-    return this[key]
   }
 }
 
@@ -47,13 +35,11 @@ Activist.propTypes = PropTypes.shape({
   lastname: PropTypes.string.isRequired,
   gender: PropTypes.string,
   country: PropTypes.string.isRequired,
-  regionId: PropTypes.string.isRequired,
-  region: PropTypes.string.isRequired,
-  departmentId: PropTypes.string.isRequired,
-  department: PropTypes.string.isRequired,
   cityId: PropTypes.string,
   city: PropTypes.string.isRequired,
   postalCode: PropTypes.string.isRequired,
+  contributingDate: PropTypes.object,
+  joinedDate: PropTypes.object,
   interests: PropTypes.arrayOf(PropTypes.string).isRequired,
   emailSubscription: PropTypes.bool.isRequired,
 })
