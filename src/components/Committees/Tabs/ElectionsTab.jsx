@@ -72,15 +72,17 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
       {committeeElection && committeeElection.id ? (
         <>
           <div>
-            <Box display="flex" alignItems="center" className="space-x-3">
-              <Button
-                onClick={() => toggleCreateEditModal(designation, true)}
-                rootProps={{ sx: { color: 'whiteCorner' } }}
-              >
-                {!designation.id ? messages.create : messages.update}
-              </Button>
-              {isFetching || (isDesignationLoading && <Loader />)}
-            </Box>
+            {committeeElection.status === 'not_started' || committeeElection.status === 'scheduled' ? (
+              <Box display="flex" alignItems="center" className="space-x-3">
+                <Button
+                  onClick={() => toggleCreateEditModal(designation, true)}
+                  rootProps={{ sx: { color: 'whiteCorner' } }}
+                >
+                  {!designation.id ? messages.create : messages.update}
+                </Button>
+                {isFetching || (isDesignationLoading && <Loader />)}
+              </Box>
+            ) : null}
             {designation.id && (
               <About
                 status={committeeElection.status}

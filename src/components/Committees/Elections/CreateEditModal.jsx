@@ -46,6 +46,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
   const disabledStatus = status !== 'not_started'
+  const enabledInput = status !== 'scheduled' && disabledStatus
   const queryClient = useQueryClient()
   const { control, getValues, reset, watch } = useForm({
     mode: 'onChange',
@@ -119,6 +120,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
               onChange={onChange}
               placeholder="Titre de cette élection"
               value={value}
+              disabled={enabledInput}
               autoFocus
             />
           )}
@@ -132,7 +134,14 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
           control={control}
           defaultValue={designation.description}
           render={({ field: { value, onChange } }) => (
-            <Input name={fields.description} value={value} onChange={onChange} multiline maxRows={4} />
+            <Input
+              name={fields.description}
+              value={value}
+              onChange={onChange}
+              disabled={enabledInput}
+              multiline
+              maxRows={4}
+            />
           )}
         />
       </Box>
