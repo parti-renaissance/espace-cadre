@@ -24,6 +24,7 @@ const messages = {
 const Lists = ({ election }) => {
   const { handleError, errorMessages } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
+  const enabledAction = election.status !== 'closed' || election.status !== 'in_progress'
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [selectedList, setSelectedList] = useState(null)
   const queryClient = useQueryClient()
@@ -59,10 +60,12 @@ const Lists = ({ election }) => {
       <Box maxWidth="40%">
         <Box display="flex" alignItems="center" className="space-x-4">
           <Typography sx={{ color: 'gray900', fontSize: '24px', fontWeight: '500' }}>Candidatures</Typography>
-          <Button onClick={addList} isMainButton>
-            <AddIcon sx={{ color: 'main', fontSize: '20px' }} />
-            {messages.add}
-          </Button>
+          {enabledAction && (
+            <Button onClick={addList} isMainButton>
+              <AddIcon sx={{ color: 'main', fontSize: '20px' }} />
+              {messages.add}
+            </Button>
+          )}
           {(isLoading || isDeleting) && <Loader />}
         </Box>
         <Typography component="p" sx={{ mt: 1, fontSize: '16px', color: theme => theme.palette.colors.gray[500] }}>
@@ -88,7 +91,7 @@ const Lists = ({ election }) => {
               <Typography sx={{ fontSize: '16px', color: theme => theme.palette.colors.gray[500] }}>
                 Liste {index + 1}
               </Typography>
-              {list.candidacies.length === 0 && (
+              {list.candidacies.length === 0 && enabledAction && (
                 <IconButton
                   edge="start"
                   color="inherit"
@@ -114,13 +117,7 @@ const Lists = ({ election }) => {
                 </Box>
               </AccordionSummary>
               <AccordionDetails>
-                <Box
-                  sx={{
-                    pb: 1.5,
-                    borderBottom: '1px solid',
-                    borderBottomColor: theme => theme.palette.colors.gray[200],
-                  }}
-                >
+                <Box>
                   {list.candidacies.length === 0 && <Typography>{messages.noCandidate}</Typography>}
                   {list.candidacies.length > 0 &&
                     list.candidacies.map(candidate => (
@@ -129,29 +126,42 @@ const Lists = ({ election }) => {
                           {candidate.committee_membership.adherent.first_name}{' '}
                           {candidate.committee_membership.adherent.last_name}
                         </Typography>
-                        <IconButton
-                          edge="start"
-                          color="inherit"
-                          onClick={() => deleteCandidate(candidate.uuid)}
-                          aria-label="delete"
-                          sx={{ ml: 1 }}
-                        >
-                          <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
-                        </IconButton>
+                        {enabledAction && (
+                          <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => deleteCandidate(candidate.uuid)}
+                            aria-label="delete"
+                            sx={{ ml: 1 }}
+                          >
+                            <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
+                          </IconButton>
+                        )}
                       </Box>
                     ))}
                 </Box>
-                <Box display="flex" alignItems="center" pt={1.5}>
-                  <Button
-                    onClick={() => toggleCreateEditModal(list.uuid, true)}
-                    aria-label="add"
-                    isMainButton
-                    rootProps={{ sx: { fontSize: '12px', px: 1.5 } }}
+                {enabledAction && (
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{
+                      borderTop: '1px solid',
+                      borderTopColor: theme => theme.palette.colors.gray[200],
+                      pt: 1.5,
+                      mt: 2,
+                    }}
                   >
-                    <AddIcon sx={{ color: theme => theme.palette.colors.blue[500], fontSize: '20px' }} />
-                    {messages.addCandidate}
-                  </Button>
-                </Box>
+                    <Button
+                      onClick={() => toggleCreateEditModal(list.uuid, true)}
+                      aria-label="add"
+                      isMainButton
+                      rootProps={{ sx: { fontSize: '12px', px: 1.5 } }}
+                    >
+                      <AddIcon sx={{ color: theme => theme.palette.colors.blue[500], fontSize: '20px' }} />
+                      {messages.addCandidate}
+                    </Button>
+                  </Box>
+                )}
               </AccordionDetails>
             </Accordion>
           </Grid>
