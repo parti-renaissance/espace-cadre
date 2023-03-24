@@ -45,7 +45,7 @@ const designationSchema = Yup.object({
 const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCreateResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const disabledStatus = status === 'in_progress' || status === 'closed'
+  const disabledStatus = status !== 'not_started'
   const queryClient = useQueryClient()
   const { control, getValues, reset, watch } = useForm({
     mode: 'onChange',
