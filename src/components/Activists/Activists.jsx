@@ -25,11 +25,6 @@ const messages = {
   title: 'Militants',
 }
 
-const renaissanceMembership = {
-  adherent_re: 'Adhérent',
-  sympathizer_re: 'Sympathisant',
-}
-
 const Activists = () => {
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
@@ -94,15 +89,11 @@ const Activists = () => {
           </Box>
         )}
 
-        <Lists renaissanceMembership={renaissanceMembership} members={activists.data} onMemberClick={toggleDrawer} />
+        <Lists members={activists.data} onMemberClick={toggleDrawer} />
       </Box>
 
       <Drawer anchor="right" open={member !== null} onClose={e => toggleDrawer(e, null)}>
-        <Member
-          member={member}
-          handleClose={e => toggleDrawer(e, null)}
-          renaissanceMembership={renaissanceMembership}
-        />
+        <Member member={member} handleClose={e => toggleDrawer(e, null)} />
       </Drawer>
     </Container>
   )

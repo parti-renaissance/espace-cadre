@@ -4,10 +4,9 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import FmdGoodIcon from '@mui/icons-material/FmdGood'
 import { differenceInDays } from 'date-fns'
 import Activist from 'domain/activist'
-import { UIChip } from 'ui/Card'
-import BadgeNew from './BadgeNew'
+import BadgeNew, { MemberBadge } from './BadgeNew'
 
-const Lists = ({ members, onMemberClick, renaissanceMembership }) => (
+const Lists = ({ members, onMemberClick }) => (
   <Paper className="divider">
     {members.map((member, index) => (
       <Button
@@ -34,24 +33,7 @@ const Lists = ({ members, onMemberClick, renaissanceMembership }) => (
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box sx={{ color: 'colors.gray.700', mb: 1 }}>
-                <UIChip
-                  label={
-                    typeof renaissanceMembership[member.raw.renaissance_membership] !== 'undefined'
-                      ? renaissanceMembership[member.raw.renaissance_membership]
-                      : 'N/A'
-                  }
-                  color={
-                    typeof renaissanceMembership[member.raw.renaissance_membership] !== 'undefined'
-                      ? 'colors.blue.500'
-                      : 'colors.gray.800'
-                  }
-                  bgcolor={
-                    typeof renaissanceMembership[member.raw.renaissance_membership] !== 'undefined'
-                      ? 'colors.blue.50'
-                      : 'colors.gray.100'
-                  }
-                  labelStyle={{ fontSize: '12px' }}
-                />
+                <MemberBadge membership={member.raw.renaissance_membership} labelStyle={{ fontSize: '12px' }} />
               </Box>
               <Grid container spacing={1}>
                 <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -80,5 +62,4 @@ export default Lists
 Lists.propTypes = {
   members: PropTypes.arrayOf(Activist.propTypes).isRequired,
   onMemberClick: PropTypes.func.isRequired,
-  renaissanceMembership: PropTypes.object.isRequired,
 }

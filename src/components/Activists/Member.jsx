@@ -6,7 +6,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import { differenceInDays, format } from 'date-fns'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
-import BadgeNew from './BadgeNew'
+import BadgeNew, { MemberBadge } from './BadgeNew'
 
 const LineText = ({ label, value }) => (
   <Box py={1.5} className="space-y-1">
@@ -47,7 +47,7 @@ Subscription.propTypes = {
   subscription: PropTypes.bool.isRequired,
 }
 
-const Member = ({ member, handleClose, renaissanceMembership }) => {
+const Member = ({ member, handleClose }) => {
   if (!member) return null
 
   return (
@@ -98,26 +98,7 @@ const Member = ({ member, handleClose, renaissanceMembership }) => {
           <LineText label="Adresse complète" value={`${member.city} (${member.cityId})`} />
           <LineText
             label="Renaissance"
-            value={
-              <UIChip
-                label={
-                  typeof renaissanceMembership[member.raw.renaissance_membership] !== 'undefined'
-                    ? renaissanceMembership[member.raw.renaissance_membership]
-                    : 'N/A'
-                }
-                color={
-                  typeof renaissanceMembership[member.raw.renaissance_membership] !== 'undefined'
-                    ? 'colors.blue.500'
-                    : 'colors.gray.800'
-                }
-                bgcolor={
-                  typeof renaissanceMembership[member.raw.renaissance_membership] !== 'undefined'
-                    ? 'colors.blue.50'
-                    : 'colors.gray.100'
-                }
-                labelStyle={{ fontSize: '14px' }}
-              />
-            }
+            value={<MemberBadge membership={member.raw.renaissance_membership} labelStyle={{ fontSize: '14px' }} />}
           />
           <LineText
             label="Date d'adhésion"
@@ -160,5 +141,4 @@ export default Member
 Member.propTypes = {
   member: Activist.propTypes,
   handleClose: PropTypes.func.isRequired,
-  renaissanceMembership: PropTypes.object.isRequired,
 }
