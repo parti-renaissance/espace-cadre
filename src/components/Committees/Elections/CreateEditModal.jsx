@@ -45,8 +45,8 @@ const designationSchema = Yup.object({
 const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCreateResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const disabledStatus = status !== 'not_started'
-  const enabledInput = status !== 'scheduled' && disabledStatus
+  const disabledStatus = status === 'not_started'
+  const enabledInput = status === 'scheduled' || disabledStatus
   const queryClient = useQueryClient()
   const { control, getValues, reset, watch } = useForm({
     mode: 'onChange',
@@ -120,7 +120,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
               onChange={onChange}
               placeholder="Titre de cette élection"
               value={value}
-              disabled={enabledInput}
+              disabled={!enabledInput}
               autoFocus
             />
           )}
@@ -138,7 +138,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
               name={fields.description}
               value={value}
               onChange={onChange}
-              disabled={enabledInput}
+              disabled={!enabledInput}
               multiline
               maxRows={4}
             />
@@ -156,7 +156,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
             <DateTimePicker
               value={value}
               onChange={onChange}
-              disabled={disabledStatus}
+              disabled={!disabledStatus}
               name={fields.voteStartDate}
               minDate={add(new Date(), { days: 16 })}
             />
@@ -175,7 +175,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
             <DateTimePicker
               value={value}
               onChange={onChange}
-              disabled={disabledStatus}
+              disabled={!disabledStatus}
               name={fields.voteEndDate}
               minDate={add(new Date(), { days: 17 })}
             />
