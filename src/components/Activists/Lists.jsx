@@ -32,7 +32,7 @@ const Lists = ({ members, onMemberClick, renaissanceMembership }) => (
                 {member.raw.email}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={6}>
               <Box sx={{ color: 'colors.gray.700', mb: 1 }}>
                 <UIChip
                   label={
@@ -63,7 +63,7 @@ const Lists = ({ members, onMemberClick, renaissanceMembership }) => (
               </Grid>
             </Grid>
             {member.joinedDate && (
-              <Grid item xs={12} sm={3}>
+              <Grid item xs={12} sm={2}>
                 {differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
               </Grid>
             )}

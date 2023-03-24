@@ -34,7 +34,6 @@ const Activists = () => {
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
   const [member, setMember] = useState(null)
-  const [isOpen, setIsOpen] = useState(false)
 
   const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0), isLoading } = useQueryWithScope(
     ['activists', { feature: 'Activists', view: 'Activists' }, filters],
@@ -47,7 +46,6 @@ const Activists = () => {
   const toggleDrawer = (e, member = null) => {
     e.preventDefault()
     setMember(member)
-    setIsOpen(!isOpen)
   }
 
   return (
@@ -99,7 +97,7 @@ const Activists = () => {
         <Lists renaissanceMembership={renaissanceMembership} members={activists.data} onMemberClick={toggleDrawer} />
       </Box>
 
-      <Drawer anchor="right" open={isOpen} onClose={e => toggleDrawer(e, null)}>
+      <Drawer anchor="right" open={member !== null} onClose={e => toggleDrawer(e, null)}>
         <Member
           member={member}
           handleClose={e => toggleDrawer(e, null)}

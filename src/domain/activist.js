@@ -38,8 +38,8 @@ Activist.propTypes = PropTypes.shape({
   cityId: PropTypes.string,
   city: PropTypes.string.isRequired,
   postalCode: PropTypes.string.isRequired,
-  contributingDate: PropTypes.string,
-  joinedDate: PropTypes.string,
+  contributingDate: PropTypes.object,
+  joinedDate: PropTypes.object,
   interests: PropTypes.arrayOf(PropTypes.string).isRequired,
   emailSubscription: PropTypes.bool.isRequired,
 })

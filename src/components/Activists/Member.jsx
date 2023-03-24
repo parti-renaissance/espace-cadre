@@ -3,7 +3,7 @@ import { Box, IconButton, Typography } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-import { differenceInDays } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
 import BadgeNew from './BadgeNew'
@@ -119,8 +119,14 @@ const Member = ({ member, handleClose, renaissanceMembership }) => {
               />
             }
           />
-          <LineText label="Date d'adhésion" value={member.joinedDate ?? 'Indisponible'} />
-          <LineText label="Date de cotisation" value={member.contributingDate ?? 'Indisponible'} />
+          <LineText
+            label="Date d'adhésion"
+            value={member.joinedDate ? format(member.joinedDate, 'dd/MM/yyyy') : 'Indisponible'}
+          />
+          <LineText
+            label="Date de cotisation"
+            value={member.contributingDate ? format(member.joinedDate, 'dd/MM/yyyy') : 'Indisponible'}
+          />
           <LineText
             label="Intérêts"
             value={
