@@ -18,9 +18,17 @@ const BadgeNew = () => (
 
 export const MemberBadge = ({ membership, ...props }) => (
   <UIChip
-    label={typeof renaissanceMembership[membership] !== 'undefined' ? renaissanceMembership[membership] : 'N/A'}
-    color={typeof renaissanceMembership[membership] !== 'undefined' ? 'colors.blue.500' : 'colors.gray.800'}
-    bgcolor={typeof renaissanceMembership[membership] !== 'undefined' ? 'colors.blue.50' : 'colors.gray.100'}
+    {...(typeof renaissanceMembership[membership] !== 'undefined'
+      ? {
+          label: renaissanceMembership[membership],
+          color: 'colors.blue.500',
+          bgcolor: 'colors.blue.50',
+        }
+      : {
+          label: 'N/A',
+          color: 'colors.gray.800',
+          bgcolor: 'colors.gray.100',
+        })}
     {...props}
   />
 )
