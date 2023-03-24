@@ -2,8 +2,10 @@ import PropTypes from 'prop-types'
 import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import FmdGoodIcon from '@mui/icons-material/FmdGood'
+import { differenceInDays } from 'date-fns'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
+import BadgeNew from './BadgeNew'
 
 const Lists = ({ members, onMemberClick, renaissanceMembership }) => (
   <Paper className="divider">
@@ -60,6 +62,11 @@ const Lists = ({ members, onMemberClick, renaissanceMembership }) => (
                 </Grid>
               </Grid>
             </Grid>
+            {member.joinedDate && (
+              <Grid item xs={12} sm={3}>
+                {differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
+              </Grid>
+            )}
           </Grid>
           <KeyboardArrowRightIcon sx={{ color: 'colors.gray.400', fontSize: '20px' }} />
         </Box>

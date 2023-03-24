@@ -3,8 +3,10 @@ import { Box, IconButton, Typography } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import { differenceInDays } from 'date-fns'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
+import BadgeNew from './BadgeNew'
 
 const LineText = ({ label, value }) => (
   <Box py={1.5} className="space-y-1">
@@ -60,9 +62,12 @@ const Member = ({ member, handleClose, renaissanceMembership }) => {
             color: 'colors.gray.400',
           }}
         >
-          <Typography variant="h5" sx={{ color: 'colors.gray.800' }}>
-            {member.firstname} {member.lastname}
-          </Typography>
+          <Box display="flex" flexDirection="column" className="space-y-2">
+            <Typography variant="h5" sx={{ color: 'colors.gray.800' }}>
+              {member.firstname} {member.lastname}
+            </Typography>
+            {member.joinedDate && differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
+          </Box>
           <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
             <CloseIcon />
           </IconButton>
@@ -114,6 +119,8 @@ const Member = ({ member, handleClose, renaissanceMembership }) => {
               />
             }
           />
+          <LineText label="Date d'adhésion" value={member.joinedDate ?? 'Indisponible'} />
+          <LineText label="Date de cotisation" value={member.contributingDate ?? 'Indisponible'} />
           <LineText
             label="Intérêts"
             value={

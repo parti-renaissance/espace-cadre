@@ -1,7 +1,20 @@
 import PropTypes from 'prop-types'
 
 export default class Activist {
-  constructor(firstname, lastname, gender, country, cityId, city, postalCode, interests, emailSubscription, raw) {
+  constructor(
+    firstname,
+    lastname,
+    gender,
+    country,
+    cityId,
+    city,
+    postalCode,
+    interests,
+    emailSubscription,
+    contributingDate,
+    joinedDate,
+    raw
+  ) {
     this.raw = raw
     this.firstname = firstname
     this.lastname = lastname
@@ -9,17 +22,11 @@ export default class Activist {
     this.country = country
     this.cityId = cityId
     this.city = city
+    this.contributingDate = contributingDate ? new Date(contributingDate) : null
+    this.joinedDate = joinedDate ? new Date(joinedDate) : null
     this.postalCode = postalCode
     this.interests = interests
     this.emailSubscription = emailSubscription
-  }
-
-  getValue(key) {
-    if (typeof this[key] === 'undefined') {
-      return this.raw[key]
-    }
-
-    return this[key]
   }
 }
 
@@ -31,6 +38,8 @@ Activist.propTypes = PropTypes.shape({
   cityId: PropTypes.string,
   city: PropTypes.string.isRequired,
   postalCode: PropTypes.string.isRequired,
+  contributingDate: PropTypes.string,
+  joinedDate: PropTypes.string,
   interests: PropTypes.arrayOf(PropTypes.string).isRequired,
   emailSubscription: PropTypes.bool.isRequired,
 })
