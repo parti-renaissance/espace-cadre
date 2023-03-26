@@ -37,7 +37,7 @@
     "react": "^18.2.0",
     "react-cropper": "^2.3.2",
     "react-dom": "^18.2.0",
-    "react-email-editor": "https://github.com/EnMarche/react-email-editor#382e7214e29a3024049985b3616c5f9adea161be",
+    "react-email-editor": "1.7.4",
     "react-filepond": "^7.1.2",
     "react-hook-form": "^7.43.7",
     "react-infinite-scroll-component": "^6.1.0",
