@@ -34,7 +34,7 @@ export class CommitteeElection {
     this.committeeId = committeeId
   }
 
-  static NULL = new CommitteeElection(null, Designation.NULL, [], null, 0, 0, null)
+  static NULL = new CommitteeElection(null, Designation.NULL, [], 'not_started', 0, 0, null)
 }
 
 CommitteeElection.propTypes = PropTypes.shape({
