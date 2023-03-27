@@ -71,10 +71,9 @@ const Activists = () => {
         </AccordionDetails>
       </Accordion>
 
-      {isLoading && <Loader />}
-
       <Box sx={{ mt: 4 }} className="space-y-4">
-        {activists.total && (
+        {isLoading && <Loader />}
+        {activists.total > 0 && (
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>
               Affichage de {activists.pageSize * (filters.page - 1) + 1} à {activists.pageSize * filters.page} résultats
