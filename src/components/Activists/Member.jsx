@@ -29,17 +29,15 @@ LineText.propTypes = {
 }
 
 const Subscription = ({ subscription }) => (
-  <Box display="flex" alignItems="center" ml={1.5} color="colors.gray.500">
-    (
+  <Box display="flex" alignItems="center" ml={2} color="colors.gray.500">
     {subscription ? (
       <VerifiedIcon sx={{ color: 'green700', fontSize: '18px' }} />
     ) : (
       <RemoveCircleIcon sx={{ color: 'red600', fontSize: '18px' }} />
     )}
-    <Typography component="span" sx={{ ml: 1, fontSize: '14px' }}>
+    <Typography component="span" sx={{ ml: 0.5, fontSize: '14px' }}>
       {subscription ? 'Abonné' : 'Désabonné'}
     </Typography>
-    )
   </Box>
 )
 
@@ -84,30 +82,28 @@ const Member = ({ member, handleClose }) => {
               </Box>
             }
           />
-          <LineText
-            label="Téléphone"
-            value={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography component="span" sx={{ color: 'colors.gray.900' }}>
-                  {member.raw.phone_number}
-                </Typography>
-                <Subscription subscription={member.raw.sms_subscription} />
-              </Box>
-            }
-          />
+          {member.raw.phone_number && (
+            <LineText
+              label="Téléphone"
+              value={
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography component="span" sx={{ color: 'colors.gray.900' }}>
+                    {member.raw.phone_number}
+                  </Typography>
+                  <Subscription subscription={member.raw.sms_subscription} />
+                </Box>
+              }
+            />
+          )}
           <LineText label="Adresse complète" value={`${member.city} (${member.cityId})`} />
           <LineText
             label="Renaissance"
             value={<MemberBadge membership={member.raw.renaissance_membership} labelStyle={{ fontSize: '14px' }} />}
           />
-          <LineText
-            label="Date d'adhésion"
-            value={member.joinedDate ? format(member.joinedDate, 'dd/MM/yyyy') : 'Indisponible'}
-          />
-          <LineText
-            label="Date de cotisation"
-            value={member.contributingDate ? format(member.joinedDate, 'dd/MM/yyyy') : 'Indisponible'}
-          />
+          <LineText label="Date d'inscription" value={format(member.joinedDate, 'dd/MM/yyyy')} />
+          {member.contributingDate && (
+            <LineText label="Date de dernière cotisation" value={format(member.contributingDate, 'dd/MM/yyyy')} />
+          )}
           <LineText
             label="Intérêts"
             value={
