@@ -60,7 +60,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount }) =
               component="dd"
               sx={{ fontWeight: '600', fontSize: '20px', color: theme => theme.palette.colors.gray[900] }}
             >
-              {voteCount} ({votersCount > 0 ? Math.round((voteCount * 100) / votersCount) : 0} %){' '}
+              {voteCount} ({votersCount > 0 ? Math.round((voteCount * 100) / votersCount).toFixed(2) : 0} %){' '}
               {pluralize(voteCount, 'votant')}
             </Typography>
           </Box>
