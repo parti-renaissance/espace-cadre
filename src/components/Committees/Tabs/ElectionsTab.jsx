@@ -117,7 +117,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
         <CreateEditModal
           committeeUuid={committee.uuid}
           designation={designation}
-          status={committeeElection?.status}
+          status={committeeElection.status}
           handleClose={() => toggleCreateEditModal(designation, false)}
         />
       )}
