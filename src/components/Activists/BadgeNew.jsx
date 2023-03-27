@@ -25,7 +25,7 @@ export const MemberBadge = ({ membership, ...props }) => (
           bgcolor: 'colors.blue.50',
         }
       : {
-          label: 'N/A',
+          label: 'Ni adhérent RE ni sympathisant RE',
           color: 'colors.gray.800',
           bgcolor: 'colors.gray.100',
         })}
