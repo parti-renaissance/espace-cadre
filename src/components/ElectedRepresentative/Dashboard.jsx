@@ -248,11 +248,11 @@ const Dashboard = () => {
                           {elected.last_contribution && (
                             <Content sx={{ mt: 1, pt: 1.5 }} title="Cotisation">
                               <Raw
-                                title="Eligibilité:"
+                                title="Éligibilité:"
                                 content={
                                   <UIChip
                                     {...(typeof messages.eligibility[elected.contribution_status] !== 'undefined'
-                                      ? { ...messages.eligibility[elected.contribution_status] }
+                                      ? messages.eligibility[elected.contribution_status]
                                       : {
                                           label: 'Indisponible',
                                           color: 'colors.gray.800',
