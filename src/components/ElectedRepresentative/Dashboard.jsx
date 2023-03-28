@@ -51,6 +51,18 @@ const messages = {
     check: 'chèque',
     transfer: 'virement',
   },
+  eligibility: {
+    eligible: {
+      label: 'Éligible',
+      color: 'teal700',
+      bgcolor: 'activeLabel',
+    },
+    not_eligible: {
+      label: 'Inéligible',
+      color: 'yellow800',
+      bgcolor: 'pendingLabel',
+    },
+  },
 }
 
 const Content = ({ sx, title, subtitle, hasBadge, badge, children }) => (
@@ -86,6 +98,25 @@ Content.propTypes = {
   hasBadge: PropTypes.bool,
   badge: PropTypes.number,
   children: PropTypes.node,
+}
+
+const Raw = ({ title, content, sx = {} }) => (
+  <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, ...sx }} className="space-x-2">
+    <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>{title}</Typography>
+    {typeof content === 'string' ? (
+      <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }} className="capitalize">
+        {content}
+      </Typography>
+    ) : (
+      content
+    )}
+  </Box>
+)
+
+Raw.propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  sx: PropTypes.object,
 }
 
 const Dashboard = () => {
@@ -215,39 +246,48 @@ const Dashboard = () => {
                             </Content>
                           )}
                           {elected.last_contribution && (
-                            <Content
-                              sx={{ mt: 1, pt: 1.5 }}
-                              title="Status cotisation"
-                              subtitle={
-                                <UIChip
-                                  {...messages.status[elected.last_contribution.status]}
-                                  sx={{ height: 'auto', borderRadius: '8px' }}
-                                />
-                              }
-                            >
-                              <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
-                                <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
-                                  Moyen:{' '}
-                                </Typography>
-                                <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}>
-                                  {messages.type[elected.last_contribution.type]}
-                                </Typography>
-                              </Box>
+                            <Content sx={{ mt: 1, pt: 1.5 }} title="Cotisation">
+                              <Raw
+                                title="Éligibilité:"
+                                content={
+                                  <UIChip
+                                    {...(typeof messages.eligibility[elected.contribution_status] !== 'undefined'
+                                      ? messages.eligibility[elected.contribution_status]
+                                      : {
+                                          label: 'Indisponible',
+                                          color: 'colors.gray.800',
+                                          bgcolor: 'colors.gray.100',
+                                        })}
+                                    labelStyle={{ fontSize: '13px' }}
+                                  />
+                                }
+                              />
+                              <Raw
+                                title="Date:"
+                                content={format(new Date(elected.contributed_at), 'dd MMMM yyyy', {
+                                  locale: fr,
+                                })}
+                              />
+                              <Raw title="Moyen:" content={messages.type[elected.last_contribution.type]} />
+                              <Raw
+                                title="Status:"
+                                content={
+                                  <UIChip
+                                    {...messages.status[elected.last_contribution.status]}
+                                    sx={{ height: 'auto', borderRadius: '8px' }}
+                                  />
+                                }
+                                sx={{ display: 'none' }}
+                              />
                               {elected.last_contribution.type === 'check' ||
                               elected.last_contribution.type === 'cash' ? (
-                                <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }} className="space-x-2">
-                                  <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[500] }}>
-                                    Date de cotisation:{' '}
-                                  </Typography>
-                                  <Typography
-                                    sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900] }}
-                                    className="capitalize"
-                                  >
-                                    {format(new Date(elected.last_contribution.start_date), 'dd MMMM yyyy', {
-                                      locale: fr,
-                                    })}
-                                  </Typography>
-                                </Box>
+                                <Raw
+                                  title="Date de cotisation:"
+                                  content={format(new Date(elected.last_contribution.start_date), 'dd MMMM yyyy', {
+                                    locale: fr,
+                                  })}
+                                  sx={{ display: 'none' }}
+                                />
                               ) : null}
                             </Content>
                           )}
