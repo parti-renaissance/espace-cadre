@@ -8,6 +8,8 @@ export default class Activist {
     country,
     cityId,
     city,
+    committee,
+    committeeId,
     postalCode,
     interests,
     emailSubscription,
@@ -22,6 +24,8 @@ export default class Activist {
     this.country = country
     this.cityId = cityId
     this.city = city
+    this.committee = committee
+    this.committeeId = committeeId
     this.contributingDate = contributingDate ? new Date(contributingDate) : null
     this.joinedDate = joinedDate ? new Date(joinedDate) : null
     this.postalCode = postalCode
@@ -37,6 +41,8 @@ Activist.propTypes = PropTypes.shape({
   country: PropTypes.string.isRequired,
   cityId: PropTypes.string,
   city: PropTypes.string.isRequired,
+  committee: PropTypes.string,
+  committeeId: PropTypes.string,
   postalCode: PropTypes.string.isRequired,
   contributingDate: PropTypes.object,
   joinedDate: PropTypes.object,

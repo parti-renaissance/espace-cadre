@@ -96,6 +96,7 @@ const Member = ({ member, handleClose }) => {
             />
           )}
           <LineText label="Adresse complète" value={`${member.city} (${member.cityId})`} />
+          {member.committee && <LineText label="Comité" value={member.committee} />}
           <LineText
             label="Renaissance"
             value={<MemberBadge membership={member.raw.renaissance_membership} labelStyle={{ fontSize: '14px' }} />}
