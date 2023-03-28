@@ -103,6 +103,14 @@
     "type": "select"
   },
   {
+    "code": "revenueDeclared",
+    "label": "Revenus déclarés",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
     "code": "zones",
     "label": "Zone géographique",
     "options": {
