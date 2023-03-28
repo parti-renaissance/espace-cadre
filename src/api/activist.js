@@ -14,6 +14,8 @@ export const getActivists = async filter => {
         a.country,
         a.city_code,
         a.city,
+        a.committee,
+        a.committee_uuid,
         a.postal_code,
         a.interests,
         a.email_subscription,
