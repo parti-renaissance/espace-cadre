@@ -72,7 +72,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
       {committeeElection && committeeElection.id ? (
         <>
           <div>
-            {committeeElection.status === 'not_started' || committeeElection.status === 'scheduled' ? (
+            {committeeElection.isEditable() ? (
               <Box display="flex" alignItems="center" className="space-x-3">
                 <Button
                   onClick={() => toggleCreateEditModal(designation, true)}
@@ -117,7 +117,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
         <CreateEditModal
           committeeUuid={committee.uuid}
           designation={designation}
-          status={committeeElection.status}
+          election={committeeElection}
           handleClose={() => toggleCreateEditModal(designation, false)}
         />
       )}

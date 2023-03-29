@@ -11,7 +11,7 @@ import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
-import { Designation } from 'domain/committee_election'
+import { CommitteeElection, Designation } from 'domain/committee_election'
 import Input from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import DateTimePicker from 'ui/DateTime/DateTimePicker'
@@ -42,11 +42,11 @@ const designationSchema = Yup.object({
   voteEndDateError: Yup.date().required('La date de fin de vote est requise'),
 })
 
-const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCreateResolve }) => {
+const CreateEditModal = ({ designation, committeeUuid, election, handleClose, onCreateResolve }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const disabledStatus = status === 'not_started'
-  const enabledInput = status === 'scheduled' || disabledStatus
+  const dateUpdateEnabled = election ? election.isDateEditable() : true
+  const inputUpdateEnabled = election ? election.isEditable() : true
   const queryClient = useQueryClient()
   const { control, getValues, reset, watch } = useForm({
     mode: 'onChange',
@@ -120,7 +120,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
               onChange={onChange}
               placeholder="Titre de cette élection"
               value={value}
-              disabled={!enabledInput}
+              disabled={!inputUpdateEnabled}
               autoFocus
             />
           )}
@@ -138,7 +138,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
               name={fields.description}
               value={value}
               onChange={onChange}
-              disabled={!enabledInput}
+              disabled={!inputUpdateEnabled}
               multiline
               maxRows={4}
             />
@@ -156,7 +156,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
             <DateTimePicker
               value={value}
               onChange={onChange}
-              disabled={!disabledStatus}
+              disabled={!dateUpdateEnabled}
               name={fields.voteStartDate}
               minDate={add(new Date(), { days: 16 })}
             />
@@ -175,7 +175,7 @@ const CreateEditModal = ({ designation, committeeUuid, status, handleClose, onCr
             <DateTimePicker
               value={value}
               onChange={onChange}
-              disabled={!disabledStatus}
+              disabled={!dateUpdateEnabled}
               name={fields.voteEndDate}
               minDate={add(new Date(), { days: 17 })}
             />
@@ -193,6 +193,6 @@ CreateEditModal.propTypes = {
   designation: Designation.propTypes,
   committeeUuid: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
-  status: PropTypes.string,
+  election: CommitteeElection.propTypes,
   onCreateResolve: PropTypes.func,
 }

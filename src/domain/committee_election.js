@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { add } from 'date-fns'
+import { electionStatus } from 'components/Committees/constants'
 
 export class Designation {
   constructor(id, title, description, electionDate, voteStartDate, voteEndDate) {
@@ -32,6 +33,14 @@ export class CommitteeElection {
     this.votersCount = votersCount || 0
     this.voteCount = voteCount || 0
     this.committeeId = committeeId
+  }
+
+  isEditable() {
+    return [electionStatus.not_started, electionStatus.scheduled].includes(this.status)
+  }
+
+  isDateEditable() {
+    return electionStatus.not_started === this.status
   }
 
   static NULL = new CommitteeElection(null, Designation.NULL, [], 'not_started', 0, 0, null)

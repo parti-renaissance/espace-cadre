@@ -24,7 +24,7 @@ const messages = {
 const Lists = ({ election }) => {
   const { handleError, errorMessages } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
-  const enabledAction = election.status !== 'closed' || election.status !== 'in_progress'
+  const enabledAction = election.isEditable()
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [selectedList, setSelectedList] = useState(null)
   const queryClient = useQueryClient()
