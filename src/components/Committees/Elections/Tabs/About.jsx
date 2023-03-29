@@ -8,6 +8,7 @@ import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import Status from 'components/Committees/Status'
 import pluralize from 'components/shared/pluralize/pluralize'
+import { electionStatus } from 'components/Committees/constants'
 import { Designation } from 'domain/committee_election'
 import UICard from 'ui/Card'
 import { LineContent, ResultCard } from '../../styles'
@@ -59,7 +60,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
                   } %) ${pluralize(voteCount, 'votant')}`}
                 />
               </Box>
-              {status === 'closed' && results && (
+              {status === electionStatus.closed && results && (
                 <Box py={2}>
                   <Typography
                     sx={{ px: 1, fontSize: '20px', fontWeight: '500', color: theme => theme.palette.colors.gray[900] }}

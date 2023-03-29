@@ -9,6 +9,7 @@ import { createGroup, removeCandidate, deleteGroup } from 'api/committee_electio
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import { electionStatus } from 'components/Committees/constants'
 import { CommitteeElection } from 'domain/committee_election'
 import Button from 'ui/Button'
 import Loader from 'ui/Loader'
@@ -89,7 +90,7 @@ const Lists = ({ election, isResultsLoading, results }) => {
         </Typography>
       </Box>
 
-      {election.status === 'closed' && results ? (
+      {election.status === electionStatus.closed && results ? (
         <Grid container spacing={3} sx={{ mt: 1 }}>
           {results.candidate_group_results.map((item, index) => (
             <GroupList
