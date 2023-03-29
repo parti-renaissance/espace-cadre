@@ -48,9 +48,14 @@ const messages = {
   preview: 'Prévisualiser',
 }
 
-const clearHtml = html =>
-  html.substring(html.indexOf('<style'), html.indexOf('</style>') + 8) +
-  html.substring(html.indexOf('<body>') + 6, html.indexOf('</body>'))
+const clearHtml = html => {
+  const bodyIndex = html.indexOf('<body')
+
+  return (
+    html.substring(html.indexOf('<style'), html.indexOf('</style>') + 8) +
+    html.substring(bodyIndex + html.indexOf('>', bodyIndex) - bodyIndex + 1, html.indexOf('</body>'))
+  )
+}
 
 const editContent = (siteUuid, { currentScope, content }) => {
   const body = {
