@@ -37,7 +37,7 @@
     "react": "^18.2.0",
     "react-cropper": "^2.3.2",
     "react-dom": "^18.2.0",
-    "react-email-editor": "1.7.4",
+    "react-email-editor": "1.7.5",
     "react-filepond": "^7.1.2",
     "react-hook-form": "^7.43.8",
     "react-infinite-scroll-component": "^6.1.0",
