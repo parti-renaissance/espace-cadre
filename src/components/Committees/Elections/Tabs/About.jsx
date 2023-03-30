@@ -47,9 +47,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
           content={
             <>
               <Box>
-                <Typography
-                  sx={{ px: 1, fontSize: '20px', fontWeight: '500', color: theme => theme.palette.colors.gray[900] }}
-                >
+                <Typography sx={{ px: 1, fontSize: '20px', fontWeight: '500', color: 'colors.gray.900' }}>
                   Détails du vote
                 </Typography>
                 <LineContent label="Corps électoral" value={`${votersCount} ${pluralize(votersCount, 'inscrit')}`} />
@@ -62,9 +60,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
               </Box>
               {status === electionStatus.closed && results && (
                 <Box py={2}>
-                  <Typography
-                    sx={{ px: 1, fontSize: '20px', fontWeight: '500', color: theme => theme.palette.colors.gray[900] }}
-                  >
+                  <Typography sx={{ px: 1, fontSize: '20px', fontWeight: '500', color: 'colors.gray.900' }}>
                     Résultats du vote
                   </Typography>
                   <Grid container spacing={2} sx={{ mt: 1.5, px: 1 }}>
