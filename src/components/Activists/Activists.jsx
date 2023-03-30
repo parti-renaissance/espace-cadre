@@ -81,7 +81,7 @@ const Activists = () => {
             </Typography>
             <Pagination
               sx={{ justifyContent: 'flex-end' }}
-              count={activists.total || 0}
+              count={activists.lastPage || 0}
               page={filters.page}
               onChange={(event, page) => setFilters(prevState => ({ ...prevState, page }))}
             />
