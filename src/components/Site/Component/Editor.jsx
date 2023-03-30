@@ -126,8 +126,8 @@ const Editor = ({ siteUuid, onContentUpdate, refreshContent }) => {
         ref={editorRef}
         projectId={UNLAYER_PROJECT_ID}
         onLoad={() => setEditorLoaded(true)}
-        displayMode={'web'}
         options={{
+          displayMode: 'web',
           locale: 'fr-FR',
           safeHtml: true,
           tools: editorConfiguration.tools,
