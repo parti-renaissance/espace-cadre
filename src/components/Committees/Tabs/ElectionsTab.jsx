@@ -13,7 +13,7 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import About from '../Elections/Tabs/About'
 import Lists from '../Elections/Tabs/Lists'
 import CreateEditModal from '../Elections/CreateEditModal'
-import { getDesignation } from 'api/designations'
+import { getDesignation, resultsDesignation } from 'api/designations'
 
 const messages = {
   create: 'Créer une élection',
@@ -60,6 +60,15 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     }
   )
 
+  const { data: results = [], isLoading: IsResultsLoading } = useQueryWithScope(
+    ['designation-results', { feature: 'Committees' }],
+    () => resultsDesignation(committeeElection.designation.id),
+    {
+      enabled: committeeElection.status === 'closed',
+      onError: handleError,
+    }
+  )
+
   const toggleCreateEditModal = (designation, open) => {
     setDesignation(designation)
     setIsCreateEditModalOpen(open)
@@ -90,11 +99,12 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
                 votersCount={committeeElection.votersCount}
                 designation={designation}
                 adherentCount={adherentCount}
+                results={results[0]}
               />
             )}
           </div>
           <div className="mt-8">
-            <Lists election={committeeElection} />
+            <Lists election={committeeElection} isResultsLoading={IsResultsLoading} results={results[0]} />
           </div>
         </>
       ) : (

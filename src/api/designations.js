@@ -13,7 +13,6 @@ export const getDesignation = async id => {
     data.vote_end_date
   )
 }
-
 export const createDesignation = async designation => {
   const data = await apiClient.post('/v3/designations', designationToJson(designation))
   return data.uuid
@@ -21,6 +20,10 @@ export const createDesignation = async designation => {
 export const updateDesignation = async designation => {
   const data = await apiClient.put(`/v3/designations/${designation.id}`, designationToJson(designation))
   return data.uuid
+}
+export const resultsDesignation = async id => {
+  const data = await apiClient.get(`/v3/designations/${id}/results`)
+  return data
 }
 
 const designationToJson = designation => ({
