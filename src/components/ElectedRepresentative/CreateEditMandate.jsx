@@ -18,6 +18,7 @@ import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
 import Input from 'ui/Input/Input'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { format } from 'date-fns'
 
 const messages = {
   create: 'Créer',
@@ -80,6 +81,8 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
 
     createOrUpdate({
       ...values,
+      begin_at: format(new Date(values.begin_at), 'yyyy-MM-dd'),
+      finish_at: finish_at ? format(new Date(finish_at), 'yyyy-MM-dd') : null,
       elected_representative: electedId,
       la_r_e_m_support: values.la_r_e_m_support || null,
       geo_zone: selectedZone?.uuid || mandate?.geo_zone?.uuid,
