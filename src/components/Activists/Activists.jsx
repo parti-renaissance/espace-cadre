@@ -76,8 +76,9 @@ const Activists = () => {
         {activists.total > 0 && (
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>
-              Affichage de {activists.pageSize * (filters.page - 1) + 1} à {activists.pageSize * filters.page} résultats
-              sur {activists.total}
+              Affichage de {activists.pageSize * (activists.currentPage - 1) + 1} à{' '}
+              {activists.pageSize * (activists.currentPage - 1) + activists.currentPageCount} résultats sur{' '}
+              {activists.total}
             </Typography>
             <Pagination
               sx={{ justifyContent: 'flex-end' }}
