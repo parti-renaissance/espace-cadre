@@ -39,7 +39,7 @@ const Lists = ({ members, onMemberClick }) => (
                 <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center' }}>
                   <FmdGoodIcon sx={{ color: 'colors.gray.400', fontSize: '22px', mr: 0.5 }} />
                   <Typography component="p" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
-                    {member.city} ({member.cityId})
+                    {member.city} ({member.cityId ?? '!'})
                   </Typography>
                 </Grid>
               </Grid>
