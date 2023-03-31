@@ -83,4 +83,5 @@ export const affiliations = {
   PRV: 'Parti radical valoisien',
   MDC: 'Mouvement des citoyens',
   MNR: 'Mouvement national républicain',
+  RE: 'Renaissance',
 }
