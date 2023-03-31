@@ -14,6 +14,7 @@ import About from '../Elections/Tabs/About'
 import Lists from '../Elections/Tabs/Lists'
 import CreateEditModal from '../Elections/CreateEditModal'
 import { getDesignation, resultsDesignation } from 'api/designations'
+import { electionStatus } from '../constants'
 
 const messages = {
   create: 'Créer une élection',
@@ -60,11 +61,11 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     }
   )
 
-  const { data: results = [], isLoading: IsResultsLoading } = useQueryWithScope(
+  const { data: results = [], isFetching: IsResultsLoading } = useQueryWithScope(
     ['designation-results', { feature: 'Committees' }],
     () => resultsDesignation(committeeElection.designation.id),
     {
-      enabled: committeeElection.status === 'closed',
+      enabled: committeeElection.status === electionStatus.closed,
       onError: handleError,
     }
   )
