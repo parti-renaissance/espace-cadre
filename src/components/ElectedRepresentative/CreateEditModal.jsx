@@ -128,7 +128,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
       submitLabel={!elected ? messages.create : messages.update}
     >
       <Box>
-        <UIInputLabel required>Nom</UIInputLabel>
+        <UIInputLabel required>Prénom</UIInputLabel>
         <Controller
           name={fields.firstName}
           control={control}
@@ -141,7 +141,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <FormError errors={errorMessages} field={fields.firstName} />
       </Box>
       <Box sx={{ mt: 2 }}>
-        <UIInputLabel required>Prénom</UIInputLabel>
+        <UIInputLabel required>Nom</UIInputLabel>
         <Controller
           name={fields.lastName}
           control={control}
