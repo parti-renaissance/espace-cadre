@@ -81,6 +81,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
     createOrUpdate({
       ...values,
       elected_representative: electedId,
+      la_r_e_m_support: values.la_r_e_m_support || null,
       geo_zone: selectedZone?.uuid || mandate?.geo_zone?.uuid,
     })
   }
@@ -222,12 +223,11 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         <FormError errors={errorMessages} field={fields.politicalAffiliation} />
       </Box>
       <Box>
-        <UIInputLabel required>Soutien</UIInputLabel>
+        <UIInputLabel>Soutien</UIInputLabel>
         <Controller
           name={fields.laREMSupport}
           control={control}
           defaultValue={mandate?.la_r_e_m_support || ''}
-          rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
               options={Object.keys(supports).map(key => ({ key, value: supports[key] }))}
