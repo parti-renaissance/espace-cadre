@@ -72,6 +72,12 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
   })
 
   const createOrEdit = () => {
+    const { finish_at } = values
+    if (!watchOnGoing && (finish_at === '' || finish_at === null)) {
+      enqueueSnackbar('La date de fin pour le mandat est obligatoire', notifyVariants.error)
+      return
+    }
+
     createOrUpdate({
       ...values,
       elected_representative: electedId,
@@ -169,7 +175,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         </Grid>
         <Grid item xs={12} sm={6}>
           <Box>
-            <UIInputLabel>Date de fin de mandat</UIInputLabel>
+            <UIInputLabel required={!watchOnGoing}>Date de fin de mandat</UIInputLabel>
             <Controller
               name={fields.finishAt}
               control={control}
@@ -216,11 +222,12 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         <FormError errors={errorMessages} field={fields.politicalAffiliation} />
       </Box>
       <Box>
-        <UIInputLabel>Soutien</UIInputLabel>
+        <UIInputLabel required>Soutien</UIInputLabel>
         <Controller
           name={fields.laREMSupport}
           control={control}
           defaultValue={mandate?.la_r_e_m_support || ''}
+          rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
               options={Object.keys(supports).map(key => ({ key, value: supports[key] }))}
