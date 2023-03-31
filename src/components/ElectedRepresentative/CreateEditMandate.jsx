@@ -72,9 +72,16 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
   })
 
   const createOrEdit = () => {
+    const { finish_at } = values
+    if (!watchOnGoing && (finish_at === '' || finish_at === null)) {
+      enqueueSnackbar('La date de fin pour le mandat est obligatoire', notifyVariants.error)
+      return
+    }
+
     createOrUpdate({
       ...values,
       elected_representative: electedId,
+      la_r_e_m_support: values.la_r_e_m_support || null,
       geo_zone: selectedZone?.uuid || mandate?.geo_zone?.uuid,
     })
   }
@@ -169,7 +176,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         </Grid>
         <Grid item xs={12} sm={6}>
           <Box>
-            <UIInputLabel>Date de fin de mandat</UIInputLabel>
+            <UIInputLabel required={!watchOnGoing}>Date de fin de mandat</UIInputLabel>
             <Controller
               name={fields.finishAt}
               control={control}
