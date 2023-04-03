@@ -245,7 +245,7 @@ const Dashboard = () => {
                               </Box>
                             </Content>
                           )}
-                          {elected.last_contribution && (
+                          {elected.contributed_at && (
                             <Content sx={{ mt: 1, pt: 1.5 }} title="Cotisation">
                               <Raw
                                 title="Éligibilité:"
@@ -268,27 +268,31 @@ const Dashboard = () => {
                                   locale: fr,
                                 })}
                               />
-                              <Raw title="Moyen:" content={messages.type[elected.last_contribution.type]} />
-                              <Raw
-                                title="Status:"
-                                content={
-                                  <UIChip
-                                    {...messages.status[elected.last_contribution.status]}
-                                    sx={{ height: 'auto', borderRadius: '8px' }}
+                              {elected.last_contribution && (
+                                <>
+                                  <Raw title="Moyen:" content={messages.type[elected.last_contribution.type]} />
+                                  <Raw
+                                    title="Status:"
+                                    content={
+                                      <UIChip
+                                        {...messages.status[elected.last_contribution.status]}
+                                        sx={{ height: 'auto', borderRadius: '8px' }}
+                                      />
+                                    }
+                                    sx={{ display: 'none' }}
                                   />
-                                }
-                                sx={{ display: 'none' }}
-                              />
-                              {elected.last_contribution.type === 'check' ||
-                              elected.last_contribution.type === 'cash' ? (
-                                <Raw
-                                  title="Date de cotisation:"
-                                  content={format(new Date(elected.last_contribution.start_date), 'dd MMMM yyyy', {
-                                    locale: fr,
-                                  })}
-                                  sx={{ display: 'none' }}
-                                />
-                              ) : null}
+                                  {elected.last_contribution.type === 'check' ||
+                                  elected.last_contribution.type === 'cash' ? (
+                                    <Raw
+                                      title="Date de cotisation:"
+                                      content={format(new Date(elected.last_contribution.start_date), 'dd MMMM yyyy', {
+                                        locale: fr,
+                                      })}
+                                      sx={{ display: 'none' }}
+                                    />
+                                  ) : null}
+                                </>
+                              )}
                             </Content>
                           )}
                         </Box>
