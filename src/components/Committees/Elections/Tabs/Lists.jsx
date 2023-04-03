@@ -150,7 +150,7 @@ const Lists = ({ election, isResultsLoading, results }) => {
                 </Typography>
               }
               canDropList={list.candidacies.length === 0 && enabledAction}
-              dropList={list => deleteList(list.uuid)}
+              dropList={() => deleteList(list.uuid)}
               canAddCandidate={enabledAction}
               addCandidate={() => toggleCreateEditModal(list.uuid, true)}
             >
