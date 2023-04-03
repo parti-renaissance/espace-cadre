@@ -46,7 +46,6 @@ jobs:
   deploy-staging:
     name: Deploy to Staging 🍾
     runs-on: ubuntu-latest
-    needs: [test]
     if: github.event.ref == 'refs/heads/master'
     environment: staging
 
