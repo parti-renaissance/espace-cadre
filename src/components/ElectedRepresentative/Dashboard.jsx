@@ -245,7 +245,7 @@ const Dashboard = () => {
                               </Box>
                             </Content>
                           )}
-                          {elected.contributed_at && (
+                          {elected.last_contribution && (
                             <Content sx={{ mt: 1, pt: 1.5 }} title="Cotisation">
                               <Raw
                                 title="Éligibilité:"
