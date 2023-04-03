@@ -114,7 +114,7 @@ const ElectedDetail = () => {
         <PageHeader
           title={messages.pageTitle}
           titleLink={paths.elected_representative}
-          titleSuffix={electedDetail.first_name}
+          titleSuffix={`${electedDetail.first_name} ${electedDetail.last_name}`}
           button={
             <PageHeaderButton
               label={messages.modify}
