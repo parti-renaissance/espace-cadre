@@ -245,7 +245,7 @@ const Dashboard = () => {
                               </Box>
                             </Content>
                           )}
-                          {elected.last_contribution && (
+                          {elected.contributed_at && (
                             <Content sx={{ mt: 1, pt: 1.5 }} title="Cotisation">
                               <Raw
                                 title="Éligibilité:"
@@ -268,6 +268,8 @@ const Dashboard = () => {
                                   locale: fr,
                                 })}
                               />
+
+                              {elected.last_contribution && (
                               <Raw title="Moyen:" content={messages.type[elected.last_contribution.type]} />
                               <Raw
                                 title="Status:"
@@ -289,6 +291,7 @@ const Dashboard = () => {
                                   sx={{ display: 'none' }}
                                 />
                               ) : null}
+                              )}
                             </Content>
                           )}
                         </Box>
