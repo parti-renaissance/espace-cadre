@@ -17,6 +17,8 @@ export const getZones = async filters =>
       noLimit: 1,
     })}`
   )
+export const updateAnimator = async ({ committeeId, animatorId }) =>
+  await apiClient.put(`/v3/committees/${committeeId}/animator`, { animator: animatorId })
 export const getUsedZones = async () => await apiClient.get('/v3/committees/used-zones')
 export const createCommittee = async committee => await apiClient.post('/v3/committees', committee)
 export const updateCommittee = async committee => await apiClient.put(`/v3/committees/${committee.uuid}`, committee)

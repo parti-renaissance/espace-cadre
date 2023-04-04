@@ -21,3 +21,5 @@ export function getInitialNames(name = null) {
     return `${firstName}${lastName}`.toUpperCase()
   }
 }
+
+export const getFullName = user => `${user.first_name} ${user.last_name}`
