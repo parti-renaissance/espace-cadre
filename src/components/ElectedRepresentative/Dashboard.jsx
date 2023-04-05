@@ -53,12 +53,12 @@ const messages = {
   },
   eligibility: {
     eligible: {
-      label: 'Éligible',
+      label: 'Soumis au barème',
       color: 'teal700',
       bgcolor: 'activeLabel',
     },
     not_eligible: {
-      label: 'Inéligible',
+      label: 'Exonéré',
       color: 'yellow800',
       bgcolor: 'pendingLabel',
     },
@@ -248,7 +248,7 @@ const Dashboard = () => {
                           {elected.contributed_at && (
                             <Content sx={{ mt: 1, pt: 1.5 }} title="Cotisation">
                               <Raw
-                                title="Éligibilité:"
+                                title="Status:"
                                 content={
                                   <UIChip
                                     {...(typeof messages.eligibility[elected.contribution_status] !== 'undefined'
@@ -263,7 +263,7 @@ const Dashboard = () => {
                                 }
                               />
                               <Raw
-                                title="Date:"
+                                title="Déclaration faite le:"
                                 content={format(new Date(elected.contributed_at), 'dd MMMM yyyy', {
                                   locale: fr,
                                 })}
