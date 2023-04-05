@@ -18,6 +18,7 @@ const features = {
   general_meeting_reports: 'general_meeting_reports',
   committee: 'committee',
   documents: 'documents',
+  designation: 'designation',
 }
 
 export default features
@@ -86,4 +87,5 @@ export const featuresLabels = {
   [features.general_meeting_reports]: "Centre d'archives",
   [features.committee]: 'Comités locaux',
   [features.documents]: 'Documents',
+  [features.designation]: 'Élections CL',
 }
