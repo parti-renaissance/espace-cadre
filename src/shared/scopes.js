@@ -12,6 +12,7 @@ const scopes = {
   phoning: 'phoning',
   referent: 'referent',
   president_departmental_assembly: 'president_departmental_assembly',
+  animator: 'animator',
 }
 
 export default scopes
@@ -26,3 +27,21 @@ export const nationalScopes = [
   scopes.pap_national_manager,
   scopes.phoning_national_manager,
 ]
+
+export function isZonedScope(code) {
+  return [
+    scopes.regional_coordinator,
+    scopes.correspondent,
+    scopes.deputy,
+    scopes.senator,
+    scopes.legislative_candidate,
+    scopes.national_communication,
+    scopes.national,
+    scopes.pap_national_manager,
+    scopes.pap,
+    scopes.phoning_national_manager,
+    scopes.phoning,
+    scopes.referent,
+    scopes.president_departmental_assembly,
+  ].includes(code)
+}

@@ -2,15 +2,13 @@ import { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, IconButton as MuiButton, Icon } from '@mui/material'
 import { styled } from '@mui/system'
-import { useSelector } from 'react-redux'
-
 import Logo from 'ui/Logo/Logo'
 import icons from 'components/Layout/shared/icons'
 import { featuresGroup } from 'shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
-import { getAuthorizedPages } from '../../redux/user/selectors'
+import { useUserScope } from '../../redux/user/hooks'
 
 const IconButton = styled(MuiButton)(
   ({ theme }) => `
@@ -34,7 +32,7 @@ const IconButton = styled(MuiButton)(
 )
 
 const Navigation = ({ asideWidth, drawerWidth }) => {
-  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const [currentScope] = useUserScope()
   const [currentGroup, setCurrentGroup] = useState(featuresGroup[0])
 
   const authorizedFeaturesGroup = useMemo(
@@ -43,7 +41,7 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
         .map(group => {
           let arrayFeatures = []
           group.features.forEach(featureKey => {
-            if (authorizedFeatures.includes(featureKey)) {
+            if (currentScope.hasFeature(featureKey)) {
               arrayFeatures.push(featureKey)
             }
           })
@@ -51,7 +49,7 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
           return arrayFeatures.length ? { ...group, features: arrayFeatures } : null
         })
         .filter(group => group !== null),
-    [authorizedFeatures]
+    [currentScope]
   )
 
   return (

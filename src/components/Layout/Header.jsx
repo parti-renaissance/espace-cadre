@@ -14,9 +14,7 @@ const Header = () => {
         </div>
         <div className="header-scope">
           <div className="pr-4">
-            <span className="badge badge-primary">
-              {currentScope?.name} ({currentScope?.zones[0]?.code})
-            </span>
+            <span className="badge badge-primary">{currentScope.getName()}</span>
           </div>
         </div>
       </div>

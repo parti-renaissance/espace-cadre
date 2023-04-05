@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
@@ -16,8 +15,7 @@ import CreateEditActivistsAndRoles from './CreateEditActivistsAndRoles'
 import CreateEditDelegatedAccess from './CreateEditDelegatedAccess'
 import CreateEditValidateAction from './CreateEditValidateAction'
 import Dialog from 'ui/Dialog'
-import { getAuthorizedPages } from '../../../redux/user/selectors'
-import { useSelector } from 'react-redux'
+import { useUserScope } from '../../../redux/user/hooks'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -47,10 +45,10 @@ const addOrRemoveFeature = (initialFeatures = [], name, selected) => {
 }
 
 const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) => {
-  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const [currentScope] = useUserScope()
   const [values, setValues] = useState({
     ...teamMember,
-    ...{ features: teamMember?.features?.filter(feature => authorizedFeatures.includes(feature)) },
+    ...{ features: teamMember?.features?.filter(feature => currentScope.hasFeature(feature)) },
   })
   const isValidForm = useMemo(() => validateForm(values), [values])
   const { isMobile, isDesktop } = useCurrentDeviceType()
