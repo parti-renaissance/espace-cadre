@@ -1,39 +1,15 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Box, IconButton as MuiButton, Icon } from '@mui/material'
-import { styled } from '@mui/system'
-import Logo from 'ui/Logo/Logo'
-import icons from 'components/Layout/shared/icons'
+import { Box } from '@mui/material'
+import { LogoLarge } from 'ui/Logo/Logo'
 import { featuresGroup } from 'shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
 import { useUserScope } from '../../redux/user/hooks'
 
-const IconButton = styled(MuiButton)(
-  ({ theme }) => `
-  display: flex;
-  align-items: center;
-  justify: center;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto;
-  border-radius: 6px;
-  color: ${theme.palette.colors.white};
-  &:hover {
-    color: ${theme.palette.colors.white};
-    background-color: ${theme.palette.colors.blue['700']};
-  }
-  &.active {
-    color: ${theme.palette.colors.white};
-    background-color: ${theme.palette.colors.blue['800']};
-  }
-`
-)
-
-const Navigation = ({ asideWidth, drawerWidth }) => {
+const Navigation = ({ drawerWidth }) => {
   const [currentScope] = useUserScope()
-  const [currentGroup, setCurrentGroup] = useState(featuresGroup[0])
 
   const authorizedFeaturesGroup = useMemo(
     () =>
@@ -53,40 +29,31 @@ const Navigation = ({ asideWidth, drawerWidth }) => {
   )
 
   return (
-    <Box sx={{ display: 'flex', height: '100%' }}>
-      <Box
-        sx={{ width: asideWidth, backgroundColor: theme => theme.palette.colors.blue['600'] }}
-        className="aside-navigation"
-      >
-        <Logo classes="h-4 w-auto" fillColor="#fff" strokeColor="#fff" />
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        width: drawerWidth,
+        boxSizing: 'border-box',
+        height: '100%',
+        padding: '20px 16px',
+        overflow: 'hidden',
+      }}
+    >
+      <div>
+        <LogoLarge classes="h-6 w-auto" fillColor="#1254D8" strokeColor="#1254D8" />
         <Scopes />
-        <div className="menu-group">
-          {authorizedFeaturesGroup.map((group, key) => (
-            <IconButton
-              disableRipple={true}
-              onClick={() => setCurrentGroup(group)}
-              key={key}
-              className={currentGroup.slug === group.slug ? 'active' : ''}
-            >
-              <Icon component={icons[group.slug]} />
-              <span className="sr-only">{group.label}</span>
-            </IconButton>
-          ))}
-        </div>
-      </Box>
+      </div>
       <Box
-        sx={{
-          flex: '1 1 0%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          width: drawerWidth - asideWidth,
-          padding: '20px 16px',
-        }}
+        sx={{ mt: 1.5, pb: 2, flex: '1 1 0%', height: '100%', overflowY: 'scroll' }}
+        className="space-y-4 sidebar-content"
       >
-        <NavMenu group={currentGroup} />
-        <Footer />
+        {authorizedFeaturesGroup.map((group, key) => (
+          <NavMenu key={key} group={group} />
+        ))}
       </Box>
+      <Footer />
     </Box>
   )
 }
@@ -95,5 +62,4 @@ export default Navigation
 
 Navigation.propTypes = {
   drawerWidth: PropTypes.number,
-  asideWidth: PropTypes.number,
 }

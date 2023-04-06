@@ -18,7 +18,7 @@ const MainButton = styled(
     color: ${theme.palette.button.color.disabled};
     background-color: ${theme.palette.button.background.disabled};
   }
-  height: 35px;
+  min-height: 35px;
   border-radius: 8px;
   border: none;
   padding: ${theme.spacing(0.75, 2)};

@@ -10,7 +10,6 @@ import Branding from './Branding'
 import Header from './Header'
 
 const drawerWidth = 284
-const asideWidth = 54
 
 const AppBar = styled(MuiAppBar)(
   ({ theme }) => `
@@ -34,12 +33,11 @@ const Sidebar = ({ children, window }) => {
   }
 
   return (
-    <Box sx={{ backgroundColor: theme => theme.palette.colors.gray['100'] }}>
-      <Desktop asideWidth={asideWidth} drawerWidth={drawerWidth} />
+    <Box sx={{ position: 'relative', display: 'flex', backgroundColor: 'colors.gray.100' }}>
+      <Desktop drawerWidth={drawerWidth} />
       <Mobile
         container={container}
         drawerWidth={drawerWidth}
-        asideWidth={asideWidth}
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
@@ -47,7 +45,7 @@ const Sidebar = ({ children, window }) => {
         sx={{
           flexGrow: 1,
           padding: {
-            lg: `0 0 0 ${drawerWidth + asideWidth}px`,
+            lg: `0 0 0 ${drawerWidth}px`,
           },
         }}
       >
