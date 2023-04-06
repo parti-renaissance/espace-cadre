@@ -4,7 +4,7 @@ import { Grid } from '@mui/material'
 import { APP_VERSION } from 'shared/environments'
 
 const FooterWrapper = styled('div')`
-  margin: ${({ theme }) => theme.spacing('auto', 0, 2, 2)};
+  padding: ${({ theme }) => theme.spacing(1, 2)};
 `
 
 const ReleaseVersion = styled('div')(

@@ -57,3 +57,23 @@
   border-bottom-width: 0px;
   border-color: $color-gray-200;
 }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-shadow {
+  width: 3px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: -1px;
+  background: var(#000, linear-gradient(to left, rgba(0, 0, 0, 0.2) 0px, rgba(0, 0, 0, 0.2) 1px, rgba(0, 0, 0, 0.1) 1px, rgba(0, 0, 0, 0) 100% ));
+  opacity: 0.5;
+  pointer-events: none;
+  transition-duration: 0.22s;
+  transition-property: left, opacity, width;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}

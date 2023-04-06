@@ -9,7 +9,7 @@ const Drawer = styled(MuiDrawer)`
   }
 `
 
-export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth, asideWidth }) => (
+export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth }) => (
   <Drawer
     container={container}
     variant="temporary"
@@ -25,7 +25,7 @@ export const Mobile = ({ mobileOpen, container, handleDrawerToggle, drawerWidth,
       },
     }}
   >
-    <Navigation {...{ drawerWidth, asideWidth }} />
+    <Navigation drawerWidth={drawerWidth} />
   </Drawer>
 )
 
@@ -36,5 +36,4 @@ Mobile.propTypes = {
   container: PropTypes.number,
   handleDrawerToggle: PropTypes.func.isRequired,
   drawerWidth: PropTypes.number,
-  asideWidth: PropTypes.number,
 }

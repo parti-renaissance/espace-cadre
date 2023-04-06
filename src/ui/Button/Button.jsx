@@ -18,7 +18,7 @@ const MainButton = styled(
     color: ${theme.palette.button.color.disabled};
     background-color: ${theme.palette.button.background.disabled};
   }
-  height: 35px;
+  min-height: 35px;
   border-radius: 8px;
   border: none;
   padding: ${theme.spacing(0.75, 2)};
@@ -42,8 +42,15 @@ const MainDangerButton = styled(
 `
 )
 
-const Button = ({ children, onClick, rootProps, disabled = false, isMainButton = false }) => (
-  <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled} isMainButton={isMainButton}>
+const Button = ({ children, onClick, rootProps, disabled = false, isMainButton = false, ...props }) => (
+  <MainButton
+    variant="contained"
+    onClick={onClick}
+    {...rootProps}
+    disabled={disabled}
+    isMainButton={isMainButton}
+    {...props}
+  >
     {children}
   </MainButton>
 )

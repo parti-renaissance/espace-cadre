@@ -30,4 +30,12 @@ export default Logo
 
 Logo.propTypes = {
   classes: PropTypes.string,
+  fillColor: PropTypes.string,
+  strokeColor: PropTypes.string,
+}
+
+LogoLarge.propTypes = {
+  classes: PropTypes.string,
+  fillColor: PropTypes.string,
+  strokeColor: PropTypes.string,
 }
