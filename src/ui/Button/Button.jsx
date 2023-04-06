@@ -42,8 +42,15 @@ const MainDangerButton = styled(
 `
 )
 
-const Button = ({ children, onClick, rootProps, disabled = false, isMainButton = false }) => (
-  <MainButton variant="contained" onClick={onClick} {...rootProps} disabled={disabled} isMainButton={isMainButton}>
+const Button = ({ children, onClick, rootProps, disabled = false, isMainButton = false, ...props }) => (
+  <MainButton
+    variant="contained"
+    onClick={onClick}
+    {...rootProps}
+    disabled={disabled}
+    isMainButton={isMainButton}
+    {...props}
+  >
     {children}
   </MainButton>
 )
