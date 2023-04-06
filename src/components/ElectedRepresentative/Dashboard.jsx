@@ -248,7 +248,7 @@ const Dashboard = () => {
                           {elected.contributed_at && (
                             <Content sx={{ mt: 1, pt: 1.5 }} title="Cotisation">
                               <Raw
-                                title="Status:"
+                                title="Statut:"
                                 content={
                                   <UIChip
                                     {...(typeof messages.eligibility[elected.contribution_status] !== 'undefined'
@@ -272,7 +272,7 @@ const Dashboard = () => {
                                 <>
                                   <Raw title="Moyen:" content={messages.type[elected.last_contribution.type]} />
                                   <Raw
-                                    title="Status:"
+                                    title="État de cotisation:"
                                     content={
                                       <UIChip
                                         {...messages.status[elected.last_contribution.status]}
