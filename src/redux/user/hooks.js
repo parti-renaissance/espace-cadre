@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { getCurrentScope } from './selectors'
-import { updateAuthorizedPages, updateCurrentScope } from '../auth'
+import { updateCurrentScope } from '../auth'
 import { apiClient } from 'services/networking/client'
 
 export const useUserScope = () => {
@@ -9,11 +9,7 @@ export const useUserScope = () => {
   const dispatch = useDispatch()
 
   const setCurrentScope = useCallback(
-    async scope => {
-      const authorizedPage = await apiClient.get(`/v3/profile/me/scope/${scope.code}`)
-      dispatch(updateCurrentScope(authorizedPage))
-      dispatch(updateAuthorizedPages(authorizedPage.features))
-    },
+    async scopeCode => dispatch(updateCurrentScope(await apiClient.get(`/v3/profile/me/scope/${scopeCode}`))),
     [dispatch]
   )
   return [currentScope, setCurrentScope]

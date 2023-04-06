@@ -101,7 +101,7 @@ function Scopes() {
   }
 
   const handleChange = userScope => {
-    updateCurrentScope(userScope)
+    updateCurrentScope(userScope.code)
     setMenuAnchor(null)
     redirect(userScope)
   }

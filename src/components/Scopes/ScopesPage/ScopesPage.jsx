@@ -116,7 +116,7 @@ function ScopesPage() {
             const to = userScope.code === scopes.phoning_national_manager ? paths.team : paths.dashboard
             return (
               <ScopeCard item xs={12} md={3} lg={2} key={userScope.code}>
-                <Link to={to} value={userScope.code} onClick={() => updateCurrentScope(userScope)}>
+                <Link to={to} value={userScope.code} onClick={() => updateCurrentScope(userScope.code)}>
                   <Role>{userScope.name}</Role>
                   {userScope?.zones?.length === 1 && (
                     <Typography component="div" variant="subtitle1">

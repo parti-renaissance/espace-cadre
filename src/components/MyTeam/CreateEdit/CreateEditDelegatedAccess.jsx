@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-
-import { getAuthorizedPages } from '../../../redux/user/selectors'
 import { featuresLabels } from 'shared/features'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
 import Feature from './shared/components/Feature'
+import { useUserScope } from '../../../redux/user/hooks'
 
 const Title = styled(
   Typography,
@@ -51,12 +49,12 @@ const messages = {
 const skippedFeatures = ['mobile_app', 'my_team']
 
 const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeatures }) => {
-  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
 
   const features = useMemo(
-    () => authorizedFeatures.filter(feature => !skippedFeatures.includes(feature)),
-    [authorizedFeatures]
+    () => currentScope.features.filter(feature => !skippedFeatures.includes(feature)),
+    [currentScope]
   )
 
   return (

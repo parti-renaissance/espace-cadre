@@ -1,12 +1,11 @@
 import { APP_VERSION } from 'shared/environments'
+import { Scope } from 'domain/scope'
 
 export const getCurrentUser = state => state.auth.user
 
 export const getUserScopes = state => state.auth.scopes || []
 
-export const getCurrentScope = state => state.auth.currentScope
-
-export const getAuthorizedPages = state => state.auth.authorizedPages
+export const getCurrentScope = state => (state.auth.currentScope ? new Scope(state.auth.currentScope) : null)
 
 export const isUserLogged = state => state.auth.isUserLogged && state.auth.appVersion === APP_VERSION
 

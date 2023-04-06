@@ -140,7 +140,7 @@ const Filters = () => {
         data: {
           ...filtersToSend,
           scope: currentScope.delegated_access?.type || currentScope.code,
-          zone: filtersToSend.zone.uuid,
+          zone: filtersToSend.zone?.uuid,
         },
       })
     },

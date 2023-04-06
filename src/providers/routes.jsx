@@ -1,7 +1,5 @@
 import { Suspense, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { getAuthorizedPages } from '../redux/user/selectors'
 
 import paths from 'shared/paths'
 import features from 'shared/features'
@@ -27,62 +25,51 @@ import Formations from 'components/Formations'
 import GeneralReports from 'components/GeneralReports'
 import Committees from 'components/Committees'
 import Documents from 'components/Documents'
+import { useUserScope } from '../redux/user/hooks'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
-  const authorizedFeatures = useSelector(getAuthorizedPages)
+  const [currentScope] = useUserScope()
 
   useEffect(() => window.scrollTo(0, 0), [location])
   return (
     <Suspense fallback={<Spinner />}>
       <Routes>
         <Route path="*" element={<NoMatch />} />
-        <Route path={paths.dashboard} element={authorizedFeatures.includes(features.dashboard) && <Dashboard />} />
-        <Route path={paths.contacts} element={authorizedFeatures.includes(features.contacts) && <Activists />} />
-        <Route
-          path={`${paths.messages}/*`}
-          element={authorizedFeatures.includes(features.messages) && <Messagerie />}
-        />
+        <Route path={paths.dashboard} element={currentScope.hasFeature(features.dashboard) && <Dashboard />} />
+        <Route path={paths.contacts} element={currentScope.hasFeature(features.contacts) && <Activists />} />
+        <Route path={`${paths.messages}/*`} element={currentScope.hasFeature(features.messages) && <Messagerie />} />
         <Route
           path={`${paths.elected_representative}/*`}
-          element={authorizedFeatures.includes(features.elected_representative) && <ElectedRepresentative />}
+          element={currentScope.hasFeature(features.elected_representative) && <ElectedRepresentative />}
         />
         <Route
           path={`${paths.adherent_formations}/*`}
-          element={authorizedFeatures.includes(features.adherent_formations) && <Formations />}
+          element={currentScope.hasFeature(features.adherent_formations) && <Formations />}
         />
         <Route
           path={`${paths.general_meeting_reports}/*`}
-          element={authorizedFeatures.includes(features.general_meeting_reports) && <GeneralReports />}
+          element={currentScope.hasFeature(features.general_meeting_reports) && <GeneralReports />}
         />
-        <Route
-          path={`${paths.committee}/*`}
-          element={authorizedFeatures.includes(features.committee) && <Committees />}
-        />
-        <Route
-          path={`${paths.documents}/*`}
-          element={authorizedFeatures.includes(features.documents) && <Documents />}
-        />
-        <Route path={paths.elections} element={authorizedFeatures.includes(features.elections) && <Elections />} />
-        <Route path={paths.ripostes} element={authorizedFeatures.includes(features.ripostes) && <Ripostes />} />
-        <Route path={`${paths.team}/*`} element={authorizedFeatures.includes(features.team) && <Groups />} />
-        <Route path={paths.news} element={authorizedFeatures.includes(features.news) && <News />} />
-        <Route path={`${paths.events}/*`} element={authorizedFeatures.includes(features.events) && <Events />} />
-        <Route path={`${paths.survey}/*`} element={authorizedFeatures.includes(features.survey) && <Surveys />} />
+        <Route path={`${paths.committee}/*`} element={currentScope.hasFeature(features.committee) && <Committees />} />
+        <Route path={`${paths.documents}/*`} element={currentScope.hasFeature(features.documents) && <Documents />} />
+        <Route path={paths.elections} element={currentScope.hasFeature(features.elections) && <Elections />} />
+        <Route path={paths.ripostes} element={currentScope.hasFeature(features.ripostes) && <Ripostes />} />
+        <Route path={`${paths.team}/*`} element={currentScope.hasFeature(features.team) && <Groups />} />
+        <Route path={paths.news} element={currentScope.hasFeature(features.news) && <News />} />
+        <Route path={`${paths.events}/*`} element={currentScope.hasFeature(features.events) && <Events />} />
+        <Route path={`${paths.survey}/*`} element={currentScope.hasFeature(features.survey) && <Surveys />} />
         <Route
           path={`${paths.phoning_campaign}/*`}
-          element={authorizedFeatures.includes(features.phoning_campaign) && <Phoning />}
+          element={currentScope.hasFeature(features.phoning_campaign) && <Phoning />}
         />
         <Route
           path={`${paths.department_site}/*`}
-          element={authorizedFeatures.includes(features.department_site) && <Site />}
+          element={currentScope.hasFeature(features.department_site) && <Site />}
         />
-        <Route path={`${paths.pap}/*`} element={authorizedFeatures.includes(features.pap) && <DTD />} />
-        <Route
-          path={`${paths.pap_v2}/*`}
-          element={authorizedFeatures.includes(features.pap_v2) && <DTDLegislatives />}
-        />
-        <Route path={`${paths.my_team}/*`} element={authorizedFeatures.includes(features.my_team) && <MyTeam />} />
+        <Route path={`${paths.pap}/*`} element={currentScope.hasFeature(features.pap) && <DTD />} />
+        <Route path={`${paths.pap_v2}/*`} element={currentScope.hasFeature(features.pap_v2) && <DTDLegislatives />} />
+        <Route path={`${paths.my_team}/*`} element={currentScope.hasFeature(features.my_team) && <MyTeam />} />
       </Routes>
     </Suspense>
   )

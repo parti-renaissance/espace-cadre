@@ -8,7 +8,6 @@ const initialState = {
   scopes: [],
   currentScope: null,
   tokens: null,
-  authorizedPages: [],
 }
 
 const authSlice = createSlice({
@@ -34,9 +33,6 @@ const authSlice = createSlice({
     updateCurrentScope(state, action) {
       state.currentScope = action.payload
     },
-    updateAuthorizedPages(state, action) {
-      state.authorizedPages = action.payload
-    },
     updateRefreshToken(state, action) {
       state.tokens = action.payload.tokens
     },
@@ -46,13 +42,6 @@ const authSlice = createSlice({
   },
 })
 
-export const {
-  userLoggedIn,
-  userUpdateData,
-  userLogout,
-  userUpdateScopes,
-  updateCurrentScope,
-  updateAuthorizedPages,
-  updateRefreshToken,
-} = authSlice.actions
+export const { userLoggedIn, userUpdateData, userLogout, userUpdateScopes, updateCurrentScope, updateRefreshToken } =
+  authSlice.actions
 export default authSlice.reducer
