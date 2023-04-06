@@ -11,12 +11,17 @@ export class Scope {
     this.delegatedAccess = delegated_access
   }
 
+  getMainCode() {
+    return this.delegatedAccess ? this.delegatedAccess.type : this.code
+  }
+
   getName() {
     const nameParts = [this.name]
+    const code = this.getMainCode()
 
-    if (isZonedScope(this.code)) {
+    if (isZonedScope(code)) {
       nameParts.push(`(${this.zones[0]?.code})`)
-    } else if (this.code === scopes.animator) {
+    } else if (code === scopes.animator) {
       nameParts.push(`(${this.attributes?.committees?.map(committee => committee.name).join(', ')})`)
     }
 

@@ -1,6 +1,7 @@
 import { apiClient } from 'services/networking/client'
 
 import { MyTeam, MyTeamMember, MyTeamMemberActivist } from 'domain/my-team'
+import { ADHERENT_AUTOCOMPLETE_URI } from 'components/Filters/Element/AdherentAutocomplete'
 
 export const getMyTeamQuery = async () => {
   const data = await apiClient.get('api/v3/my_teams')
@@ -19,14 +20,13 @@ export const getMyTeamQuery = async () => {
 }
 
 export const getMyTeamActivists = async query => {
-  const data = await apiClient.get(`/api/v3/adherents/autocomplete?q=${query}`)
-  const activists = data.map(a => ({
+  const data = await apiClient.get(`${ADHERENT_AUTOCOMPLETE_URI}?q=${query}`)
+  return data.map(a => ({
     id: a.uuid,
     firstName: a.first_name,
     lastName: a.last_name,
     postCode: a.postal_code,
   }))
-  return activists
 }
 
 const createMyTeamQuery = async () => {
