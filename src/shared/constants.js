@@ -35,7 +35,6 @@ export const functions = {
 }
 
 export const supports = {
-  null: 'Aucun soutien sélectionné',
   invested: 'Investi',
   official: 'Soutient officiel',
   informal: 'Soutient informel',
