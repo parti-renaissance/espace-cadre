@@ -18,7 +18,20 @@ const scopes = {
 export default scopes
 
 export const scopesAliases = {
-  [scopes.president_departmental_assembly]: 'AD',
+  [scopes.animator]: 'AN',
+  [scopes.correspondent]: 'CO',
+  [scopes.deputy]: 'DE',
+  [scopes.legislative_candidate]: 'LC',
+  [scopes.national]: 'NA',
+  [scopes.national_communication]: 'NC',
+  [scopes.president_departmental_assembly]: 'PaD',
+  [scopes.pap_national_manager]: 'RP',
+  [scopes.pap]: 'PaP',
+  [scopes.phoning_national_manager]: 'RPh',
+  [scopes.phoning]: 'PH',
+  [scopes.referent]: 'RE',
+  [scopes.regional_coordinator]: 'RC',
+  [scopes.senator]: 'SE',
 }
 
 export const nationalScopes = [

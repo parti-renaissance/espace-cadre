@@ -8,7 +8,6 @@ import { useUserScope } from '../../redux/user/hooks'
 import paths, { publicPaths } from 'shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import { getInitialNames } from 'shared/helpers'
 import scopes, { scopesAliases } from 'shared/scopes'
 import Button from 'ui/Button'
 
@@ -133,10 +132,10 @@ function Scopes() {
               sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: '1 1 0%', mr: 1 }}
               className="truncate"
             >
-              <Box sx={{ pr: 1, fontSize: '18px' }}>
+              <Typography sx={{ pr: 1, fontSize: '16px', textTransform: 'none' }}>
                 {scopesAliases[currentScope.delegated_access?.type || currentScope.code] ||
-                  getInitialNames(currentScope?.name)}
-              </Box>
+                  scopesAliases[currentScope?.code]}
+              </Typography>
               <Box
                 display="flex"
                 flexDirection="column"
