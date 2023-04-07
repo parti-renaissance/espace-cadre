@@ -50,7 +50,7 @@ const Dashboard = () => {
           <Grid item xs={6}>
             <Typography component="p" sx={{ mb: 2 }}>
               Félicitations pour votre élection en tant que président de votre comité local ! Votre rôle est crucial
-              dans la mise en place et l'organisation de projets locaux importants pour nos adhérents. Nous sommes
+              dans la mise en place et l&apos;organisation de projets locaux importants pour nos adhérents. Nous sommes
               convaincus que vous apporterez votre expertise et votre détermination pour mener à bien ces projets.
             </Typography>
 
@@ -59,10 +59,10 @@ const Dashboard = () => {
             </Typography>
 
             <Typography component="p" sx={{ mb: 2 }}>
-              Tout d'abord, un outil de messagerie vous permettra de communiquer facilement avec les membres de votre
-              comité local. De plus, un outil vous facilitera l'accès aux informations de contact de l'ensemble des
-              militants de votre comité. Enfin, vous aurez la possibilité de créer des évènements pour mobiliser vos
-              adhérents et les impliquer dans des projets locaux.
+              Tout d&apos;abord, un outil de messagerie vous permettra de communiquer facilement avec les membres de
+              votre comité local. De plus, un outil vous facilitera l&apos;accès aux informations de contact de
+              l&apos;ensemble des militants de votre comité. Enfin, vous aurez la possibilité de créer des évènements
+              pour mobiliser vos adhérents et les impliquer dans des projets locaux.
             </Typography>
 
             <Typography component="p" sx={{ mb: 2 }}>
