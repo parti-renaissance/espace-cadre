@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Box, Grid, Typography, Alert } from '@mui/material'
 import PropTypes from 'prop-types'
 import { format } from 'date-fns'
+import htmr from 'htmr'
 import UICard from 'ui/Card'
 import pluralize from 'components/shared/pluralize/pluralize'
 import ZoneContext from 'providers/context'
-import { getFullName } from 'shared/helpers'
+import { getFullName, nl2br } from 'shared/helpers'
 import Button from 'ui/Button/Button'
 import Map from '../Map'
 import { LineContent } from '../styles'
@@ -28,7 +29,7 @@ const InformationTab = ({ committee }) => {
                   label="Date de création"
                   value={format(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm:ss')}
                 />
-                <LineContent label="Description" value={committee.description} />
+                <LineContent label="Description" value={htmr(nl2br(committee.description))} />
                 <LineContent
                   label="Membres"
                   value={`${committee.members_count} ${pluralize(committee.members_count, 'adhérent')} et ${

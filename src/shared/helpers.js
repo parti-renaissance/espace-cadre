@@ -23,3 +23,5 @@ export function getInitialNames(name = null) {
 }
 
 export const getFullName = user => `${user.first_name} ${user.last_name}`
+
+export const nl2br = text => (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2')

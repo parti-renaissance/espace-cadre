@@ -6,19 +6,21 @@ import { format } from 'date-fns'
 import { AccessTime } from '@mui/icons-material'
 import GroupsIcon from '@mui/icons-material/Groups'
 import { generatePath, useNavigate } from 'react-router'
+import htmr from 'htmr'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
+import { getCommittees } from 'api/committees'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import pluralize from 'components/shared/pluralize/pluralize'
 import Loader from 'ui/Loader'
 import EmptyContent from 'ui/EmptyContent'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import { getCommittees } from 'api/committees'
 import Button from 'ui/Button'
 import UICard from 'ui/Card/Card'
-import CreateEditModal from './CreateEditModal'
 import paths from 'shared/paths'
-import pluralize from 'components/shared/pluralize/pluralize'
+import { nl2br } from 'shared/helpers'
+import CreateEditModal from './CreateEditModal'
 
 const messages = {
   title: 'Comités locaux',
@@ -108,7 +110,7 @@ const Committees = () => {
                         component="p"
                         sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '14px' }}
                       >
-                        {committee.description}
+                        {htmr(nl2br(committee.description))}
                       </Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
                         <AccessTime
