@@ -235,7 +235,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <Select
               options={Object.keys(supports).map(key => ({ key, value: supports[key] }))}
               onChange={onChange}
-              value={value}
+              value={value === null ? '' : value}
             />
           )}
         />
