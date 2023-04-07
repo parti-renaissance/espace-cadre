@@ -6,7 +6,6 @@ import paths from 'shared/paths'
 import { featuresLabels } from 'shared/features'
 import NavItem from 'ui/NavItem/NavItem'
 import { useUserScope } from '../../redux/user/hooks'
-import { Box } from '@mui/material'
 
 export const NavMenu = ({ handleItemClick, group }) => {
   const [currentScope] = useUserScope()
