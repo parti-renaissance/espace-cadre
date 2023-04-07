@@ -8,17 +8,18 @@ import GroupsIcon from '@mui/icons-material/Groups'
 import { generatePath, useNavigate } from 'react-router'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
+import { getCommittees } from 'api/committees'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import pluralize from 'components/shared/pluralize/pluralize'
+import { nl2br } from 'components/shared/helpers'
 import Loader from 'ui/Loader'
 import EmptyContent from 'ui/EmptyContent'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import { getCommittees } from 'api/committees'
 import Button from 'ui/Button'
 import UICard from 'ui/Card/Card'
-import CreateEditModal from './CreateEditModal'
 import paths from 'shared/paths'
-import pluralize from 'components/shared/pluralize/pluralize'
+import CreateEditModal from './CreateEditModal'
 
 const messages = {
   title: 'Comités locaux',
@@ -94,27 +95,19 @@ const Committees = () => {
                   rootProps={{ sx: { pt: 2 } }}
                   header={
                     <>
-                      <Typography
-                        component="h2"
-                        sx={{ fontWeight: '500', color: theme => theme.palette.colors.gray[900], fontSize: '16px' }}
-                      >
+                      <Typography component="h2" sx={{ fontWeight: '500', color: 'colors.gray.900', fontSize: '16px' }}>
                         {committee.name}
                       </Typography>
                     </>
                   }
                   content={
                     <Box className="space-y-3 my-4">
-                      <Typography
-                        component="p"
-                        sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '14px' }}
-                      >
-                        {committee.description}
+                      <Typography component="div" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
+                        {nl2br(committee.description, { fontSize: '14px' })}
                       </Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-                        <AccessTime
-                          sx={{ mr: 0.5, color: theme => theme.palette.colors.gray[400], fontSize: '15px' }}
-                        />
-                        <Typography variant="subtitle2" sx={{ color: theme => theme.palette.colors.gray[500] }}>
+                        <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
+                        <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
                           Créé Le {format(new Date(committee.created_at), 'dd/MM/yyyy')} à{' '}
                           {format(new Date(committee.created_at), 'HH:mm')}
                         </Typography>
@@ -124,8 +117,8 @@ const Committees = () => {
                   actions={
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                       <Box display="flex" alignItems="center" className="space-x-2">
-                        <GroupsIcon sx={{ color: theme => theme.palette.colors.gray[400], fontSize: '22px' }} />
-                        <Typography variant="subtitle2" sx={{ color: theme => theme.palette.colors.gray[500] }}>
+                        <GroupsIcon sx={{ color: 'colors.gray.400', fontSize: '22px' }} />
+                        <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
                           {committee.members_count} {pluralize(committee.members_count, 'adhérent')} et{' '}
                           {committee.sympathizers_count} {pluralize(committee.sympathizers_count, 'sympathisant')}
                         </Typography>

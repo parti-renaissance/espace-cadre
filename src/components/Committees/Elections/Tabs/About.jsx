@@ -12,6 +12,7 @@ import { electionStatus } from 'components/Committees/constants'
 import { Designation } from 'domain/committee_election'
 import UICard from 'ui/Card'
 import { LineContent, ResultCard } from '../../styles'
+import { nl2br } from 'components/shared/helpers'
 
 const About = ({ status, votersCount, voteCount, designation, adherentCount, results }) => (
   <Box>
@@ -31,7 +32,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
                 label="Date de clôture du vote"
                 value={format(designation.voteEndDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
               />
-              <LineContent label="Description" value={designation.description} />
+              <LineContent label="Description" value={nl2br(designation.description)} />
             </>
           }
         />
