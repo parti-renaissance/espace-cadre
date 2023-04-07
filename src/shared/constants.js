@@ -42,6 +42,7 @@ export const supports = {
 }
 
 export const affiliations = {
+  RE: 'Renaissance',
   EXG: 'Extrême gauche',
   COM: 'Parti communiste français',
   FI: 'La France insoumise',
@@ -82,5 +83,4 @@ export const affiliations = {
   PRV: 'Parti radical valoisien',
   MDC: 'Mouvement des citoyens',
   MNR: 'Mouvement national républicain',
-  RE: 'Renaissance',
 }
