@@ -6,6 +6,7 @@ import paths from 'shared/paths'
 import { featuresLabels } from 'shared/features'
 import NavItem from 'ui/NavItem/NavItem'
 import { useUserScope } from '../../redux/user/hooks'
+import { Box } from '@mui/material'
 
 export const NavMenu = ({ handleItemClick, group }) => {
   const [currentScope] = useUserScope()
@@ -13,12 +14,10 @@ export const NavMenu = ({ handleItemClick, group }) => {
 
   return (
     <div className="menu-list mt-6">
-      <div className="menu-list-header">
+      <button className="menu-list-header" onClick={() => setShow(!show)} type="button">
         <h5 className="menu-list-header__title">{group.label}</h5>
-        <button onClick={() => setShow(!show)} type="button" className="no-style button">
-          {show ? <RemoveIcon sx={{ fontSize: '18px' }} /> : <AddIcon sx={{ fontSize: '18px' }} />}
-        </button>
-      </div>
+        <span>{show ? <RemoveIcon sx={{ fontSize: '18px' }} /> : <AddIcon sx={{ fontSize: '18px' }} />}</span>
+      </button>
       {show && (
         <nav className="menu-list__links">
           {group.features.map(
