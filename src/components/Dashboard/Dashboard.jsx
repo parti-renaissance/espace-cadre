@@ -43,6 +43,37 @@ const upcomingFeatureScopes = [scopes.phoning_national_manager, scopes.pap_natio
 const Dashboard = () => {
   const [currentScope] = useUserScope()
 
+  if (currentScope.code === scopes.animator) {
+    return (
+      <Container>
+        <Grid container sx={{ justifyContent: 'center' }}>
+          <Grid item xs={6}>
+            <Typography component="p" sx={{ mb: 2 }}>
+              Félicitations pour votre élection en tant que président de votre comité local ! Votre rôle est crucial
+              dans la mise en place et l&apos;organisation de projets locaux importants pour nos adhérents. Nous sommes
+              convaincus que vous apporterez votre expertise et votre détermination pour mener à bien ces projets.
+            </Typography>
+
+            <Typography component="p" sx={{ mb: 2 }}>
+              Nous vous mettons à disposition plusieurs outils pour vous aider dans votre rôle de président.
+            </Typography>
+
+            <Typography component="p" sx={{ mb: 2 }}>
+              Tout d&apos;abord, un outil de messagerie vous permettra de communiquer facilement avec les membres de
+              votre comité local. De plus, un outil vous facilitera l&apos;accès aux informations de contact de
+              l&apos;ensemble des militants de votre comité. Enfin, vous aurez la possibilité de créer des évènements
+              pour mobiliser vos adhérents et les impliquer dans des projets locaux.
+            </Typography>
+
+            <Typography component="p" sx={{ mb: 2 }}>
+              Nous avons hâte de voir les résultats de votre travail et sommes là pour vous soutenir dans vos projets.
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
+    )
+  }
+
   if (upcomingFeatureScopes.includes(currentScope.code))
     return <EmptyContent title={messages.upcoming} description={messages.description} />
 
