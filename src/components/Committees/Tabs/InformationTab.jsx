@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Box, Grid, Typography, Alert } from '@mui/material'
 import PropTypes from 'prop-types'
 import { format } from 'date-fns'
-import htmr from 'htmr'
-import UICard from 'ui/Card'
 import pluralize from 'components/shared/pluralize/pluralize'
+import { nl2br } from 'components/shared/helpers'
 import ZoneContext from 'providers/context'
-import { getFullName, nl2br } from 'shared/helpers'
+import { getFullName } from 'shared/helpers'
+import UICard from 'ui/Card'
 import Button from 'ui/Button/Button'
 import Map from '../Map'
 import { LineContent } from '../styles'
@@ -29,7 +29,7 @@ const InformationTab = ({ committee }) => {
                   label="Date de création"
                   value={format(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm:ss')}
                 />
-                <LineContent label="Description" value={htmr(nl2br(committee.description))} />
+                <LineContent label="Description" value={nl2br(committee.description, { fontSize: '16px' })} />
                 <LineContent
                   label="Membres"
                   value={`${committee.members_count} ${pluralize(committee.members_count, 'adhérent')} et ${
@@ -50,16 +50,12 @@ const InformationTab = ({ committee }) => {
                   }
                 />
                 <Box sx={{ pr: 2.5, pl: 1, py: 2 }} className="space-y-3">
-                  <Typography
-                    sx={{ fontSize: '14px', fontWeight: '500', color: theme => theme.palette.colors.gray[500] }}
-                  >
-                    Zones
-                  </Typography>
+                  <Typography sx={{ fontSize: '14px', fontWeight: '500', color: 'colors.gray.500' }}>Zones</Typography>
                   <Alert severity="info">Les zones en vert foncé sont les zones appartenant à ce comité</Alert>
                   <Box
                     sx={{
                       border: '1px solid',
-                      color: theme => theme.palette.colors.gray[200],
+                      color: 'colors.gray.200',
                       borderRadius: '8px',
                       overflow: 'hidden',
                     }}
