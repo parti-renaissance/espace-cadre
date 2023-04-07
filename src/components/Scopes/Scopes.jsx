@@ -10,6 +10,7 @@ import pluralize from 'components/shared/pluralize/pluralize'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import scopes, { scopesAliases } from 'shared/scopes'
 import Button from 'ui/Button'
+import { getInitialNames } from 'shared/helpers'
 
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {
@@ -133,8 +134,8 @@ function Scopes() {
               className="truncate"
             >
               <Typography sx={{ pr: 1, fontSize: '16px', textTransform: 'none' }}>
-                {scopesAliases[currentScope.delegated_access?.type || currentScope.code] ||
-                  scopesAliases[currentScope?.code]}
+                {scopesAliases[currentScope.delegatedAccess?.type || currentScope.code] ||
+                  getInitialNames(currentScope?.name)}
               </Typography>
               <Box
                 display="flex"
