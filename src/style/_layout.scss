@@ -35,18 +35,37 @@
 }
 
 .menu-list {
-  &__header {
-    margin: 0;
-    padding: 0 0.5rem;
-    font-size: small;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    color: $color-gray-700;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &__title {
+      margin: 0;
+      padding: 0 0.5rem;
+      font-size: small;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: $color-gray-700;
+    }
+
+    .button {
+      padding: 0.25rem;
+      color: $color-gray-400;
+      border-radius: 0.25rem;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      &:hover {
+        color: $color-gray-600;
+      }
+    }
   }
 
   &__links {
-    margin-top: 14px;
+    margin: 0.875rem 0.65rem 0;
+    border-left: 1px solid $color-gray-100;
+    padding-left: 6px;
   }
 }
 
