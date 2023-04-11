@@ -83,10 +83,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
-  const [templateId] = useState(() => {
-    const { code, delegated_access } = currentScope || {}
-    return templates[delegated_access?.type || code] || defaultTemplate
-  })
+  const [templateId] = useState(() => (currentScope ? templates[currentScope.getMainCode()] : defaultTemplate))
 
   const updateMessageTemplateCallback = useCallback(() => {
     emailEditorRef.current.exportHtml(data => {

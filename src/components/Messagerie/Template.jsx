@@ -43,7 +43,7 @@ const Template = ({ modeUpdate = false }) => {
 
   const editEmail = () => {
     const body = {
-      type: currentScope.delegated_access?.type || currentScope.code,
+      type: currentScope.getMainCode(),
       label: `DataCorner: ${messageSubject}`,
       subject: messageSubject,
       content: clearBody(message.chunks.body),
