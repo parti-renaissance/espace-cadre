@@ -39,6 +39,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    width: 100%;
     &__title {
       margin: 0;
       padding: 0 0.5rem;
@@ -49,16 +53,10 @@
       color: $color-gray-700;
     }
 
-    .button {
+    span {
+      display: 'inline-flex';
       padding: 0.25rem;
       color: $color-gray-400;
-      border-radius: 0.25rem;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      &:hover {
-        color: $color-gray-600;
-      }
     }
   }
 

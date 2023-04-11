@@ -16,7 +16,6 @@ const isNotEmpty = value => expect(value.length).to.be.at.least(1)
 
 const navigate = () => {
   cy.contains('Responsable PAP').click()
-  cy.contains('Militantisme').click()
   cy.contains('Porte à porte').click()
   cy.url().should('eq', 'http://localhost:3000/porte-a-porte')
 }

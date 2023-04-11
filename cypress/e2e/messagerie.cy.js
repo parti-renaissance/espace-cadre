@@ -12,7 +12,6 @@ const Ckeditor = '[data-cy="ckeditor-container"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
-  cy.contains('Communication').click()
   cy.contains('Messagerie').click()
   cy.url().should('eq', 'http://localhost:3000/messagerie')
 }

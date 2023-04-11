@@ -24,7 +24,6 @@ describe('Events', () => {
     mock('GET', '/api/event_categories', 'events/categories')
 
     cy.contains('Référent').click()
-    cy.contains('Militantisme').click()
     cy.visit('/evenements')
   })
 

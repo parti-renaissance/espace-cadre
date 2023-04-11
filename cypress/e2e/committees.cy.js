@@ -5,8 +5,7 @@ const CommitteeCard = '[data-cy="committee-card"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
-  cy.contains('Gestion territoriale').click()
-  cy.contains('Comités').click()
+  cy.contains('Comités locaux').click()
   cy.url().should('eq', 'http://localhost:3000/comites')
 }
 

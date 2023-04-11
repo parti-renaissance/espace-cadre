@@ -15,7 +15,6 @@ const isNotEmpty = value => expect(value.length).to.be.at.least(1)
 
 const navigate = () => {
   cy.contains('Responsable Phoning').click()
-  cy.contains('Communication').click()
   cy.contains('a', 'Phoning').click()
   cy.url().should('eq', 'http://localhost:3000/phoning')
 }
