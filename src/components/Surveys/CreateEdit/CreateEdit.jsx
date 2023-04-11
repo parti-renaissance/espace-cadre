@@ -43,9 +43,9 @@ const initialValues = {
   title: '',
   questions: [{ type: simpleField, content: '', choices: [] }],
 }
-const formatFormValues = (survey, zone, scope, delegatedAccess) => ({
+const formatFormValues = (survey, zone, scopeCode) => ({
   ...(survey || initialValues),
-  type: getScopeVisibility(scope) || getScopeVisibility(delegatedAccess),
+  type: getScopeVisibility(scopeCode),
   zone: formatZone(zone),
 })
 
@@ -63,10 +63,9 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
   const [currentScope] = useUserScope()
   const {
     zones: [zone],
-    code: scope,
-    delegated_access: delegatedAccess,
   } = currentScope
-  const [formValues, setFormValues] = useState(formatFormValues(survey, zone, scope, delegatedAccess?.type))
+  const scopeCode = currentScope.getMainCode()
+  const [formValues, setFormValues] = useState(formatFormValues(survey, zone, scopeCode))
   const isValidForm = useMemo(() => validateForm(formValues), [formValues])
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
@@ -92,7 +91,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
     <Dialog data-cy="surveys-create-edit" handleClose={handleClose} open>
       <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: isMobile ? 2 : null }}>
         <Title data-cy="surveys-create-edit-title">
-          {!survey ? messages.create.title : messages.update.title} {getScopeVisibility(scope)}
+          {!survey ? messages.create.title : messages.update.title} {getScopeVisibility(scopeCode)}
         </Title>
         <IconButton onClick={handleClose} data-cy="surveys-create-edit-action-close" sx={{ ml: 'auto' }}>
           <CloseRoundedIcon />
@@ -104,7 +103,7 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
           formValues={{ title: formValues.title, zone: formValues.zone }}
           updateFormField={updateFormField}
           errors={errorMessages}
-          isZoneSelectable={getScopeVisibility(scope) === visibility.national}
+          isZoneSelectable={getScopeVisibility(scopeCode) === visibility.national}
         />
         <CreateEditQuestions
           formValues={formValues.questions || []}

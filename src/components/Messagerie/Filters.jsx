@@ -139,7 +139,7 @@ const Filters = () => {
         id: messageUuid,
         data: {
           ...filtersToSend,
-          scope: currentScope.delegated_access?.type || currentScope.code,
+          scope: currentScope.getMainCode(),
           zone: filtersToSend.zone?.uuid,
         },
       })
