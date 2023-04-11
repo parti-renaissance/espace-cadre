@@ -9,7 +9,6 @@ const GroupAreaSelect = '[data-cy="group-area-select"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
-  cy.contains('Militantisme').click()
   cy.contains('a', 'Groupes').click()
   cy.url().should('eq', 'http://localhost:3000/groupes')
 }

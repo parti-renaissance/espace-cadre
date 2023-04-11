@@ -19,7 +19,6 @@ const hasAtLeastOneItem = length => expect(length).to.be.at.least(1)
 
 const navigate = () => {
   cy.contains('Référent').click()
-  cy.contains('Gestion territoriale').click()
   cy.contains('Mon équipe').click()
   cy.url().should('eq', 'http://localhost:3000/mon-equipe')
 

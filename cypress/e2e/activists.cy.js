@@ -15,7 +15,6 @@ describe('Activists', () => {
 
   it('loads "activists" page successfully', () => {
     cy.contains('Référent').click()
-    cy.contains('Militantisme').click()
     cy.contains('Militants').click()
   })
 })

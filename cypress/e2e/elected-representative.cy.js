@@ -7,7 +7,6 @@ const Card = '[data-cy="elected-representative-card"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
-  cy.contains('Gestion territoriale').click()
   cy.contains('Registre des élus').click()
   cy.url().should('eq', 'http://localhost:3000/registre-elus')
 }
