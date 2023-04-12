@@ -19,7 +19,7 @@ const UpdateAnimatorModal = ({ committeeId, animatorId, handleClose }) => {
   const { mutate, isLoading } = useMutation(updateAnimator, {
     onSuccess: () => {
       enqueueSnackbar(
-        animatorId ? 'Le président du comité a été modifié' : 'Un président a été ajouté au comité',
+        animatorId ? 'Responsable a été modifié' : 'Responsable a été ajouté au comité',
         notifyVariants.success
       )
       onSuccess()
@@ -34,7 +34,7 @@ const UpdateAnimatorModal = ({ committeeId, animatorId, handleClose }) => {
 
   return (
     <ModalForm
-      title={animatorId ? 'Modifier le président du comité' : 'Ajouter un président au comité'}
+      title={animatorId ? 'Modifier le responsable du comité local' : 'Ajouter un responsable au comité'}
       handleClose={handleClose}
       createOrEdit={update}
       isLoading={isLoading}

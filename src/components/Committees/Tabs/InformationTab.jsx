@@ -37,7 +37,7 @@ const InformationTab = ({ committee }) => {
                   } ${pluralize(committee.sympathizers_count, 'sympathisant')}`}
                 />
                 <LineContent
-                  label="Président du comité"
+                  label="Responsable comité local"
                   value={
                     <Box display="flex" alignItems="center" justifyContent="space-between">
                       <Typography sx={{ fontSize: '14px', color: 'colors.gray.900' }}>
