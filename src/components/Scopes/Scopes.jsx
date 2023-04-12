@@ -187,17 +187,18 @@ function Scopes() {
                 currentScope={currentScope}
               >
                 <Scope>{userScope.name}</Scope>
-                {userScope.zones?.length === 1 && (
+                {userScope.zones?.length > 0 && (
                   <Area>
                     {userScope.zones[0].name} ({userScope.zones[0].code})
+                    {userScope.zones.length > 1 &&
+                      ` + ${userScope.zones.slice(1).length} ${pluralize(
+                        userScope.zones.slice(1).length,
+                        messages.zone
+                      )}`}
                   </Area>
                 )}
-                {userScope.zones?.length > 1 && (
-                  <Area>
-                    {`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length}
-                    &nbsp;
-                    {pluralize(userScope.zones.slice(1).length, messages.zone)}
-                  </Area>
+                {userScope?.attributes?.committees?.length > 0 && (
+                  <Area>{userScope.attributes.committees.map(committee => committee.name).join(', ')}</Area>
                 )}
               </MenuItem>
             ))}
