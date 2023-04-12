@@ -88,6 +88,7 @@ const Filters = () => {
   const [currentScope] = useUserScope()
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
+  const [disabledAction, setDisabledAction] = useState(false)
   const [resetFilter, setResetFilter] = useState(0)
   const [isReadyToSend, setIsReadyToSend] = useState(false)
   const { handleError } = useErrorHandler()
@@ -142,13 +143,15 @@ const Filters = () => {
           scope: currentScope.getMainCode(),
           zone: filtersToSend.zone?.uuid,
         },
-      })
+      }),
+        setDisabledAction(false)
     },
     [messageUuid, updateMessageFilter, currentScope]
   )
 
   useEffect(() => {
     handleFiltersSubmit(defaultFilter)
+    setDisabledAction(false)
   }, [defaultFilter, handleFiltersSubmit])
 
   useEffect(() => {
@@ -156,6 +159,28 @@ const Filters = () => {
       sendMessage(messageUuid)
     }
   }, [isReadyToSend])
+
+  const onValuesChange = values => {
+    setDisabledAction(!compareObjects(defaultFilter, values))
+  }
+
+  const compareObjects = (obj1, obj2) => {
+    if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+      return false
+    }
+
+    for (let prop in obj1) {
+      if (!Object.prototype.hasOwnProperty.call(obj2, prop)) {
+        return false
+      }
+
+      if (obj1[prop] !== obj2[prop]) {
+        return false
+      }
+    }
+
+    return true
+  }
 
   const handleSendEmail = async (test = false) => {
     if (test) {
@@ -198,7 +223,9 @@ const Filters = () => {
               feature={features.messages}
               onSubmit={handleFiltersSubmit}
               values={defaultFilter}
-              onReset={() => setResetFilter(p => p + 1)}
+              onReset={() => setResetFilter(0)}
+              onValuesChange={onValuesChange}
+              buttonContainerStyle={{ mt: 2, mb: 4, justifyItems: 'center', alignItems: 'center' }}
             />
           </Grid>
           <Grid container>
@@ -221,7 +248,7 @@ const Filters = () => {
                 setLoadingTestButton(true)
                 handleSendEmail(true)
               }}
-              disabled={!message?.synchronized || loadingSendButton || loadingTestButton}
+              disabled={!message?.synchronized || loadingSendButton || loadingTestButton || disabledAction}
             >
               {loadingTestButton ? <Loader /> : messages.testMessage}
             </SendTest>
@@ -231,7 +258,11 @@ const Filters = () => {
               variant="outlined"
               size="medium"
               disabled={
-                !message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton
+                !message?.synchronized ||
+                message?.recipient_count < 1 ||
+                loadingSendButton ||
+                loadingTestButton ||
+                disabledAction
               }
               onClick={() => setOpen(true)}
             >

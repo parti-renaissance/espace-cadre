@@ -32,7 +32,7 @@ const messages = {
   reset: 'Réinitialiser',
 }
 
-const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
+const FiltersForm = ({ filters, onSubmit, onReset, values, onValuesChange, buttonContainerStyle }) => {
   const [localValues, setLocalValues] = useState(values)
   const factory = new Factory()
 
@@ -47,6 +47,7 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
           if (value === null || value === undefined) {
             return newState
           }
+          onValuesChange && onValuesChange({ ...newState, [filter.code]: value })
           return { ...newState, [filter.code]: value }
         })
       },
@@ -65,6 +66,7 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
 
   const handleClick = () => {
     setLocalValues(values)
+    onValuesChange && onValuesChange(values)
     onReset()
   }
 
@@ -78,7 +80,7 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
       <Grid container spacing={2} sx={{ mb: 2 }}>
         {filterElements}
       </Grid>
-      <Grid container sx={{ mb: 2 }}>
+      <Grid sx={{ mb: 2, ...buttonContainerStyle }}>
         <FilterButton type="submit">{messages.filter}</FilterButton>
         <ResetButton onClick={handleClick}>{messages.reset}</ResetButton>
       </Grid>
@@ -87,6 +89,7 @@ const FiltersForm = ({ filters, onSubmit, onReset, values }) => {
 }
 FiltersForm.defaultProps = {
   onReset: () => {},
+  buttonContainerStyle: {},
 }
 
 FiltersForm.propTypes = {
@@ -95,6 +98,8 @@ FiltersForm.propTypes = {
   values: PropTypes.object.isRequired,
   defaultValues: PropTypes.object,
   onReset: PropTypes.func,
+  onValuesChange: PropTypes.func,
+  buttonContainerStyle: PropTypes.object,
 }
 
 export default FiltersForm
