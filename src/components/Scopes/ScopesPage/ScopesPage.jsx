@@ -118,16 +118,19 @@ function ScopesPage() {
               <ScopeCard item xs={12} md={3} lg={2} key={userScope.code}>
                 <Link to={to} value={userScope.code} onClick={() => updateCurrentScope(userScope.code)}>
                   <Role>{userScope.name}</Role>
-                  {userScope?.zones?.length === 1 && (
+                  {userScope?.zones?.length > 0 && (
                     <Typography component="div" variant="subtitle1">
                       {userScope.zones[0].name} ({userScope.zones[0].code})
+                      {userScope.zones.length > 1 &&
+                        ` + ${userScope.zones.slice(1).length} ${pluralize(
+                          userScope.zones.slice(1).length,
+                          messages.zone
+                        )}`}
                     </Typography>
                   )}
-                  {userScope?.zones?.length > 1 && (
+                  {userScope?.attributes?.committees?.length > 0 && (
                     <Typography component="div" variant="subtitle1">
-                      {`${userScope.zones[0].name} (${userScope.zones[0].code})`} + {userScope.zones.slice(1).length}
-                      &nbsp;
-                      {pluralize(userScope.zones.slice(1).length, messages.zone)}
+                      {userScope.attributes.committees.map(committee => committee.name).join(', ')}
                     </Typography>
                   )}
                 </Link>
