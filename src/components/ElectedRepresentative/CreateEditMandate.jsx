@@ -6,6 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import { createMandate, updateMandate } from 'api/elected-representative'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -18,7 +19,6 @@ import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
 import Input from 'ui/Input/Input'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import { format } from 'date-fns'
 
 const messages = {
   create: 'Créer',
@@ -216,11 +216,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
           defaultValue={mandate?.political_affiliation || ''}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <Select
-              options={Object.keys(affiliations).map(key => ({ key, value: affiliations[key] }))}
-              onChange={onChange}
-              value={value}
-            />
+            <Select options={affiliations} onChange={onChange} value={value} />
           )}
         />
         <FormError errors={errorMessages} field={fields.politicalAffiliation} />
