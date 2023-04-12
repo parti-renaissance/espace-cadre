@@ -103,7 +103,7 @@ const Committees = () => {
                   content={
                     <Box className="space-y-3 my-4">
                       <Typography component="div" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
-                        {nl2br(committee.description, { fontSize: '14px' })}
+                        {nl2br(committee.description, { fontSize: '14px' }, 3)}
                       </Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
                         <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
