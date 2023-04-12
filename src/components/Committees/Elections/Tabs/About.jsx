@@ -32,7 +32,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
                 label="Date de clôture du vote"
                 value={format(designation.voteEndDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
               />
-              <LineContent label="Description" value={nl2br(designation.description)} />
+              <LineContent label="Description" value={nl2br(designation.description, {}, 5)} />
             </>
           }
         />
