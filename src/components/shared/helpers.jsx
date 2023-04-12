@@ -1,23 +1,16 @@
 import { Typography } from '@mui/material'
 
 export const nl2br = (text, sx, limit = null) => {
-  const paragraphs = text.split('\n').map((str, idx) => {
-    const index = idx + 1
+  const paragraphs = text.split('\n')
+  const displayableParagraphs = paragraphs.slice(0, limit || undefined)
 
-    if (limit) {
-      return (
-        <Typography component="p" key={idx} sx={{ mb: 1, ...(index > limit ? { display: 'none' } : null), ...sx }}>
-          {str} {index === limit ? '....' : ''}
-        </Typography>
-      )
-    }
+  if (paragraphs.length !== displayableParagraphs.length) {
+    displayableParagraphs[displayableParagraphs.length - 1] += ' ...'
+  }
 
-    return (
-      <Typography component="p" key={idx} sx={{ mb: 1, ...sx }}>
-        {str}
-      </Typography>
-    )
-  })
-
-  return paragraphs
+  return displayableParagraphs.map((str, idx) => (
+    <Typography component="p" key={idx} sx={{ mb: 1, ...sx }}>
+      {str}
+    </Typography>
+  ))
 }
