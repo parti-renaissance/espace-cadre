@@ -131,7 +131,7 @@ const Filters = () => {
     onError: handleError,
   })
 
-  const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0], resetFilter }), [currentScope, resetFilter])
+  const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0] || [], resetFilter }), [currentScope, resetFilter])
 
   const handleFiltersSubmit = useCallback(
     async filtersToSend => {
