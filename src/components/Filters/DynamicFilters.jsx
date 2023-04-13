@@ -5,7 +5,7 @@ import ErrorComponent from 'components/ErrorComponent'
 import Loader from 'ui/Loader'
 import { getFilters } from 'api/filters'
 
-const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
+const DynamicFilters = ({ feature, values, onSubmit, onReset, onValuesChange, buttonContainerStyle }) => {
   const [filters, setFilters] = useState([])
   const [errorMessage, setErrorMessage] = useState()
 
@@ -30,7 +30,16 @@ const DynamicFilters = ({ feature, values, onSubmit, onReset }) => {
   }
 
   if (filters.length > 0) {
-    return <FiltersForm filters={filters} values={values} onSubmit={onSubmit} onReset={onReset} />
+    return (
+      <FiltersForm
+        filters={filters}
+        values={values}
+        onSubmit={onSubmit}
+        onReset={onReset}
+        buttonContainerStyle={buttonContainerStyle}
+        onValuesChange={onValuesChange}
+      />
+    )
   }
 
   return <Loader />
@@ -41,12 +50,15 @@ export default DynamicFilters
 DynamicFilters.defaultProps = {
   onReset: null,
   values: {},
+  buttonContainerStyle: {},
 }
 
 DynamicFilters.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   feature: PropTypes.string.isRequired,
   onReset: PropTypes.func,
+  onValuesChange: PropTypes.func,
   values: PropTypes.object,
   defaultValues: PropTypes.object,
+  buttonContainerStyle: PropTypes.object,
 }

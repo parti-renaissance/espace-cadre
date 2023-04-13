@@ -88,6 +88,7 @@ const Filters = () => {
   const [currentScope] = useUserScope()
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
+  const [disabledAction, setDisabledAction] = useState(false)
   const [resetFilter, setResetFilter] = useState(0)
   const [isReadyToSend, setIsReadyToSend] = useState(false)
   const { handleError } = useErrorHandler()
@@ -142,13 +143,15 @@ const Filters = () => {
           scope: currentScope.getMainCode(),
           zone: filtersToSend.zone?.uuid,
         },
-      })
+      }),
+        setDisabledAction(false)
     },
     [messageUuid, updateMessageFilter, currentScope]
   )
 
   useEffect(() => {
     handleFiltersSubmit(defaultFilter)
+    setDisabledAction(false)
   }, [defaultFilter, handleFiltersSubmit])
 
   useEffect(() => {
@@ -198,7 +201,11 @@ const Filters = () => {
               feature={features.messages}
               onSubmit={handleFiltersSubmit}
               values={defaultFilter}
-              onReset={() => setResetFilter(p => p + 1)}
+              onReset={() => {
+                setResetFilter(0), setDisabledAction(false)
+              }}
+              onValuesChange={() => setDisabledAction(true)}
+              buttonContainerStyle={{ mt: 2, mb: 4, justifyItems: 'center', alignItems: 'center' }}
             />
           </Grid>
           <Grid container>
@@ -221,7 +228,7 @@ const Filters = () => {
                 setLoadingTestButton(true)
                 handleSendEmail(true)
               }}
-              disabled={!message?.synchronized || loadingSendButton || loadingTestButton}
+              disabled={!message?.synchronized || loadingSendButton || loadingTestButton || disabledAction}
             >
               {loadingTestButton ? <Loader /> : messages.testMessage}
             </SendTest>
@@ -231,7 +238,11 @@ const Filters = () => {
               variant="outlined"
               size="medium"
               disabled={
-                !message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton
+                !message?.synchronized ||
+                message?.recipient_count < 1 ||
+                loadingSendButton ||
+                loadingTestButton ||
+                disabledAction
               }
               onClick={() => setOpen(true)}
             >
