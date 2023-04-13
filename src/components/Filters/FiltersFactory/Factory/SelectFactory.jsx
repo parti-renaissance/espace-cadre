@@ -28,6 +28,7 @@ class SelectFactory {
       <FormControl
         variant="outlined"
         size="small"
+        required={filter.options.required || false}
         sx={{
           width: '100%',
           '& .MuiOutlinedInput-notchedOutline': {
@@ -39,6 +40,7 @@ class SelectFactory {
         <Select
           labelId="simple-select"
           onChange={e => onChange(e.target.value)}
+          required={filter.options.required || false}
           value={selectValue}
           multiple={multiple}
           renderValue={selected => {

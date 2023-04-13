@@ -39,6 +39,7 @@ const templates = {
   [scopes.referent]: 228742,
   [scopes.deputy]: 228747,
   [scopes.senator]: 60355,
+  [scopes.animator]: 329570,
   [scopes.correspondent]: 123148,
   [scopes.legislative_candidate]: 165090,
   [scopes.regional_coordinator]: 276759,
