@@ -160,28 +160,6 @@ const Filters = () => {
     }
   }, [isReadyToSend])
 
-  const onValuesChange = values => {
-    setDisabledAction(!compareObjects(defaultFilter, values))
-  }
-
-  const compareObjects = (obj1, obj2) => {
-    if (Object.keys(obj1).length !== Object.keys(obj2).length) {
-      return false
-    }
-
-    for (let prop in obj1) {
-      if (!Object.prototype.hasOwnProperty.call(obj2, prop)) {
-        return false
-      }
-
-      if (obj1[prop] !== obj2[prop]) {
-        return false
-      }
-    }
-
-    return true
-  }
-
   const handleSendEmail = async (test = false) => {
     if (test) {
       setLoadingTestButton(true)
@@ -223,8 +201,10 @@ const Filters = () => {
               feature={features.messages}
               onSubmit={handleFiltersSubmit}
               values={defaultFilter}
-              onReset={() => setResetFilter(0)}
-              onValuesChange={onValuesChange}
+              onReset={() => {
+                setResetFilter(0), setDisabledAction(false)
+              }}
+              onValuesChange={() => setDisabledAction(true)}
               buttonContainerStyle={{ mt: 2, mb: 4, justifyItems: 'center', alignItems: 'center' }}
             />
           </Grid>
