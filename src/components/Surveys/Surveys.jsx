@@ -193,7 +193,7 @@ const Surveys = () => {
         sx={{ pt: isMobile ? 2 : null, ...infiniteScrollStylesOverrides }}
       >
         {isNationalSurveysLoading && isLocalSurveysLoading ? (
-          <Loader />
+          <Loader isCenter />
         ) : (
           <>
             <SurveysKPI

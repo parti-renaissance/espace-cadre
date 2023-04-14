@@ -95,7 +95,7 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <Loader isCenter />
   if (!events.length) return <div>{messages.noEvent}</div>
 
   return (

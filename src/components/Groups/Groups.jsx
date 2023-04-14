@@ -82,7 +82,7 @@ const Groups = () => {
           button={<PageHeaderButton onClick={handleNewGroup} label={messages.create} isMainButton />}
         />
       </Grid>
-      {isLoading && <Loader />}
+      {isLoading && <Loader isCenter />}
       {!isLoading && !groups.length && <div>{messages.noGroup}</div>}
       <InfiniteScroll dataLength={groups.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
         <Grid container spacing={2}>

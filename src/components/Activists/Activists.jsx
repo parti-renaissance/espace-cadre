@@ -72,7 +72,7 @@ const Activists = () => {
       </Accordion>
 
       <Box sx={{ mt: 4 }} className="space-y-4">
-        {isLoading && <Loader />}
+        {isLoading && <Loader isCenter />}
         {activists.total > 0 && (
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>

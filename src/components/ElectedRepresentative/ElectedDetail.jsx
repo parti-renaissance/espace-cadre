@@ -105,7 +105,7 @@ const ElectedDetail = () => {
   }
 
   if (isLoading) {
-    return <Loader />
+    return <Loader isCenter />
   }
 
   return (

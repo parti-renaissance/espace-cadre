@@ -76,9 +76,9 @@ const Committees = () => {
         />
       </Grid>
 
-      {isLoading && <Loader />}
+      {isLoading && <Loader isCenter />}
 
-      {(!committees || committees.length === 0) && <EmptyContent description={messages.noData} />}
+      {(!committees || committees.length === 0) && !isLoading && <EmptyContent description={messages.noData} />}
 
       {committees && committees.length > 0 && (
         <InfiniteScroll
