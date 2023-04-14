@@ -145,7 +145,7 @@ const Documents = () => {
           </TableContainer>
         )}
 
-        {documents.total && (
+        {documents.total > 0 && (
           <TablePagination
             rowsPerPageOptions={[100]}
             labelRowsPerPage="Lignes par page:"

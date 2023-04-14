@@ -187,9 +187,9 @@ const Dashboard = () => {
         }}
       />
 
-      {isLoading && <Loader />}
+      {isLoading && <Loader isCenter />}
 
-      {electedRepresentative && electedRepresentative.length === 0 && (
+      {electedRepresentative && electedRepresentative.length === 0 && !isLoading && (
         <EmptyContent
           description={messages.noElected}
           action={

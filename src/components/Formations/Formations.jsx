@@ -92,7 +92,7 @@ const Formations = () => {
   const formations = usePaginatedData(paginatedFormations)
 
   if (isLoading) {
-    return <Loader />
+    return <Loader isCenter />
   }
 
   return (

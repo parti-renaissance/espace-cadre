@@ -67,7 +67,7 @@ const SentEmailCampaigns = () => {
     onError: handleError,
   })
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <Loader isCenter />
   if (!campaigns.length) return <div>{messages.noCampaign}</div>
 
   return (

@@ -58,7 +58,7 @@ const DetailCommittee = () => {
   }
 
   if (isLoading) {
-    return <Loader />
+    return <Loader isCenter />
   }
 
   return (
@@ -84,7 +84,7 @@ const DetailCommittee = () => {
           variant="scrollable"
           value={selectedTab}
           onChange={handleTabChange}
-          TabIndicatorProps={{ sx: { bgcolor: theme => theme.palette.colors.blue[500] } }}
+          TabIndicatorProps={{ sx: { bgcolor: 'colors.blue.500' } }}
           sx={{ my: 2 }}
         >
           <Tab

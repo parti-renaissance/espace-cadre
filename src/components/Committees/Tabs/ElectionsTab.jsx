@@ -77,9 +77,9 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
 
   return (
     <Container maxWidth={false} data-cy="committee-detail-elections">
-      {committeeElectionId && isLoading && <Loader />}
+      {committeeElectionId && isLoading && <Loader isCenter />}
 
-      {committeeElection && committeeElection.id ? (
+      {committeeElection && committeeElection.id && !isLoading ? (
         <>
           <div>
             {committeeElection.isEditable() ? (

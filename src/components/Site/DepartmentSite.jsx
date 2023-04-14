@@ -95,7 +95,7 @@ const DepartmentSite = () => {
   if (isLoading) {
     return (
       <Container maxWidth="xl">
-        <Loader />
+        <Loader isCenter />
       </Container>
     )
   }

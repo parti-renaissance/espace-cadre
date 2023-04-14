@@ -120,7 +120,7 @@ const News = () => {
         />
       </Grid>
       {isNewsLoading ? (
-        <Loader />
+        <Loader isCenter />
       ) : (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
           {shouldDisplayPinned && (

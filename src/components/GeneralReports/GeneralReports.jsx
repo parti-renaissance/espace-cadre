@@ -56,7 +56,7 @@ const GenericReports = () => {
   const documents = usePaginatedData(paginatedDocuments)
 
   if (isLoading) {
-    return <Loader />
+    return <Loader isCenter />
   }
 
   return (
