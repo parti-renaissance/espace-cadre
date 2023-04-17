@@ -13,6 +13,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { FormError } from 'components/shared/error/components'
 import ZoneAutocomplete from 'components/Filters/Element/ZoneAutocomplete'
+import { zoneTypes } from 'domain/zone'
 import { mandats, affiliations, supports } from 'shared/constants'
 import { ModalForm } from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
@@ -202,9 +203,10 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
       <Box>
         <UIInputLabel required>Zone géographique</UIInputLabel>
         <ZoneAutocomplete
-          customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
+          customStyle={{ bgcolor: 'colors.gray.50' }}
           value={selectedZone}
           onChange={setSelectedZone}
+          initialParams={{ types: Object.values(zoneTypes).filter(type => type !== zoneTypes.VOTE_PLACE) }}
         />
         <FormError errors={errorMessages} field={fields.geoZone} />
       </Box>
