@@ -9,22 +9,22 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import { DateRange } from '@mui/icons-material'
 import { useMutation } from '@tanstack/react-query'
-import { deleteMandate, getElected } from 'api/elected-representative'
+import { deleteMandate, getElected, updateElected } from 'api/elected-representative'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import paths from 'shared/paths'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
 import PageHeader, { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
-import CreateEditModal from './CreateEditModal'
 import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
 import EmptyContent from 'ui/EmptyContent'
 import Loader from 'ui/Loader'
-import { mandats } from 'shared/constants'
-import CreateEditMandate from './CreateEditMandate'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyVariants } from 'components/shared/notification/constants'
 import ConfirmButton from 'ui/Button/ConfirmButton'
+import { mandats } from 'shared/constants'
+import paths from 'shared/paths'
+import CreateEditMandate from './CreateEditMandate'
+import CreateEditModal from './CreateEditModal'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -44,9 +44,7 @@ const messages = {
 
 const Content = ({ sx, title, content = null, children }) => (
   <Box sx={sx}>
-    <Typography
-      sx={{ display: 'block', fontSize: '14px', fontWeight: 500, color: theme => theme.palette.colors.gray[500] }}
-    >
+    <Typography sx={{ display: 'block', fontSize: '14px', fontWeight: 500, color: 'colors.gray.500' }}>
       {title}
     </Typography>
     <Typography
@@ -55,7 +53,7 @@ const Content = ({ sx, title, content = null, children }) => (
         fontSize: '16px',
         fontWeight: 500,
         mt: 0.5,
-        color: theme => theme.palette.colors.gray[900],
+        color: 'colors.gray.900',
       }}
     >
       {content ?? content}
@@ -97,6 +95,13 @@ const ElectedDetail = () => {
       refetch()
     },
     onError: handleError,
+  })
+
+  const { mutate, isLoading: updateAdherentLoading } = useMutation(updateElected, {
+    onSuccess: () => {
+      enqueueSnackbar("L'élu a bien été dissocié du compte adhérent", notifyVariants.success)
+      refetch()
+    },
   })
 
   const toggleEditMandateModal = (mandate, open) => {
@@ -173,21 +178,24 @@ const ElectedDetail = () => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   borderTop: '1px solid',
-                  borderColor: theme => theme.palette.colors.gray[200],
+                  borderColor: 'colors.gray.200',
                   py: 2,
                   px: 2,
                 }}
               >
-                <Typography sx={{ fontSize: '16px', color: theme => theme.palette.colors.gray[600] }}>
+                <Typography sx={{ fontSize: '16px', color: 'colors.gray.600' }}>
                   {electedDetail.adherent ? messages.associate : messages.noAssociate}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                   {electedDetail.adherent ? (
-                    <CheckCircleIcon
-                      sx={{ color: theme => theme.palette.form.success.color, fontSize: '20px', ml: 2 }}
-                    />
+                    <Box display="flex" alignItems="center" className="space-x-3">
+                      <Button isMainButton onClick={() => mutate({ adherent: null, uuid: electedDetail.uuid })}>
+                        {updateAdherentLoading && <Loader />}&nbsp; Dissocier
+                      </Button>
+                      <CheckCircleIcon sx={{ color: 'form.success.color', fontSize: '20px', ml: 2 }} />
+                    </Box>
                   ) : (
-                    <ErrorIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px', ml: 2 }} />
+                    <ErrorIcon sx={{ color: 'form.error.color', fontSize: '20px', ml: 2 }} />
                   )}
                 </Box>
               </Box>
