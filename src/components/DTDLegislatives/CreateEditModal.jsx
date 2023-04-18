@@ -130,7 +130,13 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
               )}
               <Title>{!campaignId && !creationModeId ? messages.creationTitle : messages.editionTitle}</Title>
             </Grid>
-            <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
+              className="space-x-3"
+            >
               <ActionButton
                 shouldDisplayRegister={shouldDisplayRegister}
                 isStepOneValid={isStepOneValid}
