@@ -43,6 +43,10 @@ export class CommitteeElection {
     return electionStatus.not_started === this.status
   }
 
+  canCreateNew() {
+    return [electionStatus.closed, electionStatus.canceled].includes(this.status)
+  }
+
   static NULL = new CommitteeElection(null, Designation.NULL, [], 'not_started', 0, 0, null)
 }
 

@@ -30,6 +30,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
   const [committeeElection, setCommitteeElection] = useState(CommitteeElection.NULL)
   const [adherentCount, setAdherentCount] = useState(0)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
+  const [isNewCreationMode, setIsNewCreationMode] = useState(false)
   const { handleError } = useErrorHandler()
 
   const { isLoading } = useQueryWithScope(
@@ -82,6 +83,11 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
       {committeeElection && committeeElection.id && !isLoading ? (
         <>
           <div>
+            {committeeElection.canCreateNew() && (
+              <Button onClick={() => setIsNewCreationMode(true)} rootProps={{ sx: { color: 'whiteCorner' } }}>
+                Créer une nouvelle élection
+              </Button>
+            )}
             {committeeElection.isEditable() ? (
               <Box display="flex" alignItems="center" className="space-x-3">
                 <Button
@@ -130,6 +136,15 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
           designation={designation}
           election={committeeElection}
           handleClose={() => toggleCreateEditModal(designation, false)}
+        />
+      )}
+
+      {isNewCreationMode && (
+        <CreateEditModal
+          committeeUuid={committee.uuid}
+          designation={Designation.NULL}
+          election={CommitteeElection.NULL}
+          handleClose={() => setIsNewCreationMode(false)}
         />
       )}
     </Container>
