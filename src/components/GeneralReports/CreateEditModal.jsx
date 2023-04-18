@@ -133,7 +133,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
                 display: 'inline-block',
                 mr: 1.5,
                 fontSize: '14px',
-                color: theme => theme.palette.colors.gray[500],
+                color: 'colors.gray.500',
               }}
             >
               {action}...
@@ -178,6 +178,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
             <DatePicker
               value={value}
               onChange={onChange}
+              maxDate={new Date()}
               renderInput={params => <Input type="date" name={fields.date} {...params} />}
             />
           )}
