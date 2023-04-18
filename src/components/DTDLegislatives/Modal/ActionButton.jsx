@@ -12,10 +12,9 @@ const ActionButton = ({ shouldDisplayRegister, isStepOneValid, handleSubmit, isC
     return (
       <Button
         type="submit"
-        rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
         disabled={!isStepOneValid || isCampaignLoading}
         onClick={handleSubmit}
-        sx={{ width: '142px' }}
+        sx={{ width: 'auto', color: 'whiteCorner' }}
       >
         {isCampaignLoading && <Loader />}&nbsp;
         {isInCreationMode ? messages.create : messages.target}
@@ -23,7 +22,7 @@ const ActionButton = ({ shouldDisplayRegister, isStepOneValid, handleSubmit, isC
     )
   }
   return (
-    <Button type="submit" onClick={handleSubmit} rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}>
+    <Button type="submit" onClick={handleSubmit} sx={{ color: 'whiteCorner' }}>
       {messages.target}
     </Button>
   )

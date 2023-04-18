@@ -46,9 +46,9 @@ const Button = ({ children, onClick, rootProps, disabled = false, isMainButton =
   <MainButton
     variant="contained"
     onClick={onClick}
-    {...rootProps}
     disabled={disabled}
     isMainButton={isMainButton}
+    {...rootProps}
     {...props}
   >
     {children}
