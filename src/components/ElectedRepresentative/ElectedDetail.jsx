@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router'
 import { Box, Container, Grid, Typography } from '@mui/material'
 import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import ErrorIcon from '@mui/icons-material/Error'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -25,6 +26,8 @@ import { mandats } from 'shared/constants'
 import paths from 'shared/paths'
 import CreateEditMandate from './CreateEditMandate'
 import CreateEditModal from './CreateEditModal'
+import { UIChip } from 'ui/Card'
+import { paymentStatus } from './constants'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -131,77 +134,137 @@ const ElectedDetail = () => {
         />
       </Grid>
       <Box className="space-y-8">
-        <UICard
-          rootProps={{ sx: { p: 0 } }}
-          header={
-            <Box
-              sx={{
-                display: 'flex',
-                alignContent: 'center',
-                p: 2,
-                borderBottom: '1px solid',
-                borderColor: theme => theme.palette.colors.gray[200],
-              }}
-              className="elected-single__heading"
-            >
-              <Typography sx={{ fontSize: '18px', fontWeight: 500, color: theme => theme.palette.colors.gray[700] }}>
-                {messages.heading}
-              </Typography>
-            </Box>
-          }
-          content={
-            <Box className="space-y-2">
-              <Box sx={{ p: 2 }} className="space-y-2">
-                <Grid container spacing={1}>
-                  <Grid item xs={6} md={4}>
-                    <Content title="Nom complet">
-                      {electedDetail.first_name} <span className="font-bold">{electedDetail.last_name}</span>
-                    </Content>
-                  </Grid>
-                  <Grid item xs={6} md={4}>
-                    <Content title="Adresse E-mail" content={electedDetail.email_address ?? 'Aucune adresse e-mail'} />
-                  </Grid>
-                  <Grid item xs={6} md={4}>
-                    <Content title="Téléphone" content={electedDetail.phone_number ?? 'Aucun numero'} />
-                  </Grid>
-                </Grid>
-                <Content
-                  title="Date de naissance"
-                  content={
-                    electedDetail.birth_date ? format(new Date(electedDetail.birth_date), 'dd/MM/yyyy') : 'Aucune date'
-                  }
-                />
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  borderTop: '1px solid',
-                  borderColor: 'colors.gray.200',
-                  py: 2,
-                  px: 2,
-                }}
-              >
-                <Typography sx={{ fontSize: '16px', color: 'colors.gray.600' }}>
-                  {electedDetail.adherent ? messages.associate : messages.noAssociate}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                  {electedDetail.adherent ? (
-                    <Box display="flex" alignItems="center" className="space-x-3">
-                      <Button isMainButton onClick={() => mutate({ adherent: null, uuid: electedDetail.uuid })}>
-                        {updateAdherentLoading && <Loader />}&nbsp; Dissocier
-                      </Button>
-                      <CheckCircleIcon sx={{ color: 'form.success.color', fontSize: '20px', ml: 2 }} />
+        <Grid container spacing={4}>
+          <Grid item sx={12} md={8}>
+            <UICard
+              rootProps={{ sx: { p: 0 } }}
+              header={
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignContent: 'center',
+                    p: 2,
+                    borderBottom: '1px solid',
+                    borderColor: 'colors.gray.200',
+                  }}
+                  className="elected-single__heading"
+                >
+                  <Typography sx={{ fontSize: '18px', fontWeight: 500, color: 'colors.gray.700' }}>
+                    {messages.heading}
+                  </Typography>
+                </Box>
+              }
+              content={
+                <Box className="space-y-2">
+                  <Box sx={{ p: 2 }} className="space-y-2">
+                    <Grid container spacing={1}>
+                      <Grid item xs={6} md={4}>
+                        <Content title="Nom complet">
+                          {electedDetail.first_name} <span className="font-bold">{electedDetail.last_name}</span>
+                        </Content>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Content
+                          title="Adresse E-mail"
+                          content={electedDetail.email_address ?? 'Aucune adresse e-mail'}
+                        />
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Content title="Téléphone" content={electedDetail.phone_number ?? 'Aucun numero'} />
+                      </Grid>
+                    </Grid>
+                    <Content
+                      title="Date de naissance"
+                      content={
+                        electedDetail.birth_date
+                          ? format(new Date(electedDetail.birth_date), 'dd/MM/yyyy')
+                          : 'Aucune date'
+                      }
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      borderTop: '1px solid',
+                      borderColor: 'colors.gray.200',
+                      py: 2,
+                      px: 2,
+                    }}
+                  >
+                    <Typography sx={{ fontSize: '16px', color: 'colors.gray.600' }}>
+                      {electedDetail.adherent ? messages.associate : messages.noAssociate}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                      {electedDetail.adherent ? (
+                        <Box display="flex" alignItems="center" className="space-x-3">
+                          <CheckCircleIcon sx={{ color: 'form.success.color', fontSize: '20px', ml: 2 }} />
+                          <Button isMainButton onClick={() => mutate({ adherent: null, uuid: electedDetail.uuid })}>
+                            {updateAdherentLoading && <Loader />}&nbsp; Dissocier
+                          </Button>
+                        </Box>
+                      ) : (
+                        <ErrorIcon sx={{ color: 'form.error.color', fontSize: '20px', ml: 2 }} />
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              }
+            />
+          </Grid>
+          <Grid item sx={12} md={4}>
+            <UICard
+              rootProps={{ sx: { p: 0 } }}
+              header={
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignContent: 'center',
+                    p: 2,
+                    borderBottom: '1px solid',
+                    borderColor: 'colors.gray.200',
+                  }}
+                  className="elected-single__heading"
+                >
+                  <Typography sx={{ fontSize: '18px', fontWeight: 500, color: 'colors.gray.700' }}>
+                    Paiements
+                  </Typography>
+                </Box>
+              }
+              content={
+                <Box>
+                  {electedDetail.payments.length > 0 ? (
+                    <Box className="divider">
+                      {electedDetail.payments.map(payment => (
+                        <Box key={payment.uuid} sx={{ p: 2 }}>
+                          <Box>
+                            <Typography component="span" sx={{ color: 'colors.gray.500' }}>
+                              Du {format(new Date(payment.date), 'dd MMMM yyyy', { locale: fr })} via
+                            </Typography>
+                            <Typography component="span" sx={{ color: 'colors.gray.700', fontWeight: '500', px: 1 }}>
+                              {payment.method}
+                            </Typography>
+                          </Box>
+                          <Box mt={1} display="flex" alignItems="center" className="space-x-3">
+                            <Typography sx={{ color: 'colors.gray.900', fontWeight: '500' }}>
+                              {payment.amount ?? 0} €
+                            </Typography>
+                            <UIChip label={paymentStatus[payment.status]} labelStyle={{ fontSize: '13px' }} />
+                          </Box>
+                        </Box>
+                      ))}
                     </Box>
                   ) : (
-                    <ErrorIcon sx={{ color: 'form.error.color', fontSize: '20px', ml: 2 }} />
+                    <Typography component="h5" sx={{ p: 2, color: 'colors.gray.70' }}>
+                      Aucun paiement enrégistré
+                    </Typography>
                   )}
                 </Box>
-              </Box>
-            </Box>
-          }
-        />
+              }
+            />
+          </Grid>
+        </Grid>
         <UICard
           rootProps={{ sx: { p: 0 } }}
           header={
@@ -212,13 +275,11 @@ const ElectedDetail = () => {
                 justifyContent: 'space-between',
                 p: 2,
                 borderBottom: '1px solid',
-                borderColor: theme => theme.palette.colors.gray[200],
+                borderColor: 'colors.gray.200',
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography
-                  sx={{ fontSize: '18px', fontWeight: 500, color: theme => theme.palette.colors.gray[700], mr: 2 }}
-                >
+                <Typography sx={{ fontSize: '18px', fontWeight: 500, color: 'colors.gray.700', mr: 2 }}>
                   {messages.mandatesTitle}
                 </Typography>
                 {loading && <Loader />}
@@ -250,18 +311,16 @@ const ElectedDetail = () => {
                   <Box key={mandate.uuid} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ flex: '1 1 0%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Typography
-                          sx={{ fontSize: '14px', fontWeight: 500, color: theme => theme.palette.colors.blue[500] }}
-                        >
+                        <Typography sx={{ fontSize: '14px', fontWeight: 500, color: 'colors.blue.500' }}>
                           {mandats[mandate.type]}
-                          <Typography sx={{ color: theme => theme.palette.colors.gray[700] }}>
+                          <Typography sx={{ color: 'colors.gray.700' }}>
                             {` - ${mandate.geo_zone.name} (${mandate.geo_zone.code})`}
                           </Typography>
                         </Typography>
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
-                        <DateRange sx={{ color: theme => theme.palette.colors.gray[400], fontSize: '20px' }} />
-                        <Typography sx={{ fontSize: '16px', color: theme => theme.palette.colors.gray[700], ml: 1 }}>
+                        <DateRange sx={{ color: 'colors.gray.400', fontSize: '20px' }} />
+                        <Typography sx={{ fontSize: '16px', color: 'colors.gray.700', ml: 1 }}>
                           {mandate.on_going
                             ? `Depuis le ${format(new Date(mandate.begin_at), 'dd/MM/yyyy')}`
                             : `Du ${format(new Date(mandate.begin_at), 'dd/MM/yyyy')} au ${format(
@@ -281,7 +340,7 @@ const ElectedDetail = () => {
                         description={messages.confirmDeleteDescription}
                         onClick={() => removeMandate(mandate.uuid)}
                       >
-                        <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
+                        <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
                       </ConfirmButton>
                     </Box>
                   </Box>
