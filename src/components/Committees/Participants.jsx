@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   Box,
@@ -23,6 +23,7 @@ import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { TruncatedText } from 'components/shared/styled'
 import Loader from 'ui/Loader/Loader'
+import { orderBy } from 'lodash'
 
 const ColumnLabel = styled(({ isTruncated = false, ...props }) =>
   isTruncated ? <TruncatedText variant="subtitle2" {...props} /> : <Typography variant="subtitle2" {...props} />
@@ -39,32 +40,20 @@ const descendingComparator = (a, b, orderBy) => {
   return 0
 }
 
-const stableSort = (array, comparator) => {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) {
-      return order
-    }
-    return a[1] - b[1]
-  })
-  return stabilizedThis.map(el => el[0])
-}
-
-const getComparator = (order, orderBy) =>
-  order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy)
-
+const DEFAULT_SORT = 'voted_at'
 const DEFAULT_ORDER = 'asc'
-const DEFAULT_ORDER_BY = 'voted_at'
-const DEFAULT_ROWS_PER_PAGE = 10
+const DEFAULT_ROWS_PER_PAGE = 25
 
 const Participants = ({ designationId }) => {
   const { handleError } = useErrorHandler()
-  const [order, setOrder] = useState(DEFAULT_ORDER)
-  const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
-  const [page, setPage] = useState(0)
-  const [visibleRows, setVisibleRows] = useState(null)
-  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
+
+  const [pageConfig, setPageConfig] = useState({
+    search: null,
+    sort: DEFAULT_SORT,
+    order: DEFAULT_ORDER,
+    nbPerPage: DEFAULT_ROWS_PER_PAGE,
+    page: 0,
+  })
 
   const { data: voters, isLoading } = useQueryWithScope(
     ['committee-designation-voters', { feature: 'Committees', view: 'DetailCommittee' }, designationId],
@@ -75,55 +64,16 @@ const Participants = ({ designationId }) => {
     }
   )
 
-  useEffect(() => {
-    let rowsOnMount = stableSort(voters, getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY))
+  const sortedVoters = useMemo(() => {
+    if (!voters) {
+      return []
+    }
 
-    rowsOnMount = rowsOnMount.slice(0 * DEFAULT_ROWS_PER_PAGE, 0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE)
-
-    setVisibleRows(rowsOnMount)
-  }, [voters])
-
-  const handleRequestSort = useCallback(
-    (event, newOrderBy) => {
-      const isAsc = orderBy === newOrderBy && order === 'asc'
-      const toggledOrder = isAsc ? 'desc' : 'asc'
-      setOrder(toggledOrder)
-      setOrderBy(newOrderBy)
-
-      const sortedRows = stableSort(voters, getComparator(toggledOrder, newOrderBy))
-      const updatedRows = sortedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-
-      setVisibleRows(updatedRows)
-    },
-    [order, orderBy, page, rowsPerPage, voters]
-  )
-
-  const handleChangePage = useCallback(
-    (event, newPage) => {
-      setPage(newPage)
-
-      const sortedRows = stableSort(voters, getComparator(order, orderBy))
-      const updatedRows = sortedRows.slice(newPage * rowsPerPage, newPage * rowsPerPage + rowsPerPage)
-
-      setVisibleRows(updatedRows)
-    },
-    [order, orderBy, voters, rowsPerPage]
-  )
-
-  const handleChangeRowsPerPage = useCallback(
-    event => {
-      const updatedRowsPerPage = parseInt(event.target.value, 10)
-      setRowsPerPage(updatedRowsPerPage)
-
-      setPage(0)
-
-      const sortedRows = stableSort(voters, getComparator(order, orderBy))
-      const updatedRows = sortedRows.slice(0 * updatedRowsPerPage, 0 * updatedRowsPerPage + updatedRowsPerPage)
-
-      setVisibleRows(updatedRows)
-    },
-    [order, orderBy, voters]
-  )
+    return orderBy(voters, [pageConfig.sort], [pageConfig.order]).slice(
+      pageConfig.page * pageConfig.nbPerPage,
+      pageConfig.page * pageConfig.nbPerPage + pageConfig.nbPerPage
+    )
+  }, [voters, pageConfig])
 
   if (isLoading) {
     return <Loader isCenter />
@@ -138,28 +88,42 @@ const Participants = ({ designationId }) => {
               <TableRow>
                 <TableCell
                   key={uuid()}
-                  sortDirection={orderBy === 'last_name' ? order : false}
-                  onClick={event => handleRequestSort(event, 'last_name')}
+                  sortDirection={pageConfig.sort === 'last_name' ? pageConfig.order : false}
+                  onClick={() =>
+                    setPageConfig(prevState => ({
+                      ...prevState,
+                      page: prevState.sort !== 'last_name' || prevState.order === 'asc' ? 0 : prevState.page,
+                      sort: 'last_name',
+                      order: prevState.sort === 'last_name' && prevState.order === 'asc' ? 'desc' : 'asc',
+                    }))
+                  }
                 >
-                  <TableSortLabel>
+                  <TableSortLabel active={pageConfig.sort === 'last_name'}>
                     Participant
-                    {orderBy === 'last_name' ? (
+                    {pageConfig.sort === 'last_name' ? (
                       <Box component="span" sx={visuallyHidden}>
-                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                        {pageConfig.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                       </Box>
                     ) : null}
                   </TableSortLabel>
                 </TableCell>
                 <TableCell
                   key={uuid()}
-                  sortDirection={orderBy === 'voted_at' ? order : false}
-                  onClick={event => handleRequestSort(event, 'voted_at')}
+                  sortDirection={pageConfig.sort === 'voted_at' ? pageConfig.order : false}
+                  onClick={() =>
+                    setPageConfig(prevState => ({
+                      ...prevState,
+                      page: prevState.sort !== 'voted_at' || prevState.order === 'asc' ? 0 : prevState.page,
+                      sort: 'voted_at',
+                      order: prevState.sort === 'voted_at' && prevState.order === 'asc' ? 'desc' : 'asc',
+                    }))
+                  }
                 >
-                  <TableSortLabel>
+                  <TableSortLabel active={pageConfig.sort === 'voted_at'}>
                     Date du vote
-                    {orderBy === 'voted_at' ? (
+                    {pageConfig.sort === 'voted_at' ? (
                       <Box component="span" sx={visuallyHidden}>
-                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                        {pageConfig.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                       </Box>
                     ) : null}
                   </TableSortLabel>
@@ -170,39 +134,37 @@ const Participants = ({ designationId }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {visibleRows
-                ? visibleRows.map(voter => (
-                    <TableRow key={uuid()}>
-                      <TableCell key={uuid()}>
-                        <Typography sx={{ display: 'flex', alignItems: 'center' }} className="space-x-2">
-                          <span>{voter.first_name}</span>
-                          <span className="font-bold">{voter.last_name}</span>
-                        </Typography>
-                      </TableCell>
-                      <TableCell key={uuid()}>
-                        <Typography sx={{ color: 'colors.gray.500' }}>
-                          {voter.voted_at && format(new Date(voter.voted_at), 'dd MMMM yyyy à hh:mm', { locale: fr })}
-                          {!voter.voted_at && '--'}
-                        </Typography>
-                      </TableCell>
-                      <TableCell key={uuid()}>
-                        <Typography sx={{ color: 'colors.gray.500' }}>{voter.postal_code}</Typography>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                : null}
+              {sortedVoters.map(voter => (
+                <TableRow key={uuid()}>
+                  <TableCell key={uuid()}>
+                    <Typography sx={{ display: 'flex', alignItems: 'center' }} className="space-x-2">
+                      <span>{voter.first_name}</span>
+                      <span className="font-bold">{voter.last_name}</span>
+                    </Typography>
+                  </TableCell>
+                  <TableCell key={uuid()}>
+                    <Typography sx={{ color: 'colors.gray.500' }}>
+                      {voter.voted_at && format(new Date(voter.voted_at), 'dd MMMM yyyy à hh:mm', { locale: fr })}
+                      {!voter.voted_at && '--'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell key={uuid()}>
+                    <Typography sx={{ color: 'colors.gray.500' }}>{voter.postal_code}</Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
 
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[25, 50, 100]}
           component="div"
           count={voters.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPage={pageConfig.nbPerPage}
+          page={pageConfig.page}
+          onPageChange={(event, page) => setPageConfig(prevState => ({ ...prevState, page }))}
+          onRowsPerPageChange={event => setPageConfig(prevState => ({ ...prevState, nbPerPage: event.target.value }))}
         />
       </Paper>
     </Box>
