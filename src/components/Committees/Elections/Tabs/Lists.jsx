@@ -64,14 +64,7 @@ const Lists = ({ election, isResultsLoading, results }) => {
   }
 
   return (
-    <Box
-      data-cy="committee-detail-elections"
-      sx={{
-        borderTop: '1px solid',
-        borderTopColor: theme => theme.palette.colors.gray[200],
-        pt: 2.5,
-      }}
-    >
+    <Box data-cy="committee-detail-elections">
       <Box maxWidth="40%">
         <Box display="flex" alignItems="center" className="space-x-4">
           <Typography sx={{ color: 'gray900', fontSize: '24px', fontWeight: '500' }}>
