@@ -108,7 +108,7 @@ const Member = ({ member, handleClose }) => {
           <LineText
             label="Intérêts"
             value={
-              <Box display="flex" alignItems="center" className="space-x-2">
+              <Box display="flex" alignItems="center" flexWrap="wrap" className="space-x-2 space-y-1">
                 {member.interests.length > 0 &&
                   member.interests.map((interest, index) => (
                     <UIChip
