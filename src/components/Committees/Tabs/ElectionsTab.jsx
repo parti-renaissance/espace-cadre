@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { Container, Box } from '@mui/material'
+import { Container, Box, Grid, Tabs } from '@mui/material'
 import { getCommitteeElection } from 'api/committee_election'
 import { countAdherents } from 'api/activist'
 import { useQueryWithScope } from 'api/useQueryWithScope'
@@ -15,6 +15,8 @@ import Lists from '../Elections/Tabs/Lists'
 import CreateEditModal from '../Elections/CreateEditModal'
 import { getDesignation, resultsDesignation } from 'api/designations'
 import { electionStatus } from '../constants'
+import { Tab, TabLabel } from '../styles'
+import Participants from '../Participants'
 
 const messages = {
   create: 'Créer une élection',
@@ -23,12 +25,15 @@ const messages = {
   view: 'Afficher',
   noElection: 'Aucune élection en cours',
   noElectionDescription: 'Aucune élection n’est en cours pour ce comité.',
+  candidatures: 'Candidatures',
+  lists: 'Corps électoral',
 }
 
 const ElectionsTab = ({ committee, committeeElectionId }) => {
   const [designation, setDesignation] = useState(Designation.NULL)
   const [committeeElection, setCommitteeElection] = useState(CommitteeElection.NULL)
   const [adherentCount, setAdherentCount] = useState(0)
+  const [selectedTab, setSelectedTab] = useState(messages.candidatures)
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isNewCreationMode, setIsNewCreationMode] = useState(false)
   const { handleError } = useErrorHandler()
@@ -76,6 +81,10 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     setIsCreateEditModalOpen(open)
   }
 
+  const handleTabChange = (_, tabId) => {
+    setSelectedTab(tabId)
+  }
+
   return (
     <Container maxWidth={false} data-cy="committee-detail-elections">
       {committeeElectionId && isLoading && <Loader isCenter />}
@@ -111,7 +120,41 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
             )}
           </div>
           <div className="mt-8">
-            <Lists election={committeeElection} isResultsLoading={IsResultsLoading} results={results[0]} />
+            <Grid
+              container
+              data-cy="committee-election-tabs"
+              sx={{
+                borderTop: '1px solid',
+                borderTopColor: 'colors.gray.200',
+                pt: 2.5,
+                mb: 1,
+              }}
+            >
+              <Tabs
+                variant="scrollable"
+                value={selectedTab}
+                onChange={handleTabChange}
+                TabIndicatorProps={{ sx: { bgcolor: 'colors.blue.500' } }}
+                sx={{ my: 2 }}
+              >
+                <Tab
+                  value={messages.candidatures}
+                  label={<TabLabel>{messages.candidatures}</TabLabel>}
+                  disableRipple
+                  disableFocusRipple
+                />
+                <Tab
+                  value={messages.lists}
+                  label={<TabLabel>{messages.lists}</TabLabel>}
+                  disableRipple
+                  disableFocusRipple
+                />
+              </Tabs>
+            </Grid>
+            {selectedTab === messages.candidatures && (
+              <Lists election={committeeElection} isResultsLoading={IsResultsLoading} results={results[0]} />
+            )}
+            {selectedTab === messages.lists && designation.id && <Participants designationId={designation.id} />}
           </div>
         </>
       ) : (

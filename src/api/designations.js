@@ -21,11 +21,8 @@ export const updateDesignation = async designation => {
   const data = await apiClient.put(`/v3/designations/${designation.id}`, designationToJson(designation))
   return data.uuid
 }
-export const resultsDesignation = async id => {
-  const data = await apiClient.get(`/v3/designations/${id}/results`)
-  return data
-}
-
+export const resultsDesignation = async id => await apiClient.get(`/v3/designations/${id}/results`)
+export const getVoters = async id => await apiClient.get(`/v3/designations/${id}/voters`)
 const designationToJson = designation => ({
   id: designation.id,
   custom_title: designation.title,
