@@ -18,12 +18,14 @@ import { v1 as uuid } from 'uuid'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { visuallyHidden } from '@mui/utils'
+import { orderBy } from 'lodash'
 import { getVoters } from 'api/designations'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { TruncatedText } from 'components/shared/styled'
 import Loader from 'ui/Loader/Loader'
-import { orderBy } from 'lodash'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
+import Input from 'ui/Input/Input'
 
 const ColumnLabel = styled(({ isTruncated = false, ...props }) =>
   isTruncated ? <TruncatedText variant="subtitle2" {...props} /> : <Typography variant="subtitle2" {...props} />
@@ -34,12 +36,6 @@ const ColumnLabel = styled(({ isTruncated = false, ...props }) =>
 `
 )
 
-const descendingComparator = (a, b, orderBy) => {
-  if (b[orderBy] < a[orderBy]) return -1
-  if (b[orderBy] > a[orderBy]) return 1
-  return 0
-}
-
 const DEFAULT_SORT = 'voted_at'
 const DEFAULT_ORDER = 'asc'
 const DEFAULT_ROWS_PER_PAGE = 25
@@ -48,7 +44,7 @@ const Participants = ({ designationId }) => {
   const { handleError } = useErrorHandler()
 
   const [pageConfig, setPageConfig] = useState({
-    search: null,
+    search: '',
     sort: DEFAULT_SORT,
     order: DEFAULT_ORDER,
     nbPerPage: DEFAULT_ROWS_PER_PAGE,
@@ -69,7 +65,11 @@ const Participants = ({ designationId }) => {
       return []
     }
 
-    return orderBy(voters, [pageConfig.sort], [pageConfig.order]).slice(
+    let results = voters.filter(
+      voter => voter.last_name.startsWith(pageConfig.search) || voter.first_name.startsWith(pageConfig.search)
+    )
+
+    return orderBy(results, [pageConfig.sort], [pageConfig.order]).slice(
       pageConfig.page * pageConfig.nbPerPage,
       pageConfig.page * pageConfig.nbPerPage + pageConfig.nbPerPage
     )
@@ -82,6 +82,21 @@ const Participants = ({ designationId }) => {
   return (
     <Box>
       <Paper sx={{ borderRadius: 3 }}>
+        <Box sx={{ mb: 1.5, p: 2, borderBottom: '1px solid', borderBottomColor: 'colors.gray.200' }}>
+          <UIInputLabel>Rechercher par nom</UIInputLabel>
+          <Input
+            name="search"
+            onChange={event =>
+              setPageConfig(prevState => ({
+                ...prevState,
+                search: event.target.value,
+              }))
+            }
+            value={pageConfig.search}
+            autoFocus
+            sx={{ maxWidth: '32rem' }}
+          />
+        </Box>
         <TableContainer sx={{ borderRadius: 3 }}>
           <Table sx={{ borderCollapse: 'separate' }} stickyHeader>
             <TableHead>
