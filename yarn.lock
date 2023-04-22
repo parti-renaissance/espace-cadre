@@ -8617,9 +8617,10 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-"react-email-editor@https://github.com/EnMarche/react-email-editor#v1.6.3-1":
-  version "1.6.3"
-  resolved "https://github.com/EnMarche/react-email-editor#4a12e7a56035fcedb061bcf67c44433d4a6efe89"
+react-email-editor@1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/react-email-editor/-/react-email-editor-1.7.7.tgz#d2cf177c006678ddc29c98855291db4999fa6b07"
+  integrity sha512-GhK2qtOXtxWfYH2cIzTS5SKrvZ071ZC6rnWJ6Je9JlabO3eShXh5NqVbfjMOAJM9MmYqCmLTIevEjkO7NS88BA==
 
 react-fast-compare@^2.0.1:
   version "2.0.4"
