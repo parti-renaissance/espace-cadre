@@ -133,9 +133,9 @@ const ElectedDetail = () => {
           }
         />
       </Grid>
-      <Box className="space-y-8">
+      <Box className="mt-4 space-y-8">
         <Grid container spacing={4}>
-          <Grid item sx={12} md={8}>
+          <Grid item xs={12} md={8}>
             <UICard
               rootProps={{ sx: { p: 0 } }}
               header={
@@ -157,46 +157,52 @@ const ElectedDetail = () => {
               content={
                 <Box className="space-y-2">
                   <Box sx={{ p: 2 }} className="space-y-2">
-                    <Grid container spacing={1}>
-                      <Grid item xs={6} md={4}>
+                    <Grid container spacing={1} rowGap={1}>
+                      <Grid item xs={12} sm={6}>
                         <Content title="Nom complet">
                           {electedDetail.first_name} <span className="font-bold">{electedDetail.last_name}</span>
                         </Content>
                       </Grid>
-                      <Grid item xs={6} md={4}>
+                      <Grid item xs={12} sm={6}>
                         <Content
                           title="Adresse E-mail"
                           content={electedDetail.email_address ?? 'Aucune adresse e-mail'}
                         />
                       </Grid>
-                      <Grid item xs={6} md={4}>
+                      <Grid item xs={12} sm={6}>
                         <Content title="Téléphone" content={electedDetail.phone_number ?? 'Aucun numero'} />
                       </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Content
+                          title="Date de naissance"
+                          content={
+                            electedDetail.birth_date
+                              ? format(new Date(electedDetail.birth_date), 'dd/MM/yyyy')
+                              : 'Aucune date'
+                          }
+                        />
+                      </Grid>
                     </Grid>
-                    <Content
-                      title="Date de naissance"
-                      content={
-                        electedDetail.birth_date
-                          ? format(new Date(electedDetail.birth_date), 'dd/MM/yyyy')
-                          : 'Aucune date'
-                      }
-                    />
                   </Box>
                   <Box
                     sx={{
-                      display: 'flex',
+                      display: {
+                        xs: 'block',
+                        sm: 'flex',
+                      },
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       borderTop: '1px solid',
                       borderColor: 'colors.gray.200',
-                      py: 2,
-                      px: 2,
+                      p: 2,
                     }}
                   >
                     <Typography sx={{ fontSize: '16px', color: 'colors.gray.600' }}>
                       {electedDetail.adherent ? messages.associate : messages.noAssociate}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                    <Box
+                      sx={{ mt: { xs: 1, sm: 0 }, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
+                    >
                       {electedDetail.adherent ? (
                         <Box display="flex" alignItems="center" className="space-x-3">
                           <CheckCircleIcon sx={{ color: 'form.success.color', fontSize: '20px', ml: 2 }} />
@@ -213,7 +219,7 @@ const ElectedDetail = () => {
               }
             />
           </Grid>
-          <Grid item sx={12} md={4}>
+          <Grid item xs={12} md={4}>
             <UICard
               rootProps={{ sx: { p: 0 } }}
               header={
