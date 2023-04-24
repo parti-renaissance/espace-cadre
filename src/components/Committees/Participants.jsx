@@ -42,7 +42,6 @@ const DEFAULT_ROWS_PER_PAGE = 25
 
 const Participants = ({ designationId }) => {
   const { handleError } = useErrorHandler()
-
   const [pageConfig, setPageConfig] = useState({
     search: '',
     sort: DEFAULT_SORT,
