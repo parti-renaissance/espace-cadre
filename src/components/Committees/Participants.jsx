@@ -178,6 +178,7 @@ const Participants = ({ designationId }) => {
           page={pageConfig.page}
           onPageChange={(event, page) => setPageConfig(prevState => ({ ...prevState, page }))}
           onRowsPerPageChange={event => setPageConfig(prevState => ({ ...prevState, nbPerPage: event.target.value }))}
+          className="voter-pagination"
         />
       </Paper>
     </Box>
