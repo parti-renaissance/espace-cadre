@@ -43,7 +43,7 @@ const upcomingFeatureScopes = [scopes.phoning_national_manager, scopes.pap_natio
 const Dashboard = () => {
   const [currentScope] = useUserScope()
 
-  if (currentScope.getMainCode() === scopes.animator) {
+  if (currentScope.isAnimator()) {
     return (
       <Container>
         <Grid container sx={{ justifyContent: 'center' }}>

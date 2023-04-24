@@ -37,6 +37,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import isBase64 from 'is-base64'
+import { useUserScope } from '../../redux/user/hooks'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -115,6 +116,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
   const { handleError, errorMessages } = useErrorHandler()
   const [image, setImage] = useState(event.image || undefined)
   const { isMobile } = useCurrentDeviceType()
+  const [currentScope] = useUserScope()
 
   const { isLoading: isSingleEventLoading } = useQueryWithScope(
     ['event', eventId, { feature: 'Events', view: 'Event' }],
@@ -214,13 +216,14 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
       event.private,
       visioUrl,
       '',
-      null
+      null,
+      currentScope.getCommittees()[0]?.uuid || null
     )
   }
 
   const createOrEdit = () => {
     if (isCreateMode) {
-      createOrUpdateEvent(prepareCreate())
+      createOrUpdateEvent({ event: prepareCreate(), type: currentScope.isAnimator() ? 'committee' : null })
     } else {
       createOrUpdateEvent(values)
     }

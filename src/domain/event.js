@@ -64,7 +64,8 @@ export class Event {
     isPrivate,
     visioUrl,
     mode,
-    image
+    image,
+    committee
   ) {
     this.id = id
     this.name = name
@@ -85,6 +86,7 @@ export class Event {
     this.visioUrl = visioUrl
     this.mode = mode
     this.image = image
+    this.committee = committee
   }
 
   withName = newName =>
@@ -110,166 +112,6 @@ export class Event {
       this.image
     )
 
-  withDescription = newDescription =>
-    new Event(
-      this.id,
-      this.name,
-      newDescription,
-      this.timezone,
-      this.createdAt,
-      this.beginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      this.address,
-      this.categoryId,
-      this.private,
-      this.visioUrl,
-      this.mode,
-      this.image
-    )
-
-  withTimezone = newTimezone =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      newTimezone,
-      this.createdAt,
-      this.beginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      this.address,
-      this.categoryId,
-      this.private,
-      this.visioUrl,
-      this.mode,
-      this.image
-    )
-
-  withBeginAt = newBeginAt =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      this.timezone,
-      this.createdAt,
-      newBeginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      this.address,
-      this.categoryId,
-      this.private,
-      this.visioUrl,
-      this.mode,
-      this.image
-    )
-  withFinishAt = newFinishAt =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      this.timezone,
-      this.createdAt,
-      this.beginAt,
-      newFinishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      this.address,
-      this.categoryId,
-      this.private,
-      this.visioUrl,
-      this.mode,
-      this.image
-    )
-
-  withCapacity = newCapacity =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      this.timezone,
-      this.createdAt,
-      this.beginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      newCapacity,
-      this.address,
-      this.categoryId,
-      this.private,
-      this.visioUrl,
-      this.mode,
-      this.image
-    )
-
-  withAddress = newAddress =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      this.timezone,
-      this.createdAt,
-      this.beginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      newAddress,
-      this.categoryId,
-      this.private,
-      this.visioUrl,
-      this.mode,
-      this.image
-    )
-
-  withCategory = newCategoryId =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      this.timezone,
-      this.createdAt,
-      this.beginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      this.address,
-      newCategoryId,
-      this.private,
-      this.visioUrl,
-      this.mode,
-      this.image
-    )
-
   withPrivate = newPrivate =>
     new Event(
       this.id,
@@ -289,29 +131,6 @@ export class Event {
       this.categoryId,
       newPrivate,
       this.visioUrl,
-      this.mode,
-      this.image
-    )
-
-  withVisioUrl = newVisioUrl =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      this.timezone,
-      this.createdAt,
-      this.beginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      this.address,
-      this.categoryId,
-      this.private,
-      newVisioUrl,
       this.mode,
       this.image
     )
