@@ -50,7 +50,6 @@ const Participants = ({ designationId }) => {
     nbPerPage: DEFAULT_ROWS_PER_PAGE,
     page: 0,
   })
-
   const { data: voters, isLoading } = useQueryWithScope(
     ['committee-designation-voters', { feature: 'Committees', view: 'DetailCommittee' }, designationId],
     () => getVoters(designationId),
