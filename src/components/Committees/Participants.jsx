@@ -42,7 +42,6 @@ const DEFAULT_ROWS_PER_PAGE = 25
 
 const Participants = ({ designationId }) => {
   const { handleError } = useErrorHandler()
-
   const [pageConfig, setPageConfig] = useState({
     search: '',
     sort: DEFAULT_SORT,
@@ -50,7 +49,6 @@ const Participants = ({ designationId }) => {
     nbPerPage: DEFAULT_ROWS_PER_PAGE,
     page: 0,
   })
-
   const { data: voters, isLoading } = useQueryWithScope(
     ['committee-designation-voters', { feature: 'Committees', view: 'DetailCommittee' }, designationId],
     () => getVoters(designationId),
@@ -180,6 +178,7 @@ const Participants = ({ designationId }) => {
           page={pageConfig.page}
           onPageChange={(event, page) => setPageConfig(prevState => ({ ...prevState, page }))}
           onRowsPerPageChange={event => setPageConfig(prevState => ({ ...prevState, nbPerPage: event.target.value }))}
+          className="voter-pagination"
         />
       </Paper>
     </Box>
