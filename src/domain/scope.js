@@ -21,15 +21,31 @@ export class Scope {
 
     if (isZonedScope(code)) {
       nameParts.push(`(${this.zones[0]?.code})`)
-    } else if (code === scopes.animator) {
-      nameParts.push(`(${this.attributes?.committees?.map(committee => committee.name).join(', ')})`)
+    } else if (this.isAnimator()) {
+      nameParts.push(
+        `(${this.getCommittees()
+          ?.map(committee => committee.name)
+          .join(', ')})`
+      )
     }
 
     return nameParts.join(' ')
   }
 
+  getAttributes() {
+    return this.attributes
+  }
+
+  getCommittees() {
+    return this.getAttributes()?.committees
+  }
+
   hasFeature(feature) {
     return this.features.includes(feature)
+  }
+
+  isAnimator() {
+    return this.getMainCode() === scopes.animator
   }
 }
 
