@@ -7,7 +7,7 @@ import Activist from 'domain/activist'
 import BadgeNew, { MemberBadge } from './BadgeNew'
 
 const Lists = ({ members, onMemberClick }) => (
-  <Paper className="divider">
+  <Paper className="divider" data-cy="contacts-list">
     {members.map((member, index) => (
       <Button
         key={index}
@@ -20,6 +20,7 @@ const Lists = ({ members, onMemberClick }) => (
           borderRadius: '0px',
         }}
         disableRipple
+        data-cy="contact-card-button"
       >
         <Box display="flex" alignItems="center" width="100%" p={1.5}>
           <Grid container sx={{ display: 'flex', flex: '1 1 0%', minWidth: '0px', textAlign: 'left' }} spacing={2}>

@@ -44,12 +44,12 @@ const Activists = () => {
   }
 
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth={false} data-cy="contacts-container">
       <Grid container justifyContent="space-between">
         <PageHeader title={messages.title} />
       </Grid>
 
-      <Accordion>
+      <Accordion data-cy="accordion-filters-container">
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel-filter-content"
@@ -58,7 +58,7 @@ const Activists = () => {
         >
           <Typography>Appliquer des filtres</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ backgroundColor: theme => theme.palette.colors.gray[50], pt: 2.5 }}>
+        <AccordionDetails sx={{ backgroundColor: 'colors.gray.50', pt: 2.5 }}>
           <DynamicFilters
             feature={features.contacts}
             values={defaultFilter}

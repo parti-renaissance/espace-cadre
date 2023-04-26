@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "total_items": 1,
+    "items_per_page": 3,
+    "count": 1,
+    "current_page": 1,
+    "last_page": 1
+  },
+  "items": [
+    {
+      "postal_code": "95320",
+      "city": "Saint-Leu-la-For\u00eat",
+      "country": "FR",
+      "first_name": "firstname1",
+      "last_name": "lastname1",
+      "gender": "male",
+      "interests": [],
+      "city_code": "95563",
+      "department_code": "95",
+      "department": "Val-d\u0027Oise",
+      "region_code": "11",
+      "region": "\u00cele-de-France",
+      "sms_subscription": false,
+      "email_subscription": false
+    }
+  ]
+}

@@ -76,7 +76,7 @@ const FiltersForm = ({ filters, onSubmit, onReset, values, onValuesChange, butto
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} data-cy="filters-form">
       <Grid container spacing={2} sx={{ mb: 2 }}>
         {filterElements}
       </Grid>
