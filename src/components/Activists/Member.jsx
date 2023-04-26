@@ -49,7 +49,7 @@ const Member = ({ member, handleClose }) => {
   if (!member) return null
 
   return (
-    <Box sx={{ width: '32rem', height: '100%' }} role="slide-over">
+    <Box sx={{ width: '32rem', height: '100%' }} role="slide-over" data-cy="contact-member-detail">
       <Box sx={{ overflowY: 'scroll', height: '100%', bgcolor: 'whiteCorner' }}>
         <Box
           sx={{

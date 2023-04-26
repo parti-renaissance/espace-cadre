@@ -4,6 +4,7 @@ const ContactsList = '[data-cy="contacts-list"]'
 const ContactButton = '[data-cy="contact-card-button"]'
 const AccordionFiltersContainer = '[data-cy="accordion-filters-container"]'
 const FiltersForm = '[data-cy="filters-form"]'
+const ContactMemberSlideOver = '[data-cy="contact-member-detail"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -26,13 +27,11 @@ describe('Activists', () => {
     navigate()
   })
 
-  describe('The header', () => {
+  describe('the activists filters', () => {
     it('should have a page title', () => {
       cy.contains('Militants')
     })
-  })
 
-  describe('the activists filters', () => {
     it('can select a filter', () => {
       cy.get(AccordionFiltersContainer).click()
       cy.get(FiltersForm).should('exist')
@@ -48,6 +47,11 @@ describe('Activists', () => {
 
       cy.get(FiltersForm).submit()
       cy.get(ContactsList).find(ContactButton).children().should('have.length', 1)
+    })
+
+    it('can "view" a contact member detail', () => {
+      cy.get(ContactButton).first().click()
+      cy.get(ContactMemberSlideOver).should('exist').contains('lastname1')
     })
   })
 })
