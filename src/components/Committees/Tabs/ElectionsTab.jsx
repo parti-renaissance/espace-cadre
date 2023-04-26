@@ -148,6 +148,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
                   label={<TabLabel>{messages.lists}</TabLabel>}
                   disableRipple
                   disableFocusRipple
+                  disabled={committeeElection.isDateEditable() || committeeElection.isCanceled()}
                 />
               </Tabs>
             </Grid>

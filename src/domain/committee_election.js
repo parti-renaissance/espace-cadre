@@ -43,6 +43,10 @@ export class CommitteeElection {
     return electionStatus.not_started === this.status
   }
 
+  isCanceled() {
+    return electionStatus.canceled === this.status
+  }
+
   canCreateNew() {
     return [electionStatus.closed, electionStatus.canceled].includes(this.status)
   }
