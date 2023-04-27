@@ -227,8 +227,10 @@ const Dashboard = () => {
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
                               {elected.current_mandates.map((mandat, index) => (
                                 <span key={index} className="badge badge-default">
-                                  {mandats[mandat.type]} -{' '}
-                                  <span>{`${mandat.geo_zone.name} (${mandat.geo_zone.code})`}</span>
+                                  {mandats[mandat.type]}
+                                  {mandat.geo_zone && (
+                                    <span> - {`${mandat.geo_zone.name} (${mandat.geo_zone.code})`}</span>
+                                  )}
                                 </span>
                               ))}
                             </Box>
