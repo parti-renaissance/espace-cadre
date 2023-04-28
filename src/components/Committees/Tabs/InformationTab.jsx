@@ -39,8 +39,8 @@ const InformationTab = ({ committee }) => {
                 <LineContent
                   label="Responsable comité local"
                   value={
-                    <Box display="flex" alignItems="center" justifyContent="space-between">
-                      <Typography sx={{ fontSize: '14px', color: 'colors.gray.900' }}>
+                    <Box display="flex" alignItems="start" justifyContent="space-between">
+                      <Typography sx={{ fontSize: '14px', color: 'colors.gray.900', mt: '3px' }}>
                         {committee.animator ? getFullName(committee.animator) : 'Aucun'}
                       </Typography>
                       <Button isMainButton onClick={() => setIsModalOpen(true)}>
