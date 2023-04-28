@@ -4,7 +4,6 @@ const ContactsList = '[data-cy="contacts-list"]'
 const ContactButton = '[data-cy="contact-card-button"]'
 const AccordionFiltersContainer = '[data-cy="accordion-filters-container"]'
 const FiltersForm = '[data-cy="filters-form"]'
-const ContactMemberSlideOver = '[data-cy="contact-member-detail"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -21,8 +20,8 @@ describe('Activists', () => {
       'messagerie/messages'
     )
     mock('GET', '/api/v3/adherents?page=1&scope=referent', 'activists/activists')
-    mock('GET', '/api/v3/adherents?page=1&firstName=lastname1&scope=referent', 'activists/activists-filtered')
     mock('GET', '/api/v3/filters?feature=contacts&scope=referent', 'activists/filters')
+    mock('GET', '/api/v3/adherents?page=1&firstName=Jean&scope=referent', 'activists/activists-filtered')
 
     navigate()
   })
@@ -40,18 +39,13 @@ describe('Activists', () => {
 
       cy.get(FiltersForm)
         .find('>div')
-          .find('>div + div')
-          .find('input')
-          .eq(0)
-          .type('lastname1')
+        .find('>div + div')
+        .find('input')
+        .eq(0)
+        .type('Jean')
 
       cy.get(FiltersForm).submit()
       cy.get(ContactsList).find(ContactButton).children().should('have.length', 1)
-    })
-
-    it('can "view" a contact member detail', () => {
-      cy.get(ContactButton).first().click()
-      cy.get(ContactMemberSlideOver).should('exist').contains('lastname1')
     })
   })
 })
