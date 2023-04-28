@@ -36,7 +36,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
                         onClick={cancelElection}
                         isDangerButton
                       >
-                        Annulée
+                        Annuler
                       </ConfirmButton>
                     )}
                   </Box>
