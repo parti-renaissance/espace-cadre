@@ -29,6 +29,7 @@
     "phoning_campaign",
     "pap",
     "elected_representative",
-    "committee"
+    "committee",
+    "designation"
   ]
 }
