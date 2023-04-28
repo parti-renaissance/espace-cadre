@@ -9,12 +9,13 @@ import { fr } from 'date-fns/locale'
 import Status from 'components/Committees/Status'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { electionStatus } from 'components/Committees/constants'
+import { nl2br } from 'components/shared/helpers'
 import { Designation } from 'domain/committee_election'
 import UICard from 'ui/Card'
 import { LineContent, ResultCard } from '../../styles'
-import { nl2br } from 'components/shared/helpers'
+import ConfirmButton from 'ui/Button/ConfirmButton'
 
-const About = ({ status, votersCount, voteCount, designation, adherentCount, results }) => (
+const About = ({ status, votersCount, voteCount, designation, adherentCount, results, cancelElection }) => (
   <Box>
     <Grid container spacing={2} sx={{ mt: 0.5 }}>
       <Grid item xs={12} md={6}>
@@ -23,7 +24,24 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
           content={
             <>
               <LineContent label="Titre de l'élection" value={designation.title} />
-              <LineContent label="Status" value={<Status status={status} />} />
+              <LineContent
+                label="Status"
+                value={
+                  <Box display="flex" alignItems="center" justifyContent="space-between" pr={1.5}>
+                    <Status status={status} />
+                    {![electionStatus.closed, electionStatus.canceled].includes(status) && (
+                      <ConfirmButton
+                        title="Annulation de l'élection"
+                        description="Êtes-vous sûr de vouloir annuler cette élection ? Cette action est irréversible"
+                        onClick={cancelElection}
+                        isDangerButton
+                      >
+                        Annuler
+                      </ConfirmButton>
+                    )}
+                  </Box>
+                }
+              />
               <LineContent
                 label="Date d'ouverture du vote"
                 value={format(designation.voteStartDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
@@ -105,4 +123,5 @@ About.propTypes = {
   designation: Designation.propTypes.isRequired,
   adherentCount: PropTypes.number,
   results: PropTypes.object,
+  cancelElection: PropTypes.func,
 }
