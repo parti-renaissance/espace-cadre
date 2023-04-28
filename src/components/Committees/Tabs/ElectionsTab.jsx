@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { Container, Box, Grid, Tabs } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { getCommitteeElection } from 'api/committee_election'
 import { countAdherents } from 'api/activist'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import { cancelDesignation, getDesignation, resultsDesignation } from 'api/designations'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { CommitteeElection, Designation } from 'domain/committee_election'
 import Loader from 'ui/Loader'
 import EmptyContent from 'ui/EmptyContent'
@@ -13,7 +17,6 @@ import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import About from '../Elections/Tabs/About'
 import Lists from '../Elections/Tabs/Lists'
 import CreateEditModal from '../Elections/CreateEditModal'
-import { getDesignation, resultsDesignation } from 'api/designations'
 import { electionStatus } from '../constants'
 import { Tab, TabLabel } from '../styles'
 import Participants from '../Participants'
@@ -37,8 +40,9 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isNewCreationMode, setIsNewCreationMode] = useState(false)
   const { handleError } = useErrorHandler()
+  const { enqueueSnackbar } = useCustomSnackbar()
 
-  const { isLoading } = useQueryWithScope(
+  const { isLoading, refetch } = useQueryWithScope(
     ['committee-election-tab', { feature: 'Committees', view: 'DetailCommittee' }, committeeElectionId],
     () => getCommitteeElection(committeeElectionId),
     {
@@ -76,6 +80,14 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     }
   )
 
+  const { mutate, isLoading: loading } = useMutation(cancelDesignation, {
+    onSuccess: () => {
+      enqueueSnackbar("L'élection a été annulée avec succès", notifyVariants.success)
+      refetch()
+    },
+    onError: handleError,
+  })
+
   const toggleCreateEditModal = (designation, open) => {
     setDesignation(designation)
     setIsCreateEditModalOpen(open)
@@ -92,22 +104,28 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
       {committeeElection && committeeElection.id && !isLoading ? (
         <>
           <div>
-            {committeeElection.canCreateNew() && (
-              <Button onClick={() => setIsNewCreationMode(true)} rootProps={{ sx: { color: 'whiteCorner' } }}>
-                Créer une nouvelle élection
-              </Button>
-            )}
-            {committeeElection.isEditable() ? (
-              <Box display="flex" alignItems="center" className="space-x-3">
-                <Button
-                  onClick={() => toggleCreateEditModal(designation, true)}
-                  rootProps={{ sx: { color: 'whiteCorner' } }}
-                >
-                  {!designation.id ? messages.create : messages.update}
+            <Box display="flex" alignItems="center" className="space-x-3">
+              {committeeElection.canCreateNew() && (
+                <Button onClick={() => setIsNewCreationMode(true)} rootProps={{ sx: { color: 'whiteCorner' } }}>
+                  Créer une nouvelle élection
                 </Button>
-                {isFetching || (isDesignationLoading && <Loader />)}
-              </Box>
-            ) : null}
+              )}
+
+              {committeeElection.isEditable() ? (
+                <Box display="flex" alignItems="center" className="space-x-3">
+                  <Button
+                    onClick={() => toggleCreateEditModal(designation, true)}
+                    rootProps={{ sx: { color: 'whiteCorner' } }}
+                  >
+                    {!designation.id ? messages.create : messages.update}
+                  </Button>
+                  {isFetching || (isDesignationLoading && <Loader />)}
+                </Box>
+              ) : null}
+
+              {loading && <Loader />}
+            </Box>
+
             {designation.id && (
               <About
                 status={committeeElection.status}
@@ -116,6 +134,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
                 designation={designation}
                 adherentCount={adherentCount}
                 results={results[0]}
+                cancelElection={() => mutate(designation.id)}
               />
             )}
           </div>
