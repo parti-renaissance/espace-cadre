@@ -15,9 +15,11 @@ import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import ConfirmButton from 'ui/Button/ConfirmButton'
 import paths from 'shared/paths'
+import features from 'shared/features'
 import CreateEditModal from './CreateEditModal'
 import InformationTab from './Tabs/InformationTab'
 import ElectionsTab from './Tabs/ElectionsTab'
+import { useUserScope } from '../../redux/user/hooks'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -43,6 +45,7 @@ const messages = {
 const DetailCommittee = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [selectedTab, setSelectedTab] = useState(messages.informations)
+  const [currentScope] = useUserScope()
   const { committeeId } = useParams()
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
@@ -118,12 +121,14 @@ const DetailCommittee = () => {
             disableRipple
             disableFocusRipple
           />
-          <Tab
-            value={messages.elections}
-            label={<TabLabel>{messages.elections}</TabLabel>}
-            disableRipple
-            disableFocusRipple
-          />
+          {currentScope.hasFeature(features.designation) && (
+            <Tab
+              value={messages.elections}
+              label={<TabLabel>{messages.elections}</TabLabel>}
+              disableRipple
+              disableFocusRipple
+            />
+          )}
         </Tabs>
       </Grid>
 
