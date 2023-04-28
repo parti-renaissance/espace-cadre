@@ -319,9 +319,11 @@ const ElectedDetail = () => {
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Typography sx={{ fontSize: '14px', fontWeight: 500, color: 'colors.blue.500' }}>
                           {mandats[mandate.type]}
-                          <Typography sx={{ color: 'colors.gray.700' }}>
-                            {` - ${mandate.geo_zone.name} (${mandate.geo_zone.code})`}
-                          </Typography>
+                          {mandate.geo_zone && (
+                            <Typography sx={{ color: 'colors.gray.700' }}>
+                              {` - ${mandate.geo_zone.name} (${mandate.geo_zone.code})`}
+                            </Typography>
+                          )}
                         </Typography>
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
