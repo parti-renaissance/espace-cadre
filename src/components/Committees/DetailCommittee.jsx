@@ -1,14 +1,19 @@
-import { Container, Grid, Tabs, Tab as MuiTab, Typography } from '@mui/material'
+import { Container, Grid, Tabs, Tab as MuiTab, Typography, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { getCommittee } from 'api/committees'
-import { useErrorHandler } from 'components/shared/error/hooks'
+import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { useMutation } from '@tanstack/react-query'
+import { deleteCommittee, getCommittee } from 'api/committees'
 import { useQueryWithScope } from 'api/useQueryWithScope'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import { notifyVariants } from 'components/shared/notification/constants'
+import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import EditIcon from 'ui/icons/EditIcon'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import ConfirmButton from 'ui/Button/ConfirmButton'
 import paths from 'shared/paths'
 import CreateEditModal from './CreateEditModal'
 import InformationTab from './Tabs/InformationTab'
@@ -39,7 +44,9 @@ const DetailCommittee = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [selectedTab, setSelectedTab] = useState(messages.informations)
   const { committeeId } = useParams()
+  const navigate = useNavigate()
   const { handleError } = useErrorHandler()
+  const { enqueueSnackbar } = useCustomSnackbar()
 
   const {
     data: committee = {},
@@ -52,6 +59,14 @@ const DetailCommittee = () => {
       onError: handleError,
     }
   )
+
+  const { mutate, isLoading: loading } = useMutation(deleteCommittee, {
+    onSuccess: () => {
+      enqueueSnackbar('Le comité supprimé avec succès', notifyVariants.success)
+      navigate(generatePath(paths.committee))
+    },
+    onError: handleError,
+  })
 
   const handleTabChange = (_, tabId) => {
     setSelectedTab(tabId)
@@ -69,12 +84,22 @@ const DetailCommittee = () => {
           titleLink={paths.committee}
           titleSuffix={committee.name}
           button={
-            <PageHeaderButton
-              label={messages.modify}
-              icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
-              onClick={() => setIsCreateEditModalOpen(true)}
-              isMainButton
-            />
+            <Box display="flex" alignItems="center" className="space-x-3">
+              {loading && <Loader />}
+              <PageHeaderButton
+                label={messages.modify}
+                icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
+                onClick={() => setIsCreateEditModalOpen(true)}
+                isMainButton
+              />
+              <ConfirmButton
+                title="Suppression du comité"
+                description="Êtes-vous sûr de vouloir supprimer ce comité ? Cette action est irréversible"
+                onClick={() => mutate(committee.uuid)}
+              >
+                <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
+              </ConfirmButton>
+            </Box>
           }
         />
       </Grid>
