@@ -5,7 +5,7 @@ node_modules/
 .env*.production
 .eslintcache
 .yarn-integrity
-*.DS_Store 
+*.DS_Store
 # Logs
 logs
 *.log
@@ -19,3 +19,5 @@ lerna-debug.log*
 /cypress/screenshots/
 /cypress/support/
 cypress.env.json
+.nyc_output
+coverage

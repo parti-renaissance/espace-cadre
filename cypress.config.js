@@ -10,6 +10,8 @@ module.exports = defineConfig({
   blockHosts: ['*.sentry.io', '*.abla.io'],
   e2e: {
     setupNodeEvents(on, config) {
+      require('@cypress/code-coverage/task')(on, config)
+
       const viteConfig = { configFile: path.resolve(__dirname, '..', '..', 'vite.config.js') }
 
       on('dev-server:start', options => startDevServer({ options, viteConfig }))
