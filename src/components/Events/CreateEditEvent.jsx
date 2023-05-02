@@ -217,7 +217,9 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
       visioUrl,
       '',
       null,
-      currentScope.getCommittees()[0]?.uuid || null
+      Array.isArray(currentScope.getCommittees()) && currentScope.getCommittees().length
+        ? currentScope.getCommittees()[0].uuid
+        : null
     )
   }
 
