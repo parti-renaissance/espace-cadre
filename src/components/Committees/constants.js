@@ -1,6 +1,6 @@
 import { zoneTypes } from 'domain/zone'
 
-export const committeeZones = [zoneTypes.CITY, zoneTypes.CANTON, zoneTypes.BOROUGH, zoneTypes.CITY_COMMUNITY]
+export const committeeZones = [zoneTypes.CANTON, zoneTypes.CITY_COMMUNITY, zoneTypes.CITY, zoneTypes.BOROUGH]
 
 export const electionStatus = {
   not_started: 'not_started',
