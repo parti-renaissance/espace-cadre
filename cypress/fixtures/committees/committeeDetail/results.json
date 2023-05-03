@@ -1,0 +1,51 @@
+[
+  {
+    "candidate_group_results": [
+      {
+        "candidate_group": {
+          "elected": true,
+          "candidates": [
+            {
+              "first_name": "Christophe",
+              "last_name": "Douane",
+              "gender": "male"
+            },
+            {
+              "first_name": "Ritz",
+              "last_name": "Rakotomalala",
+              "gender": "male"
+            }
+          ],
+          "title": "Christophe Douane (+1 candidat)"
+        },
+        "total": 4,
+        "rate": 66.66666666666667
+      },
+      {
+        "candidate_group": {
+          "elected": false,
+          "candidates": [
+            {
+              "first_name": "Sana",
+              "last_name": "Belhoula",
+              "gender": "female"
+            },
+            {
+              "first_name": "Edouard",
+              "last_name": "Minkeng",
+              "gender": "male"
+            }
+          ],
+          "title": "Edouard Minkeng (+1 candidat)"
+        },
+        "total": 2,
+        "rate": 33.333333333333336
+      }
+    ],
+    "expressed": 6,
+    "blank": 2,
+    "participated": 171,
+    "abstentions": 163,
+    "bulletin_count": 8
+  }
+]

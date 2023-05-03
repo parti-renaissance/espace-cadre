@@ -56,7 +56,7 @@ const AddCandidateModal = ({ listId, candidates, handleClose, onAddSuccess }) =>
       <Box>
         <UIInputLabel required>Renseigner le candidat</UIInputLabel>
         <AdherentAutocomplete
-          customStyle={{ bgcolor: theme => theme.palette.colors.gray[50], mt: 2 }}
+          customStyle={{ bgcolor: 'colors.gray.50', mt: 2 }}
           value={selectedAdherent}
           onChange={setSelectedAdherent}
           initialParams={{ committee: committeeId }}

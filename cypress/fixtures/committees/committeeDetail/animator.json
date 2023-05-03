@@ -1,0 +1,25 @@
+{
+  "members_count": 132,
+  "sympathizers_count": 13,
+  "description": "Expected : 163 adherents 15 sympathisants (avec le statut \"enabled\").",
+  "zones": [
+    {
+      "uuid": "5c484650-835e-11eb-ba14-42010a84009d",
+      "type": "city",
+      "code": "91228",
+      "name": "\u00c9vry-Courcouronnes",
+      "created_at": "2020-10-05T16:41:43+02:00",
+      "updated_at": "2023-02-27T16:12:09+01:00"
+    }
+  ],
+  "animator": {
+    "uuid": "f980fefc-e6be-5201-ba9f-14f04b81ac86",
+    "first_name": "Pytchou",
+    "last_name": "Kemby"
+  },
+  "uuid": "e5981066-c655-48b6-b672-24377bd90bed",
+  "created_at": "2023-03-29T14:11:38+02:00",
+  "updated_at": "2023-04-27T15:54:07+02:00",
+  "name": "Evry",
+  "committee_election": { "uuid": "68742184-822f-4883-b00c-ec68dc09a7ff" }
+}

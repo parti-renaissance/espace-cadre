@@ -55,8 +55,13 @@ const Button = ({ children, onClick, rootProps, disabled = false, isMainButton =
   </MainButton>
 )
 
-export const ActionButton = ({ children, handleSubmit, isLoading = false, disabled = false }) => (
-  <Button disabled={isLoading || disabled} onClick={handleSubmit} rootProps={{ sx: { color: 'whiteCorner', mr: 2 } }}>
+export const ActionButton = ({ children, handleSubmit, isLoading = false, disabled = false, ...props }) => (
+  <Button
+    disabled={isLoading || disabled}
+    onClick={handleSubmit}
+    rootProps={{ sx: { color: 'whiteCorner', mr: 2 } }}
+    {...props}
+  >
     {isLoading && <Loader />}&nbsp;
     {children}
   </Button>

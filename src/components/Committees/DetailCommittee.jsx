@@ -120,6 +120,7 @@ const DetailCommittee = () => {
             label={<TabLabel>{messages.informations}</TabLabel>}
             disableRipple
             disableFocusRipple
+            data-cy="committee-detail-tab-info"
           />
           {currentScope.hasFeature(features.designation) && (
             <Tab
@@ -127,6 +128,7 @@ const DetailCommittee = () => {
               label={<TabLabel>{messages.elections}</TabLabel>}
               disableRipple
               disableFocusRipple
+              data-cy="committee-detail-tab-elections"
             />
           )}
         </Tabs>

@@ -1,0 +1,24 @@
+{
+  "committee": { "uuid": "5e00c264-1d4b-43b8-862e-29edc38389b3" },
+  "candidacies_groups": [
+    {
+      "uuid": "71b2030a-bec6-4556-916f-c370a103467b",
+      "candidacies": []
+    },
+    {
+      "uuid": "e31274e0-1655-4175-a93e-bc3240fbf400",
+      "candidacies": []
+    }
+  ],
+  "designation": {
+    "custom_title": "Election CL Evry",
+    "election_creation_date": "2023-03-29T14:30:00+02:00",
+    "vote_start_date": "2023-03-29T14:30:00+02:00",
+    "vote_end_date": "2023-03-30T17:00:00+02:00",
+    "uuid": "5eeda2a3-71a4-499b-a7d1-cf52ff2a7604"
+  },
+  "uuid": "68742184-822f-4883-b00c-ec68dc09a7ff",
+  "status": "closed",
+  "votes_count": 8,
+  "voters_count": 171
+}

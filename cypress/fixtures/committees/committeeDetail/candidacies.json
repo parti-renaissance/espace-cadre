@@ -1,0 +1,13 @@
+{
+  "committee_membership": {
+    "adherent": {
+      "gender": "male",
+      "uuid": "8bo5504e-ec68-5128-9190-c9c1002e69854",
+      "first_name": "Jeanpaul",
+      "last_name": "Cassini"
+    },
+    "uuid": "f2942f4b-g9856-5178-b7dc-28dc3b36e2f7"
+  },
+  "candidacies_group": { "uuid": "7564e17b-03b4-4eed-a5ce-4c9eb29190ab" },
+  "uuid": "59eb5ebe-952f-43dd-a1b8-a8b2313b7f44"
+}

@@ -61,7 +61,7 @@ const Autocomplete = ({
   )
 
   const defaultRenderOptions = (props, option) => (
-    <li {...props} key={option[valueParam]}>
+    <li {...props} key={option[valueParam]} data-cy="autocomplete-item">
       <Typography size="small">{getOptionLabel(option)}</Typography>
     </li>
   )

@@ -71,7 +71,7 @@ const Lists = ({ election, isResultsLoading, results }) => {
             Candidatures {isResultsLoading && <Loader size={20} />}
           </Typography>
           {enabledAction && (
-            <Button onClick={addList} isMainButton>
+            <Button onClick={addList} isMainButton data-cy="committee-add-designation-candidature-group">
               <AddIcon sx={{ color: 'main', fontSize: '20px' }} />
               {messages.add}
             </Button>
@@ -129,7 +129,7 @@ const Lists = ({ election, isResultsLoading, results }) => {
           ))}
         </Grid>
       ) : (
-        <Grid container spacing={3} sx={{ mt: 1 }}>
+        <Grid container spacing={3} sx={{ mt: 1 }} data-cy="committee-election-candidacies-groups-container">
           {election.groups.map((list, index) => (
             <GroupList
               xs={12}
@@ -150,7 +150,7 @@ const Lists = ({ election, isResultsLoading, results }) => {
               {list.candidacies.length === 0 && <Typography>{messages.noCandidate}</Typography>}
               {list.candidacies.length > 0 &&
                 list.candidacies.map(candidate => (
-                  <Box display="flex" alignItems="center" my={1.5} key={candidate.uuid}>
+                  <Box display="flex" alignItems="center" my={1.5} key={candidate.uuid} data-cy="candidate-item">
                     <Typography sx={{ color: 'colors.gray.900' }}>
                       {candidate.committee_membership.adherent.first_name}{' '}
                       {candidate.committee_membership.adherent.last_name}
