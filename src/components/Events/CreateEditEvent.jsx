@@ -184,12 +184,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
 
   const values = getValues()
   const isStepOneValid =
-    !!values.name &&
-    !!values.categoryId &&
-    !!values.beginAt &&
-    !!values.finishAt &&
-    !!values.address?.route &&
-    !!values.timezone
+    !!values.name && !!values.categoryId && !!values.beginAt && !!values.finishAt && !!values.timezone
   const isStepTwoValid = formState.isValid
   const areAllStepsValid = [isStepOneValid && 0, isStepTwoValid && 1].filter(s => Boolean(s) || s === 0)
 
@@ -333,13 +328,14 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                     )}
                   />
                   <FormError errors={errorMessages} field={fields.timezone} />
-                  <Label sx={{ pt: 3, pb: 1 }}>{messages.label.address}</Label>
+                  <Label optional sx={{ pt: 3, pb: 1 }}>
+                    {messages.label.address}
+                  </Label>
                   <Controller
                     name={fields.address}
                     control={control}
                     defaultValue={event.address?.route}
-                    rules={{ required: true }}
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { onChange } }) => (
                       <Places initialValue={event.address?.route} onSelectPlace={onChange} key={event.address?.route} />
                     )}
                   />
@@ -402,7 +398,6 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                     name={fields.visio}
                     control={control}
                     defaultValue={event.visioUrl}
-                    rules={{ required: false }}
                     render={({ field: { onChange, value } }) => (
                       <Input
                         name={fields.visio}
