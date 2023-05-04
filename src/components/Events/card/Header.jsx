@@ -91,17 +91,19 @@ const Header = ({ event, categoryNameByCategoryId }) => (
       <CalendarTodayIcon />
       <LabelTypography variant="subtitle2">{format(event.beginAt, 'd MMM yyyy HH:mm', { locale: fr })}</LabelTypography>
     </Box>
-    <Box component="div" sx={{ display: 'flex', mt: 1 }}>
-      <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
-      <TruncatedText
-        lines={2}
-        variant="subtitle2"
-        sx={{ height: '35px', color: 'gray600' }}
-        title={formatAddress(event.address)}
-      >
-        {formatAddress(event.address)}
-      </TruncatedText>
-    </Box>
+    {event.address && (
+      <Box component="div" sx={{ display: 'flex', mt: 1 }}>
+        <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
+        <TruncatedText
+          lines={2}
+          variant="subtitle2"
+          sx={{ height: '35px', color: 'gray600' }}
+          title={formatAddress(event.address)}
+        >
+          {formatAddress(event.address)}
+        </TruncatedText>
+      </Box>
+    )}
     <Box component="div" sx={{ display: 'flex', mt: 0.5 }}>
       <TagIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
       <LabelTypography variant="subtitle2">{categoryNameByCategoryId?.[event.categoryId]}</LabelTypography>
