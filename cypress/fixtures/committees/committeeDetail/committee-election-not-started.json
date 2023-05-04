@@ -3,7 +3,20 @@
   "candidacies_groups": [
     {
       "uuid": "71b2030a-bec6-4556-916f-c370a103467b",
-      "candidacies": []
+      "candidacies": [
+        {
+          "committee_membership": {
+            "adherent": {
+              "gender": "male",
+              "uuid": "8ca5504e-ec68-5128-9190-c9c1002e0743",
+              "first_name": "Jeanpaul",
+              "last_name": "Cassini"
+            },
+            "uuid": "f2942f4b-f262-5178-b7dc-28dc3b36e2f7"
+          },
+          "uuid": "59eb5ebe-952f-43dd-a1b8-a8b2313b7f44"
+        }
+      ]
     },
     {
       "uuid": "e31274e0-1655-4175-a93e-bc3240fbf400",

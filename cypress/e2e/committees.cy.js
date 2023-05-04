@@ -9,9 +9,10 @@ const DialogModal = '[data-cy="modal-create-edit"]'
 const DialogModalSubmitButton = '[data-cy="modal-create-edit-submit"]'
 const DesignationCandidatureAddButton = '[data-cy="committee-add-designation-candidature-group"]'
 const CandidaciesGroupsContainer = '[data-cy="committee-election-candidacies-groups-container"]'
-const ElectionListCard = '[data-cy="election-list-card"]'
+const CandidaciesGroupCard = '[data-cy="candidacies-group-card"]'
 const AutocompleteItem = '[data-cy="autocomplete-item"]'
-const CandidateItem = '[data-cy="candidate-item"]'
+const CandidatesListItem = '[data-cy="candidates-list-item"]'
+const AddCandidateButton = '[data-cy="add-candidate-group"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -85,7 +86,7 @@ describe('Committees', () => {
 
   describe('committees with "not_started" designation', () => {
     beforeEach(() => {
-      mock('GET', '/api/v3/adherents/autocomplete?committee=5e00c264-1d4b-43b8-862e-29edc38389b3&q=Jeanpaul&scope=referent', 'autocomplete/adherents')
+      mock('GET', '/api/v3/adherents/autocomplete?committee=5e00c264-1d4b-43b8-862e-29edc38389b3&q=Dimitri&scope=referent', 'autocomplete/adherents')
       mock('GET', '/api/v3/committee_elections/68742184-822f-4883-b00c-ec68dc09a7ff?scope=referent', 'committees/committeeDetail/committee-election-not-started')
       mock('POST', '/api/v3/committee_candidacies_groups?scope=referent', 'committees/committeeDetail/candidacies-groups')
       mock('POST', '/api/v3/committee_candidacies?scope=referent', 'committees/committeeDetail/candidacies')
@@ -111,27 +112,27 @@ describe('Committees', () => {
       cy.get(DesignationCandidatureAddButton).click()
 
       cy.get(CandidaciesGroupsContainer).find('> div').should('have.length', 2)
-      cy.get(ElectionListCard)
+      cy.get(CandidaciesGroupCard)
         .eq(0)
         .find('> div + div')
         .click()
-      cy.contains('Cette liste ne possède aucun candidat')
+      cy.contains('Les candidats')
 
-      cy.get(ElectionListCard)
+      cy.get(CandidaciesGroupCard)
         .eq(0)
         .find('> div + div')
-        .find('button')
+        .find(AddCandidateButton)
         .click()
 
       cy.get(DialogModal).should('exist').then(() => {
-        cy.get(DialogModal).find('input').type('Jeanpaul')
+        cy.get(DialogModal).find('input').type('Dimitri')
         cy.get(AutocompleteItem).eq(0).click()
         cy.get(DialogModalSubmitButton).click()
       })
 
       cy.get(CandidaciesGroupsContainer)
-        .find('> div')
-        .find(CandidateItem)
+        .find(CandidatesListItem)
+        .eq(0)
         .children()
         .should('have.length', 1)
     })
