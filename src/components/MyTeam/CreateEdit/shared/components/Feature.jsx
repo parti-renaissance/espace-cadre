@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import { FormControlLabel, Grid } from '@mui/material'
+import { FormControlLabel } from '@mui/material'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 
 const CheckboxLabelStyles = {
@@ -14,18 +14,16 @@ const CheckboxLabelStyles = {
 }
 
 const Feature = ({ name, label, value, handleChange }) => (
-  <Grid container direction="column" sx={{ pt: 1 }}>
-    <FormControlLabel
-      data-cy="my-team-create-edit-feature"
-      name={name}
-      label={label}
-      value={value}
-      control={<Checkbox size="small" checked={!!value} sx={{ p: 1.5 }} />}
-      onChange={(_, value) => handleChange(name, value)}
-      componentsProps={{ typography: { sx: CheckboxLabelStyles } }}
-      sx={{ height: '20px', mx: 0 }}
-    />
-  </Grid>
+  <FormControlLabel
+    data-cy="my-team-create-edit-feature"
+    name={name}
+    label={label}
+    value={value}
+    control={<Checkbox size="small" checked={!!value} sx={{ p: 1.5 }} />}
+    onChange={(_, value) => handleChange(name, value)}
+    componentsProps={{ typography: { sx: CheckboxLabelStyles } }}
+    sx={{ height: '20px', mx: 0 }}
+  />
 )
 
 Feature.propTypes = {

@@ -53,7 +53,10 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
   const { isMobile } = useCurrentDeviceType()
 
   const features = useMemo(
-    () => currentScope.features.filter(feature => !skippedFeatures.includes(feature)),
+    () =>
+      currentScope.features
+        .filter(feature => !skippedFeatures.includes(feature))
+        .sort((a, b) => (featuresLabels[a] || a).localeCompare(featuresLabels[b] || b)),
     [currentScope]
   )
 
@@ -74,53 +77,16 @@ const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeat
 
       {features.length > 0 && (
         <Grid container sx={{ pt: 3 }} data-cy="my-team-create-edit-delegated-accesses-features">
-          {isMobile &&
-            features.map(key => (
+          {features.map(key => (
+            <Grid item xs={12} md={6} key={key}>
               <Feature
-                key={key}
                 name={key}
-                label={featuresLabels[key]}
+                label={featuresLabels[key] || key}
                 value={delegatedFeatures.includes(key)}
                 handleChange={updateDelegatedFeatures}
               />
-            ))}
-          {!isMobile &&
-            features.length <= 6 &&
-            features.map(key => (
-              <Feature
-                key={key}
-                name={key}
-                label={featuresLabels[key]}
-                value={delegatedFeatures.includes(key)}
-                handleChange={updateDelegatedFeatures}
-              />
-            ))}
-          {!isMobile && features.length > 6 && (
-            <Grid container>
-              <Grid item xs={6}>
-                {features.slice(0, 6).map(key => (
-                  <Feature
-                    key={key}
-                    name={key}
-                    label={featuresLabels[key]}
-                    value={delegatedFeatures.includes(key)}
-                    handleChange={updateDelegatedFeatures}
-                  />
-                ))}
-              </Grid>
-              <Grid item xs={6}>
-                {features.slice(6, features.length).map(key => (
-                  <Feature
-                    key={key}
-                    name={key}
-                    label={featuresLabels[key]}
-                    value={delegatedFeatures.includes(key)}
-                    handleChange={updateDelegatedFeatures}
-                  />
-                ))}
-              </Grid>
             </Grid>
-          )}
+          ))}
         </Grid>
       )}
     </>

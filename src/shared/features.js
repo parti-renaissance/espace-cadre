@@ -1,6 +1,7 @@
 const features = {
   dashboard: 'dashboard',
   contacts: 'contacts',
+  contacts_export: 'contacts_export',
   messages: 'messages',
   elections: 'elections',
   ripostes: 'ripostes',
@@ -70,6 +71,7 @@ export const featuresGroup = [
 export const featuresLabels = {
   [features.dashboard]: 'Vue d’ensemble',
   [features.contacts]: 'Militants',
+  [features.contacts_export]: 'Militants (export)',
   [features.messages]: 'Messagerie',
   [features.elections]: 'Historique élections',
   [features.ripostes]: 'Action numérique',
