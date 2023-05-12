@@ -45,6 +45,7 @@ describe('Committees', () => {
 
   describe('the committees list with "closed" designation', () => {
     beforeEach(() => {
+      mock('GET', '/api/v3/adherents/autocomplete?committee=5e00c264-1d4b-43b8-862e-29edc38389b3&renaissance_membership=adherent_re&q=Dimitri&scope=referent', 'autocomplete/adherents')
       mock('GET', '/api/v3/committee_elections/68742184-822f-4883-b00c-ec68dc09a7ff?scope=referent', 'committees/committeeDetail/committee-election')
       mock('GET', '/api/v3/designations/5eeda2a3-71a4-499b-a7d1-cf52ff2a7604/results?scope=referent', 'committees/committeeDetail/results')
     })
@@ -67,6 +68,8 @@ describe('Committees', () => {
 
       cy.get(CommitteeAnimatorButton).should('exist').click()
       cy.get(DialogModal).should('exist').then(() => {
+        cy.get(DialogModal).find('input').type('Dimitri')
+        cy.get(AutocompleteItem).eq(0).click()
         cy.get(DialogModalSubmitButton).click()
       })
     })
