@@ -26,18 +26,27 @@
   {
     "code": "age",
     "label": "\u00c2ge",
-    "options": null,
+    "options": {
+      "first": {
+        "min": 1,
+        "max": 200
+      },
+      "second": {
+        "min": 1,
+        "max": 200
+      }
+    },
     "type": "integer_interval"
   },
   {
     "code": "registered",
-    "label": "Adh\u00e9sion",
+    "label": "Inscrit",
     "options": null,
     "type": "date_interval"
   },
   {
-    "code": "isCommitteeMember",
-    "label": "Membre d\u0027un comit\u00e9",
+    "code": "isNewRenaissanceUser",
+    "label": "Nouveau militant",
     "options": {
       "choices": ["Non", "Oui"]
     },
@@ -52,10 +61,59 @@
     "type": "select"
   },
   {
+    "code": "committeeUuids",
+    "label": "Comit\u00e9s",
+    "options": {
+      "choices": {
+        "1a4de0bf-cc97-5ab6-8fa4-a249485583e2": "Le plus beau comit\u00e9 de Nanterre",
+        "69100337-82e0-407c-9d98-2e3dff9be3e3": "Reste du 92",
+        "766b3876-27ef-46d5-a59f-1a2a543d22cc": "Test dim"
+      },
+      "multiple": true,
+      "required": false
+    },
+    "type": "select"
+  },
+  {
+    "code": "isCommitteeMember",
+    "label": "Membre d\u0027un comit\u00e9",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
     "code": "emailSubscription",
     "label": "Abonn\u00e9 email",
     "options": {
       "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "last_membership",
+    "label": "Derni\u00e8re cotisation",
+    "options": null,
+    "type": "date_interval"
+  },
+  {
+    "code": "onlyJeMengageUsers",
+    "label": "Compte de la majorit\u00e9 pr\u00e9sidentielle",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "renaissance_membership",
+    "label": "Renaissance",
+    "options": {
+      "choices": {
+        "adherent_or_sympathizer_re": "Adh\u00e9rent RE ou sympathisant RE",
+        "adherent_re": "Adh\u00e9rent RE seulement",
+        "sympathizer_re": "Sympathisant RE seulement",
+        "others_adherent": "Ni adh\u00e9rent RE ni sympathisant RE"
+      }
     },
     "type": "select"
   },
@@ -78,6 +136,6 @@
       "multiple": true,
       "required": false
     },
-    "type": "autocomplete"
+    "type": "zone_autocomplete"
   }
 ]
