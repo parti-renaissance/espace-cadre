@@ -43,7 +43,7 @@ const InformationTab = ({ committee }) => {
                       <Typography sx={{ fontSize: '14px', color: 'colors.gray.900', mt: '3px' }}>
                         {committee.animator ? getFullName(committee.animator) : 'Aucun'}
                       </Typography>
-                      <Button isMainButton onClick={() => setIsModalOpen(true)}>
+                      <Button isMainButton onClick={() => setIsModalOpen(true)} data-cy="committee-add-animator">
                         {committee.animator ? 'Modifier' : 'Ajouter'}
                       </Button>
                     </Box>

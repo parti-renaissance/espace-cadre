@@ -92,7 +92,7 @@ export const GroupList = ({
   children,
   ...props
 }) => (
-  <Grid item data-cy="election-list-card" {...props}>
+  <Grid item data-cy="candidacies-group-card" {...props}>
     <Box
       display="flex"
       alignItems="center"
@@ -126,7 +126,7 @@ export const GroupList = ({
         </Box>
       </AccordionSummary>
       <AccordionDetails>
-        <Box>{children}</Box>
+        <Box data-cy="candidates-list-item">{children}</Box>
         {canAddCandidate && (
           <Box
             display="flex"
@@ -143,6 +143,7 @@ export const GroupList = ({
               aria-label="add"
               isMainButton
               rootProps={{ sx: { fontSize: '12px', px: 1.5 } }}
+              data-cy="add-candidate-group"
             >
               <AddIcon sx={{ color: theme => theme.palette.colors.blue[500], fontSize: '20px' }} />
               Ajouter un candidat

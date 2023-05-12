@@ -35,10 +35,16 @@ export const ModalForm = ({
       </Box>
       <Grid container sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
         {actions}
-        <ActionButton type="submit" disabled={disabledButton} handleSubmit={createOrEdit} isLoading={isLoading}>
+        <ActionButton
+          type="submit"
+          disabled={disabledButton}
+          handleSubmit={createOrEdit}
+          isLoading={isLoading}
+          data-cy="modal-create-edit-submit"
+        >
           {submitLabel}
         </ActionButton>
-        <Button onClick={handleClose} aria-label="close" isMainButton>
+        <Button onClick={handleClose} aria-label="close" isMainButton data-cy="modal-create-edit-close">
           {messages.close}
         </Button>
       </Grid>

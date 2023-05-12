@@ -1,0 +1,10 @@
+{
+  "custom_title": "Election CL Evry",
+  "type": "committee_supervisor",
+  "election_creation_date": "2023-03-29T14:30:00+02:00",
+  "vote_start_date": "2023-03-29T14:30:00+02:00",
+  "vote_end_date": "2023-03-30T17:00:00+02:00",
+  "description": "Pas de souci dans ce test",
+  "election_entity_identifier": "e5981066-c655-48b6-b672-24377bd90bed",
+  "uuid": "5eeda2a3-71a4-499b-a7d1-cf52ff2a7604"
+}
