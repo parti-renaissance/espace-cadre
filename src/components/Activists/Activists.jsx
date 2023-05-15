@@ -18,6 +18,7 @@ import { getActivists } from 'api/activist'
 import { PaginatedResult } from 'api/pagination'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import features from 'shared/features'
+import EmptyContent from 'ui/EmptyContent'
 import PageHeader from 'ui/PageHeader'
 import Member from './Member'
 
@@ -73,7 +74,7 @@ const Activists = () => {
 
       <Box sx={{ mt: 4 }} className="space-y-4">
         {isLoading && <Loader isCenter />}
-        {activists.total > 0 && (
+        {activists.total > 0 ? (
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>
               Affichage de {activists.pageSize * (activists.currentPage - 1) + 1} à{' '}
@@ -87,6 +88,8 @@ const Activists = () => {
               onChange={(event, page) => setFilters(prevState => ({ ...prevState, page }))}
             />
           </Box>
+        ) : (
+          <EmptyContent description="Aucun résultat ne correspond à votre recherche" />
         )}
 
         <Lists members={activists.data} onMemberClick={toggleDrawer} />
