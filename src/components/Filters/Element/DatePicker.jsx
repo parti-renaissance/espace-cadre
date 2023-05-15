@@ -26,7 +26,7 @@ const DatePicker = ({ value, onChange, label }) => {
 
   return (
     <MuiDatePicker
-      openTo="year"
+      openTo="day"
       inputFormat="dd/MM/yyyy"
       open={isOpen}
       label={label}
