@@ -9,19 +9,16 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
 
   # Maintain dependencies for Docker
   - package-ecosystem: 'docker'
     directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
