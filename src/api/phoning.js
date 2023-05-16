@@ -1,6 +1,3 @@
-import { saveAs } from 'file-saver'
-import { format } from 'date-fns'
-
 import { apiClient } from 'services/networking/client'
 import {
   PhoningGlobalKPI,
@@ -31,6 +28,7 @@ import {
 import { newPaginatedResult } from 'api/pagination'
 import { Zone } from 'domain/zone'
 import { ZONE_AUTOCOMPLETE_URI } from 'components/Filters/Element/ZoneAutocomplete'
+import { downloadFile } from './upload'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
@@ -169,10 +167,8 @@ export const getPhoningCampaignSurveysReplies = async campaignId => {
   }
 }
 
-export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
-  const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}/replies.xls`)
-  saveAs(new Blob([data]), `Questionnaires Phoning - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
-}
+export const getPhoningCampaignSurveysRepliesExport = campaignId =>
+  downloadFile(`api/v3/phoning_campaigns/${campaignId}/replies.xls`)
 
 export const getPhoningCampaignTeams = async ({ pageParam: page = 1 }) => {
   const query = `?page=${page}&page_size=1000`

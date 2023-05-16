@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { saveAs } from 'file-saver'
 import { Box, Container, Grid, Typography } from '@mui/material'
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
 import LinkIcon from '@mui/icons-material/Link'
@@ -10,8 +9,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useMutation } from '@tanstack/react-query'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getFormations, deleteFormation } from 'api/formations'
-import { getFile } from 'api/upload'
+import { getFormations, deleteFormation, downloadFormation } from 'api/formations'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -133,34 +131,26 @@ const Formations = () => {
                           {formation.published ? messages.published : messages.unpublished}
                         </Badge>
                         {formation.content_type === 'link' ? (
-                          <LinkIcon sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '20px' }} />
+                          <LinkIcon sx={{ color: 'colors.gray.500', fontSize: '20px' }} />
                         ) : (
-                          <InsertDriveFileIcon
-                            sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '20px' }}
-                          />
+                          <InsertDriveFileIcon sx={{ color: 'colors.gray.500', fontSize: '20px' }} />
                         )}
                       </Box>
-                      <Typography
-                        component="h2"
-                        sx={{ fontWeight: '500', color: theme => theme.palette.colors.gray[900], fontSize: '16px' }}
-                      >
+                      <Typography component="h2" sx={{ fontWeight: '500', color: 'colors.gray.900', fontSize: '16px' }}>
                         {formation.title}
                       </Typography>
                     </Box>
                   }
                   content={
                     <Box className="space-y-3 my-4">
-                      <Typography
-                        component="p"
-                        sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '14px' }}
-                      >
+                      <Typography component="p" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
                         {formation.description}
                       </Typography>
                       <Box
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
-                          color: theme => theme.palette.colors.blue[500],
+                          color: 'colors.blue.500',
                           mt: 4,
                         }}
                       >
@@ -171,11 +161,7 @@ const Formations = () => {
                         ) : (
                           <button
                             className="button button-link"
-                            onClick={async () => {
-                              const { blob, fileName } = await getFile(formation.uuid, 'formations')
-
-                              saveAs(blob, fileName)
-                            }}
+                            onClick={() => downloadFormation(formation.uuid, 'formations')}
                           >
                             {messages.download}
                           </button>
@@ -207,7 +193,7 @@ const Formations = () => {
                         description={messages.confirmDeleteDescription}
                         onClick={() => remove(formation.uuid)}
                       >
-                        <DeleteIcon sx={{ color: theme => theme.palette.form.error.color, fontSize: '20px' }} />
+                        <DeleteIcon sx={{ color: 'form.error..olo', fontSize: '20px' }} />
                       </ConfirmButton>
                     </Box>
                   }

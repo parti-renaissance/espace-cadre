@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { saveAs } from 'file-saver'
 import {
   Box,
   Container,
@@ -22,8 +21,7 @@ import { v1 as uuid } from 'uuid'
 import { format } from 'date-fns'
 import { PaginatedResult } from 'api/pagination'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import { getDocuments } from 'api/documents'
-import { getFile } from 'api/upload'
+import { getDocuments, downloadDocument } from 'api/documents'
 import PageHeader from 'ui/PageHeader'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { TruncatedText } from 'components/shared/styled'
@@ -128,13 +126,7 @@ const Documents = () => {
                       <Description>{format(new Date(document.created_at), 'dd/MM/yyyy hh:mm')}</Description>
                     </TableCell>
                     <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                      <MainButton
-                        isMainButton
-                        onClick={async () => {
-                          const { blob, fileName } = await getFile(document.uuid, 'documents')
-                          saveAs(blob, fileName)
-                        }}
-                      >
+                      <MainButton isMainButton onClick={() => downloadDocument(document.uuid, 'documents')}>
                         {messages.download}
                       </MainButton>
                     </TableCell>
