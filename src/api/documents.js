@@ -1,6 +1,7 @@
 import { apiClient } from 'services/networking/client'
 import qs from 'qs'
 import { PaginatedResult } from './pagination'
+import { downloadFile } from './upload'
 
 export const getDocuments = async filters => {
   const data = await apiClient.get(`/v3/documents?${qs.stringify(filters)}`)
@@ -14,3 +15,4 @@ export const getDocuments = async filters => {
     data.metadata.last_page
   )
 }
+export const downloadDocument = (uuid, endpoint) => downloadFile(`/api/v3/${endpoint}/${uuid}/file`)

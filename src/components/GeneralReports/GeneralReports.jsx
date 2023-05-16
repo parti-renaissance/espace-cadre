@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { saveAs } from 'file-saver'
 import { Box, Container, Grid, Typography } from '@mui/material'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
@@ -8,8 +7,7 @@ import { AccessTime } from '@mui/icons-material'
 import { format } from 'date-fns'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getFile } from 'api/upload'
-import { getDocuments } from 'api/general-meeting-report'
+import { downloadDocument, getDocuments } from 'api/general-meeting-report'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
@@ -93,31 +91,21 @@ const GenericReports = () => {
                   header={
                     <Box className="space-y-3">
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <InsertDriveFileIcon
-                          sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '32px' }}
-                        />
+                        <InsertDriveFileIcon sx={{ color: 'colors.gray.500', fontSize: '32px' }} />
                       </Box>
-                      <Typography
-                        component="h2"
-                        sx={{ fontWeight: '500', color: theme => theme.palette.colors.gray[900], fontSize: '16px' }}
-                      >
+                      <Typography component="h2" sx={{ fontWeight: '500', color: 'colors.gray.900', fontSize: '16px' }}>
                         {document.title}
                       </Typography>
                     </Box>
                   }
                   content={
                     <Box className="space-y-3 my-4">
-                      <Typography
-                        component="p"
-                        sx={{ color: theme => theme.palette.colors.gray[500], fontSize: '14px' }}
-                      >
+                      <Typography component="p" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
                         {document.description}
                       </Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-                        <AccessTime
-                          sx={{ mr: 0.5, color: theme => theme.palette.colors.gray[400], fontSize: '15px' }}
-                        />
-                        <Typography variant="subtitle2" sx={{ color: theme => theme.palette.colors.gray[500] }}>
+                        <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
+                        <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
                           Ajouté le {format(new Date(document.date), 'dd/MM/yyyy')} à{' '}
                           {format(new Date(document.date), 'HH:mm')}
                         </Typography>
@@ -126,16 +114,13 @@ const GenericReports = () => {
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
-                          color: theme => theme.palette.colors.blue[500],
+                          color: 'colors.blue.500',
                           mt: 4,
                         }}
                       >
                         <button
                           className="button button-link"
-                          onClick={async () => {
-                            const { blob, fileName } = await getFile(document.uuid, 'general_meeting_reports')
-                            saveAs(blob, fileName)
-                          }}
+                          onClick={() => downloadDocument(document.uuid, 'general_meeting_reports')}
                         >
                           {messages.download}
                         </button>

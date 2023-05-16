@@ -2,6 +2,7 @@ import { apiClient } from 'services/networking/client'
 import qs from 'qs'
 import Activist from 'domain/activist'
 import { PaginatedResult } from './pagination'
+import { downloadFile } from './upload'
 
 export const getActivists = async filter => {
   const data = await apiClient.get(`v3/adherents?${qs.stringify(filter)}`)
@@ -33,4 +34,5 @@ export const getActivists = async filter => {
     data.metadata.last_page
   )
 }
+export const exportActivists = filter => downloadFile(`v3/adherents.xls?${qs.stringify(filter)}`)
 export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)

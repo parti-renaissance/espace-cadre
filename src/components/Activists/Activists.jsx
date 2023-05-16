@@ -10,17 +10,20 @@ import {
   Pagination,
   Drawer,
 } from '@mui/material'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Lists from './Lists'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
-import { getActivists } from 'api/activist'
+import { exportActivists, getActivists } from 'api/activist'
 import { PaginatedResult } from 'api/pagination'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import features from 'shared/features'
 import EmptyContent from 'ui/EmptyContent'
 import PageHeader from 'ui/PageHeader'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Member from './Member'
+import { useUserScope } from '../../redux/user/hooks'
 
 const messages = {
   title: 'Militants',
@@ -29,6 +32,7 @@ const messages = {
 const Activists = () => {
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
   const [filters, setFilters] = useState(defaultFilter)
+  const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
 
   const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0), isLoading } = useQueryWithScope(
@@ -39,6 +43,11 @@ const Activists = () => {
     }
   )
 
+  const handleExport = () => {
+    const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
+    return exportActivists(filter)
+  }
+
   const toggleDrawer = (e, member = null) => {
     e.preventDefault()
     setMember(member)
@@ -47,7 +56,14 @@ const Activists = () => {
   return (
     <Container maxWidth={false} data-cy="contacts-container">
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.title} />
+        <PageHeader
+          title={messages.title}
+          button={
+            currentScope.hasFeature(features.contacts_export) && (
+              <PageHeaderButton onClick={handleExport} label="Exporter" icon={<FileDownloadIcon />} isMainButton />
+            )
+          }
+        />
       </Grid>
 
       <Accordion data-cy="accordion-filters-container">

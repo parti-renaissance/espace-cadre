@@ -1,4 +1,3 @@
-import { saveAs } from 'file-saver'
 import { apiClient } from 'services/networking/client'
 import {
   DTDGlobalKPI,
@@ -25,7 +24,8 @@ import {
   DTDLocalPollingStations,
 } from 'domain/DTD'
 import { newPaginatedResult } from 'api/pagination'
-import { format, formatISO } from 'date-fns'
+import { formatISO } from 'date-fns'
+import { downloadFile } from './upload'
 
 export const getDTDGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/pap_campaigns/kpi')
@@ -157,10 +157,8 @@ export const getDTDCampaignSurveysReplies = async ({ campaignId, pageSize, pageN
   }
 }
 
-export const getPhoningCampaignSurveysRepliesExport = async campaignId => {
-  const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}/replies.xls`)
-  saveAs(new Blob([data]), `Questionnaires PAP - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
-}
+export const getPhoningCampaignSurveysRepliesExport = campaignId =>
+  downloadFile(`api/v3/pap_campaigns/${campaignId}/replies.xls`)
 
 export const getDTDCampaignSurveysAddress = async ({ campaignId, pageSize = 20, pageNumber = 0, sortParams = [] }) => {
   const queryParams = [`page=${pageNumber + 1}`, `page_size=${pageSize}`].concat(
