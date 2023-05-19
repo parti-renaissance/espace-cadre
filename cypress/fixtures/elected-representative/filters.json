@@ -24,10 +24,17 @@
     "type": "text"
   },
   {
-    "code": "contributionActive",
-    "label": "Cotisation à jour",
+    "code": "committeeUuids",
+    "label": "Comités",
     "options": {
-      "choices": ["Non", "Oui"]
+      "choices": {
+        "04595a47-377e-4396-9f29-0f6a0107c582": "Canton de Viry-Chatillon (Autre random le temps du test)",
+        "c9307ec3-ff5b-437e-8d36-3ffa2a6c1de9": "CL de Sainte-Geneviève | Saint-Michel-sur-Orge | Bretigny",
+        "42ea77e5-2b4c-4835-ae28-269536e1f5fb": "CL Mennecy",
+        "c0c89be7-2bed-4a34-adae-8d5bb65b6ab5": "Ristanbul"
+      },
+      "multiple": true,
+      "required": false
     },
     "type": "select"
   },
@@ -103,14 +110,6 @@
     "type": "select"
   },
   {
-    "code": "revenueDeclared",
-    "label": "Revenus déclarés",
-    "options": {
-      "choices": ["Non", "Oui"]
-    },
-    "type": "select"
-  },
-  {
     "code": "zones",
     "label": "Zone géographique",
     "options": {
@@ -121,6 +120,22 @@
       "multiple": true,
       "required": false
     },
-    "type": "autocomplete"
+    "type": "zone_autocomplete"
+  },
+  {
+    "code": "revenueDeclared",
+    "label": "Indemnités déclarées",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
+  },
+  {
+    "code": "contributionActive",
+    "label": "Cotisation active",
+    "options": {
+      "choices": ["Non", "Oui"]
+    },
+    "type": "select"
   }
 ]

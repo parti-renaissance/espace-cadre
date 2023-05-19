@@ -10,10 +10,11 @@ export const uploadFile = async ({ uuid, file, endpoint }) => {
 export const downloadFile = async (endpoint, filename = null) => {
   const response = await apiClient.request('get', endpoint, null, {}, { responseType: 'blob' }, true)
 
-  const fileName =
-    filename ?? response.headers.has('content-disposition')
-      ? response.headers.get('content-disposition').split('filename=')[1]
-      : endpoint
+  const fileName = response.headers.has('content-disposition')
+    ? response.headers.get('content-disposition').split('filename=')[1]
+    : endpoint
 
-  saveAs(new Blob([response.data], { type: response.headers.get('content-type') }), fileName)
+  saveAs(new Blob([response.data], { type: response.headers.get('content-type') }), filename ?? fileName)
+
+  return fileName
 }
