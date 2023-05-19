@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "total_items": 2,
+    "items_per_page": 10,
+    "count": 2,
+    "current_page": 1,
+    "last_page": 1
+  },
+  "items": [
+    {
+      "label": "test template national",
+      "uuid": "1310499b-0dae-4222-8122-183db0a537ca",
+      "created_at": "2023-05-16T17:57:08+02:00",
+      "from_admin": true
+    },
+    {
+      "label": "Campagne national d'adhésion",
+      "uuid": "ba5a7294-f7a6-4710-88c8-9ceb67ad61ce",
+      "created_at": "2023-05-16T15:53:56+02:00",
+      "from_admin": true
+    }
+  ]
+}

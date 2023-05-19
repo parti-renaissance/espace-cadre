@@ -4,16 +4,13 @@ import { Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { useUserScope } from '../../../redux/user/hooks'
-import { getMessageContent } from 'api/messagerie'
-import { useErrorHandler } from 'components/shared/error/hooks'
+import * as Sentry from '@sentry/react'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import UIFormMessage from 'ui/FormMessage'
-import * as Sentry from '@sentry/react'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 import { UNLAYER_PROJECT_ID } from 'shared/environments'
 import scopes from 'shared/scopes'
+import { useUserScope } from '../../../redux/user/hooks'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -75,13 +72,12 @@ const messages = {
   export: 'Export HTML',
 }
 
-const Editor = ({ onMessageSubject, onMessageUpdate }) => {
+const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
   const emailEditorRef = useRef(null)
   const { messageUuid } = useParams()
   const [currentScope] = useUserScope()
-  const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const [templateId] = useState(() => (currentScope ? templates[currentScope.getMainCode()] : defaultTemplate))
@@ -95,16 +91,10 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
     })
   }, [onMessageUpdate])
 
-  const { data: messageContent = null } = useQueryWithScope(
-    ['message-content', { feature: 'Messagerie', view: 'Editor' }, messageUuid],
-    () => getMessageContent(messageUuid),
-    { onError: handleError, enabled: !!messageUuid && editorLoaded }
-  )
-
   useEffect(() => {
     const editor = emailEditorRef.current?.editor
     if (messageContent) {
-      onMessageSubject(messageContent.subject)
+      onMessageSubject(messageContent?.subject)
       if (messageContent.json_content) {
         const design = JSON.parse(messageContent.json_content)
         editor.loadDesign(design)
@@ -177,6 +167,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate }) => {
 Editor.propTypes = {
   onMessageSubject: PropTypes.func.isRequired,
   onMessageUpdate: PropTypes.func.isRequired,
+  messageContent: PropTypes.object,
 }
 
 export default Editor
