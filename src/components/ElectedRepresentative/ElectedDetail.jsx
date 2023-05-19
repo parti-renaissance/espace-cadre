@@ -26,8 +26,7 @@ import { mandats } from 'shared/constants'
 import paths from 'shared/paths'
 import CreateEditMandate from './CreateEditMandate'
 import CreateEditModal from './CreateEditModal'
-import { UIChip } from 'ui/Card'
-import { paymentStatus } from './constants'
+import PaymentBadge from './PaymentBadge'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -241,7 +240,14 @@ const ElectedDetail = () => {
               content={
                 <Box>
                   {electedDetail.payments.length > 0 ? (
-                    <Box className="divider">
+                    <Box
+                      sx={{
+                        maxHeight: '275px',
+                        overflow: 'hidden',
+                        overflowY: 'scroll',
+                      }}
+                      className="divider scrolling-bar"
+                    >
                       {electedDetail.payments.map(payment => (
                         <Box key={payment.uuid} sx={{ p: 2 }}>
                           <Box>
@@ -256,7 +262,7 @@ const ElectedDetail = () => {
                             <Typography sx={{ color: 'colors.gray.900', fontWeight: '500' }}>
                               {payment.amount ?? 0} €
                             </Typography>
-                            <UIChip label={paymentStatus[payment.status]} labelStyle={{ fontSize: '13px' }} />
+                            <PaymentBadge status={payment.status} labelStyle={{ fontSize: '13px' }} />
                           </Box>
                         </Box>
                       ))}

@@ -67,3 +67,19 @@
 .voter-pagination .MuiSelect-select.MuiTablePagination-select {
   padding-right: 24px !important;
 }
+
+.scrolling-bar {
+  &::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #1254D8;
+    border-radius: 3px;
+
+    &:hover {
+      background: #5D8EF1;
+    }
+  }
+}
