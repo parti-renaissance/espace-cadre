@@ -1,5 +1,6 @@
 import { apiClient } from 'services/networking/client'
 import qs from 'qs'
+import { format } from 'date-fns'
 import Activist from 'domain/activist'
 import { PaginatedResult } from './pagination'
 import { downloadFile } from './upload'
@@ -34,5 +35,9 @@ export const getActivists = async filter => {
     data.metadata.last_page
   )
 }
-export const exportActivists = filter => downloadFile(`v3/adherents.xls?${qs.stringify(filter)}`)
+export const exportActivists = async filter =>
+  await downloadFile(
+    `v3/adherents.xls?${qs.stringify(filter)}`,
+    `Adherents Export - ${format(new Date(), 'dd.MM.yyyy')}.xls`
+  )
 export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)
