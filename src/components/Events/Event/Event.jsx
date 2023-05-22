@@ -36,9 +36,7 @@ const Event = () => {
     refetch: refetchEvent,
   } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
 
-  const handleEdited = async () => {
-    await refetchEvent()
-  }
+  const handleEdited = async () => await refetchEvent()
 
   const {
     data: paginatedAttendees = null,
@@ -84,13 +82,13 @@ const Event = () => {
               hasMore={hasNextPage}
               loader={<Loader />}
             >
-              <Grid container spacing={2}>
-                {attendees.map(a => (
-                  <Grid item key={a.subscriptionDate + a.lastName} xs={12} sm={6} md={3}>
+              <Grid container spacing={3}>
+                {attendees.map((attendee, index) => (
+                  <Grid item key={index} xs={12} sm={6} md={3}>
                     <UICard
                       rootProps={{ sx: { height: '125px', borderRadius: '8px' } }}
                       headerProps={{ sx: { pt: 2.5 } }}
-                      header={<Header attendee={a} />}
+                      header={<Header attendee={attendee} />}
                       actionsProps={{ sx: { pt: 1 } }}
                     />
                   </Grid>

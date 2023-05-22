@@ -19,7 +19,7 @@ const Header = ({ attendee }) => (
   <>
     <HorizontalContainer>
       {attendee.isActivist ? (
-        <UIChip color={'events.chip.color'} bgcolor={'events.chip.background'} label={messages.activist} />
+        <UIChip color="colors.blue.500" bgcolor="colors.blue.50" label={messages.activist} />
       ) : (
         <UIChip color={'events.chip.color'} bgcolor={'events.chip.background'} label={messages.contact} />
       )}
