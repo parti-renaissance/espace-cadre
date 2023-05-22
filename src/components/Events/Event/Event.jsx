@@ -1,22 +1,22 @@
 import { Container, Grid } from '@mui/material'
-import PageHeader from 'ui/PageHeader'
-import KpiEvent from 'components/Events/KPIEvent'
-import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
-
-import { getEvent, getEventAttendees } from 'api/events'
+import { useState } from 'react'
 import { useParams } from 'react-router'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useSelector } from 'react-redux'
+
+import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+import { getEvent, getEventAttendees } from 'api/events'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import Loader from 'ui/Loader'
-import UICard from 'ui/Card'
+import KpiEvent from 'components/Events/KPIEvent'
 import Header from 'components/Events/Event/card/Header'
-import paths from 'shared/paths'
-import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import { useState } from 'react'
 import CreateEditEvent from 'components/Events/CreateEditEvent'
+import UICard from 'ui/Card'
+import Loader from 'ui/Loader'
+import PageHeader from 'ui/PageHeader'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
-import { useSelector } from 'react-redux'
+import paths from 'shared/paths'
 import { getCurrentUser } from '../../../redux/user/selectors'
 
 const messages = {
@@ -26,6 +26,7 @@ const messages = {
 
 const Event = () => {
   const { eventId } = useParams()
+  const initialFilters = { page: 1 }
   const { handleError } = useErrorHandler()
   const currentUser = useSelector(getCurrentUser)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,7 +45,10 @@ const Event = () => {
     hasNextPage,
   } = useInfiniteQueryWithScope(
     ['paginated-attendees', eventId, { feature: 'Events', view: 'Event' }],
-    () => getEventAttendees(eventId),
+    ({ pageParam: page = 1 }) => {
+      const filters = { ...initialFilters, page }
+      return getEventAttendees(eventId, filters)
+    },
     {
       getNextPageParam,
       onError: handleError,

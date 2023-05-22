@@ -1,8 +1,9 @@
-import { apiClient, apiClientPublic } from 'services/networking/client'
+import { format } from 'date-fns'
+import qs from 'qs'
 import { newPaginatedResult } from 'api/pagination'
 import { Event, EventCategory, EventGroupCategory, Attendee } from 'domain/event'
-import { format } from 'date-fns'
 import { Place } from 'domain/place'
+import { apiClient, apiClientPublic } from 'services/networking/client'
 
 export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 
@@ -45,8 +46,8 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
   return newPaginatedResult(events, data.metadata)
 }
 
-export const getEventAttendees = async id => {
-  const data = await apiClient.get(`/api/v3/events/${id}/participants`)
+export const getEventAttendees = async (id, filters) => {
+  const data = await apiClient.get(`/api/v3/events/${id}/participants?${qs.stringify(filters)}`)
 
   const attendees = data.items.map(
     p => new Attendee(p.first_name, p.last_name, p.subscription_date, p.postal_code, p.type)
