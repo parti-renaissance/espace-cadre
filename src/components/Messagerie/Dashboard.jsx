@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom'
-import { Container, Grid } from '@mui/material'
+import { Box, Container, Grid } from '@mui/material'
+import { useState } from 'react'
+import SendIcon from '@mui/icons-material/Send'
+import GridViewIcon from '@mui/icons-material/GridView'
 import KpiEmailCampaign from 'components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaigns from 'components/Dashboard/Charts/SentEmailCampaigns/SentEmailCampaigns'
-import SendIcon from '@mui/icons-material/Send'
 import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import PageHeader from 'ui/PageHeader'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import Templates from './Templates'
 
 const messages = {
   title: 'Messagerie',
@@ -15,6 +18,7 @@ const messages = {
 
 const Dashboard = () => {
   const navigate = useNavigate()
+  const [showTemplates, setShowTemplates] = useState(false)
   const { isMobile } = useCurrentDeviceType()
 
   return (
@@ -23,12 +27,21 @@ const Dashboard = () => {
         <PageHeader
           title={messages.title}
           button={
-            <PageHeaderButton
-              onClick={() => navigate(messageriePaths.create)}
-              label={messages.sendEmail}
-              icon={<SendIcon />}
-              isMainButton
-            />
+            <Box display="flex" alignItems="center" className="space-x-3">
+              <PageHeaderButton
+                onClick={() => setShowTemplates(true)}
+                label="Templates"
+                icon={<GridViewIcon />}
+                data-cy="templates-button"
+                isMainButton
+              />
+              <PageHeaderButton
+                onClick={() => navigate(messageriePaths.create)}
+                label={messages.sendEmail}
+                icon={<SendIcon />}
+                isMainButton
+              />
+            </Box>
           }
         />
       </Grid>
@@ -38,6 +51,8 @@ const Dashboard = () => {
           <SentEmailCampaigns />
         </Grid>
       </Grid>
+
+      {showTemplates && <Templates handleClose={() => setShowTemplates(false)} />}
     </Container>
   )
 }

@@ -9,6 +9,10 @@ const Card = '[data-cy="email-campaign-card"]'
 const MailObjectInput = '[data-cy="mail-object-input"]'
 const MailEditorNextButton = '[data-cy="step-button"]'
 const Ckeditor = '[data-cy="ckeditor-container"]'
+const TemplatesButton = '[data-cy="templates-button"]'
+const TemplatesModal = '[data-cy="messagerie-modal-templates"]'
+const TemplatesCardContainer = '[data-cy="messagerie-templates-container"]'
+const TemplateCard = '[data-cy="messagerie-template-card"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -33,7 +37,7 @@ describe('Messagerie homepage ', () => {
       cy.contains('Indicateurs')
     })
     it('should have a button', () => {
-      cy.get(HeaderButton).should('have.text', 'Envoyer un email')
+      cy.get(HeaderButton).find('button').eq(1).should('have.text', 'Envoyer un email')
     })
   })
 
@@ -144,6 +148,20 @@ describe('Messagerie homepage ', () => {
       cy.get(Card).eq(1).contains('sujet 1')
       cy.get(Card).eq(1).contains('Brouillon')
       cy.get(Card).eq(1).contains('Modifier')
+    })
+  })
+
+  describe('Display the Templates Email modal', () => {
+    beforeEach(() => {
+      mock('GET', '/api/v3/email_templates?scope=*', 'messagerie/email_templates')
+    })
+
+    it('should display the modal with cards', () => {
+      cy.get(TemplatesButton).click()
+      cy.get(TemplatesModal).should('exist').then(() => {
+        cy.get(TemplatesCardContainer).children().should('have.length', 2)
+        cy.get(TemplateCard).eq(0).contains('test template national')
+      })
     })
   })
 })

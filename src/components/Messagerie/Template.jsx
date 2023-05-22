@@ -1,19 +1,21 @@
+import * as Sentry from '@sentry/react'
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { Grid, Container as MuiContainer } from '@mui/material'
-import Input from 'ui/Input/Input'
 import { styled } from '@mui/system'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useUserScope } from '../../redux/user/hooks'
-import { notifyVariants, notifyMessages } from '../shared/notification/constants'
-import { useCustomSnackbar } from '../shared/notification/hooks'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { createMessageContent, getMessageContent, getTemplate, updateMessageContent } from 'api/messagerie'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { useErrorHandler } from 'components/shared/error/hooks'
+import paths from 'shared/paths'
+import Input from 'ui/Input/Input'
+import PageHeader from 'ui/PageHeader'
 import Editor from './Component/Editor'
 import StepButton from './Component/StepButton'
-import { createMessageContent, updateMessageContent } from 'api/messagerie'
-import PropTypes from 'prop-types'
+import { notifyVariants, notifyMessages } from '../shared/notification/constants'
+import { useCustomSnackbar } from '../shared/notification/hooks'
 import { paths as messageriePaths } from './shared/paths'
-import paths from 'shared/paths'
-import * as Sentry from '@sentry/react'
-import PageHeader from 'ui/PageHeader'
+import { useUserScope } from '../../redux/user/hooks'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -37,8 +39,11 @@ const Template = ({ modeUpdate = false }) => {
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   const [currentScope] = useUserScope()
+  const { handleError } = useErrorHandler()
   const navigate = useNavigate()
   const { messageUuid } = useParams()
+  const [searchParams] = useSearchParams()
+  const templateId = searchParams.get('templateId')
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const editEmail = () => {
@@ -67,6 +72,12 @@ const Template = ({ modeUpdate = false }) => {
     }
   }
 
+  const { data: messageContent = null } = useQueryWithScope(
+    ['message-content-template', { feature: 'Messagerie', view: 'TemplateEditor' }],
+    () => (templateId ? getTemplate(templateId) : getMessageContent(messageUuid)),
+    { onError: handleError, enabled: !!messageUuid || !!templateId }
+  )
+
   return (
     <MuiContainer maxWidth={false}>
       <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
@@ -92,7 +103,7 @@ const Template = ({ modeUpdate = false }) => {
           />
         </Grid>
       </Container>
-      <Editor onMessageSubject={setMessageSubject} onMessageUpdate={setMessage} />
+      <Editor onMessageSubject={setMessageSubject} onMessageUpdate={setMessage} messageContent={messageContent} />
     </MuiContainer>
   )
 }

@@ -59,3 +59,5 @@ export const reportsRatio = async () => {
     new Date(data.since)
   )
 }
+export const getTemplates = async () => await apiClient.get('/v3/email_templates')
+export const getTemplate = async uuid => await apiClient.get(`/v3/email_templates/${uuid}`)
