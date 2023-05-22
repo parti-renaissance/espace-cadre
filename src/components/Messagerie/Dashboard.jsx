@@ -52,7 +52,7 @@ const Dashboard = () => {
         </Grid>
       </Grid>
 
-      {showTemplates && <Templates open={showTemplates} handleClose={() => setShowTemplates(false)} />}
+      {showTemplates && <Templates handleClose={() => setShowTemplates(false)} />}
     </Container>
   )
 }

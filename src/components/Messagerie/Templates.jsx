@@ -9,7 +9,7 @@ import Title from 'ui/Title'
 import Loader from 'ui/Loader/Loader'
 import Card from './Card'
 
-const Templates = ({ open, handleClose }) => {
+const Templates = ({ handleClose }) => {
   const { handleError } = useErrorHandler()
 
   const { data, isLoading } = useQueryWithScope(
@@ -19,7 +19,7 @@ const Templates = ({ open, handleClose }) => {
   )
 
   return (
-    <Dialog data-cy="messagerie-modal-templates" open={open} onClose={handleClose} fullWidth={true} maxWidth="lg">
+    <Dialog data-cy="messagerie-modal-templates" open onClose={handleClose} fullWidth={true} maxWidth="lg">
       <Grid
         sx={{
           display: 'flex',
@@ -58,6 +58,5 @@ const Templates = ({ open, handleClose }) => {
 export default Templates
 
 Templates.propTypes = {
-  open: PropTypes.bool,
   handleClose: PropTypes.func,
 }
