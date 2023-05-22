@@ -26,7 +26,6 @@ const messages = {
 
 const Event = () => {
   const { eventId } = useParams()
-  const initialFilters = { page: 1 }
   const { handleError } = useErrorHandler()
   const currentUser = useSelector(getCurrentUser)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -45,10 +44,7 @@ const Event = () => {
     hasNextPage,
   } = useInfiniteQueryWithScope(
     ['paginated-attendees', eventId, { feature: 'Events', view: 'Event' }],
-    ({ pageParam: page = 1 }) => {
-      const filters = { ...initialFilters, page }
-      return getEventAttendees(eventId, filters)
-    },
+    ({ pageParam: page = 1 }) => getEventAttendees(eventId, page),
     {
       getNextPageParam,
       onError: handleError,

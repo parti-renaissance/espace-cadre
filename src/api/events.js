@@ -1,5 +1,4 @@
 import { format } from 'date-fns'
-import qs from 'qs'
 import { newPaginatedResult } from 'api/pagination'
 import { Event, EventCategory, EventGroupCategory, Attendee } from 'domain/event'
 import { Place } from 'domain/place'
@@ -46,8 +45,8 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
   return newPaginatedResult(events, data.metadata)
 }
 
-export const getEventAttendees = async (id, filters) => {
-  const data = await apiClient.get(`/api/v3/events/${id}/participants?${qs.stringify(filters)}`)
+export const getEventAttendees = async (id, page) => {
+  const data = await apiClient.get(`/api/v3/events/${id}/participants?page=${page}`)
 
   const attendees = data.items.map(
     p => new Attendee(p.first_name, p.last_name, p.subscription_date, p.postal_code, p.type)
