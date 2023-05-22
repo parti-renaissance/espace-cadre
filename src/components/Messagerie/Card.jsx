@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types'
 import { Box, Typography } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { generatePath, useNavigate } from 'react-router'
 import noImage from 'assets/no-image.png'
 import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import Button from 'ui/Button/Button'
 import UICard from 'ui/Card/Card'
-import ConfirmButton from 'ui/Button/ConfirmButton'
 
-const Card = ({ template, onDropTemplate }) => {
+const Card = ({ template }) => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate(generatePath(`${messageriePaths.create}?templateId=${template.uuid}`))
@@ -63,20 +61,6 @@ const Card = ({ template, onDropTemplate }) => {
           <Button onClick={handleClick} rootProps={{ sx: { fontSize: '12px' } }} isMainButton>
             Utiliser
           </Button>
-          {!template.from_admin && (
-            <>
-              <Button onClick={() => {}} rootProps={{ sx: { fontSize: '12px', display: 'none' } }} isMainButton>
-                Modifier
-              </Button>
-              <ConfirmButton
-                title="Suppression du template"
-                description="Êtes-vous sûr de vouloir supprimer ce template ? Cette action est irréversible"
-                onClick={onDropTemplate}
-              >
-                <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
-              </ConfirmButton>
-            </>
-          )}
         </Box>
       }
     />

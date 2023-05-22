@@ -31,14 +31,6 @@ const Templates = ({ open, handleClose }) => {
         }}
       >
         <Title title="Modèles d'E-mail" />
-        <Button
-          edge="start"
-          rootProps={{ sx: { color: 'whiteCorner', display: 'none' } }}
-          onClick={() => {}}
-          aria-label="create-new"
-        >
-          Créer un nouveau
-        </Button>
       </Grid>
       <Box sx={{ height: '100%', maxHeight: '650px', overflow: 'hidden', overflowY: 'scroll', px: 2, py: 4 }}>
         {isLoading && <Loader isCenter />}
