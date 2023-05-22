@@ -93,9 +93,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     setIsCreateEditModalOpen(open)
   }
 
-  const handleTabChange = (_, tabId) => {
-    setSelectedTab(tabId)
-  }
+  const handleTabChange = (_, tabId) => setSelectedTab(tabId)
 
   return (
     <Container maxWidth={false} data-cy="committee-detail-elections">

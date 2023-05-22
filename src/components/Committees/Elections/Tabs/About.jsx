@@ -4,7 +4,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import HowToVoteOutlinedIcon from '@mui/icons-material/HowToVoteOutlined'
 import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined'
 import GroupRemoveOutlinedIcon from '@mui/icons-material/GroupRemoveOutlined'
-import { format } from 'date-fns'
+import { format, differenceInDays } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import Status from 'components/Committees/Status'
 import pluralize from 'components/shared/pluralize/pluralize'
@@ -69,13 +69,24 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
                 <Typography sx={{ px: 1, fontSize: '20px', fontWeight: '500', color: 'colors.gray.900' }}>
                   Détails du vote
                 </Typography>
-                <LineContent label="Corps électoral" value={`${votersCount} ${pluralize(votersCount, 'inscrit')}`} />
-                <LineContent
-                  label="Participation"
-                  value={`${voteCount} (${
-                    votersCount > 0 ? ((voteCount * 100) / votersCount).toFixed(2) : 0
-                  } %) ${pluralize(voteCount, 'votant')}`}
-                />
+                {electionStatus.not_started === status ? (
+                  <LineContent
+                    label={`J-${differenceInDays(
+                      designation.voteStartDate,
+                      new Date()
+                    )} avant constitution du corps électoral`}
+                  />
+                ) : (
+                  <LineContent label="Corps électoral" value={`${votersCount} ${pluralize(votersCount, 'inscrit')}`} />
+                )}
+                {electionStatus.not_started !== status && (
+                  <LineContent
+                    label="Participation"
+                    value={`${voteCount} (${
+                      votersCount > 0 ? ((voteCount * 100) / votersCount).toFixed(2) : 0
+                    } %) ${pluralize(voteCount, 'votant')}`}
+                  />
+                )}
               </Box>
               {status === electionStatus.closed && results && (
                 <Box py={2}>
