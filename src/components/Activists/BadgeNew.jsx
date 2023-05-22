@@ -21,8 +21,10 @@ export const MemberBadge = ({ membership, ...props }) => (
     {...(typeof renaissanceMembership[membership] !== 'undefined'
       ? {
           label: renaissanceMembership[membership],
-          color: 'colors.blue.500',
-          bgcolor: 'colors.blue.50',
+          color:
+            renaissanceMembership[membership] === renaissanceMembership.adherent_re ? 'colors.blue.500' : 'yellow800',
+          bgcolor:
+            renaissanceMembership[membership] === renaissanceMembership.adherent_re ? 'colors.blue.50' : 'pendingLabel',
         }
       : {
           label: 'Ni adhérent RE ni sympathisant RE',
