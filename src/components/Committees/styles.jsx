@@ -35,22 +35,24 @@ export const LineContent = ({ label, value, labelStyle = {}, bodyStyle = {}, sx 
     spacing={3}
     sx={{ px: 1, borderBottom: '1px solid', borderBottomColor: theme => theme.palette.colors.gray[200], ...sx }}
   >
-    <Grid item xs={12} md={4}>
+    <Grid item xs={12} md={value ? 4 : 12}>
       <Typography
         sx={{ fontSize: '14px', fontWeight: '500', color: theme => theme.palette.colors.gray[500], ...labelStyle }}
       >
         {label}
       </Typography>
     </Grid>
-    <Grid item xs={12} md={8}>
-      {value instanceof String ? (
-        <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900], ...bodyStyle }}>
-          {value}
-        </Typography>
-      ) : (
-        value
-      )}
-    </Grid>
+    {value && (
+      <Grid item xs={12} md={8}>
+        {value instanceof String ? (
+          <Typography sx={{ fontSize: '14px', color: theme => theme.palette.colors.gray[900], ...bodyStyle }}>
+            {value}
+          </Typography>
+        ) : (
+          value
+        )}
+      </Grid>
+    )}
   </Grid>
 )
 
