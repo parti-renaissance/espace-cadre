@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Button, Container, Grid, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Button, Container, Grid, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
@@ -197,18 +198,30 @@ const Filters = () => {
         </Grid>
         <Grid container spacing={2} sx={{ textAlign: 'center' }}>
           <Grid item>
-            <DynamicFilters
-              feature={features.messages}
-              onSubmit={handleFiltersSubmit}
-              values={defaultFilter}
-              onReset={() => {
-                setResetFilter(0), setDisabledAction(false)
-              }}
-              onValuesChange={() => setDisabledAction(true)}
-              buttonContainerStyle={{ mt: 2, mb: 4, justifyItems: 'center', alignItems: 'center' }}
-            />
+            <Accordion data-cy="accordion-filters-container">
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel-filter-content"
+                id="panel-filter-header"
+                sx={{ backgroundColor: 'whiteCorner', borderTop: 'none' }}
+              >
+                <Typography>Appliquer des filtres</Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ backgroundColor: 'colors.gray.50', pt: 2.5 }}>
+                <DynamicFilters
+                  feature={features.messages}
+                  onSubmit={handleFiltersSubmit}
+                  values={defaultFilter}
+                  onReset={() => {
+                    setResetFilter(0), setDisabledAction(false)
+                  }}
+                  onValuesChange={() => setDisabledAction(true)}
+                  buttonContainerStyle={{ justifyItems: 'center', alignItems: 'center' }}
+                />
+              </AccordionDetails>
+            </Accordion>
           </Grid>
-          <Grid container>
+          <Grid container sx={{ mt: 2 }}>
             <Grid item xs={12}>
               {message && (
                 <AudienceCount>

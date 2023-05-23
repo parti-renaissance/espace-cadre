@@ -42,6 +42,7 @@ class SelectFactory {
           onChange={e => onChange(e.target.value)}
           required={filter.options.required || false}
           value={selectValue}
+          name={filter.code}
           multiple={multiple}
           renderValue={selected => {
             if (Array.isArray(selected)) {

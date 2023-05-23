@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Grid } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import Factory from './FiltersFactory/Factory'
@@ -36,31 +36,66 @@ const FiltersForm = ({ filters, onSubmit, onReset, values, onValuesChange, butto
   const [localValues, setLocalValues] = useState(values)
   const factory = new Factory()
 
-  const filterElements = filters.map(filter => {
-    const filterElement = factory.create(filter.type || 'text', {
-      filter,
-      value: localValues[filter.code] || '',
-      defaultValue: values[filter.code] || null,
-      onChange: value => {
-        setLocalValues(prevState => {
-          const { [filter.code]: oldValue, ...newState } = prevState
-          if (value === null || value === undefined) {
-            return newState
-          }
-          onValuesChange && onValuesChange({ ...newState, [filter.code]: value })
-          return { ...newState, [filter.code]: value }
-        })
-      },
+  const filterGroups = filters.map((group, index) => {
+    const filterElements = group.filters.map(filter => {
+      const filterElement = factory.create(filter.type || 'text', {
+        filter,
+        value: localValues[filter.code] || '',
+        defaultValue: values[filter.code] || null,
+        onChange: value => {
+          setLocalValues(prevState => {
+            const { [filter.code]: oldValue, ...newState } = prevState
+            if (value === null || value === undefined) {
+              return newState
+            }
+            onValuesChange && onValuesChange({ ...newState, [filter.code]: value })
+            return { ...newState, [filter.code]: value }
+          })
+        },
+      })
+
+      return (
+        <Grid item key={filter.code} xs={12} sm={6} lg={4}>
+          {filterElement}
+        </Grid>
+      )
     })
 
     return (
-      <Grid key={filter.code} item xs={12} sm={6} lg={4}>
-        {filterElement}
-      </Grid>
+      <Box key={`form-group-${index}`} sx={{ px: 2, width: '100%' }}>
+        <Typography
+          component="p"
+          sx={{
+            display: 'inline-flex',
+            fontSize: '14px',
+            bgcolor: group.color,
+            color: 'whiteCorner',
+            py: 0.5,
+            px: 1.5,
+            borderTopLeftRadius: 4,
+            borderTopRightRadius: 4,
+          }}
+        >
+          {group.label}
+        </Typography>
+        <Box
+          sx={{
+            border: '1px solid',
+            borderColor: group.color,
+            borderRadius: 2,
+            borderTopLeftRadius: 0,
+            p: 1.5,
+          }}
+        >
+          <Grid container spacing={2}>
+            {filterElements}
+          </Grid>
+        </Box>
+      </Box>
     )
   })
 
-  if (!filterElements.length) {
+  if (!filterGroups.length) {
     return null
   }
 
@@ -77,8 +112,8 @@ const FiltersForm = ({ filters, onSubmit, onReset, values, onValuesChange, butto
 
   return (
     <form onSubmit={handleSubmit} data-cy="filters-form">
-      <Grid container spacing={2} sx={{ mb: 2 }}>
-        {filterElements}
+      <Grid container spacing={2} sx={{ py: 2 }} className="space-y-4">
+        {filterGroups}
       </Grid>
       <Grid sx={{ mb: 2, ...buttonContainerStyle }}>
         <FilterButton type="submit">{messages.filter}</FilterButton>

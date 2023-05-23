@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Container, Grid, Box, Badge, Typography } from '@mui/material'
+import { Container, Grid, Box, Badge, Typography, AccordionDetails, AccordionSummary, Accordion } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Masonry from '@mui/lab/Masonry'
 import { generatePath, useNavigate } from 'react-router'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -177,15 +178,28 @@ const Dashboard = () => {
           }
         />
       </Grid>
-      <DynamicFilters
-        feature={features.elected_representative}
-        values={defaultFilter}
-        onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
-        onReset={() => {
-          setDefaultFilter(initialFilter)
-          setFilters(initialFilter)
-        }}
-      />
+
+      <Accordion data-cy="accordion-filters-container">
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel-filter-content"
+          id="panel-filter-header"
+          sx={{ backgroundColor: 'whiteCorner', borderTop: 'none' }}
+        >
+          <Typography>Appliquer des filtres</Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ backgroundColor: 'colors.gray.50', pt: 2.5 }}>
+          <DynamicFilters
+            feature={features.elected_representative}
+            values={defaultFilter}
+            onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
+            onReset={() => {
+              setDefaultFilter(initialFilter)
+              setFilters(initialFilter)
+            }}
+          />
+        </AccordionDetails>
+      </Accordion>
 
       {isLoading && <Loader isCenter />}
 
