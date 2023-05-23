@@ -1,22 +1,22 @@
 import { Container, Grid } from '@mui/material'
-import PageHeader from 'ui/PageHeader'
-import KpiEvent from 'components/Events/KPIEvent'
-import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
-
-import { getEvent, getEventAttendees } from 'api/events'
+import { useState } from 'react'
 import { useParams } from 'react-router'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useSelector } from 'react-redux'
+
+import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
+import { getEvent, getEventAttendees } from 'api/events'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import Loader from 'ui/Loader'
-import UICard from 'ui/Card'
+import KpiEvent from 'components/Events/KPIEvent'
 import Header from 'components/Events/Event/card/Header'
-import paths from 'shared/paths'
-import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import { useState } from 'react'
 import CreateEditEvent from 'components/Events/CreateEditEvent'
+import UICard from 'ui/Card'
+import Loader from 'ui/Loader'
+import PageHeader from 'ui/PageHeader'
+import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import EditIcon from 'ui/icons/EditIcon'
-import { useSelector } from 'react-redux'
+import paths from 'shared/paths'
 import { getCurrentUser } from '../../../redux/user/selectors'
 
 const messages = {
@@ -36,9 +36,7 @@ const Event = () => {
     refetch: refetchEvent,
   } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
 
-  const handleEdited = async () => {
-    await refetchEvent()
-  }
+  const handleEdited = async () => await refetchEvent()
 
   const {
     data: paginatedAttendees = null,
@@ -46,7 +44,7 @@ const Event = () => {
     hasNextPage,
   } = useInfiniteQueryWithScope(
     ['paginated-attendees', eventId, { feature: 'Events', view: 'Event' }],
-    () => getEventAttendees(eventId),
+    ({ pageParam: page = 1 }) => getEventAttendees(eventId, page),
     {
       getNextPageParam,
       onError: handleError,
@@ -84,13 +82,13 @@ const Event = () => {
               hasMore={hasNextPage}
               loader={<Loader />}
             >
-              <Grid container spacing={2}>
-                {attendees.map(a => (
-                  <Grid item key={a.subscriptionDate + a.lastName} xs={12} sm={6} md={3}>
+              <Grid container spacing={3}>
+                {attendees.map((attendee, index) => (
+                  <Grid item key={index} xs={12} sm={6} md={3}>
                     <UICard
                       rootProps={{ sx: { height: '125px', borderRadius: '8px' } }}
                       headerProps={{ sx: { pt: 2.5 } }}
-                      header={<Header attendee={a} />}
+                      header={<Header attendee={attendee} />}
                       actionsProps={{ sx: { pt: 1 } }}
                     />
                   </Grid>

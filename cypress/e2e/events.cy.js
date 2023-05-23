@@ -20,7 +20,7 @@ describe('Events', () => {
     mock('GET', '/api/v3/events?order*=desc&page=1&page_size=20&scope=*', 'events/events')
     mock('GET', '/api/v3/events?order*=desc&page=1&page_size=20&only_mine&scope=*', 'events/myevents')
     mock('GET', '/api/v3/events/11111111-1111-1111-1111-111111111111?scope=*', 'events/event')
-    mock('GET', '/api/v3/events/11111111-1111-1111-1111-111111111111/participants?scope=*', 'events/attendees')
+    mock('GET', '/api/v3/events/11111111-1111-1111-1111-111111111111/participants?page=1&scope=*', 'events/attendees')
     mock('GET', '/api/event_categories', 'events/categories')
 
     cy.contains('Référent').click()
