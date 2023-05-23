@@ -1,0 +1,79 @@
+[
+  {
+    "uuid": "5bf9e8b3-835e-11eb-ba14-42010a84009d",
+    "type": "department",
+    "postal_code": [],
+    "code": "92",
+    "name": "Hauts-de-Seine"
+  },
+  {
+    "uuid": "5bfb18ce-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-1",
+    "name": "Hauts-de-Seine (1)"
+  },
+  {
+    "uuid": "5bfb1776-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-10",
+    "name": "Hauts-de-Seine (10)"
+  },
+  {
+    "uuid": "5bfb167c-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-11",
+    "name": "Hauts-de-Seine (11)"
+  },
+  {
+    "uuid": "5bfb17d0-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-12",
+    "name": "Hauts-de-Seine (12)"
+  },
+  {
+    "uuid": "5bfb13d5-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-13",
+    "name": "Hauts-de-Seine (13)"
+  },
+  {
+    "uuid": "5bfb142a-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-2",
+    "name": "Hauts-de-Seine (2)"
+  },
+  {
+    "uuid": "5bfb16cf-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-3",
+    "name": "Hauts-de-Seine (3)"
+  },
+  {
+    "uuid": "5bfb19cc-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-4",
+    "name": "Hauts-de-Seine (4)"
+  },
+  {
+    "uuid": "5bfb187b-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-5",
+    "name": "Hauts-de-Seine (5)"
+  },
+  {
+    "uuid": "5bfb1923-835e-11eb-ba14-42010a84009d",
+    "type": "district",
+    "postal_code": [],
+    "code": "92-6",
+    "name": "Hauts-de-Seine (6)"
+  }
+]
