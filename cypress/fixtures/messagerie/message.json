@@ -1,0 +1,9 @@
+{
+  "uuid": "11111111-1111-1111-1111-111111111111",
+  "label": "label 1",
+  "subject": "sujet 1",
+  "status": "draft",
+  "recipient_count": 1,
+  "synchronized": true,
+  "source": "api"
+}

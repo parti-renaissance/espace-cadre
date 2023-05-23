@@ -245,6 +245,7 @@ const Filters = () => {
                 disabledAction
               }
               onClick={() => setOpen(true)}
+              data-cy="send-mail-action"
             >
               {loadingSendButton ? <Loader color="main" /> : messages.sendEmail}
             </Send>

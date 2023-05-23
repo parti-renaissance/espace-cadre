@@ -61,7 +61,7 @@ const messages = {
 }
 
 const ModalComponent = ({ open, handleClose, handleSendEmail, recipientCount }) => (
-  <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper}>
+  <Dialog open={open} onClose={handleClose} PaperComponent={StyledPaper} data-cy="send-mail-modal-confirmation">
     <Title>{messages.title}</Title>
     <Confirmation>
       {messages.confirmation}
@@ -77,6 +77,7 @@ const ModalComponent = ({ open, handleClose, handleSendEmail, recipientCount }) 
           handleSendEmail()
           handleClose()
         }}
+        data-cy="confirm-send-mail"
       >
         {messages.send}
       </Send>
