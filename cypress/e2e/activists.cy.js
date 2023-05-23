@@ -4,6 +4,7 @@ const ContactsList = '[data-cy="contacts-list"]'
 const ContactButton = '[data-cy="contact-card-button"]'
 const AccordionFiltersContainer = '[data-cy="accordion-filters-container"]'
 const FiltersForm = '[data-cy="filters-form"]'
+const InputFirstName = 'input[name="firstName"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -38,10 +39,7 @@ describe('Activists', () => {
       cy.get(ContactsList).find(ContactButton).children().should('have.length', 3)
 
       cy.get(FiltersForm)
-        .find('>div')
-        .find('>div + div')
-        .find('input')
-        .eq(0)
+        .find(InputFirstName)
         .type('Jean')
 
       cy.get(FiltersForm).submit()

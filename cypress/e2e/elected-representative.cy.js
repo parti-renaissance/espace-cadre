@@ -1,9 +1,11 @@
 import { initialize, mock } from './main.cy'
 
 const HeaderButton = '[data-cy="ui-page-header-button"]'
-const ElectedContainer = '[data-cy="elected-representative-container"]'
 const ElectedGrid = '[data-cy="elected-representative-grid"]'
 const Card = '[data-cy="elected-representative-card"]'
+const AccordionFiltersContainer = '[data-cy="accordion-filters-container"]'
+const FiltersForm = '[data-cy="filters-form"]'
+const InputFirstName = 'input[name="firstName"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -23,20 +25,19 @@ describe('Elected Representative', () => {
 
   describe('the elected filters', () => {
     it('can select a filter', () => {
-      cy.get(ElectedContainer).find('form').should('exist')
       cy.get(HeaderButton).should('have.text', 'Ajouter un élu')
       cy.contains('Registre des élus')
 
       cy.get(ElectedGrid).find(Card).children().should('have.length', 2)
 
-      cy.get(ElectedContainer).find('form')
-        .find('>div')
-        .find('>div + div')
-        .find('input')
-        .eq(0)
+      cy.get(AccordionFiltersContainer).click()
+      cy.get(FiltersForm).should('exist')
+
+      cy.get(FiltersForm)
+        .find(InputFirstName)
         .type('Arthur')
 
-      cy.get(ElectedContainer).find('form').submit()
+      cy.get(FiltersForm).submit()
 
       cy.get(ElectedGrid).find(Card).children().should('have.length', 1)
     })
