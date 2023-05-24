@@ -7,6 +7,8 @@ export const initialize = () => {
     throw new Error('request not stubbed : ' + req.url)
   })
 
+  cy.on('uncaught:exception', err => !err.message.includes('ResizeObserver loop limit exceeded'))
+
   cy.intercept('POST', '/oauth/v2/token', { statusCode: 201, fixture: 'token' }).as('token')
 
   mock('GET', '/api/me', 'me')
