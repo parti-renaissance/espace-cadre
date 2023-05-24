@@ -22,6 +22,7 @@ class IntegerIntervalFactory {
           <TextField
             label={`${filter.label} minimum`}
             type="number"
+            name={filter.code}
             InputProps={{ inputProps: filter.options?.first }}
             size="small"
             variant="outlined"
@@ -40,6 +41,7 @@ class IntegerIntervalFactory {
           <TextField
             label={`${filter.label} maximum`}
             type="number"
+            name={filter.code}
             InputProps={{ inputProps: filter.options?.second }}
             size="small"
             variant="outlined"
