@@ -6,13 +6,13 @@ import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { FilePond } from 'react-filepond'
 import { useMutation } from '@tanstack/react-query'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { uploadFile } from 'api/upload'
 import { createDocument, updateDocument } from 'api/general-meeting-report'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { FormError } from 'components/shared/error/components'
+import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import { ModalForm } from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
@@ -175,18 +175,19 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
           defaultValue={document?.date || ''}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DatePicker
+            <DateTimePicker
               value={value}
               onChange={onChange}
+              withTime={false}
               maxDate={new Date()}
-              renderInput={params => <Input type="date" name={fields.date} {...params} />}
+              name={fields.date}
             />
           )}
         />
         <FormError errors={errorMessages} field={fields.date} />
       </Box>
       <Box>
-        <UIInputLabel required={document ? false : true}>Votre fichier</UIInputLabel>
+        <UIInputLabel required={!document}>Votre fichier</UIInputLabel>
         <FilePond
           files={files}
           onupdatefiles={setFiles}

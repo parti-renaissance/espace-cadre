@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
-import { add, compareAsc } from 'date-fns'
+import { addDays, compareAsc } from 'date-fns'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createDesignation, updateDesignation } from 'api/designations'
 import { FormError } from 'components/shared/error/components'
@@ -158,7 +158,8 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
               onChange={onChange}
               disabled={!dateUpdateEnabled}
               name={fields.voteStartDate}
-              minDate={add(new Date(), { days: 16 })}
+              minDate={addDays(new Date(), 16)}
+              withTime
             />
           )}
         />
@@ -177,7 +178,8 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
               onChange={onChange}
               disabled={!dateUpdateEnabled}
               name={fields.voteEndDate}
-              minDate={add(new Date(), { days: 17 })}
+              minDate={addDays(new Date(), 17)}
+              withTime
             />
           )}
         />

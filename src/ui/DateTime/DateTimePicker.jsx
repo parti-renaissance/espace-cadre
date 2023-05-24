@@ -1,42 +1,65 @@
-import { PickersDay } from './styled'
-import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
-import { InputAdornment } from '@mui/material'
-
-import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers'
-import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { InputAdornment } from '@mui/material'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
+import { DateTimePicker as MuiDateTimePicker, DatePicker as MuiDatePicker } from '@mui/x-date-pickers'
+
 import Input from 'ui/Input/Input'
+import { PickersDay } from './styled'
 
-const DateTimePicker = ({ value, onChange, name, minDate, placeholder = '', ...props }) => {
-  const [isStartDatePickerOpen, setIsStartDatePickerOpen] = useState(false)
+const DateTimePicker = ({
+  value,
+  onChange,
+  name = '',
+  minDate,
+  placeholder = '',
+  withTime = false,
+  slotProps = {},
+  ...props
+}) => {
+  const dateFormat = withTime ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'
+  const defaultSlotProps = {
+    textField: {
+      variant: 'outlined',
+      InputProps: {
+        placeholder,
+        autoComplete: 'off',
+      },
+    },
+    ...slotProps,
+  }
+  const defaultProps = {
+    adapterLocale: 'fr',
+    value: format(new Date(value), dateFormat, { locale: fr }),
+    name,
+    onChange,
+    minDate,
+  }
 
-  return (
+  return withTime ? (
     <MuiDateTimePicker
-      inputFormat="dd/MM/yyyy HH:mm"
-      open={isStartDatePickerOpen}
-      value={value}
-      onChange={onChange}
-      minDate={minDate}
-      renderDay={(_, __, props) => <PickersDay {...props} />}
-      renderInput={props => <Input type="date" name={name} {...props} />}
-      inputProps={{ placeholder, autoComplete: 'off' }}
-      InputProps={{
-        onClick: () => {
-          setIsStartDatePickerOpen(true)
+      format={dateFormat}
+      slots={{ day: PickersDay, textField: Input }}
+      slotProps={{
+        inputAdornment: {
+          position: 'start',
+          component: ({ children, ...props }) => (
+            <InputAdornment position="start" sx={{ pl: 2 }} {...props}>
+              {children}
+            </InputAdornment>
+          ),
         },
+        ...defaultSlotProps,
       }}
-      onClose={() => {
-        setIsStartDatePickerOpen(false)
-      }}
-      components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
-      InputAdornmentProps={{
-        position: 'start',
-        component: ({ children, ...props }) => (
-          <InputAdornment position="start" sx={{ pl: 2 }} {...props}>
-            {children}
-          </InputAdornment>
-        ),
-      }}
+      {...defaultProps}
+      {...props}
+    />
+  ) : (
+    <MuiDatePicker
+      format={dateFormat}
+      slots={{ textField: Input }}
+      slotProps={slotProps}
+      {...defaultSlotProps}
       {...props}
     />
   )
@@ -45,9 +68,11 @@ const DateTimePicker = ({ value, onChange, name, minDate, placeholder = '', ...p
 DateTimePicker.propTypes = {
   value: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   placeholder: PropTypes.string,
   minDate: PropTypes.object,
+  withTime: PropTypes.bool,
+  slotProps: PropTypes.object,
 }
 
 export default DateTimePicker

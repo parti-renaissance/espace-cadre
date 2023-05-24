@@ -7,11 +7,11 @@ import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from '@tanstack/react-query'
 import { generatePath, useNavigate } from 'react-router'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
+import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import Input from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
@@ -179,11 +179,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
           defaultValue={elected?.birth_date}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
-            <DatePicker
-              value={value}
-              onChange={onChange}
-              renderInput={params => <Input type="date" name={fields.birthDate} {...params} />}
-            />
+            <DateTimePicker value={value} onChange={onChange} name={fields.birthDate} />
           )}
         />
         <FormError errors={errorMessages} field={fields.birthDate} />

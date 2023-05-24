@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import { IconButton, TextField as MuiTextField } from '@mui/material'
 import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
@@ -28,38 +27,32 @@ const DatePicker = ({ value, onChange, label }) => {
     <MuiDatePicker
       openTo="day"
       inputFormat="dd/MM/yyyy"
+      adapterLocale="fr"
       open={isOpen}
-      label={label}
       value={value}
-      onChange={date => {
-        if (!date || isNaN(date) || date.getFullYear() < 1900) {
-          onChange('')
-        } else {
-          onChange(format(date, 'yyyy-MM-dd'))
-        }
-      }}
+      onChange={onChange}
       onClose={() => {
         setIsOpen(false)
       }}
-      renderInput={props => (
-        <TextField
-          {...props}
-          variant="outlined"
-          size="small"
-          label={label}
-          value={value}
-          onChange={e => {
-            onChange(e.target.value)
-          }}
-          InputProps={{
-            endAdornment: (() => (
-              <IconButton size="small" onClick={value ? handleClear : () => setIsOpen(true)}>
-                {value ? <ClearIcon /> : <EventIcon />}
-              </IconButton>
-            ))(),
-          }}
-        />
-      )}
+      slots={{ textField: TextField }}
+      slotProps={{
+        textField: {
+          variant: 'outlined',
+          size: 'small',
+          label,
+          InputProps: {
+            autoComplete: 'off',
+            onClick: () => {
+              setIsOpen(true)
+            },
+          },
+        },
+        endAdornment: (() => (
+          <IconButton size="small" onClick={value ? handleClear : () => setIsOpen(true)}>
+            {value ? <ClearIcon /> : <EventIcon />}
+          </IconButton>
+        ))(),
+      }}
     />
   )
 }

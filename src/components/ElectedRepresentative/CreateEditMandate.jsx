@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Grid, FormControlLabel } from '@mui/material'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from '@tanstack/react-query'
-import { format } from 'date-fns'
+import { DatePicker } from '@mui/x-date-pickers'
 import { createMandate, updateMandate } from 'api/elected-representative'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -17,8 +16,8 @@ import { zoneTypes } from 'domain/zone'
 import { mandats, affiliations, supports } from 'shared/constants'
 import { ModalForm } from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
-import Select from 'ui/Select/Select'
 import Input from 'ui/Input/Input'
+import Select from 'ui/Select/Select'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 
 const messages = {
@@ -33,38 +32,40 @@ const messages = {
 
 const fields = {
   type: 'type',
-  geoZone: 'geo_zone',
-  onGoing: 'on_going',
-  beginAt: 'begin_at',
-  finishAt: 'finish_at',
-  isElected: 'is_elected',
-  laREMSupport: 'la_r_e_m_support',
-  politicalAffiliation: 'political_affiliation',
+  geoZone: 'geoZone',
+  onGoing: 'onGoing',
+  beginAt: 'beginAt',
+  finishAt: 'finishAt',
+  isElected: 'isElected',
+  laREMSupport: 'laREMSupport',
+  politicalAffiliation: 'politicalAffiliation',
 }
 
 const mandateSchema = Yup.object({
-  type: Yup.string().required('Le type de mandat est obligatoire'),
-  beginAt: Yup.date().required('La date de début est obligatoire'),
-  finishAt: Yup.date().optional(),
-  geoZone: Yup.string().required('La zone géographique est obligatoire'),
-  onGoing: Yup.boolean().optional(),
-  politicalAffiliation: Yup.string().required("L'affiliation politique est obligatoire"),
-})
+  [fields.type]: Yup.string().required('Le type de mandat est obligatoire').default(),
+  [fields.beginAt]: Yup.date().required('La date de début est obligatoire'),
+  [fields.finishAt]: Yup.date().nullable(),
+  [fields.geoZone]: Yup.object().required('La zone géographique est obligatoire'),
+  [fields.onGoing]: Yup.boolean().nullable(),
+  [fields.politicalAffiliation]: Yup.string().required("L'affiliation politique est obligatoire"),
+  [fields.isElected]: Yup.boolean().nullable(),
+  [fields.laREMSupport]: Yup.string().nullable(),
+}).camelCase()
 
 const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose }) => {
   const [selectedZone, setSelectedZone] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const { control, getValues, reset, watch } = useForm({
+
+  const { control, getValues, watch } = useForm({
     mode: 'onChange',
+    defaultValues: mandateSchema.cast(mandate),
     resolver: yupResolver(mandateSchema),
   })
 
-  watch()
   const watchOnGoing = watch(fields.onGoing, false)
-  const values = getValues()
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!mandate ? createMandate : updateMandate, {
+  const { mutate: createOrUpdate, isLoading } = useMutation(!mandate.id ? createMandate : updateMandate, {
     onSuccess: mandate => {
       onUpdateResolve && onUpdateResolve()
       enqueueSnackbar(mandate ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
@@ -74,34 +75,29 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
   })
 
   const createOrEdit = () => {
-    const { finish_at } = values
-    if (!watchOnGoing && (finish_at === '' || finish_at === null)) {
+    const values = {
+      ...getValues(),
+      electedRepresentative: electedId,
+      geoZone: selectedZone?.uuid || mandate.geoZone?.uuid,
+    }
+
+    if (!watchOnGoing && values.finishAt === null) {
       enqueueSnackbar('La date de fin pour le mandat est obligatoire', notifyVariants.error)
       return
     }
 
-    createOrUpdate({
-      ...values,
-      begin_at: format(new Date(values.begin_at), 'yyyy-MM-dd'),
-      finish_at: finish_at ? format(new Date(finish_at), 'yyyy-MM-dd') : null,
-      elected_representative: electedId,
-      la_r_e_m_support: values.la_r_e_m_support || null,
-      geo_zone: selectedZone?.uuid || mandate?.geo_zone?.uuid,
-    })
+    createOrUpdate(values)
   }
 
   useEffect(() => {
-    if (mandate && mandate.uuid) {
-      setSelectedZone(mandate.geo_zone)
-      reset(mandate)
-    }
-  }, [mandate, reset])
+    if (mandate && mandate.id) setSelectedZone(mandate.geoZone)
+  }, [mandate])
 
   return (
     <ModalForm
       handleClose={handleClose}
-      title={!mandate ? messages.creationTitle : messages.editionTitle}
-      submitLabel={!mandate ? messages.create : messages.update}
+      title={!mandate.id ? messages.creationTitle : messages.editionTitle}
+      submitLabel={!mandate.id ? messages.create : messages.update}
       createOrEdit={createOrEdit}
       isLoading={isLoading}
     >
@@ -110,7 +106,6 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         <Controller
           name={fields.type}
           control={control}
-          defaultValue={mandate?.type || ''}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
@@ -128,7 +123,6 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <Controller
               name={fields.isElected}
               control={control}
-              defaultValue={mandate?.is_elected || false}
               render={({ field: { onChange, value } }) => (
                 <FormControlLabel
                   name={fields.isElected}
@@ -145,7 +139,6 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <Controller
               name={fields.onGoing}
               control={control}
-              defaultValue={mandate?.on_going || false}
               render={({ field: { onChange, value } }) => (
                 <FormControlLabel
                   name={fields.onGoing}
@@ -165,15 +158,8 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <Controller
               name={fields.beginAt}
               control={control}
-              defaultValue={mandate?.begin_at || ''}
               rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <DatePicker
-                  value={value}
-                  onChange={onChange}
-                  renderInput={params => <Input type="date" name={fields.beginAt} {...params} />}
-                />
-              )}
+              render={({ field: { ref, ...field } }) => <DatePicker slots={{ textField: Input }} {...field} />}
             />
             <FormError errors={errorMessages} field={fields.beginAt} />
           </Box>
@@ -184,16 +170,9 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
             <Controller
               name={fields.finishAt}
               control={control}
-              defaultValue={mandate?.finish_at || ''}
               rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <DatePicker
-                  value={value}
-                  onChange={onChange}
-                  readOnly={watchOnGoing ?? false}
-                  disabled={watchOnGoing ?? false}
-                  renderInput={params => <Input type="date" name={fields.finishAt} {...params} />}
-                />
+              render={({ field: { ref, ...field } }) => (
+                <DatePicker slots={{ textField: Input }} readOnly={watchOnGoing} disabled={watchOnGoing} {...field} />
               )}
             />
             <FormError errors={errorMessages} field={fields.finishAt} />
@@ -215,7 +194,6 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         <Controller
           name={fields.politicalAffiliation}
           control={control}
-          defaultValue={mandate?.political_affiliation || ''}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select options={affiliations} onChange={onChange} value={value} />
@@ -228,12 +206,11 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
         <Controller
           name={fields.laREMSupport}
           control={control}
-          defaultValue={mandate?.la_r_e_m_support || ''}
           render={({ field: { onChange, value } }) => (
             <Select
               options={Object.keys(supports).map(key => ({ key, value: supports[key] }))}
               onChange={onChange}
-              value={value === null ? '' : value}
+              value={value ?? ''}
             />
           )}
         />
