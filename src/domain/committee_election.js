@@ -3,21 +3,21 @@ import { add } from 'date-fns'
 import { electionStatus } from 'components/Committees/constants'
 
 export class Designation {
-  constructor(id, title, description, electionDate, voteStartDate, voteEndDate) {
+  constructor(id, customTitle, description, electionDate, voteStartDate, voteEndDate) {
     this.id = id
-    this.title = title
+    this.customTitle = customTitle
     this.description = description
-    this.electionDate = new Date(electionDate)
+    this.electionDate = electionDate ? new Date(electionDate) : null
     this.voteStartDate = new Date(voteStartDate)
     this.voteEndDate = new Date(voteEndDate)
   }
 
-  static NULL = new Designation(null, '', '', new Date(), add(new Date(), { days: 16 }), add(new Date(), { days: 17 }))
+  static NULL = new Designation(null, '', '', null, add(new Date(), { days: 16 }), add(new Date(), { days: 17 }))
 }
 
 Designation.propTypes = PropTypes.shape({
   id: PropTypes.string,
-  title: PropTypes.string.isRequired,
+  customTitle: PropTypes.string.isRequired,
   description: PropTypes.string,
   electionDate: PropTypes.object,
   voteStartDate: PropTypes.object.isRequired,
