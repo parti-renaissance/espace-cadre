@@ -3,23 +3,23 @@ import { useEffect, useState } from 'react'
 import { Grid, Box, Typography, FormControlLabel } from '@mui/material'
 import { styled } from '@mui/system'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { DatePicker } from '@mui/x-date-pickers'
 import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useMutation } from '@tanstack/react-query'
 import { generatePath, useNavigate } from 'react-router'
+import { createElected, updateElected } from 'api/elected-representative'
 import { FormError } from 'components/shared/error/components'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
-import DateTimePicker from 'ui/DateTime/DateTimePicker'
+import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
 import Input from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Select from 'ui/Select/Select'
 import { ModalForm } from 'ui/Dialog'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import { createElected, updateElected } from 'api/elected-representative'
 import paths from 'shared/paths'
-import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
 
 const FormTitle = styled(Typography)(
   ({ theme }) => `
@@ -42,7 +42,7 @@ const FormDescription = styled(Typography)(
 )
 
 export const FormHeading = ({ title, description }) => (
-  <Box sx={{ pb: 1.5, mb: 2, borderBottom: '1px solid', borderBottomColor: theme => theme.palette.colors.gray[300] }}>
+  <Box sx={{ pb: 1.5, mb: 2, borderBottom: '1px solid', borderBottomColor: 'colors.gray.300' }}>
     <FormTitle>{title}</FormTitle>
     <FormDescription>{description}</FormDescription>
   </Box>
@@ -63,76 +63,76 @@ const messages = {
 }
 
 const fields = {
-  firstName: 'first_name',
-  lastName: 'last_name',
+  firstName: 'firstName',
+  lastName: 'lastName',
   gender: 'gender',
-  birthDate: 'birth_date',
-  birthPlace: 'birth_place',
-  contactPhone: 'contact_phone',
-  contactEmail: 'contact_email',
-  hasFollowedTraining: 'has_followed_training',
+  birthDate: 'birthDate',
+  birthPlace: 'birthPlace',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  hasFollowedTraining: 'hasFollowedTraining',
 }
 
 const electedSchema = Yup.object({
-  firstName: Yup.string().required('Le nom est obligatoire'),
-  lastName: Yup.string().required('Le prénom est obligatoire'),
-  gender: Yup.string().required('Le genre est obligatoire'),
-  birthDate: Yup.date().required('La date de naissance est obligatoire'),
-  contactEmail: Yup.string().email("L'email est invalide"),
-})
+  [fields.firstName]: Yup.string().required('Le nom est obligatoire'),
+  [fields.lastName]: Yup.string().required('Le prénom est obligatoire'),
+  [fields.gender]: Yup.string().required('Le genre est obligatoire'),
+  [fields.birthDate]: Yup.date().required('La date de naissance est obligatoire'),
+  [fields.contactEmail]: Yup.string().email("L'email est invalide"),
+}).camelCase()
 
 const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolve }) => {
   const [selectedAdherent, setSelectedAdherent] = useState(null)
   const { enqueueSnackbar } = useCustomSnackbar()
   const navigate = useNavigate()
   const { handleError, errorMessages } = useErrorHandler()
-  const { control, getValues, reset, watch } = useForm({
+  const { control, getValues } = useForm({
     mode: 'onChange',
+    defaultValues: electedSchema.cast(elected),
     resolver: yupResolver(electedSchema),
   })
 
-  watch()
-
-  const { mutate: createOrUpdate, isLoading } = useMutation(!elected ? createElected : updateElected, {
-    onSuccess: elected => {
+  const { mutate: createOrUpdate, isLoading } = useMutation(!elected.id ? createElected : updateElected, {
+    onSuccess: electedRepresentative => {
       onCreateResolve && onCreateResolve()
       onUpdateResolve && onUpdateResolve()
-      enqueueSnackbar(elected ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+
+      enqueueSnackbar(
+        elected.id && elected.id === electedRepresentative.uuid ? messages.editSuccess : messages.createSuccess,
+        notifyVariants.success
+      )
       handleClose()
-      navigate(generatePath(`${paths.elected_representative}/:uuid`, { uuid: elected.uuid }))
+
+      if (!elected.id) {
+        navigate(generatePath(`${paths.elected_representative}/:uuid`, { uuid: electedRepresentative.uuid }))
+      }
     },
     onError: handleError,
   })
 
-  const values = getValues()
-
   const createOrEdit = () => {
-    createOrUpdate({ ...values, adherent: selectedAdherent?.uuid, uuid: elected?.uuid })
+    createOrUpdate({ ...getValues(), id: elected.id, adherent: selectedAdherent?.uuid })
   }
 
   useEffect(() => {
-    if (elected && elected.uuid) {
-      if (elected.adherent) {
-        setSelectedAdherent(elected.adherent)
-      }
-      reset(elected)
+    if (elected && elected.id) {
+      if (elected.adherent) setSelectedAdherent(elected.adherent)
     }
-  }, [elected, reset])
+  }, [elected])
 
   return (
     <ModalForm
-      title={!elected ? messages.creationTitle : messages.editionTitle}
+      title={!elected.id ? messages.creationTitle : messages.editionTitle}
       handleClose={handleClose}
       createOrEdit={createOrEdit}
       isLoading={isLoading}
-      submitLabel={!elected ? messages.create : messages.update}
+      submitLabel={!elected.id ? messages.create : messages.update}
     >
       <Box>
         <UIInputLabel required>Prénom</UIInputLabel>
         <Controller
           name={fields.firstName}
           control={control}
-          defaultValue={elected?.first_name}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Input name={fields.firstName} onChange={onChange} placeholder="Nom de l'élu" value={value} autoFocus />
@@ -145,7 +145,6 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <Controller
           name={fields.lastName}
           control={control}
-          defaultValue={elected?.last_name}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Input
@@ -163,7 +162,6 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <Controller
           name={fields.contactEmail}
           control={control}
-          defaultValue={elected?.contact_email}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Input name={fields.contactEmail} onChange={onChange} value={value === null ? '' : value} />
@@ -176,11 +174,8 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <Controller
           name={fields.birthDate}
           control={control}
-          defaultValue={elected?.birth_date}
           rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <DateTimePicker value={value} onChange={onChange} name={fields.birthDate} />
-          )}
+          render={({ field: { ref, ...field } }) => <DatePicker slots={{ textField: Input }} {...field} />}
         />
         <FormError errors={errorMessages} field={fields.birthDate} />
       </Box>
@@ -189,7 +184,6 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <Controller
           name={fields.birthPlace}
           control={control}
-          defaultValue={elected?.birth_place}
           render={({ field: { onChange, value } }) => (
             <Input name={fields.birthPlace} onChange={onChange} value={value === null ? '' : value} />
           )}
@@ -201,7 +195,6 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <Controller
           name={fields.gender}
           control={control}
-          defaultValue={elected?.gender || 'male'}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
@@ -219,7 +212,6 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <Controller
           name={fields.hasFollowedTraining}
           control={control}
-          defaultValue={elected?.has_followed_training}
           render={({ field: { onChange, value } }) => (
             <FormControlLabel
               name={fields.hasFollowedTraining}
@@ -236,7 +228,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <Box sx={{ mt: 2 }}>
           <Grid item xs={12}>
             <AdherentAutocomplete
-              customStyle={{ bgcolor: theme => theme.palette.colors.gray[50] }}
+              customStyle={{ bgcolor: 'colors.gray.50' }}
               value={selectedAdherent}
               onChange={setSelectedAdherent}
             />

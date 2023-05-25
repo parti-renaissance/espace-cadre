@@ -122,17 +122,18 @@ const ElectedDetail = () => {
         <PageHeader
           title={messages.pageTitle}
           titleLink={paths.elected_representative}
-          titleSuffix={`${electedDetail.first_name} ${electedDetail.last_name}`}
+          titleSuffix={`${electedDetail.firstName} ${electedDetail.lastName}`}
           button={
             <PageHeaderButton
               label={messages.modify}
               icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
-              onClick={() => (Object.keys(electedDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
+              onClick={() => setIsCreateEditModalOpen(true)}
               isMainButton
             />
           }
         />
       </Grid>
+
       <Box className="mt-4 space-y-8">
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
@@ -160,25 +161,23 @@ const ElectedDetail = () => {
                     <Grid container spacing={1} rowGap={1}>
                       <Grid item xs={12} sm={6}>
                         <Content title="Nom complet">
-                          {electedDetail.first_name} <span className="font-bold">{electedDetail.last_name}</span>
+                          {electedDetail.firstName} <span className="font-bold">{electedDetail.lastName}</span>
                         </Content>
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <Content
                           title="Adresse E-mail"
-                          content={electedDetail.email_address ?? 'Aucune adresse e-mail'}
+                          content={electedDetail.emailAddress ?? 'Aucune adresse e-mail'}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <Content title="Téléphone" content={electedDetail.phone_number ?? 'Aucun numero'} />
+                        <Content title="Téléphone" content={electedDetail.contactPhone ?? 'Aucun numero'} />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <Content
                           title="Date de naissance"
                           content={
-                            electedDetail.birth_date
-                              ? format(new Date(electedDetail.birth_date), 'dd/MM/yyyy')
-                              : 'Aucune date'
+                            electedDetail.birthDate ? format(electedDetail.birthDate, 'dd/MM/yyyy') : 'Aucune date'
                           }
                         />
                       </Grid>
@@ -206,7 +205,7 @@ const ElectedDetail = () => {
                       {electedDetail.adherent ? (
                         <Box display="flex" alignItems="center" className="space-x-3">
                           <CheckCircleIcon sx={{ color: 'form.success.color', fontSize: '20px', ml: 2 }} />
-                          <Button isMainButton onClick={() => mutate({ adherent: null, uuid: electedDetail.uuid })}>
+                          <Button isMainButton onClick={() => mutate({ adherent: null, uuid: electedDetail.id })}>
                             {updateAdherentLoading && <Loader />}&nbsp; Dissocier
                           </Button>
                         </Box>
@@ -364,6 +363,7 @@ const ElectedDetail = () => {
           }
         />
       </Box>
+
       {isCreateEditModalOpen && (
         <CreateEditModal
           elected={electedDetail}
@@ -371,6 +371,7 @@ const ElectedDetail = () => {
           handleClose={() => setIsCreateEditModalOpen(false)}
         />
       )}
+
       {isMandateModalOpen && (
         <CreateEditMandate
           electedId={electedId}
