@@ -24,7 +24,7 @@
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
     "filepond": "^4.30.4",
-    "formik": "^2.2.9",
+    "formik": "^2.3.2",
     "is-base64": "1.1.0",
     "jme-ckeditor5": "EnMarche/ckeditor5#master",
     "leaflet": "^1.9.4",
