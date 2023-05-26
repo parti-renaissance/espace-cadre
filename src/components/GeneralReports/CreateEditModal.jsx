@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography } from '@mui/material'
@@ -6,13 +6,13 @@ import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { FilePond } from 'react-filepond'
 import { useMutation } from '@tanstack/react-query'
+import { DatePicker } from '@mui/x-date-pickers'
 import { uploadFile } from 'api/upload'
 import { createDocument, updateDocument } from 'api/general-meeting-report'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { FormError } from 'components/shared/error/components'
-import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import { ModalForm } from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
@@ -41,11 +41,11 @@ const fields = {
 }
 
 const documentSchema = Yup.object({
-  title: Yup.string().required('Le titre est obligatoire').min('2'),
-  description: Yup.string().min('2'),
-  date: Yup.date().required('La date est obligatoire'),
-  zone: Yup.string().required('La zone est obligatoire'),
-})
+  [fields.title]: Yup.string().required('Le titre est obligatoire').min('2'),
+  [fields.description]: Yup.string().min('2'),
+  [fields.date]: Yup.date().required('La date est obligatoire'),
+  [fields.zone]: Yup.string().required('La zone est obligatoire'),
+}).camelCase()
 
 const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClose }) => {
   const [currentScope] = useUserScope()
@@ -54,22 +54,13 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
   const [action, setAction] = useState('')
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const { control, getValues, reset, watch } = useForm({
+  const { control, getValues } = useForm({
     mode: 'onChange',
+    defaultValues: documentSchema.cast({ ...document, zone: document.id ? document.zone : currentScope.zones[0].uuid }),
     resolver: yupResolver(documentSchema),
   })
 
-  watch()
-  const zone = watch(fields.zone, document ? document.zone?.uuid : currentScope.zones[0].uuid)
-  const values = getValues()
-
-  useEffect(() => {
-    if (document) {
-      reset({ ...document, zone: document.zone.uuid })
-    }
-  }, [document, reset])
-
-  const { mutateAsync: createOrUpdate } = useMutation(!document ? createDocument : updateDocument, {
+  const { mutateAsync: createOrUpdate } = useMutation(!document.id ? createDocument : updateDocument, {
     onSuccess: () => {
       onCreateResolve && onCreateResolve()
       onUpdateResolve && onUpdateResolve()
@@ -85,7 +76,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
   })
 
   const createOrEdit = async () => {
-    if ((!files || files.length === 0) && !document) {
+    if ((!files || files.length === 0) && !document.id) {
       enqueueSnackbar(messages.fileErrorMessage, notifyVariants.error)
       return
     }
@@ -95,7 +86,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
     setAction(messages.createAction)
 
     try {
-      response = await createOrUpdate({ ...values, zone })
+      response = await createOrUpdate(getValues())
 
       if (files && files.length > 0) {
         setAction(messages.uploadAction)
@@ -106,7 +97,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
         })
       }
 
-      enqueueSnackbar(!document ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      enqueueSnackbar(!document.id ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       handleClose()
     } catch (error) {
       handleError(error)
@@ -120,8 +111,8 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
   return (
     <ModalForm
       handleClose={handleClose}
-      title={!document ? messages.creationTitle : messages.editionTitle}
-      submitLabel={!document ? messages.create : messages.update}
+      title={!document.id ? messages.creationTitle : messages.editionTitle}
+      submitLabel={!document.id ? messages.create : messages.update}
       isLoading={loading}
       createOrEdit={createOrEdit}
       actions={
@@ -147,7 +138,6 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
         <Controller
           name={fields.title}
           control={control}
-          defaultValue={document?.title || ''}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Input name={fields.title} onChange={onChange} placeholder="Titre de l'archive" value={value} autoFocus />
@@ -160,7 +150,6 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
         <Controller
           name={fields.description}
           control={control}
-          defaultValue={document?.description || ''}
           render={({ field: { onChange, value } }) => (
             <Input name={fields.description} onChange={onChange} value={value} multiline maxRows={4} />
           )}
@@ -172,22 +161,15 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
         <Controller
           name={fields.date}
           control={control}
-          defaultValue={document?.date || ''}
           rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <DateTimePicker
-              value={value}
-              onChange={onChange}
-              withTime={false}
-              maxDate={new Date()}
-              name={fields.date}
-            />
+          render={({ field: { ref, ...field } }) => (
+            <DatePicker slots={{ textField: Input }} maxDate={new Date()} {...field} />
           )}
         />
         <FormError errors={errorMessages} field={fields.date} />
       </Box>
       <Box>
-        <UIInputLabel required={!document}>Votre fichier</UIInputLabel>
+        <UIInputLabel required={!document.id}>Votre fichier</UIInputLabel>
         <FilePond
           files={files}
           onupdatefiles={setFiles}
@@ -200,7 +182,6 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
         <Controller
           name={fields.zone}
           control={control}
-          defaultValue={zone}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
