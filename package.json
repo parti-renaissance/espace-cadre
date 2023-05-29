@@ -17,7 +17,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/react": "^7.53.1",
     "@sentry/tracing": "^7.53.1",
-    "@tanstack/react-query": "^4.29.7",
+    "@tanstack/react-query": "^4.29.12",
     "@turf/turf": "^6.5.0",
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.4.0",
