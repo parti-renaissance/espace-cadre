@@ -30,7 +30,7 @@ const Dashboard = () => {
             <Box display="flex" alignItems="center" className="space-x-3">
               <PageHeaderButton
                 onClick={() => setShowTemplates(true)}
-                label="Templates"
+                label="Modèles"
                 icon={<GridViewIcon />}
                 data-cy="templates-button"
                 isMainButton
