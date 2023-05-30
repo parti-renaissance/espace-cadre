@@ -39,7 +39,7 @@
     "react-dom": "^18.2.0",
     "react-email-editor": "https://github.com/EnMarche/react-email-editor#v1.6.3-1",
     "react-filepond": "^7.1.2",
-    "react-hook-form": "^7.43.9",
+    "react-hook-form": "^7.44.2",
     "react-infinite-scroll-component": "^6.1.0",
     "react-leaflet": "^4.2.1",
     "react-markdown": "^8.0.7",
