@@ -40,6 +40,10 @@ export class Scope {
     return this.getAttributes()?.committees
   }
 
+  canUpdateEvent() {
+    return [scopes.deputy, scopes.senator, scopes.president_departmental_assembly].includes(this.getMainCode())
+  }
+
   hasFeature(feature) {
     return this.features.includes(feature)
   }

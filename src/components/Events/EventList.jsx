@@ -1,22 +1,23 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { generatePath, useNavigate } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { useCallback, useEffect, useMemo } from 'react'
+import { Grid } from '@mui/material'
+import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
+import { useSelector } from 'react-redux'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyVariants } from 'components/shared/notification/constants'
-import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
-import { generatePath, useNavigate } from 'react-router-dom'
-import paths from 'shared/paths'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import Loader from 'ui/Loader'
-import { Grid } from '@mui/material'
-import UICard from 'ui/Card'
+import { useErrorHandler } from 'components/shared/error/hooks'
 import Header from 'components/Events/card/Header'
 import Actions from 'components/Events/card/Actions'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { useSelector } from 'react-redux'
+import Loader from 'ui/Loader'
+import UICard from 'ui/Card'
+import paths from 'shared/paths'
 import { getCurrentUser } from '../../redux/user/selectors'
-import PropTypes from 'prop-types'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useUserScope } from '../../redux/user/hooks'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
@@ -28,6 +29,7 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
+  const [currentScope] = useUserScope()
   const navigate = useNavigate()
 
   const {
@@ -113,10 +115,12 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
                   event={e}
                   onView={handleViewEvent(e.id)}
                   onEdit={onEdit(e.id)}
-                  isDeletable={e.attendees <= 1 && e.organizerId === currentUser.uuid}
+                  isDeletable={
+                    e.attendees <= 1 && (e.organizerId === currentUser.uuid || currentScope.canUpdateEvent())
+                  }
                   onDelete={() => handleDelete(e.id)}
                   deleteLoader={isLoadingDeleteEvent}
-                  isCancelable={e.organizerId === currentUser.uuid && e.scheduled}
+                  isCancelable={(e.organizerId === currentUser.uuid || currentScope.canUpdateEvent()) && e.scheduled}
                   onCancel={() => handleCancel(e.id)}
                   cancelLoader={isLoadingCancelEvent}
                 />
