@@ -114,9 +114,10 @@ const Member = ({ member, handleClose }) => {
                 bgcolor: 'colors.blue.500',
                 border: '2px solid',
                 borderColor: 'whiteCorner',
+                textTransform: 'uppercase',
               }}
             >
-              {member.firstname.split(' ')[0][0]} {member.lastname.split(' ')[0][0]}
+              {member.firstname[0]} {member.lastname[0]}
             </Avatar>
             {member.joinedDate && differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
           </Box>
@@ -162,7 +163,7 @@ const Member = ({ member, handleClose }) => {
               <LineText label="Adresse complète" value={`${member.raw.address}, ${member.city} ${member.postalCode}`} />
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6}>
-                  <LineText label="Nationalité" value={member.raw.nationality} />
+                  <LineText label="Nationalité" value={member.raw.nationality ?? '--'} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <LineText label="Sexe" value={member.gender === 'male' ? 'Homme' : 'Femme'} />
@@ -207,7 +208,7 @@ const Member = ({ member, handleClose }) => {
                   label="Intérêts"
                   value={
                     <Box display="flex" alignItems="center" flexWrap="wrap" className="space-x-2 space-y-1">
-                      {member.interests.length > 0 &&
+                      {(member.interests.length > 0 &&
                         member.interests.map((interest, index) => (
                           <UIChip
                             key={index}
@@ -216,8 +217,7 @@ const Member = ({ member, handleClose }) => {
                             bgcolor="colors.blue.50"
                             labelStyle={{ fontSize: '14px' }}
                           />
-                        ))}
-                      {member.interests.length === 0 && (
+                        ))) || (
                         <Typography component="p" sx={{ color: 'colors.gray.900' }}>
                           Aucun
                         </Typography>
@@ -239,8 +239,12 @@ const Member = ({ member, handleClose }) => {
               <Typography component="h4" sx={{ color: 'colors.gray.700', fontSize: '14px', mb: 1, fontWeight: '500' }}>
                 Informations de cotisation
               </Typography>
-              {member.contributingDate && (
+              {(member.contributingDate && (
                 <LineText label="Date de dernière cotisation" value={format(member.contributingDate, 'dd/MM/yyyy')} />
+              )) || (
+                <Typography component="p" sx={{ color: 'colors.gray.900' }}>
+                  Aucune information disponible
+                </Typography>
               )}
             </Box>
           </Box>
