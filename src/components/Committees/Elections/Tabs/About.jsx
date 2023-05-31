@@ -72,7 +72,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
                 {electionStatus.not_started === status ? (
                   <LineContent
                     label={`J-${differenceInDays(
-                      designation.voteStartDate,
+                      designation.electionDate,
                       new Date()
                     )} avant constitution du corps électoral`}
                   />
