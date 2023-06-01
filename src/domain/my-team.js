@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types'
 
 export class MyTeamMemberActivist {
-  constructor(id, firstName, lastName) {
+  constructor(id, firstName, lastName, emailAddress) {
     this.id = id
     this.firstName = firstName
     this.lastName = lastName
+    this.emailAddress = emailAddress
   }
   static propTypes = {
     id: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
+    emailAddress: PropTypes.string.isRequired,
   }
 }
 
