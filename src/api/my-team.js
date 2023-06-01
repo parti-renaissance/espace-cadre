@@ -11,7 +11,7 @@ export const getMyTeamQuery = async () => {
 
   const members = team.members.map(m => {
     const adherent = m.adherent
-      ? new MyTeamMemberActivist(m.adherent.uuid, m.adherent.first_name, m.adherent.last_name)
+      ? new MyTeamMemberActivist(m.adherent.uuid, m.adherent.first_name, m.adherent.last_name, m.adherent.email_address)
       : null
     return new MyTeamMember(m.uuid, m.role, adherent, m.scope_features)
   })
@@ -26,6 +26,7 @@ export const getMyTeamActivists = async query => {
     firstName: a.first_name,
     lastName: a.last_name,
     postCode: a.postal_code,
+    emailAddress: a.email_address,
   }))
 }
 

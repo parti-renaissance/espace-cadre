@@ -37,6 +37,9 @@ const MyTeamMember = ({ role, activist, accessCount, handleUpdate, handleDelete 
             >
               {activist && `${activist.firstName} ${activist.lastName}`}
             </TruncatedText>
+            <TruncatedText variant="subtitle2" sx={{ pt: 0.5, color: 'main' }}>
+              {activist.emailAddress}
+            </TruncatedText>
             <TruncatedText variant="subtitle2" data-cy="my-team-member-item-role" sx={{ pt: 0.5, color: 'gray600' }}>
               {role}
             </TruncatedText>

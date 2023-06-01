@@ -78,7 +78,7 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={option =>
-          `${option.firstName ?? ''}${option.firstName || option.lastName ? ' ' : ''}${option.lastName ?? ''}`
+          `${[option.firstName, option.lastName, option.emailAddress].filter(e => e).join(' ')}`
         }
         renderOption={(props, option) => (
           <SelectOption
@@ -86,13 +86,7 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
             key={option.id}
             label={`${option.firstName} ${option.lastName}`}
             inputValue={inputValues.activist ?? ''}
-            detail={
-              <>
-                {'('}
-                {option.postCode}
-                {')'}
-              </>
-            }
+            detail={`(${option.postCode}, ${option.emailAddress})`}
           />
         )}
         renderInput={params => <Input name={fields.activist} placeholder={messages.placeholder.activist} {...params} />}
