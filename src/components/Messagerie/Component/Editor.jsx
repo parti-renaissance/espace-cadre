@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import EmailEditor from 'react-email-editor'
 import { Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import * as Sentry from '@sentry/react'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -77,6 +77,8 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
   const [messageContentError, setMessageContentError] = useState(false)
   const emailEditorRef = useRef(null)
   const { messageUuid } = useParams()
+  const [searchParams] = useSearchParams()
+  const templateRefId = searchParams.get('templateId')
   const [currentScope] = useUserScope()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -150,7 +152,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
             options={{
               locale: 'fr-FR',
               safeHtml: true,
-              templateId: messageUuid ? null : templateId,
+              templateId: messageUuid || templateRefId ? null : templateId,
               tools: editorConfiguration.tools,
               features: editorConfiguration.features,
             }}
