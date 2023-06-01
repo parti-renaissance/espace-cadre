@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import EmailEditor from 'react-email-editor'
 import { Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
-import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import * as Sentry from '@sentry/react'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -76,7 +75,6 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
   const emailEditorRef = useRef(null)
-  const { messageUuid } = useParams()
   const [currentScope] = useUserScope()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -107,13 +105,13 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
         enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
         Sentry.addBreadcrumb({
           category: 'messages',
-          message: `${messages.errorTemplate} id=${messageUuid}`,
+          message: `${messages.errorTemplate}`,
           level: 'error',
         })
         Sentry.captureMessage(messages.errorTemplate)
       }
     }
-  }, [enqueueSnackbar, messageContent, messageUuid, onMessageSubject, onMessageUpdate])
+  }, [enqueueSnackbar, messageContent, onMessageSubject, onMessageUpdate])
 
   useEffect(() => {
     const editor = emailEditorRef.current?.editor
@@ -150,7 +148,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
             options={{
               locale: 'fr-FR',
               safeHtml: true,
-              templateId: messageUuid ? null : templateId,
+              templateId: messageContent ? null : templateId,
               tools: editorConfiguration.tools,
               features: editorConfiguration.features,
             }}
