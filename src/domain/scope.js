@@ -40,8 +40,11 @@ export class Scope {
     return this.getAttributes()?.committees
   }
 
-  canUpdateEvent() {
-    return [scopes.deputy, scopes.senator, scopes.president_departmental_assembly].includes(this.getMainCode())
+  canUpdateEvent(event) {
+    return (
+      [scopes.deputy, scopes.senator, scopes.president_departmental_assembly].includes(this.getMainCode()) &&
+      event.organizerId === this.delegatedAccess?.delegator.uuid
+    )
   }
 
   hasFeature(feature) {

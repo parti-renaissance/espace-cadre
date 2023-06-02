@@ -22,8 +22,8 @@ const TabLabel = styled(Typography)`
 `
 
 const tabs = {
-  allEvents: { id: 'allEvents', query: getEvents },
   myEvents: { id: 'myEvents', query: getMyEvents },
+  allEvents: { id: 'allEvents', query: getEvents },
 }
 
 const messages = {
@@ -36,7 +36,7 @@ const messages = {
 const noOp = () => () => {}
 
 const Events = () => {
-  const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
+  const [selectedTab, setSelectedTab] = useState(tabs.myEvents.id)
   const [refetchEvents, setRefetchEvents] = useState(noOp)
 
   const [eventId, setEventId] = useState(null)
@@ -97,6 +97,7 @@ const Events = () => {
         onEdit={handleEditEvent}
         query={tabs[selectedTab].query}
         queryKey={selectedTab}
+        currentView={tabs[selectedTab].id}
         setRefetchRef={setRefetchEventsRef}
       />
       {eventId !== null && (

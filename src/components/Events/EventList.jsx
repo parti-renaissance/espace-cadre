@@ -25,7 +25,7 @@ const messages = {
   noEvent: 'Aucun évènement à afficher',
 }
 
-const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
+const EventList = ({ query, queryKey, setRefetchRef, onEdit, currentView }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
@@ -115,12 +115,13 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit }) => {
                   event={e}
                   onView={handleViewEvent(e.id)}
                   onEdit={onEdit(e.id)}
+                  currentView={currentView}
                   isDeletable={
-                    e.attendees <= 1 && (e.organizerId === currentUser.uuid || currentScope.canUpdateEvent())
+                    e.attendees <= 1 && (e.organizerId === currentUser.uuid || currentScope.canUpdateEvent(e))
                   }
                   onDelete={() => handleDelete(e.id)}
                   deleteLoader={isLoadingDeleteEvent}
-                  isCancelable={(e.organizerId === currentUser.uuid || currentScope.canUpdateEvent()) && e.scheduled}
+                  isCancelable={(e.organizerId === currentUser.uuid || currentScope.canUpdateEvent(e)) && e.scheduled}
                   onCancel={() => handleCancel(e.id)}
                   cancelLoader={isLoadingCancelEvent}
                 />
@@ -138,6 +139,7 @@ EventList.propTypes = {
   query: PropTypes.func.isRequired,
   queryKey: PropTypes.string.isRequired,
   setRefetchRef: PropTypes.func.isRequired,
+  currentView: PropTypes.string,
 }
 
 export default EventList
