@@ -1,7 +1,9 @@
-import { CtaButton } from 'ui/Card'
 import { styled } from '@mui/system'
+import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
+import Button from 'ui/Button/Button'
+import { CtaButton } from 'ui/Card'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -18,18 +20,21 @@ const messages = {
 }
 
 const Actions = ({
-  event,
   onEdit,
   onView,
   onDelete,
   isDeletable,
+  isEditable,
   onCancel,
   isCancelable,
   cancelLoader = false,
   deleteLoader = false,
 }) => (
   <HorizontalContainer>
-    <CtaButton onClick={onView}>{messages.see}</CtaButton>
+    <Box display="flex" alignItems="center" className="space-x-2">
+      <CtaButton onClick={onView}>{messages.see}</CtaButton>
+      {isEditable && <Button onClick={onEdit}>{messages.edit}</Button>}
+    </Box>
     {(isCancelable || isDeletable) && (
       <DotsMenu>
         {isCancelable && (
@@ -37,7 +42,6 @@ const Actions = ({
             {messages.cancel}
           </DotsMenuItem>
         )}
-        {event?.scheduled && <DotsMenuItem onClick={onEdit}>{messages.edit}</DotsMenuItem>}
         {isDeletable && (
           <DotsMenuItem onClick={onDelete} deleteLoader={deleteLoader}>
             {messages.delete}
@@ -60,4 +64,5 @@ Actions.propTypes = {
   isCancelable: PropTypes.bool.isRequired,
   cancelLoader: PropTypes.bool,
   deleteLoader: PropTypes.bool,
+  isEditable: PropTypes.bool,
 }

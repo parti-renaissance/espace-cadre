@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
+import { styled } from '@mui/system'
+import { useQuery } from '@tanstack/react-query'
+import { getCategories, getEvents, getMyEvents } from 'api/events'
+import EventList from 'components/Events/EventList'
+import CreateEditEvent from 'components/Events/CreateEditEvent'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import { styled } from '@mui/system'
-import EventList from 'components/Events/EventList'
-import { getCategories, getEvents, getMyEvents } from 'api/events'
-import CreateEditEvent from 'components/Events/CreateEditEvent'
-import { useQuery } from '@tanstack/react-query'
 import { ONE_DAY } from './constants'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -22,8 +22,8 @@ const TabLabel = styled(Typography)`
 `
 
 const tabs = {
-  allEvents: { id: 'allEvents', query: getEvents },
   myEvents: { id: 'myEvents', query: getMyEvents },
+  allEvents: { id: 'allEvents', query: getEvents },
 }
 
 const messages = {
@@ -36,7 +36,7 @@ const messages = {
 const noOp = () => () => {}
 
 const Events = () => {
-  const [selectedTab, setSelectedTab] = useState(tabs.allEvents.id)
+  const [selectedTab, setSelectedTab] = useState(tabs.myEvents.id)
   const [refetchEvents, setRefetchEvents] = useState(noOp)
 
   const [eventId, setEventId] = useState(null)
@@ -97,6 +97,7 @@ const Events = () => {
         onEdit={handleEditEvent}
         query={tabs[selectedTab].query}
         queryKey={selectedTab}
+        currentView={tabs[selectedTab].id}
         setRefetchRef={setRefetchEventsRef}
       />
       {eventId !== null && (
