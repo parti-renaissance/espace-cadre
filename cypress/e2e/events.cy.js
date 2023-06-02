@@ -11,7 +11,6 @@ const PageHeaderTitle = '[data-cy="ui-page-header"]'
 const Modale = '.MuiDialog-paper[role="dialog"]'
 const InputName = 'input[name="name"]'
 const Select = '.MuiSelect-select'
-
 const Typography = '.MuiTypography-root'
 
 describe('Events', () => {
@@ -32,6 +31,7 @@ describe('Events', () => {
       cy.get(PageHeaderTitle).should('exist')
       cy.get(PageHeaderTitle).find('>div').find(Typography).first().should('have.text', 'Évènements').and('be.visible')
     })
+
     it('should have a clickable action button', () => {
       cy.get(PageHeaderButton).should('exist')
       cy.get(PageHeaderButton).find('>button').click()
@@ -43,7 +43,21 @@ describe('Events', () => {
       cy.get(Tabs).contains('Tous les évènements')
       cy.get(Tabs).contains('Mes évènements')
     })
+
+    it('should display my events', () => {
+      cy.get(Tabs).contains('Mes évènements').click()
+
+      cy.get(UICard).contains('mon evenement')
+      cy.get(UICard).contains('42')
+      cy.get(UICard).contains('mon prénom')
+      cy.get(UICard).contains('17 janv. 2030')
+      cy.get(UICard).contains('1 rue du xxxxx, 75000 Paris')
+      cy.get(DotMenu).should('exist')
+    })
+
     it('should display 2 events', () => {
+      cy.get(Tabs).contains('Tous les évènements').click()
+
       cy.get(UICard).eq(0).contains('evenement 1')
       cy.get(UICard).eq(1).contains('evenement 2')
 
@@ -62,16 +76,6 @@ describe('Events', () => {
       cy.get(UICard).eq(1).contains('categorie 2')
 
       cy.get(DotMenu).should('not.exist')
-    })
-    it('should display my events', () => {
-      cy.get(Tabs).contains('Mes évènements').click()
-
-      cy.get(UICard).contains('mon evenement')
-      cy.get(UICard).contains('42')
-      cy.get(UICard).contains('mon prénom')
-      cy.get(UICard).contains('17 janv. 2030')
-      cy.get(UICard).contains('1 rue du xxxxx, 75000 Paris')
-      cy.get(DotMenu).should('exist')
     })
 
     it('should display my event', () => {
