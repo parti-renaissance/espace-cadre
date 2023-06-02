@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { useCallback, useEffect, useMemo } from 'react'
 import { Grid } from '@mui/material'
 import { cancelEvent as cancelEventQuery, deleteEvent as deleteEventQuery } from 'api/events'
-import { useSelector } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from 'api/pagination'
@@ -16,8 +15,6 @@ import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import Loader from 'ui/Loader'
 import UICard from 'ui/Card'
 import paths from 'shared/paths'
-import { getCurrentUser } from '../../redux/user/selectors'
-import { useUserScope } from '../../redux/user/hooks'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
@@ -28,8 +25,6 @@ const messages = {
 const EventList = ({ query, queryKey, setRefetchRef, onEdit, currentView }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
-  const currentUser = useSelector(getCurrentUser)
-  const [currentScope] = useUserScope()
   const navigate = useNavigate()
 
   const {
@@ -112,17 +107,14 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit, currentView }) => {
               actionsProps={{ sx: { pt: 1 } }}
               actions={
                 <Actions
-                  event={e}
                   onView={handleViewEvent(e.id)}
                   onEdit={onEdit(e.id)}
-                  currentView={currentView}
-                  isDeletable={
-                    e.attendees <= 1 && (e.organizerId === currentUser.uuid || currentScope.canUpdateEvent(e))
-                  }
+                  isEditable={currentView === 'myEvents' && e.scheduled}
+                  isCancelable={currentView === 'myEvents' && e.scheduled}
+                  isDeletable={currentView === 'myEvents' && e.attendees <= 1}
                   onDelete={() => handleDelete(e.id)}
-                  deleteLoader={isLoadingDeleteEvent}
-                  isCancelable={(e.organizerId === currentUser.uuid || currentScope.canUpdateEvent(e)) && e.scheduled}
                   onCancel={() => handleCancel(e.id)}
+                  deleteLoader={isLoadingDeleteEvent}
                   cancelLoader={isLoadingCancelEvent}
                 />
               }

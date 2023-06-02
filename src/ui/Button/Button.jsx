@@ -9,10 +9,10 @@ const MainButton = styled(
   shouldForwardProps
 )(
   ({ theme, isMainButton }) => `
-  color: ${theme.palette.button.color.main};
+  color: ${isMainButton ? theme.palette.button.color.main : theme.palette.whiteCorner};
   background: ${isMainButton ? 'rgba(55, 67, 200, 0.08)' : theme.palette.button.background.main};
   &:hover {
-    background: ${isMainButton ? 'rgba(0, 0, 0, 0.08)' : theme.palette.button.background.main};
+    background: ${isMainButton ? 'rgba(0, 0, 0, 0.08)' : theme.palette.colors.blue[700]};
   }
   &.Mui-disabled {
     color: ${theme.palette.button.color.disabled};
