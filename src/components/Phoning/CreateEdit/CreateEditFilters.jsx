@@ -1,30 +1,18 @@
 import PropTypes from 'prop-types'
 import { useCallback, useContext, useState } from 'react'
+import { Autocomplete, FormControlLabel, Grid, MenuItem, Typography } from '@mui/material'
+import { DateTimePicker } from '@mui/x-date-pickers'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-
-import { DatePicker } from '@mui/x-date-pickers'
-import { Autocomplete, FormControlLabel, Grid, InputAdornment, MenuItem, Typography } from '@mui/material'
-import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
-
+import { getPhoningCampaignZones } from 'api/phoning'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
-import { getPhoningCampaignZones } from 'api/phoning'
 import { FiltersContext } from './shared/context'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
 import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
-import { PickersDay } from 'ui/DateTime/styled'
-
-const DatePickerInputStyles = {
-  pt: 1.75,
-  pr: 2,
-  pb: 1.25,
-  pl: 0,
-  letterSpacing: '-3px',
-}
 
 const messages = {
   input: {
@@ -72,8 +60,6 @@ const CreateEditFilters = () => {
   const { errors, values, initialValues, updateValues } = useContext(FiltersContext)
   const [inputValues, setInputValues] = useState({ zoneInput: '', ...initialValues })
   const [isZoneFetchable, setIsZoneFetchable] = useState(false)
-  const [isAdherentFromDatePickerOpen, setIsAdherentFromDatePickerOpen] = useState(false)
-  const [isAdherentToDatePickerOpen, setIsAdherentToDatePickerOpen] = useState(false)
   const { handleError, errorMessages } = useErrorHandler()
   const { isMobile, isDesktop } = useCurrentDeviceType()
   const debounce = useDebounce()
@@ -208,71 +194,29 @@ const CreateEditFilters = () => {
       <Grid container direction="row" spacing={2}>
         <Grid item xs={isMobile ? 12 : 6}>
           <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.adherentFromDate}</UIInputLabel>
-          <DatePicker
-            inputFormat="dd/MM/yyyy"
-            open={isAdherentFromDatePickerOpen}
+          <DateTimePicker
             value={inputValues.adherentFromDate}
             onChange={value => {
               updateInputValues(fields.adherentFromDate, value)
               debounce(() => updateValues(fields.adherentFromDate, value))
             }}
-            renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => (
-              <UIInput type="date" name={fields.adherentFromDate} {...props} sx={DatePickerInputStyles} />
-            )}
-            inputProps={{ placeholder: messages.placeholder.adherentFromDate, autoComplete: 'off' }}
-            InputProps={{
-              onClick: () => {
-                setIsAdherentFromDatePickerOpen(true)
-              },
-            }}
-            onClose={() => {
-              setIsAdherentFromDatePickerOpen(false)
-            }}
-            components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
-            InputAdornmentProps={{
-              position: 'start',
-              component: ({ children, ...props }) => (
-                <InputAdornment position="start" sx={{ pl: 2 }} {...props}>
-                  {children}
-                </InputAdornment>
-              ),
-            }}
+            name={fields.adherentFromDate}
+            placeholder={messages.placeholder.adherentFromDate}
+            slots={{ textField: UIInput }}
           />
           <FormError errors={errors} field="registered_since" />
         </Grid>
         <Grid item xs={isMobile ? 12 : 6}>
           <UIInputLabel sx={{ pt: 3, pb: 1 }}>{messages.input.adherentToDate}</UIInputLabel>
-          <DatePicker
-            inputFormat="dd/MM/yyyy"
-            open={isAdherentToDatePickerOpen}
+          <DateTimePicker
             value={inputValues.adherentToDate}
             onChange={value => {
               updateInputValues(fields.adherentToDate, value)
               debounce(() => updateValues(fields.adherentToDate, value))
             }}
-            renderDay={(_, __, props) => <PickersDay {...props} />}
-            renderInput={props => (
-              <UIInput type="date" name={fields.adherentToDate} {...props} sx={DatePickerInputStyles} />
-            )}
-            inputProps={{ placeholder: messages.placeholder.adherentToDate, autoComplete: 'off' }}
-            InputProps={{
-              onClick: () => {
-                setIsAdherentToDatePickerOpen(true)
-              },
-            }}
-            onClose={() => {
-              setIsAdherentToDatePickerOpen(false)
-            }}
-            components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
-            InputAdornmentProps={{
-              position: 'start',
-              component: ({ children, ...props }) => (
-                <InputAdornment position="start" sx={{ pl: 2 }} {...props}>
-                  {children}
-                </InputAdornment>
-              ),
-            }}
+            name={fields.adherentToDate}
+            placeholder={messages.placeholder.adherentToDate}
+            slots={{ textField: UIInput }}
           />
           <FormError errors={errors} field="registered_until" />
         </Grid>

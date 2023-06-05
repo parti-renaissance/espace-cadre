@@ -108,7 +108,12 @@ const Phoning = () => {
         <PageHeader
           title={messages.pageTitle}
           button={
-            <PageHeaderButton label={messages.create} onClick={() => setIsCreateEditModalOpen(true)} isMainButton />
+            <PageHeaderButton
+              label={messages.create}
+              onClick={() => setIsCreateEditModalOpen(true)}
+              isMainButton
+              data-cy="phoning-create-edit"
+            />
           }
         />
       </Grid>

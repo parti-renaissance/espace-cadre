@@ -23,7 +23,7 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
           rootProps={{ sx: { overflow: 'hidden', pt: 0.5, pr: 0, pb: 0 } }}
           content={
             <>
-              <LineContent label="Titre de l'élection" value={designation.title} />
+              <LineContent label="Titre de l'élection" value={designation.customTitle} />
               <LineContent
                 label="Status"
                 value={

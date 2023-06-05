@@ -9,6 +9,7 @@ import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { downloadDocument, getDocuments } from 'api/general-meeting-report'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { Document } from 'domain/general-meeting-report'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Loader from 'ui/Loader'
@@ -28,7 +29,7 @@ const messages = {
 
 const GenericReports = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
-  const [document, setDocument] = useState(null)
+  const [document, setDocument] = useState(Document.NULL)
   const { handleError } = useErrorHandler()
 
   const {
@@ -64,7 +65,7 @@ const GenericReports = () => {
           title={messages.title}
           button={
             <PageHeaderButton
-              onClick={() => toggleCreateEditModal(null, true)}
+              onClick={() => toggleCreateEditModal(document, true)}
               label={messages.create}
               icon={<AttachFileIcon />}
               isMainButton
@@ -85,7 +86,7 @@ const GenericReports = () => {
         >
           <Grid container spacing={2}>
             {documents.map(document => (
-              <Grid key={document.uuid} item xs={12} sm={6} lg={4}>
+              <Grid key={document.id} item xs={12} sm={6} lg={4}>
                 <UICard
                   rootProps={{ sx: { pt: 2 } }}
                   header={
@@ -106,8 +107,7 @@ const GenericReports = () => {
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
                         <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
                         <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
-                          Ajouté le {format(new Date(document.date), 'dd/MM/yyyy')} à{' '}
-                          {format(new Date(document.date), 'HH:mm')}
+                          Ajouté le {format(document.date, 'dd/MM/yyyy à HH:mm')}
                         </Typography>
                       </Box>
                       <Box
@@ -120,7 +120,7 @@ const GenericReports = () => {
                       >
                         <button
                           className="button button-link"
-                          onClick={() => downloadDocument(document.uuid, 'general_meeting_reports')}
+                          onClick={() => downloadDocument(document.id, 'general_meeting_reports')}
                         >
                           {messages.download}
                         </button>
@@ -158,7 +158,7 @@ const GenericReports = () => {
       {isCreateEditModalOpen && (
         <CreateEditModal
           document={document}
-          handleClose={() => toggleCreateEditModal(null, false)}
+          handleClose={() => toggleCreateEditModal(Document.NULL, false)}
           onUpdateResolved={refetch}
           onCreateResolve={refetch}
         />

@@ -1,4 +1,4 @@
-import { formatISO } from 'date-fns'
+import { format } from 'date-fns'
 import { Designation } from 'domain/committee_election'
 import { apiClient } from 'services/networking/client'
 
@@ -24,12 +24,12 @@ export const updateDesignation = async designation => {
 export const cancelDesignation = async designationId => await apiClient.put(`/v3/designations/${designationId}/cancel`)
 export const resultsDesignation = async id => await apiClient.get(`/v3/designations/${id}/results`)
 export const getVoters = async id => await apiClient.get(`/v3/designations/${id}/voters`)
+
 const designationToJson = designation => ({
-  id: designation.id,
-  custom_title: designation.title,
+  custom_title: designation.customTitle,
   description: designation.description,
-  vote_start_date: formatISO(designation.voteStartDate),
-  vote_end_date: formatISO(designation.voteEndDate),
+  vote_start_date: format(designation.voteStartDate, 'yyyy-MM-dd HH:mm:ss'),
+  vote_end_date: format(designation.voteEndDate, 'yyyy-MM-dd HH:mm:ss'),
   type: 'committee_supervisor',
   election_entity_identifier: designation.committeeUuid,
 })

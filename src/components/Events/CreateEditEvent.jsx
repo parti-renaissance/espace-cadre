@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { Box, FormControlLabel, Grid, IconButton, TextField as MuiTextField, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
-import Stepper from 'ui/Stepper/Stepper'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
+import isBase64 from 'is-base64'
 import { useEffect, useMemo, useState } from 'react'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
-import { FormError } from 'components/shared/error/components'
-import Select from 'ui/Select/Select'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { DateTimePicker } from '@mui/x-date-pickers'
 import {
   createEvent as createEventApi,
   updateEvent as updateEventApi,
@@ -17,26 +18,25 @@ import {
   getCategories,
   getEvent,
 } from 'api/events'
-import Places from 'ui/Places/Places'
-import { useQueryWithScope } from '../../api/useQueryWithScope'
-import Loader from '../../ui/Loader'
-import timezones from './timezones.json'
-import Submit from 'ui/Stepper/Submit'
-import Label from 'ui/Stepper/Label'
+import { useQueryWithScope } from 'api/useQueryWithScope'
+import { FormError } from 'components/shared/error/components'
 import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
+import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import { Event } from 'domain/event'
-import DateTimePicker from 'ui/DateTime/DateTimePicker'
+import Stepper from 'ui/Stepper/Stepper'
+import { Checkbox } from 'ui/Checkbox/Checkbox'
+import Select from 'ui/Select/Select'
+import Places from 'ui/Places/Places'
+import Submit from 'ui/Stepper/Submit'
+import Label from 'ui/Stepper/Label'
 import Input from 'ui/Input/Input'
+import Dialog from 'ui/Dialog'
 import ImageUploader from './Images/ImageUploader'
 import { ONE_DAY } from './constants'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
-import Dialog from 'ui/Dialog'
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
-import isBase64 from 'is-base64'
+import timezones from './timezones.json'
+import Loader from '../../ui/Loader'
 import { useUserScope } from '../../redux/user/hooks'
 
 const Title = styled(Typography)`
@@ -54,10 +54,6 @@ const TextArea = styled(MuiTextField)(
 `
 )
 
-const eventSchema = Yup.object({
-  description: Yup.string().min(10, 'Minimum 10 caractères').required('Description obligatoire'),
-})
-
 const fields = {
   name: 'name',
   category: 'categoryId',
@@ -73,6 +69,13 @@ const fields = {
   description: 'description',
   private: 'private',
 }
+
+const eventSchema = Yup.object({
+  [fields.name]: Yup.string().min(5, 'Minimum 5 caractères').required('Le nom est obligatoire'),
+  [fields.description]: Yup.string().min(10, 'Minimum 10 caractères').required('Description obligatoire'),
+  [fields.timezone]: Yup.string().required('Vous devez choisir une timezone'),
+  [fields.private]: Yup.boolean().nullable(),
+}).camelCase()
 
 const messages = {
   create: 'Créer un évènement',
@@ -111,24 +114,34 @@ const messages = {
 
 const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
   const isCreateMode = eventId === '-1'
-  const [event, setEvent] = useState(Event.NULL)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
-  const [image, setImage] = useState(event.image || undefined)
+  const [image, setImage] = useState()
   const { isMobile } = useCurrentDeviceType()
   const [currentScope] = useUserScope()
 
-  const { isLoading: isSingleEventLoading } = useQueryWithScope(
+  const { isLoading: isSingleEventLoading, data: event = Event.NULL } = useQueryWithScope(
     ['event', eventId, { feature: 'Events', view: 'Event' }],
     () => getEvent(eventId),
     {
       enabled: !isCreateMode,
       onSuccess: data => {
-        setEvent(data)
         setImage(data.image)
       },
     }
   )
+
+  const { control, formState, getValues, reset } = useForm({
+    mode: 'onChange',
+    defaultValues: eventSchema.cast(event),
+    resolver: yupResolver(eventSchema),
+  })
+
+  useEffect(() => {
+    if (event && event.id) {
+      reset(event)
+    }
+  }, [event])
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })
   const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(event.id), {
@@ -175,13 +188,6 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     [categoriesByGroup]
   )
 
-  const { control, formState, getValues, reset, watch } = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(eventSchema),
-  })
-
-  watch()
-
   const values = getValues()
   const isStepOneValid =
     !!values.name && !!values.categoryId && !!values.beginAt && !!values.finishAt && !!values.timezone
@@ -189,7 +195,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
   const areAllStepsValid = [isStepOneValid && 0, isStepTwoValid && 1].filter(s => Boolean(s) || s === 0)
 
   const prepareCreate = () => {
-    const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity, address } = values
+    const { name, categoryId, beginAt, finishAt, timezone, description, visioUrl, capacity, address } = getValues()
     const { attendees } = event
 
     return new Event(
@@ -222,15 +228,9 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     if (isCreateMode) {
       createOrUpdateEvent({ event: prepareCreate(), type: currentScope.isAnimator() ? 'committee' : null })
     } else {
-      createOrUpdateEvent(values)
+      createOrUpdateEvent(getValues())
     }
   }
-
-  useEffect(() => {
-    if (event.id) {
-      reset(event)
-    }
-  }, [event])
 
   return (
     <Dialog handleClose={handleClose} open data-cy="event-create-edit">
@@ -253,7 +253,6 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.name}
                     control={control}
-                    defaultValue={event.name}
                     rules={{ required: true }}
                     render={({ field: { onChange, value } }) => (
                       <Input
@@ -270,14 +269,13 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.category}
                     control={control}
-                    defaultValue={event.categoryId}
                     rules={{ required: true }}
                     render={({ field: { onChange, value } }) => (
                       <Select
                         options={categories}
+                        placeholder={messages.placeholder.category}
                         onChange={onChange}
                         value={value}
-                        placeholder={messages.placeholder.category}
                         sx={{ display: 'flex' }}
                       />
                     )}
@@ -287,15 +285,13 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.beginAt}
                     control={control}
-                    defaultValue={event.beginAt}
                     rules={{ required: true }}
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { ref, ...field } }) => (
                       <DateTimePicker
-                        value={value}
-                        onChange={onChange}
-                        name={fields.beginAt}
                         minDate={new Date()}
                         placeholder={messages.placeholder.beginAt}
+                        slots={{ textField: Input }}
+                        {...field}
                       />
                     )}
                   />
@@ -304,15 +300,13 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.finishAt}
                     control={control}
-                    defaultValue={event.finishAt}
                     rules={{ required: true }}
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { ref, ...field } }) => (
                       <DateTimePicker
-                        value={value}
-                        onChange={onChange}
-                        name={fields.finishAt}
                         minDate={values.beginAt ? values.beginAt : new Date()}
                         placeholder={messages.placeholder.finishAt}
+                        slots={{ textField: Input }}
+                        {...field}
                       />
                     )}
                   />
@@ -321,7 +315,6 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.timezone}
                     control={control}
-                    defaultValue={event.timezone}
                     rules={{ required: true }}
                     render={({ field: { onChange, value } }) => (
                       <Select options={timezones} onChange={onChange} value={value} sx={{ display: 'flex' }} />
@@ -334,7 +327,6 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.address}
                     control={control}
-                    defaultValue={event.address?.route}
                     render={({ field: { onChange } }) => (
                       <Places initialValue={event.address?.route} onSelectPlace={onChange} key={event.address?.route} />
                     )}
@@ -363,6 +355,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                 </div>
               </div>
               <div>
+                {/* eslint-disable react/no-unknown-property */}
                 <div title={messages.step2} expanded>
                   <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
                   <ImageUploader
@@ -375,7 +368,6 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.description}
                     control={control}
-                    defaultValue={event.description}
                     rules={{ required: true }}
                     render={({ field: { onChange, value } }) => (
                       <TextArea
@@ -397,7 +389,6 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.visio}
                     control={control}
-                    defaultValue={event.visioUrl}
                     render={({ field: { onChange, value } }) => (
                       <Input
                         name={fields.visio}
@@ -414,25 +405,28 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.capacity}
                     control={control}
-                    defaultValue={event.capacity}
-                    rules={{ required: false }}
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { ref, ...field } }) => (
                       <Input
                         type="number"
                         min="0"
                         name={fields.capacity}
                         placeholder={messages.placeholder.capacity}
-                        value={value || ''}
-                        onChange={onChange}
+                        {...field}
                       />
                     )}
                   />
                   <FormError errors={errorMessages} field={fields.capacity} />
-                  <FormControlLabel
+                  <Controller
+                    control={control}
                     name={fields.private}
-                    label={messages.label.private}
-                    control={<Checkbox checked={!!event.private} />}
-                    onChange={(_, value) => setEvent(prev => prev.withPrivate(value))}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControlLabel
+                        name={fields.private}
+                        label={messages.label.private}
+                        onChange={onChange}
+                        control={<Checkbox checked={value} />}
+                      />
+                    )}
                     sx={{ pt: 2 }}
                   />
                 </div>

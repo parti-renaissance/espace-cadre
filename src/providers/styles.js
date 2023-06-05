@@ -1,4 +1,5 @@
 import { PoppinsFontFaces, MaaxFontFaces } from './fonts'
+import { renderTimeViewClock } from '@mui/x-date-pickers'
 
 export const styles = {
   typography: {
@@ -113,6 +114,24 @@ export const styles = {
     MuiMenu: {
       defaultProps: {
         elevation: 0,
+      },
+    },
+    MuiDesktopTimePicker: {
+      defaultProps: {
+        viewRenderers: {
+          hours: renderTimeViewClock,
+          minutes: renderTimeViewClock,
+          seconds: renderTimeViewClock,
+        },
+      },
+    },
+    MuiDesktopDateTimePicker: {
+      defaultProps: {
+        viewRenderers: {
+          hours: renderTimeViewClock,
+          minutes: renderTimeViewClock,
+          seconds: renderTimeViewClock,
+        },
       },
     },
   },

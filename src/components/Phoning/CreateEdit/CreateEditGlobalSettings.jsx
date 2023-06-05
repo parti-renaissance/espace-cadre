@@ -1,26 +1,15 @@
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useContext, useState } from 'react'
-import { DatePicker } from '@mui/x-date-pickers'
-import { InputAdornment, MenuItem, Select } from '@mui/material'
-import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
-
+import { MenuItem, Select } from '@mui/material'
+import { DateTimePicker } from '@mui/x-date-pickers'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
+import UIInput from 'ui/Input/Input'
+import UIInputLabel from 'ui/InputLabel/InputLabel'
+import { nationalScopes } from 'shared/scopes'
 import { GlobalSettingsContext } from './shared/context'
 import { fields } from './shared/constants'
 import { useUserScope } from '../../../redux/user/hooks'
-import UIInput from 'ui/Input/Input'
-import UIInputLabel from 'ui/InputLabel/InputLabel'
-import { PickersDay } from 'ui/DateTime/styled'
-import { nationalScopes } from 'shared/scopes'
-
-const DatePickerInputStyles = {
-  pt: 1.75,
-  pr: 2,
-  pb: 1.25,
-  pl: 0,
-  letterSpacing: '-3px',
-}
 
 const messages = {
   input: {
@@ -42,7 +31,6 @@ const messages = {
 const CreateEditGlobalSettings = () => {
   const { errors, initialValues, updateValues } = useContext(GlobalSettingsContext)
   const [inputValues, setInputValues] = useState(initialValues)
-  const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false)
   const debounce = useDebounce()
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
@@ -114,34 +102,14 @@ const CreateEditGlobalSettings = () => {
       <FormError errors={errors} field="goal" />
 
       <UIInputLabel sx={{ pt: 5, pb: 1 }}>{messages.input.endDate}</UIInputLabel>
-      <DatePicker
-        inputFormat="dd/MM/yyyy"
-        open={isEndDatePickerOpen}
+      <DateTimePicker
         value={inputValues.endDate}
         onChange={value => {
           updateInputValues(fields.endDate, value)
           debounce(() => updateValues(fields.endDate, value))
         }}
-        renderDay={(_, __, props) => <PickersDay {...props} />}
-        renderInput={props => <UIInput type="date" name={fields.endDate} {...props} sx={DatePickerInputStyles} />}
-        inputProps={{ placeholder: messages.placeholder.endDate, autoComplete: 'off' }}
-        InputProps={{
-          onClick: () => {
-            setIsEndDatePickerOpen(true)
-          },
-        }}
-        onClose={() => {
-          setIsEndDatePickerOpen(false)
-        }}
-        components={{ OpenPickerIcon: props => <CalendarTodayRoundedIcon size="small" {...props} /> }}
-        InputAdornmentProps={{
-          position: 'start',
-          component: ({ children, ...props }) => (
-            <InputAdornment position="start" sx={{ pl: 2 }} {...props}>
-              {children}
-            </InputAdornment>
-          ),
-        }}
+        placeholder={messages.placeholder.endDate}
+        slots={{ textField: UIInput }}
       />
       <FormError errors={errors} field="finish_at" />
 

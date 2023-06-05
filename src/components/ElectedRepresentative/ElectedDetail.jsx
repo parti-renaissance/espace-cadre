@@ -27,6 +27,7 @@ import paths from 'shared/paths'
 import CreateEditMandate from './CreateEditMandate'
 import CreateEditModal from './CreateEditModal'
 import PaymentBadge from './PaymentBadge'
+import { Mandate } from 'domain/elected_representative'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -74,7 +75,7 @@ Content.propTypes = {
 const ElectedDetail = () => {
   const [isCreateEditModalOpen, setIsCreateEditModalOpen] = useState(false)
   const [isMandateModalOpen, setIsMandateModalOpen] = useState(false)
-  const [mandate, setMandate] = useState(null)
+  const [currentMandate, setCurrentMandate] = useState(Mandate.NULL)
   const { enqueueSnackbar } = useCustomSnackbar()
   const { electedId } = useParams()
   const { handleError } = useErrorHandler()
@@ -107,7 +108,7 @@ const ElectedDetail = () => {
   })
 
   const toggleEditMandateModal = (mandate, open) => {
-    setMandate(mandate)
+    setCurrentMandate(mandate)
     setIsMandateModalOpen(open)
   }
 
@@ -121,17 +122,18 @@ const ElectedDetail = () => {
         <PageHeader
           title={messages.pageTitle}
           titleLink={paths.elected_representative}
-          titleSuffix={`${electedDetail.first_name} ${electedDetail.last_name}`}
+          titleSuffix={`${electedDetail.firstName} ${electedDetail.lastName}`}
           button={
             <PageHeaderButton
               label={messages.modify}
               icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
-              onClick={() => (Object.keys(electedDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
+              onClick={() => setIsCreateEditModalOpen(true)}
               isMainButton
             />
           }
         />
       </Grid>
+
       <Box className="mt-4 space-y-8">
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
@@ -159,25 +161,23 @@ const ElectedDetail = () => {
                     <Grid container spacing={1} rowGap={1}>
                       <Grid item xs={12} sm={6}>
                         <Content title="Nom complet">
-                          {electedDetail.first_name} <span className="font-bold">{electedDetail.last_name}</span>
+                          {electedDetail.firstName} <span className="font-bold">{electedDetail.lastName}</span>
                         </Content>
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <Content
                           title="Adresse E-mail"
-                          content={electedDetail.email_address ?? 'Aucune adresse e-mail'}
+                          content={electedDetail.emailAddress ?? 'Aucune adresse e-mail'}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <Content title="Téléphone" content={electedDetail.phone_number ?? 'Aucun numero'} />
+                        <Content title="Téléphone" content={electedDetail.contactPhone ?? 'Aucun numero'} />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <Content
                           title="Date de naissance"
                           content={
-                            electedDetail.birth_date
-                              ? format(new Date(electedDetail.birth_date), 'dd/MM/yyyy')
-                              : 'Aucune date'
+                            electedDetail.birthDate ? format(electedDetail.birthDate, 'dd/MM/yyyy') : 'Aucune date'
                           }
                         />
                       </Grid>
@@ -205,7 +205,7 @@ const ElectedDetail = () => {
                       {electedDetail.adherent ? (
                         <Box display="flex" alignItems="center" className="space-x-3">
                           <CheckCircleIcon sx={{ color: 'form.success.color', fontSize: '20px', ml: 2 }} />
-                          <Button isMainButton onClick={() => mutate({ adherent: null, uuid: electedDetail.uuid })}>
+                          <Button isMainButton onClick={() => mutate({ adherent: null, uuid: electedDetail.id })}>
                             {updateAdherentLoading && <Loader />}&nbsp; Dissocier
                           </Button>
                         </Box>
@@ -296,7 +296,7 @@ const ElectedDetail = () => {
                 </Typography>
                 {loading && <Loader />}
               </Box>
-              <Button isMainButton onClick={() => toggleEditMandateModal(null, true)}>
+              <Button isMainButton onClick={() => toggleEditMandateModal(currentMandate, true)}>
                 {messages.add}
               </Button>
             </Box>
@@ -310,7 +310,7 @@ const ElectedDetail = () => {
                     <>
                       <PageHeaderButton
                         label={messages.add}
-                        onClick={() => toggleEditMandateModal(null, true)}
+                        onClick={() => toggleEditMandateModal(currentMandate, true)}
                         icon={<AddIcon />}
                         isMainButton
                       />
@@ -320,14 +320,14 @@ const ElectedDetail = () => {
               )}
               {electedDetail.mandates.length > 0 &&
                 electedDetail.mandates.map(mandate => (
-                  <Box key={mandate.uuid} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
+                  <Box key={mandate.id} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ flex: '1 1 0%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Typography sx={{ fontSize: '14px', fontWeight: 500, color: 'colors.blue.500' }}>
                           {mandats[mandate.type]}
-                          {mandate.geo_zone && (
+                          {mandate.geoZone && (
                             <Typography sx={{ color: 'colors.gray.700' }}>
-                              {` - ${mandate.geo_zone.name} (${mandate.geo_zone.code})`}
+                              {` - ${mandate.geoZone.name} (${mandate.geoZone.code})`}
                             </Typography>
                           )}
                         </Typography>
@@ -335,10 +335,10 @@ const ElectedDetail = () => {
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
                         <DateRange sx={{ color: 'colors.gray.400', fontSize: '20px' }} />
                         <Typography sx={{ fontSize: '16px', color: 'colors.gray.700', ml: 1 }}>
-                          {mandate.on_going
-                            ? `Depuis le ${format(new Date(mandate.begin_at), 'dd/MM/yyyy')}`
-                            : `Du ${format(new Date(mandate.begin_at), 'dd/MM/yyyy')} au ${format(
-                                new Date(mandate.finish_at),
+                          {mandate.onGoing
+                            ? `Depuis le ${format(mandate.beginAt, 'dd/MM/yyyy')}`
+                            : `Du ${format(mandate.beginAt, 'dd/MM/yyyy')} au ${format(
+                                mandate.finishAt,
                                 'dd/MM/yyyy'
                               )}`}
                         </Typography>
@@ -352,7 +352,7 @@ const ElectedDetail = () => {
                       <ConfirmButton
                         title={messages.confirmDeleteTitle}
                         description={messages.confirmDeleteDescription}
-                        onClick={() => removeMandate(mandate.uuid)}
+                        onClick={() => removeMandate(mandate.id)}
                       >
                         <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
                       </ConfirmButton>
@@ -363,6 +363,7 @@ const ElectedDetail = () => {
           }
         />
       </Box>
+
       {isCreateEditModalOpen && (
         <CreateEditModal
           elected={electedDetail}
@@ -370,12 +371,13 @@ const ElectedDetail = () => {
           handleClose={() => setIsCreateEditModalOpen(false)}
         />
       )}
+
       {isMandateModalOpen && (
         <CreateEditMandate
           electedId={electedId}
-          mandate={mandate}
+          mandate={currentMandate}
           onUpdateResolve={refetch}
-          handleClose={() => toggleEditMandateModal(null, false)}
+          handleClose={() => toggleEditMandateModal(Mandate.NULL, false)}
         />
       )}
     </Container>
