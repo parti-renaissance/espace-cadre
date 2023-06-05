@@ -137,6 +137,7 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
               name={fields.voteStartDate}
               minDate={addDays(new Date(), 16)}
               slots={{ textField: Input }}
+              slotProps={{ textField: { disabled: true } }}
               {...field}
             />
           )}
@@ -155,6 +156,7 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
               name={fields.voteEndDate}
               minDate={addDays(new Date(), 17)}
               slots={{ textField: Input }}
+              slotProps={{ textField: { disabled: true } }}
               {...field}
             />
           )}
