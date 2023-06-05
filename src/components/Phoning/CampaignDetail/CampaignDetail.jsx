@@ -121,6 +121,7 @@ export const CampaignDetail = () => {
               label={messages.modify}
               icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
               onClick={() => (Object.keys(campaignDetail).length > 0 ? setIsCreateEditModalOpen(true) : null)}
+              data-cy="phoning-create-edit"
               isMainButton
             />
           }
