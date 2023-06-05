@@ -116,7 +116,9 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
 
   useEffect(() => {
     if (elected && elected.id) {
-      if (elected.adherent) setSelectedAdherent(elected.adherent)
+      if (elected.adherent) {
+        setSelectedAdherent(elected.adherent)
+      }
     }
   }, [elected])
 

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useCallback, useContext, useState } from 'react'
 import { Autocomplete, FormControlLabel, Grid, MenuItem, Typography } from '@mui/material'
-
+import { DateTimePicker } from '@mui/x-date-pickers'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getPhoningCampaignZones } from 'api/phoning'
 import { useCurrentDeviceType } from 'components/shared/device/hooks'
@@ -10,7 +10,6 @@ import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
 import { FiltersContext } from './shared/context'
 import { Checkbox } from 'ui/Checkbox/Checkbox'
-import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
@@ -203,6 +202,7 @@ const CreateEditFilters = () => {
             }}
             name={fields.adherentFromDate}
             placeholder={messages.placeholder.adherentFromDate}
+            slots={{ textField: UIInput }}
           />
           <FormError errors={errors} field="registered_since" />
         </Grid>
@@ -216,6 +216,7 @@ const CreateEditFilters = () => {
             }}
             name={fields.adherentToDate}
             placeholder={messages.placeholder.adherentToDate}
+            slots={{ textField: UIInput }}
           />
           <FormError errors={errors} field="registered_until" />
         </Grid>

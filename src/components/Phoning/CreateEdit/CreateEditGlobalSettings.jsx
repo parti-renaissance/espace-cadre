@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
 import { useCallback, useMemo, useContext, useState } from 'react'
 import { MenuItem, Select } from '@mui/material'
-
+import { DateTimePicker } from '@mui/x-date-pickers'
 import { useDebounce } from 'components/shared/debounce'
 import { FormError } from 'components/shared/error/components'
-import DateTimePicker from 'ui/DateTime/DateTimePicker'
 import UIInput from 'ui/Input/Input'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import { nationalScopes } from 'shared/scopes'
@@ -110,6 +109,7 @@ const CreateEditGlobalSettings = () => {
           debounce(() => updateValues(fields.endDate, value))
         }}
         placeholder={messages.placeholder.endDate}
+        slots={{ textField: UIInput }}
       />
       <FormError errors={errors} field="finish_at" />
 

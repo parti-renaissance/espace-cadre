@@ -138,7 +138,9 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
   })
 
   useEffect(() => {
-    if (event && event.id) reset(event)
+    if (event && event.id) {
+      reset(event)
+    }
   }, [event])
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })

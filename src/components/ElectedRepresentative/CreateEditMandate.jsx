@@ -90,7 +90,9 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
   }
 
   useEffect(() => {
-    if (mandate && mandate.id) setSelectedZone(mandate.geoZone)
+    if (mandate && mandate.id) {
+      setSelectedZone(mandate.geoZone)
+    }
   }, [mandate])
 
   return (
