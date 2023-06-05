@@ -166,7 +166,7 @@ const Member = ({ member, handleClose }) => {
                   <LineText label="Nationalité" value={member.raw.nationality ?? '--'} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <LineText label="Sexe" value={member.gender === 'male' ? 'Homme' : 'Femme'} />
+                  <LineText label="Civilité" value={member.gender === 'male' ? 'Homme' : 'Femme'} />
                 </Grid>
               </Grid>
             </Box>
