@@ -8,6 +8,7 @@ import Spinner from 'ui/Spinner/Spinner'
 import Dashboard from 'components/Dashboard'
 import Activists from 'components/Activists'
 import Messagerie from 'components/Messagerie'
+import MailsStatutory from 'components/MailsStatutory'
 import Elections from 'components/Elections'
 import Ripostes from 'components/Ripostes'
 import Groups from 'components/Groups'
@@ -39,6 +40,10 @@ const AppPrivateRoutes = () => {
         <Route path={paths.dashboard} element={currentScope.hasFeature(features.dashboard) && <Dashboard />} />
         <Route path={paths.contacts} element={currentScope.hasFeature(features.contacts) && <Activists />} />
         <Route path={`${paths.messages}/*`} element={currentScope.hasFeature(features.messages) && <Messagerie />} />
+        <Route
+          path={`${paths.statutory_message}/*`}
+          element={currentScope.hasFeature(features.statutory_message) && <MailsStatutory />}
+        />
         <Route
           path={`${paths.elected_representative}/*`}
           element={currentScope.hasFeature(features.elected_representative) && <ElectedRepresentative />}

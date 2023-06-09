@@ -71,7 +71,7 @@ const messages = {
   export: 'Export HTML',
 }
 
-const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
+const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, readOnly = false, allowExport = false }) => {
   const [editorLoaded, setEditorLoaded] = useState(false)
   const [messageContentError, setMessageContentError] = useState(false)
   const emailEditorRef = useRef(null)
@@ -79,6 +79,20 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const [templateId] = useState(() => (currentScope ? templates[currentScope.getMainCode()] : defaultTemplate))
+
+  const additionalOptions = readOnly
+    ? {
+        customCSS: [
+          '.blockbuilder-preferences {display: none}',
+          '.blockbuilder-layer-inline-editor-toolbar {display: none}',
+          '.blockbuilder-page-layout {display: none}',
+          '.preview-header {display: none}',
+          '.actions-container {display: none}',
+          '.ReactModal__Overlay--after-open {position: inherit !important}',
+          '.ReactModal__Content--after-open {inset: 0 !important}',
+        ],
+      }
+    : {}
 
   const updateMessageTemplateCallback = useCallback(() => {
     emailEditorRef.current.exportHtml(data => {
@@ -91,6 +105,10 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
 
   useEffect(() => {
     const editor = emailEditorRef.current?.editor
+    if (!editor) {
+      return
+    }
+
     if (messageContent) {
       onMessageSubject(messageContent?.subject)
       if (messageContent.json_content) {
@@ -111,7 +129,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
         Sentry.captureMessage(messages.errorTemplate)
       }
     }
-  }, [enqueueSnackbar, messageContent, onMessageSubject, onMessageUpdate])
+  }, [emailEditorRef, enqueueSnackbar, messageContent, onMessageSubject, onMessageUpdate])
 
   useEffect(() => {
     const editor = emailEditorRef.current?.editor
@@ -121,12 +139,16 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
 
     if (editorLoaded && editor) {
       onEditorLoaded()
+
+      if (readOnly) {
+        editor.showPreview('desktop')
+      }
     }
 
     return () => {
       editor?.removeEventListener('design:updated', updateMessageTemplateCallback)
     }
-  }, [editorLoaded, updateMessageTemplateCallback])
+  }, [emailEditorRef, readOnly, editorLoaded, updateMessageTemplateCallback])
 
   const exportHtml = () => {
     emailEditorRef.current.editor.exportHtml(data => {
@@ -144,18 +166,23 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent }) => {
             minHeight="85vh"
             ref={emailEditorRef}
             projectId={UNLAYER_PROJECT_ID}
-            onLoad={() => setEditorLoaded(true)}
+            onLoad={() => {
+              setEditorLoaded(true)
+            }}
             options={{
               locale: 'fr-FR',
               safeHtml: true,
               templateId: messageContent ? null : templateId,
-              tools: editorConfiguration.tools,
-              features: editorConfiguration.features,
+              tools: readOnly ? {} : editorConfiguration.tools,
+              features: readOnly ? {} : editorConfiguration.features,
+              ...additionalOptions,
             }}
           />
-          <Button variant="contained" size="medium" onClick={exportHtml}>
-            {messages.export}
-          </Button>
+          {allowExport && (
+            <Button variant="contained" size="medium" onClick={exportHtml}>
+              {messages.export}
+            </Button>
+          )}
         </>
       )}
     </Box>
@@ -166,6 +193,8 @@ Editor.propTypes = {
   onMessageSubject: PropTypes.func.isRequired,
   onMessageUpdate: PropTypes.func.isRequired,
   messageContent: PropTypes.object,
+  readOnly: PropTypes.bool,
+  allowExport: PropTypes.bool,
 }
 
 export default Editor

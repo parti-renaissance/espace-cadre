@@ -20,6 +20,7 @@ const features = {
   committee: 'committee',
   documents: 'documents',
   designation: 'designation',
+  statutory_message: 'statutory_message',
 }
 
 export default features
@@ -64,6 +65,7 @@ export const featuresGroup = [
       features.committee,
       features.general_meeting_reports,
       features.my_team,
+      features.statutory_message,
     ],
   },
 ]
@@ -90,4 +92,5 @@ export const featuresLabels = {
   [features.committee]: 'Comités locaux',
   [features.documents]: 'Documents',
   [features.designation]: 'Élections CL',
+  [features.statutory_message]: 'Mails statutaires',
 }
