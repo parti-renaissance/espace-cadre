@@ -154,72 +154,68 @@ const SendMail = () => {
   }
 
   return (
-    <>
-      <Container maxWidth={false}>
-        <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
-        <Grid container sx={{ mb: 2 }}>
-          <Link to="../../">
-            <Button
-              type="button"
-              disableRipple
-              sx={{ color: 'main' }}
-              size="medium"
-              startIcon={<ArrowBackIcon sx={{ display: 'flex', marginRight: 1 }} />}
-            >
-              {messages.previous}
-            </Button>
-          </Link>
-        </Grid>
-        <Grid container spacing={2} sx={{ textAlign: 'center' }}>
-          <Grid container sx={{ mt: 2 }}>
-            <Grid item xs={12}>
-              {message && (
-                <AudienceCount>
-                  {messages.addresseesCount}&nbsp;
-                  <AddresseesCount>{message.recipient_count || 0} </AddresseesCount>
-                  {pluralize(message.recipient_count, messages.contact)}
-                </AudienceCount>
-              )}
-              {loadingMessageStatus && <Loader />}
-            </Grid>
-          </Grid>
+    <Container maxWidth={false}>
+      <PageHeader title={messages.title} titleLink={paths.statutory_message} titleSuffix={messages.titleSuffix} />
+      <Grid container sx={{ mb: 2 }}>
+        <Link to="../../">
+          <Button
+            type="button"
+            disableRipple
+            sx={{ color: 'main' }}
+            size="medium"
+            startIcon={<ArrowBackIcon sx={{ display: 'flex', marginRight: 1 }} />}
+          >
+            {messages.previous}
+          </Button>
+        </Link>
+      </Grid>
+      <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+        <Grid container sx={{ mt: 2 }}>
           <Grid item xs={12}>
-            <SendTest
-              variant="outlined"
-              size="medium"
-              onClick={() => {
-                setLoadingTestButton(true)
-                handleSendEmail(true)
-              }}
-              disabled={!message?.synchronized || loadingSendButton || loadingTestButton}
-            >
-              {loadingTestButton ? <Loader /> : messages.testMessage}
-            </SendTest>
-          </Grid>
-          <Grid item xs={12}>
-            <Send
-              variant="outlined"
-              size="medium"
-              disabled={
-                !message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton
-              }
-              onClick={() => setOpen(true)}
-              data-cy="send-mail-action"
-            >
-              {loadingSendButton ? <Loader color="main" /> : messages.sendEmail}
-            </Send>
-            {open && (
-              <ModalComponent
-                open={open}
-                recipientCount={message?.recipient_count || 0}
-                handleClose={() => setOpen(false)}
-                handleSendEmail={handleSendEmail}
-              />
+            {message && (
+              <AudienceCount>
+                {messages.addresseesCount}&nbsp;
+                <AddresseesCount>{message.recipient_count || 0} </AddresseesCount>
+                {pluralize(message.recipient_count, messages.contact)}
+              </AudienceCount>
             )}
+            {loadingMessageStatus && <Loader />}
           </Grid>
         </Grid>
-      </Container>
-    </>
+        <Grid item xs={12}>
+          <SendTest
+            variant="outlined"
+            size="medium"
+            onClick={() => {
+              setLoadingTestButton(true)
+              handleSendEmail(true)
+            }}
+            disabled={!message?.synchronized || loadingSendButton || loadingTestButton}
+          >
+            {loadingTestButton ? <Loader /> : messages.testMessage}
+          </SendTest>
+        </Grid>
+        <Grid item xs={12}>
+          <Send
+            variant="outlined"
+            size="medium"
+            disabled={!message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton}
+            onClick={() => setOpen(true)}
+            data-cy="send-mail-action"
+          >
+            {loadingSendButton ? <Loader color="main" /> : messages.sendEmail}
+          </Send>
+          {open && (
+            <ModalComponent
+              open={open}
+              recipientCount={message?.recipient_count || 0}
+              handleClose={() => setOpen(false)}
+              handleSendEmail={handleSendEmail}
+            />
+          )}
+        </Grid>
+      </Grid>
+    </Container>
   )
 }
 

@@ -4,8 +4,8 @@ import { newPaginatedResult } from 'api/pagination'
 import ReportRatio, { GeoRatio } from 'domain/reportRatio'
 
 export const getMessages = async ({ page, isMailsStatutory }) => {
-  const query = isMailsStatutory ? 'statutory=1' : ''
-  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20&${query}`)
+  const query = isMailsStatutory ? '&statutory=1' : ''
+  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20${query}`)
 
   const messages = data.items.map(message => {
     const { statistics: s } = message

@@ -12,12 +12,10 @@ import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import paths from 'shared/paths'
 import Input from 'ui/Input/Input'
 import PageHeader from 'ui/PageHeader'
-import { notifyVariants, notifyMessages } from '../shared/notification/constants'
-import { useCustomSnackbar } from '../shared/notification/hooks'
 import Loader from 'ui/Loader'
 import InputLabel from 'ui/InputLabel/InputLabel'
-
-// const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
+import { notifyVariants, notifyMessages } from '../shared/notification/constants'
+import { useCustomSnackbar } from '../shared/notification/hooks'
 
 const Container = styled(Grid)(
   ({ theme }) => `
@@ -36,14 +34,16 @@ const messages = {
 
 const mergeContent = (messageContent, templateValues) => {
   let jsonContent = messageContent?.json_content || ''
+  let content = messageContent?.content || ''
 
   Object.entries(templateValues).map(([key, value]) => {
     if (value) {
-      jsonContent = jsonContent.replace(new RegExp(`{{${key}:[^}]+}}`), value)
+      jsonContent = jsonContent.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
+      content = content.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
     }
   })
 
-  return { ...messageContent, json_content: jsonContent }
+  return { ...messageContent, json_content: jsonContent, content }
 }
 
 const Template = () => {
@@ -149,9 +149,6 @@ const Template = () => {
                           maxRows: 6,
                         }
                       : {})}
-                    onKeyPress={e => {
-                      if (e.key === 'Enter') e.preventDefault()
-                    }}
                   />
                 </Box>
               ))}
