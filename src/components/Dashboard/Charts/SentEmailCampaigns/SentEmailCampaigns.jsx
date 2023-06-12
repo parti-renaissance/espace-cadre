@@ -73,7 +73,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
 
   return (
     <div data-cy="sent-campaigns-container">
-      <SentEmailCampaignsTitle isMailsStatutory />
+      <SentEmailCampaignsTitle isMailsStatutory={isMailsStatutory} />
       <InfiniteScroll
         dataLength={campaigns.length}
         next={() => fetchNextPage()}
@@ -100,7 +100,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
                       messageId={message.id}
                       del={() => deleteDraft(message.id)}
                       loader={isDeleteLoading}
-                      isMailsStatutory
+                      isMailsStatutory={isMailsStatutory}
                     />
                   ) : (
                     <EmptyBlock />
