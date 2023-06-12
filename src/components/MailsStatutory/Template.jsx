@@ -32,14 +32,16 @@ const messages = {
   updateSuccess: 'Mail modifié avec succès',
 }
 
-const mergeContent = (messageContent, templateValues) => {
+const mergeContent = (messageContent, templateValues, onSubmit = false) => {
   let jsonContent = messageContent?.json_content || ''
   let content = messageContent?.content || ''
 
   Object.entries(templateValues).map(([key, value]) => {
     if (value) {
       jsonContent = jsonContent.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
-      content = content.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
+      if (onSubmit) {
+        content = content.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
+      }
     }
   })
 
@@ -81,7 +83,7 @@ const Template = () => {
       type: 'statutory',
       label: `DataCorner: ${messageSubject}`,
       subject: messageSubject,
-      content: mergeContent(messageContent, templateValues).content,
+      content: mergeContent(messageContent, templateValues, true).content,
       json_content: JSON.stringify(mergeContent(messageContent, templateValues).json_content),
     }
 

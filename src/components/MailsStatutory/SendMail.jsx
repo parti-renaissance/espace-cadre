@@ -1,28 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react'
-import * as Sentry from '@sentry/react'
+import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useMutation } from '@tanstack/react-query'
 import { Button, Container, Grid, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
-  messageSynchronizationStatus as messageSynchronizationStatusApi,
   getMessage as getMessageApi,
   sendMessage as sendMessageApi,
   sendTestMessage as sendTestMessageApi,
 } from 'api/messagerie'
+import { useQueryWithScope } from 'api/useQueryWithScope'
 import ModalComponent from 'components/Messagerie/Component/ModalComponent'
 import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { useErrorHandler } from 'components/shared/error/hooks'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
 import Loader from 'ui/Loader'
-import useRetry from '../useRetry'
-import { useQueryWithScope } from 'api/useQueryWithScope'
 
 const AudienceCount = styled(Typography)`
   font-size: 18px;
@@ -64,9 +59,6 @@ const Send = styled(Button)(
 `
 )
 
-const retryInterval = 2000
-const maxAttempts = 10
-
 const messages = {
   title: 'Mail statutaire',
   titleSuffix: 'Envoi du mail',
@@ -84,56 +76,22 @@ const SendMail = () => {
   const navigate = useNavigate()
   const [loadingTestButton, setLoadingTestButton] = useState(false)
   const [open, setOpen] = useState(false)
-  const [isReadyToSend, setIsReadyToSend] = useState(false)
   const { handleError } = useErrorHandler()
-  const { enqueueSnackbar } = useCustomSnackbar()
 
-  const { mutate: sendMessage } = useMutation(sendMessageApi, {
+  const { isLoading: loading, mutate: sendMessage } = useMutation(sendMessageApi, {
     onSuccess: () => {
       navigate(`../../${messageriePaths.confirmation}`)
     },
     onError: handleError,
   })
 
-  const [loadingMessageStatus] = useRetry(getMessageApi, retryInterval, maxAttempts, null, () => {
-    Sentry.addBreadcrumb({
-      category: 'messages',
-      message: `${messages.errorFilter} id=${messageUuid}`,
-      level: 'error',
-    })
-    Sentry.captureMessage(messages.errorFilter)
-    enqueueSnackbar(notifyMessages.warningTitle, notifyVariants.info, messages.errorFilter)
-  })
-
-  const [loadingSendButton, , sendMessageIfFiltersAreSaved] = useRetry(
-    messageSynchronizationStatusApi,
-    retryInterval,
-    maxAttempts,
-    () => prepareSendApi(),
-    () => {
-      Sentry.addBreadcrumb({
-        category: 'messages',
-        message: `${messages.errorSynchro} id=${messageUuid}`,
-        level: 'error',
-      })
-      Sentry.captureMessage(messages.errorSynchro)
-      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorSynchro)
-    }
-  )
-
-  const { data: message = {} } = useQueryWithScope(
-    ['mail-statutory', { feature: 'MailsStatutory', view: 'Filters' }, messageUuid],
+  const { isLoading, data: message = {} } = useQueryWithScope(
+    ['mail-statutory', { feature: 'MailsStatutory', view: 'SendMail' }, messageUuid],
     () => getMessageApi(messageUuid),
     {
       onError: handleError,
     }
   )
-
-  useEffect(() => {
-    if (isReadyToSend) {
-      sendMessage(messageUuid)
-    }
-  }, [isReadyToSend])
 
   const handleSendEmail = async (test = false) => {
     if (test) {
@@ -143,13 +101,7 @@ const SendMail = () => {
         setLoadingTestButton(false)
       }
     } else {
-      sendMessageIfFiltersAreSaved(messageUuid)
-    }
-  }
-
-  const prepareSendApi = () => {
-    if (!isReadyToSend) {
-      setIsReadyToSend(true)
+      sendMessage(messageUuid)
     }
   }
 
@@ -179,7 +131,7 @@ const SendMail = () => {
                 {pluralize(message.recipient_count, messages.contact)}
               </AudienceCount>
             )}
-            {loadingMessageStatus && <Loader />}
+            {isLoading && <Loader />}
           </Grid>
         </Grid>
         <Grid item xs={12}>
@@ -190,7 +142,7 @@ const SendMail = () => {
               setLoadingTestButton(true)
               handleSendEmail(true)
             }}
-            disabled={!message?.synchronized || loadingSendButton || loadingTestButton}
+            disabled={!message?.synchronized || loading || loadingTestButton}
           >
             {loadingTestButton ? <Loader /> : messages.testMessage}
           </SendTest>
@@ -199,11 +151,11 @@ const SendMail = () => {
           <Send
             variant="outlined"
             size="medium"
-            disabled={!message?.synchronized || message?.recipient_count < 1 || loadingSendButton || loadingTestButton}
+            disabled={!message?.synchronized || message?.recipient_count < 1 || loading || loadingTestButton}
             onClick={() => setOpen(true)}
             data-cy="send-mail-action"
           >
-            {loadingSendButton ? <Loader color="main" /> : messages.sendEmail}
+            {loading ? <Loader color="main" /> : messages.sendEmail}
           </Send>
           {open && (
             <ModalComponent
