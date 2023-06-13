@@ -43,7 +43,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-leaflet": "^4.2.1",
     "react-markdown": "^8.0.7",
-    "react-redux": "^8.0.7",
+    "react-redux": "^8.1.0",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.11.2",
     "react-select": "^5.7.3",
