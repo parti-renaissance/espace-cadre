@@ -78,7 +78,9 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
   )
 
   useEffect(() => {
-    if (!campaign) return
+    if (!campaign) {
+      return
+    }
     setGlobalSettings(campaignToGlobalSettingsValues(campaign.global))
     setCallersAndSurvey(campaignToCallersAndSurveyValues({ team: campaign.team, survey: campaign.survey }))
     setFilters(campaignToFiltersValues(campaign.filters))
@@ -100,9 +102,15 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
   }
 
   const handleFilterSelection = data => {
-    if (!data.filters.certified) delete data.filters.certified
-    if (!data.filters.committeeMember) delete data.filters.committeeMember
-    if (!data.filters.emailSubscribed) delete data.filters.emailSubscribed
+    if (!data.filters.certified) {
+      delete data.filters.certified
+    }
+    if (!data.filters.committeeMember) {
+      delete data.filters.committeeMember
+    }
+    if (!data.filters.emailSubscribed) {
+      delete data.filters.emailSubscribed
+    }
   }
   const handleSubmit = () => {
     const values = { id: campaign?.id, ...globalSettings, ...callersAndSurvey, filters }

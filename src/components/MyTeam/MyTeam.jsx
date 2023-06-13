@@ -48,7 +48,9 @@ const MyTeam = () => {
   const handleUpdate = useCallback(
     memberId => () => {
       const teamMember = myTeam.members.find(({ id }) => id === memberId)
-      if (!teamMember) return
+      if (!teamMember) {
+        return
+      }
       setTeamMemberToUpdate(teamMember)
       setIsCreateEditModalOpen(true)
     },
@@ -67,7 +69,9 @@ const MyTeam = () => {
     setIsCreateEditModalOpen(false)
   }
 
-  if (!myTeam.members) return null
+  if (!myTeam.members) {
+    return null
+  }
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>

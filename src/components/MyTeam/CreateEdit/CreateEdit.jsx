@@ -39,8 +39,12 @@ const messages = {
 const validateForm = ({ activist, role }) => !!(activist && Object.keys(activist).length > 0 && role)
 const addOrRemoveFeature = (initialFeatures = [], name, selected) => {
   const features = initialFeatures
-  if (selected === true && !features.includes(name)) features.push(name)
-  if (selected === false && features.includes(name)) features.splice(features.indexOf(name), 1)
+  if (selected === true && !features.includes(name)) {
+    features.push(name)
+  }
+  if (selected === false && features.includes(name)) {
+    features.splice(features.indexOf(name), 1)
+  }
   return features
 }
 

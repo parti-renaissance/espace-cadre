@@ -74,8 +74,9 @@ const Dashboard = () => {
     )
   }
 
-  if (upcomingFeatureScopes.includes(currentScope.code))
+  if (upcomingFeatureScopes.includes(currentScope.code)) {
     return <EmptyContent title={messages.upcoming} description={messages.description} />
+  }
 
   return (
     <Container maxWidth={false}>

@@ -82,7 +82,9 @@ const Template = () => {
       json_content: messageContent.json_content,
     }
 
-    if (messageUuid) return updateMessageContent(messageUuid, body)
+    if (messageUuid) {
+      return updateMessageContent(messageUuid, body)
+    }
     return createMessageContent(body)
   }
 

@@ -115,7 +115,9 @@ const CampaignDetail = () => {
     setIsCreateEditModalOpen(false)
   }
 
-  if (!campaignId) return null
+  if (!campaignId) {
+    return null
+  }
 
   return (
     <Container maxWidth={false}>

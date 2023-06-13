@@ -46,8 +46,12 @@ const PrivatePages = ({ children }) => {
     }
   }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
 
-  if (!currentUser || userScopes.length === 0) return <BootPage />
-  if (userScopes && currentScope === null) return <ScopesPage />
+  if (!currentUser || userScopes.length === 0) {
+    return <BootPage />
+  }
+  if (userScopes && currentScope === null) {
+    return <ScopesPage />
+  }
 
   return (
     <Sidebar>

@@ -150,7 +150,9 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
   })
 
   const handleImageDelete = () => {
-    if (image && event.image) return deleteImage()
+    if (image && event.image) {
+      return deleteImage()
+    }
     return setImage(undefined)
   }
 

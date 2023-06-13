@@ -12,8 +12,10 @@ const today = new Date()
 const DateStatus = ({ startDate, endDate }) => {
   const remainingDays = differenceInCalendarDays(endDate, new Date()) || 0
 
-  if (isBefore(today, startDate)) return format(startDate, 'dd MMMM yyyy', { locale: fr })
-  if (isBefore(today, endDate))
+  if (isBefore(today, startDate)) {
+    return format(startDate, 'dd MMMM yyyy', { locale: fr })
+  }
+  if (isBefore(today, endDate)) {
     return (
       <>
         {remainingDays}&nbsp;
@@ -21,6 +23,7 @@ const DateStatus = ({ startDate, endDate }) => {
         {pluralize(remainingDays, messages.remaining)}
       </>
     )
+  }
   return format(endDate, 'dd MMMM yyyy', { locale: fr })
 }
 

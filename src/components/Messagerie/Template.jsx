@@ -55,7 +55,9 @@ const Template = ({ modeUpdate = false }) => {
       json_content: JSON.stringify(message.design),
     }
 
-    if (messageUuid) return updateMessageContent(messageUuid, body)
+    if (messageUuid) {
+      return updateMessageContent(messageUuid, body)
+    }
     return createMessageContent(body)
   }
 

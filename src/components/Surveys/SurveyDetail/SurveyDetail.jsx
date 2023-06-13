@@ -53,7 +53,9 @@ export const SurveyDetail = () => {
     (isLocal && surveyAuthor === loggedUser && surveyDetail?.type === messages.local) ||
     (isNational && surveyAuthor === loggedUser && surveyDetail?.type === messages.national)
 
-  if (!surveyDetail) return null
+  if (!surveyDetail) {
+    return null
+  }
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>

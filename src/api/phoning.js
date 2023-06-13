@@ -233,6 +233,9 @@ export const createOrUpdatePhoningCampaignQuery = campaign => {
     audience: formatFiltersData(campaign.filters),
   }
 
-  if (!campaign.id) return apiClient.post('api/v3/phoning_campaigns', body)
+  if (!campaign.id) {
+    return apiClient.post('api/v3/phoning_campaigns', body)
+  }
+
   return apiClient.put(`api/v3/phoning_campaigns/${campaign.id}`, body)
 }

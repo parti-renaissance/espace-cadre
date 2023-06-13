@@ -92,8 +92,12 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit, currentView }) => {
     navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
   }
 
-  if (isLoading) return <Loader isCenter />
-  if (!events.length) return <div>{messages.noEvent}</div>
+  if (isLoading) {
+    return <Loader isCenter />
+  }
+  if (!events.length) {
+    return <div>{messages.noEvent}</div>
+  }
 
   return (
     <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>

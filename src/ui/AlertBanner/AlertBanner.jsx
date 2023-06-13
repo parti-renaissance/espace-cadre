@@ -13,7 +13,9 @@ const Alert = styled(MuiAlert)(
 )
 
 function AlertBanner({ severity, message }) {
-  if (!message) return null
+  if (!message) {
+    return null
+  }
 
   return (
     <Alert elevation={0} variant="filled" severity={severity}>

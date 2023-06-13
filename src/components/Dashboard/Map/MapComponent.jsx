@@ -38,8 +38,12 @@ const MapComponent = () => {
     staleTime: DASHBOARD_CACHE_DURATION,
   })
 
-  if (isLoading) return <Loading />
-  if (isError) return <Error message={messages.errorMessage} />
+  if (isLoading) {
+    return <Loading />
+  }
+  if (isError) {
+    return <Error message={messages.errorMessage} />
+  }
 
   return (
     <>

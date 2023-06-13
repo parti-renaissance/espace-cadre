@@ -7,7 +7,9 @@ export const getMyTeamQuery = async () => {
   const data = await apiClient.get('api/v3/my_teams')
 
   const team = data.items[0]
-  if (!team) return new MyTeam(null, [])
+  if (!team) {
+    return new MyTeam(null, [])
+  }
 
   const members = team.members.map(m => {
     const adherent = m.adherent
@@ -42,7 +44,10 @@ export const createOrUpdateTeamMemberQuery = async ({ teamId, teamMember }) => {
     role: teamMember.role,
     ...(teamMember.features && { scope_features: teamMember.features }),
   }
-  if (!teamMember.id) return apiClient.post('api/v3/my_team_members', { team, ...body })
+  if (!teamMember.id) {
+    return apiClient.post('api/v3/my_team_members', { team, ...body })
+  }
+
   return apiClient.put(`api/v3/my_team_members/${teamMember.id}`, body)
 }
 

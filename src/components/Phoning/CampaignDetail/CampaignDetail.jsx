@@ -107,7 +107,9 @@ export const CampaignDetail = () => {
     refetchCallers()
   }
 
-  if (!campaignId) return null
+  if (!campaignId) {
+    return null
+  }
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>

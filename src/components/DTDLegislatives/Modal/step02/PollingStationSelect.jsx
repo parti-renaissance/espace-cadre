@@ -107,12 +107,13 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     }
   }, [campaignId, pollingStations])
 
-  if (!pollingStations.length > 0 || !campaignId)
+  if (!pollingStations.length > 0 || !campaignId) {
     return (
       <Grid container justifyContent="center">
         <Loader />
       </Grid>
     )
+  }
 
   const list = getPollingStationsFromCodes(pollingStations, pollingStationSelection)
   const votersCount = list.reduce((total, currentValue) => total + currentValue.voters, 0)

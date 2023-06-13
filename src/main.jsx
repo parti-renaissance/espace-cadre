@@ -21,7 +21,9 @@ if (NODE_ENV === 'production' || SENTRY_DSN) {
       'ResizeObserver loop limit exceeded', // https://forum.sentry.io/t/resizeobserver-loop-limit-exceeded/8402/5
     ],
     beforeSend(event, hint) {
-      if (shouldSendError(hint)) return event
+      if (shouldSendError(hint)) {
+        return event
+      }
       return null
     },
   })
