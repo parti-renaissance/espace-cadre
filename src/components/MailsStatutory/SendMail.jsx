@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useMutation } from '@tanstack/react-query'
@@ -67,8 +66,6 @@ const messages = {
   contact: 'contact',
   testMessage: "M'envoyer un mail de test",
   sendEmail: "Envoyer l'email",
-  errorFilter: "Impossible d'appliquer les filtres, rechargez la page.",
-  errorSynchro: "Le mail n'est pas prêt à être envoyé",
 }
 
 const SendMail = () => {
@@ -138,10 +135,7 @@ const SendMail = () => {
           <SendTest
             variant="outlined"
             size="medium"
-            onClick={() => {
-              setLoadingTestButton(true)
-              handleSendEmail(true)
-            }}
+            onClick={() => handleSendEmail(true)}
             disabled={!message?.synchronized || loading || loadingTestButton}
           >
             {loadingTestButton ? <Loader /> : messages.testMessage}

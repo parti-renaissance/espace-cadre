@@ -166,9 +166,7 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, readOnly = 
             minHeight="85vh"
             ref={emailEditorRef}
             projectId={UNLAYER_PROJECT_ID}
-            onLoad={() => {
-              setEditorLoaded(true)
-            }}
+            onLoad={() => setEditorLoaded(true)}
             options={{
               locale: 'fr-FR',
               safeHtml: true,

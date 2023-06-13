@@ -32,20 +32,15 @@ const messages = {
   updateSuccess: 'Mail modifié avec succès',
 }
 
-const mergeContent = (messageContent, templateValues, onSubmit = false) => {
-  let jsonContent = messageContent?.json_content || ''
-  let content = messageContent?.content || ''
-
+const mergeContent = (content, templateValues) => {
   Object.entries(templateValues).map(([key, value]) => {
     if (value) {
-      jsonContent = jsonContent.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
-      if (onSubmit) {
-        content = content.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
-      }
+      // eslint-disable-next-line no-param-reassign
+      content = content.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
     }
   })
 
-  return { ...messageContent, json_content: jsonContent, content }
+  return content
 }
 
 const Template = () => {
@@ -83,8 +78,8 @@ const Template = () => {
       type: 'statutory',
       label: `DataCorner: ${messageSubject}`,
       subject: messageSubject,
-      content: mergeContent(messageContent, templateValues, true).content,
-      json_content: JSON.stringify(mergeContent(messageContent, templateValues).json_content),
+      content: mergeContent(messageContent.content, templateValues),
+      json_content: messageContent.json_content,
     }
 
     if (messageUuid) return updateMessageContent(messageUuid, body)
@@ -96,7 +91,7 @@ const Template = () => {
       return []
     }
 
-    return [...messageContent.content.matchAll(/{{(\w+):"([A-zÀ-ú -]+)"}}/g)].map(item => ({
+    return [...messageContent.content.matchAll(/{{(\w+):"([^"]+)"}}/g)].map(item => ({
       key: item[1],
       label: item[2],
     }))
@@ -135,7 +130,10 @@ const Template = () => {
             <Editor
               onMessageSubject={() => {}}
               onMessageUpdate={() => {}}
-              messageContent={mergeContent(messageContent, templateValues)}
+              messageContent={{
+                ...messageContent,
+                json_content: mergeContent(messageContent.json_content, templateValues),
+              }}
               readOnly
             />
             <Box sx={{ pr: 1.5, flex: '1 1 0%' }} className="space-y-5">

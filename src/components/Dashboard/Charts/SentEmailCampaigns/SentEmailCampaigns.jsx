@@ -68,8 +68,13 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
     onError: handleError,
   })
 
-  if (isLoading) return <Loader isCenter />
-  if (!campaigns.length) return <div>{isMailsStatutory ? messages.noStatutoryMail : messages.noCampaign}</div>
+  if (isLoading) {
+    return <Loader isCenter />
+  }
+
+  if (!campaigns.length) {
+    return <div>{isMailsStatutory ? messages.noStatutoryMail : messages.noCampaign}</div>
+  }
 
   return (
     <div data-cy="sent-campaigns-container">

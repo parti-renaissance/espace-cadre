@@ -3,5 +3,5 @@ export const paths = {
   update: 'modifier',
   filter: 'filtrer',
   confirmation: 'confirmation',
-  send: 'send',
+  send: 'recapitulatif',
 }
