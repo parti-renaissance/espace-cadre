@@ -17,7 +17,7 @@ const messages = {
   delete: 'Supprimer',
 }
 
-const Actions = ({ messageId, del, loader = false }) => {
+const Actions = ({ messageId, del, loader = false, isMailsStatutory = false }) => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate(generatePath(':messageId/' + messageriePaths.update, { messageId }))
@@ -25,7 +25,9 @@ const Actions = ({ messageId, del, loader = false }) => {
 
   return (
     <HorizontalContainer>
-      <CtaButton onClick={handleClick}>{messages.update}</CtaButton>
+      <CtaButton onClick={handleClick} disabled={isMailsStatutory}>
+        {messages.update}
+      </CtaButton>
       <DotsMenu>
         <DotsMenuItem onClick={del} loader={loader}>
           {messages.delete}
@@ -41,4 +43,5 @@ Actions.propTypes = {
   messageId: PropTypes.string.isRequired,
   del: PropTypes.func.isRequired,
   loader: PropTypes.bool,
+  isMailsStatutory: PropTypes.bool,
 }

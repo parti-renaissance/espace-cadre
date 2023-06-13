@@ -3,8 +3,9 @@ import Message, { Statistics } from 'domain/message'
 import { newPaginatedResult } from 'api/pagination'
 import ReportRatio, { GeoRatio } from 'domain/reportRatio'
 
-export const getMessages = async ({ pageParam: page = 1 }) => {
-  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20`)
+export const getMessages = async ({ page, isMailsStatutory }) => {
+  const query = isMailsStatutory ? '&statutory=1' : ''
+  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20${query}`)
 
   const messages = data.items.map(message => {
     const { statistics: s } = message
@@ -59,5 +60,8 @@ export const reportsRatio = async () => {
     new Date(data.since)
   )
 }
-export const getTemplates = async () => await apiClient.get('/v3/email_templates')
+export const getTemplates = async isMailsStatutory => {
+  const query = isMailsStatutory ? '?statutory=1' : ''
+  return await apiClient.get(`/v3/email_templates${query}`)
+}
 export const getTemplate = async uuid => await apiClient.get(`/v3/email_templates/${uuid}`)

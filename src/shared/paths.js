@@ -18,6 +18,7 @@ export default {
   general_meeting_reports: '/proces-verbal',
   committee: '/comites',
   documents: '/documents',
+  statutory_message: '/mails-statutaires',
 }
 
 export const publicPaths = {

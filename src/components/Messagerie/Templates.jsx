@@ -9,12 +9,12 @@ import Title from 'ui/Title'
 import Loader from 'ui/Loader/Loader'
 import Card from './Card'
 
-const Templates = ({ handleClose }) => {
+const Templates = ({ handleClose, isMailsStatutory = false }) => {
   const { handleError } = useErrorHandler()
 
   const { data, isLoading } = useQueryWithScope(
     ['messagerie-templates', { feature: 'Templates', view: 'Templates' }],
-    getTemplates,
+    () => getTemplates(isMailsStatutory),
     { onError: handleError }
   )
 
@@ -59,4 +59,5 @@ export default Templates
 
 Templates.propTypes = {
   handleClose: PropTypes.func,
+  isMailsStatutory: PropTypes.bool,
 }

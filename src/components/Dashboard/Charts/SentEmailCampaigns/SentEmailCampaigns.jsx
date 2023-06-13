@@ -1,4 +1,5 @@
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 import { deleteMessage, getMessages } from 'api/messagerie'
 import SentEmailCampaignsTitle from './SentEmailCampaignsTitle'
 import UICard from 'ui/Card'
@@ -13,11 +14,11 @@ import Loader from 'ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { refetchUpdatedPage, getNextPageParam, usePaginatedData } from 'api/pagination'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import PropTypes from 'prop-types'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 
 const messages = {
   noCampaign: 'Aucune campagne à afficher',
+  noStatutoryMail: 'Aucun mail statutaire à afficher',
   deleteSuccess: 'Brouillon supprimé avec succès',
 }
 
@@ -38,7 +39,7 @@ Title.propTypes = {
 
 const EmptyBlock = () => <div />
 
-const SentEmailCampaigns = () => {
+const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -50,7 +51,7 @@ const SentEmailCampaigns = () => {
     isLoading,
   } = useInfiniteQueryWithScope(
     ['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }],
-    getMessages,
+    ({ pageParam: page = 1 }) => getMessages({ isMailsStatutory, page }),
     {
       getNextPageParam,
       onError: handleError,
@@ -67,12 +68,17 @@ const SentEmailCampaigns = () => {
     onError: handleError,
   })
 
-  if (isLoading) return <Loader isCenter />
-  if (!campaigns.length) return <div>{messages.noCampaign}</div>
+  if (isLoading) {
+    return <Loader isCenter />
+  }
+
+  if (!campaigns.length) {
+    return <div>{isMailsStatutory ? messages.noStatutoryMail : messages.noCampaign}</div>
+  }
 
   return (
     <div data-cy="sent-campaigns-container">
-      <SentEmailCampaignsTitle />
+      <SentEmailCampaignsTitle isMailsStatutory={isMailsStatutory} />
       <InfiniteScroll
         dataLength={campaigns.length}
         next={() => fetchNextPage()}
@@ -95,7 +101,12 @@ const SentEmailCampaigns = () => {
                 actionsProps={{ sx: { pb: 1, height: '40px' } }}
                 actions={
                   message.draft ? (
-                    <Actions messageId={message.id} del={() => deleteDraft(message.id)} loader={isDeleteLoading} />
+                    <Actions
+                      messageId={message.id}
+                      del={() => deleteDraft(message.id)}
+                      loader={isDeleteLoading}
+                      isMailsStatutory={isMailsStatutory}
+                    />
                   ) : (
                     <EmptyBlock />
                   )
@@ -110,3 +121,7 @@ const SentEmailCampaigns = () => {
 }
 
 export default SentEmailCampaigns
+
+SentEmailCampaigns.propTypes = {
+  isMailsStatutory: PropTypes.bool,
+}
