@@ -79,9 +79,15 @@ describe('Messagerie', () => {
                   subtitle: "Campagnes d'e-mails",
                   detail: 'Envoyées ces 30 derniers jours',
                 }
-                if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-                if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-                if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                if (index === 0) {
+                  cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+                }
+                if (index === 1) {
+                  cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+                }
+                if (index === 2) {
+                  cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                }
               })
           })
         })
@@ -98,9 +104,15 @@ describe('Messagerie', () => {
               .find(Typography)
               .each((element, index) => {
                 const content = { score: '12.34%', subtitle: 'Ouvertures', detail: '43.21% au national' }
-                if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-                if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-                if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                if (index === 0) {
+                  cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+                }
+                if (index === 1) {
+                  cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+                }
+                if (index === 2) {
+                  cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                }
               })
           })
         })
@@ -117,9 +129,15 @@ describe('Messagerie', () => {
               .find(Typography)
               .each((element, index) => {
                 const content = { score: '42.42%', subtitle: 'Clics', detail: '44.44% au national' }
-                if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-                if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-                if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                if (index === 0) {
+                  cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+                }
+                if (index === 1) {
+                  cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+                }
+                if (index === 2) {
+                  cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                }
               })
           })
         })
@@ -136,9 +154,15 @@ describe('Messagerie', () => {
               .find(Typography)
               .each((element, index) => {
                 const content = { score: '0.11%', subtitle: 'Désabonnements', detail: '12.12% au national' }
-                if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-                if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-                if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                if (index === 0) {
+                  cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+                }
+                if (index === 1) {
+                  cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+                }
+                if (index === 2) {
+                  cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+                }
               })
           })
         })

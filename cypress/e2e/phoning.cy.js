@@ -68,9 +68,15 @@ describe('Phoning', () => {
           .find(Typography)
           .each((element, index) => {
             const content = { score: '13', subtitle: 'Campagnes', detail: 'Dont 2 en cours' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            }
+            if (index === 1) {
+              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            }
+            if (index === 2) {
+              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            }
           })
       })
     })
@@ -87,9 +93,15 @@ describe('Phoning', () => {
           .find(Typography)
           .each((element, index) => {
             const content = { score: '70', subtitle: 'Questionnaires', detail: '12 sur un mois' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            }
+            if (index === 1) {
+              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            }
+            if (index === 2) {
+              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            }
           })
       })
     })
@@ -106,9 +118,15 @@ describe('Phoning', () => {
           .find(Typography)
           .each((element, index) => {
             const content = { score: '452', subtitle: 'Appels', detail: '75 sur un mois' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            }
+            if (index === 1) {
+              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            }
+            if (index === 2) {
+              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            }
           })
       })
     })
