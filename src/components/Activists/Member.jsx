@@ -58,7 +58,9 @@ Subscription.propTypes = {
 }
 
 const Member = ({ member, handleClose }) => {
-  if (!member) return null
+  if (!member) {
+    return null
+  }
 
   return (
     <Box

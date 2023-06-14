@@ -137,7 +137,9 @@ const Signup = () => {
 
   const isPhoneValid = useMemo(() => {
     const phoneNumber = formik.values.phone
-    if (phoneNumber === '') return true
+    if (phoneNumber === '') {
+      return true
+    }
 
     const country = formik.values.prefix
     return isValidPhoneNumber(phoneNumber, country)

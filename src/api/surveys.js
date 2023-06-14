@@ -99,6 +99,9 @@ const formatSurveyPayload = ({ id, isPublished, type, title, zone, questions }) 
 
 export const createOrUpdateSurveyQuery = survey => {
   const body = formatSurveyPayload(survey)
-  if (!survey.id) return apiClient.post('api/v3/surveys', body)
+  if (!survey.id) {
+    return apiClient.post('api/v3/surveys', body)
+  }
+
   return apiClient.put(`api/v3/surveys/${survey.id}`, body)
 }

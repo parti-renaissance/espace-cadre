@@ -49,7 +49,9 @@ const Elections = () => {
   })
 
   const handleCurrentPoint = useCallback(({ point, lngLat }) => {
-    if (!point || !lngLat) return
+    if (!point || !lngLat) {
+      return
+    }
     setCurrentPoint({ point, lngLat })
   }, [])
 
@@ -65,14 +67,18 @@ const Elections = () => {
   }, [])
 
   useEffect(() => {
-    if (!map.current) return
+    if (!map.current) {
+      return
+    }
     map.current.getCanvas().style.cursor = 'pointer'
     map.current.on('load', () => setMapLoaded(true))
     map.current.on('click', handleCurrentPoint)
   }, [map, handleCurrentPoint])
 
   useEffect(() => {
-    if (!mapLoaded) return
+    if (!mapLoaded) {
+      return
+    }
     switchLayer()
     const { election, year, round } = filterValues
     map.current.setPaintProperty(activeLayer, 'fill-color', [
@@ -84,16 +90,24 @@ const Elections = () => {
   }, [mapLoaded, switchLayer, filterValues, map, activeLayer])
 
   useEffect(() => {
-    if (!mapLoaded || !currentPoint) return
+    if (!mapLoaded || !currentPoint) {
+      return
+    }
 
     const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, { layers: [activeLayer] })
-    if (!mapBoxProps) return
+    if (!mapBoxProps) {
+      return
+    }
 
     const { zoneName, zoneCode } = getMapBoxProperties(mapBoxProps)
-    if (zoneName) setZone(zoneName)
+    if (zoneName) {
+      setZone(zoneName)
+    }
 
     const params = getElectionPayload(activeLayer, filterValues, zoneCode)
-    if (Object.values(params).filter(p => p).length !== Object.keys(params).length) return
+    if (Object.values(params).filter(p => p).length !== Object.keys(params).length) {
+      return
+    }
 
     setIsPopinOpen(true)
     setIsPopinLoaderActive(true)

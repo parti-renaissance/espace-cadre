@@ -149,8 +149,12 @@ const CampaignDetailAddresses = () => {
   const surveysTotalCount = surveys?.totalCount
   const addresses = surveys?.addresses
 
-  if (addresses?.length === 0) return null
-  if (isSurveysLoading) return <Loading />
+  if (addresses?.length === 0) {
+    return null
+  }
+  if (isSurveysLoading) {
+    return <Loading />
+  }
 
   return (
     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} data-cy="campaign-campaign-detail-surveys">

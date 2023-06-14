@@ -26,6 +26,8 @@
   "plugins": ["react", "react-hooks", "prettier", "cypress"],
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
+    "curly": "error",
     "eqeqeq": "error",
     "jsx-a11y/control-has-associated-label": [0],
     "jsx-quotes": ["error", "prefer-double"],
@@ -56,7 +58,7 @@
     "no-self-compare": "error",
     "no-shadow": "off",
     "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
-    "prettier/prettier": "off",
+    "prettier/prettier": ["error", { "usePrettierrc": true }],
     "quotes": ["error", "single", { "avoidEscape": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-array-index-key": [0],
@@ -78,6 +80,12 @@
       "files": ["*.spec.js"],
       "rules": {
         "jest/expect-expect": "off"
+      }
+    },
+    {
+      "files": ["*.cy.js"],
+      "rules": {
+        "cypress/unsafe-to-chain-command": "off"
       }
     }
   ],

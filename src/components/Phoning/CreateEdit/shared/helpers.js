@@ -20,9 +20,15 @@ export const validateAllSteps = data => () => {
   const validSteps = []
   allValidators.forEach((validate, index) => {
     let isValid = false
-    if (index === 0) isValid = validate(data.global)
-    if (index === 1) isValid = validate({ team: data.team, survey: data.survey })
-    if (index === 2) isValid = validate(data.filters)
+    if (index === 0) {
+      isValid = validate(data.global)
+    }
+    if (index === 1) {
+      isValid = validate({ team: data.team, survey: data.survey })
+    }
+    if (index === 2) {
+      isValid = validate(data.filters)
+    }
     isValid === true && !validSteps.includes(index) && validSteps.push(index)
   })
   return validSteps

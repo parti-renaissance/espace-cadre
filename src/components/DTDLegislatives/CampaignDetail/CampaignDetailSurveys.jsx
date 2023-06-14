@@ -134,8 +134,12 @@ const CampaignDetailSurveys = () => {
     [replies, order]
   )
 
-  if (replies?.length === 0) return null
-  if (isSurveysLoading) return <Loading />
+  if (replies?.length === 0) {
+    return null
+  }
+  if (isSurveysLoading) {
+    return <Loading />
+  }
 
   return (
     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} data-cy="campaign-campaign-detail-surveys">

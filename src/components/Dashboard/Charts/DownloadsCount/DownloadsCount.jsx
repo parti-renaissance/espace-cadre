@@ -37,8 +37,12 @@ const DownloadsCount = () => {
 
   const theme = useTheme()
 
-  if (isLoading) return <Loading />
-  if (isError) return <Error message={messages.errorMessage} />
+  if (isLoading) {
+    return <Loading />
+  }
+  if (isError) {
+    return <Error message={messages.errorMessage} />
+  }
 
   return (
     <>

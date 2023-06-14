@@ -11,8 +11,12 @@ const messages = {
 const today = new Date()
 
 const EventChip = ({ event }) => {
-  if (!event?.scheduled) return <UIChip color="red600" bgcolor="inactiveLabel" label={messages.canceled} />
-  if (isAfter(today, event?.beginAt)) return <UIChip color="gray700" bgcolor="pastLabel" label={messages.past} />
+  if (!event?.scheduled) {
+    return <UIChip color="red600" bgcolor="inactiveLabel" label={messages.canceled} />
+  }
+  if (isAfter(today, event?.beginAt)) {
+    return <UIChip color="gray700" bgcolor="pastLabel" label={messages.past} />
+  }
   return <UIChip color="teal700" bgcolor="activeLabel" label={messages.scheduled} />
 }
 

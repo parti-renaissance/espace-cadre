@@ -104,7 +104,9 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
   const { isMobile } = useCurrentDeviceType()
   const isPublished = useMemo(() => !!news?.status, [news])
 
-  if (!news) return null
+  if (!news) {
+    return null
+  }
 
   const handleClose = () => {
     onCloseResolve()

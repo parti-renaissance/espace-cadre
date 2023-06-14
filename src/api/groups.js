@@ -18,7 +18,10 @@ const formatGroup = (group = {}) => {
   const members = new Array(group.members_count).fill(GroupMember.NULL)
   const isNational = group.visibility === 'national'
 
-  if (isNational) return new Group(group.uuid, group.name, group.creator, members, null, group.is_deletable)
+  if (isNational) {
+    return new Group(group.uuid, group.name, group.creator, members, null, group.is_deletable)
+  }
+
   return new Group(
     group.uuid,
     group.name,
@@ -40,7 +43,10 @@ export const getGroupQuery = async groupId => {
   const groupMembers = formatGroupMembers(group.members)
   const isNational = group.visibility === 'national'
 
-  if (isNational) return new Group(group.uuid, group.name, group.creator, groupMembers, null, group.is_deletable)
+  if (isNational) {
+    return new Group(group.uuid, group.name, group.creator, groupMembers, null, group.is_deletable)
+  }
+
   return new Group(
     group.uuid,
     group.name,

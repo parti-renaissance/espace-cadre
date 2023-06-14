@@ -43,9 +43,15 @@ describe('Ripostes', () => {
           .eq(0)
           .find(Typography)
           .each((element, index) => {
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', 'Inactive').and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').and('have.text', 'Riposte 2').and('be.visible')
-            if (index === 3) cy.wrap(element).should('exist').and('have.text', 'Par author 2').and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').and('have.text', 'Inactive').and('be.visible')
+            }
+            if (index === 2) {
+              cy.wrap(element).should('exist').and('have.text', 'Riposte 2').and('be.visible')
+            }
+            if (index === 3) {
+              cy.wrap(element).should('exist').and('have.text', 'Par author 2').and('be.visible')
+            }
           })
       })
 
@@ -57,10 +63,18 @@ describe('Ripostes', () => {
           .find('>div')
           .find('>div')
           .each((element, index) => {
-            if (index === 0) cy.wrap(element).should('exist').should('exist')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', '2 vues').and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').and('have.text', '2 vues détaillées').and('be.visible')
-            if (index === 3) cy.wrap(element).should('exist').and('have.text', '2 actions numériques').and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').should('exist')
+            }
+            if (index === 1) {
+              cy.wrap(element).should('exist').and('have.text', '2 vues').and('be.visible')
+            }
+            if (index === 2) {
+              cy.wrap(element).should('exist').and('have.text', '2 vues détaillées').and('be.visible')
+            }
+            if (index === 3) {
+              cy.wrap(element).should('exist').and('have.text', '2 actions numériques').and('be.visible')
+            }
           })
       })
 

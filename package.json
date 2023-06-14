@@ -64,7 +64,7 @@
     "test": "TZ=Europe/Paris jest",
     "test-coverage": "jest src --coverage",
     "test:cy": "cypress open --config-file cypress.config.js",
-    "lint": "eslint './src/**/*.js' --ignore-path .gitignore",
+    "lint": "eslint './{src,cypress}/**/*.{js,jsx}' --ignore-path .gitignore",
     "lint:fix": "yarn run lint --fix",
     "prepare": "husky install",
     "rollup:dev": "yarn vite build --config rollup.config.js --mode test",

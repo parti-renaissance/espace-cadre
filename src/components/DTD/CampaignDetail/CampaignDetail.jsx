@@ -108,7 +108,9 @@ export const CampaignDetail = () => {
     // TODO: implement view modal
   }
 
-  if (!campaignId) return null
+  if (!campaignId) {
+    return null
+  }
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>

@@ -81,14 +81,18 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
   }, [handleError, typeOfLayer])
 
   useEffect(() => {
-    if (!map.current) return
+    if (!map.current) {
+      return
+    }
     map.current.getCanvas().style.cursor = 'pointer'
     map.current.on('load', onMapReady)
     map.current.on('click', onClick)
   }, [map, onClick, onMapReady])
 
   useEffect(() => {
-    if (!currentPoint) return
+    if (!currentPoint) {
+      return
+    }
     const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
       layers: [typeOfLayer],
     })
@@ -103,7 +107,9 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
   }, [map, currentPoint, typeOfLayer])
 
   useEffect(() => {
-    if (!currentPoint || !infos) return
+    if (!currentPoint || !infos) {
+      return
+    }
     const popupNode = document.createElement('div')
 
     ReactDOM.render(<Popin address={infos.address} code={infos.code} priority={infos.priority} />, popupNode)

@@ -108,7 +108,9 @@ const CampaignDetailSurveys = ({ replies }) => {
     return orderBy(rows, Object.keys(order).reverse(), Object.values(order).reverse())
   }, [replies, currentPage, rowsPerPage, order])
 
-  if (replies.length === 0) return null
+  if (replies.length === 0) {
+    return null
+  }
 
   return (
     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} data-cy="phoning-campaign-detail-surveys">

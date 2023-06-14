@@ -71,9 +71,15 @@ describe('Surveys', () => {
           .find(Typography)
           .each((element, index) => {
             const content = { score: '90', subtitle: 'Questionnaires locaux', detail: 'Dont 30 publiés' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            }
+            if (index === 1) {
+              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            }
+            if (index === 2) {
+              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            }
           })
       })
     })
@@ -90,8 +96,12 @@ describe('Surveys', () => {
           .find(Typography)
           .each((element, index) => {
             const content = { score: '43', subtitle: 'Questionnaires nationaux', detail: 'Dont 30 publiés' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            }
+            if (index === 1) {
+              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            }
           })
       })
     })
@@ -109,9 +119,15 @@ describe('Surveys', () => {
           .find(Typography)
           .each((element, index) => {
             const content = { score: '19', subtitle: 'Réponses collectées', detail: '3 sur le mois' }
-            if (index === 0) cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            if (index === 1) cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            if (index === 2) cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            if (index === 0) {
+              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
+            }
+            if (index === 1) {
+              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
+            }
+            if (index === 2) {
+              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
+            }
           })
       })
     })
