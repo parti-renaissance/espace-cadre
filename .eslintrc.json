@@ -65,8 +65,7 @@
     "react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
     "react-hooks/exhaustive-deps": "error",
     "require-await": "error",
-    "semi": "off",
-    "cypress/unsafe-to-chain-command": "off"
+    "semi": "off"
   },
   "overrides": [
     {
@@ -74,16 +73,19 @@
       "rules": {
         "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
-        "react/display-name": "off",
-        "brace-style": "off",
-        "curly": "off",
-        "prettier/prettier": "off"
+        "react/display-name": "off"
       }
     },
     {
       "files": ["*.spec.js"],
       "rules": {
         "jest/expect-expect": "off"
+      }
+    },
+    {
+      "files": ["*.cy.js"],
+      "rules": {
+        "cypress/unsafe-to-chain-command": "off"
       }
     }
   ],
