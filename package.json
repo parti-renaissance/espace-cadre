@@ -15,7 +15,7 @@
     "@mui/system": "^5.11.14",
     "@mui/x-date-pickers": "^6.7.0",
     "@reduxjs/toolkit": "^1.9.5",
-    "@sentry/react": "^7.54.0",
+    "@sentry/react": "^7.55.2",
     "@sentry/tracing": "^7.55.2",
     "@tanstack/react-query": "^4.29.12",
     "@turf/turf": "^6.5.0",
