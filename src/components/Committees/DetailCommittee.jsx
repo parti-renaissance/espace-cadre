@@ -20,6 +20,7 @@ import CreateEditModal from './CreateEditModal'
 import InformationTab from './Tabs/InformationTab'
 import ElectionsTab from './Tabs/ElectionsTab'
 import { useUserScope } from '../../redux/user/hooks'
+import { electionStatus } from './constants'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -94,6 +95,9 @@ const DetailCommittee = () => {
                 icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
                 onClick={() => setIsCreateEditModalOpen(true)}
                 isMainButton
+                disabled={[electionStatus.scheduled, electionStatus.in_progress].includes(
+                  committee.committee_election?.status
+                )}
               />
               <ConfirmButton
                 title="Suppression du comité"

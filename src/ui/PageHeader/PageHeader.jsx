@@ -18,6 +18,7 @@ PageHeaderButton.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   icon: PropTypes.object,
   isMainButton: PropTypes.bool,
+  disabled: PropTypes.bool,
 }
 
 const PageHeader = ({ title, titleLink, titleSuffix, button }) => (
