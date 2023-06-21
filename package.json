@@ -78,7 +78,7 @@
     "@cypress/code-coverage": "^3.10.7",
     "@cypress/vite-dev-server": "^5.0.5",
     "@testing-library/react": "^14.0.0",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^4.0.1",
     "babel-jest": "^29.5.0",
     "cypress": "^12.14.0",
     "eslint": "^8.43.0",
