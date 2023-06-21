@@ -20,15 +20,22 @@ const messages = {
 
 const AddCandidateModal = ({ listId, candidates, handleClose, onAddSuccess }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError } = useErrorHandler()
+  const { handleError, errorMessages } = useErrorHandler()
   const { committeeId } = useParams()
   const [selectedAdherent, setSelectedAdherent] = useState(null)
 
   const { mutate, isLoading: isLoading } = useMutation(addCandidate, {
     onSuccess: () => {
-      onAddSuccess && onAddSuccess(), handleClose()
+      if (typeof onAddSuccess === 'function') {
+        onAddSuccess()
+      }
+
+      handleClose()
     },
-    onError: handleError,
+    onError: error => {
+      handleError(error)
+      enqueueSnackbar(errorMessages[0].message, notifyVariants.error)
+    },
   })
 
   const addNewCandidate = () => {
