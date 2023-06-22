@@ -20,6 +20,7 @@ import CreateEditModal from './CreateEditModal'
 import InformationTab from './Tabs/InformationTab'
 import ElectionsTab from './Tabs/ElectionsTab'
 import { useUserScope } from '../../redux/user/hooks'
+import { electionStatus } from './constants'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -86,6 +87,33 @@ const DetailCommittee = () => {
           title={messages.title}
           titleLink={paths.committee}
           titleSuffix={committee.name}
+          badge={
+            <>
+              {[electionStatus.scheduled, electionStatus.in_progress].includes(
+                committee.committee_election?.status
+              ) && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontSize: '14px',
+                    color: 'colors.green.700',
+                    bgcolor: 'colors.green.100',
+                    px: 1,
+                    py: 0.5,
+                    borderRadius: '16px',
+                  }}
+                  className="space-x-2"
+                >
+                  <Box
+                    sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'colors.green.500' }}
+                    className="pulse"
+                  />
+                  <span>Élection en cours ou programmée</span>
+                </Box>
+              )}
+            </>
+          }
           button={
             <Box display="flex" alignItems="center" className="space-x-3">
               {loading && <Loader />}
@@ -93,15 +121,22 @@ const DetailCommittee = () => {
                 label={messages.modify}
                 icon={<EditIcon sx={{ color: 'main', fontSize: '20px' }} />}
                 onClick={() => setIsCreateEditModalOpen(true)}
+                disabled={[electionStatus.scheduled, electionStatus.in_progress].includes(
+                  committee.committee_election?.status
+                )}
                 isMainButton
               />
-              <ConfirmButton
-                title="Suppression du comité"
-                description="Êtes-vous sûr de vouloir supprimer ce comité ? Cette action est irréversible"
-                onClick={() => mutate(committee.uuid)}
-              >
-                <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
-              </ConfirmButton>
+              {![electionStatus.scheduled, electionStatus.in_progress].includes(
+                committee.committee_election?.status
+              ) && (
+                <ConfirmButton
+                  title="Suppression du comité"
+                  description="Êtes-vous sûr de vouloir supprimer ce comité ? Cette action est irréversible"
+                  onClick={() => mutate(committee.uuid)}
+                >
+                  <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
+                </ConfirmButton>
+              )}
             </Box>
           }
         />

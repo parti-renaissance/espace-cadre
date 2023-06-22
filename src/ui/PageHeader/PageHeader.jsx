@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { Grid, Box } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import PageTitle from 'ui/PageTitle'
 import Button from 'ui/Button'
-import AddIcon from '@mui/icons-material/Add'
 
 export const PageHeaderButton = ({ onClick, label, icon = <AddIcon />, isMainButton = false, ...props }) => (
   <Button onClick={onClick} isMainButton={isMainButton} {...props}>
@@ -20,10 +20,11 @@ PageHeaderButton.propTypes = {
   isMainButton: PropTypes.bool,
 }
 
-const PageHeader = ({ title, titleLink, titleSuffix, button }) => (
+const PageHeader = ({ title, titleLink, titleSuffix, button, badge = null }) => (
   <>
-    <Grid item data-cy="ui-page-header" sx={{ mb: 2.5 }}>
+    <Grid item data-cy="ui-page-header" sx={{ mb: 2.5, display: 'flex', alignItems: 'center' }} className="space-x-2">
       <PageTitle title={title} titleLink={titleLink} titleSuffix={titleSuffix} />
+      {badge}
     </Grid>
     {button && (
       <Grid item data-cy="ui-page-header-button">
@@ -40,4 +41,5 @@ PageHeader.propTypes = {
   titleLink: PropTypes.string,
   titleSuffix: PropTypes.string,
   button: PropTypes.node,
+  badge: PropTypes.node,
 }
