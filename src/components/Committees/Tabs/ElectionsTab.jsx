@@ -47,7 +47,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     () => getCommitteeElection(committeeElectionId),
     {
       enabled: !!committeeElectionId,
-      onSuccess: committeeElection => setCommitteeElection(committeeElection),
+      onSuccess: setCommitteeElection,
       onError: handleError,
     }
   )
