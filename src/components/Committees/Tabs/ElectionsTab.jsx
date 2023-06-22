@@ -99,7 +99,19 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     <Container maxWidth={false} data-cy="committee-detail-elections">
       {committeeElectionId && isLoading && <Loader isCenter />}
 
-      {committeeElection && committeeElection.id && !isLoading ? (
+      {!committeeElectionId && !isLoading && (
+        <EmptyContent
+          title={messages.noElection}
+          description={messages.noElectionDescription}
+          action={
+            <>
+              <PageHeaderButton label={messages.create} onClick={() => setIsNewCreationMode(true)} isMainButton />
+            </>
+          }
+        />
+      )}
+
+      {committeeElection && committeeElection.id && (
         <>
           <div>
             <Box display="flex" alignItems="center" className="space-x-3">
@@ -109,7 +121,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
                 </Button>
               )}
 
-              {committeeElection.isEditable() ? (
+              {committeeElection.isEditable() && (
                 <Box display="flex" alignItems="center" className="space-x-3">
                   <Button
                     onClick={() => toggleCreateEditModal(designation, true)}
@@ -117,9 +129,9 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
                   >
                     {!designation.id ? messages.create : messages.update}
                   </Button>
-                  {isFetching || (isDesignationLoading && <Loader />)}
+                  {(isFetching || isDesignationLoading) && <Loader />}
                 </Box>
-              ) : null}
+              )}
 
               {loading && <Loader />}
             </Box>
@@ -175,20 +187,6 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
             {selectedTab === messages.lists && designation.id && <Participants designationId={designation.id} />}
           </div>
         </>
-      ) : (
-        <EmptyContent
-          title={messages.noElection}
-          description={messages.noElectionDescription}
-          action={
-            <>
-              <PageHeaderButton
-                label={messages.create}
-                onClick={() => toggleCreateEditModal(designation, true)}
-                isMainButton
-              />
-            </>
-          }
-        />
       )}
 
       {isCreateEditModalOpen && (
