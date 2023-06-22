@@ -126,13 +126,17 @@ const DetailCommittee = () => {
                 )}
                 isMainButton
               />
-              <ConfirmButton
-                title="Suppression du comité"
-                description="Êtes-vous sûr de vouloir supprimer ce comité ? Cette action est irréversible"
-                onClick={() => mutate(committee.uuid)}
-              >
-                <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
-              </ConfirmButton>
+              {![electionStatus.scheduled, electionStatus.in_progress].includes(
+                committee.committee_election?.status
+              ) && (
+                <ConfirmButton
+                  title="Suppression du comité"
+                  description="Êtes-vous sûr de vouloir supprimer ce comité ? Cette action est irréversible"
+                  onClick={() => mutate(committee.uuid)}
+                >
+                  <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
+                </ConfirmButton>
+              )}
             </Box>
           }
         />
