@@ -12,7 +12,7 @@ const values = {
 
 const Status = ({ status, ...props }) => {
   let defaultProperties = {
-    label: typeof values[status] !== 'undefined' ? values[status] : 'Status inconnu',
+    label: typeof values[status] !== 'undefined' ? values[status] : 'Statut inconnu',
     color: 'colors.gray.800',
     bgcolor: 'colors.gray.100',
   }
