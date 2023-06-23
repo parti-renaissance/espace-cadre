@@ -49,13 +49,13 @@ const Dashboard = () => {
         <Grid container sx={{ justifyContent: 'center' }}>
           <Grid item xs={6}>
             <Typography component="p" sx={{ mb: 2 }}>
-              Félicitations pour votre élection en tant que président de votre comité local ! Votre rôle est crucial
+              Félicitations pour votre élection en tant que Responsable de votre comité local ! Votre rôle est crucial
               dans la mise en place et l&apos;organisation de projets locaux importants pour nos adhérents. Nous sommes
               convaincus que vous apporterez votre expertise et votre détermination pour mener à bien ces projets.
             </Typography>
 
             <Typography component="p" sx={{ mb: 2 }}>
-              Nous vous mettons à disposition plusieurs outils pour vous aider dans votre rôle de président.
+              Nous vous mettons à disposition plusieurs outils pour vous aider dans votre rôle de Responsable.
             </Typography>
 
             <Typography component="p" sx={{ mb: 2 }}>
