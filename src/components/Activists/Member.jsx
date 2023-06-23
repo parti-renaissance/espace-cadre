@@ -186,7 +186,7 @@ const Member = ({ member, handleClose }) => {
               </Typography>
               {member.committee && <LineText label="Comité" value={member.committee} />}
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <LineText
                     label="Renaissance"
                     value={
@@ -194,8 +194,11 @@ const Member = ({ member, handleClose }) => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <LineText label="Date d'inscription" value={format(member.joinedDate, 'dd/MM/yyyy')} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <LineText label="Campus" value={member.raw.campus_registered_at ? 'Inscrit' : 'Non inscrit'} />
                 </Grid>
               </Grid>
               <Box

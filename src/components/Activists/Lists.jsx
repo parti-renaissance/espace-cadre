@@ -4,6 +4,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import FmdGoodIcon from '@mui/icons-material/FmdGood'
 import { differenceInDays } from 'date-fns'
 import Activist from 'domain/activist'
+import { UIChip } from 'ui/Card'
 import BadgeNew, { MemberBadge } from './BadgeNew'
 
 const Lists = ({ members, onMemberClick }) => (
@@ -32,7 +33,7 @@ const Lists = ({ members, onMemberClick }) => (
                 {member.raw.email}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <Box sx={{ color: 'colors.gray.700', mb: 1 }}>
                 <MemberBadge membership={member.raw.renaissance_membership} labelStyle={{ fontSize: '12px' }} />
               </Box>
@@ -45,11 +46,14 @@ const Lists = ({ members, onMemberClick }) => (
                 </Grid>
               </Grid>
             </Grid>
-            {member.joinedDate && (
-              <Grid item xs={12} sm={2}>
-                {differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
-              </Grid>
-            )}
+            <Grid item xs={12} sm={4} sx={{ display: 'flex', alignItems: 'center' }} className="space-x-3">
+              {member.joinedDate && differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
+              <UIChip
+                label={member.raw.campus_registered_at ? 'Inscrit au Campus' : 'Non inscrit au Campus'}
+                color={member.raw.campus_registered_at ? 'colors.green.800' : 'colors.gray.800'}
+                bgcolor={member.raw.campus_registered_at ? 'colors.green.100' : 'colors.gray.100'}
+              />
+            </Grid>
           </Grid>
           <KeyboardArrowRightIcon sx={{ color: 'colors.gray.400', fontSize: '20px' }} />
         </Box>
