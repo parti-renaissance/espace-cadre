@@ -99,7 +99,7 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     <Container maxWidth={false} data-cy="committee-detail-elections">
       {committeeElectionId && isLoading && <Loader isCenter />}
 
-      {!committeeElectionId && !isLoading && (
+      {!committeeElectionId && (
         <EmptyContent
           title={messages.noElection}
           description={messages.noElectionDescription}
