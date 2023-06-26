@@ -2,7 +2,6 @@ import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import react from '@vitejs/plugin-react'
-import istanbul from 'vite-plugin-istanbul'
 
 const path = require('path')
 
@@ -30,10 +29,6 @@ export function generateConfig({ mode }) {
       }),
       EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
       splitVendorChunkPlugin(),
-      istanbul({
-        cypress: true,
-        requireEnv: false,
-      }),
     ],
     server: {
       open: true,
