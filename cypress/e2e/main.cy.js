@@ -1,5 +1,3 @@
-import '@cypress/code-coverage/support'
-
 export const mock = (method, url, fixture) => cy.intercept(method, url, { fixture }).as(fixture)
 
 export const initialize = () => {

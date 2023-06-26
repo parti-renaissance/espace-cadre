@@ -19,5 +19,3 @@ lerna-debug.log*
 /cypress/screenshots/
 /cypress/support/
 cypress.env.json
-.nyc_output
-coverage

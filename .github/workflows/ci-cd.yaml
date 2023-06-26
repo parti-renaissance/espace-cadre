@@ -36,11 +36,6 @@ jobs:
           start: yarn start-test
           wait-on: 'http://localhost:3000'
           browser: chrome
-      - name: Codecov - upload coverage report
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/clover.xml
       - name: Archive test screenshots
         uses: actions/upload-artifact@v3
         with:
