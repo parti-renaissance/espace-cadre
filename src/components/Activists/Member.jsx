@@ -5,10 +5,10 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-import { differenceInDays, format } from 'date-fns'
+import { format } from 'date-fns'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
-import BadgeNew, { MemberBadge } from './BadgeNew'
+import Badges, { MemberBadge } from './Badges'
 
 const LineText = ({ label, value }) => (
   <Box py={1.5} className="space-y-1">
@@ -121,7 +121,7 @@ const Member = ({ member, handleClose }) => {
             >
               {member.firstname[0]} {member.lastname[0]}
             </Avatar>
-            {member.joinedDate && differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
+            {member.raw.tags.length > 0 && <Badges tags={member.raw.tags} />}
           </Box>
           <Box sx={{ mt: 1 }} className="space-y-2">
             <Typography variant="h6" component="h4" sx={{ color: 'colors.gray.800' }}>
