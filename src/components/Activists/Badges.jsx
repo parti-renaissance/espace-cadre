@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
 import { UIChip } from 'ui/Card'
 
@@ -6,15 +7,34 @@ const renaissanceMembership = {
   sympathizer_re: 'Sympathisant',
 }
 
-const BadgeNew = () => (
-  <UIChip
-    label="Nouveau ✨"
-    color="#0369a1"
-    bgcolor="#f0f9ff"
-    labelStyle={{ fontSize: '14px', fontWeight: '600' }}
-    sx={{ display: 'flex', width: 'fit-content' }}
-  />
-)
+const tagAliases = {
+  new_adherent: 'Nouveau ✨',
+  new_sympathizer: 'Nouveau ✨',
+  old_adherent_em: 'Ancien adhérent EM',
+  donator_n: 'Donateur Année N',
+  'donator_n-x': 'Donateur Années N-1',
+}
+
+const Badges = ({ tags }) => {
+  const tagsGroups = tags
+    .filter(tag => !!tagAliases[tag])
+    .map((tag, idx) => (
+      <UIChip
+        key={idx}
+        label={tagAliases[tag]}
+        color="#0369a1"
+        bgcolor="#f0f9ff"
+        labelStyle={{ fontSize: '12px', fontWeight: '600' }}
+        sx={{ display: 'flex', width: 'fit-content', my: 0.5 }}
+      />
+    ))
+
+  return (
+    <Box display="flex" alignItems="center" flexWrap="wrap" className="space-x-2">
+      {tagsGroups}
+    </Box>
+  )
+}
 
 export const MemberBadge = ({ membership, ...props }) => (
   <UIChip
@@ -35,7 +55,11 @@ export const MemberBadge = ({ membership, ...props }) => (
   />
 )
 
-export default BadgeNew
+export default Badges
+
+Badges.propTypes = {
+  tags: PropTypes.array.isRequired,
+}
 
 MemberBadge.propTypes = {
   membership: PropTypes.string,

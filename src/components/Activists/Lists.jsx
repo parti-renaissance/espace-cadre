@@ -2,10 +2,9 @@ import PropTypes from 'prop-types'
 import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import FmdGoodIcon from '@mui/icons-material/FmdGood'
-import { differenceInDays } from 'date-fns'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
-import BadgeNew, { MemberBadge } from './BadgeNew'
+import Badges, { MemberBadge } from './Badges'
 
 const Lists = ({ members, onMemberClick }) => (
   <Paper className="divider" data-cy="contacts-list">
@@ -46,12 +45,13 @@ const Lists = ({ members, onMemberClick }) => (
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={4} sx={{ display: 'flex', alignItems: 'center' }} className="space-x-3">
-              {member.joinedDate && differenceInDays(new Date(), member.joinedDate) <= 15 && <BadgeNew />}
+            <Grid item xs={12} sm={4} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+              {member.raw.tags.length > 0 && <Badges tags={member.raw.tags} />}
               <UIChip
                 label={member.raw.campus_registered_at ? 'Inscrit au Campus' : 'Non inscrit au Campus'}
                 color={member.raw.campus_registered_at ? 'colors.green.800' : 'colors.gray.800'}
                 bgcolor={member.raw.campus_registered_at ? 'colors.green.100' : 'colors.gray.100'}
+                labelStyle={{ fontSize: '12px', fontWeight: '500' }}
               />
             </Grid>
           </Grid>
