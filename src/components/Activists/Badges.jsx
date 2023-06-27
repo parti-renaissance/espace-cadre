@@ -8,25 +8,26 @@ const renaissanceMembership = {
 }
 
 const tagAliases = {
-  new_adherent: 'Nouvel adhérent',
-  new_sympathizer: 'Nouveau sympathisant',
+  new_adherent: 'Nouveau ✨',
+  new_sympathizer: 'Nouveau ✨',
   old_adherent_em: 'Ancien adhérent EM',
   donator_n: 'Donateur Année N',
   'donator_n-x': 'Donateur Années N-1',
 }
 
 const Badges = ({ tags }) => {
-  const getTagLabel = tag => (['new_adherent', 'new_sympathizer'].includes(tag) ? 'Nouveau ✨' : tagAliases[tag])
-  const tagsGroups = tags.map((tag, idx) => (
-    <UIChip
-      key={idx}
-      label={getTagLabel(tag)}
-      color="#0369a1"
-      bgcolor="#f0f9ff"
-      labelStyle={{ fontSize: '14px', fontWeight: '600' }}
-      sx={{ display: 'flex', width: 'fit-content', my: 0.5 }}
-    />
-  ))
+  const tagsGroups = tags
+    .filter(tag => !!tagAliases[tag])
+    .map((tag, idx) => (
+      <UIChip
+        key={idx}
+        label={tagAliases[tag]}
+        color="#0369a1"
+        bgcolor="#f0f9ff"
+        labelStyle={{ fontSize: '12px', fontWeight: '600' }}
+        sx={{ display: 'flex', width: 'fit-content', my: 0.5 }}
+      />
+    ))
 
   return (
     <Box display="flex" alignItems="center" flexWrap="wrap" className="space-x-2">

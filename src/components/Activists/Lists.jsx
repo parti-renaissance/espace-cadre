@@ -45,12 +45,13 @@ const Lists = ({ members, onMemberClick }) => (
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={4} sx={{ display: 'flex', alignItems: 'center' }} className="space-x-3">
+            <Grid item xs={12} sm={4} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
               {member.raw.tags.length > 0 && <Badges tags={member.raw.tags} />}
               <UIChip
                 label={member.raw.campus_registered_at ? 'Inscrit au Campus' : 'Non inscrit au Campus'}
                 color={member.raw.campus_registered_at ? 'colors.green.800' : 'colors.gray.800'}
                 bgcolor={member.raw.campus_registered_at ? 'colors.green.100' : 'colors.gray.100'}
+                labelStyle={{ fontSize: '12px', fontWeight: '500' }}
               />
             </Grid>
           </Grid>

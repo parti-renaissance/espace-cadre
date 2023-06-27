@@ -104,11 +104,21 @@ const Member = ({ member, handleClose }) => {
         }}
         className="scrolling-bar"
       >
-        <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '90px', bgcolor: 'colors.blue.900' }}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '90px',
+            zIndex: 1,
+            bgcolor: 'colors.blue.900',
+          }}
+        >
           <div className="heading-banner"></div>
         </Box>
-        <Box sx={{ px: 3, pt: 8 }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="space-x-2">
+        <Box sx={{ position: 'relative', px: 3, pt: 7, zIndex: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }} className="space-x-2">
             <Avatar
               sx={{
                 width: 60,
@@ -121,12 +131,12 @@ const Member = ({ member, handleClose }) => {
             >
               {member.firstname[0]} {member.lastname[0]}
             </Avatar>
-            {member.raw.tags.length > 0 && <Badges tags={member.raw.tags} />}
           </Box>
           <Box sx={{ mt: 1 }} className="space-y-2">
             <Typography variant="h6" component="h4" sx={{ color: 'colors.gray.800' }}>
               {member.firstname} {member.lastname}
             </Typography>
+            {member.raw.tags.length > 0 && <Badges tags={member.raw.tags} />}
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', color: 'colors.gray.600' }}>
                 <EmailOutlinedIcon sx={{ color: 'colors.gray.400', fontSize: '18px', mr: 1 }} />
