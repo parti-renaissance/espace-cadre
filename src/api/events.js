@@ -117,8 +117,8 @@ export const getCategories = async () => {
 
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
 export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}/cancel`)
-export const createEvent = async ({ event, type }) => {
-  const data = await apiClient.post('/api/v3/events', { ...eventToJson(event), type })
+export const createEvent = async ({ event, type, committee }) => {
+  const data = await apiClient.post('/api/v3/events', { ...eventToJson(event), type, committee })
   return data.uuid
 }
 export const updateEvent = async event => {

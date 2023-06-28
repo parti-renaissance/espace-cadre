@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { Box, FormControlLabel, Grid, IconButton, TextField as MuiTextField, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
@@ -141,7 +140,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     if (event && event.id) {
       reset(event)
     }
-  }, [event])
+  }, [event, reset])
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })
   const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(event.id), {
@@ -228,7 +227,11 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
 
   const createOrEdit = () => {
     if (isCreateMode) {
-      createOrUpdateEvent({ event: prepareCreate(), type: currentScope.isAnimator() ? 'committee' : null })
+      createOrUpdateEvent({
+        event: prepareCreate(),
+        type: currentScope.isAnimator() ? 'committee' : null,
+        committee: currentScope.isAnimator() ? currentScope.getCommittees()[0].uuid : null,
+      })
     } else {
       createOrUpdateEvent(getValues())
     }
