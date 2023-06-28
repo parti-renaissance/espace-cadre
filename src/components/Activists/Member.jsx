@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types'
-import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material'
+import { Avatar, Box, Grid, IconButton, List, ListItem, ListItemText, ListItemIcon, Typography } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined'
 import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
 import Badges, { MemberBadge } from './Badges'
@@ -55,6 +57,36 @@ const Subscription = ({ subscription }) => (
 
 Subscription.propTypes = {
   subscription: PropTypes.bool.isRequired,
+}
+
+const CotisationHistory = ({ dates }) => (
+  <List>
+    {dates.map((date, idx) => (
+      <ListItem
+        key={idx}
+        sx={{
+          px: 0,
+          borderBottom: '1px solid',
+          borderColor: 'colors.gray.200',
+        }}
+      >
+        <ListItemIcon>
+          <EventAvailableOutlinedIcon />
+        </ListItemIcon>
+        <ListItemText
+          primary={format(new Date(date), 'dd MMMM yyyy à HH:mm', { locale: fr })}
+          primaryTypographyProps={{
+            variant: 'span',
+            color: 'colors.gray.700',
+          }}
+        />
+      </ListItem>
+    ))}
+  </List>
+)
+
+CotisationHistory.propTypes = {
+  dates: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 const Member = ({ member, handleClose }) => {
@@ -261,6 +293,12 @@ const Member = ({ member, handleClose }) => {
                 <LineText label="Date de dernière cotisation" value={format(member.contributingDate, 'dd/MM/yyyy')} />
               )) ||
                 '--'}
+              {member.raw.cotisation_dates.length > 0 && (
+                <LineText
+                  label="Historique des cotisations"
+                  value={<CotisationHistory dates={member.raw.cotisation_dates} />}
+                />
+              )}
             </Box>
           </Box>
         </Box>
