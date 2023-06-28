@@ -1,18 +1,20 @@
 import PropTypes from 'prop-types'
-import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material'
+import { Avatar, Box, Grid, IconButton, List, ListItem, ListItemText, ListItemIcon, Typography } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined'
 import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
 import Badges, { MemberBadge } from './Badges'
 
-const LineText = ({ label, value }) => (
+const LineText = ({ label, value, labelStyle = {} }) => (
   <Box py={1.5} className="space-y-1">
-    <Typography component="dt" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
+    <Typography component="dt" sx={{ color: 'colors.gray.500', fontSize: '14px', ...labelStyle }}>
       {label}
     </Typography>
     {typeof value === 'string' ? (
@@ -28,6 +30,7 @@ const LineText = ({ label, value }) => (
 LineText.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  labelStyle: PropTypes.object,
 }
 
 const Subscription = ({ subscription }) => (
@@ -55,6 +58,36 @@ const Subscription = ({ subscription }) => (
 
 Subscription.propTypes = {
   subscription: PropTypes.bool.isRequired,
+}
+
+const CotisationHistory = ({ dates }) => (
+  <List>
+    {dates.map((date, idx) => (
+      <ListItem
+        key={idx}
+        sx={{
+          px: 0,
+          borderBottom: '1px solid',
+          borderColor: 'colors.gray.200',
+        }}
+      >
+        <ListItemIcon>
+          <EventAvailableOutlinedIcon />
+        </ListItemIcon>
+        <ListItemText
+          primary={format(new Date(date), 'dd MMMM yyyy à HH:mm', { locale: fr })}
+          primaryTypographyProps={{
+            variant: 'span',
+            color: 'colors.gray.700',
+          }}
+        />
+      </ListItem>
+    ))}
+  </List>
+)
+
+CotisationHistory.propTypes = {
+  dates: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 const Member = ({ member, handleClose }) => {
@@ -254,11 +287,12 @@ const Member = ({ member, handleClose }) => {
                 borderRadius: 2,
               }}
             >
-              <Typography component="h4" sx={{ color: 'colors.gray.700', fontSize: '14px', mb: 1, fontWeight: '500' }}>
-                Informations de cotisation
-              </Typography>
-              {(member.contributingDate && (
-                <LineText label="Date de dernière cotisation" value={format(member.contributingDate, 'dd/MM/yyyy')} />
+              {(member.raw.cotisation_dates.length > 0 && (
+                <LineText
+                  label="Historique des cotisations"
+                  labelStyle={{ fontSize: '16px', color: 'colors.gray.800', fontWeight: '500' }}
+                  value={<CotisationHistory dates={member.raw.cotisation_dates} />}
+                />
               )) ||
                 '--'}
             </Box>
