@@ -12,9 +12,9 @@ import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
 import Badges, { MemberBadge } from './Badges'
 
-const LineText = ({ label, value }) => (
+const LineText = ({ label, value, labelStyle = {} }) => (
   <Box py={1.5} className="space-y-1">
-    <Typography component="dt" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
+    <Typography component="dt" sx={{ color: 'colors.gray.500', fontSize: '14px', ...labelStyle }}>
       {label}
     </Typography>
     {typeof value === 'string' ? (
@@ -30,6 +30,7 @@ const LineText = ({ label, value }) => (
 LineText.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  labelStyle: PropTypes.object,
 }
 
 const Subscription = ({ subscription }) => (
@@ -286,19 +287,14 @@ const Member = ({ member, handleClose }) => {
                 borderRadius: 2,
               }}
             >
-              <Typography component="h4" sx={{ color: 'colors.gray.700', fontSize: '14px', mb: 1, fontWeight: '500' }}>
-                Informations de cotisation
-              </Typography>
-              {(member.contributingDate && (
-                <LineText label="Date de dernière cotisation" value={format(member.contributingDate, 'dd/MM/yyyy')} />
-              )) ||
-                '--'}
-              {member.raw.cotisation_dates.length > 0 && (
+              {(member.raw.cotisation_dates.length > 0 && (
                 <LineText
                   label="Historique des cotisations"
+                  labelStyle={{ fontSize: '16px', color: 'colors.gray.800', fontWeight: '500' }}
                   value={<CotisationHistory dates={member.raw.cotisation_dates} />}
                 />
-              )}
+              )) ||
+                '--'}
             </Box>
           </Box>
         </Box>
