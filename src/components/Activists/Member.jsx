@@ -174,11 +174,17 @@ const Member = ({ member, handleClose }) => {
               </Typography>
               <LineText label="Adresse complète" value={`${member.raw.address}, ${member.city} ${member.postalCode}`} />
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <LineText label="Nationalité" value={member.raw.nationality ?? '--'} />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <LineText label="Civilité" value={member.gender === 'male' ? 'Homme' : 'Femme'} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <LineText
+                    label="Date de naissance"
+                    value={member.raw.birthdate ? format(new Date(member.raw.birthdate), 'dd/MM/yyyy') : '--'}
+                  />
                 </Grid>
               </Grid>
             </Box>
@@ -196,7 +202,7 @@ const Member = ({ member, handleClose }) => {
               </Typography>
               {member.committee && <LineText label="Comité" value={member.committee} />}
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={7}>
                   <LineText
                     label="Renaissance"
                     value={
@@ -204,10 +210,10 @@ const Member = ({ member, handleClose }) => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={5}>
                   <LineText label="Date d'inscription" value={format(member.joinedDate, 'dd/MM/yyyy')} />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6}>
                   <LineText label="Campus" value={member.raw.campus_registered_at ? 'Inscrit' : 'Non inscrit'} />
                 </Grid>
               </Grid>
@@ -232,11 +238,8 @@ const Member = ({ member, handleClose }) => {
                             bgcolor="colors.blue.50"
                             labelStyle={{ fontSize: '14px' }}
                           />
-                        ))) || (
-                        <Typography component="p" sx={{ color: 'colors.gray.900' }}>
-                          Aucun
-                        </Typography>
-                      )}
+                        ))) ||
+                        '--'}
                     </Box>
                   }
                 />
@@ -256,11 +259,8 @@ const Member = ({ member, handleClose }) => {
               </Typography>
               {(member.contributingDate && (
                 <LineText label="Date de dernière cotisation" value={format(member.contributingDate, 'dd/MM/yyyy')} />
-              )) || (
-                <Typography component="p" sx={{ color: 'colors.gray.900' }}>
-                  Aucune information disponible
-                </Typography>
-              )}
+              )) ||
+                '--'}
             </Box>
           </Box>
         </Box>
