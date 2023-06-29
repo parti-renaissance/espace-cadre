@@ -93,7 +93,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
                 headerProps={{ sx: { pt: '21px' } }}
                 header={
                   <>
-                    <Header createdAt={message.createdAt} draft={message.draft} />
+                    <Header createdAt={message.draft ? message.createdAt : message.sentAt} draft={message.draft} />
                     <Title subject={message.subject} author={message.author} />
                   </>
                 }

@@ -23,13 +23,14 @@ Statistics.propTypes = PropTypes.shape({
 })
 
 class Message {
-  constructor(id, author, status, subject, createdAt, statistics) {
+  constructor(id, author, status, subject, createdAt, statistics, sentAt) {
     this.id = id
     this.author = author
     this.draft = status === 'draft'
     this.subject = subject
     this.createdAt = new Date(createdAt)
     this.statistics = statistics
+    this.sentAt = sentAt ? new Date(sentAt) : null
   }
 }
 

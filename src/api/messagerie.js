@@ -21,7 +21,15 @@ export const getMessages = async ({ page, isMailsStatutory }) => {
 
     const author = [message.author?.first_name, message.author?.last_name].filter(Boolean).join(' ')
 
-    return new Message(message.uuid, author, message.status, message.subject, message.created_at, stats)
+    return new Message(
+      message.uuid,
+      author,
+      message.status,
+      message.subject,
+      message.created_at,
+      stats,
+      message.sent_at
+    )
   })
 
   return newPaginatedResult(
