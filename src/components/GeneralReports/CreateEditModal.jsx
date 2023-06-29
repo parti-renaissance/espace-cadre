@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 import { FilePond } from 'react-filepond'
 import { useMutation } from '@tanstack/react-query'
-import { DatePicker } from '@mui/x-date-pickers'
+import { DateTimePicker } from '@mui/x-date-pickers'
 import { uploadFile } from 'api/upload'
 import { createDocument, updateDocument } from 'api/general-meeting-report'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -163,7 +163,7 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
           control={control}
           rules={{ required: true }}
           render={({ field: { ref, ...field } }) => (
-            <DatePicker slots={{ textField: Input }} maxDate={new Date()} {...field} />
+            <DateTimePicker slots={{ textField: Input }} maxDate={new Date()} {...field} />
           )}
         />
         <FormError errors={errorMessages} field={fields.date} />
