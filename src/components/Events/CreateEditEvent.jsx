@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import { Box, FormControlLabel, Grid, IconButton, TextField as MuiTextField, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
@@ -131,7 +130,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     }
   )
 
-  const { control, formState, getValues, reset } = useForm({
+  const { control, formState, getValues, reset, watch } = useForm({
     mode: 'onChange',
     defaultValues: eventSchema.cast(event),
     resolver: yupResolver(eventSchema),
@@ -141,7 +140,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     if (event && event.id) {
       reset(event)
     }
-  }, [event])
+  }, [reset, event])
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })
   const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(event.id), {
@@ -189,6 +188,8 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
       ).flatMap(_ => _),
     [categoriesByGroup]
   )
+
+  const addressValue = watch(fields.address)
 
   const values = getValues()
   const isStepOneValid =
@@ -329,27 +330,27 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                   <Controller
                     name={fields.address}
                     control={control}
-                    render={({ field: { onChange } }) => (
-                      <Places initialValue={event.address?.route} onSelectPlace={onChange} key={event.address?.route} />
+                    render={({ field: { onChange, value } }) => (
+                      <Places initialValue={value.getAddress()} onSelectPlace={onChange} key={value.getAddress()} />
                     )}
                   />
                   <FormError errors={errorMessages} field={fields.addressError} />
                   <Box component="div" sx={{ display: 'flex', mt: 3 }}>
                     <Input
                       placeholder={messages.placeholder.postalCode}
-                      value={values.address?.postalCode || event.address?.postalCode || ''}
+                      value={addressValue?.postalCode || event.address?.postalCode || ''}
                       disabled
                       sx={{ flex: 1 }}
                     />
                     <Input
                       placeholder={messages.placeholder.locality}
-                      value={values.address?.locality || event.address?.locality || ''}
+                      value={addressValue?.locality || event.address?.locality || ''}
                       disabled
                       sx={{ flex: 2, mx: 2 }}
                     />
                     <Input
                       placeholder={messages.placeholder.country}
-                      value={values.address?.country || event.address?.country || ''}
+                      value={addressValue?.country || event.address?.country || ''}
                       disabled
                       sx={{ flex: 1 }}
                     />
@@ -357,7 +358,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                 </div>
               </div>
               <div>
-                {/* eslint-disable react/no-unknown-property */}
+                {/* eslint-disable-next-line react/no-unknown-property */}
                 <div title={messages.step2} expanded>
                   <Label sx={{ pt: 3, pb: 1 }}>{messages.label.image}</Label>
                   <ImageUploader
