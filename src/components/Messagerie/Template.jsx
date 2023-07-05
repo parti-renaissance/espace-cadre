@@ -75,7 +75,7 @@ const Template = ({ modeUpdate = false }) => {
   }
 
   const { data: messageContent = null } = useQueryWithScope(
-    ['message-content-template', { feature: 'Messagerie', view: 'TemplateEditor' }],
+    ['message-content-template', { feature: 'Messagerie', view: 'TemplateEditor', templateId, messageUuid }],
     () => (templateId ? getTemplate(templateId) : getMessageContent(messageUuid)),
     { onError: handleError, enabled: !!messageUuid || !!templateId }
   )
@@ -105,7 +105,12 @@ const Template = ({ modeUpdate = false }) => {
           />
         </Grid>
       </Container>
-      <Editor onMessageSubject={setMessageSubject} onMessageUpdate={setMessage} messageContent={messageContent} />
+      <Editor
+        onMessageSubject={setMessageSubject}
+        onMessageUpdate={setMessage}
+        messageContent={messageContent}
+        key={messageContent?.uuid}
+      />
     </MuiContainer>
   )
 }
