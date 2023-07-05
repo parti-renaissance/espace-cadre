@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { styled } from '@mui/system'
 import { TextField as MuiTextField } from '@mui/material'
@@ -23,16 +22,18 @@ const messages = {
   address: 'Adresse',
 }
 
-const selectPlace = (address, cb) => {
+const selectPlace = address => {
+  if (!address) {
+    return Place.NULL
+  }
+
   const number = address.find(a => a.types.includes('street_number'))?.long_name || null
   const route = address.find(a => a.types.includes('route'))?.long_name || null
   const postalCode = address.find(a => a.types.includes('postal_code'))?.long_name || null
   const locality = address.find(a => a.types.includes('locality'))?.long_name || null
   const country = address.find(a => a.types.includes('country'))?.short_name || null
 
-  cb(new Place(number, route, postalCode, locality, country))
-
-  return [number, number && ' ', route].filter(Boolean).join('')
+  return new Place(number, route, postalCode, locality, country)
 }
 
 const Places = ({ onSelectPlace, initialValue = '', error = null, ...props }) => {
@@ -42,14 +43,11 @@ const Places = ({ onSelectPlace, initialValue = '', error = null, ...props }) =>
 
   const handlePlaceSelect = useCallback(() => {
     const addressObject = autoComplete.current.getPlace()
-    if (!addressObject || !addressObject.address_components) {
-      onSelectPlace(Place.NULL)
-      setAddress('')
-    } else {
-      const formatedAdress = selectPlace(addressObject.address_components, onSelectPlace)
-      setAddress(formatedAdress)
-    }
-  }, [onSelectPlace])
+    const place = selectPlace(addressObject?.address_components)
+
+    setAddress(place.getAddress())
+    onSelectPlace(place)
+  }, [autoComplete, setAddress, onSelectPlace])
 
   useEffect(() => {
     autoComplete.current = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
@@ -58,12 +56,6 @@ const Places = ({ onSelectPlace, initialValue = '', error = null, ...props }) =>
     })
     autoComplete.current.addListener('place_changed', handlePlaceSelect)
   }, [handlePlaceSelect])
-
-  useEffect(() => {
-    if (address === '') {
-      onSelectPlace(Place.NULL)
-    }
-  }, [address])
 
   return (
     <>

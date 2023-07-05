@@ -1,7 +1,6 @@
 import { format } from 'date-fns'
 import { newPaginatedResult } from 'api/pagination'
 import { Event, EventCategory, EventGroupCategory, Attendee } from 'domain/event'
-import { Place } from 'domain/place'
 import { apiClient, apiClientPublic } from 'services/networking/client'
 
 export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
@@ -11,38 +10,10 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
     `/api/v3/events?order[beginAt]=desc&page=${page}&page_size=20${onlyMine ? '&only_mine' : ''}`
   )
 
-  const events = data.items.map(
-    e =>
-      new Event(
-        e.uuid,
-        e.name,
-        '',
-        e.time_zone,
-        new Date(e.created_at),
-        new Date(e.begin_at),
-        new Date(e.finish_at),
-        new Date(e.local_finish_at),
-        [e.organizer?.first_name, e.organizer?.last_name].filter(Boolean).join(' '),
-        e.organizer?.uuid,
-        e.participants_count,
-        e.status === 'SCHEDULED',
-        e.capacity,
-        new Place(
-          '',
-          e.post_address.address,
-          e.post_address.postal_code,
-          e.post_address.city_name,
-          e.post_address.country
-        ),
-        e.category?.slug || '',
-        e.private,
-        e.visio_url,
-        e.mode,
-        e.image_url
-      )
+  return newPaginatedResult(
+    data.items.map(event => Event.fromApi(event)),
+    data.metadata
   )
-
-  return newPaginatedResult(events, data.metadata)
 }
 
 export const getEventAttendees = async (id, page) => {
@@ -58,33 +29,7 @@ export const getEventAttendees = async (id, page) => {
 export const getEvent = async id => {
   const event = await apiClient.get(`/api/v3/events/${id}`)
 
-  return new Event(
-    event.uuid,
-    event.name,
-    event.description,
-    event.time_zone,
-    new Date(event.created_at),
-    new Date(event.begin_at),
-    new Date(event.finish_at),
-    new Date(event.local_finish_at),
-    [event.organizer?.first_name, event.organizer?.last_name].filter(Boolean).join(' '),
-    event.organizer?.uuid,
-    event.participants_count,
-    event.status === 'SCHEDULED',
-    event.capacity,
-    new Place(
-      '',
-      event.post_address.address,
-      event.post_address.postal_code,
-      event.post_address.city_name,
-      event.post_address.country
-    ),
-    event.category?.slug || '',
-    event.private,
-    event.visio_url,
-    event.mode,
-    event.image_url
-  )
+  return Event.fromApi(event)
 }
 
 export const formatCategories = rawCategories => {

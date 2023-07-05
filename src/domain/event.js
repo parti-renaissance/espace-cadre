@@ -156,6 +156,35 @@ export class Event {
     '',
     null
   )
+
+  static fromApi = e =>
+    new Event(
+      e.uuid,
+      e.name,
+      e.description,
+      e.time_zone,
+      new Date(e.created_at),
+      new Date(e.begin_at),
+      new Date(e.finish_at),
+      new Date(e.local_finish_at),
+      [e.organizer?.first_name, e.organizer?.last_name].filter(Boolean).join(' '),
+      e.organizer?.uuid,
+      e.participants_count,
+      e.status === 'SCHEDULED',
+      e.capacity,
+      new Place(
+        '',
+        e.post_address.address,
+        e.post_address.postal_code,
+        e.post_address.city_name,
+        e.post_address.country
+      ),
+      e.category ? e.category.slug : null,
+      e.private,
+      e.visio_url,
+      e.mode,
+      e.image_url
+    )
 }
 
 Event.propTypes = PropTypes.shape({

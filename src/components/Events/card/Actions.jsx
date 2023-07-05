@@ -55,7 +55,6 @@ const Actions = ({
 export default Actions
 
 Actions.propTypes = {
-  event: PropTypes.object.isRequired,
   onEdit: PropTypes.func,
   onView: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

@@ -10,6 +10,10 @@ export class Place {
   }
 
   static NULL = new Place('', '', '', '', '')
+
+  getAddress() {
+    return [this.number, this.route].filter(Boolean).join(' ')
+  }
 }
 
 Place.propTypes = PropTypes.shape({
