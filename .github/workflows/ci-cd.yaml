@@ -70,7 +70,6 @@ jobs:
           sentry_org: ${{ secrets.SENTRY_ORG  }}
           sentry_project: ${{ secrets.SENTRY_PROJECT  }}
           react_app_api_host: ${{ secrets.REACT_APP_API_HOST }}
-          react_app_renaissance_host: ${{ secrets.REACT_RENAISSANCE_HOST }}
           react_app_oauth_host: ${{ secrets.REACT_APP_OAUTH_HOST }}
           react_app_oauth_client_id: ${{ secrets.REACT_APP_OAUTH_CLIENT_ID }}
           react_app_internal_app_id: ${{ secrets.REACT_APP_INTERNAL_APP_ID }}
@@ -103,7 +102,6 @@ jobs:
           sentry_org: ${{ secrets.SENTRY_ORG  }}
           sentry_project: ${{ secrets.SENTRY_PROJECT  }}
           react_app_api_host: ${{ secrets.REACT_APP_API_HOST }}
-          react_app_renaissance_host: ${{ secrets.REACT_RENAISSANCE_HOST }}
           react_app_oauth_host: ${{ secrets.REACT_APP_OAUTH_HOST }}
           react_app_oauth_client_id: ${{ secrets.REACT_APP_OAUTH_CLIENT_ID }}
           react_app_internal_app_id: ${{ secrets.REACT_APP_INTERNAL_APP_ID }}
