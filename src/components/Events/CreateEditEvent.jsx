@@ -264,6 +264,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                         placeholder={messages.placeholder.name}
                         value={value === null ? '' : value}
                         autoFocus
+                        autoComplete={'off'}
                       />
                     )}
                   />

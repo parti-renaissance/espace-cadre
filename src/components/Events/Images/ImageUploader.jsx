@@ -99,7 +99,7 @@ const ImgUploader = ({ image, setImage, handleImageDelete, isDeleting }) => {
           )}
         </Grid>
       ) : null}
-      <HiddenInput type="file" ref={inputRef} onChange={onChange} />
+      <HiddenInput type="file" ref={inputRef} onChange={onChange} accept={'image/*'} />
     </Grid>
   )
 }
