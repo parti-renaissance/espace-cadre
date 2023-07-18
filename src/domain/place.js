@@ -14,6 +14,10 @@ export class Place {
   getAddress() {
     return [this.number, this.route].filter(Boolean).join(' ')
   }
+
+  isEmpty() {
+    return !(this.number + this.route + this.postalCode + this.locality + this.country)
+  }
 }
 
 Place.propTypes = PropTypes.shape({

@@ -5,7 +5,6 @@ import { styled } from '@mui/system'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import isBase64 from 'is-base64'
 import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { DateTimePicker } from '@mui/x-date-pickers'
@@ -157,7 +156,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
 
   const { mutate: createOrUpdateEvent, isLoading } = useMutation(isCreateMode ? createEventApi : updateEventApi, {
     onSuccess: async uuid => {
-      image && isBase64(image, { allowMime: true }) && (await uploadImage({ eventId: uuid, image }))
+      image && !image.startsWith('http') && (await uploadImage({ eventId: uuid, image }))
       await onUpdate()
       enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
       handleClose()
