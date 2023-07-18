@@ -91,7 +91,7 @@ const Header = ({ event, categoryNameByCategoryId }) => (
       <CalendarTodayIcon />
       <LabelTypography variant="subtitle2">{format(event.beginAt, 'd MMM yyyy HH:mm', { locale: fr })}</LabelTypography>
     </Box>
-    {event.address && (
+    {event.address && !event.address.isEmpty() && (
       <Box component="div" sx={{ display: 'flex', mt: 1 }}>
         <RoomIcon sx={{ mr: 1, fontSize: '16px', fontWeight: '500', color: 'gray500' }} />
         <TruncatedText

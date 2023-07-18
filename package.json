@@ -25,7 +25,6 @@
     "file-saver": "^2.0.5",
     "filepond": "^4.30.4",
     "formik": "^2.4.2",
-    "is-base64": "1.1.0",
     "jme-ckeditor5": "EnMarche/ckeditor5#master",
     "leaflet": "^1.9.4",
     "libphonenumber-js": "^1.10.37",
