@@ -9,6 +9,7 @@ const renaissanceMembership = {
 
 const tagAliases = {
   new_adherent: 'Nouveau ✨',
+  recontributor: 'Recotisant',
   new_sympathizer: 'Nouveau ✨',
   old_adherent_em: 'Ancien adhérent EM',
   donator_n: 'Donateur Année N',
