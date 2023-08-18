@@ -142,3 +142,5 @@ runs:
         environment: ${{ inputs.react_app_environment }}
         sourcemaps: './build'
         version: ${{ inputs.react_app_version }}
+        ignore_missing: true
+        ignore_empty: true
