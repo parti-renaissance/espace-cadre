@@ -1,4 +1,4 @@
-export const mandats = {
+export const mandates = {
   conseiller_municipal: 'Conseiller(e) municipal(e)',
   membre_EPCI: "Membre d'EPCI",
   conseiller_departemental: 'Conseiller(e) départemental(e)',

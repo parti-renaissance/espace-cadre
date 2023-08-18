@@ -81,9 +81,9 @@ describe('Committees', () => {
         .should('exist')
         .click()
 
-        cy.contains('Election CL Evry')
-        cy.contains('Terminée')
-        cy.get(ElectionTabs).should('exist')
+      cy.contains('Election CL Evry')
+      cy.contains('Terminée')
+      cy.get(ElectionTabs).should('exist')
     })
   })
 
@@ -103,9 +103,9 @@ describe('Committees', () => {
         .should('exist')
         .click()
 
-        cy.contains('Election CL Evry')
-        cy.contains('A venir')
-        cy.get(ElectionTabs).should('exist')
+      cy.contains('Election CL Evry')
+      cy.contains('A venir')
+      cy.get(ElectionTabs).should('exist')
     })
 
     it('can add candidacies groups and candidates', () => {
@@ -154,9 +154,9 @@ describe('Committees', () => {
         .should('exist')
         .click()
 
-        cy.contains('Election CL Evry')
-        cy.contains('Planifiée')
-        cy.get(ElectionTabs).should('exist')
+      cy.contains('Election CL Evry')
+      cy.contains('Planifiée')
+      cy.get(ElectionTabs).should('exist')
     })
   })
 })

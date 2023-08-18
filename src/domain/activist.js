@@ -15,6 +15,7 @@ export default class Activist {
     emailSubscription,
     contributingDate,
     joinedDate,
+    adherentUuid,
     raw
   ) {
     this.raw = raw
@@ -31,6 +32,7 @@ export default class Activist {
     this.postalCode = postalCode
     this.interests = interests
     this.emailSubscription = emailSubscription
+    this.adherentUuid = adherentUuid
   }
 }
 
@@ -48,4 +50,5 @@ Activist.propTypes = PropTypes.shape({
   joinedDate: PropTypes.object,
   interests: PropTypes.arrayOf(PropTypes.string).isRequired,
   emailSubscription: PropTypes.bool.isRequired,
+  adherentUuid: PropTypes.string.isRequired,
 })

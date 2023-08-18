@@ -243,9 +243,9 @@ describe('Messagerie', () => {
 
     it('can use filter', () => {
       cy.get(MailEditorNextButton)
-      .should('exist')
-      .and('have.text', 'Suivant')
-      .click()
+        .should('exist')
+        .and('have.text', 'Suivant')
+        .click()
 
       cy.url().should('eq', 'http://localhost:3000/messagerie/11111111-1111-1111-1111-111111111111/filtrer')
       cy.contains('Filtrer mon message')

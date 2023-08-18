@@ -41,8 +41,7 @@ const Choices = ({ formValues, updateFormField }) => {
   const [allChoices, setAllChoices] = useState([])
 
   useEffect(() => {
-    const choices = formValues
-    setAllChoices(choices.map(addMissingId))
+    setAllChoices(formValues.map(addMissingId))
   }, [formValues])
 
   const updateChoiceField = useCallback(

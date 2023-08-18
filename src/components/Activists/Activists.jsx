@@ -22,7 +22,7 @@ import features from 'shared/features'
 import EmptyContent from 'ui/EmptyContent'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import Member from './Member'
+import Member from './Member/Member'
 import { useUserScope } from '../../redux/user/hooks'
 
 const messages = {

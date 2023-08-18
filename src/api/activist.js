@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import Activist from 'domain/activist'
 import { PaginatedResult } from './pagination'
 import { downloadFile } from './upload'
+import { Mandate } from 'domain/mandate'
 
 export const getActivists = async filter => {
   const data = await apiClient.get(`v3/adherents?${qs.stringify(filter)}`)
@@ -23,6 +24,7 @@ export const getActivists = async filter => {
         a.email_subscription,
         a.last_membership_donation,
         a.created_at,
+        a.adherent_uuid,
         a
       )
   )
@@ -41,3 +43,12 @@ export const exportActivists = async filter =>
     `Adherents Export - ${format(new Date(), 'dd.MM.yyyy')}.xls`
   )
 export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)
+
+export const getMandates = async uuid => {
+  const data = await apiClient.get(`v3/elected_adherent_mandates?adherent.uuid=${uuid}`)
+  return data.items ? data.items.map(m => Mandate.fromApi(m)) : []
+}
+export const createMandate = async ({ data }) => await apiClient.post('/api/v3/elected_adherent_mandates', data)
+export const updateMandate = async ({ data, uuid }) =>
+  await apiClient.put(`/api/v3/elected_adherent_mandates/${uuid}`, data)
+export const deleteMandate = async uuid => await apiClient.delete(`/api/v3/elected_adherent_mandates/${uuid}`)

@@ -22,7 +22,7 @@ import Button from 'ui/Button'
 import EmptyContent from 'ui/EmptyContent'
 import Loader from 'ui/Loader'
 import ConfirmButton from 'ui/Button/ConfirmButton'
-import { mandats } from 'shared/constants'
+import { mandates } from 'shared/constants'
 import paths from 'shared/paths'
 import CreateEditMandate from './CreateEditMandate'
 import CreateEditModal from './CreateEditModal'
@@ -269,7 +269,7 @@ const ElectedDetail = () => {
                     </Box>
                   ) : (
                     <Typography component="h5" sx={{ p: 2, color: 'colors.gray.70' }}>
-                      Aucun paiement enrégistré
+                      Aucun paiement enregistré
                     </Typography>
                   )}
                 </Box>
@@ -324,7 +324,7 @@ const ElectedDetail = () => {
                     <Box sx={{ flex: '1 1 0%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Typography sx={{ fontSize: '14px', fontWeight: 500, color: 'colors.blue.500' }}>
-                          {mandats[mandate.type]}
+                          {mandates[mandate.type]}
                           {mandate.geoZone && (
                             <Typography sx={{ color: 'colors.gray.700' }}>
                               {` - ${mandate.geoZone.name} (${mandate.geoZone.code})`}
