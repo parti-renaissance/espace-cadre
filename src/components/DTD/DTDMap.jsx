@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import ReactDOM from 'react-dom'
+import { useCallback, useEffect, useRef } from 'react'
 import { Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from 'mapbox-gl'
@@ -8,7 +7,6 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'
 import { zoneTypes } from 'domain/zone'
-import Popin from './Popin'
 import { lineString, bbox } from '@turf/turf'
 import { flattenDeep } from 'lodash'
 import { useErrorHandler } from 'components/shared/error/hooks'
@@ -29,9 +27,6 @@ const Map = styled(Grid)(
 const DTDMap = ({ userZones, typeOfLayer }) => {
   const mapContainer = useRef(null)
   const map = useRef()
-  const [currentPoint, setCurrentPoint] = useState(null)
-  const [infos, setInfos] = useState(null)
-  const popUpRef = useRef(new mapboxgl.Popup({ closeOnClick: true }))
   const { handleError } = useErrorHandler()
 
   const onMapReady = useCallback(() => {
@@ -54,12 +49,6 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
 
     map.current.setPaintProperty(typeOfLayer, 'circle-color', ['coalesce', ['get', 'COLOR'], 'rgba(0,0,0,0)'])
   }, [userZones, typeOfLayer])
-
-  const onClick = useCallback(({ point, lngLat }) => {
-    if (point) {
-      setCurrentPoint({ point, lngLat })
-    }
-  }, [])
 
   useEffect(() => {
     map.current = createMap(mapContainer.current)
@@ -86,42 +75,8 @@ const DTDMap = ({ userZones, typeOfLayer }) => {
     }
     map.current.getCanvas().style.cursor = 'pointer'
     map.current.on('load', onMapReady)
-    map.current.on('click', onClick)
-  }, [map, onClick, onMapReady])
+  }, [map, onMapReady])
 
-  useEffect(() => {
-    if (!currentPoint) {
-      return
-    }
-    const mapBoxProps = map.current.queryRenderedFeatures(currentPoint.point, {
-      layers: [typeOfLayer],
-    })
-    if (mapBoxProps) {
-      const [propsPoint] = mapBoxProps
-
-      if (propsPoint) {
-        const { properties: { CODE: code, ADDRESS: address, PRIORITY: priority } = {} } = propsPoint || {}
-        setInfos({ code, address: address || '', priority })
-      }
-    }
-  }, [map, currentPoint, typeOfLayer])
-
-  useEffect(() => {
-    if (!currentPoint || !infos) {
-      return
-    }
-    const popupNode = document.createElement('div')
-
-    ReactDOM.render(<Popin address={infos.address} code={infos.code} priority={infos.priority} />, popupNode)
-    popUpRef.current
-      .setLngLat(currentPoint.lngLat)
-      .setDOMContent(popupNode)
-      .addTo(map.current)
-      .on('close', () => {
-        setCurrentPoint(null)
-        setInfos(null)
-      })
-  }, [currentPoint, infos])
   return <Map ref={mapContainer} />
 }
 
