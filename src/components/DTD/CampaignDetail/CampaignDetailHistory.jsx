@@ -1,12 +1,12 @@
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { format } from 'date-fns'
 
 import { DTDCampaignDetailHistory as DomainDTDCampaignDetailHistory } from 'domain/DTD'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor } from './shared/constants'
 import { secondsToMinutes } from './shared/helpers'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import UICard, { UIChip } from 'ui/Card'
+import { formatDate } from 'shared/helpers'
 
 const Questioner = styled(TruncatedText)`
   font-size: 12px;
@@ -69,7 +69,7 @@ const CampaignDetailHistory = ({ status, address, questioner, startDate, duratio
                 {questioner.firstName} {questioner.lastName}
               </Questioner>
               <UpdateTime sx={{ color: 'gray600' }}>
-                {format(startDate, 'dd/MM/yyyy hh:mm')}
+                {formatDate(startDate, 'dd/MM/yyyy hh:mm')}
                 {secondsToMinutes(duration) && ' • '}
                 {secondsToMinutes(duration)}
               </UpdateTime>

@@ -1,11 +1,11 @@
 import { Box, Grid, IconButton, Typography } from '@mui/material'
 import { mandates } from 'shared/constants'
 import { Mandate as MandateObject } from 'domain/mandate'
-import { format } from 'date-fns'
 import ConfirmButton from 'ui/Button/ConfirmButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import PropTypes from 'prop-types'
 import EditIcon from 'ui/icons/EditIcon'
+import { formatDate } from 'shared/helpers'
 
 const Mandate = ({ mandate, removeAction, editAction }) => (
   <Box sx={{ mt: 2 }}>
@@ -34,11 +34,11 @@ const Mandate = ({ mandate, removeAction, editAction }) => (
         >{`${mandate.zone.name} (${mandate.zone.code})`}</Typography>
         <Typography component={'p'} sx={{ color: 'colors.gray.500', fontSize: '13px', mb: 0.5 }}>
           {mandate.finishAt
-            ? `du ${format(new Date(mandate.beginAt), 'dd/MM/yyyy')} au ${format(
+            ? `du ${formatDate(new Date(mandate.beginAt), 'dd/MM/yyyy')} au ${formatDate(
                 new Date(mandate.finishAt),
                 'dd/MM/yyyy'
               )}`
-            : `depuis le ${format(new Date(mandate.beginAt), 'dd/MM/yyyy')}`}
+            : `depuis le ${formatDate(new Date(mandate.beginAt), 'dd/MM/yyyy')}`}
         </Typography>
       </Grid>
     </Grid>

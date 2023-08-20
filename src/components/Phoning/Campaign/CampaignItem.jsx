@@ -8,14 +8,14 @@ import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import pluralize from '../../shared/pluralize/pluralize'
 import formatNumber from 'components/shared/formatNumber/formatNumber'
-import { format, isBefore } from 'date-fns'
-import { fr } from 'date-fns/locale'
+import { isBefore } from 'date-fns'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { PhoningCampaignItem as DomainPhoningCampaignItem } from 'domain/phoning'
 import { chipColorsByStatus } from '../CampaignDetail/shared/constants'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
+import { formatDate } from 'shared/helpers'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -76,9 +76,7 @@ const CampaignItem = ({
             </Grid>
             <Grid container alignItems="center">
               <AccessTimeRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
-              <Typography data-cy="phoning-campaigns-item-end-date">
-                {format(endDate, 'dd MMMM yyyy', { locale: fr })}
-              </Typography>
+              <Typography data-cy="phoning-campaigns-item-end-date">{formatDate(endDate, 'dd MMMM yyyy')}</Typography>
             </Grid>
             <Grid container alignItems="center">
               <Typography>{team.name}</Typography>

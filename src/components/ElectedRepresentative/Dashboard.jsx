@@ -6,8 +6,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Masonry from '@mui/lab/Masonry'
 import { generatePath, useNavigate } from 'react-router'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { getAllElected } from 'api/elected-representative'
@@ -24,6 +22,7 @@ import paths from 'shared/paths'
 import DynamicFilters from '../Filters/DynamicFilters'
 import CreateEditModal from './CreateEditModal'
 import { Elected } from 'domain/elected_representative'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   title: 'Registre des élus',
@@ -281,9 +280,7 @@ const Dashboard = () => {
                               />
                               <Raw
                                 title="Déclaration faite le:"
-                                content={format(elected.contributedAt, 'dd MMMM yyyy', {
-                                  locale: fr,
-                                })}
+                                content={formatDate(elected.contributedAt, 'dd MMMM yyyy')}
                               />
                               {elected.lastContribution && (
                                 <>
@@ -302,9 +299,10 @@ const Dashboard = () => {
                                   elected.lastContribution.type === 'cash' ? (
                                     <Raw
                                       title="Date de cotisation:"
-                                      content={format(new Date(elected.lastContribution.start_date), 'dd MMMM yyyy', {
-                                        locale: fr,
-                                      })}
+                                      content={formatDate(
+                                        new Date(elected.lastContribution.start_date),
+                                        'dd MMMM yyyy'
+                                      )}
                                       sx={{ display: 'none' }}
                                     />
                                   ) : null}

@@ -2,7 +2,7 @@ import { apiClient } from 'services/networking/client'
 import qs from 'qs'
 import { newPaginatedResult } from 'api/pagination'
 import { Elected, ElectedRepresentative, Mandate } from 'domain/elected_representative'
-import { format } from 'date-fns'
+import { formatDate } from 'shared/helpers'
 
 export const getAllElected = async filter => {
   const data = await apiClient.get(`api/v3/elected_representatives?${qs.stringify(filter)}`)
@@ -73,8 +73,8 @@ const mandateToJson = mandate => ({
   is_elected: mandate.isElected,
   on_going: mandate.onGoing,
   elected_representative: mandate.electedRepresentative,
-  begin_at: format(mandate.beginAt, 'yyyy-MM-dd HH:mm:ss'),
-  finish_at: mandate.finishAt ? format(mandate.finishAt, 'yyyy-MM-dd HH:mm:ss') : null,
+  begin_at: formatDate(mandate.beginAt, 'yyyy-MM-dd HH:mm:ss'),
+  finish_at: mandate.finishAt ? formatDate(mandate.finishAt, 'yyyy-MM-dd HH:mm:ss') : null,
   political_affiliation: mandate.politicalAffiliation,
   political_functions: mandate.politicalFunctions,
   la_r_e_m_support: mandate.laREMSupport ?? null,
@@ -85,7 +85,7 @@ const electedToJson = elected => ({
   first_name: elected.firstName,
   last_name: elected.lastName,
   gender: elected.gender,
-  birth_date: format(elected.birthDate, 'yyyy-MM-dd'),
+  birth_date: formatDate(elected.birthDate, 'yyyy-MM-dd'),
   birth_place: elected.birthPlace,
   contact_email: elected.contactEmail,
   contact_phone: elected.contactPhone,

@@ -2,8 +2,6 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 import { Box, Container, Grid, Typography } from '@mui/material'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
 import ErrorIcon from '@mui/icons-material/Error'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -28,6 +26,7 @@ import CreateEditMandate from './CreateEditMandate'
 import CreateEditModal from './CreateEditModal'
 import PaymentBadge from './PaymentBadge'
 import { Mandate } from 'domain/elected_representative'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -177,7 +176,7 @@ const ElectedDetail = () => {
                         <Content
                           title="Date de naissance"
                           content={
-                            electedDetail.birthDate ? format(electedDetail.birthDate, 'dd/MM/yyyy') : 'Aucune date'
+                            electedDetail.birthDate ? formatDate(electedDetail.birthDate, 'dd/MM/yyyy') : 'Aucune date'
                           }
                         />
                       </Grid>
@@ -252,7 +251,7 @@ const ElectedDetail = () => {
                         <Box key={payment.uuid} sx={{ p: 2 }}>
                           <Box>
                             <Typography component="span" sx={{ color: 'colors.gray.500' }}>
-                              Du {format(new Date(payment.date), 'dd MMMM yyyy', { locale: fr })} via
+                              Du {formatDate(new Date(payment.date), 'dd MMMM yyyy')} via
                             </Typography>
                             <Typography component="span" sx={{ color: 'colors.gray.700', fontWeight: '500', px: 1 }}>
                               {payment.method}
@@ -336,8 +335,8 @@ const ElectedDetail = () => {
                         <DateRange sx={{ color: 'colors.gray.400', fontSize: '20px' }} />
                         <Typography sx={{ fontSize: '16px', color: 'colors.gray.700', ml: 1 }}>
                           {mandate.onGoing
-                            ? `Depuis le ${format(mandate.beginAt, 'dd/MM/yyyy')}`
-                            : `Du ${format(mandate.beginAt, 'dd/MM/yyyy')} au ${format(
+                            ? `Depuis le ${formatDate(mandate.beginAt, 'dd/MM/yyyy')}`
+                            : `Du ${formatDate(mandate.beginAt, 'dd/MM/yyyy')} au ${formatDate(
                                 mandate.finishAt,
                                 'dd/MM/yyyy'
                               )}`}

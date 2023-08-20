@@ -1,7 +1,7 @@
-import { format } from 'date-fns'
 import { newPaginatedResult } from 'api/pagination'
 import { Event, EventCategory, EventGroupCategory, Attendee } from 'domain/event'
 import { apiClient, apiClientPublic } from 'services/networking/client'
+import { formatDate } from 'shared/helpers'
 
 export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 
@@ -81,8 +81,8 @@ const eventToJson = event => ({
   name: event.name,
   category: event.categoryId,
   description: event.description,
-  begin_at: format(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
-  finish_at: format(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
+  begin_at: formatDate(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
+  finish_at: formatDate(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
   capacity: parseInt(event.capacity),
   mode: 'meeting',
   visio_url: event.visioUrl,

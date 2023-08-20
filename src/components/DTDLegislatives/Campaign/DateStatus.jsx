@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import { format, isBefore, differenceInCalendarDays } from 'date-fns'
-import { fr } from 'date-fns/locale'
+import { isBefore, differenceInCalendarDays } from 'date-fns'
 import pluralize from '../../shared/pluralize/pluralize'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   day: 'jour',
@@ -13,7 +13,7 @@ const DateStatus = ({ startDate, endDate }) => {
   const remainingDays = differenceInCalendarDays(endDate, new Date()) || 0
 
   if (isBefore(today, startDate)) {
-    return format(startDate, 'dd MMMM yyyy', { locale: fr })
+    return formatDate(startDate, 'dd MMMM yyyy')
   }
   if (isBefore(today, endDate)) {
     return (
@@ -24,7 +24,7 @@ const DateStatus = ({ startDate, endDate }) => {
       </>
     )
   }
-  return format(endDate, 'dd MMMM yyyy', { locale: fr })
+  return formatDate(endDate, 'dd MMMM yyyy')
 }
 
 export default DateStatus

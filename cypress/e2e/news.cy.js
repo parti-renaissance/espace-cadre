@@ -1,5 +1,4 @@
 import { initialize, mock } from './main.cy'
-import { format } from 'date-fns'
 
 const UICard = '[data-cy="ui-card"]'
 const Typography = '.MuiTypography-root'
@@ -50,14 +49,7 @@ describe('News', () => {
         cy.get(UICard).eq(1).get(publishedNews).should('be.visible')
         cy.get(UICard).eq(1).contains('Titre 1')
         cy.get(UICard).eq(1).contains('M Creator 1')
-        cy.get(UICard)
-          .eq(1)
-          .contains(
-            `Le ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'dd/MM/yyyy')} à ${format(
-              new Date(Date.UTC(2020, 9, 15, 10)),
-              'HH:mm'
-            )}`
-          )
+        cy.get(UICard).eq(1).contains('Le 15/10/2020 à 10:00')
       })
 
       it('should display an action button with 3 actions', () => {
@@ -76,12 +68,7 @@ describe('News', () => {
       cy.get(readOnlyModal).get(publishedNews).should('be.visible')
       cy.get(readOnlyModal).contains('Titre 1')
       cy.get(readOnlyModal).contains('M Creator 1')
-      cy.get(readOnlyModal).contains(
-        `Le ${format(new Date(Date.UTC(2020, 9, 15, 10)), 'dd/MM/yyyy')} à ${format(
-          new Date(Date.UTC(2020, 9, 15, 10)),
-          'HH:mm'
-        )}`
-      )
+      cy.get(readOnlyModal).contains('Le 15/10/2020 à 10:00')
       cy.get(readOnlyModal).contains('Texte 1')
       cy.get(readOnlyModal).find('button').eq(1).contains('AvecVous')
       cy.get(readOnlyModal).find('button').eq(2).contains('Dépublier')

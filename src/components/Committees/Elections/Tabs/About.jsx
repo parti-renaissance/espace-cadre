@@ -4,8 +4,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import HowToVoteOutlinedIcon from '@mui/icons-material/HowToVoteOutlined'
 import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined'
 import GroupRemoveOutlinedIcon from '@mui/icons-material/GroupRemoveOutlined'
-import { format, differenceInDays } from 'date-fns'
-import { fr } from 'date-fns/locale'
+import { differenceInDays } from 'date-fns'
 import Status from 'components/Committees/Status'
 import pluralize from 'components/shared/pluralize/pluralize'
 import { electionStatus } from 'components/Committees/constants'
@@ -14,6 +13,7 @@ import { Designation } from 'domain/committee_election'
 import UICard from 'ui/Card'
 import { LineContent, ResultCard } from '../../styles'
 import ConfirmButton from 'ui/Button/ConfirmButton'
+import { formatDate } from 'shared/helpers'
 
 const About = ({ status, votersCount, voteCount, designation, adherentCount, results, cancelElection }) => (
   <Box>
@@ -44,11 +44,11 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
               />
               <LineContent
                 label="Date d'ouverture du vote"
-                value={format(designation.voteStartDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
+                value={formatDate(designation.voteStartDate, 'dd MMMM yyyy à HH:mm')}
               />
               <LineContent
                 label="Date de clôture du vote"
-                value={format(designation.voteEndDate, 'dd MMMM yyyy à HH:mm', { locale: fr })}
+                value={formatDate(designation.voteEndDate, 'dd MMMM yyyy à HH:mm')}
               />
               <LineContent label="Description" value={nl2br(designation.description, {}, 5)} />
             </>

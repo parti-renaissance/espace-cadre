@@ -1,10 +1,11 @@
-import { differenceInCalendarDays, format } from 'date-fns'
+import { differenceInCalendarDays } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
 import { PhoningCampaignDetailKPI as DomainPhoningCampaignDetailKPI } from 'domain/phoning'
 
 import { secondsToMinutesAndSeconds } from './shared/helpers'
 import { KPICard, KPIProgressCard, KPIs } from 'ui/Kpi/KPIs'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   day: 'Jour',
@@ -33,7 +34,7 @@ const CampaignDetailKPI = ({ remaining, surveys, calls, averageTime }) => {
           subtitle={
             remaining.startDate &&
             remaining.endDate &&
-            `${messages.periodFrom} ${format(remaining.startDate, 'dd/MM/yyyy')} ${messages.periodTo} ${format(
+            `${messages.periodFrom} ${formatDate(remaining.startDate, 'dd/MM/yyyy')} ${messages.periodTo} ${formatDate(
               remaining.endDate,
               'dd/MM/yyyy'
             )}`

@@ -4,7 +4,6 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { AccessTime } from '@mui/icons-material'
-import { format } from 'date-fns'
 import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
 import { getNextPageParam, usePaginatedData } from 'api/pagination'
 import { downloadDocument, getDocuments } from 'api/general-meeting-report'
@@ -17,6 +16,7 @@ import EmptyContent from 'ui/EmptyContent'
 import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
 import CreateEditModal from './CreateEditModal'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   title: "Centre d'archives",
@@ -107,7 +107,7 @@ const GenericReports = () => {
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
                         <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
                         <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
-                          Ajouté le {format(document.date, 'dd/MM/yyyy à HH:mm')}
+                          Ajouté le {formatDate(document.date, 'dd/MM/yyyy à HH:mm')}
                         </Typography>
                       </Box>
                       <Box
