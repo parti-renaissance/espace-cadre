@@ -12,6 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  NODE_OPTIONS: "--max_old_space_size=4096"
   DOCKER_REGISTRY_HOST: ${{ secrets.GCP_HOST_GCR }}
   DOCKER_IMAGE: ${{ secrets.GCP_HOST_GCR }}/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}
 

@@ -144,8 +144,8 @@ const Filters = () => {
           scope: currentScope.getMainCode(),
           zone: filtersToSend.zone?.uuid,
         },
-      }),
-        setDisabledAction(false)
+      })
+      setDisabledAction(false)
     },
     [messageUuid, updateMessageFilter, currentScope]
   )

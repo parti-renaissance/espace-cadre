@@ -8,7 +8,7 @@ const InputFirstName = 'input[name="firstName"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
-    cy.contains('Militants').click()
+  cy.contains('Militants').click()
   cy.url().should('eq', 'http://localhost:3000/militants')
 }
 

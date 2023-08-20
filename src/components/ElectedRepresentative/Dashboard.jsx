@@ -18,7 +18,7 @@ import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import EmptyContent from 'ui/EmptyContent'
-import { mandats, functions } from 'shared/constants'
+import { mandates, functions } from 'shared/constants'
 import features from 'shared/features'
 import paths from 'shared/paths'
 import DynamicFilters from '../Filters/DynamicFilters'
@@ -242,7 +242,7 @@ const Dashboard = () => {
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 0.5 }}>
                               {elected.currentMandates.map((mandat, index) => (
                                 <span key={index} className="badge badge-default">
-                                  {mandats[mandat.type]}
+                                  {mandates[mandat.type]}
                                   {mandat.geo_zone && (
                                     <span> - {`${mandat.geo_zone.name} (${mandat.geo_zone.code})`}</span>
                                   )}

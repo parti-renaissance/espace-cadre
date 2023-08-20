@@ -13,7 +13,7 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { FormError } from 'components/shared/error/components'
 import ZoneAutocomplete from 'components/Filters/Element/ZoneAutocomplete'
 import { zoneTypes } from 'domain/zone'
-import { mandats, affiliations, supports } from 'shared/constants'
+import { mandates, affiliations, supports } from 'shared/constants'
 import { ModalForm } from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
@@ -111,7 +111,7 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
-              options={Object.keys(mandats).map(key => ({ key, value: mandats[key] }))}
+              options={Object.keys(mandates).map(key => ({ key, value: mandates[key] }))}
               onChange={onChange}
               value={value}
             />
