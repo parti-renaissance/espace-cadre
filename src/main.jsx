@@ -29,6 +29,4 @@ if (NODE_ENV === 'production' || SENTRY_DSN) {
   })
 }
 
-const container = document.getElementById('root')
-const root = createRoot(container)
-root.render(<App />)
+createRoot(document.getElementById('root')).render(<App />)
