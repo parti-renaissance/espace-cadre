@@ -80,7 +80,7 @@ describe('Events', () => {
 
     it('should display my event', () => {
       cy.get(Tabs).contains('Mes évènements').click()
-      cy.get(UICard).eq(0).contains('Voir').click()
+      cy.get(UICard).eq(0).contains('Gérer').click()
 
       cy.get(KPI).should('exist')
       cy.get(KPI).find(KPICard).children().should('have.length', 2)
@@ -98,7 +98,7 @@ describe('Events', () => {
 
     it('should edit my event', () => {
       cy.get(Tabs).contains('Mes évènements').click()
-      cy.get(UICard).eq(0).contains('Voir').click()
+      cy.get(UICard).eq(0).contains('Gérer').click()
 
       cy.get(PageHeaderButton).click()
 

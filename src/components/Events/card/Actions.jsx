@@ -13,7 +13,7 @@ const HorizontalContainer = styled('div')`
 `
 
 const messages = {
-  see: 'Voir',
+  manage: 'Gérer',
   cancel: 'Annuler',
   edit: 'Modifier',
   delete: 'Supprimer',
@@ -32,8 +32,8 @@ const Actions = ({
 }) => (
   <HorizontalContainer>
     <Box display="flex" alignItems="center" className="space-x-2">
-      <CtaButton onClick={onView}>{messages.see}</CtaButton>
-      {isEditable && <Button onClick={onEdit}>{messages.edit}</Button>}
+      <Button onClick={onView}>{messages.manage}</Button>
+      {isEditable && <CtaButton onClick={onEdit}>{messages.edit}</CtaButton>}
     </Box>
     {(isCancelable || isDeletable) && (
       <DotsMenu>

@@ -65,7 +65,8 @@ export class Event {
     visioUrl,
     mode,
     image,
-    committee
+    committee,
+    eventLink
   ) {
     this.id = id
     this.name = name
@@ -87,6 +88,7 @@ export class Event {
     this.mode = mode
     this.image = image
     this.committee = committee
+    this.eventLink = eventLink
   }
 
   withName = newName =>
@@ -183,14 +185,16 @@ export class Event {
       e.private,
       e.visio_url,
       e.mode,
-      e.image_url
+      e.image_url,
+      null,
+      e.link
     )
 }
 
 Event.propTypes = PropTypes.shape({
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   timezone: PropTypes.string.isRequired,
   createdAt: PropTypes.object,
   beginAt: PropTypes.object,

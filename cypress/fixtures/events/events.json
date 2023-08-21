@@ -44,7 +44,8 @@
       "mode": "meeting",
       "local_finish_at": "2022-01-17T14:30:00+01:00",
       "image_url": null,
-      "user_registered_at": "2022-01-10T12:30:00+01:00"
+      "user_registered_at": "2022-01-10T12:30:00+01:00",
+      "link": "https://parti-renaissance.fr/events/event-1"
     },
     {
       "category": {
@@ -83,7 +84,8 @@
       "mode": "meeting",
       "local_finish_at": "2022-01-18T14:30:00+01:00",
       "image_url": null,
-      "user_registered_at": "2022-01-18T12:30:00+01:00"
+      "user_registered_at": "2022-01-18T12:30:00+01:00",
+      "link": "https://parti-renaissance.fr/events/event-2"
     }
   ]
 }
