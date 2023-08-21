@@ -11,7 +11,7 @@ import { useErrorHandler } from 'components/shared/error/hooks'
 import KpiEvent from 'components/Events/KPIEvent'
 import Header from 'components/Events/Event/card/Header'
 import CreateEditEvent from 'components/Events/CreateEditEvent'
-import UICard from 'ui/Card'
+import UICard, { CtaButton } from 'ui/Card'
 import Loader from 'ui/Loader'
 import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
@@ -22,6 +22,7 @@ import { getCurrentUser } from '../../../redux/user/selectors'
 const messages = {
   events: 'Évènements',
   edit: 'Modifier',
+  see: 'Voir',
 }
 
 const Event = () => {
@@ -32,7 +33,7 @@ const Event = () => {
 
   const {
     data: event = null,
-    isLoading,
+    isFetching,
     refetch: refetchEvent,
   } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
 
@@ -53,6 +54,10 @@ const Event = () => {
 
   const attendees = usePaginatedData(paginatedAttendees)
 
+  if (isFetching) {
+    return <Loader />
+  }
+
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between" sx={{ mb: 2 }}>
@@ -61,18 +66,26 @@ const Event = () => {
           titleLink={paths.events}
           titleSuffix={event?.name}
           button={
-            currentUser && event?.organizerId === currentUser.uuid && event?.scheduled ? (
-              <PageHeaderButton
-                onClick={() => setIsModalOpen(true)}
-                label={messages.edit}
-                icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
-                isMainButton
-              />
-            ) : null
+            <>
+              <CtaButton sx={{ mr: 1.5 }}>
+                <a href={event.eventLink} target="_blank" rel="noreferrer">
+                  {messages.see}
+                </a>
+              </CtaButton>
+
+              {currentUser && event?.organizerId === currentUser.uuid && event?.scheduled ? (
+                <PageHeaderButton
+                  onClick={() => setIsModalOpen(true)}
+                  label={messages.edit}
+                  icon={<EditIcon sx={{ color: 'campaign.color', fontSize: '20px' }} />}
+                  isMainButton
+                />
+              ) : null}
+            </>
           }
         />
       </Grid>
-      <KpiEvent attendees={event?.attendees} date={event?.beginAt} isLoading={isLoading} />
+      <KpiEvent attendees={event?.attendees} date={event?.beginAt} isLoading={false} />
       <Grid container>
         <Grid item xs={12}>
           {paginatedAttendees && (

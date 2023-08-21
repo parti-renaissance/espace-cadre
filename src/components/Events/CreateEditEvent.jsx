@@ -119,7 +119,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
   const [currentScope] = useUserScope()
 
   const { isLoading: isSingleEventLoading, data: event = Event.NULL } = useQueryWithScope(
-    ['event', eventId, { feature: 'Events', view: 'Event' }],
+    ['event-edit', eventId, { feature: 'Events', view: 'Event' }],
     () => getEvent(eventId),
     {
       enabled: !isCreateMode,
