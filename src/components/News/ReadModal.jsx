@@ -11,13 +11,13 @@ import { useCurrentDeviceType } from 'components/shared/device/hooks'
 import EditIcon from '@mui/icons-material/EditRounded'
 import PersonIcon from '@mui/icons-material/Person'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
-import { format } from 'date-fns'
 import { TruncatedText } from 'components/shared/styled'
 import Button from 'ui/Button'
 import Dialog from 'ui/Dialog'
 import ReactMarkdown from 'react-markdown'
 import ReadCTA from './ReadCTA'
 import { CTA_MODE_PUBLICATION } from './constants'
+import { formatDate } from 'shared/helpers'
 
 const HeaderContainer = styled(Grid)`
   align-items: center;
@@ -132,7 +132,7 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
         <Author>{news?.creator}</Author>
         <AccessTimeIcon sx={{ mr: 0.5, ml: 2, color: 'gray600', fontSize: '12px' }} />
         <DateItem>
-          {news?.createdAt && `Le ${format(news.createdAt, 'dd/MM/yyyy')} à ${format(news.createdAt, 'HH:mm')}`}
+          {news?.createdAt && `Le ${formatDate(news.createdAt, 'dd/MM/yyyy')} à ${formatDate(news.createdAt, 'HH:mm')}`}
         </DateItem>
       </UserTimeContainer>
       <ReactMarkdown>{news?.body}</ReactMarkdown>

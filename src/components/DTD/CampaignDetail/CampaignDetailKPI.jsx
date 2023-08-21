@@ -1,8 +1,9 @@
-import { differenceInCalendarDays, format } from 'date-fns'
+import { differenceInCalendarDays } from 'date-fns'
 
 import pluralize from 'components/shared/pluralize/pluralize'
 import { DTDCampaignDetailKPI as DomainDTDCampaignDetailKPI } from 'domain/DTD'
 import { KPICard, KPIs } from 'ui/Kpi/KPIs'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   day: 'Jour',
@@ -32,7 +33,7 @@ const CampaignDetailKPI = ({ remaining, surveys, doors, contacts }) => {
           subtitle={
             remaining.startDate &&
             remaining.endDate &&
-            `${messages.periodFrom} ${format(remaining.startDate, 'dd/MM/yyyy')} ${messages.periodTo} ${format(
+            `${messages.periodFrom} ${formatDate(remaining.startDate, 'dd/MM/yyyy')} ${messages.periodTo} ${formatDate(
               remaining.endDate,
               'dd/MM/yyyy'
             )}`

@@ -14,7 +14,6 @@ import {
   Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { format } from 'date-fns'
 import { v1 as uuid } from 'uuid'
 import { orderBy } from 'lodash'
 
@@ -25,6 +24,7 @@ import { multipleChoice, simpleField, translatedGender, uniqueChoice } from '../
 import { surveysColumnsStyles, timeDifferenceToString } from '../shared/helpers'
 import { UIChip } from 'ui/Card'
 import CampaignDetailSurveysExport from './SurveyDetailRepliesExport'
+import { formatDate } from 'shared/helpers'
 
 const TableCell = styled(
   MuiTableCell,
@@ -156,7 +156,7 @@ const SurveyDetailReplies = ({ survey, replies }) => {
                     </TableCell>
 
                     <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                      <Description>{format(startDate, 'dd/MM/yyyy hh:mm')}</Description>
+                      <Description>{formatDate(startDate, 'dd/MM/yyyy hh:mm')}</Description>
                       {timeDifferenceToString(startDate, endDate) && (
                         <SubDescription>{timeDifferenceToString(startDate, endDate)}</SubDescription>
                       )}

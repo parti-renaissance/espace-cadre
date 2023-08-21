@@ -15,8 +15,6 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { v1 as uuid } from 'uuid'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
 import { visuallyHidden } from '@mui/utils'
 import { orderBy } from 'lodash'
 import { getVoters } from 'api/designations'
@@ -26,6 +24,7 @@ import { TruncatedText } from 'components/shared/styled'
 import Loader from 'ui/Loader/Loader'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
 import Input from 'ui/Input/Input'
+import { formatDate } from 'shared/helpers'
 
 const ColumnLabel = styled(({ isTruncated = false, ...props }) =>
   isTruncated ? <TruncatedText variant="subtitle2" {...props} /> : <Typography variant="subtitle2" {...props} />
@@ -157,7 +156,7 @@ const Participants = ({ designationId }) => {
                   </TableCell>
                   <TableCell key={uuid()}>
                     <Typography sx={{ color: 'colors.gray.500' }}>
-                      {voter.voted_at && format(new Date(voter.voted_at), 'dd MMMM yyyy à hh:mm', { locale: fr })}
+                      {voter.voted_at && formatDate(new Date(voter.voted_at), 'dd MMMM yyyy à hh:mm')}
                       {!voter.voted_at && '--'}
                     </Typography>
                   </TableCell>

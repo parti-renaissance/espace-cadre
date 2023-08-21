@@ -1,6 +1,6 @@
-import { format } from 'date-fns'
 import { Designation } from 'domain/committee_election'
 import { apiClient } from 'services/networking/client'
+import { formatDate } from 'shared/helpers'
 
 export const getDesignation = async id => {
   const data = await apiClient.get(`/v3/designations/${id}`)
@@ -28,8 +28,8 @@ export const getVoters = async id => await apiClient.get(`/v3/designations/${id}
 const designationToJson = designation => ({
   custom_title: designation.customTitle,
   description: designation.description,
-  vote_start_date: format(designation.voteStartDate, 'yyyy-MM-dd HH:mm:ss'),
-  vote_end_date: format(designation.voteEndDate, 'yyyy-MM-dd HH:mm:ss'),
+  vote_start_date: formatDate(designation.voteStartDate, 'yyyy-MM-dd HH:mm:ss'),
+  vote_end_date: formatDate(designation.voteEndDate, 'yyyy-MM-dd HH:mm:ss'),
   type: 'committee_supervisor',
   election_entity_identifier: designation.committeeUuid,
 })

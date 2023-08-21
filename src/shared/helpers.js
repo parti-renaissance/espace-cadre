@@ -1,3 +1,6 @@
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
+
 /**
  * Get the initials of the name passed as parameter.
  *
@@ -20,6 +23,10 @@ export function getInitialNames(name = null) {
     const lastName = arrayNames.pop().substring(0, 1)
     return `${firstName}${lastName}`.toUpperCase()
   }
+}
+
+export function formatDate(date, formatPattern) {
+  return format(date, formatPattern, { locale: fr })
 }
 
 export const getFullName = user => `${user.first_name} ${user.last_name}`

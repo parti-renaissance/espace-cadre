@@ -8,13 +8,13 @@ import { notifyVariants } from 'components/shared/notification/constants'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import MemberCard from './MemberCard'
-import { format } from 'date-fns'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import paths from 'shared/paths'
 import PageHeader from 'ui/PageHeader'
 import Button from 'ui/Button'
 import Loader from 'ui/Loader'
 import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
+import { formatDate } from 'shared/helpers'
 
 const AutocompleteContainer = styled(Card)(
   ({ theme }) => `
@@ -109,7 +109,7 @@ const GroupEdit = () => {
                       {option.first_name} {option.last_name}&#44;&nbsp;
                       <Box component="span" sx={{ fontStyle: 'italic' }}>
                         {option.postal_code}&#44;&nbsp;{messages.adhesion}&nbsp;
-                        {format(new Date(option.registered_at), 'dd/MM/yyyy')}
+                        {formatDate(new Date(option.registered_at), 'dd/MM/yyyy')}
                       </Box>
                     </li>
                   )}

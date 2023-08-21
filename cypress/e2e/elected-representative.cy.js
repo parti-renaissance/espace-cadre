@@ -16,8 +16,16 @@ const navigate = () => {
 describe('Elected Representative', () => {
   beforeEach(() => {
     initialize()
-    mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&scope=referent', 'elected-representative/elected-representative')
-    mock('GET', '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&firstName=Arthur&scope=referent', 'elected-representative/elected-filter')
+    mock(
+      'GET',
+      '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&scope=referent',
+      'elected-representative/elected-representative'
+    )
+    mock(
+      'GET',
+      '/api/v3/elected_representatives?page=1&renaissance_membership=adherent_re&firstName=Arthur&scope=referent',
+      'elected-representative/elected-filter'
+    )
     mock('GET', '/api/v3/filters?feature=elected_representative&scope=referent', 'elected-representative/filters')
 
     navigate()
@@ -33,9 +41,7 @@ describe('Elected Representative', () => {
       cy.get(AccordionFiltersContainer).click()
       cy.get(FiltersForm).should('exist')
 
-      cy.get(FiltersForm)
-        .find(InputFirstName)
-        .type('Arthur')
+      cy.get(FiltersForm).find(InputFirstName).type('Arthur')
 
       cy.get(FiltersForm).submit()
 

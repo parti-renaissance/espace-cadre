@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { Typography } from '@mui/material'
 import { Person, AccessTime } from '@mui/icons-material'
-import { format } from 'date-fns'
 
 import { TruncatedText, VerticalContainer, HorizontalContainer } from 'components/shared/styled'
+import { formatDate } from 'shared/helpers'
 
 export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
   <VerticalContainer {...props}>
@@ -20,7 +20,7 @@ export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
       <HorizontalContainer>
         <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
         <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-          Le {format(dateTime, 'dd/MM/yyyy')} à {format(dateTime, 'HH:mm')}
+          Le {formatDate(dateTime, 'dd/MM/yyyy')} à {formatDate(dateTime, 'HH:mm')}
         </Typography>
       </HorizontalContainer>
     )}

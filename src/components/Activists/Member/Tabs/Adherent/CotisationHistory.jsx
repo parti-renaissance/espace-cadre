@@ -1,8 +1,7 @@
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
 import PropTypes from 'prop-types'
+import { formatDate } from 'shared/helpers'
 
 const CotisationHistory = ({ dates }) => (
   <List>
@@ -19,7 +18,7 @@ const CotisationHistory = ({ dates }) => (
           <EventAvailableOutlinedIcon />
         </ListItemIcon>
         <ListItemText
-          primary={format(new Date(date), 'dd MMMM yyyy à HH:mm', { locale: fr })}
+          primary={formatDate(new Date(date), 'dd MMMM yyyy à HH:mm')}
           primaryTypographyProps={{
             variant: 'span',
             color: 'colors.gray.700',

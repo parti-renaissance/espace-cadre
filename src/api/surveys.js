@@ -1,4 +1,3 @@
-import { format } from 'date-fns'
 import { apiClient } from 'services/networking/client'
 
 import {
@@ -16,6 +15,7 @@ import {
 } from 'domain/surveys'
 import { newPaginatedResult } from 'api/pagination'
 import { downloadFile } from './upload'
+import { formatDate } from 'shared/helpers'
 
 export const formatZone = zone => new SurveyItemZone(zone.uuid, zone.code, zone.name)
 
@@ -71,7 +71,7 @@ export const getSurveyRepliesQuery = async surveyId => {
 }
 
 export const getSurveysRepliesExport = (surveyId, surveyTitle) =>
-  downloadFile(`api/v3/surveys/${surveyId}/replies.xls`, `${surveyTitle} - ${format(new Date(), 'dd.MM.yyyy')}.xls`)
+  downloadFile(`api/v3/surveys/${surveyId}/replies.xls`, `${surveyTitle} - ${formatDate(new Date(), 'dd.MM.yyyy')}.xls`)
 
 const formatChoicePayload =
   useIds =>

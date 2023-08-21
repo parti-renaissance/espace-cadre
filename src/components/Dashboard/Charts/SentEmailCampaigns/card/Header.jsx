@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
-import { format } from 'date-fns'
 import { UIChip } from 'ui/Card'
 import { Typography } from '@mui/material'
+import { formatDate } from 'shared/helpers'
 
 const UIDate = styled('span')(
   ({ theme }) => `
@@ -34,7 +34,7 @@ export const Header = ({ draft, createdAt }) => (
       label={draft ? messages.draft : messages.sent}
     />
     <UIDate>
-      <DateTypo>{format(createdAt, "'Le' dd/MM/yyyy 'à' HH:mm")}</DateTypo>
+      <DateTypo>{formatDate(createdAt, "'Le' dd/MM/yyyy 'à' HH:mm")}</DateTypo>
     </UIDate>
   </HorizontalContainer>
 )

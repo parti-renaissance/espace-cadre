@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { format } from 'date-fns'
-import { fr } from 'date-fns/locale'
 
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import { DTDCampaignItem as DomainDTDCampaignItem } from 'domain/DTD'
 import RatioProgress from 'ui/RatioProgress/RatioProgress'
 import { chipColorsByDate, chipLabelByDate } from '../CampaignDetail/shared/helpers'
 import UICard, { UIChip, CtaButton } from 'ui/Card'
+import { formatDate } from 'shared/helpers'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -42,7 +41,7 @@ const DTDCampaignItem = ({ startDate, endDate, title, score, handleView }) => {
             <div>
               <UIChip label={chipLabel} {...chipColors} sx={{ mr: 1 }} />
               <EndDate sx={{ color: 'gray600' }} data-cy="DTD-campaigns-item-end-date">
-                {format(endDate, 'dd MMMM yyyy', { locale: fr })}
+                {formatDate(endDate, 'dd MMMM yyyy')}
               </EndDate>
             </div>
             <VerticalContainer sx={{ pt: 1 }}>

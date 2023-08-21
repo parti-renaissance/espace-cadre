@@ -38,9 +38,7 @@ describe('Activists', () => {
 
       cy.get(ContactsList).find(ContactButton).children().should('have.length', 3)
 
-      cy.get(FiltersForm)
-        .find(InputFirstName)
-        .type('Jean')
+      cy.get(FiltersForm).find(InputFirstName).type('Jean')
 
       cy.get(FiltersForm).submit()
       cy.get(ContactsList).find(ContactButton).children().should('have.length', 1)

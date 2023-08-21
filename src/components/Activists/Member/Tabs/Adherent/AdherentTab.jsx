@@ -1,10 +1,10 @@
 import { Box, Grid, Typography } from '@mui/material'
-import { format } from 'date-fns'
 import { MemberBadge } from 'components/Activists/Badges'
 import { UIChip } from 'ui/Card'
 import CotisationHistory from 'components/Activists/Member/Tabs/Adherent/CotisationHistory'
 import Activist from 'domain/activist'
 import LineText from 'components/Activists/Member/LineText'
+import { formatDate } from 'shared/helpers'
 
 const AdherentTab = ({ member }) => (
   <Box sx={{ mt: 2 }} className="space-y-4">
@@ -30,7 +30,7 @@ const AdherentTab = ({ member }) => (
         <Grid item xs={12} sm={4}>
           <LineText
             label="Date de naissance"
-            value={member.raw.birthdate ? format(new Date(member.raw.birthdate), 'dd/MM/yyyy') : '--'}
+            value={member.raw.birthdate ? formatDate(new Date(member.raw.birthdate), 'dd/MM/yyyy') : '--'}
           />
         </Grid>
       </Grid>
@@ -56,7 +56,7 @@ const AdherentTab = ({ member }) => (
           />
         </Grid>
         <Grid item xs={12} sm={5}>
-          <LineText label="Date d'inscription" value={format(member.joinedDate, 'dd/MM/yyyy')} />
+          <LineText label="Date d'inscription" value={formatDate(member.joinedDate, 'dd/MM/yyyy')} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <LineText label="Campus" value={member.raw.campus_registered_at ? 'Inscrit' : 'Non inscrit'} />

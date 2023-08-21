@@ -1,8 +1,7 @@
 import { Title, UIChip } from 'ui/Card'
-import { format } from 'date-fns'
 import { styled } from '@mui/system'
-import { fr } from 'date-fns/locale'
 import { Attendee } from 'domain/event'
+import { formatDate } from 'shared/helpers'
 
 const HorizontalContainer = styled('div')`
   display: flex;
@@ -26,9 +25,7 @@ const Header = ({ attendee }) => (
     </HorizontalContainer>
     <Title
       subject={`${attendee.firstName} ${attendee.lastName}`}
-      author={`${attendee.postalCode} • Le ${format(attendee.subscriptionDate, 'dd MMMM yyyy à HH:mm ', {
-        locale: fr,
-      })}`}
+      author={`${attendee.postalCode} • Le ${formatDate(attendee.subscriptionDate, 'dd MMMM yyyy à HH:mm ')}`}
       sx={{ pt: 1 }}
     />
   </>

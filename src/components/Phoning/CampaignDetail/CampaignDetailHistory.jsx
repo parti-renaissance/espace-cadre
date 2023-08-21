@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { format } from 'date-fns'
 
 import {
   PhoningCampaignDetailHistoryAdherent as DomainPhoningCampaignDetailHistoryAdherent,
@@ -10,6 +9,7 @@ import {
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
 import { TruncatedText, VerticalContainer } from 'components/shared/styled'
 import UICard, { UIChip } from 'ui/Card'
+import { formatDate } from 'shared/helpers'
 
 const Author = styled(TruncatedText)`
   font-size: 12px;
@@ -68,7 +68,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller }) => {
               <Author sx={{ pb: 0.5 }}>
                 {caller.firstName} {caller.lastName}
               </Author>
-              <UpdateTime>{format(startDate, 'dd/MM/yyyy hh:mm')}</UpdateTime>
+              <UpdateTime>{formatDate(startDate, 'dd/MM/yyyy hh:mm')}</UpdateTime>
             </VerticalContainer>
           </>
         }

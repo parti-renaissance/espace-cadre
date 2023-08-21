@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Box, Container, Grid, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { format } from 'date-fns'
 import { AccessTime } from '@mui/icons-material'
 import GroupsIcon from '@mui/icons-material/Groups'
 import { generatePath, useNavigate } from 'react-router'
@@ -20,6 +19,7 @@ import Button from 'ui/Button'
 import UICard from 'ui/Card/Card'
 import paths from 'shared/paths'
 import CreateEditModal from './CreateEditModal'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   title: 'Comités locaux',
@@ -108,7 +108,7 @@ const Committees = () => {
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
                         <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
                         <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
-                          Créé Le {format(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm')}
+                          Créé Le {formatDate(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm')}
                         </Typography>
                       </Box>
                     </Box>

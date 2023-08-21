@@ -1,10 +1,8 @@
 import { Title } from 'ui/Card'
-import { format } from 'date-fns'
 import { styled } from '@mui/system'
 import GroupIcon from '@mui/icons-material/Group'
 import { Box, Typography } from '@mui/material'
 import MuiCalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import { fr } from 'date-fns/locale'
 import RoomIcon from '@mui/icons-material/Room'
 import TagIcon from '@mui/icons-material/LocalOffer'
 import { TruncatedText } from 'components/shared/styled'
@@ -12,6 +10,7 @@ import { Event } from 'domain/event'
 import noImage from 'assets/no-image.png'
 import EventChip from './EventChip'
 import PropTypes from 'prop-types'
+import { formatDate } from 'shared/helpers'
 
 const CalendarTodayIcon = styled(MuiCalendarTodayIcon)(
   ({ theme }) => `
@@ -89,7 +88,7 @@ const Header = ({ event, categoryNameByCategoryId }) => (
     <Title subject={event.name} author={`Par ${event.organizer}`} lines={2} sx={{ pt: 1 }} />
     <Box component="div" sx={{ display: 'flex', mt: 1 }}>
       <CalendarTodayIcon />
-      <LabelTypography variant="subtitle2">{format(event.beginAt, 'd MMM yyyy HH:mm', { locale: fr })}</LabelTypography>
+      <LabelTypography variant="subtitle2">{formatDate(event.beginAt, 'd MMM yyyy HH:mm')}</LabelTypography>
     </Box>
     {event.address && !event.address.isEmpty() && (
       <Box component="div" sx={{ display: 'flex', mt: 1 }}>

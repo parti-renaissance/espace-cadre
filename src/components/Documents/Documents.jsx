@@ -18,7 +18,6 @@ import {
 import HelpIcon from '@mui/icons-material/Help'
 import { styled } from '@mui/system'
 import { v1 as uuid } from 'uuid'
-import { format } from 'date-fns'
 import { PaginatedResult } from 'api/pagination'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { getDocuments, downloadDocument } from 'api/documents'
@@ -28,6 +27,7 @@ import { TruncatedText } from 'components/shared/styled'
 import { shouldForwardProps } from 'components/shared/shouldForwardProps'
 import EmptyContent from 'ui/EmptyContent'
 import MainButton from 'ui/Button/Button'
+import { formatDate } from 'shared/helpers'
 
 const messages = {
   title: 'Documents',
@@ -123,7 +123,7 @@ const Documents = () => {
                       </Box>
                     </TableCell>
                     <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                      <Description>{format(new Date(document.created_at), 'dd/MM/yyyy hh:mm')}</Description>
+                      <Description>{formatDate(new Date(document.created_at), 'dd/MM/yyyy hh:mm')}</Description>
                     </TableCell>
                     <TableCell key={uuid()} isOdd={!!(index % 2)}>
                       <MainButton isMainButton onClick={() => downloadDocument(document.uuid, 'documents')}>

@@ -191,10 +191,12 @@ describe('Messagerie', () => {
 
       it('should display the modal with cards', () => {
         cy.get(TemplatesButton).click()
-        cy.get(TemplatesModal).should('exist').then(() => {
-          cy.get(TemplatesCardContainer).children().should('have.length', 2)
-          cy.get(TemplateCard).eq(0).contains('test template national')
-        })
+        cy.get(TemplatesModal)
+          .should('exist')
+          .then(() => {
+            cy.get(TemplatesCardContainer).children().should('have.length', 2)
+            cy.get(TemplateCard).eq(0).contains('test template national')
+          })
       })
     })
   })
@@ -227,13 +229,29 @@ describe('Messagerie', () => {
 
   describe('Filter page', () => {
     beforeEach(() => {
-      mock('GET', '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111/content?scope=referent', 'messagerie/content')
+      mock(
+        'GET',
+        '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111/content?scope=referent',
+        'messagerie/content'
+      )
       mock('PUT', '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111?scope=referent', 'messagerie/message')
       mock('GET', '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111?scope=referent', 'messagerie/message')
-      mock('PUT', '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111/filter?scope=referent', 'messagerie/filter')
-      mock('POST', '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111/send?scope=referent', 'messagerie/send')
+      mock(
+        'PUT',
+        '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111/filter?scope=referent',
+        'messagerie/filter'
+      )
+      mock(
+        'POST',
+        '/api/v3/adherent_messages/11111111-1111-1111-1111-111111111111/send?scope=referent',
+        'messagerie/send'
+      )
       mock('GET', '/api/v3/filters?feature=messages&scope=referent', 'messagerie/filters')
-      mock('GET', '/api/v3/zone/autocomplete?types%5B0%5D=borough&types%5B1%5D=canton&types%5B2%5D=city&types%5B3%5D=department&types%5B4%5D=region&types%5B5%5D=country&types%5B6%5D=district&types%5B7%5D=foreign_district&types%5B8%5D=custom&q=Hauts-de-Seine&scope=referent', 'messagerie/zones')
+      mock(
+        'GET',
+        '/api/v3/zone/autocomplete?types%5B0%5D=borough&types%5B1%5D=canton&types%5B2%5D=city&types%5B3%5D=department&types%5B4%5D=region&types%5B5%5D=country&types%5B6%5D=district&types%5B7%5D=foreign_district&types%5B8%5D=custom&q=Hauts-de-Seine&scope=referent',
+        'messagerie/zones'
+      )
       moveToEditor()
     })
 
@@ -242,18 +260,17 @@ describe('Messagerie', () => {
     })
 
     it('can use filter', () => {
-      cy.get(MailEditorNextButton)
-        .should('exist')
-        .and('have.text', 'Suivant')
-        .click()
+      cy.get(MailEditorNextButton).should('exist').and('have.text', 'Suivant').click()
 
       cy.url().should('eq', 'http://localhost:3000/messagerie/11111111-1111-1111-1111-111111111111/filtrer')
       cy.contains('Filtrer mon message')
       cy.get(SendEmail).click()
 
-      cy.get(ConfirmationModal).should('exist').then(() => {
-        cy.get(SendEmailConfirm).click()
-      })
+      cy.get(ConfirmationModal)
+        .should('exist')
+        .then(() => {
+          cy.get(SendEmailConfirm).click()
+        })
     })
   })
 })
