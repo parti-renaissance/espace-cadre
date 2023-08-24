@@ -9,7 +9,6 @@ import { DatePicker } from '@mui/x-date-pickers'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
 import { notifyVariants } from 'components/shared/notification/constants'
 import ZoneAutocomplete from 'components/Filters/Element/ZoneAutocomplete'
-import { zoneTypes } from 'domain/zone'
 import { mandates } from 'shared/constants'
 import { ModalForm } from 'ui/Dialog'
 import UIInputLabel from 'ui/InputLabel/InputLabel'
@@ -63,6 +62,7 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
   })
 
   const watchOnGoing = watch(fields.onGoing)
+  const watchType = watch(fields.mandateType)
 
   const { mutate: createOrUpdate, isLoading } = useMutation(!mandate.uuid ? createMandate : updateMandate, {
     onSuccess: () => {
@@ -119,7 +119,8 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
           customStyle={{ mt: 1.5, bgcolor: 'colors.gray.50' }}
           value={selectedZone}
           onChange={setSelectedZone}
-          initialParams={{ types: Object.values(zoneTypes).filter(type => type !== zoneTypes.VOTE_PLACE) }} // type de zone ??
+          placeholder={'Rechercher...'}
+          initialParams={{ forMandateType: watchType }}
         />
         <FormError message={formErrors[fields.zone]?.message} />
       </Box>
