@@ -29,6 +29,9 @@ inputs:
   react_app_api_host:
     description: The API host used by the app
     required: true
+  react_app_renaissance_host:
+    description: The RE site host
+    required: true
   react_app_oauth_client_id:
     description: The OAuth client id used by the app
     required: true
@@ -70,6 +73,7 @@ runs:
       run: |-
         echo "" > .env.production
         echo "REACT_APP_API_HOST=${{ inputs.react_app_api_host }}" >> .env.production
+        echo "REACT_APP_RENAISSANCE_HOST=${{ inputs.react_app_renaissance_host }}" >> .env.production
         echo "REACT_APP_OAUTH_HOST=${{ inputs.react_app_oauth_host }}" >> .env.production
         echo "REACT_APP_OAUTH_CLIENT_ID=${{ inputs.react_app_oauth_client_id }}" >> .env.production
         echo "REACT_APP_INTERNAL_APP_ID=${{ inputs.react_app_internal_app_id }}" >> .env.production
