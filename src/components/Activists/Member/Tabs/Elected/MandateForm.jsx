@@ -170,8 +170,20 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
             <Controller
               name={fields.beginAt}
               control={control}
-              render={({ field: { ref, ...field } }) => (
-                <DatePicker slots={{ textField: Input }} sx={{ mt: 1.5 }} {...field} />
+              render={({ field: { onChange, ref, ...field } }) => (
+                <DatePicker
+                  slots={{ textField: Input }}
+                  sx={{ mt: 1.5 }}
+                  onChange={value => {
+                    if (value instanceof Date) {
+                      const offset = -value.getTimezoneOffset()
+                      value.setHours(Math.trunc(offset / 60), offset % 60)
+                    }
+
+                    onChange(value)
+                  }}
+                  {...field}
+                />
               )}
             />
             <FormError message={formErrors[fields.beginAt]?.message} />

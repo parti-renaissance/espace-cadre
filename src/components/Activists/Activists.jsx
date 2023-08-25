@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import Lists from './Lists'
+import MembersList from './MembersList'
 import Loader from 'ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { exportActivists, getActivists } from 'api/activist'
@@ -35,13 +35,15 @@ const Activists = () => {
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
   const [loader, setLoader] = useState(false)
+  const [isFirstLoading, setFirstLoading] = useState(true)
 
-  const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0), isLoading } = useQueryWithScope(
+  const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0), refetch } = useQueryWithScope(
     ['activists', { feature: 'Activists', view: 'Activists' }, filters],
     () => {
       const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
       return getActivists(filter)
-    }
+    },
+    { onSettled: () => setFirstLoading(false) }
   )
 
   const handleExport = async () => {
@@ -54,6 +56,10 @@ const Activists = () => {
   const toggleDrawer = (e, member = null) => {
     e.preventDefault()
     setMember(member)
+  }
+
+  if (isFirstLoading) {
+    return <Loader isCenter />
   }
 
   return (
@@ -107,7 +113,6 @@ const Activists = () => {
             <Loader isCenter />
           </Box>
         )}
-        {isLoading && <Loader isCenter />}
         {activists.total > 0 ? (
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>
@@ -126,11 +131,24 @@ const Activists = () => {
           <EmptyContent description="Aucun résultat ne correspond à votre recherche" />
         )}
 
-        <Lists members={activists.data} onMemberClick={toggleDrawer} />
+        <MembersList members={activists.data} onMemberClick={toggleDrawer} />
       </Box>
 
-      <Drawer anchor="right" open={member !== null} onClose={e => toggleDrawer(e, null)}>
-        <Member member={member} handleClose={e => toggleDrawer(e, null)} />
+      <Drawer
+        anchor="right"
+        open={member !== null}
+        onClose={e => {
+          toggleDrawer(e, null)
+          refetch()
+        }}
+      >
+        <Member
+          member={member}
+          handleClose={e => {
+            toggleDrawer(e, null)
+            refetch()
+          }}
+        />
       </Drawer>
     </Container>
   )

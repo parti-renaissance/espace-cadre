@@ -5,8 +5,10 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood'
 import Activist from 'domain/activist'
 import { UIChip } from 'ui/Card'
 import Badges, { MemberBadge } from './Badges'
+import BadgesList from 'ui/Badge/BadgesList'
+import { parseMandates } from 'components/Activists/helper'
 
-const Lists = ({ members, onMemberClick }) => (
+const MembersList = ({ members, onMemberClick }) => (
   <Paper className="divider" data-cy="contacts-list">
     {members.map((member, index) => (
       <Button
@@ -32,7 +34,7 @@ const Lists = ({ members, onMemberClick }) => (
                 {member.raw.email}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
               <Box sx={{ color: 'colors.gray.700', mb: 1 }}>
                 <MemberBadge membership={member.raw.renaissance_membership} labelStyle={{ fontSize: '12px' }} />
               </Box>
@@ -45,7 +47,10 @@ const Lists = ({ members, onMemberClick }) => (
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={4} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Grid item xs={12} sm={3}>
+              <BadgesList badges={parseMandates(member.raw.mandates, member.raw.declared_mandates)} />
+            </Grid>
+            <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
               {member.raw.tags.length > 0 && <Badges tags={member.raw.tags} />}
               <UIChip
                 label={member.raw.campus_registered_at ? 'Inscrit au Campus' : 'Non inscrit au Campus'}
@@ -62,9 +67,9 @@ const Lists = ({ members, onMemberClick }) => (
   </Paper>
 )
 
-export default Lists
+export default MembersList
 
-Lists.propTypes = {
+MembersList.propTypes = {
   members: PropTypes.arrayOf(Activist.propTypes).isRequired,
   onMemberClick: PropTypes.func.isRequired,
 }
