@@ -14,6 +14,7 @@ import { Mandate as MandateObject } from 'domain/mandate'
 import MandateModalForm from 'components/Activists/Member/Tabs/Elected/MandateForm'
 import { useState } from 'react'
 import { UIChip } from 'ui/Card'
+import { mandates } from 'shared/constants'
 
 const ElectedTab = ({ member }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -68,7 +69,7 @@ const ElectedTab = ({ member }) => {
                   {member.raw.declared_mandates.map(m => (
                     <UIChip
                       key={m}
-                      label={m}
+                      label={mandates[m] ?? m}
                       color="colors.green.800"
                       bgcolor="#fff"
                       labelStyle={{ fontSize: '12px', fontWeight: '600' }}
