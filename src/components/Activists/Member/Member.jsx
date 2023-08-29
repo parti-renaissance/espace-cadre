@@ -142,7 +142,7 @@ const Member = ({ member, handleClose }) => {
               <AdherentTab member={member} />
             </TabPanel>
             <TabPanel value={'2'}>
-              <ElectedTab member={member} />
+              <ElectedTab adherentUuid={member.adherentUuid} />
             </TabPanel>
           </TabContext>
         </Box>
