@@ -3,7 +3,6 @@ import qs from 'qs'
 import Activist from 'domain/activist'
 import { PaginatedResult } from './pagination'
 import { downloadFile } from './upload'
-import { Mandate } from 'domain/mandate'
 import { formatDate } from 'shared/helpers'
 
 export const getActivists = async filter => {
@@ -44,10 +43,7 @@ export const exportActivists = async filter =>
   )
 export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)
 
-export const getMandates = async uuid => {
-  const data = await apiClient.get(`v3/elected_adherent_mandates?adherent.uuid=${uuid}`)
-  return data.items ? data.items.map(m => Mandate.fromApi(m)) : []
-}
+export const getAdherentElect = async uuid => await apiClient.get(`v3/adherents/${uuid}/elect`)
 export const createMandate = async ({ data }) => await apiClient.post('/api/v3/elected_adherent_mandates', data)
 export const updateMandate = async ({ data, uuid }) =>
   await apiClient.put(`/api/v3/elected_adherent_mandates/${uuid}`, data)

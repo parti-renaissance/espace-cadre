@@ -1,6 +1,5 @@
-import Activist from 'domain/activist'
 import { useQueryWithScope } from 'api/useQueryWithScope'
-import { deleteMandate, getMandates } from 'api/activist'
+import { deleteMandate, getAdherentElect } from 'api/activist'
 import Loader from 'ui/Loader'
 import { Box, Grid, Typography } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
@@ -15,21 +14,20 @@ import MandateModalForm from 'components/Activists/Member/Tabs/Elected/MandateFo
 import { useState } from 'react'
 import { UIChip } from 'ui/Card'
 import { mandates } from 'shared/constants'
+import PropTypes from 'prop-types'
+import { formatDate } from 'shared/helpers'
+import Badge from 'ui/Badge/Badge'
 
-const ElectedTab = ({ member }) => {
+const ElectedTab = ({ adherentUuid }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const [mandate, setMandate] = useState(null)
 
   const {
-    data: adherentMandates = [],
+    data: adherentElect,
     isFetching,
     refetch,
-  } = useQueryWithScope(['mandates', member.adherentUuid], async () => {
-    const mandates = await getMandates(member.adherentUuid)
-
-    return [mandates.filter(m => m.onGoing), mandates.filter(m => !m.onGoing)]
-  })
+  } = useQueryWithScope(['adherent-elect', adherentUuid], () => getAdherentElect(adherentUuid))
 
   const { mutate: removeMandate } = useMutation(deleteMandate, {
     onSuccess: () => {
@@ -39,15 +37,16 @@ const ElectedTab = ({ member }) => {
     onError: handleError,
   })
 
-  const [ongoingMandates, finishedMandates] = adherentMandates
-
   if (isFetching) {
     return <Loader isCenter />
   }
 
+  const ongoingMandates = adherentElect.elect_mandates.filter(m => !m.finish_at)
+  const finishedMandates = adherentElect.elect_mandates.filter(m => m.finish_at)
+
   return (
     <Box sx={{ mt: 2 }} className="space-y-4">
-      {member.raw.declared_mandates.length > 0 && (
+      {adherentElect.mandates.length > 0 && (
         <Box
           sx={{
             bgcolor: 'colors.gray.50',
@@ -66,7 +65,7 @@ const ElectedTab = ({ member }) => {
 
               <Grid item sx={{ mb: 1.5 }}>
                 <Box display="flex" alignItems="center" flexWrap="wrap" className="space-x-2">
-                  {member.raw.declared_mandates.map(m => (
+                  {adherentElect.mandates.map(m => (
                     <UIChip
                       key={m}
                       label={mandates[m] ?? m}
@@ -131,7 +130,7 @@ const ElectedTab = ({ member }) => {
           {ongoingMandates.length > 0 ? (
             ongoingMandates.map(mandate => (
               <Mandate
-                mandate={mandate}
+                mandate={MandateObject.fromApi(mandate)}
                 key={mandate.uuid}
                 removeAction={removeMandate}
                 editAction={m => setMandate(m)}
@@ -156,7 +155,7 @@ const ElectedTab = ({ member }) => {
 
             {finishedMandates.map(mandate => (
               <Mandate
-                mandate={mandate}
+                mandate={MandateObject.fromApi(mandate)}
                 key={mandate.uuid}
                 removeAction={removeMandate}
                 editAction={m => setMandate(m)}
@@ -166,9 +165,57 @@ const ElectedTab = ({ member }) => {
         )}
       </Box>
 
+      <Box
+        sx={{
+          bgcolor: 'colors.gray.50',
+          px: 2,
+          py: 2.5,
+          borderRadius: 2,
+        }}
+      >
+        <Box>
+          <Grid container direction="column" spacing={1}>
+            <Grid item xs={12}>
+              <Typography component="h4" sx={{ color: 'colors.gray.700', fontSize: '14px', fontWeight: '500' }}>
+                Cotisations d&apos;élu
+              </Typography>
+            </Grid>
+
+            <Grid item sx={{ mb: 1.5 }} xs={12}>
+              <Box className="space-y-3">
+                {adherentElect.payments.map((p, index) => (
+                  <Box
+                    key={p.uuid}
+                    sx={{
+                      paddingTop: 1.5,
+                      borderTop: index !== 0 ? '1px solid' : 'none',
+                      borderColor: 'colors.gray.700',
+                    }}
+                  >
+                    <Grid container justifyContent={'space-between'}>
+                      <Grid item>
+                        <Typography sx={{ color: 'colors.gray.500', fontSize: '14px', fontWeight: '500' }}>
+                          {formatDate(new Date(p.date), 'dd/MM/yyyy')} via {p.method}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Badge badge={{ label: p.status_label }} />
+                      </Grid>
+                      <Grid item xs={12}>
+                        {p.amount} €
+                      </Grid>
+                    </Grid>
+                  </Box>
+                ))}
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+
       {mandate && (
         <MandateModalForm
-          adherentUuid={member.adherentUuid}
+          adherentUuid={adherentUuid}
           mandate={mandate}
           handleClose={(needRefetch = false) => {
             setMandate(null)
@@ -184,7 +231,7 @@ const ElectedTab = ({ member }) => {
 }
 
 ElectedTab.propTypes = {
-  member: Activist.propTypes.isRequired,
+  adherentUuid: PropTypes.string.isRequired,
 }
 
 export default ElectedTab
