@@ -134,11 +134,7 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
               name={fields.onGoing}
               label="Le mandat est en cours"
               onChange={(event, v) => {
-                if (v === true) {
-                  setValue(fields.finishAt, null)
-                } else {
-                  setValue(fields.finishAt, new Date())
-                }
+                setValue(fields.finishAt, v === true ? null : new Date())
                 onChange(event, v)
               }}
               checked={value}
