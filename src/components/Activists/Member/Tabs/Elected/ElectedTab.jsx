@@ -183,30 +183,32 @@ const ElectedTab = ({ adherentUuid }) => {
 
             <Grid item sx={{ mb: 1.5 }} xs={12}>
               <Box className="space-y-3">
-                {adherentElect.payments.map((p, index) => (
-                  <Box
-                    key={p.uuid}
-                    sx={{
-                      paddingTop: 1.5,
-                      borderTop: index !== 0 ? '1px solid' : 'none',
-                      borderColor: 'colors.gray.700',
-                    }}
-                  >
-                    <Grid container justifyContent={'space-between'}>
-                      <Grid item>
-                        <Typography sx={{ color: 'colors.gray.500', fontSize: '14px', fontWeight: '500' }}>
-                          {formatDate(new Date(p.date), 'dd/MM/yyyy')} via {p.method}
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Badge badge={{ label: p.status_label }} />
-                      </Grid>
-                      <Grid item xs={12}>
-                        {p.amount} €
-                      </Grid>
-                    </Grid>
-                  </Box>
-                ))}
+                {adherentElect.payments.length > 0
+                  ? adherentElect.payments.map((p, index) => (
+                      <Box
+                        key={p.uuid}
+                        sx={{
+                          paddingTop: 1.5,
+                          borderTop: index !== 0 ? '1px solid' : 'none',
+                          borderColor: 'colors.gray.700',
+                        }}
+                      >
+                        <Grid container justifyContent={'space-between'}>
+                          <Grid item>
+                            <Typography sx={{ color: 'colors.gray.500', fontSize: '14px', fontWeight: '500' }}>
+                              {formatDate(new Date(p.date), 'dd/MM/yyyy')} via {p.method}
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Badge badge={{ label: p.status_label }} />
+                          </Grid>
+                          <Grid item xs={12}>
+                            {p.amount} €
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    ))
+                  : '--'}
               </Box>
             </Grid>
           </Grid>
