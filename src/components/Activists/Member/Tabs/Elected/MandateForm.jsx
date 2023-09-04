@@ -126,6 +126,30 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
       </Box>
 
       <Box>
+        <Controller
+          name={fields.onGoing}
+          control={control}
+          render={({ field: { onChange, value, ...field } }) => (
+            <FormControlLabel
+              name={fields.onGoing}
+              label="Le mandat est en cours"
+              onChange={(event, v) => {
+                if (v === true) {
+                  setValue(fields.finishAt, null)
+                } else {
+                  setValue(fields.finishAt, new Date())
+                }
+                onChange(event, v)
+              }}
+              checked={value}
+              control={<Checkbox />}
+              {...field}
+            />
+          )}
+        />
+      </Box>
+
+      <Box>
         <Typography
           component={'p'}
           sx={{
@@ -139,28 +163,6 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
         >
           Optionnel
         </Typography>
-      </Box>
-
-      <Box>
-        <Controller
-          name={fields.onGoing}
-          control={control}
-          render={({ field: { onChange, value, ...field } }) => (
-            <FormControlLabel
-              name={fields.onGoing}
-              label="Le mandat est en cours"
-              onChange={(event, v) => {
-                if (v === true) {
-                  setValue(fields.finishAt, null)
-                }
-                onChange(event, v)
-              }}
-              checked={value}
-              control={<Checkbox />}
-              {...field}
-            />
-          )}
-        />
       </Box>
 
       <Grid container columnSpacing={4}>
