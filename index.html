@@ -6,6 +6,11 @@
     <!-- Abla analytics -->
     <script vite-if="<{ REACT_APP_ENVIRONMENT }> === production" async defer data-website-id="92b2a3e2-4000-4a27-bfe2-00b138b9633c" src="https://s.abla.io/abla.js"></script>
 
+    <!-- Intercom widget -->
+    <script vite-if="<{ REACT_APP_ENVIRONMENT }> === staging">
+      (function(){var w=window;w.intercomSettings = {app_id:"wv7cz2v2",api_base:"https://api-iam.intercom.io"};var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/wv7cz2v2';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <meta name="theme-color" content="#000000" />
