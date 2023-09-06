@@ -1,5 +1,6 @@
 const scopes = {
   regional_coordinator: 'regional_coordinator',
+  regional_delegate: 'regional_delegate',
   correspondent: 'correspondent',
   deputy: 'deputy',
   senator: 'senator',
@@ -31,6 +32,7 @@ export const nationalScopes = [
 export function isZonedScope(code) {
   return [
     scopes.regional_coordinator,
+    scopes.regional_delegate,
     scopes.correspondent,
     scopes.deputy,
     scopes.senator,

@@ -39,6 +39,7 @@ const templates = {
   [scopes.correspondent]: 123148,
   [scopes.legislative_candidate]: 165090,
   [scopes.regional_coordinator]: 276759,
+  [scopes.regional_delegate]: 401163,
   [scopes.president_departmental_assembly]: 293625,
 }
 const defaultTemplate = 41208
