@@ -24,6 +24,7 @@ import PageHeader from 'ui/PageHeader'
 import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
 import Member from './Member/Member'
 import { useUserScope } from '../../redux/user/hooks'
+import { useErrorHandler } from 'components/shared/error/hooks'
 
 const messages = {
   title: 'Militants',
@@ -36,6 +37,7 @@ const Activists = () => {
   const [member, setMember] = useState(null)
   const [loader, setLoader] = useState(false)
   const [isShadowLoading, setIsShadowLoading] = useState(false)
+  const { handleError } = useErrorHandler()
 
   const {
     data: activists = new PaginatedResult([], 0, 0, 0, 0, 0),
@@ -47,7 +49,7 @@ const Activists = () => {
       const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
       return getActivists(filter)
     },
-    { onSettled: () => setIsShadowLoading(false) }
+    { onSettled: () => setIsShadowLoading(false), onError: handleError }
   )
 
   const handleExport = async () => {
