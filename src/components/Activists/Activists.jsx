@@ -35,15 +35,19 @@ const Activists = () => {
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
   const [loader, setLoader] = useState(false)
-  const [isFirstLoading, setFirstLoading] = useState(true)
+  const [isShadowLoading, setIsShadowLoading] = useState(false)
 
-  const { data: activists = new PaginatedResult([], 0, 0, 0, 0, 0), refetch } = useQueryWithScope(
+  const {
+    data: activists = new PaginatedResult([], 0, 0, 0, 0, 0),
+    refetch,
+    isFetching,
+  } = useQueryWithScope(
     ['activists', { feature: 'Activists', view: 'Activists' }, filters],
     () => {
       const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
       return getActivists(filter)
     },
-    { onSettled: () => setFirstLoading(false) }
+    { onSettled: () => setIsShadowLoading(false) }
   )
 
   const handleExport = async () => {
@@ -56,10 +60,6 @@ const Activists = () => {
   const toggleDrawer = (e, member = null) => {
     e.preventDefault()
     setMember(member)
-  }
-
-  if (isFirstLoading) {
-    return <Loader isCenter />
   }
 
   return (
@@ -98,7 +98,7 @@ const Activists = () => {
       </Accordion>
 
       <Box sx={{ mt: 4, position: 'relative' }} className="space-y-4">
-        {loader && (
+        {(loader || (isFetching && !isShadowLoading)) && (
           <Box
             sx={{
               position: 'absolute',
@@ -128,7 +128,7 @@ const Activists = () => {
             />
           </Box>
         ) : (
-          <EmptyContent description="Aucun résultat ne correspond à votre recherche" />
+          !isFetching && <EmptyContent description="Aucun résultat ne correspond à votre recherche" />
         )}
 
         <MembersList members={activists.data} onMemberClick={toggleDrawer} />
@@ -139,6 +139,7 @@ const Activists = () => {
         open={member !== null}
         onClose={e => {
           toggleDrawer(e, null)
+          setIsShadowLoading(true)
           refetch()
         }}
       >
@@ -146,6 +147,7 @@ const Activists = () => {
           member={member}
           handleClose={e => {
             toggleDrawer(e, null)
+            setIsShadowLoading(true)
             refetch()
           }}
         />
