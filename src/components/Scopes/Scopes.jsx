@@ -15,7 +15,9 @@ import { getInitialNames } from 'shared/helpers'
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {
     background: ${({ theme }) => theme.palette.colors.white};
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
     width: 300px;
     padding: 4px 0;
     margin-top: 8px;
