@@ -9,9 +9,9 @@ export const parseMandates = (mandates, declaredMandates) => {
         label: mandateTypes[type] ?? type,
         help: zone,
         badgeOptions: {
-          color: 'colors.green.800',
-          bgcolor: 'colors.green.300',
-          sx: { border: 2 },
+          color: '#fff',
+          bgcolor: '#208e73',
+          sx: { border: 1 },
         },
       }
     })
@@ -20,7 +20,7 @@ export const parseMandates = (mandates, declaredMandates) => {
   if (Array.isArray(declaredMandates) && declaredMandates.length) {
     return declaredMandates.map(mandate => ({
       label: mandateTypes[mandate] ?? mandate,
-      badgeOptions: { color: 'colors.green.800', bgcolor: '#fff', sx: { border: 2 } },
+      badgeOptions: { color: '#208e73', bgcolor: '#fff', sx: { border: 1 } },
     }))
   }
 

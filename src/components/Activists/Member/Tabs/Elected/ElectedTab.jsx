@@ -12,11 +12,11 @@ import Mandate from 'components/Activists/Member/Tabs/Elected/Mandate'
 import { Mandate as MandateObject } from 'domain/mandate'
 import MandateModalForm from 'components/Activists/Member/Tabs/Elected/MandateForm'
 import { useState } from 'react'
-import { UIChip } from 'ui/Card'
-import { mandates } from 'shared/constants'
 import PropTypes from 'prop-types'
 import { formatDate } from 'shared/helpers'
 import Badge from 'ui/Badge/Badge'
+import { parseMandates } from 'components/Activists/helper'
+import BadgesList from 'ui/Badge/BadgesList'
 
 const ElectedTab = ({ adherentUuid }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -65,16 +65,7 @@ const ElectedTab = ({ adherentUuid }) => {
 
               <Grid item sx={{ mb: 1.5 }}>
                 <Box display="flex" alignItems="center" flexWrap="wrap" className="space-x-2">
-                  {adherentElect.mandates.map(m => (
-                    <UIChip
-                      key={m}
-                      label={mandates[m] ?? m}
-                      color="colors.green.800"
-                      bgcolor="#fff"
-                      labelStyle={{ fontSize: '12px', fontWeight: '600' }}
-                      sx={{ display: 'flex', width: 'fit-content', py: 1, border: 2 }}
-                    />
-                  ))}
+                  <BadgesList badges={parseMandates([], adherentElect.mandates)} />
                 </Box>
               </Grid>
             </Grid>
