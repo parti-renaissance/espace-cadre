@@ -4,17 +4,28 @@ import PropTypes from 'prop-types'
 import ConfirmationModal from 'ui/Confirmation/ConfrmationModal'
 import { DangerButton } from './Button'
 
-const ConfirmButton = ({ title, description, children, onClick, isDangerButton = false }) => {
+const ConfirmButton = ({ title, description, children, onClick, disabled = false, isDangerButton = false }) => {
   const [open, setOpen] = useState(false)
 
   return (
     <>
       {isDangerButton ? (
-        <DangerButton onClick={() => setOpen(true)} rootProps={{ sx: { fontSize: '12px', px: 1, py: 0 } }}>
+        <DangerButton
+          disabled={disabled}
+          onClick={() => setOpen(true)}
+          rootProps={{ sx: { fontSize: '12px', px: 1, py: 0 } }}
+        >
           {children}
         </DangerButton>
       ) : (
-        <IconButton edge="start" color="inherit" onClick={() => setOpen(true)} aria-label="delete" sx={{ ml: 0.5 }}>
+        <IconButton
+          disabled={disabled}
+          edge="start"
+          color="inherit"
+          onClick={() => setOpen(true)}
+          aria-label="delete"
+          sx={{ ml: 0.5 }}
+        >
           {children}
         </IconButton>
       )}
@@ -41,4 +52,5 @@ ConfirmButton.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
   isDangerButton: PropTypes.bool,
+  disabled: PropTypes.bool,
 }

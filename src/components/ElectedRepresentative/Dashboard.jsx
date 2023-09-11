@@ -23,6 +23,7 @@ import DynamicFilters from '../Filters/DynamicFilters'
 import CreateEditModal from './CreateEditModal'
 import { Elected } from 'domain/elected_representative'
 import { formatDate } from 'shared/helpers'
+import Alert from 'components/ElectedRepresentative/Alert'
 
 const messages = {
   title: 'Registre des élus',
@@ -170,6 +171,8 @@ const Dashboard = () => {
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }} data-cy="elected-representative-container">
+      <Alert />
+
       <Grid container justifyContent="space-between">
         <PageHeader
           title={messages.title}
