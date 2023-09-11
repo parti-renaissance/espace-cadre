@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useParams } from 'react-router'
-import { Box, Container, Grid, Typography } from '@mui/material'
+import { Box, Container, Grid, Tooltip, Typography } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import { DateRange } from '@mui/icons-material'
 import { useMutation } from '@tanstack/react-query'
-import { deleteMandate, getElected, updateElected } from 'api/elected-representative'
+import { getElected, updateElected } from 'api/elected-representative'
 import { useQueryWithScope } from 'api/useQueryWithScope'
 import { useErrorHandler } from 'components/shared/error/hooks'
 import { useCustomSnackbar } from 'components/shared/notification/hooks'
@@ -19,7 +18,6 @@ import UICard from 'ui/Card/Card'
 import Button from 'ui/Button'
 import EmptyContent from 'ui/EmptyContent'
 import Loader from 'ui/Loader'
-import ConfirmButton from 'ui/Button/ConfirmButton'
 import { mandates } from 'shared/constants'
 import paths from 'shared/paths'
 import CreateEditMandate from './CreateEditMandate'
@@ -27,6 +25,7 @@ import CreateEditModal from './CreateEditModal'
 import PaymentBadge from './PaymentBadge'
 import { Mandate } from 'domain/elected_representative'
 import { formatDate } from 'shared/helpers'
+import Alert from 'components/ElectedRepresentative/Alert'
 
 const messages = {
   pageTitle: 'Registre des élus',
@@ -90,14 +89,6 @@ const ElectedDetail = () => {
       onError: handleError,
     }
   )
-
-  const { mutate: removeMandate, isLoading: loading } = useMutation(deleteMandate, {
-    onSuccess: () => {
-      enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
-      refetch()
-    },
-    onError: handleError,
-  })
 
   const { mutate, isLoading: updateAdherentLoading } = useMutation(updateElected, {
     onSuccess: () => {
@@ -276,6 +267,9 @@ const ElectedDetail = () => {
             />
           </Grid>
         </Grid>
+
+        <Alert />
+
         <UICard
           rootProps={{ sx: { p: 0 } }}
           header={
@@ -293,11 +287,15 @@ const ElectedDetail = () => {
                 <Typography sx={{ fontSize: '18px', fontWeight: 500, color: 'colors.gray.700', mr: 2 }}>
                   {messages.mandatesTitle}
                 </Typography>
-                {loading && <Loader />}
               </Box>
-              <Button isMainButton onClick={() => toggleEditMandateModal(currentMandate, true)}>
-                {messages.add}
-              </Button>
+
+              <Tooltip title={"Nous avons migré ces fonctionnalités directement dans l'onglet Militants"}>
+                <span>
+                  <Button disabled={true} isMainButton onClick={() => toggleEditMandateModal(currentMandate, true)}>
+                    {messages.add}
+                  </Button>
+                </span>
+              </Tooltip>
             </Box>
           }
           content={
@@ -344,17 +342,13 @@ const ElectedDetail = () => {
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', ml: 2 }}>
-                      <Button isMainButton onClick={() => toggleEditMandateModal(mandate, true)}>
-                        {messages.edit}
-                      </Button>
-
-                      <ConfirmButton
-                        title={messages.confirmDeleteTitle}
-                        description={messages.confirmDeleteDescription}
-                        onClick={() => removeMandate(mandate.id)}
-                      >
-                        <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
-                      </ConfirmButton>
+                      <Tooltip title={"Nous avons migré ces fonctionnalités dans l'onglet Militants"}>
+                        <span>
+                          <Button isMainButton disabled={true} onClick={() => toggleEditMandateModal(mandate, true)}>
+                            {messages.edit}
+                          </Button>
+                        </span>
+                      </Tooltip>
                     </Box>
                   </Box>
                 ))}
