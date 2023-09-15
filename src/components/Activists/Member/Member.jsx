@@ -10,13 +10,17 @@ import { useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import AdherentTab from 'components/Activists/Member/Tabs/Adherent/AdherentTab'
 import ElectedTab from 'components/Activists/Member/Tabs/Elected/ElectedTab'
+import { useUserScope } from '../../../redux/user/hooks'
+import features from 'shared/features'
 
 const Member = ({ member, handleClose }) => {
+  const [currentScope] = useUserScope()
+  const isElectFeatureEneblad = currentScope.hasFeature(features.elected_representative)
+  const [currentTab, setCurrentTab] = useState('1')
+
   if (!member) {
     return null
   }
-
-  const [currentTab, setCurrentTab] = useState('1')
 
   return (
     <Box
@@ -121,29 +125,33 @@ const Member = ({ member, handleClose }) => {
             <Box sx={{ mt: 3 }}>
               <TabList onChange={(event, newValue) => setCurrentTab(newValue)}>
                 <Tab sx={{ textTransform: 'none' }} label={'Adhérent'} value={'1'} />
-                <Tab
-                  sx={{ textTransform: 'none' }}
-                  label={
-                    'Élu' +
-                    (member.raw.mandates.length
-                      ? ' (' +
-                        member.raw.mandates.length +
-                        ' mandat' +
-                        (member.raw.mandates.length > 1 ? 's' : '') +
-                        ')'
-                      : '')
-                  }
-                  value={'2'}
-                />
+                {isElectFeatureEneblad && (
+                  <Tab
+                    sx={{ textTransform: 'none' }}
+                    label={
+                      'Élu' +
+                      (member.raw.mandates.length
+                        ? ' (' +
+                          member.raw.mandates.length +
+                          ' mandat' +
+                          (member.raw.mandates.length > 1 ? 's' : '') +
+                          ')'
+                        : '')
+                    }
+                    value={'2'}
+                  />
+                )}
               </TabList>
             </Box>
 
             <TabPanel value={'1'}>
               <AdherentTab member={member} />
             </TabPanel>
-            <TabPanel value={'2'}>
-              <ElectedTab adherentUuid={member.adherentUuid} />
-            </TabPanel>
+            {isElectFeatureEneblad && (
+              <TabPanel value={'2'}>
+                <ElectedTab adherentUuid={member.adherentUuid} />
+              </TabPanel>
+            )}
           </TabContext>
         </Box>
       </Box>
