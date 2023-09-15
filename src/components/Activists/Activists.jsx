@@ -39,6 +39,8 @@ const Activists = () => {
   const [isShadowLoading, setIsShadowLoading] = useState(false)
   const { handleError } = useErrorHandler()
 
+  const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
+
   const {
     data: activists = new PaginatedResult([], 0, 0, 0, 0, 0),
     refetch,
@@ -59,9 +61,12 @@ const Activists = () => {
     setLoader(false)
   }
 
-  const toggleDrawer = (e, member = null) => {
-    e.preventDefault()
-    setMember(member)
+  const handleDrawerClose = () => {
+    setMember(null)
+    if (isElectFeatureEnabled) {
+      setIsShadowLoading(true)
+      refetch()
+    }
   }
 
   return (
@@ -99,60 +104,39 @@ const Activists = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Box sx={{ mt: 4, position: 'relative' }} className="space-y-4">
-        {(loader || (isFetching && !isShadowLoading)) && (
+      <Box sx={{ mt: 4 }} className="space-y-4">
+        {((loader || (isFetching && !isShadowLoading)) && (
           <Box
             sx={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              left: 0,
-              bottom: 0,
-              zIndex: 1000,
               backgroundColor: 'rgba(255,255,255,0.5)',
             }}
           >
-            <Loader isCenter />
+            <Loader isCenter color={'colors.blue.500'} />
           </Box>
-        )}
-        {activists.total > 0 ? (
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>
-              Affichage de {activists.pageSize * (activists.currentPage - 1) + 1} à{' '}
-              {activists.pageSize * (activists.currentPage - 1) + activists.currentPageCount} résultats sur{' '}
-              {activists.total}
-            </Typography>
-            <Pagination
-              sx={{ justifyContent: 'flex-end' }}
-              count={activists.lastPage || 0}
-              page={filters.page}
-              onChange={(event, page) => setFilters(prevState => ({ ...prevState, page }))}
-            />
-          </Box>
-        ) : (
-          !isFetching && <EmptyContent description="Aucun résultat ne correspond à votre recherche" />
-        )}
-
-        <MembersList members={activists.data} onMemberClick={toggleDrawer} />
+        )) ||
+          (activists.total > 0 && (
+            <>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+                <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>
+                  Affichage de {activists.pageSize * (activists.currentPage - 1) + 1} à{' '}
+                  {activists.pageSize * (activists.currentPage - 1) + activists.currentPageCount} résultats sur{' '}
+                  {activists.total}
+                </Typography>
+                <Pagination
+                  sx={{ justifyContent: 'flex-end' }}
+                  count={activists.lastPage || 0}
+                  page={filters.page}
+                  onChange={(event, page) => setFilters(prevState => ({ ...prevState, page }))}
+                />
+              </Box>
+              <MembersList members={activists.data} onMemberClick={m => setMember(m)} />
+            </>
+          )) ||
+          (!isFetching && <EmptyContent description="Aucun résultat ne correspond à votre recherche" />)}
       </Box>
 
-      <Drawer
-        anchor="right"
-        open={member !== null}
-        onClose={e => {
-          toggleDrawer(e, null)
-          setIsShadowLoading(true)
-          refetch()
-        }}
-      >
-        <Member
-          member={member}
-          handleClose={e => {
-            toggleDrawer(e, null)
-            setIsShadowLoading(true)
-            refetch()
-          }}
-        />
+      <Drawer anchor="right" open={member !== null} onClose={handleDrawerClose}>
+        <Member member={member} enableElectTab={isElectFeatureEnabled} handleClose={handleDrawerClose} />
       </Drawer>
     </Container>
   )

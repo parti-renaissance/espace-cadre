@@ -191,7 +191,7 @@ const ElectedTab = ({ adherentUuid }) => {
                         <Grid container justifyContent={'space-between'}>
                           <Grid item>
                             <Typography sx={{ color: 'colors.gray.500', fontSize: '14px', fontWeight: '500' }}>
-                              {formatDate(new Date(p.date), 'dd/MM/yyyy')} via {p.method}
+                              {formatDate(p.date, 'dd/MM/yyyy')} via {p.method}
                             </Typography>
                           </Grid>
                           <Grid item>

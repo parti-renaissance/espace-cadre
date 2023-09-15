@@ -108,7 +108,7 @@ const Committees = () => {
                       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
                         <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
                         <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
-                          Créé Le {formatDate(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm')}
+                          Créé Le {formatDate(committee.created_at, 'dd/MM/yyyy à HH:mm')}
                         </Typography>
                       </Box>
                     </Box>

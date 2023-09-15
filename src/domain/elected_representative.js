@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { parseDate } from 'shared/helpers'
 
 export class ElectedAttribute {
   constructor(id, firstName, lastName, gender, contactPhone) {
@@ -30,7 +31,7 @@ export class Elected extends ElectedAttribute {
 
     this.emailAddress = emailAddress
     this.contactEmail = contactEmail
-    this.birthDate = birthDate ? new Date(birthDate) : null
+    this.birthDate = birthDate ? parseDate(birthDate) : null
     this.birthPlace = birthPlace
     this.hasFollowedTraining = hasFollowedTraining
     this.adherent = adherent
@@ -58,7 +59,7 @@ export class ElectedRepresentative extends ElectedAttribute {
 
     this.lastContribution = lastContribution
     this.contributionStatus = contributionStatus
-    this.contributedAt = contributedAt ? new Date(contributedAt) : null
+    this.contributedAt = contributedAt ? parseDate(contributedAt) : null
     this.currentMandates = currentMandates
     this.currentPoliticalFunctions = currentPoliticalFunctions
   }
@@ -80,8 +81,8 @@ export class Mandate {
     politicalFunctions
   ) {
     this.id = id
-    this.beginAt = new Date(beginAt)
-    this.finishAt = finishAt ? new Date(finishAt) : null
+    this.beginAt = parseDate(beginAt)
+    this.finishAt = finishAt ? parseDate(finishAt) : null
     this.type = type
     this.isElected = isElected
     this.onGoing = onGoing

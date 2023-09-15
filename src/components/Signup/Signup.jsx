@@ -19,6 +19,7 @@ import UISelect from 'ui/Select/Select'
 import AlertBanner from 'ui/AlertBanner'
 import { messages, placeholders, errorFields } from './data/wording'
 import { publicPaths } from 'shared/paths'
+import { parseDate } from 'shared/helpers'
 
 const Page = styled('div')(
   ({ theme }) => `
@@ -151,7 +152,7 @@ const Signup = () => {
 
   const days = useMemo(
     () =>
-      new Array(getDaysInMonth(new Date(parseInt(birthdate.year), parseInt(birthdate.month) - 1)))
+      new Array(getDaysInMonth(parseDate(parseInt(birthdate.year), parseInt(birthdate.month) - 1)))
         .fill('')
         .map((_, i) => i + 1)
         .map(d => ({ key: d < 10 ? `0${d}` : String(d), value: String(d) })),

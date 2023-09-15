@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { parseDate } from 'shared/helpers'
 
 export class Mandate {
   constructor({ uuid, mandateType, zone, beginAt = null, finishAt = null, delegation = '' }) {
@@ -18,8 +19,8 @@ export class Mandate {
       uuid: m.uuid,
       mandateType: m.mandate_type,
       zone: m.zone,
-      beginAt: m.begin_at ? new Date(m.begin_at) : null,
-      finishAt: m.finish_at ? new Date(m.finish_at) : null,
+      beginAt: m.begin_at ? parseDate(m.begin_at) : null,
+      finishAt: m.finish_at ? parseDate(m.finish_at) : null,
       delegation: m.delegation,
     })
 }

@@ -26,7 +26,7 @@ const InformationTab = ({ committee }) => {
                 <LineContent label="Nom du comité" value={committee.name} />
                 <LineContent
                   label="Date de création"
-                  value={formatDate(new Date(committee.created_at), 'dd/MM/yyyy à HH:mm:ss')}
+                  value={formatDate(committee.created_at, 'dd/MM/yyyy à HH:mm:ss')}
                 />
                 <LineContent label="Description" value={nl2br(committee.description, { fontSize: '16px' })} />
                 <LineContent

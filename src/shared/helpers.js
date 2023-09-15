@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
 /**
@@ -26,7 +26,11 @@ export function getInitialNames(name = null) {
 }
 
 export function formatDate(date, formatPattern) {
-  return format(date, formatPattern, { locale: fr })
+  return format(typeof date === 'string' ? parseDate(date) : date, formatPattern, { locale: fr })
+}
+
+export function parseDate(date) {
+  return parseISO(date)
 }
 
 export const getFullName = user => `${user.first_name} ${user.last_name}`

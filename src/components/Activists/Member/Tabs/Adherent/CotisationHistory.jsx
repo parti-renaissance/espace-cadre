@@ -19,7 +19,7 @@ const CotisationHistory = ({ dates }) =>
             <EventAvailableOutlinedIcon />
           </ListItemIcon>
           <ListItemText
-            primary={formatDate(new Date(date), 'dd MMMM yyyy à HH:mm')}
+            primary={formatDate(date, 'dd MMMM yyyy à HH:mm')}
             primaryTypographyProps={{
               variant: 'span',
               color: 'colors.gray.700',

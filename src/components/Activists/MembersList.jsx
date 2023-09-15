@@ -13,7 +13,7 @@ const MembersList = ({ members, onMemberClick }) => (
     {members.map((member, index) => (
       <Button
         key={index}
-        onClick={e => onMemberClick(e, member)}
+        onClick={() => onMemberClick(member)}
         sx={{
           display: 'flex',
           width: '100%',
@@ -42,7 +42,7 @@ const MembersList = ({ members, onMemberClick }) => (
                 <Grid item xs={6} sx={{ display: 'flex', alignItems: 'center' }}>
                   <FmdGoodIcon sx={{ color: 'colors.gray.400', fontSize: '22px', mr: 0.5 }} />
                   <Typography component="p" sx={{ color: 'colors.gray.500', fontSize: '14px' }}>
-                    {member.city} ({member.cityId ?? '!'})
+                    {`${member.city} ${member.cityId ? ` (${member.cityId})` : ''}`}
                   </Typography>
                 </Grid>
               </Grid>
