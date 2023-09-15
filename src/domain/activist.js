@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { parseDate } from 'shared/helpers'
 
 export default class Activist {
   constructor(
@@ -27,8 +28,8 @@ export default class Activist {
     this.city = city
     this.committee = committee
     this.committeeId = committeeId
-    this.contributingDate = contributingDate ? new Date(contributingDate) : null
-    this.joinedDate = joinedDate ? new Date(joinedDate) : null
+    this.contributingDate = contributingDate ? parseDate(contributingDate) : null
+    this.joinedDate = joinedDate ? parseDate(joinedDate) : null
     this.postalCode = postalCode
     this.interests = interests
     this.emailSubscription = emailSubscription

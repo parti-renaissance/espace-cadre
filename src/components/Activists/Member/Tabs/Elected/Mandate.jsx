@@ -34,11 +34,8 @@ const Mandate = ({ mandate, removeAction, editAction }) => (
         >{`${mandate.zone.name} (${mandate.zone.code})`}</Typography>
         <Typography component={'p'} sx={{ color: 'colors.gray.500', fontSize: '13px', mb: 0.5 }}>
           {mandate.finishAt
-            ? `du ${formatDate(new Date(mandate.beginAt), 'dd/MM/yyyy')} au ${formatDate(
-                new Date(mandate.finishAt),
-                'dd/MM/yyyy'
-              )}`
-            : `depuis le ${formatDate(new Date(mandate.beginAt), 'dd/MM/yyyy')}`}
+            ? `du ${formatDate(mandate.beginAt, 'dd/MM/yyyy')} au ${formatDate(mandate.finishAt, 'dd/MM/yyyy')}`
+            : `depuis le ${formatDate(mandate.beginAt, 'dd/MM/yyyy')}`}
         </Typography>
       </Grid>
     </Grid>

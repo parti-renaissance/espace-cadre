@@ -2,7 +2,8 @@ import { Grid, Card as MuiCard, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import ClearIcon from '@mui/icons-material/Clear'
 import PropTypes from 'prop-types'
-import { GroupMember } from '../../domain/group'
+import { GroupMember } from 'domain/group'
+import { parseDate } from 'shared/helpers'
 
 const Card = styled(MuiCard)`
   padding: ${({ theme }) => theme.spacing(2)};
@@ -41,7 +42,7 @@ const MemberCard = ({ member, handleDelete }) => {
             <Typography variant="subtitle2">
               {postalCode}
               {messages.adherent}
-              {new Date(registeredAt).toLocaleDateString()}
+              {parseDate(registeredAt).toLocaleDateString()}
             </Typography>
           </Grid>
         </Grid>

@@ -29,6 +29,7 @@ import { newPaginatedResult } from 'api/pagination'
 import { Zone } from 'domain/zone'
 import { ZONE_AUTOCOMPLETE_URI } from 'components/Filters/Element/ZoneAutocomplete'
 import { downloadFile } from './upload'
+import { parseDate } from 'shared/helpers'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')
@@ -51,7 +52,7 @@ export const getPhoningCampaignsQuery = async ({ pageParam: page = 1 }, visibili
     )
     return new PhoningCampaignItem(
       c.uuid,
-      new Date(c.finish_at),
+      parseDate(c.finish_at),
       c.title,
       c.creator,
       team,
@@ -68,7 +69,7 @@ export const getPhoningCampaignsQuery = async ({ pageParam: page = 1 }, visibili
 export const getPhoningCampaignQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/phoning_campaigns/${campaignId}`)
   const isNational = data.visibility === 'national'
-  const remaining = new PhoningCampaignDetailKPIRemaining(new Date(data.created_at), new Date(data.finish_at))
+  const remaining = new PhoningCampaignDetailKPIRemaining(parseDate(data.created_at), parseDate(data.finish_at))
   const surveys = new PhoningCampaignDetailKPISurveys(data.nb_surveys, data.goal * data.team.members_count)
   const calls = new PhoningCampaignDetailKPICalls(data.nb_calls, data.to_remind)
   const KPI = new PhoningCampaignDetailKPI(remaining, surveys, calls, data.average_calling_time)
@@ -76,7 +77,7 @@ export const getPhoningCampaignQuery = async campaignId => {
     ? new PhoningCampaignCreateEditGlobal(
         data.title,
         data.goal,
-        new Date(data.finish_at),
+        parseDate(data.finish_at),
         data.brief,
         data.visibility,
         null
@@ -84,7 +85,7 @@ export const getPhoningCampaignQuery = async campaignId => {
     : new PhoningCampaignCreateEditGlobal(
         data.title,
         data.goal,
-        new Date(data.finish_at),
+        parseDate(data.finish_at),
         data.brief,
         data.visibility,
         new Zone(data.zone.uuid, data.zone.name, data.zone.code)
@@ -138,7 +139,7 @@ export const getPhoningCampaignHistory = async ({ campaignId, pageParam: page = 
       h.caller.gender,
       h.caller.age
     )
-    return new PhoningCampaignDetailHistory(h.uuid, h.status, adherent, caller, new Date(h.begin_at))
+    return new PhoningCampaignDetailHistory(h.uuid, h.status, adherent, caller, parseDate(h.begin_at))
   })
 
   return newPaginatedResult(history, data.metadata)
@@ -160,8 +161,8 @@ export const getPhoningCampaignSurveysReplies = async campaignId => {
       return new PhoningCampaignDetailSurveysReply(
         sr.answers.map(a => new PhoningCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
         callee,
-        new Date(sr.phoning_campaign_history.begin_at),
-        new Date(sr.phoning_campaign_history.finish_at)
+        parseDate(sr.phoning_campaign_history.begin_at),
+        parseDate(sr.phoning_campaign_history.finish_at)
       )
     }),
   }

@@ -109,7 +109,7 @@ const GroupEdit = () => {
                       {option.first_name} {option.last_name}&#44;&nbsp;
                       <Box component="span" sx={{ fontStyle: 'italic' }}>
                         {option.postal_code}&#44;&nbsp;{messages.adhesion}&nbsp;
-                        {formatDate(new Date(option.registered_at), 'dd/MM/yyyy')}
+                        {formatDate(option.registered_at, 'dd/MM/yyyy')}
                       </Box>
                     </li>
                   )}

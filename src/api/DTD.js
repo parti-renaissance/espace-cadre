@@ -26,6 +26,7 @@ import {
 import { newPaginatedResult } from 'api/pagination'
 import { formatISO } from 'date-fns'
 import { downloadFile } from './upload'
+import { parseDate } from 'shared/helpers'
 
 export const getDTDGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/pap_campaigns/kpi')
@@ -51,8 +52,8 @@ export const getDTDCampaignsQuery = async ({ pageParam: page = 1 }) => {
     return new DTDCampaignItem(
       c.uuid,
       c.creator,
-      new Date(c.begin_at),
-      new Date(c.finish_at),
+      parseDate(c.begin_at),
+      parseDate(c.finish_at),
       c.title,
       score,
       c.enabled
@@ -69,7 +70,7 @@ export const getDTDCampaignQuery = async campaignId => {
 
 export const getDTDCampaignDetailQuery = async campaignId => {
   const data = await apiClient.get(`api/v3/pap_campaigns/${campaignId}`)
-  const remaining = new DTDCampaignDetailKPIRemaining(new Date(data.begin_at), new Date(data.finish_at))
+  const remaining = new DTDCampaignDetailKPIRemaining(parseDate(data.begin_at), parseDate(data.finish_at))
   const surveys = new DTDCampaignDetailKPISurveys(data.nb_surveys)
   const doors = new DTDCampaignDetailKPIDoors(data.nb_visited_doors, data.nb_open_doors)
   const contacts = new DTDCampaignDetailKPIContacts(data.nb_collected_contacts, data.nb_to_join)
@@ -118,7 +119,7 @@ export const getDTDCampaignDetailHistory = async ({ campaignId, pageParam: page 
           h.questioner.age
         )
       : null
-    return new DTDCampaignDetailHistory(h.uuid, h.status, address, questioner, new Date(h.created_at), h.duration)
+    return new DTDCampaignDetailHistory(h.uuid, h.status, address, questioner, parseDate(h.created_at), h.duration)
   })
 
   return newPaginatedResult(history, data.metadata)
@@ -144,7 +145,7 @@ export const getDTDCampaignSurveysReplies = async ({ campaignId, pageSize, pageN
         sr.answers.map(a => new DTDCampaignDetailSurveysReplyAnswer(a.type, a.answer, a.question)),
         questioner,
         sr.pap_campaign_history.duration,
-        new Date(sr.pap_campaign_history.created_at),
+        parseDate(sr.pap_campaign_history.created_at),
         sr.pap_campaign_history.first_name,
         sr.pap_campaign_history.last_name,
         sr.pap_campaign_history.gender,
@@ -224,8 +225,8 @@ export const updateDTDLocalCampaign = async campaign => {
     title: campaign.title,
     brief: campaign.brief,
     goal: +campaign.goal,
-    begin_at: formatISO(new Date(campaign.startDate)),
-    finish_at: formatISO(new Date(campaign.endDate)),
+    begin_at: formatISO(parseDate(campaign.startDate)),
+    finish_at: formatISO(parseDate(campaign.endDate)),
     survey: campaign.survey,
     vote_places: campaign.votePlaces,
   })

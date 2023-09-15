@@ -30,7 +30,7 @@ const AdherentTab = ({ member }) => (
         <Grid item xs={12} sm={4}>
           <LineText
             label="Date de naissance"
-            value={member.raw.birthdate ? formatDate(new Date(member.raw.birthdate), 'dd/MM/yyyy') : '--'}
+            value={member.raw.birthdate ? formatDate(member.raw.birthdate, 'dd/MM/yyyy') : '--'}
           />
         </Grid>
       </Grid>

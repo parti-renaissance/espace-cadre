@@ -15,7 +15,7 @@ import {
 } from 'domain/surveys'
 import { newPaginatedResult } from 'api/pagination'
 import { downloadFile } from './upload'
-import { formatDate } from 'shared/helpers'
+import { formatDate, parseDate } from 'shared/helpers'
 
 export const formatZone = zone => new SurveyItemZone(zone.uuid, zone.code, zone.name)
 
@@ -64,8 +64,8 @@ export const getSurveyRepliesQuery = async surveyId => {
     return new SurveyDetailReply(
       sr.answers.map(a => new SurveyDetailReplyAnswer(a.type, a.answer, a.question, a.question_id)),
       author,
-      new Date(sr.begin_at),
-      new Date(sr.finish_at)
+      parseDate(sr.begin_at),
+      parseDate(sr.finish_at)
     )
   })
 }

@@ -302,10 +302,7 @@ const Dashboard = () => {
                                   elected.lastContribution.type === 'cash' ? (
                                     <Raw
                                       title="Date de cotisation:"
-                                      content={formatDate(
-                                        new Date(elected.lastContribution.start_date),
-                                        'dd MMMM yyyy'
-                                      )}
+                                      content={formatDate(elected.lastContribution.start_date, 'dd MMMM yyyy')}
                                       sx={{ display: 'none' }}
                                     />
                                   ) : null}

@@ -123,7 +123,7 @@ const Documents = () => {
                       </Box>
                     </TableCell>
                     <TableCell key={uuid()} isOdd={!!(index % 2)}>
-                      <Description>{formatDate(new Date(document.created_at), 'dd/MM/yyyy hh:mm')}</Description>
+                      <Description>{formatDate(document.created_at, 'dd/MM/yyyy hh:mm')}</Description>
                     </TableCell>
                     <TableCell key={uuid()} isOdd={!!(index % 2)}>
                       <MainButton isMainButton onClick={() => downloadDocument(document.uuid, 'documents')}>

@@ -1,6 +1,7 @@
 import { apiClient } from 'services/networking/client'
 import News from 'domain/news'
 import { newPaginatedResult } from 'api/pagination'
+import { parseDate } from 'shared/helpers'
 
 export const getNewsQuery = async ({ pageParam: page = 1 }) => {
   const data = await apiClient.get(`api/v3/jecoute/news?order[created_at]=desc&page=${page}&page_size=20`)
@@ -14,7 +15,7 @@ export const getNewsQuery = async ({ pageParam: page = 1 }) => {
         n.external_link,
         n.link_label,
         n.creator,
-        new Date(n.created_at),
+        parseDate(n.created_at),
         n.notification,
         n.published,
         n.pinned,

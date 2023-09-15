@@ -2,6 +2,7 @@ import { apiClient } from 'services/networking/client'
 import Message, { Statistics } from 'domain/message'
 import { newPaginatedResult } from 'api/pagination'
 import ReportRatio, { GeoRatio } from 'domain/reportRatio'
+import { parseDate } from 'shared/helpers'
 
 export const getMessages = async ({ page, isMailsStatutory }) => {
   const query = isMailsStatutory ? '&statutory=1' : ''
@@ -65,7 +66,7 @@ export const reportsRatio = async () => {
       data.national.clicked_rate,
       data.national.unsubscribed_rate
     ),
-    new Date(data.since)
+    parseDate(data.since)
   )
 }
 export const getTemplates = async isMailsStatutory => {

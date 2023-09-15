@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import { Place } from 'domain/place'
+import { parseDate } from 'shared/helpers'
 
 export class Attendee {
   constructor(firstName, lastName, subscriptionDate, postalCode, type) {
     this.firstName = firstName
     this.lastName = lastName
-    this.subscriptionDate = new Date(subscriptionDate)
+    this.subscriptionDate = parseDate(subscriptionDate)
     this.postalCode = postalCode
     this.isActivist = type === 'adherent'
   }
@@ -165,10 +166,10 @@ export class Event {
       e.name,
       e.description,
       e.time_zone,
-      new Date(e.created_at),
-      new Date(e.begin_at),
-      new Date(e.finish_at),
-      new Date(e.local_finish_at),
+      parseDate(e.created_at),
+      parseDate(e.begin_at),
+      parseDate(e.finish_at),
+      parseDate(e.local_finish_at),
       [e.organizer?.first_name, e.organizer?.last_name].filter(Boolean).join(' '),
       e.organizer?.uuid,
       e.participants_count,

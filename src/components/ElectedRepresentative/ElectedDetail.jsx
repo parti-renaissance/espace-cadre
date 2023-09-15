@@ -242,7 +242,7 @@ const ElectedDetail = () => {
                         <Box key={payment.uuid} sx={{ p: 2 }}>
                           <Box>
                             <Typography component="span" sx={{ color: 'colors.gray.500' }}>
-                              Du {formatDate(new Date(payment.date), 'dd MMMM yyyy')} via
+                              Du {formatDate(payment.date, 'dd MMMM yyyy')} via
                             </Typography>
                             <Typography component="span" sx={{ color: 'colors.gray.700', fontWeight: '500', px: 1 }}>
                               {payment.method}

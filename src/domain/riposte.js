@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { parseDate } from 'shared/helpers'
 
 export default class Riposte {
   constructor(
@@ -22,7 +23,7 @@ export default class Riposte {
     this.withNotification = withNotification
     this.status = status
     this.creator = creator
-    this.createdAt = new Date(createdAt)
+    this.createdAt = parseDate(createdAt)
     this.views = views
     this.detailViews = detailViews
     this.sourceViews = sourceViews

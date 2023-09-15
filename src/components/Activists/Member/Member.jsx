@@ -10,12 +10,8 @@ import { useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import AdherentTab from 'components/Activists/Member/Tabs/Adherent/AdherentTab'
 import ElectedTab from 'components/Activists/Member/Tabs/Elected/ElectedTab'
-import { useUserScope } from '../../../redux/user/hooks'
-import features from 'shared/features'
 
-const Member = ({ member, handleClose }) => {
-  const [currentScope] = useUserScope()
-  const isElectFeatureEneblad = currentScope.hasFeature(features.elected_representative)
+const Member = ({ enableElectTab, member, handleClose }) => {
   const [currentTab, setCurrentTab] = useState('1')
 
   if (!member) {
@@ -125,7 +121,7 @@ const Member = ({ member, handleClose }) => {
             <Box sx={{ mt: 3 }}>
               <TabList onChange={(event, newValue) => setCurrentTab(newValue)}>
                 <Tab sx={{ textTransform: 'none' }} label={'Adhérent'} value={'1'} />
-                {isElectFeatureEneblad && (
+                {enableElectTab && (
                   <Tab
                     sx={{ textTransform: 'none' }}
                     label={
@@ -147,7 +143,7 @@ const Member = ({ member, handleClose }) => {
             <TabPanel value={'1'}>
               <AdherentTab member={member} />
             </TabPanel>
-            {isElectFeatureEneblad && (
+            {enableElectTab && (
               <TabPanel value={'2'}>
                 <ElectedTab adherentUuid={member.adherentUuid} />
               </TabPanel>
@@ -163,5 +159,6 @@ export default Member
 
 Member.propTypes = {
   member: Activist.propTypes,
+  enableElectTab: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
 }
