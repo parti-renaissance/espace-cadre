@@ -99,14 +99,11 @@ const AdherentTab = ({ member }) => (
         borderRadius: 2,
       }}
     >
-      {(member.raw.cotisation_dates.length > 0 && (
-        <LineText
-          label="Historique des cotisations"
-          labelStyle={{ fontSize: '16px', color: 'colors.gray.800', fontWeight: '500' }}
-          value={<CotisationHistory dates={member.raw.cotisation_dates} />}
-        />
-      )) ||
-        '--'}
+      <LineText
+        label="Historique des cotisations"
+        labelStyle={{ fontSize: '16px', color: 'colors.gray.800', fontWeight: '500' }}
+        value={<CotisationHistory dates={member.raw.cotisation_dates} />}
+      />
     </Box>
   </Box>
 )

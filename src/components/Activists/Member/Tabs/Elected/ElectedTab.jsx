@@ -27,7 +27,9 @@ const ElectedTab = ({ adherentUuid }) => {
     data: adherentElect,
     isFetching,
     refetch,
-  } = useQueryWithScope(['adherent-elect', adherentUuid], () => getAdherentElect(adherentUuid))
+  } = useQueryWithScope(['adherent-elect', adherentUuid], () => getAdherentElect(adherentUuid), {
+    onError: handleError,
+  })
 
   const { mutate: removeMandate } = useMutation(deleteMandate, {
     onSuccess: () => {
@@ -39,6 +41,8 @@ const ElectedTab = ({ adherentUuid }) => {
 
   if (isFetching) {
     return <Loader isCenter />
+  } else if (!adherentElect) {
+    return null
   }
 
   const ongoingMandates = adherentElect.elect_mandates.filter(m => !m.finish_at)
