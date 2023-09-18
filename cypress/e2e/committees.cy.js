@@ -100,6 +100,8 @@ describe('Committees', () => {
       cy.contains('Election CL Evry')
       cy.contains('Terminée')
       cy.get(ElectionTabs).should('exist')
+
+      cy.get('.MuiButton-text').contains('Créer une nouvelle élection').should('exist').click()
     })
   })
 

@@ -13,7 +13,14 @@ export class Designation {
     this.voteEndDate = parseDate(voteEndDate)
   }
 
-  static NULL = new Designation(null, '', '', null, add(new Date(), { days: 16 }), add(new Date(), { days: 17 }))
+  static NULL = new Designation(
+    null,
+    '',
+    '',
+    null,
+    add(new Date(), { days: 16 }).toISOString(),
+    add(new Date(), { days: 17 }).toISOString()
+  )
 }
 
 Designation.propTypes = PropTypes.shape({
