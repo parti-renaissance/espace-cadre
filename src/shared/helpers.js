@@ -30,7 +30,7 @@ export function formatDate(date, formatPattern) {
 }
 
 export function parseDate(date) {
-  return parseISO(date)
+  return date ? parseISO(date) : date
 }
 
 export const getFullName = user => `${user.first_name} ${user.last_name}`
