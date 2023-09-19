@@ -14,7 +14,6 @@ import SignupConfirm from 'components/Signup/SignupConfirm'
 import LegalContainer from '../Signup/components/LegalContainer'
 import { CGUMobile, CGUWeb, CookiesMobile, CookiesWeb, Ppd } from '../Signup/constants'
 import Sidebar from 'components/Layout/Sidebar'
-import ErrorBoundary from 'providers/errorboundary'
 import Logout from '../Logout/Logout'
 
 const publicPathsArray = [
@@ -53,11 +52,7 @@ const PrivatePages = ({ children }) => {
     return <ScopesPage />
   }
 
-  return (
-    <Sidebar>
-      <ErrorBoundary>{children}</ErrorBoundary>
-    </Sidebar>
-  )
+  return <Sidebar>{children}</Sidebar>
 }
 
 PrivatePages.propTypes = {
