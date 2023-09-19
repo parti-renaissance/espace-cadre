@@ -1,26 +1,18 @@
 import PropTypes from 'prop-types'
 import { add } from 'date-fns'
 import { electionStatus } from 'components/Committees/constants'
-import { parseDate } from 'shared/helpers'
 
 export class Designation {
   constructor(id, customTitle, description, electionDate, voteStartDate, voteEndDate) {
     this.id = id
     this.customTitle = customTitle
     this.description = description
-    this.electionDate = electionDate ? parseDate(electionDate) : null
-    this.voteStartDate = parseDate(voteStartDate)
-    this.voteEndDate = parseDate(voteEndDate)
+    this.electionDate = electionDate ? electionDate : null
+    this.voteStartDate = voteStartDate
+    this.voteEndDate = voteEndDate
   }
 
-  static NULL = new Designation(
-    null,
-    '',
-    '',
-    null,
-    add(new Date(), { days: 16 }).toISOString(),
-    add(new Date(), { days: 17 }).toISOString()
-  )
+  static NULL = new Designation(null, '', '', null, add(new Date(), { days: 16 }), add(new Date(), { days: 17 }))
 }
 
 Designation.propTypes = PropTypes.shape({

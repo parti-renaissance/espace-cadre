@@ -1,6 +1,6 @@
 import { Designation } from 'domain/committee_election'
 import { apiClient } from 'services/networking/client'
-import { formatDate } from 'shared/helpers'
+import { formatDate, parseDate } from 'shared/helpers'
 
 export const getDesignation = async id => {
   const data = await apiClient.get(`/v3/designations/${id}`)
@@ -8,9 +8,9 @@ export const getDesignation = async id => {
     data.uuid,
     data.custom_title,
     data.description,
-    data.election_creation_date,
-    data.vote_start_date,
-    data.vote_end_date
+    parseDate(data.election_creation_date),
+    parseDate(data.vote_start_date),
+    parseDate(data.vote_end_date)
   )
 }
 export const createDesignation = async designation => {
