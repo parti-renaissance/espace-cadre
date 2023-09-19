@@ -6,9 +6,8 @@ runs:
   steps:
     - uses: actions/setup-node@v3
       with:
-        node-version: 16
+        node-version: 18
         cache: 'yarn'
 
     - shell: bash
-      run: |-
-        yarn install --pure-lockfile
+      run: yarn install --frozen-lockfile

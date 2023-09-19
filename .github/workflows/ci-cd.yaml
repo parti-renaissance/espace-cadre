@@ -17,20 +17,25 @@ env:
   DOCKER_IMAGE: ${{ secrets.GCP_HOST_GCR }}/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node-yarn
+      - run: yarn lint
+
   test:
     name: Tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
-      image: cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: cypress/browsers:node18.12.0-chrome107
       options: --user 1001
 
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node-yarn
-      - run: |-
-          yarn lint
-      - run: |-
-          yarn test src
+      - run: yarn test src
       - name: Cypress
         uses: cypress-io/github-action@v6
         with:
@@ -47,7 +52,7 @@ jobs:
   deploy-staging:
     name: Deploy to Staging 🍾
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [lint, test]
     if: github.event.ref == 'refs/heads/master'
     environment: staging
 
@@ -85,7 +90,7 @@ jobs:
   deploy-prod:
     name: Deploy to Prod 🍾
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [lint, test]
     if: github.event_name == 'release'
     environment: production
 
