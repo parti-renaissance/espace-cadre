@@ -120,7 +120,7 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
           value={selectedZone}
           onChange={setSelectedZone}
           placeholder={'Rechercher...'}
-          initialParams={{ forMandateType: watchType }}
+          initialParams={{ forMandateType: watchType, itemsPerType: 20 }}
         />
         <FormError message={formErrors[fields.zone]?.message} />
       </Box>
