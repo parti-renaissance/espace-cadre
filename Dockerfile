@@ -1,5 +1,5 @@
 ARG NODE_VERSION=18.18
-ARG NGINX_VERSION=1.21
+ARG NGINX_VERSION=1
 
 # Stage 1 - the build process
 FROM node:${NODE_VERSION}-alpine AS react-build
@@ -16,7 +16,7 @@ COPY . ./
 RUN NODE_OPTIONS='--max-old-space-size=4096' yarn build
 
 # Stage 2 - the production environment
-FROM nginx:${NGINX_VERSION}-alpine
+FROM nginx:${NGINX_VERSION}-alpine AS app
 COPY nginx.conf /etc/nginx/conf.d/configfile.template
 ENV PORT 8080
 ENV HOST 0.0.0.0
