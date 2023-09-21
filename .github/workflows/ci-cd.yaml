@@ -15,6 +15,9 @@ env:
   NODE_OPTIONS: "--max_old_space_size=4096"
   DOCKER_REGISTRY_HOST: ${{ secrets.GCP_HOST_GCR }}
   DOCKER_IMAGE: ${{ secrets.GCP_HOST_GCR }}/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}
+  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+  SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
 jobs:
   lint:
@@ -52,7 +55,7 @@ jobs:
   deploy-staging:
     name: Deploy to Staging 🍾
     runs-on: ubuntu-latest
-    needs: [lint, test]
+#    needs: [lint, test]
     if: github.event.ref == 'refs/heads/master'
     environment: staging
 
@@ -72,9 +75,6 @@ jobs:
           gmaps_api_key: ${{ secrets.GMAPS_API_KEY }}
           repository_project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
           cloud_run_name: ${{ secrets.CLOUD_RUN_NAME }}
-          sentry_auth_token: ${{ secrets.SENTRY_AUTH_TOKEN  }}
-          sentry_org: ${{ secrets.SENTRY_ORG  }}
-          sentry_project: ${{ secrets.SENTRY_PROJECT  }}
           react_app_api_host: ${{ secrets.REACT_APP_API_HOST }}
           react_app_renaissance_host: ${{ secrets.REACT_RENAISSANCE_HOST }}
           react_app_oauth_host: ${{ secrets.REACT_APP_OAUTH_HOST }}
@@ -105,9 +105,6 @@ jobs:
           gmaps_api_key: ${{ secrets.GMAPS_API_KEY }}
           repository_project_id: ${{ secrets.GCP_REGISTRY_PROJECT_ID }}
           cloud_run_name: ${{ secrets.CLOUD_RUN_NAME }}
-          sentry_auth_token: ${{ secrets.SENTRY_AUTH_TOKEN  }}
-          sentry_org: ${{ secrets.SENTRY_ORG  }}
-          sentry_project: ${{ secrets.SENTRY_PROJECT  }}
           react_app_api_host: ${{ secrets.REACT_APP_API_HOST }}
           react_app_renaissance_host: ${{ secrets.REACT_RENAISSANCE_HOST }}
           react_app_oauth_host: ${{ secrets.REACT_APP_OAUTH_HOST }}

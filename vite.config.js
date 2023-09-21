@@ -2,6 +2,7 @@ import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import react from '@vitejs/plugin-react'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 
 const path = require('path')
 
@@ -29,6 +30,19 @@ export function generateConfig({ mode }) {
       }),
       EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
       splitVendorChunkPlugin(),
+      sentryVitePlugin({
+        org: process.env.SENTRY_ORG,
+        telemetry: false,
+        debug: true,
+        sourcemaps: {
+          filesToDeleteAfterUpload: '*.js.map',
+        },
+        release: {
+          deploy: {
+            env: process.env.APP_ENV,
+          },
+        },
+      }),
     ],
     server: {
       open: true,

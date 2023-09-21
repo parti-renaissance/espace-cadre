@@ -56,15 +56,6 @@ inputs:
   react_app_environment:
     description: The app environment
     required: true
-  sentry_auth_token:
-    description: Sentry token
-    required: true
-  sentry_org:
-    description: Sentry org
-    required: true
-  sentry_project:
-    description: Sentry project
-    required: true
 
 runs:
   using: composite
@@ -92,37 +83,22 @@ runs:
         username: _json_key
         password: ${{ inputs.service_account_key_pusher }}
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-      with:
-        install: true
-        version: v0.9.1
-        provenance: false
-
     - name: Build Docker Image
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        load: true
-        push: false
-        tags: "${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_version }}"
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-
-    - shell: bash
-      name: Copy SourceMap
+      shell: bash
+      env:
+        SENTRY_RELEASE: ${{ inputs.react_app_version }}
+        APP_ENV: ${{ inputs.react_app_environment }}
+        MAIN_TAG: ${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_environment }}
       run: |-
-        container_id=$(docker create "${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_version }}")
-        docker cp "$container_id:/usr/share/nginx/html" ./build
-        docker rm "$container_id"
+        docker build --quiet \
+          --cache-from=$MAIN_TAG \
+          --tag="${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_version }}" \
+          --tag=$MAIN_TAG \
+          --target=app \
+          --compress \
+          .
 
-    - name: Push Docker Image
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        push: true
-        tags: "${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_version }}"
-        cache-from: type=gha
+        docker image push --all-tags --quiet ${{ env.DOCKER_REGISTRY_HOST }}
 
     - uses: google-github-actions/auth@v1
       with:
@@ -135,14 +111,3 @@ runs:
         image: "${{ env.DOCKER_IMAGE }}:${{ inputs.react_app_version }}"
         project_id: ${{ inputs.project_id }}
         region: ${{ inputs.gcp_zone }}
-
-    - name: Create Sentry release
-      uses: getsentry/action-release@v1
-      env:
-        SENTRY_AUTH_TOKEN: ${{ inputs.sentry_auth_token }}
-        SENTRY_ORG: ${{ inputs.sentry_org }}
-        SENTRY_PROJECT: ${{ inputs.sentry_project }}
-      with:
-        environment: ${{ inputs.react_app_environment }}
-        sourcemaps: './build'
-        version: ${{ inputs.react_app_version }}
