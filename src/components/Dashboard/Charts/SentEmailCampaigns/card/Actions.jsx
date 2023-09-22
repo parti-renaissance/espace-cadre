@@ -14,10 +14,11 @@ const HorizontalContainer = styled('div')`
 
 const messages = {
   update: 'Modifier',
+  preview: 'Prévisualiser',
   delete: 'Supprimer',
 }
 
-const Actions = ({ messageId, del, loader = false, isMailsStatutory = false }) => {
+const Actions = ({ messageId, onDelete, onPreview = null, loader = false, isEditEnabled = true }) => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate(generatePath(':messageId/' + messageriePaths.update, { messageId }))
@@ -25,11 +26,12 @@ const Actions = ({ messageId, del, loader = false, isMailsStatutory = false }) =
 
   return (
     <HorizontalContainer>
-      <CtaButton onClick={handleClick} disabled={isMailsStatutory}>
+      <CtaButton onClick={handleClick} disabled={!isEditEnabled}>
         {messages.update}
       </CtaButton>
       <DotsMenu>
-        <DotsMenuItem onClick={del} loader={loader}>
+        {typeof onPreview === 'function' && <DotsMenuItem onClick={onPreview}>{messages.preview}</DotsMenuItem>}
+        <DotsMenuItem onClick={onDelete} loader={loader}>
           {messages.delete}
         </DotsMenuItem>
       </DotsMenu>
@@ -41,7 +43,8 @@ export default Actions
 
 Actions.propTypes = {
   messageId: PropTypes.string.isRequired,
-  del: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onPreview: PropTypes.func,
   loader: PropTypes.bool,
-  isMailsStatutory: PropTypes.bool,
+  isEditEnabled: PropTypes.bool,
 }

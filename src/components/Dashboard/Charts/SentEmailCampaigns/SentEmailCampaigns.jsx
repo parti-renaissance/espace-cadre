@@ -37,8 +37,6 @@ Title.propTypes = {
   author: PropTypes.string.isRequired,
 }
 
-const EmptyBlock = () => <div />
-
 const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
@@ -100,16 +98,17 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
                 content={message.draft ? null : <Body statistics={message.statistics} />}
                 actionsProps={{ sx: { pb: 1, height: '40px' } }}
                 actions={
-                  message.draft ? (
-                    <Actions
-                      messageId={message.id}
-                      del={() => deleteDraft(message.id)}
-                      loader={isDeleteLoading}
-                      isMailsStatutory={isMailsStatutory}
-                    />
-                  ) : (
-                    <EmptyBlock />
-                  )
+                  <Actions
+                    messageId={message.id}
+                    onDelete={() => deleteDraft(message.id)}
+                    loader={isDeleteLoading}
+                    isEditEnabled={!isMailsStatutory}
+                    onPreview={
+                      message.isSynchronized && message.previewLink
+                        ? () => window.open(message.previewLink, '_blank')
+                        : null
+                    }
+                  />
                 }
               />
             </Grid>

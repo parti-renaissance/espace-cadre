@@ -20,6 +20,7 @@
       "status": "draft",
       "recipient_count": 1,
       "synchronized": true,
+      "preview_link": "https://parti-renaissance.fr",
       "from_name": "author 1",
       "statistics": {
         "sent": 100,
@@ -29,16 +30,7 @@
         "click_rate": 0.5,
         "unsubscribe": 10,
         "unsubscribe_rate": 0.1
-      },
-      "zones": [
-        {
-          "uuid": "11111111-1111-1111-1111-111111111111",
-          "type": "department",
-          "postal_code": [],
-          "code": "92",
-          "name": "Hauts-de-Seine"
-        }
-      ]
+      }
     },
     {
       "uuid": "22222222-2222-2222-2222-222222222222",
@@ -53,6 +45,7 @@
       "status": "sent",
       "recipient_count": 0,
       "synchronized": true,
+      "preview_link": null,
       "from_name": "auhtor 2",
       "statistics": {
         "sent": 99,
@@ -62,16 +55,7 @@
         "click_rate": 0.3333,
         "unsubscribe": 1,
         "unsubscribe_rate": 0.01
-      },
-      "zones": [
-        {
-          "uuid": "11111111-1111-1111-1111-111111111111",
-          "type": "department",
-          "postal_code": [],
-          "code": "92",
-          "name": "Hauts-de-Seine"
-        }
-      ]
+      }
     }
   ]
 }
