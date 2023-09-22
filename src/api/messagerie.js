@@ -29,7 +29,9 @@ export const getMessages = async ({ page, isMailsStatutory }) => {
       message.subject,
       message.created_at,
       stats,
-      message.sent_at
+      message.sent_at,
+      message.synchronized,
+      message?.preview_link
     )
   })
 

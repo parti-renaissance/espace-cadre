@@ -24,7 +24,7 @@ Statistics.propTypes = PropTypes.shape({
 })
 
 class Message {
-  constructor(id, author, status, subject, createdAt, statistics, sentAt) {
+  constructor(id, author, status, subject, createdAt, statistics, sentAt, isSynchronized, previewLink) {
     this.id = id
     this.author = author
     this.draft = status === 'draft'
@@ -32,6 +32,8 @@ class Message {
     this.createdAt = parseDate(createdAt)
     this.statistics = statistics
     this.sentAt = sentAt ? parseDate(sentAt) : null
+    this.isSynchronized = isSynchronized
+    this.previewLink = previewLink
   }
 }
 
@@ -41,6 +43,8 @@ Message.propTypes = PropTypes.shape({
   draft: PropTypes.bool.isRequired,
   subject: PropTypes.string.isRequired,
   createdAt: PropTypes.object.isRequired,
+  isSynchronized: PropTypes.bool.isRequired,
+  previewLink: PropTypes.string,
   statistics: Statistics.propTypes.isRequired,
 })
 
