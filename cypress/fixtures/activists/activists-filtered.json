@@ -26,7 +26,7 @@
       "renaissance_membership": "adherent_re",
       "city_code": "92009",
       "sms_subscription": false,
-      "phone_number": "+33 6 12 34 00 55",
+      "phone": "+33 6 12 34 00 55",
       "first_name": "Jean",
       "last_name": "lastname1",
       "email_subscription": false
