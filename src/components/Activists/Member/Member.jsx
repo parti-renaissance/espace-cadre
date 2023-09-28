@@ -103,10 +103,10 @@ const Member = ({ enableElectTab, member, handleClose }) => {
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', color: 'colors.gray.600', mt: 0.5 }}>
                 <PhoneIphoneOutlinedIcon sx={{ color: 'colors.gray.400', fontSize: '18px', mr: 1 }} />
-                {member.raw.phone_number ? (
+                {member.raw.phone ? (
                   <>
                     <Typography component="p" sx={{ mr: 1.5 }}>
-                      {member.raw.phone_number}
+                      {member.raw.phone}
                     </Typography>
                     <Subscription subscription={member.raw.sms_subscription} />
                   </>
