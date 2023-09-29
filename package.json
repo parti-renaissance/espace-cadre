@@ -13,7 +13,7 @@
     "@mui/material": "^5.14.11",
     "@mui/styles": "^5.14.11",
     "@mui/system": "^5.14.5",
-    "@mui/x-date-pickers": "^6.15.0",
+    "@mui/x-date-pickers": "^6.16.0",
     "@reduxjs/toolkit": "^1.9.6",
     "@sentry/react": "^7.69.0",
     "@sentry/tracing": "^7.69.0",
