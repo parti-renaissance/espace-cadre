@@ -120,7 +120,7 @@ const Editor = ({ siteUuid, onContentUpdate, refreshContent }) => {
   }
 
   return (
-    <Box component="div" sx={{ mb: 2 }} data-cy="ckeditor-container">
+    <Box component="div" sx={{ mb: 2 }} data-cy="unlayer-container">
       <EmailEditor
         minHeight="85vh"
         ref={editorRef}
