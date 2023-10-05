@@ -44,6 +44,7 @@ export const exportActivists = async filter =>
 export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)
 
 export const getAdherentElect = async uuid => await apiClient.get(`v3/adherents/${uuid}/elect`)
+export const updateAdherentElect = async ({ data, uuid }) => await apiClient.put(`v3/adherents/${uuid}/elect`, data)
 export const createMandate = async ({ data }) => await apiClient.post('/api/v3/elected_adherent_mandates', data)
 export const updateMandate = async ({ data, uuid }) =>
   await apiClient.put(`/api/v3/elected_adherent_mandates/${uuid}`, data)
