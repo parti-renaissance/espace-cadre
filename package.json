@@ -74,7 +74,7 @@
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
     "@cypress/vite-dev-server": "^5.0.6",
-    "@sentry/vite-plugin": "^2.7.1",
+    "@sentry/vite-plugin": "^2.8.0",
     "@testing-library/react": "^14.0.0",
     "@vitejs/plugin-react": "^4.1.0",
     "babel-jest": "^29.7.0",
