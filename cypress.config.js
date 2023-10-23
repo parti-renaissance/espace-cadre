@@ -7,7 +7,7 @@ module.exports = defineConfig({
   viewportWidth: 1480,
   viewportHeight: 768,
   video: false,
-  blockHosts: ['*.sentry.io', '*.abla.io'],
+  blockHosts: ['*.sentry.io'],
   e2e: {
     setupNodeEvents(on, config) {
       const viteConfig = { configFile: path.resolve(__dirname, '..', '..', 'vite.config.js') }
