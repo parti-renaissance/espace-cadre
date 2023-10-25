@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
 import { styled } from '@mui/system'
-import { IconButton, TextField as MuiTextField } from '@mui/material'
-import { Clear as ClearIcon, Event as EventIcon } from '@mui/icons-material'
+import { TextField as MuiTextField } from '@mui/material'
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers'
 
 const TextField = styled(MuiTextField)`
@@ -15,47 +13,32 @@ const TextField = styled(MuiTextField)`
   }
 `
 
-const DatePicker = ({ value, onChange, label }) => {
-  const [isOpen, setIsOpen] = useState(false)
+const DatePicker = ({ value, onChange, label }) => (
+  <MuiDatePicker
+    openTo="day"
+    inputFormat="dd/MM/yyyy"
+    value={value}
+    onChange={newValue => {
+      if (newValue instanceof Date) {
+        const offset = -newValue.getTimezoneOffset()
+        newValue.setHours(Math.trunc(offset / 60), offset % 60)
+      }
 
-  const handleClear = e => {
-    e.stopPropagation()
-    onChange(null)
-  }
-
-  return (
-    <MuiDatePicker
-      openTo="day"
-      inputFormat="dd/MM/yyyy"
-      adapterLocale="fr"
-      open={isOpen}
-      value={value}
-      onChange={onChange}
-      onClose={() => {
-        setIsOpen(false)
-      }}
-      slots={{ textField: TextField }}
-      slotProps={{
-        textField: {
-          variant: 'outlined',
-          size: 'small',
-          label,
-          InputProps: {
-            autoComplete: 'off',
-            onClick: () => {
-              setIsOpen(true)
-            },
-          },
+      onChange(newValue)
+    }}
+    slots={{ textField: TextField }}
+    slotProps={{
+      textField: {
+        variant: 'outlined',
+        size: 'small',
+        label,
+        InputProps: {
+          autoComplete: 'off',
         },
-        endAdornment: (() => (
-          <IconButton size="small" onClick={value ? handleClear : () => setIsOpen(true)}>
-            {value ? <ClearIcon /> : <EventIcon />}
-          </IconButton>
-        ))(),
-      }}
-    />
-  )
-}
+      },
+    }}
+  />
+)
 
 DatePicker.defaultProps = {
   value: null,
