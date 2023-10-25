@@ -56,7 +56,8 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit, currentView }) => {
     [categoriesByGroup]
   )
 
-  const { mutateAsync: deleteEvent, isLoading: isLoadingDeleteEvent } = useMutation(deleteEventQuery, {
+  const { mutateAsync: deleteEvent, isLoading: isLoadingDeleteEvent } = useMutation({
+    mutationFn: deleteEventQuery,
     onSuccess: async () => {
       await refetch()
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
@@ -64,7 +65,8 @@ const EventList = ({ query, queryKey, setRefetchRef, onEdit, currentView }) => {
     onError: handleError,
   })
 
-  const { mutateAsync: cancelEvent, isLoading: isLoadingCancelEvent } = useMutation(cancelEventQuery, {
+  const { mutateAsync: cancelEvent, isLoading: isLoadingCancelEvent } = useMutation({
+    mutationFn: cancelEventQuery,
     onSuccess: async (_, updatedEvent) => {
       await refetchUpdatedPage(paginatedEvents, refetch, updatedEvent.id)
       enqueueSnackbar(messages.cancelSuccess, notifyVariants.success)

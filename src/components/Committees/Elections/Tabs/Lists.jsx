@@ -46,17 +46,17 @@ const Lists = ({ election, isResultsLoading, results }) => {
   const onSuccess = () => queryClient.invalidateQueries({ queryKey: 'committee-election' })
   const candidates = useMemo(() => election.groups.flatMap(group => group.candidacies), [election])
 
-  const { mutate: addList, isLoading } = useMutation(() => createGroup(election.id), {
-    onSuccess: onSuccess,
+  const { mutate: addList, isLoading } = useMutation({
+    mutationFn: () => createGroup(election.id),
+    onSuccess,
     onError: error => {
       handleError(error)
       enqueueSnackbar(errorMessages[0].message, notifyVariants.error)
     },
   })
 
-  const { mutate: deleteList, isLoading: isDeleting } = useMutation(deleteGroup, { onSuccess: onSuccess })
-
-  const { mutate: deleteCandidate } = useMutation(removeCandidate, { onSuccess: onSuccess })
+  const { mutate: deleteList, isLoading: isDeleting } = useMutation({ mutationFn: deleteGroup, onSuccess })
+  const { mutate: deleteCandidate } = useMutation({ mutationFn: removeCandidate, onSuccess })
 
   const toggleCreateEditModal = (list, open) => {
     setSelectedList(list)

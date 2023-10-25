@@ -97,7 +97,8 @@ const Surveys = () => {
   const localSurveys = usePaginatedData(paginatedLocalSurveys)
   const nationalSurveys = usePaginatedData(paginatedNationalSurveys)
 
-  const { mutate: createOrUpdateSurvey } = useMutation(createOrUpdateSurveyQuery, {
+  const { mutate: createOrUpdateSurvey } = useMutation({
+    mutationFn: createOrUpdateSurveyQuery,
     onSuccess: async ({ published: isPublished }) => {
       enqueueSnackbar(isPublished ? messages.publishSuccess : messages.unpublishSuccess, notifyVariants.success)
       await refetchLocalSurveys()

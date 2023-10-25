@@ -80,7 +80,8 @@ const ElectionsTab = ({ committee, committeeElectionId }) => {
     }
   )
 
-  const { mutate, isLoading: loading } = useMutation(cancelDesignation, {
+  const { mutate, isLoading: loading } = useMutation({
+    mutationFn: cancelDesignation,
     onSuccess: () => {
       enqueueSnackbar("L'élection a été annulée avec succès", notifyVariants.success)
       refetch()

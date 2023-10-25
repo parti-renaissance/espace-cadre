@@ -61,14 +61,16 @@ const GroupEdit = () => {
       onError: handleError,
     }
   )
-  const { mutate: addGroupMember, isLoading: isAddingGroupMember } = useMutation(addGroupMemberQuery, {
+  const { mutate: addGroupMember, isLoading: isAddingGroupMember } = useMutation({
+    mutationFn: addGroupMemberQuery,
     onSuccess: () => {
       refetchGroup()
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)
     },
     onError: handleError,
   })
-  const { mutate: deleteGroupMember } = useMutation(deleteGroupMemberQuery, {
+  const { mutate: deleteGroupMember } = useMutation({
+    mutationFn: deleteGroupMemberQuery,
     onSuccess: () => {
       refetchGroup()
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)

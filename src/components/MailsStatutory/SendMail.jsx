@@ -75,10 +75,9 @@ const SendMail = () => {
   const [open, setOpen] = useState(false)
   const { handleError } = useErrorHandler()
 
-  const { isLoading: loading, mutate: sendMessage } = useMutation(sendMessageApi, {
-    onSuccess: () => {
-      navigate(`../../${messageriePaths.confirmation}`)
-    },
+  const { isLoading: loading, mutate: sendMessage } = useMutation({
+    mutationFn: sendMessageApi,
+    onSuccess: () => navigate(`../../${messageriePaths.confirmation}`),
     onError: handleError,
   })
 

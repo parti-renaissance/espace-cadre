@@ -81,18 +81,16 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
     }
   )
 
-  const { mutateAsync: createOrUpdateCommittee, isLoading: isCommitteeLoading } = useMutation(
-    isCreateMode ? createCommittee : updateCommittee,
-    {
-      onSuccess: () => {
-        onCreateResolve && onCreateResolve()
-        onUpdateResolve && onUpdateResolve()
-        enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-        handleClose()
-      },
-      onError: handleError,
-    }
-  )
+  const { mutateAsync: createOrUpdateCommittee, isLoading: isCommitteeLoading } = useMutation({
+    mutationFn: isCreateMode ? createCommittee : updateCommittee,
+    onSuccess: () => {
+      onCreateResolve && onCreateResolve()
+      onUpdateResolve && onUpdateResolve()
+      enqueueSnackbar(isCreateMode ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      handleClose()
+    },
+    onError: handleError,
+  })
 
   watch()
   const values = getValues()

@@ -54,23 +54,21 @@ const CreateEditModal = ({ open, handleClose, campaign, onCreateResolve, onUpdat
   const [pollingStationSelection, setPollingStationSelection] = useState([])
   const value = { pollingStationSelection, setPollingStationSelection }
 
-  const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation(
-    !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
-    {
-      onSuccess: newUuid => {
-        newUuid && setCreationModeId(newUuid)
-        enqueueSnackbar(
-          !campaignId && !creationModeId ? messages.createSuccess : messages.editSuccess,
-          notifyVariants.success
-        )
-        onCreateResolve && onCreateResolve()
-        onUpdateResolve && onUpdateResolve()
-        resetErrorMessages()
-        step === 1 ? next() : handleClose()
-      },
-      onError: handleError,
-    }
-  )
+  const { mutateAsync: createOrUpdateCampaign, isLoading: isCampaignLoading } = useMutation({
+    mutationFn: !campaignId && !creationModeId ? createDTDLocalCampaign : updateDTDLocalCampaign,
+    onSuccess: newUuid => {
+      newUuid && setCreationModeId(newUuid)
+      enqueueSnackbar(
+        !campaignId && !creationModeId ? messages.createSuccess : messages.editSuccess,
+        notifyVariants.success
+      )
+      onCreateResolve && onCreateResolve()
+      onUpdateResolve && onUpdateResolve()
+      resetErrorMessages()
+      step === 1 ? next() : handleClose()
+    },
+    onError: handleError,
+  })
 
   const formik = useFormik({
     initialValues: {

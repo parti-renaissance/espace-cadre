@@ -64,7 +64,8 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
   const watchOnGoing = watch(fields.onGoing)
   const watchType = watch(fields.mandateType)
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!mandate.uuid ? createMandate : updateMandate, {
+  const { mutate: createOrUpdate, isLoading } = useMutation({
+    mutationFn: !mandate.uuid ? createMandate : updateMandate,
     onSuccess: () => {
       reset()
       enqueueSnackbar('Le mandat a été enregistré', notifyVariants.success)

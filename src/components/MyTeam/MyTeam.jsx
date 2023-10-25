@@ -37,7 +37,8 @@ const MyTeam = () => {
     }
   )
 
-  const { mutate: removeTeamMember } = useMutation(removeTeamMemberQuery, {
+  const { mutate: removeTeamMember } = useMutation({
+    mutationFn: removeTeamMemberQuery,
     onSuccess: () => {
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
       refetchMyTeam()

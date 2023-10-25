@@ -14,7 +14,8 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -23,7 +24,7 @@
     "ecmaVersion": 2022,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "prettier", "cypress"],
+  "plugins": ["react", "react-hooks", "prettier", "cypress", "@tanstack/query"],
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
     "brace-style": ["error", "1tbs", { "allowSingleLine": false }],

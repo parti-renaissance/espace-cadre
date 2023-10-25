@@ -96,7 +96,8 @@ const DTDLegislatives = () => {
   )
   const campaigns = usePaginatedData(paginatedCampaigns)
 
-  const { mutate: deleteDTDCampaign } = useMutation(deleteDTDCampaignQuery, {
+  const { mutate: deleteDTDCampaign } = useMutation({
+    mutationFn: deleteDTDCampaignQuery,
     onSuccess: () => {
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
       refetchCampaigns()
@@ -104,7 +105,8 @@ const DTDLegislatives = () => {
     onError: handleError,
   })
 
-  const { mutateAsync: updateCampaign } = useMutation(toggleActivateCampaign, {
+  const { mutateAsync: updateCampaign } = useMutation({
+    mutationFn: toggleActivateCampaign,
     onSuccess: async isPublished => {
       enqueueSnackbar(isPublished ? messages.publishSuccess : messages.unpublishSuccess, notifyVariants.success)
       await refetchCampaigns()

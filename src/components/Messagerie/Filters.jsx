@@ -95,10 +95,9 @@ const Filters = () => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
-  const { mutate: sendMessage } = useMutation(sendMessageApi, {
-    onSuccess: () => {
-      navigate(`../../${messageriePaths.confirmation}`)
-    },
+  const { mutate: sendMessage } = useMutation({
+    mutationFn: sendMessageApi,
+    onSuccess: () => navigate(`../../${messageriePaths.confirmation}`),
     onError: handleError,
   })
 
@@ -128,7 +127,8 @@ const Filters = () => {
     }
   )
 
-  const { mutate: updateMessageFilter } = useMutation(updateMessageFilterApi, {
+  const { mutate: updateMessageFilter } = useMutation({
+    mutationFn: updateMessageFilterApi,
     onSuccess: () => getMessage(messageUuid),
     onError: handleError,
   })

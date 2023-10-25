@@ -39,7 +39,8 @@ const Groups = () => {
     getNextPageParam,
     onError: handleError,
   })
-  const { mutate: deleteGroup } = useMutation(deleteGroupQuery, {
+  const { mutate: deleteGroup } = useMutation({
+    mutationFn: deleteGroupQuery,
     onSuccess: () => {
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
       refetch()

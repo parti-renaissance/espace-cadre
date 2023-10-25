@@ -74,7 +74,8 @@ const Formations = () => {
     }
   )
 
-  const { mutate: remove } = useMutation(deleteFormation, {
+  const { mutate: remove } = useMutation({
+    mutationFn: deleteFormation,
     onSuccess: () => {
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
       refetch()

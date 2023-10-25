@@ -141,8 +141,10 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     }
   }, [reset, event])
 
-  const { mutateAsync: uploadImage } = useMutation(imageUploadApi, { onError: handleError })
-  const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(event.id), {
+  const { mutateAsync: uploadImage } = useMutation({ mutationFn: imageUploadApi, onError: handleError })
+
+  const { mutate: deleteImage, isLoading: isDeleting } = useMutation({
+    mutationFn: () => deleteImageApi(event.id),
     onSuccess: () => setImage(undefined),
     onError: handleError,
   })
@@ -154,7 +156,8 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     return setImage(undefined)
   }
 
-  const { mutate: createOrUpdateEvent, isLoading } = useMutation(isCreateMode ? createEventApi : updateEventApi, {
+  const { mutate: createOrUpdateEvent, isLoading } = useMutation({
+    mutationFn: isCreateMode ? createEventApi : updateEventApi,
     onSuccess: async uuid => {
       image && !image.startsWith('http') && (await uploadImage({ eventId: uuid, image }))
       await onUpdate()
@@ -164,14 +167,12 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
     onError: handleError,
   })
 
-  const { data: categoriesByGroup = null } = useQuery(
-    ['categories', { feature: 'Events', view: 'Events' }],
-    getCategories,
-    {
-      cacheTime: ONE_DAY,
-      staleTime: ONE_DAY,
-    }
-  )
+  const { data: categoriesByGroup = null } = useQuery({
+    queryKey: ['categories', { feature: 'Events', view: 'Events' }],
+    queryFn: getCategories,
+    cacheTime: ONE_DAY,
+    staleTime: ONE_DAY,
+  })
 
   const categories = useMemo(
     () =>

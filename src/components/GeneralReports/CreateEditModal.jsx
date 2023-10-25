@@ -60,7 +60,8 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
     resolver: yupResolver(documentSchema),
   })
 
-  const { mutateAsync: createOrUpdate } = useMutation(!document.id ? createDocument : updateDocument, {
+  const { mutateAsync: createOrUpdate } = useMutation({
+    mutationFn: !document.id ? createDocument : updateDocument,
     onSuccess: () => {
       onCreateResolve && onCreateResolve()
       onUpdateResolve && onUpdateResolve()
@@ -68,10 +69,9 @@ const CreateEditModal = ({ document, onCreateResolve, onUpdateResolve, handleClo
     onError: handleError,
   })
 
-  const { mutate: uploadFormationFile } = useMutation(uploadFile, {
-    onSuccess: () => {
-      setAction('')
-    },
+  const { mutate: uploadFormationFile } = useMutation({
+    mutationFn: uploadFile,
+    onSuccess: () => setAction(''),
     onError: handleError,
   })
 

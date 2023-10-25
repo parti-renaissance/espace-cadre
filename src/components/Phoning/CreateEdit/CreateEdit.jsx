@@ -64,18 +64,16 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError, errorMessages } = useErrorHandler()
 
-  const { mutate: createOrUpdatePhoningCampaign, isLoading: isCreateOrUpdateLoading } = useMutation(
-    createOrUpdatePhoningCampaignQuery,
-    {
-      onSuccess: () => {
-        enqueueSnackbar(!campaign ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-        onCreateResolve && onCreateResolve()
-        onUpdateResolve && onUpdateResolve()
-        handleClose()
-      },
-      onError: handleError,
-    }
-  )
+  const { mutate: createOrUpdatePhoningCampaign, isLoading: isCreateOrUpdateLoading } = useMutation({
+    mutationFn: createOrUpdatePhoningCampaignQuery,
+    onSuccess: () => {
+      enqueueSnackbar(!campaign ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+      onCreateResolve && onCreateResolve()
+      onUpdateResolve && onUpdateResolve()
+      handleClose()
+    },
+    onError: handleError,
+  })
 
   useEffect(() => {
     if (!campaign) {

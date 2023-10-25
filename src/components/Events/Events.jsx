@@ -41,7 +41,9 @@ const Events = () => {
 
   const [eventId, setEventId] = useState(null)
 
-  useQuery(['categories', { feature: 'Events', view: 'Events' }], () => getCategories(), {
+  useQuery({
+    queryKey: ['categories', { feature: 'Events', view: 'Events' }],
+    queryFn: getCategories,
     cacheTime: ONE_DAY,
     staleTime: ONE_DAY,
   })

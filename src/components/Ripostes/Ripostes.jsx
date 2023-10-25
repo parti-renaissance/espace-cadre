@@ -46,7 +46,8 @@ const Ripostes = () => {
 
   const ripostes = usePaginatedData(paginatedRipostes)
 
-  const { mutateAsync: updateRiposteStatus, isLoading: isToggleStatusLoading } = useMutation(updateRiposteStatusQuery, {
+  const { mutateAsync: updateRiposteStatus, isLoading: isToggleStatusLoading } = useMutation({
+    mutationFn: updateRiposteStatusQuery,
     onSuccess: async (_, updatedRiposte) => {
       await refetchUpdatedPage(paginatedRipostes, refetch, updatedRiposte.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
@@ -54,7 +55,8 @@ const Ripostes = () => {
     onError: handleError,
   })
 
-  const { mutateAsync: createRiposte, isLoading: isCreateLoading } = useMutation(createRiposteQuery, {
+  const { mutateAsync: createRiposte, isLoading: isCreateLoading } = useMutation({
+    mutationFn: createRiposteQuery,
     onSuccess: async () => {
       await refetch()
       enqueueSnackbar(messages.createSuccess, notifyVariants.success)
@@ -62,7 +64,8 @@ const Ripostes = () => {
     onError: handleError,
   })
 
-  const { mutateAsync: updateRiposte, isLoading: isUpdateLoading } = useMutation(updateRiposteQuery, {
+  const { mutateAsync: updateRiposte, isLoading: isUpdateLoading } = useMutation({
+    mutationFn: updateRiposteQuery,
     onSuccess: async (_, updatedRiposte) => {
       await refetchUpdatedPage(paginatedRipostes, refetch, updatedRiposte.id)
       enqueueSnackbar(messages.editSuccess, notifyVariants.success)

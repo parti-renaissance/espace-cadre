@@ -120,12 +120,11 @@ const Signup = () => {
     formik.setFieldValue('address', adr.route)
   }
 
-  const { data: rgpd } = useQuery(['RGPD', { feature: 'Signup', view: 'Signup' }], () => RGPDQuery())
+  const { data: rgpd } = useQuery({ queryKey: ['RGPD', { feature: 'Signup', view: 'Signup' }], queryFn: RGPDQuery })
 
-  const { mutateAsync: signup, isLoading: isLoading } = useMutation(signupQuery, {
-    onSuccess: () => {
-      navigate(publicPaths.signupConfirm)
-    },
+  const { mutateAsync: signup, isLoading: isLoading } = useMutation({
+    mutationFn: signupQuery,
+    onSuccess: () => navigate(publicPaths.signupConfirm),
     onError: e => {
       const { data } = e.response
       const errorMessages = getFormattedErrorMessages(data)
