@@ -60,16 +60,14 @@ const GroupModal = ({ open, group, onCloseResolve, onCreateEditResolve }) => {
   const [currentScope] = useUserScope()
   const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
   const { isMobile } = useCurrentDeviceType()
-  const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation(
-    !group?.id ? createGroupQuery : updateGroupQuery,
-    {
-      onSuccess: async (_, updatedGroup) => {
-        await onCreateEditResolve(updatedGroup)
-        enqueueSnackbar(!group?.id ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
-      },
-      onError: handleError,
-    }
-  )
+  const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation({
+    mutationFn: !group?.id ? createGroupQuery : updateGroupQuery,
+    onSuccess: async (_, updatedGroup) => {
+      await onCreateEditResolve(updatedGroup)
+      enqueueSnackbar(!group?.id ? messages.createSuccess : messages.editSuccess, notifyVariants.success)
+    },
+    onError: handleError,
+  })
 
   const handleClose = () => {
     onCloseResolve()

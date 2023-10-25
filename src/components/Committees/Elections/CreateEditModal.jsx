@@ -54,7 +54,8 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
     resolver: yupResolver(designationSchema),
   })
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!designation.id ? createDesignation : updateDesignation, {
+  const { mutate: createOrUpdate, isLoading } = useMutation({
+    mutationFn: !designation.id ? createDesignation : updateDesignation,
     onSuccess: () => {
       onCreateResolve && onCreateResolve()
       enqueueSnackbar(!designation.id ? messages.createSuccess : messages.editSuccess, notifyVariants.success)

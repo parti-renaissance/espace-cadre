@@ -73,7 +73,8 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
     }
   }, [formation, reset])
 
-  const { mutateAsync: createOrUpdate } = useMutation(!formation ? createFormation : updateFormation, {
+  const { mutateAsync: createOrUpdate } = useMutation({
+    mutationFn: !formation ? createFormation : updateFormation,
     onSuccess: () => {
       onCreateResolve && onCreateResolve()
       onUpdateResolve && onUpdateResolve()
@@ -81,10 +82,9 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
     onError: handleError,
   })
 
-  const { mutate: uploadFormationFile } = useMutation(uploadFile, {
-    onSuccess: () => {
-      setAction('')
-    },
+  const { mutate: uploadFormationFile } = useMutation({
+    mutationFn: uploadFile,
+    onSuccess: () => setAction(''),
     onError: handleError,
   })
 

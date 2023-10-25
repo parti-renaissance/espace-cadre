@@ -51,7 +51,8 @@ const News = () => {
 
   const news = usePaginatedData(paginatedNews)
 
-  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsPinnedStatusQuery, {
+  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation({
+    mutationFn: updateNewsPinnedStatusQuery,
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)

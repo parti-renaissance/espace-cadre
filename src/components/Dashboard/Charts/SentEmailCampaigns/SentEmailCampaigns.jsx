@@ -58,7 +58,8 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
 
   const campaigns = usePaginatedData(paginatedCampaigns)
 
-  const { mutateAsync: deleteDraft, isLoading: isDeleteLoading } = useMutation(deleteMessage, {
+  const { mutateAsync: deleteDraft, isLoading: isDeleteLoading } = useMutation({
+    mutationFn: deleteMessage,
     onSuccess: async (_, draftId) => {
       await refetchUpdatedPage(paginatedCampaigns, refetch, draftId)
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)

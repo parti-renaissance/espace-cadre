@@ -8,10 +8,10 @@ const scopedQueryKey = (queryKey, scope) => {
 
 export const useInfiniteQueryWithScope = (queryKey, queryFn, options) => {
   const [currentScope] = useUserScope()
-  return useInfiniteQuery(scopedQueryKey(queryKey, currentScope), queryFn, options)
+  return useInfiniteQuery({ queryKey: scopedQueryKey(queryKey, currentScope), queryFn, ...options })
 }
 
 export const useQueryWithScope = (queryKey, queryFn, options) => {
   const [currentScope] = useUserScope()
-  return useQuery(scopedQueryKey(queryKey, currentScope), queryFn, options)
+  return useQuery({ queryKey: scopedQueryKey(queryKey, currentScope), queryFn, ...options })
 }

@@ -67,17 +67,15 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
     setValues(values => ({ ...values, features: addOrRemoveFeature(values.features, key, selected) }))
   }, [])
 
-  const { mutate: createOrUpdateTeamMember, isLoading: isCreateOrUpdateLoading } = useMutation(
-    createOrUpdateTeamMemberQuery,
-    {
-      onSuccess: () => {
-        enqueueSnackbar(teamMember ? messages.update.success : messages.create.success, notifyVariants.success)
-        onCreateResolve()
-        handleClose()
-      },
-      onError: handleError,
-    }
-  )
+  const { mutate: createOrUpdateTeamMember, isLoading: isCreateOrUpdateLoading } = useMutation({
+    mutationFn: createOrUpdateTeamMemberQuery,
+    onSuccess: () => {
+      enqueueSnackbar(teamMember ? messages.update.success : messages.create.success, notifyVariants.success)
+      onCreateResolve()
+      handleClose()
+    },
+    onError: handleError,
+  })
 
   const handleSubmit = () => {
     createOrUpdateTeamMember({ teamId, teamMember: values })

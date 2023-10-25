@@ -16,7 +16,8 @@ const UpdateAnimatorModal = ({ committeeId, animatorId, handleClose }) => {
   const queryClient = useQueryClient()
   const onSuccess = () => queryClient.invalidateQueries({ queryKey: 'committee-detail' })
 
-  const { mutate, isLoading } = useMutation(updateAnimator, {
+  const { mutate, isLoading } = useMutation({
+    mutationFn: updateAnimator,
     onSuccess: () => {
       enqueueSnackbar(
         animatorId ? 'Responsable a été modifié' : 'Responsable a été ajouté au comité',

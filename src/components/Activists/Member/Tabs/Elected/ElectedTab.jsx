@@ -34,7 +34,8 @@ const ElectedTab = ({ adherentUuid }) => {
     onSuccess: data => setExemptFromCotisation(!!data.exempt_from_cotisation),
   })
 
-  const { mutate: removeMandate } = useMutation(deleteMandate, {
+  const { mutate: removeMandate } = useMutation({
+    mutationFn: deleteMandate,
     onSuccess: () => {
       enqueueSnackbar('Mandat supprimé', notifyVariants.success)
       refetch()
@@ -47,8 +48,8 @@ const ElectedTab = ({ adherentUuid }) => {
     isSuccess: isElectDataSavedSuccessfully,
     isError,
     isLoading,
-  } = useMutation(updateAdherentElect, {
-    onSuccess: () => {},
+  } = useMutation({
+    mutationFn: updateAdherentElect,
     onError: handleError,
   })
 

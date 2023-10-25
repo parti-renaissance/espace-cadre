@@ -54,21 +54,19 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
-  const isEditMode = news?.id ? true : false
+  const isEditMode = !!news?.id
   const accessToken = useSelector(state => state.auth.tokens.accessToken)
 
-  const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(
-    !isEditMode ? createNewsQuery : updateNewsQuery,
-    {
-      onSuccess: async () => {
-        const successMessage = !isEditMode ? messages.createSuccess : messages.editSuccess
-        await onSubmitResolve()
-        enqueueSnackbar(successMessage, notifyVariants.success)
-        handleClose()
-      },
-      onError: handleError,
-    }
-  )
+  const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation({
+    mutationFn: !isEditMode ? createNewsQuery : updateNewsQuery,
+    onSuccess: async () => {
+      const successMessage = !isEditMode ? messages.createSuccess : messages.editSuccess
+      await onSubmitResolve()
+      enqueueSnackbar(successMessage, notifyVariants.success)
+      handleClose()
+    },
+    onError: handleError,
+  })
 
   const handleClose = () => {
     onCloseResolve()

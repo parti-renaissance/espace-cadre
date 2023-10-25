@@ -71,7 +71,8 @@ const PollingStationSelect = ({ formik, campaignId, errorMessages }) => {
     }
   )
 
-  const { mutateAsync: getSelectedPollingStations } = useMutation(getDTDCampaignSelectedPollingStations, {
+  const { mutateAsync: getSelectedPollingStations } = useMutation({
+    mutationFn: getDTDCampaignSelectedPollingStations,
     onSuccess: data => {
       if (data?.length > 0) {
         setPollingStationSelection(data.map(element => element.code))

@@ -24,7 +24,8 @@ const AddCandidateModal = ({ listId, candidates, handleClose, onAddSuccess }) =>
   const { committeeId } = useParams()
   const [selectedAdherent, setSelectedAdherent] = useState(null)
 
-  const { mutate, isLoading: isLoading } = useMutation(addCandidate, {
+  const { mutate, isLoading: isLoading } = useMutation({
+    mutationFn: addCandidate,
     onSuccess: () => {
       if (typeof onAddSuccess === 'function') {
         onAddSuccess()

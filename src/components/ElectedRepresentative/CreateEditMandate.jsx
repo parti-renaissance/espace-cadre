@@ -65,7 +65,8 @@ const CreateEditMandate = ({ electedId, mandate, onUpdateResolve, handleClose })
 
   const watchOnGoing = watch(fields.onGoing, false)
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!mandate.id ? createMandate : updateMandate, {
+  const { mutate: createOrUpdate, isLoading } = useMutation({
+    mutationFn: !mandate.id ? createMandate : updateMandate,
     onSuccess: mandate => {
       onUpdateResolve && onUpdateResolve()
       enqueueSnackbar(mandate ? messages.createSuccess : messages.editSuccess, notifyVariants.success)

@@ -64,7 +64,8 @@ const DetailCommittee = () => {
     }
   )
 
-  const { mutate, isLoading: loading } = useMutation(deleteCommittee, {
+  const { mutate, isLoading: loading } = useMutation({
+    mutationFn: deleteCommittee,
     onSuccess: () => {
       enqueueSnackbar('Le comité supprimé avec succès', notifyVariants.success)
       navigate(generatePath(paths.committee))

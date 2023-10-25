@@ -92,7 +92,8 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
     resolver: yupResolver(electedSchema),
   })
 
-  const { mutate: createOrUpdate, isLoading } = useMutation(!elected.id ? createElected : updateElected, {
+  const { mutate: createOrUpdate, isLoading } = useMutation({
+    mutationFn: !elected.id ? createElected : updateElected,
     onSuccess: electedRepresentative => {
       onCreateResolve && onCreateResolve()
       onUpdateResolve && onUpdateResolve()

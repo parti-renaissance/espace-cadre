@@ -90,7 +90,8 @@ const ElectedDetail = () => {
     }
   )
 
-  const { mutate, isLoading: updateAdherentLoading } = useMutation(updateElected, {
+  const { mutate, isLoading: updateAdherentLoading } = useMutation({
+    mutationFn: updateElected,
     onSuccess: () => {
       enqueueSnackbar("L'élu a bien été dissocié du compte adhérent", notifyVariants.success)
       refetch()

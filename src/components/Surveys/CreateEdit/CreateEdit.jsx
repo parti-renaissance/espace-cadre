@@ -74,7 +74,8 @@ const SurveysCreateEdit = ({ survey, onCreateResolve, handleClose }) => {
     setFormValues(values => ({ ...values, [key]: value }))
   }, [])
 
-  const { mutate: createOrUpdateSurvey, isLoading: isCreateOrUpdateLoading } = useMutation(createOrUpdateSurveyQuery, {
+  const { mutate: createOrUpdateSurvey, isLoading: isCreateOrUpdateLoading } = useMutation({
+    mutationFn: createOrUpdateSurveyQuery,
     onSuccess: () => {
       enqueueSnackbar(survey ? messages.update.success : messages.create.success, notifyVariants.success)
       onCreateResolve()
