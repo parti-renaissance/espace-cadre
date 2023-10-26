@@ -26,7 +26,7 @@
     "formik": "^2.4.5",
     "jme-ckeditor5": "EnMarche/ckeditor5#master",
     "leaflet": "^1.9.4",
-    "libphonenumber-js": "^1.10.48",
+    "libphonenumber-js": "^1.10.49",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.15.0",
     "notistack": "^3.0.1",
