@@ -92,7 +92,7 @@ const Member = ({ enableElectTab, member, handleClose }) => {
             <Typography variant="h6" component="h4" sx={{ color: 'colors.gray.800' }}>
               {member.firstname} {member.lastname}
             </Typography>
-            {member.raw.tags.length > 0 && <Badges tags={member.raw.tags} />}
+            {member.raw.additional_tags.length > 0 && <Badges tags={member.raw.additional_tags} />}
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', color: 'colors.gray.600' }}>
                 <EmailOutlinedIcon sx={{ color: 'colors.gray.400', fontSize: '18px', mr: 1 }} />
