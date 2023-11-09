@@ -13,7 +13,7 @@ const Title = styled(Typography)(
 )
 
 const messages = {
-  title: "Je m'engage",
+  title: 'Espace cadre',
   subtitle: 'Vous êtes bien inscrit',
   body: 'Vous avez reçu un email pour valider votre compte et créer votre mot de passe',
 }

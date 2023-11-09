@@ -26,7 +26,7 @@ const Signature = styled('div')(
 )
 
 const messages = {
-  title: "Je m'engage",
+  title: 'Espace cadre',
   signature: 'Designé et assemblé par le Pôle Tech & Innovation',
 }
 

@@ -44,14 +44,14 @@ const messages = {
   add: 'Ajouter',
   groupMember: 'Militants du groupe',
   noMember: 'Ce groupe ne contient aucun membre',
-  charactersLimit: '(255 charactères)',
+  charactersLimit: '(255 caractères)',
   submit: 'Valider',
   createSuccess: 'Groupe créé avec succès',
   editSuccess: 'Le groupe a bien été modifié',
 }
 
 const groupSchema = Yup.object({
-  name: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
+  name: Yup.string().min(1, 'Minimum 1 caractère').max(255, 'Maximum 255 caractères').required('Titre obligatoire'),
 })
 
 const GroupModal = ({ open, group, onCloseResolve, onCreateEditResolve }) => {

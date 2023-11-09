@@ -1,8 +1,8 @@
 export const messages = {
   optional: '(optionnel)',
-  jme: "Je m'engage",
+  app_name: 'Espace cadre',
   createAccount: 'Créez votre compte pour vous engager sur le terrain.',
-  personnalInformations: 'Informations personnelles',
+  personalInformations: 'Informations personnelles',
   birthdate: 'Date de naissance',
   address: 'Adresse',
   prefix: 'Indicatif',
@@ -13,11 +13,10 @@ export const messages = {
   ppd: 'politique de protection des données à caractère personnel.',
   mobileNotification: 'Je souhaite recevoir des notifications par sms ',
   emailNotification: 'Je souhaite recevoir des notifications par email ',
-  adress: 'Numéro et rue',
   submit: "Je m'inscris",
   mandatory: 'Champ obligatoire',
   emailError: "Le format de l'email n'est pas valide",
-  min2: '2 charactères minimum',
+  min2: '2 caractères minimum',
   cguMandatory: 'Vous devez accepter les CGU',
 }
 

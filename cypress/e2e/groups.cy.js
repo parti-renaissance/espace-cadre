@@ -64,7 +64,7 @@ describe('Groups', () => {
 
     it('displays a form', () => {
       cy.contains('Créer un groupe')
-      cy.contains('Nom (255 charactères)')
+      cy.contains('Nom (255 caractères)')
       cy.get(GroupTitleInput).should('have.value', '')
       cy.get(GroupAreaSelect).should('exist')
     })

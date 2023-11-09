@@ -31,3 +31,9 @@ h1, h2, h3, h4 {
   all: initial;
   cursor: pointer;
 }
+.app-name {
+  font-family: 'MaaxItalic', serif;
+  font-weight: bold;
+  font-size: 23px;
+  color: $color-blue-500;
+}
