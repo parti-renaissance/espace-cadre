@@ -162,10 +162,10 @@ const Signup = () => {
   return (
     <Page>
       <Container>
-        <Title>{messages.jme}</Title>
+        <Title>{messages.app_name}</Title>
         <SubTitle sx={{ mt: 3, mb: 4.5 }}>{messages.createAccount}</SubTitle>
         <Form onSubmit={formik.handleSubmit}>
-          <Header sx={{ mb: 1 }}>{messages.personnalInformations}</Header>
+          <Header sx={{ mb: 1 }}>{messages.personalInformations}</Header>
           <TextFieldFormik
             label="firstName"
             formik={formik}

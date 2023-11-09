@@ -1,6 +1,6 @@
 # Data-Corner
 
-Le projet Je m'engage s'efforce de respecter les meilleures pratiques en matière de développement de logiciels open source:
+Le projet Espace cadre s'efforce de respecter les meilleures pratiques en matière de développement de logiciels open source :
 | Code Quality | Status |
 | ------ | ------ |
 | CodeQL |[![CodeQL](https://github.com/EnMarche/Data-Corner/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EnMarche/Data-Corner/actions/workflows/codeql-analysis.yml)|

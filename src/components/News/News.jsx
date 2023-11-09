@@ -22,7 +22,7 @@ import NewsList from './NewsList'
 const messages = {
   title: 'Actualités',
   create: 'Nouvelle Actualité',
-  pinnedSubtitle: 'Épinglée dans l’application Je m’engage',
+  pinnedSubtitle: 'Épinglée dans l’application mobile',
   defaultSubtitle: 'Dans votre territoire',
   toggleSuccess: "L'actualité a bien été modifiée",
   alertTitle: '🎉 NOUVEAU',

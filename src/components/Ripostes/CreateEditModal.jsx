@@ -49,8 +49,8 @@ const messages = {
 }
 
 const riposteSchema = Yup.object({
-  title: Yup.string().min(1, 'Minimum 1 charactère').max(255, 'Maximum 255 charactères').required('Titre obligatoire'),
-  body: Yup.string().min(1, 'Minimum 1 charactère').required('Texte obligatoire'),
+  title: Yup.string().min(1, 'Minimum 1 caractère').max(255, 'Maximum 255 caractères').required('Titre obligatoire'),
+  body: Yup.string().min(1, 'Minimum 1 caractère').required('Texte obligatoire'),
   url: Yup.string().url('Ce champ doit être une URL valide').required('Url obligatoire'),
 })
 

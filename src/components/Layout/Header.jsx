@@ -1,5 +1,4 @@
 import { useUserScope } from '../../redux/user/hooks'
-import { LogoLarge } from 'ui/Logo/Logo'
 
 const Header = () => {
   const [currentScope] = useUserScope()
@@ -9,7 +8,7 @@ const Header = () => {
       <div className="flex justify-between flex-1 px-4">
         <div className="flex flex-1">
           <div className="logo-large">
-            <LogoLarge classes="h-6 w-auto" fillColor="#0f172a" strokeColor="#0f172a" />
+            <div className="app-name">Espace cadre</div>
           </div>
         </div>
         <div className="header-scope">

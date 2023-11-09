@@ -29,7 +29,7 @@ const IconWrapper = styled('span')(
 )
 
 const messages = {
-  siteName: "Je m'engage",
+  siteName: 'Espace cadre',
 }
 
 const Branding = ({ mobileOpen = false, handleDrawerToggle }) => (

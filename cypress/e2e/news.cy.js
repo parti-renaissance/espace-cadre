@@ -29,7 +29,7 @@ describe('News', () => {
 
   describe('The pinned card section', () => {
     it('should have a title', () => {
-      cy.contains('Épinglée dans l’application Je m’engage')
+      cy.contains('Épinglée dans l’application mobile')
     })
     it('should have a pinned card', () => {
       cy.get(UICard).eq(0).find('>div').eq(0).get(`svg${pinnedIcon}`).should('exist')

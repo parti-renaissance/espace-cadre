@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box } from '@mui/material'
-import { LogoLarge } from 'ui/Logo/Logo'
 import { featuresGroup } from 'shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
@@ -42,7 +41,7 @@ const Navigation = ({ drawerWidth }) => {
       }}
     >
       <div>
-        <LogoLarge classes="h-6 w-auto" fillColor="#1254D8" strokeColor="#1254D8" />
+        <div className="app-name">Espace cadre</div>
         <Scopes />
       </div>
       <Box
