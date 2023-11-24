@@ -44,7 +44,7 @@
     "react-router-dom": "^6.20.0",
     "react-select": "^5.8.0",
     "react-use": "^17.4.0",
-    "react-window": "^1.8.9",
+    "react-window": "^1.8.10",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "sass": "^1.69.5",
