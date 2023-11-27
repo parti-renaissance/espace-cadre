@@ -252,6 +252,9 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
               <div>
                 <div title={messages.step1}>
                   <Label sx={{ pt: 3, pb: 1 }}>{messages.label.name}</Label>
+                  <Typography component="p" variant="subtitle2" sx={{ color: 'gray600', mb: 1.5 }}>
+                    Votre titre d’évènement doit faire plus de 5 caractères
+                  </Typography>
                   <Controller
                     name={fields.name}
                     control={control}
@@ -368,6 +371,9 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                     isDeleting={isDeleting}
                   />
                   <Label sx={{ pt: 3, pb: 1 }}>{messages.label.description}</Label>
+                  <Typography component="p" variant="subtitle2" sx={{ color: 'gray600', mb: 1.5 }}>
+                    Votre description d’évènement doit faire plus de 10 caractères
+                  </Typography>
                   <Controller
                     name={fields.description}
                     control={control}
