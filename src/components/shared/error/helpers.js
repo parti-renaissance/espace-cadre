@@ -11,6 +11,9 @@ export const handleGenericHttpErrors = (cb, status, stack, message) => {
   if (status === 404) {
     return cb(notifyMessages.notFoundTitle, notifyVariants.error, notifyMessages.notFoundDetail)
   }
+  if (status === 400) {
+    return cb(notifyMessages.badRequestTitle, notifyVariants.error, message)
+  }
   if (status === 403) {
     return cb(notifyMessages.unauthorizedTitle, notifyVariants.error, notifyMessages.unauthorizedDetail)
   }
