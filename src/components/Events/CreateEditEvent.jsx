@@ -63,6 +63,7 @@ const fields = {
   address: 'address',
   addressError: 'post_address',
   visio: 'visioUrl',
+  visioError: 'visio_url',
   capacity: 'capacity',
   description: 'description',
   private: 'private',
@@ -407,7 +408,7 @@ const CreateEditEvent = ({ handleClose, eventId, onUpdate }) => {
                       />
                     )}
                   />
-                  <FormError errors={errorMessages} field={fields.visio} />
+                  <FormError errors={errorMessages} field={fields.visioError} />
                   <Label optional sx={{ pt: 3, pb: 1 }}>
                     {messages.label.capacity}
                   </Label>
