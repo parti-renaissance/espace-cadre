@@ -11,7 +11,12 @@ const Mandate = ({ mandate, removeAction, editAction }) => (
   <Box sx={{ mt: 2 }}>
     <Grid container>
       <Grid item xs={10}>
-        <Typography sx={{ color: 'colors.gray.700', fontSize: '13px' }}>{mandates[mandate.mandateType]}</Typography>
+        <Typography component="p" sx={{ color: 'colors.gray.700', fontSize: '13px' }}>
+          {mandates[mandate.mandateType]}
+        </Typography>
+        <Typography component="p" sx={{ color: 'colors.gray.500', fontSize: '12px', my: 1 }}>
+          {mandate.delegation}
+        </Typography>
       </Grid>
       <Grid item xs={2}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', ml: 2 }}>
