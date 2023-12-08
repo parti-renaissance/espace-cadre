@@ -203,7 +203,7 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
       </Grid>
 
       <Box>
-        <UIInputLabel sx={{ mb: 1.5 }}>Délégation</UIInputLabel>
+        <UIInputLabel sx={{ mb: 1.5 }}>Délégation / Fonction</UIInputLabel>
         <Controller
           name={fields.delegation}
           control={control}
