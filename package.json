@@ -73,7 +73,7 @@
     "@cypress/vite-dev-server": "^5.0.6",
     "@sentry/vite-plugin": "^2.10.2",
     "@testing-library/react": "^14.1.2",
-    "@vitejs/plugin-react": "^4.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "babel-jest": "^29.7.0",
     "cypress": "^13.6.1",
     "eslint": "^8.54.0",
