@@ -85,7 +85,7 @@
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "lint-staged": "^15.1.0",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "vite": "^5.0.8",
     "vite-plugin-environment": "^1.1.3",
