@@ -9,7 +9,7 @@
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.15.2",
-    "@mui/lab": "^5.0.0-alpha.155",
+    "@mui/lab": "^5.0.0-alpha.159",
     "@mui/material": "^5.15.3",
     "@mui/styles": "^5.15.0",
     "@mui/system": "^5.14.18",
