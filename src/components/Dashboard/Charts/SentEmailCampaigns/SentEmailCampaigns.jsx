@@ -102,7 +102,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
                     messageId={message.id}
                     onDelete={() => deleteDraft(message.id)}
                     loader={isDeleteLoading}
-                    isEditEnabled={!isMailsStatutory}
+                    isEditEnabled={!isMailsStatutory && message.draft}
                     onPreview={
                       message.isSynchronized && message.previewLink
                         ? () => window.open(message.previewLink, '_blank')
