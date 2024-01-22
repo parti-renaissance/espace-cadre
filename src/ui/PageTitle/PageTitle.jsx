@@ -18,13 +18,11 @@ const PageTitle = ({
     xl={breakpoints.xl}
   >
     {titleLink ? (
-      <Typography variant="pageTitle" sx={{ color: 'main' }}>
+      <Typography variant="h4">
         <Link to={titleLink}>{title}</Link>
       </Typography>
     ) : (
-      <Typography variant="pageTitle" sx={{ color: 'gray800' }}>
-        {title}
-      </Typography>
+      <Typography variant="h4">{title}</Typography>
     )}
     {titleSuffix && (
       <>

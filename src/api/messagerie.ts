@@ -4,9 +4,37 @@ import { newPaginatedResult } from '~/api/pagination'
 import ReportRatio, { GeoRatio } from '~/domain/reportRatio'
 import { parseDate } from '~/shared/helpers'
 
-export const getMessages = async ({ page, isMailsStatutory }) => {
+interface Data {
+  items: {
+    uuid: string
+    author: {
+      first_name: string
+      last_name: string
+    }
+    status: 'draft' | 'sent'
+    subject: string
+    created_at: string
+    sent_at: string
+    synchronized: boolean
+    preview_link: string
+    statistics: {
+      sent: number
+      opens: number
+      open_rate: number
+      clicks: number
+      click_rate: number
+      unsubscribe: number
+      unsubscribe_rate: number
+    }
+  }[]
+  metadata: Parameters<typeof newPaginatedResult>[1]
+}
+
+export const getMessages = async ({ page, isMailsStatutory }: { page: number; isMailsStatutory: boolean }) => {
   const query = isMailsStatutory ? '&statutory=1' : ''
-  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20${query}`)
+  const data = (await apiClient.get(
+    `/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20${query}`
+  )) as Data
 
   const messages = data.items.map(message => {
     const { statistics: s } = message
@@ -40,20 +68,27 @@ export const getMessages = async ({ page, isMailsStatutory }) => {
     data.metadata
   )
 }
-export const deleteMessage = id => apiClient.delete(`/v3/adherent_messages/${id}`)
-export const messageSynchronizationStatus = async id => {
+/**
+ * @param {string} id
+ * @returns void
+ */
+export const deleteMessage = (id: string) => apiClient.delete(`/v3/adherent_messages/${id}`)
+export const messageSynchronizationStatus = async (id: string) => {
   const data = await apiClient.get(`/v3/adherent_messages/${id}`)
   return { synchronized: data.synchronized }
 }
-export const getMessageContent = id => apiClient.get(`/v3/adherent_messages/${id}/content`)
-export const getMessage = id => apiClient.get(`/v3/adherent_messages/${id}`)
+export const getMessageContent = (id: string) => apiClient.get(`/v3/adherent_messages/${id}/content`)
+export const getMessage = (id: string) => apiClient.get(`/v3/adherent_messages/${id}`)
+// @ts-expect-error todo fix
 export const updateMessageFilter = ({ id, data }) => apiClient.put(`/v3/adherent_messages/${id}/filter`, data)
+// @ts-expect-error todo fix
 export const createMessageContent = data => apiClient.post('/v3/adherent_messages', data)
+// @ts-expect-error todo fix
 export const updateMessageContent = (id, data) => apiClient.put(`/v3/adherent_messages/${id}`, data)
-export const sendMessage = id => apiClient.post(`/v3/adherent_messages/${id}/send`)
-export const sendTestMessage = id => apiClient.post(`/v3/adherent_messages/${id}/send-test`)
+export const sendMessage = (id: string) => apiClient.post(`/v3/adherent_messages/${id}/send`)
+export const sendTestMessage = (id: string) => apiClient.post(`/v3/adherent_messages/${id}/send-test`)
 
-export const reportsRatio = async () => {
+export const reportsRatio = async (): Promise<ReportRatio> => {
   const data = await apiClient.get('/v3/adherent_messages/kpi')
   return new ReportRatio(
     new GeoRatio(
@@ -71,8 +106,8 @@ export const reportsRatio = async () => {
     parseDate(data.since)
   )
 }
-export const getTemplates = async isMailsStatutory => {
+export const getTemplates = async (isMailsStatutory: boolean) => {
   const query = isMailsStatutory ? '?statutory=1' : ''
   return await apiClient.get(`/v3/email_templates${query}`)
 }
-export const getTemplate = async uuid => await apiClient.get(`/v3/email_templates/${uuid}`)
+export const getTemplate = async (uuid: string) => await apiClient.get(`/v3/email_templates/${uuid}`)

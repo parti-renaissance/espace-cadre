@@ -48,7 +48,7 @@ export const StyledLabel = styled(Box)(({
     ...(ownerState.color !== 'default' && {
       // FILLED
       ...(filledVariant && {
-        color: theme.palette[ownerState.color].contrastText,
+        color: theme.palette.text.primary,
         backgroundColor: theme.palette[ownerState.color].main,
       }),
       // OUTLINED
@@ -59,8 +59,8 @@ export const StyledLabel = styled(Box)(({
       }),
       // SOFT
       ...(softVariant && {
-        color: theme.palette[ownerState.color][lightMode ? 'dark' : 'light'],
-        backgroundColor: alpha(theme.palette[ownerState.color].main, 0.16),
+        color: theme.palette[ownerState.color].main,
+        backgroundColor: alpha(theme.palette[ownerState.color].main, 0.125),
       }),
     }),
   }

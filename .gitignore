@@ -19,4 +19,6 @@ lerna-debug.log*
 /cypress/screenshots/
 /cypress/support/
 cypress.env.json
+scripts/theme/figma-colors.json
+scripts/theme/generated-colors.ts
 /coverage/
