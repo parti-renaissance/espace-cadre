@@ -56,7 +56,9 @@ const Sidebar = ({ children, window }) => {
           </span>
         </AppBar>
         <Header />
-        <main className="app-content">{children}</main>
+        <Box component="main" height="100%" className="app-content">
+          {children}
+        </Box>
       </Box>
     </Box>
   )
