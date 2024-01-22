@@ -33,7 +33,7 @@ const Sidebar = ({ children, window }) => {
   }
 
   return (
-    <Box sx={{ position: 'relative', display: 'flex', backgroundColor: 'colors.gray.100' }}>
+    <Box sx={{ minHeight: '100%', position: 'relative', display: 'flex', backgroundColor: 'colors.gray.100' }}>
       <Desktop drawerWidth={drawerWidth} />
       <Mobile
         container={container}
