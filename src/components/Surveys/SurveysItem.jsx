@@ -42,12 +42,17 @@ const SurveyItem = ({
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
-        rootProps={{ sx: { height: '207px' } }}
+        rootProps={{ sx: { minHeight: '207px', height: '100%' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
             <HorizontalContainer>
-              <UIChip data-cy="surveys-item-status" label={chipLabel} {...chipColors} sx={{ height: '16px', mr: 1 }} />
+              <UIChip
+                data-cy="surveys-item-status"
+                label={chipLabel}
+                {...chipColors}
+                sx={{ minHeight: '16px', mr: 1 }}
+              />
             </HorizontalContainer>
             <VerticalContainer>
               <TruncatedText
@@ -55,7 +60,7 @@ const SurveyItem = ({
                 data-cy="surveys-item-title"
                 title={title}
                 lines={2}
-                sx={{ height: '48px', pt: 1 }}
+                sx={{ minHeight: '48px', pt: 1 }}
               >
                 {title}
               </TruncatedText>
@@ -63,7 +68,7 @@ const SurveyItem = ({
                 variant="subtitle2"
                 data-cy="surveys-item-author"
                 title={author && `${messages.by} ${author.firstName} ${author.lastName}`}
-                sx={{ height: '18px', pt: 0.5, color: 'gray600' }}
+                sx={{ minHeight: '18px', pt: 0.5, color: 'gray600' }}
               >
                 {author && `${messages.by} ${author.firstName} ${author.lastName}`}
               </TruncatedText>
