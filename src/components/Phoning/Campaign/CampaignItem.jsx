@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import { Grid, Typography as MuiTypography, Divider } from '@mui/material'
+import { Grid, Typography as MuiTypography, Divider, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
@@ -87,26 +87,26 @@ const CampaignItem = ({
         content={
           <>
             <Divider sx={{ color: 'rgba(0, 0, 0, 0.16)', mb: 1 }} />
-            <Grid container alignItems="center" sx={{ mb: 0.5 }}>
-              <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
-              <Typography>
+            <Box container sx={{ mb: 0.5 }}>
+              <Box display="flex" alignItems="center">
+                <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5 }} />
                 <Typography sx={{ fontWeight: 700 }}>{formatNumber(numberOfUsersToBeCalled)}&nbsp;</Typography>
                 {pluralize(numberOfUsersToBeCalled, messages.people, 's')}&nbsp;
                 {messages.toCall}
-              </Typography>
-              <Typography>
+              </Box>
+              <Box display="flex" alignItems="center">
                 <WhatshotRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
                 <Typography sx={{ fontWeight: 700 }}>{formatNumber(numberOfUsersCalled)}&nbsp;</Typography>
                 {pluralize(numberOfUsersCalled, messages.people, 's')}&nbsp;
                 {messages.called}
-              </Typography>
-              <Typography>
+              </Box>
+              <Box display="flex" alignItems="center">
                 <PeopleRoundedIcon sx={{ fontSize: '12px', color: 'gray500', mr: 0.5, visibility: 'hidden' }} />
                 <Typography sx={{ fontWeight: 700 }}>{formatNumber(numberOfCalls)}&nbsp;</Typography>
                 {pluralize(numberOfCalls, messages.calls, 's')}&nbsp;
                 {messages.callsMade}
-              </Typography>
-            </Grid>
+              </Box>
+            </Box>
           </>
         }
         actionsProps={{ sx: { pt: 2 } }}
