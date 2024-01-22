@@ -114,8 +114,8 @@ const Committees = () => {
                     </Box>
                   }
                   actions={
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-                      <Box display="flex" alignItems="center" className="space-x-2">
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, width: '100%' }}>
+                      <Box display="flex" alignItems="center" justifyContent="space-between" className="space-x-2">
                         <GroupsIcon sx={{ color: 'colors.gray.400', fontSize: '22px' }} />
                         <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
                           {committee.members_count} {pluralize(committee.members_count, 'adhérent')} et{' '}

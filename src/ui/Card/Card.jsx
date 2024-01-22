@@ -2,6 +2,13 @@ import PropTypes from 'prop-types'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
+import { styled } from '@mui/system'
+
+const StyledCard = styled(Card)({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+})
 
 const UICard = ({
   header,
@@ -12,11 +19,11 @@ const UICard = ({
   contentProps = {},
   actionsProps = {},
 }) => (
-  <Card {...rootProps} data-cy="ui-card">
+  <StyledCard {...rootProps} data-cy="ui-card">
     {header && <CardContent {...headerProps}>{header}</CardContent>}
     {content && <CardContent {...contentProps}>{content}</CardContent>}
     {actions && <CardActions {...actionsProps}>{actions}</CardActions>}
-  </Card>
+  </StyledCard>
 )
 
 UICard.propTypes = {
