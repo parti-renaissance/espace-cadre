@@ -1,14 +1,12 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import path from 'path'
 
-const path = require('path')
 
-export default defineConfig(generateConfig)
-
-export function generateConfig({ mode }) {
+export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode })=> {
   return {
     resolve: {
       alias: {
@@ -21,6 +19,7 @@ export function generateConfig({ mode }) {
         style: path.resolve(__dirname, 'src/style'),
         shared: path.resolve(__dirname, 'src/shared'),
         ui: path.resolve(__dirname, 'src/ui'),
+        src: path.resolve(__dirname, 'src/'),
       },
     },
     plugins: [
@@ -58,3 +57,6 @@ export function generateConfig({ mode }) {
     },
   }
 }
+
+
+export default defineConfig(generateConfig)
