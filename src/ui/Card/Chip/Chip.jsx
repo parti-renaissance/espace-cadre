@@ -9,7 +9,7 @@ const Label = styled(Typography)({
 })
 
 export const UIChip = ({
-  variant = 'filled',
+  variant = 'outlined',
   label,
   color,
   bgcolor,
