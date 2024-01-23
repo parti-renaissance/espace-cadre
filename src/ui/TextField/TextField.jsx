@@ -5,7 +5,6 @@ import AlertBanner from '~/ui/AlertBanner'
 
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `
-  border-color: ${theme.palette.gray200};
   border-radius: 8px;
   margin: ${theme.spacing(1, 0)};
 

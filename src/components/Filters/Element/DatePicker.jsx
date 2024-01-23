@@ -1,17 +1,6 @@
 import PropTypes from 'prop-types'
-import { styled } from '@mui/system'
-import { TextField as MuiTextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers'
-
-const TextField = styled(MuiTextField)`
-  background: ${({ theme }) => theme.palette.whiteCorner};
-  width: 100%;
-  border-radius: 8px;
-
-  & .MuiOutlinedInput-notchedOutline {
-    border: none;
-  }
-`
 
 const DatePicker = ({ value, onChange, label }) => (
   <MuiDatePicker
@@ -30,7 +19,6 @@ const DatePicker = ({ value, onChange, label }) => (
     slotProps={{
       textField: {
         variant: 'outlined',
-        size: 'small',
         label,
         InputProps: {
           autoComplete: 'off',
