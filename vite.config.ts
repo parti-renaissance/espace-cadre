@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react-swc'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import path from 'path'
 
-export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => ({
+export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode })=> ({
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src/'),
