@@ -1,4 +1,4 @@
-import { Title } from 'ui/Card'
+import { Title, UIChip } from 'ui/Card'
 import { styled } from '@mui/system'
 import GroupIcon from '@mui/icons-material/Group'
 import { Box, Typography } from '@mui/material'
@@ -12,7 +12,6 @@ import EventChip from './EventChip'
 import PropTypes from 'prop-types'
 import { formatDate } from 'shared/helpers'
 import CardMedia from '@mui/material/CardMedia'
-import { UIChip } from 'src/ui/Card'
 
 const CalendarTodayIcon = styled(MuiCalendarTodayIcon)(
   ({ theme }) => `

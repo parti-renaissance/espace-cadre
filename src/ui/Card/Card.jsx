@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
+import { Card as MuiCard, CardContent } from '@mui/material'
 import { styled } from '@mui/system'
 
-const StyledCard = styled(Card)({
+const StyledCard = styled(MuiCard)({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',

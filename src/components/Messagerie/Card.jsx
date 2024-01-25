@@ -5,7 +5,7 @@ import { generatePath, useNavigate } from 'react-router'
 import noImage from 'assets/no-image.png'
 import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
 import Button from 'ui/Button/Button'
-import UICard from 'ui/Card/Card'
+import UICard from 'ui/Card'
 
 const Card = ({ template }) => {
   const navigate = useNavigate()

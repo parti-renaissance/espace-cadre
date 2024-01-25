@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import UICard from './Card'
+import UICard from 'ui/Card/Card'
 
 jest.mock('@mui/system', () => ({
   styled: c => () => c,
