@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react'
 import PageTitle from './PageTitle'
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   Grid: ({ children }) => <div>{children}</div>,
   Typography: ({ children }) => <div className="typography">{children}</div>,
 }))
-jest.mock('react-router-dom', () => ({
+vi.mock('react-router-dom', () => ({
   Link: ({ to, children }) => (
     <div className="Link" data-to={to}>
       {children}

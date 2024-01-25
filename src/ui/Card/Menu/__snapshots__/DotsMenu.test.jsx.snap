@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DotsMenu > displays a DotsMenu 1`] = `
+<div>
+  <div
+    data-cy="dot-action-menu"
+  >
+    <div
+      class="mui-button-mock"
+    >
+      <div
+        class="mui-MoreVertIcon-mock"
+      />
+    </div>
+    <div
+      class="mui-Menu-mock"
+    >
+      <div
+        class="mui-MenuItem-mock"
+        data-testid="mui-MenuItem-mock"
+      >
+        foo
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DotsMenu displays a DotsMenu 1`] = `
+<div>
+  <div
+    data-cy="dot-action-menu"
+  >
+    <div
+      class="mui-button-mock"
+    >
+      <div
+        class="mui-MoreVertIcon-mock"
+      />
+    </div>
+    <div
+      class="mui-Menu-mock"
+    >
+      <div
+        class="mui-MenuItem-mock"
+        data-testid="mui-MenuItem-mock"
+      >
+        foo
+      </div>
+    </div>
+  </div>
+</div>
+`;

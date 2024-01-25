@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react'
 import { Title } from 'ui/Card'
 
-jest.mock('@mui/system', () => ({
+vi.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
-jest.mock('@mui/icons-material', () => {
+vi.mock('@mui/icons-material', () => {
   const icons = {
     __esModule: true,
   }
@@ -17,9 +17,16 @@ jest.mock('@mui/icons-material', () => {
 
   return new Proxy(icons, handler)
 })
-jest.mock('@mui/material', () => ({
-  Typography: ({ children }) => <div className="mui-typography-mock">{children}</div>,
-}))
+
+vi.mock('@mui/material', async importOriginal => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    Typography: ({ children }) => <div className="mui-typography-mock">{children}</div>,
+    // your mocked methods
+  }
+})
+
 describe('Title', () => {
   it('displays a Title', () => {
     const { container } = render(

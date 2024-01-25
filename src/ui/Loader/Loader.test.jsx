@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import Loader from 'ui/Loader/Loader'
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   CircularProgress: ({ size }) => <div>Mock CircularProgress: size {size}</div>,
 }))
 

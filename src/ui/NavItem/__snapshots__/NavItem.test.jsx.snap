@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NavItem > displays a NavItem 1`] = `
+<div>
+  <div
+    class="mock-navlink"
+  >
+    <div
+      class="mock-typography"
+    >
+      foo
+    </div>
+  </div>
+</div>
+`;
+
+exports[`NavItem displays a NavItem 1`] = `
+<div>
+  <div
+    class="mock-navlink"
+  >
+    <div
+      class="mock-typography"
+    >
+      foo
+    </div>
+  </div>
+</div>
+`;

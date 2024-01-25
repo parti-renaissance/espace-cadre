@@ -1,12 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import Button from './Button'
 
-jest.mock('@mui/system', () => ({
+vi.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
 
-jest.mock('@mui/material', () => ({
-  Button: ({ children, ...props }) => (
+vi.mock('@mui/material', () => ({
+  Button: ({ children, isMainbutton, ...props }) => (
     <div data-testid="mui-button-mock" {...props}>
       {children}
     </div>
@@ -15,7 +15,7 @@ jest.mock('@mui/material', () => ({
 
 describe('Button', () => {
   it('displays button', () => {
-    const mock = jest.fn()
+    const mock = vi.fn()
     const { container } = render(
       <Button onClick={mock} rootProps={{ sx: 'foo' }}>
         Foo
@@ -25,7 +25,7 @@ describe('Button', () => {
     expect(container).toMatchSnapshot()
   })
   it('calls handleclick on click', () => {
-    const mockOnClick = jest.fn()
+    const mockOnClick = vi.fn()
     render(<Button onClick={mockOnClick}>Foo</Button>)
 
     const button = screen.getByTestId('mui-button-mock')

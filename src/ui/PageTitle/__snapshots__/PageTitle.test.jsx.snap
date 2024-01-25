@@ -1,0 +1,83 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PageTitle > displays a breadcrumbs 1`] = `
+<div>
+  <div>
+    <div
+      class="typography"
+    >
+      <div
+        class="Link"
+        data-to="titleLink"
+      >
+        Title for test
+      </div>
+    </div>
+    <div
+      class="typography"
+    >
+       
+      &gt;
+       
+    </div>
+    <div
+      class="typography"
+    >
+      titleSuffix
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PageTitle > displays only a title 1`] = `
+<div>
+  <div>
+    <div
+      class="typography"
+    >
+      Title for test
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PageTitle displays a breadcrumbs 1`] = `
+<div>
+  <div>
+    <div
+      class="typography"
+    >
+      <div
+        class="Link"
+        data-to="titleLink"
+      >
+        Title for test
+      </div>
+    </div>
+    <div
+      class="typography"
+    >
+       
+      &gt;
+       
+    </div>
+    <div
+      class="typography"
+    >
+      titleSuffix
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PageTitle displays only a title 1`] = `
+<div>
+  <div>
+    <div
+      class="typography"
+    >
+      Title for test
+    </div>
+  </div>
+</div>
+`;

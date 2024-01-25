@@ -1,4 +1,33 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Title > displays a Title 1`] = `
+<div>
+  <div>
+    <div
+      class="mui-typography-mock"
+    >
+      subject
+    </div>
+    <div>
+      <div
+        class="mui-typography-mock"
+      >
+        author
+      </div>
+    </div>
+    <div>
+      <div
+        class="mui-typography-mock"
+      >
+        Le 
+        17/03/2022
+         à 
+        09:00
+      </div>
+    </div>
+  </div>
+</div>
+`;
 
 exports[`Title displays a Title 1`] = `
 <div>

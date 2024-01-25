@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Button > displays button 1`] = `
+<div>
+  <div
+    data-testid="mui-button-mock"
+    sx="foo"
+    variant="contained"
+  >
+    Foo
+  </div>
+</div>
+`;
+
+exports[`Button displays button 1`] = `
+<div>
+  <div
+    data-testid="mui-button-mock"
+    sx="foo"
+    variant="contained"
+  >
+    Foo
+  </div>
+</div>
+`;

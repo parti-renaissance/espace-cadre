@@ -1,12 +1,18 @@
 import { render } from '@testing-library/react'
-import UICard from 'ui/Card/Card'
+import UICard from './Card'
 
-jest.mock('@mui/system', () => ({
+vi.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
-jest.mock('@mui/material', () => ({
-  Paper: ({ children }) => <div className="mui-paper-mock">{children}</div>,
-}))
+
+vi.mock('@mui/material', async importOriginal => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    Paper: ({ children }) => <div className="mui-paper-mock">{children}</div>,
+    // your mocked methods
+  }
+})
 describe('Card', () => {
   it('displays a Card with headers', () => {
     const { container } = render(<UICard header="header" />)

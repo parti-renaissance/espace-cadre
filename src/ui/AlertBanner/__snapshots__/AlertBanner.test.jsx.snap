@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AlertBanner > displays AlertBanner with object message 1`] = `
+<div>
+  <div
+    class="css-23lavf"
+    elevation="0"
+    severity="foo-severity"
+    variant="filled"
+  >
+    FOO
+  </div>
+</div>
+`;
+
+exports[`AlertBanner > displays AlertBanner with string message 1`] = `
+<div>
+  <div
+    class="css-23lavf"
+    elevation="0"
+    severity="foo-severity"
+    variant="filled"
+  >
+    FOO
+  </div>
+</div>
+`;
+
+exports[`AlertBanner displays AlertBanner with object message 1`] = `
+<div>
+  <div
+    class="css-23lavf"
+    elevation="0"
+    severity="foo-severity"
+    variant="filled"
+  >
+    FOO
+  </div>
+</div>
+`;
+
+exports[`AlertBanner displays AlertBanner with string message 1`] = `
+<div>
+  <div
+    class="css-23lavf"
+    elevation="0"
+    severity="foo-severity"
+    variant="filled"
+  >
+    FOO
+  </div>
+</div>
+`;
