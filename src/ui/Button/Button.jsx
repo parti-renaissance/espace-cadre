@@ -60,7 +60,7 @@ export const ActionButton = ({ children, handleSubmit, isLoading = false, disabl
   </Button>
 )
 
-export const DangerButton = ({ children, onClick, rootProps, disabled = false, isLoading = false, isMainButton }) => (
+export const DangerButton = ({ children, onClick, rootProps, disabled = false, isLoading = false }) => (
   <MainDangerButton variant="contained" onClick={onClick} {...rootProps} disabled={isLoading || disabled}>
     {isLoading && <Loader />}&nbsp;
     {children}
