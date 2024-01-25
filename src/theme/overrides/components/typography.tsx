@@ -6,6 +6,9 @@ import { PoppinsFontFaces, MaaxFontFaces } from '../../../providers/fonts'
 export function typography(theme: Theme) {
   return {
     MuiTypography: {
+      defaultProps: {
+        component: 'span',
+      },
       styleOverrides: {
         root: [PoppinsFontFaces, MaaxFontFaces],
         paragraph: {
