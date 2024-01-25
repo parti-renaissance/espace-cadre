@@ -116,7 +116,7 @@ const Ripostes = () => {
             {ripostes.map(r => (
               <Grid item key={r.id} xs={12} sm={6} md={3}>
                 <UICard
-                  rootProps={{ sx: { height: '238px' } }}
+                  rootProps={{ sx: { minHeight: '238px' } }}
                   headerProps={{ sx: { pt: '21px' } }}
                   header={
                     <>

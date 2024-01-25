@@ -1,0 +1,80 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Card > displays a Card with actions 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-bhp9pd-MuiPaper-root-MuiCard-root"
+    data-cy="ui-card"
+  >
+    <div>
+      actions
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card > displays a Card with content 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-bhp9pd-MuiPaper-root-MuiCard-root"
+    data-cy="ui-card"
+  >
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card > displays a Card with headers 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-bhp9pd-MuiPaper-root-MuiCard-root"
+    data-cy="ui-card"
+  >
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      header
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card displays a Card with actions 1`] = `
+<div>
+  <div
+    class="mui-paper-mock"
+  >
+    <div>
+      actions
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card displays a Card with content 1`] = `
+<div>
+  <div
+    class="mui-paper-mock"
+  >
+    <div>
+      content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card displays a Card with headers 1`] = `
+<div>
+  <div
+    class="mui-paper-mock"
+  >
+    <div>
+      header
+    </div>
+  </div>
+</div>
+`;

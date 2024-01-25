@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Spinner > displays spinner 1`] = `
+<div>
+  <div
+    class="mock-grid container "
+  >
+    <div
+      class="mock-grid  item"
+    >
+      <div>
+        mock-circular-progress
+      </div>
+    </div>
+    <div
+      class="mock-grid  item"
+    >
+      <strong>
+        Page en cours de chargement
+      </strong>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Spinner displays spinner 1`] = `
+<div>
+  <div
+    class="mock-grid container "
+  >
+    <div
+      class="mock-grid  item"
+    >
+      <div>
+        mock-circular-progress
+      </div>
+    </div>
+    <div
+      class="mock-grid  item"
+    >
+      <strong>
+        Page en cours de chargement
+      </strong>
+    </div>
+  </div>
+</div>
+`;

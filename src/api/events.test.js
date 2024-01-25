@@ -1,7 +1,6 @@
 import { formatCategories } from 'api/events'
 import { EventCategory, EventGroupCategory } from 'domain/event'
 
-jest.mock()
 describe('Events', () => {
   const rawCategories = [
     {

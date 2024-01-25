@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
 
-jest.mock('@mui/system', () => ({
+vi.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
-jest.mock('@mui/icons-material/MoreVert', () => () => <div className="mui-MoreVertIcon-mock" />)
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/icons-material/MoreVert', () => ({ default: () => <div className="mui-MoreVertIcon-mock" /> }))
+vi.mock('@mui/material', () => ({
   Button: ({ children }) => <div className="mui-button-mock">{children}</div>,
   IconButton: ({ children }) => <div className="mui-button-mock">{children}</div>,
   Menu: ({ children }) => <div className="mui-Menu-mock">{children}</div>,
@@ -17,7 +17,7 @@ jest.mock('@mui/material', () => ({
 }))
 describe('DotsMenu', () => {
   it('displays a DotsMenu', () => {
-    const mockOnClick = jest.fn()
+    const mockOnClick = vi.fn()
     const { container } = render(
       <DotsMenu>
         <DotsMenuItem onClick={mockOnClick}>foo</DotsMenuItem>
@@ -26,7 +26,7 @@ describe('DotsMenu', () => {
     expect(container).toMatchSnapshot()
   })
   it('calls a mock when clicking on menu item', () => {
-    const mockOnClick = jest.fn()
+    const mockOnClick = vi.fn()
     render(
       <DotsMenu>
         <DotsMenuItem onClick={mockOnClick}>foo</DotsMenuItem>

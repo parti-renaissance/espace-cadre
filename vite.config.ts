@@ -5,8 +5,7 @@ import react from '@vitejs/plugin-react-swc'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import path from 'path'
 
-
-export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode })=> {
+export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => {
   return {
     resolve: {
       alias: {
@@ -55,8 +54,8 @@ export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode })=> {
     esbuild: {
       logOverride: { 'this-is-undefined-in-esm': 'silent' },
     },
+    test: { globals: true, environment: 'jsdom' },
   }
 }
-
 
 export default defineConfig(generateConfig)

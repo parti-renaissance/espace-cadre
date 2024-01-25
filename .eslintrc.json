@@ -3,7 +3,7 @@
     "node": true,
     "browser": true,
     "es6": true,
-    "jest": true
+    "vitest-globals/env": true
   },
   "settings": {
     "react": {
@@ -14,7 +14,8 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:vitest-globals/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -74,12 +75,6 @@
         "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
         "react/display-name": "off"
-      }
-    },
-    {
-      "files": ["*.spec.js"],
-      "rules": {
-        "jest/expect-expect": "off"
       }
     },
     {

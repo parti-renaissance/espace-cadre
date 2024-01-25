@@ -1,16 +1,16 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import SnackBar from 'ui/SnackBar/SnackBar'
 
-jest.mock('react-redux', () => ({
-  useDispatch: () => jest.fn(),
+vi.mock('react-redux', () => ({
+  useDispatch: () => vi.fn(),
 }))
-jest.mock('notistack', () => ({
+vi.mock('notistack', () => ({
   SnackbarContent: ({ children }) => <div className="mock-snackbar-content">{children}</div>,
 }))
-jest.mock('@mui/system', () => ({
+vi.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   Card: ({ children }) => <div className="mock-card">{children}</div>,
   CardActions: ({ children, variant }) => <div className={`mock-card-actions ${variant}`}>{children}</div>,
   Grid: ({ children }) => <div className="mock-grid">{children}</div>,
@@ -23,23 +23,23 @@ jest.mock('@mui/material', () => ({
   Collapse: ({ children, in: _in }) => <div className="mock-collapse">{_in && children}</div>,
   Paper: ({ children }) => <div className="mock-paper">{children}</div>,
 }))
-jest.mock('@mui/icons-material/Close', () => () => <div className="mock-close-icon" />)
-jest.mock('@mui/icons-material/ExpandMore', () => () => <div className="mock-expand-more-icon" />)
-const mockCloseSnackbar = jest.fn()
-jest.mock('components/shared/notification/hooks', () => ({
+vi.mock('@mui/icons-material/Close', () => ({ default: () => <div className="mock-close-icon" /> }))
+vi.mock('@mui/icons-material/ExpandMore', () => ({ default: () => <div className="mock-expand-more-icon" /> }))
+const mockCloseSnackbar = vi.fn()
+vi.mock('components/shared/notification/hooks', () => ({
   useCustomSnackbar: () => ({ closeSnackbar: mockCloseSnackbar }),
 }))
 
 describe('SnackBar', () => {
   it('displays a SnackBar', () => {
-    const mockDismiss = jest.fn()
+    const mockDismiss = vi.fn()
     const { container } = render(<SnackBar id="id" message="message" variant="variant" dismissResolve={mockDismiss} />)
 
     expect(container).toMatchSnapshot()
   })
 
   it('displays a SnackBar with content', () => {
-    const mockDismiss = jest.fn()
+    const mockDismiss = vi.fn()
     const { container } = render(
       <SnackBar id="id" message="message" variant="variant" dismissResolve={mockDismiss}>
         <div data-testid="content" />
@@ -52,7 +52,7 @@ describe('SnackBar', () => {
   })
 
   it('calls handleDismiss callback', () => {
-    const mockDismiss = jest.fn()
+    const mockDismiss = vi.fn()
     render(
       <SnackBar id="id" message="message" variant="variant" dismissResolve={mockDismiss}>
         <div data-testid="content" />
@@ -65,7 +65,7 @@ describe('SnackBar', () => {
   })
 
   it('displays/hides content on click', () => {
-    const mockDismiss = jest.fn()
+    const mockDismiss = vi.fn()
     render(
       <SnackBar id="id" message="message" variant="variant" dismissResolve={mockDismiss}>
         <div data-testid="content" />

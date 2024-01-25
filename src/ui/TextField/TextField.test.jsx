@@ -1,16 +1,18 @@
 import TextField from './TextField'
 import { render } from '@testing-library/react'
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   TextField: ({ fullWidth, multiline, inputProps, error, ...props }) => (
     <div className="mui-TextField-mock" {...props} />
   ),
 }))
-jest.mock('ui/AlertBanner', () => ({ children, ...rest }) => (
-  <div className="AlertBannerMock" {...rest}>
-    {children}
-  </div>
-))
+vi.mock('ui/AlertBanner', () => ({
+  default: ({ children, ...rest }) => (
+    <div className="AlertBannerMock" {...rest}>
+      {children}
+    </div>
+  ),
+}))
 
 describe('TextField', () => {
   const formik = {

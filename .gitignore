@@ -19,3 +19,4 @@ lerna-debug.log*
 /cypress/screenshots/
 /cypress/support/
 cypress.env.json
+/coverage/

@@ -1,22 +1,22 @@
 import PropTypes from 'prop-types'
-import { Paper } from '@mui/material'
+import { Card as MuiCard, CardContent } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { VerticalContainer } from 'components/shared/styled'
+const StyledCard = styled(MuiCard)({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+})
 
-export const Root = styled(Paper)(
-  ({ theme }) => `
-  padding: ${theme.spacing(0, 2, 2, 2)};
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 8px;
-  box-shadow: 0px 0px 5px rgba(29, 33, 79, 0.03);
-  &:hover {
-    box-shadow: 0px 4px 10px rgba(29, 33, 79, 0.06);
-  }
-`
-)
+const StyledActions = styled('div')({
+  display: 'flex',
+  width: '100%',
+  padding: '16px',
+  paddingTop: '0',
+  paddingBottom: '8px',
+  justifyContent: 'space-between',
+  flexDirection: 'column',
+})
 
 const UICard = ({
   header,
@@ -27,11 +27,11 @@ const UICard = ({
   contentProps = {},
   actionsProps = {},
 }) => (
-  <Root {...rootProps} data-cy="ui-card">
-    {header && <VerticalContainer {...headerProps}>{header}</VerticalContainer>}
-    {content && <VerticalContainer {...contentProps}>{content}</VerticalContainer>}
-    {actions && <VerticalContainer {...actionsProps}>{actions}</VerticalContainer>}
-  </Root>
+  <StyledCard {...rootProps} data-cy="ui-card">
+    {header && <CardContent {...headerProps}>{header}</CardContent>}
+    {content && <CardContent {...contentProps}>{content}</CardContent>}
+    {actions && <StyledActions {...actionsProps}>{actions}</StyledActions>}
+  </StyledCard>
 )
 
 UICard.propTypes = {

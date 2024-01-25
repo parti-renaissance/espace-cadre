@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import AlertBanner from 'ui/AlertBanner/AlertBanner'
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   Alert: ({ children, ...rest }) => <div {...rest}>{children}</div>,
 }))
 

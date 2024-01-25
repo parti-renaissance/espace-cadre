@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react'
 import UIContainer from './Container'
 
-jest.mock('@mui/material', () => ({
+vi.mock('@mui/material', () => ({
   Grid: ({ children, sx }) => <div data-sx={sx}>{children}</div>,
 }))
-jest.mock('@mui/system', () => ({
+vi.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
 

@@ -17,7 +17,7 @@ import { createMap } from 'providers/map'
 mapboxgl.accessToken = MAPBOX_TOKEN
 
 const Map = styled(Grid)`
-  height: 700px;
+  height: calc(100% - 135px);
   width: 100%;
   margin: ${({ theme }) => theme.spacing(1, 0, 2)};
   border-radius: 12px;
@@ -123,7 +123,7 @@ const Elections = () => {
   }
 
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth={false} sx={{ height: '100%' }}>
       <Grid container>
         <PageTitle title={messages.title} />
       </Grid>
@@ -134,7 +134,7 @@ const Elections = () => {
           handleDetailSelection={handleElectionDetailChange}
         />
       </Grid>
-      <Grid container>
+      <Grid container height="100%">
         <Map ref={mapContainer} item>
           {isPopinOpen && (
             <ElectionPopin

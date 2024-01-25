@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CtaButton > displays a CtaButton 1`] = `
+<div>
+  <div
+    class="mui-button-mock"
+    data-color="color"
+  >
+    foo
+  </div>
+</div>
+`;
+
+exports[`CtaButton displays a CtaButton 1`] = `
+<div>
+  <div
+    class="mui-button-mock"
+    data-color="color"
+  >
+    foo
+  </div>
+</div>
+`;
