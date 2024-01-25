@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef } from 'react'
 import { Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { LayersTypes } from 'components/Map/Layers'
 import PropTypes from 'prop-types'

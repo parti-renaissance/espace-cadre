@@ -7,7 +7,6 @@ import { SettingsProvider } from 'src/mui/settings'
 import AppRoutes from './components/AppRoutes'
 import PrivateRoutes from './providers/routes'
 import ErrorBoundary from 'providers/errorboundary'
-// import MuiThemeProvider from 'src/theme'
 
 import './style/index.scss'
 

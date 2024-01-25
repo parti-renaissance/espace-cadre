@@ -7,8 +7,6 @@ import { getElectionParticipation, getElectionResults } from 'api/elections'
 import { ElectionFirstStage, ElectionTypes } from './shared/constants'
 import ElectionPopin from './ElectionPopin'
 
-import 'mapbox-gl/dist/mapbox-gl.css'
-
 import { getElectionPayload, getMapBoxProperties } from './shared/helpers'
 import ElectionFilters from './ElectionFilters'
 import PageTitle from 'ui/PageTitle'
