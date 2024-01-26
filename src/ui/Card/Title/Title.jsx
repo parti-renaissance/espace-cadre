@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { Typography } from '@mui/material'
-import { Person, AccessTime } from '@mui/icons-material'
+import Person from '@mui/icons-material/Person'
+import AccessTime from '@mui/icons-material/AccessTime'
 
 import { TruncatedText, VerticalContainer, HorizontalContainer } from 'components/shared/styled'
 import { formatDate } from 'shared/helpers'
