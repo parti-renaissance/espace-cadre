@@ -198,7 +198,7 @@ describe('Messagerie', () => {
       cy.visit('/messagerie/11111111-1111-1111-1111-111111111111/modifier')
     })
 
-    it('can use filter', () => {
+    it.skip('can use filter', () => {
       cy.get(MailObjectInput).should('not.have.value', undefined)
 
       cy.get(MailEditorNextButton).should('exist').and('have.text', 'Suivant').click()

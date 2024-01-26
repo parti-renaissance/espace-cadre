@@ -83,7 +83,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "@vitest/coverage-v8": "^1.2.1",
-    "cypress": "^13.6.2",
+    "cypress": "^13.6",
     "eslint": "^8.56.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-cypress": "^2.15.1",
