@@ -4,19 +4,8 @@ import { Title } from 'ui/Card'
 vi.mock('@mui/system', () => ({
   styled: c => () => c,
 }))
-vi.mock('@mui/icons-material', () => {
-  const icons = {
-    __esModule: true,
-  }
-
-  const handler = {
-    get: function (_, prop) {
-      return () => <div className={`mock_${prop}Icon`} />
-    },
-  }
-
-  return new Proxy(icons, handler)
-})
+vi.mock('@mui/icons-material/Person', () => ({ default: () => <div className="mock_PersonIcon" /> }))
+vi.mock('@mui/icons-material/AccessTime', () => ({ default: () => <div className="mock_AccessTimeIcon" /> }))
 
 vi.mock('@mui/material', async importOriginal => {
   const actual = await importOriginal()
