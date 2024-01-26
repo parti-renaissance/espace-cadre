@@ -37,8 +37,10 @@ export const zoneLabels = {
   [zoneTypes.DISTRICT]: 'Circonscription',
   [zoneTypes.BOROUGH]: 'Arrondissement',
   [zoneTypes.FOREIGN_DISTRICT]: 'Circonscription FDE',
+  [zoneTypes.CONSULAR_DISTRICT]: 'Circonscription consulaire',
   [zoneTypes.VOTE_PLACE]: 'Bureau de vote',
   [zoneTypes.CUSTOM]: 'Zone personnalisée',
+  [zoneTypes.REGION]: 'Région',
 }
 
 export const zoneTypeColors = {

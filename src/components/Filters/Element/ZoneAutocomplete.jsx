@@ -23,7 +23,11 @@ const ZoneAutocomplete = ({ onChange, value, customStyle, initialParams = {}, ..
         <li {...props} key={option.uuid}>
           <Box className="space-x-4">
             <Typography size="small">{`${option.name} (${option.code})`}</Typography>
-            <UIChip color="whiteCorner" bgcolor={zoneTypeColors[option.type]} label={zoneLabels[option.type]} />
+            <UIChip
+              color="whiteCorner"
+              bgcolor={zoneTypeColors[option.type] ?? '#1254D8'}
+              label={zoneLabels[option.type]}
+            />
           </Box>
         </li>
       )}
