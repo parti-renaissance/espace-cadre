@@ -33,10 +33,12 @@ const Mandate = ({ mandate, removeAction, editAction }) => (
         </Box>
       </Grid>
       <Grid item xs={12}>
-        <Typography
-          component={'p'}
-          sx={{ color: 'colors.gray.500', fontSize: '13px', mb: 0.5 }}
-        >{`${mandate.zone.name} (${mandate.zone.code})`}</Typography>
+        {mandate.zone && (
+          <Typography
+            component={'p'}
+            sx={{ color: 'colors.gray.500', fontSize: '13px', mb: 0.5 }}
+          >{`${mandate.zone.name} (${mandate.zone.code})`}</Typography>
+        )}
         <Typography component={'p'} sx={{ color: 'colors.gray.500', fontSize: '13px', mb: 0.5 }}>
           {mandate.finishAt
             ? `du ${formatDate(mandate.beginAt, 'dd/MM/yyyy')} au ${formatDate(mandate.finishAt, 'dd/MM/yyyy')}`
