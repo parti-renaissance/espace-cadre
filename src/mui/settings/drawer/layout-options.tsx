@@ -1,27 +1,27 @@
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import ButtonBase from '@mui/material/ButtonBase';
-import { alpha, useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import ButtonBase from '@mui/material/ButtonBase'
+import { alpha, useTheme } from '@mui/material/styles'
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  options: string[];
-  value: string;
-  onChange: (newValue: string) => void;
-};
+  options: string[]
+  value: string
+  onChange: (newValue: string) => void
+}
 
 export default function LayoutOptions({ options, value, onChange }: Props) {
-  const theme = useTheme();
+  const theme = useTheme()
 
   const renderNav = (option: string, selected: boolean) => {
-    const background = `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`;
+    const background = `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`
 
     const baseStyles = {
       flexShrink: 0,
       borderRadius: 0.5,
       bgcolor: 'grey.500',
-    };
+    }
 
     const circle = (
       <Box
@@ -32,7 +32,7 @@ export default function LayoutOptions({ options, value, onChange }: Props) {
           ...(selected && { background }),
         }}
       />
-    );
+    )
 
     const primaryItem = (
       <Box
@@ -47,7 +47,7 @@ export default function LayoutOptions({ options, value, onChange }: Props) {
           ...(selected && { background }),
         }}
       />
-    );
+    )
 
     const secondaryItem = (
       <Box
@@ -63,7 +63,7 @@ export default function LayoutOptions({ options, value, onChange }: Props) {
           ...(selected && { background }),
         }}
       />
-    );
+    )
 
     return (
       <Stack
@@ -91,8 +91,8 @@ export default function LayoutOptions({ options, value, onChange }: Props) {
         {primaryItem}
         {secondaryItem}
       </Stack>
-    );
-  };
+    )
+  }
 
   const renderContent = (selected: boolean) => (
     <Box sx={{ p: 0.5, flexGrow: 1, height: 1, width: 1 }}>
@@ -110,12 +110,12 @@ export default function LayoutOptions({ options, value, onChange }: Props) {
         }}
       />
     </Box>
-  );
+  )
 
   return (
     <Stack direction="row" spacing={2}>
-      {options.map((option) => {
-        const selected = value === option;
+      {options.map(option => {
+        const selected = value === option
 
         return (
           <ButtonBase
@@ -130,9 +130,7 @@ export default function LayoutOptions({ options, value, onChange }: Props) {
               ...(selected && {
                 bgcolor: 'background.paper',
                 boxShadow: `-24px 8px 24px -4px ${alpha(
-                  theme.palette.mode === 'light'
-                    ? theme.palette.grey[500]
-                    : theme.palette.common.black,
+                  theme.palette.mode === 'light' ? theme.palette.grey[500] : theme.palette.common.black,
                   0.08
                 )}`,
               }),
@@ -144,8 +142,8 @@ export default function LayoutOptions({ options, value, onChange }: Props) {
             {renderNav(option, selected)}
             {renderContent(selected)}
           </ButtonBase>
-        );
+        )
       })}
     </Stack>
-  );
+  )
 }

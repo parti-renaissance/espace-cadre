@@ -1,8 +1,8 @@
-import { alpha, Theme } from '@mui/material/styles';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import { inputLabelClasses } from '@mui/material/InputLabel';
-import { filledInputClasses } from '@mui/material/FilledInput';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
+import { alpha, Theme } from '@mui/material/styles'
+import { inputBaseClasses } from '@mui/material/InputBase'
+import { inputLabelClasses } from '@mui/material/InputLabel'
+import { filledInputClasses } from '@mui/material/FilledInput'
+import { outlinedInputClasses } from '@mui/material/OutlinedInput'
 
 // ----------------------------------------------------------------------
 
@@ -11,12 +11,12 @@ export function textField(theme: Theme) {
     focused: theme.palette.text.primary,
     active: theme.palette.text.secondary,
     placeholder: theme.palette.text.disabled,
-  };
+  }
 
   const font = {
     label: theme.typography.body1,
     value: theme.typography.body2,
-  };
+  }
 
   return {
     // HELPER
@@ -142,5 +142,5 @@ export function textField(theme: Theme) {
         },
       },
     },
-  };
+  }
 }

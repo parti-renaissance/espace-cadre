@@ -1,4 +1,4 @@
-import { Theme, alpha } from '@mui/material/styles';
+import { Theme, alpha } from '@mui/material/styles'
 
 // ----------------------------------------------------------------------
 
@@ -14,5 +14,5 @@ export function paper(theme: Theme) {
         },
       },
     },
-  };
+  }
 }

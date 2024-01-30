@@ -1,13 +1,13 @@
-import { alpha } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles'
 
-import { grey, primary } from '../palette';
+import { grey, primary } from '../palette'
 
 // ----------------------------------------------------------------------
 
-type PresetType = 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red';
+type PresetType = 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
 
 export function createPresets(preset: PresetType) {
-  const primaryColor = getPrimary(preset);
+  const primaryColor = getPrimary(preset)
 
   const theme = {
     palette: {
@@ -16,11 +16,11 @@ export function createPresets(preset: PresetType) {
     customShadows: {
       primary: `0 8px 16px 0 ${alpha(`${primaryColor?.main}`, 0.24)}`,
     },
-  };
+  }
 
   return {
     ...theme,
-  };
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -32,7 +32,7 @@ const cyan = {
   dark: '#0351AB',
   darker: '#012972',
   contrastText: '#FFFFFF',
-};
+}
 
 const purple = {
   lighter: '#EBD6FD',
@@ -41,7 +41,7 @@ const purple = {
   dark: '#431A9E',
   darker: '#200A69',
   contrastText: '#FFFFFF',
-};
+}
 
 const blue = {
   lighter: '#D1E9FC',
@@ -50,7 +50,7 @@ const blue = {
   dark: '#103996',
   darker: '#061B64',
   contrastText: '#FFFFFF',
-};
+}
 
 const orange = {
   lighter: '#FEF4D4',
@@ -59,7 +59,7 @@ const orange = {
   dark: '#B66816',
   darker: '#793908',
   contrastText: grey[800],
-};
+}
 
 const red = {
   lighter: '#FFE3D5',
@@ -68,7 +68,7 @@ const red = {
   dark: '#B71833',
   darker: '#7A0930',
   contrastText: '#FFFFFF',
-};
+}
 
 export const presetOptions = [
   { name: 'default', value: primary.main },
@@ -77,7 +77,7 @@ export const presetOptions = [
   { name: 'blue', value: blue.main },
   { name: 'orange', value: orange.main },
   { name: 'red', value: red.main },
-];
+]
 
 export function getPrimary(preset: PresetType) {
   return {
@@ -87,5 +87,5 @@ export function getPrimary(preset: PresetType) {
     blue,
     orange,
     red,
-  }[preset];
+  }[preset]
 }

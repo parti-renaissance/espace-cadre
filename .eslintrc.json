@@ -10,10 +10,13 @@
       "version": "detect"
     }
   },
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:cypress/recommended",
     "plugin:vitest-globals/recommended"
   ],
@@ -24,7 +27,7 @@
     "ecmaVersion": 2022,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "prettier", "cypress"],
+  "plugins": ["react", "react-hooks", "prettier", "cypress", "@typescript-eslint"],
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
     "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
@@ -58,15 +61,18 @@
     "no-param-reassign": "error",
     "no-self-compare": "error",
     "no-shadow": "off",
-    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
     "prettier/prettier": ["error", { "usePrettierrc": true }],
     "quotes": ["error", "single", { "avoidEscape": true }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
     "react/no-array-index-key": [0],
     "react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
     "react-hooks/exhaustive-deps": "error",
     "require-await": "error",
-    "semi": "off"
+    "semi": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["warn"],
+    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "overrides": [
     {
