@@ -1,12 +1,12 @@
 import { Box, Typography } from '@mui/material'
 import { useUserScope } from '../../../../redux/user/hooks'
-import pluralize from 'components/shared/pluralize/pluralize'
-import formatNumber from 'components/shared/formatNumber/formatNumber'
-import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
-import Loading from 'components/Dashboard/shared/Loading'
-import Error from 'components/Dashboard/shared/Error'
-import { useQueryWithScope } from 'api/useQueryWithScope'
-import { countAdherents } from 'api/activist'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import formatNumber from '~/components/shared/formatNumber/formatNumber'
+import { DASHBOARD_CACHE_DURATION } from '~/components/Dashboard/shared/cache'
+import Loading from '~/components/Dashboard/shared/Loading'
+import Error from '~/components/Dashboard/shared/Error'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { countAdherents } from '~/api/activist'
 
 const messages = {
   adherent: 'militant',

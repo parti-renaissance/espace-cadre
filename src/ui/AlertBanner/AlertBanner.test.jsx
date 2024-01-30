@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import AlertBanner from 'ui/AlertBanner/AlertBanner'
+import AlertBanner from '~/ui/AlertBanner/AlertBanner'
 
 vi.mock('@mui/material', () => ({
   Alert: ({ children, ...rest }) => <div {...rest}>{children}</div>,

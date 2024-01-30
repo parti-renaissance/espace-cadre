@@ -6,12 +6,12 @@ import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
 import { lineString, bbox } from '@turf/turf'
 import { flattenDeep } from 'lodash'
-import { zoneTypes } from 'domain/zone'
-import MapContext from 'providers/context'
+import { zoneTypes } from '~/domain/zone'
+import MapContext from '~/providers/context'
 import { useUserScope } from '../../redux/user/hooks'
 import { uniqWith } from 'lodash/array'
-import { MAPBOX_TOKEN } from 'shared/environments'
-import { createMap } from 'providers/map'
+import { MAPBOX_TOKEN } from '~/shared/environments'
+import { createMap } from '~/providers/map'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 

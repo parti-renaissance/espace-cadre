@@ -3,14 +3,14 @@ import { Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from 'mapbox-gl'
 
-import { LayersTypes } from 'components/Map/Layers'
+import { LayersTypes } from '~/components/Map/Layers'
 import PropTypes from 'prop-types'
-import { zoneTypes } from 'domain/zone'
+import { zoneTypes } from '~/domain/zone'
 import { lineString, bbox } from '@turf/turf'
 import { flattenDeep } from 'lodash'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { MAPBOX_TOKEN } from 'shared/environments'
-import { createMap } from 'providers/map'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import { MAPBOX_TOKEN } from '~/shared/environments'
+import { createMap } from '~/providers/map'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 

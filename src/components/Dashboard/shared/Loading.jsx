@@ -1,4 +1,4 @@
-import Loader from 'ui/Loader'
+import Loader from '~/ui/Loader'
 import { Grid } from '@mui/material'
 
 const Loading = () => (

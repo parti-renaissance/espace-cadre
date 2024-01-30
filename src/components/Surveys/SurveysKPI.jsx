@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import pluralize from 'components/shared/pluralize/pluralize'
-import scopes from 'shared/scopes'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import scopes from '~/shared/scopes'
 
-import { KPICard, KPIs } from 'ui/Kpi/KPIs'
+import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
 
 const messages = {
   including: 'Dont',

@@ -3,7 +3,7 @@ import { FormControlLabel, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
 import { fields } from './shared/constants'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Checkbox } from '~/ui/Checkbox/Checkbox'
 
 const Disclaimer = styled(Typography)(
   ({ theme }) => `

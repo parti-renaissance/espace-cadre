@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import UIContainer from 'ui/Container'
+import UIContainer from '~/ui/Container'
 
 const ErrorComponent = ({ errorMessage }) => (
   <UIContainer

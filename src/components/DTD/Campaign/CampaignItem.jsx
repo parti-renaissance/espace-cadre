@@ -2,12 +2,12 @@ import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import { DTDCampaignItem as DomainDTDCampaignItem } from 'domain/DTD'
-import RatioProgress from 'ui/RatioProgress/RatioProgress'
+import { TruncatedText, VerticalContainer } from '~/components/shared/styled'
+import { DTDCampaignItem as DomainDTDCampaignItem } from '~/domain/DTD'
+import RatioProgress from '~/ui/RatioProgress/RatioProgress'
 import { chipColorsByDate, chipLabelByDate } from '../CampaignDetail/shared/helpers'
-import UICard, { UIChip, CtaButton } from 'ui/Card'
-import { formatDate } from 'shared/helpers'
+import UICard, { UIChip, CtaButton } from '~/ui/Card'
+import { formatDate } from '~/shared/helpers'
 
 const HorizontalContainer = styled('div')`
   display: flex;

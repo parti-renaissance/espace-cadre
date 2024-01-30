@@ -1,5 +1,5 @@
-import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
-import { validationMessages } from 'components/shared/error/constants'
+import { notifyMessages, notifyVariants } from '~/components/shared/notification/constants'
+import { validationMessages } from '~/components/shared/error/constants'
 
 export const handleGenericHttpErrors = (cb, status, stack, message) => {
   if (typeof cb !== 'function') {

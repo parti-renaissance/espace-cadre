@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import paths from 'shared/paths'
-import { featuresLabels } from 'shared/features'
-import NavItem from 'ui/NavItem/NavItem'
+import paths from '~/shared/paths'
+import { featuresLabels } from '~/shared/features'
+import NavItem from '~/ui/NavItem/NavItem'
 import { useUserScope } from '../../redux/user/hooks'
 
 export const NavMenu = ({ handleItemClick, group }) => {

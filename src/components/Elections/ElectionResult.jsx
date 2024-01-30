@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { Typography, Box } from '@mui/material'
 
-import { ElectionResult as DomainElectionResult } from 'domain/election'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { ElectionResult as DomainElectionResult } from '~/domain/election'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 
 const Container = styled('div')(
   ({ theme }) => `

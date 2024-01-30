@@ -1,15 +1,15 @@
 import { useCallback, useContext, useState } from 'react'
 import { Autocomplete, Paper } from '@mui/material'
 
-import { useInfiniteQueryWithScope } from 'api/useQueryWithScope'
-import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { getPhoningCampaignTeams, getPhoningCampaignSurveys } from 'api/phoning'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import pluralize from 'components/shared/pluralize/pluralize'
+import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
+import { getNextPageParam, usePaginatedData } from '~/api/pagination'
+import { getPhoningCampaignTeams, getPhoningCampaignSurveys } from '~/api/phoning'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import { CallersAndSurveyContext } from './shared/context'
 import SelectOption from './shared/components/SelectOption'
-import UIInput from 'ui/Input/Input'
-import UIInputLabel from 'ui/InputLabel/InputLabel'
+import UIInput from '~/ui/Input/Input'
+import UIInputLabel from '~/ui/InputLabel/InputLabel'
 import { fields } from './shared/constants'
 
 const messages = {

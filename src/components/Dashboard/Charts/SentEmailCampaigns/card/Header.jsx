@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
-import { UIChip } from 'ui/Card'
+import { UIChip } from '~/ui/Card'
 import { Typography } from '@mui/material'
-import { formatDate } from 'shared/helpers'
+import { formatDate } from '~/shared/helpers'
 
 const UIDate = styled('span')(
   ({ theme }) => `

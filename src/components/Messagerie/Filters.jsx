@@ -7,8 +7,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { useUserScope } from '../../redux/user/hooks'
 import useRetry from '../useRetry'
-import PageHeader from 'ui/PageHeader'
-import Loader from 'ui/Loader'
+import PageHeader from '~/ui/PageHeader'
+import Loader from '~/ui/Loader'
 import ModalComponent from './Component/ModalComponent'
 import {
   messageSynchronizationStatus as messageSynchronizationStatusApi,
@@ -16,17 +16,17 @@ import {
   updateMessageFilter as updateMessageFilterApi,
   sendMessage as sendMessageApi,
   sendTestMessage as sendTestMessageApi,
-} from 'api/messagerie'
+} from '~/api/messagerie'
 import { paths as messageriePaths } from './shared/paths'
-import paths from 'shared/paths'
-import pluralize from 'components/shared/pluralize/pluralize'
+import paths from '~/shared/paths'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import { styled } from '@mui/system'
 import { useMutation } from '@tanstack/react-query'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyMessages, notifyVariants } from 'components/shared/notification/constants'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { notifyMessages, notifyVariants } from '~/components/shared/notification/constants'
 import * as Sentry from '@sentry/react'
-import features from 'shared/features'
+import features from '~/shared/features'
 
 const AudienceCount = styled(Typography)`
   font-size: 18px;

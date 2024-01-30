@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import qs from 'qs'
 import { Box, Typography } from '@mui/material'
-import Autocomplete from 'components/Filters/Element/Autocomplete'
-import { zoneLabels, zoneTypeColors } from 'domain/zone'
-import { UIChip } from 'ui/Card'
+import Autocomplete from '~/components/Filters/Element/Autocomplete'
+import { zoneLabels, zoneTypeColors } from '~/domain/zone'
+import { UIChip } from '~/ui/Card'
 
 export const ZONE_AUTOCOMPLETE_URI = '/api/v3/zone/autocomplete'
 

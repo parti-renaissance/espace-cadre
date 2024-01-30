@@ -1,7 +1,7 @@
-import { KPICard, KPIs } from 'ui/Kpi/KPIs'
-import pluralize from 'components/shared/pluralize/pluralize'
+import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import PropTypes from 'prop-types'
-import { formatDate } from 'shared/helpers'
+import { formatDate } from '~/shared/helpers'
 
 const messages = {
   until: "Jusqu'au",

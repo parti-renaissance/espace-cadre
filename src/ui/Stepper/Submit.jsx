@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { Grid, Button } from '@mui/material'
 import { styled } from '@mui/system'
-import Loader from 'ui/Loader'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import Loader from '~/ui/Loader'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 
 const ValidateButton = styled(
   props => <Button fullWidth {...props} />,

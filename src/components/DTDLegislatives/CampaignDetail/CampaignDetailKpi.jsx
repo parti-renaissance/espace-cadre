@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { KPIs, KPICard } from 'ui/Kpi/KPIs'
+import { KPIs, KPICard } from '~/ui/Kpi/KPIs'
 import pluralize from '../../shared/pluralize/pluralize'
 
 const messages = {

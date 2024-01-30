@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { CtaButton } from 'ui/Card'
+import { CtaButton } from '~/ui/Card'
 
 vi.mock('@mui/system', () => ({
   styled: c => () => c,

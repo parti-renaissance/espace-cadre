@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom'
 import { Menu as MuiMenu, MenuItem as MuiMenuItem, Typography, Divider, Box } from '@mui/material'
 import { getCurrentUser, getUserScopes, isSwitchUser } from '../../redux/user/selectors'
 import { useUserScope } from '../../redux/user/hooks'
-import paths, { publicPaths } from 'shared/paths'
-import pluralize from 'components/shared/pluralize/pluralize'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import scopes, { scopesAliases } from 'shared/scopes'
-import Button from 'ui/Button'
-import { getInitialNames } from 'shared/helpers'
+import paths, { publicPaths } from '~/shared/paths'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
+import scopes, { scopesAliases } from '~/shared/scopes'
+import Button from '~/ui/Button'
+import { getInitialNames } from '~/shared/helpers'
 
 const Menu = styled(MuiMenu)`
   & .MuiMenu-paper {

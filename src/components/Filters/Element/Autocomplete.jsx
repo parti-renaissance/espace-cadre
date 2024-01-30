@@ -3,8 +3,8 @@ import { Autocomplete as MuiAutocomplete, TextField, Typography } from '@mui/mat
 import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 
-import { getDataFromDynamicEndpoint } from 'api/dynamic'
-import { useDebounce } from 'components/shared/debounce'
+import { getDataFromDynamicEndpoint } from '~/api/dynamic'
+import { useDebounce } from '~/components/shared/debounce'
 
 const AutocompleteComponent = styled(MuiAutocomplete)(
   ({ theme }) => `

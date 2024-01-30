@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
-import { paths } from 'components/Messagerie/shared/paths'
-import Confirmation from 'components/Messagerie/Confirmation'
+import { paths } from '~/components/Messagerie/shared/paths'
+import Confirmation from '~/components/Messagerie/Confirmation'
 import Template from './Template'
 import Mails from './Mails'
 import SendMail from './SendMail'

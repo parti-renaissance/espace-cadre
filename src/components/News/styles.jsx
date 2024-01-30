@@ -2,7 +2,7 @@
 import { Grid, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import LoadingButton from '@mui/lab/LoadingButton'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 
 export const Title = styled(Typography)(
   ({ theme }) => `

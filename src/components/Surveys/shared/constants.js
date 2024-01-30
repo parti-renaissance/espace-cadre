@@ -1,4 +1,4 @@
-import { nationalScopes } from 'shared/scopes'
+import { nationalScopes } from '~/shared/scopes'
 
 export const published = 'published'
 export const unpublished = 'unpublished'

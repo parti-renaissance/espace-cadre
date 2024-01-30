@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 
-import { SurveyItemZone as DomainSurveyItemZone } from 'domain/surveys'
-import { FormError } from 'components/shared/error/components'
+import { SurveyItemZone as DomainSurveyItemZone } from '~/domain/surveys'
+import { FormError } from '~/components/shared/error/components'
 import SelectOption from './shared/components/SelectOption'
-import UIInputLabel from 'ui/InputLabel/InputLabel'
-import UIInput from 'ui/Input/Input'
+import UIInputLabel from '~/ui/InputLabel/InputLabel'
+import UIInput from '~/ui/Input/Input'
 import { Select } from './shared/components/styled'
 import { fields } from './shared/constants'
 

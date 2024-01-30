@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { parseDate } from 'shared/helpers'
+import { parseDate } from '~/shared/helpers'
 
 export default class Activist {
   constructor(

@@ -2,8 +2,8 @@ import { Button as MuiButton } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import Loader from 'ui/Loader'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import Loader from '~/ui/Loader'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 
 const Button = styled(
   MuiButton,

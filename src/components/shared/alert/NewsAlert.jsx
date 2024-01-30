@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 
 const AlertContainer = styled(Grid)(
   ({ theme }) => `

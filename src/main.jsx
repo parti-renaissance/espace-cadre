@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import * as Sentry from '@sentry/react'
 import App from './App'
-import { APP_ENVIRONMENT, APP_VERSION, SENTRY_DSN, NODE_ENV } from 'shared/environments'
+import { APP_ENVIRONMENT, APP_VERSION, SENTRY_DSN, NODE_ENV } from '~/shared/environments'
 
 if (NODE_ENV === 'production' || SENTRY_DSN) {
   const shouldSendError = hint => {

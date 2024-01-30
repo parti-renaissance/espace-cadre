@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { UIChip } from 'ui/Card'
+import { UIChip } from '~/ui/Card'
 import { paymentStatus } from './constants'
 
 const PaymentBadge = ({ status, ...props }) => {

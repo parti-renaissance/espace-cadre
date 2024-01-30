@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import { zoneLabels, zoneTypeColors } from 'domain/zone'
-import { UIChip } from 'ui/Card'
+import { zoneLabels, zoneTypeColors } from '~/domain/zone'
+import { UIChip } from '~/ui/Card'
 import AutocompleteFactory from './AutocompleteFactory'
 
 class ZoneAutocompleteFactory extends AutocompleteFactory {

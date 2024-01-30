@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { styled } from '@mui/system'
 import { TextField as MuiTextField } from '@mui/material'
 import PropTypes from 'prop-types'
-import { Place } from 'domain/place'
-import AlertBanner from 'ui/AlertBanner'
+import { Place } from '~/domain/place'
+import AlertBanner from '~/ui/AlertBanner'
 
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `

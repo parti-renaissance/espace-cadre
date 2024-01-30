@@ -1,8 +1,8 @@
 import { styled } from '@mui/system'
 
-import { Statistics } from 'domain/message'
-import { UIChip } from 'ui/Card'
-import pluralize from 'components/shared/pluralize/pluralize'
+import { Statistics } from '~/domain/message'
+import { UIChip } from '~/ui/Card'
+import pluralize from '~/components/shared/pluralize/pluralize'
 
 const HorizontalContainer = styled('div')`
   display: flex;

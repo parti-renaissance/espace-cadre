@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
-import { UIChip } from 'ui/Card'
+import { UIChip } from '~/ui/Card'
 
 const renaissanceMembership = {
   adherent_re: 'Adhérent',

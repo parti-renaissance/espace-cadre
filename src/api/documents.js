@@ -1,4 +1,4 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 import qs from 'qs'
 import { PaginatedResult } from './pagination'
 import { downloadFile } from './upload'

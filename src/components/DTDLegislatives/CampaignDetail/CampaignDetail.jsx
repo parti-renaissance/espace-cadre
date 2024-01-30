@@ -1,28 +1,28 @@
 import { useState, useMemo } from 'react'
 import { Container, Grid, Tab as MuiTab, Tabs, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import PageHeader from 'ui/PageHeader'
-import EditIcon from 'ui/icons/EditIcon'
-import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import paths from 'shared/paths'
+import PageHeader from '~/ui/PageHeader'
+import EditIcon from '~/ui/icons/EditIcon'
+import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
+import paths from '~/shared/paths'
 import { useParams } from 'react-router'
-import { useQueryWithScope, useInfiniteQueryWithScope } from 'api/useQueryWithScope'
+import { useQueryWithScope, useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
 import {
   getDTDCampaignQuery,
   getDTDCampaignDetailQuery,
   getDTDCampaignQuestioners,
   getDTDCampaignSurveysReplies,
   getDTDCampaignSurveysAddress,
-} from 'api/DTD'
-import { useErrorHandler } from 'components/shared/error/hooks'
+} from '~/api/DTD'
+import { useErrorHandler } from '~/components/shared/error/hooks'
 import CampaignDetailKPI from './CampaignDetailKpi'
 import CampaignDetailAddresses from './CampaignDetailAddresses'
 import CampaignDetailQuestioners from './CampaignDetailQuestioners'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
-import pluralize from 'components/shared/pluralize/pluralize'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { usePaginatedData, usePaginatedDataCount } from 'api/pagination'
-import Loader from 'ui/Loader'
+import { usePaginatedData, usePaginatedDataCount } from '~/api/pagination'
+import Loader from '~/ui/Loader'
 import CreateEditModal from '../CreateEditModal'
 
 const Tab = styled(MuiTab)(({ theme }) => ({

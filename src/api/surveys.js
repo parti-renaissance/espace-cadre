@@ -1,4 +1,4 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 
 import {
   SurveyItem,
@@ -12,10 +12,10 @@ import {
   SurveyDetailReplyAuthor,
   SurveyDetailCreator,
   SurveyKPIs,
-} from 'domain/surveys'
-import { newPaginatedResult } from 'api/pagination'
+} from '~/domain/surveys'
+import { newPaginatedResult } from '~/api/pagination'
 import { downloadFile } from './upload'
-import { formatDate, parseDate } from 'shared/helpers'
+import { formatDate, parseDate } from '~/shared/helpers'
 
 export const formatZone = zone => new SurveyItemZone(zone.uuid, zone.code, zone.name)
 

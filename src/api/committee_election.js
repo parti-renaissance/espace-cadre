@@ -1,6 +1,6 @@
-import { apiClient } from 'services/networking/client'
-import { CommitteeElection, Designation } from 'domain/committee_election'
-import { parseDate } from 'shared/helpers'
+import { apiClient } from '~/services/networking/client'
+import { CommitteeElection, Designation } from '~/domain/committee_election'
+import { parseDate } from '~/shared/helpers'
 
 export const getCommitteeElection = async committeeElectionId => {
   const committeeElection = await apiClient.get(`/v3/committee_elections/${committeeElectionId}`)

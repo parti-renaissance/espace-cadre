@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined'
 import PropTypes from 'prop-types'
-import { formatDate } from 'shared/helpers'
+import { formatDate } from '~/shared/helpers'
 
 const CotisationHistory = ({ dates }) =>
   (dates.length > 0 && (

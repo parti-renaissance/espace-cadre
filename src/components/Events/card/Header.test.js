@@ -1,5 +1,5 @@
-import { formatAddress } from 'components/Events/card/Header'
-import { Place } from 'domain/place'
+import { formatAddress } from '~/components/Events/card/Header'
+import { Place } from '~/domain/place'
 
 describe('Header', () => {
   it('formats address 1', () => {

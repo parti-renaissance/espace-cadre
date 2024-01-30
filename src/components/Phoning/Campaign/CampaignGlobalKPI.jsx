@@ -1,7 +1,7 @@
-import pluralize from 'components/shared/pluralize/pluralize'
-import { KPICard, KPIs } from 'ui/Kpi/KPIs'
-import { useQueryWithScope } from 'api/useQueryWithScope'
-import { getPhoningGlobalKPIQuery } from 'api/phoning'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { getPhoningGlobalKPIQuery } from '~/api/phoning'
 import PropTypes from 'prop-types'
 
 const messages = {

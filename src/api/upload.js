@@ -1,5 +1,5 @@
 import { saveAs } from 'file-saver'
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 
 export const uploadFile = async ({ uuid, file, endpoint }) => {
   const formData = new FormData()

@@ -1,8 +1,8 @@
-import { DTDGlobalKPI as DomainDTDGlobalKPI } from 'domain/DTD'
-import pluralize from 'components/shared/pluralize/pluralize'
-import { KPICard, KPIs } from 'ui/Kpi/KPIs'
-import { useQueryWithScope } from 'api/useQueryWithScope'
-import { getDTDGlobalKPIQuery } from 'api/DTD'
+import { DTDGlobalKPI as DomainDTDGlobalKPI } from '~/domain/DTD'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { getDTDGlobalKPIQuery } from '~/api/DTD'
 
 const messages = {
   campaign: 'Campagne',

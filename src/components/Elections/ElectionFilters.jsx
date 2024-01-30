@@ -5,8 +5,8 @@ import { styled } from '@mui/system'
 import mapboxgl from 'mapbox-gl'
 import { ElectionDetails } from './shared/constants'
 
-import { LayersCodes, LayersTypes } from 'components/Map/Layers'
-import { MAPBOX_TOKEN } from 'shared/environments'
+import { LayersCodes, LayersTypes } from '~/components/Map/Layers'
+import { MAPBOX_TOKEN } from '~/shared/environments'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 

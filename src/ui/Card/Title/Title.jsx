@@ -3,8 +3,8 @@ import { Typography } from '@mui/material'
 import Person from '@mui/icons-material/Person'
 import AccessTime from '@mui/icons-material/AccessTime'
 
-import { TruncatedText, VerticalContainer, HorizontalContainer } from 'components/shared/styled'
-import { formatDate } from 'shared/helpers'
+import { TruncatedText, VerticalContainer, HorizontalContainer } from '~/components/shared/styled'
+import { formatDate } from '~/shared/helpers'
 
 export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
   <VerticalContainer {...props}>

@@ -1,7 +1,7 @@
-import { Title, UIChip } from 'ui/Card'
+import { Title, UIChip } from '~/ui/Card'
 import { styled } from '@mui/system'
-import { Attendee } from 'domain/event'
-import { formatDate } from 'shared/helpers'
+import { Attendee } from '~/domain/event'
+import { formatDate } from '~/shared/helpers'
 
 const HorizontalContainer = styled('div')`
   display: flex;

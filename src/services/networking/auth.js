@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-import { OAUTH_HOST, OAUTH_CLIENT_ID } from 'shared/environments'
+import { OAUTH_HOST, OAUTH_CLIENT_ID } from '~/shared/environments'
 
 const authCall = async payload => {
   const result = await axios.post(`${OAUTH_HOST}/oauth/v2/token`, qs.stringify(payload), {

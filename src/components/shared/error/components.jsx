@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 import PropTypes from 'prop-types'
 
-import UIFormMessage from 'ui/FormMessage/FormMessage'
+import UIFormMessage from '~/ui/FormMessage/FormMessage'
 
 export const FormError = ({ errors, field: fieldName }) => {
   if (!errors || !Array.isArray(errors)) {

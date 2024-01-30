@@ -1,10 +1,10 @@
 import { Box, Grid, Typography } from '@mui/material'
-import { MemberBadge } from 'components/Activists/Badges'
-import { UIChip } from 'ui/Card'
-import CotisationHistory from 'components/Activists/Member/Tabs/Adherent/CotisationHistory'
-import Activist from 'domain/activist'
-import LineText from 'components/Activists/Member/LineText'
-import { formatDate } from 'shared/helpers'
+import { MemberBadge } from '~/components/Activists/Badges'
+import { UIChip } from '~/ui/Card'
+import CotisationHistory from '~/components/Activists/Member/Tabs/Adherent/CotisationHistory'
+import Activist from '~/domain/activist'
+import LineText from '~/components/Activists/Member/LineText'
+import { formatDate } from '~/shared/helpers'
 
 const AdherentTab = ({ member }) => (
   <Box sx={{ mt: 2 }} className="space-y-4">

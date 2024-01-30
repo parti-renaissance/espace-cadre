@@ -1,7 +1,7 @@
 import { Dialog, Paper, Grid, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
-import pluralize from 'components/shared/pluralize/pluralize'
+import pluralize from '~/components/shared/pluralize/pluralize'
 
 const StyledPaper = styled(Paper)`
   background: ${({ theme }) => theme.palette.whiteCorner};

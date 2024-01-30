@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import EmailEditor from 'react-email-editor'
 import { Button as MuiButton, Box, Container } from '@mui/material'
 import { styled } from '@mui/system'
-import { UNLAYER_PROJECT_ID } from 'shared/environments'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { getDepartmentalSite } from 'api/departmental-site'
-import { useQueryWithScope } from 'api/useQueryWithScope'
-import Loader from 'ui/Loader'
+import { UNLAYER_PROJECT_ID } from '~/shared/environments'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import { getDepartmentalSite } from '~/api/departmental-site'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import Loader from '~/ui/Loader'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })

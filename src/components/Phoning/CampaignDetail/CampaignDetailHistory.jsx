@@ -5,11 +5,11 @@ import { styled } from '@mui/system'
 import {
   PhoningCampaignDetailHistoryAdherent as DomainPhoningCampaignDetailHistoryAdherent,
   PhoningCampaignDetailHistoryCaller as DomainPhoningCampaignDetailHistoryCaller,
-} from 'domain/phoning'
+} from '~/domain/phoning'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor, translatedGender } from './shared/constants'
-import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import UICard, { UIChip } from 'ui/Card'
-import { formatDate } from 'shared/helpers'
+import { TruncatedText, VerticalContainer } from '~/components/shared/styled'
+import UICard, { UIChip } from '~/ui/Card'
+import { formatDate } from '~/shared/helpers'
 
 const Author = styled(TruncatedText)`
   font-size: 12px;

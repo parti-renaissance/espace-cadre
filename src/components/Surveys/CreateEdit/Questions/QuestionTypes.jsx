@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { FormControlLabel, Grid, Radio, RadioGroup, Typography } from '@mui/material'
 
-import UIInputLabel from 'ui/InputLabel/InputLabel'
+import UIInputLabel from '~/ui/InputLabel/InputLabel'
 import { multipleChoice, simpleField, uniqueChoice } from '../../shared/constants'
 
 const ChoiceLabel = styled(Typography)`

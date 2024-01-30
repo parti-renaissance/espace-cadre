@@ -1,9 +1,9 @@
 import { styled } from '@mui/system'
 import { ListItemButton, Typography, Grid } from '@mui/material'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Checkbox } from '~/ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import { zoneLabels } from 'domain/zone'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
+import { zoneLabels } from '~/domain/zone'
 
 const ListItem = styled(
   ListItemButton,

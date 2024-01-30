@@ -1,4 +1,4 @@
-import { zoneTypes } from 'domain/zone'
+import { zoneTypes } from '~/domain/zone'
 
 export const committeeZones = [zoneTypes.CANTON, zoneTypes.CITY_COMMUNITY, zoneTypes.CITY, zoneTypes.BOROUGH]
 

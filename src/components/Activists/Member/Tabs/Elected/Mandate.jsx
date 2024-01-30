@@ -1,11 +1,11 @@
 import { Box, Grid, IconButton, Typography } from '@mui/material'
-import { mandates } from 'shared/constants'
-import { Mandate as MandateObject } from 'domain/mandate'
-import ConfirmButton from 'ui/Button/ConfirmButton'
+import { mandates } from '~/shared/constants'
+import { Mandate as MandateObject } from '~/domain/mandate'
+import ConfirmButton from '~/ui/Button/ConfirmButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import PropTypes from 'prop-types'
-import EditIcon from 'ui/icons/EditIcon'
-import { formatDate } from 'shared/helpers'
+import EditIcon from '~/ui/icons/EditIcon'
+import { formatDate } from '~/shared/helpers'
 
 const Mandate = ({ mandate, removeAction, editAction }) => (
   <Box sx={{ mt: 2 }}>

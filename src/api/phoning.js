@@ -1,4 +1,4 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 import {
   PhoningGlobalKPI,
   PhoningGlobalKPICampaigns,
@@ -24,12 +24,12 @@ import {
   PhoningCampaignCreateEditTeam,
   PhoningCampaignCreateEditSurvey,
   PhoningCampaignCreateEditZone,
-} from 'domain/phoning'
-import { newPaginatedResult } from 'api/pagination'
-import { Zone } from 'domain/zone'
-import { ZONE_AUTOCOMPLETE_URI } from 'components/Filters/Element/ZoneAutocomplete'
+} from '~/domain/phoning'
+import { newPaginatedResult } from '~/api/pagination'
+import { Zone } from '~/domain/zone'
+import { ZONE_AUTOCOMPLETE_URI } from '~/components/Filters/Element/ZoneAutocomplete'
 import { downloadFile } from './upload'
-import { parseDate } from 'shared/helpers'
+import { parseDate } from '~/shared/helpers'
 
 export const getPhoningGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/phoning_campaigns/kpi')

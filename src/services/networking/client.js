@@ -6,7 +6,7 @@ import {
 } from '../../redux/user/selectors'
 import { store } from '../../redux/store'
 import { userLogout, updateRefreshToken } from '../../redux/auth'
-import { API_HOST, INTERNAL_APP_ID } from 'shared/environments'
+import { API_HOST, INTERNAL_APP_ID } from '~/shared/environments'
 import login from './auth'
 
 const API_BASE_URL = `${API_HOST}/api`

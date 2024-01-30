@@ -6,10 +6,10 @@ import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import { useUserScope } from '../../../redux/user/hooks'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
-import { notifyVariants } from 'components/shared/notification/constants'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { useCurrentDeviceType } from '~/components/shared/device/hooks'
+import { notifyVariants } from '~/components/shared/notification/constants'
 import {
   campaignToCallersAndSurveyValues,
   campaignToFiltersValues,
@@ -18,17 +18,17 @@ import {
 import {
   PhoningCampaignCreateEdit as DomainPhoningCampaignCreateEdit,
   PhoningCampaignCreateEditZone as DomainPhoningCampaignCreateEditZone,
-} from 'domain/phoning'
-import { createOrUpdatePhoningCampaignQuery } from 'api/phoning'
+} from '~/domain/phoning'
+import { createOrUpdatePhoningCampaignQuery } from '~/api/phoning'
 import { CallersAndSurveyContext, FiltersContext, GlobalSettingsContext, initialValues } from './shared/context'
 import { validateAllSteps, toggleValidStep, validators } from './shared/helpers'
-import Stepper from 'ui/Stepper/Stepper'
-import ValidateAction from 'ui/Stepper/Submit'
+import Stepper from '~/ui/Stepper/Stepper'
+import ValidateAction from '~/ui/Stepper/Submit'
 import GlobalSettings from './CreateEditGlobalSettings'
 import CallersAndSurvey from './CreateEditCallersAndSurvey'
 import Filters from './CreateEditFilters'
-import Dialog from 'ui/Dialog'
-import { nationalScopes } from 'shared/scopes'
+import Dialog from '~/ui/Dialog'
+import { nationalScopes } from '~/shared/scopes'
 
 const Title = styled(Typography)`
   font-size: 24px;

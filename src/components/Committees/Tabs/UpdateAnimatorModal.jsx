@@ -1,13 +1,13 @@
 import { Box } from '@mui/material'
-import AdherentAutocomplete from 'components/Filters/Element/AdherentAutocomplete'
+import AdherentAutocomplete from '~/components/Filters/Element/AdherentAutocomplete'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { updateAnimator } from 'api/committees'
-import { ModalForm } from 'ui/Dialog'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyVariants } from 'components/shared/notification/constants'
-import { useErrorHandler } from 'components/shared/error/hooks'
+import { updateAnimator } from '~/api/committees'
+import { ModalForm } from '~/ui/Dialog'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { notifyVariants } from '~/components/shared/notification/constants'
+import { useErrorHandler } from '~/components/shared/error/hooks'
 
 const UpdateAnimatorModal = ({ committeeId, animatorId, handleClose }) => {
   const [selectedAdherent, setSelectedAdherent] = useState(null)

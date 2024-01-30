@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLogout } from '../../redux/auth'
-import { RENAISSANCE_HOST, OAUTH_HOST } from 'shared/environments'
+import { RENAISSANCE_HOST, OAUTH_HOST } from '~/shared/environments'
 import { isSwitchUser } from '../../redux/user/selectors'
 
 const Logout = () => {

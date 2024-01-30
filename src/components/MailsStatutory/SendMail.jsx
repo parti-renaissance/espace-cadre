@@ -8,15 +8,15 @@ import {
   getMessage as getMessageApi,
   sendMessage as sendMessageApi,
   sendTestMessage as sendTestMessageApi,
-} from 'api/messagerie'
-import { useQueryWithScope } from 'api/useQueryWithScope'
-import ModalComponent from 'components/Messagerie/Component/ModalComponent'
-import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
-import pluralize from 'components/shared/pluralize/pluralize'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import paths from 'shared/paths'
-import PageHeader from 'ui/PageHeader'
-import Loader from 'ui/Loader'
+} from '~/api/messagerie'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import ModalComponent from '~/components/Messagerie/Component/ModalComponent'
+import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import paths from '~/shared/paths'
+import PageHeader from '~/ui/PageHeader'
+import Loader from '~/ui/Loader'
 
 const AudienceCount = styled(Typography)`
   font-size: 18px;

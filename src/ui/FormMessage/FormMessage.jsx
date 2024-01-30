@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import { Alert as MuiAlert, AlertTitle as MuiAlertTitle } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 
 const Alert = styled(MuiAlert)(
   ({ theme, severity }) => `

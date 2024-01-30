@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import Button from 'ui/Button'
-import Loader from 'ui/Loader'
+import Button from '~/ui/Button'
+import Loader from '~/ui/Loader'
 
 const messages = {
   create: 'Créer et cibler',

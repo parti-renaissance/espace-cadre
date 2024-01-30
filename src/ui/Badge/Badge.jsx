@@ -1,4 +1,4 @@
-import { UIChip } from 'ui/Card'
+import { UIChip } from '~/ui/Card'
 import PropTypes from 'prop-types'
 
 const Badge = ({ badge }) => {

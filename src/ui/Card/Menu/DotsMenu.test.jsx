@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
+import DotsMenu, { DotsMenuItem } from '~/ui/Card/Menu/DotsMenu'
 
 vi.mock('@mui/system', () => ({
   styled: c => () => c,

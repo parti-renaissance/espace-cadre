@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import SnackBar from 'ui/SnackBar/SnackBar'
+import SnackBar from '~/ui/SnackBar/SnackBar'
 
 vi.mock('react-redux', () => ({
   useDispatch: () => vi.fn(),

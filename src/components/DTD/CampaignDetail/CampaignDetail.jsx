@@ -9,18 +9,18 @@ import {
   getDTDCampaignQuestioners,
   getDTDCampaignDetailHistory,
   getDTDCampaignSurveysReplies,
-} from 'api/DTD'
-import { getNextPageParam, usePaginatedData, usePaginatedDataCount } from 'api/pagination'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import pluralize from 'components/shared/pluralize/pluralize'
+} from '~/api/DTD'
+import { getNextPageParam, usePaginatedData, usePaginatedDataCount } from '~/api/pagination'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './CampaignDetailKPI'
 import CampaignDetailQuestioner from './CampaignDetailQuestioner'
 import CampaignDetailHistory from './CampaignDetailHistory'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
-import PageHeader from 'ui/PageHeader'
-import Loader from 'ui/Loader'
-import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
-import paths from 'shared/paths'
+import PageHeader from '~/ui/PageHeader'
+import Loader from '~/ui/Loader'
+import { useInfiniteQueryWithScope, useQueryWithScope } from '~/api/useQueryWithScope'
+import paths from '~/shared/paths'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',

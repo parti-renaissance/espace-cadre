@@ -1,4 +1,4 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 
 export const getDepartmentalSites = () => apiClient.get('/v3/department_sites')
 export const createDepartmentalSite = data => apiClient.post('/v3/department_sites', data)

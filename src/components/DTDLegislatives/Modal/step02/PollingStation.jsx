@@ -1,9 +1,9 @@
 import { styled } from '@mui/system'
 import { Grid, Typography, ListItemButton } from '@mui/material'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Checkbox } from '~/ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
+import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 import formatNumber from '../../../shared/formatNumber/formatNumber'
 
 const messages = {

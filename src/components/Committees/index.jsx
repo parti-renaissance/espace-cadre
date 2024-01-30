@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import Committees from 'components/Committees/Committees'
+import Committees from '~/components/Committees/Committees'
 import DetailCommittee from './DetailCommittee'
 import Elections from './Elections'
 

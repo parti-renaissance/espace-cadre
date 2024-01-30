@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { add } from 'date-fns'
-import { electionStatus } from 'components/Committees/constants'
+import { electionStatus } from '~/components/Committees/constants'
 
 export class Designation {
   constructor(id, customTitle, description, electionDate, voteStartDate, voteEndDate) {

@@ -3,7 +3,7 @@ import { persistReducer, persistStore, PERSIST } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { createReduxEnhancer } from '@sentry/react'
 import rootReducer from './reducers'
-import { NODE_ENV } from 'shared/environments'
+import { NODE_ENV } from '~/shared/environments'
 
 const configureStore = () => {
   const persistConfig = {
