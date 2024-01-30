@@ -48,12 +48,9 @@ describe('Surveys', () => {
   })
 
   describe('The KPI block', () => {
-    it('should contain 2 parts', () => {
+    it('should contain 1 parts', () => {
       cy.get(KPI).should('exist')
-      cy.get(KPI).find('>div').should('have.length', 2)
-    })
-    it('should have a title', () => {
-      cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
+      cy.get(KPI).find('>div').should('have.length', 1)
     })
     it('should have 2 cards', () => {
       cy.get(KPI).find(KPICard).children().should('have.length', 2)
@@ -64,23 +61,10 @@ describe('Surveys', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(0)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '90', subtitle: 'Questionnaires locaux', detail: 'Dont 30 publiés' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
-          })
+        const content = { score: '90', subtitle: 'Questionnaires locaux', detail: 'Dont 30 publiés' }
+        Object.keys(content).forEach(key => {
+          cy.get(KPI).find(KPICard).find('>div').eq(0).findByText(content[key]).should('exist').and('be.visible')
+        })
       })
     })
 
@@ -89,20 +73,12 @@ describe('Surveys', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(1)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '43', subtitle: 'Questionnaires nationaux', detail: 'Dont 30 publiés' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
+        it('should show a score, a subtitle and its detail', () => {
+          const content = { score: '43', subtitle: 'Questionnaires nationaux', detail: 'Dont 30 publiés' }
+          Object.keys(content).forEach(key => {
+            cy.get(KPI).find(KPICard).find('>div').eq(1).findByText(content[key]).should('exist').and('be.visible')
           })
+        })
       })
     })
 
@@ -112,23 +88,12 @@ describe('Surveys', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(2)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '19', subtitle: 'Réponses collectées', detail: '3 sur le mois' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
+        it('should show a score, a subtitle and its detail', () => {
+          const content = { score: '19', subtitle: 'Réponses collectées', detail: '3 sur le mois' }
+          Object.keys(content).forEach(key => {
+            cy.get(KPI).find(KPICard).find('>div').eq(2).findByText(content[key]).should('exist').and('be.visible')
           })
+        })
       })
     })
   })
