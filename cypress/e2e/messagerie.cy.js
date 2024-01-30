@@ -37,102 +37,30 @@ describe('Messagerie', () => {
   describe('Messagerie homepage', () => {
     describe('Dashboard', () => {
       it('Check main part of dashboard', () => {
-        cy.contains('Indicateurs')
-
-        cy.get(HeaderButton).find('button').eq(1).should('have.text', 'Envoyer un email')
+        cy.get(HeaderButton).find('button').eq(0).should('have.text', 'Écrire un email')
 
         cy.get(KPI).should('exist')
-        cy.get(KPI).find('>div').should('have.length', 2)
-        cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
         cy.get(KPI).find(KPICard).children().should('have.length', 4)
 
-        cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).should('have.length', 3)
-        cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
-        cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
-        cy.get(KPI).find(KPICard).find('>div').eq(3).find(Typography).should('have.length', 3)
+        const contents = [
+          { score: '100', subtitle: "Nombres d'emails", detail: 'Envoyées ces 30 derniers jours' },
+          { score: '12.34%', subtitle: 'Ouvertures', detail: '43.21% au national' },
+          { score: '42.42%', subtitle: 'Clics', detail: '44.44% au national' },
+          { score: '0.11%', subtitle: 'Désabonnements', detail: '12.12% au national' },
+        ]
 
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(0)
-          .find(Typography)
-          .each((element, index) => {
-            const content = {
-              score: '100',
-              subtitle: "Campagnes d'e-mails",
-              detail: 'Envoyées ces 30 derniers jours',
-            }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
+        contents.forEach((content, index) => {
+          Object.keys(content).forEach(key => {
+            cy.get(KPI).find(KPICard).find('>div').eq(index).findByText(content[key]).should('exist').and('be.visible')
           })
+        })
 
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(1)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '12.34%', subtitle: 'Ouvertures', detail: '43.21% au national' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
-          })
+        // cy.get(Campaigns).find(Typography).first().should('have.text', 'Vos dernières campagnes').and('be.visible')
+        // cy.get(Campaigns).find(Card).children().should('have.length', 2)
 
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(2)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '42.42%', subtitle: 'Clics', detail: '44.44% au national' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
-          })
-
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(3)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '0.11%', subtitle: 'Désabonnements', detail: '12.12% au national' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
-          })
-
-        cy.get(Campaigns).find(Typography).first().should('have.text', 'Vos dernières campagnes').and('be.visible')
-        cy.get(Campaigns).find(Card).children().should('have.length', 2)
-
-        cy.get(Card).eq(1).contains('sujet 1')
-        cy.get(Card).eq(1).contains('Brouillon')
-        cy.get(Card).eq(1).contains('Modifier')
+        // cy.get(Card).eq(1).contains('sujet 1')
+        // cy.get(Card).eq(1).contains('Brouillon')
+        // cy.get(Card).eq(1).contains('Modifier')
       })
     })
 

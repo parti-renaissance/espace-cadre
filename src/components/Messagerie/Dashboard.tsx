@@ -30,12 +30,13 @@ const Dashboard = () => {
               <Stack alignItems="center" direction="row" spacing={2}>
                 <ButtonGroup variant="contained" color="inherit" size="medium">
                   <Button
+                    data-cy="ui-page-header-button"
                     startIcon={<Iconify icon="solar:pen-bold" color="white" />}
                     onClick={() => navigate(messageriePaths.create)}
                   >
                     {messages.sendEmail}
                   </Button>
-                  <Button onClick={() => navigate(messageriePaths.create)}>
+                  <Button data-cy="templates-button" onClick={() => setShowTemplates(true)}>
                     <Iconify icon="eva:arrow-ios-downward-fill" color="white" />
                   </Button>
                 </ButtonGroup>
