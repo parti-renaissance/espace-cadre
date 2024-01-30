@@ -6,7 +6,7 @@ vi.mock('@mui/material', () => ({
     <div className="mui-TextField-mock" {...props} />
   ),
 }))
-vi.mock('ui/AlertBanner', () => ({
+vi.mock('~/ui/AlertBanner', () => ({
   default: ({ children, ...rest }) => (
     <div className="AlertBannerMock" {...rest}>
       {children}

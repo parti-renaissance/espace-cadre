@@ -26,7 +26,7 @@ vi.mock('@mui/material', () => ({
 vi.mock('@mui/icons-material/Close', () => ({ default: () => <div className="mock-close-icon" /> }))
 vi.mock('@mui/icons-material/ExpandMore', () => ({ default: () => <div className="mock-expand-more-icon" /> }))
 const mockCloseSnackbar = vi.fn()
-vi.mock('components/shared/notification/hooks', () => ({
+vi.mock('~/components/shared/notification/hooks', () => ({
   useCustomSnackbar: () => ({ closeSnackbar: mockCloseSnackbar }),
 }))
 
