@@ -1,14 +1,14 @@
-import { alpha, Theme } from '@mui/material/styles';
-import { ButtonGroupProps, buttonGroupClasses } from '@mui/material/ButtonGroup';
+import { alpha, Theme } from '@mui/material/styles'
+import { ButtonGroupProps, buttonGroupClasses } from '@mui/material/ButtonGroup'
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'] as const;
+const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'] as const
 
 // NEW VARIANT
 declare module '@mui/material/ButtonGroup' {
   interface ButtonGroupPropsVariantOverrides {
-    soft: true;
+    soft: true
   }
 }
 
@@ -16,19 +16,19 @@ declare module '@mui/material/ButtonGroup' {
 
 export function buttonGroup(theme: Theme) {
   const rootStyles = (ownerState: ButtonGroupProps) => {
-    const inheritColor = ownerState.color === 'inherit';
+    const inheritColor = ownerState.color === 'inherit'
 
-    const containedVariant = ownerState.variant === 'contained';
+    const containedVariant = ownerState.variant === 'contained'
 
-    const outlinedVariant = ownerState.variant === 'outlined';
+    const outlinedVariant = ownerState.variant === 'outlined'
 
-    const textVariant = ownerState.variant === 'text';
+    const textVariant = ownerState.variant === 'text'
 
-    const softVariant = ownerState.variant === 'soft';
+    const softVariant = ownerState.variant === 'soft'
 
-    const horizontalOrientation = ownerState.orientation === 'horizontal';
+    const horizontalOrientation = ownerState.orientation === 'horizontal'
 
-    const verticalOrientation = ownerState.orientation === 'vertical';
+    const verticalOrientation = ownerState.orientation === 'vertical'
 
     const defaultStyle = {
       [`& .${buttonGroupClasses.grouped}`]: {
@@ -49,9 +49,9 @@ export function buttonGroup(theme: Theme) {
           }),
         },
       },
-    };
+    }
 
-    const colorStyle = COLORS.map((color) => ({
+    const colorStyle = COLORS.map(color => ({
       [`& .${buttonGroupClasses.grouped}`]: {
         '&:not(:last-of-type)': {
           ...(!outlinedVariant && {
@@ -72,7 +72,7 @@ export function buttonGroup(theme: Theme) {
           }),
         },
       },
-    }));
+    }))
 
     const disabledState = {
       [`& .${buttonGroupClasses.grouped}`]: {
@@ -82,10 +82,10 @@ export function buttonGroup(theme: Theme) {
           },
         },
       },
-    };
+    }
 
-    return [defaultStyle, ...colorStyle, disabledState];
-  };
+    return [defaultStyle, ...colorStyle, disabledState]
+  }
 
   return {
     MuiButtonGroup: {
@@ -93,5 +93,5 @@ export function buttonGroup(theme: Theme) {
         root: ({ ownerState }: { ownerState: ButtonGroupProps }) => rootStyles(ownerState),
       },
     },
-  };
+  }
 }

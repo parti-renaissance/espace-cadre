@@ -71,7 +71,8 @@
     "semi": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["warn"],
-    "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }]
+    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "overrides": [
     {

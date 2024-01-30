@@ -1,12 +1,12 @@
-import { alpha, Theme } from '@mui/material/styles';
-import { DrawerProps, drawerClasses } from '@mui/material/Drawer';
+import { alpha, Theme } from '@mui/material/styles'
+import { DrawerProps, drawerClasses } from '@mui/material/Drawer'
 
-import { paper } from '../../css';
+import { paper } from '../../css'
 
 // ----------------------------------------------------------------------
 
 export function drawer(theme: Theme) {
-  const lightMode = theme.palette.mode === 'light';
+  const lightMode = theme.palette.mode === 'light'
 
   return {
     MuiDrawer: {
@@ -32,5 +32,5 @@ export function drawer(theme: Theme) {
         }),
       },
     },
-  };
+  }
 }

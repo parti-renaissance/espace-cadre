@@ -1,23 +1,23 @@
-import { Theme, alpha } from '@mui/material/styles';
-import { AlertProps, alertClasses } from '@mui/material/Alert';
+import { Theme, alpha } from '@mui/material/styles'
+import { AlertProps, alertClasses } from '@mui/material/Alert'
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['info', 'success', 'warning', 'error'] as const;
+const COLORS = ['info', 'success', 'warning', 'error'] as const
 
 // ----------------------------------------------------------------------
 
 export function alert(theme: Theme) {
-  const lightMode = theme.palette.mode === 'light';
+  const lightMode = theme.palette.mode === 'light'
 
   const rootStyles = (ownerState: AlertProps) => {
-    const standardVariant = ownerState.variant === 'standard';
+    const standardVariant = ownerState.variant === 'standard'
 
-    const filledVariant = ownerState.variant === 'filled';
+    const filledVariant = ownerState.variant === 'filled'
 
-    const outlinedVariant = ownerState.variant === 'outlined';
+    const outlinedVariant = ownerState.variant === 'outlined'
 
-    const colorStyle = COLORS.map((color) => ({
+    const colorStyle = COLORS.map(color => ({
       ...(ownerState.severity === color && {
         // STANDARD
         ...(standardVariant && {
@@ -42,10 +42,10 @@ export function alert(theme: Theme) {
           },
         }),
       }),
-    }));
+    }))
 
-    return [...colorStyle];
-  };
+    return [...colorStyle]
+  }
 
   return {
     MuiAlert: {
@@ -64,5 +64,5 @@ export function alert(theme: Theme) {
         },
       },
     },
-  };
+  }
 }

@@ -1,5 +1,5 @@
-import { Theme } from '@mui/material/styles';
-import { CheckboxProps, checkboxClasses } from '@mui/material/Checkbox';
+import { Theme } from '@mui/material/styles'
+import { CheckboxProps, checkboxClasses } from '@mui/material/Checkbox'
 
 // ----------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ export function checkbox(theme: Theme) {
     MuiCheckbox: {
       styleOverrides: {
         root: ({ ownerState }: { ownerState: CheckboxProps }) => {
-          const { color } = ownerState;
+          const { color } = ownerState
 
           return {
             padding: theme.spacing(1),
@@ -20,9 +20,9 @@ export function checkbox(theme: Theme) {
             [`&.${checkboxClasses.disabled}`]: {
               color: theme.palette.action.disabled,
             },
-          };
+          }
         },
       },
     },
-  };
+  }
 }

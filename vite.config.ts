@@ -37,7 +37,7 @@ export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => 
       },
       release: {
         deploy: {
-          env: process.env.APP_ENV,
+          env: process.env.APP_ENV || 'production',
         },
       },
     }),
