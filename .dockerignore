@@ -5,5 +5,7 @@
 !yarn.lock
 !.env.production
 !index.html
-!vite.config.js
+!vite.config.ts
+!tsconfig.json
+!tsconfig.node.json
 !nginx.conf
