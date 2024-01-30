@@ -89,7 +89,6 @@ const Groups = () => {
           {groups.map(group => (
             <Grid item key={group.id} xs={12} sm={6} md={3}>
               <UICard
-                rootProps={{ sx: { height: '180px' } }}
                 headerProps={{ sx: { pt: '21px' } }}
                 header={
                   <>
