@@ -61,7 +61,7 @@
     "start": "vite",
     "start-test": "yarn rollup:dev & yarn rollup:preview",
     "dev": "vite preview",
-    "build": "vite build --mode production",
+    "build": "tsc && vite build --mode production",
     "test": "TZ=Europe/Paris vitest",
     "test-coverage": "vitest src --coverage",
     "test:cy": "cypress open --config-file cypress.config.js",

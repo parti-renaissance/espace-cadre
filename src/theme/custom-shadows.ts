@@ -1,45 +1,45 @@
-import { alpha } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles'
 
-import { grey, info, error, common, primary, success, warning, secondary } from './palette';
+import { grey, info, error, common, primary, success, warning, secondary } from './palette'
 
 // ----------------------------------------------------------------------
 
 interface CustomShadows {
-  z1: string;
-  z4: string;
-  z8: string;
-  z12: string;
-  z16: string;
-  z20: string;
-  z24: string;
+  z1: string
+  z4: string
+  z8: string
+  z12: string
+  z16: string
+  z20: string
+  z24: string
   //
-  primary: string;
-  secondary: string;
-  info: string;
-  success: string;
-  warning: string;
-  error: string;
+  primary: string
+  secondary: string
+  info: string
+  success: string
+  warning: string
+  error: string
   //
-  card: string;
-  dialog: string;
-  dropdown: string;
+  card: string
+  dialog: string
+  dropdown: string
 }
 
 declare module '@mui/material/styles' {
   interface Theme {
-    customShadows: CustomShadows;
+    customShadows: CustomShadows
   }
   interface ThemeOptions {
-    customShadows?: CustomShadows;
+    customShadows?: CustomShadows
   }
 }
 
 // ----------------------------------------------------------------------
 
 export function customShadows(mode: 'light' | 'dark') {
-  const color = mode === 'light' ? grey[500] : common.black;
+  const color = mode === 'light' ? grey[500] : common.black
 
-  const transparent = alpha(color, 0.16);
+  const transparent = alpha(color, 0.16)
 
   return {
     z1: `0 1px 2px 0 ${transparent}`,
@@ -60,5 +60,5 @@ export function customShadows(mode: 'light' | 'dark') {
     success: `0 8px 16px 0 ${alpha(success.main, 0.24)}`,
     warning: `0 8px 16px 0 ${alpha(warning.main, 0.24)}`,
     error: `0 8px 16px 0 ${alpha(error.main, 0.24)}`,
-  };
+  }
 }

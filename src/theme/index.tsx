@@ -1,40 +1,38 @@
-import { useMemo } from 'react';
-import merge from 'lodash/merge';
+import { useMemo } from 'react'
+import merge from 'lodash/merge'
 
-import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeOptions, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline'
+import { createTheme, ThemeOptions, ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { frFR } from '@mui/material/locale'
 
 import { useSettingsContext } from 'src/mui/settings'
 
 // system
-import { palette } from './palette';
-import { shadows } from './shadows';
-import { typography } from './typography';
+import { palette } from './palette'
+import { shadows } from './shadows'
+import { typography } from './typography'
 // options
 import RTL from './options/right-to-left'
-import { customShadows } from './custom-shadows';
-import { componentsOverrides } from './overrides';
-import { createPresets } from './options/presets';
-import { createContrast } from './options/contrast';
+import { customShadows } from './custom-shadows'
+import { componentsOverrides } from './overrides'
+import { createPresets } from './options/presets'
+import { createContrast } from './options/contrast'
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export default function ThemeProvider({ children }: Props) {
-
-  const settings = useSettingsContext();
+  const settings = useSettingsContext()
   if (!settings.themeColorPresets) {
     return null
   }
 
-  const presets = createPresets(settings.themeColorPresets);
+  const presets = createPresets(settings.themeColorPresets)
 
-
-  const contrast = createContrast(settings.themeContrast, settings.themeMode);
+  const contrast = createContrast(settings.themeContrast, settings.themeMode)
 
   const memoizedValue = useMemo(
     () => ({
@@ -52,25 +50,14 @@ export default function ThemeProvider({ children }: Props) {
       shape: { borderRadius: 8 },
       typography,
     }),
-    [
-      settings.themeMode,
-      settings.themeDirection,
-      presets.palette,
-      presets.customShadows,
-      contrast.palette,
-    ]
-  );
+    [settings.themeMode, settings.themeDirection, presets.palette, presets.customShadows, contrast.palette]
+  )
 
+  const theme = createTheme(memoizedValue as ThemeOptions)
 
+  theme.components = merge(componentsOverrides(theme), contrast.components)
 
-  const theme = createTheme(memoizedValue as ThemeOptions);
-
-  theme.components = merge(componentsOverrides(theme), contrast.components);
-
-  const themeWithLocale = useMemo(
-    () => createTheme(theme, frFR),
-    [theme]
-  );
+  const themeWithLocale = useMemo(() => createTheme(theme, frFR), [theme])
 
   return (
     <MuiThemeProvider theme={themeWithLocale}>
@@ -79,5 +66,5 @@ export default function ThemeProvider({ children }: Props) {
         {children}
       </RTL>
     </MuiThemeProvider>
-  );
+  )
 }

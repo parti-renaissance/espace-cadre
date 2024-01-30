@@ -1,19 +1,19 @@
-import { listClasses } from '@mui/material/List';
-import { paperClasses } from '@mui/material/Paper';
-import { Theme, alpha } from '@mui/material/styles';
-import { buttonClasses } from '@mui/material/Button';
-import { iconButtonClasses } from '@mui/material/IconButton';
-import { inputLabelClasses } from '@mui/material/InputLabel';
-import { formControlClasses } from '@mui/material/FormControl';
-import { listItemIconClasses } from '@mui/material/ListItemIcon';
-import { circularProgressClasses } from '@mui/material/CircularProgress';
+import { listClasses } from '@mui/material/List'
+import { paperClasses } from '@mui/material/Paper'
+import { Theme, alpha } from '@mui/material/styles'
+import { buttonClasses } from '@mui/material/Button'
+import { iconButtonClasses } from '@mui/material/IconButton'
+import { inputLabelClasses } from '@mui/material/InputLabel'
+import { formControlClasses } from '@mui/material/FormControl'
+import { listItemIconClasses } from '@mui/material/ListItemIcon'
+import { circularProgressClasses } from '@mui/material/CircularProgress'
 
-import { paper } from '../../css';
+import { paper } from '../../css'
 
 // ----------------------------------------------------------------------
 
 export function dataGrid(theme: Theme) {
-  const paperStyles = paper({ theme, dropdown: true });
+  const paperStyles = paper({ theme, dropdown: true })
 
   return {
     MuiDataGrid: {
@@ -43,7 +43,7 @@ export function dataGrid(theme: Theme) {
         },
         // Row, Cell
         cell: {
-          borderBottom: `1px dashed`,
+          borderBottom: '1px dashed',
           '&--editing': {
             boxShadow: 'none !important',
             backgroundColor: `${alpha(theme.palette.primary.main, 0.08)} !important`,
@@ -95,7 +95,7 @@ export function dataGrid(theme: Theme) {
         // Footer
         footerContainer: {
           minHeight: 'auto',
-          borderTop: `1px dashed`,
+          borderTop: '1px dashed',
         },
         selectedRowCount: {
           display: 'none',
@@ -148,5 +148,5 @@ export function dataGrid(theme: Theme) {
         },
       },
     },
-  };
+  }
 }

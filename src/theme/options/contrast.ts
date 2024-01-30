@@ -1,5 +1,5 @@
-import { grey } from '../palette';
-import { customShadows } from '../custom-shadows';
+import { grey } from '../palette'
+import { customShadows } from '../custom-shadows'
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ export function createContrast(contrast: 'default' | 'bold', mode: 'light' | 'da
           },
         },
       }),
-  };
+  }
 
   const components = {
     ...(contrast === 'bold' && {
@@ -25,10 +25,10 @@ export function createContrast(contrast: 'default' | 'bold', mode: 'light' | 'da
         },
       },
     }),
-  };
+  }
 
   return {
     ...theme,
     components,
-  };
+  }
 }

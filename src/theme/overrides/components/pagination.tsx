@@ -1,38 +1,38 @@
-import { alpha, Theme } from '@mui/material/styles';
-import { PaginationProps } from '@mui/material/Pagination';
-import { paginationItemClasses } from '@mui/material/PaginationItem';
+import { alpha, Theme } from '@mui/material/styles'
+import { PaginationProps } from '@mui/material/Pagination'
+import { paginationItemClasses } from '@mui/material/PaginationItem'
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'] as const;
+const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'] as const
 
 // NEW VARIANT
 declare module '@mui/material/Pagination' {
   interface PaginationPropsVariantOverrides {
-    soft: true;
+    soft: true
   }
 
   interface PaginationPropsColorOverrides {
-    info: true;
-    success: true;
-    warning: true;
-    error: true;
+    info: true
+    success: true
+    warning: true
+    error: true
   }
 }
 
 // ----------------------------------------------------------------------
 
 export function pagination(theme: Theme) {
-  const lightMode = theme.palette.mode === 'light';
+  const lightMode = theme.palette.mode === 'light'
 
   const rootStyles = (ownerState: PaginationProps) => {
-    const defaultColor = ownerState.color === 'standard';
+    const defaultColor = ownerState.color === 'standard'
 
-    const filledVariant = ownerState.variant === 'text';
+    const filledVariant = ownerState.variant === 'text'
 
-    const outlinedVariant = ownerState.variant === 'outlined';
+    const outlinedVariant = ownerState.variant === 'outlined'
 
-    const softVariant = ownerState.variant === 'soft';
+    const softVariant = ownerState.variant === 'soft'
 
     const defaultStyle = {
       [`& .${paginationItemClasses.root}`]: {
@@ -58,9 +58,9 @@ export function pagination(theme: Theme) {
           }),
         },
       },
-    };
+    }
 
-    const colorStyle = COLORS.map((color) => ({
+    const colorStyle = COLORS.map(color => ({
       ...(ownerState.color === color && {
         [`& .${paginationItemClasses.root}`]: {
           [`&.${paginationItemClasses.selected}`]: {
@@ -77,10 +77,10 @@ export function pagination(theme: Theme) {
           },
         },
       }),
-    }));
+    }))
 
-    return [defaultStyle, ...colorStyle];
-  };
+    return [defaultStyle, ...colorStyle]
+  }
 
   return {
     MuiPagination: {
@@ -88,5 +88,5 @@ export function pagination(theme: Theme) {
         root: ({ ownerState }: { ownerState: PaginationProps }) => rootStyles(ownerState),
       },
     },
-  };
+  }
 }

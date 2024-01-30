@@ -1,21 +1,21 @@
-import Box from '@mui/material/Box';
-import { alpha } from '@mui/material/styles';
-import ButtonBase from '@mui/material/ButtonBase';
+import Box from '@mui/material/Box'
+import { alpha } from '@mui/material/styles'
+import ButtonBase from '@mui/material/ButtonBase'
 
-import { presetOptions } from 'src/theme/options/presets';
+import { presetOptions } from 'src/theme/options/presets'
 
 // ----------------------------------------------------------------------
 
 type PresetsOptionsProps = {
-  value: string;
-  onChange: (newValue: string) => void;
-};
+  value: string
+  onChange: (newValue: string) => void
+}
 
 export default function PresetsOptions({ value, onChange }: PresetsOptionsProps) {
   return (
     <Box columnGap={2} rowGap={1.5} display="grid" gridTemplateColumns="repeat(3, 1fr)">
-      {presetOptions.map((option) => {
-        const selected = value === option.name;
+      {presetOptions.map(option => {
+        const selected = value === option.name
 
         return (
           <ButtonBase
@@ -24,7 +24,7 @@ export default function PresetsOptions({ value, onChange }: PresetsOptionsProps)
             sx={{
               height: 56,
               borderRadius: 1,
-              border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.08)}`,
+              border: theme => `solid 1px ${alpha(theme.palette.grey[500], 0.08)}`,
               ...(selected && {
                 borderColor: 'transparent',
                 bgcolor: alpha(option.value, 0.08),
@@ -37,7 +37,7 @@ export default function PresetsOptions({ value, onChange }: PresetsOptionsProps)
                 height: 12,
                 borderRadius: '50%',
                 bgcolor: option.value,
-                transition: (theme) =>
+                transition: theme =>
                   theme.transitions.create(['transform'], {
                     duration: theme.transitions.duration.shorter,
                   }),
@@ -47,8 +47,8 @@ export default function PresetsOptions({ value, onChange }: PresetsOptionsProps)
               }}
             />
           </ButtonBase>
-        );
+        )
       })}
     </Box>
-  );
+  )
 }

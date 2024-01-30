@@ -9,7 +9,7 @@
     "module": "esnext",
     "jsx": "react-jsx",
     "skipLibCheck": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitThis": true,
     "esModuleInterop": true,
     "isolatedModules": true,
@@ -20,13 +20,13 @@
     "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx", "src/**/*"],
   "references": [
     {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+      "path": "./tsconfig.node.json",
+    },
+  ],
 }

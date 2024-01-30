@@ -1,20 +1,20 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react'
 
 // ----------------------------------------------------------------------
 
 export function useLocalStorage(key: string, initialState: any) {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(initialState)
 
   useEffect(() => {
-    const restored = getStorage(key);
+    const restored = getStorage(key)
 
     if (restored) {
       setState((prevValue: any) => ({
         ...prevValue,
         ...restored,
-      }));
+      }))
     }
-  }, [key]);
+  }, [key])
 
   const updateState = useCallback(
     (updateValue: any) => {
@@ -22,68 +22,71 @@ export function useLocalStorage(key: string, initialState: any) {
         setStorage(key, {
           ...prevValue,
           ...updateValue,
-        });
+        })
 
         return {
           ...prevValue,
           ...updateValue,
-        };
-      });
+        }
+      })
     },
     [key]
-  );
+  )
 
   const update = useCallback(
     (name: string, updateValue: any) => {
       updateState({
         [name]: updateValue,
-      });
+      })
     },
     [updateState]
-  );
+  )
 
   const reset = useCallback(() => {
-    removeStorage(key);
-    setState(initialState);
-  }, [initialState, key]);
+    removeStorage(key)
+    setState(initialState)
+  }, [initialState, key])
 
   return {
     state,
     update,
     reset,
-  };
+  }
 }
 
 // ----------------------------------------------------------------------
 
-export const getStorage = (key: string) => {
-  let value = null;
+export const getStorage = (key: string): Record<any, any> | null => {
+  let value = null
 
   try {
-    const result = window.localStorage.getItem(key);
+    const result = window.localStorage.getItem(key)
 
     if (result) {
-      value = JSON.parse(result);
+      value = JSON.parse(result)
     }
   } catch (error) {
-    console.error(error);
+    // eslint-disable-next-line no-console
+    console.error(error)
   }
 
-  return value;
-};
+  return value
+}
 
 export const setStorage = (key: string, value: any) => {
   try {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, JSON.stringify(value))
   } catch (error) {
-    console.error(error);
+    // eslint-disable-next-line no-console
+    console.error(error)
   }
-};
+}
 
 export const removeStorage = (key: string) => {
   try {
-    window.localStorage.removeItem(key);
+    window.localStorage.removeItem(key)
   } catch (error) {
-    console.error(error);
+    // eslint-disable-next-line no-console
+    console.error(error)
   }
-};
+}
