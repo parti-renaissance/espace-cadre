@@ -34,12 +34,14 @@ const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
       />
     </Box>
     <CardContent>
-      <Typography variant="subtitle2" noWrap>
-        {message.subject}
-      </Typography>
-      <Typography variant="caption" noWrap color="text.secondary">
-        {message.subject}
-      </Typography>
+      <Stack>
+        <Typography variant="subtitle2" noWrap>
+          {message.subject}
+        </Typography>
+        <Typography variant="caption" noWrap color="text.secondary">
+          {message.subject}
+        </Typography>
+      </Stack>
       <Stack direction="row" spacing={1} marginY={2}>
         <Label variant="soft" color="info">
           Newletter

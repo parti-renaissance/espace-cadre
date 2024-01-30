@@ -62,7 +62,9 @@ const Dashboard = () => {
       <Grid container>
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <TextChart />
-        <KpiEmailCampaign />
+        <Grid item xs={12}>
+          <KpiEmailCampaign />
+        </Grid>
       </Grid>
     </Container>
   )
