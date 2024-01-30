@@ -3,9 +3,9 @@ import { CardHeader as MuiCardHeader, IconButton as MuiIconButton, Typography } 
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { styled } from '@mui/system'
 
-import Percentage from 'ui/Percentage'
-import Loader from 'ui/Loader'
-import { ElectionResult as DomainElectionResult } from 'domain/election'
+import Percentage from '~/ui/Percentage'
+import Loader from '~/ui/Loader'
+import { ElectionResult as DomainElectionResult } from '~/domain/election'
 import ElectionResult from './ElectionResult'
 import { ElectionFirstStage } from './shared/constants'
 

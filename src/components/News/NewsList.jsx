@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
 
-import UICard, { Title } from 'ui/Card'
+import UICard, { Title } from '~/ui/Card'
 import Header from './Card/Header'
 import Actions from './Card/Actions'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 
 const NewsList = ({ data, toggleNewsStatus, toggleNewsPinned, handleEdit, handleView, isToggleStatusLoading }) => {
   const { isMobile } = useCurrentDeviceType()

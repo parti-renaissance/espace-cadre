@@ -1,6 +1,6 @@
 import { styled } from '@mui/system'
 import { Typography, Toolbar } from '@mui/material'
-import ListIcon from 'ui/icons/ListIcon'
+import ListIcon from '~/ui/icons/ListIcon'
 import CloseIcon from '@mui/icons-material/Close'
 import PropTypes from 'prop-types'
 

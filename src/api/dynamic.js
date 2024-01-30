@@ -1,4 +1,4 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 
 // Todo: create a specific method for each endpoint
 // Waiting for Autocomplete to be refactor

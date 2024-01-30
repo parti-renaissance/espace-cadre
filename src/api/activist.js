@@ -1,9 +1,9 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 import qs from 'qs'
-import Activist from 'domain/activist'
+import Activist from '~/domain/activist'
 import { PaginatedResult } from './pagination'
 import { downloadFile } from './upload'
-import { formatDate } from 'shared/helpers'
+import { formatDate } from '~/shared/helpers'
 
 export const getActivists = async filter => {
   const data = await apiClient.get(`v3/adherents?${qs.stringify(filter)}`)

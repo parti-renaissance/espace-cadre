@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
-import Dashboard from 'components/Messagerie/Dashboard'
-import Template from 'components/Messagerie/Template'
-import Filters from 'components/Messagerie/Filters'
-import Confirmation from 'components/Messagerie/Confirmation'
-import { paths as messageriePaths } from 'components/Messagerie/shared/paths'
+import Dashboard from '~/components/Messagerie/Dashboard'
+import Template from '~/components/Messagerie/Template'
+import Filters from '~/components/Messagerie/Filters'
+import Confirmation from '~/components/Messagerie/Confirmation'
+import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
 
 const MessagerieRoute = () => (
   <Routes>

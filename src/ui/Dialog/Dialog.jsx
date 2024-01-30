@@ -1,6 +1,6 @@
 import { Dialog as MuiDialog, Paper as MuiPaper } from '@mui/material'
 import { styled } from '@mui/system'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
+import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 import PropTypes from 'prop-types'
 
 const Paper = styled(MuiPaper)`

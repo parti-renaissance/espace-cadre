@@ -1,12 +1,12 @@
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { DTDCampaignDetailHistory as DomainDTDCampaignDetailHistory } from 'domain/DTD'
+import { DTDCampaignDetailHistory as DomainDTDCampaignDetailHistory } from '~/domain/DTD'
 import { chipColorsByStatus, chipLabelByStatus, defaultChipColor } from './shared/constants'
 import { secondsToMinutes } from './shared/helpers'
-import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import UICard, { UIChip } from 'ui/Card'
-import { formatDate } from 'shared/helpers'
+import { TruncatedText, VerticalContainer } from '~/components/shared/styled'
+import UICard, { UIChip } from '~/ui/Card'
+import { formatDate } from '~/shared/helpers'
 
 const Questioner = styled(TruncatedText)`
   font-size: 12px;

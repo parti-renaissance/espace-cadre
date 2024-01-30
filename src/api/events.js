@@ -1,7 +1,7 @@
-import { newPaginatedResult } from 'api/pagination'
-import { Event, EventCategory, EventGroupCategory, Attendee } from 'domain/event'
-import { apiClient, apiClientPublic } from 'services/networking/client'
-import { formatDate } from 'shared/helpers'
+import { newPaginatedResult } from '~/api/pagination'
+import { Event, EventCategory, EventGroupCategory, Attendee } from '~/domain/event'
+import { apiClient, apiClientPublic } from '~/services/networking/client'
+import { formatDate } from '~/shared/helpers'
 
 export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 

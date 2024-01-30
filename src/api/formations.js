@@ -1,5 +1,5 @@
-import { apiClient } from 'services/networking/client'
-import { newPaginatedResult } from 'api/pagination'
+import { apiClient } from '~/services/networking/client'
+import { newPaginatedResult } from '~/api/pagination'
 import { downloadFile } from './upload'
 
 export const getFormations = async ({ pageParam: page = 1 }) => {

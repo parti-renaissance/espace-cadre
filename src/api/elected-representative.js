@@ -1,8 +1,8 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 import qs from 'qs'
-import { newPaginatedResult } from 'api/pagination'
-import { Elected, ElectedRepresentative, Mandate } from 'domain/elected_representative'
-import { formatDate } from 'shared/helpers'
+import { newPaginatedResult } from '~/api/pagination'
+import { Elected, ElectedRepresentative, Mandate } from '~/domain/elected_representative'
+import { formatDate } from '~/shared/helpers'
 
 export const getAllElected = async filter => {
   const data = await apiClient.get(`api/v3/elected_representatives?${qs.stringify(filter)}`)

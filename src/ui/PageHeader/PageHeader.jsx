@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { Grid, Box } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import PageTitle from 'ui/PageTitle'
-import Button from 'ui/Button'
+import PageTitle from '~/ui/PageTitle'
+import Button from '~/ui/Button'
 
 export const PageHeaderButton = ({ onClick, label, icon = <AddIcon />, isMainButton = false, ...props }) => (
   <Button onClick={onClick} isMainButton={isMainButton} {...props}>

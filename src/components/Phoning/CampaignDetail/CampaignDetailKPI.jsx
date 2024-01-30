@@ -1,11 +1,11 @@
 import { differenceInCalendarDays } from 'date-fns'
 
-import pluralize from 'components/shared/pluralize/pluralize'
-import { PhoningCampaignDetailKPI as DomainPhoningCampaignDetailKPI } from 'domain/phoning'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { PhoningCampaignDetailKPI as DomainPhoningCampaignDetailKPI } from '~/domain/phoning'
 
 import { secondsToMinutesAndSeconds } from './shared/helpers'
-import { KPICard, KPIProgressCard, KPIs } from 'ui/Kpi/KPIs'
-import { formatDate } from 'shared/helpers'
+import { KPICard, KPIProgressCard, KPIs } from '~/ui/Kpi/KPIs'
+import { formatDate } from '~/shared/helpers'
 
 const messages = {
   day: 'Jour',

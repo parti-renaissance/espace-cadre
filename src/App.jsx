@@ -3,10 +3,10 @@ import { Provider as StorageProvider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from './redux/store'
 import { NotifyProvider, QueryProvider, ThemeProvider } from './providers'
-import { SettingsProvider } from 'src/mui/settings'
+import { SettingsProvider } from '~/mui/settings'
 import AppRoutes from './components/AppRoutes'
 import PrivateRoutes from './providers/routes'
-import ErrorBoundary from 'providers/errorboundary'
+import ErrorBoundary from '~/providers/errorboundary'
 
 import './style/index.scss'
 

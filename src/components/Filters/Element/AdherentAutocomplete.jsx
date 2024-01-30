@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import qs from 'qs'
-import Autocomplete from 'components/Filters/Element/Autocomplete'
+import Autocomplete from '~/components/Filters/Element/Autocomplete'
 
 export const ADHERENT_AUTOCOMPLETE_URI = '/api/v3/adherents/autocomplete'
 

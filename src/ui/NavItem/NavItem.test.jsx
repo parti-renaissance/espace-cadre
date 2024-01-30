@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import NavItem from 'ui/NavItem/NavItem'
+import NavItem from '~/ui/NavItem/NavItem'
 
 vi.mock('@mui/system', () => ({
   styled: c => () => c,

@@ -12,13 +12,13 @@ import './styles.css'
 import { Title } from './styles'
 import RenderStep from './Modal/RenderStep'
 import ActionButton from './Modal/ActionButton'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { useCustomSnackbar } from 'components/shared/notification/hooks'
-import { notifyVariants } from 'components/shared/notification/constants'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { notifyVariants } from '~/components/shared/notification/constants'
 import Map from './Map'
 
-import { createDTDLocalCampaign, updateDTDLocalCampaign } from 'api/DTD'
-import MapContext from 'providers/context'
+import { createDTDLocalCampaign, updateDTDLocalCampaign } from '~/api/DTD'
+import MapContext from '~/providers/context'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />

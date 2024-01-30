@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
 import { useCallback } from 'react'
 import login from '../../services/networking/auth'
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 import { userLoggedIn, userUpdateData, userUpdateScopes } from './slice'
 import { useUserScope } from '../user/hooks'
-import paths from 'shared/paths'
-import { OAUTH_HOST, OAUTH_CLIENT_ID, NODE_ENV } from 'shared/environments'
+import paths from '~/shared/paths'
+import { OAUTH_HOST, OAUTH_CLIENT_ID, NODE_ENV } from '~/shared/environments'
 
 export const useInitializeAuth = () => {
   const dispatch = useDispatch()

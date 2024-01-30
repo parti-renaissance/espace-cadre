@@ -1,9 +1,9 @@
 import { differenceInCalendarDays } from 'date-fns'
 
-import pluralize from 'components/shared/pluralize/pluralize'
-import { DTDCampaignDetailKPI as DomainDTDCampaignDetailKPI } from 'domain/DTD'
-import { KPICard, KPIs } from 'ui/Kpi/KPIs'
-import { formatDate } from 'shared/helpers'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { DTDCampaignDetailKPI as DomainDTDCampaignDetailKPI } from '~/domain/DTD'
+import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
+import { formatDate } from '~/shared/helpers'
 
 const messages = {
   day: 'Jour',

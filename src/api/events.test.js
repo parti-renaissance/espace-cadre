@@ -1,5 +1,5 @@
-import { formatCategories } from 'api/events'
-import { EventCategory, EventGroupCategory } from 'domain/event'
+import { formatCategories } from '~/api/events'
+import { EventCategory, EventGroupCategory } from '~/domain/event'
 
 describe('Events', () => {
   const rawCategories = [

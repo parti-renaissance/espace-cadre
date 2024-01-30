@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { getCurrentScope } from './selectors'
 import { updateCurrentScope } from '../auth'
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 
 export const useUserScope = () => {
   const currentScope = useSelector(getCurrentScope)

@@ -3,13 +3,13 @@ import { Avatar, Box, IconButton, Tab, Typography } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
-import Activist from 'domain/activist'
+import Activist from '~/domain/activist'
 import Badges from '../Badges'
-import Subscription from 'components/Activists/Member/Tabs/Adherent/Subscription'
+import Subscription from '~/components/Activists/Member/Tabs/Adherent/Subscription'
 import { useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import AdherentTab from 'components/Activists/Member/Tabs/Adherent/AdherentTab'
-import ElectedTab from 'components/Activists/Member/Tabs/Elected/ElectedTab'
+import AdherentTab from '~/components/Activists/Member/Tabs/Adherent/AdherentTab'
+import ElectedTab from '~/components/Activists/Member/Tabs/Elected/ElectedTab'
 
 const Member = ({ enableElectTab, member, handleClose }) => {
   const [currentTab, setCurrentTab] = useState('1')

@@ -2,12 +2,12 @@ import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { SurveyItem as DomainSurveyItem } from 'domain/surveys'
-import pluralize from 'components/shared/pluralize/pluralize'
-import { TruncatedText, VerticalContainer } from 'components/shared/styled'
+import { SurveyItem as DomainSurveyItem } from '~/domain/surveys'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { TruncatedText, VerticalContainer } from '~/components/shared/styled'
 import { chipColorsByStatus, chipLabelByStatus, published, unpublished } from './shared/constants'
-import UICard, { UIChip, CtaButton } from 'ui/Card'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
+import UICard, { UIChip, CtaButton } from '~/ui/Card'
+import DotsMenu, { DotsMenuItem } from '~/ui/Card/Menu/DotsMenu'
 
 const HorizontalContainer = styled('div')`
   display: flex;

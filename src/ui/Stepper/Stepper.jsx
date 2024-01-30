@@ -13,7 +13,7 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 
 const StepConnector = styled(MuiStepConnector)({
   '& .MuiStepConnector-line': {

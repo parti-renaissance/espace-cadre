@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import FiltersForm from './FiltersForm'
-import ErrorComponent from 'components/ErrorComponent'
-import Loader from 'ui/Loader'
-import { getFilters } from 'api/filters'
+import ErrorComponent from '~/components/ErrorComponent'
+import Loader from '~/ui/Loader'
+import { getFilters } from '~/api/filters'
 
 const DynamicFilters = ({ feature, values, onSubmit, onReset, onValuesChange, buttonContainerStyle }) => {
   const [filters, setFilters] = useState([])

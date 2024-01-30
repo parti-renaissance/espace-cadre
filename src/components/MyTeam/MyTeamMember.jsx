@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { MyTeamMember as DomainMyTeamMember } from 'domain/my-team'
-import pluralize from 'components/shared/pluralize/pluralize'
-import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import UICard, { CtaButton } from 'ui/Card'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
+import { MyTeamMember as DomainMyTeamMember } from '~/domain/my-team'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { TruncatedText, VerticalContainer } from '~/components/shared/styled'
+import UICard, { CtaButton } from '~/ui/Card'
+import DotsMenu, { DotsMenuItem } from '~/ui/Card/Menu/DotsMenu'
 
 const HorizontalContainer = styled('div')`
   display: flex;

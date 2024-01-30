@@ -1,7 +1,7 @@
-import { Group, GroupMember } from 'domain/group'
-import { apiClient } from 'services/networking/client'
-import { newPaginatedResult } from 'api/pagination'
-import { Zone } from 'domain/zone'
+import { Group, GroupMember } from '~/domain/group'
+import { apiClient } from '~/services/networking/client'
+import { newPaginatedResult } from '~/api/pagination'
+import { Zone } from '~/domain/zone'
 
 const formatGroupMembers = (members = []) =>
   members.map(

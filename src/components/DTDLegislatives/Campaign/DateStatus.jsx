@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { isBefore, differenceInCalendarDays } from 'date-fns'
 import pluralize from '../../shared/pluralize/pluralize'
-import { formatDate } from 'shared/helpers'
+import { formatDate } from '~/shared/helpers'
 
 const messages = {
   day: 'jour',

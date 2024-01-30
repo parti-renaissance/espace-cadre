@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import { Container as MuiContainer, Grid, Typography } from '@mui/material'
 import { getCurrentUser, getUserScopes } from '../../../redux/user/selectors'
 import { useUserScope } from '../../../redux/user/hooks'
-import paths from 'shared/paths'
-import pluralize from 'components/shared/pluralize/pluralize'
-import BarChartIcon from 'ui/icons/BarChartIcon'
-import scopes from 'shared/scopes'
+import paths from '~/shared/paths'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import BarChartIcon from '~/ui/icons/BarChartIcon'
+import scopes from '~/shared/scopes'
 
 const Container = styled(MuiContainer)`
   height: 400px;

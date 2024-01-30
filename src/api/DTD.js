@@ -1,4 +1,4 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 import {
   DTDGlobalKPI,
   DTDGlobalKPICampaigns,
@@ -22,11 +22,11 @@ import {
   DTDCampaignDetailSurveysReplyAnswer,
   DTDCampaignDetailSurveysAddress,
   DTDLocalPollingStations,
-} from 'domain/DTD'
-import { newPaginatedResult } from 'api/pagination'
+} from '~/domain/DTD'
+import { newPaginatedResult } from '~/api/pagination'
 import { formatISO } from 'date-fns'
 import { downloadFile } from './upload'
-import { parseDate } from 'shared/helpers'
+import { parseDate } from '~/shared/helpers'
 
 export const getDTDGlobalKPIQuery = async () => {
   const data = await apiClient.get('api/v3/pap_campaigns/kpi')

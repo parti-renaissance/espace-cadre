@@ -1,6 +1,6 @@
-import { Designation } from 'domain/committee_election'
-import { apiClient } from 'services/networking/client'
-import { formatDate, parseDate } from 'shared/helpers'
+import { Designation } from '~/domain/committee_election'
+import { apiClient } from '~/services/networking/client'
+import { formatDate, parseDate } from '~/shared/helpers'
 
 export const getDesignation = async id => {
   const data = await apiClient.get(`/v3/designations/${id}`)

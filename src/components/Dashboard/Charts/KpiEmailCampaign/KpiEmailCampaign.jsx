@@ -1,9 +1,9 @@
-import Percentage from 'ui/Percentage'
-import pluralize from 'components/shared/pluralize/pluralize'
-import { reportsRatio } from 'api/messagerie'
-import { useQueryWithScope } from 'api/useQueryWithScope'
-import { DASHBOARD_CACHE_DURATION } from 'components/Dashboard/shared/cache'
-import { KPICard, KPIs } from 'ui/Kpi/KPIs'
+import Percentage from '~/ui/Percentage'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { reportsRatio } from '~/api/messagerie'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { DASHBOARD_CACHE_DURATION } from '~/components/Dashboard/shared/cache'
+import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
 
 const messages = {
   campaign: 'Campagne',

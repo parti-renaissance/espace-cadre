@@ -8,16 +8,7 @@ import path from 'path'
 export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => ({
   resolve: {
     alias: {
-      api: path.resolve(__dirname, 'src/api'),
-      components: path.resolve(__dirname, 'src/components'),
-      domain: path.resolve(__dirname, 'src/domain'),
-      providers: path.resolve(__dirname, 'src/providers'),
-      assets: path.resolve(__dirname, 'src/assets'),
-      services: path.resolve(__dirname, 'src/services'),
-      style: path.resolve(__dirname, 'src/style'),
-      shared: path.resolve(__dirname, 'src/shared'),
-      ui: path.resolve(__dirname, 'src/ui'),
-      src: path.resolve(__dirname, 'src/'),
+      '~': path.resolve(__dirname, 'src/'),
     },
   },
   plugins: [

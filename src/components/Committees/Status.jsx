@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { UIChip } from 'ui/Card'
-import { electionStatus } from 'components/Committees/constants'
+import { UIChip } from '~/ui/Card'
+import { electionStatus } from '~/components/Committees/constants'
 
 const values = {
   [electionStatus.not_started]: 'A venir',

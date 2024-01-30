@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import GeneralReports from 'components/GeneralReports/GeneralReports'
+import GeneralReports from '~/components/GeneralReports/GeneralReports'
 
 const GeneralReportRoutes = () => (
   <Routes>

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Box, Container, Grid } from '@mui/material'
 import GridViewIcon from '@mui/icons-material/GridView'
-import { useCurrentDeviceType } from 'components/shared/device/hooks'
-import Templates from 'components/Messagerie/Templates'
-import SentEmailCampaigns from 'components/Dashboard/Charts/SentEmailCampaigns/SentEmailCampaigns'
-import PageHeader, { PageHeaderButton } from 'ui/PageHeader/PageHeader'
+import { useCurrentDeviceType } from '~/components/shared/device/hooks'
+import Templates from '~/components/Messagerie/Templates'
+import SentEmailCampaigns from '~/components/Dashboard/Charts/SentEmailCampaigns/SentEmailCampaigns'
+import PageHeader, { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 
 const Mails = () => {
   const [showTemplates, setShowTemplates] = useState(false)

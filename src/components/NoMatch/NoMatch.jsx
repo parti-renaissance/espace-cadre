@@ -1,7 +1,7 @@
 import { useLocation, Link } from 'react-router-dom'
 import { styled } from '@mui/system'
 import { Paper as MuiPaper, Typography } from '@mui/material'
-import paths from 'shared/paths'
+import paths from '~/shared/paths'
 
 const Paper = styled(MuiPaper)(
   ({ theme }) => ` 

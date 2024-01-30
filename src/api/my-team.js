@@ -1,7 +1,7 @@
-import { apiClient } from 'services/networking/client'
+import { apiClient } from '~/services/networking/client'
 
-import { MyTeam, MyTeamMember, MyTeamMemberActivist } from 'domain/my-team'
-import { ADHERENT_AUTOCOMPLETE_URI } from 'components/Filters/Element/AdherentAutocomplete'
+import { MyTeam, MyTeamMember, MyTeamMemberActivist } from '~/domain/my-team'
+import { ADHERENT_AUTOCOMPLETE_URI } from '~/components/Filters/Element/AdherentAutocomplete'
 
 export const getMyTeamQuery = async () => {
   const data = await apiClient.get('api/v3/my_teams')

@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useSnackbar } from 'notistack'
 import { v1 as uuid } from 'uuid'
 import { notifyVariants } from './constants'
-import UISnackBar from 'ui/SnackBar/SnackBar'
+import UISnackBar from '~/ui/SnackBar/SnackBar'
 
 export const useCustomSnackbar = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()

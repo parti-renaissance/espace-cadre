@@ -1,4 +1,4 @@
-import Percentage from 'ui/Percentage/Percentage'
+import Percentage from '~/ui/Percentage/Percentage'
 import { render } from '@testing-library/react'
 
 describe('Percentage', () => {

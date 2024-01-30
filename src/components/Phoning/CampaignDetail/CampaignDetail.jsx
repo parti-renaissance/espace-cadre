@@ -9,21 +9,21 @@ import {
   getPhoningCampaignCallers,
   getPhoningCampaignHistory,
   getPhoningCampaignSurveysReplies,
-} from 'api/phoning'
-import { getNextPageParam, usePaginatedData } from 'api/pagination'
-import { useInfiniteQueryWithScope, useQueryWithScope } from 'api/useQueryWithScope'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import pluralize from 'components/shared/pluralize/pluralize'
+} from '~/api/phoning'
+import { getNextPageParam, usePaginatedData } from '~/api/pagination'
+import { useInfiniteQueryWithScope, useQueryWithScope } from '~/api/useQueryWithScope'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import CampaignDetailKPI from './CampaignDetailKPI'
 import CampaignDetailCaller from './CampaignDetailCaller'
 import CampaignDetailHistory from './CampaignDetailHistory'
 import CampaignDetailSurveys from './CampaignDetailSurveys'
 import CreateEdit from '../CreateEdit/CreateEdit'
-import { PageHeaderButton } from 'ui/PageHeader/PageHeader'
-import PageHeader from 'ui/PageHeader'
-import Loader from 'ui/Loader'
-import EditIcon from 'ui/icons/EditIcon'
-import paths from 'shared/paths'
+import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
+import PageHeader from '~/ui/PageHeader'
+import Loader from '~/ui/Loader'
+import EditIcon from '~/ui/icons/EditIcon'
+import paths from '~/shared/paths'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',

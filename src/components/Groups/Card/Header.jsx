@@ -1,6 +1,6 @@
-import pluralize from 'components/shared/pluralize/pluralize'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import PropTypes from 'prop-types'
-import { UIChip } from 'ui/Card'
+import { UIChip } from '~/ui/Card'
 import { styled } from '@mui/system'
 
 const HorizontalContainer = styled('div')`

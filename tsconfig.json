@@ -21,6 +21,9 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "types": ["vitest/globals"],
+    "paths": {
+      "~/*": ["./src/*"],
+    },
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx", "src/**/*"],

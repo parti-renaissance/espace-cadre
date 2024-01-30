@@ -1,5 +1,5 @@
-import { APP_VERSION } from 'shared/environments'
-import { Scope } from 'domain/scope'
+import { APP_VERSION } from '~/shared/environments'
+import { Scope } from '~/domain/scope'
 import { createSelector } from '@reduxjs/toolkit'
 
 export const getCurrentUser = state => state.auth.user

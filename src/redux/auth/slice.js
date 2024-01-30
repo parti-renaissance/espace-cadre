@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { APP_VERSION } from 'shared/environments'
+import { APP_VERSION } from '~/shared/environments'
 
 const initialState = {
   isUserLogged: false,

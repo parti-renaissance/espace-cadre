@@ -1,5 +1,5 @@
 import { Grid, FormControlLabel } from '@mui/material'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Checkbox } from '~/ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 
 import { SectionTitle, Option, Container, Body } from './styles'

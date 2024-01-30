@@ -1,10 +1,10 @@
 import { styled } from '@mui/system'
 import { Grid, Typography } from '@mui/material'
-import UIContainer from 'ui/Container'
+import UIContainer from '~/ui/Container'
 import PropTypes from 'prop-types'
-import UILoader from 'ui/Loader/Loader'
-import ErrorComponent from 'components/ErrorComponent'
-import RatioProgress from 'ui/RatioProgress/RatioProgress'
+import UILoader from '~/ui/Loader/Loader'
+import ErrorComponent from '~/components/ErrorComponent'
+import RatioProgress from '~/ui/RatioProgress/RatioProgress'
 
 const KPIContainer = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.gray200,

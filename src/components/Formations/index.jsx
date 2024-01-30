@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import Formations from 'components/Formations/Formations'
+import Formations from '~/components/Formations/Formations'
 
 const FormationRoute = () => (
   <Routes>

@@ -3,8 +3,8 @@ import { styled } from '@mui/system'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
 import PropTypes from 'prop-types'
-import Riposte from 'domain/riposte'
-import pluralize from 'components/shared/pluralize/pluralize'
+import Riposte from '~/domain/riposte'
+import pluralize from '~/components/shared/pluralize/pluralize'
 
 const Chip = styled('div')(
   ({ theme }) => `

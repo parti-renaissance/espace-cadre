@@ -7,15 +7,15 @@ import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import pluralize from '../../shared/pluralize/pluralize'
-import formatNumber from 'components/shared/formatNumber/formatNumber'
+import formatNumber from '~/components/shared/formatNumber/formatNumber'
 import { isBefore } from 'date-fns'
 
-import { TruncatedText, VerticalContainer } from 'components/shared/styled'
-import { PhoningCampaignItem as DomainPhoningCampaignItem } from 'domain/phoning'
+import { TruncatedText, VerticalContainer } from '~/components/shared/styled'
+import { PhoningCampaignItem as DomainPhoningCampaignItem } from '~/domain/phoning'
 import { chipColorsByStatus } from '../CampaignDetail/shared/constants'
-import UICard, { UIChip, CtaButton } from 'ui/Card'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
-import { formatDate } from 'shared/helpers'
+import UICard, { UIChip, CtaButton } from '~/ui/Card'
+import DotsMenu, { DotsMenuItem } from '~/ui/Card/Menu/DotsMenu'
+import { formatDate } from '~/shared/helpers'
 
 const HorizontalContainer = styled('div')`
   display: flex;

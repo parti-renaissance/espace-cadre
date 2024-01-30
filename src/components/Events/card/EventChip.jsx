@@ -1,6 +1,6 @@
 import { isAfter } from 'date-fns'
-import { UIChip } from 'ui/Card'
-import { Event } from 'domain/event'
+import { UIChip } from '~/ui/Card'
+import { Event } from '~/domain/event'
 
 const messages = {
   scheduled: 'À venir',

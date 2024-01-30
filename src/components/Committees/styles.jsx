@@ -13,7 +13,7 @@ import { styled } from '@mui/system'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import Button from 'ui/Button'
+import Button from '~/ui/Button'
 
 export const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',

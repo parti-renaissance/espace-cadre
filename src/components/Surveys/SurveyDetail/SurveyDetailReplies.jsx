@@ -17,14 +17,14 @@ import { styled } from '@mui/system'
 import { v1 as uuid } from 'uuid'
 import { orderBy } from 'lodash'
 
-import { SurveyDetail as DomainSurveyDetail, SurveyDetailReply as DomainSurveyDetailReply } from 'domain/surveys'
-import { TruncatedText } from 'components/shared/styled'
+import { SurveyDetail as DomainSurveyDetail, SurveyDetailReply as DomainSurveyDetailReply } from '~/domain/surveys'
+import { TruncatedText } from '~/components/shared/styled'
 import { shouldForwardProps } from '../../shared/shouldForwardProps'
 import { multipleChoice, simpleField, translatedGender, uniqueChoice } from '../shared/constants'
 import { surveysColumnsStyles, timeDifferenceToString } from '../shared/helpers'
-import { UIChip } from 'ui/Card'
+import { UIChip } from '~/ui/Card'
 import CampaignDetailSurveysExport from './SurveyDetailRepliesExport'
-import { formatDate } from 'shared/helpers'
+import { formatDate } from '~/shared/helpers'
 
 const TableCell = styled(
   MuiTableCell,

@@ -1,5 +1,5 @@
 import { ListItemText, MenuItem, Select as MuiSelect, InputLabel, FormControl } from '@mui/material'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Checkbox } from '~/ui/Checkbox/Checkbox'
 import { styled } from '@mui/system'
 
 const Select = styled(MuiSelect)(

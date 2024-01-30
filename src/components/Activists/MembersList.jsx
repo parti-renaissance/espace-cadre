@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import FmdGoodIcon from '@mui/icons-material/FmdGood'
-import Activist from 'domain/activist'
-import { UIChip } from 'ui/Card'
+import Activist from '~/domain/activist'
+import { UIChip } from '~/ui/Card'
 import Badges, { MemberBadge } from './Badges'
-import BadgesList from 'ui/Badge/BadgesList'
-import { parseMandates } from 'components/Activists/helper'
+import BadgesList from '~/ui/Badge/BadgesList'
+import { parseMandates } from '~/components/Activists/helper'
 
 const MembersList = ({ members, onMemberClick }) => (
   <Paper className="divider" data-cy="contacts-list">

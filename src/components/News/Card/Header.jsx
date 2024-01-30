@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded'
 import NotificationsOffRoundedIcon from '@mui/icons-material/NotificationsOffRounded'
-import { UIChip } from 'ui/Card'
+import { UIChip } from '~/ui/Card'
 import { styled } from '@mui/system'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 

@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeOptions, ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { frFR } from '@mui/material/locale'
 
-import { useSettingsContext } from 'src/mui/settings'
+import { useSettingsContext } from '~/mui/settings'
 
 // system
 import { palette } from './palette'

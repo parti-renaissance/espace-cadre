@@ -16,12 +16,12 @@ import {
 import { styled } from '@mui/system'
 import { v1 as uuid } from 'uuid'
 
-import Loading from 'components/Dashboard/shared/Loading'
-import { useQueryWithScope } from 'api/useQueryWithScope'
-import { getDTDCampaignSurveysAddress } from 'api/DTD'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { shouldForwardProps } from 'components/shared/shouldForwardProps'
-import { TruncatedText } from 'components/shared/styled'
+import Loading from '~/components/Dashboard/shared/Loading'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { getDTDCampaignSurveysAddress } from '~/api/DTD'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
+import { TruncatedText } from '~/components/shared/styled'
 import { surveysColumnsStyles } from './shared/helpers'
 import CampaignDetailSurveysExport from './CampaignDetailSurveysExport'
 

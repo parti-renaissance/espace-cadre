@@ -1,4 +1,4 @@
-import UIFormMessage from 'ui/FormMessage'
+import UIFormMessage from '~/ui/FormMessage'
 import { Grid } from '@mui/material'
 import PropTypes from 'prop-types'
 

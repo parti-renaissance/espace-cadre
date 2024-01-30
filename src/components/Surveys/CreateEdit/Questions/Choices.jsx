@@ -6,9 +6,9 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import { v4 as uuid } from 'uuid'
 
-import { SurveyDetailChoice as DomainSurveyDetailChoice } from 'domain/surveys'
-import UIInput from 'ui/Input/Input'
-import UIInputLabel from 'ui/InputLabel/InputLabel'
+import { SurveyDetailChoice as DomainSurveyDetailChoice } from '~/domain/surveys'
+import UIInput from '~/ui/Input/Input'
+import UIInputLabel from '~/ui/InputLabel/InputLabel'
 import { fields } from '../shared/constants'
 
 const ActionLabel = styled(Typography)`

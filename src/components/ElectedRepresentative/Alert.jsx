@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import paths from 'shared/paths'
+import paths from '~/shared/paths'
 import { Typography, Alert as AlertMui } from '@mui/material'
 
 const Alert = () => (

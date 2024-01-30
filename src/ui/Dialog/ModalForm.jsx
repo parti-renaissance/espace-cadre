@@ -1,8 +1,8 @@
 import { Box, Grid, IconButton } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import PropTypes from 'prop-types'
-import Button, { ActionButton } from 'ui/Button/Button'
-import Title from 'ui/Title'
+import Button, { ActionButton } from '~/ui/Button/Button'
+import Title from '~/ui/Title'
 import Dialog from './Dialog'
 
 const messages = {

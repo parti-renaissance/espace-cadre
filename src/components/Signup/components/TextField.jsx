@@ -1,7 +1,7 @@
 import { TextField as MuiTextField } from '@mui/material'
 import { styled } from '@mui/system'
 import PropTypes from 'prop-types'
-import AlertBanner from 'ui/AlertBanner'
+import AlertBanner from '~/ui/AlertBanner'
 
 const TextInput = styled(MuiTextField)(
   ({ theme }) => `

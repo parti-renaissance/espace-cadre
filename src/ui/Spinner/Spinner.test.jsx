@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import Spinner from 'ui/Spinner/Spinner'
+import Spinner from '~/ui/Spinner/Spinner'
 
 vi.mock('@mui/material', () => ({
   Grid: ({ children, container, item }) => (

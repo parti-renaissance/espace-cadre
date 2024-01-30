@@ -1,8 +1,8 @@
 import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@mui/material'
-import Button from 'ui/Button'
-import { DangerButton } from 'ui/Button/Button'
+import Button from '~/ui/Button'
+import { DangerButton } from '~/ui/Button/Button'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />

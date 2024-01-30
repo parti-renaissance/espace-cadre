@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { Place } from 'domain/place'
-import { parseDate } from 'shared/helpers'
+import { Place } from '~/domain/place'
+import { parseDate } from '~/shared/helpers'
 
 export class Attendee {
   constructor(firstName, lastName, subscriptionDate, postalCode, type) {

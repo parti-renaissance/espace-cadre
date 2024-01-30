@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box } from '@mui/material'
-import { featuresGroup } from 'shared/features'
+import { featuresGroup } from '~/shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'

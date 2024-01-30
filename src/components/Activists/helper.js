@@ -1,4 +1,4 @@
-import { mandates as mandateTypes } from 'shared/constants'
+import { mandates as mandateTypes } from '~/shared/constants'
 
 export const parseMandates = (mandates, declaredMandates) => {
   if (Array.isArray(mandates) && mandates.length) {

@@ -2,17 +2,17 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { Container, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from 'mapbox-gl'
-import { getElectionParticipation, getElectionResults } from 'api/elections'
+import { getElectionParticipation, getElectionResults } from '~/api/elections'
 
 import { ElectionFirstStage, ElectionTypes } from './shared/constants'
 import ElectionPopin from './ElectionPopin'
 
 import { getElectionPayload, getMapBoxProperties } from './shared/helpers'
 import ElectionFilters from './ElectionFilters'
-import PageTitle from 'ui/PageTitle'
-import { LayersCodes, LayersTypes } from 'components/Map/Layers'
-import { MAPBOX_TOKEN } from 'shared/environments'
-import { createMap } from 'providers/map'
+import PageTitle from '~/ui/PageTitle'
+import { LayersCodes, LayersTypes } from '~/components/Map/Layers'
+import { MAPBOX_TOKEN } from '~/shared/environments'
+import { createMap } from '~/providers/map'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 

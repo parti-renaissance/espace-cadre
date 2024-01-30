@@ -2,10 +2,10 @@ import { Container as MuiContainer, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign'
 import TextChart from './Charts/TextChart/TextChart'
-import PageTitle from 'ui/PageTitle'
+import PageTitle from '~/ui/PageTitle'
 import { useUserScope } from '../../redux/user/hooks'
-import EmptyContent from 'ui/EmptyContent'
-import scopes from 'shared/scopes'
+import EmptyContent from '~/ui/EmptyContent'
+import scopes from '~/shared/scopes'
 
 const Container = styled(MuiContainer)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};

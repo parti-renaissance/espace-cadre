@@ -1,4 +1,4 @@
-﻿import { apiClientProxy } from 'services/networking/client'
+﻿import { apiClientProxy } from '~/services/networking/client'
 import qs from 'qs'
 
 import { ElectionParticipation, ElectionResult } from '../domain/election'

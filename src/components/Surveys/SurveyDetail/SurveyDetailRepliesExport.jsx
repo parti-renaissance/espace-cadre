@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-import { useErrorHandler } from 'components/shared/error/hooks'
-import { getSurveysRepliesExport } from 'api/surveys'
-import { useQueryWithScope } from 'api/useQueryWithScope'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import { getSurveysRepliesExport } from '~/api/surveys'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
 
-import { CtaButton } from 'ui/Card'
-import DownloadIcon from 'ui/icons/DownloadIcon'
+import { CtaButton } from '~/ui/Card'
+import DownloadIcon from '~/ui/icons/DownloadIcon'
 
 const Export = styled(props => <Typography variant="button" {...props} />)(({ theme }) => ({
   fontSize: '13px',

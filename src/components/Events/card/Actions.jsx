@@ -1,9 +1,9 @@
 import { styled } from '@mui/system'
 import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
-import DotsMenu, { DotsMenuItem } from 'ui/Card/Menu/DotsMenu'
-import Button from 'ui/Button/Button'
-import { CtaButton } from 'ui/Card'
+import DotsMenu, { DotsMenuItem } from '~/ui/Card/Menu/DotsMenu'
+import Button from '~/ui/Button/Button'
+import { CtaButton } from '~/ui/Card'
 
 const HorizontalContainer = styled('div')`
   display: flex;

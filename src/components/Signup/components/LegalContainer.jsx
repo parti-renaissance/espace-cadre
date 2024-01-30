@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { styled } from '@mui/system'
 import ReactMarkdown from 'react-markdown'
 import { Ppd, CGUWeb, CGUMobile, CookiesWeb, CookiesMobile } from '../constants'
-import { PPDQuery, CGUQueryWeb, CGUQueryMobile, CookiesQueryWeb, CookiesQueryMobile } from 'api/legal'
+import { PPDQuery, CGUQueryWeb, CGUQueryMobile, CookiesQueryWeb, CookiesQueryMobile } from '~/api/legal'
 import { useQuery } from '@tanstack/react-query'
 
 const Container = styled('div')(

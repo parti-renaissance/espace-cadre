@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { Title } from 'ui/Card'
+import { Title } from '~/ui/Card'
 
 vi.mock('@mui/system', () => ({
   styled: c => () => c,

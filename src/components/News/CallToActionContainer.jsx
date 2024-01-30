@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material'
 import PropTypes from 'prop-types'
-import TextField from 'ui/TextField'
-import { useErrorHandler } from 'components/shared/error/hooks'
-import UIFormMessage from 'ui/FormMessage/FormMessage'
+import TextField from '~/ui/TextField'
+import { useErrorHandler } from '~/components/shared/error/hooks'
+import UIFormMessage from '~/ui/FormMessage/FormMessage'
 
 import { SectionTitle, SubTitle, Option, Container, Body } from './styles'
 

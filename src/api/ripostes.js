@@ -1,6 +1,6 @@
-import { apiClient } from 'services/networking/client'
-import Riposte from 'domain/riposte'
-import { newPaginatedResult } from 'api/pagination'
+import { apiClient } from '~/services/networking/client'
+import Riposte from '~/domain/riposte'
+import { newPaginatedResult } from '~/api/pagination'
 
 export const getRipostesQuery = async ({ pageParam: page = 1 }) => {
   const data = await apiClient.get(`api/v3/ripostes?order[created_at]=desc&page=${page}&page_size=20`)

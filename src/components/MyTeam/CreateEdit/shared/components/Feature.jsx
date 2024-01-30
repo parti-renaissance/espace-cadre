@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 import { FormControlLabel } from '@mui/material'
-import { Checkbox } from 'ui/Checkbox/Checkbox'
+import { Checkbox } from '~/ui/Checkbox/Checkbox'
 
 const CheckboxLabelStyles = {
   fontSize: '13px',

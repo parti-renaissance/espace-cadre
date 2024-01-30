@@ -1,4 +1,4 @@
-import { apiClientPublic } from 'services/networking/client'
+import { apiClientPublic } from '~/services/networking/client'
 
 export const signupQuery = values => {
   const { email, firstName, lastName, gender, birthdate, phone, address, cgu, mobileNotification, emailNotification } =

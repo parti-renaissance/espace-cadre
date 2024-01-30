@@ -1,7 +1,7 @@
 import MentionsLegales from './MentionsLegales'
 import { styled } from '@mui/system'
 import { Grid } from '@mui/material'
-import { APP_VERSION } from 'shared/environments'
+import { APP_VERSION } from '~/shared/environments'
 
 const FooterWrapper = styled('div')`
   padding: ${({ theme }) => theme.spacing(1, 2)};

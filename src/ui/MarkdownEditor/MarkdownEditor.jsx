@@ -1,7 +1,7 @@
 import Editor from 'jme-ckeditor5/build/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import PropTypes from 'prop-types'
-import AlertBanner from 'ui/AlertBanner'
+import AlertBanner from '~/ui/AlertBanner'
 import { Grid } from '@mui/material'
 
 const MarkdownEditor = ({ formik, label, readOnly, ...props }) => {

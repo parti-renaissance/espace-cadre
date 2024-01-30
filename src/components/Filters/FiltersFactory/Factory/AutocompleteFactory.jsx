@@ -1,6 +1,6 @@
 import { FormControl as MuiFormControl } from '@mui/material'
 import { styled } from '@mui/system'
-import Autocomplete from 'components/Filters/Element/Autocomplete'
+import Autocomplete from '~/components/Filters/Element/Autocomplete'
 
 const FormControl = styled(MuiFormControl)`
   width: 100%;

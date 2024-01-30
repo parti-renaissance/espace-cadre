@@ -3,8 +3,8 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography, Box, IconBut
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { groupBy } from 'lodash'
-import { zoneLabels } from 'domain/zone'
-import EmptyContent from 'ui/EmptyContent'
+import { zoneLabels } from '~/domain/zone'
+import EmptyContent from '~/ui/EmptyContent'
 
 const messages = {
   noData: 'Aucune zone sélectionnée',

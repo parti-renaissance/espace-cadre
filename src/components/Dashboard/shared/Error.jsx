@@ -1,5 +1,5 @@
-import UIContainer from 'ui/Container'
-import ErrorComponent from 'components/ErrorComponent'
+import UIContainer from '~/ui/Container'
+import ErrorComponent from '~/components/ErrorComponent'
 import PropTypes from 'prop-types'
 
 const Error = ({ message }) => (
