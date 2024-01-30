@@ -16,7 +16,7 @@ module.exports = defineConfig({
       return config
     },
     baseUrl: 'http://localhost:3000',
-    supportFile: false,
+    supportFile: 'cypress/support/index.js',
   },
   screenshotsFolder: 'cypress/screenshots',
   component: {

@@ -1,4 +1,4 @@
-import { Box, Stack, styled } from '@mui/system'
+import { Stack, styled } from '@mui/system'
 import { Card, Grid, Typography } from '@mui/material'
 import UIContainer from '~/ui/Container'
 import PropTypes from 'prop-types'
@@ -49,7 +49,7 @@ type KPICardProps = {
   subtitle?: React.ReactNode
 }
 
-export const KPICard = ({ main, title, icon }: KPICardProps) => (
+export const KPICard = ({ main, title, icon, subtitle }: KPICardProps) => (
   <Grid
     item
     xs={4}
@@ -65,14 +65,21 @@ export const KPICard = ({ main, title, icon }: KPICardProps) => (
       <Stack direction={{ xs: 'column-reverse', lg: 'row' }} width="100%" alignItems="center" gap={{ xs: 1, md: 0 }}>
         <Stack alignItems={{ xs: 'center', lg: 'start' }} width="100%" justifyContent="center">
           <Stack direction={{ xs: 'column-reverse', lg: 'column' }} alignItems={{ xs: 'center', lg: 'start' }}>
-            <Typography
-              fontSize={{ xs: 'small', md: 'subtitle2' }}
-              fontWeight={{ xs: 400, md: 600 }}
-              color={{ xs: grey[600], md: grey[800] }}
-              variant="subtitle2"
-            >
-              {title}
-            </Typography>
+            <Stack direction="column">
+              <Typography
+                fontSize={{ xs: 'small', md: 'subtitle2' }}
+                fontWeight={{ xs: 400, md: 600 }}
+                color={{ xs: grey[600], md: grey[800] }}
+                variant="subtitle2"
+              >
+                {title}
+              </Typography>
+              {subtitle && (
+                <Typography fontSize="small" color={grey[800]} variant="caption">
+                  {subtitle}
+                </Typography>
+              )}
+            </Stack>
             <Typography variant="h3">{main}</Typography>
           </Stack>
         </Stack>
