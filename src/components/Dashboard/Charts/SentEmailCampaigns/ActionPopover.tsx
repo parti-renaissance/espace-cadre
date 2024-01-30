@@ -75,7 +75,7 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
   const onDelete = () => eitherMessage(x => deleteDraft(x.id))
   const onPreview = () => eitherMessage(x => window.open(x.previewLink))
   const onEdit = () =>
-    eitherMessage(x => navigate(generatePath(':messageId/' + messageriePaths.update, { messageId: x.id })))
+    eitherMessage(x => navigate(generatePath(`${messageriePaths.update}/newsletter/:messageId/`, { messageId: x.id })))
   const onDuplicate = () =>
     eitherMessage(() => {
       throw new Error('not implemented')

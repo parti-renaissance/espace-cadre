@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { parseDate } from '~/shared/helpers'
+import { z } from 'zod'
 
 export class Statistics {
   static propTypes = {
@@ -40,16 +41,33 @@ export class Message {
     public author: string,
     private status: 'sent' | 'draft',
     public subject: string,
+    public label: string,
     createdAt: string,
-    public statistics: Statistics,
+    public statistics: Statistics | undefined,
     sentAt: string | null,
     public isSynchronized: boolean,
-    public previewLink?: string
+    public previewLink?: string,
+    public recipientCount?: number
   ) {
     this.draft = Boolean(this.status === 'draft')
     this.createdAt = parseDate(createdAt) as Date
     this.sentAt = (sentAt ? parseDate(sentAt) : null) as Date | null
   }
 }
+
+export const CreateMessageContentSchema = z.object({
+  type: z.string(),
+  label: z.string(),
+  subject: z.string(),
+  content: z.string(),
+  json_content: z.string(),
+})
+
+export const MessageContentSchema = CreateMessageContentSchema.extend({
+  uuid: z.string(),
+})
+
+export type MessageContent = z.infer<typeof MessageContentSchema>
+export type CreateMessageContent = z.infer<typeof CreateMessageContentSchema>
 
 export default Message

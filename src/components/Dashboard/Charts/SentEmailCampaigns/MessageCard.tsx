@@ -36,7 +36,7 @@ const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
     <CardContent>
       <Stack>
         <Typography variant="subtitle2" noWrap>
-          {message.subject}
+          {message.label}
         </Typography>
         <Typography variant="caption" noWrap color="text.secondary">
           {message.subject}
@@ -62,7 +62,7 @@ const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
                 )}
                 <Typography variant="caption" noWrap>
                   <Typography variant="caption" component="span" fontWeight={500}>
-                    {(message.statistics[statName] ?? '0') + (statName.endsWith('Rate') ? '%' : '')}
+                    {(message.statistics?.[statName] ?? '0') + (statName.endsWith('Rate') ? '%' : '')}
                   </Typography>
                   &nbsp;{text}
                 </Typography>

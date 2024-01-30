@@ -10,7 +10,7 @@ import UICard from '~/ui/Card'
 const Card = ({ template }) => {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(generatePath(`${messageriePaths.create}?templateId=${template.uuid}`))
+    navigate(generatePath(`${messageriePaths.create}/newsletter?templateId=${template.uuid}`))
   }
 
   return (
