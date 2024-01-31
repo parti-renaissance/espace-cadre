@@ -24,7 +24,6 @@ const messages = {
 const MyTeamMember = ({ role, activist, accessCount, handleUpdate, handleDelete }) => (
   <Grid item xs={12} sm={6} md={3}>
     <UICard
-      rootProps={{ sx: { height: '155px' } }}
       headerProps={{ sx: { pt: '21px' } }}
       header={
         <>
