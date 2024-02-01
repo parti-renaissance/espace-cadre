@@ -87,7 +87,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
           {campaigns.map(message => (
             <Grid item key={message.id} xs={12} sm={6} md={3} lg={3} xl={3} data-cy="email-campaign-card">
               <UICard
-                rootProps={{ sx: { height: '210px', justifyContent: 'space-between' } }}
+                rootProps={{ sx: { height: '100%', justifyContent: 'space-between' } }}
                 headerProps={{ sx: { pt: '21px' } }}
                 header={
                   <>

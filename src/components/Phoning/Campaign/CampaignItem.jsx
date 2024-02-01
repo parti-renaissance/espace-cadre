@@ -58,7 +58,7 @@ const CampaignItem = ({
   return (
     <Grid item xs={12} sm={6} md={3}>
       <UICard
-        rootProps={{ sx: { height: '280px' } }}
+        rootProps={{ sx: { height: '100%' } }}
         headerProps={{ sx: { pt: '21px' } }}
         header={
           <>
