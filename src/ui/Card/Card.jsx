@@ -29,7 +29,20 @@ const UICard = ({
 }) => (
   <StyledCard {...rootProps} data-cy="ui-card">
     {header && <CardContent {...headerProps}>{header}</CardContent>}
-    {content && <CardContent {...contentProps}>{content}</CardContent>}
+    {content && (
+      <CardContent
+        sx={
+          header
+            ? {
+                pt: '0',
+              }
+            : {}
+        }
+        {...contentProps}
+      >
+        {content}
+      </CardContent>
+    )}
     {actions && <StyledActions {...actionsProps}>{actions}</StyledActions>}
   </StyledCard>
 )
