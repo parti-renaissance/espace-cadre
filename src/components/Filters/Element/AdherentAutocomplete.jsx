@@ -9,7 +9,6 @@ const AdherentAutocomplete = ({
   onChange,
   multiple = false,
   required = false,
-  customStyle = {},
   placeholder = 'Rechercher un adhérent',
   choiceLabelRenderCallback = null,
   renderOption = null,
@@ -27,7 +26,6 @@ const AdherentAutocomplete = ({
       multiple={multiple}
       required={required}
       placeholder={placeholder}
-      customStyle={customStyle}
       uri={fullUri}
       queryParam="q"
       valueParam="uuid"

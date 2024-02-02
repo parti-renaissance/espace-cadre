@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Autocomplete as MuiAutocomplete, TextField, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
-import { styled } from '@mui/system'
 
 import { getDataFromDynamicEndpoint } from '~/api/dynamic'
 import { useDebounce } from '~/components/shared/debounce'
-
-const AutocompleteComponent = styled(MuiAutocomplete)(
-  ({ theme }) => `
-  background: ${theme.palette.whiteCorner};
-  border-radius: 8px;
-`
-)
 
 const messages = {
   loading: 'Chargement…',
@@ -27,7 +19,6 @@ const Autocomplete = ({
   multiple,
   onChange,
   required,
-  customStyle,
   getOptionLabel,
   renderOption,
   defaultValue,
@@ -56,9 +47,7 @@ const Autocomplete = ({
     return onChange(multiple ? selectItems : selectItems.shift())
   }
 
-  const Input = params => (
-    <TextField {...params} variant="outlined" size="small" label={placeholder} required={required} fullWidth />
-  )
+  const Input = params => <TextField {...params} label={placeholder} required={required} fullWidth />
 
   const defaultRenderOptions = (props, option) => (
     <li {...props} key={option[valueParam]} data-cy="autocomplete-item">
@@ -67,11 +56,9 @@ const Autocomplete = ({
   )
 
   return (
-    <AutocompleteComponent
-      size="small"
+    <MuiAutocomplete
       loadingText={messages.loading}
       noOptionsText={messages.noOptions}
-      sx={customStyle}
       multiple={multiple}
       open={open}
       loading={loading}

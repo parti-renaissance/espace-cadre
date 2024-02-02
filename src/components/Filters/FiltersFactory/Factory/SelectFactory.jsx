@@ -1,19 +1,5 @@
-import { ListItemText, MenuItem, Select as MuiSelect, InputLabel, FormControl } from '@mui/material'
+import { ListItemText, MenuItem, Select, InputLabel, FormControl } from '@mui/material'
 import { Checkbox } from '~/ui/Checkbox/Checkbox'
-import { styled } from '@mui/system'
-
-const Select = styled(MuiSelect)(
-  ({ theme }) => `
-  & .MuiSelect-select {
-    background: ${theme.palette.whiteCorner};
-    border-radius: 8px;
-
-    &:focus {
-      background: ${theme.palette.whiteCorner};
-    }
-  }
-`
-)
 
 class SelectFactory {
   getType() {
@@ -27,13 +13,9 @@ class SelectFactory {
     return (
       <FormControl
         variant="outlined"
-        size="small"
         required={filter.options.required || false}
         sx={{
           width: '100%',
-          '& .MuiOutlinedInput-notchedOutline': {
-            border: 'none',
-          },
         }}
       >
         <InputLabel id="simple-select">{filter.label}</InputLabel>

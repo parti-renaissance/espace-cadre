@@ -2,13 +2,7 @@ import { Grid, TextField as MuiTextField } from '@mui/material'
 import { styled } from '@mui/system'
 
 const TextField = styled(MuiTextField)`
-  background: ${({ theme }) => theme.palette.whiteCorner};
   width: 100%;
-  border-radius: 8px;
-
-  & .MuiOutlinedInput-notchedOutline {
-    border: none;
-  }
 `
 class IntegerIntervalFactory {
   getType() {
@@ -24,7 +18,6 @@ class IntegerIntervalFactory {
             type="number"
             name={filter.code}
             InputProps={{ inputProps: filter.options?.first }}
-            size="small"
             variant="outlined"
             value={value === '' || (typeof value === 'object' && value.min === undefined) ? '' : value.min}
             onChange={e => {
