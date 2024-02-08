@@ -85,11 +85,13 @@ const Template = () => {
     }
 
     return uniqBy(
-      [...messageContent.content.matchAll(/{{([\w_]+):"([^"]+)":?([^}]*)}}/g)].map(item => ({
-        key: item[1],
-        label: item[2],
-        flags: item[3].split(',').filter(Boolean),
-      })),
+      [...messageContent.content.concat(messageContent.subject ?? '').matchAll(/{{([\w_]+):"([^"]+)":?([^}]*)}}/g)].map(
+        item => ({
+          key: item[1],
+          label: item[2],
+          flags: item[3].split(',').filter(Boolean),
+        })
+      ),
       item => item.key
     )
   }, [messageContent])
@@ -111,7 +113,7 @@ const Template = () => {
 
   useEffect(() => {
     if (messageContent) {
-      setMessageSubject(mergeContent(messageContent.subject, templateValues))
+      setMessageSubject(mergeContent(messageSubject ? messageSubject : messageContent.subject ?? '', templateValues))
     }
   }, [messageContent, templateValues])
 
