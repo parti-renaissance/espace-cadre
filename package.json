@@ -80,7 +80,7 @@
     "@sentry/vite-plugin": "^2.10.3",
     "@testing-library/react": "^14.1.2",
     "@types/lodash": "^4.14.202",
-    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.19.1",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
