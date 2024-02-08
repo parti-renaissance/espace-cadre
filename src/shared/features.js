@@ -92,5 +92,5 @@ export const featuresLabels = {
   [features.committee]: 'Comités locaux',
   [features.documents]: 'Documents',
   [features.designation]: 'Élections CL',
-  [features.statutory_message]: 'Mails statutaires',
+  [features.statutory_message]: 'Emails statutaires',
 }

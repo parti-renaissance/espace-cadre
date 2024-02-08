@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Grid, Container as MuiContainer } from '@mui/material'
 import { styled } from '@mui/system'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -15,7 +15,8 @@ import StepButton from './Component/StepButton'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
 import { paths as messageriePaths } from './shared/paths'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
+import { defaultUnlayerTemplateId, unlayerTemplateIds } from '~/components/Messagerie/shared/unlayerTemplateIds'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -30,6 +31,7 @@ const Container = styled(Grid)(
 const messages = {
   title: 'Messagerie',
   titleSuffix: 'Créer un message',
+  updateTitleSuffix: 'Modifier le message',
   createSuccess: 'Message créé avec succès',
   updateSuccess: 'Message modifié avec succès',
 }
@@ -45,6 +47,11 @@ const Template = ({ modeUpdate = false }) => {
   const [searchParams] = useSearchParams()
   const templateId = searchParams.get('templateId')
   const { enqueueSnackbar } = useCustomSnackbar()
+
+  const unlayerTemplateId = useMemo(
+    () => (currentScope ? unlayerTemplateIds[currentScope.getMainCode()] : defaultUnlayerTemplateId),
+    [currentScope]
+  )
 
   const editEmail = () => {
     const body = {
@@ -80,14 +87,24 @@ const Template = ({ modeUpdate = false }) => {
     { onError: handleError, enabled: !!messageUuid || !!templateId }
   )
 
+  useEffect(() => {
+    if (messageContent) {
+      setMessageSubject(messageContent.subject)
+    }
+  }, [messageContent])
+
   return (
     <MuiContainer maxWidth={false}>
-      <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
+      <PageHeader
+        title={messages.title}
+        titleLink={paths.messages}
+        titleSuffix={modeUpdate ? messages.updateTitleSuffix : messages.titleSuffix}
+      />
       <Container container>
         <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
           <Input
             size="small"
-            label="Objet du mail"
+            label="Objet de l'email"
             variant="outlined"
             value={messageSubject}
             onChange={event => setMessageSubject(event.target.value)}
@@ -110,6 +127,7 @@ const Template = ({ modeUpdate = false }) => {
         onMessageUpdate={setMessage}
         messageContent={messageContent}
         key={messageContent?.uuid}
+        templateId={unlayerTemplateId}
       />
     </MuiContainer>
   )

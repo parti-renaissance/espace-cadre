@@ -24,7 +24,7 @@ export const placeholders = {
   firstName: 'Prénom',
   lastName: 'Nom',
   gender: 'Genre',
-  email: 'Adresse e-mail',
+  email: 'Adresse email',
   dd: 'Jour',
   mm: 'Mois',
   yyyy: 'Année',

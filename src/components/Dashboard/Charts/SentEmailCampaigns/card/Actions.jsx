@@ -26,15 +26,17 @@ const Actions = ({ messageId, onDelete, onPreview = null, loader = false, isEdit
 
   return (
     <HorizontalContainer>
-      <CtaButton onClick={handleClick} disabled={!isEditEnabled}>
-        {messages.update}
-      </CtaButton>
-      <DotsMenu>
-        {typeof onPreview === 'function' && <DotsMenuItem onClick={onPreview}>{messages.preview}</DotsMenuItem>}
-        <DotsMenuItem onClick={onDelete} loader={loader}>
-          {messages.delete}
-        </DotsMenuItem>
-      </DotsMenu>
+      <div>{isEditEnabled && <CtaButton onClick={handleClick}>{messages.update}</CtaButton>}</div>
+      {(typeof onPreview === 'function' || typeof onDelete === 'function') && (
+        <DotsMenu>
+          {typeof onPreview === 'function' && <DotsMenuItem onClick={onPreview}>{messages.preview}</DotsMenuItem>}
+          {typeof onDelete === 'function' && (
+            <DotsMenuItem onClick={onDelete} loader={loader}>
+              {messages.delete}
+            </DotsMenuItem>
+          )}
+        </DotsMenu>
+      )}
     </HorizontalContainer>
   )
 }
@@ -43,7 +45,7 @@ export default Actions
 
 Actions.propTypes = {
   messageId: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   onPreview: PropTypes.func,
   loader: PropTypes.bool,
   isEditEnabled: PropTypes.bool,

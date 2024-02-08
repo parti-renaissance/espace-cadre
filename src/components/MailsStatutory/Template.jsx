@@ -1,12 +1,11 @@
 import * as Sentry from '@sentry/react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Box, Grid, Container as MuiContainer } from '@mui/material'
 import { styled } from '@mui/system'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { createMessageContent, getMessageContent, getTemplate, updateMessageContent } from '~/api/messagerie'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { useErrorHandler } from '~/components/shared/error/hooks'
-import Editor from '~/components/Messagerie/Component/Editor'
 import StepButton from '~/components/Messagerie/Component/StepButton'
 import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
 import paths from '~/shared/paths'
@@ -16,6 +15,9 @@ import Loader from '~/ui/Loader'
 import InputLabel from '~/ui/InputLabel/InputLabel'
 import { notifyVariants, notifyMessages } from '../shared/notification/constants'
 import { useCustomSnackbar } from '../shared/notification/hooks'
+import Editor from '~/components/MailsStatutory/Editor'
+import { useUserScope } from '~/redux/user/hooks'
+import { uniqBy } from 'lodash'
 
 const Container = styled(Grid)(
   ({ theme }) => `
@@ -26,8 +28,8 @@ const Container = styled(Grid)(
 )
 
 const messages = {
-  title: 'Mails statutaires',
-  titleSuffix: 'Envoyer un mail',
+  title: 'Emails statutaires',
+  titleSuffix: 'Envoyer un email',
   createSuccess: 'Mail créé avec succès',
   updateSuccess: 'Mail modifié avec succès',
 }
@@ -35,8 +37,11 @@ const messages = {
 const mergeContent = (content, templateValues) => {
   Object.entries(templateValues).map(([key, value]) => {
     if (value) {
+      let result = JSON.stringify(value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
+      result = result.slice(1, -1)
+
       // eslint-disable-next-line no-param-reassign
-      content = content.replace(new RegExp(`{{${key}:[^}]+}}`), value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
+      content = content.replace(new RegExp(`{{${key}:[^}]+}}`, 'g'), result)
     }
   })
 
@@ -53,6 +58,7 @@ const Template = () => {
   const templateId = searchParams.get('templateId')
   const [templateValues, setTemplateValues] = useState({})
   const { enqueueSnackbar } = useCustomSnackbar()
+  const [currentScope] = useUserScope()
 
   const handleClickNext = async () => {
     try {
@@ -73,6 +79,42 @@ const Template = () => {
     { onError: handleError, enabled: !!messageUuid || !!templateId }
   )
 
+  const templateVars = useMemo(() => {
+    if (!messageContent?.content) {
+      return []
+    }
+
+    return uniqBy(
+      [...messageContent.content.matchAll(/{{([\w_]+):"([^"]+)":?([^}]*)}}/g)].map(item => ({
+        key: item[1],
+        label: item[2],
+        flags: item[3].split(',').filter(Boolean),
+      })),
+      item => item.key
+    )
+  }, [messageContent])
+
+  useEffect(() => {
+    templateVars
+      .filter(item => item.key.indexOf('_') === 0)
+      .forEach(item => {
+        let value = ''
+
+        if (item.key === '_scope') {
+          if (item.label === 'zone_name') {
+            value = currentScope.getZoneName()
+          }
+        }
+        setTemplateValues(prevState => ({ ...prevState, [item.key]: value }))
+      })
+  }, [currentScope, templateVars])
+
+  useEffect(() => {
+    if (messageContent) {
+      setMessageSubject(mergeContent(messageContent.subject, templateValues))
+    }
+  }, [messageContent, templateValues])
+
   const editEmail = () => {
     const body = {
       type: 'statutory',
@@ -88,17 +130,6 @@ const Template = () => {
     return createMessageContent(body)
   }
 
-  const templateVars = useMemo(() => {
-    if (!messageContent?.content) {
-      return []
-    }
-
-    return [...messageContent.content.matchAll(/{{(\w+):"([^"]+)"}}/g)].map(item => ({
-      key: item[1],
-      label: item[2],
-    }))
-  }, [messageContent])
-
   return (
     <MuiContainer maxWidth={false}>
       <PageHeader title={messages.title} titleLink={paths.statutory_message} titleSuffix={messages.titleSuffix} />
@@ -110,10 +141,11 @@ const Template = () => {
             <Grid item xs={4} sx={{ justifyContent: 'spaceBetween', mr: 2 }}>
               <Input
                 size="small"
-                label="Objet du mail"
+                label="Objet de l'email"
                 variant="outlined"
                 value={messageSubject}
-                onChange={event => setMessageSubject(event.target.value)}
+                disabled={!messageContent.subject_editable}
+                onChange={messageContent.subject_editable ? event => setMessageSubject(event.target.value) : () => {}}
                 sx={{ width: '100%' }}
                 data-cy="mail-object-input"
               />
@@ -130,7 +162,6 @@ const Template = () => {
           </Container>
           <Box sx={{ display: 'flex', bgcolor: 'whiteCorner' }} className="space-x-4">
             <Editor
-              onMessageSubject={() => {}}
               onMessageUpdate={() => {}}
               messageContent={{
                 ...messageContent,
@@ -139,21 +170,28 @@ const Template = () => {
               readOnly
             />
             <Box sx={{ pr: 1.5, flex: '1 1 0%' }} className="space-y-5">
-              {templateVars.map((item, index) => (
-                <Box key={index}>
-                  <InputLabel>{item.label}</InputLabel>
-                  <Input
-                    value={templateValues[item.key] || ''}
-                    onChange={e => setTemplateValues(prevState => ({ ...prevState, [item.key]: e.target.value }))}
-                    {...(item.key === 'content'
-                      ? {
-                          multiline: true,
-                          maxRows: 6,
-                        }
-                      : {})}
-                  />
-                </Box>
-              ))}
+              {templateVars
+                .filter(item => item.key.indexOf('_') !== 0)
+                .map((item, index) => (
+                  <Box key={index}>
+                    <InputLabel>{item.label}</InputLabel>
+                    <Input
+                      value={templateValues[item.key] || ''}
+                      onChange={e =>
+                        setTemplateValues(prevState => ({
+                          ...prevState,
+                          [item.key]: e.target.value,
+                        }))
+                      }
+                      {...(item.flags.includes('ml')
+                        ? {
+                            multiline: true,
+                            maxRows: 6,
+                          }
+                        : {})}
+                    />
+                  </Box>
+                ))}
             </Box>
           </Box>
         </>

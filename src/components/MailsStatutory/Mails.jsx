@@ -14,7 +14,7 @@ const Mails = () => {
     <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between" sx={{ mb: isMobile ? 2 : null }}>
         <PageHeader
-          title="Mails statutaires"
+          title="Emails statutaires"
           button={
             <Box display="flex" alignItems="center" className="space-x-3">
               <PageHeaderButton

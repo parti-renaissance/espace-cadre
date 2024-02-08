@@ -60,11 +60,11 @@ const Send = styled(Button)(
 
 const messages = {
   title: 'Mail statutaire',
-  titleSuffix: 'Envoi du mail',
+  titleSuffix: "Envoi de l'email",
   previous: 'Précédent',
-  addresseesCount: 'Vous allez envoyer un mail à',
+  addresseesCount: 'Vous allez envoyer un email à',
   contact: 'contact',
-  testMessage: "M'envoyer un mail de test",
+  testMessage: "M'envoyer un email de test",
   sendEmail: "Envoyer l'email",
 }
 

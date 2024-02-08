@@ -160,7 +160,7 @@ const CreateEditModal = ({ elected, handleClose, onCreateResolve, onUpdateResolv
         <FormError errors={errorMessages} field={fields.lastName} />
       </Box>
       <Box sx={{ mt: 2 }}>
-        <UIInputLabel>Adresse E-mail</UIInputLabel>
+        <UIInputLabel>Adresse email</UIInputLabel>
         <Controller
           name={fields.contactEmail}
           control={control}
