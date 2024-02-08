@@ -115,7 +115,7 @@ const Template = () => {
     if (messageContent) {
       setMessageSubject(mergeContent(messageSubject ? messageSubject : messageContent.subject ?? '', templateValues))
     }
-  }, [messageContent, templateValues])
+  }, [messageContent, templateValues, messageSubject])
 
   const editEmail = () => {
     const body = {
