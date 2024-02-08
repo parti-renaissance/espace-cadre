@@ -7,7 +7,7 @@ import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
 
 const messages = {
   campaign: 'Campagne',
-  email: "d'e-mails",
+  email: "d'emails",
   sent: 'Envoyée',
   sentSuffix: 'ces 30 derniers jours',
   opening: 'Ouvertures',

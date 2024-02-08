@@ -30,7 +30,7 @@ const Templates = ({ handleClose, isMailsStatutory = false }) => {
           borderBottomColor: 'colors.gray.200',
         }}
       >
-        <Title title="Modèles d'E-mail" />
+        <Title title="Modèles d'email" />
       </Grid>
       <Box sx={{ height: '100%', maxHeight: '650px', overflow: 'hidden', overflowY: 'scroll', px: 2, py: 4 }}>
         {isLoading && <Loader isCenter />}

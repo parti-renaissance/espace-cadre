@@ -59,7 +59,7 @@ describe('Messagerie', () => {
           .each((element, index) => {
             const content = {
               score: '100',
-              subtitle: "Campagnes d'e-mails",
+              subtitle: "Campagnes d'emails",
               detail: 'Envoyées ces 30 derniers jours',
             }
             if (index === 0) {
@@ -161,7 +161,7 @@ describe('Messagerie', () => {
     it('should have a title', () => {
       cy.contains('Créer un message')
 
-      cy.get(MailObjectInput).should('exist').contains('Objet du mail')
+      cy.get(MailObjectInput).should('exist').contains("Objet de l'email")
       cy.get(MailObjectInput).type('Hello, World')
       cy.get(MailEditorNextButton).should('exist').and('have.text', 'Suivant').should('be.disabled')
 

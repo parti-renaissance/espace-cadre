@@ -18,7 +18,7 @@ import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
 
 const messages = {
   noCampaign: 'Aucune campagne à afficher',
-  noStatutoryMail: 'Aucun mail statutaire à afficher',
+  noStatutoryMail: 'Aucun email statutaire à afficher',
   deleteSuccess: 'Brouillon supprimé avec succès',
 }
 
@@ -100,7 +100,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
                 actions={
                   <Actions
                     messageId={message.id}
-                    onDelete={() => deleteDraft(message.id)}
+                    onDelete={isMailsStatutory && !message.draft ? null : () => deleteDraft(message.id)}
                     loader={isDeleteLoading}
                     isEditEnabled={!isMailsStatutory && message.draft}
                     onPreview={

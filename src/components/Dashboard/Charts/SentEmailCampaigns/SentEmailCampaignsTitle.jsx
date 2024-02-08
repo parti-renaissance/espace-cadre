@@ -10,7 +10,7 @@ const Typography = styled(MuiTypography)`
 
 const messages = {
   campaigns: 'Vos dernières campagnes',
-  mails: 'Vos derniers mails',
+  mails: 'Vos derniers emails',
 }
 
 const SentEmailCampaignsTitle = ({ isMailsStatutory = false }) => (

@@ -1,7 +1,10 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import EmailEditor from 'react-email-editor'
-import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
+import { Box } from '@mui/material'
+import * as Sentry from '@sentry/react'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { notifyMessages, notifyVariants } from '~/components/shared/notification/constants'
 import UIFormMessage from '~/ui/FormMessage'
 import { UNLAYER_PROJECT_ID } from '~/shared/environments'
 
@@ -32,10 +35,11 @@ const messages = {
   errorTemplateRecreate: 'Template non conforme, veuillez en créer un nouveau.',
 }
 
-const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, templateId, readOnly = false }) => {
-  const [editorLoaded, setEditorLoaded] = useState(false)
-  const [messageContentError, setMessageContentError] = useState(false)
+const Editor = ({ messageContent, readOnly = false }) => {
   const emailEditorRef = useRef(null)
+  const [editorReady, setEditorReady] = useState(false)
+  const [messageContentError, setMessageContentError] = useState(false)
+  const { enqueueSnackbar } = useCustomSnackbar()
 
   const additionalOptions = readOnly
     ? {
@@ -51,38 +55,33 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, templateId,
       }
     : {}
 
-  const updateMessageTemplateCallback = useCallback(() => {
-    emailEditorRef.current.editor.exportHtml(data => {
-      onMessageUpdate({
-        design: data.design,
-        chunks: data.chunks,
-      })
-    })
-  }, [onMessageUpdate])
-
   useEffect(() => {
-    if (!editorLoaded) {
+    if (!editorReady) {
       return
     }
 
-    const editor = emailEditorRef.current?.editor
+    const editor = emailEditorRef.current.editor
+
+    if (readOnly) {
+      editor.showPreview('desktop')
+    }
 
     if (messageContent) {
-      onMessageSubject(messageContent?.subject)
       if (messageContent.json_content) {
         const design = JSON.parse(messageContent.json_content)
         editor.loadDesign(design)
-        onMessageUpdate({
-          design: design,
-          chunks: { body: messageContent.content },
+      } else {
+        setMessageContentError(true)
+        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
+        Sentry.addBreadcrumb({
+          category: 'messages',
+          message: `${messages.errorTemplate}`,
+          level: 'error',
         })
+        Sentry.captureMessage(messages.errorTemplate)
       }
     }
-
-    editor.addEventListener('design:updated', updateMessageTemplateCallback)
-
-    return () => editor?.removeEventListener('design:updated', updateMessageTemplateCallback)
-  }, [editorLoaded, emailEditorRef, messageContent, onMessageSubject, onMessageUpdate, updateMessageTemplateCallback])
+  }, [emailEditorRef, messageContent, editorReady, readOnly, enqueueSnackbar])
 
   return (
     <Box component="div" sx={{ mb: 2 }} data-cy="unlayer-container">
@@ -93,12 +92,11 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, templateId,
           <EmailEditor
             minHeight="85vh"
             ref={emailEditorRef}
-            onReady={() => setEditorLoaded(true)}
+            onReady={() => setEditorReady(true)}
             options={{
               projectId: UNLAYER_PROJECT_ID,
               locale: 'fr-FR',
               safeHtml: true,
-              templateId: messageContent ? null : templateId,
               tools: readOnly ? {} : editorConfiguration.tools,
               features: readOnly ? {} : editorConfiguration.features,
               ...additionalOptions,
@@ -111,9 +109,6 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, templateId,
 }
 
 Editor.propTypes = {
-  onMessageSubject: PropTypes.func.isRequired,
-  onMessageUpdate: PropTypes.func.isRequired,
-  templateId: PropTypes.number,
   messageContent: PropTypes.object,
   readOnly: PropTypes.bool,
 }

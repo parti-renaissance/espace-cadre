@@ -11,6 +11,15 @@ export class Scope {
     this.delegatedAccess = delegated_access
   }
 
+  getZoneName() {
+    const code = this.getMainCode()
+    if (!isZonedScope(code)) {
+      return ''
+    }
+
+    return this.zones[0]?.name
+  }
+
   getMainCode() {
     return this.delegatedAccess ? this.delegatedAccess.type : this.code
   }

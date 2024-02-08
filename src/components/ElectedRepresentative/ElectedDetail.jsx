@@ -155,10 +155,7 @@ const ElectedDetail = () => {
                         </Content>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <Content
-                          title="Adresse E-mail"
-                          content={electedDetail.emailAddress ?? 'Aucune adresse e-mail'}
-                        />
+                        <Content title="Adresse email" content={electedDetail.emailAddress ?? 'Aucune adresse email'} />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <Content title="Téléphone" content={electedDetail.contactPhone ?? 'Aucun numero'} />

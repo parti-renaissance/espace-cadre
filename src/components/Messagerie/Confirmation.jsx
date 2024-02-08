@@ -19,7 +19,7 @@ const BackButton = styled(Button)(
 )
 
 const messages = {
-  success: 'Félicitations, votre e-mail a bien été envoyé 🎉',
+  success: 'Félicitations, votre email a bien été envoyé 🎉',
   back: 'Revenir à la messagerie',
 }
 

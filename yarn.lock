@@ -8558,9 +8558,12 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-"react-email-editor@https://github.com/EnMarche/react-email-editor#v1.6.3-1":
-  version "1.6.3"
-  resolved "https://github.com/EnMarche/react-email-editor#4a12e7a56035fcedb061bcf67c44433d4a6efe89"
+react-email-editor@^1.7.9:
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/react-email-editor/-/react-email-editor-1.7.9.tgz#54f01fca6a875a4aabe400e34a2c1966d73f731f"
+  integrity sha512-ALsGS1E/oAzgWDDbFFxJ8Y8QCx7ZJK46aEi/w7Ydgs62+83sQjwr0pTzyTapWZnACWTv3wCLDDFqateui1YYJQ==
+  dependencies:
+    unlayer-types latest
 
 react-fast-compare@^2.0.1:
   version "2.0.4"
@@ -9916,6 +9919,11 @@ universalify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
+
+unlayer-types@latest:
+  version "1.5.61"
+  resolved "https://registry.yarnpkg.com/unlayer-types/-/unlayer-types-1.5.61.tgz#8ae7ab8066a82f443b5b97be2629f2899808e3b0"
+  integrity sha512-sZJ0SZ9+YAAeG5zuu+IDfGW7CHkCrAnOeL18ND3TUotBFPTjajJPrDGtb5dLoUCVa5F4uexVeyXdHTf2Qd9C1A==
 
 unplugin@1.0.1:
   version "1.0.1"
