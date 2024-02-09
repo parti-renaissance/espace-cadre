@@ -4,9 +4,6 @@ import Autocomplete from '~/components/Filters/Element/Autocomplete'
 
 const FormControl = styled(MuiFormControl)`
   width: 100%;
-  & .MuiOutlinedInput-notchedOutline {
-    border: none;
-  }
 `
 
 class AutocompleteFactory {

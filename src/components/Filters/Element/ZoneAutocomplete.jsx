@@ -14,7 +14,6 @@ const ZoneAutocomplete = ({ onChange, value, customStyle, initialParams = {}, ..
     <Autocomplete
       onChange={onChange}
       value={value}
-      customStyle={customStyle}
       uri={fullUri}
       queryParam="q"
       valueParam="uuid"

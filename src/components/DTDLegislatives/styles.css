@@ -2,22 +2,14 @@
   display: none;
 }
 
-.MuiInputBase-input {
-  padding: 13px !important;
-}
+
 
 .ck-editor__editable_inline {
   min-height: 150px;
   max-height: 400px;
 }
 
-.MuiFormControl-root {
-  margin-top: 0;
-}
 
-.MuiSelect-select {
-  background: white !important;
-}
 
 .infobar {
   background-color: rgba(35, 55, 75, 0.9);
