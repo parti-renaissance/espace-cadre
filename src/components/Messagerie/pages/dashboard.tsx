@@ -6,7 +6,7 @@ import SentEmailCampaigns from '~/components/Dashboard/Charts/SentEmailCampaigns
 import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
 import PageHeader from '~/ui/PageHeader'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
-import Templates from './Templates'
+import Templates from '../Templates'
 
 import Iconify from '~/mui/iconify/'
 

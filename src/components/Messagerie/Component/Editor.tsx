@@ -1,8 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
-import EmailEditor from 'react-email-editor'
+import { useState, useRef, useEffect } from 'react'
+import EmailEditor, { type EditorRef, type Editor, EmailEditorProps } from 'react-email-editor'
 import { Button as MuiButton, Box } from '@mui/material'
 import { styled } from '@mui/system'
-import PropTypes from 'prop-types'
 import * as Sentry from '@sentry/react'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from '~/components/shared/notification/constants'
@@ -10,6 +9,8 @@ import UIFormMessage from '~/ui/FormMessage'
 import { UNLAYER_PROJECT_ID } from '~/shared/environments'
 import scopes from '~/shared/scopes'
 import { useUserScope } from '../../../redux/user/hooks'
+
+import { MessageContent } from '~/domain/message'
 
 const downloadHtml = html => {
   const file = new Blob([html], { type: 'text/html' })
@@ -72,10 +73,21 @@ const messages = {
   export: 'Export HTML',
 }
 
-const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, readOnly = false, allowExport = false }) => {
-  const [editorLoaded, setEditorLoaded] = useState(false)
+type ExportHtmlResult = Parameters<Parameters<Editor['exportHtml']>[0]>[0]
+
+export interface EditorProps {
+  onMessageUpdate: (message: {
+    design: ExportHtmlResult['design']
+    chunks: Partial<ExportHtmlResult['chunks']>
+  }) => void
+  messageContent?: MessageContent
+  readOnly?: boolean
+  allowExport?: boolean
+}
+
+const Editor = ({ onMessageUpdate, messageContent, readOnly = false, allowExport = false }: EditorProps) => {
   const [messageContentError, setMessageContentError] = useState(false)
-  const emailEditorRef = useRef(null)
+  const emailEditorRef = useRef<EditorRef | null>(null)
   const [currentScope] = useUserScope()
   const { enqueueSnackbar } = useCustomSnackbar()
 
@@ -95,64 +107,45 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, readOnly = 
       }
     : {}
 
-  const updateMessageTemplateCallback = useCallback(() => {
-    emailEditorRef.current.exportHtml(data => {
-      onMessageUpdate({
-        design: data.design,
-        chunks: data.chunks,
+  const handleEditorReady: EmailEditorProps['onReady'] = editor => {
+    editor.addEventListener('design:updated', () => {
+      editor.exportHtml(data => {
+        onMessageUpdate({ design: data.design, chunks: data.chunks })
       })
     })
-  }, [onMessageUpdate])
 
-  useEffect(() => {
-    const editor = emailEditorRef.current?.editor
-    if (!editor) {
+    if (readOnly) {
+      editor.showPreview('desktop')
+    }
+    if (!messageContent) {
       return
     }
 
-    if (messageContent) {
-      onMessageSubject(messageContent?.subject)
-      if (messageContent.json_content) {
-        const design = JSON.parse(messageContent.json_content)
-        editor.loadDesign(design)
-        onMessageUpdate({
-          design: design,
-          chunks: { body: messageContent.content },
-        })
-      } else {
-        setMessageContentError(true)
-        enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error, messages.errorTemplate)
-        Sentry.addBreadcrumb({
-          category: 'messages',
-          message: `${messages.errorTemplate}`,
-          level: 'error',
-        })
-        Sentry.captureMessage(messages.errorTemplate)
-      }
+    if (messageContent.json_content) {
+      const design = JSON.parse(messageContent.json_content)
+      editor.loadDesign(design)
+    } else {
+      setMessageContentError(true)
+      enqueueSnackbar(notifyMessages.errorTitle, notifyVariants.error)
+      Sentry.addBreadcrumb({
+        category: 'messages',
+        message: `${messages.errorTemplate}`,
+        level: 'error',
+      })
+      Sentry.captureMessage(messages.errorTemplate)
     }
-  }, [emailEditorRef, enqueueSnackbar, messageContent, onMessageSubject, onMessageUpdate])
+  }
 
-  useEffect(() => {
-    const editor = emailEditorRef.current?.editor
-    const onEditorLoaded = () => {
-      editor.addEventListener('design:updated', updateMessageTemplateCallback)
-    }
-
-    if (editorLoaded && editor) {
-      onEditorLoaded()
-
-      if (readOnly) {
-        editor.showPreview('desktop')
-      }
-    }
-
-    return () => {
-      editor?.removeEventListener('design:updated', updateMessageTemplateCallback)
-    }
-  }, [emailEditorRef, readOnly, editorLoaded, updateMessageTemplateCallback])
+  useEffect(
+    () => () => {
+      const editor = emailEditorRef?.current?.editor
+      editor?.removeEventListener('design:updated')
+    },
+    [emailEditorRef]
+  )
 
   const exportHtml = () => {
-    emailEditorRef.current.editor.exportHtml(data => {
+    emailEditorRef?.current?.editor?.exportHtml(data => {
       downloadHtml(data.html)
     })
   }
@@ -164,14 +157,14 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, readOnly = 
       ) : (
         <>
           <EmailEditor
-            minHeight="85vh"
+            minHeight="calc(100vh - 65px)"
             ref={emailEditorRef}
-            projectId={UNLAYER_PROJECT_ID}
-            onLoad={() => setEditorLoaded(true)}
+            onReady={handleEditorReady}
             options={{
               locale: 'fr-FR',
               safeHtml: true,
-              templateId: messageContent ? null : templateId,
+              projectId: UNLAYER_PROJECT_ID ? Number(UNLAYER_PROJECT_ID) : undefined,
+              templateId: messageContent ? undefined : templateId,
               tools: readOnly ? {} : editorConfiguration.tools,
               features: readOnly ? {} : editorConfiguration.features,
               ...additionalOptions,
@@ -186,14 +179,6 @@ const Editor = ({ onMessageSubject, onMessageUpdate, messageContent, readOnly = 
       )}
     </Box>
   )
-}
-
-Editor.propTypes = {
-  onMessageSubject: PropTypes.func.isRequired,
-  onMessageUpdate: PropTypes.func.isRequired,
-  messageContent: PropTypes.object,
-  readOnly: PropTypes.bool,
-  allowExport: PropTypes.bool,
 }
 
 export default Editor

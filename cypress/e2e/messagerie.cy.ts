@@ -54,13 +54,6 @@ describe('Messagerie', () => {
             cy.get(KPI).find(KPICard).find('>div').eq(index).findByText(content[key]).should('exist').and('be.visible')
           })
         })
-
-        // cy.get(Campaigns).find(Typography).first().should('have.text', 'Vos dernières campagnes').and('be.visible')
-        // cy.get(Campaigns).find(Card).children().should('have.length', 2)
-
-        // cy.get(Card).eq(1).contains('sujet 1')
-        // cy.get(Card).eq(1).contains('Brouillon')
-        // cy.get(Card).eq(1).contains('Modifier')
       })
     })
 
@@ -87,13 +80,17 @@ describe('Messagerie', () => {
     })
 
     it('should have a title', () => {
-      cy.contains('Créer un message')
+      cy.contains('Choisissez votre type de courriel.')
+      cy.findByText('Écrire une newsletter').click()
 
-      cy.get(MailObjectInput).should('exist').contains('Objet du mail')
-      cy.get(MailObjectInput).type('Hello, World')
-      cy.get(MailEditorNextButton).should('exist').and('have.text', 'Suivant').should('be.disabled')
+      cy.findByLabelText('Nom').type('Hello, World')
+      cy.findByLabelText('Objet').type('Hello, World')
+      cy.findByText('Enregistrer le brouillion').should('exist').and('be.disabled')
+      cy.get(MailEditorNextButton).should('exist').and('be.disabled')
 
-      cy.get(UnlayerContainer)
+      cy.get('[data-cy="unlayer-btn"]').click()
+
+      cy.get(UnlayerContainer).should('exist')
     })
   })
 

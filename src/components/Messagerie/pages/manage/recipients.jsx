@@ -4,12 +4,12 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, Container, Grid,
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import DynamicFilters from '../Filters/DynamicFilters'
-import { useUserScope } from '../../redux/user/hooks'
-import useRetry from '../useRetry'
+import DynamicFilters from '../../../Filters/DynamicFilters'
+import { useUserScope } from '../../../../redux/user/hooks'
+import useRetry from '../../../useRetry'
 import PageHeader from '~/ui/PageHeader'
 import Loader from '~/ui/Loader'
-import ModalComponent from './Component/ModalComponent'
+import ModalComponent from '../../Component/ModalComponent'
 import {
   messageSynchronizationStatus as messageSynchronizationStatusApi,
   getMessage as getMessageApi,
@@ -17,7 +17,7 @@ import {
   sendMessage as sendMessageApi,
   sendTestMessage as sendTestMessageApi,
 } from '~/api/messagerie'
-import { paths as messageriePaths } from './shared/paths'
+import { paths as messageriePaths } from '../../shared/paths'
 import paths from '~/shared/paths'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { styled } from '@mui/system'
@@ -84,7 +84,7 @@ const messages = {
 }
 
 const Filters = () => {
-  const { messageUuid } = useParams()
+  const { id: messageUuid } = useParams()
   const navigate = useNavigate()
   const [currentScope] = useUserScope()
   const [loadingTestButton, setLoadingTestButton] = useState(false)
@@ -182,20 +182,6 @@ const Filters = () => {
   return (
     <>
       <Container maxWidth={false}>
-        <PageHeader title={messages.title} titleLink={paths.messages} titleSuffix={messages.titleSuffix} />
-        <Grid container sx={{ mb: 2 }}>
-          <Link to={`../${messageriePaths.update}`}>
-            <Button
-              type="button"
-              disableRipple
-              sx={{ color: 'main' }}
-              size="medium"
-              startIcon={<ArrowBackIcon sx={{ display: 'flex', marginRight: 1 }} />}
-            >
-              {messages.previous}
-            </Button>
-          </Link>
-        </Grid>
         <Grid container spacing={2} sx={{ textAlign: 'center' }}>
           <Grid item>
             <Accordion data-cy="accordion-filters-container">
@@ -226,8 +212,8 @@ const Filters = () => {
               {message && (
                 <AudienceCount>
                   {messages.addresseesCount}&nbsp;
-                  <AddresseesCount>{message.recipient_count || 0} </AddresseesCount>
-                  {pluralize(message.recipient_count, messages.contact)}
+                  <AddresseesCount>{message.recipientCount || 0} </AddresseesCount>
+                  {pluralize(message.recipientCount, messages.contact)}
                 </AudienceCount>
               )}
               {loadingMessageStatus && <Loader />}
@@ -241,7 +227,7 @@ const Filters = () => {
                 setLoadingTestButton(true)
                 handleSendEmail(true)
               }}
-              disabled={!message?.synchronized || loadingSendButton || loadingTestButton || disabledAction}
+              disabled={!message?.isSynchronized || loadingSendButton || loadingTestButton || disabledAction}
             >
               {loadingTestButton ? <Loader /> : messages.testMessage}
             </SendTest>
@@ -251,8 +237,8 @@ const Filters = () => {
               variant="outlined"
               size="medium"
               disabled={
-                !message?.synchronized ||
-                message?.recipient_count < 1 ||
+                !message?.isSynchronized ||
+                message?.recipientCount < 1 ||
                 loadingSendButton ||
                 loadingTestButton ||
                 disabledAction
@@ -265,7 +251,7 @@ const Filters = () => {
             {open && (
               <ModalComponent
                 open={open}
-                recipientCount={message?.recipient_count || 0}
+                recipientCount={message?.recipientCount || 0}
                 handleClose={() => setOpen(false)}
                 handleSendEmail={handleSendEmail}
               />
