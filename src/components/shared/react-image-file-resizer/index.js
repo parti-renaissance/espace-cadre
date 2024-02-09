@@ -81,6 +81,7 @@ export var Resizer = /** @class */ (function () {
     return canvas.toDataURL('image/'.concat(compressFormat), qualityDecimal)
   }
   Resizer.b64toByteArrays = function (b64Data, contentType) {
+    // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-unused-vars
     contentType = contentType || 'image/jpeg'
     var sliceSize = 512
     var byteCharacters = atob(b64Data.toString().replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, ''))

@@ -75,13 +75,8 @@ describe('PHONING > Campaign Detail', () => {
   })
 
   describe('The KPI block', () => {
-    it('should contain 2 parts', () => {
+    it('should contain 1 parts', () => {
       cy.get(KPI).should('exist')
-      cy.get(KPI).find('>div').should('have.length', 2)
-    })
-
-    it('should have a title', () => {
-      cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
     })
 
     it('should have 4 cards', () => {

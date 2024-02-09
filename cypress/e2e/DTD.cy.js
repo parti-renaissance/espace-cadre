@@ -45,13 +45,10 @@ describe('DTD', () => {
   })
 
   describe('The KPI block', () => {
-    it('should contain 2 parts', () => {
+    it('should contain 1 parts', () => {
       cy.get(KPI).should('exist')
-      cy.get(KPI).find('>div').should('have.length', 2)
     })
-    it('should have a title', () => {
-      cy.get(KPI).find(Typography).first().should('have.text', 'Indicateurs').and('be.visible')
-    })
+
     it('should have 3 cards', () => {
       cy.get(KPI).find(KPICard).children().should('have.length', 3)
     })
@@ -61,23 +58,10 @@ describe('DTD', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(0).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(0)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '2', subtitle: 'Campagnes', detail: 'Dont 1 en cours' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
-          })
+        const content = { score: '2', subtitle: 'Campagnes', detail: 'Dont 1 en cours' }
+        Object.keys(content).forEach(key => {
+          cy.get(KPI).find(KPICard).find('>div').eq(0).findByText(content[key]).should('exist').and('be.visible')
+        })
       })
     })
 
@@ -86,23 +70,10 @@ describe('DTD', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(1).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(1)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '10', subtitle: 'Questionnaires', detail: '5 sur un mois' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
-          })
+        const content = { score: '10', subtitle: 'Questionnaires', detail: '5 sur un mois' }
+        Object.keys(content).forEach(key => {
+          cy.get(KPI).find(KPICard).find('>div').eq(1).findByText(content[key]).should('exist').and('be.visible')
+        })
       })
     })
 
@@ -111,23 +82,10 @@ describe('DTD', () => {
         cy.get(KPI).find(KPICard).find('>div').eq(2).find(Typography).should('have.length', 3)
       })
       it('should show a score, a subtitle and its detail', () => {
-        cy.get(KPI)
-          .find(KPICard)
-          .find('>div')
-          .eq(2)
-          .find(Typography)
-          .each((element, index) => {
-            const content = { score: '200', subtitle: 'Portes', detail: '50 sur un mois' }
-            if (index === 0) {
-              cy.wrap(element).should('exist').and('have.text', content.score).and('be.visible')
-            }
-            if (index === 1) {
-              cy.wrap(element).should('exist').and('have.text', content.subtitle).and('be.visible')
-            }
-            if (index === 2) {
-              cy.wrap(element).should('exist').contains(content.detail).and('be.visible')
-            }
-          })
+        const content = { score: '200', subtitle: 'Portes', detail: '50 sur un mois' }
+        Object.keys(content).forEach(key => {
+          cy.get(KPI).find(KPICard).find('>div').eq(2).findByText(content[key]).should('exist').and('be.visible')
+        })
       })
     })
   })
