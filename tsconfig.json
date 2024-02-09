@@ -20,13 +20,13 @@
     "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "cypress", "@testing-library/cypress"],
     "paths": {
       "~/*": ["./src/*"],
     },
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "src/**/*"],
+  "include": ["**/*.ts", "**/*.tsx", "src/**/*", "cypress/e2e/messagerie.cy.js"],
   "references": [
     {
       "path": "./tsconfig.node.json",

@@ -16,7 +16,9 @@ const messages = {
 const SentEmailCampaignsTitle = ({ isMailsStatutory = false }) => (
   <Grid container sx={{ mb: 2 }}>
     <Grid item xs={12}>
-      <Typography>{isMailsStatutory ? messages.mails : messages.campaigns}</Typography>
+      <Typography variant="h6" color="primary">
+        {isMailsStatutory ? messages.mails : messages.campaigns}
+      </Typography>
     </Grid>
   </Grid>
 )

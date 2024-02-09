@@ -21,25 +21,42 @@ declare module '@mui/material/styles/createPalette' {
 // SETUP COLORS
 
 export const grey = {
-  0: '#FFFFFF',
-  100: '#F9FAFB',
-  200: '#F4F6F8',
-  300: '#DFE3E8',
-  400: '#C4CDD5',
-  500: '#919EAB',
-  600: '#637381',
-  700: '#454F5B',
-  800: '#212B36',
-  900: '#161C24',
+  100: '#f9fafbff',
+  200: '#f4f6f8ff',
+  300: '#dfe3e8ff',
+  400: '#c4cdd5ff',
+  500: '#919eabff',
+  600: '#637381ff',
+  700: '#454f5bff',
+  800: '#212b36ff',
+  900: '#161c24ff',
+}
+
+export const warning = {
+  main: '#ffc905ff',
+  light: '#ffd642ff',
+  lighter: '#fff0c2ff',
+  darker: '#755610ff',
+  dark: '#a47904ff',
+  contrastText: '#000',
+}
+
+export const error = {
+  lighter: '#ffe0d6ff',
+  light: '#ff8d70ff',
+  main: '#ff4b2bff',
+  dark: '#c40e08ff',
+  darker: '#7e1410ff',
+  contrastText: '#ffffffff',
 }
 
 export const primary = {
-  lighter: '#C8FAD6',
-  light: '#5BE49B',
-  main: '#00A76F',
-  dark: '#007867',
-  darker: '#004B50',
-  contrastText: '#FFFFFF',
+  lighter: '#c2ceffff',
+  light: '#9eb1ffff',
+  main: '#667affff',
+  dark: '#292fa8ff',
+  darker: '#181c4eff',
+  contrastText: '#ffffffff',
 }
 
 export const secondary = {
@@ -51,40 +68,31 @@ export const secondary = {
   contrastText: '#FFFFFF',
 }
 
-export const info = {
-  lighter: '#CAFDF5',
-  light: '#61F3F3',
-  main: '#00B8D9',
-  dark: '#006C9C',
-  darker: '#003768',
-  contrastText: '#FFFFFF',
-}
-
 export const success = {
-  lighter: '#D3FCD2',
-  light: '#77ED8B',
-  main: '#22C55E',
-  dark: '#118D57',
-  darker: '#065E49',
-  contrastText: '#ffffff',
+  lighter: '#e3f7e1ff',
+  light: '#98e094ff',
+  main: '#42b73cff',
+  dark: '#267023ff',
+  darker: '#1d491dff',
+  contrastText: '#ffffffff',
 }
 
-export const warning = {
-  lighter: '#FFF5CC',
-  light: '#FFD666',
-  main: '#FFAB00',
-  dark: '#B76E00',
-  darker: '#7A4100',
-  contrastText: grey[800],
+export const info = {
+  lighter: '#d6e2ffff',
+  light: '#85c4ffff',
+  main: '#0084ffff',
+  dark: '#0d6a9cff',
+  darker: '#0e445dff',
+  contrastText: '#ffffffff',
 }
 
-export const error = {
-  lighter: '#FFE9D5',
-  light: '#FFAC82',
-  main: '#FF5630',
-  dark: '#B71D18',
-  darker: '#7A0916',
-  contrastText: '#FFFFFF',
+export const other = {
+  Facebook: '#1877f2ff',
+  Twitter: '#00aaecff',
+  Linkedin: '#007ebbff',
+  Instagram: '#e02d69ff',
+  Skin: '#fdbab9ff',
+  Mask: '#ffffff00',
 }
 
 export const common = {
@@ -374,7 +382,7 @@ export function palette(mode: 'light' | 'dark') {
     ...base,
     mode: 'light',
     text: {
-      primary: grey[800],
+      primary: '#212B36',
       secondary: grey[600],
       disabled: grey[500],
     },
@@ -394,7 +402,7 @@ export function palette(mode: 'light' | 'dark') {
     mode: 'dark',
     text: {
       primary: '#FFFFFF',
-      secondary: grey[500],
+      secondary: '#637381',
       disabled: grey[600],
     },
     background: {

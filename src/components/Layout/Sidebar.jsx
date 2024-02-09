@@ -9,6 +9,8 @@ import Desktop from './Desktop'
 import Branding from './Branding'
 import Header from './Header'
 
+import useDrawerStore from '~/stores/drawerStore'
+
 const drawerWidth = 284
 
 const AppBar = styled(MuiAppBar)(
@@ -27,6 +29,7 @@ const Sidebar = ({ children, window }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const container = window !== undefined ? () => window().document.body : undefined
   const [currentScope] = useUserScope()
+  const { fullscreen, hideNav } = useDrawerStore()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -34,31 +37,49 @@ const Sidebar = ({ children, window }) => {
 
   return (
     <Box sx={{ minHeight: '100%', position: 'relative', display: 'flex', backgroundColor: 'colors.gray.100' }}>
-      <Desktop drawerWidth={drawerWidth} />
-      <Mobile
-        container={container}
-        drawerWidth={drawerWidth}
-        mobileOpen={mobileOpen}
-        handleDrawerToggle={handleDrawerToggle}
-      />
+      {fullscreen || hideNav ? null : (
+        <>
+          <Desktop drawerWidth={drawerWidth} />
+          <Mobile
+            container={container}
+            drawerWidth={drawerWidth}
+            mobileOpen={mobileOpen}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+        </>
+      )}
       <Box
         sx={{
           flexGrow: 1,
-          padding: {
-            lg: `0 0 0 ${drawerWidth}px`,
-          },
+          padding:
+            fullscreen || hideNav
+              ? undefined
+              : {
+                  lg: `0 0 0 ${drawerWidth}px`,
+                },
         }}
       >
-        <AppBar position="fixed" sx={{ display: { lg: 'none' } }}>
-          <Branding handleDrawerToggle={handleDrawerToggle} />
-          <span className="badge badge-light badge-sm">
-            {currentScope?.name} ({currentScope?.zones[0]?.code})
-          </span>
-        </AppBar>
-        <Header />
-        <Box component="main" height="100%" className="app-content">
-          {children}
-        </Box>
+        {fullscreen ? null : (
+          <>
+            {hideNav ? null : (
+              <AppBar position="fixed" sx={{ display: { lg: 'none' } }}>
+                <Branding handleDrawerToggle={handleDrawerToggle} />
+                <span className="badge badge-light badge-sm">
+                  {currentScope?.name} ({currentScope?.zones[0]?.code})
+                </span>
+              </AppBar>
+            )}
+            <Header />
+          </>
+        )}
+
+        {fullscreen ? (
+          <Box height="100%">{children}</Box>
+        ) : (
+          <Box component="main" height="100%" className="app-content">
+            {children}
+          </Box>
+        )}
       </Box>
     </Box>
   )

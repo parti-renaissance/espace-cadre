@@ -2,9 +2,9 @@ import { useRef, useState, useCallback } from 'react'
 
 /**
  * useRetry will launch the f function, and look at the response.
- * If the response contains synchronized = false,
+ * If the response contains isSynchronized = false,
  * it will relaunch f a few milliseconds later (specified by the duration param).
- * If the reponse contains synchronized = true, it will run the option 'run' method
+ * If the reponse contains isSynchronized = true, it will run the option 'run' method
  * provided in the params /!\ run must be a function in a React.useCallBack() /!\.
  * The f function will be relaunch every 'duration' milliseconds until synchronized is true or
  * maxAttempts is reached.
@@ -29,7 +29,7 @@ const useRetry = (f, duration, maxAttempts, onSuccess, onError) => {
       iteration.current = 0
       interval.current = setInterval(async () => {
         const result = await f(...args)
-        if (result?.synchronized) {
+        if (result?.isSynchronized) {
           clear()
           setData(result)
           onSuccess?.call()
