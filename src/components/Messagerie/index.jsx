@@ -7,7 +7,7 @@ import CreateTypePage from '~/components/Messagerie/pages/manage/type'
 import CreateIndex from '~/components/Messagerie/pages/manage'
 import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
 import EditorsIndex from '~/components/Messagerie/pages/manage/editor'
-import PreviewPage from './pages/manage/preview'
+import NewletterPreviewPage from './pages/manage/editor/newsletter/preview'
 
 const MessagerieRoute = () => (
   <Routes>
@@ -23,7 +23,7 @@ const MessagerieRoute = () => (
       <Route path=":type/*">
         <Route path=":id/*">
           <Route index element={<EditorsIndex />} />
-          <Route path={messageriePaths.preview} element={<PreviewPage />} />
+          <Route path={messageriePaths.preview} element={<NewletterPreviewPage />} />
           <Route path={messageriePaths.unlayer} element={<NewsletterEditor />} />
           <Route path={messageriePaths.filter} element={<Filters />} />
         </Route>

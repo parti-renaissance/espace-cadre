@@ -51,12 +51,12 @@ const messages = {
 type ExportHtmlResult = Parameters<Parameters<Editor['exportHtml']>[0]>[0]
 
 export interface EditorProps {
-  onMessageUpdate: (message: {
+  onMessageUpdate?: (message: {
     design: ExportHtmlResult['design']
     chunks: Partial<ExportHtmlResult['chunks']>
   }) => void
   messageContent?: MessageContent
-  templateId: number
+  templateId?: number
   readOnly?: boolean
   allowExport?: boolean
 }
@@ -69,11 +69,13 @@ const Editor = ({ onMessageUpdate, messageContent, templateId, readOnly = false 
   const additionalOptions = readOnly ? customOptions : {}
 
   const handleEditorReady: EmailEditorProps['onReady'] = editor => {
-    editor.addEventListener('design:updated', () => {
-      editor.exportHtml(data => {
-        onMessageUpdate({ design: data.design, chunks: data.chunks })
+    if (onMessageUpdate) {
+      editor.addEventListener('design:updated', () => {
+        editor.exportHtml(data => {
+          onMessageUpdate({ design: data.design, chunks: data.chunks })
+        })
       })
-    })
+    }
 
     if (readOnly) {
       editor.showPreview('desktop')
