@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Box } from '@mui/material'
 import { Stack } from '@mui/system'
@@ -9,14 +9,15 @@ import { getMessageContent, getTemplate } from '~/api/messagerie'
 import { postUpdateNewsletter } from './utils'
 import { useScopedQueryKey } from '~/api/useQueryWithScope'
 import { useErrorHandler } from '~/components/shared/error/hooks'
-import Editor, { EditorProps } from '../../../../Component/Editor'
-import { notifyVariants, notifyMessages } from '../../../../../shared/notification/constants'
-import { useCustomSnackbar } from '../../../../../shared/notification/hooks'
-import { paths as messageriePaths } from '../../../../shared/paths'
-import { useUserScope } from '../../../../../../redux/user/hooks'
+import Editor, { EditorProps } from '~/components/Messagerie/Component/Editor'
+import { notifyVariants, notifyMessages } from '~/components/shared/notification/constants'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
 import useDrawerStore from '~/stores/drawerStore'
 import Message, { MessageContent } from '~/domain/message'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { useUserScope } from '~/redux/user/hooks'
+import { defaultUnlayerTemplateId, unlayerTemplateIds } from '~/components/Messagerie/shared/unlayerTemplateIds'
 
 const clearBody = (body: string) => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
@@ -47,6 +48,11 @@ const Template = () => {
     'message-content-template',
     { feature: 'Messagerie', view: 'TemplateEditor', templateId, messageUuid },
   ])
+
+  const unlayerTemplateId = useMemo(
+    () => (currentScope ? unlayerTemplateIds[currentScope.getMainCode()] : defaultUnlayerTemplateId),
+    [currentScope]
+  )
 
   const queryKeyMessage = useScopedQueryKey(['message', { feature: 'Messagerie', view: 'TemplateEditor', id }])
   const dataMessage = queryClient.getQueryData<Message>(queryKeyMessage)
@@ -141,7 +147,12 @@ const Template = () => {
         </Box>
       </Stack>
       {!((messageUuid || templateId) && isLoading) && (
-        <Editor onMessageUpdate={handleSetMessage} messageContent={messageContent} key={messageContent?.uuid} />
+        <Editor
+          templateId={unlayerTemplateId}
+          onMessageUpdate={handleSetMessage}
+          messageContent={messageContent}
+          key={messageContent?.uuid}
+        />
       )}
     </>
   )
