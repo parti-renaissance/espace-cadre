@@ -10,6 +10,8 @@ import { useState } from 'react'
 import Icon from '~/mui/iconify'
 import { getCurrentUser } from '~/redux/user/selectors'
 import { useSelector } from 'react-redux'
+import useWaitForMessageSync from '~/components/Messagerie/hooks/useWaitForMessageSync'
+import * as Sentry from '@sentry/react'
 
 const openNewTab = (url: string) => {
   const win = window.open(url, '_blank')
@@ -81,7 +83,7 @@ const Preview = ({ data }: { data: Message }) => {
         await navigator.share({
           title: data.label,
           text: data.subject,
-          url: data.previewLink || 'https://us16.campaign-archive.com/?u=55827081e9c72c969a6fa0ea5&id=6f69a182b1',
+          url: data.previewLink,
         })
       } catch (error) {
         openNewTab(data.previewLink!)
@@ -92,7 +94,7 @@ const Preview = ({ data }: { data: Message }) => {
   const [isFrameLoading, setIsFrameLoading] = useState(true)
   const handleFrameLoad = () => setIsFrameLoading(false)
   return (
-    <ManageLayout title="Apercu" subtitle="Pensez à contrôler le bon affichage de votre email.">
+    <ManageLayout title="Aperçu" subtitle="Pensez à contrôler le bon affichage de votre email.">
       <Stack spacing={4} direction="column" justifyContent="space-between">
         <Card>
           <CardContent>
@@ -105,7 +107,7 @@ const Preview = ({ data }: { data: Message }) => {
               width={'100%'}
               style={{ border: 'none', height: '100vh' }}
               onLoad={handleFrameLoad}
-              src={data.previewLink || 'https://us16.campaign-archive.com/?u=55827081e9c72c969a6fa0ea5&id=6f69a182b1'}
+              src={data.previewLink}
             ></iframe>
           </CardContent>
         </Card>
@@ -133,9 +135,29 @@ const Preview = ({ data }: { data: Message }) => {
 export default function NewsletterPreviewPage() {
   const { id } = useParams<{ id: string }>()
   const queryKey = useScopedQueryKey(['message', { feature: 'Messagerie', view: 'TemplateEditor', id }])
-  const { data } = useQuery(queryKey, () => getMessage(id!), { enabled: !!id })
+  const { isSync, isSyncing } = useWaitForMessageSync({
+    uuid: id!,
+    onError: e => {
+      Sentry.captureException(e, { tags: { messageId: id } })
+      Sentry.captureMessage('Error while waiting for message synchronization')
+    },
+    onTooManyRetries: () => {
+      Sentry.captureMessage('Too many retries while waiting for message synchronization', {
+        tags: { messageId: id },
+      })
+    },
+  })
+  const { data } = useQuery(queryKey, () => getMessage(id!), { enabled: isSync })
 
-  if (!data) {
+  if ((!isSync && !isSyncing) || data?.previewLink === undefined) {
+    return (
+      <Stack justifyContent="center" alignItems="center" height="50vh">
+        un problème est survenu
+      </Stack>
+    )
+  }
+
+  if (!data || isSyncing) {
     return (
       <Stack justifyContent="center" alignItems="center" height="50vh">
         <CircularProgress />
