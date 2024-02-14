@@ -70,6 +70,7 @@ type GetMessagesParams = {
   page_size?: number
   status?: string
   pagination?: boolean
+  label?: string
 }
 export async function getMessages(params: GetMessagesParams & { pagination: false }): Promise<Message[]>
 export async function getMessages(params: GetMessagesParams & { pagination?: true }): Promise<PaginatedResult<Message>>
