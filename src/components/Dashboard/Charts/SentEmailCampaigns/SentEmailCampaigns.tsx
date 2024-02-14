@@ -1,4 +1,4 @@
-import { Grid, Stack, TextField, Typography, InputAdornment } from '@mui/material'
+import { Grid, Stack, TextField, Typography, InputAdornment, Box } from '@mui/material'
 import PropTypes from 'prop-types'
 import { getMessages } from '~/api/messagerie'
 import SentEmailCampaignsTitle from './SentEmailCampaignsTitle'
@@ -15,8 +15,28 @@ import { Message } from '~/domain/message'
 
 import MessageCard from './MessageCard'
 import ActionPopover from './ActionPopover'
-import { Box } from '@mui/system'
 import Iconify from '~/mui/iconify'
+
+import { styled } from '@mui/system'
+
+const AGrid = styled(Grid)`
+  .item-enter {
+    opacity: 0;
+  }
+  .item-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+  .item-exit {
+    opacity: 1;
+  }
+  .item-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+  }
+`
+
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const messages = {
   noCampaign: 'Aucune campagne à afficher',
@@ -87,24 +107,32 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
           <Typography variant="h6" sx={{ mb: 2 }}>
             Brouillions
           </Typography>
-          <Grid container spacing={3}>
-            {draftCampaigns.map(message => (
-              <Grid item key={message.id} xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
-                <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
-              </Grid>
-            ))}
-          </Grid>
+          <AGrid container spacing={3}>
+            <TransitionGroup component={null}>
+              {draftCampaigns.map(message => (
+                <CSSTransition key={message.id} timeout={500} classNames="item">
+                  <Grid item xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
+                    <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
+                  </Grid>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
+          </AGrid>
         </Box>
       )}
       <Box>
         <SentEmailCampaignsTitle isMailsStatutory={isMailsStatutory} />
         <InfiniteScroll dataLength={campaigns.length} next={fetchNextPage} hasMore={!!hasNextPage} loader={<Loader />}>
           <Grid container spacing={3}>
-            {campaigns.map(message => (
-              <Grid item key={message.id} xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
-                <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
-              </Grid>
-            ))}
+            <TransitionGroup component={null}>
+              {campaigns.map(message => (
+                <CSSTransition key={message.id} timeout={500} classNames="item">
+                  <Grid item key={message.id} xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
+                    <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
+                  </Grid>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </Grid>
         </InfiniteScroll>
       </Box>
