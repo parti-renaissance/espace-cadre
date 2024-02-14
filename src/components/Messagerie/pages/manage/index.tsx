@@ -34,7 +34,7 @@ export function StepperMessagerie() {
   const location = useLocation()
   const { id, step, action, type } = getPath(location.pathname)
   const [activeStep, setActiveStep] = React.useState(0)
-  const steps = id ? ['Éditeur', 'Destinataires'] : ['Type', 'Éditeur', 'Destinataires']
+  const steps = id ? ['Éditeur', 'Aperçu', 'Destinataires'] : ['Type', 'Éditeur', 'Aperçu', 'Destinataires']
   const navigate = useNavigate()
   const getBackPath = () => {
     if (step === paths.filter) {
@@ -51,7 +51,11 @@ export function StepperMessagerie() {
       setActiveStep(0)
     }
     if (step === undefined && (type === paths.createNewsletter || type === paths.createActuality)) {
-      setActiveStep(steps.length - 1 - 1)
+      setActiveStep(steps.length - 3)
+    }
+
+    if (step === paths.preview) {
+      setActiveStep(steps.length - 2)
     }
 
     if (step === paths.filter) {

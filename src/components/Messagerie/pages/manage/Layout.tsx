@@ -1,4 +1,5 @@
 import { Grid, Stack, Typography } from '@mui/material'
+import React from 'react'
 
 import { grey } from '~/theme/palette'
 
@@ -9,7 +10,7 @@ type HelperSection = {
 
 interface CreateMessageLayoutProps {
   title: string
-  subtitle?: string
+  subtitle?: string | React.ReactNode
   helpers?: HelperSection[]
   children: React.ReactNode
 }

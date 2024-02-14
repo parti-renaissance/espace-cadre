@@ -4,7 +4,7 @@ import Iconify from '~/mui/iconify'
 import { grey } from '~/theme/palette'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { paths } from '~/components/Messagerie/shared/paths'
-import CreateLayout from '~/components/Messagerie/pages/manage/Layout'
+import ManageLayout from '~/components/Messagerie/pages/manage/Layout'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import Message, { MessageContent } from '~/domain/message'
 import { useScopedQueryKey } from '~/api/useQueryWithScope'
@@ -69,7 +69,7 @@ const Form = ({
         .then(() => {
           reset(payload)
           if (action === 'next') {
-            navigate(`/messagerie/${paths.update}/newsletter/${data.id}/${paths.filter}`)
+            navigate(`/messagerie/${paths.update}/newsletter/${data.id}/${paths.preview}`)
           }
         })
     }
@@ -82,7 +82,7 @@ const Form = ({
     navigate(path)
   }
   return (
-    <CreateLayout {...sidebarProps}>
+    <ManageLayout {...sidebarProps}>
       <Stack spacing={4} direction="column" justifyContent="space-between">
         <Card>
           <CardContent>
@@ -126,11 +126,11 @@ const Form = ({
             onClick={handleSubmit(onSubmit('next'))}
             data-cy="step-button"
           >
-            {data?.id && formState.isDirty ? 'Enregistrer et filtrer les destinataires' : 'Destinataires'}
+            {data?.id && formState.isDirty ? "Enregistrer et voir l'Aperçu" : "Voir l'Aperçu"}
           </LoadingButton>
         </Stack>
       </Stack>
-    </CreateLayout>
+    </ManageLayout>
   )
 }
 

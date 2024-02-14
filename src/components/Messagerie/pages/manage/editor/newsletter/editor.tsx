@@ -73,7 +73,7 @@ const Template = () => {
     },
   })
 
-  const handleSetMessage = (message: Parameters<EditorProps['onMessageUpdate']>[0]) => {
+  const handleSetMessage = (message: Parameters<NonNullable<EditorProps['onMessageUpdate']>>[0]) => {
     setEditorData({
       content: clearBody(message.chunks.body),
       json_content: JSON.stringify(message.design),

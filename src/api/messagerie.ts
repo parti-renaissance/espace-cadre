@@ -74,7 +74,7 @@ export const getMessages = async ({ page, isMailsStatutory }: { page: number; is
 export const deleteMessage = (id: string) => apiClient.delete(`/v3/adherent_messages/${id}`)
 export const messageSynchronizationStatus = async (id: string) => {
   const data = await apiClient.get(`/v3/adherent_messages/${id}`)
-  return { isSynchronized: data.synchronized }
+  return { isSynchronized: data.synchronized as boolean } as const
 }
 export const getMessageContent = (id: string) => apiClient.get(`/v3/adherent_messages/${id}/content`)
 export const getMessage = (id: string) => apiClient.get(`/v3/adherent_messages/${id}`).then(parseDataMessage)
