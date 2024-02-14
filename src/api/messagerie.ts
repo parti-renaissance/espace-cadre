@@ -1,6 +1,6 @@
 import { apiClient } from '~/services/networking/client'
 import Message, { CreateMessageContent, Statistics } from '~/domain/message'
-import { newPaginatedResult } from '~/api/pagination'
+import { PaginatedResult, newPaginatedResult } from '~/api/pagination'
 import ReportRatio, { GeoRatio } from '~/domain/reportRatio'
 import { parseDate } from '~/shared/helpers'
 import qs from 'qs'
@@ -33,6 +33,12 @@ interface Data {
   metadata: Parameters<typeof newPaginatedResult>[1]
 }
 
+const isMessageArray = (data: unknown): data is Data['items'] =>
+  Array.isArray(data) && data.every(item => 'uuid' in item)
+
+const isPaginatedData = (data: unknown): data is Data =>
+  typeof data === 'object' && data !== null && 'items' in data && isMessageArray(data.items)
+
 type DataMessage = Data['items'][0]
 
 const parseDataMessage = (data: DataMessage) => {
@@ -58,24 +64,28 @@ const parseDataMessage = (data: DataMessage) => {
   )
 }
 
-export const getMessages = async (params: {
+type GetMessagesParams = {
   page?: number
   statutory?: boolean
   page_size?: number
   status?: string
   pagination?: boolean
-}) => {
-  const data = (await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&${qs.stringify(params)}`)) as Data
+}
+export async function getMessages(params: GetMessagesParams & { pagination: false }): Promise<Message[]>
+export async function getMessages(params: GetMessagesParams & { pagination?: true }): Promise<PaginatedResult<Message>>
+export async function getMessages(params: GetMessagesParams) {
+  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&${qs.stringify(params)}`)
 
   if (typeof params.pagination !== 'undefined' && !params.pagination) {
     return data.map(parseDataMessage)
   }
 
-  return newPaginatedResult(
-    data.items.map(parseDataMessage).sort((a, b) => +b.createdAt - +a.createdAt),
+  return newPaginatedResult<Message>(
+    data.items.map(parseDataMessage).sort((a: Message, b: Message) => +b.createdAt - +a.createdAt),
     data.metadata
   )
 }
+
 /**
  * @param {string} id
  * @returns void

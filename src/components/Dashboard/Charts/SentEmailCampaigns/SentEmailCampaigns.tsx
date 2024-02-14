@@ -39,29 +39,26 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
     [popover]
   )
 
-  const { data: draftCampaigns = [] } = useQuery<{ data: Message[] }>(
-    queryKeyDrafts,
-    () => getMessages({ status: 'draft', pagination: false }),
-    {
-      onError: handleError,
-    }
-  )
+  const { data: draftCampaigns = [] } = useQuery({
+    queryFn: () => getMessages({ status: 'draft', pagination: false }),
+    queryKey: queryKeyDrafts,
+    onError: handleError,
+  })
 
   const {
-    data: paginatedCampaigns = null,
+    data: paginatedCampaigns,
     fetchNextPage,
     hasNextPage,
     isLoading,
-  } = useInfiniteQuery<{ data: Message[] }>(
+  } = useInfiniteQuery({
     queryKey,
-    ({ pageParam: page = 1 }) => getMessages({ statutory: isMailsStatutory, page, page_size: 20, status: 'sent' }),
-    {
-      getNextPageParam,
-      onError: handleError,
-    }
-  )
+    queryFn: ({ pageParam: page = 1 }) =>
+      getMessages({ statutory: isMailsStatutory, pagination: true, page, page_size: 20, status: 'sent' }),
+    getNextPageParam,
+    onError: handleError,
+  })
 
-  const campaigns = usePaginatedData(paginatedCampaigns) as Message[]
+  const campaigns = usePaginatedData(paginatedCampaigns)
 
   if (isLoading) {
     return <Loader isCenter />
