@@ -24,13 +24,12 @@ const messages = {
   duplicateSuccess: 'Le message a bien été dupliqué',
 }
 
-type PaginatedCampaingns = InfiniteData<{ data: Message[] }>
-
 const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const queryClient = useQueryClient()
   const queryKey = useScopedQueryKey(['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
+  const queryKeyDrafts = useScopedQueryKey(['draft-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
   const navigate = useNavigate()
 
   const canEdit = !isMailsStatutory && message.current?.draft
@@ -40,15 +39,13 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
 
   const { mutateAsync: deleteDraft } = useMutation(deleteMessage, {
     onMutate: async draftId => {
-      await queryClient.cancelQueries(queryKey)
-      const previousCampaigns = queryClient.getQueryData<PaginatedCampaingns>(queryKey)
+      await queryClient.cancelQueries(queryKeyDrafts)
+      const previousCampaigns = queryClient.getQueryData<Message[]>(queryKeyDrafts)
       if (previousCampaigns) {
-        queryClient.setQueryData<PaginatedCampaingns>(queryKey, {
-          pageParams: previousCampaigns.pageParams,
-          pages: previousCampaigns.pages.map(page => ({
-            data: page.data.filter(message => message.id !== draftId),
-          })),
-        })
+        queryClient.setQueryData<Message[]>(
+          queryKeyDrafts,
+          previousCampaigns.filter(message => message.id !== draftId)
+        )
       }
       return { previousCampaigns: previousCampaigns }
     },
@@ -60,12 +57,12 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
       if (!context?.previousCampaigns) {
         return
       }
-      queryClient.setQueryData<PaginatedCampaingns>(queryKey, context.previousCampaigns)
+      queryClient.setQueryData<Message[]>(queryKey, context.previousCampaigns)
     },
   })
 
   const { mutateAsync: duplicate } = useMutation(duplicateMessage, {
-    onMutate: async () => await queryClient.cancelQueries(queryKey),
+    onMutate: async () => await queryClient.invalidateQueries(queryKeyDrafts),
     onSuccess: () => enqueueSnackbar(messages.duplicateSuccess, notifyVariants.success),
     onError: err => handleError(err),
   })
