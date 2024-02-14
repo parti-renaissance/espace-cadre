@@ -8,7 +8,7 @@ interface TabProps {
 
 interface TabsProps {
   elements?: TabProps[]
-  value: string
+  value: number
   onChangeTab: (event: React.SyntheticEvent, index: number) => void
 }
 
