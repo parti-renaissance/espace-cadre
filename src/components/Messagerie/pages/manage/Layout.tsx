@@ -1,8 +1,6 @@
 import { Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 
-import { grey } from '~/theme/palette'
-
 type HelperSection = {
   title: string
   content: string

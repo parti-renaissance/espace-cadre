@@ -5,7 +5,7 @@ import { Message } from '~/domain/message'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query'
-import { deleteMessage } from '~/api/messagerie'
+import { deleteMessage, duplicateMessage } from '~/api/messagerie'
 import { useScopedQueryKey } from '~/api/useQueryWithScope'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
@@ -21,6 +21,7 @@ const messages = {
   noCampaign: 'Aucune campagne à afficher',
   noStatutoryMail: 'Aucun mail statutaire à afficher',
   deleteSuccess: 'Brouillon supprimé avec succès',
+  duplicateSuccess: 'Le message a bien été dupliqué',
 }
 
 type PaginatedCampaingns = InfiniteData<{ data: Message[] }>
@@ -40,27 +41,33 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
   const { mutateAsync: deleteDraft } = useMutation(deleteMessage, {
     onMutate: async draftId => {
       await queryClient.cancelQueries(queryKey)
-      const previousCampains = queryClient.getQueryData<PaginatedCampaingns>(queryKey)
-      if (previousCampains) {
+      const previousCampaigns = queryClient.getQueryData<PaginatedCampaingns>(queryKey)
+      if (previousCampaigns) {
         queryClient.setQueryData<PaginatedCampaingns>(queryKey, {
-          pageParams: previousCampains.pageParams,
-          pages: previousCampains.pages.map(page => ({
+          pageParams: previousCampaigns.pageParams,
+          pages: previousCampaigns.pages.map(page => ({
             data: page.data.filter(message => message.id !== draftId),
           })),
         })
       }
-      return { previousCampains }
+      return { previousCampaigns: previousCampaigns }
     },
     onSuccess: () => {
       enqueueSnackbar(messages.deleteSuccess, notifyVariants.success)
     },
     onError: (err, _, context) => {
       handleError(err)
-      if (!context?.previousCampains) {
+      if (!context?.previousCampaigns) {
         return
       }
-      queryClient.setQueryData<PaginatedCampaingns>(queryKey, context.previousCampains)
+      queryClient.setQueryData<PaginatedCampaingns>(queryKey, context.previousCampaigns)
     },
+  })
+
+  const { mutateAsync: duplicate } = useMutation(duplicateMessage, {
+    onMutate: async () => await queryClient.cancelQueries(queryKey),
+    onSuccess: () => enqueueSnackbar(messages.duplicateSuccess, notifyVariants.success),
+    onError: err => handleError(err),
   })
 
   const eitherMessage = (cb: (x: Message) => void, error = 'Une erreur est survenue') => {
@@ -73,13 +80,10 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
   }
 
   const onDelete = () => eitherMessage(x => deleteDraft(x.id))
+  const onDuplicate = () => eitherMessage(x => duplicate(x.id))
   const onPreview = () => eitherMessage(x => window.open(x.previewLink))
   const onEdit = () =>
     eitherMessage(x => navigate(generatePath(`${messageriePaths.update}/newsletter/:messageId/`, { messageId: x.id })))
-  const onDuplicate = () =>
-    eitherMessage(() => {
-      throw new Error('not implemented')
-    }, 'not implemented')
 
   return (
     <Box sx={{ width: '100%', minWidth: 200, maxWidth: 360, bgcolor: 'background.paper' }}>

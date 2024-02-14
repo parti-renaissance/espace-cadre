@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Typography } from '@mui/material'
+import { Card, CardContent } from '@mui/material'
 
 export const CHOOSE_TYPE_TEST_ID = 'ChooseType'
 

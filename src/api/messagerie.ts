@@ -3,6 +3,7 @@ import Message, { CreateMessageContent, Statistics } from '~/domain/message'
 import { newPaginatedResult } from '~/api/pagination'
 import ReportRatio, { GeoRatio } from '~/domain/reportRatio'
 import { parseDate } from '~/shared/helpers'
+import qs from 'qs'
 
 interface Data {
   items: {
@@ -57,11 +58,19 @@ const parseDataMessage = (data: DataMessage) => {
   )
 }
 
-export const getMessages = async ({ page, isMailsStatutory }: { page: number; isMailsStatutory: boolean }) => {
-  const query = isMailsStatutory ? '&statutory=1' : ''
-  const data = (await apiClient.get(
-    `/v3/adherent_messages?order[created_at]=desc&page=${page}&page_size=20${query}`
-  )) as Data
+export const getMessages = async (params: {
+  page?: number
+  statutory?: boolean
+  page_size?: number
+  status?: string
+  pagination?: boolean
+}) => {
+  const data = (await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&${qs.stringify(params)}`)) as Data
+
+  if (typeof params.pagination !== 'undefined' && !params.pagination) {
+    return data.map(parseDataMessage)
+  }
+
   return newPaginatedResult(
     data.items.map(parseDataMessage).sort((a, b) => +b.createdAt - +a.createdAt),
     data.metadata
@@ -72,6 +81,7 @@ export const getMessages = async ({ page, isMailsStatutory }: { page: number; is
  * @returns void
  */
 export const deleteMessage = (id: string) => apiClient.delete(`/v3/adherent_messages/${id}`)
+export const duplicateMessage = (id: string) => apiClient.post(`/v3/adherent_messages/${id}/duplicate`)
 export const messageSynchronizationStatus = async (id: string) => {
   const data = await apiClient.get(`/v3/adherent_messages/${id}`)
   return { isSynchronized: data.synchronized as boolean } as const

@@ -6,7 +6,6 @@ import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from '~/components/shared/notification/constants'
 import UIFormMessage from '~/ui/FormMessage'
 import { UNLAYER_PROJECT_ID } from '~/shared/environments'
-
 import { MessageContent } from '~/domain/message'
 
 const editorConfiguration = {
@@ -58,7 +57,6 @@ export interface EditorProps {
   messageContent?: MessageContent
   templateId?: number
   readOnly?: boolean
-  allowExport?: boolean
 }
 
 const Editor = ({ onMessageUpdate, messageContent, templateId, readOnly = false }: EditorProps) => {

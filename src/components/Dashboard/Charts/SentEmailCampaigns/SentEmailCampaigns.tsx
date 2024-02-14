@@ -2,7 +2,7 @@ import { Grid, Stack, TextField, Typography, InputAdornment } from '@mui/materia
 import PropTypes from 'prop-types'
 import { getMessages } from '~/api/messagerie'
 import SentEmailCampaignsTitle from './SentEmailCampaignsTitle'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import Loader from '~/ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -29,6 +29,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
   const popover = usePopover()
   const currentMessage = useRef<Message | null>(null)
   const queryKey = useScopedQueryKey(['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
+  const queryKeyDrafts = useScopedQueryKey(['draft-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
   const onPopoverOpen = useCallback(
     (message: Message) =>
       (...args: Parameters<typeof popover.onOpen>) => {
@@ -38,6 +39,14 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
     [popover]
   )
 
+  const { data: draftCampaigns = [] } = useQuery<{ data: Message[] }>(
+    queryKeyDrafts,
+    () => getMessages({ status: 'draft', pagination: false }),
+    {
+      onError: handleError,
+    }
+  )
+
   const {
     data: paginatedCampaigns = null,
     fetchNextPage,
@@ -45,7 +54,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
     isLoading,
   } = useInfiniteQuery<{ data: Message[] }>(
     queryKey,
-    ({ pageParam: page = 1 }) => getMessages({ isMailsStatutory, page }),
+    ({ pageParam: page = 1 }) => getMessages({ statutory: isMailsStatutory, page, page_size: 20, status: 'sent' }),
     {
       getNextPageParam,
       onError: handleError,
@@ -54,13 +63,10 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
 
   const campaigns = usePaginatedData(paginatedCampaigns) as Message[]
 
-  const drafts = campaigns.filter(message => message.draft)
-  const sents = campaigns.filter(message => !message.draft)
-
   if (isLoading) {
     return <Loader isCenter />
   }
-  if (!campaigns.length) {
+  if (!campaigns.length && !draftCampaigns.length) {
     return <div>{isMailsStatutory ? messages.noStatutoryMail : messages.noCampaign}</div>
   }
 
@@ -79,13 +85,13 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
           ),
         }}
       />
-      {drafts.length > 0 && (
+      {draftCampaigns.length > 0 && (
         <Box>
           <Typography variant="h6" sx={{ mb: 2 }}>
             Brouillions
           </Typography>
           <Grid container spacing={3}>
-            {drafts.map(message => (
+            {draftCampaigns.map(message => (
               <Grid item key={message.id} xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
                 <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
               </Grid>
@@ -95,9 +101,9 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
       )}
       <Box>
         <SentEmailCampaignsTitle isMailsStatutory={isMailsStatutory} />
-        <InfiniteScroll dataLength={sents.length} next={fetchNextPage} hasMore={!!hasNextPage} loader={<Loader />}>
+        <InfiniteScroll dataLength={campaigns.length} next={fetchNextPage} hasMore={!!hasNextPage} loader={<Loader />}>
           <Grid container spacing={3}>
-            {sents.map(message => (
+            {campaigns.map(message => (
               <Grid item key={message.id} xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
                 <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
               </Grid>

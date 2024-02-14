@@ -22,14 +22,14 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["vitest/globals", "cypress", "@testing-library/cypress"],
     "paths": {
-      "~/*": ["./src/*"],
-    },
+      "~/*": ["./src/*"]
+    }
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "src/**/*", "cypress/e2e/messagerie.cy.js"],
+  "include": ["**/*.ts", "**/*.tsx", "src/**/*"],
   "references": [
     {
-      "path": "./tsconfig.node.json",
-    },
-  ],
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
