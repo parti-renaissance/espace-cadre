@@ -43,7 +43,7 @@ describe('Messagerie', () => {
         cy.get(KPI).find(KPICard).children().should('have.length', 4)
 
         const contents = [
-          { score: '100', subtitle: "Nombres d'emails", detail: 'Envoyées ces 30 derniers jours' },
+          { score: '100', subtitle: "Campagnes d'emails", detail: 'Envoyées ces 30 derniers jours' },
           { score: '12.34%', subtitle: 'Ouvertures', detail: '43.21% au national' },
           { score: '42.42%', subtitle: 'Clics', detail: '44.44% au national' },
           { score: '0.11%', subtitle: 'Désabonnements', detail: '12.12% au national' },
