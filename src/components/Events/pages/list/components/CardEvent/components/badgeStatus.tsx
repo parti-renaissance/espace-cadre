@@ -1,0 +1,48 @@
+import { useMemo } from 'react'
+import { Event } from '~/components/Events/shared/types'
+import Label, { LabelColor } from '~/mui/label'
+import * as React from 'react'
+
+const getStatusFromEvent = (event: Event) => {
+  const listStatus = {
+    passed: {
+      condition: new Date(event.finishAt) < new Date(),
+      label: 'Passé',
+      color: 'default',
+    },
+    upcoming: {
+      condition: new Date(event.beginAt) > new Date() && event.scheduled,
+      label: 'À venir',
+      color: 'info',
+    },
+    canceled: {
+      condition: new Date(event.finishAt) < new Date() && !event.scheduled,
+      label: 'Annulé',
+      color: 'error',
+    },
+  }
+
+  return Object.values(listStatus).find(s => s.condition)
+}
+
+type BadgeStatusProps = {
+  event: Event
+}
+
+const BadgeStatus = ({ event }: BadgeStatusProps) => {
+  const status = useMemo(() => getStatusFromEvent(event), [event])
+
+  return (
+    <Label
+      color={status?.color as LabelColor}
+      variant="soft"
+      sx={{
+        fontWeight: 600,
+      }}
+    >
+      {status?.label}
+    </Label>
+  )
+}
+
+export default BadgeStatus
