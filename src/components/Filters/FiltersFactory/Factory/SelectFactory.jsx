@@ -18,7 +18,9 @@ class SelectFactory {
           width: '100%',
         }}
       >
-        <InputLabel id="simple-select">{filter.label}</InputLabel>
+        <InputLabel id="simple-select" sx={{ backgroundColor: 'white', px: 1 }}>
+          {filter.label}
+        </InputLabel>
         <Select
           labelId="simple-select"
           onChange={e => onChange(e.target.value)}
