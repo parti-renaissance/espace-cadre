@@ -42,39 +42,3 @@ exports[`Card > displays a Card with headers 1`] = `
   </div>
 </div>
 `;
-
-exports[`Card displays a Card with actions 1`] = `
-<div>
-  <div
-    class="mui-paper-mock"
-  >
-    <div>
-      actions
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Card displays a Card with content 1`] = `
-<div>
-  <div
-    class="mui-paper-mock"
-  >
-    <div>
-      content
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Card displays a Card with headers 1`] = `
-<div>
-  <div
-    class="mui-paper-mock"
-  >
-    <div>
-      header
-    </div>
-  </div>
-</div>
-`;

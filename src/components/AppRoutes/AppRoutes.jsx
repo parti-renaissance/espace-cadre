@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, useLocation, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
@@ -15,7 +15,6 @@ import LegalContainer from '../Signup/components/LegalContainer'
 import { CGUMobile, CGUWeb, CookiesMobile, CookiesWeb, Ppd } from '../Signup/constants'
 import Sidebar from '~/components/Layout/Sidebar'
 import Logout from '../Logout/Logout'
-
 const publicPathsArray = [
   publicPaths.signup,
   publicPaths.auth,
@@ -59,20 +58,23 @@ PrivatePages.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-const AppRoutes = ({ children }) => (
-  <Routes>
-    <Route path={publicPaths.signup} element={<Signup />} />
-    <Route path={publicPaths.signupConfirm} element={<SignupConfirm />} />
-    <Route path={publicPaths.auth} element={<Auth />} />
-    <Route path={publicPaths.logout} element={<Logout />} />
-    <Route path={publicPaths.ppd} element={<LegalContainer type={Ppd} />} />
-    <Route path={publicPaths.cguWeb} element={<LegalContainer type={CGUWeb} />} />
-    <Route path={publicPaths.cguMobile} element={<LegalContainer type={CGUMobile} />} />
-    <Route path={publicPaths.cookiesWeb} element={<LegalContainer type={CookiesWeb} />} />
-    <Route path={publicPaths.cookiesMobile} element={<LegalContainer type={CookiesMobile} />} />
-    <Route path="*" element={<PrivatePages>{children}</PrivatePages>} />
-  </Routes>
-)
+const AppRoutes = ({ children }) =>
+  createBrowserRouter(
+    createRoutesFromElements(
+      <Route>
+        <Route path={publicPaths.signup} element={<Signup />} />
+        <Route path={publicPaths.signupConfirm} element={<SignupConfirm />} />
+        <Route path={publicPaths.auth} element={<Auth />} />
+        <Route path={publicPaths.logout} element={<Logout />} />
+        <Route path={publicPaths.ppd} element={<LegalContainer type={Ppd} />} />
+        <Route path={publicPaths.cguWeb} element={<LegalContainer type={CGUWeb} />} />
+        <Route path={publicPaths.cguMobile} element={<LegalContainer type={CGUMobile} />} />
+        <Route path={publicPaths.cookiesWeb} element={<LegalContainer type={CookiesWeb} />} />
+        <Route path={publicPaths.cookiesMobile} element={<LegalContainer type={CookiesMobile} />} />
+        <Route path="*" element={<PrivatePages>{children}</PrivatePages>} />
+      </Route>
+    )
+  )
 AppRoutes.propTypes = {
   children: PropTypes.node.isRequired,
 }

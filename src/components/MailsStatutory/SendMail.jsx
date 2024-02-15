@@ -124,8 +124,8 @@ const SendMail = () => {
             {message && (
               <AudienceCount>
                 {messages.addresseesCount}&nbsp;
-                <AddresseesCount>{message.recipient_count || 0} </AddresseesCount>
-                {pluralize(message.recipient_count, messages.contact)}
+                <AddresseesCount>{message.recipientCount || 0} </AddresseesCount>
+                {pluralize(message.recipientCount, messages.contact)}
               </AudienceCount>
             )}
             {isLoading && <Loader />}
@@ -136,7 +136,7 @@ const SendMail = () => {
             variant="outlined"
             size="medium"
             onClick={() => handleSendEmail(true)}
-            disabled={!message?.synchronized || loading || loadingTestButton}
+            disabled={!message?.isSynchronized || loading || loadingTestButton}
           >
             {loadingTestButton ? <Loader /> : messages.testMessage}
           </SendTest>
@@ -145,7 +145,7 @@ const SendMail = () => {
           <Send
             variant="outlined"
             size="medium"
-            disabled={!message?.synchronized || message?.recipient_count < 1 || loading || loadingTestButton}
+            disabled={!message?.isSynchronized || message?.recipientCount < 1 || loading || loadingTestButton}
             onClick={() => setOpen(true)}
             data-cy="send-mail-action"
           >
@@ -154,7 +154,7 @@ const SendMail = () => {
           {open && (
             <ModalComponent
               open={open}
-              recipientCount={message?.recipient_count || 0}
+              recipientCount={message?.recipientCount || 0}
               handleClose={() => setOpen(false)}
               handleSendEmail={handleSendEmail}
             />

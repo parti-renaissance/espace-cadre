@@ -29,8 +29,8 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const primaryFont = 'Poppins, Public Sans, sans-serif'
-export const secondaryFont = 'Barlow, sans-serif'
+export const primaryFont = 'Maax, Public Sans, sans-serif'
+export const secondaryFont = 'Public Sans, sans-serif'
 
 // ----------------------------------------------------------------------
 
@@ -56,13 +56,13 @@ export const typography = {
   h3: {
     fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(24),
+    fontSize: pxToRem(20),
     ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
   },
   h4: {
-    fontWeight: 700,
+    fontWeight: 500,
     lineHeight: 1.5,
-    fontSize: pxToRem(20),
+    fontSize: pxToRem(24),
     ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
   },
   h5: {

@@ -9,13 +9,3 @@ exports[`Container > displays grid 1`] = `
   </div>
 </div>
 `;
-
-exports[`Container displays grid 1`] = `
-<div>
-  <div
-    data-sx="foo"
-  >
-    Foo
-  </div>
-</div>
-`;

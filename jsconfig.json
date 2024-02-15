@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": "src",
   },
-  "exclude": ["node_modules", "build", "dist-rollup"]
+  "exclude": ["node_modules", "build", "dist-rollup"],
+  "include": ["node_modules/cypress", "./cypress/**/*.js"],
 }

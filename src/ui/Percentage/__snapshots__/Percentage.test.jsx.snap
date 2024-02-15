@@ -11,15 +11,3 @@ exports[`Percentage > displays percentage from text 1`] = `
   12.35%
 </div>
 `;
-
-exports[`Percentage displays percentage from number 1`] = `
-<div>
-  12.35%
-</div>
-`;
-
-exports[`Percentage displays percentage from text 1`] = `
-<div>
-  12.35%
-</div>
-`;

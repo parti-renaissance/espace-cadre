@@ -1,9 +1,38 @@
-import MaaxItalic from '/fonts/maax/maax-italic.woff2'
+import * as Maax from '~/assets/fonts/maax/index'
 
 export const MaaxFontFaces = `
 @font-face {
-  font-family: 'MaaxItalic';
-  src: local('Maax'), local('maax-italic'), url(${MaaxItalic}) format('woff2');
+  font-family: 'Maax';
+  src: url('${Maax.medium.eot}');
+  src: local('Maax Medium'), local('Maax-Medium'),
+      url('${Maax.medium.eot}?#iefix') format('embedded-opentype'),
+      url('${Maax.medium.woff}') format('woff'),
+      url('${Maax.medium.ttf}') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Maax';
+  src: url('${Maax.regular.eot}');
+  src: local('Maax'),
+      url('${Maax.regular.eot}?#iefix') format('embedded-opentype'),
+      url('${Maax.regular.woff}') format('woff'),
+      url('${Maax.regular.ttf}') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Maax';
+  src: url('${Maax.bold.eot}');
+  src: local('Maax Bold'), local('Maax-Bold'),
+      url('${Maax.bold.eot}?#iefix') format('embedded-opentype'),
+      url('${Maax.bold.woff}') format('woff'),
+      url('${Maax.bold.ttf}') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 `
 export const PoppinsFontFaces = `

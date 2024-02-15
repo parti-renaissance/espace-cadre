@@ -13,17 +13,3 @@ exports[`NavItem > displays a NavItem 1`] = `
   </div>
 </div>
 `;
-
-exports[`NavItem displays a NavItem 1`] = `
-<div>
-  <div
-    class="mock-navlink"
-  >
-    <div
-      class="mock-typography"
-    >
-      foo
-    </div>
-  </div>
-</div>
-`;

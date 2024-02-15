@@ -37,7 +37,7 @@ const messages = {
 const mergeContent = (content, templateValues) => {
   Object.entries(templateValues).map(([key, value]) => {
     if (value) {
-      let result = JSON.stringify(value.replace(/(?:\r\n|\r|\n)/g, '<br/>'))
+      let result = JSON.stringify(value.replace(/\r\n|\r|\n/g, '<br/>'))
       result = result.slice(1, -1)
 
       // eslint-disable-next-line no-param-reassign
