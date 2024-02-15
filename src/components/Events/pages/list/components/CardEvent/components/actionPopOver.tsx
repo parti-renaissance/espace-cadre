@@ -19,17 +19,17 @@ const Actions = ({ event, onClick }: ActionsProps) => {
     },
     {
       label: 'Modifier',
-      canShow: true,
+      canShow: !!event.scheduled,
       onClick: event => onClick(event, 'edit'),
     },
     {
       label: 'Annulé',
-      canShow: true,
+      canShow: !!event.scheduled,
       onClick: event => onClick(event, 'cancel'),
     },
     {
       label: 'Supprimer',
-      canShow: true,
+      canShow: event.attendees <= 1,
       onClick: event => onClick(event, 'delete'),
     },
   ]
@@ -37,18 +37,19 @@ const Actions = ({ event, onClick }: ActionsProps) => {
   return (
     <Box sx={{ width: '100%', minWidth: 200, maxWidth: 360, bgcolor: 'background.paper' }}>
       <MenuList>
-        {actionsButtons.map((action, index) => {
-          return (
-            <MenuItem
-              key={index}
-              onClick={() => {
+        {actionsButtons.map((action, index) => (
+          <MenuItem
+            key={index}
+            sx={{ cursor: action.canShow ? 'pointer' : 'not-allowed' }}
+            onClick={() => {
+              if (action.canShow) {
                 action.onClick(event)
-              }}
-            >
-              <Typography>{action.label}</Typography>
-            </MenuItem>
-          )
-        })}
+              }
+            }}
+          >
+            <Typography color={action.canShow ? 'text.primary' : 'text.secondary'}>{action.label}</Typography>
+          </MenuItem>
+        ))}
       </MenuList>
     </Box>
   )

@@ -24,6 +24,7 @@ type CardEventProps = {
 const CardEvent = ({ event, onActionClick }: CardEventProps) => {
   const currentUser = useSelector(getCurrentUser)
   const popover = usePopover()
+  const myEvent = event.organizerId === currentUser.uuid
 
   const listItems = [
     {
@@ -121,7 +122,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
           .filter(Boolean)}
 
         <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2}>
-          {event.organizerId === currentUser.uuid ? (
+          {myEvent ? (
             <IconButton aria-label="actions" aria-describedby={event.id} onClick={event => popover.onOpen(event)}>
               <Iconify icon="eva:more-horizontal-fill" />
             </IconButton>
