@@ -37,7 +37,7 @@ export default function ModalComponent({ open, onClose, onSave, blocker }: Modal
           Ne pas enregistrer
         </Button>
         <Button variant="text" onClick={onClose}>
-          Anuler
+          Annuler
         </Button>
       </DialogActions>
     </Dialog>
