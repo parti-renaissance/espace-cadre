@@ -157,7 +157,7 @@ const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatut
   const { data, fetchNextPage, hasNextPage, isFetched, isInitialLoading } = useInfiniteQuery({
     queryKey,
     queryFn: ({ pageParam: page = 1 }) =>
-      getMessages({ statutory: props.isMailsStatutory, pagination: true, page, page_size: 20, status: 'sent' }),
+      getMessages({ statutory: props.isMailsStatutory, page, page_size: 20, status: 'sent' }),
     getNextPageParam,
     onError: handleError,
   })

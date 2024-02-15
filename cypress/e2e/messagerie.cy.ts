@@ -27,7 +27,7 @@ describe('Messagerie', () => {
     mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
     mock(
       'GET',
-      '/api/v3/adherent_messages?order[created_at]=desc&statutory=false&pagination=true&page=1&page_size=20&status=sent&scope=referent',
+      '/api/v3/adherent_messages?order[created_at]=desc&statutory=false&page=1&page_size=20&status=sent&scope=referent',
       'messagerie/messages'
     )
     mock(
