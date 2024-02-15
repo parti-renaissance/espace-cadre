@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { Tabs, Tab, Box } from '@mui/material'
+import { Tabs, Tab, Box, Typography } from '@mui/material'
+import { styled } from '@mui/system'
+import Label from '~/mui/label'
 
 interface TabProps {
   label: string
   id: string
+  count?: number
 }
 
 interface TabsProps {
@@ -11,6 +14,15 @@ interface TabsProps {
   value: number
   onChangeTab: (event: React.SyntheticEvent, index: number) => void
 }
+
+const BadgeCustom = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  fontSize: '14px',
+  color: theme.palette.colors.blue['900'],
+  backgroundColor: theme.palette.colors.blue['100'],
+  padding: '0.2rem 0.4rem',
+  borderRadius: '4px',
+}))
 
 const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
   const a11yProps = (id: string) => ({
@@ -25,7 +37,23 @@ const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
   return (
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
       <Tabs value={value} onChange={handleChange} aria-label="Événements">
-        {elements?.map((element, key) => <Tab key={key} label={element.label} {...a11yProps(element.label)} />)}
+        {elements?.map((element, key) => (
+          <Tab
+            key={key}
+            label={
+              <Typography fontWeight={'500'} fontSize={15} mx={2} display={'flex'} alignItems={'center'} gap={1}>
+                {element.label}
+
+                {element === undefined || element.count === undefined ? null : (
+                  <Label color={'primary'} variant="soft">
+                    {element.count}
+                  </Label>
+                )}
+              </Typography>
+            }
+            {...a11yProps(element.label)}
+          />
+        ))}
       </Tabs>
     </Box>
   )
