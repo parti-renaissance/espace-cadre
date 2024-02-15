@@ -35,6 +35,7 @@ const BadgeStatus = ({ event }: BadgeStatusProps) => {
   return (
     <Label
       color={status?.color as LabelColor}
+      data-cy="badge-status"
       variant="soft"
       sx={{
         fontWeight: 600,

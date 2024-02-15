@@ -58,7 +58,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
   ]
 
   return (
-    <Card>
+    <Card data-cy="ui-card">
       <Box padding={1}>
         {event.visioUrl && (
           <Label
@@ -95,10 +95,6 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
 
         <Stack>
           <Typography variant="subtitle2" noWrap color={'text.primary'}>
-            {/*{event.name}*/}
-          </Typography>
-
-          <Typography variant="subtitle2" noWrap color={'text.primary'}>
             {event.name}
           </Typography>
         </Stack>
@@ -121,7 +117,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
           )
           .filter(Boolean)}
 
-        <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2} data-cy="dot-action-menu">
           {myEvent ? (
             <IconButton aria-label="actions" aria-describedby={event.id} onClick={event => popover.onOpen(event)}>
               <Iconify icon="eva:more-horizontal-fill" />
