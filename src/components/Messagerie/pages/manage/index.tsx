@@ -43,6 +43,9 @@ export function StepperMessagerie() {
     if (step === paths.createActuality || step === paths.createNewsletter) {
       return `../${paths.create}`
     }
+    if (step === paths.preview) {
+      return `../${action}/${type}/${id}`
+    }
     return '..'
   }
 
