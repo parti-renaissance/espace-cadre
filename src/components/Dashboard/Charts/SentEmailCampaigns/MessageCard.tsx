@@ -3,9 +3,10 @@ import Label from '~/mui/label'
 import { Stack } from '@mui/system'
 import { formatDate } from '~/shared/helpers'
 import Iconify from '~/mui/iconify'
-import { AdsClick, DoNotDisturbOn, Drafts } from '@mui/icons-material'
+import { AdsClick, DoNotDisturbOn, Drafts, Place } from '@mui/icons-material'
 import { grey } from '~/theme/palette'
 import { Message } from '~/domain/message'
+import PlaceholderEmailThumbnail from '~/assets/illustrations/placeholder-email-thumbnail'
 
 type MessageCardProps = {
   message: Message
@@ -27,11 +28,7 @@ const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
           Brouillon
         </Label>
       ) : null}
-      <CardMedia
-        component="img"
-        sx={{ borderRadius: 1, height: 235, backgroundColor: 'gray300' }}
-        src="https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1"
-      />
+      <PlaceholderEmailThumbnail sx={{ borderRadius: 1, height: 235, backgroundColor: 'gray300' }} />
     </Box>
     <CardContent>
       <Stack>
