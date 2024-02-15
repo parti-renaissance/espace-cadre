@@ -99,7 +99,7 @@ const Template = () => {
 
     if (redirect === 'next' && !editorData?.content) {
       if (messageUuid) {
-        navigate(`/messagerie/${messageriePaths.update}/newsletter/${messageUuid}/${messageriePaths.filter}`)
+        navigate(`/messagerie/${messageriePaths.update}/newsletter/${messageUuid}/${messageriePaths.preview}`)
       } else {
         enqueueSnackbar('Veuillez écrire un message', notifyVariants.error)
       }
@@ -116,7 +116,7 @@ const Template = () => {
       postUpdateNewsletterMutation(bodyPayload).then(body => {
         enqueueSnackbar(messageUuid ? messages.updateSuccess : messages.createSuccess, notifyVariants.success)
         if (redirect === 'next') {
-          navigate(`/messagerie/${messageriePaths.update}/newsletter/${body.uuid}/${messageriePaths.filter}`)
+          navigate(`/messagerie/${messageriePaths.update}/newsletter/${body.uuid}/${messageriePaths.preview}`)
         } else {
           navigate(`/messagerie/${messageriePaths.update}/newsletter/${body.uuid}`)
         }
@@ -141,7 +141,7 @@ const Template = () => {
               disabled={loading || !messageUuid || !editorData?.content}
               onClick={handleClickNext('next')}
             >
-              {editorData?.content ? 'Enregister et' : ''} filtrer
+              {editorData?.content ? 'Enregister et' : ''} apercevoir
             </LoadingButton>
           </Stack>
         </Box>

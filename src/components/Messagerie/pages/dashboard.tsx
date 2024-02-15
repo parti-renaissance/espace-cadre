@@ -32,7 +32,7 @@ const Dashboard = () => {
                   <Button
                     data-cy="ui-page-header-button"
                     startIcon={<Iconify icon="solar:pen-bold" color="white" />}
-                    onClick={() => navigate(messageriePaths.create)}
+                    onClick={() => navigate(`${messageriePaths.create}/${messageriePaths.createNewsletter}`)}
                   >
                     {messages.sendEmail}
                   </Button>
