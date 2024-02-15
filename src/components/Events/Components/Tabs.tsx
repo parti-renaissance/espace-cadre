@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Tabs, Tab, Box, Typography } from '@mui/material'
-import { styled } from '@mui/system'
 import Label from '~/mui/label'
 
 interface TabProps {

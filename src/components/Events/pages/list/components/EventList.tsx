@@ -9,6 +9,7 @@ import { paths } from '~/components/Events/shared/paths'
 import CardEvent from '~/components/Events/pages/list/components/CardEvent'
 import { useMemo } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import { Event } from '~/components/Events/shared/types'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
@@ -56,8 +57,12 @@ const EventList = ({ query, queryKey }: EventListProps) => {
     return <div>{messages.noEvent}</div>
   }
 
-  const handleViewEvent = uuid => () => {
-    navigate(generatePath(`${paths.events}/:uuid`, { uuid }))
+  const handleDelete = (event: Event) => {
+    console.log('delete')
+  }
+
+  const handleCancel = (event: Event) => {
+    console.log('cancel')
   }
 
   return (
@@ -69,14 +74,25 @@ const EventList = ({ query, queryKey }: EventListProps) => {
             category: categoryNameByCategoryId?.[e.categoryId] || '—',
           }
 
-          console.log(event)
-
           return (
             <Grid item key={e.id} xs={12} sm={6} md={6} lg={4} xl={3}>
               <CardEvent
                 event={event}
                 onActionClick={(event, action) => {
-                  console.log('onActionClick', action)
+                  switch (action) {
+                    case 'detail':
+                      navigate(generatePath(`${paths.events}/:uuid`, { uuid: event.id }))
+                      break
+                    case 'edit':
+                      navigate(generatePath(`${paths.events}/edit/:uuid`, { uuid: event.id }))
+                      break
+                    case 'delete':
+                      handleDelete(event)
+                      break
+                    case 'cancel':
+                      handleCancel(event)
+                      break
+                  }
                 }}
               />
             </Grid>

@@ -1,27 +1,28 @@
-import { Card, CardContent, CardMedia, Box, Typography, IconButton, Button } from '@mui/material'
-import Label from '~/mui/label'
-import { Stack } from '@mui/system'
-import { Event } from '~/components/Events/shared/types'
-import Iconify from '~/mui/iconify'
 import * as React from 'react'
-import BadgeStatus from '~/components/Events/pages/list/components/CardEvent/components/badgeStatus'
-import { addressFormatted, dateFormatted } from '~/components/Events/pages/list/components/CardEvent/helpers'
-
 import { Link } from 'react-router-dom'
 import { generatePath } from 'react-router'
 import { useSelector } from 'react-redux'
+import { Card, CardContent, CardMedia, Box, Typography, IconButton, Button } from '@mui/material'
+import Label from '~/mui/label'
+import Iconify from '~/mui/iconify'
+import { Stack } from '@mui/system'
+import { Event } from '~/components/Events/shared/types'
 import { getCurrentUser } from '~/redux/user/selectors'
+
+import BadgeStatus from './components/badgeStatus'
+import { addressFormatted, dateFormatted } from './helpers'
+
+type CardEventAction = 'detail' | 'edit' | 'delete' | 'cancel'
 
 type CardEventProps = {
   event: Event
-  onActionClick?: (event: Event, action: string) => void
+  onActionClick?: (event: Event, action: CardEventAction) => void
 }
 
 const CardEvent = ({ event, onActionClick }: CardEventProps) => {
   const currentUser = useSelector(getCurrentUser)
   // get the user
 
-  console.log(currentUser)
   const listItems = [
     {
       enabled: event.organizer.length > 0 && !!event.organizerId,
@@ -55,7 +56,6 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
 
   const onPopoverOpen = (event: Event) => (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.stopPropagation()
-    console.log('event', event)
   }
 
   return (
@@ -131,7 +131,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
             <Button
               color="primary"
               onClick={() => {
-                generatePath('/event/:id', { id: event.id })
+                onActionClick?.(event, 'detail')
               }}
             >
               {"Voir l'événement"}
