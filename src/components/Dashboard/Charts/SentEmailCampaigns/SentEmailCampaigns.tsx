@@ -2,7 +2,7 @@ import { Grid, Stack, TextField, Typography, InputAdornment, Box, CircularProgre
 import PropTypes from 'prop-types'
 import { getMessages } from '~/api/messagerie'
 import SentEmailCampaignsTitle from './SentEmailCampaignsTitle'
-import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import Loader from '~/ui/Loader'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -10,7 +10,7 @@ import { getNextPageParam, usePaginatedData } from '~/api/pagination'
 import { useScopedQueryKey } from '~/api/useQueryWithScope'
 
 import { usePopover } from '~/mui/custom-popover'
-import { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Message } from '~/domain/message'
 
 import { useDebounce } from '@uidotdev/usehooks'
@@ -39,16 +39,36 @@ const AGrid = styled(Grid)`
 `
 
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { de } from 'date-fns/locale'
 
-const messages = {
-  noCampaign: 'Aucune campagne à afficher',
-  noStatutoryMail: 'Aucun email statutaire à afficher',
-  deleteSuccess: 'Brouillon supprimé avec succès',
+type OnPopoverOpen = (message: Message) => (...args: Parameters<ReturnType<typeof usePopover>['onOpen']>) => void
+
+interface MessageListProps {
+  onPopoverOpen: OnPopoverOpen
+  messages: Message[]
 }
 
+const MessageList = (props: MessageListProps) => (
+  <AGrid container spacing={3}>
+    <TransitionGroup component={null}>
+      {props.messages.map(message => (
+        <CSSTransition key={message.id} timeout={500} classNames="item">
+          <Grid item xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
+            <MessageCard message={message} onPopoverOpen={props.onPopoverOpen} />
+          </Grid>
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  </AGrid>
+)
+
+const MessageLoader = () => (
+  <Stack justifyContent="center" alignItems="center" height="10vh">
+    <CircularProgress />
+  </Stack>
+)
+
 interface SearchBoxProps {
-  onPopoverOpen: (message: Message) => (...args: Parameters<typeof popover.onOpen>) => void
+  onPopoverOpen: OnPopoverOpen
 }
 
 const SearchBox = (props: SearchBoxProps) => {
@@ -96,35 +116,65 @@ const SearchBox = (props: SearchBoxProps) => {
       />
       {!isFetching && messages && messages.length > 0 && (
         <Box display="flex" flexDirection="column" gap={2}>
-          <AGrid container spacing={3}>
-            <TransitionGroup component={null}>
-              {messages.map(message => (
-                <CSSTransition key={message.id} timeout={500} classNames="item">
-                  <Grid item xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
-                    <MessageCard message={message} onPopoverOpen={props.onPopoverOpen} />
-                  </Grid>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-          </AGrid>
+          <MessageList messages={messages} onPopoverOpen={props.onPopoverOpen} />
         </Box>
       )}
 
-      {isFetching && (
-        <Stack justifyContent="center" alignItems="center" height="10vh">
-          <CircularProgress />
-        </Stack>
-      )}
+      {isFetching && <MessageLoader />}
     </Stack>
   )
 }
 
-const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
+const MessageDraftSection = ({ onPopoverOpen }: { onPopoverOpen: OnPopoverOpen }) => {
+  const queryKeyDrafts = useScopedQueryKey(['draft-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
   const { handleError } = useErrorHandler()
+  const { data: draftCampaigns = [], isInitialLoading: isInitialDraftLoading } = useQuery({
+    queryFn: () => getMessages({ status: 'draft', pagination: false }),
+    queryKey: queryKeyDrafts,
+    onError: handleError,
+  })
+
+  return (
+    <Box display="flex" flexDirection="column" gap={2}>
+      <Typography variant="h6">Brouillions</Typography>
+      <MessageList messages={draftCampaigns} onPopoverOpen={onPopoverOpen} />
+      {isInitialDraftLoading && <MessageLoader />}
+    </Box>
+  )
+}
+
+const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatutory: boolean }) => {
+  const queryKey = useScopedQueryKey(['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
+  const { handleError } = useErrorHandler()
+  const {
+    data: paginatedCampaigns,
+    fetchNextPage,
+    hasNextPage,
+    isInitialLoading: isInitialCampaignLoading,
+  } = useInfiniteQuery({
+    queryKey,
+    queryFn: ({ pageParam: page = 1 }) =>
+      getMessages({ statutory: props.isMailsStatutory, pagination: true, page, page_size: 20, status: 'sent' }),
+    getNextPageParam,
+    onError: handleError,
+  })
+
+  const campaigns = usePaginatedData(paginatedCampaigns)
+
+  return (
+    <Box>
+      <SentEmailCampaignsTitle isMailsStatutory={props.isMailsStatutory} />
+      <InfiniteScroll dataLength={campaigns.length} next={fetchNextPage} hasMore={!!hasNextPage} loader={<Loader />}>
+        <MessageList messages={campaigns} onPopoverOpen={props.onPopoverOpen} />
+        {isInitialCampaignLoading && <MessageLoader />}
+      </InfiniteScroll>
+    </Box>
+  )
+}
+
+const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
   const popover = usePopover()
   const currentMessage = useRef<Message | null>(null)
-  const queryKey = useScopedQueryKey(['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
-  const queryKeyDrafts = useScopedQueryKey(['draft-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
   const onPopoverOpen = useCallback(
     (message: Message) =>
       (...args: Parameters<typeof popover.onOpen>) => {
@@ -134,69 +184,11 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
     [popover]
   )
 
-  const { data: draftCampaigns = [] } = useQuery({
-    queryFn: () => getMessages({ status: 'draft', pagination: false }),
-    queryKey: queryKeyDrafts,
-    onError: handleError,
-  })
-
-  const {
-    data: paginatedCampaigns,
-    fetchNextPage,
-    hasNextPage,
-    isLoading,
-  } = useInfiniteQuery({
-    queryKey,
-    queryFn: ({ pageParam: page = 1 }) =>
-      getMessages({ statutory: isMailsStatutory, pagination: true, page, page_size: 20, status: 'sent' }),
-    getNextPageParam,
-    onError: handleError,
-  })
-
-  const campaigns = usePaginatedData(paginatedCampaigns)
-
-  if (isLoading) {
-    return <Loader isCenter />
-  }
-  if (!campaigns.length && !draftCampaigns.length) {
-    return <div>{isMailsStatutory ? messages.noStatutoryMail : messages.noCampaign}</div>
-  }
-
   return (
     <Stack direction="column" gap={8} data-cy="sent-campaigns-container">
       <SearchBox onPopoverOpen={onPopoverOpen} />
-      {draftCampaigns.length > 0 && (
-        <Box display="flex" flexDirection="column" gap={2}>
-          <Typography variant="h6">Brouillions</Typography>
-          <AGrid container spacing={3}>
-            <TransitionGroup component={null}>
-              {draftCampaigns.map(message => (
-                <CSSTransition key={message.id} timeout={500} classNames="item">
-                  <Grid item xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
-                    <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
-                  </Grid>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-          </AGrid>
-        </Box>
-      )}
-      <Box>
-        <SentEmailCampaignsTitle isMailsStatutory={isMailsStatutory} />
-        <InfiniteScroll dataLength={campaigns.length} next={fetchNextPage} hasMore={!!hasNextPage} loader={<Loader />}>
-          <Grid container spacing={3}>
-            <TransitionGroup component={null}>
-              {campaigns.map(message => (
-                <CSSTransition key={message.id} timeout={500} classNames="item">
-                  <Grid item key={message.id} xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
-                    <MessageCard message={message} onPopoverOpen={onPopoverOpen} />
-                  </Grid>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-          </Grid>
-        </InfiniteScroll>
-      </Box>
+      <MessageDraftSection onPopoverOpen={onPopoverOpen} />
+      <MessageSentSection onPopoverOpen={onPopoverOpen} isMailsStatutory={isMailsStatutory} />
       <ActionPopover popover={popover} isMailsStatutory={isMailsStatutory} message={currentMessage} />
     </Stack>
   )
