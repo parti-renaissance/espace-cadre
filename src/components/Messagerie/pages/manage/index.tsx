@@ -34,17 +34,14 @@ export function StepperMessagerie() {
   const location = useLocation()
   const { id, step, action, type } = getPath(location.pathname)
   const [activeStep, setActiveStep] = React.useState(0)
-  const steps = id ? ['Éditeur', 'Aperçu', 'Destinataires'] : ['Type', 'Éditeur', 'Aperçu', 'Destinataires']
+  const routePath = `/messagerie/${action}/${type}`
+  const steps = [
+    { name: 'Éditeur', route: `${routePath}/${id ?? ''}` },
+    { name: 'Aperçu', route: `${routePath}/${id}/${paths.preview}` },
+    { name: 'Destinataires', route: `${routePath}/${id}/${paths.filter}` },
+  ]
   const navigate = useNavigate()
-  const getBackPath = () => {
-    if (step === paths.filter) {
-      return `../${action}/${paths.createNewsletter}/${id}`
-    }
-    if (step === paths.createActuality || step === paths.createNewsletter) {
-      return `../${paths.create}`
-    }
-    return '..'
-  }
+  const getBackPath = () => steps[activeStep - 1]?.route ?? '../'
 
   React.useEffect(() => {
     if (step === undefined) {
@@ -73,9 +70,9 @@ export function StepperMessagerie() {
       <Grid item xs={8}>
         <Box sx={{ width: '100%' }}>
           <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+            {steps.map(({ name, route }) => (
+              <Step key={name}>
+                <StepLabel onClick={() => (id ? navigate(route) : null)}>{name}</StepLabel>
               </Step>
             ))}
           </Stepper>

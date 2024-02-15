@@ -20,7 +20,7 @@ export default function CreateMessageLayout({ children, helpers, title, subtitle
         <Stack spacing={2}>
           <Typography variant="h6">{title}</Typography>
           {subtitle && (
-            <Typography variant="subtitle1" color="text.secondary">
+            <Typography variant="body2" color="text.secondary">
               {subtitle}
             </Typography>
           )}

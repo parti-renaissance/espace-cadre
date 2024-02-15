@@ -8,7 +8,8 @@ import { KPICard, KPIs } from '~/ui/Kpi/KPIs'
 import { Divider } from '@mui/material'
 import EmailIllustration from '~/assets/illustrations/email-illustration'
 import ReadingTextIllustration from '~/assets/illustrations/reading-text-illustration'
-import TargetIllustration from '~/assets/illustrations/target-illustration'
+import ClickIllustration from '~/assets/illustrations/click-illustration'
+import UnfollowIllustration from '~/assets/illustrations/unfollow-illustration'
 import { styled } from '@mui/system'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -78,7 +79,7 @@ const KpiEmailCampaign = () => {
           <KPICard
             main={<Percentage>{campaignsReportRatios.local.clickRate}</Percentage>}
             title={messages.clicks}
-            icon={<TargetIllustration height={50} />}
+            icon={<ClickIllustration height={50} />}
             subtitle={
               <>
                 <Percentage>{campaignsReportRatios.national.clickRate}</Percentage> {messages.national}
@@ -89,7 +90,7 @@ const KpiEmailCampaign = () => {
           <KPICard
             main={<Percentage>{campaignsReportRatios.local.unsubscribeRate}</Percentage>}
             title={messages.unsubscribing}
-            icon={<TargetIllustration height={50} />}
+            icon={<UnfollowIllustration height={50} />}
             subtitle={
               <>
                 <Percentage>{campaignsReportRatios.national.unsubscribeRate}</Percentage> {messages.national}

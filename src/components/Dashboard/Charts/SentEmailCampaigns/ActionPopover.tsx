@@ -32,7 +32,7 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
   const navigate = useNavigate()
 
   const canEdit = !isMailsStatutory && message.current?.draft
-  const canPreview = message.current?.isSynchronized && message.current?.previewLink
+  const canPreview = message.current?.previewLink
   const canDelete = message.current?.draft
 
   const { mutateAsync: deleteDraft } = useMutation(deleteMessage, {
@@ -62,7 +62,16 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
 
   const onDelete = () => eitherMessage(x => deleteDraft(x.id))
   const onDuplicate = () => eitherMessage(x => duplicate(x.id))
-  const onPreview = () => eitherMessage(x => window.open(x.previewLink))
+  const onPreview = () =>
+    eitherMessage(x =>
+      x.draft
+        ? navigate(
+            generatePath(`${messageriePaths.update}/newsletter/:messageId/${messageriePaths.preview}`, {
+              messageId: x.id,
+            })
+          )
+        : window.open(x.previewLink)
+    )
   const onEdit = () =>
     eitherMessage(x => navigate(generatePath(`${messageriePaths.update}/newsletter/:messageId/`, { messageId: x.id })))
 
