@@ -149,14 +149,6 @@ export default function NewsletterPreviewPage() {
   })
   const { data } = useQuery(queryKey, () => getMessage(id!), { enabled: isSync })
 
-  if ((!isSync && !isSyncing) || data?.previewLink === undefined) {
-    return (
-      <Stack justifyContent="center" alignItems="center" height="50vh">
-        un problème est survenu
-      </Stack>
-    )
-  }
-
   if (!data || isSyncing) {
     return (
       <Stack justifyContent="center" alignItems="center" height="50vh">
