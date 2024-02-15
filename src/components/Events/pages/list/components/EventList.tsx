@@ -7,7 +7,7 @@ import Loader from '~/ui/Loader'
 import { generatePath, useNavigate } from 'react-router-dom'
 import { paths } from '~/components/Events/shared/paths'
 import CardEvent from '~/components/Events/pages/list/components/CardEvent'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { Event } from '~/components/Events/shared/types'
 
@@ -19,10 +19,11 @@ const messages = {
 
 interface EventListProps {
   query: any
+  setRefetchRef: (refetch: () => void) => void
   queryKey: string
 }
 
-const EventList = ({ query, queryKey }: EventListProps) => {
+const EventList = ({ query, setRefetchRef, queryKey }: EventListProps) => {
   const { handleError } = useErrorHandler()
   const navigate = useNavigate()
 
@@ -36,6 +37,8 @@ const EventList = ({ query, queryKey }: EventListProps) => {
     getNextPageParam,
     onError: handleError,
   })
+
+  useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
 
   const categoryByGroup = useQueryClient().getQueryState(['categories', { feature: 'Events', view: 'Events' }])
   const categoryNameByCategoryId = useMemo(
@@ -66,7 +69,7 @@ const EventList = ({ query, queryKey }: EventListProps) => {
   }
 
   return (
-    <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={false} loader={<Loader />}>
+    <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={!!hasNextPage} loader={<Loader />}>
       <Grid container spacing={4}>
         {events.map((e: any) => {
           const event = {

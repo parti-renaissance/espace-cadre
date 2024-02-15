@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Grid, ButtonGroup, Button, Stack } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
@@ -22,6 +22,7 @@ const ListEvents = () => {
   const navigate = useNavigate()
 
   const [selectedTab, setSelectedTab] = useState<number>(0)
+  const [refetchEvents, setRefetchEvents] = useState(() => () => {})
 
   useQuery(['categories', { feature: 'Events', view: 'Events' }], () => getCategories(), {
     cacheTime: ONE_DAY,
@@ -32,6 +33,8 @@ const ListEvents = () => {
     ['countOnlyMine', { feature: 'Events', view: 'Events' }],
     () => getMyEvents({ countOnlyMine: true })
   )
+
+  const setRefetchEventsRef = useCallback((f: () => void) => setRefetchEvents(() => f), [])
 
   const countEventsOnlyMine = countOnlyMine?.total || 0
 
@@ -77,7 +80,7 @@ const ListEvents = () => {
 
       {tabs.map((tab, index) => (
         <TabPanel key={tab.id} value={selectedTab} index={index}>
-          <EventList query={tab.query} queryKey={tab.id} />
+          <EventList query={tab.query} queryKey={tab.id} setRefetchRef={setRefetchEventsRef} />
         </TabPanel>
       ))}
     </Container>
