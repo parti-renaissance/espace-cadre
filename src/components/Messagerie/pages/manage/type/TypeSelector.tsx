@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, SxProps, Theme } from '@mui/material'
+import { SxProps, Theme } from '@mui/material'
 import ChooseType from '~/components/Messagerie/Component/ChooseType'
 import TypeCard from '~/components/Messagerie/Component/TypeCard'
 import NewletterIcon from '~/assets/icons/newletter-icon'

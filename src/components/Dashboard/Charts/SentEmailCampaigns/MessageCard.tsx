@@ -46,9 +46,6 @@ const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
         <Label variant="soft" color="info">
           Newletter
         </Label>
-        <Label variant="soft" color="error">
-          Actualités
-        </Label>
       </Stack>
       {!message.draft ? (
         <Grid container marginBottom={2}>

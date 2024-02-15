@@ -27,8 +27,13 @@ describe('Messagerie', () => {
     mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
     mock(
       'GET',
-      '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
+      '/api/v3/adherent_messages?order[created_at]=desc&statutory=false&page=1&page_size=20&status=sent&scope=referent',
       'messagerie/messages'
+    )
+    mock(
+      'GET',
+      '/api/v3/adherent_messages?order[created_at]=desc&status=draft&pagination=false&scope=referent',
+      'messagerie/email_templates'
     )
     selectScope()
     cy.visit('/messagerie')
