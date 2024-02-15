@@ -96,15 +96,10 @@ const SearchBox = (props: SearchBoxProps) => {
   })
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const term = e.target.value.trim()
-    if (term && term.length > 2 && term !== search) {
-      setSearch(e.target.value)
-    } else {
-      setSearch('')
-    }
+    setSearch(e.target.value.trim())
   }
 
-  const messages = search.trim().length > 2 ? data : []
+  const messages = search.length > 2 ? data : []
 
   return (
     <Stack direction="column" gap={8} data-cy="sent-campaigns-container">
