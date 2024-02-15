@@ -8,20 +8,22 @@ import Iconify from '~/mui/iconify'
 import { Stack } from '@mui/system'
 import { Event } from '~/components/Events/shared/types'
 import { getCurrentUser } from '~/redux/user/selectors'
+import { usePopover } from '~/mui/custom-popover'
 
 import BadgeStatus from './components/badgeStatus'
 import { addressFormatted, dateFormatted } from './helpers'
+import ActionPopover from './components/actionPopOver'
 
-type CardEventAction = 'detail' | 'edit' | 'delete' | 'cancel'
+export type CardEventAction = 'detail' | 'edit' | 'delete' | 'cancel'
 
 type CardEventProps = {
   event: Event
-  onActionClick?: (event: Event, action: CardEventAction) => void
+  onActionClick?: (event: Event, action: CardEventAction) => any
 }
 
 const CardEvent = ({ event, onActionClick }: CardEventProps) => {
   const currentUser = useSelector(getCurrentUser)
-  // get the user
+  const popover = usePopover()
 
   const listItems = [
     {
@@ -53,10 +55,6 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
       children: event.category,
     },
   ]
-
-  const onPopoverOpen = (event: Event) => (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    event.stopPropagation()
-  }
 
   return (
     <Card>
@@ -124,7 +122,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
 
         <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2}>
           {event.organizerId === currentUser.uuid ? (
-            <IconButton aria-label="actions" aria-describedby={event.id} onClick={onPopoverOpen(event)}>
+            <IconButton aria-label="actions" aria-describedby={event.id} onClick={event => popover.onOpen(event)}>
               <Iconify icon="eva:more-horizontal-fill" />
             </IconButton>
           ) : (
@@ -139,13 +137,6 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
           )}
 
           <Stack display="flex" direction="row" spacing={1} alignItems="center">
-            {/*<Stack direction="row" spacing={0.5} alignItems="center" marginTop={1} >*/}
-            {/*  <Iconify icon={'solar:eye-bold'} color="text.disabled" />*/}
-            {/*  <Typography variant="caption" noWrap color="text.disabled">*/}
-            {/*    74*/}
-            {/*  </Typography>*/}
-            {/*</Stack>*/}
-
             {event?.attendees > 0 && (
               <Stack direction="row" spacing={0.5} alignItems="center" marginTop={1}>
                 <Iconify icon={'solar:users-group-rounded-bold'} color="text.disabled" />
@@ -157,6 +148,8 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
           </Stack>
         </Box>
       </CardContent>
+
+      <ActionPopover popover={popover} event={event} onClick={(event, action) => onActionClick?.(event, action)} />
     </Card>
   )
 }
