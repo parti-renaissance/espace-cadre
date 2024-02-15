@@ -1,15 +1,17 @@
-import { Card, CardContent, Box, TextField, Stack, Typography, Button } from '@mui/material'
+import { Card, CardContent, Box, TextField, Stack, Typography, Button, Dialog } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from '~/mui/iconify'
 import { grey } from '~/theme/palette'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams, useBlocker } from 'react-router-dom'
 import { paths } from '~/components/Messagerie/shared/paths'
 import ManageLayout from '~/components/Messagerie/pages/manage/Layout'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import Message, { MessageContent } from '~/domain/message'
 import { useScopedQueryKey } from '~/api/useQueryWithScope'
 import { useQuery, useQueryClient, useMutation, UseMutationResult } from '@tanstack/react-query'
 import { getMessage, updateMessageContent } from '~/api/messagerie'
+import ModalSaveBeforeLeave from '~/components/Messagerie/Component/ModalSaveBeforeLeave'
+import { useState } from 'react'
 
 const sidebarProps = {
   title: 'Editeur',
@@ -55,15 +57,33 @@ const Form = ({
     },
   })
 
+  const [blockerOpen, setBlockerOpen] = useState(false)
+
+  const handleCloseBlockerModal = () => {
+    setBlockerOpen(false)
+  }
+
+  const blocker = useBlocker(({ nextLocation }) => {
+    if (
+      formState.isDirty &&
+      data?.id &&
+      !nextLocation.pathname.startsWith(`/messagerie/${paths.update}/newsletter/${data.id}/${paths.unlayer}`)
+    ) {
+      setBlockerOpen(true)
+      return true
+    }
+    return false
+  })
+
   const onSubmit =
-    (action: 'save' | 'next'): SubmitHandler<Inputs> =>
-    payload => {
+    (action: 'save' | 'next') =>
+    (payload: Inputs): Promise<void> => {
       if (!data || !data.id) {
-        return
+        return new Promise(() => {})
       }
-      mutate
+      return mutate
         .mutateAsync({
-          id: data.id,
+          id: data?.id,
           x: { ...data, ...payload },
         })
         .then(() => {
@@ -73,6 +93,11 @@ const Form = ({
           }
         })
     }
+
+  const handleSave = () => {
+    setBlockerOpen(false)
+    return onSubmit('save')(getValues())
+  }
 
   const handleOpenEditor = () => {
     const formData = getValues()
@@ -130,6 +155,12 @@ const Form = ({
           </LoadingButton>
         </Stack>
       </Stack>
+      <ModalSaveBeforeLeave
+        open={blockerOpen}
+        onClose={handleCloseBlockerModal}
+        onSave={handleSave}
+        blocker={blocker}
+      />
     </ManageLayout>
   )
 }
