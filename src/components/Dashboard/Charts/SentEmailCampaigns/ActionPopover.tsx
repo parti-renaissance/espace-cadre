@@ -33,8 +33,7 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
 
   const canEdit = !isMailsStatutory && message.current?.draft
   const canPreview = message.current?.isSynchronized && message.current?.previewLink
-  const canDuplicate = message.current?.draft
-  const canDelete = canEdit
+  const canDelete = message.current?.draft
 
   const { mutateAsync: deleteDraft } = useMutation(deleteMessage, {
     onSuccess: async () => {
@@ -71,7 +70,7 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
     <Box sx={{ width: '100%', minWidth: 200, maxWidth: 360, bgcolor: 'background.paper' }}>
       <MenuList>
         {canPreview && <MenuItem onClick={onPreview}>Aperçu</MenuItem>}
-        {canDuplicate && <MenuItem onClick={onDuplicate}>Dupliquer</MenuItem>}
+        <MenuItem onClick={onDuplicate}>Dupliquer</MenuItem>
         {canEdit && <MenuItem onClick={onEdit}>Editer</MenuItem>}
         {canDelete && <Divider />}
         {canDelete && (

@@ -92,12 +92,12 @@ const SearchBox = (props: SearchBoxProps) => {
     queryFn: () => getMessages({ pagination: false, label: search }),
     queryKey: queryKey,
     onError: handleError,
-    enabled: debouncedSearch.trim().length > 2,
+    enabled: debouncedSearch.length > 2,
   })
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searc = e.target.value.trim()
-    if (searc && searc.length > 2 && searc !== search) {
+    const term = e.target.value.trim()
+    if (term && term.length > 2 && term !== search) {
       setSearch(e.target.value)
     } else {
       setSearch('')
