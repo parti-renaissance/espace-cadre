@@ -15,15 +15,6 @@ interface TabsProps {
   onChangeTab: (event: React.SyntheticEvent, index: number) => void
 }
 
-const BadgeCustom = styled(Box)(({ theme }) => ({
-  alignItems: 'center',
-  fontSize: '14px',
-  color: theme.palette.colors.blue['900'],
-  backgroundColor: theme.palette.colors.blue['100'],
-  padding: '0.2rem 0.4rem',
-  borderRadius: '4px',
-}))
-
 const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
   const a11yProps = (id: string) => ({
     id: `tab-${id}`,
