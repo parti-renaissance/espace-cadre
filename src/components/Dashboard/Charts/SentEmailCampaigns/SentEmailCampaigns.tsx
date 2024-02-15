@@ -67,6 +67,14 @@ const MessageLoader = () => (
   </Stack>
 )
 
+const EmptyStatus = (props: { text: string }) => (
+  <Stack justifyContent="center" alignItems="center" height="10vh">
+    <Typography variant="subtitle2" textAlign="center">
+      {props.text}
+    </Typography>
+  </Stack>
+)
+
 interface SearchBoxProps {
   onPopoverOpen: OnPopoverOpen
 }
@@ -128,7 +136,11 @@ const SearchBox = (props: SearchBoxProps) => {
 const MessageDraftSection = ({ onPopoverOpen }: { onPopoverOpen: OnPopoverOpen }) => {
   const queryKeyDrafts = useScopedQueryKey(['draft-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
   const { handleError } = useErrorHandler()
-  const { data: draftCampaigns = [], isInitialLoading: isInitialDraftLoading } = useQuery({
+  const {
+    data = [],
+    isInitialLoading,
+    isFetched,
+  } = useQuery({
     queryFn: () => getMessages({ status: 'draft', pagination: false }),
     queryKey: queryKeyDrafts,
     onError: handleError,
@@ -137,8 +149,9 @@ const MessageDraftSection = ({ onPopoverOpen }: { onPopoverOpen: OnPopoverOpen }
   return (
     <Box display="flex" flexDirection="column" gap={2}>
       <Typography variant="h6">Brouillions</Typography>
-      <MessageList messages={draftCampaigns} onPopoverOpen={onPopoverOpen} />
-      {isInitialDraftLoading && <MessageLoader />}
+      <MessageList messages={data} onPopoverOpen={onPopoverOpen} />
+      {isInitialLoading && <MessageLoader />}
+      {isFetched && data.length === 0 && <EmptyStatus text="0 brouillons" />}
     </Box>
   )
 }
@@ -146,12 +159,7 @@ const MessageDraftSection = ({ onPopoverOpen }: { onPopoverOpen: OnPopoverOpen }
 const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatutory: boolean }) => {
   const queryKey = useScopedQueryKey(['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
   const { handleError } = useErrorHandler()
-  const {
-    data: paginatedCampaigns,
-    fetchNextPage,
-    hasNextPage,
-    isInitialLoading: isInitialCampaignLoading,
-  } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetched, isInitialLoading } = useInfiniteQuery({
     queryKey,
     queryFn: ({ pageParam: page = 1 }) =>
       getMessages({ statutory: props.isMailsStatutory, pagination: true, page, page_size: 20, status: 'sent' }),
@@ -159,14 +167,15 @@ const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatut
     onError: handleError,
   })
 
-  const campaigns = usePaginatedData(paginatedCampaigns)
+  const campaigns = usePaginatedData(data)
 
   return (
     <Box>
       <SentEmailCampaignsTitle isMailsStatutory={props.isMailsStatutory} />
       <InfiniteScroll dataLength={campaigns.length} next={fetchNextPage} hasMore={!!hasNextPage} loader={<Loader />}>
         <MessageList messages={campaigns} onPopoverOpen={props.onPopoverOpen} />
-        {isInitialCampaignLoading && <MessageLoader />}
+        {isInitialLoading && <MessageLoader />}
+        {isFetched && campaigns.length === 0 && <EmptyStatus text="0 campagnes envoyées" />}
       </InfiniteScroll>
     </Box>
   )
