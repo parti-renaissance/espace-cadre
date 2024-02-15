@@ -88,7 +88,7 @@ const SearchBox = (props: SearchBoxProps) => {
     debouncedSearch,
   ])
   const { handleError } = useErrorHandler()
-  const { data, isFetching } = useQuery({
+  const { data = [], isFetching } = useQuery({
     queryFn: () => getMessages({ pagination: false, label: search }),
     queryKey: queryKey,
     onError: handleError,
@@ -98,8 +98,6 @@ const SearchBox = (props: SearchBoxProps) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value.trim())
   }
-
-  const messages = search.length > 2 ? data : []
 
   return (
     <Stack direction="column" gap={8} data-cy="sent-campaigns-container">
@@ -117,9 +115,9 @@ const SearchBox = (props: SearchBoxProps) => {
           ),
         }}
       />
-      {!isFetching && messages && messages.length > 0 && (
+      {!isFetching && data.length > 0 && (
         <Box display="flex" flexDirection="column" gap={2}>
-          <MessageList messages={messages} onPopoverOpen={props.onPopoverOpen} />
+          <MessageList messages={data} onPopoverOpen={props.onPopoverOpen} />
         </Box>
       )}
 
