@@ -28,18 +28,25 @@ const Dashboard = () => {
             title={messages.title}
             button={
               <Stack alignItems="center" direction="row" spacing={2}>
-                <ButtonGroup variant="contained" color="inherit" size="medium">
-                  <Button
-                    data-cy="ui-page-header-button"
-                    startIcon={<Iconify icon="solar:pen-bold" color="white" />}
-                    onClick={() => navigate(`${messageriePaths.create}/${messageriePaths.createNewsletter}`)}
-                  >
-                    {messages.sendEmail}
-                  </Button>
-                  <Button data-cy="templates-button" onClick={() => setShowTemplates(true)}>
-                    <Iconify icon="eva:arrow-ios-downward-fill" color="white" />
-                  </Button>
-                </ButtonGroup>
+                <Button
+                  variant="contained"
+                  color="inherit"
+                  size="medium"
+                  data-cy="ui-page-header-button"
+                  startIcon={<Iconify icon="solar:pen-bold" color="white" />}
+                  onClick={() => navigate(`${messageriePaths.create}/${messageriePaths.createNewsletter}`)}
+                >
+                  {messages.sendEmail}
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  size="medium"
+                  data-cy="templates-button"
+                  onClick={() => setShowTemplates(true)}
+                >
+                  À partir d&apos;une template
+                </Button>
               </Stack>
             }
           />

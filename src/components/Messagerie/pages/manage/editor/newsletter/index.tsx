@@ -118,12 +118,12 @@ const Form = ({
                 sx={{ cursor: 'pointer' }}
                 onClick={handleOpenEditor}
                 data-cy="unlayer-btn"
-                bgcolor={grey[300]}
+                bgcolor={grey[100]}
                 borderRadius={2}
                 height={112}
               >
                 <Stack alignItems="center" justifyContent="center" height="100%">
-                  <Iconify icon="mdi:external-link" color={grey[600]} fontSize="" />
+                  <Iconify icon="mdi:external-link" color={grey[600]} width={40} height={40} />
                   <Typography color={grey[600]} variant="h6">
                     Ouvir l&apos;éditeur
                   </Typography>
