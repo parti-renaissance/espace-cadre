@@ -61,11 +61,11 @@ const EventList = ({ query, setRefetchRef, queryKey }: EventListProps) => {
   }
 
   const handleDelete = (event: Event) => {
-    console.log('delete')
+    throw new Error('Not implemented')
   }
 
   const handleCancel = (event: Event) => {
-    console.log('cancel')
+    throw new Error('Not implemented')
   }
 
   return (

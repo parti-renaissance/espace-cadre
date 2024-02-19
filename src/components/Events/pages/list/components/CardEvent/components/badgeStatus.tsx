@@ -4,7 +4,6 @@ import Label, { LabelColor } from '~/mui/label'
 import * as React from 'react'
 
 const getStatusFromEvent = (event: Event) => {
-  console.log({ finish: event.finishAt, begin: event.beginAt, date: new Date() })
   const listStatus = {
     passed: {
       condition: new Date(event.finishAt) < new Date(),
