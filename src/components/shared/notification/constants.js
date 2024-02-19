@@ -8,6 +8,8 @@ export const notifyMessages = {
   warningTitle: 'Avertissement',
   errorTitle: 'Une erreur est survenue',
   errorDetail: 'Une erreur est survenue. Veuillez réessayer dans quelques instants',
+  successSentTitle: 'Message envoyé',
+  successSentDetail: 'Le message a bien été envoyé',
   notFoundTitle: 'Ressource introuvable',
   badRequestTitle: 'Données invalides',
   notFoundDetail:
