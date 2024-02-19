@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { Box, AppBar as MuiAppBar } from '@mui/material'
 
-import { useUserScope } from '../../redux/user/hooks'
 import Mobile from './Mobile'
 import Desktop from './Desktop'
 import Branding from './Branding'
@@ -28,7 +27,6 @@ const AppBar = styled(MuiAppBar)(
 const Sidebar = ({ children, window }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const container = window !== undefined ? () => window().document.body : undefined
-  const [currentScope] = useUserScope()
   const { fullscreen, hideNav } = useDrawerStore()
 
   const handleDrawerToggle = () => {
@@ -36,7 +34,7 @@ const Sidebar = ({ children, window }) => {
   }
 
   return (
-    <Box sx={{ minHeight: '100%', position: 'relative', display: 'flex', backgroundColor: 'colors.gray.100' }}>
+    <Box sx={{ minHeight: '100%', position: 'relative', display: 'flex' }}>
       {fullscreen || hideNav ? null : (
         <>
           <Desktop drawerWidth={drawerWidth} />
@@ -64,9 +62,6 @@ const Sidebar = ({ children, window }) => {
             {hideNav ? null : (
               <AppBar position="fixed" sx={{ display: { lg: 'none' } }}>
                 <Branding handleDrawerToggle={handleDrawerToggle} />
-                <span className="badge badge-light badge-sm">
-                  {currentScope?.name} ({currentScope?.zones[0]?.code})
-                </span>
               </AppBar>
             )}
             <Header />

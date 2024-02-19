@@ -165,7 +165,15 @@ const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatut
   return (
     <Box>
       <SentEmailCampaignsTitle isMailsStatutory={props.isMailsStatutory} />
-      <InfiniteScroll dataLength={campaigns.length} next={fetchNextPage} hasMore={!!hasNextPage} loader={<Loader />}>
+      <InfiniteScroll
+        dataLength={campaigns.length}
+        next={fetchNextPage}
+        hasMore={!!hasNextPage}
+        loader={<Loader />}
+        style={{
+          overflow: 'visible',
+        }}
+      >
         <MessageList messages={campaigns} onPopoverOpen={props.onPopoverOpen} />
         {isInitialLoading && <MessageLoader />}
         {isFetched && campaigns.length === 0 && <EmptyStatus text="0 campagnes envoyées" />}

@@ -6,6 +6,7 @@ const StyledCard = styled(MuiCard)({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+  border: '1px solid #eee',
 })
 
 const StyledActions = styled('div')({
