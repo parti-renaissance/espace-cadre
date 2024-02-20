@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Grid, ButtonGroup, Button, Stack } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
@@ -9,7 +9,7 @@ import { paths as eventsPath } from '~/components/Events/shared/paths'
 import TabsComponent from '~/components/Events/Components/Tabs'
 import { TabPanel } from '~/components/Events/Components'
 import Iconify from '~/mui/iconify'
-import EventList, { EventListRef } from '~/components/Events/pages/list/components/EventList'
+import EventList from '~/components/Events/pages/list/components/EventList'
 
 type Tab = {
   id: string
@@ -22,8 +22,6 @@ const ListEvents = () => {
   const navigate = useNavigate()
 
   const [selectedTab, setSelectedTab] = useState<number>(0)
-
-  const EventListRef = React.useRef<EventListRef>(null)
 
   useQuery(['categories', { feature: 'Events', view: 'Events' }], () => getCategories(), {
     cacheTime: ONE_DAY,
@@ -79,7 +77,7 @@ const ListEvents = () => {
 
       {tabs.map((tab, index) => (
         <TabPanel key={tab.id} value={selectedTab} index={index}>
-          <EventList query={tab.query} queryKey={[tab.id]} ref={EventListRef} />
+          <EventList query={tab.query} queryKey={[tab.id]} />
         </TabPanel>
       ))}
     </Container>

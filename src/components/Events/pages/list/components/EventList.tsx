@@ -25,11 +25,7 @@ interface EventListProps {
   queryKey: QueryKey
 }
 
-export interface EventListRef {
-  refetch: UseInfiniteQueryResult<PaginatedResult<Event[]>>['refetch']
-}
-
-const EventList = forwardRef<EventListRef, EventListProps>(({ query, queryKey }, ref) => {
+const EventList = ({ query, queryKey }: EventListProps) => {
   const { handleError } = useErrorHandler()
   const navigate = useNavigate()
   const queryKeyScoped = useScopedQueryKey(queryKey)
@@ -38,14 +34,11 @@ const EventList = forwardRef<EventListRef, EventListProps>(({ query, queryKey },
     data: paginatedEvents,
     fetchNextPage,
     hasNextPage,
-    refetch,
     isLoading,
   } = useInfiniteQuery([queryKeyScoped, { feature: 'Events', view: 'Events' }], query, {
     getNextPageParam,
     onError: handleError,
   })
-
-  useImperativeHandle(ref, () => ({ refetch }))
 
   const categoryByGroup = useQueryClient().getQueryState<EventGroupCategory[]>([
     'categories',
@@ -120,8 +113,6 @@ const EventList = forwardRef<EventListRef, EventListProps>(({ query, queryKey },
       </Grid>
     </InfiniteScroll>
   )
-})
-
-EventList.displayName = 'EventList'
+}
 
 export default EventList
