@@ -9,7 +9,7 @@ import { paths as eventsPath } from '~/components/Events/shared/paths'
 import TabsComponent from '~/components/Events/Components/Tabs'
 import { TabPanel } from '~/components/Events/Components'
 import Iconify from '~/mui/iconify'
-import EventList from '~/components/Events/pages/list/components/EventList'
+import EventList, { EventListRef } from '~/components/Events/pages/list/components/EventList'
 
 type Tab = {
   id: string
@@ -23,7 +23,7 @@ const ListEvents = () => {
 
   const [selectedTab, setSelectedTab] = useState<number>(0)
 
-  const refRefetchEvents = React.useRef<() => void>()
+  const EventListRef = React.useRef<EventListRef>(null)
 
   useQuery(['categories', { feature: 'Events', view: 'Events' }], () => getCategories(), {
     cacheTime: ONE_DAY,
@@ -79,7 +79,7 @@ const ListEvents = () => {
 
       {tabs.map((tab, index) => (
         <TabPanel key={tab.id} value={selectedTab} index={index}>
-          <EventList query={tab.query} queryKey={tab.id} ref={refRefetchEvents} />
+          <EventList query={tab.query} queryKey={[tab.id]} ref={EventListRef} />
         </TabPanel>
       ))}
     </Container>

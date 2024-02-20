@@ -1,15 +1,16 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Grid } from '@mui/material'
-import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
-import { getNextPageParam, usePaginatedData } from '~/api/pagination'
+import { useScopedQueryKey } from '~/api/useQueryWithScope'
+import { PaginatedResult, getNextPageParam, usePaginatedData } from '~/api/pagination'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import Loader from '~/ui/Loader'
 import { generatePath, useNavigate } from 'react-router-dom'
 import { paths } from '~/components/Events/shared/paths'
 import CardEvent from '~/components/Events/pages/list/components/CardEvent'
-import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { forwardRef, useImperativeHandle, useMemo } from 'react'
+import { useQueryClient, QueryKey, UseInfiniteQueryResult, useInfiniteQuery } from '@tanstack/react-query'
 import { Event } from '~/components/Events/shared/types'
+import { EventCategory, EventGroupCategory } from '~/domain/event'
 
 const messages = {
   deleteSuccess: "L'évènement a bien été supprimé",
@@ -20,36 +21,42 @@ const messages = {
 type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
 
 interface EventListProps {
-  query: any
-  queryKey: string
-  ref: any
+  query: () => Promise<PaginatedResult<Event[]>>
+  queryKey: QueryKey
 }
 
-const EventList = forwardRef(({ query, queryKey }: EventListProps, ref) => {
+export interface EventListRef {
+  refetch: UseInfiniteQueryResult<PaginatedResult<Event[]>>['refetch']
+}
+
+const EventList = forwardRef<EventListRef, EventListProps>(({ query, queryKey }, ref) => {
   const { handleError } = useErrorHandler()
   const navigate = useNavigate()
-
-  useImperativeHandle(ref, () => ({
-    refetch: () => refetch(),
-  }))
+  const queryKeyScoped = useScopedQueryKey(queryKey)
 
   const {
-    data: paginatedEvents = null,
+    data: paginatedEvents,
     fetchNextPage,
     hasNextPage,
     refetch,
     isLoading,
-  } = useInfiniteQueryWithScope([queryKey, { feature: 'Events', view: 'Events' }], query, {
+  } = useInfiniteQuery([queryKeyScoped, { feature: 'Events', view: 'Events' }], query, {
     getNextPageParam,
     onError: handleError,
   })
 
-  const categoryByGroup = useQueryClient().getQueryState(['categories', { feature: 'Events', view: 'Events' }])
+  useImperativeHandle(ref, () => ({ refetch }))
+
+  const categoryByGroup = useQueryClient().getQueryState<EventGroupCategory[]>([
+    'categories',
+    { feature: 'Events', view: 'Events' },
+  ])
+
   const categoryNameByCategoryId = useMemo(
     () =>
-      ((categoryByGroup?.data as any)?.flatMap((g: any) => g.categories) || []).reduce(
-        (map: any, group: any) => ({ ...map, [group.slug]: group.name }),
-        {}
+      (categoryByGroup?.data?.flatMap(g => g.categories as EventCategory[]) || []).reduce(
+        (map, group) => ({ ...map, [group.slug]: group.name }),
+        {} as Record<EventCategory['slug'], EventCategory['name']>
       ),
     [categoryByGroup]
   )
@@ -90,7 +97,13 @@ const EventList = forwardRef(({ query, queryKey }: EventListProps, ref) => {
   }
 
   return (
-    <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={!!hasNextPage} loader={<Loader />}>
+    <InfiniteScroll
+      dataLength={events.length}
+      next={() => fetchNextPage()}
+      hasMore={!!hasNextPage}
+      loader={<Loader />}
+      style={{ overflow: 'visible' }}
+    >
       <Grid container spacing={4}>
         {events.map((e: any) => {
           const event = {
