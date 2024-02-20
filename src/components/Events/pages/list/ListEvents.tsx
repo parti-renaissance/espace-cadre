@@ -22,7 +22,8 @@ const ListEvents = () => {
   const navigate = useNavigate()
 
   const [selectedTab, setSelectedTab] = useState<number>(0)
-  const [refetchEvents, setRefetchEvents] = useState(() => () => {})
+
+  const refRefetchEvents = React.useRef<() => void>()
 
   useQuery(['categories', { feature: 'Events', view: 'Events' }], () => getCategories(), {
     cacheTime: ONE_DAY,
@@ -33,8 +34,6 @@ const ListEvents = () => {
     ['countOnlyMine', { feature: 'Events', view: 'Events' }],
     () => getMyEvents({ countOnlyMine: true })
   )
-
-  const setRefetchEventsRef = useCallback((f: () => void) => setRefetchEvents(() => f), [])
 
   const countEventsOnlyMine = countOnlyMine?.total || 0
 
@@ -80,7 +79,7 @@ const ListEvents = () => {
 
       {tabs.map((tab, index) => (
         <TabPanel key={tab.id} value={selectedTab} index={index}>
-          <EventList query={tab.query} queryKey={tab.id} setRefetchRef={setRefetchEventsRef} />
+          <EventList query={tab.query} queryKey={tab.id} ref={refRefetchEvents} />
         </TabPanel>
       ))}
     </Container>

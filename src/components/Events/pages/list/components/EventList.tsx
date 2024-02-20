@@ -7,7 +7,7 @@ import Loader from '~/ui/Loader'
 import { generatePath, useNavigate } from 'react-router-dom'
 import { paths } from '~/components/Events/shared/paths'
 import CardEvent from '~/components/Events/pages/list/components/CardEvent'
-import { useEffect, useMemo } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { Event } from '~/components/Events/shared/types'
 
@@ -19,13 +19,17 @@ const messages = {
 
 interface EventListProps {
   query: any
-  setRefetchRef: (refetch: () => void) => void
   queryKey: string
+  ref: any
 }
 
-const EventList = ({ query, setRefetchRef, queryKey }: EventListProps) => {
+const EventList = forwardRef(({ query, queryKey }: EventListProps, ref) => {
   const { handleError } = useErrorHandler()
   const navigate = useNavigate()
+
+  useImperativeHandle(ref, () => ({
+    refetch: () => refetch(),
+  }))
 
   const {
     data: paginatedEvents = null,
@@ -37,8 +41,6 @@ const EventList = ({ query, setRefetchRef, queryKey }: EventListProps) => {
     getNextPageParam,
     onError: handleError,
   })
-
-  useEffect(() => setRefetchRef(refetch), [refetch, setRefetchRef])
 
   const categoryByGroup = useQueryClient().getQueryState(['categories', { feature: 'Events', view: 'Events' }])
   const categoryNameByCategoryId = useMemo(
@@ -104,6 +106,8 @@ const EventList = ({ query, setRefetchRef, queryKey }: EventListProps) => {
       </Grid>
     </InfiniteScroll>
   )
-}
+})
+
+EventList.displayName = 'EventList'
 
 export default EventList
