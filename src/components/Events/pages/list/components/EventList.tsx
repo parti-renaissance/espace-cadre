@@ -17,6 +17,8 @@ const messages = {
   noEvent: 'Aucun évènement à afficher',
 }
 
+type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
+
 interface EventListProps {
   query: any
   queryKey: string
@@ -70,6 +72,23 @@ const EventList = forwardRef(({ query, queryKey }: EventListProps, ref) => {
     throw new Error('Not implemented')
   }
 
+  const handleDefineAction = (event: Event, action: EventAction) => {
+    switch (action) {
+      case 'detail':
+        navigate(generatePath(`${paths.events}/:uuid`, { uuid: event.id }))
+        break
+      case 'edit':
+        navigate(generatePath(`${paths.events}/edit/:uuid`, { uuid: event.id }))
+        break
+      case 'delete':
+        handleDelete(event)
+        break
+      case 'cancel':
+        handleCancel(event)
+        break
+    }
+  }
+
   return (
     <InfiniteScroll dataLength={events.length} next={() => fetchNextPage()} hasMore={!!hasNextPage} loader={<Loader />}>
       <Grid container spacing={4}>
@@ -81,25 +100,7 @@ const EventList = forwardRef(({ query, queryKey }: EventListProps, ref) => {
 
           return (
             <Grid item key={e.id} xs={12} sm={6} md={6} lg={4} xl={3}>
-              <CardEvent
-                event={event}
-                onActionClick={(event, action) => {
-                  switch (action) {
-                    case 'detail':
-                      navigate(generatePath(`${paths.events}/:uuid`, { uuid: event.id }))
-                      break
-                    case 'edit':
-                      navigate(generatePath(`${paths.events}/edit/:uuid`, { uuid: event.id }))
-                      break
-                    case 'delete':
-                      handleDelete(event)
-                      break
-                    case 'cancel':
-                      handleCancel(event)
-                      break
-                  }
-                }}
-              />
+              <CardEvent event={event} onActionClick={(event, action) => handleDefineAction(event, action)} />
             </Grid>
           )
         })}
