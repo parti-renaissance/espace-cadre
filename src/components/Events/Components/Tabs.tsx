@@ -15,11 +15,6 @@ interface TabsProps {
 }
 
 const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
-  const a11yProps = (id: string) => ({
-    id: `tab-${id}`,
-    'aria-controls': `tab-${id}`,
-  })
-
   const handleChange = (event: React.SyntheticEvent, index: number) => {
     onChangeTab(event, index)
   }
@@ -41,7 +36,9 @@ const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
                 )}
               </Typography>
             }
-            {...a11yProps(element.label)}
+            id={`tab-${element.label}`}
+            aria-label={element.label}
+            aria-controls={`tab-${element.label}`}
           />
         ))}
       </Tabs>
