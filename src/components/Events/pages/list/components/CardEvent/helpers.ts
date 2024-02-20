@@ -6,7 +6,14 @@ export const dateFormatted = (address: string) =>
     hour: '2-digit',
   })
 
-export const addressFormatted = (address: any) => {
+type Address = {
+  number?: string
+  route?: string
+  postalCode?: string
+  locality?: string
+}
+
+export const addressFormatted = (address: Address) => {
   const { number, route, postalCode, locality } = address
 
   if (number && route && postalCode && locality) {
