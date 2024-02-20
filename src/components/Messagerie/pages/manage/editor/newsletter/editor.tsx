@@ -138,7 +138,7 @@ const Template = () => {
             <LoadingButton
               loading={loading}
               variant="outlined"
-              disabled={loading || !messageUuid || !editorData?.content}
+              disabled={loading || !editorData?.content}
               onClick={handleClickNext('next')}
             >
               {editorData?.content ? 'Enregister et' : ''} apercevoir

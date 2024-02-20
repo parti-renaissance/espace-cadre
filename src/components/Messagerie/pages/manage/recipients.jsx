@@ -14,7 +14,6 @@ import {
   sendMessage as sendMessageApi,
   sendTestMessage as sendTestMessageApi,
 } from '~/api/messagerie'
-import { paths as messageriePaths } from '../../shared/paths'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { useMutation } from '@tanstack/react-query'
 import { useErrorHandler } from '~/components/shared/error/hooks'
@@ -52,9 +51,10 @@ const Filters = () => {
   const { handleError } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
 
-  const { mutate: sendMessage } = useMutation(sendMessageApi, {
+  const { mutate: sendMessage, isLoading: isMessageSending } = useMutation(sendMessageApi, {
     onSuccess: () => {
-      navigate(`../../${messageriePaths.confirmation}`)
+      navigate('/messagerie')
+      enqueueSnackbar(notifyMessages.successSentTitle, notifyVariants.success, notifyMessages.successSentDetail)
     },
     onError: handleError,
   })
@@ -184,7 +184,9 @@ const Filters = () => {
               setLoadingTestButton(true)
               handleSendEmail(true)
             }}
-            disabled={!message?.isSynchronized || loadingSendButton || loadingTestButton || disabledAction}
+            disabled={
+              !message?.isSynchronized || loadingSendButton || loadingTestButton || disabledAction || isMessageSending
+            }
           >
             {messages.testMessage}
           </LoadingButton>
@@ -197,7 +199,8 @@ const Filters = () => {
               message?.recipientCount < 1 ||
               loadingSendButton ||
               loadingTestButton ||
-              disabledAction
+              disabledAction ||
+              isMessageSending
             }
             onClick={() => setOpen(true)}
             data-cy="send-mail-action"
