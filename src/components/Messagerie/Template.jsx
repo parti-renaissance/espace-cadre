@@ -16,7 +16,7 @@ import { notifyVariants, notifyMessages } from '../shared/notification/constants
 import { useCustomSnackbar } from '../shared/notification/hooks'
 import { paths as messageriePaths } from './shared/paths'
 import { useUserScope } from '~/redux/user/hooks'
-import { defaultUnlayerTemplateId, unlayerTemplateIds } from '~/components/Messagerie/shared/unlayerTemplateIds'
+import { defaultUnlayerTemplateId, unlayerTemplateIds } from '~/shared/unlayerTemplateIds'
 
 const clearBody = body => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
 
