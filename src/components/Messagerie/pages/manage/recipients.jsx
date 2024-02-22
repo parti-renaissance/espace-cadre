@@ -104,7 +104,7 @@ const Filters = () => {
   )
 
   const handleFiltersSubmit = useCallback(
-    async filtersToSend => {
+    filtersToSend => {
       updateMessageFilter(filtersToSend)
       setDisabledAction(false)
     },
