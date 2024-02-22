@@ -85,27 +85,37 @@ const Filters = () => {
     }
   )
 
-  const { mutate: updateMessageFilter } = useMutation(updateMessageFilterApi, {
-    onSuccess: () => getMessage(messageUuid),
-    onError: handleError,
-  })
-
   const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0] || [], resetFilter }), [currentScope, resetFilter])
 
-  const handleFiltersSubmit = useCallback(
-    async filtersToSend => {
-      await updateMessageFilter({
+  const { mutate: updateMessageFilter } = useMutation(
+    filtersToSend =>
+      updateMessageFilterApi({
         id: messageUuid,
         data: {
           ...filtersToSend,
           scope: currentScope.getMainCode(),
           zone: filtersToSend.zone?.uuid,
         },
-      })
+      }),
+    {
+      onSuccess: () => getMessage(messageUuid),
+      onError: handleError,
+    }
+  )
+
+  const handleFiltersSubmit = useCallback(
+    async filtersToSend => {
+      updateMessageFilter(filtersToSend)
       setDisabledAction(false)
     },
     [messageUuid, updateMessageFilter, currentScope]
   )
+
+  const handleOnReset = () => {
+    setResetFilter(0)
+    setDisabledAction(false)
+    handleFiltersSubmit(defaultFilter)
+  }
 
   useEffect(() => {
     handleFiltersSubmit(defaultFilter)
@@ -145,10 +155,7 @@ const Filters = () => {
               feature={features.messages}
               onSubmit={handleFiltersSubmit}
               values={defaultFilter}
-              onReset={() => {
-                setResetFilter(0)
-                setDisabledAction(false)
-              }}
+              onReset={handleOnReset}
               onValuesChange={() => setDisabledAction(true)}
               buttonContainerStyle={{ justifyItems: 'center', alignItems: 'center' }}
             />
