@@ -44,6 +44,7 @@ type OnPopoverOpen = (message: Message) => (...args: Parameters<ReturnType<typeo
 
 interface MessageListProps {
   onPopoverOpen: OnPopoverOpen
+  isMailsStatutory: boolean
   messages: Message[]
 }
 
@@ -53,7 +54,11 @@ const MessageList = (props: MessageListProps) => (
       {props.messages.map(message => (
         <CSSTransition key={message.id} timeout={500} classNames="item">
           <Grid item xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
-            <MessageCard message={message} onPopoverOpen={props.onPopoverOpen} />
+            <MessageCard
+              message={message}
+              onPopoverOpen={props.onPopoverOpen}
+              isMailsStatutory={props.isMailsStatutory}
+            />
           </Grid>
         </CSSTransition>
       ))}
@@ -77,6 +82,7 @@ const EmptyStatus = (props: { text: string }) => (
 
 interface SearchBoxProps {
   onPopoverOpen: OnPopoverOpen
+  isMailsStatutory: boolean
 }
 
 const SearchBox = (props: SearchBoxProps) => {
@@ -85,11 +91,12 @@ const SearchBox = (props: SearchBoxProps) => {
   const queryKey = useScopedQueryKey([
     'search-campaigns',
     { feature: 'Dashboard', view: 'SentEmailCampaigns' },
+    props.isMailsStatutory ? 'statutory' : undefined,
     debouncedSearch,
   ])
   const { handleError } = useErrorHandler()
   const { data = [], isFetching } = useQuery({
-    queryFn: () => getMessages({ pagination: false, label: search }),
+    queryFn: () => getMessages({ pagination: false, label: search, statutory: props.isMailsStatutory }),
     queryKey: queryKey,
     onError: handleError,
     enabled: debouncedSearch.length > 2,
@@ -121,7 +128,7 @@ const SearchBox = (props: SearchBoxProps) => {
       </Grid>
       {!isFetching && data.length > 0 && (
         <Box display="flex" flexDirection="column" gap={2}>
-          <MessageList messages={data} onPopoverOpen={props.onPopoverOpen} />
+          <MessageList messages={data} onPopoverOpen={props.onPopoverOpen} isMailsStatutory={props.isMailsStatutory} />
         </Box>
       )}
 
@@ -130,15 +137,19 @@ const SearchBox = (props: SearchBoxProps) => {
   )
 }
 
-const MessageDraftSection = ({ onPopoverOpen }: { onPopoverOpen: OnPopoverOpen }) => {
-  const queryKeyDrafts = useScopedQueryKey(['draft-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
+const MessageDraftSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatutory: boolean }) => {
+  const queryKeyDrafts = useScopedQueryKey([
+    'draft-campaigns',
+    { feature: 'Dashboard', view: 'SentEmailCampaigns' },
+    props.isMailsStatutory ? 'statutory' : undefined,
+  ])
   const { handleError } = useErrorHandler()
   const {
     data = [],
     isInitialLoading,
     isFetched,
   } = useQuery({
-    queryFn: () => getMessages({ status: 'draft', pagination: false }),
+    queryFn: () => getMessages({ status: 'draft', pagination: false, statutory: props.isMailsStatutory }),
     queryKey: queryKeyDrafts,
     onError: handleError,
   })
@@ -146,7 +157,7 @@ const MessageDraftSection = ({ onPopoverOpen }: { onPopoverOpen: OnPopoverOpen }
   return (
     <Box display="flex" flexDirection="column" gap={2}>
       <Typography variant="h6">Brouillions</Typography>
-      <MessageList messages={data} onPopoverOpen={onPopoverOpen} />
+      <MessageList messages={data} onPopoverOpen={props.onPopoverOpen} isMailsStatutory={props.isMailsStatutory} />
       {isInitialLoading && <MessageLoader />}
       {isFetched && data.length === 0 && <EmptyStatus text="0 brouillons" />}
     </Box>
@@ -154,7 +165,11 @@ const MessageDraftSection = ({ onPopoverOpen }: { onPopoverOpen: OnPopoverOpen }
 }
 
 const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatutory: boolean }) => {
-  const queryKey = useScopedQueryKey(['paginated-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
+  const queryKey = useScopedQueryKey([
+    'paginated-campaigns',
+    { feature: 'Dashboard', view: 'SentEmailCampaigns' },
+    props.isMailsStatutory ? 'statutory' : undefined,
+  ])
   const { handleError } = useErrorHandler()
   const { data, fetchNextPage, hasNextPage, isFetched, isInitialLoading } = useInfiniteQuery({
     queryKey,
@@ -178,7 +193,11 @@ const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatut
           overflow: 'visible',
         }}
       >
-        <MessageList messages={campaigns} onPopoverOpen={props.onPopoverOpen} />
+        <MessageList
+          messages={campaigns}
+          onPopoverOpen={props.onPopoverOpen}
+          isMailsStatutory={props.isMailsStatutory}
+        />
         {isInitialLoading && <MessageLoader />}
         {isFetched && campaigns.length === 0 && <EmptyStatus text="0 campagnes envoyées" />}
       </InfiniteScroll>
@@ -200,8 +219,8 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
 
   return (
     <Stack direction="column" gap={8} data-cy="sent-campaigns-container">
-      <SearchBox onPopoverOpen={onPopoverOpen} />
-      <MessageDraftSection onPopoverOpen={onPopoverOpen} />
+      <SearchBox onPopoverOpen={onPopoverOpen} isMailsStatutory={isMailsStatutory} />
+      <MessageDraftSection onPopoverOpen={onPopoverOpen} isMailsStatutory={isMailsStatutory} />
       <MessageSentSection onPopoverOpen={onPopoverOpen} isMailsStatutory={isMailsStatutory} />
       <ActionPopover popover={popover} isMailsStatutory={isMailsStatutory} message={currentMessage} />
     </Stack>

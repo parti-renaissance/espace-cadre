@@ -10,6 +10,7 @@ import PlaceholderEmailThumbnail from '~/assets/illustrations/placeholder-email-
 
 type MessageCardProps = {
   message: Message
+  isMailsStatutory: boolean
   onPopoverOpen: (message: Message) => (el: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
@@ -20,7 +21,7 @@ const statsConfig = [
   ['unsubscribes', DoNotDisturbOn, 'désabonnement'],
 ] as const
 
-const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
+const MessageCard = ({ message, onPopoverOpen, ...props }: MessageCardProps) => (
   <Card>
     <Box padding={1}>
       {message.draft ? (
@@ -32,12 +33,20 @@ const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
     </Box>
     <CardContent>
       <Stack>
-        <Typography variant="subtitle2" noWrap>
-          {message.label}
-        </Typography>
-        <Typography variant="caption" noWrap color="text.secondary">
-          {message.subject}
-        </Typography>
+        {props.isMailsStatutory ? (
+          <Typography variant="subtitle2" noWrap>
+            {message.subject}
+          </Typography>
+        ) : (
+          <>
+            <Typography variant="subtitle2" noWrap>
+              {message.label}
+            </Typography>
+            <Typography variant="caption" noWrap color="text.secondary">
+              {message.subject}
+            </Typography>
+          </>
+        )}
       </Stack>
       <Stack direction="row" spacing={1} marginY={2}>
         <Label variant="soft" color="info">
@@ -66,9 +75,13 @@ const MessageCard = ({ message, onPopoverOpen }: MessageCardProps) => (
         </Grid>
       ) : null}
       <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
-        <IconButton aria-label="actions" aria-describedby={message.id} onClick={onPopoverOpen(message)}>
-          <Iconify icon="eva:more-horizontal-fill" />
-        </IconButton>
+        {!props.isMailsStatutory || (props.isMailsStatutory && message.draft) ? (
+          <IconButton aria-label="actions" aria-describedby={message.id} onClick={onPopoverOpen(message)}>
+            <Iconify icon="eva:more-horizontal-fill" />
+          </IconButton>
+        ) : (
+          <div></div>
+        )}
 
         <Typography variant="subtitle1">
           {formatDate(message.draft ? message.createdAt : message.sentAt, 'dd/MM/yyyy')}

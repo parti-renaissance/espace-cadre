@@ -8,6 +8,8 @@ import EmptyContent from '~/ui/EmptyContent/EmptyContent'
 import Title from '~/ui/Title'
 import Loader from '~/ui/Loader/Loader'
 import Card from './Card'
+import { paths as messageriePaths } from './shared/paths'
+import { useNavigate, generatePath } from 'react-router'
 
 const Templates = ({ handleClose, isMailsStatutory = false }) => {
   const { handleError } = useErrorHandler()
@@ -17,6 +19,15 @@ const Templates = ({ handleClose, isMailsStatutory = false }) => {
     () => getTemplates(isMailsStatutory),
     { onError: handleError }
   )
+
+  const navigate = useNavigate()
+  const handleClick = template => () => {
+    navigate(
+      generatePath(
+        `${messageriePaths.create}${isMailsStatutory ? '' : `/${messageriePaths.createNewsletter}`}?templateId=${template.uuid}`
+      )
+    )
+  }
 
   return (
     <Dialog data-cy="messagerie-modal-templates" open onClose={handleClose} fullWidth={true} maxWidth="lg">
@@ -38,7 +49,7 @@ const Templates = ({ handleClose, isMailsStatutory = false }) => {
           <Grid container rowSpacing={3} spacing={2} data-cy="messagerie-templates-container">
             {data.items.map(template => (
               <Grid key={template.uuid} item xs={12} md={4} lg={3} data-cy="messagerie-template-card">
-                <Card template={template} />
+                <Card template={template} handleClick={handleClick(template)} />
               </Grid>
             ))}
           </Grid>

@@ -11,7 +11,7 @@ const Mails = () => {
   const { isMobile } = useCurrentDeviceType()
 
   return (
-    <Container maxWidth={false} sx={{ mb: 3 }}>
+    <Container maxWidth="xl" sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between" sx={{ mb: isMobile ? 2 : null }}>
         <PageHeader
           title="Emails statutaires"
