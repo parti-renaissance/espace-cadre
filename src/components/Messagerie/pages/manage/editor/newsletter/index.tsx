@@ -123,9 +123,6 @@ const Form = ({
                   </Typography>
                 </Stack>
               </Box>
-              <Button sx={{ alignSelf: 'flex-end' }} variant="outlined" onClick={() => reset()}>
-                Réinitialiser
-              </Button>
             </Stack>
           </CardContent>
         </Card>
