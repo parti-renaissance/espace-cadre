@@ -3,7 +3,7 @@ import { Typography, Grid } from '@mui/material'
 
 const Title = styled(Typography)(
   ({ theme }) => `
-  font-family: MaaxItalic;
+  font-family: Maax;
   color: ${theme.palette.blackCorner};
   font-size: 40px;
   font-weight: 600;

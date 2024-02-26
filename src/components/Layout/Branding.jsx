@@ -14,7 +14,7 @@ const BrandingWrapper = styled(Toolbar)(
 
 const SiteName = styled(Typography)(
   ({ theme }) => `
-    font-family: MaaxItalic;
+    font-family: Maax;
     font-size: 22px;
     font-weight: 600;
     margin-right: ${theme.spacing(0.5)}
