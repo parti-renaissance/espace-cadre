@@ -92,7 +92,7 @@ const Template = () => {
       if (messageUuid) {
         navigate(`/messagerie/${messageriePaths.update}/newsletter/${messageUuid}`)
       } else {
-        navigate(`/messagerie/${messageriePaths.create}/newsletter`)
+        enqueueSnackbar('Veuillez écrire un message', notifyVariants.error)
       }
       return
     }

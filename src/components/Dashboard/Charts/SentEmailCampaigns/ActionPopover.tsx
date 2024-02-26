@@ -28,12 +28,17 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const queryClient = useQueryClient()
-  const queryKeyDrafts = useScopedQueryKey(['draft-campaigns', { feature: 'Dashboard', view: 'SentEmailCampaigns' }])
+  const queryKeyDrafts = useScopedQueryKey([
+    'draft-campaigns',
+    { feature: 'Dashboard', view: 'SentEmailCampaigns' },
+    isMailsStatutory ? 'statutory' : undefined,
+  ])
   const navigate = useNavigate()
 
   const canEdit = !isMailsStatutory && message.current?.draft
   const canPreview = message.current?.previewLink
   const canDelete = message.current?.draft
+  const canDuplicate = !isMailsStatutory
 
   const { mutateAsync: deleteDraft } = useMutation(deleteMessage, {
     onSuccess: async () => {
@@ -73,15 +78,21 @@ const Actions = ({ popover, isMailsStatutory, message }: ActionsProps) => {
         : window.open(x.previewLink)
     )
   const onEdit = () =>
-    eitherMessage(x => navigate(generatePath(`${messageriePaths.update}/newsletter/:messageId/`, { messageId: x.id })))
+    eitherMessage(x =>
+      navigate(
+        generatePath(`${messageriePaths.update}${isMailsStatutory ? '/' : '/newsletter/'}:messageId/`, {
+          messageId: x.id,
+        })
+      )
+    )
 
   return (
     <Box sx={{ width: '100%', minWidth: 200, maxWidth: 360, bgcolor: 'background.paper' }}>
       <MenuList>
         {canPreview && <MenuItem onClick={onPreview}>Aperçu</MenuItem>}
-        <MenuItem onClick={onDuplicate}>Dupliquer</MenuItem>
+        {canDuplicate && <MenuItem onClick={onDuplicate}>Dupliquer</MenuItem>}
         {canEdit && <MenuItem onClick={onEdit}>Editer</MenuItem>}
-        {canDelete && <Divider />}
+        {canDelete && (canPreview || canDuplicate || canEdit) && <Divider />}
         {canDelete && (
           <MenuItem onClick={onDelete}>
             <Typography color="error">Supprimer</Typography>

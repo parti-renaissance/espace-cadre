@@ -21,7 +21,7 @@ const Dashboard = () => {
   const { isMobile } = useCurrentDeviceType()
 
   return (
-    <Container maxWidth={false} sx={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <Box>
         <Grid container justifyContent="space-between" sx={{ mb: isMobile ? 2 : null }}>
           <PageHeader

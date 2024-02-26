@@ -61,7 +61,7 @@ const Send = styled(Button)(
 const messages = {
   title: 'Mail statutaire',
   titleSuffix: "Envoi de l'email",
-  previous: 'Précédent',
+  previous: 'Annuler',
   addresseesCount: 'Vous allez envoyer un email à',
   contact: 'contact',
   testMessage: "M'envoyer un email de test",
@@ -103,17 +103,11 @@ const SendMail = () => {
   }
 
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth="xl">
       <PageHeader title={messages.title} titleLink={paths.statutory_message} titleSuffix={messages.titleSuffix} />
       <Grid container sx={{ mb: 2 }}>
         <Link to="../../">
-          <Button
-            type="button"
-            disableRipple
-            sx={{ color: 'main' }}
-            size="medium"
-            startIcon={<ArrowBackIcon sx={{ display: 'flex', marginRight: 1 }} />}
-          >
+          <Button type="button" disableRipple sx={{ color: 'main' }} size="medium">
             {messages.previous}
           </Button>
         </Link>

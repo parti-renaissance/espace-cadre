@@ -9,11 +9,11 @@ const MailsRoute = () => (
   <Routes>
     <Route path="*" element={<Mails />} />
     <Route path={paths.create} element={<Template />} />
+    <Route path={paths.update + '/:messageUuid'} element={<Template />} />
     <Route path=":messageUuid/*">
       <Route path={paths.send} element={<SendMail />} />
     </Route>
     <Route path={paths.confirmation} element={<Confirmation />} />
   </Routes>
 )
-
 export default MailsRoute

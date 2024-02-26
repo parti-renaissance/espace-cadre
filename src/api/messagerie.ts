@@ -75,7 +75,11 @@ type GetMessagesParams = {
 export async function getMessages(params: GetMessagesParams & { pagination: false }): Promise<Message[]>
 export async function getMessages(params: GetMessagesParams & { pagination?: true }): Promise<PaginatedResult<Message>>
 export async function getMessages(params: GetMessagesParams) {
-  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&${qs.stringify(params)}`)
+  const parsedParams = {
+    ...params,
+    statutory: params.statutory ? 1 : undefined,
+  }
+  const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&${qs.stringify(parsedParams)}`)
 
   if (typeof params.pagination !== 'undefined' && !params.pagination) {
     return data.map(parseDataMessage)
