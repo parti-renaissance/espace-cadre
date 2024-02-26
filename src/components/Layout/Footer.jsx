@@ -9,7 +9,7 @@ const FooterWrapper = styled('div')`
 
 const ReleaseVersion = styled('div')(
   ({ theme }) => `
-  font-family: MaaxItalic;
+  font-family: Maax;
   color: ${theme.palette.mentionsLegales};
   font-size: 10px;
   font-weight: 600;

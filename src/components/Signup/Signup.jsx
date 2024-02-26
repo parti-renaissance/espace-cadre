@@ -54,7 +54,7 @@ const SubmitButton = styled(Button)(
 )
 
 const Title = styled(Typography)`
-  font-family: MaaxItalic;
+  font-family: Maax;
   font-size: 40px;
   line-height: 40px;
   font-weight: 600;
