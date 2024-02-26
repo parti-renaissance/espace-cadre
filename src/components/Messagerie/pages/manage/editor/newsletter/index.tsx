@@ -75,24 +75,18 @@ const Form = ({
     return false
   })
 
-  const onSubmit =
-    (action: 'save' | 'next') =>
-    (payload: Inputs): Promise<void> => {
-      if (!data || !data.id) {
-        return new Promise(() => {})
-      }
-      return mutate
-        .mutateAsync({
-          id: data?.id,
-          x: { ...data, ...payload },
-        })
-        .then(() => {
-          reset(payload)
-          if (action === 'next') {
-            navigate(`/messagerie/${paths.update}/newsletter/${data.id}/${paths.preview}`)
-          }
-        })
+  const onSubmit = (action: 'save' | 'next') => async (payload: Inputs) => {
+    if (!data || !data.id) {
+      return new Promise(() => {})
     }
+    await mutate.mutateAsync({ id: data?.id, x: { ...data, ...payload } })
+    reset(payload)
+    if (action === 'next') {
+      setTimeout(() => {
+        navigate(`/messagerie/${paths.update}/newsletter/${data.id}/${paths.preview}`)
+      }, 0)
+    }
+  }
 
   const handleSave = () => {
     setBlockerOpen(false)
