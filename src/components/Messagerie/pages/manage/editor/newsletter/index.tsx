@@ -77,7 +77,7 @@ const Form = ({
 
   const onSubmit = (action: 'save' | 'next') => async (payload: Inputs) => {
     if (!data || !data.id) {
-      return new Promise(() => {})
+      return
     }
     await mutate.mutateAsync({ id: data?.id, x: { ...data, ...payload } })
     reset(payload)
