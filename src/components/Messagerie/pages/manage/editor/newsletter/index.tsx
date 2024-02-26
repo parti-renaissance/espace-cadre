@@ -170,15 +170,9 @@ export default function NewsletterEditorPage() {
     },
   })
 
-  const { data = undefined } = useQuery(queryKey, (() => getMessage(id!)) as () => Promise<Message>, {
-    enabled: !!id,
-    initialData: (() =>
-      !id
-        ? {
-            label: '',
-            subject: '',
-          }
-        : undefined) as () => Message | undefined,
+  const { data = undefined } = useQuery(queryKey, () => (id ? getMessage(id) : Promise.reject('No id provided')), {
+    enabled: Boolean(id),
+    initialData: (() => (!id ? { label: '', subject: '' } : undefined)) as () => Message | undefined,
   })
 
   if (!data) {
