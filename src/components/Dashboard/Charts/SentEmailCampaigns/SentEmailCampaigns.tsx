@@ -101,20 +101,24 @@ const SearchBox = (props: SearchBoxProps) => {
 
   return (
     <Stack direction="column" gap={8} data-cy="sent-campaigns-container">
-      <TextField
-        id="input-with-icon-textfield"
-        label="Rechercher"
-        variant="outlined"
-        color="secondary"
-        onChange={handleSearch}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-outline" color="grey.500" />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <Grid container>
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField
+            fullWidth
+            id="input-with-icon-textfield"
+            color="secondary"
+            onChange={handleSearch}
+            InputProps={{
+              placeholder: 'Rechercher ...',
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-outline" color="grey.500" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+      </Grid>
       {!isFetching && data.length > 0 && (
         <Box display="flex" flexDirection="column" gap={2}>
           <MessageList messages={data} onPopoverOpen={props.onPopoverOpen} />
