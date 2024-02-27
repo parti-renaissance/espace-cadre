@@ -109,7 +109,7 @@ const CreateEvent = () => {
   }
 
   return (
-    <Container maxWidth={false} sx={{ mb: 3 }}>
+    <Container maxWidth={'xl'} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
         <PageHeader title={messages.create} />
       </Grid>
