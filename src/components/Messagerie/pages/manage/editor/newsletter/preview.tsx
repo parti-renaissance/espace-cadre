@@ -8,8 +8,8 @@ import { useQuery } from '@tanstack/react-query'
 import { getMessage } from '~/api/messagerie'
 import { useState } from 'react'
 import Icon from '~/mui/iconify'
-import { getCurrentUser } from '~/redux/user/selectors'
-import { useSelector } from 'react-redux'
+// import { getCurrentUser } from '~/redux/user/selectors'
+// import { useSelector } from 'react-redux'
 import useWaitForMessageSync from '~/components/Messagerie/hooks/useWaitForMessageSync'
 import * as Sentry from '@sentry/react'
 
@@ -88,8 +88,9 @@ const Preview = ({ data }: { data: Message }) => {
       } catch (error) {
         openNewTab(data.previewLink!)
       }
+    } else {
+      openNewTab(data.previewLink!)
     }
-    openNewTab(data.previewLink!)
   }
   const [isFrameLoading, setIsFrameLoading] = useState(true)
   const handleFrameLoad = () => setIsFrameLoading(false)
