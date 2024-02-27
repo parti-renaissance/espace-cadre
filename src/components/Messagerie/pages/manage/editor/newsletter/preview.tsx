@@ -88,8 +88,9 @@ const Preview = ({ data }: { data: Message }) => {
       } catch (error) {
         openNewTab(data.previewLink!)
       }
+    } else {
+      openNewTab(data.previewLink!)
     }
-    openNewTab(data.previewLink!)
   }
   const [isFrameLoading, setIsFrameLoading] = useState(true)
   const handleFrameLoad = () => setIsFrameLoading(false)
