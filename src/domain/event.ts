@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { Place } from '~/domain/place'
 import { parseDate } from '~/shared/helpers'
+import { z } from 'zod'
 
 export class Attendee {
   constructor(firstName, lastName, subscriptionDate, postalCode, type) {
@@ -213,3 +214,131 @@ Event.propTypes = PropTypes.shape({
   mode: PropTypes.string,
   image: PropTypes.string,
 })
+
+export enum VisibilityEvent {
+  PUBLIC = 'public',
+  PRIVATE = 'private',
+  ADHERENT = 'adherent',
+  ADHERENT_DUES = 'adherent_dues',
+}
+
+export interface Place {
+  id: string
+  address: string
+  postalCode: string
+  cityName: string
+  country: string
+}
+
+export interface EventType {
+  id?: string
+  name: string
+  description?: string
+  timezone: string
+  createdAt?: Date
+  beginAt?: Date
+  finishAt?: Date
+  timeBeginAt?: Date
+  timeFinishAt?: Date
+  localFinishAt?: Date
+  organizer?: string
+  organizerId: string
+  attendees: number
+  scheduled: boolean
+  capacity?: string | number
+  address: Place
+  categoryId: string
+  visibilityId: VisibilityEvent
+  private: boolean
+  visioUrl?: string
+  liveUrl?: string
+  mode?: string
+  image?: string
+}
+
+export const CreateEventSchema = z
+  .object({
+    name: z
+      .string()
+      .min(5, "Le titre de l'événement doit contenir au moins 5 caractères")
+      .min(1, "Le titre de l'événement est obligatoire")
+      .max(80, "Le titre de l'événement ne peut pas dépasser 80 caractères"),
+    description: z
+      .string()
+      .min(5, 'La description doit contenir au moins 5 caractères')
+      .min(1, 'La description est obligatoire')
+      .max(380, 'La description ne peut pas dépasser 380 caractères'),
+    timezone: z.string().min(1, 'Vous devez choisir une timezone'),
+    private: z.boolean().optional(),
+    categoryId: z.string({
+      invalid_type_error: 'La catégorie doit être une chaîne de caractères',
+      required_error: 'La catégorie est obligatoire',
+    }),
+    visibilityId: z.nativeEnum(VisibilityEvent, {
+      required_error: "La visibilité de l'événement est obligatoire",
+    }),
+    beginAt: z
+      .date({
+        invalid_type_error: 'La date de début doit être une date',
+        required_error: 'La date de début est obligatoire',
+      })
+      .or(z.string())
+      .transform(arg => new Date(arg)),
+    image: z.string().optional(),
+    finishAt: z
+      .date({
+        invalid_type_error: 'La date de fin doit être une date',
+        required_error: 'La date de fin est obligatoire',
+      })
+      .optional()
+      .or(z.string()),
+    timeBeginAt: z.date().optional(),
+    timeFinishAt: z.date().optional(),
+    address: z.string().optional(),
+    zipCode: z.string().optional(),
+    city: z.string().optional(),
+    country: z.string().optional(),
+    visioUrl: z.string().optional().or(z.literal('')),
+    liveUrl: z
+      .string()
+      .url({
+        message: 'Le lien de la visioconférence doit être une URL',
+      })
+      .optional()
+      .or(z.literal('')),
+    capacity: z
+      .number({
+        invalid_type_error: 'La capacité doit être un nombre',
+        required_error: 'La capacité est obligatoire',
+      })
+      .min(0)
+      .optional(),
+    isVirtual: z.boolean(),
+    severalDays: z.boolean(),
+  })
+  .superRefine((values, context) => {
+    if (values.severalDays && !values.finishAt) {
+      return context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'La date de fin est obligatoire pour un événement sur plusieurs jours',
+        path: ['finishAt'],
+      })
+    } else if (values.severalDays && values?.finishAt && values?.finishAt < values.beginAt) {
+      return context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'La date de fin doit être postérieure à la date de début',
+        path: ['finishAt'],
+      })
+    }
+  })
+  .superRefine((values, context) => {
+    if (values.isVirtual && !values.visioUrl) {
+      return context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Le lien de la visioconférence est obligatoire pour un événement virtuel',
+        path: ['visioUrl'],
+      })
+    }
+  })
+
+export type CreateEventForm = z.infer<typeof CreateEventSchema>

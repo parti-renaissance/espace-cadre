@@ -31,9 +31,9 @@ describe('Events', () => {
     })
 
     it('should have a clickable action button', () => {
-      cy.get(PageHeaderButton).should('exist')
+      cy.get(PageHeaderButton).should('exist').as('Button')
 
-      cy.get(PageHeaderButton).click({ multiple: true })
+      cy.get('@Button').find('button').should('have.text', 'Créer un événement')
     })
   })
 
