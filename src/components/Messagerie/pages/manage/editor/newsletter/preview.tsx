@@ -19,20 +19,20 @@ const openNewTab = (url: string) => {
 }
 
 const Recap = ({ data }: { data: Message }) => {
-  const { first_name, last_name, email_address } = useSelector(getCurrentUser)
+  // const { first_name, last_name, email_address } = useSelector(getCurrentUser)
   const recapData = [
     { label: 'Nom de la campagne', value: <Typography variant="subtitle2">{data.label}</Typography> },
-    {
-      label: 'Expediteur',
-      value: (
-        <>
-          <Typography variant="subtitle2">
-            {first_name} {last_name}
-          </Typography>{' '}
-          {email_address}
-        </>
-      ),
-    },
+    // {
+    //   label: 'Expediteur',
+    //   value: (
+    //     <>
+    //       <Typography variant="subtitle2">
+    //         {first_name} {last_name}
+    //       </Typography>{' '}
+    //       {email_address}
+    //     </>
+    //   ),
+    // },
     { label: 'Objet', value: data.subject },
   ]
 
