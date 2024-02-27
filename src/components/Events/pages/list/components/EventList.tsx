@@ -7,8 +7,8 @@ import Loader from '~/ui/Loader'
 import { generatePath, useNavigate } from 'react-router-dom'
 import { paths } from '~/components/Events/shared/paths'
 import CardEvent from '~/components/Events/pages/list/components/CardEvent'
-import { forwardRef, useImperativeHandle, useMemo } from 'react'
-import { useQueryClient, QueryKey, UseInfiniteQueryResult, useInfiniteQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
+import { useQueryClient, QueryKey, useInfiniteQuery } from '@tanstack/react-query'
 import { Event } from '~/components/Events/shared/types'
 import { EventCategory, EventGroupCategory } from '~/domain/event'
 
@@ -75,7 +75,7 @@ const EventList = ({ query, queryKey }: EventListProps) => {
   const handleDefineAction = (event: Event, action: EventAction) => {
     switch (action) {
       case 'detail':
-        navigate(generatePath(`${paths.events}/:uuid`, { uuid: event.id }))
+        navigate(generatePath(':uuid', { uuid: event.id }))
         break
       case 'edit':
         navigate(generatePath(`${paths.events}/edit/:uuid`, { uuid: event.id }))
