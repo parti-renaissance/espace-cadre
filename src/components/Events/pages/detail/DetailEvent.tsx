@@ -38,7 +38,7 @@ const DetailEvent = () => {
 
         <Button
           variant="contained"
-          startIcon={<Iconify icon="eva:edit-2-fill" />}
+          startIcon={<Iconify icon="solar:pen-bold" />}
           onClick={() => {
             throw new Error('Not implemented')
           }}
