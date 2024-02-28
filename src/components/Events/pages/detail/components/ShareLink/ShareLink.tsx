@@ -10,11 +10,19 @@ interface ShareLinkProps {
 const ShareLink = ({ link }: ShareLinkProps) => (
   <Card sx={{ p: '24px' }}>
     <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ mb: '16px' }}>
-      <Button variant="outlined" size="large" fullWidth={true}>
+      <Button variant="outlined" size="large" fullWidth={true} onClick={() => navigator.clipboard.writeText(link)}>
         Copier le lien
       </Button>
 
-      <Button startIcon={<ShareOutlined />} variant="contained" fullWidth={true} size="large">
+      <Button
+        startIcon={<ShareOutlined />}
+        variant="contained"
+        fullWidth={true}
+        size="large"
+        onClick={() => {
+          throw new Error('Not implemented')
+        }}
+      >
         Partager
       </Button>
     </Stack>
