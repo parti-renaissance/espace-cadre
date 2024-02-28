@@ -7,27 +7,65 @@ import Iconify from '~/mui/iconify'
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { paths } from '~/components/Events/shared/paths'
+import { useErrorHandler } from '~/components/shared/error/hooks'
 import { format } from 'date-fns'
+import { useSelector } from 'react-redux'
+import { getCurrentUser } from '~/redux/user/selectors'
+import Loader from '~/ui/Loader'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { getEvent } from '~/api/events'
+import { useParams } from 'react-router'
 
 const DetailEvent = () => {
+  const { eventId } = useParams()
   const navigate = useNavigate()
+  const { handleError } = useErrorHandler()
+  const currentUser = useSelector(getCurrentUser)
 
-  const event = {
-    status: 'en cours',
-    date: '2023-12-02',
-    time: '12:00',
-    duration: '2h',
-    finishAt: '2023-12-02',
-    location: 'Paris',
-    participants: 12,
-    maxParticipants: 20,
-    price: 0,
-    visioUrl: 'https://zoom.cc/dashbokpzefokzeokzopkoard/123456',
-    category: 'Atelier de reflexion',
-    title: 'Atelier de réflexion sur le rôle du militantisme',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+  const {
+    data: event,
+    isFetching,
+    refetch: refetchEvent,
+  } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
+
+  if (isFetching) {
+    return <Loader />
   }
+
+  if (!event) {
+    return <Typography variant="h4">Événement introuvable</Typography>
+  }
+
+  /*
+  Payload from API:
+  {
+    "id": "01b5c430-69ac-49f1-8a04-3cebc82d850e",
+    "name": "Cinquième",
+    "description": "Le cinquième repas de la journée",
+    "timezone": "Europe/Paris",
+    "createdAt": "2023-11-27T10:58:23.000Z",
+    "beginAt": "2024-02-21T22:00:00.000Z",
+    "finishAt": "2024-02-24T01:00:00.000Z",
+    "organizer": "Antonin Carlin",
+    "organizerId": "eece5446-5c34-4198-8fb6-6da45e8ff374",
+    "attendees": 1,
+    "scheduled": true,
+    "capacity": null,
+    "address": {
+    "number": "",
+      "route": "Rue du Pôle Nord",
+      "postalCode": "75018",
+      "locality": "Paris 18ème",
+      "country": "FR"
+  },
+    "categoryId": "moment-de-convivialite",
+    "visioUrl": "",
+    "mode": "meeting",
+    "image": null,
+    "committee": null,
+    "eventLink": "https://staging-app.parti-renaissance.fr/espace-adherent/evenements/2024-02-21-cinquieme/afficher"
+  }
+*/
 
   return (
     <Container maxWidth="xl">
@@ -60,7 +98,7 @@ const DetailEvent = () => {
               <Box sx={{ flex: '1 0 auto' }}>
                 <Stack direction="column" spacing={4}>
                   <Stack direction="column" spacing={2}>
-                    <Typography variant="h4">{event.title}</Typography>
+                    <Typography variant="h4">{event.name}</Typography>
                     <Typography variant="caption" color="text.primary">
                       Mes évènements / {event.category}
                     </Typography>
