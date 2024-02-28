@@ -36,37 +36,6 @@ const DetailEvent = () => {
     return <Typography variant="h4">Événement introuvable</Typography>
   }
 
-  /*
-  Payload from API:
-  {
-    "id": "01b5c430-69ac-49f1-8a04-3cebc82d850e",
-    "name": "Cinquième",
-    "description": "Le cinquième repas de la journée",
-    "timezone": "Europe/Paris",
-    "createdAt": "2023-11-27T10:58:23.000Z",
-    "beginAt": "2024-02-21T22:00:00.000Z",
-    "finishAt": "2024-02-24T01:00:00.000Z",
-    "organizer": "Antonin Carlin",
-    "organizerId": "eece5446-5c34-4198-8fb6-6da45e8ff374",
-    "attendees": 1,
-    "scheduled": true,
-    "capacity": null,
-    "address": {
-    "number": "",
-      "route": "Rue du Pôle Nord",
-      "postalCode": "75018",
-      "locality": "Paris 18ème",
-      "country": "FR"
-  },
-    "categoryId": "moment-de-convivialite",
-    "visioUrl": "",
-    "mode": "meeting",
-    "image": null,
-    "committee": null,
-    "eventLink": "https://staging-app.parti-renaissance.fr/espace-adherent/evenements/2024-02-21-cinquieme/afficher"
-  }
-*/
-
   return (
     <Container maxWidth="xl">
       <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" marginBottom={'28px'}>
@@ -99,6 +68,7 @@ const DetailEvent = () => {
                 <Stack direction="column" spacing={4}>
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h4">{event.name}</Typography>
+                    {/* @TODO: If my event */}
                     <Typography variant="caption" color="text.primary">
                       Mes évènements / {event.category}
                     </Typography>
@@ -118,7 +88,7 @@ const DetailEvent = () => {
 
                   <Box>
                     <Typography variant="body1" color="text.secondary" component="div" fontSize={14}>
-                      Date de création : {format(new Date(), 'dd MMMM yyyy')}
+                      Date de création : {format(event.createdAt, 'dd MMMM yyyy')}
                     </Typography>
                   </Box>
                 </Stack>
@@ -129,14 +99,14 @@ const DetailEvent = () => {
 
         <Grid item xs={12} sm={12} md={12} lg={4} xl={4}>
           <Stack direction="column" spacing={2}>
-            <ListInformations />
+            <ListInformations event={event} />
 
-            <ShareLink link={event.visioUrl} />
+            {event.visioUrl && <ShareLink link={event.visioUrl} />}
 
             <Card>
               <Stack direction="column" spacing={1} padding={'24px'}>
                 <Typography variant="body2">Événement créer par :</Typography>
-                <Typography variant="subtitle2">Jean Michel Aulas</Typography>
+                <Typography variant="subtitle2">{event?.organizer}</Typography>
               </Stack>
             </Card>
           </Stack>
