@@ -14,7 +14,7 @@ type Item = {
 }
 
 interface ListInformationsProps {
-  event: Event
+  event: Event | any // TODO: remove any
 }
 
 const ListInformations = ({ event }: ListInformationsProps) => {
