@@ -230,32 +230,6 @@ export interface Place {
   country: string
 }
 
-export interface EventType {
-  id?: string
-  name: string
-  description?: string
-  timezone: string
-  createdAt?: Date
-  beginAt?: Date
-  finishAt?: Date
-  timeBeginAt?: Date
-  timeFinishAt?: Date
-  localFinishAt?: Date
-  organizer?: string
-  organizerId: string
-  attendees: number
-  scheduled: boolean
-  capacity?: string | number
-  address: Place
-  categoryId: string
-  visibilityId: VisibilityEvent
-  private: boolean
-  visioUrl?: string
-  liveUrl?: string
-  mode?: string
-  image?: string
-}
-
 export const CreateEventSchema = z
   .object({
     name: z

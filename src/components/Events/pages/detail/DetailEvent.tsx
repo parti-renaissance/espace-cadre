@@ -15,6 +15,7 @@ import Loader from '~/ui/Loader'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { getEvent } from '~/api/events'
 import { useParams } from 'react-router'
+import { Event } from '~/components/Events/shared/types'
 
 const DetailEvent = () => {
   const { eventId } = useParams()
@@ -23,10 +24,12 @@ const DetailEvent = () => {
   const currentUser = useSelector(getCurrentUser)
 
   const {
-    data: event,
+    data,
     isFetching,
     refetch: refetchEvent,
   } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
+
+  const event = data as Event
 
   if (isFetching) {
     return <Loader />
@@ -83,7 +86,7 @@ const DetailEvent = () => {
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h4">{event.name}</Typography>
                     <Typography variant="caption" color="text.primary">
-                      {myEvent && event.category ? `Mes événements / ${event.category}` : event.category}
+                      {myEvent && event.categoryId ? `Mes événements / ${event.categoryId}` : event.category}
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center">
@@ -99,11 +102,13 @@ const DetailEvent = () => {
                     </Typography>
                   </Stack>
 
-                  <Box>
-                    <Typography variant="body1" color="text.secondary" component="div" fontSize={14}>
-                      Date de création : {format(event.createdAt, 'dd MMMM yyyy')}
-                    </Typography>
-                  </Box>
+                  {event.createdAt && (
+                    <Box>
+                      <Typography variant="body1" color="text.secondary" component="div" fontSize={14}>
+                        Date de création : {format(event.createdAt, 'dd MMMM yyyy')}
+                      </Typography>
+                    </Box>
+                  )}
                 </Stack>
               </Box>
             </Stack>
