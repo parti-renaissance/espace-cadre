@@ -52,7 +52,7 @@ Payload from API:
     {
       label: "Date de l'événement",
       icon: <Iconify icon="solar:calendar-date-bold" />,
-      value: null,
+      value: event.beginAt && format(event.beginAt, 'dd MMMM yyyy'),
     },
     {
       label: 'Horaire',
