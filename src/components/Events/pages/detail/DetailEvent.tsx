@@ -45,15 +45,27 @@ const DetailEvent = () => {
           Retour
         </Button>
 
-        <Button
-          variant="contained"
-          startIcon={<Iconify icon="solar:pen-bold" />}
-          onClick={() => {
-            throw new Error('Not implemented')
-          }}
-        >
-          Modifier
-        </Button>
+        {myEvent ? (
+          <Button
+            variant="contained"
+            startIcon={<Iconify icon="solar:pen-bold" />}
+            onClick={() => {
+              throw new Error('Not implemented')
+            }}
+          >
+            Modifier
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            startIcon={<Iconify icon="eva:plus-circle-fill" />}
+            onClick={() => {
+              throw new Error('Not implemented')
+            }}
+          >
+            Inviter mes militants
+          </Button>
+        )}
       </Stack>
 
       <Grid container spacing={3}>
