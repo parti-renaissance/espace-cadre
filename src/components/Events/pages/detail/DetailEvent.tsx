@@ -36,6 +36,8 @@ const DetailEvent = () => {
     return <Typography variant="h4">Événement introuvable</Typography>
   }
 
+  const myEvent = event.organizerId === currentUser.uuid
+
   return (
     <Container maxWidth="xl">
       <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" marginBottom={'28px'}>
@@ -60,7 +62,7 @@ const DetailEvent = () => {
             <Stack direction="column" spacing={2} width="100%" sx={{ p: '24px' }}>
               <CardMedia
                 component="img"
-                image="https://source.unsplash.com/random"
+                image={event.image || 'https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1'}
                 sx={{ width: '100%', height: '295px', borderRadius: '8px' }}
               />
 
@@ -68,9 +70,8 @@ const DetailEvent = () => {
                 <Stack direction="column" spacing={4}>
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h4">{event.name}</Typography>
-                    {/* @TODO: If my event */}
                     <Typography variant="caption" color="text.primary">
-                      Mes évènements / {event.category}
+                      {myEvent && event.category ? `Mes événements / ${event.category}` : event.category}
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center">

@@ -80,7 +80,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
         <CardMedia
           component="img"
           sx={{ borderRadius: 1, height: 185, backgroundColor: 'gray300' }}
-          src="https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1"
+          src={event.image || 'https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1'}
         />
       </Box>
 
