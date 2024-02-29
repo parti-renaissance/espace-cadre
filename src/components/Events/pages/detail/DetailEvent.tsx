@@ -6,7 +6,6 @@ import { ShareLink } from '~/components/Events/pages/detail/components'
 import Iconify from '~/mui/iconify'
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getNextPageParam, usePaginatedData } from '~/api/pagination'
 import { paths } from '~/components/Events/shared/paths'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { format } from 'date-fns'
@@ -14,7 +13,7 @@ import { useSelector } from 'react-redux'
 import { getCurrentUser } from '~/redux/user/selectors'
 import Loader from '~/ui/Loader'
 import { useInfiniteQueryWithScope, useQueryWithScope } from '~/api/useQueryWithScope'
-import { getEvent, getEventAttendees } from '~/api/events'
+import { getEvent } from '~/api/events'
 import { useParams } from 'react-router'
 import { Event } from '~/components/Events/shared/types'
 import Attendees from '~/components/Events/pages/detail/components/Attendees'
@@ -32,21 +31,6 @@ const DetailEvent = () => {
   } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
 
   const event = data as Event
-
-  /*  const {
-    data: paginatedAttendees = null,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQueryWithScope(
-    ['paginated-attendees', eventId, { feature: 'Events', view: 'Event' }],
-    ({ pageParam: page = 1 }) => getEventAttendees(eventId, page),
-    {
-      getNextPageParam,
-      onError: handleError,
-    }
-  )
-
-  const attendees = usePaginatedData(paginatedAttendees)*/
 
   if (isFetching) {
     return <Loader />
