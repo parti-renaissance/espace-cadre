@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { ListEvents, CreateEvent } from '~/components/Events/pages'
+import { ListEvents, CreateEvent, EditEvent } from '~/components/Events/pages'
 import { paths } from '~/components/Events/shared/paths'
 
 const EventRoute = () => (
@@ -9,6 +9,9 @@ const EventRoute = () => (
 
     {/* Create an event */}
     <Route path={paths.create} element={<CreateEvent />} />
+
+    {/* Edit an event */}
+    <Route path={`${paths.update}/:eventId`} element={<EditEvent />} />
   </Routes>
 )
 
