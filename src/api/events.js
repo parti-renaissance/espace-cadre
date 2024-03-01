@@ -2,6 +2,7 @@ import { newPaginatedResult } from '~/api/pagination'
 import { Event, EventCategory, EventGroupCategory, Attendee } from '~/domain/event'
 import { apiClient, apiClientPublic } from '~/services/networking/client'
 import { formatDate } from '~/shared/helpers'
+import { format, formatISO, parseISO } from 'date-fns'
 
 export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 
@@ -82,23 +83,20 @@ export const uploadImage = async ({ eventId, image }) => {
 
 export const deleteImage = async eventId => await apiClient.delete(`/api/v3/events/${eventId}/image`)
 
-const eventToJson = event => ({
-  name: event.name,
-  category: event.categoryId,
-  visibility: event.visibility,
-  description: event.description,
-  begin_at: formatDate(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
-  finish_at: formatDate(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
-  capacity: parseInt(event.capacity),
-  visio_url: event.visioUrl,
-  post_address: {
-    address: event.address,
-    postal_code: event.address?.postalCode,
-    city_name: event.address?.city,
-    country: event.address?.country,
-  },
-  time_zone: event.timezone,
-  live_url: event.liveUrl,
-  mode: 'online', // TODO: REPLACE ???
-  electoral: false, // TODO: REPLACE ???
-})
+const eventToJson = event => {
+  return {
+    name: event.name,
+    category: event.categoryId,
+    visibility: event.visibility,
+    description: event.description,
+    begin_at: event.beginAt,
+    finish_at: event.finishAt,
+    capacity: parseInt(event.capacity),
+    visio_url: event.visioUrl,
+    post_address: event.post_address,
+    time_zone: event.timezone,
+    live_url: event.liveUrl,
+    mode: 'online', // TODO: REPLACE ???
+    electoral: false, // TODO: REPLACE ???
+  }
+}

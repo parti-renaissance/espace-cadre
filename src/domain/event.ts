@@ -265,7 +265,7 @@ export const CreateEventSchema = z
       .max(80, "Le titre de l'événement ne peut pas dépasser 80 caractères"),
     description: z
       .string()
-      .min(5, 'La description doit contenir au moins 5 caractères')
+      .min(10, 'La description doit contenir au moins 10 caractères')
       .min(1, 'La description est obligatoire')
       .max(380, 'La description ne peut pas dépasser 380 caractères'),
     timezone: z.string().min(1, 'Vous devez choisir une timezone'),
@@ -337,6 +337,16 @@ export const CreateEventSchema = z
         code: z.ZodIssueCode.custom,
         message: 'Le lien de la visioconférence est obligatoire pour un événement virtuel',
         path: ['visioUrl'],
+      })
+    }
+  })
+  .superRefine((values, context) => {
+    // check if the address is valid if the event is not virtual
+    if (!values.isVirtual && !values.address) {
+      return context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'L’adresse est obligatoire pour un événement physique',
+        path: ['address'],
       })
     }
   })

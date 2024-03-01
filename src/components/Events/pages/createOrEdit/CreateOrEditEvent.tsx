@@ -20,9 +20,15 @@ import {
   FormHelperText,
   Autocomplete,
 } from '@mui/material'
-import { getEvent, updateEvent, uploadImage as imageUploadApi, deleteImage as deleteImageApi } from '~/api/events'
+import {
+  createEvent as createEventApi,
+  deleteImage as deleteImageApi,
+  getEvent,
+  updateEvent,
+  uploadImage as imageUploadApi,
+} from '~/api/events'
 import BlockForm from '~/components/Events/pages/create/components/BlockForm/BlockForm'
-import { CreateEventForm, CreateEventSchema } from '~/domain/event'
+import { CreateEventForm, CreateEventSchema, Event, VisibilityEvent } from '~/domain/event'
 import Category from '~/components/Events/pages/create/components/forms/category'
 import Visibility from '~/components/Events/pages/create/components/forms/visibility'
 import UploadImage from '~/components/Events/pages/create/components/forms/uploadImage'
@@ -36,20 +42,26 @@ import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import React from 'react'
 
-const EditEvent = () => {
+interface CreateOrEditEventProps {
+  editable: boolean
+}
+
+const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
+  const { editable } = props
+
   const { eventId } = useParams()
+
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const [image, setImage] = React.useState<string | undefined>()
 
-  const { isLoading, data } = useQueryWithScope(['event', eventId], () => getEvent(eventId), {
+  const { isLoading, data: event } = useQueryWithScope(['event', eventId], (): Promise<Event> => getEvent(eventId), {
     onSuccess: (data: any) => {
-      setImage(data.image)
+      // setImage(data.image)
     },
+    enabled: editable,
   })
-
-  const event = data
 
   const {
     register,
@@ -57,27 +69,33 @@ const EditEvent = () => {
     setValue,
     handleSubmit,
     getValues,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<CreateEventForm>({
-    values: {
-      name: event?.name,
-      categoryId: event?.categoryId,
-      visibilityId: event?.visibilityId,
-      beginAt: new Date(event?.beginAt),
-      finishAt: new Date(event?.finishAt),
-      timeBeginAt: new Date(event?.beginAt),
-      timeFinishAt: new Date(event?.finishAt),
-      timezone: event?.timezone,
-      description: event?.description,
-      visioUrl: event?.visioUrl,
-      isVirtual: event?.visioUrl,
-      capacity: event?.capacity || 0,
-      severalDays: event?.beginAt !== event?.finishAt,
-      address: event?.address?.route,
-      zipCode: event?.address?.postalCode,
-      city: event?.address?.locality,
-      country: event?.address?.country,
-      liveUrl: event?.liveUrl,
+    ...(editable && {
+      values: {
+        name: event?.name,
+        categoryId: event?.categoryId,
+        visibilityId: VisibilityEvent.PUBLIC,
+        beginAt: new Date(event?.beginAt),
+        finishAt: new Date(event?.finishAt),
+        timeBeginAt: new Date(event?.beginAt),
+        timeFinishAt: new Date(event?.finishAt),
+        timezone: event?.timezone,
+        description: event?.description,
+        visioUrl: event?.visioUrl || '',
+        isVirtual: event?.visioUrl,
+        capacity: event?.capacity || 1,
+        severalDays: event?.beginAt !== event?.finishAt,
+        address: event?.address?.route || '',
+        zipCode: event?.address?.postalCode || '',
+        city: event?.address?.locality || '',
+        country: event?.address?.country || '',
+        liveUrl: event?.liveUrl,
+      },
+    }),
+    defaultValues: {
+      timezone: 'Europe/Paris',
+      capacity: 1,
     },
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
@@ -90,13 +108,13 @@ const EditEvent = () => {
     },
   })
 
-  const { mutate: mutationUpdateEvent } = useMutation(updateEvent, {
+  const { mutate: mutation } = useMutation(editable ? updateEvent : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
 
       image && !image.startsWith('http') && (await uploadImage({ eventId: uuid, image }))
 
-      enqueueSnackbar("L'événement a bien été modifié", notifyVariants.success)
+      enqueueSnackbar("L'événement a bien été créé", notifyVariants.success)
 
       navigate(`/evenement/${uuid}`)
     },
@@ -105,7 +123,7 @@ const EditEvent = () => {
     },
   })
 
-  const { mutate: deleteImage, isLoading: isDeleting } = useMutation(() => deleteImageApi(event.id), {
+  const { mutate: deleteImage, isLoadingDeletingImage } = useMutation(() => deleteImageApi(event?.id), {
     onSuccess: () => setImage(undefined),
     onError: handleError,
   })
@@ -125,37 +143,40 @@ const EditEvent = () => {
       return `${dateISO} ${timeISO}`
     }
 
-    mutationUpdateEvent({
-      event: {
-        name: getValues('name'),
-        categoryId: getValues('categoryId'),
-        visibilityId: getValues('visibilityId'),
-        beginAt: formatDateTime(beginAt, timeBeginAt),
-        finishAt: watch('severalDays') ? formatDateTime(finishAt, timeFinishAt) : formatDateTime(beginAt, timeFinishAt),
-        timezone: getValues('timezone'),
-        description: getValues('description'),
-        visioUrl: getValues('visioUrl'),
-        // mode: watch('isVirtual') ? 'online' : 'physical', // TODO: mode
-        capacity: getValues('capacity'),
-        address: {
-          address: getValues('address'),
-          postalCode: getValues('zipCode'),
-          city: getValues('city'),
-          country: getValues('country'),
-        },
+    const data = {
+      id: event?.id,
+      name: getValues('name'),
+      categoryId: getValues('categoryId'),
+      visibilityId: getValues('visibilityId'),
+      beginAt: formatDateTime(beginAt, timeBeginAt),
+      finishAt: watch('severalDays') ? formatDateTime(finishAt, timeFinishAt) : formatDateTime(beginAt, timeFinishAt),
+      timezone: getValues('timezone'),
+      description: getValues('description'),
+      visioUrl: getValues('visioUrl'),
+      mode: watch('isVirtual') ? 'online' : 'null',
+      capacity: getValues('capacity'),
+      post_address: {
+        address: getValues('address'),
+        postal_code: getValues('zipCode'),
+        city_name: getValues('city'),
+        country: getValues('country'),
       },
-      type: 'public',
-    })
-  }
+    }
 
-  if (isLoading) {
-    return <div>Loading...</div>
+    if (editable) {
+      mutation(data)
+    } else {
+      mutation({
+        event: data,
+        type: 'public',
+      })
+    }
   }
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.update} />
+        <PageHeader title={messages.create} />
       </Grid>
 
       <Breadcrumbs separator=">" aria-label="breadcrumb">
@@ -163,7 +184,7 @@ const EditEvent = () => {
           {messages.title}
         </Link>
 
-        <Typography color="inherit">{messages.update}</Typography>
+        <Typography color="inherit">Créer un événement</Typography>
       </Breadcrumbs>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -224,7 +245,9 @@ const EditEvent = () => {
                     <DatePicker
                       label={watch('severalDays') ? 'Date de début' : 'Date'}
                       slots={{ textField: TextField }}
-                      value={watch('beginAt')}
+                      {...(editable && {
+                        value: watch('beginAt'),
+                      })}
                       minDate={new Date()}
                       onChange={value => {
                         setValue('beginAt', value as Date)
@@ -238,8 +261,10 @@ const EditEvent = () => {
                       <DatePicker
                         label="Date de fin"
                         slots={{ textField: TextField }}
+                        {...(editable && {
+                          value: watch('finishAt'),
+                        })}
                         disabled={!watch('severalDays') || !watch('beginAt')}
-                        value={watch('finishAt')}
                         minDate={watch('beginAt')}
                         maxDate={addDays(new Date(watch('beginAt')), 3)}
                         onChange={value => setValue('finishAt', value as Date)}
@@ -253,6 +278,9 @@ const EditEvent = () => {
                     <TimePicker
                       label="Heure de début"
                       {...register('timeBeginAt')}
+                      {...(editable && {
+                        value: watch('timeBeginAt'),
+                      })}
                       value={watch('timeBeginAt')}
                       onChange={value => setValue('timeBeginAt', new Date(value as Date))}
                       sx={{ width: '100%' }}
@@ -270,7 +298,9 @@ const EditEvent = () => {
 
                         setValue('timeFinishAt', new Date(value as Date))
                       }}
-                      value={watch('timeFinishAt')}
+                      {...(editable && {
+                        value: watch('timeFinishAt'),
+                      })}
                       minTime={watch('severalDays') ? '00:00' : watch('timeBeginAt')}
                       disabled={watch('timeBeginAt') === undefined}
                       sx={{ width: '100%' }}
@@ -331,6 +361,9 @@ const EditEvent = () => {
               {watch('isVirtual') && (
                 <TextField
                   {...register('visioUrl')}
+                  {...(editable && {
+                    value: event?.visioUrl,
+                  })}
                   label="Lien de la visioconférence"
                   variant="outlined"
                   fullWidth
@@ -338,10 +371,14 @@ const EditEvent = () => {
                   helperText={errors.visioUrl?.message}
                 />
               )}
+
               {!watch('isVirtual') && (
                 <>
                   <TextField
                     {...register('address')}
+                    {...(editable && {
+                      value: event?.address?.route,
+                    })}
                     label="Adresse"
                     variant="outlined"
                     fullWidth
@@ -352,6 +389,9 @@ const EditEvent = () => {
                   <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                     <TextField
                       {...register('zipCode')}
+                      {...(editable && {
+                        value: event?.address?.postalCode,
+                      })}
                       label="Code postal"
                       variant="outlined"
                       fullWidth
@@ -361,6 +401,9 @@ const EditEvent = () => {
 
                     <TextField
                       {...register('city')}
+                      {...(editable && {
+                        value: event?.address?.locality,
+                      })}
                       label="Ville"
                       variant="outlined"
                       fullWidth
@@ -370,6 +413,9 @@ const EditEvent = () => {
 
                     <TextField
                       {...register('country')}
+                      {...(editable && {
+                        value: event?.address?.country,
+                      })}
                       label="Pays"
                       variant="outlined"
                       fullWidth
@@ -384,9 +430,13 @@ const EditEvent = () => {
 
           <BlockForm title="Informations optionnelles">
             <UploadImage
-              imageUrl={event.image}
               onFileChange={file => setValue('image', file)}
-              handleDelete={handleImageDelete}
+              {...(editable
+                ? {
+                    imageUrl: image,
+                    handleDelete: handleImageDelete,
+                  }
+                : {})}
             />
 
             <FormGroup label="Capacité">
@@ -426,7 +476,7 @@ const EditEvent = () => {
             Annuler
           </Button>
 
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" disabled={isSubmitting} color="primary">
             Publier
           </Button>
         </Stack>
@@ -435,4 +485,4 @@ const EditEvent = () => {
   )
 }
 
-export default EditEvent
+export default CreateOrEditEvent
