@@ -41,8 +41,6 @@ const Attendees = () => {
 
   const attendees = usePaginatedData(paginatedAttendees)
 
-  console.log(attendees)
-
   return (
     <Box>
       <Stack
