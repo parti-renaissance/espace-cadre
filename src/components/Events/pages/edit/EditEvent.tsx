@@ -20,7 +20,7 @@ import {
   FormHelperText,
   Autocomplete,
 } from '@mui/material'
-import { getEvent, updateEvent, uploadImage as imageUploadApi } from '~/api/events'
+import { getEvent, updateEvent, uploadImage as imageUploadApi, deleteImage as deleteImageApi } from '~/api/events'
 import BlockForm from '~/components/Events/pages/create/components/BlockForm/BlockForm'
 import { CreateEventForm, CreateEventSchema } from '~/domain/event'
 import Category from '~/components/Events/pages/create/components/forms/category'
