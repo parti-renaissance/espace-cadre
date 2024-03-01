@@ -20,7 +20,7 @@ import {
   FormHelperText,
   Autocomplete,
 } from '@mui/material'
-import { createEvent as createEventApi, getEvent, updateEvent, uploadImage as imageUploadApi } from '~/api/events'
+import { getEvent, updateEvent, uploadImage as imageUploadApi } from '~/api/events'
 import BlockForm from '~/components/Events/pages/create/components/BlockForm/BlockForm'
 import { CreateEventForm, CreateEventSchema } from '~/domain/event'
 import Category from '~/components/Events/pages/create/components/forms/category'
@@ -51,7 +51,6 @@ const EditEvent = () => {
 
   const event = data
 
-  console.log(event)
   const {
     register,
     watch,
@@ -91,7 +90,7 @@ const EditEvent = () => {
     },
   })
 
-  const { mutate: createEvent } = useMutation(updateEvent, {
+  const { mutate: mutationUpdateEvent } = useMutation(updateEvent, {
     onSuccess: async uuid => {
       const image = watch('image')
 
@@ -126,7 +125,7 @@ const EditEvent = () => {
       return `${dateISO} ${timeISO}`
     }
 
-    createEvent({
+    mutationUpdateEvent({
       event: {
         name: getValues('name'),
         categoryId: getValues('categoryId'),
