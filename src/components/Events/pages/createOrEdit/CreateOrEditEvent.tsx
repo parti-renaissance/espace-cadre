@@ -27,12 +27,12 @@ import {
   updateEvent,
   uploadImage as imageUploadApi,
 } from '~/api/events'
-import BlockForm from '~/components/Events/pages/create/components/BlockForm/BlockForm'
+import BlockForm from '~/components/Events/pages/createOrEdit/components/BlockForm/BlockForm'
 import { CreateEventForm, CreateEventSchema, Event, VisibilityEvent } from '~/domain/event'
-import Category from '~/components/Events/pages/create/components/forms/category'
-import Visibility from '~/components/Events/pages/create/components/forms/visibility'
-import UploadImage from '~/components/Events/pages/create/components/forms/uploadImage'
-import FormGroup from '~/components/Events/pages/create/components/FormGroup/FormGroup'
+import Category from '~/components/Events/pages/createOrEdit/components/forms/category'
+import Visibility from '~/components/Events/pages/createOrEdit/components/forms/visibility'
+import UploadImage from '~/components/Events/pages/createOrEdit/components/forms/uploadImage'
+import FormGroup from '~/components/Events/pages/createOrEdit/components/FormGroup/FormGroup'
 import { Box } from '@mui/system'
 
 import timezones from '~/components/Events/timezones.json'
