@@ -60,7 +60,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     onSuccess: (data: any) => {
       // setImage(data.image)
     },
-    enabled: editable,
+    enabled: !!editable && !!eventId,
   })
 
   const {
@@ -114,16 +114,22 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
       image && !image.startsWith('http') && (await uploadImage({ eventId: uuid, image }))
 
-      enqueueSnackbar("L'événement a bien été créé", notifyVariants.success)
+      enqueueSnackbar(
+        editable ? 'Votre événement a été modifié avec succès' : 'Votre événement a été créé avec succès',
+        notifyVariants.success
+      )
 
       navigate(`/evenement/${uuid}`)
     },
     onError: error => {
+      // if (error.response?.data?.detail) {
+      //   enqueueSnackbar(error.response?.data?.detail, notifyVariants.error)
+      // }
       handleError(error)
     },
   })
 
-  const { mutate: deleteImage, isLoadingDeletingImage } = useMutation(() => deleteImageApi(event?.id), {
+  const { mutate: deleteImage } = useMutation(() => deleteImageApi(event?.id), {
     onSuccess: () => setImage(undefined),
     onError: handleError,
   })
