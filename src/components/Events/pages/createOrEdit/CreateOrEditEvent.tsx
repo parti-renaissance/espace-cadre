@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
+import ModalSaveBeforeLeave from '~/components/Messagerie/Component/ModalSaveBeforeLeave'
 import {
   Stack,
   Breadcrumbs,
@@ -40,7 +41,8 @@ import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
-import React from 'react'
+import React, { useState } from 'react'
+import { useBlocker } from 'react-router-dom'
 
 interface CreateOrEditEventProps {
   editable: boolean
@@ -55,6 +57,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const [image, setImage] = React.useState<string | undefined>()
+  const [blockerOpen, setBlockerOpen] = useState(false)
 
   const { isLoading, data: event } = useQueryWithScope(['event', eventId], (): Promise<Event> => getEvent(eventId), {
     onSuccess: (data: any) => {
@@ -69,7 +72,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     setValue,
     handleSubmit,
     getValues,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<CreateEventForm>({
     ...(editable && {
       values: {
@@ -134,6 +137,22 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     onError: handleError,
   })
 
+  const handleCloseBlockerModal = () => {
+    setBlockerOpen(false)
+  }
+
+  const blocker = useBlocker(({ nextLocation }) => {
+    if (
+      isDirty &&
+      eventId &&
+      !nextLocation.pathname.startsWith(`/evenement/${editable ? `modifier/${eventId}` : 'creer'}`)
+    ) {
+      setBlockerOpen(true)
+      return true
+    }
+    return false
+  })
+
   const handleImageDelete = () => {
     setImage(undefined)
     deleteImage()
@@ -177,6 +196,11 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         type: 'public',
       })
     }
+  }
+
+  const handleSave = () => {
+    setBlockerOpen(false)
+    // onSubmit()
   }
 
   return (
@@ -487,6 +511,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
           </Button>
         </Stack>
       </form>
+
+      <ModalSaveBeforeLeave
+        open={blockerOpen}
+        onClose={handleCloseBlockerModal}
+        onSave={handleSave}
+        blocker={blocker}
+      />
     </Container>
   )
 }
