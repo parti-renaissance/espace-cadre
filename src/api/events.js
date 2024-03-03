@@ -30,7 +30,7 @@ export const getEventAttendees = async (id, page) => {
 export const getEvent = async id => {
   const event = await apiClient.get(`/api/v3/events/${id}`)
 
-  return Event.fromApi(event)
+  return event
 }
 
 export const formatCategories = rawCategories => {

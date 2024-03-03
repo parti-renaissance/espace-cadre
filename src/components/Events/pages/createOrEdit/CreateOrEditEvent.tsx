@@ -29,7 +29,7 @@ import {
   uploadImage as imageUploadApi,
 } from '~/api/events'
 import BlockForm from '~/components/Events/pages/createOrEdit/components/BlockForm/BlockForm'
-import { CreateEventForm, CreateEventSchema, Event, VisibilityEvent } from '~/domain/event'
+import { CreateEventForm, CreateEventSchema, VisibilityEvent } from '~/domain/event'
 import Category from '~/components/Events/pages/createOrEdit/components/forms/category'
 import Visibility from '~/components/Events/pages/createOrEdit/components/forms/visibility'
 import UploadImage from '~/components/Events/pages/createOrEdit/components/forms/uploadImage'
@@ -43,7 +43,8 @@ import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import React, { useState } from 'react'
 import { useBlocker } from 'react-router-dom'
-
+import Places from '~/ui/Places/Places'
+import { EventPayload } from '~/components/Events/shared/types'
 interface CreateOrEditEventProps {
   editable: boolean
 }
@@ -59,12 +60,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   const [image, setImage] = React.useState<string | undefined>()
   const [blockerOpen, setBlockerOpen] = useState(false)
 
-  const { isLoading, data: event } = useQueryWithScope(['event', eventId], (): Promise<Event> => getEvent(eventId), {
-    onSuccess: (data: any) => {
-      // setImage(data.image)
-    },
-    enabled: !!editable && !!eventId,
-  })
+  const { isLoading, data: event } = useQueryWithScope(
+    ['event', eventId],
+    (): Promise<EventPayload> => getEvent(eventId),
+    {
+      enabled: !!editable && !!eventId,
+    }
+  )
 
   const {
     register,
@@ -89,10 +91,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         isVirtual: event?.visioUrl,
         capacity: event?.capacity || 1,
         severalDays: event?.beginAt !== event?.finishAt,
-        address: event?.address?.route || '',
-        zipCode: event?.address?.postalCode || '',
-        city: event?.address?.locality || '',
-        country: event?.address?.country || '',
+        // TODO : address
+        address: {
+          address: event?.address?.address,
+          postalCode: event?.address?.postalCode,
+          cityName: event?.address?.cityName,
+          country: event?.address?.country,
+        },
         liveUrl: event?.liveUrl,
       },
     }),
@@ -181,10 +186,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       mode: watch('isVirtual') ? 'online' : 'null',
       capacity: getValues('capacity'),
       post_address: {
-        address: getValues('address'),
-        postal_code: getValues('zipCode'),
-        city_name: getValues('city'),
-        country: getValues('country'),
+        address: getValues('address.address'),
+        postal_code: getValues('address.postalCode'),
+        city_name: getValues('address.cityName'),
+        country: getValues('address.country'),
       },
     }
 
@@ -404,53 +409,51 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
               {!watch('isVirtual') && (
                 <>
-                  <TextField
-                    {...register('address')}
-                    {...(editable && {
-                      value: event?.address?.route,
-                    })}
-                    label="Adresse"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.address}
-                    helperText={errors.address?.message}
+                  <Places
+                    onSelectPlace={(place: any) => {
+                      setValue('address.address', place.address)
+                      setValue('address.postalCode', place.postalCode)
+                      setValue('address.cityName', place.locality)
+                      setValue('address.country', place.country)
+                    }}
                   />
 
                   <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                     <TextField
-                      {...register('zipCode')}
+                      {...register('address.postalCode')}
                       {...(editable && {
                         value: event?.address?.postalCode,
                       })}
                       label="Code postal"
                       variant="outlined"
                       fullWidth
-                      error={!!errors.zipCode}
-                      helperText={errors.zipCode?.message}
+                      error={!!errors?.address?.postalCode}
+                      helperText={errors?.address?.postalCode?.message}
                     />
 
                     <TextField
-                      {...register('city')}
+                      {...register('address.cityName')}
                       {...(editable && {
                         value: event?.address?.locality,
                       })}
                       label="Ville"
                       variant="outlined"
                       fullWidth
-                      error={!!errors.city}
-                      helperText={errors.city?.message}
+                      error={!!errors?.address?.cityName}
+                      helperText={errors?.address?.cityName?.message}
                     />
 
+                    {/*{JSON.stringify(watch('address'))}*/}
                     <TextField
-                      {...register('country')}
+                      {...register('address.country')}
                       {...(editable && {
                         value: event?.address?.country,
                       })}
                       label="Pays"
                       variant="outlined"
                       fullWidth
-                      error={!!errors.country}
-                      helperText={errors.country?.message}
+                      error={!!errors?.address?.country}
+                      helperText={errors?.address?.country?.message}
                     />
                   </Stack>
                 </>

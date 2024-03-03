@@ -230,6 +230,13 @@ export interface Place {
   country: string
 }
 
+export interface Address {
+  address: string
+  postalCode: string
+  cityName: string
+  country: string
+}
+
 export interface EventType {
   id?: string
   name: string
@@ -246,7 +253,7 @@ export interface EventType {
   attendees: number
   scheduled: boolean
   capacity?: string | number
-  address: Place
+  address: Address
   categoryId: string
   visibilityId: VisibilityEvent
   private: boolean
@@ -294,10 +301,12 @@ export const CreateEventSchema = z
       .or(z.string()),
     timeBeginAt: z.date().optional(),
     timeFinishAt: z.date().optional(),
-    address: z.string().optional(),
-    zipCode: z.string().optional(),
-    city: z.string().optional(),
-    country: z.string().optional(),
+    address: z.object({
+      address: z.string().optional(),
+      postalCode: z.string().optional(),
+      cityName: z.string().optional(),
+      country: z.string().optional(),
+    }),
     visioUrl: z.string().optional().or(z.literal('')),
     liveUrl: z
       .string()
@@ -337,16 +346,6 @@ export const CreateEventSchema = z
         code: z.ZodIssueCode.custom,
         message: 'Le lien de la visioconférence est obligatoire pour un événement virtuel',
         path: ['visioUrl'],
-      })
-    }
-  })
-  .superRefine((values, context) => {
-    // check if the address is valid if the event is not virtual
-    if (!values.isVirtual && !values.address) {
-      return context.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'L’adresse est obligatoire pour un événement physique',
-        path: ['address'],
       })
     }
   })
