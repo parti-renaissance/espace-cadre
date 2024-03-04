@@ -83,20 +83,18 @@ export const uploadImage = async ({ eventId, image }) => {
 
 export const deleteImage = async eventId => await apiClient.delete(`/api/v3/events/${eventId}/image`)
 
-const eventToJson = event => {
-  return {
-    name: event.name,
-    category: event.categoryId,
-    visibility: event.visibility,
-    description: event.description,
-    begin_at: event.beginAt,
-    finish_at: event.finishAt,
-    capacity: parseInt(event.capacity),
-    visio_url: event.visioUrl,
-    post_address: event.post_address,
-    time_zone: event.timezone,
-    live_url: event.liveUrl,
-    mode: 'online', // TODO: REPLACE ???
-    electoral: false, // TODO: REPLACE ???
-  }
-}
+const eventToJson = event => ({
+  name: event.name,
+  category: event.categoryId,
+  visibility: event.visibility,
+  description: event.description,
+  begin_at: event.beginAt,
+  finish_at: event.finishAt,
+  capacity: parseInt(event.capacity),
+  visio_url: event.visioUrl,
+  post_address: event.post_address,
+  time_zone: event.timezone,
+  live_url: event.liveUrl,
+  mode: 'online', // TODO: REPLACE ???
+  electoral: false, // TODO: REPLACE ???
+})
