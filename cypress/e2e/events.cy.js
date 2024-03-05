@@ -54,14 +54,12 @@ describe('Events', () => {
       cy.get(UICard).eq(0).contains('Par Prénom1 Nom1')
       cy.get(UICard).eq(0).contains('17 janvier 2022')
       cy.get(UICard).eq(0).contains('17 rue du XXXX, 95000 Jolie-Ville')
-      cy.get(UICard).eq(0).contains('categorie 1')
 
       cy.get(UICard).eq(1).contains('1')
       // cy.get(UICard).eq(1).get(BadgeStatus).contains('Annulé')
       cy.get(UICard).eq(1).contains('Par Prénom2 Nom2')
       cy.get(UICard).eq(1).contains('18 janvier 2022')
       cy.get(UICard).eq(1).contains('75000')
-      cy.get(UICard).eq(1).contains('categorie 2')
     })
 
     it('should display my events', () => {

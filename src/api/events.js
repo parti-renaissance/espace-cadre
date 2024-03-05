@@ -3,7 +3,25 @@ import { Event, EventCategory, EventGroupCategory, Attendee } from '~/domain/eve
 import { apiClient, apiClientPublic } from '~/services/networking/client'
 import { formatDate } from '~/shared/helpers'
 
-export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
+const eventToJson = event => ({
+  name: event.name,
+  category: event.categoryId,
+  visibility: event.visibility,
+  description: event.description,
+  begin_at: formatDate(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
+  finish_at: formatDate(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
+  capacity: parseInt(event.capacity),
+  visio_url: event.visioUrl,
+  post_address: {
+    address: event.address,
+    postal_code: event.address?.postalCode,
+    city_name: event.address?.city,
+    country: event.address?.country,
+  },
+  time_zone: event.timezone,
+  live_url: event.liveUrl,
+  mode: event.mode,
+})
 
 export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
   const data = await apiClient.get(
@@ -15,6 +33,8 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
     data.metadata
   )
 }
+
+export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 
 export const getEventAttendees = async (id, page) => {
   const data = await apiClient.get(`/api/v3/events/${id}/participants?page=${page}`)
@@ -42,7 +62,8 @@ export const formatCategories = rawCategories => {
           category.slug,
           category.name,
           category.event_group_category.slug,
-          category.event_group_category.name
+          category.event_group_category.name,
+          category.event_group_category.description
         )
       ),
     }
@@ -81,24 +102,3 @@ export const uploadImage = async ({ eventId, image }) => {
 }
 
 export const deleteImage = async eventId => await apiClient.delete(`/api/v3/events/${eventId}/image`)
-
-const eventToJson = event => ({
-  name: event.name,
-  category: event.categoryId,
-  visibility: event.visibility,
-  description: event.description,
-  begin_at: formatDate(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
-  finish_at: formatDate(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
-  capacity: parseInt(event.capacity),
-  visio_url: event.visioUrl,
-  post_address: {
-    address: event.address,
-    postal_code: event.address?.postalCode,
-    city_name: event.address?.city,
-    country: event.address?.country,
-  },
-  time_zone: event.timezone,
-  live_url: event.liveUrl,
-  mode: 'online', // TODO: REPLACE ???
-  electoral: false, // TODO: REPLACE ???
-})

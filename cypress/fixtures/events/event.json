@@ -8,10 +8,10 @@
     "slug": "category1"
   },
   "uuid": "11111111-1111-1111-1111-111111111111",
-  "name": "Mon évènement",
+  "name": "Mon événement",
   "slug": "slug-mon-evenement",
   "link": "https://parti-renaissance.fr/events/slug-mon-evenement",
-  "description": "description de l'évènement",
+  "description": "description de l'événement",
   "time_zone": "Europe/Paris",
   "begin_at": "2030-01-01T12:30:00+01:00",
   "finish_at": "2030-01-01T15:30:00+01:00",

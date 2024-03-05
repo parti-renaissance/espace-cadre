@@ -4,19 +4,19 @@ import { VisibilityEvent } from '~/domain/event'
 
 const VISIBILITES = [
   {
-    id: 'public',
+    id: VisibilityEvent.PUBLIC,
     name: 'Public',
   },
   {
-    id: 'private',
+    id: VisibilityEvent.PRIVATE,
     name: 'Interne',
   },
   {
-    id: 'adherent',
+    id: VisibilityEvent.ADHERENT,
     name: 'Adhérents',
   },
   {
-    id: 'adherent_dues',
+    id: VisibilityEvent.ADHERENT_DUES,
     name: 'Adhérent à jour de cotisation',
   },
 ]
@@ -29,13 +29,13 @@ interface VisibilityProps {
 
 const Visibility = ({ visibility, onClick, register }: VisibilityProps) => (
   <FormGroup row>
-    {VISIBILITES?.map((item: any) => (
+    {VISIBILITES.map((item: any) => (
       <FormControlLabel
         key={item.slug}
         control={<Radio checked={item.id === visibility} />}
         label={item.name}
         onClick={(e: React.MouseEvent<HTMLLabelElement>) => {
-          register('visibilityId').onChange(e)
+          register('visibility').onChange(e)
           onClick(e, item.id)
         }}
         sx={{
