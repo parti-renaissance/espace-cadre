@@ -55,9 +55,14 @@ export const formatCategories = rawCategories => {
   })
 }
 
-export const getCategories = async () => {
+export const getCategoriesWithGroups = async () => {
   const rawCategories = await apiClientPublic('get', '/api/event_categories')
   return formatCategories(rawCategories)
+}
+
+export const getCategories = async () => {
+  const rawCategories = await apiClientPublic('get', '/api/event_categories')
+  return rawCategories
 }
 
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
@@ -80,19 +85,20 @@ export const deleteImage = async eventId => await apiClient.delete(`/api/v3/even
 const eventToJson = event => ({
   name: event.name,
   category: event.categoryId,
+  visibility: event.visibility,
   description: event.description,
   begin_at: formatDate(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
   finish_at: formatDate(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
   capacity: parseInt(event.capacity),
-  mode: 'meeting',
   visio_url: event.visioUrl,
   post_address: {
-    address: [event.address?.number, event.address?.number && ' ', event.address?.route].filter(Boolean).join(''),
+    address: event.address,
     postal_code: event.address?.postalCode,
-    city_name: event.address?.locality,
+    city_name: event.address?.city,
     country: event.address?.country,
   },
   time_zone: event.timezone,
-  private: event.private,
-  committee: event.committee,
+  live_url: event.liveUrl,
+  mode: 'online', // TODO: REPLACE ???
+  electoral: false, // TODO: REPLACE ???
 })
