@@ -95,7 +95,7 @@ const CreateEvent = () => {
         timezone: getValues('timezone'),
         description: getValues('description'),
         visioUrl: getValues('visioUrl'),
-        // mode: watch('isVirtual') ? 'online' : 'physical', // TODO: mode
+        mode: watch('isVirtual') ? 'online' : 'meeting',
         capacity: getValues('capacity'),
         address: {
           address: getValues('address'),

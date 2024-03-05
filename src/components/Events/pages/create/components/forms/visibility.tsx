@@ -4,19 +4,19 @@ import { VisibilityEvent } from '~/domain/event'
 
 const VISIBILITES = [
   {
-    id: 'public',
+    id: VisibilityEvent.PUBLIC,
     name: 'Public',
   },
   {
-    id: 'private',
+    id: VisibilityEvent.PRIVATE,
     name: 'Interne',
   },
   {
-    id: 'adherent',
+    id: VisibilityEvent.ADHERENT,
     name: 'Adhérents',
   },
   {
-    id: 'adherent_dues',
+    id: VisibilityEvent.ADHERENT_DUES,
     name: 'Adhérent à jour de cotisation',
   },
 ]
