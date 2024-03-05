@@ -1,6 +1,5 @@
-import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { generatePath } from 'react-router'
+import { generatePath, useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Card, CardContent, CardMedia, Box, Typography, IconButton, Button } from '@mui/material'
 import Label from '~/mui/label'
@@ -9,24 +8,56 @@ import { Stack } from '@mui/system'
 import { Event } from '~/components/Events/shared/types'
 import { getCurrentUser } from '~/redux/user/selectors'
 import { usePopover } from '~/mui/custom-popover'
-
-import BadgeStatus from './components/badgeStatus'
+import { paths } from '~/components/Events/shared/paths'
 import { addressFormatted, dateFormatted } from './helpers'
+import BadgeStatus from './components/badgeStatus'
 import ActionPopover from './components/actionPopOver'
 
-export type CardEventAction = 'detail' | 'edit' | 'delete' | 'cancel'
+export type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
+
+type ListItem = {
+  enabled: boolean
+  id: string
+  label: string
+  icon: string
+  children: string | JSX.Element | null
+}
 
 type CardEventProps = {
   event: Event
-  onActionClick?: (event: Event, action: CardEventAction) => any
 }
 
-const CardEvent = ({ event, onActionClick }: CardEventProps) => {
+const CardEvent = ({ event }: CardEventProps) => {
   const currentUser = useSelector(getCurrentUser)
   const popover = usePopover()
+  const navigate = useNavigate()
   const myEvent = event.organizerId === currentUser.uuid
 
-  const listItems = [
+  const handleDelete = () => {
+    throw new Error('Not implemented')
+  }
+
+  const handleCancel = () => {
+    throw new Error('Not implemented')
+  }
+
+  const handleDefineAction = (action: EventAction) => {
+    switch (action) {
+      case 'detail':
+        navigate(generatePath(`${paths.events}/:uuid`, { uuid: event.id }))
+        break
+      case 'edit':
+        navigate(generatePath(`${paths.events}/edit/:uuid`, { uuid: event.id }))
+        break
+      case 'delete':
+        handleDelete()
+        break
+      case 'cancel':
+        handleCancel()
+        break
+    }
+  }
+  const listItems: ListItem[] = [
     {
       enabled: event.organizer.length > 0 && !!event.organizerId,
       id: 'organizer',
@@ -49,11 +80,11 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
       children: addressFormatted(event.address),
     },
     {
-      enabled: !!event.category,
+      enabled: !!event?.category?.event_group_category?.name,
       id: 'category',
       label: 'Catégorie',
       icon: 'solar:tag-horizontal-bold',
-      children: event.category,
+      children: event?.category?.event_group_category?.name,
     },
   ]
 
@@ -80,7 +111,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
         <CardMedia
           component="img"
           sx={{ borderRadius: 1, height: 185, backgroundColor: 'gray300' }}
-          src="https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1"
+          src={event.image || 'https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1'}
         />
       </Box>
 
@@ -123,12 +154,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
               <Iconify icon="eva:more-horizontal-fill" />
             </IconButton>
           ) : (
-            <Button
-              color="primary"
-              onClick={() => {
-                onActionClick?.(event, 'detail')
-              }}
-            >
+            <Button color="primary" onClick={() => handleDefineAction?.('detail')}>
               {"Voir l'événement"}
             </Button>
           )}
@@ -146,7 +172,7 @@ const CardEvent = ({ event, onActionClick }: CardEventProps) => {
         </Box>
       </CardContent>
 
-      <ActionPopover popover={popover} event={event} onClick={(event, action) => onActionClick?.(event, action)} />
+      <ActionPopover popover={popover} event={event} onClick={(e, action) => handleDefineAction?.(action)} />
     </Card>
   )
 }

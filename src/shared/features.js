@@ -84,7 +84,7 @@ export const featuresLabels = {
   [features.pap_v2]: 'Porte à porte local',
   [features.survey]: 'Questionnaires',
   [features.my_team]: 'Mon équipe',
-  [features.events]: 'Évènements',
+  [features.events]: 'Événements',
   [features.department_site]: 'Site départemental',
   [features.elected_representative]: 'Registre des élus',
   [features.adherent_formations]: 'Formations',

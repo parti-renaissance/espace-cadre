@@ -89,7 +89,7 @@ const CreateEvent = () => {
       event: {
         name: getValues('name'),
         categoryId: getValues('categoryId'),
-        visibilityId: getValues('visibilityId'),
+        visibility: getValues('visibility'),
         beginAt: formatDateTime(beginAt, timeBeginAt),
         finishAt: watch('severalDays') ? formatDateTime(finishAt, timeFinishAt) : formatDateTime(beginAt, timeFinishAt),
         timezone: getValues('timezone'),
@@ -139,14 +139,12 @@ const CreateEvent = () => {
 
             <FormGroup label="Visibilité">
               <Visibility
-                visibility={watch('visibilityId')}
-                onClick={(_, visibilityId) => setValue('visibilityId', visibilityId)}
+                visibility={watch('visibility')}
+                onClick={(_, visibility) => setValue('visibility', visibility)}
                 register={register}
               />
 
-              {errors.visibilityId && (
-                <FormHelperText sx={{ color: 'red' }}>{errors.visibilityId.message}</FormHelperText>
-              )}
+              {errors.visibility && <FormHelperText sx={{ color: 'red' }}>{errors.visibility.message}</FormHelperText>}
             </FormGroup>
           </BlockForm>
 

@@ -23,7 +23,7 @@ const Actions = ({ event, onClick }: ActionsProps) => {
       onClick: event => onClick(event, 'edit'),
     },
     {
-      label: 'Annulé',
+      label: 'Annuler',
       canShow: !!event.scheduled,
       onClick: event => onClick(event, 'cancel'),
     },

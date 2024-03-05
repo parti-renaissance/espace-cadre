@@ -5,7 +5,7 @@ export const messages = {
   create: 'Créer un événement',
   allEvents: 'Tout',
   myEvents: 'Mes événements',
-  deleteSuccess: "L'évènement a bien été supprimé",
-  cancelSuccess: "L'évènement a bien été annulé",
-  noEvent: 'Aucun évènement à afficher',
+  deleteSuccess: "L'événement a bien été supprimé",
+  cancelSuccess: "L'événement a bien été annulé",
+  noEvent: 'Aucun événement à afficher',
 }

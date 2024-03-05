@@ -67,7 +67,14 @@ export class Event {
     scheduled: PropTypes.bool.isRequired,
     capacity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     address: Place.propTypes.isRequired,
-    categoryId: PropTypes.string.isRequired,
+    category: PropTypes.shape({
+      description: PropTypes.string,
+      event_group_category: PropTypes.shape({
+        description: PropTypes.string,
+        name: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired,
+      }),
+    }),
     isPrivate: PropTypes.bool.isRequired,
     visioUrl: PropTypes.string,
     mode: PropTypes.string,
@@ -96,7 +103,7 @@ export class Event {
         e.post_address.city_name,
         e.post_address.country
       ),
-      e.category ? e.category.slug : null,
+      e.category ? e.category : null,
       e.private,
       e.visio_url,
       e.mode,
@@ -119,7 +126,7 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.categoryId,
+      this.category,
       this.isPrivate,
       this.visioUrl,
       this.mode,
@@ -142,7 +149,7 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.categoryId,
+      this.category,
       newPrivate,
       this.visioUrl,
       this.mode,
@@ -164,160 +171,13 @@ export class Event {
     public scheduled: boolean,
     public capacity: string | number,
     public address: Place,
-    public categoryId: string,
+    public category: string,
     public isPrivate: boolean,
     public visioUrl: string,
     public mode: string,
     public image: string
   ) {}
 }
-
-// export class Event {
-//   constructor(
-//     id,
-//     name,
-//     description,
-//     timezone,
-//     createdAt,
-//     beginAt,
-//     finishAt,
-//     localFinishAt,
-//     organizer,
-//     organizerId,
-//     attendees,
-//     scheduled,
-//     capacity,
-//     address,
-//     categoryId,
-//     isPrivate,
-//     visioUrl,
-//     mode,
-//     image,
-//     committee,
-//     eventLink
-//   ) {
-//     this.id = id
-//     this.name = name
-//     this.description = description
-//     this.timezone = timezone
-//     this.createdAt = createdAt
-//     this.beginAt = beginAt
-//     this.finishAt = finishAt
-//     this.localFinishAt = localFinishAt
-//     this.organizer = organizer
-//     this.organizerId = organizerId
-//     this.attendees = attendees
-//     this.scheduled = scheduled
-//     this.capacity = capacity
-//     this.address = address
-//     this.categoryId = categoryId
-//     this.private = isPrivate
-//     this.visioUrl = visioUrl
-//     this.mode = mode
-//     this.image = image
-//     this.committee = committee
-//     this.eventLink = eventLink
-//   }
-
-//   withName = newName =>
-//     new Event(
-//       this.id,
-//       newName,
-//       this.description,
-//       this.timezone,
-//       this.createdAt,
-//       this.beginAt,
-//       this.finishAt,
-//       this.localFinishAt,
-//       this.organizer,
-//       this.organizerId,
-//       this.attendees,
-//       this.scheduled,
-//       this.capacity,
-//       this.address,
-//       this.categoryId,
-//       this.private,
-//       this.visioUrl,
-//       this.mode,
-//       this.image
-//     )
-
-//   withPrivate = newPrivate =>
-//     new Event(
-//       this.id,
-//       this.name,
-//       this.description,
-//       this.timezone,
-//       this.createdAt,
-//       this.beginAt,
-//       this.finishAt,
-//       this.localFinishAt,
-//       this.organizer,
-//       this.organizerId,
-//       this.attendees,
-//       this.scheduled,
-//       this.capacity,
-//       this.address,
-//       this.categoryId,
-//       newPrivate,
-//       this.visioUrl,
-//       this.mode,
-//       this.image
-//     )
-
-//   static NULL = new Event(
-//     null,
-//     '',
-//     '',
-//     'Europe/Paris',
-//     null,
-//     null,
-//     null,
-//     null,
-//     null,
-//     '',
-//     0,
-//     false,
-//     '',
-//     Place.NULL,
-//     '',
-//     false,
-//     '',
-//     '',
-//     null
-//   )
-
-//   static fromApi = e =>
-//     new Event(
-//       e.uuid,
-//       e.name,
-//       e.description,
-//       e.time_zone,
-//       parseDate(e.created_at),
-//       parseDate(e.begin_at),
-//       parseDate(e.finish_at),
-//       parseDate(e.local_finish_at),
-//       [e.organizer?.first_name, e.organizer?.last_name].filter(Boolean).join(' '),
-//       e.organizer?.uuid,
-//       e.participants_count,
-//       e.status === 'SCHEDULED',
-//       e.capacity,
-//       new Place(
-//         '',
-//         e.post_address.address,
-//         e.post_address.postal_code,
-//         e.post_address.city_name,
-//         e.post_address.country
-//       ),
-//       e.category ? e.category.slug : null,
-//       e.private,
-//       e.visio_url,
-//       e.mode,
-//       e.image_url,
-//       null,
-//       e.link
-//     )
-// }
 
 export enum VisibilityEvent {
   PUBLIC = 'public',
@@ -344,7 +204,7 @@ export interface EventType {
   capacity?: string | number
   address: Place
   categoryId: string
-  visibilityId: VisibilityEvent
+  visibility: VisibilityEvent
   private: boolean
   visioUrl?: string
   liveUrl?: string
@@ -370,7 +230,7 @@ export const CreateEventSchema = z
       invalid_type_error: 'La catégorie doit être une chaîne de caractères',
       required_error: 'La catégorie est obligatoire',
     }),
-    visibilityId: z.nativeEnum(VisibilityEvent, {
+    visibility: z.nativeEnum(VisibilityEvent, {
       required_error: "La visibilité de l'événement est obligatoire",
     }),
     beginAt: z
