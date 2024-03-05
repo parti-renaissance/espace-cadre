@@ -20,6 +20,7 @@ import {
 import pluralize from '~/components/shared/pluralize/pluralize'
 import Iconify from '~/mui/iconify'
 import Label from '~/mui/label'
+import { enqueueSnackbar } from 'notistack'
 
 type Attendee = {
   uuid: string
@@ -60,7 +61,13 @@ const Attendees = () => {
         <Typography variant="h6">{pluralize(attendees?.length, 'Participant')}</Typography>
 
         <Stack spacing={2} direction="row">
-          <Button variant="outlined" startIcon={<Iconify icon="eva:cloud-upload-fill" />} onClick={() => {}}>
+          <Button
+            variant="outlined"
+            startIcon={<Iconify icon="eva:cloud-upload-fill" />}
+            onClick={() => {
+              enqueueSnackbar('La fonctionnalité arrive bientôt...', { variant: 'info' })
+            }}
+          >
             Télécharger les infos des participants
           </Button>
 
@@ -68,7 +75,7 @@ const Attendees = () => {
             variant="outlined"
             startIcon={<Iconify icon="fluent:mail-24-filled" />}
             onClick={() => {
-              throw new Error('Not implemented')
+              enqueueSnackbar('La fonctionnalité arrive bientôt...', { variant: 'info' })
             }}
           >
             Envoyer un mail aux participants
