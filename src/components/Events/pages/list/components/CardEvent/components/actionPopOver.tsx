@@ -1,8 +1,7 @@
-import React from 'react'
 import { Box, Typography, MenuList, MenuItem } from '@mui/material'
 import CustomPopover, { usePopover } from '~/mui/custom-popover'
 import { Event } from '~/components/Events/shared/types'
-import { CardEventAction } from '~/components/Events/pages/list/components/CardEvent/CardEvent'
+import { EventAction } from '~/components/Events/pages/list/components/CardEvent/CardEvent'
 
 type ActionButton = {
   label: string
@@ -66,7 +65,7 @@ const popoverStaticProps = {
 interface ActionsProps {
   popover: ReturnType<typeof usePopover>
   event: Event
-  onClick: (event: Event, action: CardEventAction) => void
+  onClick: (event: Event, action: EventAction) => void
 }
 
 export const ActionPopover = (props: ActionsProps) => {
