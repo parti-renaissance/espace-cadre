@@ -19,18 +19,23 @@ import {
 } from '@mui/material'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import Iconify from '~/mui/iconify'
-import Label, { LabelColor } from '~/mui/label'
+import Label from '~/mui/label'
+
+type Attendee = {
+  uuid: string
+  firstName: string
+  lastName: string
+  emailAddress: string
+  phone: string
+  subscriptionDate: string
+  tags: string[]
+}
 
 const Attendees = () => {
   const { eventId } = useParams()
-  const navigate = useNavigate()
   const { handleError } = useErrorHandler()
 
-  const {
-    data: paginatedAttendees,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQueryWithScope(
+  const { data: paginatedAttendees } = useInfiniteQueryWithScope(
     ['paginated-attendees', eventId, { feature: 'Events', view: 'Event' }],
     ({ pageParam: page = 1 }) => getEventAttendees(eventId, page),
     {
@@ -39,7 +44,7 @@ const Attendees = () => {
     }
   )
 
-  const attendees = usePaginatedData(paginatedAttendees)
+  const attendees = usePaginatedData(paginatedAttendees) as Attendee[]
 
   return (
     <Box>
@@ -55,13 +60,7 @@ const Attendees = () => {
         <Typography variant="h6">{pluralize(attendees?.length, 'Participant')}</Typography>
 
         <Stack spacing={2} direction="row">
-          <Button
-            variant="outlined"
-            startIcon={<Iconify icon="eva:cloud-upload-fill" />}
-            onClick={() => {
-              throw new Error('Not implemented')
-            }}
-          >
+          <Button variant="outlined" startIcon={<Iconify icon="eva:cloud-upload-fill" />} onClick={() => {}}>
             Télécharger les infos des participants
           </Button>
 
@@ -95,13 +94,13 @@ const Attendees = () => {
               <TableCell>Membre</TableCell>
               <TableCell>Labels</TableCell>
               <TableCell>Numéro de téléphone</TableCell>
-              <TableCell>Date d'inscription</TableCell>
+              <TableCell>{"Date d'inscription"}</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {attendees?.map(attendee => (
-              <TableRow key={attendee.uuid}>
+            {attendees?.map((attendee, index) => (
+              <TableRow key={index}>
                 <TableCell>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <Avatar
@@ -116,30 +115,34 @@ const Attendees = () => {
 
                     <Stack direction="column">
                       <Typography variant="body2">{`${attendee.firstName} ${attendee.lastName}`.trim()}</Typography>
-                      {attendee.email && (
+                      {attendee.emailAddress && (
                         <Typography variant="body2" color="textSecondary">
-                          {attendee.email || 'aucun email'}
+                          {attendee.emailAddress || 'aucun email'}
                         </Typography>
                       )}
                     </Stack>
                   </Stack>
                 </TableCell>
-
                 <TableCell>
                   <Stack direction="row" spacing={2}>
-                    <Label color={'warning'} startIcon={<Iconify icon="eva:person-fill" />}>
-                      Membre
-                    </Label>
-                    <Label color={'success'}>Participant</Label>
+                    {attendee?.tags?.map((label, i) => (
+                      <Label key={i} color={'success'}>
+                        {label}
+                      </Label>
+                    ))}
                   </Stack>
                 </TableCell>
-
                 <TableCell>
-                  <Typography variant="body2">{attendee.phoneNumber || '06 00 00 00 00'}</Typography>
+                  <Typography variant="body2">{attendee.phone || 'aucun numéro'}</Typography>
                 </TableCell>
-
                 <TableCell>
-                  <Typography variant="body2">{attendee.createdAt || '22 décembre 2024'}</Typography>
+                  <Typography variant="body2">
+                    {new Date(attendee.subscriptionDate).toLocaleDateString('fr-FR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </Typography>
                 </TableCell>
               </TableRow>
             ))}
