@@ -41,7 +41,7 @@ import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
 import Places from '~/ui/Places/Places'
 import { EventPayload } from '~/components/Events/shared/types'
@@ -142,11 +142,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   }
 
   const blocker = useBlocker(({ nextLocation }) => {
-    if (
-      isDirty &&
-      eventId &&
-      !nextLocation.pathname.startsWith(`/evenement/${editable ? `modifier/${eventId}` : 'creer'}`)
-    ) {
+    if (isDirty && !nextLocation.pathname.startsWith(`/evenement/${editable ? 'modifier/' : 'creer'}`)) {
       setBlockerOpen(true)
       return true
     }
@@ -224,7 +220,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
               <Category
                 category={watch('categoryId')}
                 onClick={(_, category) => {
-                  setValue('categoryId', category)
+                  setValue('categoryId', category, { shouldDirty: true })
                 }}
                 register={register}
               />
