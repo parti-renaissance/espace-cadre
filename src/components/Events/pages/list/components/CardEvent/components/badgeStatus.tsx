@@ -6,28 +6,32 @@ import * as React from 'react'
 const getStatusFromEvent = (event: Event) => {
   const listStatus = {
     passed: {
-      condition: new Date(event.finishAt) < new Date(),
+      enable: event.finishAt && new Date(event?.finishAt) < new Date(),
       label: 'Passé',
       color: 'default',
     },
     inProgresss: {
-      condition: new Date(event.beginAt) < new Date() && new Date(event.finishAt) > new Date(),
+      enable:
+        event.beginAt &&
+        event.finishAt &&
+        new Date(event.beginAt) < new Date() &&
+        new Date(event.finishAt) > new Date(),
       label: 'En cours',
       color: 'success',
     },
     upcoming: {
-      condition: new Date(event.beginAt) > new Date() && event.scheduled,
+      enable: event.beginAt && new Date(event.beginAt) > new Date() && event.scheduled,
       label: 'À venir',
       color: 'info',
     },
     canceled: {
-      condition: new Date(event.finishAt) < new Date() && !event.scheduled,
+      enable: event.finishAt && new Date(event.finishAt) < new Date() && !event.scheduled,
       label: 'Annulé',
       color: 'error',
     },
   }
 
-  return Object.values(listStatus).find(s => s.condition)
+  return Object.values(listStatus).find(s => s.enable)
 }
 
 type BadgeStatusProps = {

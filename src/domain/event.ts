@@ -4,20 +4,26 @@ import { parseDate } from '~/shared/helpers'
 import { z } from 'zod'
 
 export class Attendee {
-  constructor(firstName, lastName, subscriptionDate, postalCode, type) {
+  constructor(firstName, lastName, emailAddress, subscriptionDate, postalCode, type, tags, phone) {
     this.firstName = firstName
     this.lastName = lastName
+    this.emailAddress = emailAddress
     this.subscriptionDate = parseDate(subscriptionDate)
     this.postalCode = postalCode
     this.isActivist = type === 'adherent'
+    this.tags = tags
+    this.phone = phone
   }
 }
 Attendee.propTypes = PropTypes.shape({
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
+  emailAddress: PropTypes.string.isRequired,
   subscriptionDate: PropTypes.object.isRequired,
   postalCode: PropTypes.string.isRequired,
   isActivist: PropTypes.bool.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  phone: PropTypes.string,
 })
 
 export class EventCategory {

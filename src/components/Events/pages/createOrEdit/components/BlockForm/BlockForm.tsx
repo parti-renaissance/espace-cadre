@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Stack, Typography } from '@mui/material'
+import { Card, Grid, Stack, Typography } from '@mui/material'
 
 type HelperSection = {
   title: string
@@ -42,20 +42,13 @@ const BlockForm = ({ children, helpers, title, subtitle }: BlockFormProps) => (
     </Grid>
 
     <Grid item xs={12} md={8}>
-      <Stack
-        spacing={4}
-        boxShadow={8}
-        bgcolor={'background.paper'}
-        border={1}
-        borderColor={'grey.200'}
+      <Card
         sx={{
-          width: '100%',
-          padding: 4,
-          borderRadius: 2,
+          p: 4,
         }}
       >
-        {children}
-      </Stack>
+        <Stack spacing={4}>{children}</Stack>
+      </Card>
     </Grid>
   </Grid>
 )

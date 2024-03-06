@@ -21,7 +21,17 @@ export const getEventAttendees = async (id, page) => {
   const data = await apiClient.get(`/api/v3/events/${id}/participants?page=${page}`)
 
   const attendees = data.items.map(
-    p => new Attendee(p.first_name, p.last_name, p.subscription_date, p.postal_code, p.type)
+    p =>
+      new Attendee(
+        p.first_name,
+        p.last_name,
+        p.email_address,
+        p.subscription_date,
+        p.postal_code,
+        p.type,
+        p.tags,
+        p.phone
+      )
   )
 
   return newPaginatedResult(attendees, data.metadata)
