@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { generatePath, useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Card, CardContent, CardMedia, Box, Typography, IconButton, Button } from '@mui/material'
@@ -67,7 +66,7 @@ const CardEvent = ({ event }: CardEventProps) => {
         <Typography variant="caption" noWrap color="text.secondary">
           Par{' '}
           <Typography variant="caption" component="span" color="text.primary">
-            <Link to={generatePath('/organizer/:id', { id: event.organizerId })}>{event.organizer}</Link>
+            {event.organizer}
           </Typography>
         </Typography>
       ),

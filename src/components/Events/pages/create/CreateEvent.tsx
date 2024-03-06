@@ -349,7 +349,7 @@ const CreateEvent = () => {
                 helperText={errors.capacity?.message}
               />
             </FormGroup>
-            <FormGroup label="Lieu de live">
+            <FormGroup label="Lien de live">
               <TextField
                 {...register('liveUrl')}
                 label="Vous prévoyez de diffuser l'événement en ligne ? mettez ici votre lien de visioconférence"
