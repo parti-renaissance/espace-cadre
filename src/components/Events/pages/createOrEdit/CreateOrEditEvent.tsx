@@ -129,12 +129,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
       navigate(`/evenement/${uuid}`)
     },
-    onError: error => {
-      // if (error.response?.data?.detail) {
-      //   enqueueSnackbar(error.response?.data?.detail, notifyVariants.error)
-      // }
-      handleError(error)
-    },
+    onError: error => handleError(error),
   })
 
   const { mutate: deleteImage } = useMutation(() => deleteImageApi(event?.id), {
