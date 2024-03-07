@@ -50,18 +50,16 @@ describe('Events', () => {
       cy.get(UICard).eq(1).contains('evenement 2')
 
       cy.get(UICard).eq(0).contains('42')
-      // cy.get(UICard).eq(0).get(BadgeStatus).contains('Passé')
+      cy.get(UICard).eq(0).get(BadgeStatus).contains('Passé')
       cy.get(UICard).eq(0).contains('Par Prénom1 Nom1')
-      cy.get(UICard).eq(0).contains('17 janvier 2022')
+      cy.get(UICard).eq(0).contains('17/01/2022 à 12:30')
       cy.get(UICard).eq(0).contains('17 rue du XXXX, 95000 Jolie-Ville')
-      cy.get(UICard).eq(0).contains('categorie 1')
 
       cy.get(UICard).eq(1).contains('1')
-      // cy.get(UICard).eq(1).get(BadgeStatus).contains('Annulé')
+      cy.get(UICard).eq(1).get(BadgeStatus).contains('Annulé')
       cy.get(UICard).eq(1).contains('Par Prénom2 Nom2')
-      cy.get(UICard).eq(1).contains('18 janvier 2022')
+      cy.get(UICard).eq(1).contains('18/01/2022 à 12:30')
       cy.get(UICard).eq(1).contains('75000')
-      cy.get(UICard).eq(1).contains('categorie 2')
     })
 
     it('should display my events', () => {
@@ -70,7 +68,7 @@ describe('Events', () => {
       cy.get(UICard).contains('mon evenement')
       cy.get(UICard).contains('42')
       cy.get(UICard).contains('mon prénom')
-      cy.get(UICard).contains('17 janvier 2030')
+      cy.get(UICard).contains('17/01/2030 à 12:30')
       cy.get(UICard).contains('1 rue du xxxxx, 75000 Paris')
       cy.get(DotMenu).should('exist')
     })

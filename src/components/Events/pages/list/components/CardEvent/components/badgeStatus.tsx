@@ -13,7 +13,7 @@ const BadgeStatus = (props: BadgeStatusProps) => {
   const status = useMemo(() => {
     const listStatus = {
       passed: {
-        enable: finishAt && new Date(finishAt) < new Date(),
+        enable: !!scheduled && finishAt && new Date(finishAt) < new Date(),
         label: 'Passé',
         color: 'default',
       },
@@ -23,12 +23,12 @@ const BadgeStatus = (props: BadgeStatusProps) => {
         color: 'success',
       },
       upcoming: {
-        enable: beginAt && new Date(beginAt) > new Date() && scheduled,
+        enable: !!scheduled,
         label: 'À venir',
         color: 'info',
       },
       canceled: {
-        enable: finishAt && new Date(finishAt) < new Date() && !scheduled,
+        enable: !scheduled,
         label: 'Annulé',
         color: 'error',
       },
