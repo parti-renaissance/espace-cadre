@@ -120,8 +120,7 @@ const CardEvent = ({ event }: CardEventProps) => {
 
           <Typography variant="caption" noWrap color="text.secondary">
             <Typography variant="caption" noWrap color="text.secondary">
-              {new Date(event.beginAt).toLocaleDateString()} à{' '}
-              {new Date(event.beginAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {new Date(event.beginAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
             </Typography>
           </Typography>
         </Box>
