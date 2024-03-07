@@ -1,45 +1,45 @@
 import { useMemo } from 'react'
-import { Event } from '~/components/Events/shared/types'
 import Label, { LabelColor } from '~/mui/label'
-import * as React from 'react'
-
-const getStatusFromEvent = (event: Event) => {
-  const listStatus = {
-    passed: {
-      enable: event.finishAt && new Date(event?.finishAt) < new Date(),
-      label: 'Passé',
-      color: 'default',
-    },
-    inProgresss: {
-      enable:
-        event.beginAt &&
-        event.finishAt &&
-        new Date(event.beginAt) < new Date() &&
-        new Date(event.finishAt) > new Date(),
-      label: 'En cours',
-      color: 'success',
-    },
-    upcoming: {
-      enable: event.beginAt && new Date(event.beginAt) > new Date() && event.scheduled,
-      label: 'À venir',
-      color: 'info',
-    },
-    canceled: {
-      enable: event.finishAt && new Date(event.finishAt) < new Date() && !event.scheduled,
-      label: 'Annulé',
-      color: 'error',
-    },
-  }
-
-  return Object.values(listStatus).find(s => s.enable)
-}
 
 type BadgeStatusProps = {
-  event: Event
+  beginAt: Date
+  finishAt: Date
+  scheduled: boolean
 }
 
-const BadgeStatus = ({ event }: BadgeStatusProps) => {
-  const status = useMemo(() => getStatusFromEvent(event), [event])
+const BadgeStatus = (props: BadgeStatusProps) => {
+  const { beginAt, finishAt, scheduled } = props
+
+  const status = useMemo(() => {
+    const listStatus = {
+      passed: {
+        enable: finishAt && new Date(finishAt) < new Date(),
+        label: 'Passé',
+        color: 'default',
+      },
+      inProgresss: {
+        enable: beginAt && finishAt && new Date(beginAt) < new Date() && new Date(finishAt) > new Date(),
+        label: 'En cours',
+        color: 'success',
+      },
+      upcoming: {
+        enable: beginAt && new Date(beginAt) > new Date() && scheduled,
+        label: 'À venir',
+        color: 'info',
+      },
+      canceled: {
+        enable: finishAt && new Date(finishAt) < new Date() && !scheduled,
+        label: 'Annulé',
+        color: 'error',
+      },
+    }
+
+    for (const key in listStatus) {
+      if (listStatus[key].enable) {
+        return listStatus[key]
+      }
+    }
+  }, [beginAt, finishAt, scheduled])
 
   return (
     <Label

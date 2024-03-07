@@ -4,31 +4,26 @@ import BadgeStatus from '~/components/Events/pages/list/components/CardEvent/com
 import ListInformations from '~/components/Events/pages/detail/components/ListInformations'
 import { ShareLink } from '~/components/Events/pages/detail/components'
 import Iconify from '~/mui/iconify'
-import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { paths } from '~/components/Events/shared/paths'
-import { useErrorHandler } from '~/components/shared/error/hooks'
 import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '~/redux/user/selectors'
 import Loader from '~/ui/Loader'
-import { useInfiniteQueryWithScope, useQueryWithScope } from '~/api/useQueryWithScope'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { getEvent } from '~/api/events'
+import { Event } from '~/domain/event'
 import { useParams } from 'react-router'
-import { Event } from '~/components/Events/shared/types'
 import Attendees from '~/components/Events/pages/detail/components/Attendees'
 
 const DetailEvent = () => {
   const { eventId } = useParams()
   const navigate = useNavigate()
-  const { handleError } = useErrorHandler()
   const currentUser = useSelector(getCurrentUser)
 
-  const {
-    data,
-    isFetching,
-    refetch: refetchEvent,
-  } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () => getEvent(eventId))
+  const { data, isFetching } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () =>
+    getEvent(eventId)
+  )
 
   const event = data as Event
 
@@ -54,7 +49,7 @@ const DetailEvent = () => {
             variant="contained"
             startIcon={<Iconify icon="solar:pen-bold" />}
             onClick={() => {
-              throw new Error('Not implemented')
+              navigate(`/${paths.events}/${paths.update}/${eventId}`)
             }}
           >
             Modifier
@@ -87,11 +82,13 @@ const DetailEvent = () => {
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h4">{event.name}</Typography>
                     <Typography variant="caption" color="text.primary">
-                      {myEvent && event.categoryId ? `Mes événements / ${event.categoryId}` : event.category}
+                      {myEvent && event.category.event_group_category
+                        ? `Mes événements / ${event.category.event_group_category.name}`
+                        : event.category.event_group_category.name}
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center">
-                      <BadgeStatus event={event} />
+                      <BadgeStatus beginAt={event.beginAt} finishAt={event.finishAt} scheduled={event.scheduled} />
                     </Stack>
                   </Stack>
 
@@ -122,12 +119,14 @@ const DetailEvent = () => {
 
             {event.visioUrl && <ShareLink link={event.visioUrl} />}
 
-            <Card>
-              <Stack direction="column" spacing={1} padding={'24px'}>
-                <Typography variant="body2">Événement créer par :</Typography>
-                <Typography variant="subtitle2">{event?.organizer}</Typography>
-              </Stack>
-            </Card>
+            {event.organizer && (
+              <Card>
+                <Stack direction="column" spacing={1} padding={'24px'}>
+                  <Typography variant="body2">Événement créer par :</Typography>
+                  <Typography variant="subtitle2">{event.organizer}</Typography>
+                </Stack>
+              </Card>
+            )}
           </Stack>
         </Grid>
       </Grid>

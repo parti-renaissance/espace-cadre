@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
 import { addDays, format } from 'date-fns'
@@ -6,7 +7,6 @@ import { useMutation } from '@tanstack/react-query'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
-import ModalSaveBeforeLeave from '~/components/Messagerie/Component/ModalSaveBeforeLeave'
 import {
   Stack,
   Breadcrumbs,
@@ -29,7 +29,7 @@ import {
   uploadImage as imageUploadApi,
 } from '~/api/events'
 import BlockForm from '~/components/Events/pages/createOrEdit/components/BlockForm/BlockForm'
-import { CreateEventForm, CreateEventSchema, VisibilityEvent } from '~/domain/event'
+import { CreateEventForm, CreateEventSchema, Event, VisibilityEvent } from '~/domain/event'
 import Category from '~/components/Events/pages/createOrEdit/components/forms/category'
 import Visibility from '~/components/Events/pages/createOrEdit/components/forms/visibility'
 import UploadImage from '~/components/Events/pages/createOrEdit/components/forms/uploadImage'
@@ -41,10 +41,10 @@ import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
-import React, { useEffect, useState } from 'react'
 import { useBlocker } from 'react-router-dom'
 import Places from '~/ui/Places/Places'
-import { EventPayload } from '~/components/Events/shared/types'
+import ModalBeforeLeave from '../../Components/ModalBeforeLeave'
+
 interface CreateOrEditEventProps {
   editable: boolean
 }
@@ -60,13 +60,11 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   const [image, setImage] = React.useState<string | undefined>()
   const [blockerOpen, setBlockerOpen] = useState(false)
 
-  const { isLoading, data: event } = useQueryWithScope(
-    ['event', eventId],
-    (): Promise<EventPayload> => getEvent(eventId),
-    {
-      enabled: !!editable && !!eventId,
-    }
-  )
+  const { data } = useQueryWithScope(['event', eventId], () => getEvent(eventId), {
+    enabled: !!editable && !!eventId,
+  })
+
+  const event = data as Event
 
   const {
     register,
@@ -79,8 +77,8 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     ...(editable && {
       values: {
         name: event?.name,
-        categoryId: event?.categoryId,
-        visibilityId: VisibilityEvent.PUBLIC,
+        categoryId: event?.category.slug,
+        visibility: VisibilityEvent.PUBLIC,
         beginAt: new Date(event?.beginAt),
         finishAt: new Date(event?.finishAt),
         timeBeginAt: new Date(event?.beginAt),
@@ -88,19 +86,19 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         timezone: event?.timezone,
         description: event?.description,
         visioUrl: event?.visioUrl || '',
-        isVirtual: event?.visioUrl,
-        capacity: event?.capacity || 1,
+        isVirtual: event?.mode === 'online',
+        capacity: Number(event?.capacity || 1),
         severalDays: event?.beginAt !== event?.finishAt,
-        // TODO : address
         address: {
           address: event?.address?.address,
           postalCode: event?.address?.postalCode,
           cityName: event?.address?.cityName,
           country: event?.address?.country,
         },
-        liveUrl: event?.liveUrl,
+        liveUrl: event?.visioUrl,
       },
     }),
+
     defaultValues: {
       timezone: 'Europe/Paris',
       capacity: 1,
@@ -108,6 +106,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
   })
+
   const { handleError } = useErrorHandler()
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, {
@@ -168,12 +167,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       id: event?.id,
       name: getValues('name'),
       categoryId: getValues('categoryId'),
-      visibilityId: getValues('visibilityId'),
+      visibility: getValues('visibility'),
       beginAt: formatDateTime(beginAt, timeBeginAt),
       finishAt: watch('severalDays') ? formatDateTime(finishAt, timeFinishAt) : formatDateTime(beginAt, timeFinishAt),
       timezone: getValues('timezone'),
       description: getValues('description'),
       visioUrl: getValues('visioUrl'),
+      live_url: getValues('liveUrl'),
       mode: watch('isVirtual') ? 'online' : 'null',
       capacity: getValues('capacity'),
       post_address: {
@@ -185,7 +185,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     }
 
     if (editable) {
-      mutation(data)
+      mutation({
+        event: data,
+        type: 'public',
+      })
     } else {
       mutation({
         event: data,
@@ -194,15 +197,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     }
   }
 
-  const handleSave = () => {
-    setBlockerOpen(false)
-    // onSubmit()
-  }
-
   return (
     <Container maxWidth={'xl'} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.create} />
+        <PageHeader title={editable ? messages.update : messages.create} />
       </Grid>
 
       <Breadcrumbs separator=">" aria-label="breadcrumb">
@@ -210,7 +208,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
           {messages.title}
         </Link>
 
-        <Typography color="inherit">Créer un événement</Typography>
+        <Typography color="inherit">{editable ? messages.update : messages.create}</Typography>
       </Breadcrumbs>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -230,14 +228,12 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
             <FormGroup label="Visibilité">
               <Visibility
-                visibility={watch('visibilityId')}
-                onClick={(_, visibilityId) => setValue('visibilityId', visibilityId)}
+                visibility={watch('visibility')}
+                onClick={(_, visibility) => setValue('visibility', visibility)}
                 register={register}
               />
 
-              {errors.visibilityId && (
-                <FormHelperText sx={{ color: 'red' }}>{errors.visibilityId.message}</FormHelperText>
-              )}
+              {errors.visibility && <FormHelperText sx={{ color: 'red' }}>{errors.visibility.message}</FormHelperText>}
             </FormGroup>
           </BlockForm>
 
@@ -307,8 +303,12 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...(editable && {
                         value: watch('timeBeginAt'),
                       })}
-                      value={watch('timeBeginAt')}
-                      onChange={value => setValue('timeBeginAt', new Date(value as Date))}
+                      onChange={value => {
+                        if (value === null) {
+                          return
+                        }
+                        setValue('timeBeginAt', new Date(value as Date))
+                      }}
                       sx={{ width: '100%' }}
                       disabled={watch('beginAt') === undefined}
                     />
@@ -425,7 +425,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                     <TextField
                       {...register('address.cityName')}
                       {...(editable && {
-                        value: event?.address?.locality,
+                        value: event?.address?.cityName,
                       })}
                       label="Ville"
                       variant="outlined"
@@ -434,7 +434,6 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       helperText={errors?.address?.cityName?.message}
                     />
 
-                    {/*{JSON.stringify(watch('address'))}*/}
                     <TextField
                       {...register('address.country')}
                       {...(editable && {
@@ -506,12 +505,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         </Stack>
       </form>
 
-      <ModalSaveBeforeLeave
-        open={blockerOpen}
-        onClose={handleCloseBlockerModal}
-        onSave={handleSave}
-        blocker={blocker}
-      />
+      <ModalBeforeLeave open={blockerOpen} onClose={handleCloseBlockerModal} blocker={blocker} />
     </Container>
   )
 }

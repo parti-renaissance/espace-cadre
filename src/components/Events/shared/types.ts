@@ -1,4 +1,5 @@
-import { Place, VisibilityEvent } from '~/domain/event'
+import { VisibilityEvent } from '~/domain/event'
+import { Place } from '~/domain/place'
 
 export interface Event {
   id?: string
@@ -13,23 +14,21 @@ export interface Event {
   attendees: number
   scheduled: boolean
   capacity?: string | number
-  address: Place
+  address: {
+    address: string
+    postalCode: string
+    cityName: string
+    country: string
+  }
+  category: EventCategory
   categoryId?: string
   visibilityId?: VisibilityEvent
-  private: boolean
   visioUrl?: string
   liveUrl?: string
   mode?: string
   image?: string | null
   committee?: string | null
   eventLink?: string
-}
-
-export enum VisibilityEvent {
-  PUBLIC = 'public',
-  PRIVATE = 'private',
-  ADHERENT = 'adherent',
-  ADHERENT_DUES = 'adherent_dues',
 }
 
 interface EventOrganizer {
