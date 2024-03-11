@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import {
-  Container,
-  Grid,
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Typography,
   Box,
-  Pagination,
+  Card,
+  Container,
   Drawer,
+  Grid,
+  Pagination,
+  Typography,
 } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -23,8 +24,9 @@ import EmptyContent from '~/ui/EmptyContent'
 import PageHeader from '~/ui/PageHeader'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import Member from './Member/Member'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
+import { TableExample } from '~/mui/custom-table/CustomTable'
 
 const messages = {
   title: 'Militants',
@@ -103,6 +105,10 @@ const Activists = () => {
           />
         </AccordionDetails>
       </Accordion>
+
+      <Card sx={{ padding: 2 }}>
+        <TableExample />
+      </Card>
 
       <Box sx={{ mt: 4 }} className="space-y-4">
         {((loader || (isFetching && !isShadowLoading)) && (
