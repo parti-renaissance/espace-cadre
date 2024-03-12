@@ -2,11 +2,9 @@ import { useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Drawer, Grid, Typography } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import Loader from '~/ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
 import { exportActivists } from '~/api/activist'
 import features from '~/shared/features'
-import EmptyContent from '~/ui/EmptyContent'
 import PageHeader from '~/ui/PageHeader'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import Member from './Member/Member'
@@ -87,27 +85,14 @@ const Activists = () => {
       </Accordion>
 
       <Box sx={{ mt: 4 }} className="space-y-4">
-        {((loader || isFetching) && (
-          <Box
-            sx={{
-              backgroundColor: 'rgba(255,255,255,0.5)',
-            }}
-          >
-            <Loader isCenter color={'colors.blue.500'} />
-          </Box>
-        )) ||
-          (activists.metadata.total_items > 0 && (
-            <>
-              <ActivistList
-                paginatedData={activists ?? []}
-                page={page}
-                onPageChange={setPage}
-                perPage={perPage}
-                onRowsPerPageChange={setPerPage}
-              />
-            </>
-          )) ||
-          (!isFetching && <EmptyContent description="Aucun résultat ne correspond à votre recherche" />)}
+        <ActivistList
+          paginatedData={activists ?? []}
+          page={page}
+          onPageChange={setPage}
+          perPage={perPage}
+          onRowsPerPageChange={setPerPage}
+          isLoading={isFetching}
+        />
       </Box>
 
       <Drawer anchor="right" open={member !== null} onClose={handleDrawerClose}>

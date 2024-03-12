@@ -95,8 +95,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
       <Grid container spacing={2} sx={{ alignItems: 'center' }}>
         <Grid item xs={6}>
           <Typography>
-            {pluralize(total ?? data.length, 'Résultat')} :{' '}
-            <strong data-testid="result-count">{total ?? data.length}</strong>
+            {pluralize(total, 'Résultat')} : <strong data-testid="result-count">{total}</strong>
           </Typography>
         </Grid>
         <Grid item xs={6}>

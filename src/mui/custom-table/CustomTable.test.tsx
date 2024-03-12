@@ -84,6 +84,7 @@ describe('Custom table', () => {
           },
         ]}
         data={sampleData}
+        total={sampleData.length}
       />
     )
 

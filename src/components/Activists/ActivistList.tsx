@@ -14,6 +14,7 @@ interface ActivistListProps {
   page?: number
   perPage?: number
   onRowsPerPageChange?: (rowsPerPage: number) => void
+  isLoading?: boolean
 }
 
 export default function ActivistList({
@@ -22,6 +23,7 @@ export default function ActivistList({
   page,
   perPage,
   onRowsPerPageChange,
+  isLoading,
 }: ActivistListProps) {
   const mappedData = useMemo(
     () =>
@@ -40,7 +42,8 @@ export default function ActivistList({
         page={page}
         rowsPerPage={perPage}
         onRowsPerPageChange={onRowsPerPageChange}
-        total={paginatedData?.metadata.total_items}
+        total={paginatedData?.metadata?.total_items ?? 0}
+        isLoading={isLoading}
         columns={[
           {
             index: 'id',
