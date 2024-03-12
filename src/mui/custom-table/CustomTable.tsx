@@ -18,7 +18,6 @@ import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/Custo
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 
 export interface TableProps<DataType extends RowWithIdModel> {
-  // Column order in definition is used to display, data can be shuffled and keys order doesn't matter
   columns: CustomTableColumnModel<DataType>[]
   data: DataType[]
   rowsPerPage?: number
@@ -30,7 +29,14 @@ export interface TableProps<DataType extends RowWithIdModel> {
   isLoading?: boolean
 }
 
-const LineSkeleton = () => <Skeleton sx={{ width: '100%', height: 50, mb: 1 }} />
+const LineSkeleton = ({ columns }: { columns: unknown[] }) => (
+  <TableRow>
+    <TableCell colSpan={columns.length}>
+      <Skeleton sx={{ width: '100%', height: 50, mb: 1 }} data-testid="skeleton" />
+    </TableCell>
+  </TableRow>
+)
+
 const skeletonArray = generateFixedArray(10)
 
 /**
@@ -99,7 +105,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
       <Grid container spacing={2} sx={{ alignItems: 'center' }}>
         <Grid item xs={6}>
           <Typography>
-            {pluralize(data.length, 'Résultat')} : <strong>{data.length}</strong>
+            {pluralize(data.length, 'Résultat')} : <strong data-testid="result-count">{data.length}</strong>
           </Typography>
         </Grid>
         <Grid item xs={6}>
@@ -109,22 +115,19 @@ export default function CustomTable<DataType extends RowWithIdModel>({
 
       <Table>
         <CustomTableHeader headLabels={columns ?? []} />
+        <TableBody>
+          {isLoading
+            ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)
+            : data.map(el => (
+                <TableRow key={el.id}>
+                  {Object.keys(el).map(key => {
+                    const RenderCell = columnsDefinition.get(key)?.render
 
-        {isLoading ? (
-          skeletonArray.map((_, index) => <LineSkeleton key={index} />)
-        ) : (
-          <TableBody>
-            {data.map(el => (
-              <TableRow key={el.id}>
-                {Object.keys(el).map(key => {
-                  const RenderCell = columnsDefinition.get(key)?.render
-
-                  return <TableCell key={key}>{RenderCell ? <RenderCell {...el} /> : el[key]}</TableCell>
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        )}
+                    return <TableCell key={key}>{RenderCell ? <RenderCell {...el} /> : el[key]}</TableCell>
+                  })}
+                </TableRow>
+              ))}
+        </TableBody>
       </Table>
 
       <Pagination />
@@ -136,7 +139,7 @@ export const TableExample = () => (
   <CustomTable
     data={[
       { id: 1, name: 'Line 1' },
-      { id: 2, name: 'line 2' },
+      { id: 2, name: 'Line 2' },
     ]}
     columns={[
       {
