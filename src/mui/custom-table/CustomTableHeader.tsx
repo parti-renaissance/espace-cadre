@@ -3,6 +3,7 @@ import { Box } from '@mui/system'
 import { visuallyHidden } from '@mui/utils'
 import { ChangeEvent } from 'react'
 import { CustomTableColumnModel, OrderEnum, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
+import styled from '@emotion/styled'
 
 interface Props<DataType extends RowWithIdModel> {
   order?: OrderEnum
@@ -36,32 +37,44 @@ export default function CustomTableHeader<DataType extends RowWithIdModel>({
           </TableCell>
         )}
 
-        {headLabels.map(headCell => (
-          <TableCell
-            key={String(headCell.index ?? headCell.title)}
-            align={headCell.align ?? 'left'}
-            sortDirection={orderBy === headCell.index ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth }}
-          >
-            {onSort ? (
-              <TableSortLabel
-                hideSortIcon
-                active={orderBy === headCell.index}
-                direction={orderBy === headCell.index ? order : 'asc'}
-                onClick={() => onSort(headCell.index as string)}
-              >
-                {headCell.title}
+        {headLabels
+          .filter(col => col.hidden === false || col.hidden === undefined)
+          .map(headCell => (
+            <TableCell
+              key={String(headCell.index ?? headCell.title)}
+              align={headCell.align ?? 'left'}
+              sortDirection={orderBy === headCell.index ? order : false}
+              sx={{ width: headCell.width, minWidth: headCell.minWidth }}
+            >
+              {onSort ? (
+                <TableSortLabel
+                  hideSortIcon
+                  active={orderBy === headCell.index}
+                  direction={orderBy === headCell.index ? order : 'asc'}
+                  onClick={() => onSort(headCell.index as string)}
+                >
+                  <>
+                    <div>{headCell.title}</div>
+                    {headCell.subTitle && <SubTitle>{headCell.subTitle}</SubTitle>}
+                  </>
 
-                {orderBy === headCell.index ? (
-                  <Box sx={{ ...visuallyHidden }}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box>
-                ) : null}
-              </TableSortLabel>
-            ) : (
-              headCell.title
-            )}
-          </TableCell>
-        ))}
+                  {orderBy === headCell.index ? (
+                    <Box sx={{ ...visuallyHidden }}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box>
+                  ) : null}
+                </TableSortLabel>
+              ) : (
+                <>
+                  <div>{headCell.title}</div>
+                  {headCell.subTitle && <SubTitle>{headCell.subTitle}</SubTitle>}
+                </>
+              )}
+            </TableCell>
+          ))}
       </TableRow>
     </TableHead>
   )
 }
+
+const SubTitle = styled.div`
+  font-weight: normal;
+`

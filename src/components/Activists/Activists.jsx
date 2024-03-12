@@ -1,32 +1,18 @@
 import { useState } from 'react'
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Card,
-  Container,
-  Drawer,
-  Grid,
-  Pagination,
-  Typography,
-} from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Drawer, Grid, Typography } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import MembersList from './MembersList'
 import Loader from '~/ui/Loader'
 import DynamicFilters from '../Filters/DynamicFilters'
-import { exportActivists, getActivists } from '~/api/activist'
-import { PaginatedResult } from '~/api/pagination'
-import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { exportActivists } from '~/api/activist'
 import features from '~/shared/features'
 import EmptyContent from '~/ui/EmptyContent'
 import PageHeader from '~/ui/PageHeader'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import Member from './Member/Member'
 import { useUserScope } from '~/redux/user/hooks'
-import { useErrorHandler } from '~/components/shared/error/hooks'
-import { TableExample } from '~/mui/custom-table/CustomTable'
+import ActivistList from '~/components/Activists/ActivistList'
+import useGetActivists from '~/api/Activist/Hooks/useGetActivists'
 
 const messages = {
   title: 'Militants',
@@ -38,23 +24,17 @@ const Activists = () => {
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
   const [loader, setLoader] = useState(false)
-  const [isShadowLoading, setIsShadowLoading] = useState(false)
-  const { handleError } = useErrorHandler()
+  // const { handleError } = useErrorHandler()
+  const [page, setPage] = useState(1)
+  const [perPage, setPerPage] = useState(25)
 
   const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
 
   const {
-    data: activists = new PaginatedResult([], 0, 0, 0, 0, 0),
-    refetch,
+    data: activists,
     isFetching,
-  } = useQueryWithScope(
-    ['activists', { feature: 'Activists', view: 'Activists' }, filters],
-    () => {
-      const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
-      return getActivists(filter)
-    },
-    { onSettled: () => setIsShadowLoading(false), onError: handleError }
-  )
+    refetch,
+  } = useGetActivists({ ...filters, zones: filters.zones.map(z => z.uuid), page, page_size: perPage })
 
   const handleExport = async () => {
     setLoader(true)
@@ -66,7 +46,7 @@ const Activists = () => {
   const handleDrawerClose = () => {
     setMember(null)
     if (isElectFeatureEnabled) {
-      setIsShadowLoading(true)
+      // setIsShadowLoading(true)
       refetch()
     }
   }
@@ -106,12 +86,8 @@ const Activists = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Card sx={{ padding: 2 }}>
-        <TableExample />
-      </Card>
-
       <Box sx={{ mt: 4 }} className="space-y-4">
-        {((loader || (isFetching && !isShadowLoading)) && (
+        {((loader || isFetching) && (
           <Box
             sx={{
               backgroundColor: 'rgba(255,255,255,0.5)',
@@ -120,22 +96,15 @@ const Activists = () => {
             <Loader isCenter color={'colors.blue.500'} />
           </Box>
         )) ||
-          (activists.total > 0 && (
+          (activists.metadata.total_items > 0 && (
             <>
-              <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Typography variant="body2" color="gray700" sx={{ flexShrink: 0 }}>
-                  Affichage de {activists.pageSize * (activists.currentPage - 1) + 1} à{' '}
-                  {activists.pageSize * (activists.currentPage - 1) + activists.currentPageCount} résultats sur{' '}
-                  {activists.total}
-                </Typography>
-                <Pagination
-                  sx={{ justifyContent: 'flex-end' }}
-                  count={activists.lastPage || 0}
-                  page={filters.page}
-                  onChange={(event, page) => setFilters(prevState => ({ ...prevState, page }))}
-                />
-              </Box>
-              <MembersList members={activists.data} onMemberClick={m => setMember(m)} />
+              <ActivistList
+                paginatedData={activists ?? []}
+                page={page}
+                onPageChange={setPage}
+                perPage={perPage}
+                onRowsPerPageChange={setPerPage}
+              />
             </>
           )) ||
           (!isFetching && <EmptyContent description="Aucun résultat ne correspond à votre recherche" />)}

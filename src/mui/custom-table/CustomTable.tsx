@@ -14,7 +14,7 @@ import {
 import { SxProps } from '@mui/system'
 import generateFixedArray from '~/utils/generateFixedArray'
 import pluralize from '~/components/shared/pluralize/pluralize'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -29,6 +29,7 @@ export interface TableProps<DataType extends RowWithIdModel> {
   onRowsPerPageChange?: (rowsPerPage: number) => void
   sx?: SxProps<Theme>
   isLoading?: boolean
+  total?: number
 }
 
 const LineSkeleton = ({ columns }: { columns: unknown[] }) => (
@@ -53,6 +54,7 @@ const skeletonArray = generateFixedArray(10)
  * @param onRowsPerPageChange
  * @param onPageChange
  * @param sx
+ * @param total
  * @param rowsPerPage
  * @param rowsPerPageOptions
  * @param isLoading show skeleton while loading
@@ -65,6 +67,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   onRowsPerPageChange,
   onPageChange,
   sx,
+  total = 0,
   rowsPerPage = 25,
   rowsPerPageOptions = [25, 50, 100],
   isLoading = false,
@@ -75,14 +78,16 @@ export default function CustomTable<DataType extends RowWithIdModel>({
       <TablePagination
         rowsPerPageOptions={rowsPerPageOptions}
         component="div"
-        count={data.length}
+        count={total}
         rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={(_, page) => onPageChange?.(page)}
-        onRowsPerPageChange={ev => onRowsPerPageChange?.(Number(ev.target.value))}
+        page={page - 1}
+        onPageChange={(_, page) => onPageChange?.(page + 1)}
+        onRowsPerPageChange={ev => {
+          onRowsPerPageChange?.(Number(ev.target.value))
+        }}
       />
     ),
-    [data.length, onPageChange, onRowsPerPageChange, rowsPerPage, rowsPerPageOptions, page]
+    [onPageChange, onRowsPerPageChange, rowsPerPage, rowsPerPageOptions, page, total]
   )
 
   return (
@@ -90,7 +95,8 @@ export default function CustomTable<DataType extends RowWithIdModel>({
       <Grid container spacing={2} sx={{ alignItems: 'center' }}>
         <Grid item xs={6}>
           <Typography>
-            {pluralize(data.length, 'Résultat')} : <strong data-testid="result-count">{data.length}</strong>
+            {pluralize(total ?? data.length, 'Résultat')} :{' '}
+            <strong data-testid="result-count">{total ?? data.length}</strong>
           </Typography>
         </Grid>
         <Grid item xs={6}>
@@ -105,23 +111,25 @@ export default function CustomTable<DataType extends RowWithIdModel>({
             ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)
             : data.map(el => (
                 <TableRow key={el.id}>
-                  {columns.map(col => {
-                    const key = `${String(col.index ?? col.title)}-${el.id}`
+                  {columns
+                    .filter(col => col.hidden === false || col.hidden === undefined)
+                    .map(col => {
+                      const key = `${String(col.index ?? col.title)}-${el.id}`
 
-                    if (!col.index) {
+                      if (!col.index) {
+                        return <TableCell key={key}>{col.render?.(el)}</TableCell>
+                      }
+
+                      if (col.index && !col.render) {
+                        return (
+                          <TableCell key={key}>
+                            <>{el[col.index]}</>
+                          </TableCell>
+                        )
+                      }
+
                       return <TableCell key={key}>{col.render?.(el)}</TableCell>
-                    }
-
-                    if (col.index && !col.render) {
-                      return (
-                        <TableCell key={key}>
-                          <>{el[col.index]}</>
-                        </TableCell>
-                      )
-                    }
-
-                    return <TableCell key={key}>{col.render?.(el)}</TableCell>
-                  })}
+                    })}
                 </TableRow>
               ))}
         </TableBody>
@@ -141,6 +149,7 @@ export const TableExample = () => (
     columns={[
       {
         title: 'ID',
+        subTitle: 'Lorem ipsum',
         index: 'id',
         width: 150,
         render: value => <strong>{value.id}</strong>,
