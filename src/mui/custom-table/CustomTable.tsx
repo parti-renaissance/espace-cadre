@@ -18,6 +18,7 @@ import { useCallback } from 'react'
 import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import Scrollbar from '~/mui/scrollbar'
 
 export interface TableProps<DataType extends RowWithIdModel> {
   columns: CustomTableColumnModel<DataType>[]
@@ -28,6 +29,7 @@ export interface TableProps<DataType extends RowWithIdModel> {
   onPageChange?: (nextPage: number) => void
   onRowsPerPageChange?: (rowsPerPage: number) => void
   sx?: SxProps<Theme>
+  tableSx?: SxProps<Theme>
   isLoading?: boolean
   total?: number
 }
@@ -54,6 +56,7 @@ const skeletonArray = generateFixedArray(10)
  * @param onRowsPerPageChange
  * @param onPageChange
  * @param sx
+ * @param tableSx
  * @param total
  * @param rowsPerPage
  * @param rowsPerPageOptions
@@ -67,6 +70,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   onRowsPerPageChange,
   onPageChange,
   sx,
+  tableSx,
   total = 0,
   rowsPerPage = 25,
   rowsPerPageOptions = [25, 50, 100],
@@ -93,46 +97,48 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   return (
     <TableContainer sx={{ overflow: 'unset', ...sx }}>
       <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-        <Grid item xs={6}>
+        <Grid item xs={2}>
           <Typography>
             {pluralize(total, 'Résultat')} : <strong data-testid="result-count">{total}</strong>
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={10}>
           <Pagination />
         </Grid>
       </Grid>
 
-      <Table>
-        <CustomTableHeader headLabels={columns ?? []} />
-        <TableBody>
-          {isLoading
-            ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)
-            : data.map(el => (
-                <TableRow key={el.id}>
-                  {columns
-                    .filter(col => col.hidden === false || col.hidden === undefined)
-                    .map(col => {
-                      const key = `${String(col.index ?? col.title)}-${el.id}`
+      <Scrollbar>
+        <Table sx={tableSx}>
+          <CustomTableHeader headLabels={columns ?? []} />
+          <TableBody>
+            {isLoading
+              ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)
+              : data.map(el => (
+                  <TableRow key={el.id}>
+                    {columns
+                      .filter(col => col.hidden === false || col.hidden === undefined)
+                      .map(col => {
+                        const key = `${String(col.index ?? col.title)}-${el.id}`
 
-                      if (!col.index) {
+                        if (!col.index) {
+                          return <TableCell key={key}>{col.render?.(el)}</TableCell>
+                        }
+
+                        if (col.index && !col.render) {
+                          return (
+                            <TableCell key={key}>
+                              <>{el[col.index]}</>
+                            </TableCell>
+                          )
+                        }
+
                         return <TableCell key={key}>{col.render?.(el)}</TableCell>
-                      }
-
-                      if (col.index && !col.render) {
-                        return (
-                          <TableCell key={key}>
-                            <>{el[col.index]}</>
-                          </TableCell>
-                        )
-                      }
-
-                      return <TableCell key={key}>{col.render?.(el)}</TableCell>
-                    })}
-                </TableRow>
-              ))}
-        </TableBody>
-      </Table>
+                      })}
+                  </TableRow>
+                ))}
+          </TableBody>
+        </Table>
+      </Scrollbar>
 
       <Pagination />
     </TableContainer>

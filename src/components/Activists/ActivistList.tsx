@@ -37,6 +37,7 @@ export default function ActivistList({
   return (
     <Card sx={{ p: 2 }}>
       <CustomTable
+        tableSx={{ minWidth: 800 }}
         data={mappedData ?? []}
         onPageChange={onPageChange}
         page={page}
