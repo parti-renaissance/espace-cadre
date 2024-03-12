@@ -38,7 +38,7 @@ export default function CustomTableHeader<DataType extends RowWithIdModel>({
 
         {headLabels.map(headCell => (
           <TableCell
-            key={headCell.index as string}
+            key={String(headCell.index ?? headCell.title)}
             align={headCell.align ?? 'left'}
             sortDirection={orderBy === headCell.index ? order : false}
             sx={{ width: headCell.width, minWidth: headCell.minWidth }}

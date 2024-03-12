@@ -1,5 +1,6 @@
 import {
   Grid,
+  IconButton,
   Skeleton,
   Table,
   TableBody,
@@ -13,9 +14,10 @@ import {
 import { SxProps } from '@mui/system'
 import generateFixedArray from '~/utils/generateFixedArray'
 import pluralize from '~/components/shared/pluralize/pluralize'
-import { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 export interface TableProps<DataType extends RowWithIdModel> {
   columns: CustomTableColumnModel<DataType>[]
@@ -68,23 +70,6 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   isLoading = false,
   page = 0,
 }: TableProps<DataType>) {
-  // Reduce column definition in a map for quick access, object is indexed by "index" in array, not the index of row in array
-  const columnsDefinition: Map<string, CustomTableColumnModel<DataType>> = useMemo(
-    () =>
-      new Map(
-        Object.entries(
-          columns.reduce(
-            (acc, currentValue) => ({
-              ...acc,
-              [currentValue.index]: currentValue,
-            }),
-            {}
-          )
-        )
-      ),
-    [columns]
-  )
-
   const Pagination = useCallback(
     () => (
       <TablePagination
@@ -120,10 +105,22 @@ export default function CustomTable<DataType extends RowWithIdModel>({
             ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)
             : data.map(el => (
                 <TableRow key={el.id}>
-                  {Object.keys(el).map(key => {
-                    const RenderCell = columnsDefinition.get(key)?.render
+                  {columns.map(col => {
+                    const key = `${String(col.index ?? col.title)}-${el.id}`
 
-                    return <TableCell key={key}>{RenderCell ? <RenderCell {...el} /> : el[key]}</TableCell>
+                    if (!col.index) {
+                      return <TableCell key={key}>{col.render?.(el)}</TableCell>
+                    }
+
+                    if (col.index && !col.render) {
+                      return (
+                        <TableCell key={key}>
+                          <>{el[col.index]}</>
+                        </TableCell>
+                      )
+                    }
+
+                    return <TableCell key={key}>{col.render?.(el)}</TableCell>
                   })}
                 </TableRow>
               ))}
@@ -151,6 +148,16 @@ export const TableExample = () => (
       {
         title: 'Nom',
         index: 'name',
+        width: 200,
+      },
+      {
+        title: 'Actions',
+        width: 200,
+        render: () => (
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
+        ),
       },
     ]}
   />

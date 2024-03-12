@@ -2,14 +2,16 @@ import { render } from '@testing-library/react'
 import CustomTable, { TableExample } from '~/mui/custom-table/CustomTable'
 import { expect } from 'vitest'
 import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
+import { faker } from '@faker-js/faker'
 
 describe('Custom table', () => {
-  interface IdTitle {
+  interface DataModel {
     id: number
     title: string
+    boldCell: string
   }
 
-  const columns: CustomTableColumnModel<IdTitle>[] = [
+  const columns: CustomTableColumnModel<DataModel>[] = [
     {
       title: 'ID',
       index: 'id',
@@ -18,16 +20,23 @@ describe('Custom table', () => {
       title: 'Titre',
       index: 'title',
     },
+    {
+      title: 'Bold Cell',
+      index: 'boldCell',
+      render: line => <strong data-testid="bold-cell-render">{line.boldCell}</strong>,
+    },
   ]
 
-  const sampleData: IdTitle[] = [
+  const sampleData: DataModel[] = [
     {
       id: 1,
-      title: 'title 1',
+      title: faker.lorem.word(),
+      boldCell: faker.lorem.word(),
     },
     {
       id: 2,
-      title: 'title 2',
+      title: faker.lorem.word(),
+      boldCell: faker.lorem.word(),
     },
   ]
 
@@ -48,6 +57,12 @@ describe('Custom table', () => {
     const tree = render(<CustomTable columns={columns} data={sampleData} />)
 
     expect(await tree.findByText(sampleData[0].title)).toBeTruthy()
+  })
+
+  it('Should render custom component cell children', async () => {
+    const tree = render(<CustomTable columns={columns} data={sampleData} />)
+
+    expect(await tree.findAllByTestId('bold-cell-render')).toBeTruthy()
   })
 
   it('Should count results', async () => {

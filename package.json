@@ -83,6 +83,7 @@
     "@babel/preset-env": "^7.23.5",
     "@babel/preset-react": "^7.23.3",
     "@cypress/vite-dev-server": "^5.0.7",
+    "@faker-js/faker": "^8.4.1",
     "@sentry/vite-plugin": "^2.10.3",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/react": "^14.1.2",
