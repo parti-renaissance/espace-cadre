@@ -13,7 +13,7 @@ import {
 import { SxProps } from '@mui/system'
 import generateFixedArray from '~/utils/generateFixedArray'
 import pluralize from '~/components/shared/pluralize/pluralize'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 
@@ -33,6 +33,24 @@ export interface TableProps<DataType extends RowWithIdModel> {
 const LineSkeleton = () => <Skeleton sx={{ width: '100%', height: 50, mb: 1 }} />
 const skeletonArray = generateFixedArray(10)
 
+/**
+ * Generate a table from definition, type of columns is inferred from data structure
+ * @param data any data as array, undefined or null is not authorised but empty array are.
+ * @param columns column definitions, only "id" index is mandatory. Can take a render entry which customize the render of this cell, otherwise it render as text without Typography element ( i.e : [{
+ *         title: 'ID',
+ *         index: 'id',
+ *         width: 150,
+ *         render: value => <strong>{value.id}</strong>,
+ *       },] )
+ * @param onRowsPerPageChange
+ * @param onPageChange
+ * @param sx
+ * @param rowsPerPage
+ * @param rowsPerPageOptions
+ * @param isLoading show skeleton while loading
+ * @param page
+ * @constructor
+ */
 export default function CustomTable<DataType extends RowWithIdModel>({
   data,
   columns,
@@ -44,7 +62,22 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   isLoading = false,
   page = 0,
 }: TableProps<DataType>) {
-  // TODO Generate a Map of columns for quick access to render functions and styles without using find on each cell
+  // Reduce column definition in a map for quick access, object is indexed by "index" in array, not the index of row in array
+  const columnsDefinition: Map<string, CustomTableColumnModel<DataType>> = useMemo(
+    () =>
+      new Map(
+        Object.entries(
+          columns.reduce(
+            (acc, currentValue) => ({
+              ...acc,
+              [currentValue.index]: currentValue,
+            }),
+            {}
+          )
+        )
+      ),
+    [columns]
+  )
 
   const Pagination = useCallback(
     () => (
@@ -83,9 +116,11 @@ export default function CustomTable<DataType extends RowWithIdModel>({
           <TableBody>
             {data.map(el => (
               <TableRow key={el.id}>
-                {Object.keys(el).map(key => (
-                  <TableCell key={key}>{el[key]}</TableCell>
-                ))}
+                {Object.keys(el).map(key => {
+                  const RenderCell = columnsDefinition.get(key)?.render
+
+                  return <TableCell key={key}>{RenderCell ? <RenderCell {...el} /> : el[key]}</TableCell>
+                })}
               </TableRow>
             ))}
           </TableBody>
