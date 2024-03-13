@@ -76,7 +76,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   rowsPerPage = 25,
   rowsPerPageOptions = [25, 50, 100],
   isLoading = false,
-  page = 0,
+  page = 1,
   ...rest
 }: TableProps<DataType>) {
   const Pagination = useCallback(
