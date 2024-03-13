@@ -1,5 +1,5 @@
 import { newPaginatedResult } from '~/api/pagination'
-import { Event, EventCategory, EventGroupCategory, Attendee } from '~/domain/event'
+import { Event, EventCategory, EventGroupCategory } from '~/domain/event'
 import { apiClient, apiClientPublic } from '~/services/networking/client'
 import { formatDate } from '~/shared/helpers'
 
@@ -39,19 +39,16 @@ export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 export const getEventAttendees = async (id, page) => {
   const data = await apiClient.get(`/api/v3/events/${id}/participants?page=${page}`)
 
-  const attendees = data.items.map(
-    p =>
-      new Attendee(
-        p.first_name,
-        p.last_name,
-        p.email_address,
-        p.subscription_date,
-        p.postal_code,
-        p.type,
-        p.tags,
-        p.phone
-      )
-  )
+  const attendees = data.items.map(attendee => ({
+    emailAddress: attendee.email_address,
+    firstName: attendee.first_name,
+    lastName: attendee.last_name,
+    phone: attendee.phone,
+    postalCode: attendee.postal_code,
+    subscriptionDate: attendee?.subscription_date,
+    tags: attendee.tags,
+    type: attendee.type,
+  }))
 
   return newPaginatedResult(attendees, data.metadata)
 }

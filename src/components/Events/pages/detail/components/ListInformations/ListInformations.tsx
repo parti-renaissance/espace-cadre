@@ -38,16 +38,17 @@ const ListInformations = ({ event }: ListInformationsProps) => {
       value: event.capacity ? event.capacity : 'Pas précisé',
     },
     {
-      enable: !event.visioUrl && event.address.route !== '' && event.address.postalCode !== '',
+      enable: !event.visioUrl && event?.address?.route !== '' && event?.address?.postalCode !== '',
       label: 'Lieu',
       icon: <Iconify icon="mingcute:location-fill" />,
       value: (
         <Box>
           <Typography variant="body2" component="div" fontWeight="bold">
-            {event.address.route}
+            {event?.address?.number} {event?.address?.route}
           </Typography>
+
           <Typography variant="body2" component="div" fontWeight="bold">
-            {event.address.postalCode} {event.address.locality}
+            {event?.address?.postalCode} {event?.address?.locality}
           </Typography>
         </Box>
       ),

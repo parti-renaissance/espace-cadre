@@ -1,8 +1,7 @@
 import { getEventAttendees } from '~/api/events'
 import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
-import { getNextPageParam, usePaginatedData } from '~/api/pagination'
+import { getNextPageParam, PaginatedResult, usePaginatedData } from '~/api/pagination'
 import { useParams } from 'react-router'
-import { useNavigate } from 'react-router-dom'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { Box, Stack } from '@mui/system'
 import {
@@ -21,6 +20,7 @@ import pluralize from '~/components/shared/pluralize/pluralize'
 import Iconify from '~/mui/iconify'
 import Label from '~/mui/label'
 import { enqueueSnackbar } from 'notistack'
+import { InfiniteData } from '@tanstack/react-query'
 
 type Attendee = {
   uuid: string
@@ -45,7 +45,7 @@ const Attendees = () => {
     }
   )
 
-  const attendees = usePaginatedData(paginatedAttendees) as Attendee[]
+  const attendees = usePaginatedData(paginatedAttendees as InfiniteData<PaginatedResult<Attendee>>)
 
   return (
     <Box>

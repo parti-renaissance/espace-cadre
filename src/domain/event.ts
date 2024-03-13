@@ -61,7 +61,11 @@ export class Event {
     beginAt: PropTypes.object,
     finishAt: PropTypes,
     localFinishAt: PropTypes,
-    organizer: PropTypes.string,
+    organizer: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+    }),
     organizerId: PropTypes.string.isRequired,
     attendees: PropTypes.number.isRequired,
     scheduled: PropTypes.bool.isRequired,
@@ -96,13 +100,12 @@ export class Event {
       e.participants_count,
       e.status === 'SCHEDULED',
       e.capacity,
-      new Place(
-        '',
-        e.post_address.address,
-        e.post_address.postal_code,
-        e.post_address.city_name,
-        e.post_address.country
-      ),
+      {
+        address: e.post_address.address,
+        postalCode: e.post_address.postal_code,
+        cityName: e.post_address.city_name,
+        country: e.post_address.country,
+      },
       e.category ? e.category : null,
       e.private,
       e.visio_url,
@@ -149,7 +152,7 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.category,
+      this.categoryId,
       newPrivate,
       this.visioUrl,
       this.mode,
@@ -170,8 +173,22 @@ export class Event {
     public attendees: number,
     public scheduled: boolean,
     public capacity: string | number,
-    public address: Place,
-    public category: string,
+    public address: {
+      address: string
+      postalCode: string
+      cityName: string
+      country: string
+    },
+    public category: {
+      description: string
+      name: string
+      slug: string
+      event_group_category: {
+        description: string
+        name: string
+        slug: string
+      }
+    },
     public isPrivate: boolean,
     public visioUrl: string,
     public mode: string,
@@ -186,6 +203,30 @@ export enum VisibilityEvent {
   ADHERENT_DUES = 'adherent_dues',
 }
 
+export interface EventType {
+  id?: string
+  name: string
+  description?: string
+  timezone: string
+  createdAt?: Date
+  beginAt?: Date
+  finishAt?: Date
+  timeBeginAt?: Date
+  timeFinishAt?: Date
+  localFinishAt?: Date
+  organizer?: string
+  organizerId: string
+  attendees: number
+  scheduled: boolean
+  capacity?: string | number
+  address: Place
+  categoryId: string
+  visibility: VisibilityEvent
+  private: boolean
+  visioUrl?: string
+  liveUrl?: string
+  mode?: string
+  image?: string
 export interface EventType {
   id?: string
   name: string
@@ -229,7 +270,7 @@ export const CreateEventSchema = z
       .max(80, "Le titre de l'événement ne peut pas dépasser 80 caractères"),
     description: z
       .string()
-      .min(5, 'La description doit contenir au moins 5 caractères')
+      .min(10, 'La description doit contenir au moins 10 caractères')
       .min(1, 'La description est obligatoire')
       .max(380, 'La description ne peut pas dépasser 380 caractères'),
     timezone: z.string().min(1, 'Vous devez choisir une timezone'),
@@ -258,10 +299,12 @@ export const CreateEventSchema = z
       .or(z.string()),
     timeBeginAt: z.date().optional(),
     timeFinishAt: z.date().optional(),
-    address: z.string().optional(),
-    zipCode: z.string().optional(),
-    city: z.string().optional(),
-    country: z.string().optional(),
+    address: z.object({
+      address: z.string().optional(),
+      postalCode: z.string().optional(),
+      cityName: z.string().optional(),
+      country: z.string().optional(),
+    }),
     visioUrl: z.string().optional().or(z.literal('')),
     liveUrl: z
       .string()

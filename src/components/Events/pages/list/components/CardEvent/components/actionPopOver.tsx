@@ -14,22 +14,22 @@ const Actions = ({ event, onClick }: ActionsProps) => {
     {
       label: "Voir l'événement",
       canShow: true,
-      onClick: event => onClick(event, 'detail'),
+      onClick: () => onClick('detail'),
     },
     {
       label: 'Modifier',
       canShow: !!event.scheduled,
-      onClick: event => onClick(event, 'edit'),
+      onClick: () => onClick('edit'),
     },
     {
       label: 'Annuler',
       canShow: !!event.scheduled,
-      onClick: event => onClick(event, 'cancel'),
+      onClick: () => onClick('cancel'),
     },
     {
       label: 'Supprimer',
       canShow: event.attendees <= 1,
-      onClick: event => onClick(event, 'delete'),
+      onClick: () => onClick('delete'),
     },
   ]
 
@@ -59,8 +59,6 @@ const popoverStaticProps = {
   transformOrigin: { vertical: 'center', horizontal: 'left' },
   arrow: 'left-center',
 } as const
-
-// ------------------ ActionPopover ------------------
 
 interface ActionsProps {
   popover: ReturnType<typeof usePopover>

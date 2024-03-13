@@ -47,4 +47,5 @@ const Visibility = ({ visibility, onClick, register }: VisibilityProps) => (
     ))}
   </FormGroup>
 )
+
 export default Visibility
