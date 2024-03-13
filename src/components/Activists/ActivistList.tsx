@@ -1,4 +1,4 @@
-import { Card, Typography } from '@mui/material'
+import { Card, Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
 import { PaginatedDataModel } from '~/models/common.model'
@@ -9,6 +9,7 @@ import { parseISO } from 'date-fns'
 import { compact } from 'lodash'
 import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
 import Avatar from '~/mui/avatar/Avatar'
+import SubscriptionBadge from '~/components/Activists/SubscriptionBadge'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -108,5 +109,15 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: 'Abonnements',
+    render: () => (
+      <Grid container spacing={2}>
+        <Grid item>
+          <SubscriptionBadge type="phone" />
+        </Grid>
+        <Grid item>
+          <SubscriptionBadge type="email" isSubscribed />
+        </Grid>
+      </Grid>
+    ),
   },
 ]
