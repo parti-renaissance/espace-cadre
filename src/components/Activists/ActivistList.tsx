@@ -64,6 +64,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: '',
+    width: 80,
     render: line => <Avatar initials={getInitials(line)} />,
   },
   {

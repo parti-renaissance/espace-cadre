@@ -20,6 +20,7 @@ import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/Custo
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Scrollbar from '~/mui/scrollbar'
+import { formatToFrenchNumberString } from '~/utils/numbers'
 
 export interface TableProps<DataType extends RowWithIdModel> extends TableContainerProps {
   columns: CustomTableColumnModel<DataType>[]
@@ -108,7 +109,8 @@ export default function CustomTable<DataType extends RowWithIdModel>({
       <Grid container spacing={2} sx={{ alignItems: 'center' }}>
         <Grid item xs={2}>
           <Typography>
-            {pluralize(total, 'Résultat')} : <strong data-testid="result-count">{total}</strong>
+            {pluralize(total, 'Résultat')} :{' '}
+            <strong data-testid="result-count">{formatToFrenchNumberString(total)}</strong>
           </Typography>
         </Grid>
         <Grid item xs={10}>
