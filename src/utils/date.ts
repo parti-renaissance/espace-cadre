@@ -4,7 +4,6 @@ import { fr } from 'date-fns/locale'
 export const dateFormat = 'P'
 export const timeFormat = 'p'
 export const humanReadableDate = 'ccc d MMMM yyyy'
-export const dateTimeFormat = `${dateFormat} ${timeFormat}`
 
 export const dateShortFormat = 'EE' // Mon, Tue, ...
 export const dateValueFormat = 'd' // 1, 2, 3
@@ -17,8 +16,6 @@ export const getFormattedDate = (date: Date) => format(date, dateFormat, localeO
 
 export const getHumanFormattedDate = (date: Date) => format(date, humanReadableDate, localeOptions)
 export const getHumanFormattedTime = (date: Date) => format(date, timeFormat, localeOptions)
-
-export const getFormattedTime = (date: Date) => format(date, timeFormat, localeOptions)
 
 export const getAgendaDate = (date: Date) => format(date, agendaDateFormat, localeOptions)
 

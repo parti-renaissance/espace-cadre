@@ -33,6 +33,8 @@ export interface TableProps<DataType extends RowWithIdModel> extends TableContai
   tableSx?: SxProps<Theme>
   isLoading?: boolean
   total?: number
+  hover?: boolean
+  onLineClick?: (line: DataType) => void
 }
 
 const LineSkeleton = ({ columns }: { columns: unknown[] }) => (
@@ -63,6 +65,9 @@ const skeletonArray = generateFixedArray(10)
  * @param rowsPerPageOptions
  * @param isLoading show skeleton while loading
  * @param page
+ * @param hover
+ * @param onLineClick line click handler, the cursor turn to pointer style when specified
+ * @param rest
  * @constructor
  */
 export default function CustomTable<DataType extends RowWithIdModel>({
@@ -77,6 +82,8 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   rowsPerPageOptions = [25, 50, 100],
   isLoading = false,
   page = 1,
+  hover = true,
+  onLineClick,
   ...rest
 }: TableProps<DataType>) {
   const Pagination = useCallback(
@@ -116,7 +123,12 @@ export default function CustomTable<DataType extends RowWithIdModel>({
             {isLoading
               ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)
               : data.map(el => (
-                  <TableRow key={el.id}>
+                  <TableRow
+                    hover={hover}
+                    key={el.id}
+                    onClick={() => onLineClick?.(el)}
+                    sx={{ cursor: onLineClick ? 'pointer' : 'inherit' }}
+                  >
                     {columns
                       .filter(col => col.hidden === false || col.hidden === undefined)
                       .map(col => {

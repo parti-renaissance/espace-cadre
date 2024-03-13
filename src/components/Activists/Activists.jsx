@@ -11,6 +11,7 @@ import Member from './Member/Member'
 import { useUserScope } from '~/redux/user/hooks'
 import ActivistList from '~/components/Activists/ActivistList'
 import useGetActivists from '~/api/Activist/Hooks/useGetActivists'
+import Activist from '~/domain/activist'
 
 const messages = {
   title: 'Militants',
@@ -90,6 +91,28 @@ const Activists = () => {
           perPage={perPage}
           onRowsPerPageChange={setPerPage}
           isLoading={isFetching}
+          // Kept until #RE-1422 to be done.
+          onLineClick={line =>
+            setMember(
+              new Activist(
+                line.first_name,
+                line.last_name,
+                line.gender,
+                line.country,
+                line.city_code,
+                line.city,
+                line.committee,
+                line.committee_uuid,
+                line.postal_code,
+                line.interests,
+                line.email_subscription,
+                line.last_membership_donation,
+                line.created_at,
+                line.adherent_uuid,
+                line
+              )
+            )
+          }
         />
       </Box>
 

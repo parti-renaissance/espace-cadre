@@ -1,12 +1,14 @@
-import { Card } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
-import { GenderEnum, PaginatedDataModel } from '~/models/common.model'
+import { PaginatedDataModel } from '~/models/common.model'
 import { useMemo } from 'react'
-import { fullName } from '~/utils/fullName'
+import { fullName, getInitials, guessHumanReadableTitleBasedOnGender } from '~/utils/names'
 import { getFormattedDate } from '~/utils/date'
 import { parseISO } from 'date-fns'
 import { compact } from 'lodash'
+import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
+import Avatar from '~/mui/avatar/Avatar'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -15,6 +17,7 @@ interface ActivistListProps {
   perPage?: number
   onRowsPerPageChange?: (rowsPerPage: number) => void
   isLoading?: boolean
+  onLineClick?: (line: ActivistModel) => void
 }
 
 export default function ActivistList({
@@ -24,6 +27,7 @@ export default function ActivistList({
   perPage,
   onRowsPerPageChange,
   isLoading,
+  onLineClick,
 }: ActivistListProps) {
   const mappedData = useMemo(
     () =>
@@ -45,52 +49,63 @@ export default function ActivistList({
         onRowsPerPageChange={onRowsPerPageChange}
         total={paginatedData?.metadata?.total_items ?? 0}
         isLoading={isLoading}
-        columns={[
-          {
-            index: 'id',
-            title: 'ID',
-            hidden: true,
-          },
-          {
-            title: 'Militants',
-            subTitle: 'Âge, civilité',
-            render: line => {
-              const formattedText = compact([
-                line.birthdate !== null ? getFormattedDate(parseISO(line.birthdate)) : undefined,
-                line.gender === GenderEnum.MALE ? 'Monsieur' : 'Madame',
-              ])
-
-              return (
-                <>
-                  <strong>{fullName(line)}</strong>
-                  <div>{formattedText.join(', ')}</div>
-                </>
-              )
-            },
-          },
-          {
-            title: 'Labels',
-          },
-          {
-            title: 'Zone liée',
-            subTitle: 'Comité',
-            render: line => (
-              <>
-                <strong>{line.committee}</strong>
-                <div>{line.city}</div>
-              </>
-            ),
-          },
-          {
-            title: 'Date d’inscription',
-            index: 'created_at',
-            render: line => getFormattedDate(parseISO(line.created_at)),
-          },
-          {
-            title: 'Abonnements',
-          },
-        ]}
+        columns={ActivistColumnDefinition}
+        onLineClick={onLineClick}
       />
     </Card>
   )
 }
+
+const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: string }>[] = [
+  {
+    index: 'id',
+    title: 'ID',
+    hidden: true,
+  },
+  {
+    title: '',
+    render: line => <Avatar initials={getInitials(line)} />,
+  },
+  {
+    title: 'Militants',
+    subTitle: 'Âge, civilité',
+    render: line => {
+      const formattedText = compact([
+        line.birthdate !== null ? getFormattedDate(parseISO(line.birthdate)) : undefined,
+        guessHumanReadableTitleBasedOnGender(line.gender),
+      ])
+
+      return (
+        <>
+          <strong>{fullName(line)}</strong>
+          <div>{formattedText.join(', ')}</div>
+        </>
+      )
+    },
+  },
+  {
+    title: 'Labels',
+  },
+  {
+    title: 'Zone liée',
+    subTitle: 'Comité',
+    render: line => (
+      <>
+        <div>
+          <Typography>{line.committee}</Typography>
+        </div>
+        <div>
+          <Typography color={'text.disabled'}>{line.city}</Typography>
+        </div>
+      </>
+    ),
+  },
+  {
+    title: 'Date d’inscription',
+    index: 'created_at',
+    render: line => <Typography color={'text.disabled'}>{getFormattedDate(parseISO(line.created_at))}</Typography>,
+  },
+  {
+    title: 'Abonnements',
+  },
+]
