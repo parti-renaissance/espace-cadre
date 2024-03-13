@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'
 import { useQuery } from '@tanstack/react-query'
@@ -21,6 +21,12 @@ const Category = ({ category, onClick, register }: CategoryProps) => {
   const [categorySelected, setCategorySelected] = useState<string>(category)
 
   const { data: categories, isLoading } = useQuery(['categories'], () => getCategories())
+
+  useEffect(() => {
+    if (category) {
+      setCategorySelected(category)
+    }
+  }, [category])
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>, category: string) => {
     register('categoryId').onChange(e)

@@ -1,16 +1,25 @@
-import { DragEvent, MouseEvent, useState } from 'react'
+import { DragEvent, MouseEvent, useEffect, useState } from 'react'
 import { Box, Stack } from '@mui/system'
 import { Typography } from '@mui/material'
 import UploadFilePlaceholder from '~/assets/illustrations/upload-file-placeholder'
 import { getFileBase64 } from '~/components/Events/shared/helpers'
 
 type UploadImageProps = {
+  imageUrl?: string
   onFileChange: (file: string) => void
+  handleDelete?: () => void
 }
 
-const UploadImage = ({ onFileChange }: UploadImageProps) => {
+const UploadImage = ({ imageUrl, onFileChange, handleDelete }: UploadImageProps) => {
   const [isOver, setIsOver] = useState(false)
   const [files, setFiles] = useState<File[]>([])
+  const [editImage, setEditImage] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (imageUrl) {
+      setEditImage(imageUrl)
+    }
+  }, [imageUrl])
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -65,10 +74,11 @@ const UploadImage = ({ onFileChange }: UploadImageProps) => {
   const handleRemoveFile = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
     setFiles([])
+    handleDelete && handleDelete()
     onFileChange('')
   }
 
-  if (files.length > 0) {
+  if (files.length > 0 || editImage) {
     return (
       <Stack
         direction="column"
@@ -112,7 +122,12 @@ const UploadImage = ({ onFileChange }: UploadImageProps) => {
           Supprimer
         </Box>
 
-        <img src={URL.createObjectURL(files[0])} alt="preview" width={'100%'} style={{ borderRadius: 6 }} />
+        <img
+          src={files.length > 0 ? URL.createObjectURL(files[0]) : imageUrl}
+          alt="preview"
+          width={'100%'}
+          style={{ borderRadius: 6 }}
+        />
       </Stack>
     )
   }

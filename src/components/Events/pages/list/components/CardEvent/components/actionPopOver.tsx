@@ -1,8 +1,7 @@
-import React from 'react'
 import { Box, Typography, MenuList, MenuItem } from '@mui/material'
 import CustomPopover, { usePopover } from '~/mui/custom-popover'
 import { Event } from '~/components/Events/shared/types'
-import { CardEventAction } from '~/components/Events/pages/list/components/CardEvent/CardEvent'
+import { EventAction } from '~/components/Events/pages/list/components/CardEvent/CardEvent'
 
 type ActionButton = {
   label: string
@@ -15,22 +14,22 @@ const Actions = ({ event, onClick }: ActionsProps) => {
     {
       label: "Voir l'événement",
       canShow: true,
-      onClick: event => onClick(event, 'detail'),
+      onClick: () => onClick('detail'),
     },
     {
       label: 'Modifier',
       canShow: !!event.scheduled,
-      onClick: event => onClick(event, 'edit'),
+      onClick: () => onClick('edit'),
     },
     {
       label: 'Annulé',
       canShow: !!event.scheduled,
-      onClick: event => onClick(event, 'cancel'),
+      onClick: () => onClick('cancel'),
     },
     {
       label: 'Supprimer',
       canShow: event.attendees <= 1,
-      onClick: event => onClick(event, 'delete'),
+      onClick: () => onClick('delete'),
     },
   ]
 
@@ -61,12 +60,10 @@ const popoverStaticProps = {
   arrow: 'left-center',
 } as const
 
-// ------------------ ActionPopover ------------------
-
 interface ActionsProps {
   popover: ReturnType<typeof usePopover>
   event: Event
-  onClick: (event: Event, action: CardEventAction) => void
+  onClick: (action: EventAction) => void
 }
 
 export const ActionPopover = (props: ActionsProps) => {
