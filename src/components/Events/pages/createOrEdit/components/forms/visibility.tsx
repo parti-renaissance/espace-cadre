@@ -29,9 +29,9 @@ interface VisibilityProps {
 
 const Visibility = ({ visibility, onClick, register }: VisibilityProps) => (
   <FormGroup row>
-    {VISIBILITES.map((item: any) => (
+    {VISIBILITES.map((item: any, index: number) => (
       <FormControlLabel
-        key={item.slug}
+        key={index}
         control={<Radio checked={item.id === visibility} />}
         label={item.name}
         onClick={(e: React.MouseEvent<HTMLLabelElement>) => {

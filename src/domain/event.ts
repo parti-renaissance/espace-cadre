@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types'
-import { Place } from '~/domain/place'
 import { parseDate } from '~/shared/helpers'
 import { z } from 'zod'
+import { Place } from '~/domain/place'
+/*export interface Place {
+  id: string
+  address: string
+  postalCode: string
+  cityName: string
+  country: string
+}*/
 
 export class Attendee {
   static propTypes = {
@@ -152,7 +159,7 @@ export class Event {
       this.scheduled,
       this.capacity,
       this.address,
-      this.categoryId,
+      this.category,
       newPrivate,
       this.visioUrl,
       this.mode,
@@ -227,38 +234,6 @@ export interface EventType {
   liveUrl?: string
   mode?: string
   image?: string
-export interface EventType {
-  id?: string
-  name: string
-  description?: string
-  timezone: string
-  createdAt?: Date
-  beginAt?: Date
-  finishAt?: Date
-  timeBeginAt?: Date
-  timeFinishAt?: Date
-  localFinishAt?: Date
-  organizer?: string
-  organizerId: string
-  attendees: number
-  scheduled: boolean
-  capacity?: string | number
-  address: Place
-  categoryId: string
-  visibility: VisibilityEvent
-  private: boolean
-  visioUrl?: string
-  liveUrl?: string
-  mode?: string
-  image?: string
-}
-
-export interface Place {
-  id: string
-  address: string
-  postalCode: string
-  cityName: string
-  country: string
 }
 
 export const CreateEventSchema = z
@@ -305,11 +280,17 @@ export const CreateEventSchema = z
       cityName: z.string().optional(),
       country: z.string().optional(),
     }),
-    visioUrl: z.string().optional().or(z.literal('')),
-    liveUrl: z
+    visioUrl: z
       .string()
       .url({
         message: 'Le lien de la visioconférence doit être une URL',
+      })
+      .optional()
+      .or(z.literal('')),
+    liveUrl: z
+      .string()
+      .url({
+        message: 'Le lien de live doit être une URL',
       })
       .optional()
       .or(z.literal('')),

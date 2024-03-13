@@ -90,12 +90,12 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         capacity: Number(event?.capacity || 1),
         severalDays: event?.beginAt !== event?.finishAt,
         address: {
-          address: event?.address?.address,
-          postalCode: event?.address?.postalCode,
-          cityName: event?.address?.cityName,
-          country: event?.address?.country,
+          address: event?.address?.address || '',
+          postalCode: event?.address?.postalCode || '',
+          cityName: event?.address?.cityName || '',
+          country: event?.address?.country || '',
         },
-        liveUrl: event?.visioUrl,
+        liveUrl: event?.visioUrl || '',
       },
     }),
 
@@ -106,6 +106,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
   })
+  console.log(errors, getValues('address.address'))
 
   const { handleError } = useErrorHandler()
 
@@ -115,6 +116,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     },
   })
 
+  // Expected string, received null
   const { mutate: mutation } = useMutation(editable ? updateEvent : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
@@ -178,9 +180,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       capacity: getValues('capacity'),
       post_address: {
         address: getValues('address.address'),
-        postal_code: getValues('address.postalCode'),
-        city_name: getValues('address.cityName'),
-        country: getValues('address.country'),
+        postal_code: getValues('address.postalCode') || '',
+        city_name: getValues('address.cityName') || '',
+        country: getValues('address.country') || '',
       },
     }
 
@@ -246,6 +248,11 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                 fullWidth
                 error={!!errors.name}
                 helperText={errors.name?.message}
+                {...(editable && {
+                  InputLabelProps: {
+                    shrink: true,
+                  },
+                })}
               />
             </FormGroup>
 
@@ -267,9 +274,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                     <DatePicker
                       label={watch('severalDays') ? 'Date de début' : 'Date'}
                       slots={{ textField: TextField }}
-                      {...(editable && {
-                        value: watch('beginAt'),
-                      })}
+                      value={watch('beginAt')}
                       minDate={new Date()}
                       onChange={value => {
                         setValue('beginAt', value as Date)
@@ -283,9 +288,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       <DatePicker
                         label="Date de fin"
                         slots={{ textField: TextField }}
-                        {...(editable && {
-                          value: watch('finishAt'),
-                        })}
+                        value={watch('finishAt')}
                         disabled={!watch('severalDays') || !watch('beginAt')}
                         minDate={watch('beginAt')}
                         maxDate={addDays(new Date(watch('beginAt')), 3)}
@@ -300,9 +303,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                     <TimePicker
                       label="Heure de début"
                       {...register('timeBeginAt')}
-                      {...(editable && {
-                        value: watch('timeBeginAt'),
-                      })}
+                      value={watch('timeBeginAt')}
                       onChange={value => {
                         if (value === null) {
                           return
@@ -360,6 +361,11 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
             <FormGroup label="À propos">
               <TextField
                 {...register('description')}
+                {...(editable && {
+                  InputLabelProps: {
+                    shrink: true,
+                  },
+                })}
                 label="Décrivez ici votre événement"
                 variant="outlined"
                 fullWidth
@@ -387,9 +393,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
               {watch('isVirtual') && (
                 <TextField
                   {...register('visioUrl')}
-                  {...(editable && {
-                    value: event?.visioUrl,
-                  })}
+                  {...(editable &&
+                    watch('visioUrl') && {
+                      value: watch('visioUrl'),
+                      InputLabelProps: {
+                        shrink: true,
+                      },
+                    })}
                   label="Lien de la visioconférence"
                   variant="outlined"
                   fullWidth
@@ -413,7 +423,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                     <TextField
                       {...register('address.postalCode')}
                       {...(editable && {
-                        value: event?.address?.postalCode,
+                        value: watch('address.postalCode'),
+                        InputLabelProps: {
+                          shrink: true,
+                        },
                       })}
                       label="Code postal"
                       variant="outlined"
@@ -426,6 +439,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.cityName')}
                       {...(editable && {
                         value: event?.address?.cityName,
+                        InputLabelProps: {
+                          shrink: true,
+                        },
                       })}
                       label="Ville"
                       variant="outlined"
@@ -438,6 +454,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.country')}
                       {...(editable && {
                         value: event?.address?.country,
+                        InputLabelProps: {
+                          shrink: true,
+                        },
                       })}
                       label="Pays"
                       variant="outlined"
@@ -467,6 +486,12 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                 {...register('capacity', {
                   valueAsNumber: true,
                 })}
+                {...(editable &&
+                  watch('capacity') && {
+                    InputLabelProps: {
+                      shrink: true,
+                    },
+                  })}
                 label="Quel est le nombre maximal de participants à cet événement ?"
                 type="number"
                 variant="outlined"
@@ -479,6 +504,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
             <FormGroup label="Lien de live">
               <TextField
                 {...register('liveUrl')}
+                {...(editable &&
+                  watch('liveUrl') && {
+                    InputLabelProps: {
+                      shrink: true,
+                    },
+                  })}
+                // value={watch('liveUrl') || ''}
                 label="Vous prévoyez de diffuser l'événement en ligne ? mettez ici votre lien de visioconférence"
                 variant="outlined"
                 fullWidth
@@ -499,8 +531,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
             Annuler
           </Button>
 
-          <Button type="submit" variant="contained" disabled={isSubmitting} color="primary">
-            Publier
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={Object.keys(errors).length > 0 || isSubmitting}
+            color="primary"
+          >
+            {editable ? 'Modifier' : 'Créer'}
           </Button>
         </Stack>
       </form>
