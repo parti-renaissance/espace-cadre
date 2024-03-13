@@ -274,12 +274,14 @@ export const CreateEventSchema = z
       .or(z.string()),
     timeBeginAt: z.date().optional(),
     timeFinishAt: z.date().optional(),
-    address: z.object({
-      address: z.string().optional(),
-      postalCode: z.string().optional(),
-      cityName: z.string().optional(),
-      country: z.string().optional(),
-    }),
+    address: z
+      .object({
+        address: z.string().optional(),
+        postalCode: z.string().optional(),
+        cityName: z.string().optional(),
+        country: z.string().optional(),
+      })
+      .optional(),
     visioUrl: z
       .string()
       .url({
@@ -326,6 +328,19 @@ export const CreateEventSchema = z
         message: 'Le lien de la visioconférence est obligatoire pour un événement virtuel',
         path: ['visioUrl'],
       })
+    }
+
+    if (!values.isVirtual) {
+      const checkHasAddressFull =
+        values.address?.address && values.address?.postalCode && values.address?.cityName && values.address?.country
+
+      if (!checkHasAddressFull) {
+        return context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "L'adresse est obligatoire pour un événement physique",
+          path: ['address'],
+        })
+      }
     }
   })
 
