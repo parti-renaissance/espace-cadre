@@ -212,6 +212,14 @@ export interface EventType {
   image?: string
 }
 
+export interface Place {
+  id: string
+  address: string
+  postalCode: string
+  cityName: string
+  country: string
+}
+
 export const CreateEventSchema = z
   .object({
     name: z
