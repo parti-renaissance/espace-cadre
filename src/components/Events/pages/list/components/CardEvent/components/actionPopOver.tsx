@@ -60,10 +60,12 @@ const popoverStaticProps = {
   arrow: 'left-center',
 } as const
 
+// ------------------ ActionPopover ------------------
+
 interface ActionsProps {
   popover: ReturnType<typeof usePopover>
   event: Event
-  onClick: (event: Event, action: EventAction) => void
+  onClick: (action: EventAction) => void
 }
 
 export const ActionPopover = (props: ActionsProps) => {

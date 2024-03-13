@@ -116,7 +116,6 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     },
   })
 
-  // Expected string, received null
   const { mutate: mutation } = useMutation(editable ? updateEvent : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
