@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
-import { addDays, format } from 'date-fns'
+import { addDays } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation } from '@tanstack/react-query'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -44,6 +44,7 @@ import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { useBlocker } from 'react-router-dom'
 import Places from '~/ui/Places/Places'
 import ModalBeforeLeave from '../../Components/ModalBeforeLeave'
+import { formatDateTimeWithTimezone } from '~/components/Events/shared/helpers'
 
 interface CreateOrEditEventProps {
   editable: boolean
@@ -106,7 +107,6 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
   })
-  console.log(errors, getValues('address.address'))
 
   const { handleError } = useErrorHandler()
 
@@ -157,20 +157,15 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   const onSubmit: SubmitHandler<CreateEventForm> = () => {
     const { beginAt, finishAt, timeBeginAt, timeFinishAt } = getValues()
 
-    const formatDateTime = (date: any | Date, time: any) => {
-      const dateISO = format(date, 'yyyy-MM-dd')
-      const timeISO = time ? format(time, 'HH:mm:ss') : '00:00:00'
-
-      return `${dateISO} ${timeISO}`
-    }
+    const convertFinishAt = new Date(finishAt ? finishAt : beginAt)
 
     const data = {
       id: event?.id,
       name: getValues('name'),
       categoryId: getValues('categoryId'),
       visibility: getValues('visibility'),
-      beginAt: formatDateTime(beginAt, timeBeginAt),
-      finishAt: watch('severalDays') ? formatDateTime(finishAt, timeFinishAt) : formatDateTime(beginAt, timeFinishAt),
+      beginAt: formatDateTimeWithTimezone(beginAt, timeBeginAt),
+      finishAt: formatDateTimeWithTimezone(watch('severalDays') ? convertFinishAt : beginAt, timeFinishAt),
       timezone: getValues('timezone'),
       description: getValues('description'),
       visioUrl: getValues('visioUrl'),

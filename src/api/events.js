@@ -8,8 +8,8 @@ const eventToJson = event => ({
   category: event.categoryId,
   visibility: event.visibility,
   description: event.description,
-  begin_at: formatDate(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
-  finish_at: formatDate(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
+  begin_at: event.beginAt,
+  finish_at: event.finishAt,
   capacity: parseInt(event.capacity),
   visio_url: event.visioUrl,
   post_address: {
@@ -99,7 +99,7 @@ export const createEvent = async ({ event, type }) => {
   const data = await apiClient.post('/api/v3/events', { ...eventToJson(event), type })
   return data.uuid
 }
-export const updateEvent = async event => {
+export const updateEvent = async ({ event }) => {
   const data = await apiClient.put(`/api/v3/events/${event.id}`, eventToJson(event))
   return data.uuid
 }
