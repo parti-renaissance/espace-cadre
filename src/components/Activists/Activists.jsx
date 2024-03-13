@@ -32,7 +32,7 @@ const Activists = () => {
     data: activists,
     isFetching,
     refetch,
-  } = useGetActivists({ ...filters, zones: filters.zones.map(z => z.uuid), page, page_size: perPage })
+  } = useGetActivists({ ...filters, zones: filters.zones.map(z => z.uuid), page, itemsPerPage: perPage })
 
   const handleExport = async () => {
     setLoader(true)

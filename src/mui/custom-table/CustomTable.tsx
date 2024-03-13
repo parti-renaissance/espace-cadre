@@ -6,6 +6,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableContainerProps,
   TablePagination,
   TableRow,
   Theme,
@@ -20,7 +21,7 @@ import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Scrollbar from '~/mui/scrollbar'
 
-export interface TableProps<DataType extends RowWithIdModel> {
+export interface TableProps<DataType extends RowWithIdModel> extends TableContainerProps {
   columns: CustomTableColumnModel<DataType>[]
   data: DataType[]
   rowsPerPage?: number
@@ -76,6 +77,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   rowsPerPageOptions = [25, 50, 100],
   isLoading = false,
   page = 0,
+  ...rest
 }: TableProps<DataType>) {
   const Pagination = useCallback(
     () => (
@@ -95,7 +97,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   )
 
   return (
-    <TableContainer sx={{ overflow: 'unset', ...sx }}>
+    <TableContainer sx={{ overflow: 'unset', ...sx }} {...rest}>
       <Grid container spacing={2} sx={{ alignItems: 'center' }}>
         <Grid item xs={2}>
           <Typography>
