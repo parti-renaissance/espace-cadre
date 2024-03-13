@@ -22,7 +22,6 @@ const Activists = () => {
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
   const [loader, setLoader] = useState(false)
-  // const { handleError } = useErrorHandler()
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(25)
 
@@ -44,7 +43,6 @@ const Activists = () => {
   const handleDrawerClose = () => {
     setMember(null)
     if (isElectFeatureEnabled) {
-      // setIsShadowLoading(true)
       refetch()
     }
   }
