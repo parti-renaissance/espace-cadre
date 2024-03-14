@@ -26,13 +26,7 @@ export function getInitialNames(name = null) {
 }
 
 export function formatDate(date, formatPattern) {
-  // console.log('date', date)
-  // console.log('formatPattern', formatPattern)
-  //
-  // console.log('return', format(parseDate(date), formatPattern, { locale: fr }))
-  //
-  // debugger
-  return format(parseDate(date), formatPattern, { locale: fr })
+  return `${format(date, formatPattern, { locale: fr })}`
 }
 
 export function parseDate(date) {

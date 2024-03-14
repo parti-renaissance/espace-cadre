@@ -13,10 +13,10 @@ const eventToJson = event => ({
   capacity: parseInt(event.capacity),
   visio_url: event.visioUrl,
   post_address: {
-    address: event.address,
-    postal_code: event.address?.postalCode,
-    city_name: event.address?.city,
-    country: event.address?.country,
+    address: event.post_address.address,
+    postal_code: event.post_address?.postal_code,
+    city_name: event.post_address?.city_name,
+    country: event.post_address?.country,
   },
   time_zone: event.timezone,
   live_url: event.liveUrl,
@@ -96,7 +96,8 @@ export const getCategories = async () => {
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
 export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}/cancel`)
 export const createEvent = async ({ event, type }) => {
-  const data = await apiClient.post('/api/v3/events', { ...eventToJson(event), type })
+  console.log('event', event)
+  const data = await apiClient.post('/api/v3/events', eventToJson(event))
   return data.uuid
 }
 export const updateEvent = async ({ event }) => {

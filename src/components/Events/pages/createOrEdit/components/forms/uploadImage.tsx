@@ -123,7 +123,9 @@ const UploadImage = ({ imageUrl, onFileChange, handleDelete }: UploadImageProps)
         </Box>
 
         <img
-          src={files.length > 0 ? URL.createObjectURL(files[0]) : imageUrl}
+          src={
+            files.length > 0 ? URL.createObjectURL(files[0]) : editImage ? editImage : 'https://via.placeholder.com/150'
+          }
           alt="preview"
           width={'100%'}
           style={{ borderRadius: 6 }}

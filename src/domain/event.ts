@@ -333,7 +333,7 @@ export const CreateEventSchema = z
     if (!values.isVirtual) {
       const checkHasAddressFull =
         values.address?.address && values.address?.postalCode && values.address?.cityName && values.address?.country
-
+      // console.log(values.address, values.address?.postalCode, values.address?.cityName, values.address?.country)
       if (!checkHasAddressFull) {
         return context.addIssue({
           code: z.ZodIssueCode.custom,
