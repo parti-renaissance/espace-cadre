@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router'
+import { generatePath, useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Card, CardContent, CardMedia, Box, Typography, IconButton, Button } from '@mui/material'
 import Label from '~/mui/label'
@@ -42,10 +42,10 @@ const CardEvent = ({ event }: CardEventProps) => {
   const handleDefineAction = (action: EventAction) => {
     switch (action) {
       case 'detail':
-        navigate(`${event.id}`)
+        navigate(generatePath('/evenements/:id', { id: event.id }))
         break
       case 'edit':
-        navigate(`modifier/${event.id}`)
+        navigate(generatePath('/evenements/modifier/:id', { id: event.id }))
         break
       case 'delete':
         handleDelete()
