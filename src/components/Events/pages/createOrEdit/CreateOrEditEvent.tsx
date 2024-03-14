@@ -42,9 +42,9 @@ import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { useBlocker } from 'react-router-dom'
-import Places from '~/ui/Places/Places'
 import ModalBeforeLeave from '../../Components/ModalBeforeLeave'
 import { formatDateTimeWithTimezone } from '~/components/Events/shared/helpers'
+import TextFieldPlaces from '~/components/Events/pages/createOrEdit/components/TextFieldPlaces'
 
 interface CreateOrEditEventProps {
   editable: boolean
@@ -116,7 +116,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     },
   })
 
-  const { mutate: mutation } = useMutation(editable ? updateEvent : createEventApi, {
+  const { mutate: mutation, isLoading } = useMutation(editable ? updateEvent : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
 
@@ -170,13 +170,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       description: getValues('description'),
       visioUrl: getValues('visioUrl'),
       live_url: getValues('liveUrl'),
-      mode: watch('isVirtual') ? 'online' : 'null',
+      mode: watch('isVirtual') ? 'online' : null,
       capacity: getValues('capacity'),
       post_address: {
-        address: getValues('address.address'),
-        postal_code: getValues('address.postalCode') || '',
-        city_name: getValues('address.cityName') || '',
-        country: getValues('address.country') || '',
+        address: getValues('address.address') || null,
+        postal_code: getValues('address.postalCode') || null,
+        city_name: getValues('address.cityName') || null,
+        country: getValues('address.country') || null,
       },
     }
 
@@ -404,13 +404,22 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
               {!watch('isVirtual') && (
                 <>
-                  <Places
+                  <TextFieldPlaces
+                    {...register('address.address')}
+                    {...(editable && {
+                      value: watch('address.address'),
+                      InputLabelProps: {
+                        shrink: true,
+                      },
+                    })}
                     onSelectPlace={(place: any) => {
-                      setValue('address.address', place.address)
+                      setValue('address.address', `${place?.number} ${place?.route}`)
                       setValue('address.postalCode', place.postalCode)
                       setValue('address.cityName', place.locality)
                       setValue('address.country', place.country)
                     }}
+                    error={!!errors?.address?.address}
+                    helperText={errors?.address?.postalCode?.message}
                   />
 
                   <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
@@ -504,7 +513,6 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       shrink: true,
                     },
                   })}
-                // value={watch('liveUrl') || ''}
                 label="Vous prévoyez de diffuser l'événement en ligne ? mettez ici votre lien de visioconférence"
                 variant="outlined"
                 fullWidth
@@ -525,12 +533,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
             Annuler
           </Button>
 
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={Object.keys(errors).length > 0 || isSubmitting}
-            color="primary"
-          >
+          <Button type="submit" variant="contained" disabled={isSubmitting || isLoading} color="primary">
             {editable ? 'Modifier' : 'Créer'}
           </Button>
         </Stack>
