@@ -22,7 +22,7 @@ const Activists = () => {
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
   const [page, setPage] = useState(1)
-  const [perPage, setPerPage] = useState(25)
+  const [perPage, setPerPage] = useState(100)
 
   const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
 
