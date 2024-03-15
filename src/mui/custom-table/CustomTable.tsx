@@ -21,6 +21,7 @@ import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Scrollbar from '~/mui/scrollbar'
 import { formatToFrenchNumberString } from '~/utils/numbers'
+import { fontWeight } from '~/theme/typography'
 
 export interface TableProps<DataType extends RowWithIdModel> extends TableContainerProps {
   columns: CustomTableColumnModel<DataType>[]
@@ -114,9 +115,11 @@ export default function CustomTable<DataType extends RowWithIdModel>({
     <TableContainer sx={{ overflow: 'unset', ...sx }} {...rest}>
       <Grid container spacing={2} sx={{ alignItems: 'center', ...headerSx }}>
         <Grid item xs={2}>
-          <Typography>
-            {pluralize(total, 'Résultat')} :{' '}
-            <strong data-testid="result-count">{formatToFrenchNumberString(total)}</strong>
+          <Typography fontWeight={400}>
+            <Typography color={'text.secondary'}>{pluralize(total, 'Résultat')} : </Typography>
+            <Typography fontWeight={fontWeight.medium} data-testid="result-count">
+              {formatToFrenchNumberString(total)}
+            </Typography>
           </Typography>
         </Grid>
         <Grid item xs={10}>

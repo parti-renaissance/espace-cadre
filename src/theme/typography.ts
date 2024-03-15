@@ -112,3 +112,9 @@ export const typography = {
     textTransform: 'unset',
   },
 } as const
+
+export const fontWeight = {
+  regular: 500,
+  medium: 600,
+  bold: 700,
+}

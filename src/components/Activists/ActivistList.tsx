@@ -14,6 +14,7 @@ import pluralize from '~/components/shared/pluralize/pluralize'
 import { activistTagShape } from '~/shared/activistTagShape'
 import { UIChip } from '~/ui/Card'
 import { tagsColor } from '~/theme/palette'
+import { fontWeight } from '~/theme/typography'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -86,7 +87,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
       return (
         <>
           <div>
-            <Typography variant="body2" fontWeight={500}>
+            <Typography variant="body2" fontWeight={fontWeight.regular}>
               {fullName(line)}
             </Typography>
           </div>
@@ -109,7 +110,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
             key={tag.label}
             label={tag.label}
             sx={{ mb: line.tags.length > 1 ? 1 : 0 }}
-            labelStyle={{ fontSize: '14px' }}
+            labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
             color={activistTagShape[tag.type]?.color ?? tagsColor.unknownText}
             variant={activistTagShape[tag.type]?.variant ?? 'contained'}
             bgcolor={activistTagShape[tag.type]?.bgColor ?? tagsColor.unknownBackground}
@@ -125,7 +126,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
       <>
         {line.zones.map(zone => (
           <div key={zone.uuid}>
-            <Typography variant="body2" fontWeight={500}>
+            <Typography variant="body2" fontWeight={fontWeight.medium}>
               {zone.name}
             </Typography>
           </div>

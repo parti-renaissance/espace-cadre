@@ -4,6 +4,7 @@ import { visuallyHidden } from '@mui/utils'
 import { ChangeEvent } from 'react'
 import { CustomTableColumnModel, OrderEnum, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
 import styled from '@emotion/styled'
+import { fontWeight } from '~/theme/typography'
 
 interface Props<DataType extends RowWithIdModel> {
   order?: OrderEnum
@@ -44,7 +45,7 @@ export default function CustomTableHeader<DataType extends RowWithIdModel>({
               key={String(headCell.index ?? headCell.title)}
               align={headCell.align ?? 'left'}
               sortDirection={orderBy === headCell.index ? order : false}
-              sx={{ width: headCell.width, minWidth: headCell.minWidth }}
+              sx={{ width: headCell.width, minWidth: headCell.minWidth, fontWeight: fontWeight.medium }}
             >
               {onSort ? (
                 <TableSortLabel
