@@ -30,6 +30,7 @@ export interface ActivistModel {
   email_subscription: boolean
   tags: LabelTypeModel[]
   zones: AddressZoneModel[]
+  age: string
 }
 
 export interface LabelTypeModel {
@@ -58,4 +59,10 @@ export enum ZoneEnum {
   CONSULAR_DISTRICT = 'consular_district',
   VOTE_PLACE = 'vote_place',
   FDE_CODE = 'FDE',
+}
+
+export enum ActivistTagEnum {
+  ADHERENT = 'adherent',
+  SYMPATHISANT = 'sympathisant',
+  ELU = 'elu',
 }

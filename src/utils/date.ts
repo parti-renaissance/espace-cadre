@@ -28,5 +28,5 @@ export const getDayNumber = (date: Date) => format(date, dateValueFormat, locale
 export const getAge = (date: Date) => {
   const difference = differenceInCalendarYears(new Date(), date)
 
-  return difference + ' ' + pluralize(difference, 'an')
+  return `${difference} ${pluralize(difference, 'an')}`
 }

@@ -4,12 +4,13 @@ import { ActivistModel } from '~/models/activist.model'
 import { PaginatedDataModel } from '~/models/common.model'
 import { useMemo } from 'react'
 import { fullName, getInitials, guessHumanReadableTitleBasedOnGender } from '~/utils/names'
-import { getAge, getFormattedDate } from '~/utils/date'
+import { getFormattedDate } from '~/utils/date'
 import { parseISO } from 'date-fns'
 import { compact } from 'lodash'
 import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
 import Avatar from '~/mui/avatar/Avatar'
 import SubscriptionBadge from '~/components/Activists/SubscriptionBadge'
+import pluralize from '~/components/shared/pluralize/pluralize'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -73,7 +74,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
     subTitle: 'Âge, civilité',
     render: line => {
       const formattedText = compact([
-        line.birthdate !== null ? getAge(parseISO(line.birthdate)) : undefined,
+        line.birthdate !== null ? `${line.age} ${pluralize(line.age, 'an')}` : undefined,
         guessHumanReadableTitleBasedOnGender(line.gender),
       ])
 
@@ -91,7 +92,13 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
     render: line => (
       <>
         {line.tags.map(tag => (
-          <Chip key={tag.label} label={tag.label} color={'primary'} sx={{ mb: line.tags.length > 1 ? 1 : 0 }} />
+          <Chip
+            key={tag.label}
+            label={tag.label}
+            // color={activistTagShape[tag.type]?.color}
+            // variant={activistTagShape[tag.type]?.variant}
+            sx={{ mb: line.tags.length > 1 ? 1 : 0 }}
+          />
         ))}
       </>
     ),
