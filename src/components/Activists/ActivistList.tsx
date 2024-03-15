@@ -112,7 +112,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
             labelStyle={{ fontSize: '14px' }}
             color={activistTagShape[tag.type]?.color ?? tagsColor.unknownText}
             variant={activistTagShape[tag.type]?.variant ?? 'contained'}
-            bgcolor={activistTagShape[tag.type]?.bgColor ?? '#EDEFF2'}
+            bgcolor={activistTagShape[tag.type]?.bgColor ?? tagsColor.unknownBackground}
           />
         ))}
       </>

@@ -14,6 +14,7 @@ export class Zone {
   })
 }
 
+// Kept for retro-compatibility during progressive migration to typescript
 export const zoneTypes = ZoneEnum
 
 export const zoneLabels = {
