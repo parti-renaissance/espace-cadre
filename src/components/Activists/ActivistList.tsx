@@ -13,6 +13,7 @@ import SubscriptionBadge from '~/components/Activists/SubscriptionBadge'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { activistTagShape } from '~/shared/activistTagShape'
 import { UIChip } from '~/ui/Card'
+import { tagsColor } from '~/theme/palette'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -43,8 +44,10 @@ export default function ActivistList({
   )
 
   return (
-    <Card sx={{ p: 2 }}>
+    <Card>
       <CustomTable
+        headerSx={{ px: 2 }}
+        footerSx={{ px: 2 }}
         tableSx={{ minWidth: 800 }}
         data={mappedData ?? []}
         onPageChange={onPageChange}
@@ -83,10 +86,14 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
       return (
         <>
           <div>
-            <Typography fontWeight={500}>{fullName(line)}</Typography>
+            <Typography variant="body2" fontWeight={500}>
+              {fullName(line)}
+            </Typography>
           </div>
           <div>
-            <Typography color={'text.disabled'}>{formattedText.join(', ')}</Typography>
+            <Typography variant="body2" color={'text.disabled'}>
+              {formattedText.join(', ')}
+            </Typography>
           </div>
         </>
       )
@@ -102,8 +109,10 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
             key={tag.label}
             label={tag.label}
             sx={{ mb: line.tags.length > 1 ? 1 : 0 }}
-            color={activistTagShape[tag.type]?.color ?? 'primary'}
-            bgcolor={activistTagShape[tag.type]?.bgColor ?? 'white'}
+            labelStyle={{ fontSize: '14px' }}
+            color={activistTagShape[tag.type]?.color ?? tagsColor.unknownText}
+            variant={activistTagShape[tag.type]?.variant ?? 'contained'}
+            bgcolor={activistTagShape[tag.type]?.bgColor ?? '#EDEFF2'}
           />
         ))}
       </>
@@ -116,11 +125,15 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
       <>
         {line.zones.map(zone => (
           <div key={zone.uuid}>
-            <Typography>{zone.name}</Typography>
+            <Typography variant="body2" fontWeight={500}>
+              {zone.name}
+            </Typography>
           </div>
         ))}
         <div>
-          <Typography color={'text.disabled'}>{line.committee}</Typography>
+          <Typography variant="body2" color={'text.disabled'} style={{ fontSize: 14 }}>
+            {line.committee}
+          </Typography>
         </div>
       </>
     ),
@@ -128,7 +141,11 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   {
     title: 'Date d’inscription',
     index: 'created_at',
-    render: line => <Typography color={'text.disabled'}>{getFormattedDate(parseISO(line.created_at))}</Typography>,
+    render: line => (
+      <Typography variant="body2" color={'text.disabled'}>
+        {getFormattedDate(parseISO(line.created_at))}
+      </Typography>
+    ),
   },
   {
     title: 'Abonnements',

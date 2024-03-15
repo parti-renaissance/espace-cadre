@@ -9,7 +9,7 @@ interface Props {
 
 export default function Avatar({ initials, src }: Props) {
   return (
-    <MUIAvatar src={src} sx={{ bgcolor: grey[300], color: grey[600], fontSize: pxToRem(12), fontWeight: 'bold' }}>
+    <MUIAvatar src={src} sx={{ bgcolor: grey[200], color: grey[600], fontSize: pxToRem(12), fontWeight: 'bold' }}>
       {initials}
     </MUIAvatar>
   )

@@ -87,7 +87,10 @@ const Activists = () => {
           page={page}
           onPageChange={setPage}
           perPage={perPage}
-          onRowsPerPageChange={setPerPage}
+          onRowsPerPageChange={rowsPerPageParam => {
+            setPerPage(rowsPerPageParam)
+            setPage(1)
+          }}
           isLoading={isFetching}
           // Kept until #RE-1422 to be done.
           onLineClick={line =>
