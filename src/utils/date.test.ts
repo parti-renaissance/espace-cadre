@@ -1,5 +1,6 @@
-import { parseISO } from 'date-fns'
+import { differenceInCalendarYears, parseISO } from 'date-fns'
 import {
+  getAge,
   getAgendaDate,
   getDayNumber,
   getFormattedDate,
@@ -22,5 +23,9 @@ describe('Date functions', () => {
     expect(getDayNumber(parsedFoundation)).toBe('6')
     expect(getAgendaDate(parsedFoundation)).toBe('mer. 6')
     expect(getNowFormattedDate()).toBe(getHumanFormattedDate(new Date()))
+  })
+
+  it('Should compute age', () => {
+    expect(getAge(parsedFoundation)).toBe(`${differenceInCalendarYears(new Date(), parsedFoundation)} ans`)
   })
 })

@@ -1,10 +1,10 @@
-import { Card, Grid, Typography } from '@mui/material'
+import { Card, Chip, Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
 import { PaginatedDataModel } from '~/models/common.model'
 import { useMemo } from 'react'
 import { fullName, getInitials, guessHumanReadableTitleBasedOnGender } from '~/utils/names'
-import { getFormattedDate } from '~/utils/date'
+import { getAge, getFormattedDate } from '~/utils/date'
 import { parseISO } from 'date-fns'
 import { compact } from 'lodash'
 import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
@@ -73,7 +73,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
     subTitle: 'Âge, civilité',
     render: line => {
       const formattedText = compact([
-        line.birthdate !== null ? getFormattedDate(parseISO(line.birthdate)) : undefined,
+        line.birthdate !== null ? getAge(parseISO(line.birthdate)) : undefined,
         guessHumanReadableTitleBasedOnGender(line.gender),
       ])
 
@@ -87,17 +87,27 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: 'Labels',
+    width: 80,
+    render: line => (
+      <>
+        {line.tags.map(tag => (
+          <Chip key={tag.label} label={tag.label} color={'primary'} sx={{ mb: line.tags.length > 1 ? 1 : 0 }} />
+        ))}
+      </>
+    ),
   },
   {
     title: 'Zone liée',
     subTitle: 'Comité',
     render: line => (
       <>
+        {line.zones.map(zone => (
+          <div key={zone.uuid}>
+            <Typography>{zone.name}</Typography>
+          </div>
+        ))}
         <div>
-          <Typography>{line.committee}</Typography>
-        </div>
-        <div>
-          <Typography color={'text.disabled'}>{line.city}</Typography>
+          <Typography color={'text.disabled'}>{line.committee}</Typography>
         </div>
       </>
     ),
@@ -109,13 +119,13 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: 'Abonnements',
-    render: () => (
+    render: line => (
       <Grid container spacing={2}>
         <Grid item>
-          <SubscriptionBadge type="phone" />
+          <SubscriptionBadge type="phone" isSubscribed={line.sms_subscription} />
         </Grid>
         <Grid item>
-          <SubscriptionBadge type="email" isSubscribed />
+          <SubscriptionBadge type="email" isSubscribed={line.email_subscription} />
         </Grid>
       </Grid>
     ),

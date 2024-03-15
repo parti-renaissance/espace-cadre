@@ -1,5 +1,6 @@
-import { format } from 'date-fns'
+import { differenceInCalendarYears, format } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import pluralize from '~/components/shared/pluralize/pluralize'
 
 export const dateFormat = 'P'
 export const timeFormat = 'p'
@@ -23,3 +24,9 @@ export const getNowFormattedDate = () => format(new Date(), humanReadableDate, l
 
 export const getShortDayName = (date: Date) => format(date, dateShortFormat, localeOptions)
 export const getDayNumber = (date: Date) => format(date, dateValueFormat, localeOptions)
+
+export const getAge = (date: Date) => {
+  const difference = differenceInCalendarYears(new Date(), date)
+
+  return difference + ' ' + pluralize(difference, 'an')
+}
