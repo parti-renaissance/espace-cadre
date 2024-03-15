@@ -2,13 +2,17 @@ import { ActivistTagEnum } from '~/models/activist.model'
 
 export const activistTagShape = {
   [ActivistTagEnum.ADHERENT]: {
-    color: '#C2E1FF',
+    // color: '#0D6A9C',
+    // bgColor: '#C2E1FF',
+    variant: 'outlined',
   },
   [ActivistTagEnum.SYMPATHISANT]: {
-    color: '#C2E1FF',
+    // color: 'white',
+    // bgColor: 'red',
+    variant: '#919EAB29',
   },
   [ActivistTagEnum.ELU]: {
-    color: '#C2E1FF',
-    variant: 'outlined',
+    // color: '#637381',
+    variant: '#919EAB29',
   },
 }

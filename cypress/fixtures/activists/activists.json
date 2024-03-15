@@ -1,7 +1,7 @@
 {
   "metadata": {
     "total_items": 3,
-    "items_per_page": 100,
+    "items_per_page": 25,
     "count": 3,
     "current_page": 1,
     "last_page": 1
@@ -14,13 +14,20 @@
       "postal_code": "75012",
       "city": "Paris 12\u00e8me",
       "country": "FR",
+      "gender": "male",
       "first_name": "Papa",
-      "birthdate": "1983-10-11T00:00:00+01:00",
       "last_name": "Test",
+      "birthdate": "1983-10-11T00:00:00+01:00",
+      "age": 40,
       "phone": null,
       "nationality": "FR",
+      "tags": [
+        {
+          "label": "Adh\u00e9sion incompl\u00e8te",
+          "type": "sympathisant"
+        }
+      ],
       "created_at": "2024-03-11T00:00:00+01:00",
-      "gender": "male",
       "interests": [],
       "last_membership_donation": null,
       "committee": "Comit\u00e9 du 12e",
@@ -30,6 +37,21 @@
       "declared_mandates": [],
       "cotisation_dates": [],
       "campus_registered_at": null,
+      "zones": [
+        {
+          "uuid": "5bfaea8c-835e-11eb-ba14-42010a84009d",
+          "type": "district",
+          "code": "75-8",
+          "name": "Paris (8)"
+        },
+        {
+          "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+          "type": "borough",
+          "code": "75112",
+          "name": "Paris 12\u00e8me"
+        }
+      ],
+      "certified": false,
       "renaissance_membership": "sympathizer_re",
       "city_code": "75056",
       "sms_subscription": true,
@@ -42,13 +64,20 @@
       "postal_code": "75",
       "city": "Paris",
       "country": "FR",
+      "gender": "female",
       "first_name": "Lima",
-      "birthdate": "1980-06-05T00:00:00+02:00",
       "last_name": "Test",
+      "birthdate": "1980-06-05T00:00:00+02:00",
+      "age": 43,
       "phone": null,
       "nationality": "FR",
+      "tags": [
+        {
+          "label": "Recotisation",
+          "type": "adherent"
+        }
+      ],
       "created_at": "2024-02-22T00:00:00+01:00",
-      "gender": "female",
       "interests": [],
       "last_membership_donation": "2024-02-22T00:00:00+01:00",
       "committee": "Paris Centre",
@@ -58,6 +87,15 @@
       "declared_mandates": [],
       "cotisation_dates": ["2022-01-16 17:29:00", "2023-01-16 00:00:00", "2023-12-22 21:13:48", "2024-02-22 00:00:00"],
       "campus_registered_at": null,
+      "zones": [
+        {
+          "uuid": "5bfae83b-835e-11eb-ba14-42010a84009d",
+          "type": "district",
+          "code": "75-1",
+          "name": "Paris (1)"
+        }
+      ],
+      "certified": false,
       "renaissance_membership": "adherent_re",
       "city_code": "75056",
       "sms_subscription": true,
@@ -70,13 +108,20 @@
       "postal_code": "75009",
       "city": "Paris 9\u00e8me",
       "country": "FR",
+      "gender": "male",
       "first_name": "Golf",
-      "birthdate": "1983-04-02T00:00:00+02:00",
       "last_name": "Test",
+      "birthdate": "1983-04-02T00:00:00+02:00",
+      "age": 40,
       "phone": null,
       "nationality": "FR",
+      "tags": [
+        {
+          "label": "Adh\u00e9sion incompl\u00e8te",
+          "type": "sympathisant"
+        }
+      ],
       "created_at": "2024-02-02T12:04:08+01:00",
-      "gender": "male",
       "interests": [],
       "last_membership_donation": null,
       "committee": "Comit\u00e9 du 9e",
@@ -86,6 +131,15 @@
       "declared_mandates": [],
       "cotisation_dates": [],
       "campus_registered_at": null,
+      "zones": [
+        {
+          "uuid": "5bfae83b-835e-11eb-ba14-42010a84009d",
+          "type": "district",
+          "code": "75-1",
+          "name": "Paris (1)"
+        }
+      ],
+      "certified": false,
       "renaissance_membership": "sympathizer_re",
       "city_code": "75056",
       "sms_subscription": false,

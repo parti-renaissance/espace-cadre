@@ -1,4 +1,4 @@
-import { Card, Chip, Grid, Typography } from '@mui/material'
+import { Card, Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
 import { PaginatedDataModel } from '~/models/common.model'
@@ -11,6 +11,8 @@ import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
 import Avatar from '~/mui/avatar/Avatar'
 import SubscriptionBadge from '~/components/Activists/SubscriptionBadge'
 import pluralize from '~/components/shared/pluralize/pluralize'
+import { activistTagShape } from '~/shared/activistTagShape'
+import { UIChip } from '~/ui/Card'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -80,8 +82,12 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
 
       return (
         <>
-          <strong>{fullName(line)}</strong>
-          <div>{formattedText.join(', ')}</div>
+          <div>
+            <Typography fontWeight={500}>{fullName(line)}</Typography>
+          </div>
+          <div>
+            <Typography color={'text.disabled'}>{formattedText.join(', ')}</Typography>
+          </div>
         </>
       )
     },
@@ -92,12 +98,12 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
     render: line => (
       <>
         {line.tags.map(tag => (
-          <Chip
+          <UIChip
             key={tag.label}
             label={tag.label}
-            // color={activistTagShape[tag.type]?.color}
-            // variant={activistTagShape[tag.type]?.variant}
             sx={{ mb: line.tags.length > 1 ? 1 : 0 }}
+            color={activistTagShape[tag.type]?.color ?? 'primary'}
+            bgcolor={activistTagShape[tag.type]?.bgColor ?? 'white'}
           />
         ))}
       </>

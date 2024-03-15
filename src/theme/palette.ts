@@ -373,6 +373,9 @@ const base = {
 
   // Alert banner
   backgroundError: '#FEEFEF',
+
+  // Tags color
+  activist: '#C2E1FF',
 }
 
 // ----------------------------------------------------------------------
