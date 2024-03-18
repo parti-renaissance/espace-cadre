@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Drawer, Grid, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DynamicFilters from '../Filters/DynamicFilters'
@@ -11,6 +11,7 @@ import useGetActivists from '~/api/Activist/Hooks/useGetActivists'
 import Activist from '~/domain/activist'
 import LoadingButton from '@mui/lab/LoadingButton'
 import useExportActivists from '~/api/Activist/Hooks/useExportActivists'
+import { random } from 'lodash'
 
 const messages = {
   title: 'Militants',
@@ -43,6 +44,54 @@ const Activists = () => {
       refetch()
     }
   }
+
+  const onLineClick = useCallback(
+    line =>
+      setMember(
+        new Activist(
+          line.first_name,
+          line.last_name,
+          line.gender,
+          line.country,
+          line.city_code,
+          line.city,
+          line.committee,
+          line.committee_uuid,
+          line.postal_code,
+          line.interests,
+          line.email_subscription,
+          line.last_membership_donation,
+          line.created_at,
+          line.adherent_uuid,
+          line
+        )
+      ),
+    []
+  )
+
+  const onRowPerPageChange = useCallback(rowsPerPageParam => {
+    setPerPage(rowsPerPageParam)
+    setPage(1)
+  }, [])
+
+  const List = useCallback(() => {
+    const r = random(0, 1e3)
+    return (
+      <>
+        <p>Render {r}</p>
+        <ActivistList
+          paginatedData={activists}
+          page={page}
+          onPageChange={setPage}
+          perPage={perPage}
+          onRowsPerPageChange={onRowPerPageChange}
+          isLoading={isFetching}
+          // Kept until #RE-1422 to be done.
+          onLineClick={onLineClick}
+        />
+      </>
+    )
+  }, [activists, isFetching, page, perPage])
 
   return (
     <Container maxWidth={false} data-cy="contacts-container">
@@ -82,39 +131,7 @@ const Activists = () => {
       </Accordion>
 
       <Box sx={{ mt: 4 }} className="space-y-4">
-        <ActivistList
-          paginatedData={activists ?? []}
-          page={page}
-          onPageChange={setPage}
-          perPage={perPage}
-          onRowsPerPageChange={rowsPerPageParam => {
-            setPerPage(rowsPerPageParam)
-            setPage(1)
-          }}
-          isLoading={isFetching}
-          // Kept until #RE-1422 to be done.
-          onLineClick={line =>
-            setMember(
-              new Activist(
-                line.first_name,
-                line.last_name,
-                line.gender,
-                line.country,
-                line.city_code,
-                line.city,
-                line.committee,
-                line.committee_uuid,
-                line.postal_code,
-                line.interests,
-                line.email_subscription,
-                line.last_membership_donation,
-                line.created_at,
-                line.adherent_uuid,
-                line
-              )
-            )
-          }
-        />
+        <List />
       </Box>
 
       <Drawer anchor="right" open={member !== null} onClose={handleDrawerClose}>
