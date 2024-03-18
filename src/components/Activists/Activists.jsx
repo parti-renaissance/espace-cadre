@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Drawer, Grid, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DynamicFilters from '../Filters/DynamicFilters'
@@ -11,11 +11,12 @@ import useGetActivists from '~/api/Activist/Hooks/useGetActivists'
 import Activist from '~/domain/activist'
 import LoadingButton from '@mui/lab/LoadingButton'
 import useExportActivists from '~/api/Activist/Hooks/useExportActivists'
-import { random } from 'lodash'
 
 const messages = {
   title: 'Militants',
 }
+
+const MemoActivistList = React.memo(ActivistList)
 
 const Activists = () => {
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
@@ -74,25 +75,6 @@ const Activists = () => {
     setPage(1)
   }, [])
 
-  const List = useCallback(() => {
-    const r = random(0, 1e3)
-    return (
-      <>
-        <p>Render {r}</p>
-        <ActivistList
-          paginatedData={activists}
-          page={page}
-          onPageChange={setPage}
-          perPage={perPage}
-          onRowsPerPageChange={onRowPerPageChange}
-          isLoading={isFetching}
-          // Kept until #RE-1422 to be done.
-          onLineClick={onLineClick}
-        />
-      </>
-    )
-  }, [activists, isFetching, page, perPage])
-
   return (
     <Container maxWidth={false} data-cy="contacts-container">
       <Grid container justifyContent="space-between">
@@ -131,7 +113,16 @@ const Activists = () => {
       </Accordion>
 
       <Box sx={{ mt: 4 }} className="space-y-4">
-        <List />
+        <MemoActivistList
+          paginatedData={activists}
+          page={page}
+          onPageChange={setPage}
+          perPage={perPage}
+          onRowsPerPageChange={onRowPerPageChange}
+          isLoading={isFetching}
+          // Kept until #RE-1422 to be done.
+          onLineClick={onLineClick}
+        />
       </Box>
 
       <Drawer anchor="right" open={member !== null} onClose={handleDrawerClose}>
