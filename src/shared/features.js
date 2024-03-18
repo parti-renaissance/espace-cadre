@@ -1,3 +1,4 @@
+// Kept for retro-compatibility, new ones are in src/models/feature.enum.ts
 const features = {
   dashboard: 'dashboard',
   contacts: 'contacts',

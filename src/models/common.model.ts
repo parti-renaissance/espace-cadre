@@ -20,3 +20,8 @@ export interface MetadataModel {
   current_page: number
   last_page: number
 }
+
+export interface MinMaxModel {
+  min: number
+  max: number
+}

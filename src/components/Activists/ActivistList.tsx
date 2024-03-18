@@ -1,4 +1,4 @@
-import { Card, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
 import { PaginatedDataModel } from '~/models/common.model'
@@ -46,22 +46,20 @@ export default function ActivistList({
   )
 
   return (
-    <Card>
-      <CustomTable
-        headerSx={{ px: 2 }}
-        footerSx={{ px: 2 }}
-        tableSx={{ minWidth: 800 }}
-        data={mappedData ?? []}
-        onPageChange={onPageChange}
-        page={page}
-        rowsPerPage={perPage}
-        onRowsPerPageChange={onRowsPerPageChange}
-        total={paginatedData?.metadata?.total_items ?? 0}
-        isLoading={isLoading}
-        columns={ActivistColumnDefinition}
-        onLineClick={onLineClick}
-      />
-    </Card>
+    <CustomTable
+      headerSx={{ px: 2 }}
+      footerSx={{ px: 2 }}
+      tableSx={{ minWidth: 800 }}
+      data={mappedData ?? []}
+      onPageChange={onPageChange}
+      page={page}
+      rowsPerPage={perPage}
+      onRowsPerPageChange={onRowsPerPageChange}
+      total={paginatedData?.metadata?.total_items ?? 0}
+      isLoading={isLoading}
+      columns={ActivistColumnDefinition}
+      onLineClick={onLineClick}
+    />
   )
 }
 

@@ -5,21 +5,38 @@ import ErrorComponent from '~/components/ErrorComponent'
 import Loader from '~/ui/Loader'
 import { getFilters } from '~/api/filters'
 
-const DynamicFilters = ({ feature, values, onSubmit, onReset, onValuesChange, buttonContainerStyle }) => {
-  const [filters, setFilters] = useState([])
+const DynamicFilters = ({
+  feature,
+  values,
+  onSubmit,
+  onReset,
+  onValuesChange,
+  buttonContainerStyle,
+  apiFilters,
+  fetchFilters,
+}) => {
+  const [filters, setFilters] = useState(apiFilters ?? [])
   const [errorMessage, setErrorMessage] = useState()
 
   useEffect(() => {
-    const getColumnsTitle = async () => {
-      try {
-        await getFilters(feature, setFilters)
-      } catch (error) {
-        setErrorMessage(error)
-      }
+    if (apiFilters) {
+      setFilters(apiFilters)
     }
+  }, [apiFilters])
 
-    getColumnsTitle()
-  }, [feature])
+  useEffect(() => {
+    if (fetchFilters && feature) {
+      const getColumnsTitle = async () => {
+        try {
+          await getFilters(feature, setFilters)
+        } catch (error) {
+          setErrorMessage(error)
+        }
+      }
+
+      getColumnsTitle()
+    }
+  }, [fetchFilters, feature])
 
   if (errorMessage) {
     return <ErrorComponent errorMessage={errorMessage} />
@@ -51,6 +68,7 @@ DynamicFilters.defaultProps = {
   onReset: null,
   values: {},
   buttonContainerStyle: {},
+  fetchFilters: true,
 }
 
 DynamicFilters.propTypes = {
@@ -61,4 +79,6 @@ DynamicFilters.propTypes = {
   values: PropTypes.object,
   defaultValues: PropTypes.object,
   buttonContainerStyle: PropTypes.object,
+  apiFilters: PropTypes.array,
+  fetchFilters: PropTypes.bool,
 }
