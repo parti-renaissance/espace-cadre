@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Drawer, Grid, Typography } from '@mui/material'
-import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DynamicFilters from '../Filters/DynamicFilters'
-import { exportActivists } from '~/api/activist'
 import features from '~/shared/features'
 import PageHeader from '~/ui/PageHeader'
-import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import Member from './Member/Member'
 import { useUserScope } from '~/redux/user/hooks'
 import ActivistList from '~/components/Activists/ActivistList'
 import useGetActivists from '~/api/Activist/Hooks/useGetActivists'
+import Activist from '~/domain/activist'
+import LoadingButton from '@mui/lab/LoadingButton'
+import useExportActivists from '~/api/Activist/Hooks/useExportActivists'
 
 const messages = {
   title: 'Militants',
@@ -21,9 +21,8 @@ const Activists = () => {
   const [filters, setFilters] = useState(defaultFilter)
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
-  const [loader, setLoader] = useState(false)
   const [page, setPage] = useState(1)
-  const [perPage, setPerPage] = useState(25)
+  const [perPage, setPerPage] = useState(100)
 
   const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
 
@@ -33,12 +32,10 @@ const Activists = () => {
     refetch,
   } = useGetActivists({ ...filters, zones: filters.zones.map(z => z.uuid), page, itemsPerPage: perPage })
 
-  const handleExport = async () => {
-    setLoader(true)
-    const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
-    await exportActivists(filter)
-    setLoader(false)
-  }
+  const { mutate: exportActivists, isLoading: isExporting } = useExportActivists({
+    ...filters,
+    zones: filters.zones.map(z => z.uuid),
+  })
 
   const handleDrawerClose = () => {
     setMember(null)
@@ -54,7 +51,9 @@ const Activists = () => {
           title={messages.title}
           button={
             currentScope.hasFeature(features.contacts_export) && (
-              <PageHeaderButton onClick={handleExport} label="Exporter" icon={<FileDownloadIcon />} isMainButton />
+              <LoadingButton variant="contained" loading={isExporting} onClick={exportActivists}>
+                Exporter
+              </LoadingButton>
             )
           }
         />
@@ -88,8 +87,33 @@ const Activists = () => {
           page={page}
           onPageChange={setPage}
           perPage={perPage}
-          onRowsPerPageChange={setPerPage}
+          onRowsPerPageChange={rowsPerPageParam => {
+            setPerPage(rowsPerPageParam)
+            setPage(1)
+          }}
           isLoading={isFetching}
+          // Kept until #RE-1422 to be done.
+          onLineClick={line =>
+            setMember(
+              new Activist(
+                line.first_name,
+                line.last_name,
+                line.gender,
+                line.country,
+                line.city_code,
+                line.city,
+                line.committee,
+                line.committee_uuid,
+                line.postal_code,
+                line.interests,
+                line.email_subscription,
+                line.last_membership_donation,
+                line.created_at,
+                line.adherent_uuid,
+                line
+              )
+            )
+          }
         />
       </Box>
 

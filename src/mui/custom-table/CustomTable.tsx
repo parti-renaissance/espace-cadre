@@ -20,6 +20,8 @@ import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/Custo
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Scrollbar from '~/mui/scrollbar'
+import { formatToFrenchNumberString } from '~/utils/numbers'
+import { fontWeight } from '~/theme/typography'
 
 export interface TableProps<DataType extends RowWithIdModel> extends TableContainerProps {
   columns: CustomTableColumnModel<DataType>[]
@@ -31,8 +33,12 @@ export interface TableProps<DataType extends RowWithIdModel> extends TableContai
   onRowsPerPageChange?: (rowsPerPage: number) => void
   sx?: SxProps<Theme>
   tableSx?: SxProps<Theme>
+  headerSx?: SxProps<Theme>
+  footerSx?: SxProps<Theme>
   isLoading?: boolean
   total?: number
+  hover?: boolean
+  onLineClick?: (line: DataType) => void
 }
 
 const LineSkeleton = ({ columns }: { columns: unknown[] }) => (
@@ -54,15 +60,20 @@ const skeletonArray = generateFixedArray(10)
  *         width: 150,
  *         render: value => <strong>{value.id}</strong>,
  *       },] )
- * @param onRowsPerPageChange
+ * @param onRowsPerPageChange event when selected a new count of rows per page, take care of resetting page to 1 when done.
  * @param onPageChange
- * @param sx
- * @param tableSx
+ * @param sx theme applied to global "TableContainer" (this component first level)
+ * @param tableSx theme which only apply to html "table" element
+ * @param headerSx theme which apply to header (count and pagination)
+ * @param footerSx theme which apply to footer (pagination at the moment)
  * @param total
  * @param rowsPerPage
  * @param rowsPerPageOptions
  * @param isLoading show skeleton while loading
  * @param page
+ * @param hover enable hovering grey background
+ * @param onLineClick line click handler, the cursor turn to pointer style when specified
+ * @param rest @see MUI's TableContainer documentation
  * @constructor
  */
 export default function CustomTable<DataType extends RowWithIdModel>({
@@ -72,11 +83,15 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   onPageChange,
   sx,
   tableSx,
+  headerSx,
+  footerSx,
   total = 0,
-  rowsPerPage = 25,
-  rowsPerPageOptions = [25, 50, 100],
+  rowsPerPage = 100,
+  rowsPerPageOptions = [100, 50, 25],
   isLoading = false,
   page = 1,
+  hover = true,
+  onLineClick,
   ...rest
 }: TableProps<DataType>) {
   const Pagination = useCallback(
@@ -98,10 +113,13 @@ export default function CustomTable<DataType extends RowWithIdModel>({
 
   return (
     <TableContainer sx={{ overflow: 'unset', ...sx }} {...rest}>
-      <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+      <Grid container spacing={2} sx={{ alignItems: 'center', ...headerSx }}>
         <Grid item xs={2}>
-          <Typography>
-            {pluralize(total, 'Résultat')} : <strong data-testid="result-count">{total}</strong>
+          <Typography fontWeight={400}>
+            <Typography color={'text.secondary'}>{pluralize(total, 'Résultat')} : </Typography>
+            <Typography fontWeight={fontWeight.medium} data-testid="result-count">
+              {formatToFrenchNumberString(total)}
+            </Typography>
           </Typography>
         </Grid>
         <Grid item xs={10}>
@@ -116,7 +134,12 @@ export default function CustomTable<DataType extends RowWithIdModel>({
             {isLoading
               ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)
               : data.map(el => (
-                  <TableRow key={el.id}>
+                  <TableRow
+                    hover={hover}
+                    key={el.id}
+                    onClick={() => onLineClick?.(el)}
+                    sx={{ cursor: onLineClick ? 'pointer' : 'inherit' }}
+                  >
                     {columns
                       .filter(col => col.hidden === false || col.hidden === undefined)
                       .map(col => {
@@ -142,7 +165,9 @@ export default function CustomTable<DataType extends RowWithIdModel>({
         </Table>
       </Scrollbar>
 
-      <Pagination />
+      <Grid sx={footerSx}>
+        <Pagination />
+      </Grid>
     </TableContainer>
   )
 }

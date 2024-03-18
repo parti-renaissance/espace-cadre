@@ -8,6 +8,7 @@ export default function useGetActivists(filters: Record<string, unknown>) {
   return useQuery({
     queryKey: [ActivistServiceKey, filters],
     queryFn: () => ActivistService.get(filters),
+    keepPreviousData: true,
     onError: handleError,
   })
 }
