@@ -1,5 +1,4 @@
-import { VisibilityEvent } from '~/domain/event'
-import { EventGroupCategory } from '~/domain/event'
+import { VisibilityEvent, EventGroupCategory } from '~/domain/event'
 
 export interface Category {
   slug: string
