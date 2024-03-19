@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Drawer, Grid, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DynamicFilters from '../Filters/DynamicFilters'
@@ -16,7 +16,7 @@ const messages = {
   title: 'Militants',
 }
 
-const MemoActivistList = React.memo(ActivistList)
+const MemoActivistList = memo(ActivistList)
 
 const Activists = () => {
   const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
@@ -28,11 +28,12 @@ const Activists = () => {
 
   const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
 
-  const {
-    data: activists,
-    isFetching,
-    refetch,
-  } = useGetActivists({ ...filters, zones: filters.zones.map(z => z.uuid), page, itemsPerPage: perPage })
+  const { data: activists, isFetching } = useGetActivists({
+    ...filters,
+    zones: filters.zones.map(z => z.uuid),
+    page,
+    itemsPerPage: perPage,
+  })
 
   const { mutate: exportActivists, isLoading: isExporting } = useExportActivists({
     ...filters,
@@ -41,34 +42,29 @@ const Activists = () => {
 
   const handleDrawerClose = () => {
     setMember(null)
-    if (isElectFeatureEnabled) {
-      refetch()
-    }
   }
 
-  const onLineClick = useCallback(
-    line =>
-      setMember(
-        new Activist(
-          line.first_name,
-          line.last_name,
-          line.gender,
-          line.country,
-          line.city_code,
-          line.city,
-          line.committee,
-          line.committee_uuid,
-          line.postal_code,
-          line.interests,
-          line.email_subscription,
-          line.last_membership_donation,
-          line.created_at,
-          line.adherent_uuid,
-          line
-        )
-      ),
-    []
-  )
+  const onLineClick = useCallback(line => {
+    setMember(
+      new Activist(
+        line.first_name,
+        line.last_name,
+        line.gender,
+        line.country,
+        line.city_code,
+        line.city,
+        line.committee,
+        line.committee_uuid,
+        line.postal_code,
+        line.interests,
+        line.email_subscription,
+        line.last_membership_donation,
+        line.created_at,
+        line.adherent_uuid,
+        line
+      )
+    )
+  }, [])
 
   const onRowPerPageChange = useCallback(rowsPerPageParam => {
     setPerPage(rowsPerPageParam)

@@ -2,7 +2,7 @@ import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { deleteMandate, getAdherentElect, updateAdherentElect } from '~/api/activist'
 import Loader from '~/ui/Loader'
 import { Box, CircularProgress, FormControlLabel, Grid, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
@@ -18,12 +18,14 @@ import Badge from '~/ui/Badge/Badge'
 import { parseMandates } from '~/components/Activists/helper'
 import BadgesList from '~/ui/Badge/BadgesList'
 import { Checkbox } from '~/ui/Checkbox/Checkbox'
+import { ActivistServiceKey } from '~/api/Activist/Activist.service'
 
 const ElectedTab = ({ adherentUuid }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const [mandate, setMandate] = useState(null)
   const [exemptFromCotisation, setExemptFromCotisation] = useState(false)
+  const client = useQueryClient()
 
   const {
     data: adherentElect,
@@ -31,12 +33,15 @@ const ElectedTab = ({ adherentUuid }) => {
     refetch,
   } = useQueryWithScope(['adherent-elect', adherentUuid], () => getAdherentElect(adherentUuid), {
     onError: handleError,
-    onSuccess: data => setExemptFromCotisation(!!data.exempt_from_cotisation),
+    onSuccess: data => {
+      setExemptFromCotisation(!!data.exempt_from_cotisation)
+    },
   })
 
   const { mutate: removeMandate } = useMutation(deleteMandate, {
     onSuccess: () => {
       enqueueSnackbar('Mandat supprimé', notifyVariants.success)
+      client.invalidateQueries([ActivistServiceKey])
       refetch()
     },
     onError: handleError,
@@ -48,7 +53,9 @@ const ElectedTab = ({ adherentUuid }) => {
     isError,
     isLoading,
   } = useMutation(updateAdherentElect, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      client.invalidateQueries([ActivistServiceKey])
+    },
     onError: handleError,
   })
 
