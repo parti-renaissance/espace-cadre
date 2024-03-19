@@ -15,7 +15,7 @@ describe('Activists', () => {
       '/api/v3/adherent_messages?order[created_at]=desc&page=1&page_size=20&scope=referent',
       'messagerie/messages'
     )
-    mock('GET', '/api/v3/adherents?page=1&itemsPerPage=100&scope=referent', 'activists/activists')
+    mock('GET', '/api/v3/adherents?page=1&itemsPerPage=25&scope=referent', 'activists/activists')
     mock('GET', '/api/v3/filters?feature=contacts&scope=referent', 'activists/filters')
     mock('GET', '/api/v3/adherents?page=1&firstName=Jean&scope=referent', 'activists/activists-filtered')
 
