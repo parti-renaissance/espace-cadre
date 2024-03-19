@@ -53,7 +53,7 @@ const MessageList = (props: MessageListProps) => (
     <TransitionGroup component={null}>
       {props.messages.map(message => (
         <CSSTransition key={message.id} timeout={500} classNames="item">
-          <Grid item xs={12} sm={6} md={4} xl={3} data-cy="email-campaign-card">
+          <Grid item xs={12} sm={6} md={4} xl={3}>
             <MessageCard
               message={message}
               onPopoverOpen={props.onPopoverOpen}
@@ -107,7 +107,7 @@ const SearchBox = (props: SearchBoxProps) => {
   }
 
   return (
-    <Stack direction="column" gap={8} data-cy="sent-campaigns-container">
+    <Stack direction="column" gap={8}>
       <Grid container>
         <Grid item xs={12} sm={6} md={4}>
           <TextField
@@ -218,7 +218,7 @@ const SentEmailCampaigns = ({ isMailsStatutory = false }) => {
   )
 
   return (
-    <Stack direction="column" gap={8} data-cy="sent-campaigns-container">
+    <Stack direction="column" gap={8}>
       <SearchBox onPopoverOpen={onPopoverOpen} isMailsStatutory={isMailsStatutory} />
       <MessageDraftSection onPopoverOpen={onPopoverOpen} isMailsStatutory={isMailsStatutory} />
       <MessageSentSection onPopoverOpen={onPopoverOpen} isMailsStatutory={isMailsStatutory} />
