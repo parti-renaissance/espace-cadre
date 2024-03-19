@@ -6,9 +6,6 @@ const DotMenu = '[data-cy="dot-action-menu"]'
 const BadgeStatus = '[data-cy="badge-status"]'
 const PageHeaderButton = '[data-cy="ui-page-header-button"]'
 const PageHeaderTitle = '[data-cy="ui-page-header"]'
-const Modale = '.MuiDialog-paper[role="dialog"]'
-const InputName = 'input[name="name"]'
-const Select = '.MuiSelect-select'
 const Typography = '.MuiTypography-root'
 
 describe('Events', () => {
