@@ -6,7 +6,7 @@ import { EventAction } from '~/components/Events/pages/list/components/CardEvent
 type ActionButton = {
   label: string
   canShow: boolean
-  onClick: (event: Event) => void
+  actionEvent: EventAction
 }
 
 const Actions = ({ event, onClick }: ActionsProps) => {
@@ -14,22 +14,22 @@ const Actions = ({ event, onClick }: ActionsProps) => {
     {
       label: "Voir l'événement",
       canShow: true,
-      onClick: () => onClick('detail'),
+      actionEvent: 'detail',
     },
     {
       label: 'Modifier',
       canShow: !!event.scheduled,
-      onClick: () => onClick('edit'),
+      actionEvent: 'edit',
     },
     {
       label: 'Annuler',
       canShow: !!event.scheduled,
-      onClick: () => onClick('cancel'),
+      actionEvent: 'cancel',
     },
     {
       label: 'Supprimer',
       canShow: event.attendees <= 1,
-      onClick: () => onClick('delete'),
+      actionEvent: 'delete',
     },
   ]
 
@@ -42,7 +42,7 @@ const Actions = ({ event, onClick }: ActionsProps) => {
             sx={{ cursor: action.canShow ? 'pointer' : 'not-allowed' }}
             onClick={() => {
               if (action.canShow) {
-                action.onClick(event)
+                onClick(action.actionEvent)
               }
             }}
           >

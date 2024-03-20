@@ -183,12 +183,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     if (editable) {
       mutation({
         event: data,
-        type: 'public',
       })
     } else {
       mutation({
         event: data,
-        type: 'public',
       })
     }
   }

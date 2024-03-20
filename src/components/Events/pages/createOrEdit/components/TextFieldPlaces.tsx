@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { TextField } from '@mui/material'
 import { Place } from '~/domain/place'
-import AlertBanner from '~/ui/AlertBanner'
+
+import 'google.maps'
 
 const messages = {
   address: 'Adresse',
 }
 
-const selectPlace = (address: unknown) => {
+const selectPlace = (address: google.maps.GeocoderAddressComponent[] | undefined) => {
   if (!address) {
     return Place.NULL
   }
@@ -28,8 +29,8 @@ type TextFieldPlacesProps = {
 
 const TextFieldPlaces = ({ onSelectPlace, initialValue = '', ...props }: TextFieldPlacesProps) => {
   const [address, setAddress] = useState(initialValue)
-  const autoCompleteRef = useRef(null)
-  const autoComplete = useRef(null)
+  const autoCompleteRef = useRef<HTMLInputElement | null>(null)
+  const autoComplete = useRef<google.maps.places.Autocomplete | null>(null)
 
   const handlePlaceSelect = useCallback(() => {
     const addressObject = autoComplete?.current?.getPlace()
@@ -40,6 +41,9 @@ const TextFieldPlaces = ({ onSelectPlace, initialValue = '', ...props }: TextFie
   }, [autoComplete, setAddress, onSelectPlace])
 
   useEffect(() => {
+    if (!autoCompleteRef.current) {
+      return
+    }
     autoComplete.current = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
       fields: ['address_components'],
       types: ['address'],

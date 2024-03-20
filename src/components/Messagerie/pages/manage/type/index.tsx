@@ -1,5 +1,5 @@
 import TypeSelector from './TypeSelector'
-import { Button, Container, Stack } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import ManageLayout from '~/components/Messagerie/pages/manage/Layout'
 import { useNavigate } from 'react-router-dom'
 import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'

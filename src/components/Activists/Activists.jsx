@@ -21,7 +21,6 @@ const Activists = () => {
   const [filters, setFilters] = useState(defaultFilter)
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
-  const [loader, setLoader] = useState(false)
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(25)
 
@@ -34,10 +33,8 @@ const Activists = () => {
   } = useGetActivists({ ...filters, zones: filters.zones.map(z => z.uuid), page, itemsPerPage: perPage })
 
   const handleExport = async () => {
-    setLoader(true)
     const filter = { ...filters, zones: filters.zones.map(z => z.uuid) }
     await exportActivists(filter)
-    setLoader(false)
   }
 
   const handleDrawerClose = () => {

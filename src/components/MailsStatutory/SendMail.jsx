@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { styled } from '@mui/system'
 import { useMutation } from '@tanstack/react-query'
 import { Button, Container, Grid, Typography } from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   getMessage as getMessageApi,

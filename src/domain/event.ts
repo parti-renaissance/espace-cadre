@@ -2,14 +2,6 @@ import PropTypes from 'prop-types'
 import { parseDate } from '~/shared/helpers'
 import { z } from 'zod'
 import { Place } from '~/domain/place'
-/*export interface Place {
-  id: string
-  address: string
-  postalCode: string
-  cityName: string
-  country: string
-}*/
-
 export class Attendee {
   static propTypes = {
     firstName: PropTypes.string.isRequired,

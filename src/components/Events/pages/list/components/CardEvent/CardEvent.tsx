@@ -10,6 +10,7 @@ import { addressFormatted } from './helpers'
 import BadgeStatus from './components/badgeStatus'
 import ActionPopover from './components/actionPopOver'
 import { Event } from '~/domain/event'
+import type { Event as EventType } from '~/components/Events/shared/types'
 
 export type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
 
@@ -173,7 +174,11 @@ const CardEvent = ({ event }: CardEventProps) => {
         </Box>
       </CardContent>
 
-      <ActionPopover popover={popover} event={event} onClick={action => handleDefineAction?.(action)} />
+      <ActionPopover
+        popover={popover}
+        event={event as unknown as EventType}
+        onClick={action => handleDefineAction?.(action)}
+      />
     </Card>
   )
 }

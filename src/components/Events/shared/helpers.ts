@@ -1,6 +1,4 @@
-import { format, parseISO } from 'date-fns'
 import { format as formatTz, utcToZonedTime } from 'date-fns-tz'
-import { fr } from 'date-fns/locale'
 
 export const getFileBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {

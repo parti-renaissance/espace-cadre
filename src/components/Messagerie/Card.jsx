@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import { Box, Typography } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { generatePath, useNavigate } from 'react-router'
 import noImage from '~/assets/no-image.png'
-import { paths as messageriePaths } from '~/components/Messagerie/shared/paths'
 import Button from '~/ui/Button/Button'
 import UICard from '~/ui/Card'
 

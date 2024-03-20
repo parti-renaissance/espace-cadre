@@ -88,6 +88,7 @@
     "@sentry/vite-plugin": "^2.10.3",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/react": "^14.1.2",
+    "@types/google.maps": "^3.55.5",
     "@types/lodash": "^4.14.202",
     "@types/qs": "^6.9.12",
     "@typescript-eslint/eslint-plugin": "^6.21.0",

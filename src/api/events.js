@@ -1,7 +1,6 @@
 import { newPaginatedResult } from '~/api/pagination'
 import { Event, EventCategory, EventGroupCategory } from '~/domain/event'
 import { apiClient, apiClientPublic } from '~/services/networking/client'
-import { formatDate } from '~/shared/helpers'
 
 const eventToJson = event => ({
   name: event.name,
@@ -95,7 +94,7 @@ export const getCategories = async () => {
 
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
 export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}/cancel`)
-export const createEvent = async ({ event, type }) => {
+export const createEvent = async ({ event }) => {
   const data = await apiClient.post('/api/v3/events', eventToJson(event))
   return data.uuid
 }
