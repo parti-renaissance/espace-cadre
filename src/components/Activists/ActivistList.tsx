@@ -1,12 +1,21 @@
-import { Card } from '@mui/material'
+import { Card, Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
-import { GenderEnum, PaginatedDataModel } from '~/models/common.model'
+import { PaginatedDataModel } from '~/models/common.model'
 import { useMemo } from 'react'
-import { fullName } from '~/utils/fullName'
+import { fullName, getInitials, guessHumanReadableTitleBasedOnGender } from '~/utils/names'
 import { getFormattedDate } from '~/utils/date'
 import { parseISO } from 'date-fns'
 import { compact } from 'lodash'
+import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
+import Avatar from '~/mui/avatar/Avatar'
+import SubscriptionBadge from '~/components/Activists/SubscriptionBadge'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import { activistTagShape } from '~/shared/activistTagShape'
+import { UIChip } from '~/ui/Card'
+import { tagsColor } from '~/theme/palette'
+import { fontWeight } from '~/theme/typography'
+import ActivistZoneCell from '~/components/Activists/TableComponents/ActivistZoneCell'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -15,6 +24,7 @@ interface ActivistListProps {
   perPage?: number
   onRowsPerPageChange?: (rowsPerPage: number) => void
   isLoading?: boolean
+  onLineClick?: (line: ActivistModel) => void
 }
 
 export default function ActivistList({
@@ -24,6 +34,7 @@ export default function ActivistList({
   perPage,
   onRowsPerPageChange,
   isLoading,
+  onLineClick,
 }: ActivistListProps) {
   const mappedData = useMemo(
     () =>
@@ -35,8 +46,10 @@ export default function ActivistList({
   )
 
   return (
-    <Card sx={{ p: 2 }}>
+    <Card>
       <CustomTable
+        headerSx={{ px: 2 }}
+        footerSx={{ px: 2 }}
         tableSx={{ minWidth: 800 }}
         data={mappedData ?? []}
         onPageChange={onPageChange}
@@ -45,52 +58,95 @@ export default function ActivistList({
         onRowsPerPageChange={onRowsPerPageChange}
         total={paginatedData?.metadata?.total_items ?? 0}
         isLoading={isLoading}
-        columns={[
-          {
-            index: 'id',
-            title: 'ID',
-            hidden: true,
-          },
-          {
-            title: 'Militants',
-            subTitle: 'Âge, civilité',
-            render: line => {
-              const formattedText = compact([
-                line.birthdate !== null ? getFormattedDate(parseISO(line.birthdate)) : undefined,
-                line.gender === GenderEnum.MALE ? 'Monsieur' : 'Madame',
-              ])
-
-              return (
-                <>
-                  <strong>{fullName(line)}</strong>
-                  <div>{formattedText.join(', ')}</div>
-                </>
-              )
-            },
-          },
-          {
-            title: 'Labels',
-          },
-          {
-            title: 'Zone liée',
-            subTitle: 'Comité',
-            render: line => (
-              <>
-                <strong>{line.committee}</strong>
-                <div>{line.city}</div>
-              </>
-            ),
-          },
-          {
-            title: 'Date d’inscription',
-            index: 'created_at',
-            render: line => getFormattedDate(parseISO(line.created_at)),
-          },
-          {
-            title: 'Abonnements',
-          },
-        ]}
+        columns={ActivistColumnDefinition}
+        onLineClick={onLineClick}
       />
     </Card>
   )
 }
+
+const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: string }>[] = [
+  {
+    index: 'id',
+    title: 'ID',
+    hidden: true,
+  },
+  {
+    title: '',
+    minWidth: 50,
+    render: line => <Avatar initials={getInitials(line)} />,
+  },
+  {
+    title: 'Militants',
+    minWidth: 150,
+    subTitle: 'Âge, civilité',
+    render: line => {
+      const formattedText = compact([
+        line.birthdate !== null ? `${line.age} ${pluralize(line.age, 'an')}` : undefined,
+        guessHumanReadableTitleBasedOnGender(line.gender),
+      ])
+
+      return (
+        <>
+          <div>
+            <Typography variant="body2" fontWeight={fontWeight.medium}>
+              {fullName(line)}
+            </Typography>
+          </div>
+          <div>
+            <Typography variant="body2" color={'text.disabled'}>
+              {formattedText.join(', ')}
+            </Typography>
+          </div>
+        </>
+      )
+    },
+  },
+  {
+    title: 'Labels',
+    render: line => (
+      <>
+        {line.tags.map(tag => (
+          <UIChip
+            key={tag.label}
+            label={tag.label}
+            sx={{ mb: line.tags.length > 1 ? 1 : 0 }}
+            labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
+            color={activistTagShape[tag.type]?.color ?? tagsColor.unknownText}
+            variant={activistTagShape[tag.type]?.variant ?? 'contained'}
+            bgcolor={activistTagShape[tag.type]?.bgColor ?? tagsColor.unknownBackground}
+          />
+        ))}
+      </>
+    ),
+  },
+  {
+    title: 'Zone liée',
+    minWidth: 200,
+    subTitle: 'Circonscription, Commune, Comité',
+    render: ActivistZoneCell,
+  },
+  {
+    title: 'Date d’inscription',
+    minWidth: 150,
+    index: 'created_at',
+    render: line => (
+      <Typography variant="body2" color={'text.disabled'}>
+        {getFormattedDate(parseISO(line.created_at))}
+      </Typography>
+    ),
+  },
+  {
+    title: 'Abonnements',
+    render: line => (
+      <Grid container spacing={2}>
+        <Grid item>
+          <SubscriptionBadge type="phone" isSubscribed={line.sms_subscription} isEligible={Boolean(line.phone)} />
+        </Grid>
+        <Grid item>
+          <SubscriptionBadge type="email" isSubscribed={line.email_subscription} isEligible={Boolean(line.email)} />
+        </Grid>
+      </Grid>
+    ),
+  },
+]

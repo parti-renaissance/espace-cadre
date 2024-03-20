@@ -100,6 +100,17 @@ export const common = {
   white: '#FFFFFF',
 }
 
+export const tagsColor = {
+  unknownText: '#637381',
+  unknownBackground: '#EDEFF2',
+  variant1Text: '#0274B1',
+  variant1Background: '#D6EBFF',
+  variant2Text: '#8B5311',
+  variant2Background: '#FFF0DE',
+  variant3Text: '#762BD8',
+  variant3Background: '#EEE2FF',
+}
+
 export const action = {
   hover: alpha(grey[500], 0.08),
   selected: alpha(grey[500], 0.16),

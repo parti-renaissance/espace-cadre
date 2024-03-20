@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { ZoneEnum } from '~/models/activist.model'
 
 export class Zone {
   constructor(id, name, code) {
@@ -13,20 +14,8 @@ export class Zone {
   })
 }
 
-export const zoneTypes = {
-  COUNTRY: 'country',
-  CUSTOM: 'custom',
-  REGION: 'region',
-  DEPARTMENT: 'department',
-  DISTRICT: 'district',
-  CITY: 'city',
-  BOROUGH: 'borough',
-  CITY_COMMUNITY: 'city_community',
-  CANTON: 'canton',
-  FOREIGN_DISTRICT: 'foreign_district',
-  CONSULAR_DISTRICT: 'consular_district',
-  VOTE_PLACE: 'vote_place',
-}
+// Kept for retro-compatibility during progressive migration to typescript
+export const zoneTypes = ZoneEnum
 
 export const zoneLabels = {
   [zoneTypes.COUNTRY]: 'Pays',

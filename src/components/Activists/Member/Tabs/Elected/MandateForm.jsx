@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Grid, FormControlLabel, Typography } from '@mui/material'
-import { useForm, Controller } from 'react-hook-form'
+import { Box, FormControlLabel, Grid, Typography } from '@mui/material'
+import { Controller, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { DatePicker } from '@mui/x-date-pickers'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
@@ -19,6 +19,7 @@ import { Mandate } from '~/domain/mandate'
 import FormError from '~/components/shared/error/FormError'
 import { createMandate, updateMandate } from '~/api/activist'
 import { camelCase } from 'lodash/string'
+import { ActivistServiceKey } from '~/api/Activist/Activist.service'
 
 const fields = {
   mandateType: 'mandateType',
@@ -41,6 +42,7 @@ const mandateSchema = Yup.object({
 const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
   const [selectedZone, setSelectedZone] = useState(mandate?.zone)
   const { enqueueSnackbar } = useCustomSnackbar()
+  const queryClient = useQueryClient()
 
   const defaultValues = mandateSchema.cast(
     { ...mandate, onGoing: !mandate.finishAt },
@@ -68,6 +70,7 @@ const MandateModalForm = ({ adherentUuid, mandate, handleClose, ...props }) => {
     onSuccess: () => {
       reset()
       enqueueSnackbar('Le mandat a été enregistré', notifyVariants.success)
+      queryClient.invalidateQueries([ActivistServiceKey])
       handleClose(true)
     },
     onError: ({ response: { data = {} } }) => {
