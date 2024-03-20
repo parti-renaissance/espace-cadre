@@ -23,9 +23,7 @@ class TextFactory {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder={
-          isResearch && !filter.place_holder ? 'Prénom, nom, email, numéro adhérent...' : filter.place_holder
-        }
+        placeholder={isResearch && !filter.placeholder ? 'Prénom, nom, email, numéro adhérent...' : filter.placeholder}
         name={filter.code}
         label={!isResearch ? filter.label : undefined}
         value={value}
