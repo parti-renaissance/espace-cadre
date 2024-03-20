@@ -15,6 +15,7 @@ import { activistTagShape } from '~/shared/activistTagShape'
 import { UIChip } from '~/ui/Card'
 import { tagsColor } from '~/theme/palette'
 import { fontWeight } from '~/theme/typography'
+import ActivistZoneCell from '~/components/Activists/TableComponents/ActivistZoneCell'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -72,11 +73,12 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: '',
-    width: 80,
+    minWidth: 50,
     render: line => <Avatar initials={getInitials(line)} />,
   },
   {
     title: 'Militants',
+    minWidth: 150,
     subTitle: 'Âge, civilité',
     render: line => {
       const formattedText = compact([
@@ -87,7 +89,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
       return (
         <>
           <div>
-            <Typography variant="body2" fontWeight={fontWeight.regular}>
+            <Typography variant="body2" fontWeight={fontWeight.medium}>
               {fullName(line)}
             </Typography>
           </div>
@@ -102,7 +104,6 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: 'Labels',
-    width: 80,
     render: line => (
       <>
         {line.tags.map(tag => (
@@ -121,26 +122,13 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: 'Zone liée',
-    subTitle: 'Comité',
-    render: line => (
-      <>
-        {line.zones.map(zone => (
-          <div key={zone.uuid}>
-            <Typography variant="body2" fontWeight={fontWeight.medium}>
-              {zone.name}
-            </Typography>
-          </div>
-        ))}
-        <div>
-          <Typography variant="body2" color={'text.disabled'} style={{ fontSize: 14 }}>
-            {line.committee}
-          </Typography>
-        </div>
-      </>
-    ),
+    minWidth: 200,
+    subTitle: 'Circonscription, Commune, Comité',
+    render: ActivistZoneCell,
   },
   {
     title: 'Date d’inscription',
+    minWidth: 150,
     index: 'created_at',
     render: line => (
       <Typography variant="body2" color={'text.disabled'}>
@@ -153,10 +141,10 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
     render: line => (
       <Grid container spacing={2}>
         <Grid item>
-          <SubscriptionBadge type="phone" isSubscribed={line.sms_subscription} />
+          <SubscriptionBadge type="phone" isSubscribed={line.sms_subscription} isEligible={Boolean(line.phone)} />
         </Grid>
         <Grid item>
-          <SubscriptionBadge type="email" isSubscribed={line.email_subscription} />
+          <SubscriptionBadge type="email" isSubscribed={line.email_subscription} isEligible={Boolean(line.email)} />
         </Grid>
       </Grid>
     ),

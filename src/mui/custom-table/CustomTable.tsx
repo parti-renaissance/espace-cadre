@@ -87,7 +87,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   footerSx,
   total = 0,
   rowsPerPage = 100,
-  rowsPerPageOptions = [100, 50, 25],
+  rowsPerPageOptions = [25, 50, 100],
   isLoading = false,
   page = 1,
   hover = true,
@@ -113,8 +113,17 @@ export default function CustomTable<DataType extends RowWithIdModel>({
 
   return (
     <TableContainer sx={{ overflow: 'unset', ...sx }} {...rest}>
-      <Grid container spacing={2} sx={{ alignItems: 'center', ...headerSx }}>
-        <Grid item xs={2}>
+      <Grid container sx={{ alignItems: 'center', ...headerSx }}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          md={6}
+          lg={6}
+          sx={theme => ({
+            [theme.breakpoints.down('sm')]: { pt: 2, textAlign: 'right', pr: 2.5 },
+          })}
+        >
           <Typography fontWeight={400}>
             <Typography color={'text.secondary'}>{pluralize(total, 'Résultat')} : </Typography>
             <Typography fontWeight={fontWeight.medium} data-testid="result-count">
@@ -122,7 +131,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
             </Typography>
           </Typography>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={12} sm={9} md={6} lg={6}>
           <Pagination />
         </Grid>
       </Grid>
