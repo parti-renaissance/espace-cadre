@@ -8,7 +8,7 @@ class TextFactory {
   }
 
   create({ filter, onChange, value }) {
-    const renderIconOrUndefined = icon => (icon ? <Iconify icon={icon} color={iconColor} sx={{ mr: 1 }} /> : undefined)
+    const renderIconOrUndefined = icon => (icon ? <Iconify icon={icon} color={grey[500]} sx={{ mr: 1 }} /> : undefined)
     const isResearch = filter.code === 'searchTerm'
 
     const InputProps = {
@@ -35,7 +35,5 @@ class TextFactory {
     )
   }
 }
-
-const iconColor = grey[500]
 
 export default TextFactory
