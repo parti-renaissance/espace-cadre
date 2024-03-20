@@ -1,8 +1,7 @@
 import { FilterModel } from '~/models/filter.model'
 import Factory from '~/components/Filters/FiltersFactory/Factory'
 import { Grid } from '@mui/material'
-import { Dispatch, SetStateAction, useMemo, useState } from 'react'
-import { useDebounce } from 'react-use'
+import { Dispatch, SetStateAction, useMemo } from 'react'
 
 interface Props {
   apiFilters: FilterModel[]
@@ -14,27 +13,16 @@ interface Props {
 
 const factory = new Factory()
 
-export default function FavoriteFilters({ apiFilters, onChange, values, debounceInterval = 400, resetPage }: Props) {
-  const [localValues, setLocalValues] = useState(values)
-
-  useDebounce(
-    () => {
-      onChange(localValues)
-      resetPage?.()
-    },
-    debounceInterval,
-    [localValues]
-  )
-
+export default function FavoriteFilters({ apiFilters, onChange, values }: Props) {
   const render = useMemo(
     () =>
       apiFilters.map(filter => {
         const element = factory.create(filter.type || 'text', {
           filter,
-          value: localValues[filter.code] ?? '',
+          value: values[filter.code] ?? '',
           defaultValue: values[filter.code] ?? '',
           onChange: (fieldEventValue: string) => {
-            setLocalValues(prevState => ({
+            onChange(prevState => ({
               ...prevState,
               [filter.code]: fieldEventValue,
             }))
@@ -47,7 +35,7 @@ export default function FavoriteFilters({ apiFilters, onChange, values, debounce
           </Grid>
         )
       }),
-    [apiFilters, values, localValues]
+    [apiFilters, onChange, values]
   )
 
   return (

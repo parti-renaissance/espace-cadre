@@ -14,6 +14,7 @@ class TextFactory {
     return (
       <TextField
         variant="outlined"
+        placeholder={filter.place_holder}
         name={filter.code}
         label={filter.label}
         value={value}

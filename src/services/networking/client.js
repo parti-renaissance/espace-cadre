@@ -1,11 +1,11 @@
 import axios from 'axios'
 import {
   getAccessToken as selectorGetAccessToken,
-  getRefreshToken as selectorGetRefreshToken,
   getCurrentScope,
+  getRefreshToken as selectorGetRefreshToken,
 } from '../../redux/user/selectors'
-import { store } from '../../redux/store'
-import { userLogout, updateRefreshToken } from '../../redux/auth'
+import { store } from '~/redux/store'
+import { updateRefreshToken, userLogout } from '~/redux/auth'
 import { API_HOST, INTERNAL_APP_ID } from '~/shared/environments'
 import login from './auth'
 
@@ -95,8 +95,8 @@ class ApiClient {
     return result.data
   }
 
-  get(endpoint, headers = {}) {
-    return this.request('get', endpoint, headers)
+  get(endpoint, headers = {}, requestConfig) {
+    return this.request('get', endpoint, headers, {}, requestConfig)
   }
 
   delete(endpoint, headers = {}) {

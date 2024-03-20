@@ -21,9 +21,7 @@ export default function MinimalDialog({ isEditing = false, title, editTitle, chi
       }}
       {...rest}
     >
-      <DialogTitle sx={{ minHeight: 76 }} data-testid={'dialog-title'}>
-        {isEditing ? editTitle : title}
-      </DialogTitle>
+      <DialogTitle data-testid={'dialog-title'}>{isEditing ? editTitle : title}</DialogTitle>
 
       {children}
     </Dialog>

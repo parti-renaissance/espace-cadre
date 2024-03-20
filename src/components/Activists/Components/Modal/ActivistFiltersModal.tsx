@@ -6,6 +6,7 @@ import { Grid } from '@mui/material'
 import { MuiSpacing } from '~/theme/spacing'
 import DynamicFilters from '~/components/Filters/DynamicFilters'
 import features from '~/shared/features'
+import { ActivistDefaultFilters } from '~/components/Activists/Activists'
 
 interface Props {
   apiFilters: FilterCategoryModel[]
@@ -19,7 +20,7 @@ interface Props {
 export default function ActivistFiltersModal({ apiFilters, values, onChange, isLoading, isOpen, onClose }: Props) {
   return (
     <MinimalDialog open={isOpen ?? false} title={'Tous les filtres'} onClose={onClose}>
-      <Grid sx={{ mx: MuiSpacing.normal, mb: MuiSpacing.normal }}>
+      <Grid sx={{ mx: MuiSpacing.normal }}>
         {isLoading ? (
           <Skeleton />
         ) : (
@@ -29,7 +30,7 @@ export default function ActivistFiltersModal({ apiFilters, values, onChange, isL
             feature={features.contacts}
             values={values}
             onSubmit={onChange}
-            onReset={() => {}}
+            onReset={() => onChange(ActivistDefaultFilters)}
           />
         )}
       </Grid>

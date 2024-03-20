@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box, Button, Grid, Typography, Stack } from '@mui/material'
+import { Box, Button, Grid, Stack, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import Factory from './FiltersFactory/Factory'
 
@@ -68,10 +68,10 @@ const FiltersForm = ({ filters, onSubmit, onReset, values, onValuesChange }) => 
 
   return (
     <form onSubmit={handleSubmit} data-cy="filters-form">
-      <Grid container spacing={2} sx={{ py: 2 }} className="space-y-4">
+      <Grid container spacing={2} className="space-y-4">
         {filterGroups}
       </Grid>
-      <Stack justifyContent="flex-end" direction="row" spacing={2}>
+      <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mb: 2 }}>
         <Button variant="outlined" onClick={handleClick}>
           {messages.reset}
         </Button>

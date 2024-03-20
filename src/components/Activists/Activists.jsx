@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from 'react'
-import { Box, Button, Card, Container, Drawer, Grid } from '@mui/material'
+import { Box, Card, Container, Drawer, Grid } from '@mui/material'
 import features from '~/shared/features'
 import PageHeader from '~/ui/PageHeader'
 import Member from './Member/Member'
@@ -9,42 +9,33 @@ import useGetActivists from '~/api/Activist/Hooks/useGetActivists'
 import Activist from '~/domain/activist'
 import LoadingButton from '@mui/lab/LoadingButton'
 import useExportActivists from '~/api/Activist/Hooks/useExportActivists'
-import useApiFilters from '~/api/Filters/Hooks/useApiFilters'
-import { FeatureEnum } from '~/models/feature.enum'
-import SkeletonLine from '~/components/Skeleton/SkeletonLine'
-import FavoriteFilters from '~/components/Filters/FavoriteFilters'
-import { Icon } from '@iconify/react'
 import { MuiSpacing } from '~/theme/spacing'
-import ActivistFiltersModal from '~/components/Activists/Components/Modal/ActivistFiltersModal'
+import ActivistFilters from '~/components/Activists/Components/ActivistFilters'
+import { useDebounce } from '@uidotdev/usehooks'
 
 const messages = {
   title: 'Militants',
 }
 
 const MemoActivistList = memo(ActivistList)
+const FiltersMemo = memo(ActivistFilters)
 
 const Activists = () => {
-  const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
-  const [filters, setFilters] = useState(defaultFilter)
+  const [filters, setFilters] = useState(ActivistDefaultFilters)
+  const debouncedFilters = useDebounce(filters, 400)
 
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(25)
-  const [filtersModalOpen, setFiltersModalOpen] = useState(false)
 
   const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
 
   const { data: activists, isFetching } = useGetActivists({
-    ...filters,
-    zones: filters.zones.map(z => z.uuid),
+    ...debouncedFilters,
+    zones: debouncedFilters.zones.map(z => z.uuid),
     page,
     itemsPerPage: perPage,
-  })
-
-  const { data: apiFilters, isLoading: apiFiltersLoadings } = useApiFilters({
-    feature: FeatureEnum.CONTACTS,
-    extractFavorites: true,
   })
 
   const { mutate: exportActivists, isLoading: isExporting } = useExportActivists({
@@ -78,6 +69,10 @@ const Activists = () => {
     )
   }, [])
 
+  const resetPage = useCallback(() => {
+    setPage(1)
+  }, [])
+
   const onRowPerPageChange = useCallback(rowsPerPageParam => {
     setPerPage(rowsPerPageParam)
     setPage(1)
@@ -98,50 +93,9 @@ const Activists = () => {
         />
       </Grid>
 
-      {/*<Accordion data-cy="accordion-filters-container">*/}
-      {/*  <AccordionSummary*/}
-      {/*    expandIcon={<ExpandMoreIcon />}*/}
-      {/*    aria-controls="panel-filter-content"*/}
-      {/*    id="panel-filter-header"*/}
-      {/*    sx={{ backgroundColor: 'whiteCorner', borderTop: 'none' }}*/}
-      {/*  >*/}
-      {/*    <Typography>Appliquer des filtres</Typography>*/}
-      {/*  </AccordionSummary>*/}
-      {/*  <AccordionDetails sx={{ backgroundColor: 'white', pt: 2.5 }}>*/}
-      {/*    <DynamicFilters*/}
-      {/*      apiFilters={apiFilters?.filters}*/}
-      {/*      fetchFilters={false}*/}
-      {/*      feature={features.contacts}*/}
-      {/*      values={defaultFilter}*/}
-      {/*      onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}*/}
-      {/*      onReset={() => {*/}
-      {/*        setDefaultFilter({ page: 1, zones: [] })*/}
-      {/*        setFilters({ page: 1, zones: [] })*/}
-      {/*      }}*/}
-      {/*    />*/}
-      {/*  </AccordionDetails>*/}
-      {/*</Accordion>*/}
-
       <Box sx={{ mt: MuiSpacing.large }} className="space-y-4">
         <Card>
-          <Box sx={{ mx: MuiSpacing.normal, mt: MuiSpacing.normal }}>
-            <Box sx={{ mb: MuiSpacing.normal }}>
-              <Button variant="text" startIcon={<Icon icon="ion:filter" />} onClick={() => setFiltersModalOpen(true)}>
-                Filtres
-              </Button>
-            </Box>
-
-            {apiFiltersLoadings ? (
-              <SkeletonLine />
-            ) : (
-              <FavoriteFilters
-                apiFilters={apiFilters?.favorites}
-                onChange={setFilters}
-                values={filters}
-                resetPage={() => setPage(1)}
-              />
-            )}
-          </Box>
+          <FiltersMemo resetPage={resetPage} filters={filters} setFilters={setFilters} />
 
           <Box sx={{ mt: 4 }} className="space-y-4">
             <MemoActivistList
@@ -159,18 +113,12 @@ const Activists = () => {
           <Drawer anchor="right" open={member !== null} onClose={handleDrawerClose}>
             <Member member={member} enableElectTab={isElectFeatureEnabled} handleClose={handleDrawerClose} />
           </Drawer>
-
-          <ActivistFiltersModal
-            apiFilters={apiFilters?.filters}
-            onChange={setFilters}
-            values={filters}
-            isOpen={filtersModalOpen}
-            onClose={() => setFiltersModalOpen(false)}
-          />
         </Card>
       </Box>
     </Container>
   )
 }
+
+export const ActivistDefaultFilters = { page: 1, zones: [] }
 
 export default Activists
