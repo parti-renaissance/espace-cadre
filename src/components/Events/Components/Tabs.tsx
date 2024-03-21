@@ -1,11 +1,15 @@
 import * as React from 'react'
-import { Tabs, Tab, Box, Typography } from '@mui/material'
+import { Box, Tab, Tabs, Typography } from '@mui/material'
 import Label from '~/mui/label'
+import { MuiSpacing } from '~/theme/spacing'
+import { fontWeight } from '~/theme/typography'
 
-interface TabProps {
+export interface TabProps {
   label: string
   id: string
   count?: number
+  disabled?: boolean
+  query?: any
 }
 
 interface TabsProps {
@@ -24,16 +28,24 @@ const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
       <Tabs value={value} onChange={handleChange} aria-label="Événements">
         {elements?.map((element, key) => (
           <Tab
+            disabled={element.disabled}
             key={key}
             label={
-              <Typography fontWeight={'500'} fontSize={15} mx={2} display={'flex'} alignItems={'center'} gap={1}>
+              <Typography
+                fontWeight={fontWeight.medium}
+                fontSize={15}
+                mx={MuiSpacing.normal}
+                display={'flex'}
+                alignItems={'center'}
+                gap={MuiSpacing.small}
+              >
                 {element.label}
 
-                {element === undefined || element.count === undefined ? null : (
+                {element?.count ? (
                   <Label color={'primary'} variant="soft">
                     {element.count}
                   </Label>
-                )}
+                ) : null}
               </Typography>
             }
             id={`tab-${element.label}`}

@@ -1,22 +1,15 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Container, Grid, ButtonGroup, Button, Stack } from '@mui/material'
+import { Button, ButtonGroup, Container, Grid, Stack } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { getCategoriesWithGroups, getEvents, getMyEvents } from '~/api/events'
 import PageHeader from '~/ui/PageHeader'
-import { ONE_DAY, messages } from '~/components/Events/shared/constants'
+import { messages, ONE_DAY } from '~/components/Events/shared/constants'
 import { paths as eventsPath } from '~/components/Events/shared/paths'
-import TabsComponent from '~/components/Events/Components/Tabs'
+import TabsComponent, { TabProps } from '~/components/Events/Components/Tabs'
 import { TabPanel } from '~/components/Events/Components'
 import Iconify from '~/mui/iconify'
 import EventList from '~/components/Events/pages/list/components/EventList'
-
-type Tab = {
-  id: string
-  label: string
-  query: any
-  count?: number
-}
 
 const ListEvents = () => {
   const navigate = useNavigate()
@@ -35,7 +28,7 @@ const ListEvents = () => {
 
   const countEventsOnlyMine = countOnlyMine?.total || 0
 
-  const tabs: Tab[] = useMemo(
+  const tabs: TabProps[] = useMemo(
     () => [
       {
         id: 'allEvents',

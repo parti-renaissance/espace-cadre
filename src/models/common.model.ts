@@ -25,3 +25,8 @@ export interface MinMaxModel {
   min: number
   max: number
 }
+
+export interface KeyValueModel<T = string> {
+  key: string
+  value: T
+}
