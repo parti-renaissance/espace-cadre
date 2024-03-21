@@ -1,7 +1,5 @@
 import { memo, useCallback, useState } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Drawer, Grid, Typography } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import DynamicFilters from '../Filters/DynamicFilters'
+import { Box, Card, Container, Drawer, Grid } from '@mui/material'
 import features from '~/shared/features'
 import PageHeader from '~/ui/PageHeader'
 import Member from './Member/Member'
@@ -11,16 +9,21 @@ import useGetActivists from '~/api/Activist/Hooks/useGetActivists'
 import Activist from '~/domain/activist'
 import LoadingButton from '@mui/lab/LoadingButton'
 import useExportActivists from '~/api/Activist/Hooks/useExportActivists'
+import { MuiSpacing } from '~/theme/spacing'
+import ActivistFilters from '~/components/Activists/Components/ActivistFilters'
+import { useDebounce } from '@uidotdev/usehooks'
 
 const messages = {
   title: 'Militants',
 }
 
 const MemoActivistList = memo(ActivistList)
+const FiltersMemo = memo(ActivistFilters)
 
 const Activists = () => {
-  const [defaultFilter, setDefaultFilter] = useState({ page: 1, zones: [] })
-  const [filters, setFilters] = useState(defaultFilter)
+  const [filters, setFilters] = useState(ActivistDefaultFilters)
+  const debouncedFilters = useDebounce(filters, 400)
+
   const [currentScope] = useUserScope()
   const [member, setMember] = useState(null)
   const [page, setPage] = useState(1)
@@ -29,8 +32,8 @@ const Activists = () => {
   const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
 
   const { data: activists, isFetching } = useGetActivists({
-    ...filters,
-    zones: filters.zones.map(z => z.uuid),
+    ...debouncedFilters,
+    zones: debouncedFilters.zones.map(z => z.uuid),
     page,
     itemsPerPage: perPage,
   })
@@ -66,6 +69,10 @@ const Activists = () => {
     )
   }, [])
 
+  const resetPage = useCallback(() => {
+    setPage(1)
+  }, [])
+
   const onRowPerPageChange = useCallback(rowsPerPageParam => {
     setPerPage(rowsPerPageParam)
     setPage(1)
@@ -86,46 +93,31 @@ const Activists = () => {
         />
       </Grid>
 
-      <Accordion data-cy="accordion-filters-container">
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel-filter-content"
-          id="panel-filter-header"
-          sx={{ backgroundColor: 'whiteCorner', borderTop: 'none' }}
-        >
-          <Typography>Appliquer des filtres</Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ backgroundColor: 'white', pt: 2.5 }}>
-          <DynamicFilters
-            feature={features.contacts}
-            values={defaultFilter}
-            onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
-            onReset={() => {
-              setDefaultFilter({ page: 1, zones: [] })
-              setFilters({ page: 1, zones: [] })
-            }}
-          />
-        </AccordionDetails>
-      </Accordion>
+      <Box sx={{ mt: MuiSpacing.large }} className="space-y-4">
+        <Card>
+          <FiltersMemo resetPage={resetPage} filters={filters} setFilters={setFilters} />
 
-      <Box sx={{ mt: 4 }} className="space-y-4">
-        <MemoActivistList
-          paginatedData={activists}
-          page={page}
-          onPageChange={setPage}
-          perPage={perPage}
-          onRowsPerPageChange={onRowPerPageChange}
-          isLoading={isFetching}
-          // Kept until #RE-1422 to be done.
-          onLineClick={onLineClick}
-        />
+          <Box sx={{ mt: MuiSpacing.large }} className="space-y-4">
+            <MemoActivistList
+              paginatedData={activists}
+              page={page}
+              onPageChange={setPage}
+              perPage={perPage}
+              onRowsPerPageChange={onRowPerPageChange}
+              isLoading={isFetching}
+              onLineClick={onLineClick}
+            />
+          </Box>
+
+          <Drawer anchor="right" open={member !== null} onClose={handleDrawerClose}>
+            <Member member={member} enableElectTab={isElectFeatureEnabled} handleClose={handleDrawerClose} />
+          </Drawer>
+        </Card>
       </Box>
-
-      <Drawer anchor="right" open={member !== null} onClose={handleDrawerClose}>
-        <Member member={member} enableElectTab={isElectFeatureEnabled} handleClose={handleDrawerClose} />
-      </Drawer>
     </Container>
   )
 }
+
+export const ActivistDefaultFilters = { page: 1, zones: [] }
 
 export default Activists

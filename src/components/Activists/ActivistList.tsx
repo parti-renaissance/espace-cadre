@@ -1,4 +1,4 @@
-import { Card, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
 import { PaginatedDataModel } from '~/models/common.model'
@@ -16,6 +16,7 @@ import { UIChip } from '~/ui/Card'
 import { tagsColor } from '~/theme/palette'
 import { fontWeight } from '~/theme/typography'
 import ActivistZoneCell from '~/components/Activists/TableComponents/ActivistZoneCell'
+import { MuiSpacing } from '~/theme/spacing'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -46,22 +47,20 @@ export default function ActivistList({
   )
 
   return (
-    <Card>
-      <CustomTable
-        headerSx={{ px: 2 }}
-        footerSx={{ px: 2 }}
-        tableSx={{ minWidth: 800 }}
-        data={mappedData ?? []}
-        onPageChange={onPageChange}
-        page={page}
-        rowsPerPage={perPage}
-        onRowsPerPageChange={onRowsPerPageChange}
-        total={paginatedData?.metadata?.total_items ?? 0}
-        isLoading={isLoading}
-        columns={ActivistColumnDefinition}
-        onLineClick={onLineClick}
-      />
-    </Card>
+    <CustomTable
+      headerSx={{ px: MuiSpacing.normal }}
+      footerSx={{ px: MuiSpacing.normal }}
+      tableSx={{ minWidth: 800 }}
+      data={mappedData ?? []}
+      onPageChange={onPageChange}
+      page={page}
+      rowsPerPage={perPage}
+      onRowsPerPageChange={onRowsPerPageChange}
+      total={paginatedData?.metadata?.total_items ?? 0}
+      isLoading={isLoading}
+      columns={ActivistColumnDefinition}
+      onLineClick={onLineClick}
+    />
   )
 }
 
