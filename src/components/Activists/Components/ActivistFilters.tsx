@@ -6,7 +6,7 @@ import FavoriteFilters from '~/components/Filters/FavoriteFilters'
 import ActivistFiltersModal from '~/components/Activists/Components/Modal/ActivistFiltersModal'
 import useApiFilters from '~/api/Filters/Hooks/useApiFilters'
 import { FeatureEnum } from '~/models/feature.enum'
-import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { ActivistDefaultFilters } from '~/components/Activists/Activists'
 
 interface Props {
@@ -23,13 +23,10 @@ export default function ActivistFilters({ filters, setFilters, resetPage }: Prop
     extractFavorites: true,
   })
 
-  const onModalChange = useCallback(
-    (v: SetStateAction<Record<string, unknown>>) => {
-      setFilters(v)
-      setFiltersModalOpen(false)
-    },
-    [setFilters]
-  )
+  const onModalChange = (v: SetStateAction<Record<string, unknown>>) => {
+    setFilters(v)
+    setFiltersModalOpen(false)
+  }
 
   return (
     <>
