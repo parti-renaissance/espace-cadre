@@ -97,7 +97,7 @@ const Activists = () => {
         <Card>
           <FiltersMemo resetPage={resetPage} filters={filters} setFilters={setFilters} />
 
-          <Box sx={{ mt: 4 }} className="space-y-4">
+          <Box sx={{ mt: MuiSpacing.large }} className="space-y-4">
             <MemoActivistList
               paginatedData={activists}
               page={page}

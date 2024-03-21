@@ -2,6 +2,7 @@ import { FilterModel } from '~/models/filter.model'
 import Factory from '~/components/Filters/FiltersFactory/Factory'
 import { Grid } from '@mui/material'
 import { Dispatch, SetStateAction, useMemo } from 'react'
+import { MuiSpacing } from '~/theme/spacing'
 
 interface Props {
   apiFilters: FilterModel[]
@@ -39,7 +40,7 @@ export default function FavoriteFilters({ apiFilters, onChange, values }: Props)
   )
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={MuiSpacing.normal}>
       {render}
     </Grid>
   )

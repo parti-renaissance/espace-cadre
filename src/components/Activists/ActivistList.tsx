@@ -16,6 +16,7 @@ import { UIChip } from '~/ui/Card'
 import { tagsColor } from '~/theme/palette'
 import { fontWeight } from '~/theme/typography'
 import ActivistZoneCell from '~/components/Activists/TableComponents/ActivistZoneCell'
+import { MuiSpacing } from '~/theme/spacing'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -47,8 +48,8 @@ export default function ActivistList({
 
   return (
     <CustomTable
-      headerSx={{ px: 2 }}
-      footerSx={{ px: 2 }}
+      headerSx={{ px: MuiSpacing.normal }}
+      footerSx={{ px: MuiSpacing.normal }}
       tableSx={{ minWidth: 800 }}
       data={mappedData ?? []}
       onPageChange={onPageChange}
