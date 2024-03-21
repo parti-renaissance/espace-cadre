@@ -41,15 +41,13 @@ export default function ActivistFilters({ filters, setFilters, resetPage }: Prop
             </Button>
           </Grid>
 
-          <Grid item xs={6} textAlign={'end'}>
-            <Button
-              variant="outlined"
-              onClick={() => setFilters(ActivistDefaultFilters)}
-              disabled={filters === ActivistDefaultFilters}
-            >
-              Réinitialiser les filtres
-            </Button>
-          </Grid>
+          {filters !== ActivistDefaultFilters && (
+            <Grid item xs={6} textAlign={'end'}>
+              <Button variant="outlined" onClick={() => setFilters(ActivistDefaultFilters)}>
+                Réinitialiser les filtres
+              </Button>
+            </Grid>
+          )}
         </Grid>
 
         {apiFiltersLoadings ? (
