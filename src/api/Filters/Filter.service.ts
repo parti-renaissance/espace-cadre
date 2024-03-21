@@ -1,6 +1,7 @@
 import { apiClient } from '~/services/networking/client'
 import { FeatureEnum } from '~/models/feature.enum'
 import { FilterCategoryModel, FilterModel } from '~/models/filter.model'
+import { sortBy } from 'lodash'
 
 export const FilterServiceKey = 'api-filter'
 
@@ -29,7 +30,7 @@ export const FilterService = {
 
     return {
       filters,
-      favorites,
+      favorites: sortBy(favorites, 'options.position'),
     }
   },
 }

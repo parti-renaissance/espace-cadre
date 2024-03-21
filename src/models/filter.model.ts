@@ -25,4 +25,5 @@ export interface FilterOptionsModel {
   label_param?: string
   multiple?: boolean
   required?: boolean
+  position?: number
 }

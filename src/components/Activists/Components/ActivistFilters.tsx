@@ -1,5 +1,5 @@
 import { MuiSpacing } from '~/theme/spacing'
-import { Box, Button } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import { Icon } from '@iconify/react'
 import SkeletonLine from '~/components/Skeleton/SkeletonLine'
 import FavoriteFilters from '~/components/Filters/FavoriteFilters'
@@ -7,6 +7,7 @@ import ActivistFiltersModal from '~/components/Activists/Components/Modal/Activi
 import useApiFilters from '~/api/Filters/Hooks/useApiFilters'
 import { FeatureEnum } from '~/models/feature.enum'
 import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+import { ActivistDefaultFilters } from '~/components/Activists/Activists'
 
 interface Props {
   filters: Record<string, unknown>
@@ -32,12 +33,24 @@ export default function ActivistFilters({ filters, setFilters, resetPage }: Prop
 
   return (
     <>
-      <Box sx={{ mx: MuiSpacing.normal, mt: MuiSpacing.normal }}>
-        <Box sx={{ mb: MuiSpacing.normal }}>
-          <Button variant="text" startIcon={<Icon icon="ion:filter" />} onClick={() => setFiltersModalOpen(true)}>
-            Filtres
-          </Button>
-        </Box>
+      <Grid sx={{ mx: MuiSpacing.normal, mt: MuiSpacing.normal }}>
+        <Grid container>
+          <Grid item xs={6} sx={{ mb: MuiSpacing.normal }}>
+            <Button variant="text" startIcon={<Icon icon="ion:filter" />} onClick={() => setFiltersModalOpen(true)}>
+              Filtres
+            </Button>
+          </Grid>
+
+          <Grid item xs={6} textAlign={'end'}>
+            <Button
+              variant="outlined"
+              onClick={() => setFilters(ActivistDefaultFilters)}
+              disabled={filters === ActivistDefaultFilters}
+            >
+              Réinitialiser les filtres
+            </Button>
+          </Grid>
+        </Grid>
 
         {apiFiltersLoadings ? (
           <SkeletonLine />
@@ -49,7 +62,7 @@ export default function ActivistFilters({ filters, setFilters, resetPage }: Prop
             resetPage={resetPage}
           />
         )}
-      </Box>
+      </Grid>
 
       <ActivistFiltersModal
         apiFilters={apiFilters?.filters ?? []}

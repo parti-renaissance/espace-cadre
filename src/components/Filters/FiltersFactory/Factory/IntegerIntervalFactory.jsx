@@ -36,7 +36,6 @@ class IntegerIntervalFactory {
             type="number"
             name={filter.code}
             InputProps={{ inputProps: filter.options?.second }}
-            size="small"
             variant="outlined"
             value={value === '' || (typeof value === 'object' && value.max === undefined) ? '' : value.max}
             onChange={e => {
