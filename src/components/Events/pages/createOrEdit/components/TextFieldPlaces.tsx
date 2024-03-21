@@ -2,8 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { TextField } from '@mui/material'
 import { Place } from '~/domain/place'
 
-import 'google.maps'
-
 const messages = {
   address: 'Adresse',
 }
