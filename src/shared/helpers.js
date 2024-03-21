@@ -26,7 +26,7 @@ export function getInitialNames(name = null) {
 }
 
 export function formatDate(date, formatPattern) {
-  return format(typeof date === 'string' ? parseDate(date) : date, formatPattern, { locale: fr })
+  return `${format(typeof date === 'string' ? parseISO(date) : date, formatPattern, { locale: fr })}`
 }
 
 export function parseDate(date) {

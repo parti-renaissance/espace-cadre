@@ -1,22 +1,21 @@
 import { newPaginatedResult } from '~/api/pagination'
-import { Event, EventCategory, EventGroupCategory, Attendee } from '~/domain/event'
+import { Event, EventCategory, EventGroupCategory } from '~/domain/event'
 import { apiClient, apiClientPublic } from '~/services/networking/client'
-import { formatDate } from '~/shared/helpers'
 
 const eventToJson = event => ({
   name: event.name,
   category: event.categoryId,
   visibility: event.visibility,
   description: event.description,
-  begin_at: formatDate(event.beginAt, 'yyyy-MM-dd HH:mm:ss'),
-  finish_at: formatDate(event.finishAt, 'yyyy-MM-dd HH:mm:ss'),
+  begin_at: event.beginAt,
+  finish_at: event.finishAt,
   capacity: parseInt(event.capacity),
   visio_url: event.visioUrl,
   post_address: {
-    address: event.address,
-    postal_code: event.address?.postalCode,
-    city_name: event.address?.city,
-    country: event.address?.country,
+    address: event.post_address.address,
+    postal_code: event.post_address?.postal_code,
+    city_name: event.post_address?.city_name,
+    country: event.post_address?.country,
   },
   time_zone: event.timezone,
   live_url: event.liveUrl,
@@ -39,9 +38,16 @@ export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 export const getEventAttendees = async (id, page) => {
   const data = await apiClient.get(`/api/v3/events/${id}/participants?page=${page}`)
 
-  const attendees = data.items.map(
-    p => new Attendee(p.first_name, p.last_name, p.subscription_date, p.postal_code, p.type)
-  )
+  const attendees = data.items.map(attendee => ({
+    emailAddress: attendee.email_address,
+    firstName: attendee.first_name,
+    lastName: attendee.last_name,
+    phone: attendee.phone,
+    postalCode: attendee.postal_code,
+    subscriptionDate: attendee?.subscription_date,
+    tags: attendee.tags,
+    type: attendee.type,
+  }))
 
   return newPaginatedResult(attendees, data.metadata)
 }
@@ -88,11 +94,11 @@ export const getCategories = async () => {
 
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
 export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}/cancel`)
-export const createEvent = async ({ event, type }) => {
-  const data = await apiClient.post('/api/v3/events', { ...eventToJson(event), type })
+export const createEvent = async ({ event }) => {
+  const data = await apiClient.post('/api/v3/events', eventToJson(event))
   return data.uuid
 }
-export const updateEvent = async event => {
+export const updateEvent = async ({ event }) => {
   const data = await apiClient.put(`/api/v3/events/${event.id}`, eventToJson(event))
   return data.uuid
 }

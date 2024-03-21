@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-import { Place } from '~/domain/place'
 import { parseDate } from '~/shared/helpers'
 import { z } from 'zod'
-
+import { Place } from '~/domain/place'
 export class Attendee {
   static propTypes = {
     firstName: PropTypes.string.isRequired,
@@ -61,7 +60,11 @@ export class Event {
     beginAt: PropTypes.object,
     finishAt: PropTypes,
     localFinishAt: PropTypes,
-    organizer: PropTypes.string,
+    organizer: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+    }),
     organizerId: PropTypes.string.isRequired,
     attendees: PropTypes.number.isRequired,
     scheduled: PropTypes.bool.isRequired,
@@ -96,13 +99,12 @@ export class Event {
       e.participants_count,
       e.status === 'SCHEDULED',
       e.capacity,
-      new Place(
-        '',
-        e.post_address.address,
-        e.post_address.postal_code,
-        e.post_address.city_name,
-        e.post_address.country
-      ),
+      {
+        address: e.post_address.address,
+        postalCode: e.post_address.postal_code,
+        cityName: e.post_address.city_name,
+        country: e.post_address.country,
+      },
       e.category ? e.category : null,
       e.private,
       e.visio_url,
@@ -170,8 +172,22 @@ export class Event {
     public attendees: number,
     public scheduled: boolean,
     public capacity: string | number,
-    public address: Place,
-    public category: string,
+    public address: {
+      address: string
+      postalCode: string
+      cityName: string
+      country: string
+    },
+    public category: {
+      description: string
+      name: string
+      slug: string
+      event_group_category: {
+        description: string
+        name: string
+        slug: string
+      }
+    },
     public isPrivate: boolean,
     public visioUrl: string,
     public mode: string,
@@ -221,7 +237,7 @@ export const CreateEventSchema = z
       .max(80, "Le titre de l'événement ne peut pas dépasser 80 caractères"),
     description: z
       .string()
-      .min(5, 'La description doit contenir au moins 5 caractères')
+      .min(10, 'La description doit contenir au moins 10 caractères')
       .min(1, 'La description est obligatoire')
       .max(380, 'La description ne peut pas dépasser 380 caractères'),
     timezone: z.string().min(1, 'Vous devez choisir une timezone'),
@@ -250,15 +266,25 @@ export const CreateEventSchema = z
       .or(z.string()),
     timeBeginAt: z.date().optional(),
     timeFinishAt: z.date().optional(),
-    address: z.string().optional(),
-    zipCode: z.string().optional(),
-    city: z.string().optional(),
-    country: z.string().optional(),
-    visioUrl: z.string().optional().or(z.literal('')),
-    liveUrl: z
+    address: z
+      .object({
+        address: z.string().optional(),
+        postalCode: z.string().optional(),
+        cityName: z.string().optional(),
+        country: z.string().optional(),
+      })
+      .optional(),
+    visioUrl: z
       .string()
       .url({
         message: 'Le lien de la visioconférence doit être une URL',
+      })
+      .optional()
+      .or(z.literal('')),
+    liveUrl: z
+      .string()
+      .url({
+        message: 'Le lien de live doit être une URL',
       })
       .optional()
       .or(z.literal('')),
@@ -294,6 +320,18 @@ export const CreateEventSchema = z
         message: 'Le lien de la visioconférence est obligatoire pour un événement virtuel',
         path: ['visioUrl'],
       })
+    }
+
+    if (!values.isVirtual) {
+      const checkHasAddressFull =
+        values.address?.address && values.address?.postalCode && values.address?.cityName && values.address?.country
+      if (!checkHasAddressFull) {
+        return context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "L'adresse est obligatoire pour un événement physique",
+          path: ['address'],
+        })
+      }
     }
   })
 

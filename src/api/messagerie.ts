@@ -33,12 +33,6 @@ interface Data {
   metadata: Parameters<typeof newPaginatedResult>[1]
 }
 
-const isMessageArray = (data: unknown): data is Data['items'] =>
-  Array.isArray(data) && data.every(item => 'uuid' in item)
-
-const isPaginatedData = (data: unknown): data is Data =>
-  typeof data === 'object' && data !== null && 'items' in data && isMessageArray(data.items)
-
 type DataMessage = Data['items'][0]
 
 const parseDataMessage = (data: DataMessage) => {

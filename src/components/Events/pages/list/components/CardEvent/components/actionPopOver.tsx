@@ -6,7 +6,7 @@ import { EventAction } from '~/components/Events/pages/list/components/CardEvent
 type ActionButton = {
   label: string
   canShow: boolean
-  onClick: (event: Event) => void
+  actionEvent: EventAction
 }
 
 const Actions = ({ event, onClick }: ActionsProps) => {
@@ -14,22 +14,22 @@ const Actions = ({ event, onClick }: ActionsProps) => {
     {
       label: "Voir l'événement",
       canShow: true,
-      onClick: event => onClick(event, 'detail'),
+      actionEvent: 'detail',
     },
     {
       label: 'Modifier',
       canShow: !!event.scheduled,
-      onClick: event => onClick(event, 'edit'),
+      actionEvent: 'edit',
     },
     {
       label: 'Annuler',
       canShow: !!event.scheduled,
-      onClick: event => onClick(event, 'cancel'),
+      actionEvent: 'cancel',
     },
     {
       label: 'Supprimer',
       canShow: event.attendees <= 1,
-      onClick: event => onClick(event, 'delete'),
+      actionEvent: 'delete',
     },
   ]
 
@@ -42,7 +42,7 @@ const Actions = ({ event, onClick }: ActionsProps) => {
             sx={{ cursor: action.canShow ? 'pointer' : 'not-allowed' }}
             onClick={() => {
               if (action.canShow) {
-                action.onClick(event)
+                onClick(action.actionEvent)
               }
             }}
           >
@@ -65,7 +65,7 @@ const popoverStaticProps = {
 interface ActionsProps {
   popover: ReturnType<typeof usePopover>
   event: Event
-  onClick: (event: Event, action: EventAction) => void
+  onClick: (action: EventAction) => void
 }
 
 export const ActionPopover = (props: ActionsProps) => {

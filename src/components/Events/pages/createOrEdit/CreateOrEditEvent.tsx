@@ -1,6 +1,7 @@
+import React, { useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
-import { useNavigate } from 'react-router'
-import { addDays, format } from 'date-fns'
+import { useNavigate, useParams } from 'react-router'
+import { addDays } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation } from '@tanstack/react-query'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -20,23 +21,51 @@ import {
   FormHelperText,
   Autocomplete,
 } from '@mui/material'
-import { createEvent as createEventApi, uploadImage as imageUploadApi } from '~/api/events'
-import BlockForm from '~/components/Events/pages/create/components/BlockForm/BlockForm'
-import { CreateEventForm, CreateEventSchema } from '~/domain/event'
-import Category from '~/components/Events/pages/create/components/forms/category'
-import Visibility from '~/components/Events/pages/create/components/forms/visibility'
-import UploadImage from '~/components/Events/pages/create/components/forms/uploadImage'
-import FormGroup from '~/components/Events/pages/create/components/FormGroup/FormGroup'
+import {
+  createEvent as createEventApi,
+  deleteImage as deleteImageApi,
+  getEvent,
+  updateEvent,
+  uploadImage as imageUploadApi,
+} from '~/api/events'
+import BlockForm from '~/components/Events/pages/createOrEdit/components/BlockForm/BlockForm'
+import { CreateEventForm, CreateEventSchema, Event, VisibilityEvent } from '~/domain/event'
+import Category from '~/components/Events/pages/createOrEdit/components/forms/category'
+import Visibility from '~/components/Events/pages/createOrEdit/components/forms/visibility'
+import UploadImage from '~/components/Events/pages/createOrEdit/components/forms/uploadImage'
+import FormGroup from '~/components/Events/pages/createOrEdit/components/FormGroup/FormGroup'
 import { Box } from '@mui/system'
 
 import timezones from '~/components/Events/timezones.json'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { useBlocker } from 'react-router-dom'
+import ModalBeforeLeave from '../../Components/ModalBeforeLeave'
+import { formatDateTimeWithTimezone } from '~/components/Events/shared/helpers'
+import TextFieldPlaces from '~/components/Events/pages/createOrEdit/components/TextFieldPlaces'
 
-const CreateEvent = () => {
+interface CreateOrEditEventProps {
+  editable: boolean
+}
+
+const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
+  const { editable } = props
+
+  const { eventId } = useParams()
+
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
+
+  const [image, setImage] = React.useState<string | undefined>()
+  const [blockerOpen, setBlockerOpen] = useState(false)
+
+  const { data } = useQueryWithScope(['event', eventId], () => getEvent(eventId), {
+    enabled: !!editable && !!eventId,
+  })
+
+  const event = data as Event
 
   const {
     register,
@@ -44,14 +73,41 @@ const CreateEvent = () => {
     setValue,
     handleSubmit,
     getValues,
-    formState: { errors },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<CreateEventForm>({
+    ...(editable && {
+      values: {
+        name: event?.name,
+        categoryId: event?.category.slug,
+        visibility: VisibilityEvent.PUBLIC,
+        beginAt: new Date(event?.beginAt),
+        finishAt: new Date(event?.finishAt),
+        timeBeginAt: new Date(event?.beginAt),
+        timeFinishAt: new Date(event?.finishAt),
+        timezone: event?.timezone,
+        description: event?.description,
+        visioUrl: event?.visioUrl || '',
+        isVirtual: event?.mode === 'online',
+        capacity: Number(event?.capacity || 1),
+        severalDays: event?.beginAt !== event?.finishAt,
+        address: {
+          address: event?.address?.address || '',
+          postalCode: event?.address?.postalCode || '',
+          cityName: event?.address?.cityName || '',
+          country: event?.address?.country || '',
+        },
+        liveUrl: event?.visioUrl || '',
+      },
+    }),
+
     defaultValues: {
       timezone: 'Europe/Paris',
+      capacity: 1,
     },
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
   })
+
   const { handleError } = useErrorHandler()
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, {
@@ -60,58 +116,85 @@ const CreateEvent = () => {
     },
   })
 
-  const { mutate: createEvent } = useMutation(createEventApi, {
+  const { mutate: mutation, isLoading } = useMutation(editable ? updateEvent : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
 
       image && !image.startsWith('http') && (await uploadImage({ eventId: uuid, image }))
 
-      enqueueSnackbar("L'événement a bien été créé", notifyVariants.success)
+      enqueueSnackbar(
+        editable ? 'Votre événement a été modifié avec succès' : 'Votre événement a été créé avec succès',
+        notifyVariants.success
+      )
 
       navigate(`/evenement/${uuid}`)
     },
-    onError: error => {
-      handleError(error)
-    },
+    onError: error => handleError(error),
   })
+
+  const { mutate: deleteImage } = useMutation(() => deleteImageApi(event?.id), {
+    onSuccess: () => setImage(undefined),
+    onError: handleError,
+  })
+
+  const handleCloseBlockerModal = () => {
+    setBlockerOpen(false)
+  }
+
+  const blocker = useBlocker(({ nextLocation }) => {
+    if (isDirty && !nextLocation.pathname.startsWith(`/evenement/${editable ? 'modifier/' : 'creer'}`)) {
+      setBlockerOpen(true)
+      return true
+    }
+    return false
+  })
+
+  const handleImageDelete = () => {
+    setImage(undefined)
+    deleteImage()
+  }
 
   const onSubmit: SubmitHandler<CreateEventForm> = () => {
     const { beginAt, finishAt, timeBeginAt, timeFinishAt } = getValues()
 
-    const formatDateTime = (date: any | Date, time: any) => {
-      const dateISO = format(date, 'yyyy-MM-dd')
-      const timeISO = time ? format(time, 'HH:mm:ss') : '00:00:00'
+    const convertFinishAt = new Date(finishAt ? finishAt : beginAt)
 
-      return `${dateISO} ${timeISO}`
+    const data = {
+      id: event?.id,
+      name: getValues('name'),
+      categoryId: getValues('categoryId'),
+      visibility: getValues('visibility'),
+      beginAt: formatDateTimeWithTimezone(beginAt, timeBeginAt),
+      finishAt: formatDateTimeWithTimezone(watch('severalDays') ? convertFinishAt : beginAt, timeFinishAt),
+      timezone: getValues('timezone'),
+      description: getValues('description'),
+      visioUrl: getValues('visioUrl'),
+      live_url: getValues('liveUrl'),
+      mode: watch('isVirtual') ? 'online' : null,
+      capacity: getValues('capacity'),
+      post_address: {
+        address: getValues('address.address') || null,
+        postal_code: getValues('address.postalCode') || null,
+        city_name: getValues('address.cityName') || null,
+        country: getValues('address.country') || null,
+      },
     }
 
-    createEvent({
-      event: {
-        name: getValues('name'),
-        categoryId: getValues('categoryId'),
-        visibility: getValues('visibility'),
-        beginAt: formatDateTime(beginAt, timeBeginAt),
-        finishAt: watch('severalDays') ? formatDateTime(finishAt, timeFinishAt) : formatDateTime(beginAt, timeFinishAt),
-        timezone: getValues('timezone'),
-        description: getValues('description'),
-        visioUrl: getValues('visioUrl'),
-        mode: watch('isVirtual') ? 'online' : 'meeting',
-        capacity: getValues('capacity'),
-        address: {
-          address: getValues('address'),
-          postalCode: getValues('zipCode'),
-          city: getValues('city'),
-          country: getValues('country'),
-        },
-      },
-      type: 'public',
-    })
+    if (editable) {
+      mutation({
+        event: data,
+      })
+    } else {
+      mutation({
+        event: data,
+      })
+    }
   }
 
   return (
-    <Container maxWidth={false} sx={{ mb: 3 }}>
+    <Container maxWidth={'xl'} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
-        <PageHeader title={messages.create} />
+        <PageHeader title={editable ? messages.update : messages.create} />
       </Grid>
 
       <Breadcrumbs separator=">" aria-label="breadcrumb">
@@ -119,7 +202,7 @@ const CreateEvent = () => {
           {messages.title}
         </Link>
 
-        <Typography color="inherit">Créer un événement</Typography>
+        <Typography color="inherit">{editable ? messages.update : messages.create}</Typography>
       </Breadcrumbs>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -129,7 +212,7 @@ const CreateEvent = () => {
               <Category
                 category={watch('categoryId')}
                 onClick={(_, category) => {
-                  setValue('categoryId', category)
+                  setValue('categoryId', category, { shouldDirty: true })
                 }}
                 register={register}
               />
@@ -157,13 +240,18 @@ const CreateEvent = () => {
                 fullWidth
                 error={!!errors.name}
                 helperText={errors.name?.message}
+                {...(editable && {
+                  InputLabelProps: {
+                    shrink: true,
+                  },
+                })}
               />
             </FormGroup>
 
             <FormGroup label="Date et heure">
               <FormControlLabel
                 key={'severalDays'}
-                control={<Switch {...register('severalDays')} color="primary" />}
+                control={<Switch {...register('severalDays')} color="primary" checked={watch('severalDays')} />}
                 label={'Sur plusieurs journées'}
                 sx={{
                   '& .MuiFormControlLabel-label': {
@@ -178,6 +266,7 @@ const CreateEvent = () => {
                     <DatePicker
                       label={watch('severalDays') ? 'Date de début' : 'Date'}
                       slots={{ textField: TextField }}
+                      value={watch('beginAt')}
                       minDate={new Date()}
                       onChange={value => {
                         setValue('beginAt', value as Date)
@@ -191,6 +280,7 @@ const CreateEvent = () => {
                       <DatePicker
                         label="Date de fin"
                         slots={{ textField: TextField }}
+                        value={watch('finishAt')}
                         disabled={!watch('severalDays') || !watch('beginAt')}
                         minDate={watch('beginAt')}
                         maxDate={addDays(new Date(watch('beginAt')), 3)}
@@ -205,7 +295,13 @@ const CreateEvent = () => {
                     <TimePicker
                       label="Heure de début"
                       {...register('timeBeginAt')}
-                      onChange={value => setValue('timeBeginAt', new Date(value as Date))}
+                      value={watch('timeBeginAt')}
+                      onChange={value => {
+                        if (value === null) {
+                          return
+                        }
+                        setValue('timeBeginAt', new Date(value as Date))
+                      }}
                       sx={{ width: '100%' }}
                       disabled={watch('beginAt') === undefined}
                     />
@@ -221,6 +317,9 @@ const CreateEvent = () => {
 
                         setValue('timeFinishAt', new Date(value as Date))
                       }}
+                      {...(editable && {
+                        value: watch('timeFinishAt'),
+                      })}
                       minTime={watch('severalDays') ? '00:00' : watch('timeBeginAt')}
                       disabled={watch('timeBeginAt') === undefined}
                       sx={{ width: '100%' }}
@@ -254,6 +353,11 @@ const CreateEvent = () => {
             <FormGroup label="À propos">
               <TextField
                 {...register('description')}
+                {...(editable && {
+                  InputLabelProps: {
+                    shrink: true,
+                  },
+                })}
                 label="Décrivez ici votre événement"
                 variant="outlined"
                 fullWidth
@@ -268,7 +372,7 @@ const CreateEvent = () => {
               <Stack mb={3} direction="row" spacing={2}>
                 <FormControlLabel
                   key={'isVirtual'}
-                  control={<Switch {...register('isVirtual')} color="primary" />}
+                  control={<Switch {...register('isVirtual')} checked={watch('isVirtual')} color="primary" />}
                   label={'Visioconférence'}
                   sx={{
                     '& .MuiFormControlLabel-label': {
@@ -281,6 +385,13 @@ const CreateEvent = () => {
               {watch('isVirtual') && (
                 <TextField
                   {...register('visioUrl')}
+                  {...(editable &&
+                    watch('visioUrl') && {
+                      value: watch('visioUrl'),
+                      InputLabelProps: {
+                        shrink: true,
+                      },
+                    })}
                   label="Lien de la visioconférence"
                   variant="outlined"
                   fullWidth
@@ -288,43 +399,71 @@ const CreateEvent = () => {
                   helperText={errors.visioUrl?.message}
                 />
               )}
+
               {!watch('isVirtual') && (
                 <>
-                  <TextField
-                    {...register('address')}
-                    label="Adresse"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.address}
-                    helperText={errors.address?.message}
+                  <TextFieldPlaces
+                    {...register('address.address')}
+                    {...(editable && {
+                      value: watch('address.address'),
+                      InputLabelProps: {
+                        shrink: true,
+                      },
+                    })}
+                    onSelectPlace={(place: any) => {
+                      setValue('address.address', `${place?.number} ${place?.route}`)
+                      setValue('address.postalCode', place.postalCode)
+                      setValue('address.cityName', place.locality)
+                      setValue('address.country', place.country)
+                    }}
+                    error={!!errors?.address?.address}
+                    helperText={errors?.address?.postalCode?.message}
                   />
 
                   <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                     <TextField
-                      {...register('zipCode')}
+                      {...register('address.postalCode')}
+                      {...(editable && {
+                        value: watch('address.postalCode'),
+                        InputLabelProps: {
+                          shrink: true,
+                        },
+                      })}
                       label="Code postal"
                       variant="outlined"
                       fullWidth
-                      error={!!errors.zipCode}
-                      helperText={errors.zipCode?.message}
+                      error={!!errors?.address?.postalCode}
+                      helperText={errors?.address?.postalCode?.message}
                     />
 
                     <TextField
-                      {...register('city')}
+                      {...register('address.cityName')}
+                      {...(editable && {
+                        value: event?.address?.cityName,
+                        InputLabelProps: {
+                          shrink: true,
+                        },
+                      })}
                       label="Ville"
                       variant="outlined"
                       fullWidth
-                      error={!!errors.city}
-                      helperText={errors.city?.message}
+                      error={!!errors?.address?.cityName}
+                      helperText={errors?.address?.cityName?.message}
                     />
 
                     <TextField
-                      {...register('country')}
+                      {...register('address.country')}
+                      {...(editable && {
+                        value: event?.address?.country,
+                        InputLabelProps: {
+                          shrink: true,
+                        },
+                      })}
                       label="Pays"
                       variant="outlined"
                       fullWidth
-                      error={!!errors.country}
-                      helperText={errors.country?.message}
+                      error={!!errors?.address?.country}
+                      helperText={errors?.address?.country?.message}
                     />
                   </Stack>
                 </>
@@ -333,13 +472,27 @@ const CreateEvent = () => {
           </BlockForm>
 
           <BlockForm title="Informations optionnelles">
-            <UploadImage onFileChange={file => setValue('image', file)} />
+            <UploadImage
+              onFileChange={file => setValue('image', file)}
+              {...(editable
+                ? {
+                    imageUrl: image,
+                    handleDelete: handleImageDelete,
+                  }
+                : {})}
+            />
 
             <FormGroup label="Capacité">
               <TextField
                 {...register('capacity', {
                   valueAsNumber: true,
                 })}
+                {...(editable &&
+                  watch('capacity') && {
+                    InputLabelProps: {
+                      shrink: true,
+                    },
+                  })}
                 label="Quel est le nombre maximal de participants à cet événement ?"
                 type="number"
                 variant="outlined"
@@ -352,6 +505,12 @@ const CreateEvent = () => {
             <FormGroup label="Lien de live">
               <TextField
                 {...register('liveUrl')}
+                {...(editable &&
+                  watch('liveUrl') && {
+                    InputLabelProps: {
+                      shrink: true,
+                    },
+                  })}
                 label="Vous prévoyez de diffuser l'événement en ligne ? mettez ici votre lien de visioconférence"
                 variant="outlined"
                 fullWidth
@@ -372,13 +531,15 @@ const CreateEvent = () => {
             Annuler
           </Button>
 
-          <Button type="submit" variant="contained">
-            Publier
+          <Button type="submit" variant="contained" disabled={isSubmitting || isLoading} color="primary">
+            {editable ? 'Modifier' : 'Créer'}
           </Button>
         </Stack>
       </form>
+
+      <ModalBeforeLeave open={blockerOpen} onClose={handleCloseBlockerModal} blocker={blocker} />
     </Container>
   )
 }
 
-export default CreateEvent
+export default CreateOrEditEvent

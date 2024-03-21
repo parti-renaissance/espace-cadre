@@ -4,13 +4,13 @@ import { Card, CardContent, CardMedia, Box, Typography, IconButton, Button } fro
 import Label from '~/mui/label'
 import Iconify from '~/mui/iconify'
 import { Stack } from '@mui/system'
-import { Event } from '~/components/Events/shared/types'
 import { getCurrentUser } from '~/redux/user/selectors'
 import { usePopover } from '~/mui/custom-popover'
-import { paths } from '~/components/Events/shared/paths'
-import { addressFormatted, dateFormatted } from './helpers'
+import { addressFormatted } from './helpers'
 import BadgeStatus from './components/badgeStatus'
 import ActionPopover from './components/actionPopOver'
+import { Event } from '~/domain/event'
+import type { Event as EventType } from '~/components/Events/shared/types'
 
 export type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
 
@@ -43,10 +43,10 @@ const CardEvent = ({ event }: CardEventProps) => {
   const handleDefineAction = (action: EventAction) => {
     switch (action) {
       case 'detail':
-        navigate(generatePath(`${paths.events}/:uuid`, { uuid: event.id }))
+        navigate(generatePath('/evenements/:id', { id: event.id }))
         break
       case 'edit':
-        navigate(generatePath(`${paths.events}/edit/:uuid`, { uuid: event.id }))
+        navigate(generatePath('/evenements/modifier/:id', { id: event.id }))
         break
       case 'delete':
         handleDelete()
@@ -56,9 +56,10 @@ const CardEvent = ({ event }: CardEventProps) => {
         break
     }
   }
+
   const listItems: ListItem[] = [
     {
-      enabled: event.organizer.length > 0 && !!event.organizerId,
+      enabled: !!event?.organizer && !!event?.organizerId,
       id: 'organizer',
       label: 'Organisateur',
       icon: 'solar:user-rounded-bold',
@@ -116,10 +117,12 @@ const CardEvent = ({ event }: CardEventProps) => {
 
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
-          <BadgeStatus event={event} />
+          <BadgeStatus beginAt={event.beginAt} finishAt={event.finishAt} scheduled={event.scheduled} />
 
           <Typography variant="caption" noWrap color="text.secondary">
-            {dateFormatted(event.beginAt)}
+            <Typography variant="caption" noWrap color="text.secondary">
+              {new Date(event.beginAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </Typography>
           </Typography>
         </Box>
 
@@ -171,7 +174,11 @@ const CardEvent = ({ event }: CardEventProps) => {
         </Box>
       </CardContent>
 
-      <ActionPopover popover={popover} event={event} onClick={(e, action) => handleDefineAction?.(action)} />
+      <ActionPopover
+        popover={popover}
+        event={event as unknown as EventType}
+        onClick={action => handleDefineAction?.(action)}
+      />
     </Card>
   )
 }

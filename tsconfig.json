@@ -20,7 +20,7 @@
     "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals", "cypress", "@testing-library/cypress"],
+    "types": ["vitest/globals", "cypress", "@testing-library/cypress", "google.maps"],
     "paths": {
       "~/*": ["./src/*"]
     }

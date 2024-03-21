@@ -8,24 +8,24 @@ export const dateFormatted = (address: string) =>
 
 type Address = {
   number?: string
-  route?: string
+  address?: string
   postalCode?: string
-  locality?: string
+  cityName?: string
 }
 
-export const addressFormatted = (address: Address) => {
-  const { number, route, postalCode, locality } = address
+export const addressFormatted = (itemAddress: Address) => {
+  const { number, address, postalCode, cityName } = itemAddress
 
-  if (number && route && postalCode && locality) {
-    return `${number} ${route}, ${postalCode} ${locality}`
+  if (number && address && postalCode && cityName) {
+    return `${number} ${address}, ${postalCode} ${cityName}`
   }
 
-  if (route && postalCode && locality) {
-    return `${route}, ${postalCode} ${locality}`
+  if (address && postalCode && cityName) {
+    return `${address}, ${postalCode} ${cityName}`
   }
 
-  if (postalCode && locality) {
-    return `${postalCode} ${locality}`
+  if (postalCode && cityName) {
+    return `${postalCode} ${cityName}`
   }
 
   return 'Adresse non renseignée'
