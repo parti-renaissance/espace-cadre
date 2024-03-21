@@ -105,7 +105,6 @@ const Activists = () => {
               perPage={perPage}
               onRowsPerPageChange={onRowPerPageChange}
               isLoading={isFetching}
-              // Kept until #RE-1422 to be done.
               onLineClick={onLineClick}
             />
           </Box>

@@ -19,12 +19,6 @@ const DynamicFilters = ({
   const [errorMessage, setErrorMessage] = useState()
 
   useEffect(() => {
-    if (apiFilters) {
-      setFilters(apiFilters)
-    }
-  }, [apiFilters])
-
-  useEffect(() => {
     if (fetchFilters && feature) {
       const getColumnsTitle = async () => {
         try {
