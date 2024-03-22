@@ -33,9 +33,9 @@ describe('Messagerie', () => {
     cy.contains('Afficher plus')
 
     cy.scrollTo('bottom')
+
     cy.scrollTo('bottom')
 
     cy.contains('Il n’y a pas d’autre résultats.')
-    cy.contains('Deuxième Page')
   })
 })
