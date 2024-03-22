@@ -129,7 +129,7 @@ const MandateItem = memo(
 
 // eslint-disable-next-line react/display-name
 const MandateIntroduction = memo(() => (
-  <>
+  <div style={{ position: 'sticky', top: 20 }}>
     <p>
       <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
         Mandants à traiter
@@ -154,5 +154,5 @@ const MandateIntroduction = memo(() => (
         manuellement » ou ceux qui vous semblent louche en cliquant sur « Exclure ».
       </Typography>
     </p>
-  </>
+  </div>
 ))
