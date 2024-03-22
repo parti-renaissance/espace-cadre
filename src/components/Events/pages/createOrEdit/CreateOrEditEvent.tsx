@@ -127,9 +127,27 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         notifyVariants.success
       )
 
-      navigate(`/evenement/${uuid}`)
+      navigate(`/evenements/${uuid}`)
     },
-    onError: error => handleError(error),
+    onError: ({
+      response: { data },
+    }: {
+      response: {
+        data: {
+          violations: {
+            message: string
+          }[]
+        }
+      }
+    }) => {
+      if (!data?.violations) {
+        enqueueSnackbar("Une erreur s'est produite", notifyVariants.error)
+      }
+
+      data?.violations?.map(violation => {
+        enqueueSnackbar(violation.message, notifyVariants.error)
+      })
+    },
   })
 
   const { mutate: deleteImage } = useMutation(() => deleteImageApi(event?.id), {
@@ -142,7 +160,11 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   }
 
   const blocker = useBlocker(({ nextLocation }) => {
-    if (isDirty && !nextLocation.pathname.startsWith(`/evenement/${editable ? 'modifier/' : 'creer'}`)) {
+    if (
+      isDirty &&
+      isSubmitting &&
+      !nextLocation.pathname.startsWith(`/evenement/${editable ? 'modifier/' : 'creer'}`)
+    ) {
       setBlockerOpen(true)
       return true
     }
