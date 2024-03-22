@@ -14,7 +14,7 @@ interface Props {
 export default function PersonWithAvatar({ src, firstName, lastName, id }: Props) {
   return (
     <Grid container sx={{ alignItems: 'center' }} spacing={MuiSpacing.normal}>
-      <Grid item xs={3}>
+      <Grid item>
         <Avatar src={src} initials={getInitials({ first_name: firstName, last_name: lastName })} />
       </Grid>
       <Grid item>

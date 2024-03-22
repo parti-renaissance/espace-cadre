@@ -30,3 +30,13 @@ export interface KeyValueModel<T = string> {
   key: string
   value: T
 }
+
+export interface ReadableLightUserModel {
+  first_names: string
+  last_name: string
+  uuid: string
+}
+
+export interface ReadableLightUserWithGenderModel extends ReadableLightUserModel {
+  gender: GenderEnum
+}

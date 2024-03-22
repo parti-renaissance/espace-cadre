@@ -1,74 +1,134 @@
 import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { Grid, Typography } from '@mui/material'
-import { memo, useState } from 'react'
-import generateFixedArray from '~/utils/generateFixedArray'
+import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
 import MandatePersonCard from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
 import { random } from 'lodash'
 import { fontWeight } from '~/theme/typography'
 import { formatToFrenchNumberString } from '~/utils/numbers'
+import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
+import { ProcurationModel } from '~/api/Procuration/procuration.model'
+import Loader from '~/ui/Loader'
+import { useIntersectionObserver } from '@uidotdev/usehooks'
 
 export default function MandantTab() {
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
+    useProcurationRequestList({
+      order: {
+        createdAt: 'asc',
+      },
+    })
+
+  const [expended, setExpended] = useState<Record<string, boolean>>({})
+
+  const [ref, entry] = useIntersectionObserver({
+    threshold: 0,
+    root: null,
+    rootMargin: '5px',
+  })
+
+  useEffect(() => {
+    if (entry?.isIntersecting && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [entry?.isIntersecting, fetchNextPage, hasNextPage])
+
+  const setExpendedHandler = useCallback((el: SetStateAction<Record<string, boolean>>) => {
+    setExpended(el)
+  }, [])
 
   return (
     <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
       <Grid item {...gridStandardLayout.oneThird}>
-        <MandateIntroductionMemo />
+        <MandateIntroduction />
       </Grid>
 
       <Grid item {...gridStandardLayout.twoThirds}>
         <Grid item sx={{ mb: MuiSpacing.large }}>
           <p>
-            <Typography fontWeight={fontWeight.medium}>{formatToFrenchNumberString(123456)} Mandants</Typography>
+            <Typography fontWeight={fontWeight.medium}>{formatToFrenchNumberString(total)} Mandants</Typography>
           </p>
         </Grid>
 
-        {generateFixedArray(5).map((_, idx) => (
-          <MandatePersonCardMemo
-            key={idx}
-            firstName={'Agent'}
-            lastName={'47'}
-            avatarUrl={'https://fr.web.img4.acsta.net/newsv7/17/11/14/10/31/4561672.jpg'}
-            votePlace={'Paris'}
-            location={'Inconnue'}
-            peopleInSameVotePlace={random(0, 10)}
-            tags={['Mandataire']}
-            id={'00047'}
-            expanded={Boolean(expanded['00047'])}
-            extraInfos={[
-              {
-                key: 'Lorem1',
-                value: 'Ipsum',
-              },
-              {
-                key: 'Lorem2',
-                value: 'Ipsum',
-              },
-              {
-                key: 'Lorem3',
-                value: 'Ipsum',
-              },
-            ]}
-            onExpend={id =>
-              setExpanded(v => ({
-                ...v,
-                [id]: true,
-              }))
-            }
-            onNarrow={id =>
-              setExpanded(v => ({
-                ...v,
-                [id]: false,
-              }))
-            }
-          />
+        {isFetchingPreviousPage && (
+          <Grid item textAlign={'center'} {...withBottomSpacing}>
+            <Loader />
+          </Grid>
+        )}
+
+        {aggregate.map(entry => (
+          <MandateItem
+            key={entry.uuid}
+            item={entry}
+            expended={Boolean(expended[entry.uuid])}
+            setExpended={setExpendedHandler}
+          ></MandateItem>
         ))}
+
+        {isFetchingNextPage && (
+          <Grid item textAlign={'center'} {...withBottomSpacing}>
+            <Loader />
+          </Grid>
+        )}
+
+        {/* Intersection observer for infinite scroll, do not remove. */}
+        {!isInitialLoading && <div ref={ref} data-cy={'intersection-observer'} data-testid={'intersection-observer'} />}
       </Grid>
     </Grid>
   )
 }
 
-const MandateIntroduction = () => (
+// eslint-disable-next-line react/display-name
+const MandateItem = memo(
+  ({
+    item,
+    expended,
+    setExpended,
+  }: {
+    item: ProcurationModel
+    expended: boolean
+    setExpended: Dispatch<SetStateAction<Record<string, boolean>>>
+  }) => (
+    <MandatePersonCard
+      firstName={item.first_names}
+      lastName={item.last_name}
+      votePlace={item.vote_place_name}
+      location={item.vote_zone?.name}
+      peopleInSameVotePlace={random(0, 10)}
+      tags={item.tags ?? []}
+      id={item.uuid}
+      expended={expended}
+      extraInfos={[
+        {
+          key: 'Lorem1',
+          value: 'Ipsum',
+        },
+        {
+          key: 'Lorem2',
+          value: 'Ipsum',
+        },
+        {
+          key: 'Lorem3',
+          value: 'Ipsum',
+        },
+      ]}
+      onExpend={id =>
+        setExpended(v => ({
+          ...v,
+          [id]: true,
+        }))
+      }
+      onNarrow={id =>
+        setExpended(v => ({
+          ...v,
+          [id]: false,
+        }))
+      }
+    />
+  )
+)
+
+// eslint-disable-next-line react/display-name
+const MandateIntroduction = memo(() => (
   <>
     <p>
       <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
@@ -95,7 +155,4 @@ const MandateIntroduction = () => (
       </Typography>
     </p>
   </>
-)
-
-const MandateIntroductionMemo = memo(MandateIntroduction)
-const MandatePersonCardMemo = memo(MandatePersonCard)
+))

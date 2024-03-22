@@ -16,7 +16,7 @@ interface Props {
   votePlace: string
   location: string
   id: string
-  expanded?: boolean
+  expended?: boolean
   extraInfos?: KeyValueModel[]
   onExpend?: (id: string) => void
   onNarrow?: (id: string) => void
@@ -26,11 +26,11 @@ export default function MandatePersonCard(props: Props) {
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: '1px solid #919EAB33' }}>
       <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.large }}>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={6} md={8}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
 
-        <Grid item xs={6} md={8} textAlign="right">
+        <Grid item xs={6} md={4} textAlign="right">
           <Button onClick={() => {}} variant={'contained'}>
             Trouver un mandataire
           </Button>
@@ -54,7 +54,7 @@ export default function MandatePersonCard(props: Props) {
 
       <Divider {...withBottomSpacing} />
 
-      {!props.expanded && (
+      {!props.expended && (
         <Grid item textAlign={'center'}>
           <Button
             variant={'text'}
@@ -66,7 +66,7 @@ export default function MandatePersonCard(props: Props) {
         </Grid>
       )}
 
-      {props.expanded && (
+      {props.expended && (
         <>
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
