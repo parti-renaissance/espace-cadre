@@ -9,9 +9,7 @@ export const MuiSpacing = {
 }
 
 export const withBottomSpacing = {
-  sx: {
-    mb: MuiSpacing.normal,
-  },
+  mb: MuiSpacing.normal,
 }
 
 export const gridStandardLayout = {

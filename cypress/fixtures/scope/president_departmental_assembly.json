@@ -1,0 +1,39 @@
+{
+  "code": "president_departmental_assembly",
+  "name": "Pr\u00e9sident assembl\u00e9e d\u00e9partementale",
+  "zones": [
+    {
+      "uuid": "none",
+      "type": "department",
+      "code": "75",
+      "name": "Paris",
+      "latitude": null,
+      "longitude": null
+    }
+  ],
+  "apps": ["data_corner"],
+  "features": [
+    "dashboard",
+    "contacts",
+    "elections",
+    "events",
+    "my_team",
+    "messages",
+    "team",
+    "survey",
+    "department_site",
+    "elected_representative",
+    "adherent_formations",
+    "pap_v2",
+    "general_meeting_reports",
+    "documents",
+    "committee",
+    "designation",
+    "contacts_export",
+    "statutory_message",
+    "phoning_campaign",
+    "procuration"
+  ],
+  "delegated_access": null,
+  "attributes": null
+}

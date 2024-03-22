@@ -17,7 +17,7 @@ export default function MandateListPage() {
 
   return (
     <Page title="Procurations">
-      <Grid {...withBottomSpacing}>
+      <Grid {...withBottomSpacing} sx={{ zIndex: 10 }} id={'procurationTabsContainer'}>
         <TabsComponent elements={tabs} onChangeTab={(_, tab) => setCurrentTab(tab)} value={currentTab}></TabsComponent>
       </Grid>
 

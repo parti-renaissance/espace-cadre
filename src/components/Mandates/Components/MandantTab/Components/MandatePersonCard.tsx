@@ -1,4 +1,4 @@
-import { Button, Chip, Grid, Paper } from '@mui/material'
+import { Button, Grid, Paper } from '@mui/material'
 import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import PersonWithAvatar from '~/components/Mandates/Components/PersonWithAvatar/PersonWithAvatar'
 import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
@@ -6,12 +6,17 @@ import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Compon
 import { KeyValueModel } from '~/models/common.model'
 import Divider from '@mui/material/Divider'
 import Iconify from '~/mui/iconify'
+import { UIChip } from '~/ui/Card'
+import { fontWeight } from '~/theme/typography'
+import { activistTagShape } from '~/shared/activistTagShape'
+import { tagsColor } from '~/theme/palette'
+import { LabelTypeModel } from '~/models/activist.model'
 
-interface Props {
+export interface MandatePersonCardProps {
   firstName: string
   lastName: string
   avatarUrl?: string
-  tags: string[]
+  tags: LabelTypeModel[]
   peopleInSameVotePlace: number
   votePlace: string
   location: string
@@ -22,7 +27,7 @@ interface Props {
   onNarrow?: (id: string) => void
 }
 
-export default function MandatePersonCard(props: Props) {
+export default function MandatePersonCard(props: MandatePersonCardProps) {
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: '1px solid #919EAB33' }}>
       <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.large }}>
@@ -37,8 +42,16 @@ export default function MandatePersonCard(props: Props) {
         </Grid>
 
         <Grid item xs={12}>
-          {props.tags.map(el => (
-            <Chip label={el} key={el} color="primary" />
+          {props.tags.map(tag => (
+            <UIChip
+              key={tag.label}
+              label={tag.label}
+              sx={{ mb: props.tags.length > 1 ? 1 : 0 }}
+              labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
+              color={activistTagShape[tag.type]?.color ?? tagsColor.unknownText}
+              variant={activistTagShape[tag.type]?.variant ?? 'contained'}
+              bgcolor={activistTagShape[tag.type]?.bgColor ?? tagsColor.unknownBackground}
+            />
           ))}
         </Grid>
       </Grid>
@@ -52,7 +65,7 @@ export default function MandatePersonCard(props: Props) {
       <MandateCardEntry title={'Bureau de vote'} value={props.votePlace} />
       <MandateCardEntry title={'Commune, pays...'} value={props.location} />
 
-      <Divider {...withBottomSpacing} />
+      <Divider sx={withBottomSpacing} />
 
       {!props.expended && (
         <Grid item textAlign={'center'}>
@@ -60,6 +73,7 @@ export default function MandatePersonCard(props: Props) {
             variant={'text'}
             startIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
             onClick={() => props.onExpend?.(props.id)}
+            data-testid="moreButton"
           >
             Afficher plus
           </Button>
@@ -70,13 +84,14 @@ export default function MandatePersonCard(props: Props) {
         <>
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
-          <Divider {...withBottomSpacing} />
+          <Divider sx={withBottomSpacing} />
 
           <Grid item textAlign={'center'}>
             <Button
               variant={'text'}
               startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
               onClick={() => props.onNarrow?.(props.id)}
+              data-testid="lessButton"
             >
               Afficher moins
             </Button>

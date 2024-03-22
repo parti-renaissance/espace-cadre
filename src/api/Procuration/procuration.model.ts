@@ -1,4 +1,5 @@
 import { ReadableLightUserModel, ReadableLightUserWithGenderModel } from '~/models/common.model'
+import { LabelTypeModel } from '~/models/activist.model'
 
 export interface ProcurationModel extends ReadableLightUserModel {
   proxy: ReadableLightUserWithGenderModel | null
@@ -7,7 +8,7 @@ export interface ProcurationModel extends ReadableLightUserModel {
   vote_zone: VoteZoneModel
   created_at: string
   post_address: PostAddressModel
-  tags: null
+  tags: null | LabelTypeModel[]
   age: number
   vote_place_name: string
 }
