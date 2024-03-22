@@ -37,15 +37,15 @@ export default function MandantTab() {
             expanded={Boolean(expanded['00047'])}
             extraInfos={[
               {
-                key: 'Lorem',
+                key: 'Lorem1',
                 value: 'Ipsum',
               },
               {
-                key: 'Lorem',
+                key: 'Lorem2',
                 value: 'Ipsum',
               },
               {
-                key: 'Lorem',
+                key: 'Lorem3',
                 value: 'Ipsum',
               },
             ]}

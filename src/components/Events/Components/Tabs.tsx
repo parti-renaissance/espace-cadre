@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { memo } from 'react'
 import { Box, Tab, Tabs, Typography } from '@mui/material'
 import Label from '~/mui/label'
 import { MuiSpacing } from '~/theme/spacing'
@@ -29,12 +30,11 @@ const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
         {elements?.map((element, key) => (
           <Tab
             disabled={element.disabled}
-            key={key}
+            key={element.id ?? key}
             label={
               <Typography
                 fontWeight={fontWeight.medium}
                 fontSize={15}
-                mx={MuiSpacing.normal}
                 display={'flex'}
                 alignItems={'center'}
                 gap={MuiSpacing.small}
@@ -58,4 +58,4 @@ const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
   )
 }
 
-export default TabsComponent
+export default memo(TabsComponent)

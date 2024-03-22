@@ -76,7 +76,10 @@ const AppPrivateRoutes = () => {
         <Route path={`${paths.pap}/*`} element={currentScope.hasFeature(features.pap) && <DTD />} />
         <Route path={`${paths.pap_v2}/*`} element={currentScope.hasFeature(features.pap_v2) && <DTDLegislatives />} />
         <Route path={`${paths.my_team}/*`} element={currentScope.hasFeature(features.my_team) && <MyTeam />} />
-        <Route path={'procurations'} element={<MandateListPage />} />
+        <Route
+          path={`${paths.procuration}/*`}
+          element={currentScope.hasFeature(features.procuration) && <MandateListPage />}
+        />
       </Routes>
     </Suspense>
   )

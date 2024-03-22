@@ -5,6 +5,27 @@ import { Grid } from '@mui/material'
 import { withBottomSpacing } from '~/theme/spacing'
 import MandantTab from '~/components/Mandates/Components/MandantTab/MandantTab'
 
+export default function MandateListPage() {
+  const [currentTab, setCurrentTab] = useState(0)
+
+  const RenderTab = useMemo(() => {
+    switch (currentTab) {
+      default:
+        return MandantTab
+    }
+  }, [currentTab])
+
+  return (
+    <Page title="Procurations">
+      <Grid {...withBottomSpacing}>
+        <TabsComponent elements={tabs} onChangeTab={(_, tab) => setCurrentTab(tab)} value={currentTab}></TabsComponent>
+      </Grid>
+
+      <RenderTab />
+    </Page>
+  )
+}
+
 const tabs: TabProps[] = [
   {
     id: 'mandant',
@@ -26,24 +47,3 @@ const tabs: TabProps[] = [
     disabled: true,
   },
 ]
-
-export default function MandateListPage() {
-  const [currentTab, setCurrentTab] = useState(0)
-
-  const RenderTab = useMemo(() => {
-    switch (currentTab) {
-      default:
-        return MandantTab
-    }
-  }, [currentTab])
-
-  return (
-    <Page title="Procurations">
-      <Grid {...withBottomSpacing}>
-        <TabsComponent elements={tabs} onChangeTab={(_, tab) => setCurrentTab(tab)} value={currentTab}></TabsComponent>
-      </Grid>
-
-      <RenderTab />
-    </Page>
-  )
-}
