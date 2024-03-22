@@ -262,11 +262,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                 fullWidth
                 error={!!errors.name}
                 helperText={errors.name?.message}
-                {...(editable && {
-                  InputLabelProps: {
-                    shrink: true,
-                  },
-                })}
+                InputLabelProps={{
+                  shrink: !!watch('name'),
+                }}
               />
             </FormGroup>
 
@@ -410,10 +408,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                   {...(editable &&
                     watch('visioUrl') && {
                       value: watch('visioUrl'),
-                      InputLabelProps: {
-                        shrink: true,
-                      },
                     })}
+                  InputLabelProps={{
+                    shrink: !!watch('visioUrl'),
+                  }}
                   label="Lien de la visioconférence"
                   variant="outlined"
                   fullWidth
@@ -428,10 +426,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                     {...register('address.address')}
                     {...(editable && {
                       value: watch('address.address'),
-                      InputLabelProps: {
-                        shrink: true,
-                      },
                     })}
+                    InputLabelProps={{
+                      shrink: !!watch('address.address'),
+                    }}
                     onSelectPlace={(place: any) => {
                       setValue('address.address', `${place?.number} ${place?.route}`)
                       setValue('address.postalCode', place.postalCode)
@@ -447,10 +445,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.postalCode')}
                       {...(editable && {
                         value: watch('address.postalCode'),
-                        InputLabelProps: {
-                          shrink: true,
-                        },
                       })}
+                      InputLabelProps={{
+                        shrink: !!watch('address.postalCode'),
+                      }}
                       label="Code postal"
                       variant="outlined"
                       fullWidth
@@ -462,10 +460,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.cityName')}
                       {...(editable && {
                         value: event?.address?.cityName,
-                        InputLabelProps: {
-                          shrink: true,
-                        },
                       })}
+                      InputLabelProps={{
+                        shrink: !!watch('address.cityName'),
+                      }}
                       label="Ville"
                       variant="outlined"
                       fullWidth
@@ -477,10 +475,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.country')}
                       {...(editable && {
                         value: event?.address?.country,
-                        InputLabelProps: {
-                          shrink: true,
-                        },
                       })}
+                      InputLabelProps={{
+                        shrink: !!watch('address.country'),
+                      }}
                       label="Pays"
                       variant="outlined"
                       fullWidth
@@ -509,12 +507,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                 {...register('capacity', {
                   valueAsNumber: true,
                 })}
-                {...(editable &&
-                  watch('capacity') && {
-                    InputLabelProps: {
-                      shrink: true,
-                    },
-                  })}
+                {...(editable && watch('capacity') && {})}
+                InputLabelProps={{
+                  shrink: !!watch('capacity'),
+                }}
                 label="Quel est le nombre maximal de participants à cet événement ?"
                 type="number"
                 variant="outlined"
@@ -527,12 +523,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
             <FormGroup label="Lien de live">
               <TextField
                 {...register('liveUrl')}
-                {...(editable &&
-                  watch('liveUrl') && {
-                    InputLabelProps: {
-                      shrink: true,
-                    },
-                  })}
+                InputLabelProps={{
+                  shrink: !!watch('liveUrl'),
+                }}
                 label="Vous prévoyez de diffuser l'événement en ligne ? mettez ici votre lien de visioconférence"
                 variant="outlined"
                 fullWidth
