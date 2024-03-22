@@ -103,7 +103,7 @@ const DetailEvent = () => {
                   {event.createdAt && (
                     <Box>
                       <Typography variant="body1" color="text.secondary" component="div" fontSize={14}>
-                        Date de création : {format(event.createdAt, 'dd MMMM yyyy')}
+                        Date de création : {format(new Date(event.createdAt), 'dd/MM/yyyy à HH:mm')}
                       </Typography>
                     </Box>
                   )}
