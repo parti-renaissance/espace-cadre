@@ -171,7 +171,7 @@ export class Event {
     public organizerId: string,
     public attendees: number,
     public scheduled: boolean,
-    public capacity: string | number,
+    public capacity: string,
     public address: {
       address: string
       postalCode: string
@@ -217,7 +217,7 @@ export interface EventType {
   organizerId: string
   attendees: number
   scheduled: boolean
-  capacity?: string | number
+  capacity?: string
   address: Place
   categoryId: string
   visibility: VisibilityEvent
@@ -288,13 +288,7 @@ export const CreateEventSchema = z
       })
       .optional()
       .or(z.literal('')),
-    capacity: z
-      .number({
-        invalid_type_error: 'La capacité doit être un nombre',
-        required_error: 'La capacité est obligatoire',
-      })
-      .min(0)
-      .optional(),
+    capacity: z.string().optional(),
     isVirtual: z.boolean(),
     severalDays: z.boolean(),
   })

@@ -88,7 +88,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         description: event?.description,
         visioUrl: event?.visioUrl || '',
         isVirtual: event?.mode === 'online',
-        capacity: Number(event?.capacity || 1),
+        capacity: event?.capacity,
         severalDays: event?.beginAt !== event?.finishAt,
         address: {
           address: event?.address?.address || '',
@@ -99,10 +99,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         liveUrl: event?.visioUrl || '',
       },
     }),
-
     defaultValues: {
       timezone: 'Europe/Paris',
-      capacity: 1,
+      capacity: "",
     },
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
@@ -504,17 +503,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
             <FormGroup label="Capacité">
               <TextField
-                {...register('capacity', {
-                  valueAsNumber: true,
-                })}
+                {...register('capacity')}
                 {...(editable && watch('capacity') && {})}
                 InputLabelProps={{
                   shrink: !!watch('capacity'),
                 }}
                 label="Quel est le nombre maximal de participants à cet événement ?"
-                type="number"
                 variant="outlined"
-                defaultValue={0}
                 fullWidth
                 error={!!errors.capacity}
                 helperText={errors.capacity?.message}

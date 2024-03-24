@@ -82,9 +82,7 @@ const DetailEvent = () => {
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h4">{event.name}</Typography>
                     <Typography variant="caption" color="text.primary">
-                      {myEvent && event.category.event_group_category
-                        ? `Mes événements / ${event.category.event_group_category.name}`
-                        : event.category.event_group_category.name}
+                      {myEvent && event.category ? `Mes événements / ${event.category.name}` : event.category.name}
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center">

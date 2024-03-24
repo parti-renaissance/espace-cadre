@@ -80,11 +80,11 @@ const CardEvent = ({ event }: CardEventProps) => {
       children: addressFormatted(event.address),
     },
     {
-      enabled: !!event?.category?.event_group_category?.name,
+      enabled: !!event?.category?.name,
       id: 'category',
       label: 'Catégorie',
       icon: 'solar:tag-horizontal-bold',
-      children: event?.category?.event_group_category?.name,
+      children: event?.category?.name,
     },
   ]
 
