@@ -13,11 +13,15 @@ type UploadImageProps = {
 const UploadImage = ({ imageUrl, onFileChange, handleDelete }: UploadImageProps) => {
   const [isOver, setIsOver] = useState(false)
   const [files, setFiles] = useState<File[]>([])
-  const [editImage, setEditImage] = useState<string | null>(null)
 
   useEffect(() => {
     if (imageUrl) {
-      setEditImage(imageUrl)
+      fetch(imageUrl)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], 'File name', { type: 'image/png' })
+          setFiles([file])
+        })
     }
   }, [imageUrl])
 
@@ -78,7 +82,7 @@ const UploadImage = ({ imageUrl, onFileChange, handleDelete }: UploadImageProps)
     onFileChange('')
   }
 
-  if (files.length > 0 || editImage) {
+  if (files.length > 0) {
     return (
       <Stack
         direction="column"
@@ -123,9 +127,7 @@ const UploadImage = ({ imageUrl, onFileChange, handleDelete }: UploadImageProps)
         </Box>
 
         <img
-          src={
-            files.length > 0 ? URL.createObjectURL(files[0]) : editImage ? editImage : 'https://via.placeholder.com/150'
-          }
+          src={files.length > 0 ? URL.createObjectURL(files[0]) : 'https://via.placeholder.com/150'}
           alt="preview"
           width={'100%'}
           style={{ borderRadius: 6 }}

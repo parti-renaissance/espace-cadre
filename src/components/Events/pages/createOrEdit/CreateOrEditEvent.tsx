@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
 import { addDays } from 'date-fns'
@@ -58,7 +58,6 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
 
-  const [image, setImage] = React.useState<string | undefined>()
   const [blockerOpen, setBlockerOpen] = useState(false)
 
   const { data } = useQueryWithScope(['event', eventId], () => getEvent(eventId), {
@@ -66,6 +65,14 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   })
 
   const event = data as Event
+
+  const [image, setImage] = React.useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    if (event?.image) {
+      setImage(event.image)
+    }
+  }, [event])
 
   const {
     register,
@@ -79,7 +86,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       values: {
         name: event?.name,
         categoryId: event?.category.slug,
-        visibility: VisibilityEvent.PUBLIC,
+        visibility: event?.visibility as VisibilityEvent,
         beginAt: new Date(event?.beginAt),
         finishAt: new Date(event?.finishAt),
         timeBeginAt: new Date(event?.beginAt),
@@ -101,7 +108,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     }),
     defaultValues: {
       timezone: 'Europe/Paris',
-      capacity: "",
+      capacity: '',
     },
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
@@ -150,7 +157,11 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   })
 
   const { mutate: deleteImage } = useMutation(() => deleteImageApi(event?.id), {
-    onSuccess: () => setImage(undefined),
+    onSuccess: () => {
+      setImage(undefined)
+
+      enqueueSnackbar('Image supprimée avec succès', notifyVariants.success)
+    },
     onError: handleError,
   })
 
@@ -219,7 +230,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       </Grid>
 
       <Breadcrumbs separator=">" aria-label="breadcrumb">
-        <Link underline="hover" color="black" href="/">
+        <Link underline="hover" color="black" href="/evenements">
           {messages.title}
         </Link>
 
