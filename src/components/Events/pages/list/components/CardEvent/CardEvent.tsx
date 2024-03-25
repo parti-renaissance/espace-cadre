@@ -11,6 +11,11 @@ import BadgeStatus from './components/badgeStatus'
 import ActionPopover from './components/actionPopOver'
 import { Event } from '~/domain/event'
 import type { Event as EventType } from '~/components/Events/shared/types'
+import { useMutation } from '@tanstack/react-query'
+import { notifyVariants } from '~/components/shared/notification/constants'
+import { deleteEvent as deleteEventQuery } from '~/api/events'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { useErrorHandler } from '~/components/shared/error/hooks'
 
 export type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
 
@@ -24,21 +29,36 @@ type ListItem = {
 
 type CardEventProps = {
   event: Event
+  refetchEvents: () => void
 }
 
-const CardEvent = ({ event }: CardEventProps) => {
+const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
+  const { enqueueSnackbar } = useCustomSnackbar()
   const currentUser = useSelector(getCurrentUser)
+  const { handleError } = useErrorHandler()
   const popover = usePopover()
   const navigate = useNavigate()
   const myEvent = event.organizerId === currentUser.uuid
 
-  const handleDelete = () => {
-    throw new Error('Not implemented')
-  }
+  const { mutate: deleteEvent } = useMutation(deleteEventQuery, {
+    onSuccess: () => {
+      enqueueSnackbar("L'événement a été supprimé avec succès", notifyVariants.success)
 
-  const handleCancel = () => {
-    throw new Error('Not implemented')
-  }
+      popover.onClose()
+      refetchEvents()
+    },
+    onError: handleError,
+  })
+
+  const { mutate: cancelEvent } = useMutation(deleteEventQuery, {
+    onSuccess: () => {
+      enqueueSnackbar("L'événement a été annulé avec succès", notifyVariants.success)
+
+      popover.onClose()
+      refetchEvents()
+    },
+    onError: handleError,
+  })
 
   const handleDefineAction = (action: EventAction) => {
     switch (action) {
@@ -49,10 +69,10 @@ const CardEvent = ({ event }: CardEventProps) => {
         navigate(generatePath('/evenements/modifier/:id', { id: event.id }))
         break
       case 'delete':
-        handleDelete()
+        deleteEvent(event.id)
         break
       case 'cancel':
-        handleCancel()
+        cancelEvent(event.id)
         break
     }
   }
@@ -73,18 +93,37 @@ const CardEvent = ({ event }: CardEventProps) => {
       ),
     },
     {
-      enabled: !!event.address,
+      enabled: !!event.address && !event.visioUrl,
       id: 'address',
       label: 'Adresse',
       icon: 'solar:flag-bold',
-      children: addressFormatted(event.address),
+      children: (
+        <Typography variant="caption" noWrap color="text.secondary">
+          {addressFormatted(event.address)}
+        </Typography>
+      ),
     },
     {
-      enabled: !!event?.category?.event_group_category?.name,
+      enabled: !!event.visioUrl,
+      id: 'visioUrl',
+      label: 'Visioconférence',
+      icon: 'solar:monitor-camera-bold',
+      children: (
+        <Typography variant="caption" noWrap color="text.secondary">
+          Visio-conférence
+        </Typography>
+      ),
+    },
+    {
+      enabled: !!event?.category?.name,
       id: 'category',
       label: 'Catégorie',
       icon: 'solar:tag-horizontal-bold',
-      children: event?.category?.event_group_category?.name,
+      children: (
+        <Typography variant="caption" noWrap color="text.secondary">
+          {event.category.name}
+        </Typography>
+      ),
     },
   ]
 

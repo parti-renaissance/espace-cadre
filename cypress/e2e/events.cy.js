@@ -49,7 +49,7 @@ describe('Events', () => {
       cy.get(UICard).eq(0).contains('42')
       cy.get(UICard).eq(0).get(BadgeStatus).contains('Passé')
       cy.get(UICard).eq(0).contains('Par Prénom1 Nom1')
-      cy.get(UICard).eq(0).contains('17 rue du XXXX, 95000 Jolie-Ville')
+      cy.get(UICard).eq(0).contains('Visio-conférence')
       cy.get(UICard).eq(0).contains('17 janvier 2022')
 
       cy.get(UICard).eq(1).contains('1')
@@ -65,7 +65,7 @@ describe('Events', () => {
       cy.get(UICard).contains('mon evenement')
       cy.get(UICard).contains('42')
       cy.get(UICard).contains('mon prénom')
-      cy.get(UICard).contains('1 rue du xxxxx, 75000 Paris')
+      cy.get(UICard).contains('Visio-conférence')
       cy.get(UICard).contains('17 janvier 2030')
       cy.get(DotMenu).should('exist')
     })

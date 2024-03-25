@@ -82,9 +82,7 @@ const DetailEvent = () => {
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h4">{event.name}</Typography>
                     <Typography variant="caption" color="text.primary">
-                      {myEvent && event.category.event_group_category
-                        ? `Mes événements / ${event.category.event_group_category.name}`
-                        : event.category.event_group_category.name}
+                      {myEvent && event.category ? `Mes événements / ${event.category.name}` : event.category.name}
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center">
@@ -103,7 +101,7 @@ const DetailEvent = () => {
                   {event.createdAt && (
                     <Box>
                       <Typography variant="body1" color="text.secondary" component="div" fontSize={14}>
-                        Date de création : {format(event.createdAt, 'dd MMMM yyyy')}
+                        Date de création : {format(new Date(event.createdAt), 'dd/MM/yyyy à HH:mm')}
                       </Typography>
                     </Box>
                   )}

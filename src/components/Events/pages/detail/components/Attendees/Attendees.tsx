@@ -71,15 +71,16 @@ const Attendees = () => {
             Télécharger les infos des participants
           </Button>
 
-          <Button
+          {/* <Button
             variant="outlined"
             startIcon={<Iconify icon="fluent:mail-24-filled" />}
+            disabled={true}
             onClick={() => {
               enqueueSnackbar('La fonctionnalité arrive bientôt...', { variant: 'info' })
             }}
           >
             Envoyer un mail aux participants
-          </Button>
+          </Button> */}
         </Stack>
       </Stack>
       <Card sx={{ width: 1 }}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
 import { addDays } from 'date-fns'
@@ -58,7 +58,6 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
 
-  const [image, setImage] = React.useState<string | undefined>()
   const [blockerOpen, setBlockerOpen] = useState(false)
 
   const { data } = useQueryWithScope(['event', eventId], () => getEvent(eventId), {
@@ -66,6 +65,14 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   })
 
   const event = data as Event
+
+  const [image, setImage] = React.useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    if (event?.image) {
+      setImage(event.image)
+    }
+  }, [event])
 
   const {
     register,
@@ -79,7 +86,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       values: {
         name: event?.name,
         categoryId: event?.category.slug,
-        visibility: VisibilityEvent.PUBLIC,
+        visibility: event?.visibility as VisibilityEvent,
         beginAt: new Date(event?.beginAt),
         finishAt: new Date(event?.finishAt),
         timeBeginAt: new Date(event?.beginAt),
@@ -88,7 +95,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         description: event?.description,
         visioUrl: event?.visioUrl || '',
         isVirtual: event?.mode === 'online',
-        capacity: Number(event?.capacity || 1),
+        capacity: event?.capacity,
         severalDays: event?.beginAt !== event?.finishAt,
         address: {
           address: event?.address?.address || '',
@@ -99,10 +106,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         liveUrl: event?.visioUrl || '',
       },
     }),
-
     defaultValues: {
       timezone: 'Europe/Paris',
-      capacity: 1,
+      capacity: '',
     },
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
@@ -127,13 +133,35 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         notifyVariants.success
       )
 
-      navigate(`/evenement/${uuid}`)
+      navigate(`/evenements/${uuid}`)
     },
-    onError: error => handleError(error),
+    onError: ({
+      response: { data },
+    }: {
+      response: {
+        data: {
+          violations: {
+            message: string
+          }[]
+        }
+      }
+    }) => {
+      if (!data?.violations) {
+        enqueueSnackbar("Une erreur s'est produite", notifyVariants.error)
+      }
+
+      data?.violations?.map(violation => {
+        enqueueSnackbar(violation.message, notifyVariants.error)
+      })
+    },
   })
 
   const { mutate: deleteImage } = useMutation(() => deleteImageApi(event?.id), {
-    onSuccess: () => setImage(undefined),
+    onSuccess: () => {
+      setImage(undefined)
+
+      enqueueSnackbar('Image supprimée avec succès', notifyVariants.success)
+    },
     onError: handleError,
   })
 
@@ -142,7 +170,11 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
   }
 
   const blocker = useBlocker(({ nextLocation }) => {
-    if (isDirty && !nextLocation.pathname.startsWith(`/evenement/${editable ? 'modifier/' : 'creer'}`)) {
+    if (
+      isDirty &&
+      isSubmitting &&
+      !nextLocation.pathname.startsWith(`/evenement/${editable ? 'modifier/' : 'creer'}`)
+    ) {
       setBlockerOpen(true)
       return true
     }
@@ -198,7 +230,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       </Grid>
 
       <Breadcrumbs separator=">" aria-label="breadcrumb">
-        <Link underline="hover" color="black" href="/">
+        <Link underline="hover" color="black" href="/evenements">
           {messages.title}
         </Link>
 
@@ -240,11 +272,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                 fullWidth
                 error={!!errors.name}
                 helperText={errors.name?.message}
-                {...(editable && {
-                  InputLabelProps: {
-                    shrink: true,
-                  },
-                })}
+                InputLabelProps={{
+                  shrink: !!watch('name'),
+                }}
               />
             </FormGroup>
 
@@ -388,10 +418,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                   {...(editable &&
                     watch('visioUrl') && {
                       value: watch('visioUrl'),
-                      InputLabelProps: {
-                        shrink: true,
-                      },
                     })}
+                  InputLabelProps={{
+                    shrink: !!watch('visioUrl'),
+                  }}
                   label="Lien de la visioconférence"
                   variant="outlined"
                   fullWidth
@@ -406,10 +436,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                     {...register('address.address')}
                     {...(editable && {
                       value: watch('address.address'),
-                      InputLabelProps: {
-                        shrink: true,
-                      },
                     })}
+                    InputLabelProps={{
+                      shrink: !!watch('address.address'),
+                    }}
                     onSelectPlace={(place: any) => {
                       setValue('address.address', `${place?.number} ${place?.route}`)
                       setValue('address.postalCode', place.postalCode)
@@ -425,10 +455,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.postalCode')}
                       {...(editable && {
                         value: watch('address.postalCode'),
-                        InputLabelProps: {
-                          shrink: true,
-                        },
                       })}
+                      InputLabelProps={{
+                        shrink: !!watch('address.postalCode'),
+                      }}
                       label="Code postal"
                       variant="outlined"
                       fullWidth
@@ -440,10 +470,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.cityName')}
                       {...(editable && {
                         value: event?.address?.cityName,
-                        InputLabelProps: {
-                          shrink: true,
-                        },
                       })}
+                      InputLabelProps={{
+                        shrink: !!watch('address.cityName'),
+                      }}
                       label="Ville"
                       variant="outlined"
                       fullWidth
@@ -455,10 +485,10 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                       {...register('address.country')}
                       {...(editable && {
                         value: event?.address?.country,
-                        InputLabelProps: {
-                          shrink: true,
-                        },
                       })}
+                      InputLabelProps={{
+                        shrink: !!watch('address.country'),
+                      }}
                       label="Pays"
                       variant="outlined"
                       fullWidth
@@ -484,19 +514,13 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
             <FormGroup label="Capacité">
               <TextField
-                {...register('capacity', {
-                  valueAsNumber: true,
-                })}
-                {...(editable &&
-                  watch('capacity') && {
-                    InputLabelProps: {
-                      shrink: true,
-                    },
-                  })}
+                {...register('capacity')}
+                {...(editable && watch('capacity') && {})}
+                InputLabelProps={{
+                  shrink: !!watch('capacity'),
+                }}
                 label="Quel est le nombre maximal de participants à cet événement ?"
-                type="number"
                 variant="outlined"
-                defaultValue={0}
                 fullWidth
                 error={!!errors.capacity}
                 helperText={errors.capacity?.message}
@@ -505,12 +529,9 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
             <FormGroup label="Lien de live">
               <TextField
                 {...register('liveUrl')}
-                {...(editable &&
-                  watch('liveUrl') && {
-                    InputLabelProps: {
-                      shrink: true,
-                    },
-                  })}
+                InputLabelProps={{
+                  shrink: !!watch('liveUrl'),
+                }}
                 label="Vous prévoyez de diffuser l'événement en ligne ? mettez ici votre lien de visioconférence"
                 variant="outlined"
                 fullWidth

@@ -28,6 +28,7 @@ const EventList = ({ query, queryKey }: EventListProps) => {
     fetchNextPage,
     hasNextPage,
     isLoading,
+    refetch: refetchEvents,
   } = useInfiniteQuery([queryKeyScoped, { feature: 'Events', view: 'Events' }], query, {
     getNextPageParam,
     onError: handleError,
@@ -54,7 +55,7 @@ const EventList = ({ query, queryKey }: EventListProps) => {
       <Grid container spacing={4}>
         {events.map((event: any, index: number) => (
           <Grid item key={index} xs={12} sm={6} md={6} lg={4} xl={3}>
-            <CardEvent event={event} />
+            <CardEvent event={event} refetchEvents={refetchEvents} />
           </Grid>
         ))}
       </Grid>

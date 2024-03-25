@@ -56,6 +56,7 @@ export class Event {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     timezone: PropTypes.string.isRequired,
+    visibility: PropTypes.string.isRequired,
     createdAt: PropTypes.object,
     beginAt: PropTypes.object,
     finishAt: PropTypes,
@@ -90,6 +91,7 @@ export class Event {
       e.name,
       e.description,
       e.time_zone,
+      e.visibility,
       parseDate(e.created_at),
       parseDate(e.begin_at),
       parseDate(e.finish_at),
@@ -118,6 +120,7 @@ export class Event {
       newName,
       this.description,
       this.timezone,
+      this.visibility,
       this.createdAt,
       this.beginAt,
       this.finishAt,
@@ -141,6 +144,7 @@ export class Event {
       this.name,
       this.description,
       this.timezone,
+      this.visibility,
       this.createdAt,
       this.beginAt,
       this.finishAt,
@@ -163,6 +167,7 @@ export class Event {
     public name: string,
     public description: string,
     public timezone: string,
+    public visibility: string,
     public createdAt: Date,
     public beginAt: Date,
     public finishAt: Date,
@@ -171,7 +176,7 @@ export class Event {
     public organizerId: string,
     public attendees: number,
     public scheduled: boolean,
-    public capacity: string | number,
+    public capacity: string,
     public address: {
       address: string
       postalCode: string
@@ -217,7 +222,7 @@ export interface EventType {
   organizerId: string
   attendees: number
   scheduled: boolean
-  capacity?: string | number
+  capacity?: string
   address: Place
   categoryId: string
   visibility: VisibilityEvent
@@ -288,13 +293,7 @@ export const CreateEventSchema = z
       })
       .optional()
       .or(z.literal('')),
-    capacity: z
-      .number({
-        invalid_type_error: 'La capacité doit être un nombre',
-        required_error: 'La capacité est obligatoire',
-      })
-      .min(0)
-      .optional(),
+    capacity: z.string().optional(),
     isVirtual: z.boolean(),
     severalDays: z.boolean(),
   })
