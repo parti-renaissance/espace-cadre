@@ -83,7 +83,7 @@ class ApiClient {
     const userScope = ApiClient.getUserScope()
 
     if (userScope) {
-      config.params = { scope: userScope.code }
+      config.params = { scope: userScope.code, ...requestConfig?.params }
     }
 
     const result = await this.client.request(config)
