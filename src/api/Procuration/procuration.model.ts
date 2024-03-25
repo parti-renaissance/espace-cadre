@@ -11,6 +11,8 @@ export interface ProcurationModel extends ReadableLightUserModel {
   tags: null | LabelTypeModel[]
   age: number
   vote_place_name: string
+  available_proxies_count: number
+  id: string
 }
 
 export interface PostAddressModel {

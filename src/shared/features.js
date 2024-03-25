@@ -22,7 +22,7 @@ const features = {
   documents: 'documents',
   designation: 'designation',
   statutory_message: 'statutory_message',
-  procuration: 'procuration',
+  procurations: 'procurations',
 }
 
 export default features
@@ -61,7 +61,7 @@ export const featuresGroup = [
   {
     label: 'Élections',
     slug: 'elections',
-    features: [features.procuration],
+    features: [features.procurations],
   },
   {
     label: 'Gestion territoriale',
@@ -100,5 +100,5 @@ export const featuresLabels = {
   [features.documents]: 'Documents',
   [features.designation]: 'Élections CL',
   [features.statutory_message]: 'Emails statutaires',
-  [features.procuration]: 'Procurations',
+  [features.procurations]: 'Procurations',
 }

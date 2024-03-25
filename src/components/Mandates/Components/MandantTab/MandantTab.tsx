@@ -2,7 +2,6 @@ import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spaci
 import { Grid, Typography } from '@mui/material'
 import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
 import MandatePersonCard from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import { random } from 'lodash'
 import { fontWeight } from '~/theme/typography'
 import { formatToFrenchNumberString } from '~/utils/numbers'
 import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
@@ -65,7 +64,7 @@ export default function MandantTab() {
               <MandateItem
                 key={entry.uuid}
                 item={entry}
-                expended={Boolean(expended[entry.uuid])}
+                expended={Boolean(expended[entry.id])}
                 setExpended={setExpendedHandler}
               />
             ))}
@@ -111,9 +110,9 @@ const MandateItem = memo(
       lastName={item.last_name}
       votePlace={item.vote_place_name}
       location={item.vote_zone?.name}
-      peopleInSameVotePlace={random(0, 10)}
+      peopleInSameVotePlace={item.available_proxies_count}
       tags={item.tags ?? []}
-      id={item.uuid}
+      id={item.id}
       expended={expended}
       extraInfos={[
         {
