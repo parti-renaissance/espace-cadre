@@ -94,7 +94,6 @@ export default function MandantTab() {
   )
 }
 
-// eslint-disable-next-line react/display-name
 const MandateItem = memo(
   ({
     item,
@@ -143,3 +142,4 @@ const MandateItem = memo(
     />
   )
 )
+MandateItem.displayName = 'MandateItem'

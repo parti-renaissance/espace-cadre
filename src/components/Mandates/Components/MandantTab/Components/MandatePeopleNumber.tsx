@@ -12,10 +12,10 @@ interface Props {
 function MandatePeopleNumber({ count }: Props) {
   return (
     <Paper sx={{ backgroundColor: grey[200], borderWidth: 1, p: MuiSpacing.normal, textAlign: 'center' }}>
-      <Typography color={success.main} fontSize={12} fontWeight={fontWeight.heavy}>
+      <Typography color={success.main} fontSize={12} fontWeight={fontWeight.bold}>
         <span data-testid="count">{count}</span> {pluralize(count, 'Mandataire')}
       </Typography>{' '}
-      <Typography fontWeight={fontWeight.heavy} fontSize={12}>
+      <Typography fontWeight={fontWeight.bold} fontSize={12}>
         dans le même bureau de vote.
       </Typography>
     </Paper>

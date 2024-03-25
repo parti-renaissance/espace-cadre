@@ -116,6 +116,5 @@ export const typography = {
 export const fontWeight = {
   regular: 'normal',
   medium: 500,
-  heavy: 600,
-  bold: 700,
+  bold: 600,
 }
