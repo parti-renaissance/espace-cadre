@@ -11,9 +11,9 @@ import BadgeStatus from './components/badgeStatus'
 import ActionPopover from './components/actionPopOver'
 import { Event } from '~/domain/event'
 import type { Event as EventType } from '~/components/Events/shared/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { notifyVariants } from '~/components/shared/notification/constants'
-import { cancelEvent, deleteEvent as deleteEventQuery, cancelEvent as cancelEventQuery } from '~/api/events'
+import { deleteEvent as deleteEventQuery } from '~/api/events'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 
@@ -39,7 +39,6 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
   const popover = usePopover()
   const navigate = useNavigate()
   const myEvent = event.organizerId === currentUser.uuid
-  const queryClient = useQueryClient()
 
   const { mutate: deleteEvent } = useMutation(deleteEventQuery, {
     onSuccess: () => {
