@@ -9,7 +9,7 @@ import Iconify from '~/mui/iconify'
 import { UIChip } from '~/ui/Card'
 import { fontWeight } from '~/theme/typography'
 import { activistTagShape } from '~/shared/activistTagShape'
-import { tagsColor } from '~/theme/palette'
+import { grey, tagsColor } from '~/theme/palette'
 import { LabelTypeModel } from '~/models/activist.model'
 
 export interface MandatePersonCardProps {
@@ -29,7 +29,7 @@ export interface MandatePersonCardProps {
 
 export default function MandatePersonCard(props: MandatePersonCardProps) {
   return (
-    <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: '1px solid #919EAB33' }}>
+    <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: 1, borderColor: grey[200] }}>
       <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.large }}>
         <Grid item xs={6} md={8}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />

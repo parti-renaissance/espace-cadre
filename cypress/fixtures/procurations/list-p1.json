@@ -8,10 +8,11 @@
   },
   "items": [
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "Pierre",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1994-01-01",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -32,13 +33,16 @@
       },
       "tags": null,
       "age": 30,
-      "vote_place_name": "Paris 12\u00e8me - 1208"
+      "id": "173da1",
+      "vote_place_name": "Paris 12\u00e8me - 1208",
+      "available_proxies_count": 2
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -59,13 +63,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "8448b2",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -86,13 +93,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "bedb57",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -113,13 +123,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "e049a8",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -140,13 +153,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "4d44a9",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -167,13 +183,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "259510",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -194,13 +213,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "aa2411",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -221,13 +243,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "51a612",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -248,13 +273,16 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "c34213",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     },
     {
+      "status": "pending",
       "proxy": null,
       "gender": "male",
       "first_names": "PAJ",
-      "last_name": "Durand",
+      "last_name": "GROS",
       "birthdate": "1987-08-05",
       "vote_zone": {
         "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
@@ -275,7 +303,9 @@
       },
       "tags": null,
       "age": 36,
-      "vote_place_name": "Paris 12\u00e8me - 1207"
+      "id": "a96414",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
     }
   ]
 }

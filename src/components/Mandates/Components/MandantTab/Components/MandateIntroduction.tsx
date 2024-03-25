@@ -8,7 +8,7 @@ function MandateIntroduction() {
       <p>
         <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
           Mandants à traiter
-        </Typography>{' '}
+        </Typography>
         <br />
         <Typography color={'text.secondary'} fontSize={14}>
           Pour chacun de ces mandant, vous pouvez voir le nombre de mandataires disponibles dans le même bureau de vote
