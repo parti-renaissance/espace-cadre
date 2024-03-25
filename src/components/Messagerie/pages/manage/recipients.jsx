@@ -85,7 +85,10 @@ const Filters = () => {
     }
   )
 
-  const defaultFilter = useMemo(() => ({ zone: currentScope.zones[0] || [], resetFilter }), [currentScope, resetFilter])
+  const defaultFilter = useMemo(
+    () => ({ zone: currentScope.zones[0] || [], adherent_tags: 'adherent', resetFilter }),
+    [currentScope, resetFilter]
+  )
 
   const { mutate: updateMessageFilter } = useMutation(
     filtersToSend =>
