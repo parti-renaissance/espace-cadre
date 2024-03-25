@@ -1,7 +1,9 @@
 import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { Grid, Typography } from '@mui/material'
 import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
-import MandatePersonCard from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
+import MandatePersonCard, {
+  MandatePersonCardType,
+} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
 import { fontWeight } from '~/theme/typography'
 import { formatToFrenchNumberString } from '~/utils/numbers'
 import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
@@ -116,6 +118,7 @@ const MandateItem = memo(
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
+      demandId={item.uuid}
       extraInfos={[
         {
           key: 'Âge',
@@ -142,6 +145,7 @@ const MandateItem = memo(
           [id]: false,
         }))
       }
+      type={MandatePersonCardType.FIND}
     />
   )
 )

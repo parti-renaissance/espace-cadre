@@ -13,6 +13,12 @@ export interface ProcurationModel extends ReadableLightUserModel {
   vote_place_name: string
   available_proxies_count: number
   id: string
+  status: ProcurationStatusEnum
+}
+
+export interface ProcurationModelWithPersonalInfos extends ProcurationModel {
+  email: string
+  phone: string | null
 }
 
 export interface PostAddressModel {
@@ -30,4 +36,10 @@ export interface VoteZoneModel {
   code: string
   name: string
   created_at: string
+}
+
+export enum ProcurationStatusEnum {
+  PENDING = 'pending',
+  COMPLETED = 'completed',
+  EXCLUDED = 'excluded',
 }

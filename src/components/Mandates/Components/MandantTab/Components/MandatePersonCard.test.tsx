@@ -1,12 +1,18 @@
 import MandatePersonCard, {
   MandatePersonCardProps,
+  MandatePersonCardType,
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
 import { fireEvent, render } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
-import { expect, vitest } from 'vitest'
+import { beforeAll, expect, vitest } from 'vitest'
 
 describe('Mandate person card', () => {
+  beforeAll(() => {
+    vitest.mock('react-router-dom')
+  })
+
   const payload: MandatePersonCardProps = {
+    type: MandatePersonCardType.MATCH_MANDANT,
     avatarUrl: faker.image.url(),
     extraInfos: [],
     firstName: faker.person.firstName(),

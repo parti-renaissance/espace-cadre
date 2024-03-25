@@ -28,6 +28,7 @@ import Committees from '~/components/Committees'
 import Documents from '~/components/Documents'
 import { useUserScope } from '~/redux/user/hooks'
 import MandateListPage from '~/components/Mandates/Pages/MandateListPage'
+import MandateMatchPage from '~/components/Mandates/Pages/MandateMatchPage'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -76,9 +77,14 @@ const AppPrivateRoutes = () => {
         <Route path={`${paths.pap}/*`} element={currentScope.hasFeature(features.pap) && <DTD />} />
         <Route path={`${paths.pap_v2}/*`} element={currentScope.hasFeature(features.pap_v2) && <DTDLegislatives />} />
         <Route path={`${paths.my_team}/*`} element={currentScope.hasFeature(features.my_team) && <MyTeam />} />
+
         <Route
-          path={`${paths.procurations}/*`}
+          path={paths.procurations}
           element={currentScope.hasFeature(features.procurations) && <MandateListPage />}
+        />
+        <Route
+          path={`${paths.procurations}/request/:id`}
+          element={currentScope.hasFeature(features.procurations) && <MandateMatchPage />}
         />
       </Routes>
     </Suspense>

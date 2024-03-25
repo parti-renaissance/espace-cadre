@@ -40,3 +40,11 @@ export interface ReadableLightUserModel {
 export interface ReadableLightUserWithGenderModel extends ReadableLightUserModel {
   gender: GenderEnum
 }
+
+export interface LightPersonModel {
+  id: string
+  firstName: string
+  lastName: string
+  avatar: string
+  gender: GenderEnum
+}
