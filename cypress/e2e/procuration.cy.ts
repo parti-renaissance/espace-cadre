@@ -9,13 +9,13 @@ describe('Messagerie', () => {
     initialize()
     mock(
       'GET',
-      '/api/v3/procuration/requests?scope=president_departmental_assembly&order[createdAt]=asc&page=1',
+      '/api/v3/procuration/requests?scope=president_departmental_assembly&order[createdAt]=asc&status=pending&page=1',
       'procurations/list-p1'
     )
 
     mock(
       'GET',
-      '/api/v3/procuration/requests?scope=president_departmental_assembly&order[createdAt]=asc&page=2',
+      '/api/v3/procuration/requests?scope=president_departmental_assembly&order[createdAt]=asc&status=pending&page=2',
       'procurations/list-p2'
     )
 
