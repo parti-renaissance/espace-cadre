@@ -9,7 +9,7 @@ import Iconify from '~/mui/iconify'
 import { UIChip } from '~/ui/Card'
 import { fontWeight } from '~/theme/typography'
 import { activistTagShape } from '~/shared/activistTagShape'
-import { grey, success, tagsColor } from '~/theme/palette'
+import { grey, other, success, tagsColor } from '~/theme/palette'
 import { LabelTypeModel } from '~/models/activist.model'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
@@ -192,7 +192,7 @@ const MandateTag = () => (
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
-    bgcolor={'#00B8D9'}
+    bgcolor={other.Mandant}
   />
 )
 
@@ -202,7 +202,7 @@ const ProxyTag = () => (
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
-    bgcolor={'#FF8438'}
+    bgcolor={other.Proxy}
   />
 )
 

@@ -93,6 +93,8 @@ export const other = {
   Instagram: '#e02d69ff',
   Skin: '#fdbab9ff',
   Mask: '#ffffff00',
+  Mandant: '#00B8D9',
+  Proxy: '#FF8438',
 }
 
 export const common = {
