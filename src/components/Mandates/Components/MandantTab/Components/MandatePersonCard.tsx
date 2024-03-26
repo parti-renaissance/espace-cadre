@@ -197,7 +197,7 @@ const MandateTag = () => (
 
 const ProxyTag = () => (
   <UIChip
-    label={'Mandant'}
+    label={'Mandataire'}
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
