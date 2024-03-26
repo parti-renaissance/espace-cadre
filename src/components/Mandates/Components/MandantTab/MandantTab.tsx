@@ -10,6 +10,9 @@ import Loader from '~/ui/Loader'
 import { useIntersectionObserver } from '@uidotdev/usehooks'
 import MandateIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateIntroduction'
 import MandateSkeleton from '~/components/Mandates/Components/MandantTab/Components/MandateSkeleton'
+import { buildAddress } from '~/utils/address'
+import { formatDate } from '~/shared/helpers'
+import { dateFormat } from '~/utils/date'
 
 export default function MandantTab() {
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
@@ -115,16 +118,16 @@ const MandateItem = memo(
       expended={expended}
       extraInfos={[
         {
-          key: 'Lorem1',
-          value: 'Ipsum',
+          key: 'Âge',
+          value: `${item.age} ans`,
         },
         {
-          key: 'Lorem2',
-          value: 'Ipsum',
+          key: 'Adresse postale',
+          value: buildAddress(item.post_address),
         },
         {
-          key: 'Lorem3',
-          value: 'Ipsum',
+          key: 'Date d’inscription',
+          value: formatDate(item.created_at, dateFormat),
         },
       ]}
       onExpend={id =>
