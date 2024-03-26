@@ -75,5 +75,17 @@
       }
     ],
     "apps": ["data_corner"]
+  },
+  {
+    "code": "president_departmental_assembly",
+    "name": "Président assemblée départementale",
+    "zones": [
+      {
+        "uuid": "5bf9ddd3-835e-11eb-ba14-42010a84009d",
+        "code": "75",
+        "name": "Paris"
+      }
+    ],
+    "apps": ["data_corner"]
   }
 ]

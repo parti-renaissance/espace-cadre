@@ -124,11 +124,11 @@ export default function CustomTable<DataType extends RowWithIdModel>({
             [theme.breakpoints.down('sm')]: { pt: 2, textAlign: 'right', pr: 2.5 },
           })}
         >
-          <Typography fontWeight={400}>
-            <Typography color={'text.secondary'}>{pluralize(total, 'Résultat')} : </Typography>
-            <Typography fontWeight={fontWeight.medium} data-testid="result-count">
-              {formatToFrenchNumberString(total)}
-            </Typography>
+          <Typography color={'text.secondary'} fontWeight={fontWeight.regular}>
+            {pluralize(total, 'Résultat')} :{' '}
+          </Typography>
+          <Typography fontWeight={fontWeight.medium} data-testid="result-count">
+            {formatToFrenchNumberString(total)}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={9} md={6} lg={6}>

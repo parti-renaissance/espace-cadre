@@ -1,0 +1,311 @@
+{
+  "metadata": {
+    "total_items": 15,
+    "items_per_page": 10,
+    "count": 5,
+    "current_page": 2,
+    "last_page": 2
+  },
+  "items": [
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "Pierre",
+      "last_name": "GROS",
+      "birthdate": "1994-01-01",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "173da602-716a-4837-8882-b137de9aa2f5",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 30,
+      "id": "173da1",
+      "vote_place_name": "Paris 12\u00e8me - 1208",
+      "available_proxies_count": 2
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "8448b32f-09a5-467e-9793-9a94a312ab14",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "8448b2",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "bedb5864-e041-45f5-8ffc-261e15e61d3b",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "bedb57",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "e049abff-96ba-4bdd-842a-83966f6dd14b",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "e049a8",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "4d44a1df-ba8a-4516-a2ca-3a2100248d95",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "4d44a9",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "25955fc5-f5af-4e2f-805d-58eea1024b8e",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "259510",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "aa24da93-bd4c-4e2b-9693-a33346f4dfb1",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "aa2411",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "51a6ccc5-a7bb-4b4c-bb10-1fc645abe19e",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "51a612",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "PAJ",
+      "last_name": "GROS",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "c342b21f-aa7d-4403-b92b-6fe55ec1dee9",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "c34213",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    },
+    {
+      "status": "pending",
+      "proxy": null,
+      "gender": "male",
+      "first_names": "Deuxième",
+      "last_name": "Page",
+      "birthdate": "1987-08-05",
+      "vote_zone": {
+        "uuid": "5c4d2444-835e-11eb-ba14-42010a84009d",
+        "type": "borough",
+        "code": "75112",
+        "name": "Paris 12\u00e8me",
+        "created_at": "2020-10-14"
+      },
+      "uuid": "a9648a2b-fa8b-4700-b3a8-c9c7b29f03f7",
+      "created_at": "2024-03-08",
+      "post_address": {
+        "address": "12 Rue d'Aligre",
+        "postal_code": "75012",
+        "city": "75012-75112",
+        "city_name": "Paris",
+        "country": "FR",
+        "additional_address": null
+      },
+      "tags": null,
+      "age": 36,
+      "id": "a96414",
+      "vote_place_name": "Paris 12\u00e8me - 1207",
+      "available_proxies_count": 1
+    }
+  ]
+}

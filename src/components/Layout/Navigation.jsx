@@ -5,7 +5,7 @@ import { featuresGroup } from '~/shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 
 const Navigation = ({ drawerWidth }) => {
   const [currentScope] = useUserScope()

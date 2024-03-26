@@ -19,6 +19,7 @@ export default {
   committee: '/comites',
   documents: '/documents',
   statutory_message: '/mails-statutaires',
+  procurations: '/procurations',
 }
 
 export const publicPaths = {
