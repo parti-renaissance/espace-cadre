@@ -9,7 +9,7 @@ import Iconify from '~/mui/iconify'
 import { UIChip } from '~/ui/Card'
 import { fontWeight } from '~/theme/typography'
 import { activistTagShape } from '~/shared/activistTagShape'
-import { grey, success, tagsColor } from '~/theme/palette'
+import { grey, other, success, tagsColor } from '~/theme/palette'
 import { LabelTypeModel } from '~/models/activist.model'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
@@ -78,19 +78,19 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         </Grid>
       </Grid>
 
-      {props.peopleInSameVotePlace && (
+      {props.peopleInSameVotePlace ? (
         <Grid container sx={{ mb: MuiSpacing.large }}>
           <Grid item xs={12}>
             <MandatePeopleNumber count={props.peopleInSameVotePlace} />
           </Grid>
         </Grid>
-      )}
+      ) : null}
 
       {props.linkedPeople !== undefined && (
         <MandateCardEntry title={'Procurations'} value={`${props.linkedPeople?.length}/${props.maxProxyCount}`} />
       )}
 
-      {props.linkedPeople && (
+      {props.linkedPeople !== undefined && (
         <Grid item sx={{ mb: MuiSpacing.large }}>
           <GroupContainer>
             <legend>
@@ -191,7 +191,7 @@ const MandateTag = () => (
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
-    bgcolor={'#00B8D9'}
+    bgcolor={other.Mandant}
   />
 )
 
@@ -201,7 +201,7 @@ const ProxyTag = () => (
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
-    bgcolor={'#FF8438'}
+    bgcolor={other.Proxy}
   />
 )
 
