@@ -6,7 +6,7 @@ import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest
 import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import { memo, useCallback, useEffect, useState } from 'react'
+import { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { parseISO } from 'date-fns'
 import { getFormattedDate } from '~/utils/date'
 import {
@@ -119,7 +119,7 @@ export default function MandateMatchPage() {
           </Grid>
 
           {aggregate?.map((el, index) => (
-            <>
+            <Fragment key={el.uuid}>
               {el.matching_level && (index === 0 || el.matching_level !== aggregate[index - 1].matching_level) && (
                 <Grid item {...withBottomSpacing}>
                   <Typography color={'success.main'} fontSize={14}>
@@ -136,7 +136,7 @@ export default function MandateMatchPage() {
                 onSelect={onSelect(el.uuid)}
                 isProcessing={isMatching}
               />
-            </>
+            </Fragment>
           ))}
 
           {/* Intersection observer for infinite scroll, do not remove. */}
