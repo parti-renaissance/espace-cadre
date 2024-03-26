@@ -371,10 +371,23 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                   <Autocomplete
                     id="timezones"
                     {...register('timezone')}
+                    {...(editable && {
+                      value: timezones?.find(option => option?.key === event?.timezone)?.value,
+                    })}
+                    onChange={(_, value) => {
+                      setValue('timezone', timezones.find(option => option.value === value)?.key || 'Europe/Paris')
+                    }}
                     options={timezones.map(option => option.value)}
-                    defaultValue={timezones?.find(option => option?.key === 'Europe/Paris')?.value}
                     sx={{ width: '100%' }}
-                    renderInput={params => <TextField {...params} label="Fuseau horaire" />}
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        InputLabelProps={{
+                          shrink: !!watch('timezone'),
+                        }}
+                        label="Fuseau horaire"
+                      />
+                    )}
                   />
                 </Box>
               </Stack>
@@ -435,7 +448,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                   <TextFieldPlaces
                     {...register('address.address')}
                     {...(editable && {
-                      value: watch('address.address'),
+                      initialValue: watch('address.address'),
                     })}
                     InputLabelProps={{
                       shrink: !!watch('address.address'),
@@ -515,7 +528,6 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
             <FormGroup label="Capacité">
               <TextField
                 {...register('capacity')}
-                {...(editable && watch('capacity') && {})}
                 InputLabelProps={{
                   shrink: !!watch('capacity'),
                 }}

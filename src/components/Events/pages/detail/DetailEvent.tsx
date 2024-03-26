@@ -55,15 +55,17 @@ const DetailEvent = () => {
             Modifier
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            startIcon={<Iconify icon="eva:plus-circle-fill" />}
-            onClick={() => {
-              throw new Error('Not implemented')
-            }}
-          >
-            Inviter mes militants
-          </Button>
+          <>
+            {/*<Button
+              variant="contained"
+              startIcon={<Iconify icon="eva:plus-circle-fill" />}
+              onClick={() => {
+                throw new Error('Not implemented')
+              }}
+            >
+              Inviter mes militants
+            </Button>*/}
+          </>
         )}
       </Stack>
 
@@ -74,7 +76,7 @@ const DetailEvent = () => {
               <CardMedia
                 component="img"
                 image={event.image || 'https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1'}
-                sx={{ width: '100%', height: '295px', borderRadius: '8px' }}
+                sx={{ width: '100%', borderRadius: '8px' }}
               />
 
               <Box sx={{ flex: '1 0 auto' }}>
@@ -93,7 +95,7 @@ const DetailEvent = () => {
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h6">Description</Typography>
 
-                    <Typography variant="body1" component="div">
+                    <Typography variant="body1" component="div" whiteSpace="pre-line">
                       {event.description}
                     </Typography>
                   </Stack>
