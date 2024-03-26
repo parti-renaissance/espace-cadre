@@ -7,7 +7,7 @@ import MandatePersonCard, {
 import { fontWeight } from '~/theme/typography'
 import { formatToFrenchNumberString } from '~/utils/numbers'
 import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
-import { ProcurationModel } from '~/api/Procuration/procuration.model'
+import { ProcurationModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
 import Loader from '~/ui/Loader'
 import { useIntersectionObserver } from '@uidotdev/usehooks'
 import MandateIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateIntroduction'
@@ -22,6 +22,7 @@ export default function MandantTab() {
       order: {
         createdAt: 'asc',
       },
+      status: ProcurationStatusEnum.PENDING,
     })
 
   const [expended, setExpended] = useState<Record<string, boolean>>({})

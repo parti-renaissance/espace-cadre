@@ -42,8 +42,6 @@ export enum MandatePersonCardType {
 }
 
 export default function MandatePersonCard(props: MandatePersonCardProps) {
-  const navigate = useNavigate()
-
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: 1, borderColor: grey[200] }}>
       <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.large }}>
@@ -51,23 +49,8 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
 
-        <Grid item xs={6} md={4} textAlign="right">
-          {props.type === MandatePersonCardType.FIND && (
-            <Button
-              onClick={() => {
-                navigate(`${paths.procurations}/request/${props.demandId}`)
-              }}
-              variant={'contained'}
-            >
-              Trouver un mandataire
-            </Button>
-          )}
-
-          {props.type === MandatePersonCardType.MATCH_PROXY && (
-            <Button onClick={() => {}} variant={'contained'}>
-              Sélectionner
-            </Button>
-          )}
+        <Grid item md={4} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
+          <ButtonGroup {...props} />
         </Grid>
 
         <Grid item xs={12}>
@@ -86,6 +69,10 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
               bgcolor={activistTagShape[tag.type]?.bgColor ?? tagsColor.unknownBackground}
             />
           ))}
+        </Grid>
+
+        <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
+          <ButtonGroup fullWidth {...props} />
         </Grid>
       </Grid>
 
@@ -161,6 +148,34 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
       )}
     </Paper>
   )
+}
+
+const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) => {
+  const navigate = useNavigate()
+
+  switch (props.type) {
+    case MandatePersonCardType.FIND:
+      return (
+        <Button
+          onClick={() => {
+            navigate(`${paths.procurations}/request/${props.demandId}`)
+          }}
+          variant={'contained'}
+          fullWidth={props.fullWidth}
+        >
+          Trouver un mandataire
+        </Button>
+      )
+    case MandatePersonCardType.MATCH_PROXY:
+      return (
+        <Button onClick={() => {}} variant={'contained'} fullWidth={props.fullWidth}>
+          Sélectionner
+        </Button>
+      )
+    case MandatePersonCardType.MATCH_MANDANT:
+    default:
+      return <></>
+  }
 }
 
 const MandateTag = () => (

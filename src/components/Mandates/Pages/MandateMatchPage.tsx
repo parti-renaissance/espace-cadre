@@ -12,7 +12,9 @@ import { getFormattedDate } from '~/utils/date'
 import { ProcurationModelWithPersonalInfos } from '~/api/Procuration/procuration.model'
 import { GenderEnum } from '~/models/common.model'
 import MandateMatchPageSkeleton from '~/components/Mandates/Components/Skeleton/MandateMatchPageSkeleton'
-import { pxToRem } from '~/theme/typography'
+import { fontWeight } from '~/theme/typography'
+import Divider from '@mui/material/Divider'
+import { grey } from '~/theme/palette'
 
 export default function MandateMatchPage() {
   const params = useParams()
@@ -38,18 +40,129 @@ export default function MandateMatchPage() {
   return (
     <Page backButton>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
+        <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' }, my: MuiSpacing.normal }}>
+          <Typography fontWeight={fontWeight.medium} fontSize={18}>
+            Mandant à lier
+          </Typography>
+
+          <Divider sx={{ borderBottom: 'dashed 1px', borderBottomColor: grey[300], pt: MuiSpacing.normal }} />
+        </Grid>
+
         <Grid item {...gridStandardLayout.oneThird}>
-          <div style={{ position: 'sticky', top: 62 }}>
+          <div style={{ position: 'sticky', top: 72 }}>
+            <Grid item sx={{ display: { xs: 'none', md: 'block' }, my: MuiSpacing.normal }}>
+              <Typography fontSize={18} fontWeight={fontWeight.medium}>
+                Mandant
+              </Typography>
+            </Grid>
+
             <MandateInfo {...data} />
           </div>
         </Grid>
+
         <Grid item {...gridStandardLayout.twoThirds}>
+          <Grid item textAlign={'center'} sx={{ display: { xs: 'none', md: 'block' }, my: MuiSpacing.normal }}>
+            <Typography textAlign={'center'} fontSize={18} fontWeight={fontWeight.medium}>
+              Mandataires
+            </Typography>
+          </Grid>
+
           <Grid item {...withBottomSpacing}>
-            <Typography color={'success.main'} fontSize={pxToRem(14)}>
+            <Typography color={'success.main'} fontSize={14}>
               Même bureau de vote (1)
             </Typography>
           </Grid>
 
+          <MandatePersonCard
+            firstName={data.first_names}
+            lastName={data?.last_name}
+            id={data.id}
+            location={data.vote_zone.name}
+            tags={[]}
+            votePlace={data.vote_place_name}
+            type={MandatePersonCardType.MATCH_PROXY}
+            extraInfos={[
+              {
+                key: 'Lorem',
+                value: 'Ipsum',
+              },
+            ]}
+            onExpend={id =>
+              setExpended(v => ({
+                ...v,
+                [id]: true,
+              }))
+            }
+            onNarrow={id =>
+              setExpended(v => ({
+                ...v,
+                [id]: false,
+              }))
+            }
+            expended={expended[data.id]}
+            maxProxyCount={2}
+            linkedPeople={[
+              {
+                firstName: 'Gufta',
+                lastName: 'Papa',
+                id: 'uuid',
+                gender: GenderEnum.FEMALE,
+                avatar: 'https://avatars2.githubusercontent.com/u/55?v=4',
+              },
+              {
+                firstName: 'Gufta',
+                lastName: 'Papa2',
+                id: 'uuid2',
+                gender: GenderEnum.FEMALE,
+                avatar: 'https://avatars2.githubusercontent.com/u/55?v=4',
+              },
+            ]}
+          />
+          <MandatePersonCard
+            firstName={data.first_names}
+            lastName={data?.last_name}
+            id={data.id}
+            location={data.vote_zone.name}
+            tags={[]}
+            votePlace={data.vote_place_name}
+            type={MandatePersonCardType.MATCH_PROXY}
+            extraInfos={[
+              {
+                key: 'Lorem',
+                value: 'Ipsum',
+              },
+            ]}
+            onExpend={id =>
+              setExpended(v => ({
+                ...v,
+                [id]: true,
+              }))
+            }
+            onNarrow={id =>
+              setExpended(v => ({
+                ...v,
+                [id]: false,
+              }))
+            }
+            expended={expended[data.id]}
+            maxProxyCount={2}
+            linkedPeople={[
+              {
+                firstName: 'Gufta',
+                lastName: 'Papa',
+                id: 'uuid',
+                gender: GenderEnum.FEMALE,
+                avatar: 'https://avatars2.githubusercontent.com/u/55?v=4',
+              },
+              {
+                firstName: 'Gufta',
+                lastName: 'Papa2',
+                id: 'uuid2',
+                gender: GenderEnum.FEMALE,
+                avatar: 'https://avatars2.githubusercontent.com/u/55?v=4',
+              },
+            ]}
+          />
           <MandatePersonCard
             firstName={data.first_names}
             lastName={data?.last_name}
