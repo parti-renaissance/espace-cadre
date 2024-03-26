@@ -33,6 +33,8 @@ export interface MandatePersonCardProps {
   type: MandatePersonCardType
   linkedPeople?: LightPersonModel[]
   maxProxyCount?: number
+  onSelect?: () => void
+  isProcessing?: boolean
 }
 
 export enum MandatePersonCardType {
@@ -168,7 +170,12 @@ const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) =>
       )
     case MandatePersonCardType.MATCH_PROXY:
       return (
-        <Button onClick={() => {}} variant={'contained'} fullWidth={props.fullWidth}>
+        <Button
+          onClick={props.onSelect}
+          variant={'contained'}
+          fullWidth={props.fullWidth}
+          disabled={props.isProcessing}
+        >
           Sélectionner
         </Button>
       )

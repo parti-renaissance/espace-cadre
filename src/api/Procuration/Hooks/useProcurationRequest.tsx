@@ -4,14 +4,14 @@ import { ProcurationModelWithPersonalInfos } from '~/api/Procuration/procuration
 import { HOT_DATA_CACHE_DURATION } from '~/components/Dashboard/shared/cache'
 
 export default function useProcurationRequest({
-  id,
+  uuid,
 }: {
-  id?: string
+  uuid?: string
 }): UseQueryResult<ProcurationModelWithPersonalInfos> {
   return useQuery({
-    queryFn: () => ProcurationService.getRequest({ id: id! }),
-    queryKey: [ProcurationServiceKey.singleRequest, id],
+    queryFn: () => ProcurationService.getRequest({ uuid: uuid! }),
+    queryKey: [ProcurationServiceKey.singleRequest, uuid],
     staleTime: HOT_DATA_CACHE_DURATION,
-    enabled: !!id,
+    enabled: !!uuid,
   })
 }

@@ -1,9 +1,9 @@
-import { ReadableLightUserModel, ReadableLightUserWithGenderModel } from '~/models/common.model'
+import { GenderEnum, ReadableLightUserModel, ReadableLightUserWithGenderModel } from '~/models/common.model'
 import { LabelTypeModel } from '~/models/activist.model'
 
 export interface ProcurationModel extends ReadableLightUserModel {
   proxy: ReadableLightUserWithGenderModel | null
-  gender: string
+  gender: GenderEnum
   birthdate: string
   vote_zone: VoteZoneModel
   created_at: string
@@ -42,4 +42,18 @@ export enum ProcurationStatusEnum {
   PENDING = 'pending',
   COMPLETED = 'completed',
   EXCLUDED = 'excluded',
+}
+
+export interface AvailableProxyModel extends ProcurationModel {
+  slots?: number
+  requests?: ProcurationModel[]
+  email: string
+  phone: null | string
+  matching_level?: MatchingLevelEnum
+}
+
+export enum MatchingLevelEnum {
+  COUNTRY = 'department/country',
+  CITY = 'city',
+  VOTE_PLACE = 'vote_place',
 }
