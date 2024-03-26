@@ -23,6 +23,7 @@ import { useIntersectionObserver } from '@uidotdev/usehooks'
 import useProcurationMatch from '~/api/Procuration/Hooks/useProcurationMatch'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
+import { buildAddress } from '~/utils/address'
 
 export default function MandateMatchPage() {
   const params = useParams()
@@ -192,7 +193,7 @@ const MandateInfo = memo((data: ProcurationModelWithPersonalInfos) => (
       },
       {
         key: 'Adresse postale',
-        value: `${data.post_address.address}, ${data.post_address.postal_code} ${data.post_address.city_name}`,
+        value: buildAddress(data.post_address),
       },
       {
         key: 'Date d’inscription',
@@ -227,7 +228,28 @@ const Proxy = memo(
       tags={[]}
       votePlace={el.vote_place_name}
       type={MandatePersonCardType.MATCH_PROXY}
-      extraInfos={[]}
+      extraInfos={[
+        {
+          key: 'Age',
+          value: `${el.age} ans`,
+        },
+        {
+          key: 'Mail',
+          value: el.email,
+        },
+        {
+          key: 'Téléphone',
+          value: el.phone ?? 'Pas de téléphone',
+        },
+        {
+          key: 'Adresse postale',
+          value: buildAddress(el.post_address),
+        },
+        {
+          key: 'Date d’inscription',
+          value: getFormattedDate(el.created_at),
+        },
+      ]}
       onExpend={setExpended}
       onNarrow={setExpended}
       expended={expended[el.id]}
