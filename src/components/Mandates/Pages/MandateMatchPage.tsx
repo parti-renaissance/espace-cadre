@@ -253,7 +253,7 @@ const Proxy = memo(
       onExpend={setExpended}
       onNarrow={setExpended}
       expended={expended[el.id]}
-      maxProxyCount={2}
+      maxProxyCount={el.slots}
       linkedPeople={el.requests?.map(req => ({
         id: req.id,
         firstName: req.first_names,
