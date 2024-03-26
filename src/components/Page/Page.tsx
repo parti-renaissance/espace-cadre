@@ -2,12 +2,17 @@ import { PropsWithChildren } from 'react'
 import { MuiSpacing } from '~/theme/spacing'
 import { Container, Grid } from '@mui/material'
 import PageHeader from '~/ui/PageHeader'
+import BackButton from '~/components/BackButton/BackButton'
 
-export default function Page<T>({ children, title }: PropsWithChildren<T> & { title: string }) {
+export type PageProps<T> = PropsWithChildren<T> & { title?: string; backButton?: boolean }
+
+export default function Page<T>({ children, title, backButton = false }: PageProps<T>) {
   return (
     <Container sx={{ mb: MuiSpacing.normal }}>
+      {backButton && <BackButton />}
+
       <Grid container justifyContent="space-between">
-        <PageHeader title={title} />
+        {title && <PageHeader title={title} />}
       </Grid>
 
       {children}

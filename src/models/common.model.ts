@@ -40,3 +40,16 @@ export interface ReadableLightUserModel {
 export interface ReadableLightUserWithGenderModel extends ReadableLightUserModel {
   gender: GenderEnum
 }
+
+export interface LightPersonModel {
+  id: string
+  firstName: string
+  lastName: string
+  avatar?: string
+  gender: GenderEnum
+}
+
+export interface PaginatedApiQueryBaseModel {
+  params: Record<string, unknown>
+  signal?: AbortSignal
+}
