@@ -30,6 +30,8 @@ const TextFieldPlaces = ({ onSelectPlace, initialValue = '', ...props }: TextFie
   const autoCompleteRef = useRef<HTMLInputElement | null>(null)
   const autoComplete = useRef<google.maps.places.Autocomplete | null>(null)
 
+  useEffect(() => setAddress(initialValue), [initialValue])
+
   const handlePlaceSelect = useCallback(() => {
     const addressObject = autoComplete?.current?.getPlace()
     const place = selectPlace(addressObject?.address_components)

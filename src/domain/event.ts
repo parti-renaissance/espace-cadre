@@ -293,7 +293,7 @@ export const CreateEventSchema = z
       })
       .optional()
       .or(z.literal('')),
-    capacity: z.string().optional(),
+    capacity: z.coerce.string().optional(),
     isVirtual: z.boolean(),
     severalDays: z.boolean(),
   })
