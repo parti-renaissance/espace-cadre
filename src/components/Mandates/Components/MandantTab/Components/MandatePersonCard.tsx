@@ -90,7 +90,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         <MandateCardEntry title={'Procurations'} value={`${props.linkedPeople?.length}/${props.maxProxyCount}`} />
       )}
 
-      {props.linkedPeople && (
+      {props.linkedPeople && props.linkedPeople.length > 0 && (
         <Grid item sx={{ mb: MuiSpacing.large }}>
           <GroupContainer>
             <legend>

@@ -70,7 +70,7 @@ export default function MandateMatchPage() {
     (id: string) =>
       setExpended(v => ({
         ...v,
-        [id]: v[id] ? !v[id] : true,
+        [id]: !v[id],
       })),
     []
   )
@@ -130,7 +130,6 @@ export default function MandateMatchPage() {
               )}
 
               <Proxy
-                key={el.id}
                 expended={expended[el.id]}
                 setExpended={setExpendedMemo}
                 el={el}
@@ -215,9 +214,9 @@ const Proxy = memo(
   }: {
     el: AvailableProxyModel
     setExpended: (id: string) => void
-    expended: boolean
     onSelect: () => void
     isProcessing: boolean
+    expended: boolean
   }) => (
     <MandatePersonCard
       key={el.uuid}
@@ -252,7 +251,7 @@ const Proxy = memo(
       ]}
       onExpend={setExpended}
       onNarrow={setExpended}
-      expended={expended[el.id]}
+      expended={expended}
       maxProxyCount={el.slots}
       linkedPeople={el.requests?.map(req => ({
         id: req.id,

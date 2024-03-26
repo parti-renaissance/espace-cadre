@@ -32,7 +32,7 @@ export const ProcurationService = {
       signal,
     }),
   match: ({ uuid, proxy }: { uuid: string; proxy: string }) =>
-    apiClient.post(`${base}/${uuid}`, {
+    apiClient.post(`${base}/${uuid}/match`, {
       proxy,
     }),
 }
