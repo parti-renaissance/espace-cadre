@@ -49,9 +49,8 @@ export default function MandateMatchPage() {
   const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const onSelect = useCallback(
-    (proxyUuid: string) => () => {
-      const proxy = aggregate.find(({ uuid }) => uuid === proxyUuid)
-      if (!params.id || !proxy) {
+    (proxy: AvailableProxyModel) => () => {
+      if (!params.id) {
         return
       }
 
@@ -61,7 +60,7 @@ export default function MandateMatchPage() {
         },
       })
     },
-    [aggregate, navigate, params.id]
+    [navigate, params.id]
   )
 
   const setExpendedMemo = useCallback(
@@ -94,7 +93,7 @@ export default function MandateMatchPage() {
   return (
     <Page backButton>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
-        <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' }, my: MuiSpacing.normal }}>
+        <Grid item xs={12} sx={styles.titleSx}>
           <Typography fontWeight={fontWeight.medium} fontSize={18}>
             Mandant à lier
           </Typography>
@@ -115,7 +114,7 @@ export default function MandateMatchPage() {
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
-          <Grid item textAlign={'center'} sx={{ display: { xs: 'none', md: 'block' }, my: MuiSpacing.normal }}>
+          <Grid item textAlign={'center'} sx={styles.titleSx}>
             <Typography textAlign={'center'} fontSize={18} fontWeight={fontWeight.medium}>
               Mandataires
             </Typography>
@@ -131,7 +130,7 @@ export default function MandateMatchPage() {
                 </Grid>
               )}
 
-              <Proxy expended={expended[el.id]} setExpended={setExpendedMemo} el={el} onSelect={onSelect(el.uuid)} />
+              <Proxy expended={expended[el.id]} setExpended={setExpendedMemo} el={el} onSelect={onSelect(el)} />
             </Fragment>
           ))}
 
@@ -151,6 +150,10 @@ export default function MandateMatchPage() {
       </Grid>
     </Page>
   )
+}
+
+const styles = {
+  titleSx: { display: { xs: 'block', md: 'none' }, my: MuiSpacing.normal },
 }
 
 const getSectionName = (type: MatchingLevelEnum) => {
