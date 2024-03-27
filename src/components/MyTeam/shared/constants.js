@@ -2,6 +2,7 @@ export const roles = {
   general_secretary: 'Secrétaire général',
   treasurer: 'Trésorier',
   mobilization_manager: 'Responsable mobilisation',
+  procurations_manager: 'Responsable procurations',
   logistics_manager: 'Responsable logistique',
   communication_manager: 'Responsable communication',
   compliance_and_finance_manager: 'Responsable conformité et finance',
