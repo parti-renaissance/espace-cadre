@@ -9,9 +9,6 @@ import SkeletonCard from '~/components/Skeleton/SkeletonCard'
 import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import { buildAddress } from '~/utils/address'
-import { getFormattedDate } from '~/utils/date'
-import { parseISO } from 'date-fns'
 import Divider from '@mui/material/Divider'
 import { fontWeight } from '~/theme/typography'
 import useProcurationMatch from '~/api/Procuration/Hooks/useProcurationMatch'
@@ -20,6 +17,7 @@ import { AvailableProxyModel } from '~/api/Procuration/procuration.model'
 import paths from '~/shared/paths'
 import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
+import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
 
 export default function MandateValidationPage() {
   const params = useParams()
@@ -142,28 +140,7 @@ export default function MandateValidationPage() {
                 tags={[]}
                 votePlace={data.vote_place_name}
                 type={MandatePersonCardType.MATCH_MANDANT}
-                extraInfos={[
-                  {
-                    key: 'Age',
-                    value: `${data.age} ans`,
-                  },
-                  {
-                    key: 'Mail',
-                    value: data.email,
-                  },
-                  {
-                    key: 'Téléphone',
-                    value: data.phone ?? 'Pas de téléphone',
-                  },
-                  {
-                    key: 'Adresse postale',
-                    value: buildAddress(data.post_address),
-                  },
-                  {
-                    key: 'Date d’inscription',
-                    value: getFormattedDate(parseISO(data.created_at)),
-                  },
-                ]}
+                extraInfos={buildExtraData(data)}
                 expended
               />
             ) : (
@@ -181,40 +158,7 @@ export default function MandateValidationPage() {
                 tags={[]}
                 votePlace={proxy.vote_place_name}
                 type={MandatePersonCardType.MATCH_PROXY}
-                extraInfos={[
-                  {
-                    key: 'Age',
-                    value: `${proxy.age} ans`,
-                  },
-                  {
-                    key: 'Mail',
-                    value: proxy.email ? (
-                      <a href={`mailto:${proxy.email}`}>
-                        <Typography fontSize={14}>{proxy.email}</Typography>
-                      </a>
-                    ) : (
-                      ''
-                    ),
-                  },
-                  {
-                    key: 'Téléphone',
-                    value: proxy.phone ? (
-                      <a href={`tel:${proxy.phone}`}>
-                        <Typography fontSize={14}>{proxy.phone}</Typography>
-                      </a>
-                    ) : (
-                      'Pas de téléphone'
-                    ),
-                  },
-                  {
-                    key: 'Adresse postale',
-                    value: buildAddress(proxy.post_address),
-                  },
-                  {
-                    key: 'Date d’inscription',
-                    value: getFormattedDate(parseISO(proxy.created_at)),
-                  },
-                ]}
+                extraInfos={buildExtraData(proxy)}
                 expended
                 hideActions
               />

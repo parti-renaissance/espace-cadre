@@ -7,8 +7,6 @@ import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
 import { Fragment, memo, useCallback, useEffect, useState } from 'react'
-import { parseISO } from 'date-fns'
-import { getFormattedDate } from '~/utils/date'
 import {
   AvailableProxyModel,
   MatchingLevelEnum,
@@ -22,7 +20,7 @@ import useProcurationAvailableProxies from '~/api/Procuration/Hooks/useProcurati
 import { useIntersectionObserver } from '@uidotdev/usehooks'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
-import { buildAddress } from '~/utils/address'
+import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
 
 export default function MandateMatchPage() {
   const params = useParams()
@@ -172,28 +170,7 @@ const MandateInfo = memo((data: ProcurationModelWithPersonalInfos) => (
     tags={[]}
     votePlace={data.vote_place_name}
     type={MandatePersonCardType.MATCH_MANDANT}
-    extraInfos={[
-      {
-        key: 'Age',
-        value: `${data.age} ans`,
-      },
-      {
-        key: 'Mail',
-        value: data.email,
-      },
-      {
-        key: 'Téléphone',
-        value: data.phone ?? 'Pas de téléphone',
-      },
-      {
-        key: 'Adresse postale',
-        value: buildAddress(data.post_address),
-      },
-      {
-        key: 'Date d’inscription',
-        value: getFormattedDate(parseISO(data.created_at)),
-      },
-    ]}
+    extraInfos={buildExtraData(data)}
     expended
   />
 ))
@@ -220,40 +197,7 @@ const Proxy = memo(
       tags={[]}
       votePlace={el.vote_place_name}
       type={MandatePersonCardType.MATCH_PROXY}
-      extraInfos={[
-        {
-          key: 'Age',
-          value: `${el.age} ans`,
-        },
-        {
-          key: 'Mail',
-          value: el.email ? (
-            <a href={`mailto:${el.email}`}>
-              <Typography fontSize={14}>{el.email}</Typography>
-            </a>
-          ) : (
-            ''
-          ),
-        },
-        {
-          key: 'Téléphone',
-          value: el.phone ? (
-            <a href={`tel:${el.phone}`}>
-              <Typography fontSize={14}>{el.phone}</Typography>
-            </a>
-          ) : (
-            'Pas de téléphone'
-          ),
-        },
-        {
-          key: 'Adresse postale',
-          value: buildAddress(el.post_address),
-        },
-        {
-          key: 'Date d’inscription',
-          value: getFormattedDate(el.created_at),
-        },
-      ]}
+      extraInfos={buildExtraData(el)}
       onExpend={setExpended}
       onNarrow={setExpended}
       expended={expended}
