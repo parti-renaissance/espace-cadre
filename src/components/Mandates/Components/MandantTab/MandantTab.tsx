@@ -17,6 +17,8 @@ import { formatDate } from '~/shared/helpers'
 import { dateFormat } from '~/utils/date'
 import paths from '~/shared/paths'
 import { useNavigate } from 'react-router-dom'
+import { useSessionStorage } from 'react-use'
+import MandateSuccessModal from '~/components/Mandates/Components/MandateSuccessModal/MandateSuccessModal'
 
 export default function MandantTab() {
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
@@ -29,6 +31,9 @@ export default function MandantTab() {
 
   const [expended, setExpended] = useState<Record<string, boolean>>({})
 
+  const [procurationSuccessFlash, setProcurationSuccessFlash] = useSessionStorage<
+    { mandate: string; proxy: string } | false
+  >('procurationSuccessFlash', false)
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
@@ -45,60 +50,74 @@ export default function MandantTab() {
     setExpended(el)
   }, [])
 
+  const onCloseModal = useCallback(() => {
+    setProcurationSuccessFlash(false)
+  }, [setProcurationSuccessFlash])
+
   return (
-    <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
-      <Grid item {...gridStandardLayout.oneThird}>
-        <MandateIntroduction />
+    <>
+      <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
+        <Grid item {...gridStandardLayout.oneThird}>
+          <MandateIntroduction />
+        </Grid>
+
+        <Grid item {...gridStandardLayout.twoThirds}>
+          {isInitialLoading ? (
+            <MandateSkeleton />
+          ) : (
+            <>
+              <Grid item sx={{ mb: MuiSpacing.large }}>
+                <p>
+                  <Typography fontWeight={fontWeight.medium}>{formatToFrenchNumberString(total)} Mandants</Typography>
+                </p>
+              </Grid>
+
+              {isFetchingPreviousPage && (
+                <Grid item textAlign={'center'} {...withBottomSpacing}>
+                  <Loader />
+                </Grid>
+              )}
+
+              {aggregate.map(entry => (
+                <MandateItem
+                  key={entry.uuid}
+                  item={entry}
+                  expended={Boolean(expended[entry.id])}
+                  setExpended={setExpendedHandler}
+                />
+              ))}
+
+              {isFetchingNextPage && (
+                <Grid item textAlign={'center'} {...withBottomSpacing}>
+                  <Loader />
+                </Grid>
+              )}
+
+              {/* Intersection observer for infinite scroll, do not remove. */}
+              {!isInitialLoading && (
+                <div ref={ref} data-cy={'intersection-observer'} data-testid={'intersection-observer'} />
+              )}
+
+              {!hasNextPage && aggregate.length > 0 && (
+                <div style={{ textAlign: 'center' }}>
+                  <Typography color={'text.disabled'} fontSize={12}>
+                    Il n’y a pas d’autre résultats.
+                  </Typography>
+                </div>
+              )}
+            </>
+          )}
+        </Grid>
       </Grid>
 
-      <Grid item {...gridStandardLayout.twoThirds}>
-        {isInitialLoading ? (
-          <MandateSkeleton />
-        ) : (
-          <>
-            <Grid item sx={{ mb: MuiSpacing.large }}>
-              <p>
-                <Typography fontWeight={fontWeight.medium}>{formatToFrenchNumberString(total)} Mandants</Typography>
-              </p>
-            </Grid>
-
-            {isFetchingPreviousPage && (
-              <Grid item textAlign={'center'} {...withBottomSpacing}>
-                <Loader />
-              </Grid>
-            )}
-
-            {aggregate.map(entry => (
-              <MandateItem
-                key={entry.uuid}
-                item={entry}
-                expended={Boolean(expended[entry.id])}
-                setExpended={setExpendedHandler}
-              />
-            ))}
-
-            {isFetchingNextPage && (
-              <Grid item textAlign={'center'} {...withBottomSpacing}>
-                <Loader />
-              </Grid>
-            )}
-
-            {/* Intersection observer for infinite scroll, do not remove. */}
-            {!isInitialLoading && (
-              <div ref={ref} data-cy={'intersection-observer'} data-testid={'intersection-observer'} />
-            )}
-
-            {!hasNextPage && aggregate.length > 0 && (
-              <div style={{ textAlign: 'center' }}>
-                <Typography color={'text.disabled'} fontSize={12}>
-                  Il n’y a pas d’autre résultats.
-                </Typography>
-              </div>
-            )}
-          </>
-        )}
-      </Grid>
-    </Grid>
+      {procurationSuccessFlash && (
+        <MandateSuccessModal
+          mandate={procurationSuccessFlash.mandate}
+          proxy={procurationSuccessFlash.proxy}
+          onClose={onCloseModal}
+        />
+      )}
+    </>
   )
 }
 
