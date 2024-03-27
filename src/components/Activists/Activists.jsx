@@ -35,7 +35,7 @@ const Activists = () => {
     ...debouncedFilters,
     zones: debouncedFilters.zones.map(z => z.uuid),
     page,
-    itemsPerPage: perPage,
+    page_size: perPage,
   })
 
   const { mutate: exportActivists, isLoading: isExporting } = useExportActivists({
