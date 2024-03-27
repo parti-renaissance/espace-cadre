@@ -234,11 +234,23 @@ const Proxy = memo(
         },
         {
           key: 'Mail',
-          value: el.email,
+          value: el.email ? (
+            <a href={`mailto:${el.email}`}>
+              <Typography fontSize={14}>{el.email}</Typography>
+            </a>
+          ) : (
+            ''
+          ),
         },
         {
           key: 'Téléphone',
-          value: el.phone ?? 'Pas de téléphone',
+          value: el.phone ? (
+            <a href={`tel:${el.phone}`}>
+              <Typography fontSize={14}>{el.phone}</Typography>
+            </a>
+          ) : (
+            'Pas de téléphone'
+          ),
         },
         {
           key: 'Adresse postale',

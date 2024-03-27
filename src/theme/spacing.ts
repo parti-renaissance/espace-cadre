@@ -17,10 +17,12 @@ export const gridStandardLayout = {
     xs: 12,
     sm: 12,
     md: 4,
+    lg: 5,
   },
   twoThirds: {
     xs: 12,
     sm: 12,
     md: 8,
+    lg: 7,
   },
 }
