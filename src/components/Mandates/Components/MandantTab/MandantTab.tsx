@@ -15,6 +15,8 @@ import MandateSkeleton from '~/components/Mandates/Components/MandantTab/Compone
 import { buildAddress } from '~/utils/address'
 import { formatDate } from '~/shared/helpers'
 import { dateFormat } from '~/utils/date'
+import paths from '~/shared/paths'
+import { useNavigate } from 'react-router-dom'
 
 export default function MandantTab() {
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
@@ -109,45 +111,50 @@ const MandateItem = memo(
     item: ProcurationModel
     expended: boolean
     setExpended: Dispatch<SetStateAction<Record<string, boolean>>>
-  }) => (
-    <MandatePersonCard
-      firstName={item.first_names}
-      lastName={item.last_name}
-      votePlace={item.vote_place_name}
-      location={item.vote_zone?.name}
-      peopleInSameVotePlace={item.available_proxies_count}
-      tags={item.tags ?? []}
-      id={item.id}
-      expended={expended}
-      demandId={item.uuid}
-      extraInfos={[
-        {
-          key: 'Âge',
-          value: `${item.age} ans`,
-        },
-        {
-          key: 'Adresse postale',
-          value: buildAddress(item.post_address),
-        },
-        {
-          key: 'Date d’inscription',
-          value: formatDate(item.created_at, dateFormat),
-        },
-      ]}
-      onExpend={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: true,
-        }))
-      }
-      onNarrow={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: false,
-        }))
-      }
-      type={MandatePersonCardType.FIND}
-    />
-  )
+  }) => {
+    const navigate = useNavigate()
+
+    return (
+      <MandatePersonCard
+        firstName={item.first_names}
+        lastName={item.last_name}
+        votePlace={item.vote_place_name}
+        location={item.vote_zone?.name}
+        peopleInSameVotePlace={item.available_proxies_count}
+        tags={item.tags ?? []}
+        id={item.id}
+        expended={expended}
+        demandId={item.uuid}
+        extraInfos={[
+          {
+            key: 'Âge',
+            value: `${item.age} ans`,
+          },
+          {
+            key: 'Adresse postale',
+            value: buildAddress(item.post_address),
+          },
+          {
+            key: 'Date d’inscription',
+            value: formatDate(item.created_at, dateFormat),
+          },
+        ]}
+        onExpend={id =>
+          setExpended(v => ({
+            ...v,
+            [id]: true,
+          }))
+        }
+        onNarrow={id =>
+          setExpended(v => ({
+            ...v,
+            [id]: false,
+          }))
+        }
+        type={MandatePersonCardType.FIND}
+        onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+      />
+    )
+  }
 )
 MandateItem.displayName = 'MandateItem'

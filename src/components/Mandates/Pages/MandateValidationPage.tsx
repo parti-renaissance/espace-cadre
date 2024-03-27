@@ -15,12 +15,25 @@ import { parseISO } from 'date-fns'
 import Divider from '@mui/material/Divider'
 import { fontWeight } from '~/theme/typography'
 import useProcurationMatch from '~/api/Procuration/Hooks/useProcurationMatch'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { AvailableProxyModel } from '~/api/Procuration/procuration.model'
+import paths from '~/shared/paths'
+import { isAxiosError } from 'axios'
+import { closeSnackbar, enqueueSnackbar } from 'notistack'
 
 export default function MandateValidationPage() {
   const params = useParams()
+  const { state } = useLocation()
+  const navigate = useNavigate()
 
   const { data } = useProcurationRequest({ uuid: params.id })
   const { mutateAsync, isLoading: isMatching } = useProcurationMatch()
+
+  if (state === null) {
+    navigate(-1)
+  }
+
+  const { proxy }: { proxy: AvailableProxyModel } = state
 
   return (
     <Page backButton>
@@ -37,20 +50,20 @@ export default function MandateValidationPage() {
                   <ListItem>
                     <Typography fontSize={14}>
                       <MandantSpan>1. {data?.first_names}</MandantSpan> recevra un email duquel{' '}
-                      <ProxySpan>Thoédore</ProxySpan> et vous même serez en copie.
+                      <ProxySpan>{proxy.first_names}</ProxySpan> et vous même serez en copie.
                     </Typography>
                   </ListItem>
                   <ListItem>
                     <Typography fontSize={14}>
                       <MandantSpan>2. {data?.first_names}</MandantSpan> trouvera dans cet email les informations
                       nécessaires à la réalisation de la procuration qu’il devra confirmer à{' '}
-                      <ProxySpan>Théodore</ProxySpan>
+                      <ProxySpan>{proxy.first_names}</ProxySpan>
                     </Typography>
                   </ListItem>
                   <ListItem>
                     <Typography fontSize={14}>
-                      <ProxySpan>3. Théodore</ProxySpan> devra se déplacer dans le bureau de vote de{' '}
-                      <MandantSpan>Laurent</MandantSpan> (
+                      <ProxySpan>3. {proxy.first_names}</ProxySpan> devra se déplacer dans le bureau de vote de{' '}
+                      <MandantSpan>{data?.first_names}</MandantSpan> (
                       <Typography fontSize={14} color={'success.main'}>
                         {data?.vote_place_name}
                       </Typography>
@@ -82,7 +95,7 @@ export default function MandateValidationPage() {
                     variant={'contained'}
                     disabled={isMatching}
                     onClick={() => {
-                      const { id, proxy } = params
+                      const { id } = params
 
                       if (!id || !proxy) {
                         return
@@ -90,8 +103,26 @@ export default function MandateValidationPage() {
 
                       mutateAsync({
                         uuid: id,
-                        proxy: proxy,
+                        proxy: proxy.uuid,
                       })
+                        .then(() => navigate(paths.procurations))
+                        .catch((error: Error) => {
+                          if (isAxiosError(error)) {
+                            enqueueSnackbar(error.response?.data.message, {
+                              variant: 'error',
+                              action: () => (
+                                <Button
+                                  onClick={() => {
+                                    closeSnackbar()
+                                    navigate(-1)
+                                  }}
+                                >
+                                  Retour
+                                </Button>
+                              ),
+                            })
+                          }
+                        })
                     }}
                   >
                     Lier
@@ -141,38 +172,51 @@ export default function MandateValidationPage() {
           </Grid>
 
           <Grid item xs={6}>
-            {data ? (
+            {proxy ? (
               <MandatePersonCard
-                firstName={data.first_names}
-                lastName={data?.last_name}
-                id={data.id}
-                location={data.vote_zone.name}
+                firstName={proxy.first_names}
+                lastName={proxy.last_name}
+                id={proxy.id}
+                location={proxy.vote_zone.name}
                 tags={[]}
-                votePlace={data.vote_place_name}
+                votePlace={proxy.vote_place_name}
                 type={MandatePersonCardType.MATCH_PROXY}
                 extraInfos={[
                   {
                     key: 'Age',
-                    value: `${data.age} ans`,
+                    value: `${proxy.age} ans`,
                   },
                   {
                     key: 'Mail',
-                    value: data.email,
+                    value: proxy.email ? (
+                      <a href={`mailto:${proxy.email}`}>
+                        <Typography fontSize={14}>{proxy.email}</Typography>
+                      </a>
+                    ) : (
+                      ''
+                    ),
                   },
                   {
                     key: 'Téléphone',
-                    value: data.phone ?? 'Pas de téléphone',
+                    value: proxy.phone ? (
+                      <a href={`tel:${proxy.phone}`}>
+                        <Typography fontSize={14}>{proxy.phone}</Typography>
+                      </a>
+                    ) : (
+                      'Pas de téléphone'
+                    ),
                   },
                   {
                     key: 'Adresse postale',
-                    value: buildAddress(data.post_address),
+                    value: buildAddress(proxy.post_address),
                   },
                   {
                     key: 'Date d’inscription',
-                    value: getFormattedDate(parseISO(data.created_at)),
+                    value: getFormattedDate(parseISO(proxy.created_at)),
                   },
                 ]}
                 expended
+                hideActions
               />
             ) : (
               <SkeletonCard />

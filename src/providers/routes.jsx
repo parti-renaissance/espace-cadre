@@ -88,7 +88,7 @@ const AppPrivateRoutes = () => {
           element={currentScope.hasFeature(features.procurations) && <MandateMatchPage />}
         />
         <Route
-          path={`${paths.procurations}/request/:id/:proxy/link`}
+          path={`${paths.procurations}/request/:id/link`}
           element={currentScope.hasFeature(features.procurations) && <MandateValidationPage />}
         />
       </Routes>

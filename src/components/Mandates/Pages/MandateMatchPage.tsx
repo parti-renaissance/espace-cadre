@@ -20,7 +20,6 @@ import Divider from '@mui/material/Divider'
 import { grey } from '~/theme/palette'
 import useProcurationAvailableProxies from '~/api/Procuration/Hooks/useProcurationAvailableProxies'
 import { useIntersectionObserver } from '@uidotdev/usehooks'
-import useProcurationMatch from '~/api/Procuration/Hooks/useProcurationMatch'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
 import { buildAddress } from '~/utils/address'
@@ -29,7 +28,6 @@ export default function MandateMatchPage() {
   const params = useParams()
   const navigate = useNavigate()
 
-  const { mutateAsync, isLoading: isMatching } = useProcurationMatch()
   const { isError: procurationError, data, isLoading } = useProcurationRequest({ uuid: params.id })
   const { aggregate, hasNextPage, fetchNextPage, isInitialLoading } = useProcurationAvailableProxies({
     uuid: params.id,
@@ -52,18 +50,18 @@ export default function MandateMatchPage() {
 
   const onSelect = useCallback(
     (proxyUuid: string) => () => {
-      if (!params.id) {
+      const proxy = aggregate.find(({ uuid }) => uuid === proxyUuid)
+      if (!params.id || !proxy) {
         return
       }
 
-      mutateAsync({
-        uuid: params.id,
-        proxy: proxyUuid,
-      }).then(() => {
-        navigate(paths.procurations)
+      navigate(`${paths.procurations}/request/${params.id}/link`, {
+        state: {
+          proxy,
+        },
       })
     },
-    [mutateAsync, navigate, params.id]
+    [aggregate, navigate, params.id]
   )
 
   const setExpendedMemo = useCallback(
@@ -74,6 +72,10 @@ export default function MandateMatchPage() {
       })),
     []
   )
+
+  if (data?.status !== 'pending') {
+    navigate(paths.procurations)
+  }
 
   if (isLoading) {
     return <MandateMatchPageSkeleton />
@@ -129,13 +131,7 @@ export default function MandateMatchPage() {
                 </Grid>
               )}
 
-              <Proxy
-                expended={expended[el.id]}
-                setExpended={setExpendedMemo}
-                el={el}
-                onSelect={onSelect(el.uuid)}
-                isProcessing={isMatching}
-              />
+              <Proxy expended={expended[el.id]} setExpended={setExpendedMemo} el={el} onSelect={onSelect(el.uuid)} />
             </Fragment>
           ))}
 
@@ -210,12 +206,10 @@ const Proxy = memo(
     setExpended,
     expended,
     onSelect,
-    isProcessing,
   }: {
     el: AvailableProxyModel
     setExpended: (id: string) => void
     onSelect: () => void
-    isProcessing: boolean
     expended: boolean
   }) => (
     <MandatePersonCard
@@ -265,14 +259,13 @@ const Proxy = memo(
       onNarrow={setExpended}
       expended={expended}
       maxProxyCount={el.slots}
+      onSelect={onSelect}
       linkedPeople={el.requests?.map(req => ({
         id: req.id,
         firstName: req.first_names,
         lastName: req.last_name,
         gender: req.gender,
       }))}
-      onSelect={onSelect}
-      isProcessing={isProcessing}
     />
   )
 )
