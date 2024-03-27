@@ -93,7 +93,7 @@ export default function MandateMatchPage() {
   return (
     <Page backButton>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
-        <Grid item xs={12} sx={styles.titleSx}>
+        <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' }, my: MuiSpacing.normal }}>
           <Typography fontWeight={fontWeight.medium} fontSize={18}>
             Mandant à lier
           </Typography>
@@ -114,7 +114,7 @@ export default function MandateMatchPage() {
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
-          <Grid item textAlign={'center'} sx={styles.titleSx}>
+          <Grid item textAlign={'center'} sx={{ display: { xs: 'none', md: 'block' }, my: MuiSpacing.normal }}>
             <Typography textAlign={'center'} fontSize={18} fontWeight={fontWeight.medium}>
               Mandataires
             </Typography>
@@ -150,10 +150,6 @@ export default function MandateMatchPage() {
       </Grid>
     </Page>
   )
-}
-
-const styles = {
-  titleSx: { display: { xs: 'block', md: 'none' }, my: MuiSpacing.normal },
 }
 
 const getSectionName = (type: MatchingLevelEnum) => {
