@@ -5,6 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 
 interface ModalBaseProps extends Omit<ModalProps, 'open'> {
+  // True if you want to display a full page instead on modal on XS viewport.
   pageOnMobile?: boolean
 }
 
