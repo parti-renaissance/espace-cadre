@@ -45,7 +45,17 @@ export default function MandateValidationPage() {
       uuid: id,
       proxy: proxy.uuid,
     })
-      .then(() => navigate(paths.procurations))
+      .then(() => {
+        // We don't use "useSessionStorage" as it is not instant
+        sessionStorage.setItem(
+          'procurationSuccessFlash',
+          JSON.stringify({
+            mandate: data!.first_names,
+            proxy: proxy.first_names,
+          })
+        )
+        navigate(paths.procurations)
+      })
       .catch((error: Error) => {
         if (isAxiosError(error)) {
           enqueueSnackbar(error.response?.data.message, {
@@ -63,7 +73,7 @@ export default function MandateValidationPage() {
           })
         }
       })
-  }, [mutateAsync, navigate, params, proxy])
+  }, [data, mutateAsync, navigate, params, proxy])
 
   return (
     <Page backButton>
