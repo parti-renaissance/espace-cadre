@@ -18,6 +18,7 @@ import paths from '~/shared/paths'
 import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
 import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
+import { useCallback } from 'react'
 
 export default function MandateValidationPage() {
   const params = useParams()
@@ -32,6 +33,37 @@ export default function MandateValidationPage() {
   }
 
   const { proxy }: { proxy: AvailableProxyModel } = state
+
+  const onLink = useCallback(() => {
+    const { id } = params
+
+    if (!id || !proxy) {
+      return
+    }
+
+    mutateAsync({
+      uuid: id,
+      proxy: proxy.uuid,
+    })
+      .then(() => navigate(paths.procurations))
+      .catch((error: Error) => {
+        if (isAxiosError(error)) {
+          enqueueSnackbar(error.response?.data.message, {
+            variant: 'error',
+            action: () => (
+              <Button
+                onClick={() => {
+                  closeSnackbar()
+                  navigate(-1)
+                }}
+              >
+                Retour
+              </Button>
+            ),
+          })
+        }
+      })
+  }, [mutateAsync, navigate, params, proxy])
 
   return (
     <Page backButton>
@@ -88,41 +120,7 @@ export default function MandateValidationPage() {
                 </Grid>
 
                 <Grid item xs={12} textAlign={'right'}>
-                  <Button
-                    startIcon={<Icon />}
-                    variant={'contained'}
-                    disabled={isMatching}
-                    onClick={() => {
-                      const { id } = params
-
-                      if (!id || !proxy) {
-                        return
-                      }
-
-                      mutateAsync({
-                        uuid: id,
-                        proxy: proxy.uuid,
-                      })
-                        .then(() => navigate(paths.procurations))
-                        .catch((error: Error) => {
-                          if (isAxiosError(error)) {
-                            enqueueSnackbar(error.response?.data.message, {
-                              variant: 'error',
-                              action: () => (
-                                <Button
-                                  onClick={() => {
-                                    closeSnackbar()
-                                    navigate(-1)
-                                  }}
-                                >
-                                  Retour
-                                </Button>
-                              ),
-                            })
-                          }
-                        })
-                    }}
-                  >
+                  <Button startIcon={<Icon />} variant={'contained'} disabled={isMatching} onClick={onLink}>
                     Lier
                   </Button>
                 </Grid>
