@@ -11,8 +11,6 @@ import { fontWeight } from '~/theme/typography'
 import { activistTagShape } from '~/shared/activistTagShape'
 import { grey, success, tagsColor } from '~/theme/palette'
 import { LabelTypeModel } from '~/models/activist.model'
-import { useNavigate } from 'react-router-dom'
-import paths from '~/shared/paths'
 import styled from '@emotion/styled'
 import { ReactNode } from 'react'
 
@@ -35,7 +33,10 @@ export interface MandatePersonCardProps {
   linkedPeople?: LightPersonModel[]
   maxProxyCount?: number
   onSelect?: () => void
+  // Disable action buttons
   isProcessing?: boolean
+  // Hide actions buttons "Trouver un mandataire", "Sélectionner" and so on.
+  hideActions?: boolean
 }
 
 export enum MandatePersonCardType {
@@ -52,9 +53,11 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
 
-        <Grid item md={4} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
-          <ButtonGroup {...props} />
-        </Grid>
+        {!props.hideActions && (
+          <Grid item md={4} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
+            <ButtonGroup {...props} />
+          </Grid>
+        )}
 
         <Grid item xs={12}>
           {[MandatePersonCardType.MATCH_MANDANT, MandatePersonCardType.FIND].includes(props.type) && <MandateTag />}
@@ -74,9 +77,11 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           ))}
         </Grid>
 
-        <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
-          <ButtonGroup fullWidth {...props} />
-        </Grid>
+        {!props.hideActions && (
+          <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
+            <ButtonGroup fullWidth {...props} />
+          </Grid>
+        )}
       </Grid>
 
       {typeof props.peopleInSameVotePlace === 'number' ? (
@@ -154,18 +159,10 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 }
 
 const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) => {
-  const navigate = useNavigate()
-
   switch (props.type) {
     case MandatePersonCardType.FIND:
       return (
-        <Button
-          onClick={() => {
-            navigate(`${paths.procurations}/request/${props.demandId}`)
-          }}
-          variant={'contained'}
-          fullWidth={props.fullWidth}
-        >
+        <Button onClick={props.onSelect} variant={'contained'} fullWidth={props.fullWidth}>
           Trouver un mandataire
         </Button>
       )

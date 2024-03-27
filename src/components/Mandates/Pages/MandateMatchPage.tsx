@@ -7,8 +7,6 @@ import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
 import { Fragment, memo, useCallback, useEffect, useState } from 'react'
-import { parseISO } from 'date-fns'
-import { getFormattedDate } from '~/utils/date'
 import {
   AvailableProxyModel,
   MatchingLevelEnum,
@@ -20,16 +18,14 @@ import Divider from '@mui/material/Divider'
 import { grey } from '~/theme/palette'
 import useProcurationAvailableProxies from '~/api/Procuration/Hooks/useProcurationAvailableProxies'
 import { useIntersectionObserver } from '@uidotdev/usehooks'
-import useProcurationMatch from '~/api/Procuration/Hooks/useProcurationMatch'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
-import { buildAddress } from '~/utils/address'
+import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
 
 export default function MandateMatchPage() {
   const params = useParams()
   const navigate = useNavigate()
 
-  const { mutateAsync, isLoading: isMatching } = useProcurationMatch()
   const { isError: procurationError, data, isLoading } = useProcurationRequest({ uuid: params.id })
   const { aggregate, hasNextPage, fetchNextPage, isInitialLoading } = useProcurationAvailableProxies({
     uuid: params.id,
@@ -51,19 +47,18 @@ export default function MandateMatchPage() {
   const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const onSelect = useCallback(
-    (proxyUuid: string) => () => {
+    (proxy: AvailableProxyModel) => () => {
       if (!params.id) {
         return
       }
 
-      mutateAsync({
-        uuid: params.id,
-        proxy: proxyUuid,
-      }).then(() => {
-        navigate(paths.procurations)
+      navigate(`${paths.procurations}/request/${params.id}/link`, {
+        state: {
+          proxy,
+        },
       })
     },
-    [mutateAsync, navigate, params.id]
+    [navigate, params.id]
   )
 
   const setExpendedMemo = useCallback(
@@ -74,6 +69,10 @@ export default function MandateMatchPage() {
       })),
     []
   )
+
+  if (data?.status !== 'pending') {
+    navigate(paths.procurations)
+  }
 
   if (isLoading) {
     return <MandateMatchPageSkeleton />
@@ -129,13 +128,7 @@ export default function MandateMatchPage() {
                 </Grid>
               )}
 
-              <Proxy
-                expended={expended[el.id]}
-                setExpended={setExpendedMemo}
-                el={el}
-                onSelect={onSelect(el.uuid)}
-                isProcessing={isMatching}
-              />
+              <Proxy expended={expended[el.id]} setExpended={setExpendedMemo} el={el} onSelect={onSelect(el)} />
             </Fragment>
           ))}
 
@@ -177,28 +170,7 @@ const MandateInfo = memo((data: ProcurationModelWithPersonalInfos) => (
     tags={[]}
     votePlace={data.vote_place_name}
     type={MandatePersonCardType.MATCH_MANDANT}
-    extraInfos={[
-      {
-        key: 'Age',
-        value: `${data.age} ans`,
-      },
-      {
-        key: 'Mail',
-        value: data.email,
-      },
-      {
-        key: 'Téléphone',
-        value: data.phone ?? 'Pas de téléphone',
-      },
-      {
-        key: 'Adresse postale',
-        value: buildAddress(data.post_address),
-      },
-      {
-        key: 'Date d’inscription',
-        value: getFormattedDate(parseISO(data.created_at)),
-      },
-    ]}
+    extraInfos={buildExtraData(data)}
     expended
   />
 ))
@@ -210,12 +182,10 @@ const Proxy = memo(
     setExpended,
     expended,
     onSelect,
-    isProcessing,
   }: {
     el: AvailableProxyModel
     setExpended: (id: string) => void
     onSelect: () => void
-    isProcessing: boolean
     expended: boolean
   }) => (
     <MandatePersonCard
@@ -227,52 +197,18 @@ const Proxy = memo(
       tags={[]}
       votePlace={el.vote_place_name}
       type={MandatePersonCardType.MATCH_PROXY}
-      extraInfos={[
-        {
-          key: 'Age',
-          value: `${el.age} ans`,
-        },
-        {
-          key: 'Mail',
-          value: el.email ? (
-            <a href={`mailto:${el.email}`}>
-              <Typography fontSize={14}>{el.email}</Typography>
-            </a>
-          ) : (
-            ''
-          ),
-        },
-        {
-          key: 'Téléphone',
-          value: el.phone ? (
-            <a href={`tel:${el.phone}`}>
-              <Typography fontSize={14}>{el.phone}</Typography>
-            </a>
-          ) : (
-            'Pas de téléphone'
-          ),
-        },
-        {
-          key: 'Adresse postale',
-          value: buildAddress(el.post_address),
-        },
-        {
-          key: 'Date d’inscription',
-          value: getFormattedDate(el.created_at),
-        },
-      ]}
+      extraInfos={buildExtraData(el)}
       onExpend={setExpended}
       onNarrow={setExpended}
       expended={expended}
       maxProxyCount={el.slots}
+      onSelect={onSelect}
       linkedPeople={el.requests?.map(req => ({
         id: req.id,
         firstName: req.first_names,
         lastName: req.last_name,
         gender: req.gender,
       }))}
-      onSelect={onSelect}
-      isProcessing={isProcessing}
     />
   )
 )
