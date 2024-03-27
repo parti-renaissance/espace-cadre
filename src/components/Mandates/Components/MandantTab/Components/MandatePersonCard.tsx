@@ -14,6 +14,7 @@ import { LabelTypeModel } from '~/models/activist.model'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
 import styled from '@emotion/styled'
+import { ReactNode } from 'react'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -25,7 +26,7 @@ export interface MandatePersonCardProps {
   location: string
   id: string
   expended?: boolean
-  extraInfos?: KeyValueModel[]
+  extraInfos?: KeyValueModel<string | ReactNode>[]
   onExpend?: (id: string) => void
   onNarrow?: (id: string) => void
   demandId?: string
@@ -56,7 +57,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         </Grid>
 
         <Grid item xs={12}>
-          {props.type === MandatePersonCardType.MATCH_MANDANT && <MandateTag />}
+          {[MandatePersonCardType.MATCH_MANDANT, MandatePersonCardType.FIND].includes(props.type) && <MandateTag />}
 
           {props.type === MandatePersonCardType.MATCH_PROXY && <ProxyTag />}
 
@@ -78,13 +79,13 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         </Grid>
       </Grid>
 
-      {props.peopleInSameVotePlace && (
+      {typeof props.peopleInSameVotePlace === 'number' ? (
         <Grid container sx={{ mb: MuiSpacing.large }}>
           <Grid item xs={12}>
             <MandatePeopleNumber count={props.peopleInSameVotePlace} />
           </Grid>
         </Grid>
-      )}
+      ) : null}
 
       {props.linkedPeople !== undefined && (
         <MandateCardEntry title={'Procurations'} value={`${props.linkedPeople?.length}/${props.maxProxyCount}`} />
