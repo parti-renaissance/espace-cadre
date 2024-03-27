@@ -9,3 +9,4 @@
 !tsconfig.json
 !tsconfig.node.json
 !nginx.conf
+!custom.d.ts
