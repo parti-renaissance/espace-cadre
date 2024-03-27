@@ -132,7 +132,7 @@ export default function MandateValidationPage() {
             </Paper>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={12} md={6}>
             {data ? (
               <MandatePersonCard
                 firstName={data.first_names}
@@ -171,7 +171,7 @@ export default function MandateValidationPage() {
             )}
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={12} md={6}>
             {proxy ? (
               <MandatePersonCard
                 firstName={proxy.first_names}
