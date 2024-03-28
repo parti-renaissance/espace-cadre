@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { Grid } from '@mui/material'
 import { withBottomSpacing } from '~/theme/spacing'
 import MandantTab from '~/components/Mandates/Components/MandantTab/MandantTab'
+import ProxyTab from '../Components/ProxyTab/ProxyTab'
 
 export default function MandateListPage() {
   const [currentTab, setCurrentTab] = useState(0)
@@ -18,6 +19,14 @@ export default function MandateListPage() {
       case 1:
         return function TabMemo() {
           return <MandantTab done />
+        }
+      case 2:
+        return function TabMemo() {
+          return <ProxyTab />
+        }
+      case 3:
+        return function TabMemo() {
+          return <ProxyTab done />
         }
     }
   }, [currentTab])
@@ -45,11 +54,9 @@ const tabs: TabProps[] = [
   {
     id: 'mandataires',
     label: 'Mandataires',
-    disabled: true,
   },
   {
     id: 'treated-mandataires',
     label: 'Mandataires traités',
-    disabled: true,
   },
 ]

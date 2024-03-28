@@ -49,6 +49,7 @@ const TabsComponent = ({ elements, value, onChangeTab }: TabsProps) => {
               </Typography>
             }
             id={`tab-${element.label}`}
+            data-testid={`tab-${element.id}`}
             aria-label={element.label}
             aria-controls={`tab-${element.label}`}
           />

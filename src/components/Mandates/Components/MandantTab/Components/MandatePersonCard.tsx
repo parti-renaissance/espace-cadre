@@ -13,6 +13,7 @@ import { grey, success, tagsColor } from '~/theme/palette'
 import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
+import pluralize from '~/components/shared/pluralize/pluralize'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -43,6 +44,7 @@ export enum MandatePersonCardType {
   FIND = 'find',
   MATCH_MANDANT = 'match_mandant',
   MATCH_PROXY = 'match_proxy',
+  MATCHED_PROXY = 'matched_proxy',
   MATCHED_MANDANT = 'matched_mandant',
 }
 
@@ -67,7 +69,9 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
             MandatePersonCardType.MATCHED_MANDANT,
           ].includes(props.type) && <MandateTag done={props.type === MandatePersonCardType.MATCHED_MANDANT} />}
 
-          {props.type === MandatePersonCardType.MATCH_PROXY && <ProxyTag />}
+          {[MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) && (
+            <ProxyTag done={props.type === MandatePersonCardType.MATCHED_PROXY} />
+          )}
 
           {props.tags.map(tag => (
             <UIChip
@@ -97,9 +101,13 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         </Grid>
       ) : null}
 
-      {props.linkedPeople !== undefined && props.type === MandatePersonCardType.MATCH_PROXY && (
-        <MandateCardEntry title={'Procurations'} value={`${props.linkedPeople?.length}/${props.maxProxyCount}`} />
-      )}
+      {props.linkedPeople !== undefined &&
+        [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) && (
+          <MandateCardEntry
+            title={pluralize(props.linkedPeople.length, 'Procuration')}
+            value={`${props.linkedPeople.length}/${props.maxProxyCount}`}
+          />
+        )}
 
       {props.linkedPeople && props.linkedPeople.length > 0 && (
         <Grid item sx={{ mb: MuiSpacing.large }}>
@@ -202,9 +210,9 @@ const MandateTag = ({ done }: { done?: boolean }) => (
   />
 )
 
-const ProxyTag = () => (
+const ProxyTag = ({ done }: { done?: boolean }) => (
   <UIChip
-    label={'Mandataire'}
+    label={done ? 'Mandataire traité' : 'Mandataire'}
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
