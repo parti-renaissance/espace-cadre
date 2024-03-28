@@ -11,4 +11,9 @@ export const unlayerTemplateIds = {
   [scopes.regional_delegate]: 401163,
   [scopes.president_departmental_assembly]: 293625,
 }
+
+export const templateByType = {
+  event: 'bf63cd0e-3f7d-4e98-a0e7-bb6800208b02',
+}
+
 export const defaultUnlayerTemplateId = 41208

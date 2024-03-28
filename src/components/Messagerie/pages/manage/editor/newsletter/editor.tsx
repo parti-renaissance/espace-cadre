@@ -17,9 +17,44 @@ import useDrawerStore from '~/stores/drawerStore'
 import Message, { MessageContent } from '~/domain/message'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { useUserScope } from '~/redux/user/hooks'
-import { defaultUnlayerTemplateId, unlayerTemplateIds } from '~/components/Messagerie/shared/unlayerTemplateIds'
+import { defaultUnlayerTemplateId, unlayerTemplateIds, templateByType } from '~/shared/unlayerTemplateIds'
+
+import { PrefillTemplateDetails, usePrefillTemplate, useGetPrefillDetails } from '~/hooks/use-prefill-template'
 
 const clearBody = (body: string) => body.substring(body.indexOf('<table'), body.lastIndexOf('</table>') + 8)
+
+type PayloadFetchMessageContent = {
+  messageId?: string | null
+  templateId?: string | null
+} & PrefillTemplateDetails
+
+const getTemplateIdByType = (type: string) => {
+  const template = templateByType[type]
+  if (!template) {
+    throw new Error(`No template found for type ${type}`)
+  }
+  return template
+}
+
+const getMessageContentQuery = ({
+  messageId,
+  templateId,
+  type,
+  dataId,
+}: PayloadFetchMessageContent): (() => Promise<MessageContent>) => {
+  if (messageId) {
+    return () => getMessageContent(messageId)
+  }
+
+  if (templateId) {
+    return () => getTemplate(templateId)
+  }
+
+  if (type && dataId) {
+    return () => getTemplate(getTemplateIdByType(type))
+  }
+  return () => Promise.reject(new Error('No messageId, templateId or type and dataId found'))
+}
 
 const messages = {
   title: 'Messagerie',
@@ -37,6 +72,8 @@ const Template = () => {
   const [messageUuid, setMessageUuid] = useState<string | undefined>(isUpdate ? undefined : id)
   const [searchParams] = useSearchParams()
   const templateId = searchParams.get('templateId')
+  const { detail: prefilledDetail, isPrefilledTemplate } = useGetPrefillDetails()
+
   const { enqueueSnackbar } = useCustomSnackbar()
   const { setFullscreen } = useDrawerStore()
   const [editorData, setEditorData] = useState<{
@@ -57,12 +94,22 @@ const Template = () => {
   const queryKeyMessage = useScopedQueryKey(['message', { feature: 'Messagerie', view: 'TemplateEditor', id }])
   const dataMessage = queryClient.getQueryData<Message>(queryKeyMessage)
 
-  const { data: messageContent, isLoading } = useQuery<MessageContent>({
+  const { data: messageContent, isLoading } = useQuery({
     queryKey: queryKeyMessageContent,
-    queryFn: () => (templateId && !messageUuid ? getTemplate(templateId) : getMessageContent(messageUuid!)),
+    queryFn: getMessageContentQuery({
+      messageId: messageUuid,
+      templateId,
+      ...prefilledDetail,
+    }),
+    enabled: Boolean(messageUuid || templateId || isPrefilledTemplate),
     onError: handleError,
-    enabled: !!messageUuid || !!templateId,
   })
+
+  const {
+    data: processeedMessageContent,
+    isParsingNeeded,
+    isProccessed,
+  } = usePrefillTemplate(messageContent, prefilledDetail)
 
   const { mutateAsync: postUpdateNewsletterMutation, isLoading: loading } = useMutation({
     mutationFn: postUpdateNewsletter,
@@ -127,6 +174,18 @@ const Template = () => {
     }
   }
 
+  const showEditor = (() => {
+    if (messageUuid || templateId) {
+      return !isLoading && processeedMessageContent
+    }
+
+    if (isParsingNeeded) {
+      return isProccessed && processeedMessageContent
+    }
+
+    return true
+  })()
+
   return (
     <>
       <Stack spacing={4} padding={1} bgcolor="white">
@@ -146,11 +205,11 @@ const Template = () => {
           </Stack>
         </Box>
       </Stack>
-      {!((messageUuid || templateId) && isLoading) && (
+      {showEditor && (
         <Editor
           templateId={unlayerTemplateId}
           onMessageUpdate={handleSetMessage}
-          messageContent={messageContent}
+          messageContent={processeedMessageContent}
           key={messageContent?.uuid}
         />
       )}
