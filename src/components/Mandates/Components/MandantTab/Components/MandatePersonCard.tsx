@@ -43,6 +43,7 @@ export enum MandatePersonCardType {
   FIND = 'find',
   MATCH_MANDANT = 'match_mandant',
   MATCH_PROXY = 'match_proxy',
+  MATCHED_MANDANT = 'matched_mandant',
 }
 
 export default function MandatePersonCard(props: MandatePersonCardProps) {
@@ -60,7 +61,11 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         )}
 
         <Grid item xs={12}>
-          {[MandatePersonCardType.MATCH_MANDANT, MandatePersonCardType.FIND].includes(props.type) && <MandateTag />}
+          {[
+            MandatePersonCardType.MATCH_MANDANT,
+            MandatePersonCardType.FIND,
+            MandatePersonCardType.MATCHED_MANDANT,
+          ].includes(props.type) && <MandateTag done={props.type === MandatePersonCardType.MATCHED_MANDANT} />}
 
           {props.type === MandatePersonCardType.MATCH_PROXY && <ProxyTag />}
 
@@ -92,7 +97,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         </Grid>
       ) : null}
 
-      {props.linkedPeople !== undefined && (
+      {props.linkedPeople !== undefined && props.type === MandatePersonCardType.MATCH_PROXY && (
         <MandateCardEntry title={'Procurations'} value={`${props.linkedPeople?.length}/${props.maxProxyCount}`} />
       )}
 
@@ -101,7 +106,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           <GroupContainer>
             <legend>
               <Typography color={'success.main'} fontSize={12}>
-                Mandants liés
+                {props.type === MandatePersonCardType.MATCHED_MANDANT ? 'Mandataire lié' : 'Mandants liés'}
               </Typography>
             </legend>
 
@@ -183,9 +188,9 @@ const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) =>
   }
 }
 
-const MandateTag = () => (
+const MandateTag = ({ done }: { done?: boolean }) => (
   <UIChip
-    label={'Mandant'}
+    label={done ? 'Mandant traité' : 'Mandant'}
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}

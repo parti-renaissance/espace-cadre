@@ -19,14 +19,20 @@ import paths from '~/shared/paths'
 import { useNavigate } from 'react-router-dom'
 import { useSessionStorage } from 'react-use'
 import MandateSuccessModal from '~/components/Mandates/Components/MandateSuccessModal/MandateSuccessModal'
+import MandateDoneIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateDoneIntroduction'
 
-export default function MandantTab() {
+interface Props {
+  // Switch to "Mandants traités" render
+  done?: boolean
+}
+
+export default function MandantTab({ done = false }: Props) {
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
     useProcurationRequestList({
       order: {
         createdAt: 'asc',
       },
-      status: ProcurationStatusEnum.PENDING,
+      status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
     })
 
   const [expended, setExpended] = useState<Record<string, boolean>>({})
@@ -58,7 +64,7 @@ export default function MandantTab() {
     <>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
         <Grid item {...gridStandardLayout.oneThird}>
-          <MandateIntroduction />
+          {done ? <MandateDoneIntroduction /> : <MandateIntroduction />}
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
@@ -80,6 +86,7 @@ export default function MandantTab() {
 
               {aggregate.map(entry => (
                 <MandateItem
+                  done={done}
                   key={entry.uuid}
                   item={entry}
                   expended={Boolean(expended[entry.id])}
@@ -110,7 +117,7 @@ export default function MandantTab() {
         </Grid>
       </Grid>
 
-      {procurationSuccessFlash && (
+      {procurationSuccessFlash && !done && (
         <MandateSuccessModal
           mandate={procurationSuccessFlash.mandate}
           proxy={procurationSuccessFlash.proxy}
@@ -121,59 +128,72 @@ export default function MandantTab() {
   )
 }
 
-const MandateItem = memo(
-  ({
-    item,
-    expended,
-    setExpended,
-  }: {
-    item: ProcurationModel
-    expended: boolean
-    setExpended: Dispatch<SetStateAction<Record<string, boolean>>>
-  }) => {
-    const navigate = useNavigate()
+const MandateItemComponent = ({
+  item,
+  expended,
+  setExpended,
+  done = false,
+}: {
+  item: ProcurationModel
+  expended: boolean
+  setExpended: Dispatch<SetStateAction<Record<string, boolean>>>
+  done?: boolean
+}) => {
+  const navigate = useNavigate()
 
-    return (
-      <MandatePersonCard
-        firstName={item.first_names}
-        lastName={item.last_name}
-        votePlace={item.vote_place_name}
-        location={item.vote_zone?.name}
-        peopleInSameVotePlace={item.available_proxies_count}
-        tags={item.tags ?? []}
-        id={item.id}
-        expended={expended}
-        demandId={item.uuid}
-        extraInfos={[
-          {
-            key: 'Âge',
-            value: `${item.age} ans`,
-          },
-          {
-            key: 'Adresse postale',
-            value: buildAddress(item.post_address),
-          },
-          {
-            key: 'Date d’inscription',
-            value: formatDate(item.created_at, dateFormat),
-          },
-        ]}
-        onExpend={id =>
-          setExpended(v => ({
-            ...v,
-            [id]: true,
-          }))
-        }
-        onNarrow={id =>
-          setExpended(v => ({
-            ...v,
-            [id]: false,
-          }))
-        }
-        type={MandatePersonCardType.FIND}
-        onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
-      />
-    )
-  }
-)
-MandateItem.displayName = 'MandateItem'
+  return (
+    <MandatePersonCard
+      hideActions={done}
+      firstName={item.first_names}
+      lastName={item.last_name}
+      votePlace={item.vote_place_name}
+      location={item.vote_zone?.name}
+      peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}
+      tags={item.tags ?? []}
+      id={item.id}
+      expended={expended}
+      demandId={item.uuid}
+      linkedPeople={
+        item.proxy
+          ? [
+              {
+                id: item.proxy.uuid,
+                firstName: item.proxy.first_names,
+                lastName: item.proxy.last_name,
+                gender: item.proxy.gender,
+              },
+            ]
+          : undefined
+      }
+      extraInfos={[
+        {
+          key: 'Âge',
+          value: `${item.age} ans`,
+        },
+        {
+          key: 'Adresse postale',
+          value: buildAddress(item.post_address),
+        },
+        {
+          key: 'Date d’inscription',
+          value: formatDate(item.created_at, dateFormat),
+        },
+      ]}
+      onExpend={id =>
+        setExpended(v => ({
+          ...v,
+          [id]: true,
+        }))
+      }
+      onNarrow={id =>
+        setExpended(v => ({
+          ...v,
+          [id]: false,
+        }))
+      }
+      type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
+      onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+    />
+  )
+}
+const MandateItem = memo(MandateItemComponent)
