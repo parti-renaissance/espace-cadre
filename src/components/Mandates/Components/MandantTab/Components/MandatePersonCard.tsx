@@ -1,18 +1,18 @@
+import styled from '@emotion/styled'
 import { Button, Grid, Paper, Typography } from '@mui/material'
-import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
-import PersonWithAvatar from '~/components/Mandates/Components/PersonWithAvatar/PersonWithAvatar'
-import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
-import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Components/MandateCardEntry'
-import { KeyValueModel, LightPersonModel } from '~/models/common.model'
 import Divider from '@mui/material/Divider'
+import { ReactNode } from 'react'
+import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Components/MandateCardEntry'
+import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
+import PersonWithAvatar from '~/components/Mandates/Components/PersonWithAvatar/PersonWithAvatar'
+import { LabelTypeModel } from '~/models/activist.model'
+import { KeyValueModel, LightPersonModel } from '~/models/common.model'
 import Iconify from '~/mui/iconify'
-import { UIChip } from '~/ui/Card'
-import { fontWeight } from '~/theme/typography'
 import { activistTagShape } from '~/shared/activistTagShape'
 import { grey, success, tagsColor } from '~/theme/palette'
-import { LabelTypeModel } from '~/models/activist.model'
-import styled from '@emotion/styled'
-import { ReactNode } from 'react'
+import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
+import { fontWeight } from '~/theme/typography'
+import { UIChip } from '~/ui/Card'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -43,12 +43,13 @@ export enum MandatePersonCardType {
   FIND = 'find',
   MATCH_MANDANT = 'match_mandant',
   MATCH_PROXY = 'match_proxy',
+  MATCHED_MANDANT = 'matched_mandant',
 }
 
 export default function MandatePersonCard(props: MandatePersonCardProps) {
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: 1, borderColor: grey[200] }}>
-      <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.large }}>
+      <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.normal }}>
         <Grid item xs={6} md={8}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
@@ -60,7 +61,11 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         )}
 
         <Grid item xs={12}>
-          {[MandatePersonCardType.MATCH_MANDANT, MandatePersonCardType.FIND].includes(props.type) && <MandateTag />}
+          {[
+            MandatePersonCardType.MATCH_MANDANT,
+            MandatePersonCardType.FIND,
+            MandatePersonCardType.MATCHED_MANDANT,
+          ].includes(props.type) && <MandateTag done={props.type === MandatePersonCardType.MATCHED_MANDANT} />}
 
           {props.type === MandatePersonCardType.MATCH_PROXY && <ProxyTag />}
 
@@ -85,14 +90,14 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
       </Grid>
 
       {typeof props.peopleInSameVotePlace === 'number' ? (
-        <Grid container sx={{ mb: MuiSpacing.large }}>
+        <Grid container sx={{ mb: MuiSpacing.normal }}>
           <Grid item xs={12}>
             <MandatePeopleNumber count={props.peopleInSameVotePlace} />
           </Grid>
         </Grid>
       ) : null}
 
-      {props.linkedPeople !== undefined && (
+      {props.linkedPeople !== undefined && props.type === MandatePersonCardType.MATCH_PROXY && (
         <MandateCardEntry title={'Procurations'} value={`${props.linkedPeople?.length}/${props.maxProxyCount}`} />
       )}
 
@@ -101,7 +106,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           <GroupContainer>
             <legend>
               <Typography color={'success.main'} fontSize={12}>
-                Mandants liés
+                {props.type === MandatePersonCardType.MATCHED_MANDANT ? 'Mandataire lié' : 'Mandants liés'}
               </Typography>
             </legend>
 
@@ -119,44 +124,48 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
       {props.extraInfos && <Divider sx={withBottomSpacing} />}
 
-      {!props.expended && props.onExpend && (
-        <Grid item textAlign={'center'}>
-          <Button
-            variant={'text'}
-            startIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
-            onClick={() => props.onExpend?.(props.id)}
-            data-testid="moreButton"
-          >
-            Afficher plus
-          </Button>
-        </Grid>
-      )}
+      {!props.expended && props.onExpend && <ExpandButton onExpand={() => props.onExpend?.(props.id)} />}
 
       {props.expended && (
         <>
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
-          {props.onNarrow && (
-            <>
-              <Divider sx={withBottomSpacing} />
-
-              <Grid item textAlign={'center'}>
-                <Button
-                  variant={'text'}
-                  startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
-                  onClick={() => props.onNarrow?.(props.id)}
-                  data-testid="lessButton"
-                >
-                  Afficher moins
-                </Button>
-              </Grid>
-            </>
-          )}
+          {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
       )}
     </Paper>
   )
 }
+
+const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
+  <>
+    <Divider sx={withBottomSpacing} />
+
+    <Grid item textAlign={'center'}>
+      <Button
+        variant={'text'}
+        startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
+        onClick={onNarrow}
+        data-testid="lessButton"
+      >
+        Afficher moins
+      </Button>
+    </Grid>
+  </>
+)
+
+const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (
+  <Grid item textAlign={'center'}>
+    <Button
+      variant={'text'}
+      startIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+      onClick={onExpand}
+      data-testid="moreButton"
+    >
+      Afficher plus
+    </Button>
+  </Grid>
+)
 
 const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) => {
   switch (props.type) {
@@ -183,9 +192,9 @@ const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) =>
   }
 }
 
-const MandateTag = () => (
+const MandateTag = ({ done }: { done?: boolean }) => (
   <UIChip
-    label={'Mandant'}
+    label={done ? 'Mandant traité' : 'Mandant'}
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}

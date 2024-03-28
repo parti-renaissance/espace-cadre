@@ -10,8 +10,15 @@ export default function MandateListPage() {
 
   const RenderTab = useMemo(() => {
     switch (currentTab) {
+      case 0:
       default:
-        return MandantTab
+        return function TabMemo() {
+          return <MandantTab />
+        }
+      case 1:
+        return function TabMemo() {
+          return <MandantTab done />
+        }
     }
   }, [currentTab])
 
@@ -34,7 +41,6 @@ const tabs: TabProps[] = [
   {
     id: 'treated-mandants',
     label: 'Mandants traités',
-    disabled: true,
   },
   {
     id: 'mandataires',
