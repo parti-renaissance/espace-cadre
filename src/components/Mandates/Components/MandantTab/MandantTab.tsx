@@ -76,7 +76,7 @@ export default function MandantTab({ done = false }: Props) {
               <Grid item sx={{ mb: MuiSpacing.large }}>
                 <p>
                   <Typography fontWeight={fontWeight.medium}>
-                    {sprintf('% %s %s', formatToFrenchNumberString(total), 'Mandants', done ? 'Traités' : '')}
+                    {sprintf('%i %s %s', formatToFrenchNumberString(total), 'Mandants', done ? 'Traités' : '')}
                   </Typography>
                 </p>
               </Grid>
