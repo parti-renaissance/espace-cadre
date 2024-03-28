@@ -101,12 +101,13 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         </Grid>
       ) : null}
 
-      {props.linkedPeople !== undefined && props.type === MandatePersonCardType.MATCH_PROXY && (
-        <MandateCardEntry
-          title={pluralize(props.linkedPeople.length, 'Procuration')}
-          value={`${props.linkedPeople.length}/${props.maxProxyCount}`}
-        />
-      )}
+      {props.linkedPeople !== undefined &&
+        [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) && (
+          <MandateCardEntry
+            title={pluralize(props.linkedPeople.length, 'Procuration')}
+            value={`${props.linkedPeople.length}/${props.maxProxyCount}`}
+          />
+        )}
 
       {props.linkedPeople && props.linkedPeople.length > 0 && (
         <Grid item sx={{ mb: MuiSpacing.large }}>

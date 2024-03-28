@@ -17,10 +17,8 @@ import { useNavigate } from 'react-router-dom'
 import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import { buildAddress } from '~/utils/address'
-import { formatDate } from '~/shared/helpers'
-import { dateFormat } from '~/utils/date'
 import paths from '~/shared/paths'
+import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
 
 interface Props {
   done?: boolean
@@ -157,20 +155,7 @@ const ProxyItemComponent = ({
             }))
           : undefined
       }
-      extraInfos={[
-        {
-          key: 'Âge',
-          value: `${item.age} ans`,
-        },
-        {
-          key: 'Adresse postale',
-          value: buildAddress(item.post_address),
-        },
-        {
-          key: 'Date d’inscription',
-          value: formatDate(item.created_at, dateFormat),
-        },
-      ]}
+      extraInfos={buildExtraData(item)}
       onExpend={id =>
         setExpended(v => ({
           ...v,
