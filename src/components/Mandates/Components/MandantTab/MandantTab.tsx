@@ -1,25 +1,26 @@
-import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { Grid, Typography } from '@mui/material'
+import { useIntersectionObserver } from '@uidotdev/usehooks'
 import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSessionStorage } from 'react-use'
+import { sprintf } from 'sprintf-js'
+import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
+import { ProcurationModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
+import MandateDoneIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateDoneIntroduction'
+import MandateIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateIntroduction'
 import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import { fontWeight } from '~/theme/typography'
-import { formatToFrenchNumberString } from '~/utils/numbers'
-import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
-import { ProcurationModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
-import Loader from '~/ui/Loader'
-import { useIntersectionObserver } from '@uidotdev/usehooks'
-import MandateIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateIntroduction'
 import MandateSkeleton from '~/components/Mandates/Components/MandantTab/Components/MandateSkeleton'
-import { buildAddress } from '~/utils/address'
-import { formatDate } from '~/shared/helpers'
-import { dateFormat } from '~/utils/date'
-import paths from '~/shared/paths'
-import { useNavigate } from 'react-router-dom'
-import { useSessionStorage } from 'react-use'
 import MandateSuccessModal from '~/components/Mandates/Components/MandateSuccessModal/MandateSuccessModal'
-import MandateDoneIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateDoneIntroduction'
+import { formatDate } from '~/shared/helpers'
+import paths from '~/shared/paths'
+import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
+import { fontWeight } from '~/theme/typography'
+import Loader from '~/ui/Loader'
+import { buildAddress } from '~/utils/address'
+import { dateFormat } from '~/utils/date'
+import { formatToFrenchNumberString } from '~/utils/numbers'
 
 interface Props {
   // Switch to "Mandants traités" render
@@ -74,7 +75,9 @@ export default function MandantTab({ done = false }: Props) {
             <>
               <Grid item sx={{ mb: MuiSpacing.large }}>
                 <p>
-                  <Typography fontWeight={fontWeight.medium}>{formatToFrenchNumberString(total)} Mandants</Typography>
+                  <Typography fontWeight={fontWeight.medium}>
+                    {sprintf('% %s %s', formatToFrenchNumberString(total), 'Mandants', done ? 'Traités' : '')}
+                  </Typography>
                 </p>
               </Grid>
 
