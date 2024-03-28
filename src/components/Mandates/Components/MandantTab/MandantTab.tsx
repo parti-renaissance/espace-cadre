@@ -13,6 +13,7 @@ import MandatePersonCard, {
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
 import MandateSkeleton from '~/components/Mandates/Components/MandantTab/Components/MandateSkeleton'
 import MandateSuccessModal from '~/components/Mandates/Components/MandateSuccessModal/MandateSuccessModal'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import { formatDate } from '~/shared/helpers'
 import paths from '~/shared/paths'
 import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
@@ -76,7 +77,12 @@ export default function MandantTab({ done = false }: Props) {
               <Grid item sx={{ mb: MuiSpacing.large }}>
                 <p>
                   <Typography fontWeight={fontWeight.medium}>
-                    {sprintf('%i %s %s', formatToFrenchNumberString(total), 'Mandants', done ? 'Traités' : '')}
+                    {sprintf(
+                      '%i %s %s',
+                      formatToFrenchNumberString(total),
+                      pluralize(total, 'Mandant'),
+                      done ? pluralize(total, 'Traité') : ''
+                    )}
                   </Typography>
                 </p>
               </Grid>
