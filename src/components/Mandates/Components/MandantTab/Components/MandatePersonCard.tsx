@@ -12,7 +12,7 @@ import { activistTagShape } from '~/shared/activistTagShape'
 import { grey, success, tagsColor } from '~/theme/palette'
 import { LabelTypeModel } from '~/models/activist.model'
 import styled from '@emotion/styled'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -49,7 +49,7 @@ export enum MandatePersonCardType {
 export default function MandatePersonCard(props: MandatePersonCardProps) {
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: 1, borderColor: grey[200] }}>
-      <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.large }}>
+      <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.normal }}>
         <Grid item xs={6} md={8}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
@@ -90,7 +90,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
       </Grid>
 
       {typeof props.peopleInSameVotePlace === 'number' ? (
-        <Grid container sx={{ mb: MuiSpacing.large }}>
+        <Grid container sx={{ mb: MuiSpacing.normal }}>
           <Grid item xs={12}>
             <MandatePeopleNumber count={props.peopleInSameVotePlace} />
           </Grid>
@@ -124,44 +124,48 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
       {props.extraInfos && <Divider sx={withBottomSpacing} />}
 
-      {!props.expended && props.onExpend && (
-        <Grid item textAlign={'center'}>
-          <Button
-            variant={'text'}
-            startIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
-            onClick={() => props.onExpend?.(props.id)}
-            data-testid="moreButton"
-          >
-            Afficher plus
-          </Button>
-        </Grid>
-      )}
+      {!props.expended && props.onExpend && <ExpandButton onExpand={() => props.onExpend?.(props.id)} />}
 
       {props.expended && (
         <>
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
-          {props.onNarrow && (
-            <>
-              <Divider sx={withBottomSpacing} />
-
-              <Grid item textAlign={'center'}>
-                <Button
-                  variant={'text'}
-                  startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
-                  onClick={() => props.onNarrow?.(props.id)}
-                  data-testid="lessButton"
-                >
-                  Afficher moins
-                </Button>
-              </Grid>
-            </>
-          )}
+          {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
       )}
     </Paper>
   )
 }
+
+const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
+  <>
+    <Divider sx={withBottomSpacing} />
+
+    <Grid item textAlign={'center'}>
+      <Button
+        variant={'text'}
+        startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
+        onClick={onNarrow}
+        data-testid="lessButton"
+      >
+        Afficher moins
+      </Button>
+    </Grid>
+  </>
+)
+
+const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (
+  <Grid item textAlign={'center'}>
+    <Button
+      variant={'text'}
+      startIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+      onClick={onExpand}
+      data-testid="moreButton"
+    >
+      Afficher plus
+    </Button>
+  </Grid>
+)
 
 const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) => {
   switch (props.type) {
