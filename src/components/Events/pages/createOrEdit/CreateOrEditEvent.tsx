@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
 import { addDays } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation } from '@tanstack/react-query'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
 import {
@@ -80,6 +80,7 @@ const CreateOrEditEvent = () => {
     setValue,
     handleSubmit,
     getValues,
+    control,
     formState: { errors, isSubmitting, isDirty },
   } = useForm<CreateEventForm>({
     ...(editable && {
@@ -221,7 +222,35 @@ const CreateOrEditEvent = () => {
     mutation({ event: data })
   }
 
-  console.log(watch('address.country'))
+  const ContriesField = useCallback(() => {
+    const [inputValue, setInputValue] = React.useState('')
+    return (
+      <Controller
+        render={({ field: { onChange, value, ref } }) => (
+          <Autocomplete
+            id="countries"
+            value={value ?? 'FR'}
+            onChange={(_, newValue) => {
+              onChange(newValue)
+            }}
+            onInputChange={(_, newInputValue) => {
+              setInputValue(newInputValue)
+            }}
+            inputValue={inputValue}
+            ref={ref}
+            getOptionLabel={option => countries.find(country => country.code === option)?.label || ''}
+            options={countries.map(option => option.code)}
+            getOptionKey={option => option}
+            defaultValue="FR"
+            sx={{ width: '100%' }}
+            renderInput={params => <TextField {...params} label="Pays" />}
+          />
+        )}
+        name="address.country"
+        control={control}
+      />
+    )
+  }, [control])
 
   return (
     <Container maxWidth={'xl'} sx={{ mb: 3 }}>
@@ -494,22 +523,7 @@ const CreateOrEditEvent = () => {
                       error={!!errors?.address?.cityName}
                       helperText={errors?.address?.cityName?.message}
                     />
-
-                    <Autocomplete
-                      {...register('address.country')}
-                      {...(editable && {
-                        value: watch('address.country'),
-                      })}
-                      onChange={(_, value) => {
-                        setValue('address.country', value)
-                      }}
-                      getOptionLabel={option => countries.find(country => country.code === option)?.label || ''}
-                      options={countries.map(option => option.code)}
-                      // getOptionKey={option => option.code}
-                      // defaultValue={'FR'}
-                      sx={{ width: '100%' }}
-                      renderInput={params => <TextField {...params} label="Pays" />}
-                    />
+                    <ContriesField />
                   </Stack>
                 </>
               )}
