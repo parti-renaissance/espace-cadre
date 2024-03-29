@@ -81,7 +81,7 @@ const ElectionFilters = ({ filterValues, handleTypeSelection, handleDetailSelect
       <Grid item>
         <Contact>
           {messages.help}&nbsp;
-          <a href="mailto:techsupport@en-marche.fr">{messages.mail}</a>
+          <a href="mailto:techsupport@parti-renaissance.fr">{messages.mail}</a>
         </Contact>
       </Grid>
     </Grid>

@@ -2,9 +2,9 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, ButtonGroup, Container, Grid, Stack } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
-import { getCategoriesWithGroups, getEvents, getMyEvents } from '~/api/events'
+import { getEvents, getMyEvents } from '~/api/events'
 import PageHeader from '~/ui/PageHeader'
-import { messages, ONE_DAY } from '~/components/Events/shared/constants'
+import { messages } from '~/components/Events/shared/constants'
 import { paths as eventsPath } from '~/components/Events/shared/paths'
 import TabsComponent, { TabProps } from '~/components/Events/Components/Tabs'
 import { TabPanel } from '~/components/Events/Components'
@@ -15,11 +15,6 @@ const ListEvents = () => {
   const navigate = useNavigate()
 
   const [selectedTab, setSelectedTab] = useState<number>(0)
-
-  useQuery(['categories', { feature: 'Events', view: 'Events' }], () => getCategoriesWithGroups(), {
-    cacheTime: ONE_DAY,
-    staleTime: ONE_DAY,
-  })
 
   const { data: countOnlyMine, isLoading: isLoadingCountOnlyMine } = useQuery(
     ['countOnlyMine', { feature: 'Events', view: 'Events' }],
