@@ -37,6 +37,7 @@ import FormGroup from '~/components/Events/pages/createOrEdit/components/FormGro
 import { Box } from '@mui/system'
 
 import timezones from '~/shared/timezones.json'
+import countries from '~/shared/countries.json'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
@@ -219,6 +220,8 @@ const CreateOrEditEvent = () => {
 
     mutation({ event: data })
   }
+
+  console.log(watch('address.country'))
 
   return (
     <Container maxWidth={'xl'} sx={{ mb: 3 }}>
@@ -492,19 +495,20 @@ const CreateOrEditEvent = () => {
                       helperText={errors?.address?.cityName?.message}
                     />
 
-                    <TextField
+                    <Autocomplete
                       {...register('address.country')}
                       {...(editable && {
-                        value: event?.address?.country,
+                        value: watch('address.country'),
                       })}
-                      InputLabelProps={{
-                        shrink: !!watch('address.country'),
+                      onChange={(_, value) => {
+                        setValue('address.country', value)
                       }}
-                      label="Pays"
-                      variant="outlined"
-                      fullWidth
-                      error={!!errors?.address?.country}
-                      helperText={errors?.address?.country?.message}
+                      getOptionLabel={option => countries.find(country => country.code === option)?.label || ''}
+                      options={countries.map(option => option.code)}
+                      // getOptionKey={option => option.code}
+                      // defaultValue={'FR'}
+                      sx={{ width: '100%' }}
+                      renderInput={params => <TextField {...params} label="Pays" />}
                     />
                   </Stack>
                 </>
