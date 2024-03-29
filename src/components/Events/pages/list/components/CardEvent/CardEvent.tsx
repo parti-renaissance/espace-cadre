@@ -13,7 +13,7 @@ import { Event } from '~/domain/event'
 import type { Event as EventType } from '~/components/Events/shared/types'
 import { useMutation } from '@tanstack/react-query'
 import { notifyVariants } from '~/components/shared/notification/constants'
-import { deleteEvent as deleteEventQuery } from '~/api/events'
+import { deleteEvent as deleteEventQuery, cancelEvent as cancelEventQuery } from '~/api/events'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 
@@ -50,7 +50,7 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
     onError: handleError,
   })
 
-  const { mutate: cancelEvent } = useMutation(deleteEventQuery, {
+  const { mutate: cancelEvent } = useMutation(cancelEventQuery, {
     onSuccess: () => {
       enqueueSnackbar("L'événement a été annulé avec succès", notifyVariants.success)
 

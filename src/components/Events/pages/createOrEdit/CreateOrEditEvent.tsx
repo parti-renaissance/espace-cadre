@@ -25,7 +25,7 @@ import {
   createEvent as createEventApi,
   deleteImage as deleteImageApi,
   getEvent,
-  updateEvent,
+  updateEvent as updateEventApi,
   uploadImage as imageUploadApi,
 } from '~/api/events'
 import BlockForm from '~/components/Events/pages/createOrEdit/components/BlockForm/BlockForm'
@@ -36,7 +36,7 @@ import UploadImage from '~/components/Events/pages/createOrEdit/components/forms
 import FormGroup from '~/components/Events/pages/createOrEdit/components/FormGroup/FormGroup'
 import { Box } from '@mui/system'
 
-import timezones from '~/components/Events/timezones.json'
+import timezones from '~/shared/timezones.json'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
@@ -45,23 +45,22 @@ import { useBlocker } from 'react-router-dom'
 import ModalBeforeLeave from '../../Components/ModalBeforeLeave'
 import { formatDateTimeWithTimezone } from '~/components/Events/shared/helpers'
 import TextFieldPlaces from '~/components/Events/pages/createOrEdit/components/TextFieldPlaces'
+import { useSelector } from 'react-redux'
+import { getCurrentScope } from '~/redux/user/selectors'
+import type { Scope } from '~/domain/scope'
+import paths from '~/shared/paths'
+import { paths as eventPaths } from '~/components/Events/shared/paths'
 
-interface CreateOrEditEventProps {
-  editable: boolean
-}
-
-const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
-  const { editable } = props
-
+const CreateOrEditEvent = () => {
   const { eventId } = useParams()
-
   const navigate = useNavigate()
+  const editable = !!eventId
+  const currentScope = useSelector(getCurrentScope) as Scope
   const { enqueueSnackbar } = useCustomSnackbar()
-
   const [blockerOpen, setBlockerOpen] = useState(false)
 
   const { data } = useQueryWithScope(['event', eventId], () => getEvent(eventId), {
-    enabled: !!editable && !!eventId,
+    enabled: editable,
   })
 
   const event = data as Event
@@ -103,7 +102,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
           cityName: event?.address?.cityName || '',
           country: event?.address?.country || '',
         },
-        liveUrl: event?.visioUrl || '',
+        liveUrl: event?.liveUrl || '',
       },
     }),
     defaultValues: {
@@ -122,7 +121,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     },
   })
 
-  const { mutate: mutation, isLoading } = useMutation(editable ? updateEvent : createEventApi, {
+  const { mutate: mutation, isLoading } = useMutation(editable ? updateEventApi : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
 
@@ -133,7 +132,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
         notifyVariants.success
       )
 
-      navigate(`/evenements/${uuid}`)
+      navigate(`${paths.events}/${uuid}`)
     },
     onError: ({
       response: { data },
@@ -173,7 +172,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
     if (
       isDirty &&
       isSubmitting &&
-      !nextLocation.pathname.startsWith(`/evenement/${editable ? 'modifier/' : 'creer'}`)
+      !nextLocation.pathname.startsWith(`${paths.events}/${editable ? eventPaths.update : eventPaths.create}`)
     ) {
       setBlockerOpen(true)
       return true
@@ -191,36 +190,34 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
 
     const convertFinishAt = new Date(finishAt ? finishAt : beginAt)
 
+    const committee =
+      Array.isArray(currentScope.getCommittees()) && currentScope.getCommittees().length
+        ? currentScope.getCommittees()[0].uuid
+        : null
+
     const data = {
       id: event?.id,
       name: getValues('name'),
-      categoryId: getValues('categoryId'),
+      category: getValues('categoryId'),
       visibility: getValues('visibility'),
-      beginAt: formatDateTimeWithTimezone(beginAt, timeBeginAt),
-      finishAt: formatDateTimeWithTimezone(watch('severalDays') ? convertFinishAt : beginAt, timeFinishAt),
-      timezone: getValues('timezone'),
+      begin_at: formatDateTimeWithTimezone(beginAt, timeBeginAt),
+      finish_at: formatDateTimeWithTimezone(watch('severalDays') ? convertFinishAt : beginAt, timeFinishAt),
+      time_zone: getValues('timezone'),
       description: getValues('description'),
-      visioUrl: getValues('visioUrl'),
+      visio_url: getValues('visioUrl'),
       live_url: getValues('liveUrl'),
-      mode: watch('isVirtual') ? 'online' : null,
-      capacity: getValues('capacity'),
+      mode: watch('isVirtual') ? 'online' : 'meeting',
+      capacity: parseInt(getValues('capacity') as string),
       post_address: {
         address: getValues('address.address') || null,
         postal_code: getValues('address.postalCode') || null,
         city_name: getValues('address.cityName') || null,
         country: getValues('address.country') || null,
       },
+      ...(committee ? { type: 'committee', committee } : {}),
     }
 
-    if (editable) {
-      mutation({
-        event: data,
-      })
-    } else {
-      mutation({
-        event: data,
-      })
-    }
+    mutation({ event: data })
   }
 
   return (
@@ -230,7 +227,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
       </Grid>
 
       <Breadcrumbs separator=">" aria-label="breadcrumb">
-        <Link underline="hover" color="black" href="/evenements">
+        <Link underline="hover" color="black" href={paths.events}>
           {messages.title}
         </Link>
 
@@ -377,6 +374,7 @@ const CreateOrEditEvent = (props: CreateOrEditEventProps) => {
                     onChange={(_, value) => {
                       setValue('timezone', timezones.find(option => option.value === value)?.key || 'Europe/Paris')
                     }}
+                    defaultValue={timezones.find(option => option.key === 'Europe/Paris')?.value}
                     options={timezones.map(option => option.value)}
                     sx={{ width: '100%' }}
                     renderInput={params => (

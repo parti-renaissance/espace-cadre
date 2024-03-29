@@ -1,26 +1,6 @@
 import { newPaginatedResult } from '~/api/pagination'
-import { Event, EventCategory, EventGroupCategory } from '~/domain/event'
+import { Event } from '~/domain/event'
 import { apiClient, apiClientPublic } from '~/services/networking/client'
-
-const eventToJson = event => ({
-  name: event.name,
-  category: event.categoryId,
-  visibility: event.visibility,
-  description: event.description,
-  begin_at: event.beginAt,
-  finish_at: event.finishAt,
-  capacity: parseInt(event.capacity),
-  visio_url: event.visioUrl,
-  post_address: {
-    address: event.post_address.address,
-    postal_code: event.post_address?.postal_code,
-    city_name: event.post_address?.city_name,
-    country: event.post_address?.country,
-  },
-  time_zone: event.timezone,
-  live_url: event.liveUrl,
-  mode: event.mode,
-})
 
 export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
   const data = await apiClient.get(
@@ -58,48 +38,16 @@ export const getEvent = async id => {
   return Event.fromApi(event)
 }
 
-export const formatCategories = rawCategories => {
-  const categoriesByGroup = rawCategories.reduce((acc, category) => {
-    const categoriesOfCurrentGroup = acc[category.event_group_category.slug] || []
-    return {
-      ...acc,
-      [category.event_group_category.slug]: categoriesOfCurrentGroup.concat(
-        new EventCategory(
-          category.slug,
-          category.name,
-          category.event_group_category.slug,
-          category.event_group_category.name,
-          category.event_group_category.description
-        )
-      ),
-    }
-  }, {})
-
-  return Object.keys(categoriesByGroup).map(eventGroupSlug => {
-    const eventGroupCategory = rawCategories.find(c => c.event_group_category.slug === eventGroupSlug)
-    const { slug, name } = eventGroupCategory.event_group_category
-    return new EventGroupCategory(slug, name, categoriesByGroup[eventGroupSlug])
-  })
-}
-
-export const getCategoriesWithGroups = async () => {
-  const rawCategories = await apiClientPublic('get', '/api/event_categories')
-  return formatCategories(rawCategories)
-}
-
-export const getCategories = async () => {
-  const rawCategories = await apiClientPublic('get', '/api/event_categories')
-  return rawCategories
-}
+export const getCategories = async () => await apiClientPublic('get', '/api/event_categories')
 
 export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
 export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}/cancel`)
 export const createEvent = async ({ event }) => {
-  const data = await apiClient.post('/api/v3/events', eventToJson(event))
+  const data = await apiClient.post('/api/v3/events', event)
   return data.uuid
 }
 export const updateEvent = async ({ event }) => {
-  const data = await apiClient.put(`/api/v3/events/${event.id}`, eventToJson(event))
+  const data = await apiClient.put(`/api/v3/events/${event.id}`, event)
   return data.uuid
 }
 export const uploadImage = async ({ eventId, image }) => {

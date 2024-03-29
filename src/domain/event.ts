@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { parseDate } from '~/shared/helpers'
 import { z } from 'zod'
 import { Place } from '~/domain/place'
+
 export class Attendee {
   static propTypes = {
     firstName: PropTypes.string.isRequired,
@@ -81,6 +82,7 @@ export class Event {
     }),
     isPrivate: PropTypes.bool.isRequired,
     visioUrl: PropTypes.string,
+    liveUrl: PropTypes.string,
     mode: PropTypes.string,
     image: PropTypes.string,
   }
@@ -110,6 +112,7 @@ export class Event {
       e.category ? e.category : null,
       e.private,
       e.visio_url,
+      e.live_url,
       e.mode,
       e.image_url
     )
@@ -134,6 +137,7 @@ export class Event {
       this.category,
       this.isPrivate,
       this.visioUrl,
+      this.liveUrl,
       this.mode,
       this.image
     )
@@ -158,6 +162,7 @@ export class Event {
       this.category,
       newPrivate,
       this.visioUrl,
+      this.liveUrl,
       this.mode,
       this.image
     )
@@ -195,6 +200,7 @@ export class Event {
     },
     public isPrivate: boolean,
     public visioUrl: string,
+    public liveUrl: string,
     public mode: string,
     public image: string
   ) {}

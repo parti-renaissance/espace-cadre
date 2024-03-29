@@ -11,7 +11,7 @@ const EventRoute = () => (
     <Route path={paths.create} element={<CreateOrEditEvent />} />
 
     {/* Edit an event */}
-    <Route path={`${paths.update}/:eventId`} element={<CreateOrEditEvent editable={true} />} />
+    <Route path={`${paths.update}/:eventId`} element={<CreateOrEditEvent />} />
   </Routes>
 )
 
