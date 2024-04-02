@@ -53,7 +53,9 @@ export interface AvailableProxyModel extends ProcurationModel {
 }
 
 export enum MatchingLevelEnum {
-  COUNTRY = 'department/country',
+  COUNTRY = 'country',
+  DEPARTMENT = 'department',
   CITY = 'city',
+  BOROUGH = 'borough',
   VOTE_PLACE = 'vote_place',
 }
