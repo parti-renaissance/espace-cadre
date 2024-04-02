@@ -22,6 +22,7 @@ import Loader from '~/ui/Loader'
 import { buildAddress } from '~/utils/address'
 import { dateFormat } from '~/utils/date'
 import { formatToFrenchNumberString } from '~/utils/numbers'
+import MandateFilters from '~/components/Mandates/Components/MandateFilters/MandateFilters'
 
 interface Props {
   // Switch to "Mandants traités" render
@@ -29,15 +30,17 @@ interface Props {
 }
 
 export default function MandantTab({ done = false }: Props) {
+  const [expended, setExpended] = useState<Record<string, boolean>>({})
+  const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
+
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
     useProcurationRequestList({
       order: {
         createdAt: 'asc',
       },
       status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
+      ...customFilters,
     })
-
-  const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const [procurationSuccessFlash, setProcurationSuccessFlash] = useSessionStorage<
     { mandate: string; proxy: string } | false
@@ -47,6 +50,23 @@ export default function MandantTab({ done = false }: Props) {
     root: null,
     rootMargin: '5px',
   })
+
+  const onToggleMore = useCallback(
+    (newState: boolean) => {
+      setExpended(
+        aggregate
+          ? aggregate.reduce(
+              (prev, curr) => ({
+                ...prev,
+                [curr.id]: newState,
+              }),
+              {}
+            )
+          : {}
+      )
+    },
+    [aggregate]
+  )
 
   useEffect(() => {
     if (entry?.isIntersecting && hasNextPage) {
@@ -70,6 +90,10 @@ export default function MandantTab({ done = false }: Props) {
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
+          <Grid item xs sx={{ mb: MuiSpacing.normal }}>
+            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} />
+          </Grid>
+
           {isInitialLoading ? (
             <MandateSkeleton />
           ) : (
