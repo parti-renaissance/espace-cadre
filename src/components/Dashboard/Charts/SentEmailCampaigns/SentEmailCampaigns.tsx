@@ -1,4 +1,4 @@
-import { Grid, Stack, TextField, Typography, InputAdornment, Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Grid, InputAdornment, Stack, TextField, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { getMessages } from '~/api/messagerie'
 import SentEmailCampaignsTitle from './SentEmailCampaignsTitle'
@@ -20,6 +20,7 @@ import ActionPopover from './ActionPopover'
 import Iconify from '~/mui/iconify'
 
 import { styled } from '@mui/system'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 const AGrid = styled(Grid)`
   .item-enter {
@@ -37,8 +38,6 @@ const AGrid = styled(Grid)`
     transition: opacity 500ms ease-in;
   }
 `
-
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 type OnPopoverOpen = (message: Message) => (...args: Parameters<ReturnType<typeof usePopover>['onOpen']>) => void
 
@@ -156,7 +155,7 @@ const MessageDraftSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatu
 
   return (
     <Box display="flex" flexDirection="column" gap={2}>
-      <Typography variant="h6">Brouillions</Typography>
+      <Typography variant="h6">Brouillons</Typography>
       <MessageList messages={data} onPopoverOpen={props.onPopoverOpen} isMailsStatutory={props.isMailsStatutory} />
       {isInitialLoading && <MessageLoader />}
       {isFetched && data.length === 0 && <EmptyStatus text="0 brouillons" />}

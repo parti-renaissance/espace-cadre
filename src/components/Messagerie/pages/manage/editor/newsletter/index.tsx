@@ -1,14 +1,14 @@
-import { Card, CardContent, Box, TextField, Stack, Typography } from '@mui/material'
+import { Box, Card, CardContent, Stack, TextField, Typography } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from '~/mui/iconify'
 import { grey } from '~/theme/palette'
-import { useNavigate, useParams, useSearchParams, useBlocker } from 'react-router-dom'
+import { useBlocker, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { paths } from '~/components/Messagerie/shared/paths'
 import ManageLayout from '~/components/Messagerie/pages/manage/Layout'
 import { useForm } from 'react-hook-form'
 import Message, { MessageContent } from '~/domain/message'
 import { useScopedQueryKey } from '~/api/useQueryWithScope'
-import { useQuery, useQueryClient, useMutation, UseMutationResult } from '@tanstack/react-query'
+import { useMutation, UseMutationResult, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getMessage, updateMessageContent } from '~/api/messagerie'
 import ModalSaveBeforeLeave from '~/components/Messagerie/Component/ModalSaveBeforeLeave'
 import { useState } from 'react'
@@ -133,7 +133,7 @@ const Form = ({
             variant="outlined"
             onClick={handleSubmit(onSubmit('save'))}
           >
-            {'Enregistrer le brouillion'}
+            {'Enregistrer le brouillon'}
           </LoadingButton>
           <LoadingButton
             loading={mutate.isLoading}
