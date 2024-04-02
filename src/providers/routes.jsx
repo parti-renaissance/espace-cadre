@@ -30,6 +30,7 @@ import { useUserScope } from '~/redux/user/hooks'
 import MandateListPage from '~/components/Mandates/Pages/MandateListPage'
 import MandateMatchPage from '~/components/Mandates/Pages/MandateMatchPage'
 import MandateValidationPage from '~/components/Mandates/Pages/MandateValidationPage'
+import MandateEditPage from '~/components/Mandates/Pages/MandateEditPage'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -90,6 +91,10 @@ const AppPrivateRoutes = () => {
         <Route
           path={`${paths.procurations}/request/:id/link`}
           element={currentScope.hasFeature(features.procurations) && <MandateValidationPage />}
+        />
+        <Route
+          path={`${paths.procurations}/request/:id/edit`}
+          element={currentScope.hasFeature(features.procurations) && <MandateEditPage />}
         />
       </Routes>
     </Suspense>

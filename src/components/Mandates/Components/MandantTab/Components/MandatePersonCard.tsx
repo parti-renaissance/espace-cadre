@@ -38,6 +38,7 @@ export interface MandatePersonCardProps {
   isProcessing?: boolean
   // Hide actions buttons "Trouver un mandataire", "Sélectionner" and so on.
   hideActions?: boolean
+  onPersonView?: (id: string) => void
 }
 
 export enum MandatePersonCardType {
@@ -114,13 +115,21 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           <GroupContainer>
             <legend>
               <Typography color={'success.main'} fontSize={12}>
-                {props.type === MandatePersonCardType.MATCHED_MANDANT ? 'Mandataire lié' : 'Mandants liés'}
+                {props.type === MandatePersonCardType.MATCHED_MANDANT
+                  ? 'Mandataire lié'
+                  : `${pluralize(props.linkedPeople.length, 'Mandant')} ${pluralize(props.linkedPeople.length, 'lié')}`}
               </Typography>
             </legend>
 
             {props.linkedPeople.map(el => (
               <Grid sx={{ mb: MuiSpacing.small }} key={el.id}>
-                <PersonWithAvatar firstName={el.firstName} lastName={el.lastName} src={props.avatarUrl} id={props.id} />
+                <PersonWithAvatar
+                  firstName={el.firstName}
+                  lastName={el.lastName}
+                  src={props.avatarUrl}
+                  id={props.id}
+                  onPersonView={() => props.onPersonView?.(el.id)}
+                />
               </Grid>
             ))}
           </GroupContainer>

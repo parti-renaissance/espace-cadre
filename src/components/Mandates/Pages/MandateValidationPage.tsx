@@ -1,7 +1,7 @@
 import Page from '~/components/Page/Page'
 import styled from '@emotion/styled'
-import { CssSpacing, MuiSpacing } from '~/theme/spacing'
-import { grey, other } from '~/theme/palette'
+import { MuiSpacing } from '~/theme/spacing'
+import { other } from '~/theme/palette'
 import { Button, Grid, List, ListItem, Paper, Typography } from '@mui/material'
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import { useParams } from 'react-router'
@@ -19,18 +19,17 @@ import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
 import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
 import { useCallback } from 'react'
+import DottedCard from '~/components/DottedCard/DottedCard'
+import useGardEmptyState from '~/hooks/useGardEmptyState'
 
 export default function MandateValidationPage() {
   const params = useParams()
   const { state } = useLocation()
   const navigate = useNavigate()
+  useGardEmptyState()
 
   const { data } = useProcurationRequest({ uuid: params.id })
   const { mutateAsync, isLoading: isMatching } = useProcurationMatch()
-
-  if (state === null) {
-    navigate(-1)
-  }
 
   const { proxy }: { proxy: AvailableProxyModel } = state
 
@@ -179,14 +178,6 @@ export default function MandateValidationPage() {
     </Page>
   )
 }
-
-const DottedCard = styled.div({
-  border: `1px dashed ${grey[300]}`,
-  backgroundColor: grey[100],
-  padding: CssSpacing.large,
-  borderRadius: 8,
-  marginTop: CssSpacing.large,
-})
 
 const MandantSpan = styled.span({
   color: other.Mandant,
