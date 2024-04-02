@@ -9,20 +9,6 @@ function ProxyIntroduction() {
         <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
           Mandataires disponibles
         </Typography>
-        <br />
-        <Typography color={'text.secondary'} fontSize={14}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium aut culpa dolor eum facere
-          fuga in, itaque molestias nam necessitatibus nulla perferendis provident quos repellat, suscipit unde vitae
-          voluptas.
-        </Typography>
-      </p>
-
-      <p>
-        <Typography color={'text.secondary'} fontSize={14}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium aut culpa dolor eum facere
-          fuga in, itaque molestias nam necessitatibus nulla perferendis provident quos repellat, suscipit unde vitae
-          voluptas.
-        </Typography>
       </p>
     </div>
   )
