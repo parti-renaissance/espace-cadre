@@ -82,7 +82,7 @@ export default function ProxyTab({ done }: Props) {
 
         <Grid item {...gridStandardLayout.twoThirds}>
           <Grid item xs sx={{ mb: MuiSpacing.normal }}>
-            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} />
+            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} isProxy />
           </Grid>
 
           {isInitialLoading ? (

@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material'
-import { useIntersectionObserver } from '@uidotdev/usehooks'
+import { useDebounce, useIntersectionObserver } from '@uidotdev/usehooks'
 import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSessionStorage } from 'react-use'
@@ -32,6 +32,7 @@ interface Props {
 export default function MandantTab({ done = false }: Props) {
   const [expended, setExpended] = useState<Record<string, boolean>>({})
   const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
+  const debouncedFilters = useDebounce(customFilters, 400)
 
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
     useProcurationRequestList({
@@ -39,7 +40,7 @@ export default function MandantTab({ done = false }: Props) {
         createdAt: 'asc',
       },
       status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
-      ...customFilters,
+      ...debouncedFilters,
     })
 
   const [procurationSuccessFlash, setProcurationSuccessFlash] = useSessionStorage<
