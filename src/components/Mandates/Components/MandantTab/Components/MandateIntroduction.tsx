@@ -11,7 +11,7 @@ function MandateIntroduction() {
         </Typography>
         <br />
         <Typography color={'text.secondary'} fontSize={14}>
-          Pour chacun de ces mandant, vous pouvez voir le nombre de mandataires disponibles dans le même bureau de vote
+          Pour chacun de ces mandants, vous pouvez voir le nombre de mandataires disponibles dans le même bureau de vote
           et cliquer sur « Trouver un mandataire » pour voir la liste des mandataires disponibles du plus proche au plus
           éloigné.
         </Typography>
@@ -19,14 +19,14 @@ function MandateIntroduction() {
 
       <p>
         <Typography color={'text.secondary'} fontSize={14}>
-          Veillez à utiliser toutes les informations affichées pour faire les meilleurs choix possible.
+          Veillez à utiliser toutes les informations affichées pour faire les meilleurs choix possibles.
         </Typography>
       </p>
 
       <p>
         <Typography color={'text.secondary'} fontSize={14}>
           Au besoin vous pouvez écarter les mandants qui n’ont plus besoin d’être traités en cliquant sur « Traiter
-          manuellement » ou ceux qui vous semblent louche en cliquant sur « Exclure ».
+          manuellement » ou ceux qui vous semblent étranges en cliquant sur « Exclure ».
         </Typography>
       </p>
     </div>

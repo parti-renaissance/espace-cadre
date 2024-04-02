@@ -9,6 +9,17 @@ function ProxyIntroduction() {
         <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
           Mandataires disponibles
         </Typography>
+        <br />
+        <Typography color={'text.secondary'} fontSize={14}>
+          Ces mandataires peuvent encore porter au moins une procuration.
+        </Typography>
+      </p>
+
+      <p>
+        <Typography color={'text.secondary'} fontSize={14}>
+          Vous pouvez écarter les profils douteux en cliquant sur « Exclure ». Ils ne s’afficheront plus dans les
+          possibilités de liaison.
+        </Typography>
       </p>
     </div>
   )
