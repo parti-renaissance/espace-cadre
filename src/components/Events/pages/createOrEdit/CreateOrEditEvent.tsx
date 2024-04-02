@@ -252,6 +252,49 @@ const CreateOrEditEvent = () => {
     )
   }, [control])
 
+  const TimezonesField = useCallback(() => {
+    const [inputValue, setInputValue] = React.useState('')
+
+    return (
+      <Controller
+        render={({ field: { onChange, value, ref } }) => (
+          <>
+            <Autocomplete
+              id="timezones"
+              {...register('timezone')}
+              value={value ?? 'Europe/Paris'}
+              {...(editable && {
+                value: timezones?.find(option => option?.key === event?.timezone)?.value,
+              })}
+              onChange={(_, value) => {
+                setValue('timezone', timezones.find(option => option.value === value)?.key || 'Europe/Paris')
+              }}
+              getOptionLabel={option => timezones.find(timezone => timezone.value === option)?.value || ''}
+              onInputChange={(_, newInputValue) => {
+                setInputValue(newInputValue)
+              }}
+              inputValue={inputValue}
+              defaultValue={timezones.find(option => option.key === 'Europe/Paris')?.value}
+              options={timezones.map(option => option.value)}
+              sx={{ width: '100%' }}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  InputLabelProps={{
+                    shrink: !!watch('timezone'),
+                  }}
+                  label="Fuseau horaire"
+                />
+              )}
+            />
+          </>
+        )}
+        name="address.country"
+        control={control}
+      />
+    )
+  }, [control, editable, event?.timezone, register, setValue, watch])
+
   return (
     <Container maxWidth={'xl'} sx={{ mb: 3 }}>
       <Grid container justifyContent="space-between">
@@ -397,28 +440,7 @@ const CreateOrEditEvent = () => {
                 </Box>
 
                 <Box mt={2}>
-                  <Autocomplete
-                    id="timezones"
-                    {...register('timezone')}
-                    {...(editable && {
-                      value: timezones?.find(option => option?.key === event?.timezone)?.value,
-                    })}
-                    onChange={(_, value) => {
-                      setValue('timezone', timezones.find(option => option.value === value)?.key || 'Europe/Paris')
-                    }}
-                    defaultValue={timezones.find(option => option.key === 'Europe/Paris')?.value}
-                    options={timezones.map(option => option.value)}
-                    sx={{ width: '100%' }}
-                    renderInput={params => (
-                      <TextField
-                        {...params}
-                        InputLabelProps={{
-                          shrink: !!watch('timezone'),
-                        }}
-                        label="Fuseau horaire"
-                      />
-                    )}
-                  />
+                  <TimezonesField />
                 </Box>
               </Stack>
             </FormGroup>
@@ -477,9 +499,7 @@ const CreateOrEditEvent = () => {
                 <>
                   <TextFieldPlaces
                     {...register('address.address')}
-                    {...(editable && {
-                      initialValue: watch('address.address'),
-                    })}
+                    initialValue={event?.address?.address}
                     InputLabelProps={{
                       shrink: !!watch('address.address'),
                     }}
@@ -494,19 +514,29 @@ const CreateOrEditEvent = () => {
                   />
 
                   <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                    <TextField
-                      {...register('address.postalCode')}
-                      {...(editable && {
-                        value: watch('address.postalCode'),
-                      })}
-                      InputLabelProps={{
-                        shrink: !!watch('address.postalCode'),
-                      }}
-                      label="Code postal"
-                      variant="outlined"
-                      fullWidth
-                      error={!!errors?.address?.postalCode}
-                      helperText={errors?.address?.postalCode?.message}
+                    <Controller
+                      render={({ field: { onChange, value, ref } }) => (
+                        <TextField
+                          {...register('address.postalCode')}
+                          value={value}
+                          {...(editable && {
+                            value: event?.address?.postalCode,
+                          })}
+                          onChange={e => {
+                            onChange(e.target.value)
+                          }}
+                          InputLabelProps={{
+                            shrink: !!watch('address.postalCode'),
+                          }}
+                          label="Code postal"
+                          variant="outlined"
+                          fullWidth
+                          error={!!errors?.address?.postalCode}
+                          helperText={errors?.address?.postalCode?.message}
+                        />
+                      )}
+                      name="address.postalCode"
+                      control={control}
                     />
 
                     <TextField
@@ -523,6 +553,7 @@ const CreateOrEditEvent = () => {
                       error={!!errors?.address?.cityName}
                       helperText={errors?.address?.cityName?.message}
                     />
+
                     <ContriesField />
                   </Stack>
                 </>
