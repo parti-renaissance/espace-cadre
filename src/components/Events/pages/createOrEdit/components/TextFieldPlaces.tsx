@@ -25,43 +25,41 @@ type TextFieldPlacesProps = {
   onSelectPlace: (place: Place) => void
 } & React.ComponentProps<typeof TextField>
 
-const TextFieldPlaces = forwardRef<HTMLInputElement, TextFieldPlacesProps>(
-  ({ onSelectPlace, ref, ...props }, myRef) => {
-    const autoCompleteRef = useForwardRef<HTMLInputElement>(myRef)
-    const autoComplete = useRef<google.maps.places.Autocomplete | null>(null)
+const TextFieldPlaces = forwardRef<HTMLInputElement, TextFieldPlacesProps>(({ onSelectPlace, ...props }, myRef) => {
+  const autoCompleteRef = useForwardRef<HTMLInputElement>(myRef)
+  const autoComplete = useRef<google.maps.places.Autocomplete | null>(null)
 
-    const handlePlaceSelect = useCallback(() => {
-      const addressObject = autoComplete?.current?.getPlace()
-      const place = selectPlace(addressObject?.address_components)
-      onSelectPlace(place)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+  const handlePlaceSelect = useCallback(() => {
+    const addressObject = autoComplete?.current?.getPlace()
+    const place = selectPlace(addressObject?.address_components)
+    onSelectPlace(place)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    useEffect(() => {
-      if (!autoCompleteRef.current) {
-        return
-      }
-      autoComplete.current = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
-        fields: ['address_components'],
-        types: ['address'],
-      })
-      autoComplete?.current?.addListener?.('place_changed', handlePlaceSelect)
-    }, [autoCompleteRef, handlePlaceSelect])
+  useEffect(() => {
+    if (!autoCompleteRef.current) {
+      return
+    }
+    autoComplete.current = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
+      fields: ['address_components'],
+      types: ['address'],
+    })
+    autoComplete?.current?.addListener?.('place_changed', handlePlaceSelect)
+  }, [autoCompleteRef, handlePlaceSelect])
 
-    return (
-      <TextField
-        {...props}
-        inputRef={autoCompleteRef}
-        fullWidth
-        size="medium"
-        id="adress"
-        name="address"
-        inputProps={{ maxLength: 500 }}
-        placeholder={messages.address}
-      />
-    )
-  }
-)
+  return (
+    <TextField
+      {...props}
+      inputRef={autoCompleteRef}
+      fullWidth
+      size="medium"
+      id="adress"
+      name="address"
+      inputProps={{ maxLength: 500 }}
+      placeholder={messages.address}
+    />
+  )
+})
 
 TextFieldPlaces.displayName = 'TextFieldPlaces'
 

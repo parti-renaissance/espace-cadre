@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router'
 import { addDays } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation } from '@tanstack/react-query'
-import { SubmitHandler, useForm, Controller, Control } from 'react-hook-form'
+import { SubmitHandler, useForm, Controller, Control, UseFormRegister } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
 import {
@@ -110,6 +110,17 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
   })
+
+  const muiRegister = (...[name]: Parameters<UseFormRegister<CreateEventForm>>) => {
+    const { ref, ...rest } = register(name)
+    return {
+      ...rest,
+      inputRef: ref,
+      InputLabelProps: {
+        shrink: !!watch(name),
+      },
+    }
+  }
 
   const blocker = useBlocker(({ nextLocation }) => {
     if (
@@ -288,7 +299,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
         <BlockForm title="Informations de l'événement">
           <FormGroup>
             <TextField
-              {...register('name')}
+              {...muiRegister('name')}
               label="Titre de l'événement"
               variant="outlined"
               fullWidth
@@ -315,7 +326,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
             <Stack direction="column" spacing={2} mt={2} width={'100%'}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <DatePicker
+                  {/* <DatePicker
                     label={watch('severalDays') ? 'Date de début' : 'Date'}
                     slots={{ textField: TextField }}
                     value={watch('beginAt')}
@@ -324,11 +335,11 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                       setValue('beginAt', value as Date)
                     }}
                     sx={{ width: '100%' }}
-                  />
+                  /> */}
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  {watch('severalDays') && (
+                  {/* {watch('severalDays') && (
                     <DatePicker
                       label="Date de fin"
                       slots={{ textField: TextField }}
@@ -339,12 +350,12 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                       onChange={value => setValue('finishAt', value as Date)}
                       sx={{ width: '100%' }}
                     />
-                  )}
+                  )} */}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <TimePicker
+                  {/* <TimePicker
                     label="Heure de début"
                     {...register('timeBeginAt')}
                     value={watch('timeBeginAt')}
@@ -356,11 +367,11 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     }}
                     sx={{ width: '100%' }}
                     disabled={watch('beginAt') === undefined}
-                  />
+                  /> */}
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  <TimePicker
+                  {/* <TimePicker
                     label="Heure de fin"
                     onChange={value => {
                       if (value === null) {
@@ -375,7 +386,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     minTime={watch('severalDays') ? '00:00' : watch('timeBeginAt')}
                     disabled={watch('timeBeginAt') === undefined}
                     sx={{ width: '100%' }}
-                  />
+                  /> */}
                 </Grid>
               </Grid>
 
@@ -418,12 +429,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
           <FormGroup label="À propos">
             <TextField
-              {...register('description')}
-              {...(editable && {
-                InputLabelProps: {
-                  shrink: true,
-                },
-              })}
+              {...muiRegister('description')}
               label="Décrivez ici votre événement"
               variant="outlined"
               fullWidth
@@ -450,14 +456,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
             {watch('isVirtual') && (
               <TextField
-                {...register('visioUrl')}
-                {...(editable &&
-                  watch('visioUrl') && {
-                    value: watch('visioUrl'),
-                  })}
-                InputLabelProps={{
-                  shrink: !!watch('visioUrl'),
-                }}
+                {...muiRegister('visioUrl')}
                 label="Lien de la visioconférence"
                 variant="outlined"
                 fullWidth
@@ -475,7 +474,6 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     <TextFieldPlaces
                       ref={ref}
                       onChange={onChange}
-                      defaultValue={value}
                       value={value}
                       onSelectPlace={(place: any) => {
                         setValue('address.address', `${place?.number} ${place?.route}`)
@@ -491,10 +489,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                   <TextField
-                    {...register('address.postalCode')}
-                    InputLabelProps={{
-                      shrink: !!watch('address.postalCode'),
-                    }}
+                    {...muiRegister('address.postalCode')}
                     label="Code postal"
                     variant="outlined"
                     fullWidth
@@ -503,10 +498,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                   />
 
                   <TextField
-                    {...register('address.cityName')}
-                    InputLabelProps={{
-                      shrink: !!watch('address.cityName'),
-                    }}
+                    {...muiRegister('address.cityName')}
                     label="Ville"
                     variant="outlined"
                     fullWidth
