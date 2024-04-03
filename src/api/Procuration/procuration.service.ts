@@ -3,6 +3,7 @@ import {
   AvailableProxyModel,
   ProcurationModel,
   ProcurationModelWithPersonalInfos,
+  ProcurationStatusEnum,
 } from '~/api/Procuration/procuration.model'
 import { apiClient } from '~/services/networking/client'
 
@@ -13,6 +14,7 @@ export const ProcurationServiceKey = {
 }
 
 const base = 'v3/procuration/requests'
+const proxyBase = 'v3/procuration/proxies'
 
 export const ProcurationService = {
   listRequests: ({ params, signal }: PaginatedApiQueryBaseModel): Promise<PaginatedDataModel<ProcurationModel>> =>
@@ -36,8 +38,12 @@ export const ProcurationService = {
       proxy,
     }),
   getProxies: ({ params, signal }: PaginatedApiQueryBaseModel): Promise<PaginatedDataModel<AvailableProxyModel>> =>
-    apiClient.get('v3/procuration/proxies', undefined, {
+    apiClient.get(proxyBase, undefined, {
       params,
       signal,
     }),
+  update: ({ uuid, status }: { uuid: string; status: ProcurationStatusEnum }) =>
+    apiClient.patch(`${base}/${uuid}`, { status }),
+  updateProxy: ({ uuid, status }: { uuid: string; status: ProcurationStatusEnum }) =>
+    apiClient.patch(`${proxyBase}/${uuid}`, { status }),
 }

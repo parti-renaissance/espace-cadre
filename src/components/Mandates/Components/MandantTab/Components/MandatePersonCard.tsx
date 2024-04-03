@@ -1,10 +1,13 @@
 import styled from '@emotion/styled'
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback } from 'react'
+import useProcurationProxyState from '~/api/Procuration/Hooks/useProcurationProxyState'
+import { ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
 import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Components/MandateCardEntry'
 import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
 import PersonWithAvatar from '~/components/Mandates/Components/PersonWithAvatar/PersonWithAvatar'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import { LabelTypeModel } from '~/models/activist.model'
 import { KeyValueModel, LightPersonModel } from '~/models/common.model'
 import Iconify from '~/mui/iconify'
@@ -13,7 +16,6 @@ import { grey, success, tagsColor } from '~/theme/palette'
 import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
-import pluralize from '~/components/shared/pluralize/pluralize'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -23,6 +25,7 @@ export interface MandatePersonCardProps {
   peopleInSameVotePlace?: number
   votePlace: string
   location: string
+  uuid?: string
   id: string
   expended?: boolean
   extraInfos?: KeyValueModel<string | ReactNode>[]
@@ -38,6 +41,7 @@ export interface MandatePersonCardProps {
   isProcessing?: boolean
   // Hide actions buttons "Trouver un mandataire", "Sélectionner" and so on.
   hideActions?: boolean
+  canChangeState?: boolean
 }
 
 export enum MandatePersonCardType {
@@ -138,6 +142,10 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         <>
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
+          <Divider sx={withBottomSpacing} />
+
+          {props.canChangeState && <StateActions {...props} />}
+
           {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
       )}
@@ -145,21 +153,58 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
   )
 }
 
-const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
-  <>
-    <Divider sx={withBottomSpacing} />
+const StateActions = (props: MandatePersonCardProps) => {
+  const { mutateAsync, isLoading } = useProcurationProxyState()
 
-    <Grid item textAlign={'center'}>
-      <Button
-        variant={'text'}
-        startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
-        onClick={onNarrow}
-        data-testid="lessButton"
-      >
-        Afficher moins
-      </Button>
+  const onManual = useCallback(() => {
+    if (!props.uuid) {
+      return
+    }
+
+    mutateAsync({
+      status: ProcurationStatusEnum.MANUAL,
+      uuid: props.uuid,
+    })
+  }, [mutateAsync, props.uuid])
+
+  const onExclude = useCallback(() => {
+    if (!props.uuid) {
+      return
+    }
+
+    mutateAsync({
+      status: ProcurationStatusEnum.EXCLUDED,
+      uuid: props.uuid,
+    })
+  }, [mutateAsync, props.uuid])
+
+  return (
+    <Grid item container mb={MuiSpacing.normal}>
+      <Grid item xs={6}>
+        <Button variant="contained" disabled={isLoading} onClick={onManual}>
+          Traité manuellement
+        </Button>
+      </Grid>
+      <Grid item xs={6} textAlign="right">
+        <Button variant="contained" disabled={isLoading} onClick={onExclude}>
+          Exclure
+        </Button>
+      </Grid>
     </Grid>
-  </>
+  )
+}
+
+const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
+  <Grid item textAlign={'center'}>
+    <Button
+      variant={'text'}
+      startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
+      onClick={onNarrow}
+      data-testid="lessButton"
+    >
+      Afficher moins
+    </Button>
+  </Grid>
 )
 
 const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (

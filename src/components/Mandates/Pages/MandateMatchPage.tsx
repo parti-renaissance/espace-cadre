@@ -70,7 +70,7 @@ export default function MandateMatchPage() {
     []
   )
 
-  if (data?.status !== 'pending') {
+  if (data?.status !== 'pending' && isLoading) {
     navigate(paths.procurations)
   }
 
@@ -198,7 +198,7 @@ const Proxy = memo(
       lastName={el?.last_name}
       id={el.id}
       location={el.vote_zone.name}
-      tags={[]}
+      tags={el.tags ?? []}
       votePlace={el.vote_place_name}
       type={MandatePersonCardType.MATCH_PROXY}
       extraInfos={buildExtraData(el)}
@@ -213,6 +213,8 @@ const Proxy = memo(
         lastName: req.last_name,
         gender: req.gender,
       }))}
+      uuid={el.uuid}
+      canChangeState
     />
   )
 )
