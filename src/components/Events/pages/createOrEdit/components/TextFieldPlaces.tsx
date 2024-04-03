@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, forwardRef } from 'react'
+import { useForwardRef } from '~/hooks/useForwardRef'
 import { TextField } from '@mui/material'
 import { Place } from '~/domain/place'
 
@@ -22,37 +23,38 @@ const selectPlace = (address: google.maps.GeocoderAddressComponent[] | undefined
 
 type TextFieldPlacesProps = {
   onSelectPlace: (place: Place) => void
+  // eslint-disable-next-line react/require-default-props
   initialValue?: string
 } & React.ComponentProps<typeof TextField>
 
-const TextFieldPlaces = ({ onSelectPlace, initialValue = '', ...props }: TextFieldPlacesProps) => {
-  const [address, setAddress] = useState(initialValue)
-  const autoCompleteRef = useRef<HTMLInputElement | null>(null)
-  const autoComplete = useRef<google.maps.places.Autocomplete | null>(null)
+const TextFieldPlaces = forwardRef<HTMLInputElement, TextFieldPlacesProps>(
+  ({ onSelectPlace, initialValue = '', ...props }, ref) => {
+    const [address, setAddress] = useState(initialValue)
+    const autoCompleteRef = useForwardRef<HTMLInputElement>(ref)
+    const autoComplete = useRef<google.maps.places.Autocomplete | null>(null)
 
-  useEffect(() => setAddress(initialValue), [initialValue])
+    useEffect(() => setAddress(initialValue), [initialValue])
 
-  const handlePlaceSelect = useCallback(() => {
-    const addressObject = autoComplete?.current?.getPlace()
-    const place = selectPlace(addressObject?.address_components)
+    const handlePlaceSelect = useCallback(() => {
+      const addressObject = autoComplete?.current?.getPlace()
+      const place = selectPlace(addressObject?.address_components)
 
-    setAddress(place.getAddress())
-    onSelectPlace(place)
-  }, [autoComplete, setAddress, onSelectPlace])
+      setAddress(place.getAddress())
+      onSelectPlace(place)
+    }, [autoComplete, setAddress, onSelectPlace])
 
-  useEffect(() => {
-    if (!autoCompleteRef.current) {
-      return
-    }
-    autoComplete.current = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
-      fields: ['address_components'],
-      types: ['address'],
-    })
-    autoComplete?.current?.addListener?.('place_changed', handlePlaceSelect)
-  }, [handlePlaceSelect])
+    useEffect(() => {
+      if (!autoCompleteRef.current) {
+        return
+      }
+      autoComplete.current = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {
+        fields: ['address_components'],
+        types: ['address'],
+      })
+      autoComplete?.current?.addListener?.('place_changed', handlePlaceSelect)
+    }, [autoCompleteRef, handlePlaceSelect])
 
-  return (
-    <>
+    return (
       <TextField
         {...props}
         inputRef={autoCompleteRef}
@@ -65,8 +67,10 @@ const TextFieldPlaces = ({ onSelectPlace, initialValue = '', ...props }: TextFie
         placeholder={messages.address}
         value={address}
       />
-    </>
-  )
-}
+    )
+  }
+)
+
+TextFieldPlaces.displayName = 'TextFieldPlaces'
 
 export default TextFieldPlaces
