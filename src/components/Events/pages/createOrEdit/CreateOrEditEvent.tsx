@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
-import { addDays, minTime } from 'date-fns'
+import { addDays, minTime, isSameDay, addHours } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation } from '@tanstack/react-query'
 import { SubmitHandler, useForm, Controller, UseFormRegister } from 'react-hook-form'
@@ -76,13 +76,13 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       beginAt: event?.beginAt ? new Date(event?.beginAt) : new Date(),
       finishAt: event?.finishAt ? new Date(event?.finishAt) : new Date(),
       timeBeginAt: event?.beginAt ? new Date(event?.beginAt) : new Date(),
-      timeFinishAt: event?.finishAt ? new Date(event?.finishAt) : new Date(),
+      timeFinishAt: event?.finishAt ? new Date(event?.finishAt) : addHours(new Date(), 1),
       timezone: event?.timezone ?? 'Europe/Paris',
       description: event?.description || '',
       visioUrl: event?.visioUrl || '',
       isVirtual: event ? event?.mode === 'online' : false,
       capacity: event?.capacity,
-      severalDays: event ? event?.beginAt !== event?.finishAt : false,
+      severalDays: event ? !isSameDay(event.beginAt, event.finishAt) : false,
       address: {
         address: event?.address?.address || '',
         postalCode: event?.address?.postalCode || '',
@@ -322,6 +322,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                   <TimePicker
                     {...register('timeFinishAt')}
                     label="Heure de fin"
+                    value={watch('timeFinishAt')}
                     onChange={value => {
                       if (value === null) {
                         return
@@ -329,7 +330,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
                       setValue('timeFinishAt', new Date(value as Date))
                     }}
-                    minTime={watch('severalDays') ? minTime : watch('timeBeginAt')}
+                    minTime={watch('timeBeginAt')}
                     disabled={watch('timeBeginAt') === undefined}
                     sx={{ width: '100%' }}
                   />
