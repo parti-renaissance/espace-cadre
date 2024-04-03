@@ -63,6 +63,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     watch,
     setValue,
     handleSubmit,
+    reset,
     control,
     formState: { errors, isSubmitting, isDirty },
   } = useForm<CreateEventForm>({
@@ -107,9 +108,9 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
   const blocker = useBlocker(({ nextLocation }) => {
     if (
-      isDirty &&
-      isSubmitting &&
-      !nextLocation.pathname.startsWith(`${paths.events}/${editable ? eventPaths.update : eventPaths.create}`)
+      (isDirty &&
+        !nextLocation.pathname.startsWith(`${paths.events}/${editable ? eventPaths.update : eventPaths.create}`)) ||
+      isSubmitting
     ) {
       setBlockerOpen(true)
       return true
@@ -137,7 +138,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     },
   })
 
-  const { mutate: mutation, isLoading } = useMutation(editable ? updateEventApi : createEventApi, {
+  const { mutateAsync: mutation, isLoading } = useMutation(editable ? updateEventApi : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
 
@@ -207,7 +208,10 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       ...(committee ? { type: 'committee', committee } : {}),
     }
 
-    mutation({ event: payload })
+    return mutation({ event: payload }).then(res => {
+      reset(data)
+      return res
+    })
   }
 
   return (
