@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
-import { addDays, minTime, isSameDay, addHours } from 'date-fns'
+import { addDays, isSameDay, addHours } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation } from '@tanstack/react-query'
 import { SubmitHandler, useForm, Controller, UseFormRegister } from 'react-hook-form'
@@ -209,7 +209,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       mode: isVirtual ? 'online' : 'meeting',
       capacity: data.capacity ? parseInt(data.capacity, 10) : undefined,
       post_address: !isVirtual ? objectToSnakeCase(address) : undefined,
-      visio_url: isVirtual ? data.visioUrl : null,
+      visio_url: isVirtual ? data.visioUrl : undefined,
       category: categoryId,
       ...(committee ? { type: 'committee', committee } : {}),
     }
