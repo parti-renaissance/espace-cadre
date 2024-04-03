@@ -87,7 +87,7 @@ describe('Messagerie', () => {
 
       cy.findByLabelText('Nom').type('Hello, World')
       cy.findByLabelText('Objet').type('Hello, World')
-      cy.findByText('Enregistrer le brouillion').should('exist').and('be.disabled')
+      cy.findByText('Enregistrer le brouillon').should('exist').and('be.disabled')
       cy.get(MailEditorNextButton).should('exist').and('be.disabled')
 
       cy.get('[data-cy="unlayer-btn"]').click()
