@@ -3,6 +3,7 @@ import { Button, Grid, Paper, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
 import { ReactNode, useCallback } from 'react'
 import useProcurationProxyState from '~/api/Procuration/Hooks/useProcurationProxyState'
+import useProcurationState from '~/api/Procuration/Hooks/useProcurationState'
 import { ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
 import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Components/MandateCardEntry'
 import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
@@ -25,13 +26,15 @@ export interface MandatePersonCardProps {
   peopleInSameVotePlace?: number
   votePlace: string
   location: string
+  // Can appear as dupplicate, but sometimes we have a different resource id & uuid
   uuid?: string
   id: string
   expended?: boolean
   extraInfos?: KeyValueModel<string | ReactNode>[]
   onExpend?: (id: string) => void
   onNarrow?: (id: string) => void
-  demandId?: string
+  // Indicate the ressource identifier, depending on case, the request or the proxy
+  resourceId?: string
   // Display button "Trouver un mandataire"
   type: MandatePersonCardType
   linkedPeople?: LightPersonModel[]
@@ -41,7 +44,7 @@ export interface MandatePersonCardProps {
   isProcessing?: boolean
   // Hide actions buttons "Trouver un mandataire", "Sélectionner" and so on.
   hideActions?: boolean
-  canChangeState?: boolean
+  hideStateActions?: boolean
 }
 
 export enum MandatePersonCardType {
@@ -56,12 +59,12 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: 1, borderColor: grey[200] }}>
       <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.normal }}>
-        <Grid item xs={6} md={8}>
+        <Grid item xs={6} md={8} lg={6}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
 
         {!props.hideActions && (
-          <Grid item md={4} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Grid item md={4} lg={6} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
             <ButtonGroup {...props} />
           </Grid>
         )}
@@ -142,9 +145,9 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         <>
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
-          <Divider sx={withBottomSpacing} />
+          {props.onNarrow && <Divider sx={withBottomSpacing} />}
 
-          {props.canChangeState && <StateActions {...props} />}
+          {!props.hideStateActions && <StateActions {...props} />}
 
           {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
@@ -154,7 +157,9 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 }
 
 const StateActions = (props: MandatePersonCardProps) => {
-  const { mutateAsync, isLoading } = useProcurationProxyState()
+  const isProxy = props.maxProxyCount !== undefined
+
+  const { mutateAsync, isLoading } = isProxy ? useProcurationProxyState() : useProcurationState()
 
   const onManual = useCallback(() => {
     if (!props.uuid) {
@@ -180,13 +185,15 @@ const StateActions = (props: MandatePersonCardProps) => {
 
   return (
     <Grid item container mb={MuiSpacing.normal}>
-      <Grid item xs={6}>
-        <Button variant="contained" disabled={isLoading} onClick={onManual}>
-          Traité manuellement
-        </Button>
-      </Grid>
-      <Grid item xs={6} textAlign="right">
-        <Button variant="contained" disabled={isLoading} onClick={onExclude}>
+      {!isProxy && (
+        <Grid item xs={6}>
+          <Button variant="soft" color="inherit" disabled={isLoading} onClick={onManual}>
+            Traité manuellement
+          </Button>
+        </Grid>
+      )}
+      <Grid item xs={isProxy ? 12 : 6} textAlign="right">
+        <Button variant="soft" color="error" disabled={isLoading} onClick={onExclude}>
           Exclure
         </Button>
       </Grid>

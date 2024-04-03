@@ -149,6 +149,7 @@ export default function MandateValidationPage() {
                 votePlace={data.vote_place_name}
                 type={MandatePersonCardType.MATCH_MANDANT}
                 extraInfos={buildExtraData(data)}
+                hideStateActions
                 expended
               />
             ) : (
@@ -168,6 +169,7 @@ export default function MandateValidationPage() {
                 type={MandatePersonCardType.MATCH_PROXY}
                 extraInfos={buildExtraData(proxy)}
                 expended
+                hideStateActions
                 hideActions
               />
             ) : (

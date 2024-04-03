@@ -176,6 +176,7 @@ const MandateInfo = memo((data: ProcurationModelWithPersonalInfos) => (
     type={MandatePersonCardType.MATCH_MANDANT}
     extraInfos={buildExtraData(data)}
     expended
+    hideStateActions
   />
 ))
 MandateInfo.displayName = 'MandateInfo'
@@ -214,7 +215,6 @@ const Proxy = memo(
         gender: req.gender,
       }))}
       uuid={el.uuid}
-      canChangeState
     />
   )
 )
