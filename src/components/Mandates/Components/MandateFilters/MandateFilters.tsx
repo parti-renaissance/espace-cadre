@@ -14,17 +14,6 @@ interface MandateFiltersProps {
   isProxy?: boolean
 }
 
-const demandStates: { label: string; value: ProcurationStatusEnum }[] = [
-  {
-    value: ProcurationStatusEnum.PENDING,
-    label: 'En attente',
-  },
-  {
-    value: ProcurationStatusEnum.COMPLETED,
-    label: 'Terminé',
-  },
-]
-
 function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<MandateFiltersProps>) {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -48,9 +37,7 @@ function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<Ma
   }, [moreState, onToggleMore])
 
   const registeredSearch = register('search')
-  const demandStateOptions = isProxy
-    ? [...demandStates, { value: ProcurationStatusEnum.EXCLUDED, label: 'Exclus' }]
-    : demandStates
+  const demandStateOptions = isProxy ? proxyDemandStates : demandStates
 
   return (
     <form onSubmit={handleSubmit(onFilter)}>
@@ -72,11 +59,14 @@ function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<Ma
           />
         </Grid>
         <Grid item xs={12} sm={12} md={8} lg container spacing={MuiSpacing.normal}>
-          <Grid item xs={4} lg={3}>
-            <Button variant="outlined" onClick={toggleModal} fullWidth>
-              Filtres
-            </Button>
-          </Grid>
+          {/* Only for proxy for now as we don’t have other filters yet */}
+          {isProxy && (
+            <Grid item xs={4} lg={3}>
+              <Button variant="outlined" onClick={toggleModal} fullWidth>
+                Filtres
+              </Button>
+            </Grid>
+          )}
           <Grid item xs={8} lg>
             <Button
               variant="outlined"
@@ -150,5 +140,22 @@ function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<Ma
     </form>
   )
 }
+
+const demandStates: { label: string; value: ProcurationStatusEnum }[] = [
+  {
+    value: ProcurationStatusEnum.PENDING,
+    label: 'En attente',
+  },
+  {
+    value: ProcurationStatusEnum.COMPLETED,
+    label: 'Terminé',
+  },
+]
+
+const proxyDemandStates = [
+  ...demandStates,
+  { value: ProcurationStatusEnum.EXCLUDED, label: 'Exclus' },
+  { value: ProcurationStatusEnum.MANUAL, label: 'Manuel' },
+]
 
 export default memo(MandateFilters)

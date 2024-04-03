@@ -41,6 +41,7 @@ export interface VoteZoneModel {
 export enum ProcurationStatusEnum {
   PENDING = 'pending',
   COMPLETED = 'completed',
+  MANUAL = 'manual',
   EXCLUDED = 'excluded',
 }
 
