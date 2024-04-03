@@ -3,7 +3,7 @@ import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
 import { addDays, isSameDay, addHours } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler, useForm, Controller, UseFormRegister } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
@@ -59,6 +59,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const navigate = useNavigate()
   const [blockerOpen, setBlockerOpen] = useState(false)
+  const queryClient = useQueryClient()
   const {
     register,
     watch,
@@ -82,7 +83,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       visioUrl: event?.visioUrl || '',
       isVirtual: event ? event?.mode === 'online' : false,
       capacity: event?.capacity,
-      severalDays: event ? !isSameDay(event.beginAt, event.finishAt) : false,
+      severalDays: event ? !isSameDay(new Date(event.beginAt), new Date(event.finishAt)) : false,
       address: {
         address: event?.address?.address || '',
         postalCode: event?.address?.postalCode || '',
@@ -151,6 +152,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       )
 
       reset(getValues())
+      queryClient.invalidateQueries(['event', uuid])
 
       setTimeout(() => {
         navigate(`${paths.events}/${uuid}`)
@@ -262,7 +264,20 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
           <FormGroup label="Date et heure">
             <FormControlLabel
               key={'severalDays'}
-              control={<Switch {...register('severalDays')} color="primary" checked={watch('severalDays')} />}
+              control={
+                <Switch
+                  onChange={x => {
+                    setValue('severalDays', x.target.checked)
+                    if (!x.target.checked) {
+                      setValue('finishAt', getValues('beginAt'))
+                    } else {
+                      setValue('finishAt', addDays(getValues('beginAt'), 1))
+                    }
+                  }}
+                  color="primary"
+                  checked={watch('severalDays')}
+                />
+              }
               label={'Sur plusieurs journées'}
               sx={{
                 '& .MuiFormControlLabel-label': {
@@ -293,9 +308,11 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                       slots={{ textField: TextField }}
                       value={watch('finishAt')}
                       disabled={!watch('severalDays') || !watch('beginAt')}
-                      minDate={watch('beginAt')}
+                      minDate={addDays(watch('beginAt'), 1)}
                       maxDate={addDays(new Date(watch('beginAt')), 3)}
-                      onChange={value => setValue('finishAt', value as Date)}
+                      onChange={value => {
+                        setValue('finishAt', value as Date)
+                      }}
                       sx={{ width: '100%' }}
                     />
                   )}
