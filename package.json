@@ -88,7 +88,7 @@
     "@faker-js/faker": "^8.4.1",
     "@sentry/vite-plugin": "^2.10.3",
     "@testing-library/cypress": "^10.0.1",
-    "@testing-library/react": "^14.1.2",
+    "@testing-library/react": "^14.2.2",
     "@types/google.maps": "^3.55.5",
     "@types/lodash": "^4.14.202",
     "@types/qs": "^6.9.12",
