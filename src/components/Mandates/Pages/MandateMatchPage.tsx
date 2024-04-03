@@ -152,12 +152,16 @@ export default function MandateMatchPage() {
 
 const getSectionName = (type: MatchingLevelEnum) => {
   switch (type) {
-    case MatchingLevelEnum.CITY:
-      return 'Même commune'
-    case MatchingLevelEnum.COUNTRY:
-      return 'Même pays'
     case MatchingLevelEnum.VOTE_PLACE:
       return 'Même bureau de vote'
+    case MatchingLevelEnum.BOROUGH:
+      return 'Même arrondissement'
+    case MatchingLevelEnum.CITY:
+      return 'Même commune'
+    case MatchingLevelEnum.DEPARTMENT:
+      return 'Même département'
+    case MatchingLevelEnum.COUNTRY:
+      return 'Même pays'
   }
 }
 
