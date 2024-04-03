@@ -12,11 +12,11 @@ const selectPlace = (address: google.maps.GeocoderAddressComponent[] | undefined
     return Place.NULL
   }
 
-  const number = address.find(a => a.types.includes('street_number'))?.long_name || null
-  const route = address.find(a => a.types.includes('route'))?.long_name || null
-  const postalCode = address.find(a => a.types.includes('postal_code'))?.long_name || null
-  const locality = address.find(a => a.types.includes('locality'))?.long_name || null
-  const country = address.find(a => a.types.includes('country'))?.short_name || null
+  const number = address.find(a => a.types.includes('street_number'))?.long_name ?? ''
+  const route = address.find(a => a.types.includes('route'))?.long_name || ''
+  const postalCode = address.find(a => a.types.includes('postal_code'))?.long_name || ''
+  const locality = address.find(a => a.types.includes('locality'))?.long_name || ''
+  const country = address.find(a => a.types.includes('country'))?.short_name || ''
 
   return new Place(number, route, postalCode, locality, country)
 }

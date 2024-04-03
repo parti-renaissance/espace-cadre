@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
-import { addDays } from 'date-fns'
+import { addDays, minTime } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation } from '@tanstack/react-query'
-import { SubmitHandler, useForm, Controller, Control, UseFormRegister } from 'react-hook-form'
+import { SubmitHandler, useForm, Controller, UseFormRegister } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
 import {
@@ -21,6 +21,7 @@ import {
   FormHelperText,
   Autocomplete,
 } from '@mui/material'
+import { objectToSnakeCase } from '~/utils/object'
 import {
   createEvent as createEventApi,
   deleteImage as deleteImageApi,
@@ -52,60 +53,40 @@ import type { Scope } from '~/domain/scope'
 import paths from '~/shared/paths'
 import { paths as eventPaths } from '~/components/Events/shared/paths'
 
-type FormInputTextProps = {
-  label: string
-  name: string
-  control: Control
-  textFieldProps?: React.ComponentProps<typeof TextField>
-}
-
-const FormInputText = ({ label, name, control, textFieldProps }: FormInputTextProps) => (
-  <Controller
-    render={({ field }) => <TextField {...textFieldProps} {...field} inputRef={field.ref} />}
-    name="name"
-    control={control}
-  />
-)
-
 const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   const currentScope = useSelector(getCurrentScope) as Scope
   const { enqueueSnackbar } = useCustomSnackbar()
   const navigate = useNavigate()
+  const [blockerOpen, setBlockerOpen] = useState(false)
   const {
     register,
     watch,
     setValue,
     handleSubmit,
-    getValues,
     control,
     formState: { errors, isSubmitting, isDirty },
   } = useForm<CreateEventForm>({
     defaultValues: {
-      timezone: 'Europe/Paris',
-      capacity: '',
-      ...(editable &&
-        event && {
-          name: event?.name,
-          categoryId: event?.category.slug,
-          visibility: event?.visibility as VisibilityEvent,
-          beginAt: new Date(event?.beginAt),
-          finishAt: new Date(event?.finishAt),
-          timeBeginAt: new Date(event?.beginAt),
-          timeFinishAt: new Date(event?.finishAt),
-          timezone: event?.timezone,
-          description: event?.description,
-          visioUrl: event?.visioUrl || '',
-          isVirtual: event?.mode === 'online',
-          capacity: event?.capacity,
-          severalDays: event?.beginAt !== event?.finishAt,
-          address: {
-            address: event?.address?.address || '',
-            postalCode: event?.address?.postalCode || '',
-            cityName: event?.address?.cityName || '',
-            country: event?.address?.country || '',
-          },
-          liveUrl: event?.liveUrl || '',
-        }),
+      name: event?.name ?? '',
+      categoryId: event?.category.slug,
+      visibility: (event?.visibility ?? 'public') as VisibilityEvent,
+      beginAt: event?.beginAt ? new Date(event?.beginAt) : new Date(),
+      finishAt: event?.finishAt ? new Date(event?.finishAt) : new Date(),
+      timeBeginAt: event?.beginAt ? new Date(event?.beginAt) : new Date(),
+      timeFinishAt: event?.finishAt ? new Date(event?.finishAt) : new Date(),
+      timezone: event?.timezone ?? 'Europe/Paris',
+      description: event?.description || '',
+      visioUrl: event?.visioUrl || '',
+      isVirtual: event ? event?.mode === 'online' : false,
+      capacity: event?.capacity,
+      severalDays: event ? event?.beginAt !== event?.finishAt : false,
+      address: {
+        address: event?.address?.address || '',
+        postalCode: event?.address?.postalCode || '',
+        cityName: event?.address?.cityName || '',
+        country: event?.address?.country || '',
+      },
+      liveUrl: event?.liveUrl || '',
     },
     mode: 'all',
     resolver: zodResolver(CreateEventSchema),
@@ -122,6 +103,8 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     }
   }
 
+  const findCountry = useCallback((code: string) => countries.find(country => country.code === code), [])
+
   const blocker = useBlocker(({ nextLocation }) => {
     if (
       isDirty &&
@@ -133,8 +116,6 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     }
     return false
   })
-
-  const [blockerOpen, setBlockerOpen] = useState(false)
 
   const handleCloseBlockerModal = () => {
     setBlockerOpen(false)
@@ -204,8 +185,8 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     deleteImage()
   }
 
-  const onSubmit: SubmitHandler<CreateEventForm> = () => {
-    const { beginAt, finishAt, timeBeginAt, timeFinishAt } = getValues()
+  const onSubmit: SubmitHandler<CreateEventForm> = data => {
+    const { beginAt, finishAt, timeBeginAt, timeFinishAt, categoryId, isVirtual, severalDays, address, ...rest } = data
 
     const convertFinishAt = new Date(finishAt ? finishAt : beginAt)
 
@@ -214,60 +195,20 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
         ? currentScope.getCommittees()[0].uuid
         : null
 
-    const data = {
+    const payload = {
+      ...objectToSnakeCase(rest),
       id: event?.id,
-      name: getValues('name'),
-      category: getValues('categoryId'),
-      visibility: getValues('visibility'),
       begin_at: formatDateTimeWithTimezone(beginAt, timeBeginAt),
-      finish_at: formatDateTimeWithTimezone(watch('severalDays') ? convertFinishAt : beginAt, timeFinishAt),
-      time_zone: getValues('timezone'),
-      description: getValues('description'),
-      visio_url: getValues('visioUrl'),
-      live_url: getValues('liveUrl'),
-      mode: watch('isVirtual') ? 'online' : 'meeting',
-      capacity: parseInt(getValues('capacity') as string),
-      post_address: {
-        address: getValues('address.address') || null,
-        postal_code: getValues('address.postalCode') || null,
-        city_name: getValues('address.cityName') || null,
-        country: getValues('address.country') || null,
-      },
+      finish_at: formatDateTimeWithTimezone(severalDays ? convertFinishAt : beginAt, timeFinishAt),
+      mode: isVirtual ? 'online' : 'meeting',
+      capacity: parseInt(data.capacity ?? '', 10),
+      post_address: objectToSnakeCase(address),
+      category: categoryId,
       ...(committee ? { type: 'committee', committee } : {}),
     }
 
-    mutation({ event: data })
+    mutation({ event: payload })
   }
-
-  const ContriesField = useCallback(() => {
-    const [inputValue, setInputValue] = React.useState('')
-    return (
-      <Controller
-        render={({ field: { onChange, value, ref } }) => (
-          <Autocomplete
-            id="countries"
-            value={value ?? 'FR'}
-            onChange={(_, newValue) => {
-              onChange(newValue)
-            }}
-            onInputChange={(_, newInputValue) => {
-              setInputValue(newInputValue)
-            }}
-            inputValue={inputValue}
-            ref={ref}
-            getOptionLabel={option => countries.find(country => country.code === option)?.label || ''}
-            options={countries.map(option => option.code)}
-            getOptionKey={option => option}
-            defaultValue="FR"
-            sx={{ width: '100%' }}
-            renderInput={params => <TextField {...params} label="Pays" />}
-          />
-        )}
-        name="address.country"
-        control={control}
-      />
-    )
-  }, [control])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -326,7 +267,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
             <Stack direction="column" spacing={2} mt={2} width={'100%'}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  {/* <DatePicker
+                  <DatePicker
                     label={watch('severalDays') ? 'Date de début' : 'Date'}
                     slots={{ textField: TextField }}
                     value={watch('beginAt')}
@@ -335,11 +276,11 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                       setValue('beginAt', value as Date)
                     }}
                     sx={{ width: '100%' }}
-                  /> */}
+                  />
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  {/* {watch('severalDays') && (
+                  {watch('severalDays') && (
                     <DatePicker
                       label="Date de fin"
                       slots={{ textField: TextField }}
@@ -350,12 +291,12 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                       onChange={value => setValue('finishAt', value as Date)}
                       sx={{ width: '100%' }}
                     />
-                  )} */}
+                  )}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  {/* <TimePicker
+                  <TimePicker
                     label="Heure de début"
                     {...register('timeBeginAt')}
                     value={watch('timeBeginAt')}
@@ -367,11 +308,12 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     }}
                     sx={{ width: '100%' }}
                     disabled={watch('beginAt') === undefined}
-                  /> */}
+                  />
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  {/* <TimePicker
+                  <TimePicker
+                    {...register('timeFinishAt')}
                     label="Heure de fin"
                     onChange={value => {
                       if (value === null) {
@@ -380,13 +322,10 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
                       setValue('timeFinishAt', new Date(value as Date))
                     }}
-                    {...(editable && {
-                      value: watch('timeFinishAt'),
-                    })}
-                    minTime={watch('severalDays') ? '00:00' : watch('timeBeginAt')}
+                    minTime={watch('severalDays') ? minTime : watch('timeBeginAt')}
                     disabled={watch('timeBeginAt') === undefined}
                     sx={{ width: '100%' }}
-                  /> */}
+                  />
                 </Grid>
               </Grid>
 
@@ -476,7 +415,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                       onChange={onChange}
                       value={value}
                       onSelectPlace={(place: any) => {
-                        setValue('address.address', `${place?.number} ${place?.route}`)
+                        setValue('address.address', place.getAddress())
                         setValue('address.postalCode', place.postalCode)
                         setValue('address.cityName', place.locality)
                         setValue('address.country', place.country)
@@ -505,7 +444,25 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     error={!!errors?.address?.cityName}
                     helperText={errors?.address?.cityName?.message}
                   />
-                  <ContriesField />
+                  <Controller
+                    render={({ field: { onChange, value, ref } }) => (
+                      <Autocomplete
+                        id="countries"
+                        value={value ? findCountry(value) : null}
+                        onChange={(_, newValue) => {
+                          onChange(newValue?.code)
+                        }}
+                        ref={ref}
+                        getOptionLabel={option => option.label}
+                        options={countries}
+                        getOptionKey={option => option.code}
+                        sx={{ width: '100%' }}
+                        renderInput={params => <TextField {...params} label="Pays" />}
+                      />
+                    )}
+                    name="address.country"
+                    control={control}
+                  />
                 </Stack>
               </>
             )}
