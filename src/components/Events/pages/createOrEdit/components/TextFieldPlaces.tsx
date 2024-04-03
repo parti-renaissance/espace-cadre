@@ -23,25 +23,19 @@ const selectPlace = (address: google.maps.GeocoderAddressComponent[] | undefined
 
 type TextFieldPlacesProps = {
   onSelectPlace: (place: Place) => void
-  // eslint-disable-next-line react/require-default-props
-  initialValue?: string
 } & React.ComponentProps<typeof TextField>
 
 const TextFieldPlaces = forwardRef<HTMLInputElement, TextFieldPlacesProps>(
-  ({ onSelectPlace, initialValue = '', ...props }, ref) => {
-    const [address, setAddress] = useState(initialValue)
-    const autoCompleteRef = useForwardRef<HTMLInputElement>(ref)
+  ({ onSelectPlace, ref, ...props }, myRef) => {
+    const autoCompleteRef = useForwardRef<HTMLInputElement>(myRef)
     const autoComplete = useRef<google.maps.places.Autocomplete | null>(null)
-
-    useEffect(() => setAddress(initialValue), [initialValue])
 
     const handlePlaceSelect = useCallback(() => {
       const addressObject = autoComplete?.current?.getPlace()
       const place = selectPlace(addressObject?.address_components)
-
-      setAddress(place.getAddress())
       onSelectPlace(place)
-    }, [autoComplete, setAddress, onSelectPlace])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
       if (!autoCompleteRef.current) {
@@ -58,14 +52,12 @@ const TextFieldPlaces = forwardRef<HTMLInputElement, TextFieldPlacesProps>(
       <TextField
         {...props}
         inputRef={autoCompleteRef}
-        onChange={event => setAddress(event.target.value)}
         fullWidth
         size="medium"
         id="adress"
         name="address"
         inputProps={{ maxLength: 500 }}
         placeholder={messages.address}
-        value={address}
       />
     )
   }
