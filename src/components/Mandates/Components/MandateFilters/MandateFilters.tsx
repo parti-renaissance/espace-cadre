@@ -1,11 +1,12 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { grey } from '~/theme/palette'
 import Iconify from '~/mui/iconify'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { MuiSpacing } from '~/theme/spacing'
 import ModalBase from '~/components/ModalBase/ModalBase'
 import { memo, useCallback, useState } from 'react'
 import { ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
+import { fontWeight } from '~/theme/typography'
 
 interface MandateFiltersProps {
   onFilter: (data: Record<string, string>) => void
@@ -25,7 +26,12 @@ const demandStates: { label: string; value: ProcurationStatusEnum }[] = [
 ]
 
 function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<MandateFiltersProps>) {
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, control } = useForm({
+    defaultValues: {
+      status: '',
+      search: '',
+    },
+  })
   const [showModal, setShowModal] = useState(false)
   const [moreState, setMoreState] = useState(false)
 
@@ -49,7 +55,7 @@ function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<Ma
   return (
     <form onSubmit={handleSubmit(onFilter)}>
       <Grid container spacing={MuiSpacing.normal}>
-        <Grid item xs={12} sm={12} md={4} lg={6}>
+        <Grid item xs={12} sm={12} md={4} lg={5}>
           <TextField
             fullWidth
             variant="outlined"
@@ -65,13 +71,13 @@ function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<Ma
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={8} lg={6} container spacing={MuiSpacing.normal}>
-          <Grid item xs={4}>
+        <Grid item xs={12} sm={12} md={8} lg container spacing={MuiSpacing.normal}>
+          <Grid item xs={4} lg={3}>
             <Button variant="outlined" onClick={toggleModal} fullWidth>
               Filtres
             </Button>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} lg>
             <Button
               variant="outlined"
               onClick={onToggleClick}
@@ -98,47 +104,33 @@ function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<Ma
               </Button>
             </Grid>
 
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="statuts-label">Statuts</InputLabel>
-                <Select fullWidth labelId="statuts-label" {...register('status')}>
-                  <MenuItem value={undefined}>Tous</MenuItem>
-                  {demandStateOptions.map(el => (
-                    <MenuItem key={el.label} value={el.value}>
-                      {el.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+            <Grid item xs>
+              <Typography fontSize={14} fontWeight={fontWeight.medium}>
+                Statuts
+              </Typography>
             </Grid>
 
-            {/*<Grid item xs={12}>*/}
-            {/*  <FormControl fullWidth>*/}
-            {/*    <InputLabel id="tags-label">*/}
-            {/*      <Iconify icon="eva:pricetags-outline" sx={{ mr: 1, pt: 1 }} />*/}
-            {/*      Labels adhérents*/}
-            {/*    </InputLabel>*/}
-            {/*    <Select fullWidth labelId="tags-label" {...register('tags')} />*/}
-            {/*  </FormControl>*/}
-            {/*</Grid>*/}
-            {/*<Grid item xs={12}>*/}
-            {/*  <FormControl fullWidth>*/}
-            {/*    <InputLabel id="vote-place-label">*/}
-            {/*      <Iconify icon="lucide:school-2" sx={{ mr: 1, pt: 1 }} />*/}
-            {/*      Bureau de vote*/}
-            {/*    </InputLabel>*/}
-            {/*    <Select fullWidth labelId="vote-place-label" {...register('votePlace')} />*/}
-            {/*  </FormControl>*/}
-            {/*</Grid>*/}
-            {/*<Grid item xs={12}>*/}
-            {/*  <FormControl fullWidth>*/}
-            {/*    <InputLabel id="zone-label">*/}
-            {/*      <Iconify icon="lucide:map-pin" sx={{ mr: 1, pt: 1 }} />*/}
-            {/*      Zone géographique*/}
-            {/*    </InputLabel>*/}
-            {/*    <Select fullWidth labelId="zone-label" {...register('zone')} />*/}
-            {/*  </FormControl>*/}
-            {/*</Grid>*/}
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="statuts-label" sx={{ bgcolor: 'white', px: MuiSpacing.smaller }}>
+                  Statuts
+                </InputLabel>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select fullWidth labelId="statuts-label" onChange={onChange} value={value}>
+                      <MenuItem value={undefined}>Tous</MenuItem>
+                      {demandStateOptions.map(el => (
+                        <MenuItem key={el.label} value={el.value}>
+                          {el.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
 
             <Grid item xs={12} container spacing={MuiSpacing.small} justifyContent="flex-end">
               <Grid item>
