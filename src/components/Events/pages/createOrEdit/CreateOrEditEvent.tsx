@@ -21,6 +21,7 @@ import {
   FormHelperText,
   Autocomplete,
 } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import { objectToSnakeCase } from '~/utils/object'
 import {
   createEvent as createEventApi,
@@ -523,9 +524,15 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
           Annuler
         </Button>
 
-        <Button type="submit" variant="contained" disabled={isSubmitting || isLoading} color="primary">
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          disabled={isSubmitting || isLoading}
+          color="primary"
+          loading={isLoading}
+        >
           {editable ? 'Modifier' : 'Créer'}
-        </Button>
+        </LoadingButton>
       </Stack>
 
       <ModalBeforeLeave open={blockerOpen} onClose={handleCloseBlockerModal} blocker={blocker} />
