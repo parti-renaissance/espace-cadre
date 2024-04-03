@@ -64,6 +64,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     watch,
     setValue,
     handleSubmit,
+    getValues,
     reset,
     control,
     formState: { errors, isSubmitting, isDirty },
@@ -109,9 +110,8 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
   const blocker = useBlocker(({ nextLocation }) => {
     if (
-      (isDirty &&
-        !nextLocation.pathname.startsWith(`${paths.events}/${editable ? eventPaths.update : eventPaths.create}`)) ||
-      isSubmitting
+      isDirty &&
+      !nextLocation.pathname.startsWith(`${paths.events}/${editable ? eventPaths.update : eventPaths.create}`)
     ) {
       setBlockerOpen(true)
       return true
@@ -139,7 +139,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     },
   })
 
-  const { mutateAsync: mutation, isLoading } = useMutation(editable ? updateEventApi : createEventApi, {
+  const { mutate: mutation, isLoading } = useMutation(editable ? updateEventApi : createEventApi, {
     onSuccess: async uuid => {
       const image = watch('image')
 
@@ -150,7 +150,11 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
         notifyVariants.success
       )
 
-      navigate(`${paths.events}/${uuid}`)
+      reset(getValues())
+
+      setTimeout(() => {
+        navigate(`${paths.events}/${uuid}`)
+      })
     },
     onError: ({
       response: { data },
@@ -203,16 +207,14 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       begin_at: formatDateTimeWithTimezone(beginAt, timeBeginAt),
       finish_at: formatDateTimeWithTimezone(severalDays ? convertFinishAt : beginAt, timeFinishAt),
       mode: isVirtual ? 'online' : 'meeting',
-      capacity: parseInt(data.capacity ?? '', 10),
-      post_address: objectToSnakeCase(address),
+      capacity: data.capacity ? parseInt(data.capacity, 10) : undefined,
+      post_address: !isVirtual ? objectToSnakeCase(address) : undefined,
+      visio_url: isVirtual ? data.visioUrl : null,
       category: categoryId,
       ...(committee ? { type: 'committee', committee } : {}),
     }
 
-    return mutation({ event: payload }).then(res => {
-      reset(data)
-      return res
-    })
+    return mutation({ event: payload })
   }
 
   return (
