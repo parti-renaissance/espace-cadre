@@ -3,7 +3,7 @@ import { Card, Link, List, ListItem, ListItemAvatar, Typography } from '@mui/mat
 import { Box, Stack } from '@mui/system'
 import Iconify from '~/mui/iconify'
 import { Event } from '~/domain/event'
-import { format } from 'date-fns'
+import { format, isSameDay } from 'date-fns'
 import { Link as RouterLink } from 'react-router-dom'
 
 type Item = {
@@ -20,10 +20,16 @@ interface ListInformationsProps {
 const ListInformations = ({ event }: ListInformationsProps) => {
   const items: Item[] = [
     {
-      enable: !!event.beginAt,
+      enable: isSameDay(event.beginAt, event.finishAt),
       label: "Date de l'événement",
       icon: <Iconify icon="solar:calendar-date-bold" />,
       value: event.beginAt && format(event.beginAt, 'dd MMMM yyyy'),
+    },
+    {
+      enable: !isSameDay(event.beginAt, event.finishAt),
+      label: "Date de l'événement",
+      icon: <Iconify icon="solar:calendar-date-bold" />,
+      value: `${event.beginAt && format(event.beginAt, 'dd MMMM yyyy')} - ${event.finishAt && format(event.finishAt, 'dd MMMM yyyy')}`,
     },
     {
       enable: !!event.beginAt && !!event.finishAt,
