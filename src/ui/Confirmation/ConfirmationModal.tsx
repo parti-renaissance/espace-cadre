@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, SlideProps } from '@mui/material'
-import Button from '~/ui/Button'
-import { DangerButton } from '~/ui/Button/Button'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Slide, SlideProps, Typography } from '@mui/material'
+import Loader from '~/ui/Loader'
+import { CssSpacing } from '~/theme/spacing'
 
 interface ConfirmationModalProps {
   title: string
@@ -9,6 +9,7 @@ interface ConfirmationModalProps {
   okButtonTitle?: string
   onConfirm?: () => void
   onCancel?: () => void
+  isLoading?: boolean
 }
 
 const ConfirmationModal = ({
@@ -17,18 +18,26 @@ const ConfirmationModal = ({
   onConfirm,
   onCancel,
   okButtonTitle,
+  isLoading = true,
   ...props
 }: ConfirmationModalProps) => (
   <Dialog open onClose={onCancel} TransitionComponent={Transition} {...props}>
     <DialogTitle>{title}</DialogTitle>
     <DialogContent>
-      <DialogContentText id="alert-dialog-slide-description">{description}</DialogContentText>
+      <Typography>{description}</Typography>
     </DialogContent>
     <DialogActions>
-      <Button onClick={onCancel} isMainButton>
+      <Button variant="text" onClick={onCancel}>
         Annuler
       </Button>
-      <DangerButton onClick={onConfirm}>{okButtonTitle ?? 'Confirmer'}</DangerButton>
+      <Button variant="outlined" onClick={onConfirm} disabled={isLoading}>
+        {isLoading && (
+          <span style={{ marginRight: CssSpacing.smaller }}>
+            <Loader color={'text.disabled'} size={10} />
+          </span>
+        )}{' '}
+        {okButtonTitle ?? 'Confirmer'}
+      </Button>
     </DialogActions>
   </Dialog>
 )
