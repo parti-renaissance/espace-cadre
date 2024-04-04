@@ -104,10 +104,10 @@ export default function MandateEditPage() {
             {data ? (
               <MandatePersonCard
                 firstName={data.first_names}
-                lastName={data?.last_name}
+                lastName={data.last_name}
                 id={data.id}
                 location={data.vote_zone.name}
-                tags={[]}
+                tags={data.tags ?? []}
                 votePlace={data.vote_place_name}
                 type={MandatePersonCardType.MATCH_MANDANT}
                 extraInfos={buildExtraData(data)}
@@ -124,7 +124,7 @@ export default function MandateEditPage() {
               lastName={proxy.last_name}
               id={proxy.id}
               location={proxy.vote_zone.name}
-              tags={[]}
+              tags={proxy.tags ?? []}
               votePlace={proxy.vote_place_name}
               type={MandatePersonCardType.MATCH_PROXY}
               extraInfos={buildExtraData(proxy)}

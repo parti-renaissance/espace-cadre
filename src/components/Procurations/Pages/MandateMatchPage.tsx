@@ -170,10 +170,10 @@ const getSectionName = (type: MatchingLevelEnum) => {
 const MandateInfo = memo((data: ProcurationModelWithPersonalInfos) => (
   <MandatePersonCard
     firstName={data.first_names}
-    lastName={data?.last_name}
+    lastName={data.last_name}
     id={data.id}
     location={data.vote_zone.name}
-    tags={[]}
+    tags={data.tags ?? []}
     votePlace={data.vote_place_name}
     type={MandatePersonCardType.MATCH_MANDANT}
     extraInfos={buildExtraData(data)}
