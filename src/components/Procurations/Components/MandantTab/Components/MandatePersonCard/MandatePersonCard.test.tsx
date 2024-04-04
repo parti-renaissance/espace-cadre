@@ -1,7 +1,7 @@
 import MandatePersonCard, {
   MandatePersonCardProps,
   MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import { fireEvent, render } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
 import { beforeAll, expect, vitest } from 'vitest'

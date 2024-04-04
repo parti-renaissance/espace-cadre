@@ -1,56 +1,60 @@
 import { Grid, Typography } from '@mui/material'
-import { useDebounce, useIntersectionObserver } from '@uidotdev/usehooks'
+import { useIntersectionObserver } from '@uidotdev/usehooks'
 import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSessionStorage } from 'react-use'
+import useProcurationProxies from '~/api/Procuration/Hooks/useProcurationProxies'
+import { AvailableProxyModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
+import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { sprintf } from 'sprintf-js'
-import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
-import { ProcurationModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
-import MandateDoneIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateDoneIntroduction'
-import MandateIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateIntroduction'
+import { formatToFrenchNumberString } from '~/utils/numbers'
+import pluralize from '~/components/shared/pluralize/pluralize'
+
+import Loader from '~/ui/Loader'
+import { fontWeight } from '~/theme/typography'
+import ProxyIntroduction from './Components/ProxyIntroduction'
+import ProxyDoneIntroduction from '~/components/Procurations/Components/ProxyTab/Components/ProxyDoneIntroduction'
+import { useNavigate } from 'react-router-dom'
 import MandatePersonCard, {
   MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import MandateSkeleton from '~/components/Mandates/Components/MandantTab/Components/MandateSkeleton'
-import MandateSuccessModal from '~/components/Mandates/Components/MandateSuccessModal/MandateSuccessModal'
-import pluralize from '~/components/shared/pluralize/pluralize'
-import { formatDate } from '~/shared/helpers'
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import paths from '~/shared/paths'
-import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
-import { fontWeight } from '~/theme/typography'
-import Loader from '~/ui/Loader'
-import { buildAddress } from '~/utils/address'
-import { dateFormat } from '~/utils/date'
-import { formatToFrenchNumberString } from '~/utils/numbers'
-import MandateFilters from '~/components/Mandates/Components/MandateFilters/MandateFilters'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
+import MandateFilters from '~/components/Procurations/Components/MandateFilters/MandateFilters'
+import MandateSkeleton from '~/components/Procurations/Components/MandantTab/Components/MandateSkeleton'
 
 interface Props {
-  // Switch to "Mandants traités" render
   done?: boolean
 }
 
-export default function MandantTab({ done = false }: Props) {
+export default function ProxyTab({ done }: Props) {
   const [expended, setExpended] = useState<Record<string, boolean>>({})
   const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
-  const debouncedFilters = useDebounce(customFilters, 400)
 
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
-    useProcurationRequestList({
-      order: {
-        createdAt: 'asc',
+    useProcurationProxies({
+      params: {
+        order: {
+          createdAt: 'asc',
+        },
+        status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
+        ...customFilters,
       },
-      status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
-      ...debouncedFilters,
     })
 
-  const [procurationSuccessFlash, setProcurationSuccessFlash] = useSessionStorage<
-    { mandate: string; proxy: string } | false
-  >('procurationSuccessFlash', false)
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
     rootMargin: '5px',
   })
+
+  useEffect(() => {
+    if (entry?.isIntersecting && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [entry?.isIntersecting, fetchNextPage, hasNextPage])
+
+  const setExpendedHandler = useCallback((el: SetStateAction<Record<string, boolean>>) => {
+    setExpended(el)
+  }, [])
 
   const onToggleMore = useCallback(
     (newState: boolean) => {
@@ -69,30 +73,16 @@ export default function MandantTab({ done = false }: Props) {
     [aggregate]
   )
 
-  useEffect(() => {
-    if (entry?.isIntersecting && hasNextPage) {
-      fetchNextPage()
-    }
-  }, [entry?.isIntersecting, fetchNextPage, hasNextPage])
-
-  const setExpendedHandler = useCallback((el: SetStateAction<Record<string, boolean>>) => {
-    setExpended(el)
-  }, [])
-
-  const onCloseModal = useCallback(() => {
-    setProcurationSuccessFlash(false)
-  }, [setProcurationSuccessFlash])
-
   return (
     <>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
         <Grid item {...gridStandardLayout.oneThird}>
-          {done ? <MandateDoneIntroduction /> : <MandateIntroduction />}
+          {done ? <ProxyDoneIntroduction /> : <ProxyIntroduction />}
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
           <Grid item xs sx={{ mb: MuiSpacing.normal }}>
-            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} />
+            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} isProxy />
           </Grid>
 
           {isInitialLoading ? (
@@ -105,8 +95,8 @@ export default function MandantTab({ done = false }: Props) {
                     {sprintf(
                       '%i %s %s',
                       formatToFrenchNumberString(total),
-                      pluralize(total, 'Mandant'),
-                      done ? pluralize(total, 'Traité') : ''
+                      pluralize(total, 'Mandataire'),
+                      done ? pluralize(total, 'traité') : ''
                     )}
                   </Typography>
                 </p>
@@ -119,7 +109,7 @@ export default function MandantTab({ done = false }: Props) {
               )}
 
               {aggregate.map(entry => (
-                <MandateItem
+                <ProxyItem
                   done={done}
                   key={entry.uuid}
                   item={entry}
@@ -150,25 +140,16 @@ export default function MandantTab({ done = false }: Props) {
           )}
         </Grid>
       </Grid>
-
-      {procurationSuccessFlash && !done && (
-        <MandateSuccessModal
-          mandate={procurationSuccessFlash.mandate}
-          proxy={procurationSuccessFlash.proxy}
-          onClose={onCloseModal}
-        />
-      )}
     </>
   )
 }
-
-const MandateItemComponent = ({
+const ProxyItemComponent = ({
   item,
   expended,
   setExpended,
   done = false,
 }: {
-  item: ProcurationModel
+  item: AvailableProxyModel
   expended: boolean
   setExpended: Dispatch<SetStateAction<Record<string, boolean>>>
   done?: boolean
@@ -177,7 +158,7 @@ const MandateItemComponent = ({
 
   return (
     <MandatePersonCard
-      hideActions={done}
+      hideActions
       uuid={item.uuid}
       firstName={item.first_names}
       lastName={item.last_name}
@@ -188,32 +169,18 @@ const MandateItemComponent = ({
       id={item.id}
       expended={expended}
       resourceId={item.uuid}
+      maxProxyCount={item.slots}
       linkedPeople={
-        item.proxy
-          ? [
-              {
-                id: item.proxy.uuid,
-                firstName: item.proxy.first_names,
-                lastName: item.proxy.last_name,
-                gender: item.proxy.gender,
-              },
-            ]
+        item.requests
+          ? item.requests.map(request => ({
+              id: request.uuid,
+              firstName: request.first_names,
+              lastName: request.last_name,
+              gender: request.gender,
+            }))
           : undefined
       }
-      extraInfos={[
-        {
-          key: 'Âge',
-          value: `${item.age} ans`,
-        },
-        {
-          key: 'Adresse postale',
-          value: buildAddress(item.post_address),
-        },
-        {
-          key: 'Date d’inscription',
-          value: formatDate(item.created_at, dateFormat),
-        },
-      ]}
+      extraInfos={buildExtraData(item)}
       onExpend={id =>
         setExpended(v => ({
           ...v,
@@ -226,10 +193,17 @@ const MandateItemComponent = ({
           [id]: false,
         }))
       }
-      type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
+      type={done ? MandatePersonCardType.MATCHED_PROXY : MandatePersonCardType.MATCH_PROXY}
       hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+      onPersonView={id =>
+        navigate(`${paths.procurations}/request/${id}/edit`, {
+          state: {
+            proxy: item,
+          },
+        })
+      }
     />
   )
 }
-const MandateItem = memo(MandateItemComponent)
+const ProxyItem = memo(ProxyItemComponent)

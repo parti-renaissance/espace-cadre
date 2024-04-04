@@ -5,14 +5,14 @@ import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spaci
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import MandatePersonCard, {
   MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import {
   AvailableProxyModel,
   MatchingLevelEnum,
   ProcurationModelWithPersonalInfos,
 } from '~/api/Procuration/procuration.model'
-import MandateMatchPageSkeleton from '~/components/Mandates/Components/Skeleton/MandateMatchPageSkeleton'
+import MandateMatchPageSkeleton from '~/components/Procurations/Components/Skeleton/MandateMatchPageSkeleton'
 import { fontWeight } from '~/theme/typography'
 import Divider from '@mui/material/Divider'
 import { grey } from '~/theme/palette'
@@ -20,7 +20,7 @@ import useProcurationAvailableProxies from '~/api/Procuration/Hooks/useProcurati
 import { useIntersectionObserver } from '@uidotdev/usehooks'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
-import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
 
 export default function MandateMatchPage() {
   const params = useParams()

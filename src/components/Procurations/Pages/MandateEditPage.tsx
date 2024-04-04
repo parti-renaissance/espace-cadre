@@ -4,22 +4,22 @@ import { Button, Grid, Paper, Typography } from '@mui/material'
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import { useParams } from 'react-router'
 import SkeletonCard from '~/components/Skeleton/SkeletonCard'
-import MandatePersonCard, {
-  MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import Divider from '@mui/material/Divider'
 import { fontWeight } from '~/theme/typography'
 import { useLocation, useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
 import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
-import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
 import { useCallback } from 'react'
 import DottedCard from '~/components/DottedCard/DottedCard'
 import useProcurationUnmatch from '~/api/Procuration/Hooks/useProcurationUnmatch'
 import { AvailableProxyModel } from '~/api/Procuration/procuration.model'
 import useGardEmptyState from '~/hooks/useGardEmptyState'
 import { getFormattedDate } from '~/utils/date'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
+import MandatePersonCard, {
+  MandatePersonCardType,
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
+import { fullName } from '~/utils/names'
 
 export default function MandateEditPage() {
   const params = useParams()
@@ -77,24 +77,18 @@ export default function MandateEditPage() {
           <Grid item xs={12} mb={MuiSpacing.normal}>
             <Paper sx={{ p: MuiSpacing.normal }}>
               <Grid container>
-                <Typography fontSize={14} mb={MuiSpacing.normal}>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea fugit illum labore numquam quia
-                  recusandae. Doloremque exercitationem expedita facere fuga incidunt iste laboriosam soluta totam
-                  veritatis voluptate! Optio quia, sapiente!
-                </Typography>
-
-                <Grid item mb={MuiSpacing.normal} xs={12}>
-                  <Divider />
-                </Grid>
-
                 <Grid container sx={{ mb: MuiSpacing.small }} spacing={MuiSpacing.normal}>
                   <InfoLine label={'Bureau de vote'} value={data?.vote_place_name}></InfoLine>
                   <InfoLine
                     label={'Date du match'}
-                    value={data?.created_at ? getFormattedDate(data?.created_at) : ''}
+                    value={data?.matched_at ? getFormattedDate(data?.matched_at) : ''}
                     color={'text.primary'}
                   ></InfoLine>
-                  <InfoLine label={'Auteur'} value={''} color={'text.primary'}></InfoLine>
+                  <InfoLine
+                    label={'Auteur'}
+                    value={data?.matcher ? fullName(data.matcher) : ''}
+                    color={'text.primary'}
+                  ></InfoLine>
                 </Grid>
 
                 <Grid item xs={12} textAlign={'right'}>

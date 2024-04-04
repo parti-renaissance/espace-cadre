@@ -27,10 +27,10 @@ import GeneralReports from '~/components/GeneralReports'
 import Committees from '~/components/Committees'
 import Documents from '~/components/Documents'
 import { useUserScope } from '~/redux/user/hooks'
-import MandateListPage from '~/components/Mandates/Pages/MandateListPage'
-import MandateMatchPage from '~/components/Mandates/Pages/MandateMatchPage'
-import MandateValidationPage from '~/components/Mandates/Pages/MandateValidationPage'
-import MandateEditPage from '~/components/Mandates/Pages/MandateEditPage'
+import MandateListPage from '~/components/Procurations/Pages/MandateListPage'
+import MandateMatchPage from '~/components/Procurations/Pages/MandateMatchPage'
+import MandateValidationPage from '~/components/Procurations/Pages/MandateValidationPage'
+import MandateEditPage from '~/components/Procurations/Pages/MandateEditPage'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()

@@ -37,6 +37,12 @@ export interface ReadableLightUserModel {
   uuid: string
 }
 
+export interface ReadableLightUserModelWithSingleFirstName {
+  first_name: string
+  last_name: string
+  uuid: string
+}
+
 export interface ReadableLightUserWithGenderModel extends ReadableLightUserModel {
   gender: GenderEnum
 }

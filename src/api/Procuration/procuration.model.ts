@@ -1,4 +1,9 @@
-import { GenderEnum, ReadableLightUserModel, ReadableLightUserWithGenderModel } from '~/models/common.model'
+import {
+  GenderEnum,
+  ReadableLightUserModel,
+  ReadableLightUserModelWithSingleFirstName,
+  ReadableLightUserWithGenderModel,
+} from '~/models/common.model'
 import { LabelTypeModel } from '~/models/activist.model'
 
 export interface ProcurationModel extends ReadableLightUserModel {
@@ -14,6 +19,8 @@ export interface ProcurationModel extends ReadableLightUserModel {
   available_proxies_count: number
   id: string
   status: ProcurationStatusEnum
+  matched_at: string | null
+  matcher: ReadableLightUserModelWithSingleFirstName | null
 }
 
 export interface ProcurationModelWithPersonalInfos extends ProcurationModel {
@@ -42,7 +49,6 @@ export enum ProcurationStatusEnum {
   PENDING = 'pending',
   MANUAL = 'manual',
   COMPLETED = 'completed',
-  MANUAL = 'manual',
   EXCLUDED = 'excluded',
 }
 

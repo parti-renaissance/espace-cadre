@@ -1,13 +1,10 @@
 import styled from '@emotion/styled'
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
-import { ReactNode, useCallback, useState } from 'react'
-import useProcurationProxyState from '~/api/Procuration/Hooks/useProcurationProxyState'
-import useProcurationState from '~/api/Procuration/Hooks/useProcurationState'
-import { ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
-import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Components/MandateCardEntry'
-import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
-import PersonWithAvatar from '~/components/Mandates/Components/PersonWithAvatar/PersonWithAvatar'
+import { ReactNode } from 'react'
+import MandateCardEntry from '~/components/Procurations/Components/MandantTab/Components/MandateCardEntry'
+import MandatePeopleNumber from '~/components/Procurations/Components/MandantTab/Components/MandatePeopleNumber'
+import PersonWithAvatar from '~/components/Procurations/Components/PersonWithAvatar/PersonWithAvatar'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { LabelTypeModel } from '~/models/activist.model'
 import { KeyValueModel, LightPersonModel } from '~/models/common.model'
@@ -17,7 +14,8 @@ import { grey, success, tagsColor } from '~/theme/palette'
 import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
-import ConfirmationModal from '~/ui/Confirmation/ConfirmationModal'
+import MandatePersonCardStateActions from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardStateActions'
+import MandatePersonCardButtonGroup from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardButtonGroup'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -67,7 +65,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
         {!props.hideActions && (
           <Grid item md={4} lg={6} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
-            <ButtonGroup {...props} />
+            <MandatePersonCardButtonGroup {...props} />
           </Grid>
         )}
 
@@ -97,7 +95,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
         {!props.hideActions && (
           <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
-            <ButtonGroup fullWidth {...props} />
+            <MandatePersonCardButtonGroup fullWidth {...props} />
           </Grid>
         )}
       </Grid>
@@ -157,90 +155,12 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
           {props.onNarrow && <Divider sx={withBottomSpacing} />}
 
-          {!props.hideStateActions && <StateActions {...props} />}
+          {!props.hideStateActions && <MandatePersonCardStateActions {...props} />}
 
           {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
       )}
     </Paper>
-  )
-}
-
-const StateActions = (props: MandatePersonCardProps) => {
-  const [shouldConfirmExclude, setShouldConfirmExclude] = useState(false)
-  const [shouldConfirmManual, setShouldConfirmManual] = useState(false)
-
-  const isProxy = [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type)
-  const { mutateAsync, isLoading } = isProxy ? useProcurationProxyState() : useProcurationState()
-
-  const onManual = useCallback(() => {
-    if (!props.uuid) {
-      return
-    }
-
-    if (shouldConfirmManual) {
-      mutateAsync({
-        status: ProcurationStatusEnum.MANUAL,
-        uuid: props.uuid,
-      })
-    } else {
-      setShouldConfirmManual(true)
-    }
-  }, [mutateAsync, props.uuid, shouldConfirmManual])
-  const onCancelManual = useCallback(() => setShouldConfirmManual(false), [])
-
-  const onExclude = useCallback(() => {
-    if (!props.uuid) {
-      return
-    }
-
-    if (shouldConfirmExclude) {
-      mutateAsync({
-        status: ProcurationStatusEnum.EXCLUDED,
-        uuid: props.uuid,
-      })
-    } else {
-      setShouldConfirmExclude(true)
-    }
-  }, [mutateAsync, props.uuid, shouldConfirmExclude])
-  const onCancelExclude = useCallback(() => setShouldConfirmExclude(false), [])
-
-  return (
-    <>
-      <Grid item container mb={MuiSpacing.normal}>
-        {!isProxy && (
-          <Grid item xs={6}>
-            <Button variant="soft" color="inherit" disabled={isLoading || shouldConfirmManual} onClick={onManual}>
-              Traité manuellement
-            </Button>
-          </Grid>
-        )}
-        <Grid item xs={isProxy ? 12 : 6} textAlign="right">
-          <Button variant="soft" color="error" disabled={isLoading || shouldConfirmExclude} onClick={onExclude}>
-            Exclure
-          </Button>
-        </Grid>
-      </Grid>
-
-      {shouldConfirmExclude && (
-        <ConfirmationModal
-          title={'Exclusion'}
-          description={`Êtes-vous sûr de vouloir exclure ${props.firstName} ?`}
-          onConfirm={onExclude}
-          onCancel={onCancelExclude}
-          okButtonTitle={'Exclure'}
-        />
-      )}
-
-      {shouldConfirmManual && (
-        <ConfirmationModal
-          title={'Traitement manuel'}
-          description={`Êtes-vous sûr de vouloir passer en "traité manuellement" ${props.firstName} ?`}
-          onConfirm={onManual}
-          onCancel={onCancelManual}
-        />
-      )}
-    </>
   )
 }
 
@@ -269,31 +189,6 @@ const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (
     </Button>
   </Grid>
 )
-
-const ButtonGroup = (props: { fullWidth?: boolean } & MandatePersonCardProps) => {
-  switch (props.type) {
-    case MandatePersonCardType.FIND:
-      return (
-        <Button onClick={props.onSelect} variant={'contained'} fullWidth={props.fullWidth}>
-          Trouver un mandataire
-        </Button>
-      )
-    case MandatePersonCardType.MATCH_PROXY:
-      return (
-        <Button
-          onClick={props.onSelect}
-          variant={'contained'}
-          fullWidth={props.fullWidth}
-          disabled={props.isProcessing}
-        >
-          Sélectionner
-        </Button>
-      )
-    case MandatePersonCardType.MATCH_MANDANT:
-    default:
-      return <></>
-  }
-}
 
 const MandateTag = ({ done }: { done?: boolean }) => (
   <UIChip

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { render } from '@testing-library/react'
-import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Components/MandateCardEntry'
+import MandateCardEntry from '~/components/Procurations/Components/MandantTab/Components/MandateCardEntry'
 import { expect } from 'vitest'
 
 describe('Mandate card entry', () => {
