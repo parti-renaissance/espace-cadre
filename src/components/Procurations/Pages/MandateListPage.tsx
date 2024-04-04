@@ -3,8 +3,8 @@ import TabsComponent, { TabProps } from '~/components/Events/Components/Tabs'
 import { useMemo, useState } from 'react'
 import { Grid } from '@mui/material'
 import { withBottomSpacing } from '~/theme/spacing'
-import MandantTab from '~/components/Mandates/Components/MandantTab/MandantTab'
 import ProxyTab from '../Components/ProxyTab/ProxyTab'
+import MandantTab from '~/components/Procurations/Components/MandantTab/MandantTab'
 
 export default function MandateListPage() {
   const [currentTab, setCurrentTab] = useState(0)

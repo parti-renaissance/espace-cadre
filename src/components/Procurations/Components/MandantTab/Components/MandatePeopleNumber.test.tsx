@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
+import MandatePeopleNumber from '~/components/Procurations/Components/MandantTab/Components/MandatePeopleNumber'
 import { faker } from '@faker-js/faker'
 import { expect } from 'vitest'
 

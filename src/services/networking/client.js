@@ -110,6 +110,10 @@ class ApiClient {
   post(endpoint, data, headers = {}) {
     return this.request('post', endpoint, data, headers)
   }
+
+  patch(endpoint, data, headers = {}) {
+    return this.request('patch', endpoint, data, headers)
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL)

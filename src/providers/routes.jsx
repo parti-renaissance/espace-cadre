@@ -27,9 +27,10 @@ import GeneralReports from '~/components/GeneralReports'
 import Committees from '~/components/Committees'
 import Documents from '~/components/Documents'
 import { useUserScope } from '~/redux/user/hooks'
-import MandateListPage from '~/components/Mandates/Pages/MandateListPage'
-import MandateMatchPage from '~/components/Mandates/Pages/MandateMatchPage'
-import MandateValidationPage from '~/components/Mandates/Pages/MandateValidationPage'
+import MandateListPage from '~/components/Procurations/Pages/MandateListPage'
+import MandateMatchPage from '~/components/Procurations/Pages/MandateMatchPage'
+import MandateValidationPage from '~/components/Procurations/Pages/MandateValidationPage'
+import MandateEditPage from '~/components/Procurations/Pages/MandateEditPage'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -90,6 +91,10 @@ const AppPrivateRoutes = () => {
         <Route
           path={`${paths.procurations}/request/:id/link`}
           element={currentScope.hasFeature(features.procurations) && <MandateValidationPage />}
+        />
+        <Route
+          path={`${paths.procurations}/request/:id/edit`}
+          element={currentScope.hasFeature(features.procurations) && <MandateEditPage />}
         />
       </Routes>
     </Suspense>

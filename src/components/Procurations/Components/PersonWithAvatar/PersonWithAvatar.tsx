@@ -1,6 +1,6 @@
 import Avatar from '~/mui/avatar/Avatar'
 import { getInitials } from '~/utils/names'
-import { Grid, Typography } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import { MuiSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 
@@ -9,15 +9,16 @@ interface Props {
   firstName: string
   lastName: string
   id: string
+  onPersonView?: () => void
 }
 
-export default function PersonWithAvatar({ src, firstName, lastName, id }: Props) {
+export default function PersonWithAvatar({ src, firstName, lastName, id, onPersonView }: Props) {
   return (
     <Grid container sx={{ alignItems: 'center' }} spacing={MuiSpacing.normal}>
       <Grid item>
         <Avatar src={src} initials={getInitials({ first_name: firstName, last_name: lastName })} />
       </Grid>
-      <Grid item>
+      <Grid item xs>
         <div>
           <Typography fontWeight={fontWeight.medium} fontSize={14}>
             {firstName} {lastName}
@@ -29,6 +30,13 @@ export default function PersonWithAvatar({ src, firstName, lastName, id }: Props
           </Typography>
         </div>
       </Grid>
+      {onPersonView && (
+        <Grid item>
+          <Button variant="contained" onClick={onPersonView}>
+            Voir
+          </Button>
+        </Grid>
+      )}
     </Grid>
   )
 }

@@ -5,14 +5,14 @@ import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spaci
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import MandatePersonCard, {
   MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import {
   AvailableProxyModel,
   MatchingLevelEnum,
   ProcurationModelWithPersonalInfos,
 } from '~/api/Procuration/procuration.model'
-import MandateMatchPageSkeleton from '~/components/Mandates/Components/Skeleton/MandateMatchPageSkeleton'
+import MandateMatchPageSkeleton from '~/components/Procurations/Components/Skeleton/MandateMatchPageSkeleton'
 import { fontWeight } from '~/theme/typography'
 import Divider from '@mui/material/Divider'
 import { grey } from '~/theme/palette'
@@ -20,7 +20,7 @@ import useProcurationAvailableProxies from '~/api/Procuration/Hooks/useProcurati
 import { useIntersectionObserver } from '@uidotdev/usehooks'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
-import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
 
 export default function MandateMatchPage() {
   const params = useParams()
@@ -69,10 +69,6 @@ export default function MandateMatchPage() {
       })),
     []
   )
-
-  if (data?.status !== 'pending') {
-    navigate(paths.procurations)
-  }
 
   if (isLoading) {
     return <MandateMatchPageSkeleton />
@@ -168,14 +164,15 @@ const getSectionName = (type: MatchingLevelEnum) => {
 const MandateInfo = memo((data: ProcurationModelWithPersonalInfos) => (
   <MandatePersonCard
     firstName={data.first_names}
-    lastName={data?.last_name}
+    lastName={data.last_name}
     id={data.id}
     location={data.vote_zone.name}
-    tags={[]}
+    tags={data.tags ?? []}
     votePlace={data.vote_place_name}
     type={MandatePersonCardType.MATCH_MANDANT}
     extraInfos={buildExtraData(data)}
     expended
+    hideStateActions
   />
 ))
 MandateInfo.displayName = 'MandateInfo'
@@ -198,7 +195,7 @@ const Proxy = memo(
       lastName={el?.last_name}
       id={el.id}
       location={el.vote_zone.name}
-      tags={[]}
+      tags={el.tags ?? []}
       votePlace={el.vote_place_name}
       type={MandatePersonCardType.MATCH_PROXY}
       extraInfos={buildExtraData(el)}
@@ -207,12 +204,8 @@ const Proxy = memo(
       expended={expended}
       maxProxyCount={el.slots}
       onSelect={onSelect}
-      linkedPeople={el.requests?.map(req => ({
-        id: req.id,
-        firstName: req.first_names,
-        lastName: req.last_name,
-        gender: req.gender,
-      }))}
+      linkedPeople={el.requests}
+      uuid={el.uuid}
     />
   )
 )

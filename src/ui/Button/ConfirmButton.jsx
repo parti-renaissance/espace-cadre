@@ -1,7 +1,7 @@
 import { IconButton } from '@mui/material'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import ConfirmationModal from '~/ui/Confirmation/ConfrmationModal'
+import ConfirmationModal from '~/ui/Confirmation/ConfirmationModal'
 import { DangerButton } from './Button'
 
 const ConfirmButton = ({ title, description, children, onClick, disabled = false, isDangerButton = false }) => {

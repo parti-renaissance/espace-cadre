@@ -1,8 +1,13 @@
-import { GenderEnum, ReadableLightUserModel, ReadableLightUserWithGenderModel } from '~/models/common.model'
+import {
+  GenderEnum,
+  ReadableLightUserModel,
+  ReadableLightUserModelWithSingleFirstName,
+  ReadableLightUserWithGenderModel,
+} from '~/models/common.model'
 import { LabelTypeModel } from '~/models/activist.model'
 
 export interface ProcurationModel extends ReadableLightUserModel {
-  proxy: ReadableLightUserWithGenderModel | null
+  proxy: ReadableLightUserWithGenderModelWithMatcher | null
   gender: GenderEnum
   birthdate: string
   vote_zone: VoteZoneModel
@@ -14,11 +19,19 @@ export interface ProcurationModel extends ReadableLightUserModel {
   available_proxies_count: number
   id: string
   status: ProcurationStatusEnum
+  matched_at: string | null
+  matcher: ReadableLightUserModelWithSingleFirstName | null
 }
 
 export interface ProcurationModelWithPersonalInfos extends ProcurationModel {
   email: string
   phone: string | null
+}
+
+export interface ReadableLightUserWithGenderModelWithMatcher extends ReadableLightUserWithGenderModel {
+  gender: GenderEnum
+  matched_at: string | null
+  matcher: ReadableLightUserModelWithSingleFirstName | null
 }
 
 export interface PostAddressModel {
@@ -40,6 +53,7 @@ export interface VoteZoneModel {
 
 export enum ProcurationStatusEnum {
   PENDING = 'pending',
+  MANUAL = 'manual',
   COMPLETED = 'completed',
   EXCLUDED = 'excluded',
 }

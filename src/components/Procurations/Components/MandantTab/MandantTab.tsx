@@ -1,18 +1,13 @@
 import { Grid, Typography } from '@mui/material'
-import { useIntersectionObserver } from '@uidotdev/usehooks'
+import { useDebounce, useIntersectionObserver } from '@uidotdev/usehooks'
 import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSessionStorage } from 'react-use'
 import { sprintf } from 'sprintf-js'
 import useProcurationRequestList from '~/api/Procuration/Hooks/useProcurationRequestList'
 import { ProcurationModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
-import MandateDoneIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateDoneIntroduction'
-import MandateIntroduction from '~/components/Mandates/Components/MandantTab/Components/MandateIntroduction'
-import MandatePersonCard, {
-  MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
-import MandateSkeleton from '~/components/Mandates/Components/MandantTab/Components/MandateSkeleton'
-import MandateSuccessModal from '~/components/Mandates/Components/MandateSuccessModal/MandateSuccessModal'
+import MandateDoneIntroduction from '~/components/Procurations/Components/MandantTab/Components/MandateDoneIntroduction'
+import MandateIntroduction from '~/components/Procurations/Components/MandantTab/Components/MandateIntroduction'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { formatDate } from '~/shared/helpers'
 import paths from '~/shared/paths'
@@ -22,6 +17,15 @@ import Loader from '~/ui/Loader'
 import { buildAddress } from '~/utils/address'
 import { dateFormat } from '~/utils/date'
 import { formatToFrenchNumberString } from '~/utils/numbers'
+import MandateFilters from '~/components/Procurations/Components/MandateFilters/MandateFilters'
+import MandatePersonCard, {
+  MandatePersonCardType,
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
+import MandateSkeleton from './Components/MandateSkeleton'
+import MandateSuccessModal from '~/components/Procurations/Components/MandateSuccessModal/MandateSuccessModal'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { secondsToMilliseconds } from 'date-fns'
+import AGrid from '~/components/AGrid/AGrid'
 
 interface Props {
   // Switch to "Mandants traités" render
@@ -29,15 +33,18 @@ interface Props {
 }
 
 export default function MandantTab({ done = false }: Props) {
+  const [expended, setExpended] = useState<Record<string, boolean>>({})
+  const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
+  const debouncedFilters = useDebounce(customFilters, 400)
+
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
     useProcurationRequestList({
       order: {
         createdAt: 'asc',
       },
       status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
+      ...debouncedFilters,
     })
-
-  const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const [procurationSuccessFlash, setProcurationSuccessFlash] = useSessionStorage<
     { mandate: string; proxy: string } | false
@@ -47,6 +54,23 @@ export default function MandantTab({ done = false }: Props) {
     root: null,
     rootMargin: '5px',
   })
+
+  const onToggleMore = useCallback(
+    (newState: boolean) => {
+      setExpended(
+        aggregate
+          ? aggregate.reduce(
+              (prev, curr) => ({
+                ...prev,
+                [curr.id]: newState,
+              }),
+              {}
+            )
+          : {}
+      )
+    },
+    [aggregate]
+  )
 
   useEffect(() => {
     if (entry?.isIntersecting && hasNextPage) {
@@ -70,6 +94,10 @@ export default function MandantTab({ done = false }: Props) {
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
+          <Grid item xs sx={{ mb: MuiSpacing.normal }}>
+            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} />
+          </Grid>
+
           {isInitialLoading ? (
             <MandateSkeleton />
           ) : (
@@ -93,15 +121,20 @@ export default function MandantTab({ done = false }: Props) {
                 </Grid>
               )}
 
-              {aggregate.map(entry => (
-                <MandateItem
-                  done={done}
-                  key={entry.uuid}
-                  item={entry}
-                  expended={Boolean(expended[entry.id])}
-                  setExpended={setExpendedHandler}
-                />
-              ))}
+              <AGrid>
+                <TransitionGroup component={null}>
+                  {aggregate.map(entry => (
+                    <CSSTransition timeout={secondsToMilliseconds(1)} classNames="item" key={entry.uuid}>
+                      <MandateItem
+                        done={done}
+                        item={entry}
+                        expended={Boolean(expended[entry.id])}
+                        setExpended={setExpendedHandler}
+                      />
+                    </CSSTransition>
+                  ))}
+                </TransitionGroup>
+              </AGrid>
 
               {isFetchingNextPage && (
                 <Grid item textAlign={'center'} {...withBottomSpacing}>
@@ -153,6 +186,7 @@ const MandateItemComponent = ({
   return (
     <MandatePersonCard
       hideActions={done}
+      uuid={item.uuid}
       firstName={item.first_names}
       lastName={item.last_name}
       votePlace={item.vote_place_name}
@@ -161,19 +195,7 @@ const MandateItemComponent = ({
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
-      demandId={item.uuid}
-      linkedPeople={
-        item.proxy
-          ? [
-              {
-                id: item.proxy.uuid,
-                firstName: item.proxy.first_names,
-                lastName: item.proxy.last_name,
-                gender: item.proxy.gender,
-              },
-            ]
-          : undefined
-      }
+      linkedPeople={item.proxy ? [item.proxy] : undefined}
       extraInfos={[
         {
           key: 'Âge',
@@ -201,6 +223,7 @@ const MandateItemComponent = ({
         }))
       }
       type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
+      hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
     />
   )

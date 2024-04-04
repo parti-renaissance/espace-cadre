@@ -4,7 +4,6 @@ import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from
 import useProcurationProxies from '~/api/Procuration/Hooks/useProcurationProxies'
 import { AvailableProxyModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
 import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
-import MandateSkeleton from '../MandantTab/Components/MandateSkeleton'
 import { sprintf } from 'sprintf-js'
 import { formatToFrenchNumberString } from '~/utils/numbers'
 import pluralize from '~/components/shared/pluralize/pluralize'
@@ -12,19 +11,27 @@ import pluralize from '~/components/shared/pluralize/pluralize'
 import Loader from '~/ui/Loader'
 import { fontWeight } from '~/theme/typography'
 import ProxyIntroduction from './Components/ProxyIntroduction'
-import ProxyDoneIntroduction from '~/components/Mandates/Components/ProxyTab/Components/ProxyDoneIntroduction'
+import ProxyDoneIntroduction from '~/components/Procurations/Components/ProxyTab/Components/ProxyDoneIntroduction'
 import { useNavigate } from 'react-router-dom'
 import MandatePersonCard, {
   MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import paths from '~/shared/paths'
-import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
+import MandateFilters from '~/components/Procurations/Components/MandateFilters/MandateFilters'
+import MandateSkeleton from '~/components/Procurations/Components/MandantTab/Components/MandateSkeleton'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import AGrid from '~/components/AGrid/AGrid'
+import { secondsToMilliseconds } from 'date-fns'
 
 interface Props {
   done?: boolean
 }
 
 export default function ProxyTab({ done }: Props) {
+  const [expended, setExpended] = useState<Record<string, boolean>>({})
+  const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
+
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
     useProcurationProxies({
       params: {
@@ -32,10 +39,9 @@ export default function ProxyTab({ done }: Props) {
           createdAt: 'asc',
         },
         status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
+        ...customFilters,
       },
     })
-
-  const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
@@ -53,6 +59,23 @@ export default function ProxyTab({ done }: Props) {
     setExpended(el)
   }, [])
 
+  const onToggleMore = useCallback(
+    (newState: boolean) => {
+      setExpended(
+        aggregate
+          ? aggregate.reduce(
+              (prev, curr) => ({
+                ...prev,
+                [curr.id]: newState,
+              }),
+              {}
+            )
+          : {}
+      )
+    },
+    [aggregate]
+  )
+
   return (
     <>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
@@ -61,6 +84,10 @@ export default function ProxyTab({ done }: Props) {
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
+          <Grid item xs sx={{ mb: MuiSpacing.normal }}>
+            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} isProxy />
+          </Grid>
+
           {isInitialLoading ? (
             <MandateSkeleton />
           ) : (
@@ -84,15 +111,20 @@ export default function ProxyTab({ done }: Props) {
                 </Grid>
               )}
 
-              {aggregate.map(entry => (
-                <ProxyItem
-                  done={done}
-                  key={entry.uuid}
-                  item={entry}
-                  expended={Boolean(expended[entry.id])}
-                  setExpended={setExpendedHandler}
-                />
-              ))}
+              <AGrid>
+                <TransitionGroup component={null}>
+                  {aggregate.map(entry => (
+                    <CSSTransition timeout={secondsToMilliseconds(1)} key={entry.uuid} classNames="item">
+                      <ProxyItem
+                        done={done}
+                        item={entry}
+                        expended={Boolean(expended[entry.id])}
+                        setExpended={setExpendedHandler}
+                      />
+                    </CSSTransition>
+                  ))}
+                </TransitionGroup>
+              </AGrid>
 
               {isFetchingNextPage && (
                 <Grid item textAlign={'center'} {...withBottomSpacing}>
@@ -135,6 +167,7 @@ const ProxyItemComponent = ({
   return (
     <MandatePersonCard
       hideActions
+      uuid={item.uuid}
       firstName={item.first_names}
       lastName={item.last_name}
       votePlace={item.vote_place_name}
@@ -143,18 +176,8 @@ const ProxyItemComponent = ({
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
-      demandId={item.uuid}
       maxProxyCount={item.slots}
-      linkedPeople={
-        item.requests
-          ? item.requests.map(request => ({
-              id: request.uuid,
-              firstName: request.first_names,
-              lastName: request.last_name,
-              gender: request.gender,
-            }))
-          : undefined
-      }
+      linkedPeople={item.requests ?? undefined}
       extraInfos={buildExtraData(item)}
       onExpend={id =>
         setExpended(v => ({
@@ -169,7 +192,15 @@ const ProxyItemComponent = ({
         }))
       }
       type={done ? MandatePersonCardType.MATCHED_PROXY : MandatePersonCardType.MATCH_PROXY}
+      hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+      onPersonView={id =>
+        navigate(`${paths.procurations}/request/${id}/edit`, {
+          state: {
+            proxy: item,
+          },
+        })
+      }
     />
   )
 }

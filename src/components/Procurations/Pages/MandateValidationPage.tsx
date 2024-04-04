@@ -1,14 +1,14 @@
 import Page from '~/components/Page/Page'
 import styled from '@emotion/styled'
-import { CssSpacing, MuiSpacing } from '~/theme/spacing'
-import { grey, other } from '~/theme/palette'
+import { MuiSpacing } from '~/theme/spacing'
+import { other } from '~/theme/palette'
 import { Button, Grid, List, ListItem, Paper, Typography } from '@mui/material'
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import { useParams } from 'react-router'
 import SkeletonCard from '~/components/Skeleton/SkeletonCard'
 import MandatePersonCard, {
   MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import Divider from '@mui/material/Divider'
 import { fontWeight } from '~/theme/typography'
 import useProcurationMatch from '~/api/Procuration/Hooks/useProcurationMatch'
@@ -17,20 +17,19 @@ import { AvailableProxyModel } from '~/api/Procuration/procuration.model'
 import paths from '~/shared/paths'
 import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
-import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
 import { useCallback } from 'react'
+import DottedCard from '~/components/DottedCard/DottedCard'
+import useGardEmptyState from '~/hooks/useGardEmptyState'
 
 export default function MandateValidationPage() {
   const params = useParams()
   const { state } = useLocation()
   const navigate = useNavigate()
+  useGardEmptyState()
 
   const { data } = useProcurationRequest({ uuid: params.id })
   const { mutateAsync, isLoading: isMatching } = useProcurationMatch()
-
-  if (state === null) {
-    navigate(-1)
-  }
 
   const { proxy }: { proxy: AvailableProxyModel } = state
 
@@ -142,13 +141,14 @@ export default function MandateValidationPage() {
             {data ? (
               <MandatePersonCard
                 firstName={data.first_names}
-                lastName={data?.last_name}
+                lastName={data.last_name}
                 id={data.id}
                 location={data.vote_zone.name}
-                tags={[]}
+                tags={data.tags ?? []}
                 votePlace={data.vote_place_name}
                 type={MandatePersonCardType.MATCH_MANDANT}
                 extraInfos={buildExtraData(data)}
+                hideStateActions
                 expended
               />
             ) : (
@@ -163,11 +163,12 @@ export default function MandateValidationPage() {
                 lastName={proxy.last_name}
                 id={proxy.id}
                 location={proxy.vote_zone.name}
-                tags={[]}
+                tags={proxy.tags ?? []}
                 votePlace={proxy.vote_place_name}
                 type={MandatePersonCardType.MATCH_PROXY}
                 extraInfos={buildExtraData(proxy)}
                 expended
+                hideStateActions
                 hideActions
               />
             ) : (
@@ -179,14 +180,6 @@ export default function MandateValidationPage() {
     </Page>
   )
 }
-
-const DottedCard = styled.div({
-  border: `1px dashed ${grey[300]}`,
-  backgroundColor: grey[100],
-  padding: CssSpacing.large,
-  borderRadius: 8,
-  marginTop: CssSpacing.large,
-})
 
 const MandantSpan = styled.span({
   color: other.Mandant,

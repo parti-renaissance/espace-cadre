@@ -1,10 +1,11 @@
 import MandatePersonCard, {
   MandatePersonCardProps,
   MandatePersonCardType,
-} from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import { fireEvent, render } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
 import { beforeAll, expect, vitest } from 'vitest'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 describe('Mandate person card', () => {
   beforeAll(() => {
@@ -41,7 +42,12 @@ describe('Mandate person card', () => {
   })
 
   it('Should narrow card', async () => {
-    const tree = render(<MandatePersonCard {...payload} expended={true} />)
+    const queryClient = new QueryClient()
+    const tree = render(
+      <QueryClientProvider client={queryClient}>
+        <MandatePersonCard {...payload} expended={true} />
+      </QueryClientProvider>
+    )
 
     expect(tree.queryByTestId('moreButton')).toBeFalsy()
 
