@@ -25,15 +25,12 @@ export interface MandatePersonCardProps {
   peopleInSameVotePlace?: number
   votePlace: string
   location: string
-  // Can appear as dupplicate, but sometimes we have a different resource id & uuid
   uuid?: string
   id: string
   expended?: boolean
   extraInfos?: KeyValueModel<string | ReactNode>[]
   onExpend?: (id: string) => void
   onNarrow?: (id: string) => void
-  // Indicate the ressource identifier, depending on case, the request or the proxy
-  resourceId?: string
   // Display button "Trouver un mandataire"
   type: MandatePersonCardType
   linkedPeople?: LightPersonModel[]

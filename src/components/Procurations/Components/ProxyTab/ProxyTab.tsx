@@ -168,7 +168,6 @@ const ProxyItemComponent = ({
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
-      resourceId={item.uuid}
       maxProxyCount={item.slots}
       linkedPeople={
         item.requests

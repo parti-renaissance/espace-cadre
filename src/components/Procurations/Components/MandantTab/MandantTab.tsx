@@ -187,7 +187,6 @@ const MandateItemComponent = ({
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
-      resourceId={item.uuid}
       linkedPeople={
         item.proxy
           ? [

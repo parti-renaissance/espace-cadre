@@ -44,6 +44,12 @@ export default function MandateMatchPage() {
     }
   }, [entry?.isIntersecting, fetchNextPage, hasNextPage])
 
+  useEffect(() => {
+    if (data?.status !== 'pending' && isLoading) {
+      navigate(paths.procurations)
+    }
+  }, [data?.status, isLoading, navigate])
+
   const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const onSelect = useCallback(
@@ -69,10 +75,6 @@ export default function MandateMatchPage() {
       })),
     []
   )
-
-  if (data?.status !== 'pending' && isLoading) {
-    navigate(paths.procurations)
-  }
 
   if (isLoading) {
     return <MandateMatchPageSkeleton />
