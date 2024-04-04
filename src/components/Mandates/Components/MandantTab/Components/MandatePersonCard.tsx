@@ -1,10 +1,14 @@
 import styled from '@emotion/styled'
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
+import useProcurationProxyState from '~/api/Procuration/Hooks/useProcurationProxyState'
+import useProcurationState from '~/api/Procuration/Hooks/useProcurationState'
+import { ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
 import MandateCardEntry from '~/components/Mandates/Components/MandantTab/Components/MandateCardEntry'
 import MandatePeopleNumber from '~/components/Mandates/Components/MandantTab/Components/MandatePeopleNumber'
 import PersonWithAvatar from '~/components/Mandates/Components/PersonWithAvatar/PersonWithAvatar'
+import pluralize from '~/components/shared/pluralize/pluralize'
 import { LabelTypeModel } from '~/models/activist.model'
 import { KeyValueModel, LightPersonModel } from '~/models/common.model'
 import Iconify from '~/mui/iconify'
@@ -13,7 +17,7 @@ import { grey, success, tagsColor } from '~/theme/palette'
 import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
-import pluralize from '~/components/shared/pluralize/pluralize'
+import ConfirmationModal from '~/ui/Confirmation/ConfirmationModal'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -23,12 +27,15 @@ export interface MandatePersonCardProps {
   peopleInSameVotePlace?: number
   votePlace: string
   location: string
+  // Can appear as dupplicate, but sometimes we have a different resource id & uuid
+  uuid?: string
   id: string
   expended?: boolean
   extraInfos?: KeyValueModel<string | ReactNode>[]
   onExpend?: (id: string) => void
   onNarrow?: (id: string) => void
-  demandId?: string
+  // Indicate the ressource identifier, depending on case, the request or the proxy
+  resourceId?: string
   // Display button "Trouver un mandataire"
   type: MandatePersonCardType
   linkedPeople?: LightPersonModel[]
@@ -38,6 +45,7 @@ export interface MandatePersonCardProps {
   isProcessing?: boolean
   // Hide actions buttons "Trouver un mandataire", "Sélectionner" and so on.
   hideActions?: boolean
+  hideStateActions?: boolean
   onPersonView?: (id: string) => void
 }
 
@@ -53,12 +61,12 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: 1, borderColor: grey[200] }}>
       <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.normal }}>
-        <Grid item xs={6} md={8}>
+        <Grid item xs={6} md={8} lg={6}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
 
         {!props.hideActions && (
-          <Grid item md={4} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Grid item md={4} lg={6} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
             <ButtonGroup {...props} />
           </Grid>
         )}
@@ -147,6 +155,10 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         <>
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
+          {props.onNarrow && <Divider sx={withBottomSpacing} />}
+
+          {!props.hideStateActions && <StateActions {...props} />}
+
           {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
       )}
@@ -154,21 +166,95 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
   )
 }
 
-const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
-  <>
-    <Divider sx={withBottomSpacing} />
+const StateActions = (props: MandatePersonCardProps) => {
+  const [shouldConfirmExclude, setShouldConfirmExclude] = useState(false)
+  const [shouldConfirmManual, setShouldConfirmManual] = useState(false)
 
-    <Grid item textAlign={'center'}>
-      <Button
-        variant={'text'}
-        startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
-        onClick={onNarrow}
-        data-testid="lessButton"
-      >
-        Afficher moins
-      </Button>
-    </Grid>
-  </>
+  const isProxy = [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type)
+  const { mutateAsync, isLoading } = isProxy ? useProcurationProxyState() : useProcurationState()
+
+  const onManual = useCallback(() => {
+    if (!props.uuid) {
+      return
+    }
+
+    if (shouldConfirmManual) {
+      mutateAsync({
+        status: ProcurationStatusEnum.MANUAL,
+        uuid: props.uuid,
+      })
+    } else {
+      setShouldConfirmManual(true)
+    }
+  }, [mutateAsync, props.uuid, shouldConfirmManual])
+  const onCancelManual = useCallback(() => setShouldConfirmManual(false), [])
+
+  const onExclude = useCallback(() => {
+    if (!props.uuid) {
+      return
+    }
+
+    if (shouldConfirmExclude) {
+      mutateAsync({
+        status: ProcurationStatusEnum.EXCLUDED,
+        uuid: props.uuid,
+      })
+    } else {
+      setShouldConfirmExclude(true)
+    }
+  }, [mutateAsync, props.uuid, shouldConfirmExclude])
+  const onCancelExclude = useCallback(() => setShouldConfirmExclude(false), [])
+
+  return (
+    <>
+      <Grid item container mb={MuiSpacing.normal}>
+        {!isProxy && (
+          <Grid item xs={6}>
+            <Button variant="soft" color="inherit" disabled={isLoading || shouldConfirmManual} onClick={onManual}>
+              Traité manuellement
+            </Button>
+          </Grid>
+        )}
+        <Grid item xs={isProxy ? 12 : 6} textAlign="right">
+          <Button variant="soft" color="error" disabled={isLoading || shouldConfirmExclude} onClick={onExclude}>
+            Exclure
+          </Button>
+        </Grid>
+      </Grid>
+
+      {shouldConfirmExclude && (
+        <ConfirmationModal
+          title={'Exclusion'}
+          description={`Êtes-vous sûr de vouloir exclure ${props.firstName} ?`}
+          onConfirm={onExclude}
+          onCancel={onCancelExclude}
+          okButtonTitle={'Exclure'}
+        />
+      )}
+
+      {shouldConfirmManual && (
+        <ConfirmationModal
+          title={'Traitement manuel'}
+          description={`Êtes-vous sûr de vouloir passer en "traité manuellement" ${props.firstName} ?`}
+          onConfirm={onManual}
+          onCancel={onCancelManual}
+        />
+      )}
+    </>
+  )
+}
+
+const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
+  <Grid item textAlign={'center'}>
+    <Button
+      variant={'text'}
+      startIcon={<Iconify icon="eva:arrow-ios-upward-fill" />}
+      onClick={onNarrow}
+      data-testid="lessButton"
+    >
+      Afficher moins
+    </Button>
+  </Grid>
 )
 
 const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (

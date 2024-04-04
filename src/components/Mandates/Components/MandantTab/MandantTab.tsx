@@ -178,6 +178,7 @@ const MandateItemComponent = ({
   return (
     <MandatePersonCard
       hideActions={done}
+      uuid={item.uuid}
       firstName={item.first_names}
       lastName={item.last_name}
       votePlace={item.vote_place_name}
@@ -186,7 +187,7 @@ const MandateItemComponent = ({
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
-      demandId={item.uuid}
+      resourceId={item.uuid}
       linkedPeople={
         item.proxy
           ? [
@@ -226,6 +227,7 @@ const MandateItemComponent = ({
         }))
       }
       type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
+      hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
     />
   )
