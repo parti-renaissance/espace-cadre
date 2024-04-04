@@ -19,25 +19,8 @@ import MessageCard from './MessageCard'
 import ActionPopover from './ActionPopover'
 import Iconify from '~/mui/iconify'
 
-import { styled } from '@mui/system'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-
-const AGrid = styled(Grid)`
-  .item-enter {
-    opacity: 0;
-  }
-  .item-enter-active {
-    opacity: 1;
-    transition: opacity 500ms ease-in;
-  }
-  .item-exit {
-    opacity: 1;
-  }
-  .item-exit-active {
-    opacity: 0;
-    transition: opacity 500ms ease-in;
-  }
-`
+import AGrid from '~/components/AGrid/AGrid'
 
 type OnPopoverOpen = (message: Message) => (...args: Parameters<ReturnType<typeof usePopover>['onOpen']>) => void
 
