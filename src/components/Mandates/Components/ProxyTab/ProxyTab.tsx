@@ -19,12 +19,16 @@ import MandatePersonCard, {
 } from '~/components/Mandates/Components/MandantTab/Components/MandatePersonCard'
 import paths from '~/shared/paths'
 import buildExtraData from '~/components/Mandates/Utils/buildExtraData'
+import MandateFilters from '~/components/Mandates/Components/MandateFilters/MandateFilters'
 
 interface Props {
   done?: boolean
 }
 
 export default function ProxyTab({ done }: Props) {
+  const [expended, setExpended] = useState<Record<string, boolean>>({})
+  const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
+
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
     useProcurationProxies({
       params: {
@@ -32,10 +36,9 @@ export default function ProxyTab({ done }: Props) {
           createdAt: 'asc',
         },
         status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
+        ...customFilters,
       },
     })
-
-  const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
@@ -53,6 +56,23 @@ export default function ProxyTab({ done }: Props) {
     setExpended(el)
   }, [])
 
+  const onToggleMore = useCallback(
+    (newState: boolean) => {
+      setExpended(
+        aggregate
+          ? aggregate.reduce(
+              (prev, curr) => ({
+                ...prev,
+                [curr.id]: newState,
+              }),
+              {}
+            )
+          : {}
+      )
+    },
+    [aggregate]
+  )
+
   return (
     <>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
@@ -61,6 +81,10 @@ export default function ProxyTab({ done }: Props) {
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
+          <Grid item xs sx={{ mb: MuiSpacing.normal }}>
+            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} isProxy />
+          </Grid>
+
           {isInitialLoading ? (
             <MandateSkeleton />
           ) : (
