@@ -194,6 +194,13 @@ const ProxyItemComponent = ({
       }
       type={done ? MandatePersonCardType.MATCHED_PROXY : MandatePersonCardType.MATCH_PROXY}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+      onPersonView={id =>
+        navigate(`${paths.procurations}/request/${id}/edit`, {
+          state: {
+            proxy: item,
+          },
+        })
+      }
     />
   )
 }

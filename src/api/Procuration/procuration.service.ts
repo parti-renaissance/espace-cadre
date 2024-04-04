@@ -35,6 +35,10 @@ export const ProcurationService = {
     apiClient.post(`${base}/${uuid}/match`, {
       proxy,
     }),
+  unmatch: ({ uuid, proxy }: { uuid: string; proxy: string }) =>
+    apiClient.post(`${base}/${uuid}/unmatch`, {
+      proxy,
+    }),
   getProxies: ({ params, signal }: PaginatedApiQueryBaseModel): Promise<PaginatedDataModel<AvailableProxyModel>> =>
     apiClient.get('v3/procuration/proxies', undefined, {
       params,
