@@ -20,6 +20,7 @@ import paths from '~/shared/paths'
 import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
 import MandateFilters from '~/components/Procurations/Components/MandateFilters/MandateFilters'
 import MandateSkeleton from '~/components/Procurations/Components/MandantTab/Components/MandateSkeleton'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 interface Props {
   done?: boolean
@@ -108,15 +109,17 @@ export default function ProxyTab({ done }: Props) {
                 </Grid>
               )}
 
-              {aggregate.map(entry => (
-                <ProxyItem
-                  done={done}
-                  key={entry.uuid}
-                  item={entry}
-                  expended={Boolean(expended[entry.id])}
-                  setExpended={setExpendedHandler}
-                />
-              ))}
+              <TransitionGroup component={null}>
+                {aggregate.map(entry => (
+                  <ProxyItem
+                    done={done}
+                    item={entry}
+                    key={entry.uuid}
+                    expended={Boolean(expended[entry.id])}
+                    setExpended={setExpendedHandler}
+                  />
+                ))}
+              </TransitionGroup>
 
               {isFetchingNextPage && (
                 <Grid item textAlign={'center'} {...withBottomSpacing}>
@@ -157,43 +160,45 @@ const ProxyItemComponent = ({
   const navigate = useNavigate()
 
   return (
-    <MandatePersonCard
-      hideActions
-      uuid={item.uuid}
-      firstName={item.first_names}
-      lastName={item.last_name}
-      votePlace={item.vote_place_name}
-      location={item.vote_zone?.name}
-      peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}
-      tags={item.tags ?? []}
-      id={item.id}
-      expended={expended}
-      maxProxyCount={item.slots}
-      linkedPeople={item.requests ?? undefined}
-      extraInfos={buildExtraData(item)}
-      onExpend={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: true,
-        }))
-      }
-      onNarrow={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: false,
-        }))
-      }
-      type={done ? MandatePersonCardType.MATCHED_PROXY : MandatePersonCardType.MATCH_PROXY}
-      hideStateActions={done}
-      onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
-      onPersonView={id =>
-        navigate(`${paths.procurations}/request/${id}/edit`, {
-          state: {
-            proxy: item,
-          },
-        })
-      }
-    />
+    <CSSTransition timeout={500} classNames="item">
+      <MandatePersonCard
+        hideActions
+        uuid={item.uuid}
+        firstName={item.first_names}
+        lastName={item.last_name}
+        votePlace={item.vote_place_name}
+        location={item.vote_zone?.name}
+        peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}
+        tags={item.tags ?? []}
+        id={item.id}
+        expended={expended}
+        maxProxyCount={item.slots}
+        linkedPeople={item.requests ?? undefined}
+        extraInfos={buildExtraData(item)}
+        onExpend={id =>
+          setExpended(v => ({
+            ...v,
+            [id]: true,
+          }))
+        }
+        onNarrow={id =>
+          setExpended(v => ({
+            ...v,
+            [id]: false,
+          }))
+        }
+        type={done ? MandatePersonCardType.MATCHED_PROXY : MandatePersonCardType.MATCH_PROXY}
+        hideStateActions={done}
+        onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+        onPersonView={id =>
+          navigate(`${paths.procurations}/request/${id}/edit`, {
+            state: {
+              proxy: item,
+            },
+          })
+        }
+      />
+    </CSSTransition>
   )
 }
 const ProxyItem = memo(ProxyItemComponent)

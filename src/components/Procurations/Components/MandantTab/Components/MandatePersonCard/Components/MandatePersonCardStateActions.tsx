@@ -26,6 +26,8 @@ export default function MandatePersonCardStateActions(props: MandatePersonCardPr
       mutateAsync({
         status: ProcurationStatusEnum.MANUAL,
         uuid: props.uuid,
+      }).then(() => {
+        setShouldConfirmManual(false)
       })
     } else {
       setShouldConfirmManual(true)
@@ -42,6 +44,8 @@ export default function MandatePersonCardStateActions(props: MandatePersonCardPr
       mutateAsync({
         status: ProcurationStatusEnum.EXCLUDED,
         uuid: props.uuid,
+      }).then(() => {
+        setShouldConfirmExclude(false)
       })
     } else {
       setShouldConfirmExclude(true)
@@ -73,6 +77,7 @@ export default function MandatePersonCardStateActions(props: MandatePersonCardPr
           onConfirm={onExclude}
           onCancel={onCancelExclude}
           okButtonTitle={'Exclure'}
+          isLoading={isLoading}
         />
       )}
 
@@ -82,6 +87,7 @@ export default function MandatePersonCardStateActions(props: MandatePersonCardPr
           description={`Êtes-vous sûr de vouloir passer en "traité manuellement" ${props.firstName} ?`}
           onConfirm={onManual}
           onCancel={onCancelManual}
+          isLoading={isLoading}
         />
       )}
     </>

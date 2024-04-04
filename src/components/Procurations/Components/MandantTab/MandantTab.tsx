@@ -23,6 +23,7 @@ import MandatePersonCard, {
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import MandateSkeleton from './Components/MandateSkeleton'
 import MandateSuccessModal from '~/components/Procurations/Components/MandateSuccessModal/MandateSuccessModal'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 interface Props {
   // Switch to "Mandants traités" render
@@ -118,15 +119,17 @@ export default function MandantTab({ done = false }: Props) {
                 </Grid>
               )}
 
-              {aggregate.map(entry => (
-                <MandateItem
-                  done={done}
-                  key={entry.uuid}
-                  item={entry}
-                  expended={Boolean(expended[entry.id])}
-                  setExpended={setExpendedHandler}
-                />
-              ))}
+              <TransitionGroup component={null}>
+                {aggregate.map(entry => (
+                  <MandateItem
+                    done={done}
+                    key={entry.uuid}
+                    item={entry}
+                    expended={Boolean(expended[entry.id])}
+                    setExpended={setExpendedHandler}
+                  />
+                ))}
+              </TransitionGroup>
 
               {isFetchingNextPage && (
                 <Grid item textAlign={'center'} {...withBottomSpacing}>
@@ -176,48 +179,50 @@ const MandateItemComponent = ({
   const navigate = useNavigate()
 
   return (
-    <MandatePersonCard
-      hideActions={done}
-      uuid={item.uuid}
-      firstName={item.first_names}
-      lastName={item.last_name}
-      votePlace={item.vote_place_name}
-      location={item.vote_zone?.name}
-      peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}
-      tags={item.tags ?? []}
-      id={item.id}
-      expended={expended}
-      linkedPeople={item.proxy ? [item.proxy] : undefined}
-      extraInfos={[
-        {
-          key: 'Âge',
-          value: `${item.age} ans`,
-        },
-        {
-          key: 'Adresse postale',
-          value: buildAddress(item.post_address),
-        },
-        {
-          key: 'Date d’inscription',
-          value: formatDate(item.created_at, dateFormat),
-        },
-      ]}
-      onExpend={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: true,
-        }))
-      }
-      onNarrow={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: false,
-        }))
-      }
-      type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
-      hideStateActions={done}
-      onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
-    />
+    <CSSTransition timeout={500} classNames="item">
+      <MandatePersonCard
+        hideActions={done}
+        uuid={item.uuid}
+        firstName={item.first_names}
+        lastName={item.last_name}
+        votePlace={item.vote_place_name}
+        location={item.vote_zone?.name}
+        peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}
+        tags={item.tags ?? []}
+        id={item.id}
+        expended={expended}
+        linkedPeople={item.proxy ? [item.proxy] : undefined}
+        extraInfos={[
+          {
+            key: 'Âge',
+            value: `${item.age} ans`,
+          },
+          {
+            key: 'Adresse postale',
+            value: buildAddress(item.post_address),
+          },
+          {
+            key: 'Date d’inscription',
+            value: formatDate(item.created_at, dateFormat),
+          },
+        ]}
+        onExpend={id =>
+          setExpended(v => ({
+            ...v,
+            [id]: true,
+          }))
+        }
+        onNarrow={id =>
+          setExpended(v => ({
+            ...v,
+            [id]: false,
+          }))
+        }
+        type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
+        hideStateActions={done}
+        onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+      />
+    </CSSTransition>
   )
 }
 const MandateItem = memo(MandateItemComponent)

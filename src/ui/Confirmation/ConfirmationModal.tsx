@@ -18,7 +18,7 @@ const ConfirmationModal = ({
   onConfirm,
   onCancel,
   okButtonTitle,
-  isLoading = true,
+  isLoading,
   ...props
 }: ConfirmationModalProps) => (
   <Dialog open onClose={onCancel} TransitionComponent={Transition} {...props}>
