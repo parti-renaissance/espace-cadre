@@ -7,7 +7,7 @@ import MandatePeopleNumber from '~/components/Procurations/Components/MandantTab
 import PersonWithAvatar from '~/components/Procurations/Components/PersonWithAvatar/PersonWithAvatar'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { LabelTypeModel } from '~/models/activist.model'
-import { KeyValueModel, LightPersonModel } from '~/models/common.model'
+import { KeyValueModel } from '~/models/common.model'
 import Iconify from '~/mui/iconify'
 import { activistTagShape } from '~/shared/activistTagShape'
 import { grey, success, tagsColor } from '~/theme/palette'
@@ -16,6 +16,8 @@ import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
 import MandatePersonCardStateActions from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardStateActions'
 import MandatePersonCardButtonGroup from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardButtonGroup'
+import { ReadableLightUserWithGenderModelWithMatcher } from '~/api/Procuration/procuration.model'
+import { getFormattedDate } from '~/utils/date'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -33,7 +35,7 @@ export interface MandatePersonCardProps {
   onNarrow?: (id: string) => void
   // Display button "Trouver un mandataire"
   type: MandatePersonCardType
-  linkedPeople?: LightPersonModel[]
+  linkedPeople?: ReadableLightUserWithGenderModelWithMatcher[]
   maxProxyCount?: number
   onSelect?: () => void
   // Disable action buttons
@@ -125,14 +127,22 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
             </legend>
 
             {props.linkedPeople.map(el => (
-              <Grid sx={{ mb: MuiSpacing.small }} key={el.id}>
+              <Grid sx={{ mb: MuiSpacing.small }} key={el.uuid}>
                 <PersonWithAvatar
-                  firstName={el.firstName}
-                  lastName={el.lastName}
+                  firstName={el.first_names}
+                  lastName={el.last_name}
                   src={props.avatarUrl}
                   id={props.id}
-                  onPersonView={() => props.onPersonView?.(el.id)}
+                  onPersonView={() => props.onPersonView?.(el.uuid)}
                 />
+
+                {el.matched_at && (
+                  <Grid item mt={MuiSpacing.small}>
+                    <Typography fontSize={14} color={'text.secondary'}>
+                      Lié le {getFormattedDate(el.matched_at)} par {el.matcher?.first_name} {el.matcher?.last_name}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             ))}
           </GroupContainer>

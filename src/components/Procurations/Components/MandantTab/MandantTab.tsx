@@ -187,18 +187,7 @@ const MandateItemComponent = ({
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
-      linkedPeople={
-        item.proxy
-          ? [
-              {
-                id: item.proxy.uuid,
-                firstName: item.proxy.first_names,
-                lastName: item.proxy.last_name,
-                gender: item.proxy.gender,
-              },
-            ]
-          : undefined
-      }
+      linkedPeople={item.proxy ? [item.proxy] : undefined}
       extraInfos={[
         {
           key: 'Âge',

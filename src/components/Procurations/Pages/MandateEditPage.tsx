@@ -80,7 +80,7 @@ export default function MandateEditPage() {
                 <Grid container sx={{ mb: MuiSpacing.small }} spacing={MuiSpacing.normal}>
                   <InfoLine label={'Bureau de vote'} value={data?.vote_place_name}></InfoLine>
                   <InfoLine
-                    label={'Date du match'}
+                    label={'Date de l’association'}
                     value={data?.matched_at ? getFormattedDate(data?.matched_at) : ''}
                     color={'text.primary'}
                   ></InfoLine>

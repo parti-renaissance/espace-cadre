@@ -169,16 +169,7 @@ const ProxyItemComponent = ({
       id={item.id}
       expended={expended}
       maxProxyCount={item.slots}
-      linkedPeople={
-        item.requests
-          ? item.requests.map(request => ({
-              id: request.uuid,
-              firstName: request.first_names,
-              lastName: request.last_name,
-              gender: request.gender,
-            }))
-          : undefined
-      }
+      linkedPeople={item.requests ?? undefined}
       extraInfos={buildExtraData(item)}
       onExpend={id =>
         setExpended(v => ({
