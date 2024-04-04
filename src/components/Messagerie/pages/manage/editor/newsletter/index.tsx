@@ -5,13 +5,14 @@ import { grey } from '~/theme/palette'
 import { useBlocker, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { paths } from '~/components/Messagerie/shared/paths'
 import ManageLayout from '~/components/Messagerie/pages/manage/Layout'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import Message, { MessageContent } from '~/domain/message'
 import { useScopedQueryKey } from '~/api/useQueryWithScope'
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getMessage, updateMessageContent } from '~/api/messagerie'
 import ModalSaveBeforeLeave from '~/components/Messagerie/Component/ModalSaveBeforeLeave'
 import { useState } from 'react'
+import { MuiSpacing } from '~/theme/spacing'
 
 const sidebarProps = {
   title: 'Editeur',
@@ -50,7 +51,7 @@ const Form = ({
 }) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const { register, handleSubmit, getValues, reset, formState } = useForm<Inputs>({
+  const { register, handleSubmit, getValues, reset, formState, control } = useForm<Inputs>({
     defaultValues: {
       label: data?.label || '',
       subject: data?.subject || '',
@@ -100,6 +101,7 @@ const Form = ({
     const path = templateId ? `${paths.unlayer}?templateId=${templateId}` : paths.unlayer
     navigate(path)
   }
+
   return (
     <ManageLayout {...sidebarProps}>
       <Stack spacing={4} direction="column" justifyContent="space-between">
@@ -107,7 +109,25 @@ const Form = ({
           <CardContent>
             <Stack spacing={4} marginTop={2} direction={'column'}>
               <TextField id="message-name" label="Nom" rows={4} variant="outlined" {...register('label')} />
-              <TextField id="mail-object" label="Objet" rows={4} variant="outlined" {...register('subject')} />
+              <Controller
+                name="subject"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    id="mail-object"
+                    label="Objet"
+                    rows={4}
+                    variant="outlined"
+                    inputProps={{
+                      maxLength: 400,
+                    }}
+                    InputProps={{
+                      endAdornment: <SubjectEndAdornment count={field.value.length} />,
+                    }}
+                    {...field}
+                  />
+                )}
+              />
               <Box
                 sx={{ cursor: 'pointer' }}
                 onClick={handleOpenEditor}
@@ -155,6 +175,12 @@ const Form = ({
     </ManageLayout>
   )
 }
+
+const SubjectEndAdornment = ({ count }: { count: number }) => (
+  <Typography fontSize={12} whiteSpace="nowrap" paddingLeft={MuiSpacing.normal} color="text.disabled">
+    {count} / 400
+  </Typography>
+)
 
 export default function NewsletterEditorPage() {
   const { id } = useParams<{ id: string }>()
