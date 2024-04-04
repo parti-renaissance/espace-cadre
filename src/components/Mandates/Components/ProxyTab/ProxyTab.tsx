@@ -170,6 +170,7 @@ const ProxyItemComponent = ({
         }))
       }
       type={done ? MandatePersonCardType.MATCHED_PROXY : MandatePersonCardType.MATCH_PROXY}
+      hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
     />
   )
