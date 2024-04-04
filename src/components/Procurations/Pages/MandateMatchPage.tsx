@@ -44,12 +44,6 @@ export default function MandateMatchPage() {
     }
   }, [entry?.isIntersecting, fetchNextPage, hasNextPage])
 
-  useEffect(() => {
-    if (data?.status !== 'pending' && isLoading) {
-      navigate(paths.procurations)
-    }
-  }, [data?.status, isLoading, navigate])
-
   const [expended, setExpended] = useState<Record<string, boolean>>({})
 
   const onSelect = useCallback(
@@ -210,12 +204,7 @@ const Proxy = memo(
       expended={expended}
       maxProxyCount={el.slots}
       onSelect={onSelect}
-      linkedPeople={el.requests?.map(req => ({
-        id: req.id,
-        firstName: req.first_names,
-        lastName: req.last_name,
-        gender: req.gender,
-      }))}
+      linkedPeople={el.requests}
       uuid={el.uuid}
     />
   )
