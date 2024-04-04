@@ -59,3 +59,8 @@ export interface PaginatedApiQueryBaseModel {
   params: Record<string, unknown>
   signal?: AbortSignal
 }
+
+export interface EmailPhoneModel {
+  email: string | null
+  phone: string | null
+}

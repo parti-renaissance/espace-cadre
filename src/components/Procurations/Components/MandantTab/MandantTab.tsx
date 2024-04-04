@@ -225,6 +225,7 @@ const MandateItemComponent = ({
       type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
       hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
+      onPersonView={done ? () => navigate(`${paths.procurations}/request/${item.uuid}/edit`) : undefined}
     />
   )
 }

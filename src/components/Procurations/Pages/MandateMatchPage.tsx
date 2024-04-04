@@ -7,11 +7,7 @@ import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import { Fragment, memo, useCallback, useEffect, useState } from 'react'
-import {
-  AvailableProxyModel,
-  MatchingLevelEnum,
-  ProcurationModelWithPersonalInfos,
-} from '~/api/Procuration/procuration.model'
+import { AvailableProxyModel, MatchingLevelEnum, ProcurationDetailsModel } from '~/api/Procuration/procuration.model'
 import MandateMatchPageSkeleton from '~/components/Procurations/Components/Skeleton/MandateMatchPageSkeleton'
 import { fontWeight } from '~/theme/typography'
 import Divider from '@mui/material/Divider'
@@ -161,7 +157,7 @@ const getSectionName = (type: MatchingLevelEnum) => {
   }
 }
 
-const MandateInfo = memo((data: ProcurationModelWithPersonalInfos) => (
+const MandateInfo = memo((data: ProcurationDetailsModel) => (
   <MandatePersonCard
     firstName={data.first_names}
     lastName={data.last_name}

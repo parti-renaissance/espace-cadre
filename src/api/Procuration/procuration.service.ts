@@ -1,10 +1,10 @@
-import { PaginatedApiQueryBaseModel, PaginatedDataModel } from '~/models/common.model'
 import {
   AvailableProxyModel,
+  ProcurationDetailsModel,
   ProcurationModel,
-  ProcurationModelWithPersonalInfos,
   ProcurationStatusEnum,
 } from '~/api/Procuration/procuration.model'
+import { PaginatedApiQueryBaseModel, PaginatedDataModel } from '~/models/common.model'
 import { apiClient } from '~/services/networking/client'
 
 export const ProcurationServiceKey = {
@@ -22,8 +22,7 @@ export const ProcurationService = {
       params,
       signal,
     }),
-  getRequest: ({ uuid }: { uuid: string }): Promise<ProcurationModelWithPersonalInfos> =>
-    apiClient.get(`${base}/${uuid}`),
+  getRequest: ({ uuid }: { uuid: string }): Promise<ProcurationDetailsModel> => apiClient.get(`${base}/${uuid}`),
   getRequestAvailableProxies: ({
     params,
     signal,
