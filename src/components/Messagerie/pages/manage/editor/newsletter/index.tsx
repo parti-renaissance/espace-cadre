@@ -14,6 +14,7 @@ import ModalSaveBeforeLeave from '~/components/Messagerie/Component/ModalSaveBef
 import { useState } from 'react'
 import { MuiSpacing } from '~/theme/spacing'
 
+const subjectSizeLimit = 255
 const sidebarProps = {
   title: 'Editeur',
   helpers: [
@@ -119,7 +120,7 @@ const Form = ({
                     rows={4}
                     variant="outlined"
                     inputProps={{
-                      maxLength: 400,
+                      maxLength: subjectSizeLimit,
                     }}
                     InputProps={{
                       endAdornment: <SubjectEndAdornment count={field.value.length} />,
@@ -178,7 +179,7 @@ const Form = ({
 
 const SubjectEndAdornment = ({ count }: { count: number }) => (
   <Typography fontSize={12} whiteSpace="nowrap" paddingLeft={MuiSpacing.normal} color="text.disabled">
-    {count} / 400
+    {count} / {subjectSizeLimit}
   </Typography>
 )
 
