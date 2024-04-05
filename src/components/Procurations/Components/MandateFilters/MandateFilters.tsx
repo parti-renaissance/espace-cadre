@@ -12,12 +12,18 @@ interface MandateFiltersProps {
   onFilter: (data: Record<string, string>) => void
   onToggleMore: (newValue: boolean) => void
   isProxy?: boolean
+  status?: ProcurationStatusEnum
 }
 
-function MandateFilters({ onFilter, onToggleMore, isProxy = false }: Readonly<MandateFiltersProps>) {
+function MandateFilters({
+  onFilter,
+  onToggleMore,
+  status = ProcurationStatusEnum.PENDING,
+  isProxy = false,
+}: Readonly<MandateFiltersProps>) {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
-      status: '',
+      status,
       search: '',
     },
   })

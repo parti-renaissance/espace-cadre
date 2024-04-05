@@ -95,7 +95,11 @@ export default function MandantTab({ done = false }: Props) {
 
         <Grid item {...gridStandardLayout.twoThirds}>
           <Grid item xs sx={{ mb: MuiSpacing.normal }}>
-            <MandateFilters onFilter={setCustomFilers} onToggleMore={onToggleMore} />
+            <MandateFilters
+              onFilter={setCustomFilers}
+              status={done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING}
+              onToggleMore={onToggleMore}
+            />
           </Grid>
 
           {isInitialLoading ? (
