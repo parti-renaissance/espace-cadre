@@ -1,4 +1,5 @@
 import {
+  EmailPhoneModel,
   GenderEnum,
   ReadableLightUserModel,
   ReadableLightUserModelWithSingleFirstName,
@@ -23,10 +24,39 @@ export interface ProcurationModel extends ReadableLightUserModel {
   matcher: ReadableLightUserModelWithSingleFirstName | null
 }
 
-export interface ProcurationModelWithPersonalInfos extends ProcurationModel {
+export interface ProcurationDetailsModel extends ReadableLightUserModel {
   email: string
   phone: string | null
+  gender: GenderEnum
+  birthdate: string
+  vote_zone: VoteZoneModel
+  created_at: string
+  post_address: PostAddressModel
+  tags: null | LabelTypeModel[]
+  age: number
+  vote_place_name: string
+  available_proxies_count: number
+  id: string
+  status: ProcurationStatusEnum
+  matched_at: string | null
+  matcher: ReadableLightUserModelWithSingleFirstName | null
+  proxy: ProcurationProxyDetailModel
 }
+
+export interface ProcurationProxyDetailModel extends EmailPhoneModel {
+  first_names: string
+  last_name: string
+  uuid: string
+  id: string
+  vote_place_name: string
+  vote_zone: VoteZoneModel
+  age: number
+  post_address: PostAddressModel
+  created_at: string
+  tags: null | LabelTypeModel[]
+}
+
+export type ProcurationModelWithPersonalInfos = ProcurationModel & EmailPhoneModel
 
 export interface ReadableLightUserWithGenderModelWithMatcher extends ReadableLightUserWithGenderModel {
   gender: GenderEnum

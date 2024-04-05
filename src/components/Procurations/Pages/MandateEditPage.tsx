@@ -1,41 +1,32 @@
-import Page from '~/components/Page/Page'
-import { MuiSpacing } from '~/theme/spacing'
 import { Button, Grid, Paper, Typography } from '@mui/material'
-import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
-import { useParams } from 'react-router'
-import SkeletonCard from '~/components/Skeleton/SkeletonCard'
-import { fontWeight } from '~/theme/typography'
-import { useLocation, useNavigate } from 'react-router-dom'
-import paths from '~/shared/paths'
 import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
 import { useCallback } from 'react'
-import DottedCard from '~/components/DottedCard/DottedCard'
+import { useParams } from 'react-router'
+import { useNavigate } from 'react-router-dom'
+import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import useProcurationUnmatch from '~/api/Procuration/Hooks/useProcurationUnmatch'
-import { AvailableProxyModel } from '~/api/Procuration/procuration.model'
-import useGardEmptyState from '~/hooks/useGardEmptyState'
-import { getFormattedDate } from '~/utils/date'
-import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
+import DottedCard from '~/components/DottedCard/DottedCard'
+import Page from '~/components/Page/Page'
 import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
+import SkeletonCard from '~/components/Skeleton/SkeletonCard'
+import paths from '~/shared/paths'
+import { MuiSpacing } from '~/theme/spacing'
+import { fontWeight } from '~/theme/typography'
+import { getFormattedDate } from '~/utils/date'
 import { fullName } from '~/utils/names'
 
 export default function MandateEditPage() {
   const params = useParams()
-  const { state } = useLocation()
   const navigate = useNavigate()
-  useGardEmptyState()
 
   const { data } = useProcurationRequest({ uuid: params.id })
   const { mutateAsync, isLoading: isUnmatching } = useProcurationUnmatch()
 
-  const proxy: AvailableProxyModel | undefined = state.proxy
-
-  if (!proxy) {
-    navigate(-1)
-    return
-  }
+  const proxy = data?.proxy
 
   const onUnmatch = useCallback(() => {
     const { id } = params
@@ -112,6 +103,7 @@ export default function MandateEditPage() {
                 type={MandatePersonCardType.MATCH_MANDANT}
                 extraInfos={buildExtraData(data)}
                 expended
+                hideStateActions
               />
             ) : (
               <SkeletonCard />
@@ -119,18 +111,23 @@ export default function MandateEditPage() {
           </Grid>
 
           <Grid item xs={12} sm={12} md={6}>
-            <MandatePersonCard
-              firstName={proxy.first_names}
-              lastName={proxy.last_name}
-              id={proxy.id}
-              location={proxy.vote_zone.name}
-              tags={proxy.tags ?? []}
-              votePlace={proxy.vote_place_name}
-              type={MandatePersonCardType.MATCH_PROXY}
-              extraInfos={buildExtraData(proxy)}
-              expended
-              hideActions
-            />
+            {proxy ? (
+              <MandatePersonCard
+                firstName={proxy.first_names}
+                lastName={proxy.last_name}
+                id={proxy.id}
+                location={proxy.vote_zone.name}
+                tags={proxy.tags ?? []}
+                votePlace={proxy.vote_place_name}
+                type={MandatePersonCardType.MATCH_PROXY}
+                extraInfos={buildExtraData(proxy)}
+                expended
+                hideActions
+                hideStateActions
+              />
+            ) : (
+              <SkeletonCard />
+            )}
           </Grid>
         </Grid>
       </DottedCard>
