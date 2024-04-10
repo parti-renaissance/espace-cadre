@@ -6,7 +6,7 @@
     "@ckeditor/ckeditor5-react": "^5.1.0",
     "@emotion/is-prop-valid": "^1.2.1",
     "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.3.2",
     "@iconify/react": "^4.1.1",
     "@mui/icons-material": "^5.15.6",
