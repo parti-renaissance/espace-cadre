@@ -28,7 +28,7 @@ const Select = styled('select')`
 
 const messages = {
   help: 'Aidez-nous à améliorer cette carte en écrivant à',
-  mail: 'techsupport@en-marche.fr',
+  mail: 'techsupport@parti-renaissance.fr',
 }
 
 const layersToDisplay = [

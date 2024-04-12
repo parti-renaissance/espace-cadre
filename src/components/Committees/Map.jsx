@@ -11,7 +11,7 @@ import { useErrorHandler } from '~/components/shared/error/hooks'
 import { zoneTypes } from '~/domain/zone'
 import { MAPBOX_TOKEN } from '~/shared/environments'
 import { createMap } from '~/providers/map'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import ZoneContext from '~/providers/context'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
