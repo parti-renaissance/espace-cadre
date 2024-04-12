@@ -163,7 +163,7 @@ const Form = ({
             onClick={handleSubmit(onSubmit('next'))}
             data-cy="step-button"
           >
-            {data?.id && formState.isDirty ? "Enregistrer et voir l'Aperçu" : "Voir l'Aperçu"}
+            {data?.id && formState.isDirty ? "Enregistrer et voir l'aperçu" : "Voir l'aperçu"}
           </LoadingButton>
         </Stack>
       </Stack>

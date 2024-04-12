@@ -133,7 +133,7 @@ const Template = () => {
         <Box alignSelf="flex-end">
           <Stack spacing={2} direction="row">
             <LoadingButton loading={loading} variant="contained" disabled={loading} onClick={handleClickNext('leave')}>
-              {editorData?.content ? 'Enregister et' : ''} fermer
+              {editorData?.content ? 'Enregister et fermer' : 'Fermer'}
             </LoadingButton>
             <LoadingButton
               loading={loading}
@@ -141,7 +141,7 @@ const Template = () => {
               disabled={loading || !editorData?.content}
               onClick={handleClickNext('next')}
             >
-              {editorData?.content ? 'Enregister et' : ''} apercevoir
+              {editorData?.content ? 'Enregister et apercevoir' : 'Apercevoir'}
             </LoadingButton>
           </Stack>
         </Box>
