@@ -14,6 +14,7 @@ const scopes = {
   referent: 'referent',
   president_departmental_assembly: 'president_departmental_assembly',
   animator: 'animator',
+  fde_coordinator: 'fde_coordinator',
 }
 
 export default scopes
@@ -45,5 +46,6 @@ export function isZonedScope(code) {
     scopes.phoning,
     scopes.referent,
     scopes.president_departmental_assembly,
+    scopes.fde_coordinator,
   ].includes(code)
 }

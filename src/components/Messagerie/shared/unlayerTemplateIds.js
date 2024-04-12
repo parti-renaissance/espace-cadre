@@ -10,5 +10,6 @@ export const unlayerTemplateIds = {
   [scopes.regional_coordinator]: 276759,
   [scopes.regional_delegate]: 401163,
   [scopes.president_departmental_assembly]: 293625,
+  [scopes.fde_coordinator]: 497609,
 }
 export const defaultUnlayerTemplateId = 41208
