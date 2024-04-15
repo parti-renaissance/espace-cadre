@@ -1,10 +1,8 @@
 import { generatePath, useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
-import { Card, CardContent, CardMedia, Box, Typography, IconButton, Button } from '@mui/material'
+import { Card, CardContent, Box, Typography, IconButton, Button } from '@mui/material'
 import Label from '~/mui/label'
 import Iconify from '~/mui/iconify'
 import { Stack } from '@mui/system'
-import { getCurrentUser } from '~/redux/user/selectors'
 import { usePopover } from '~/mui/custom-popover'
 import { addressFormatted } from './helpers'
 import BadgeStatus from './components/badgeStatus'
@@ -16,6 +14,7 @@ import { notifyVariants } from '~/components/shared/notification/constants'
 import { deleteEvent as deleteEventQuery, cancelEvent as cancelEventQuery } from '~/api/events'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
+import EventImage from '~/components/Events/Components/EventImage'
 
 export type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
 
@@ -34,11 +33,9 @@ type CardEventProps = {
 
 const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
   const { enqueueSnackbar } = useCustomSnackbar()
-  const currentUser = useSelector(getCurrentUser)
   const { handleError } = useErrorHandler()
   const popover = usePopover()
   const navigate = useNavigate()
-  const myEvent = event.organizerId === currentUser.uuid
 
   const { mutate: deleteEvent } = useMutation(deleteEventQuery, {
     onSuccess: () => {
@@ -147,11 +144,7 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
           </Label>
         )}
 
-        <CardMedia
-          component="img"
-          sx={{ borderRadius: 1, height: 185, backgroundColor: 'gray300' }}
-          src={event.image || 'https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1'}
-        />
+        <EventImage sx={{ borderRadius: 1, height: '185px', backgroundColor: 'gray300' }} image={event.image} />
       </Box>
 
       <CardContent>
@@ -190,7 +183,7 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
           .filter(Boolean)}
 
         <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2} data-cy="dot-action-menu">
-          {myEvent ? (
+          {event.editable ? (
             <IconButton aria-label="actions" aria-describedby={event.id} onClick={event => popover.onOpen(event)}>
               <Iconify icon="eva:more-horizontal-fill" />
             </IconButton>
