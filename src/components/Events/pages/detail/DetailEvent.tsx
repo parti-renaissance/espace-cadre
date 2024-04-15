@@ -1,4 +1,4 @@
-import { Grid, Card, CardMedia, Box, Typography, Container, Button } from '@mui/material'
+import { Grid, Card, Box, Typography, Container, Button } from '@mui/material'
 import { Stack } from '@mui/system'
 import BadgeStatus from '~/components/Events/pages/list/components/CardEvent/components/badgeStatus'
 import ListInformations from '~/components/Events/pages/detail/components/ListInformations'
@@ -7,19 +7,17 @@ import Iconify from '~/mui/iconify'
 import { useNavigate } from 'react-router-dom'
 import { paths } from '~/components/Events/shared/paths'
 import { format } from 'date-fns'
-import { useSelector } from 'react-redux'
-import { getCurrentUser } from '~/redux/user/selectors'
 import Loader from '~/ui/Loader'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { getEvent } from '~/api/events'
 import { Event } from '~/domain/event'
 import { useParams } from 'react-router'
 import Attendees from '~/components/Events/pages/detail/components/Attendees'
+import EventImage from '~/components/Events/Components/EventImage'
 
 const DetailEvent = () => {
   const { eventId } = useParams()
   const navigate = useNavigate()
-  const currentUser = useSelector(getCurrentUser)
 
   const { data, isFetching } = useQueryWithScope(['event', eventId, { feature: 'Events', view: 'Event' }], () =>
     getEvent(eventId)
@@ -35,8 +33,6 @@ const DetailEvent = () => {
     return <Typography variant="h4">Événement introuvable</Typography>
   }
 
-  const myEvent = event.organizerId === currentUser.uuid
-
   return (
     <Container maxWidth="xl">
       <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" marginBottom={'28px'}>
@@ -44,7 +40,7 @@ const DetailEvent = () => {
           Retour
         </Button>
 
-        {myEvent ? (
+        {event.editable ? (
           <Button
             variant="contained"
             startIcon={<Iconify icon="solar:pen-bold" />}
@@ -54,37 +50,23 @@ const DetailEvent = () => {
           >
             Modifier
           </Button>
-        ) : (
-          <>
-            {/*<Button
-              variant="contained"
-              startIcon={<Iconify icon="eva:plus-circle-fill" />}
-              onClick={() => {
-                throw new Error('Not implemented')
-              }}
-            >
-              Inviter mes militants
-            </Button>*/}
-          </>
-        )}
+        ) : null}
       </Stack>
 
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
           <Card sx={{ display: 'flex' }}>
             <Stack direction="column" spacing={2} width="100%" sx={{ p: '24px' }}>
-              <CardMedia
-                component="img"
-                image={event.image || 'https://i0.wp.com/nigoun.fr/wp-content/uploads/2022/04/placeholder.png?ssl=1'}
-                sx={{ width: '100%', borderRadius: '8px' }}
-              />
+              <EventImage image={event.image} sx={{ width: '100%', borderRadius: '8px' }} />
 
               <Box sx={{ flex: '1 0 auto' }}>
                 <Stack direction="column" spacing={4}>
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h4">{event.name}</Typography>
                     <Typography variant="caption" color="text.primary">
-                      {myEvent && event.category ? `Mes événements / ${event.category.name}` : event.category.name}
+                      {event.editable && event.category
+                        ? `Mes événements / ${event.category.name}`
+                        : event.category.name}
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center">

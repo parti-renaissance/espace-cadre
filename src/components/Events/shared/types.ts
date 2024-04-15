@@ -63,25 +63,3 @@ interface PostAddress {
   latitude: null | number
   longitude: null | number
 }
-
-export interface EventPayload {
-  uuid: string
-  name: string
-  slug: string
-  description: string
-  time_zone: string
-  begin_at: string
-  finish_at: string
-  organizer: EventOrganizer
-  participants_count: number
-  status: 'SCHEDULED' // TODO: add other status
-  capacity: number
-  category: EventCategory
-  post_address: PostAddress
-  visibility: VisibilityEvent
-  live_url: string | null
-  visio_url: string | null
-  mode: 'online' | 'off'
-  image_url: string | null
-  link: string
-}

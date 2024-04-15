@@ -85,6 +85,7 @@ export class Event {
     liveUrl: PropTypes.string,
     mode: PropTypes.string,
     image: PropTypes.string,
+    editable: PropTypes.bool,
   }
 
   public static fromApi = (e: any) =>
@@ -114,7 +115,8 @@ export class Event {
       e.visio_url,
       e.live_url,
       e.mode,
-      e.image_url
+      e.image_url,
+      e.editable
     )
 
   public withName = (newName: string) =>
@@ -139,32 +141,8 @@ export class Event {
       this.visioUrl,
       this.liveUrl,
       this.mode,
-      this.image
-    )
-
-  public withPrivate = (newPrivate: boolean) =>
-    new Event(
-      this.id,
-      this.name,
-      this.description,
-      this.timezone,
-      this.visibility,
-      this.createdAt,
-      this.beginAt,
-      this.finishAt,
-      this.localFinishAt,
-      this.organizer,
-      this.organizerId,
-      this.attendees,
-      this.scheduled,
-      this.capacity,
-      this.address,
-      this.category,
-      newPrivate,
-      this.visioUrl,
-      this.liveUrl,
-      this.mode,
-      this.image
+      this.image,
+      this.editable
     )
 
   constructor(
@@ -202,7 +180,8 @@ export class Event {
     public visioUrl: string,
     public liveUrl: string,
     public mode: string,
-    public image: string
+    public image: string,
+    public editable: boolean
   ) {}
 }
 
@@ -211,32 +190,6 @@ export enum VisibilityEvent {
   PRIVATE = 'private',
   ADHERENT = 'adherent',
   ADHERENT_DUES = 'adherent_dues',
-}
-
-export interface EventType {
-  id?: string
-  name: string
-  description?: string
-  timezone: string
-  createdAt?: Date
-  beginAt?: Date
-  finishAt?: Date
-  timeBeginAt?: Date
-  timeFinishAt?: Date
-  localFinishAt?: Date
-  organizer?: string
-  organizerId: string
-  attendees: number
-  scheduled: boolean
-  capacity?: string
-  address: Place
-  categoryId: string
-  visibility: VisibilityEvent
-  private: boolean
-  visioUrl?: string
-  liveUrl?: string
-  mode?: string
-  image?: string
 }
 
 export const CreateEventSchema = z
