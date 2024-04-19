@@ -11,7 +11,7 @@ export interface Event {
   id?: string
   name: string
   description?: string
-  timezone: string
+  timeZone: string
   createdAt?: number | Date
   beginAt?: number | Date
   finishAt?: number | Date
@@ -35,31 +35,4 @@ export interface Event {
   image?: string | null
   committee?: string | null
   eventLink?: string
-}
-
-interface EventOrganizer {
-  uuid: string
-  first_name: string
-  last_name: string
-}
-
-interface EventCategoryGroup {
-  name: string
-  slug: string
-}
-
-interface EventCategory {
-  event_group_category: EventCategoryGroup
-  name: string
-  slug: string
-}
-
-interface PostAddress {
-  address: null | string
-  postal_code: null | string
-  city: null | string
-  city_name: null | string
-  country: null | string
-  latitude: null | number
-  longitude: null | number
 }

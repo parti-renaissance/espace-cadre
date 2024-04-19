@@ -1,25 +1,7 @@
 import PropTypes from 'prop-types'
-import { parseDate } from '~/shared/helpers'
+import { parseDate, parseDateWithTZ } from '~/shared/helpers'
 import { z } from 'zod'
 import { Place } from '~/domain/place'
-
-export class Attendee {
-  static propTypes = {
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    subscriptionDate: PropTypes.object.isRequired,
-    postalCode: PropTypes.string.isRequired,
-    isActivist: PropTypes.bool.isRequired,
-  }
-
-  constructor(
-    public firstName: string,
-    public lastName: string,
-    public subscriptionDate: Date,
-    public postalCode: string,
-    public isActivist: boolean
-  ) {}
-}
 
 export class EventCategory {
   static propTypes = {
@@ -56,12 +38,13 @@ export class Event {
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
-    timezone: PropTypes.string.isRequired,
+    timeZone: PropTypes.string.isRequired,
     visibility: PropTypes.string.isRequired,
     createdAt: PropTypes.object,
     beginAt: PropTypes.object,
-    finishAt: PropTypes,
-    localFinishAt: PropTypes,
+    finishAt: PropTypes.object,
+    localBeginAt: PropTypes.object,
+    localFinishAt: PropTypes.object,
     organizer: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
@@ -98,7 +81,8 @@ export class Event {
       parseDate(e.created_at),
       parseDate(e.begin_at),
       parseDate(e.finish_at),
-      parseDate(e.local_finish_at),
+      parseDateWithTZ(e.local_begin_at, e.time_zone),
+      parseDateWithTZ(e.local_finish_at, e.time_zone),
       [e.organizer?.first_name, e.organizer?.last_name].filter(Boolean).join(' '),
       e.organizer?.uuid,
       e.participants_count,
@@ -124,11 +108,12 @@ export class Event {
       this.id,
       newName,
       this.description,
-      this.timezone,
+      this.timeZone,
       this.visibility,
       this.createdAt,
       this.beginAt,
       this.finishAt,
+      this.localBeginAt,
       this.localFinishAt,
       this.organizer,
       this.organizerId,
@@ -149,11 +134,12 @@ export class Event {
     public id: string,
     public name: string,
     public description: string,
-    public timezone: string,
+    public timeZone: string,
     public visibility: string,
     public createdAt: Date,
     public beginAt: Date,
     public finishAt: Date,
+    public localBeginAt: Date,
     public localFinishAt: Date,
     public organizer: string,
     public organizerId: string,
@@ -183,6 +169,10 @@ export class Event {
     public image: string,
     public editable: boolean
   ) {}
+
+  public isParisTimeZone(): boolean {
+    return this.timeZone === 'Europe/Paris'
+  }
 }
 
 export enum VisibilityEvent {
@@ -204,7 +194,7 @@ export const CreateEventSchema = z
       .min(10, 'La description doit contenir au moins 10 caractères')
       .min(1, 'La description est obligatoire')
       .max(380, 'La description ne peut pas dépasser 380 caractères'),
-    timezone: z.string().min(1, 'Vous devez choisir une timezone'),
+    timeZone: z.string().min(1, 'Vous devez choisir un fuseau horaire'),
     private: z.boolean().optional(),
     categoryId: z.string({
       invalid_type_error: 'La catégorie doit être une chaîne de caractères',
