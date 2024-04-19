@@ -46,13 +46,13 @@ import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { useBlocker } from 'react-router-dom'
 import ModalBeforeLeave from '../../Components/ModalBeforeLeave'
-import { joinDateTime } from '~/components/Events/shared/helpers'
 import TextFieldPlaces from '~/components/Events/pages/createOrEdit/components/TextFieldPlaces'
 import { useSelector } from 'react-redux'
 import { getCurrentScope } from '~/redux/user/selectors'
 import type { Scope } from '~/domain/scope'
 import paths from '~/shared/paths'
 import { paths as eventPaths } from '~/components/Events/shared/paths'
+import { joinDateTime } from '~/utils/date'
 
 const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   const currentScope = useSelector(getCurrentScope) as Scope
@@ -74,16 +74,16 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       name: event?.name ?? '',
       categoryId: event?.category.slug,
       visibility: (event?.visibility ?? 'public') as VisibilityEvent,
-      beginAt: event?.localBeginAt ? new Date(event?.localBeginAt) : new Date(),
-      finishAt: event?.localFinishAt ? new Date(event?.localFinishAt) : new Date(),
-      timeBeginAt: event?.localBeginAt ? new Date(event?.localBeginAt) : new Date(),
-      timeFinishAt: event?.localFinishAt ? new Date(event?.localFinishAt) : addHours(new Date(), 1),
+      beginAt: event ? event.localBeginAt : new Date(),
+      finishAt: event ? event.localFinishAt : new Date(),
+      timeBeginAt: event ? event.localBeginAt : new Date(),
+      timeFinishAt: event ? event.localFinishAt : addHours(new Date(), 1),
       timeZone: event?.timeZone ?? 'Europe/Paris',
       description: event?.description || '',
       visioUrl: event?.visioUrl || '',
       isVirtual: event ? event?.mode === 'online' : false,
       capacity: event?.capacity,
-      severalDays: event ? !isSameDay(new Date(event.localBeginAt), new Date(event.localFinishAt)) : false,
+      severalDays: event ? !isSameDay(event.localBeginAt, event.localFinishAt) : false,
       address: {
         address: event?.address?.address || '',
         postalCode: event?.address?.postalCode || '',
@@ -92,7 +92,6 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       },
       liveUrl: event?.liveUrl || '',
     },
-    mode: 'all',
     resolver: zodResolver(CreateEventSchema),
   })
 

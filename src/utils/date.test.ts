@@ -5,6 +5,7 @@ import {
   getDayNumber,
   getFormattedDate,
   getHumanFormattedDate,
+  getHumanFormattedDateWithDay,
   getHumanFormattedTime,
   getNowFormattedDate,
   getShortDayName,
@@ -17,7 +18,7 @@ describe('Date functions', () => {
 
   it('Should output 🇫🇷 date', () => {
     expect(getFormattedDate(parsedFoundation)).toBe('06/04/2016')
-    expect(getHumanFormattedDate(parsedFoundation)).toBe('mer. 6 avril 2016')
+    expect(getHumanFormattedDateWithDay(parsedFoundation)).toBe('mer. 6 avril 2016')
     expect(getHumanFormattedTime(parsedFoundation)).toBe('14:00')
     expect(getShortDayName(parsedFoundation)).toBe('mer.')
     expect(getDayNumber(parsedFoundation)).toBe('6')

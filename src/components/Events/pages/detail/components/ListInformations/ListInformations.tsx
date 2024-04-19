@@ -6,6 +6,7 @@ import { Event } from '~/domain/event'
 import { format, isSameDay } from 'date-fns'
 import { Link as RouterLink } from 'react-router-dom'
 import { getTimezoneOffsetLabel } from '~/shared/helpers'
+import { getHumanFormattedDate } from '~/utils/date'
 
 type Item = {
   enable: boolean
@@ -24,8 +25,7 @@ const ListInformations = ({ event }: ListInformationsProps) => {
       enable: !!event.localBeginAt && !!event.localFinishAt,
       label: "Date de l'événement",
       icon: <Iconify icon="solar:calendar-date-bold" />,
-      value:
-        `${event.localBeginAt && format(event.localBeginAt, 'dd MMMM yyyy')}${!isSameDay(event.localBeginAt, event.localFinishAt) ? ` - ${event.localFinishAt && format(event.localFinishAt, 'dd MMMM yyyy')}` : ''}`.toLowerCase(),
+      value: `${event.localBeginAt && getHumanFormattedDate(event.localBeginAt)}${!isSameDay(event.localBeginAt, event.localFinishAt) ? ` - ${event.localFinishAt && getHumanFormattedDate(event.localFinishAt)}` : ''}`,
     },
     {
       enable: !!event.localBeginAt && !!event.localFinishAt,
