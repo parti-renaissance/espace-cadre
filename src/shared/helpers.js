@@ -1,5 +1,6 @@
 import { format, parseISO } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { getTimezoneOffset, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
 
 /**
  * Get the initials of the name passed as parameter.
@@ -30,7 +31,16 @@ export function formatDate(date, formatPattern) {
 }
 
 export function parseDate(date) {
-  return date ? parseISO(date) : date
+  return typeof date === 'string' ? parseISO(date) : date
+}
+
+export function parseDateWithTZ(date, tz) {
+  const dateInUtc = zonedTimeToUtc(date, 'Europe/Paris')
+  return utcToZonedTime(dateInUtc, tz)
+}
+
+export function getTimezoneOffsetLabel(timeZone) {
+  return `UTC ${getTimezoneOffset(timeZone) / 1000 / 60 / 60}h`
 }
 
 export const getFullName = user => `${user.first_name} ${user.last_name}`

@@ -5,6 +5,8 @@ import Iconify from '~/mui/iconify'
 import { Event } from '~/domain/event'
 import { format, isSameDay } from 'date-fns'
 import { Link as RouterLink } from 'react-router-dom'
+import { getTimezoneOffsetLabel } from '~/shared/helpers'
+import { getHumanFormattedDate } from '~/utils/date'
 
 type Item = {
   enable: boolean
@@ -20,22 +22,16 @@ interface ListInformationsProps {
 const ListInformations = ({ event }: ListInformationsProps) => {
   const items: Item[] = [
     {
-      enable: isSameDay(event.beginAt, event.finishAt),
+      enable: !!event.localBeginAt && !!event.localFinishAt,
       label: "Date de l'événement",
       icon: <Iconify icon="solar:calendar-date-bold" />,
-      value: event.beginAt && format(event.beginAt, 'dd MMMM yyyy'),
+      value: `${event.localBeginAt && getHumanFormattedDate(event.localBeginAt)}${!isSameDay(event.localBeginAt, event.localFinishAt) ? ` - ${event.localFinishAt && getHumanFormattedDate(event.localFinishAt)}` : ''}`,
     },
     {
-      enable: !isSameDay(event.beginAt, event.finishAt),
-      label: "Date de l'événement",
-      icon: <Iconify icon="solar:calendar-date-bold" />,
-      value: `${event.beginAt && format(event.beginAt, 'dd MMMM yyyy')} - ${event.finishAt && format(event.finishAt, 'dd MMMM yyyy')}`,
-    },
-    {
-      enable: !!event.beginAt && !!event.finishAt,
-      label: 'Horaire',
+      enable: !!event.localBeginAt && !!event.localFinishAt,
+      label: `Horaire${event.isParisTimeZone() ? '' : ` (${getTimezoneOffsetLabel(event.timeZone)})`}`,
       icon: <Iconify icon="solar:clock-circle-bold" />,
-      value: event.beginAt && format(event.beginAt, 'HH:mm') + ' - ' + format(event.finishAt, 'HH:mm'),
+      value: event.localBeginAt && format(event.localBeginAt, 'HH:mm') + ' - ' + format(event.localFinishAt, 'HH:mm'),
     },
     {
       enable: true,

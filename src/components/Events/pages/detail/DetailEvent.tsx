@@ -70,7 +70,11 @@ const DetailEvent = () => {
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center">
-                      <BadgeStatus beginAt={event.beginAt} finishAt={event.finishAt} scheduled={event.scheduled} />
+                      <BadgeStatus
+                        beginAt={event.localBeginAt}
+                        finishAt={event.localFinishAt}
+                        scheduled={event.scheduled}
+                      />
                     </Stack>
                   </Stack>
 

@@ -149,11 +149,15 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
 
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
-          <BadgeStatus beginAt={event.beginAt} finishAt={event.finishAt} scheduled={event.scheduled} />
+          <BadgeStatus beginAt={event.localBeginAt} finishAt={event.localFinishAt} scheduled={event.scheduled} />
 
           <Typography variant="caption" noWrap color="text.secondary">
             <Typography variant="caption" noWrap color="text.secondary">
-              {new Date(event.beginAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {new Date(event.localBeginAt).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
             </Typography>
           </Typography>
         </Box>

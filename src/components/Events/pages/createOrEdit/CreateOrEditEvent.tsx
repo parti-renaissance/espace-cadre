@@ -46,13 +46,13 @@ import { notifyVariants } from '~/components/shared/notification/constants'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { useBlocker } from 'react-router-dom'
 import ModalBeforeLeave from '../../Components/ModalBeforeLeave'
-import { formatDateTimeWithTimezone } from '~/components/Events/shared/helpers'
 import TextFieldPlaces from '~/components/Events/pages/createOrEdit/components/TextFieldPlaces'
 import { useSelector } from 'react-redux'
 import { getCurrentScope } from '~/redux/user/selectors'
 import type { Scope } from '~/domain/scope'
 import paths from '~/shared/paths'
 import { paths as eventPaths } from '~/components/Events/shared/paths'
+import { joinDateTime } from '~/utils/date'
 
 const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   const currentScope = useSelector(getCurrentScope) as Scope
@@ -74,16 +74,16 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       name: event?.name ?? '',
       categoryId: event?.category.slug,
       visibility: (event?.visibility ?? 'public') as VisibilityEvent,
-      beginAt: event?.beginAt ? new Date(event?.beginAt) : new Date(),
-      finishAt: event?.finishAt ? new Date(event?.finishAt) : new Date(),
-      timeBeginAt: event?.beginAt ? new Date(event?.beginAt) : new Date(),
-      timeFinishAt: event?.finishAt ? new Date(event?.finishAt) : addHours(new Date(), 1),
-      timezone: event?.timezone ?? 'Europe/Paris',
+      beginAt: event ? event.localBeginAt : new Date(),
+      finishAt: event ? event.localFinishAt : new Date(),
+      timeBeginAt: event ? event.localBeginAt : new Date(),
+      timeFinishAt: event ? event.localFinishAt : addHours(new Date(), 1),
+      timeZone: event?.timeZone ?? 'Europe/Paris',
       description: event?.description || '',
       visioUrl: event?.visioUrl || '',
       isVirtual: event ? event?.mode === 'online' : false,
       capacity: event?.capacity,
-      severalDays: event ? !isSameDay(new Date(event.beginAt), new Date(event.finishAt)) : false,
+      severalDays: event ? !isSameDay(event.localBeginAt, event.localFinishAt) : false,
       address: {
         address: event?.address?.address || '',
         postalCode: event?.address?.postalCode || '',
@@ -92,7 +92,6 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       },
       liveUrl: event?.liveUrl || '',
     },
-    mode: 'all',
     resolver: zodResolver(CreateEventSchema),
   })
 
@@ -206,8 +205,8 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     const payload = {
       ...objectToSnakeCase(rest),
       id: event?.id,
-      begin_at: formatDateTimeWithTimezone(beginAt, timeBeginAt),
-      finish_at: formatDateTimeWithTimezone(severalDays ? convertFinishAt : beginAt, timeFinishAt),
+      begin_at: joinDateTime(beginAt, timeBeginAt),
+      finish_at: joinDateTime(severalDays ? convertFinishAt : beginAt, timeFinishAt),
       mode: isVirtual ? 'online' : 'meeting',
       capacity: data.capacity ? parseInt(data.capacity, 10) : undefined,
       post_address: !isVirtual ? objectToSnakeCase(address) : undefined,
@@ -355,7 +354,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
               </Grid>
 
               <Box>
-                {[errors.beginAt, errors.finishAt, errors.timeBeginAt, errors.timeFinishAt, errors.timezone].map(
+                {[errors.beginAt, errors.finishAt, errors.timeBeginAt, errors.timeFinishAt, errors.timeZone].map(
                   (error, index) => (
                     <FormHelperText sx={{ color: 'red' }} key={index}>
                       {error?.message}
@@ -367,12 +366,12 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
               <Box mt={2}>
                 <Autocomplete
                   id="timezones"
-                  {...register('timezone')}
+                  {...register('timeZone')}
                   {...(editable && {
-                    value: timezones?.find(option => option?.key === event?.timezone)?.value,
+                    value: timezones?.find(option => option?.key === event?.timeZone)?.value,
                   })}
                   onChange={(_, value) => {
-                    setValue('timezone', timezones.find(option => option.value === value)?.key || 'Europe/Paris')
+                    setValue('timeZone', timezones.find(option => option.value === value)?.key || 'Europe/Paris')
                   }}
                   defaultValue={timezones.find(option => option.key === 'Europe/Paris')?.value}
                   options={timezones.map(option => option.value)}
@@ -381,7 +380,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     <TextField
                       {...params}
                       InputLabelProps={{
-                        shrink: !!watch('timezone'),
+                        shrink: !!watch('timeZone'),
                       }}
                       label="Fuseau horaire"
                     />
