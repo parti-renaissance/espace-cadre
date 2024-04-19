@@ -1,4 +1,4 @@
-import { differenceInCalendarYears } from 'date-fns'
+import { differenceInCalendarYears, formatISO } from 'date-fns'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { formatDate } from '~/shared/helpers'
 
@@ -6,8 +6,6 @@ export const dateFormat = 'P'
 export const timeFormat = 'p'
 export const humanReadableDateFormat = 'dd MMMM yyyy'
 export const humanReadableDateWithDayFormat = 'ccc d MMMM yyyy'
-
-export const RFC3339DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssxxx"
 
 export const dateShortFormat = 'EE' // Mon, Tue, ...
 export const dateValueFormat = 'd' // 1, 2, 3
@@ -40,5 +38,5 @@ export const joinDateTime = (inputDate?: Date, inputTime?: Date): string => {
     date.setHours(inputTime.getHours(), inputTime.getMinutes(), inputTime.getSeconds())
   }
 
-  return formatDate(date, RFC3339DateTimeFormat)
+  return formatISO(date)
 }
