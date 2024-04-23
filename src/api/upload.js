@@ -11,7 +11,7 @@ export const downloadFile = async (endpoint, filename = null) => {
   const response = await apiClient.request('get', endpoint, null, {}, { responseType: 'blob' }, true)
 
   const fileName = response.headers.has('content-disposition')
-    ? response.headers.get('content-disposition').split('filename=')[1]
+    ? response.headers.get('content-disposition').split('filename=')[1].replace(/"/g, '')
     : endpoint
 
   saveAs(new Blob([response.data], { type: response.headers.get('content-type') }), filename ?? fileName)
