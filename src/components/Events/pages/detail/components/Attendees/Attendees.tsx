@@ -1,4 +1,4 @@
-import { getEventAttendees } from '~/api/events'
+import { downloadAttendees, getEventAttendees } from '~/api/events'
 import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
 import { getNextPageParam, PaginatedResult, usePaginatedData } from '~/api/pagination'
 import { useParams } from 'react-router'
@@ -19,8 +19,8 @@ import {
 import pluralize from '~/components/shared/pluralize/pluralize'
 import Iconify from '~/mui/iconify'
 import Label from '~/mui/label'
-import { enqueueSnackbar } from 'notistack'
 import { InfiniteData } from '@tanstack/react-query'
+import { useCallback } from 'react'
 
 type Attendee = {
   uuid: string
@@ -47,6 +47,8 @@ const Attendees = () => {
 
   const attendees = usePaginatedData(paginatedAttendees as InfiniteData<PaginatedResult<Attendee>>)
 
+  const onDownload = useCallback(() => downloadAttendees(eventId), [eventId])
+
   return (
     <Box>
       <Stack
@@ -61,13 +63,7 @@ const Attendees = () => {
         <Typography variant="h6">{pluralize(attendees?.length, 'Participant')}</Typography>
 
         <Stack spacing={2} direction="row">
-          <Button
-            variant="outlined"
-            startIcon={<Iconify icon="eva:cloud-upload-fill" />}
-            onClick={() => {
-              enqueueSnackbar('La fonctionnalité arrive bientôt...', { variant: 'info' })
-            }}
-          >
+          <Button variant="outlined" startIcon={<Iconify icon="eva:cloud-upload-fill" />} onClick={onDownload}>
             Télécharger les infos des participants
           </Button>
 

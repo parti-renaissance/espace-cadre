@@ -1,10 +1,12 @@
 import { newPaginatedResult } from '~/api/pagination'
 import { Event } from '~/domain/event'
 import { apiClient, apiClientPublic } from '~/services/networking/client'
+import { downloadFile } from '~/api/upload'
 
+const baseURL = '/api/v3/events'
 export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
   const data = await apiClient.get(
-    `/api/v3/events?order[beginAt]=desc&page=${page}&page_size=20${onlyMine ? '&only_mine' : ''}`
+    `${baseURL}?order[beginAt]=desc&page=${page}&page_size=20${onlyMine ? '&only_mine' : ''}`
   )
 
   return newPaginatedResult(
@@ -16,7 +18,7 @@ export const getEvents = async ({ pageParam: page = 1, onlyMine = false }) => {
 export const getMyEvents = args => getEvents({ onlyMine: true, ...args })
 
 export const getEventAttendees = async (id, page) => {
-  const data = await apiClient.get(`/api/v3/events/${id}/participants?page=${page}`)
+  const data = await apiClient.get(`${baseURL}/${id}/participants?page=${page}`)
 
   const attendees = data.items.map(attendee => ({
     emailAddress: attendee.email_address,
@@ -33,26 +35,28 @@ export const getEventAttendees = async (id, page) => {
 }
 
 export const getEvent = async id => {
-  const event = await apiClient.get(`/api/v3/events/${id}`)
+  const event = await apiClient.get(`${baseURL}/${id}`)
 
   return Event.fromApi(event)
 }
 
 export const getCategories = async () => await apiClientPublic('get', '/api/event_categories')
 
-export const deleteEvent = id => apiClient.delete(`/api/v3/events/${id}`)
-export const cancelEvent = id => apiClient.put(`/api/v3/events/${id}/cancel`)
+export const deleteEvent = id => apiClient.delete(`${baseURL}/${id}`)
+export const cancelEvent = id => apiClient.put(`${baseURL}/${id}/cancel`)
 export const createEvent = async ({ event }) => {
-  const data = await apiClient.post('/api/v3/events', event)
+  const data = await apiClient.post(baseURL, event)
   return data.uuid
 }
 export const updateEvent = async ({ event }) => {
-  const data = await apiClient.put(`/api/v3/events/${event.id}`, event)
+  const data = await apiClient.put(`${baseURL}/${event.id}`, event)
   return data.uuid
 }
 export const uploadImage = async ({ eventId, image }) => {
-  const data = await apiClient.post(`/api/v3/events/${eventId}/image`, { content: `${image}` })
+  const data = await apiClient.post(`${baseURL}/${eventId}/image`, { content: `${image}` })
   return data.uuid
 }
 
-export const deleteImage = async eventId => await apiClient.delete(`/api/v3/events/${eventId}/image`)
+export const deleteImage = async eventId => await apiClient.delete(`${baseURL}/${eventId}/image`)
+
+export const downloadAttendees = eventId => downloadFile(`${baseURL}/${eventId}/participants.xlsx`)
