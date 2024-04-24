@@ -68,7 +68,7 @@ const Attendees = () => {
               enqueueSnackbar('La fonctionnalité arrive bientôt...', { variant: 'info' })
             }}
           >
-            Télécharger les infos des participants
+            Télécharger la liste de mes participants
           </Button>
 
           {/* <Button
