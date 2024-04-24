@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
 import { addDays, isSameDay, addHours } from 'date-fns'
@@ -38,7 +38,6 @@ import UploadImage from '~/components/Events/pages/createOrEdit/components/forms
 import FormGroup from '~/components/Events/pages/createOrEdit/components/FormGroup/FormGroup'
 import { Box } from '@mui/system'
 
-import timezones from '~/shared/timezones.json'
 import countries from '~/shared/countries.json'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
@@ -53,6 +52,7 @@ import type { Scope } from '~/domain/scope'
 import paths from '~/shared/paths'
 import { paths as eventPaths } from '~/components/Events/shared/paths'
 import { joinDateTime } from '~/utils/date'
+import { getTimezoneOffsetLabel } from '~/shared/helpers'
 
 const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   const currentScope = useSelector(getCurrentScope) as Scope
@@ -124,6 +124,15 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   }
 
   const [image, setImage] = React.useState<string | undefined>(undefined)
+
+  const timezones = useMemo(
+    () =>
+      Intl.supportedValuesOf('timeZone').map(timeZone => ({
+        key: timeZone,
+        value: `${timeZone} (${getTimezoneOffsetLabel(timeZone)})`,
+      })),
+    []
+  )
 
   useEffect(() => {
     if (event?.image) {

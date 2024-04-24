@@ -40,7 +40,9 @@ export function parseDateWithTZ(date, tz) {
 }
 
 export function getTimezoneOffsetLabel(timeZone) {
-  return `UTC ${getTimezoneOffset(timeZone) / 1000 / 60 / 60}h`
+  const offset = getTimezoneOffset(timeZone)
+
+  return `UTC ${offset < 0 ? '' : '+'}${offset / 1000 / 60 / 60}h`
 }
 
 export const getFullName = user => `${user.first_name} ${user.last_name}`
