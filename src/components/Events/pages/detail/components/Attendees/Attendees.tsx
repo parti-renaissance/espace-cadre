@@ -64,7 +64,7 @@ const Attendees = () => {
 
         <Stack spacing={2} direction="row">
           <Button variant="outlined" startIcon={<Iconify icon="eva:cloud-upload-fill" />} onClick={onDownload}>
-            Télécharger les infos des participants
+            Télécharger la liste de mes participants
           </Button>
 
           {/* <Button
