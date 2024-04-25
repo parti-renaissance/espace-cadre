@@ -4,12 +4,12 @@ import TextField from '~/ui/TextField'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import UIFormMessage from '~/ui/FormMessage/FormMessage'
 
-import { SectionTitle, SubTitle, Option, Container, Body } from './styles'
+import { Body, Container, Option, SectionTitle, SubTitle } from './styles'
 
 const messages = {
   option: '(Optionnel)',
   title: 'Bouton d’action',
-  text: 'Vous pouvez ajouter un bouton d’action qui s’affichera dans votre actualité. Réservez cette fonctionnalité aux actions que doivent absolument faire vos militants à la lecture de l’actualité.',
+  text: 'Vous pouvez ajouter un bouton d’action qui s’affichera dans votre notification. Réservez cette fonctionnalité aux actions que doivent absolument faire vos militants à la lecture de la notification.',
   placeholder: 'Je m’engage',
 }
 

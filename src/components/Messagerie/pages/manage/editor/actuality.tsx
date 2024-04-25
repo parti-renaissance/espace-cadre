@@ -1,3 +1,3 @@
 export default function ActualityEditor() {
-  return <div>Actualité</div>
+  return <div>Notification</div>
 }

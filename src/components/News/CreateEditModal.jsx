@@ -13,7 +13,7 @@ import { createNewsQuery, updateNewsQuery } from '~/api/news'
 import DomainNews from '~/domain/news'
 import TextField from '~/ui/TextField'
 import UIFormMessage from '~/ui/FormMessage/FormMessage'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import Loader from '~/ui/Loader'
 import NotificationContainer from './NotificationContainer'
 import CallToActionContainer from './CallToActionContainer'
@@ -35,18 +35,18 @@ const newsSchema = Yup.object({
 const messages = {
   title: 'Titre',
   body: 'Contenu',
-  createNews: 'Nouvelle actualité',
-  editNews: "Modifier l'actualité",
+  createNews: 'Nouvelle notification',
+  editNews: 'Modifier la notification',
   editNewsSubmit: 'Mettre à jour',
-  createSuccess: 'Actualité créée avec succès',
-  editSuccess: "L'actualité a bien été modifiée",
-  submit: 'Envoyer l’actualité',
+  createSuccess: 'Notification créée avec succès',
+  editSuccess: 'La notification a bien été modifiée',
+  submit: 'Envoyer la notification',
   charactersLimit1: '(120 caractères)',
   charactersLimit2: '(1000 caractères)',
   charactersLimit3: '(255 caractères)',
-  titlePlaceholder: 'Donnez un titre à votre actualité',
+  titlePlaceholder: 'Donnez un titre à votre notification',
   newsAlertTitle: '🎉 NOUVEAU',
-  newsAlertContent: 'Mettez en forme vos actualités, elles seront consultables dans l’application mobile.',
+  newsAlertContent: 'Mettez en forme vos notifications, elles seront consultables dans l’application mobile.',
 }
 
 const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
@@ -54,7 +54,7 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
-  const isEditMode = news?.id ? true : false
+  const isEditMode = !!news?.id
   const accessToken = useSelector(state => state.auth.tokens.accessToken)
 
   const { mutateAsync: createOrEditNews, isLoading: isCreateOrUpdateLoading } = useMutation(

@@ -16,8 +16,8 @@ const notificationContainer = '[data-testid="notification-container"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
-  cy.contains('Actualités').click()
-  cy.url().should('eq', 'http://localhost:3000/actualites')
+  cy.contains('Notifications').click()
+  cy.url().should('eq', 'http://localhost:3000/notifications')
 }
 
 describe('News', () => {
@@ -49,7 +49,7 @@ describe('News', () => {
         cy.get(UICard).eq(1).get(publishedNews).should('be.visible')
         cy.get(UICard).eq(1).contains('Titre 1')
         cy.get(UICard).eq(1).contains('M Creator 1')
-        cy.get(UICard).eq(1).contains('Le 15/10/2020 à 10:00')
+        cy.get(UICard).eq(1).contains('Le 15/10/2020')
       })
 
       it('should display an action button with 3 actions', () => {
@@ -68,7 +68,7 @@ describe('News', () => {
       cy.get(readOnlyModal).get(publishedNews).should('be.visible')
       cy.get(readOnlyModal).contains('Titre 1')
       cy.get(readOnlyModal).contains('M Creator 1')
-      cy.get(readOnlyModal).contains('Le 15/10/2020 à 10:00')
+      cy.get(readOnlyModal).contains('Le 15/10/2020')
       cy.get(readOnlyModal).contains('Texte 1')
       cy.get(readOnlyModal).find('button').eq(1).contains('AvecVous')
       cy.get(readOnlyModal).find('button').eq(2).contains('Dépublier')
@@ -83,18 +83,18 @@ describe('News', () => {
 
   describe('The create modal', () => {
     beforeEach(() => {
-      cy.get(createNewsButton).find('>button').contains('Nouvelle Actualité')
+      cy.get(createNewsButton).find('>button').contains('Nouvelle Notification')
       cy.get(createNewsButton).find('>button').click()
     })
 
     describe('displays a modal with a form', () => {
       it('displays a modal title', () => {
-        cy.get(createModal).contains('Nouvelle actualité')
+        cy.get(createModal).contains('Nouvelle notification')
       })
 
       it('displays a title input with a placeholder', () => {
         cy.get(createModal).contains('Titre')
-        cy.get('input').eq(0).invoke('attr', 'placeholder').should('contain', 'Donnez un titre à votre actualité')
+        cy.get('input').eq(0).invoke('attr', 'placeholder').should('contain', 'Donnez un titre à votre notification')
       })
 
       it('displays a text editor', () => {
@@ -113,7 +113,7 @@ describe('News', () => {
       })
 
       it('contains a submit button', () => {
-        cy.get(createModal).contains('Envoyer l’actualité').click()
+        cy.get(createModal).contains('Envoyer la notification').click()
       })
 
       it('contains a button to close the modal', () => {

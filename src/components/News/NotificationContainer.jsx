@@ -1,13 +1,13 @@
-import { Grid, FormControlLabel } from '@mui/material'
+import { FormControlLabel, Grid } from '@mui/material'
 import { Checkbox } from '~/ui/Checkbox/Checkbox'
 import PropTypes from 'prop-types'
 
-import { SectionTitle, Option, Container, Body } from './styles'
+import { Body, Container, Option, SectionTitle } from './styles'
 
 const messages = {
   option: '(Optionnel)',
   firstText:
-    'Vous pouvez, à la publication de cette actualité, l’envoyer par notification push à tous vos militants connectés et toujours abonnés aux notifications de l’application mobile.',
+    'Vous pouvez, à la publication de cette notification, l’envoyer par notification push à tous vos militants connectés et toujours abonnés aux notifications de l’application mobile.',
   secondText:
     'Attention, si vous abusez des push, vos militants se désabonneront des notifications de l’application mobile.',
   title: 'Notification push',

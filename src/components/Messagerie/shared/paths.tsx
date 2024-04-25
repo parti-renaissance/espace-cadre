@@ -1,7 +1,7 @@
 export const paths = {
   create: 'creer',
   createNewsletter: 'newsletter',
-  createActuality: 'actualite',
+  createActuality: 'notification',
   update: 'modifier',
   filter: 'filtrer',
   confirmation: 'confirmation',

@@ -14,7 +14,7 @@ export default function ChooseTypePage() {
   const [selectedType, setSelectedType] = React.useState('newsletter')
   const navigate = useNavigate()
   const nextPath = selectedType === 'actuality' ? messageriePaths.createActuality : messageriePaths.createNewsletter
-  const textButton = selectedType === 'actuality' ? 'Écrire une actualité' : 'Écrire une newsletter'
+  const textButton = selectedType === 'actuality' ? 'Écrire une notification' : 'Écrire une newsletter'
   return (
     <ManageLayout {...sidebarProps}>
       <Stack spacing={4} sx={{ mt: 2 }}>

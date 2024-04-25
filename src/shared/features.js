@@ -85,7 +85,7 @@ export const featuresLabels = {
   [features.elections]: 'Historique élections',
   [features.ripostes]: 'Action numérique',
   [features.team]: 'Groupes',
-  [features.news]: 'Actualités',
+  [features.news]: 'Notifications',
   [features.phoning_campaign]: 'Phoning',
   [features.pap]: 'Porte à porte',
   [features.pap_v2]: 'Porte à porte local',
