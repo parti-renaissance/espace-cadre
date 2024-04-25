@@ -21,7 +21,7 @@ import NewsList from './NewsList'
 
 const messages = {
   title: 'Notifications',
-  create: 'Nouvelle notification',
+  create: 'Nouvelle Notification',
   pinnedSubtitle: 'Épinglée dans l’application mobile',
   defaultSubtitle: 'Dans votre territoire',
   toggleSuccess: 'La notification a bien été modifiée',
