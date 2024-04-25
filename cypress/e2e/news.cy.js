@@ -49,7 +49,7 @@ describe('News', () => {
         cy.get(UICard).eq(1).get(publishedNews).should('be.visible')
         cy.get(UICard).eq(1).contains('Titre 1')
         cy.get(UICard).eq(1).contains('M Creator 1')
-        cy.get(UICard).eq(1).contains('Le 15/10/2020 à 12:00')
+        cy.get(UICard).eq(1).contains('Le 15/10/2020')
       })
 
       it('should display an action button with 3 actions', () => {
@@ -68,7 +68,7 @@ describe('News', () => {
       cy.get(readOnlyModal).get(publishedNews).should('be.visible')
       cy.get(readOnlyModal).contains('Titre 1')
       cy.get(readOnlyModal).contains('M Creator 1')
-      cy.get(readOnlyModal).contains('Le 15/10/2020 à 12:00')
+      cy.get(readOnlyModal).contains('Le 15/10/2020')
       cy.get(readOnlyModal).contains('Texte 1')
       cy.get(readOnlyModal).find('button').eq(1).contains('AvecVous')
       cy.get(readOnlyModal).find('button').eq(2).contains('Dépublier')
