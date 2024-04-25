@@ -5,7 +5,7 @@ export default {
   elections: '/elections',
   ripostes: '/ripostes',
   team: '/groupes',
-  news: '/actualites',
+  news: '/notifications',
   phoning_campaign: '/phoning',
   pap: '/porte-a-porte',
   pap_v2: '/porte-a-porte-legislatives',

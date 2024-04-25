@@ -13,16 +13,16 @@ import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 
-import { SectionTitle, Container, Body, CTAButton, CTAButtonOutlined, CTAButtonContainer } from './styles'
+import { Body, Container, CTAButton, CTAButtonContainer, CTAButtonOutlined, SectionTitle } from './styles'
 import { CTA_MODE_PUBLICATION } from './constants'
 
 const messages = {
-  toggleSuccess: "L'actualité a bien été modifiée",
+  toggleSuccess: 'La notification a bien été modifiée',
   title: 'Bouton d’action',
   unpublish: 'Dépublier',
   publish: 'Publier',
-  ctaText: 'Lorsqu’il existe, un bouton s’affiche en bas de l’actualité. Ajoutez-en un en la modifiant.',
-  publishText: 'Lorsqu’elle est publiée, une actualité est visible de vos militants sur l’application mobile.',
+  ctaText: 'Lorsqu’il existe, un bouton s’affiche en bas de la notification. Ajoutez-en un en la modifiant.',
+  publishText: 'Lorsqu’elle est publiée, une notification est visible de vos militants sur l’application mobile.',
   publicationTitle: 'Publication',
 }
 

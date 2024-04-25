@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Container, Grid, Typography } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -9,7 +9,7 @@ import NewsDomain from '~/domain/news'
 import CreateEditModal from './CreateEditModal'
 import ReadModal from './ReadModal'
 import Loader from '~/ui/Loader'
-import { usePaginatedData, getNextPageParam, refetchUpdatedPage } from '~/api/pagination'
+import { getNextPageParam, refetchUpdatedPage, usePaginatedData } from '~/api/pagination'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
@@ -20,15 +20,15 @@ import PinnedImage from '~/assets/pinned.svg'
 import NewsList from './NewsList'
 
 const messages = {
-  title: 'Actualités',
-  create: 'Nouvelle Actualité',
+  title: 'Notifications',
+  create: 'Nouvelle notification',
   pinnedSubtitle: 'Épinglée dans l’application mobile',
   defaultSubtitle: 'Dans votre territoire',
-  toggleSuccess: "L'actualité a bien été modifiée",
+  toggleSuccess: 'La notification a bien été modifiée',
   alertTitle: '🎉 NOUVEAU',
   alertText:
-    'Vous pouvez épingler une seule des actualités de votre territoire pour que celle-ci apparaisse toujours en premier dans la section Actualités de l’application mobile.',
-  noNews: 'Aucune actualité à afficher',
+    'Vous pouvez épingler une seule des notifications de votre territoire pour que celle-ci apparaisse toujours en premier dans la section Notifications de l’application mobile.',
+  noNews: 'Aucune notification à afficher',
 }
 
 const News = () => {

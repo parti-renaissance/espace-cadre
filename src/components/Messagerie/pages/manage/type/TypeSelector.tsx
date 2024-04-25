@@ -10,7 +10,7 @@ import { Stack, StackProps } from '@mui/system'
 const messageTypes = [
   {
     id: 'actuality',
-    title: 'Actualité',
+    title: 'Notification',
     subTitle: 'Recommandé',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     icon: <ActualityIcon />,
