@@ -37,9 +37,10 @@ export const ProcurationService = {
       proxy,
       email_copy: emailCopy,
     }),
-  unmatch: ({ uuid, proxy }: { uuid: string; proxy: string }) =>
+  unmatch: ({ uuid, proxy, emailCopy }: { uuid: string; proxy: string; emailCopy: boolean }) =>
     apiClient.post(`${base}/${uuid}/unmatch`, {
       proxy,
+      email_copy: emailCopy,
     }),
   getProxies: ({ params, signal }: PaginatedApiQueryBaseModel): Promise<PaginatedDataModel<AvailableProxyModel>> =>
     apiClient.get(proxyBase, undefined, {
