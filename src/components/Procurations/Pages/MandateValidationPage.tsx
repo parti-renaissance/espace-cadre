@@ -1,8 +1,8 @@
 import Page from '~/components/Page/Page'
 import styled from '@emotion/styled'
 import { MuiSpacing } from '~/theme/spacing'
-import { other } from '~/theme/palette'
-import { Button, Grid, List, ListItem, Paper, Typography } from '@mui/material'
+import { grey, other } from '~/theme/palette'
+import { Button, Checkbox, FormControlLabel, FormGroup, Grid, List, ListItem, Paper, Typography } from '@mui/material'
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import { useParams } from 'react-router'
 import SkeletonCard from '~/components/Skeleton/SkeletonCard'
@@ -14,13 +14,13 @@ import { fontWeight } from '~/theme/typography'
 import useProcurationMatch from '~/api/Procuration/Hooks/useProcurationMatch'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AvailableProxyModel } from '~/api/Procuration/procuration.model'
+import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
+import { useCallback, useState } from 'react'
+import DottedCard from '~/components/DottedCard/DottedCard'
+import useGardEmptyState from '~/hooks/useGardEmptyState'
 import paths from '~/shared/paths'
 import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
-import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
-import { useCallback } from 'react'
-import DottedCard from '~/components/DottedCard/DottedCard'
-import useGardEmptyState from '~/hooks/useGardEmptyState'
 
 export default function MandateValidationPage() {
   const params = useParams()
@@ -30,6 +30,8 @@ export default function MandateValidationPage() {
 
   const { data } = useProcurationRequest({ uuid: params.id })
   const { mutateAsync, isLoading: isMatching } = useProcurationMatch()
+
+  const [noEmailCopy, setNoEmailCopy] = useState<boolean>(false)
 
   const { proxy }: { proxy: AvailableProxyModel } = state
 
@@ -43,6 +45,7 @@ export default function MandateValidationPage() {
     mutateAsync({
       uuid: id,
       proxy: proxy.uuid,
+      emailCopy: !noEmailCopy,
     })
       .then(() => {
         // We don't use "useSessionStorage" as it is not instant
@@ -72,7 +75,11 @@ export default function MandateValidationPage() {
           })
         }
       })
-  }, [data, mutateAsync, navigate, params, proxy])
+  }, [data, mutateAsync, navigate, noEmailCopy, params, proxy])
+
+  const onToggle = useCallback(() => {
+    setNoEmailCopy(v => !v)
+  }, [])
 
   return (
     <Page backButton>
@@ -126,6 +133,16 @@ export default function MandateValidationPage() {
                       {data?.vote_place_name}
                     </Typography>
                   </Grid>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={<Checkbox checked={noEmailCopy} onChange={onToggle} />}
+                      style={{ color: grey[600] }}
+                      label="Ne pas être mis en copie de l’email envoyé au mandant et au mandataire."
+                    />
+                  </FormGroup>
                 </Grid>
 
                 <Grid item xs={12} textAlign={'right'}>

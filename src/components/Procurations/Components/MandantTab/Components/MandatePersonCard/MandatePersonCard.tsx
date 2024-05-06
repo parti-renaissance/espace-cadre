@@ -68,7 +68,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           </Grid>
         )}
 
-        <Grid item xs={12}>
+        <Grid item container gap={0.5} xs={12}>
           {[
             MandatePersonCardType.MATCH_MANDANT,
             MandatePersonCardType.FIND,

@@ -1,7 +1,7 @@
-import { Button, Grid, Paper, Typography } from '@mui/material'
+import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Typography } from '@mui/material'
 import { isAxiosError } from 'axios'
 import { closeSnackbar, enqueueSnackbar } from 'notistack'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
@@ -18,6 +18,8 @@ import { MuiSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 import { getFormattedDate } from '~/utils/date'
 import { fullName } from '~/utils/names'
+import Divider from '@mui/material/Divider'
+import { grey } from '~/theme/palette'
 
 export default function MandateEditPage() {
   const params = useParams()
@@ -26,7 +28,13 @@ export default function MandateEditPage() {
   const { data } = useProcurationRequest({ uuid: params.id })
   const { mutateAsync, isLoading: isUnmatching } = useProcurationUnmatch()
 
+  const [noEmailCopy, setNoEmailCopy] = useState<boolean>(false)
+
   const proxy = data?.proxy
+
+  const onToggle = useCallback(() => {
+    setNoEmailCopy(v => !v)
+  }, [])
 
   const onUnmatch = useCallback(() => {
     const { id } = params
@@ -38,6 +46,7 @@ export default function MandateEditPage() {
     mutateAsync({
       uuid: id,
       proxy: proxy.uuid,
+      emailCopy: !noEmailCopy,
     })
       .then(() => {
         navigate(paths.procurations)
@@ -59,7 +68,7 @@ export default function MandateEditPage() {
           })
         }
       })
-  }, [mutateAsync, navigate, params, proxy])
+  }, [mutateAsync, navigate, params, proxy, noEmailCopy])
 
   return (
     <Page backButton>
@@ -80,6 +89,20 @@ export default function MandateEditPage() {
                     value={data?.matcher ? fullName(data.matcher) : ''}
                     color={'text.primary'}
                   ></InfoLine>
+
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={<Checkbox checked={noEmailCopy} onChange={onToggle} />}
+                        style={{ color: grey[600] }}
+                        label="Ne pas être mis en copie de l’email envoyé au mandant et au mandataire."
+                      />
+                    </FormGroup>
+                  </Grid>
                 </Grid>
 
                 <Grid item xs={12} textAlign={'right'}>
