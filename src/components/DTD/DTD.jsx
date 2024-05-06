@@ -13,8 +13,9 @@ import CampaignItem from './Campaign/CampaignItem'
 import Loader from '~/ui/Loader'
 import PageHeader from '~/ui/PageHeader'
 import DTDMap from '~/components/DTD/DTDMap'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import { LayersCodes } from '~/components/Map/Layers'
+import DTDAddressMap from '~/components/DTD/DTDAddressMap'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -46,6 +47,7 @@ const infiniteScrollStylesOverrides = {
 
 const messages = {
   title: 'Porte à porte',
+  address_map: 'Adresses',
   campaigns: 'Campagnes de mon territoire',
   rightVotes: 'Réserve à droite',
   leftVotes: 'Réserve à gauche',
@@ -95,7 +97,7 @@ const DTD = () => {
         <PageHeader title={messages.title} />
       </Grid>
       <Grid container justifyContent="space-between">
-        <CampaignGlobalKPI />
+        {selectedTab !== messages.address_map && <CampaignGlobalKPI />}
       </Grid>
       <Grid container data-cy="DTD-campaigns-tabs">
         <Tabs
@@ -108,6 +110,12 @@ const DTD = () => {
           <Tab
             value={messages.campaigns}
             label={<TabLabel>{messages.campaigns}</TabLabel>}
+            disableRipple
+            disableFocusRipple
+          />
+          <Tab
+            value={messages.address_map}
+            label={<TabLabel>{messages.address_map}</TabLabel>}
             disableRipple
             disableFocusRipple
           />
@@ -131,6 +139,11 @@ const DTD = () => {
           />
         </Tabs>
       </Grid>
+      {selectedTab === messages.address_map && (
+        <Grid item xs={12}>
+          <DTDAddressMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_LEFT} />
+        </Grid>
+      )}
       {selectedTab === messages.campaigns && (
         <Grid container justifyContent="space-between" sx={{ ...infiniteScrollStylesOverrides }}>
           {campaigns.length > 0 && (

@@ -91,9 +91,9 @@ describe('DTD', () => {
   })
 
   describe('The tabs block', () => {
-    it('should have 4 tabs', () => {
+    it('should have 5 tabs', () => {
       cy.get(CampaignsTabs).should('exist')
-      cy.get(CampaignsTabs).find('button').should('have.length', 4)
+      cy.get(CampaignsTabs).find('button').should('have.length', 5)
     })
 
     describe('The first tab', () => {
