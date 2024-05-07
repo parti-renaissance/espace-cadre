@@ -6,7 +6,6 @@ import { Box, AppBar as MuiAppBar } from '@mui/material'
 import Mobile from './Mobile'
 import Desktop from './Desktop'
 import Branding from './Branding'
-import Header from './Header'
 
 import useDrawerStore from '~/stores/drawerStore'
 
@@ -64,7 +63,6 @@ const Sidebar = ({ children, window }) => {
                 <Branding handleDrawerToggle={handleDrawerToggle} />
               </AppBar>
             )}
-            <Header />
           </>
         )}
 

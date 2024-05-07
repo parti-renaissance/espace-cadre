@@ -1,6 +1,6 @@
 import { generatePath, useNavigate } from 'react-router'
 import { useState } from 'react'
-import { Container, Grid, Typography, Tabs, Tab as MuiTab } from '@mui/material'
+import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
@@ -16,19 +16,6 @@ import DTDMap from '~/components/DTD/DTDMap'
 import { useUserScope } from '~/redux/user/hooks'
 import { LayersCodes } from '~/components/Map/Layers'
 import DTDAddressMap from '~/components/DTD/DTDAddressMap'
-
-const Tab = styled(MuiTab)(({ theme }) => ({
-  textTransform: 'none',
-  color: theme.palette.gray400,
-  '&.Mui-selected': {
-    color: theme.palette.gray800,
-  },
-}))
-
-const TabLabel = styled(Typography)`
-  font-size: 18px;
-  font-weight: 400;
-`
 
 const Legend = styled(Grid)(
   ({ theme }) => `
@@ -46,8 +33,8 @@ const infiniteScrollStylesOverrides = {
 }
 
 const messages = {
-  title: 'Porte à porte',
-  address_map: 'Adresses',
+  title: 'Micro-ciblage',
+  address_map: 'Micro-ciblage',
   campaigns: 'Campagnes de mon territoire',
   rightVotes: 'Réserve à droite',
   leftVotes: 'Réserve à gauche',
@@ -67,7 +54,7 @@ const DTD = () => {
   const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const [userScope] = useUserScope()
-  const [selectedTab, setSelectedTab] = useState(messages.campaigns)
+  const [selectedTab] = useState(messages.address_map)
 
   const {
     data: paginatedCampaigns = null,
@@ -87,57 +74,13 @@ const DTD = () => {
     navigate(generatePath('/porte-a-porte/:campaignId', { campaignId }))
   }
 
-  const handleTabChange = (_, tabId) => {
-    setSelectedTab(tabId)
-  }
-
   return (
-    <Container maxWidth={false} sx={{ mb: 3 }}>
+    <Container maxWidth={false}>
       <Grid container justifyContent="space-between">
         <PageHeader title={messages.title} />
       </Grid>
       <Grid container justifyContent="space-between">
         {selectedTab !== messages.address_map && <CampaignGlobalKPI />}
-      </Grid>
-      <Grid container data-cy="DTD-campaigns-tabs">
-        <Tabs
-          variant="scrollable"
-          value={selectedTab}
-          onChange={handleTabChange}
-          TabIndicatorProps={{ sx: { bgcolor: 'indigo700' } }}
-          sx={{ my: 2 }}
-        >
-          <Tab
-            value={messages.campaigns}
-            label={<TabLabel>{messages.campaigns}</TabLabel>}
-            disableRipple
-            disableFocusRipple
-          />
-          <Tab
-            value={messages.address_map}
-            label={<TabLabel>{messages.address_map}</TabLabel>}
-            disableRipple
-            disableFocusRipple
-          />
-          <Tab
-            value={messages.leftVotes}
-            label={<TabLabel>{messages.leftVotes}</TabLabel>}
-            disableRipple
-            disableFocusRipple
-          />
-          <Tab
-            value={messages.rightVotes}
-            label={<TabLabel>{messages.rightVotes}</TabLabel>}
-            disableRipple
-            disableFocusRipple
-          />
-          <Tab
-            value={messages.abstainingVotes}
-            label={<TabLabel>{messages.abstainingVotes}</TabLabel>}
-            disableRipple
-            disableFocusRipple
-          />
-        </Tabs>
       </Grid>
       {selectedTab === messages.address_map && (
         <Grid item xs={12}>
