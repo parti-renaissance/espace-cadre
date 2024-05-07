@@ -48,8 +48,9 @@ const DTDAddressMap = ({ userZones }) => {
       id: 'layer-addresses',
       source: 'source-addresses',
       'source-layer': 'addresses',
-      filter: ['==', ['get', 'dpt'], zone.code],
       type: 'circle',
+      ...(zone.code !== 'FR' ? { filter: ['==', ['get', 'dpt'], zone.code] } : {}),
+      'circle-sort-key': ['*', -1, ['number', ['get', 'score'], 10]],
       paint: {
         'circle-color': [
           'case',
@@ -65,6 +66,7 @@ const DTDAddressMap = ({ userZones }) => {
           colors[5],
           colors[0],
         ],
+        'circle-opacity': ['case', ['has', 'score'], 1, 0.5],
       },
     })
   }, [zone])
