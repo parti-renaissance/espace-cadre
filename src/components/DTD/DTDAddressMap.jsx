@@ -10,6 +10,7 @@ import { useErrorHandler } from '~/components/shared/error/hooks'
 import { MAPBOX_TOKEN } from '~/shared/environments'
 import { createMap } from '~/providers/map'
 import { UIChip } from '~/ui/Card'
+import { Scope } from '~/domain/scope'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 
@@ -31,14 +32,14 @@ const BadgeCircle = styled('span')({
 
 const colors = ['#919EAB', '#FF462E', '#FF6A1A', '#FFC700']
 
-const DTDAddressMap = ({ userZones }) => {
+const DTDAddressMap = ({ userScope }) => {
   const mapContainer = useRef(null)
   const [activePriority, setActivePriority] = useState(null)
   const map = useRef()
   const popup = useRef()
   const { handleError } = useErrorHandler()
 
-  const zone = userZones[0]
+  const zoneCode = userScope.isAnimator() ? userScope.getAttributes()?.dpt : userScope.zones[0].code
 
   const getFilter = (zoneCode, activePriority = null) => {
     const filter = []
@@ -64,7 +65,7 @@ const DTDAddressMap = ({ userZones }) => {
 
   const handlePriorityChange = priority => {
     setActivePriority(priority)
-    map.current.setFilter('layer-addresses', getFilter(zone.code, priority))
+    map.current.setFilter('layer-addresses', getFilter(zoneCode, priority))
   }
 
   const onMapReady = useCallback(() => {
@@ -77,7 +78,7 @@ const DTDAddressMap = ({ userZones }) => {
       url: 'mapbox://larem.fr-addresses-v1',
     })
 
-    const filter = getFilter(zone.code)
+    const filter = getFilter(zoneCode)
 
     map.current.addLayer(
       {
@@ -94,7 +95,7 @@ const DTDAddressMap = ({ userZones }) => {
       },
       'road-label'
     )
-  }, [zone])
+  }, [zoneCode])
 
   useEffect(() => {
     map.current = createMap(mapContainer.current)
@@ -218,14 +219,7 @@ const DTDAddressMap = ({ userZones }) => {
 }
 
 DTDAddressMap.propTypes = {
-  userZones: PropTypes.arrayOf(
-    PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-      code: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    })
-  ),
+  userScope: PropTypes.objectOf(Scope).isRequired,
 }
 
 export default DTDAddressMap

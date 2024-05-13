@@ -84,7 +84,7 @@ const DTD = () => {
       </Grid>
       {selectedTab === messages.address_map && (
         <Grid item xs={12}>
-          <DTDAddressMap userZones={userScope.zones} typeOfLayer={DTD_LAYER_LEFT} />
+          <DTDAddressMap userScope={userScope} typeOfLayer={DTD_LAYER_LEFT} />
         </Grid>
       )}
       {selectedTab === messages.campaigns && (
