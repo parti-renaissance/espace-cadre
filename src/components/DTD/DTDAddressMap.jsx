@@ -44,7 +44,7 @@ const DTDAddressMap = ({ userZones }) => {
     const filter = []
 
     if (zoneCode !== 'FR') {
-      filter.push(['==', ['get', 'dpt'], zoneCode])
+      filter.push(['==', ['get', 'dpt'], zoneCode.substring(0, 2)])
     }
 
     if (activePriority) {
