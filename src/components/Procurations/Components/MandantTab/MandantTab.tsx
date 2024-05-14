@@ -230,6 +230,7 @@ const MandateItemComponent = ({
       hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
       onPersonView={done ? () => navigate(`${paths.procurations}/request/${item.uuid}/edit`) : undefined}
+      inFrenchSoil={item.from_france}
     />
   )
 }

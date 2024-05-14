@@ -169,6 +169,7 @@ const MandateInfo = memo((data: ProcurationDetailsModel) => (
     extraInfos={buildExtraData(data)}
     expended
     hideStateActions
+    inFrenchSoil={data.from_france}
   />
 ))
 MandateInfo.displayName = 'MandateInfo'

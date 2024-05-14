@@ -165,6 +165,7 @@ export default function MandateValidationPage() {
                 votePlace={data.vote_place_name}
                 type={MandatePersonCardType.MATCH_MANDANT}
                 extraInfos={buildExtraData(data)}
+                inFrenchSoil={data.from_france}
                 hideStateActions
                 expended
               />
