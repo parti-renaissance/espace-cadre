@@ -33,6 +33,13 @@ export class EventGroupCategory {
   ) {}
 }
 
+const addressEntryTranslation = {
+  address: 'L’adresse est manquante ou incorrecte.',
+  postalCode: 'Le code postal est manquant ou incorrect.',
+  cityName: 'La ville est manquante ou incorrecte.',
+  country: 'Le pays est manquant ou incorrect.',
+}
+
 export class Event {
   static propTypes = {
     id: PropTypes.string,
@@ -223,7 +230,7 @@ export const CreateEventSchema = z
     address: z
       .object({
         address: z.string().optional(),
-        postalCode: z.string().optional(),
+        postalCode: z.string(),
         cityName: z.string().optional(),
         country: z.string().optional(),
       })
@@ -273,12 +280,26 @@ export const CreateEventSchema = z
     if (!values.isVirtual) {
       const checkHasAddressFull =
         values.address?.address && values.address?.postalCode && values.address?.cityName && values.address?.country
+
+      // Global error
       if (!checkHasAddressFull) {
-        return context.addIssue({
+        context.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "L'adresse est obligatoire pour un événement physique",
+          message: 'L’adresse est obligatoire pour un événement physique',
           path: ['address'],
         })
+      }
+
+      if (values.address) {
+        for (const [k, v] of Object.entries(values.address)) {
+          if (!v) {
+            context.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: addressEntryTranslation[k],
+              path: ['address', k],
+            })
+          }
+        }
       }
     }
   })
