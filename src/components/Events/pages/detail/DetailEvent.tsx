@@ -1,4 +1,4 @@
-import { Grid, Card, Box, Typography, Container, Button } from '@mui/material'
+import { Box, Button, Card, Container, Grid, Typography } from '@mui/material'
 import { Stack } from '@mui/system'
 import BadgeStatus from '~/components/Events/pages/list/components/CardEvent/components/badgeStatus'
 import ListInformations from '~/components/Events/pages/detail/components/ListInformations'
@@ -108,7 +108,7 @@ const DetailEvent = () => {
             {event.organizer && (
               <Card>
                 <Stack direction="column" spacing={1} padding={'24px'}>
-                  <Typography variant="body2">Événement créer par :</Typography>
+                  <Typography variant="body2">Événement créé par :</Typography>
                   <Typography variant="subtitle2">{event.organizer}</Typography>
                 </Stack>
               </Card>

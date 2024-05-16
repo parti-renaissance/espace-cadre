@@ -1,25 +1,26 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PageHeader from '~/ui/PageHeader'
 import { useNavigate, useParams } from 'react-router'
-import { addDays, isSameDay, addHours } from 'date-fns'
+import { addDays, addHours, isSameDay } from 'date-fns'
 import { DatePicker, TimePicker } from '@mui/x-date-pickers'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { SubmitHandler, useForm, Controller, UseFormRegister } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm, UseFormRegister } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
 import {
-  Stack,
+  Alert,
+  Autocomplete,
   Breadcrumbs,
+  Button,
   Container,
+  FormControlLabel,
+  FormHelperText,
   Grid,
   Link,
-  Typography,
-  TextField,
-  FormControlLabel,
+  Stack,
   Switch,
-  Button,
-  FormHelperText,
-  Autocomplete,
+  TextField,
+  Typography,
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { objectToSnakeCase } from '~/utils/object'
@@ -79,18 +80,18 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       timeBeginAt: event ? event.localBeginAt : new Date(),
       timeFinishAt: event ? event.localFinishAt : addHours(new Date(), 1),
       timeZone: event?.timeZone ?? 'Europe/Paris',
-      description: event?.description || '',
-      visioUrl: event?.visioUrl || '',
+      description: event?.description ?? '',
+      visioUrl: event?.visioUrl ?? '',
       isVirtual: event ? event?.mode === 'online' : false,
       capacity: event?.capacity,
       severalDays: event ? !isSameDay(event.localBeginAt, event.localFinishAt) : false,
       address: {
-        address: event?.address?.address || '',
-        postalCode: event?.address?.postalCode || '',
-        cityName: event?.address?.cityName || '',
-        country: event?.address?.country || '',
+        address: event?.address?.address ?? '',
+        postalCode: event?.address?.postalCode ?? '',
+        cityName: event?.address?.cityName ?? '',
+        country: event?.address?.country ?? '',
       },
-      liveUrl: event?.liveUrl || '',
+      liveUrl: event?.liveUrl ?? '',
     },
     resolver: zodResolver(CreateEventSchema),
   })
@@ -144,7 +145,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
   const { mutateAsync: uploadImage } = useMutation(imageUploadApi, {
     onError: error => {
-      handleError(error || "Une erreur est survenue lors de l'envoi de l'image")
+      handleError(error ?? "Une erreur est survenue lors de l'envoi de l'image")
     },
   })
 
@@ -380,7 +381,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     value: timezones?.find(option => option?.key === event?.timeZone)?.value,
                   })}
                   onChange={(_, value) => {
-                    setValue('timeZone', timezones.find(option => option.value === value)?.key || 'Europe/Paris')
+                    setValue('timeZone', timezones.find(option => option.value === value)?.key ?? 'Europe/Paris')
                   }}
                   defaultValue={timezones.find(option => option.key === 'Europe/Paris')?.value}
                   options={timezones.map(option => option.value)}
@@ -497,6 +498,12 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
                     control={control}
                   />
                 </Stack>
+
+                {errors.address?.root && (
+                  <Stack mt={2}>
+                    <Alert severity="error">{errors.address.root.message}</Alert>
+                  </Stack>
+                )}
               </>
             )}
           </FormGroup>

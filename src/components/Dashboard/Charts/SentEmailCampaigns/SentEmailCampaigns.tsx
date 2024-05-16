@@ -33,17 +33,18 @@ interface MessageListProps {
 const MessageList = (props: MessageListProps) => (
   <AGrid container spacing={3}>
     <TransitionGroup component={null}>
-      {props.messages.map(message => (
-        <CSSTransition key={message.id} timeout={500} classNames="item">
-          <Grid item xs={12} sm={6} md={4} xl={3}>
-            <MessageCard
-              message={message}
-              onPopoverOpen={props.onPopoverOpen}
-              isMailsStatutory={props.isMailsStatutory}
-            />
-          </Grid>
-        </CSSTransition>
-      ))}
+      {Array.isArray(props.messages) &&
+        props.messages.map(message => (
+          <CSSTransition key={message.id} timeout={500} classNames="item">
+            <Grid item xs={12} sm={6} md={4} xl={3}>
+              <MessageCard
+                message={message}
+                onPopoverOpen={props.onPopoverOpen}
+                isMailsStatutory={props.isMailsStatutory}
+              />
+            </Grid>
+          </CSSTransition>
+        ))}
     </TransitionGroup>
   </AGrid>
 )

@@ -1,6 +1,6 @@
 import { apiClient } from '~/services/networking/client'
 import Message, { CreateMessageContent, Statistics } from '~/domain/message'
-import { PaginatedResult, newPaginatedResult } from '~/api/pagination'
+import { newPaginatedResult, PaginatedResult } from '~/api/pagination'
 import ReportRatio, { GeoRatio } from '~/domain/reportRatio'
 import { parseDate } from '~/shared/helpers'
 import qs from 'qs'
@@ -75,7 +75,7 @@ export async function getMessages(params: GetMessagesParams) {
   }
   const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&${qs.stringify(parsedParams)}`)
 
-  if (typeof params.pagination !== 'undefined' && !params.pagination) {
+  if (Array.isArray(data)) {
     return data.map(parseDataMessage)
   }
 
