@@ -44,6 +44,8 @@ export interface MandatePersonCardProps {
   hideActions?: boolean
   hideStateActions?: boolean
   onPersonView?: (id: string) => void
+  // Will deposit mandate in France
+  inFrenchSoil?: boolean
 }
 
 export enum MandatePersonCardType {
@@ -151,6 +153,8 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
       <MandateCardEntry title={'Bureau de vote'} value={props.votePlace} />
       <MandateCardEntry title={'Commune, pays...'} value={props.location} />
+
+      {props.inFrenchSoil && <MandateCardEntry title={'Lieu de dépôt'} value={'Procuration en France'} />}
 
       {props.extraInfos && <Divider sx={withBottomSpacing} />}
 

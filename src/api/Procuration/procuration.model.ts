@@ -22,6 +22,8 @@ export interface ProcurationModel extends ReadableLightUserModel {
   status: ProcurationStatusEnum
   matched_at: string | null
   matcher: ReadableLightUserModelWithSingleFirstName | null
+  // Indicate if mandate will sign procuration in French soil
+  from_france: boolean
 }
 
 export interface ProcurationDetailsModel extends ReadableLightUserModel {
@@ -41,6 +43,8 @@ export interface ProcurationDetailsModel extends ReadableLightUserModel {
   matched_at: string | null
   matcher: ReadableLightUserModelWithSingleFirstName | null
   proxy: ProcurationProxyDetailModel
+  // Indicate if mandate will sign procuration in French soil
+  from_france: boolean
 }
 
 export interface ProcurationProxyDetailModel extends EmailPhoneModel {

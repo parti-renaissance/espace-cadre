@@ -127,6 +127,7 @@ export default function MandateEditPage() {
                 extraInfos={buildExtraData(data)}
                 expended
                 hideStateActions
+                inFrenchSoil={data.from_france}
               />
             ) : (
               <SkeletonCard />
