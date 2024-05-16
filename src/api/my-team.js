@@ -22,7 +22,7 @@ export const getMyTeamQuery = async () => {
 }
 
 export const getMyTeamActivists = async query => {
-  const data = await apiClient.get(`${ADHERENT_AUTOCOMPLETE_URI}?type=adherent_re&q=${encodeURIComponent(query)}`)
+  const data = await apiClient.get(`${ADHERENT_AUTOCOMPLETE_URI}?q=${encodeURIComponent(query)}`)
   return data.map(a => ({
     id: a.uuid,
     firstName: a.first_name,
