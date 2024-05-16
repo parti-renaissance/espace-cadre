@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Grid, Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import mapboxgl from 'mapbox-gl'
-
+import 'mapbox-gl/dist/mapbox-gl.css'
 import PropTypes from 'prop-types'
-import { lineString, bbox } from '@turf/turf'
+import { bbox, lineString } from '@turf/turf'
 import { flattenDeep } from 'lodash'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { MAPBOX_TOKEN } from '~/shared/environments'
 import { createMap } from '~/providers/map'
 import { UIChip } from '~/ui/Card'
 import { Scope } from '~/domain/scope'
+import { DPI, Format, MapboxExportControl, PageOrientation, Size } from '@watergis/mapbox-gl-export'
+import '@watergis/mapbox-gl-export/dist/mapbox-gl-export.css'
 
 mapboxgl.accessToken = MAPBOX_TOKEN
 
@@ -19,7 +21,7 @@ const Map = styled(Grid)(
   height: 85vh;
   margin: ${theme.spacing(1, 0, 2)};
   border-radius: 12px;
-  border: 1px solid ${theme.palette.gray200}
+  border: 1px solid ${theme.palette.gray200};
 `
 )
 
@@ -35,7 +37,14 @@ const colors = ['#919EAB', '#FF462E', '#FF6A1A', '#FFC700']
 const DTDAddressMap = ({ userScope }) => {
   const mapContainer = useRef(null)
   const [activePriority, setActivePriority] = useState(null)
+  /**
+   * @type {React.MutableRefObject<mapboxgl.Map>}
+   */
   const map = useRef()
+  /**
+   *
+   * @type {React.MutableRefObject<maxboxgl.Popup>}
+   */
   const popup = useRef()
   const { handleError } = useErrorHandler()
 
@@ -94,6 +103,22 @@ const DTDAddressMap = ({ userScope }) => {
         },
       },
       'road-label'
+    )
+
+    map.current.addControl(
+      new MapboxExportControl({
+        PageSize: Size.A4,
+        PageOrientation: PageOrientation.Portrait,
+        Format: Format.PDF,
+        DPI: DPI[300],
+        Crosshair: false,
+        PrintableArea: true,
+        Local: 'fr',
+        accessToken: MAPBOX_TOKEN,
+        attributionStyle: { textSize: 0 },
+        Filename: 'renaissance-export-porte-a-porte',
+      }),
+      'top-right'
     )
   }, [zoneCode])
 
