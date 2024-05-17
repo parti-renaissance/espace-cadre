@@ -1,15 +1,7 @@
-.mapboxgl-control-container {
-  display: none;
-}
-
-
-
 .ck-editor__editable_inline {
   min-height: 150px;
   max-height: 400px;
 }
-
-
 
 .infobar {
   background-color: rgba(35, 55, 75, 0.9);
