@@ -32,19 +32,46 @@ const BadgeCircle = styled('span')({
   height: '10px',
 })
 
-const colors = ['#919EAB', '#FF462E', '#FF6A1A', '#FFC700']
+const colors = ['#919EAB', '#EF000E', '#FF912B', '#FFC90A', '#29A6FF']
+
+const filterButtons = [
+  {
+    label: 'Tout',
+    value: null,
+  },
+  {
+    label: 'Priorité 1',
+    value: 1,
+    badge: colors[1],
+  },
+  {
+    label: 'Priorité 2',
+    value: 2,
+    badge: colors[2],
+  },
+  {
+    label: 'Priorité 3',
+    value: 3,
+    badge: colors[3],
+  },
+  {
+    label: 'IP',
+    value: 100,
+    badge: colors[4],
+  },
+  {
+    label: 'Non prioritaire',
+    value: -1,
+    badge: colors[0],
+  },
+]
 
 const DTDAddressMap = ({ userScope }) => {
   const mapContainer = useRef(null)
   const [activePriority, setActivePriority] = useState(null)
-  /**
-   * @type {React.MutableRefObject<mapboxgl.Map>}
-   */
+  /** @type {React.MutableRefObject<mapboxgl.Map>} */
   const map = useRef()
-  /**
-   *
-   * @type {React.MutableRefObject<maxboxgl.Popup>}
-   */
+  /** @type {React.MutableRefObject<maxboxgl.Popup>} */
   const popup = useRef()
   const { handleError } = useErrorHandler()
 
@@ -59,7 +86,9 @@ const DTDAddressMap = ({ userScope }) => {
 
     if (activePriority) {
       if (activePriority === -1) {
-        filter.push(['!', ['has', 'score']])
+        filter.push(['all', ['!', ['has', 'score']], ['!', ['has', 'ip_score']]])
+      } else if (activePriority === 100) {
+        filter.push(['has', 'ip_score'])
       } else {
         filter.push([activePriority < 3 ? '==' : '>=', ['get', 'score'], activePriority])
       }
@@ -78,13 +107,14 @@ const DTDAddressMap = ({ userScope }) => {
   }
 
   const onMapReady = useCallback(() => {
+    const ipPoint = ['has', 'ip_score']
     const prio1 = ['==', ['get', 'score'], 1]
     const prio2 = ['==', ['get', 'score'], 2]
     const prio3 = ['>=', ['to-number', ['get', 'score']], 3]
 
     map.current.addSource('source-addresses', {
       type: 'vector',
-      url: 'mapbox://larem.fr-addresses-v1',
+      url: 'mapbox://larem.fr-addresses-v2-bis',
     })
 
     const filter = getFilter(zoneCode)
@@ -96,10 +126,22 @@ const DTDAddressMap = ({ userScope }) => {
         'source-layer': 'addresses',
         type: 'circle',
         ...(filter ? { filter } : {}),
-        'circle-sort-key': ['case', ['has', 'score'], 100, 0],
+        'circle-sort-key': ['case', ['has', 'score'], 100, ['has', 'ip_score'], 100, 0],
         paint: {
-          'circle-color': ['case', prio1, colors[1], prio2, colors[2], prio3, colors[3], colors[0]],
-          'circle-opacity': ['case', ['has', 'score'], 1, 0.6],
+          'circle-color': [
+            'case',
+            ...(zoneCode === 'FR' ? [ipPoint, colors[4]] : []),
+            prio1,
+            colors[1],
+            prio2,
+            colors[2],
+            prio3,
+            colors[3],
+            colors[0],
+          ],
+          'circle-opacity': ['case', ['has', 'score'], 1, ['has', 'ip_score'], 1, 0.6],
+          'circle-stroke-color': '#fff',
+          'circle-stroke-width': 1,
         },
       },
       'road-label'
@@ -183,57 +225,24 @@ const DTDAddressMap = ({ userScope }) => {
     <Grid container>
       <Grid item xs={12}>
         <Box sx={{ display: 'flex' }} gap={1}>
-          <UIChip
-            label="Tout"
-            color="#0369a1"
-            bgcolor="#f0f9ff"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handlePriorityChange(null)}
-          />
-          <UIChip
-            label={
-              <Box component="span" sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
-                <BadgeCircle sx={{ backgroundColor: colors[1] }} /> Priorité 1
-              </Box>
-            }
-            onClick={() => handlePriorityChange(1)}
-            color="#0369a1"
-            bgcolor="#f0f9ff"
-            sx={{ cursor: 'pointer' }}
-          />
-          <UIChip
-            label={
-              <Box component="span" sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
-                <BadgeCircle sx={{ backgroundColor: colors[2] }} /> Priorité 2
-              </Box>
-            }
-            onClick={() => handlePriorityChange(2)}
-            color="#0369a1"
-            bgcolor="#f0f9ff"
-            sx={{ cursor: 'pointer' }}
-          />
-          <UIChip
-            label={
-              <Box component="span" sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
-                <BadgeCircle sx={{ backgroundColor: colors[3] }} /> Priorité 3
-              </Box>
-            }
-            onClick={() => handlePriorityChange(3)}
-            color="#0369a1"
-            bgcolor="#f0f9ff"
-            sx={{ cursor: 'pointer' }}
-          />
-          <UIChip
-            label={
-              <Box component="span" sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
-                <BadgeCircle sx={{ backgroundColor: colors[0] }} /> Non prioritaire
-              </Box>
-            }
-            onClick={() => handlePriorityChange(-1)}
-            color="#0369a1"
-            bgcolor="#f0f9ff"
-            sx={{ cursor: 'pointer' }}
-          />
+          {filterButtons.map(({ label, value, badge }) => (
+            <UIChip
+              key={label}
+              label={
+                badge ? (
+                  <Box component="span" sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
+                    <BadgeCircle sx={{ backgroundColor: badge }} /> {label}
+                  </Box>
+                ) : (
+                  label
+                )
+              }
+              color="#0369a1"
+              bgcolor={activePriority === value ? '#f0f9ff' : '#fff'}
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handlePriorityChange(value)}
+            />
+          ))}
         </Box>
       </Grid>
       <Grid item xs={12}>
