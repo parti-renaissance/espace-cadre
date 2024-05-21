@@ -69,8 +69,9 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     getValues,
     reset,
     control,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<CreateEventForm>({
+    mode: 'onChange',
     defaultValues: {
       name: event?.name ?? '',
       categoryId: event?.category.slug,
@@ -298,16 +299,20 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
             <Stack direction="column" spacing={2} mt={2} width={'100%'}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <DatePicker
-                    label={watch('severalDays') ? 'Date de début' : 'Date'}
-                    slots={{ textField: TextField }}
-                    value={watch('beginAt')}
-                    minDate={new Date()}
-                    onChange={value => {
-                      setValue('beginAt', value as Date)
-                    }}
-                    sx={{ width: '100%' }}
+                  <Controller
+                    name="beginAt"
+                    control={control}
+                    defaultValue={new Date()}
+                    render={({ field: { onChange, value } }) => (
+                      <DatePicker
+                        label={watch('severalDays') ? 'Date de début' : 'Date'}
+                        value={value}
+                        onChange={newValue => onChange(newValue)}
+                        minDate={new Date()}
+                      />
+                    )}
                   />
+                  <FormHelperText sx={{ color: 'red' }}>{errors?.beginAt?.message}</FormHelperText>
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
@@ -364,13 +369,11 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
               </Grid>
 
               <Box>
-                {[errors.beginAt, errors.finishAt, errors.timeBeginAt, errors.timeFinishAt, errors.timeZone].map(
-                  (error, index) => (
-                    <FormHelperText sx={{ color: 'red' }} key={index}>
-                      {error?.message}
-                    </FormHelperText>
-                  )
-                )}
+                {[errors.finishAt, errors.timeBeginAt, errors.timeFinishAt, errors.timeZone].map((error, index) => (
+                  <FormHelperText sx={{ color: 'red' }} key={index}>
+                    {error?.message}
+                  </FormHelperText>
+                ))}
               </Box>
 
               <Box mt={2}>
@@ -562,7 +565,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
         <LoadingButton
           type="submit"
           variant="contained"
-          disabled={isSubmitting || isLoading}
+          disabled={isSubmitting || isLoading || !isValid}
           color="primary"
           loading={isLoading}
         >
