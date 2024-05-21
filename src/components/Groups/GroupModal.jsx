@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import { useMemo } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
@@ -13,12 +12,11 @@ import { createGroupQuery, updateGroupQuery } from '~/api/groups'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import UISelect from '~/ui/Select/Select'
 import Button from '~/ui/Button'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 import Dialog from '~/ui/Dialog'
-import { nationalScopes } from '~/shared/scopes'
 
 const Form = styled('form')`
   display: flex;
@@ -58,7 +56,7 @@ const GroupModal = ({ open, group, onCloseResolve, onCreateEditResolve }) => {
   const { handleError, errorMessages, resetErrorMessages } = useErrorHandler()
   const { enqueueSnackbar } = useCustomSnackbar()
   const [currentScope] = useUserScope()
-  const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
+  const isNational = currentScope.isNational()
   const { isMobile } = useCurrentDeviceType()
   const { mutateAsync: createOrUpdateGroup, isLoading } = useMutation(
     !group?.id ? createGroupQuery : updateGroupQuery,

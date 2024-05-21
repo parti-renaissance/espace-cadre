@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { styled } from '@mui/system'
 import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
-import { useUserScope } from '../../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
@@ -28,7 +28,6 @@ import GlobalSettings from './CreateEditGlobalSettings'
 import CallersAndSurvey from './CreateEditCallersAndSurvey'
 import Filters from './CreateEditFilters'
 import Dialog from '~/ui/Dialog'
-import { nationalScopes } from '~/shared/scopes'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -55,7 +54,7 @@ const CreateEdit = ({ campaign, onCreateResolve, onUpdateResolve, handleClose })
   const [currentScope] = useUserScope()
   const currentZone = formatCurrentZone(currentScope.zones[0])
   const initialStateWithZone = { ...initialValues.globalSettings, zone: currentZone }
-  const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
+  const isNational = currentScope?.isNational()
   const [globalSettings, setGlobalSettings] = useState(isNational ? initialValues.globalSettings : initialStateWithZone)
   const [validSteps, setValidSteps] = useState([2])
   const [callersAndSurvey, setCallersAndSurvey] = useState(initialValues.callersAndSurvey)

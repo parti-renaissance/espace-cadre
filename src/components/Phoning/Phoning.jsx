@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { generatePath, useNavigate } from 'react-router'
 import { Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/system'
@@ -15,8 +15,7 @@ import CreateEdit from './CreateEdit/CreateEdit'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import Loader from '~/ui/Loader'
 import PageHeader from '~/ui/PageHeader'
-import { useUserScope } from '../../redux/user/hooks'
-import { nationalScopes } from '~/shared/scopes'
+import { useUserScope } from '~/redux/user/hooks'
 
 const Title = styled(Typography)(
   ({ theme }) => `
@@ -54,7 +53,7 @@ const Phoning = () => {
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
   const { isMobile } = useCurrentDeviceType()
-  const isNational = useMemo(() => nationalScopes.includes(currentScope?.code), [currentScope?.code])
+  const isNational = currentScope?.isNational()
   const [KPISalt, setKPISalt] = useState(0)
 
   const refetchKPIs = () => {
