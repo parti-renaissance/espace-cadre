@@ -78,29 +78,32 @@ const DTDAddressMap = ({ userScope }) => {
   const zoneCode = userScope.isAnimator() ? userScope.getAttributes()?.dpt : userScope.zones[0].code
   const isNational = userScope.isNational()
 
-  const getFilter = (zoneCode, activePriority = null) => {
-    const filter = []
+  const getFilter = useCallback(
+    (zoneCode, activePriority = null) => {
+      const filter = []
 
-    if (zoneCode !== 'FR') {
-      filter.push(['==', ['get', 'dpt'], zoneCode.substring(0, 2)])
-    }
-
-    if (activePriority) {
-      if (activePriority === -1) {
-        filter.push(['all', ['!', ['has', 'score']], ...(isNational ? [['!', ['has', 'ip_score']]] : [])])
-      } else if (activePriority === 100 && isNational) {
-        filter.push(['has', 'ip_score'])
-      } else {
-        filter.push([activePriority < 3 ? '==' : '>=', ['get', 'score'], activePriority])
+      if (zoneCode !== 'FR') {
+        filter.push(['==', ['get', 'dpt'], zoneCode.substring(0, 2)])
       }
-    }
 
-    if (filter.length) {
-      return ['all', ...filter]
-    }
+      if (activePriority) {
+        if (activePriority === -1) {
+          filter.push(['all', ['!', ['has', 'score']], ...(isNational ? [['!', ['has', 'ip_score']]] : [])])
+        } else if (activePriority === 100 && isNational) {
+          filter.push(['has', 'ip_score'])
+        } else {
+          filter.push([activePriority < 3 ? '==' : '>=', ['get', 'score'], activePriority])
+        }
+      }
 
-    return null
-  }
+      if (filter.length) {
+        return ['all', ...filter]
+      }
+
+      return null
+    },
+    [isNational]
+  )
 
   const handlePriorityChange = priority => {
     setActivePriority(priority)
@@ -163,7 +166,7 @@ const DTDAddressMap = ({ userScope }) => {
       }),
       'top-right'
     )
-  }, [zoneCode])
+  }, [zoneCode, isNational, getFilter])
 
   useEffect(() => {
     map.current = createMap(mapContainer.current)
