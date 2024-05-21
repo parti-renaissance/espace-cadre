@@ -11,9 +11,8 @@ import PageHeader from '~/ui/PageHeader'
 import EditIcon from '~/ui/icons/EditIcon'
 import paths from '~/shared/paths'
 import CreateEdit from '../CreateEdit/CreateEdit'
-import { nationalScopes } from '~/shared/scopes'
-import { useUserScope } from '../../../redux/user/hooks'
-import { getCurrentUser } from '../../../redux/user/selectors'
+import { useUserScope } from '~/redux/user/hooks'
+import { getCurrentUser } from '~/redux/user/selectors'
 import { useSelector } from 'react-redux'
 
 const messages = {
@@ -29,8 +28,7 @@ export const SurveyDetail = () => {
   const { handleError } = useErrorHandler()
   const [currentScope] = useUserScope()
   const currentUser = useSelector(getCurrentUser)
-  const isLocal = !nationalScopes.includes(currentScope.code)
-  const isNational = nationalScopes.includes(currentScope.code)
+  const isNational = currentScope.isNational()
   const loggedUser = `${currentUser.firstName} ${currentUser.lastName}`
 
   const { data: surveyDetail = null, refetch: refetchSurvey } = useQueryWithScope(
@@ -50,7 +48,7 @@ export const SurveyDetail = () => {
     }
   )
   const isButtonVisible =
-    (isLocal && surveyAuthor === loggedUser && surveyDetail?.type === messages.local) ||
+    (!isNational && surveyAuthor === loggedUser && surveyDetail?.type === messages.local) ||
     (isNational && surveyAuthor === loggedUser && surveyDetail?.type === messages.national)
 
   if (!surveyDetail) {

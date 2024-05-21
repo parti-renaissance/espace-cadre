@@ -12,7 +12,7 @@ import { getSurveysQuery, getOneSurveyQuery, createOrUpdateSurveyQuery, getSurve
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import { getScopeVisibility, visibility } from './shared/constants'
 import SurveyItem from './SurveysItem'
 import SurveysKPI from './SurveysKPI'
@@ -21,7 +21,7 @@ import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import Loader from '~/ui/Loader'
 import PageHeader from '~/ui/PageHeader'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
-import scopes, { nationalScopes } from '~/shared/scopes'
+import scopes from '~/shared/scopes'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -61,7 +61,7 @@ const Surveys = () => {
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
   const { isMobile } = useCurrentDeviceType()
-  const isNational = nationalScopes.includes(scope)
+  const isNational = currentScope.isNational()
   const [selectedTab, setSelectedTab] = useState(isNational ? visibility.national : visibility.local)
   const [isCreateResolved, setIsCreateResolved] = useState(false)
 

@@ -76,6 +76,7 @@ const DTDAddressMap = ({ userScope }) => {
   const { handleError } = useErrorHandler()
 
   const zoneCode = userScope.isAnimator() ? userScope.getAttributes()?.dpt : userScope.zones[0].code
+  const isNational = userScope.isNational()
 
   const getFilter = (zoneCode, activePriority = null) => {
     const filter = []
@@ -86,8 +87,8 @@ const DTDAddressMap = ({ userScope }) => {
 
     if (activePriority) {
       if (activePriority === -1) {
-        filter.push(['all', ['!', ['has', 'score']], ['!', ['has', 'ip_score']]])
-      } else if (activePriority === 100) {
+        filter.push(['all', ['!', ['has', 'score']], ...(isNational ? [['!', ['has', 'ip_score']]] : [])])
+      } else if (activePriority === 100 && isNational) {
         filter.push(['has', 'ip_score'])
       } else {
         filter.push([activePriority < 3 ? '==' : '>=', ['get', 'score'], activePriority])
@@ -130,7 +131,7 @@ const DTDAddressMap = ({ userScope }) => {
         paint: {
           'circle-color': [
             'case',
-            ...(zoneCode === 'FR' ? [ipPoint, colors[4]] : []),
+            ...(isNational ? [ipPoint, colors[4]] : []),
             prio1,
             colors[1],
             prio2,
@@ -139,7 +140,7 @@ const DTDAddressMap = ({ userScope }) => {
             colors[3],
             colors[0],
           ],
-          'circle-opacity': ['case', ['has', 'score'], 1, ['has', 'ip_score'], 1, 0.6],
+          'circle-opacity': ['case', ['has', 'score'], 1, ...(isNational ? [['has', 'ip_score'], 1] : []), 0.6],
           'circle-stroke-color': '#fff',
           'circle-stroke-width': 1,
         },
@@ -225,24 +226,26 @@ const DTDAddressMap = ({ userScope }) => {
     <Grid container>
       <Grid item xs={12}>
         <Box sx={{ display: 'flex' }} gap={1}>
-          {filterButtons.map(({ label, value, badge }) => (
-            <UIChip
-              key={label}
-              label={
-                badge ? (
-                  <Box component="span" sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
-                    <BadgeCircle sx={{ backgroundColor: badge }} /> {label}
-                  </Box>
-                ) : (
-                  label
-                )
-              }
-              color="#0369a1"
-              bgcolor={activePriority === value ? '#f0f9ff' : '#fff'}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => handlePriorityChange(value)}
-            />
-          ))}
+          {filterButtons
+            .filter(filter => isNational || filter.value !== 100)
+            .map(({ label, value, badge }) => (
+              <UIChip
+                key={label}
+                label={
+                  badge ? (
+                    <Box component="span" sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
+                      <BadgeCircle sx={{ backgroundColor: badge }} /> {label}
+                    </Box>
+                  ) : (
+                    label
+                  )
+                }
+                color="#0369a1"
+                bgcolor={activePriority === value ? '#f0f9ff' : '#fff'}
+                sx={{ cursor: 'pointer' }}
+                onClick={() => handlePriorityChange(value)}
+              />
+            ))}
         </Box>
       </Grid>
       <Grid item xs={12}>

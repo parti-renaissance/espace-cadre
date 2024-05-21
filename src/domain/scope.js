@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import scopes, { isZonedScope } from '~/shared/scopes'
+import scopes, { isZonedScope, nationalScopes } from '~/shared/scopes'
 
 export class Scope {
   constructor({ code, name, zones, features, attributes, delegated_access }) {
@@ -55,6 +55,10 @@ export class Scope {
 
   isAnimator() {
     return this.getMainCode() === scopes.animator
+  }
+
+  isNational() {
+    return nationalScopes.includes(this.getMainCode())
   }
 }
 

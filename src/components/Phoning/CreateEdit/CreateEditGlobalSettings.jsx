@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types'
-import { useCallback, useMemo, useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { MenuItem, Select } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { useDebounce } from '~/components/shared/debounce'
 import { FormError } from '~/components/shared/error/components'
 import UIInput from '~/ui/Input/Input'
 import UIInputLabel from '~/ui/InputLabel/InputLabel'
-import { nationalScopes } from '~/shared/scopes'
 import { GlobalSettingsContext } from './shared/context'
 import { fields } from './shared/constants'
-import { useUserScope } from '../../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 
 const messages = {
   input: {
@@ -33,7 +32,7 @@ const CreateEditGlobalSettings = () => {
   const [inputValues, setInputValues] = useState(initialValues)
   const debounce = useDebounce()
   const [currentScope] = useUserScope()
-  const isNational = useMemo(() => nationalScopes.includes(currentScope.code), [currentScope.code])
+  const isNational = currentScope.isNational()
 
   const updateInputValues = useCallback((key, value) => {
     setInputValues(values => ({ ...values, [key]: value }))
