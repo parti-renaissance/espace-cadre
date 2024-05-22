@@ -216,7 +216,6 @@ export const CreateEventSchema = z
         required_error: 'La date de début est obligatoire',
       })
       .min(new Date(), 'La date de début ne peut pas être inférieure à la date du jour.')
-      .nullable()
       .or(z.string())
       .transform(arg => new Date(arg)),
     image: z.string().optional(),
