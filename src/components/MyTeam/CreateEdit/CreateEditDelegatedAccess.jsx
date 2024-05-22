@@ -7,7 +7,7 @@ import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 import { MyTeamMember as DomainMyTeamMember } from '~/domain/my-team'
 import Feature from './shared/components/Feature'
-import { useUserScope } from '../../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 
 const Title = styled(
   Typography,

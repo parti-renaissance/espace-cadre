@@ -1,6 +1,5 @@
 import { memo, useCallback, useState } from 'react'
 import { Box, Card, Container, Drawer, Grid } from '@mui/material'
-import features from '~/shared/features'
 import PageHeader from '~/ui/PageHeader'
 import Member from './Member/Member'
 import { useUserScope } from '~/redux/user/hooks'
@@ -12,6 +11,7 @@ import useExportActivists from '~/api/Activist/Hooks/useExportActivists'
 import { MuiSpacing } from '~/theme/spacing'
 import ActivistFilters from '~/components/Activists/Components/ActivistFilters'
 import { useDebounce } from '@uidotdev/usehooks'
+import { FeatureEnum } from '~/models/feature.enum'
 
 const messages = {
   title: 'Militants',
@@ -29,7 +29,7 @@ const Activists = () => {
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(25)
 
-  const isElectFeatureEnabled = currentScope.hasFeature(features.elected_representative)
+  const isElectFeatureEnabled = currentScope.hasFeature(FeatureEnum.ELECTED_REPRESENTATIVE)
 
   const { data: activists, isFetching } = useGetActivists({
     ...debouncedFilters,
@@ -84,7 +84,7 @@ const Activists = () => {
         <PageHeader
           title={messages.title}
           button={
-            currentScope.hasFeature(features.contacts_export) && (
+            currentScope.hasFeature(FeatureEnum.CONTACTS_EXPORT) && (
               <LoadingButton variant="contained" loading={isExporting} onClick={exportActivists}>
                 Exporter
               </LoadingButton>

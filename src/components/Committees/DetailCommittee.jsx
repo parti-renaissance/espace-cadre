@@ -15,12 +15,12 @@ import PageHeader from '~/ui/PageHeader'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import ConfirmButton from '~/ui/Button/ConfirmButton'
 import paths from '~/shared/paths'
-import features from '~/shared/features'
 import CreateEditModal from './CreateEditModal'
 import InformationTab from './Tabs/InformationTab'
 import ElectionsTab from './Tabs/ElectionsTab'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import { electionStatus } from './constants'
+import { FeatureEnum } from '~/models/feature.enum'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   textTransform: 'none',
@@ -157,7 +157,7 @@ const DetailCommittee = () => {
             disableFocusRipple
             data-cy="committee-detail-tab-info"
           />
-          {currentScope.hasFeature(features.designation) && (
+          {currentScope.hasFeature(FeatureEnum.DESIGNATION) && (
             <Tab
               value={messages.elections}
               label={<TabLabel>{messages.elections}</TabLabel>}
