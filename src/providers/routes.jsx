@@ -2,7 +2,6 @@ import { Suspense, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
 import paths from '~/shared/paths'
-import features from '~/shared/features'
 import Spinner from '~/ui/Spinner/Spinner'
 
 import Dashboard from '~/components/Dashboard'
@@ -31,6 +30,7 @@ import MandateListPage from '~/components/Procurations/Pages/MandateListPage'
 import MandateMatchPage from '~/components/Procurations/Pages/MandateMatchPage'
 import MandateValidationPage from '~/components/Procurations/Pages/MandateValidationPage'
 import MandateEditPage from '~/components/Procurations/Pages/MandateEditPage'
+import { FeatureEnum } from '~/models/feature.enum'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -41,60 +41,69 @@ const AppPrivateRoutes = () => {
     <Suspense fallback={<Spinner />}>
       <Routes>
         <Route path="*" element={<NoMatch />} />
-        <Route path={paths.dashboard} element={currentScope.hasFeature(features.dashboard) && <Dashboard />} />
-        <Route path={paths.contacts} element={currentScope.hasFeature(features.contacts) && <Activists />} />
-        <Route path={`${paths.messages}/*`} element={currentScope.hasFeature(features.messages) && <Messagerie />} />
+        <Route path={paths.dashboard} element={currentScope.hasFeature(FeatureEnum.DASHBOARD) && <Dashboard />} />
+        <Route path={paths.contacts} element={currentScope.hasFeature(FeatureEnum.CONTACTS) && <Activists />} />
+        <Route path={`${paths.messages}/*`} element={currentScope.hasFeature(FeatureEnum.MESSAGES) && <Messagerie />} />
         <Route
           path={`${paths.statutory_message}/*`}
-          element={currentScope.hasFeature(features.statutory_message) && <MailsStatutory />}
+          element={currentScope.hasFeature(FeatureEnum.STATUTORY_MESSAGE) && <MailsStatutory />}
         />
         <Route
           path={`${paths.elected_representative}/*`}
-          element={currentScope.hasFeature(features.elected_representative) && <ElectedRepresentative />}
+          element={currentScope.hasFeature(FeatureEnum.ELECTED_REPRESENTATIVE) && <ElectedRepresentative />}
         />
         <Route
           path={`${paths.adherent_formations}/*`}
-          element={currentScope.hasFeature(features.adherent_formations) && <Formations />}
+          element={currentScope.hasFeature(FeatureEnum.ADHERENT_FORMATIONS) && <Formations />}
         />
         <Route
           path={`${paths.general_meeting_reports}/*`}
-          element={currentScope.hasFeature(features.general_meeting_reports) && <GeneralReports />}
+          element={currentScope.hasFeature(FeatureEnum.GENERAL_MEETING_REPORTS) && <GeneralReports />}
         />
-        <Route path={`${paths.committee}/*`} element={currentScope.hasFeature(features.committee) && <Committees />} />
-        <Route path={`${paths.documents}/*`} element={currentScope.hasFeature(features.documents) && <Documents />} />
-        <Route path={paths.elections} element={currentScope.hasFeature(features.elections) && <Elections />} />
-        <Route path={paths.ripostes} element={currentScope.hasFeature(features.ripostes) && <Ripostes />} />
-        <Route path={`${paths.team}/*`} element={currentScope.hasFeature(features.team) && <Groups />} />
-        <Route path={paths.news} element={currentScope.hasFeature(features.news) && <News />} />
-        <Route path={`${paths.events}/*`} element={currentScope.hasFeature(features.events) && <Events />} />
-        <Route path={`${paths.survey}/*`} element={currentScope.hasFeature(features.survey) && <Surveys />} />
+        <Route
+          path={`${paths.committee}/*`}
+          element={currentScope.hasFeature(FeatureEnum.COMMITTEE) && <Committees />}
+        />
+        <Route
+          path={`${paths.documents}/*`}
+          element={currentScope.hasFeature(FeatureEnum.DOCUMENTS) && <Documents />}
+        />
+        <Route path={paths.elections} element={currentScope.hasFeature(FeatureEnum.ELECTIONS) && <Elections />} />
+        <Route path={paths.ripostes} element={currentScope.hasFeature(FeatureEnum.RIPOSTES) && <Ripostes />} />
+        <Route path={`${paths.team}/*`} element={currentScope.hasFeature(FeatureEnum.TEAM) && <Groups />} />
+        <Route path={paths.news} element={currentScope.hasFeature(FeatureEnum.NEWS) && <News />} />
+        <Route path={`${paths.events}/*`} element={currentScope.hasFeature(FeatureEnum.EVENTS) && <Events />} />
+        <Route path={`${paths.survey}/*`} element={currentScope.hasFeature(FeatureEnum.SURVEY) && <Surveys />} />
         <Route
           path={`${paths.phoning_campaign}/*`}
-          element={currentScope.hasFeature(features.phoning_campaign) && <Phoning />}
+          element={currentScope.hasFeature(FeatureEnum.PHONING_CAMPAIGN) && <Phoning />}
         />
         <Route
           path={`${paths.department_site}/*`}
-          element={currentScope.hasFeature(features.department_site) && <Site />}
+          element={currentScope.hasFeature(FeatureEnum.DEPARTMENT_SITE) && <Site />}
         />
-        <Route path={`${paths.pap}/*`} element={currentScope.hasFeature(features.pap) && <DTD />} />
-        <Route path={`${paths.pap_v2}/*`} element={currentScope.hasFeature(features.pap_v2) && <DTDLegislatives />} />
-        <Route path={`${paths.my_team}/*`} element={currentScope.hasFeature(features.my_team) && <MyTeam />} />
+        <Route path={`${paths.pap}/*`} element={currentScope.hasFeature(FeatureEnum.PAP) && <DTD />} />
+        <Route
+          path={`${paths.pap_v2}/*`}
+          element={currentScope.hasFeature(FeatureEnum.PAP_V2) && <DTDLegislatives />}
+        />
+        <Route path={`${paths.my_team}/*`} element={currentScope.hasFeature(FeatureEnum.MY_TEAM) && <MyTeam />} />
 
         <Route
           path={paths.procurations}
-          element={currentScope.hasFeature(features.procurations) && <MandateListPage />}
+          element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateListPage />}
         />
         <Route
           path={`${paths.procurations}/request/:id`}
-          element={currentScope.hasFeature(features.procurations) && <MandateMatchPage />}
+          element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateMatchPage />}
         />
         <Route
           path={`${paths.procurations}/request/:id/link`}
-          element={currentScope.hasFeature(features.procurations) && <MandateValidationPage />}
+          element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateValidationPage />}
         />
         <Route
           path={`${paths.procurations}/request/:id/edit`}
-          element={currentScope.hasFeature(features.procurations) && <MandateEditPage />}
+          element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateEditPage />}
         />
       </Routes>
     </Suspense>

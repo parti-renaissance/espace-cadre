@@ -20,9 +20,9 @@ import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { notifyMessages, notifyVariants } from '~/components/shared/notification/constants'
 import * as Sentry from '@sentry/react'
-import features from '~/shared/features'
 import { LoadingButton } from '@mui/lab'
 import { grey } from '~/theme/palette'
+import { FeatureEnum } from '~/models/feature.enum'
 
 const retryInterval = 2000
 const maxAttempts = 10
@@ -155,7 +155,7 @@ const Filters = () => {
         <Card>
           <CardContent>
             <DynamicFilters
-              feature={features.messages}
+              feature={FeatureEnum.MESSAGES}
               onSubmit={handleFiltersSubmit}
               values={defaultFilter}
               onReset={handleOnReset}

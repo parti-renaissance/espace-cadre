@@ -5,8 +5,8 @@ import SkeletonLine from '~/components/Skeleton/SkeletonLine'
 import { Grid } from '@mui/material'
 import { MuiSpacing } from '~/theme/spacing'
 import DynamicFilters from '~/components/Filters/DynamicFilters'
-import features from '~/shared/features'
 import { ActivistDefaultFilters } from '~/components/Activists/Activists'
+import { FeatureEnum } from '~/models/feature.enum'
 
 interface Props {
   apiFilters: FilterCategoryModel[]
@@ -27,7 +27,7 @@ export default function ActivistFiltersModal({ apiFilters, values, onChange, isL
           <DynamicFilters
             apiFilters={apiFilters}
             fetchFilters={false}
-            feature={features.contacts}
+            feature={FeatureEnum.CONTACTS}
             values={values}
             onSubmit={onChange}
             onReset={() => onChange(ActivistDefaultFilters)}

@@ -17,13 +17,13 @@ import PageHeader from '~/ui/PageHeader'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import EmptyContent from '~/ui/EmptyContent'
 import { mandates, functions } from '~/shared/constants'
-import features from '~/shared/features'
 import paths from '~/shared/paths'
 import DynamicFilters from '../Filters/DynamicFilters'
 import CreateEditModal from './CreateEditModal'
 import { Elected } from '~/domain/elected_representative'
 import { formatDate } from '~/shared/helpers'
 import Alert from '~/components/ElectedRepresentative/Alert'
+import { FeatureEnum } from '~/models/feature.enum'
 
 const messages = {
   title: 'Registre des élus',
@@ -193,7 +193,7 @@ const Dashboard = () => {
         </AccordionSummary>
         <AccordionDetails sx={{ backgroundColor: 'colors.gray.50', pt: 2.5 }}>
           <DynamicFilters
-            feature={features.elected_representative}
+            feature={FeatureEnum.ELECTED_REPRESENTATIVE}
             values={defaultFilter}
             onSubmit={newFilters => setFilters({ ...newFilters, ...{ page: 1 } })}
             onReset={() => {
