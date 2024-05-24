@@ -6,10 +6,10 @@ import { getEvents, getMyEvents } from '~/api/events'
 import PageHeader from '~/ui/PageHeader'
 import { messages } from '~/components/Events/shared/constants'
 import { paths as eventsPath } from '~/components/Events/shared/paths'
-import TabsComponent, { TabProps } from '~/components/Events/Components/Tabs'
-import { TabPanel } from '~/components/Events/Components'
+import TabsComponent, { TabProps } from '~/components/Tabs/Tabs'
 import Iconify from '~/mui/iconify'
 import EventList from '~/components/Events/pages/list/components/EventList'
+import TabPanel from '~/components/Tabs/TabPanel'
 
 const ListEvents = () => {
   const navigate = useNavigate()
