@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
-import ListActions from '~/components/Actions/screens/ListActions'
+import ActionsListPage from '~/components/Actions/Page/ActionsListPage'
 
 export default function ActionsRouter() {
   return (
     <Routes>
-      <Route path="/" element={<ListActions />} />
+      <Route path="/" element={<ActionsListPage />} />
     </Routes>
   )
 }

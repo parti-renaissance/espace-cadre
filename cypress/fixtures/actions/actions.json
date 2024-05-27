@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "count": 1,
+    "current_page": 1,
+    "items_per_page": 10,
+    "last_page": 1,
+    "total_items": 1
+  },
+  "items": [
+    {
+      "uuid": "1234567890",
+      "date": "2024-04-12",
+      "author": {
+        "uuid": "1234",
+        "first_names": "Nicolas",
+        "last_name": "Guillard"
+      },
+      "description": "Lorem ipsum dolor sit amet",
+      "type": "boitage",
+      "zones": {
+        "uuid": "12345",
+        "type": "borough",
+        "code": "1",
+        "name": "Quartier test"
+      },
+      "post_address": {
+        "address": "8 rue de la ville L’Eveque",
+        "city": "Paris",
+        "country": "FR",
+        "postal_code": "75008",
+        "city_name": "Paris",
+        "additional_address": null
+      }
+    },
+    {
+      "uuid": "1234567891",
+      "date": "2024-04-12",
+      "author": {
+        "uuid": "1234",
+        "first_names": "Nicolas",
+        "last_name": "Guillard"
+      },
+      "description": "Lorem ipsum dolor sit amet",
+      "type": "boitage",
+      "zones": {
+        "uuid": "12345",
+        "type": "borough",
+        "code": "1",
+        "name": "Quartier test"
+      },
+      "post_address": {
+        "address": "8 rue de la ville L’Eveque",
+        "city": "Paris",
+        "country": "FR",
+        "postal_code": "75008",
+        "city_name": "Paris",
+        "additional_address": null
+      }
+    },
+    {
+      "uuid": "1234567892",
+      "date": "2024-04-12",
+      "author": {
+        "uuid": "1234",
+        "first_names": "Nicolas",
+        "last_name": "Guillard"
+      },
+      "description": "Lorem ipsum dolor sit amet",
+      "type": "boitage",
+      "zones": {
+        "uuid": "12345",
+        "type": "borough",
+        "code": "1",
+        "name": "Quartier test"
+      },
+      "post_address": {
+        "address": "8 rue de la ville L’Eveque",
+        "city": "Paris",
+        "country": "FR",
+        "postal_code": "75008",
+        "city_name": "Paris",
+        "additional_address": null
+      }
+    },
+    {
+      "uuid": "1234567890",
+      "date": "2024-04-12",
+      "author": {
+        "uuid": "1234",
+        "first_names": "Nicolas",
+        "last_name": "Guillard"
+      },
+      "description": "Lorem ipsum dolor sit amet",
+      "type": "boitage",
+      "zones": {
+        "uuid": "12345",
+        "type": "borough",
+        "code": "1",
+        "name": "Quartier test"
+      },
+      "post_address": {
+        "address": "8 rue de la ville L’Eveque",
+        "city": "Paris",
+        "country": "FR",
+        "postal_code": "75008",
+        "city_name": "Paris",
+        "additional_address": null
+      }
+    },
+    {
+      "uuid": "1234567893",
+      "date": "2024-04-12",
+      "author": {
+        "uuid": "1234",
+        "first_names": "Nicolas",
+        "last_name": "Guillard"
+      },
+      "description": "Lorem ipsum dolor sit amet",
+      "type": "boitage",
+      "zones": {
+        "uuid": "12345",
+        "type": "borough",
+        "code": "1",
+        "name": "Quartier test"
+      },
+      "post_address": {
+        "address": "8 rue de la ville L’Eveque",
+        "city": "Paris",
+        "country": "FR",
+        "postal_code": "75008",
+        "city_name": "Paris",
+        "additional_address": null
+      }
+    }
+  ]
+}
