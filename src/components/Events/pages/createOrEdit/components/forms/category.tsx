@@ -3,6 +3,7 @@ import { Grid, Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'
 import { useQuery } from '@tanstack/react-query'
 import { getCategories } from '~/api/events'
+import { UseFormRegister } from 'react-hook-form'
 
 type Category = {
   id: number
@@ -14,13 +15,16 @@ type Category = {
 interface CategoryProps {
   category: string
   onClick: (e: React.MouseEvent<HTMLDivElement>, category: string) => void
-  register: any
+  type?: 'event' | 'action'
+  register: UseFormRegister<any>
 }
 
-const Category = ({ category, onClick, register }: CategoryProps) => {
+export default function Category({ category, onClick, register, type = 'event' }: CategoryProps) {
   const [categorySelected, setCategorySelected] = useState<string>(category)
 
-  const { data: categories, isLoading } = useQuery(['categories'], () => getCategories())
+  const { data: categories, isLoading } = useQuery(['categories', type], () =>
+    type === 'event' ? getCategories() : () => {}
+  )
 
   useEffect(() => {
     if (category) {
@@ -74,5 +78,3 @@ const Category = ({ category, onClick, register }: CategoryProps) => {
     </Grid>
   )
 }
-
-export default Category
