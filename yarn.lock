@@ -6011,10 +6011,10 @@ eslint-plugin-testing-library@^5.0.1:
   dependencies:
     "@typescript-eslint/utils" "^5.13.0"
 
-eslint-plugin-vitest-globals@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vitest-globals/-/eslint-plugin-vitest-globals-1.4.0.tgz#b9102bc87cd3e698ac40bfeb4cbe461b55721624"
-  integrity sha512-WE+YlK9X9s4vf5EaYRU0Scw7WItDZStm+PapFSYlg2ABNtaQ4zIG7wEqpoUB3SlfM+SgkhgmzR0TeJOO5k3/Nw==
+eslint-plugin-vitest-globals@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vitest-globals/-/eslint-plugin-vitest-globals-1.5.0.tgz#70d6fb118613543110dbee9dc59ed1032f019d72"
+  integrity sha512-ZSsVOaOIig0oVLzRTyk8lUfBfqzWxr/J3/NFMfGGRIkGQPejJYmDH3gXmSJxAojts77uzAGB/UmVrwi2DC4LYA==
 
 eslint-scope@^5.1.1:
   version "5.1.1"
