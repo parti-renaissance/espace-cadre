@@ -1,11 +1,13 @@
-import { Container as MuiContainer, Grid, Typography } from '@mui/material'
+import { Container as MuiContainer, Grid, Link, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import KpiEmailCampaign from './Charts/KpiEmailCampaign/KpiEmailCampaign'
 import TextChart from './Charts/TextChart/TextChart'
 import PageTitle from '~/ui/PageTitle'
-import { useUserScope } from '../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import EmptyContent from '~/ui/EmptyContent'
 import scopes from '~/shared/scopes'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { getHubItems } from '~/api/hub'
 
 const Container = styled(MuiContainer)`
   margin-bottom: ${({ theme }) => theme.spacing(2)};
@@ -21,6 +23,10 @@ const upcomingFeatureScopes = [scopes.phoning_national_manager, scopes.pap_natio
 
 const Dashboard = () => {
   const [currentScope] = useUserScope()
+
+  const { data: hubItems } = useQueryWithScope('hub_items', getHubItems, {
+    enabled: [scopes.president_departmental_assembly, scopes.legislative_candidate].includes(currentScope.code),
+  })
 
   if (currentScope.isAnimator()) {
     return (
@@ -59,12 +65,27 @@ const Dashboard = () => {
 
   return (
     <Container maxWidth={false}>
-      <Grid container>
+      <Grid container gap={1.5}>
         <PageTitle title={messages.title} breakpoints={{ xs: 12 }} />
         <TextChart />
         <Grid item xs={12}>
           <KpiEmailCampaign />
         </Grid>
+
+        {Array.isArray(hubItems) && hubItems.length > 0 && (
+          <>
+            <PageTitle title="Resources" breakpoints={{ xs: 12 }} />
+            <Grid container gap={1.5}>
+              {hubItems.map(item => (
+                <Grid item xs={6} key={item.uuid}>
+                  <Link href={item.url} target={'_blank'} rel="noreferrer noopener nofollow">
+                    <Typography>{item.title}</Typography>
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
       </Grid>
     </Container>
   )
