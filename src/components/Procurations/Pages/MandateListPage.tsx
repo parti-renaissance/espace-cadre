@@ -1,5 +1,5 @@
 import Page from '~/components/Page/Page'
-import TabsComponent, { TabProps } from '~/components/Events/Components/Tabs'
+import TabsComponent, { TabProps } from '~/components/Tabs/Tabs'
 import { useMemo, useState } from 'react'
 import { Grid } from '@mui/material'
 import { withBottomSpacing } from '~/theme/spacing'
