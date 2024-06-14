@@ -182,7 +182,7 @@ const ProxyItemComponent = ({
       id={item.id}
       expended={expended}
       maxProxyCount={item.slots}
-      linkedPeople={item.requests ?? undefined}
+      linkedPeople={item.proxy_slots ?? item.request_slots ?? undefined}
       extraInfos={buildExtraData(item)}
       onExpend={id =>
         setExpended(v => ({
@@ -199,7 +199,7 @@ const ProxyItemComponent = ({
       type={done ? MandatePersonCardType.MATCHED_PROXY : MandatePersonCardType.MATCH_PROXY}
       hideStateActions={done}
       onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
-      onPersonView={id => navigate(`${paths.procurations}/request/${id}/edit`)}
+      onPersonView={(id, round) => navigate(`${paths.procurations}/request/${id}/${round}/edit`)}
     />
   )
 }

@@ -94,15 +94,15 @@ const AppPrivateRoutes = () => {
           element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateListPage />}
         />
         <Route
-          path={`${paths.procurations}/request/:id`}
+          path={`${paths.procurations}/request/:id/:round`}
           element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateMatchPage />}
         />
         <Route
-          path={`${paths.procurations}/request/:id/link`}
+          path={`${paths.procurations}/request/:id/:round/link`}
           element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateValidationPage />}
         />
         <Route
-          path={`${paths.procurations}/request/:id/edit`}
+          path={`${paths.procurations}/request/:id/:round/edit`}
           element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateEditPage />}
         />
       </Routes>

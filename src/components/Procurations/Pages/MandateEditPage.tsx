@@ -30,7 +30,8 @@ export default function MandateEditPage() {
 
   const [noEmailCopy, setNoEmailCopy] = useState<boolean>(false)
 
-  const proxy = data?.proxy
+  const slot = data?.request_slots?.find(slot => slot.round.uuid === params.round)
+  const proxy = slot?.proxy
 
   const onToggle = useCallback(() => {
     setNoEmailCopy(v => !v)
@@ -46,6 +47,7 @@ export default function MandateEditPage() {
     mutateAsync({
       uuid: id,
       proxy: proxy.uuid,
+      round: params.round,
       emailCopy: !noEmailCopy,
     })
       .then(() => {

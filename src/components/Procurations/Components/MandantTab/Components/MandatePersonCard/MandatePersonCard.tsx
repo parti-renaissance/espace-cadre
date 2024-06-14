@@ -3,7 +3,6 @@ import { Button, Grid, Paper, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
 import { ReactNode } from 'react'
 import MandateCardEntry from '~/components/Procurations/Components/MandantTab/Components/MandateCardEntry'
-import MandatePeopleNumber from '~/components/Procurations/Components/MandantTab/Components/MandatePeopleNumber'
 import PersonWithAvatar from '~/components/Procurations/Components/PersonWithAvatar/PersonWithAvatar'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { LabelTypeModel } from '~/models/activist.model'
@@ -16,7 +15,7 @@ import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
 import MandatePersonCardStateActions from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardStateActions'
 import MandatePersonCardButtonGroup from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardButtonGroup'
-import { ReadableLightUserWithGenderModelWithMatcher } from '~/api/Procuration/procuration.model'
+import { SlotModel } from '~/api/Procuration/procuration.model'
 import { getFormattedDate } from '~/utils/date'
 
 export interface MandatePersonCardProps {
@@ -33,17 +32,18 @@ export interface MandatePersonCardProps {
   extraInfos?: KeyValueModel<string | ReactNode>[]
   onExpend?: (id: string) => void
   onNarrow?: (id: string) => void
+  roundId?: string
   // Display button "Trouver un mandataire"
   type: MandatePersonCardType
-  linkedPeople?: ReadableLightUserWithGenderModelWithMatcher[]
+  linkedPeople?: Array<SlotModel>
   maxProxyCount?: number
-  onSelect?: () => void
+  onSelect?: (roundId?: string) => void
   // Disable action buttons
   isProcessing?: boolean
   // Hide actions buttons "Trouver un mandataire", "Sélectionner" and so on.
   hideActions?: boolean
   hideStateActions?: boolean
-  onPersonView?: (id: string) => void
+  onPersonView?: (id: string, roundId: string) => void
   // Will deposit mandate in France
   inFrenchSoil?: boolean
 }
@@ -57,18 +57,16 @@ export enum MandatePersonCardType {
 }
 
 export default function MandatePersonCard(props: MandatePersonCardProps) {
+  const linkedPeople = props.linkedPeople
+    ? props.linkedPeople.map(x => ({ ...x, proxy: x.proxy ?? x.request ? [x.proxy ?? x.request] : [] }))
+    : undefined
+
   return (
     <Paper sx={{ mb: MuiSpacing.normal, p: MuiSpacing.normal, border: 1, borderColor: grey[200] }}>
       <Grid container alignItems="center" rowSpacing={MuiSpacing.normal} sx={{ mb: MuiSpacing.normal }}>
         <Grid item xs={6} md={8} lg={6}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
-
-        {!props.hideActions && (
-          <Grid item md={4} lg={6} textAlign="right" sx={{ display: { xs: 'none', md: 'block' } }}>
-            <MandatePersonCardButtonGroup {...props} />
-          </Grid>
-        )}
 
         <Grid item container gap={0.5} xs={12}>
           {[
@@ -93,63 +91,97 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
             />
           ))}
         </Grid>
+        <Grid item xs={12}>
+          <Divider sx={{ mt: MuiSpacing.normal }} />
+        </Grid>
 
-        {!props.hideActions && (
-          <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
+        {!props.hideActions && props.type !== MandatePersonCardType.FIND && (
+          <Grid item xs={12} textAlign="right">
+            {/* @ts-expect-error wkejfhkej */}
             <MandatePersonCardButtonGroup fullWidth {...props} />
           </Grid>
         )}
+
+        {linkedPeople?.map(x => (
+          <>
+            {props.type === MandatePersonCardType.FIND ? (
+              <Grid key={x.uuid} item xs={12}>
+                {x.proxy.length > 0 && (
+                  <Typography variant="h6" sx={{ mt: MuiSpacing.normal }}>
+                    {x.round.name}
+                  </Typography>
+                )}
+                {x.proxy.length < 1 && (
+                  <>
+                    <MandatePersonCardButtonGroup
+                      fullWidth
+                      {...props}
+                      onSelect={() => props.onSelect?.(x.round.uuid)}
+                      extraText={x.round.name}
+                    />
+                    <Divider sx={{ mt: MuiSpacing.normal }} />
+                  </>
+                )}
+              </Grid>
+            ) : null}
+
+            {x.proxy !== undefined &&
+              [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) && (
+                <MandateCardEntry
+                  title={pluralize(x.proxy.length, 'Procuration')}
+                  value={`${x.proxy.length}/${props.maxProxyCount}`}
+                />
+              )}
+
+            {x.proxy && x.proxy.length > 0 && (
+              <Grid item sx={{ mb: MuiSpacing.large }}>
+                <GroupContainer>
+                  <legend>
+                    <Typography color={'success.main'} fontSize={12}>
+                      {props.type === MandatePersonCardType.MATCHED_MANDANT
+                        ? 'Mandataire lié'
+                        : `${pluralize(x.proxy.length, 'Mandant')} ${pluralize(x.proxy.length, 'lié')}`}
+                    </Typography>
+                  </legend>
+
+                  {x.proxy.map(el =>
+                    el ? (
+                      <Grid sx={{ mb: MuiSpacing.small }} key={el.uuid}>
+                        <PersonWithAvatar
+                          firstName={el.first_names}
+                          lastName={el.last_name}
+                          src={props.avatarUrl}
+                          id={props.id}
+                          onPersonView={() => props.onPersonView?.(el.uuid, x.round.uuid)}
+                        />
+                        {/*@ts-expect-error fefwf */}
+                        {el.matched_at && (
+                          <Grid item mt={MuiSpacing.small}>
+                            <Typography fontSize={14} color={'text.secondary'}>
+                              {/*@ts-expect-error fefwf */}
+                              Lié le {getFormattedDate(el.matched_at)} par {el.matcher?.first_name}{' '}
+                              {/*@ts-expect-error fefwf */}
+                              {el.matcher?.last_name}
+                            </Typography>
+                          </Grid>
+                        )}
+                      </Grid>
+                    ) : null
+                  )}
+                </GroupContainer>
+              </Grid>
+            )}
+          </>
+        ))}
       </Grid>
 
-      {typeof props.peopleInSameVotePlace === 'number' ? (
+      {/* {typeof props.peopleInSameVotePlace === 'number' ? (
         <Grid container sx={{ mb: MuiSpacing.normal }}>
           <Grid item xs={12}>
             <MandatePeopleNumber count={props.peopleInSameVotePlace} />
           </Grid>
         </Grid>
-      ) : null}
-
-      {props.linkedPeople !== undefined &&
-        [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) && (
-          <MandateCardEntry
-            title={pluralize(props.linkedPeople.length, 'Procuration')}
-            value={`${props.linkedPeople.length}/${props.maxProxyCount}`}
-          />
-        )}
-
-      {props.linkedPeople && props.linkedPeople.length > 0 && (
-        <Grid item sx={{ mb: MuiSpacing.large }}>
-          <GroupContainer>
-            <legend>
-              <Typography color={'success.main'} fontSize={12}>
-                {props.type === MandatePersonCardType.MATCHED_MANDANT
-                  ? 'Mandataire lié'
-                  : `${pluralize(props.linkedPeople.length, 'Mandant')} ${pluralize(props.linkedPeople.length, 'lié')}`}
-              </Typography>
-            </legend>
-
-            {props.linkedPeople.map(el => (
-              <Grid sx={{ mb: MuiSpacing.small }} key={el.uuid}>
-                <PersonWithAvatar
-                  firstName={el.first_names}
-                  lastName={el.last_name}
-                  src={props.avatarUrl}
-                  id={props.id}
-                  onPersonView={() => props.onPersonView?.(el.uuid)}
-                />
-
-                {el.matched_at && (
-                  <Grid item mt={MuiSpacing.small}>
-                    <Typography fontSize={14} color={'text.secondary'}>
-                      Lié le {getFormattedDate(el.matched_at)} par {el.matcher?.first_name} {el.matcher?.last_name}
-                    </Typography>
-                  </Grid>
-                )}
-              </Grid>
-            ))}
-          </GroupContainer>
-        </Grid>
-      )}
+      ) : null} */}
 
       <MandateCardEntry title={'Bureau de vote'} value={props.votePlace} />
       <MandateCardEntry title={'Commune, pays...'} value={props.location} />

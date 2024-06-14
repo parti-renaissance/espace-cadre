@@ -4,12 +4,16 @@ import {
   MandatePersonCardType,
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 
-export default function MandatePersonCardButtonGroup(props: { fullWidth?: boolean } & MandatePersonCardProps) {
+export default function MandatePersonCardButtonGroup(
+  props: { fullWidth?: boolean; extraText?: string } & Omit<MandatePersonCardProps, 'onSelect'> & {
+      onSelect: () => void
+    }
+) {
   switch (props.type) {
     case MandatePersonCardType.FIND:
       return (
         <Button onClick={props.onSelect} variant={'contained'} fullWidth={props.fullWidth}>
-          Trouver un mandataire
+          Trouver un mandataire {props.extraText}
         </Button>
       )
     case MandatePersonCardType.MATCH_PROXY:
