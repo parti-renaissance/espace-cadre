@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
 
   config.preview = {
     port: 3000,
+    host: '127.0.0.1',
   }
 
   config.build = {

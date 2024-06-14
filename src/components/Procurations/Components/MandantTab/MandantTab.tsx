@@ -229,9 +229,7 @@ const MandateItemComponent = ({
       type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
       hideStateActions={done}
       onSelect={round => navigate(`${paths.procurations}/request/${item.uuid}/${round}`)}
-      onPersonView={
-        done ? (id, round) => navigate(`${paths.procurations}/request/${item.uuid}/${round}/edit`) : undefined
-      }
+      onPersonView={(id, round) => navigate(`${paths.procurations}/request/${item.uuid}/${round}/edit`)}
       inFrenchSoil={item.from_france}
     />
   )
