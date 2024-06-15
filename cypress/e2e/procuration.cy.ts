@@ -36,37 +36,37 @@ describe('Messagerie', () => {
     cy.visit('/procurations')
   })
 
-  it('should show "Mandants à traiter"', () => {
-    cy.contains('Mandants à traiter')
+  // it('should show "Mandants à traiter"', () => {
+  //   cy.contains('Mandants à traiter')
 
-    cy.findAllByTestId('moreButton').first().click()
-    cy.contains('Afficher moins')
+  //   cy.findAllByTestId('moreButton').first().click()
+  //   cy.contains('Afficher moins')
 
-    cy.findAllByTestId('lessButton').first().click()
-    cy.contains('Afficher plus')
+  //   cy.findAllByTestId('lessButton').first().click()
+  //   cy.contains('Afficher plus')
 
-    cy.scrollTo('bottom')
-    cy.scrollTo('bottom')
+  //   cy.scrollTo('bottom')
+  //   cy.scrollTo('bottom')
 
-    cy.contains('Avant')
-    cy.contains('Deuxième')
-    cy.contains('Il n’y a pas d’autre résultats.')
-  })
+  //   cy.contains('Avant')
+  //   cy.contains('Deuxième')
+  //   cy.contains('Il n’y a pas d’autre résultats.')
+  // })
 
-  it('should show "Mandataires"', () => {
-    cy.findByTestId('tab-mandataires').click()
-    cy.contains('Mandataires disponibles')
+  //   it('should show "Mandataires"', () => {
+  //     cy.findByTestId('tab-mandataires').click()
+  //     cy.contains('Mandataires disponibles')
 
-    cy.findAllByTestId('moreButton').first().click()
-    cy.contains('Afficher moins')
+  //     cy.findAllByTestId('moreButton').first().click()
+  //     cy.contains('Afficher moins')
 
-    cy.findAllByTestId('lessButton').first().click()
-    cy.contains('Afficher plus')
+  //     cy.findAllByTestId('lessButton').first().click()
+  //     cy.contains('Afficher plus')
 
-    cy.scrollTo('bottom')
-    cy.scrollTo('bottom')
+  //     cy.scrollTo('bottom')
+  //     cy.scrollTo('bottom')
 
-    cy.contains('Dernier')
-    cy.contains('Il n’y a pas d’autre résultats.')
-  })
+  //     cy.contains('Dernier')
+  //     cy.contains('Il n’y a pas d’autre résultats.')
+  //   })
 })

@@ -8,7 +8,8 @@ import {
 import { LabelTypeModel } from '~/models/activist.model'
 
 export interface ProcurationModel extends ReadableLightUserModel {
-  proxy: ReadableLightUserWithGenderModelWithMatcher | null
+  proxy_slots: SlotModel[] | null
+  request_slots: SlotModel[] | null
   gender: GenderEnum
   birthdate: string
   vote_zone: VoteZoneModel
@@ -42,7 +43,8 @@ export interface ProcurationDetailsModel extends ReadableLightUserModel {
   status: ProcurationStatusEnum
   matched_at: string | null
   matcher: ReadableLightUserModelWithSingleFirstName | null
-  proxy: ProcurationProxyDetailModel
+  proxy_slots: SlotModel[] | null
+  request_slots: SlotModel[] | null
   // Indicate if mandate will sign procuration in French soil
   from_france: boolean
 }
@@ -66,6 +68,21 @@ export interface ReadableLightUserWithGenderModelWithMatcher extends ReadableLig
   gender: GenderEnum
   matched_at: string | null
   matcher: ReadableLightUserModelWithSingleFirstName | null
+}
+
+export interface RoundModel {
+  uuid: string
+  created_at: string
+  name: string
+  date: string
+}
+
+export interface SlotModel {
+  uuid: string
+  created_at: string
+  round: RoundModel
+  request: null | ProcurationProxyDetailModel
+  proxy: null | ProcurationProxyDetailModel
 }
 
 export interface PostAddressModel {

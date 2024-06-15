@@ -199,7 +199,7 @@ const MandateItemComponent = ({
       tags={item.tags ?? []}
       id={item.id}
       expended={expended}
-      linkedPeople={item.proxy ? [item.proxy] : undefined}
+      linkedPeople={item.proxy_slots ?? item.request_slots ?? undefined}
       extraInfos={[
         {
           key: 'Âge',
@@ -228,8 +228,8 @@ const MandateItemComponent = ({
       }
       type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
       hideStateActions={done}
-      onSelect={() => navigate(`${paths.procurations}/request/${item.uuid}`)}
-      onPersonView={done ? () => navigate(`${paths.procurations}/request/${item.uuid}/edit`) : undefined}
+      onSelect={round => navigate(`${paths.procurations}/request/${item.uuid}/${round}`)}
+      onPersonView={(id, round) => navigate(`${paths.procurations}/request/${item.uuid}/${round}/edit`)}
       inFrenchSoil={item.from_france}
     />
   )

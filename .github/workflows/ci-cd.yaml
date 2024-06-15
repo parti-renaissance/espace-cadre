@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_OPTIONS: "--max_old_space_size=4096"
+  NODE_OPTIONS: '--max_old_space_size=4096'
   DOCKER_REGISTRY_HOST: ${{ secrets.GCP_HOST_GCR }}
   DOCKER_IMAGE: ${{ secrets.GCP_HOST_GCR }}/${{ secrets.GCP_REGISTRY_PROJECT_ID }}/${{ secrets.CLOUD_RUN_NAME }}
   SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
@@ -53,7 +53,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: yarn start-test
-          wait-on: 'http://localhost:3000'
+          wait-on: 'http://127.0.0.1:3000'
           browser: chrome
       - name: Archive test screenshots
         uses: actions/upload-artifact@v4

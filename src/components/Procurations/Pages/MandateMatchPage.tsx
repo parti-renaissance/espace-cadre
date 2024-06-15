@@ -25,7 +25,7 @@ export default function MandateMatchPage() {
   const { isError: procurationError, data, isLoading } = useProcurationRequest({ uuid: params.id })
   const { aggregate, hasNextPage, fetchNextPage, isInitialLoading } = useProcurationAvailableProxies({
     uuid: params.id,
-    params: {},
+    params: { round: params.round },
   })
 
   const [ref, entry] = useIntersectionObserver({
@@ -48,13 +48,13 @@ export default function MandateMatchPage() {
         return
       }
 
-      navigate(`${paths.procurations}/request/${params.id}/link`, {
+      navigate(`${paths.procurations}/request/${params.id}/${params.round}/link`, {
         state: {
           proxy,
         },
       })
     },
-    [navigate, params.id]
+    [navigate, params.id, params.round]
   )
 
   const setExpendedMemo = useCallback(
@@ -201,7 +201,7 @@ const Proxy = memo(
       expended={expended}
       maxProxyCount={el.slots}
       onSelect={onSelect}
-      linkedPeople={el.requests}
+      linkedPeople={el.request_slots ?? undefined}
       uuid={el.uuid}
     />
   )

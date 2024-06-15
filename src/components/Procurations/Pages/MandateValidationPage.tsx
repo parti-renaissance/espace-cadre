@@ -35,6 +35,8 @@ export default function MandateValidationPage() {
 
   const { proxy }: { proxy: AvailableProxyModel } = state
 
+  const slot = proxy.proxy_slots?.find(slot => slot.round.uuid === params.round)
+
   const onLink = useCallback(() => {
     const { id } = params
 
@@ -46,6 +48,7 @@ export default function MandateValidationPage() {
       uuid: id,
       proxy: proxy.uuid,
       emailCopy: !noEmailCopy,
+      round: params.round,
     })
       .then(() => {
         // We don't use "useSessionStorage" as it is not instant
@@ -120,6 +123,19 @@ export default function MandateValidationPage() {
 
                 <Grid item mb={MuiSpacing.normal} xs={12}>
                   <Divider />
+                </Grid>
+
+                <Grid container sx={{ mb: MuiSpacing.small }} spacing={MuiSpacing.normal}>
+                  <Grid item xs={4} sm={3}>
+                    <Typography fontWeight={fontWeight.medium} color={'text.secondary'} fontSize={12}>
+                      Election
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={8} sm={9}>
+                    <Typography fontSize={14} color={'text.primary'}>
+                      {slot?.round.name}
+                    </Typography>
+                  </Grid>
                 </Grid>
 
                 <Grid container sx={{ mb: MuiSpacing.small }} spacing={MuiSpacing.normal}>

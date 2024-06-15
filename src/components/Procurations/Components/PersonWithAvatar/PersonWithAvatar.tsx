@@ -13,6 +13,9 @@ interface Props {
 }
 
 export default function PersonWithAvatar({ src, firstName, lastName, id, onPersonView }: Props) {
+  if (!onPersonView) {
+    return null
+  }
   return (
     <Grid container sx={{ alignItems: 'center' }} spacing={MuiSpacing.normal}>
       <Grid item>
