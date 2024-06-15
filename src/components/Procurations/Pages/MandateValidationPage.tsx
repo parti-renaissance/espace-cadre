@@ -116,7 +116,7 @@ export default function MandateValidationPage() {
                       <Typography fontSize={14} color={'success.main'}>
                         {data?.vote_place_name}
                       </Typography>
-                      ) pour aller voter le 9 juin.
+                      ) pour aller voter.
                     </Typography>
                   </ListItem>
                 </List>
