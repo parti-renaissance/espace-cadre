@@ -46,7 +46,7 @@ const messages = {
     'En déléguant vos accès, ce membre de votre équipe agira en votre nom depuis cet espace d’administration.',
 }
 
-const skippedFeatures = ['mobile_app', 'my_team']
+const skippedFeatures = ['mobile_app']
 
 const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeatures }) => {
   const [currentScope] = useUserScope()
