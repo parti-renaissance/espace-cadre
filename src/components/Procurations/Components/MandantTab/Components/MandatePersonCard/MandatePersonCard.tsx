@@ -104,13 +104,14 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
         {linkedPeople?.map(x => (
           <>
+            <Grid key={x.uuid} item xs={12}>
+              <Typography variant="h6" sx={{ mt: MuiSpacing.normal }}>
+                {x.round.name}
+              </Typography>
+            </Grid>
+
             {props.type === MandatePersonCardType.FIND ? (
               <Grid key={x.uuid} item xs={12}>
-                {x.proxy.length > 0 && (
-                  <Typography variant="h6" sx={{ mt: MuiSpacing.normal }}>
-                    {x.round.name}
-                  </Typography>
-                )}
                 {x.proxy.length < 1 && (
                   <>
                     <MandatePersonCardButtonGroup
