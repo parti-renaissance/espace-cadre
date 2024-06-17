@@ -120,7 +120,13 @@ export default function MandateMatchPage() {
                 </Grid>
               )}
 
-              <Proxy expended={expended[el.id]} setExpended={setExpendedMemo} el={el} onSelect={onSelect(el)} />
+              <Proxy
+                expended={expended[el.id]}
+                setExpended={setExpendedMemo}
+                el={el}
+                onSelect={onSelect(el)}
+                roundId={params.round}
+              />
             </Fragment>
           ))}
 
@@ -157,21 +163,27 @@ const getSectionName = (type: MatchingLevelEnum) => {
   }
 }
 
-const MandateInfo = memo((data: ProcurationDetailsModel) => (
-  <MandatePersonCard
-    firstName={data.first_names}
-    lastName={data.last_name}
-    id={data.id}
-    location={data.vote_zone.name}
-    tags={data.tags ?? []}
-    votePlace={data.vote_place_name}
-    type={MandatePersonCardType.MATCH_MANDANT}
-    extraInfos={buildExtraData(data)}
-    expended
-    hideStateActions
-    inFrenchSoil={data.from_france}
-  />
-))
+const MandateInfo = memo((data: ProcurationDetailsModel) => {
+  const navigate = useNavigate()
+  return (
+    <MandatePersonCard
+      firstName={data.first_names}
+      lastName={data.last_name}
+      id={data.id}
+      uuid={data.uuid}
+      location={data.vote_zone.name}
+      tags={data.tags ?? []}
+      votePlace={data.vote_place_name}
+      type={MandatePersonCardType.MATCH_MANDANT}
+      extraInfos={buildExtraData(data)}
+      linkedPeople={data.request_slots ?? data.proxy_slots ?? undefined}
+      expended
+      onPersonView={(id, round) => navigate(`${paths.procurations}/request/${id}/${round}/edit`)}
+      hideStateActions
+      inFrenchSoil={data.from_france}
+    />
+  )
+})
 MandateInfo.displayName = 'MandateInfo'
 
 const Proxy = memo(
@@ -180,30 +192,37 @@ const Proxy = memo(
     setExpended,
     expended,
     onSelect,
+    roundId,
   }: {
     el: AvailableProxyModel
     setExpended: (id: string) => void
     onSelect: () => void
     expended: boolean
-  }) => (
-    <MandatePersonCard
-      key={el.uuid}
-      firstName={el.first_names}
-      lastName={el?.last_name}
-      id={el.id}
-      location={el.vote_zone.name}
-      tags={el.tags ?? []}
-      votePlace={el.vote_place_name}
-      type={MandatePersonCardType.MATCH_PROXY}
-      extraInfos={buildExtraData(el)}
-      onExpend={setExpended}
-      onNarrow={setExpended}
-      expended={expended}
-      maxProxyCount={el.slots}
-      onSelect={onSelect}
-      linkedPeople={el.request_slots ?? undefined}
-      uuid={el.uuid}
-    />
-  )
+    roundId: string | undefined
+  }) => {
+    const navigate = useNavigate()
+    return (
+      <MandatePersonCard
+        key={el.uuid}
+        firstName={el.first_names}
+        lastName={el?.last_name}
+        id={el.id}
+        location={el.vote_zone.name}
+        tags={el.tags ?? []}
+        roundId={roundId}
+        votePlace={el.vote_place_name}
+        type={MandatePersonCardType.MATCH_PROXY}
+        extraInfos={buildExtraData(el)}
+        onExpend={setExpended}
+        onNarrow={setExpended}
+        expended={expended}
+        maxProxyCount={el.slots}
+        onSelect={onSelect}
+        onPersonView={(id, round) => navigate(`${paths.procurations}/request/${id}/${round}/edit`)}
+        linkedPeople={el.request_slots ?? el.proxy_slots ?? undefined}
+        uuid={el.uuid}
+      />
+    )
+  }
 )
 Proxy.displayName = 'Proxy'

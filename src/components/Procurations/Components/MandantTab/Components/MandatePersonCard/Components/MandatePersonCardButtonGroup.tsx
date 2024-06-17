@@ -24,7 +24,7 @@ export default function MandatePersonCardButtonGroup(
           fullWidth={props.fullWidth}
           disabled={props.isProcessing}
         >
-          Sélectionner
+          Sélectionner {props.extraText}
         </Button>
       )
     case MandatePersonCardType.MATCH_MANDANT:
