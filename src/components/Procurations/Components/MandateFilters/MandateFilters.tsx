@@ -48,11 +48,11 @@ function MandateFilters({
   return (
     <form onSubmit={handleSubmit(onFilter)}>
       <Grid container spacing={MuiSpacing.normal}>
-        <Grid item xs={12} sm={12} md={4} lg={5}>
+        <Grid item xs={12} sm={12} md={12} lg={6}>
           <TextField
             fullWidth
             variant="outlined"
-            placeholder="Rechercher..."
+            placeholder="Rechercher par: prénom, nom, commune..."
             size="small"
             InputProps={{
               startAdornment: <Iconify icon="eva:search-fill" color={grey[500]} sx={{ mr: 1 }} />,
@@ -64,16 +64,16 @@ function MandateFilters({
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={8} lg container spacing={MuiSpacing.normal}>
+        <Grid item xs={12} sm={12} md={12} lg container spacing={MuiSpacing.normal}>
           {/* Only for proxy for now as we don’t have other filters yet */}
           {isProxy && (
-            <Grid item xs={4} lg={3}>
+            <Grid item xs={6} lg={4}>
               <Button variant="outlined" onClick={toggleModal} fullWidth>
                 Filtres
               </Button>
             </Grid>
           )}
-          <Grid item xs={8} lg>
+          <Grid item xs={6} lg={8}>
             <Button
               variant="outlined"
               onClick={onToggleClick}
