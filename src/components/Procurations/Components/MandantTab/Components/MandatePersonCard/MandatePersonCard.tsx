@@ -95,13 +95,6 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           <Divider sx={{ mt: MuiSpacing.normal }} />
         </Grid>
 
-        {!props.hideActions && props.type !== MandatePersonCardType.FIND && (
-          <Grid item xs={12} textAlign="right">
-            {/* @ts-expect-error wkejfhkej */}
-            <MandatePersonCardButtonGroup fullWidth {...props} />
-          </Grid>
-        )}
-
         {linkedPeople?.map(x => (
           <>
             <Grid key={x.uuid} item xs={12}>
@@ -110,8 +103,8 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
               </Typography>
             </Grid>
 
-            {props.type === MandatePersonCardType.FIND ? (
-              <Grid key={x.uuid} item xs={12}>
+            {props.type === MandatePersonCardType.FIND || props.roundId === x.round.uuid ? (
+              <Grid key={x.uuid} item xs={12} pb={2}>
                 {x.proxy.length < 1 && (
                   <>
                     <MandatePersonCardButtonGroup
@@ -153,7 +146,12 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
                           lastName={el.last_name}
                           src={props.avatarUrl}
                           id={props.id}
-                          onPersonView={() => props.onPersonView?.(el.uuid, x.round.uuid)}
+                          onPersonView={() =>
+                            props.onPersonView?.(
+                              MandatePersonCardType.MATCH_MANDANT === props.type ? props.uuid! : el.uuid,
+                              x.round.uuid
+                            )
+                          }
                         />
                         {/*@ts-expect-error fefwf */}
                         {el.matched_at && (
@@ -172,6 +170,9 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
                 </GroupContainer>
               </Grid>
             )}
+            <Grid item xs={12}>
+              <Divider sx={{ mt: MuiSpacing.normal }} />
+            </Grid>
           </>
         ))}
       </Grid>
