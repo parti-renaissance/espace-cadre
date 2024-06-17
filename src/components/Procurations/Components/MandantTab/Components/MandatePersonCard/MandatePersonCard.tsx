@@ -113,7 +113,6 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
                       onSelect={() => props.onSelect?.(x.round.uuid)}
                       extraText={x.round.name}
                     />
-                    <Divider sx={{ mt: MuiSpacing.normal }} />
                   </>
                 )}
               </Grid>

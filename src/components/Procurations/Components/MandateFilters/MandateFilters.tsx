@@ -52,7 +52,7 @@ function MandateFilters({
           <TextField
             fullWidth
             variant="outlined"
-            placeholder="Rechercher par: prénom, nom, commune..."
+            placeholder="Rechercher par prénom, nom, commune"
             size="small"
             InputProps={{
               startAdornment: <Iconify icon="eva:search-fill" color={grey[500]} sx={{ mr: 1 }} />,
