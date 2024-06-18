@@ -11,7 +11,7 @@ import { fontWeight } from '~/theme/typography'
 interface MandateFiltersProps {
   onFilter: (data: Record<string, string>) => void
   onToggleMore: (newValue: boolean) => void
-  isProxy?: boolean
+  isRequest?: boolean
   advanced?: boolean
   status?: ProcurationStatusEnum
 }
@@ -20,7 +20,7 @@ function MandateFilters({
   onFilter,
   onToggleMore,
   status = ProcurationStatusEnum.PENDING,
-  isProxy = false,
+  isRequest = false,
   advanced = false,
 }: Readonly<MandateFiltersProps>) {
   const { register, handleSubmit, control } = useForm({
@@ -45,7 +45,7 @@ function MandateFilters({
   }, [moreState, onToggleMore])
 
   const registeredSearch = register('search')
-  const demandStateOptions = isProxy ? proxyDemandStates : demandStates
+  const demandStateOptions = isRequest ? requestStatuses : defaultStatuses
 
   return (
     <form onSubmit={handleSubmit(onFilter)}>
@@ -148,11 +148,7 @@ function MandateFilters({
   )
 }
 
-const demandStates: { label: string; value: ProcurationStatusEnum }[] = [
-  {
-    value: ProcurationStatusEnum.PENDING,
-    label: 'En attente',
-  },
+const defaultStatuses: { label: string; value: ProcurationStatusEnum }[] = [
   {
     value: ProcurationStatusEnum.COMPLETED,
     label: 'Terminé',
@@ -163,8 +159,8 @@ const demandStates: { label: string; value: ProcurationStatusEnum }[] = [
   },
 ]
 
-const proxyDemandStates = [
-  ...demandStates,
+const requestStatuses = [
+  ...defaultStatuses,
   { value: ProcurationStatusEnum.EXCLUDED, label: 'Exclus' },
   { value: ProcurationStatusEnum.MANUAL, label: 'Manuel' },
 ]

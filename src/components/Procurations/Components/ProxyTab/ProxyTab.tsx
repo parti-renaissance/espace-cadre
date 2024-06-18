@@ -90,7 +90,6 @@ export default function ProxyTab({ done }: Props) {
               onToggleMore={onToggleMore}
               status={done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING}
               advanced={done}
-              isProxy
             />
           </Grid>
 
