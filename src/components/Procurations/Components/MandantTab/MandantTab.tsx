@@ -100,6 +100,7 @@ export default function MandantTab({ done = false }: Props) {
               status={done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING}
               onToggleMore={onToggleMore}
               advanced={done}
+              isRequest
             />
           </Grid>
 
