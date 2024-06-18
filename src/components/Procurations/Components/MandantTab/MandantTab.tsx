@@ -99,6 +99,7 @@ export default function MandantTab({ done = false }: Props) {
               onFilter={setCustomFilers}
               status={done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING}
               onToggleMore={onToggleMore}
+              advanced={done}
             />
           </Grid>
 

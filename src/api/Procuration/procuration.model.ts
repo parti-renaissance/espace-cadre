@@ -107,6 +107,7 @@ export enum ProcurationStatusEnum {
   MANUAL = 'manual',
   COMPLETED = 'completed',
   EXCLUDED = 'excluded',
+  DUPLICATE = 'duplicate',
 }
 
 export interface AvailableProxyModel extends ProcurationModel {

@@ -12,6 +12,7 @@ interface MandateFiltersProps {
   onFilter: (data: Record<string, string>) => void
   onToggleMore: (newValue: boolean) => void
   isProxy?: boolean
+  advanced?: boolean
   status?: ProcurationStatusEnum
 }
 
@@ -20,6 +21,7 @@ function MandateFilters({
   onToggleMore,
   status = ProcurationStatusEnum.PENDING,
   isProxy = false,
+  advanced = false,
 }: Readonly<MandateFiltersProps>) {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -65,8 +67,7 @@ function MandateFilters({
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg container spacing={MuiSpacing.normal}>
-          {/* Only for proxy for now as we don’t have other filters yet */}
-          {isProxy && (
+          {advanced && (
             <Grid item xs={6} lg={4}>
               <Button variant="outlined" onClick={toggleModal} fullWidth>
                 Filtres
@@ -102,14 +103,14 @@ function MandateFilters({
 
             <Grid item xs>
               <Typography fontSize={14} fontWeight={fontWeight.medium}>
-                Statuts
+                Statut
               </Typography>
             </Grid>
 
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel id="statuts-label" sx={{ bgcolor: 'white', px: MuiSpacing.smaller }}>
-                  Statuts
+                  Statut
                 </InputLabel>
                 <Controller
                   name="status"
@@ -155,6 +156,10 @@ const demandStates: { label: string; value: ProcurationStatusEnum }[] = [
   {
     value: ProcurationStatusEnum.COMPLETED,
     label: 'Terminé',
+  },
+  {
+    value: ProcurationStatusEnum.DUPLICATE,
+    label: 'Doublon',
   },
 ]
 
