@@ -3,6 +3,8 @@ import { useCustomSnackbar } from '../notification/hooks'
 import { getFormattedErrorMessages, handleGenericHttpErrors } from './helpers'
 import * as Sentry from '@sentry/react'
 
+const hasErrorDetail = x => typeof x === 'object' && x !== null && 'detail' in x
+
 export const useErrorHandler = () => {
   const [errorMessages, setErrorMessages] = useState([])
   const [errorRawMessage, setErrorRawMessage] = useState(null)
@@ -20,12 +22,13 @@ export const useErrorHandler = () => {
 
   const handleError = useCallback(
     error => {
-      const { response = { data: {} }, stack, message } = error
+      const { response = { data }, stack, message } = error
       const { status, data } = response
-      handleGenericHttpErrors(snackBarWithOptions, status, stack, message)
+      const errorMessage = hasErrorDetail(data) ? data.detail : message
+      handleGenericHttpErrors(snackBarWithOptions, status, stack, errorMessage)
       const formattedErrorMessages = getFormattedErrorMessages(data)
       setErrorMessages(formattedErrorMessages)
-      setErrorRawMessage(message)
+      setErrorRawMessage(errorMessage)
       Sentry.addBreadcrumb({
         category: 'request',
         message: Object.keys(data).length ? JSON.stringify(data) : message,

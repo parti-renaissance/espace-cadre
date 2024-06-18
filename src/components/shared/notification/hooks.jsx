@@ -11,7 +11,7 @@ export const useCustomSnackbar = () => {
     (message, variant = notifyVariants.success, detail = null, options = {}) => {
       const key = uuid()
       const content = (key, message) => (
-        <UISnackBar id={key} message={message} variant={variant}>
+        <UISnackBar id={key} message={message} variant={variant} expend>
           {detail}
         </UISnackBar>
       )

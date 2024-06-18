@@ -80,6 +80,7 @@ export default function MandateEditPage() {
             <Paper sx={{ p: MuiSpacing.normal }}>
               <Grid container>
                 <Grid container sx={{ mb: MuiSpacing.small }} spacing={MuiSpacing.normal}>
+                  <InfoLine label={'Tour'} value={slot?.round.name}></InfoLine>
                   <InfoLine label={'Bureau de vote'} value={data?.vote_place_name}></InfoLine>
                   <InfoLine
                     label={'Date de l’association'}

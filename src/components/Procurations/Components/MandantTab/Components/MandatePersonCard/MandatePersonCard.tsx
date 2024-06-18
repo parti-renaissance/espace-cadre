@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import Divider from '@mui/material/Divider'
-import { ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
 import MandateCardEntry from '~/components/Procurations/Components/MandantTab/Components/MandateCardEntry'
 import PersonWithAvatar from '~/components/Procurations/Components/PersonWithAvatar/PersonWithAvatar'
 import pluralize from '~/components/shared/pluralize/pluralize'
@@ -96,8 +96,8 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         </Grid>
 
         {linkedPeople?.map(x => (
-          <>
-            <Grid key={x.uuid} item xs={12}>
+          <Fragment key={x.uuid + props.id}>
+            <Grid item xs={12}>
               <Typography variant="h6" sx={{ mt: MuiSpacing.normal }}>
                 {x.round.name}
               </Typography>
@@ -139,7 +139,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
                   {x.proxy.map(el =>
                     el ? (
-                      <Grid sx={{ mb: MuiSpacing.small }} key={el.uuid}>
+                      <Grid sx={{ mb: MuiSpacing.small }} key={el.uuid + 'proxy'}>
                         <PersonWithAvatar
                           firstName={el.first_names}
                           lastName={el.last_name}
@@ -172,7 +172,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
             <Grid item xs={12}>
               <Divider sx={{ mt: MuiSpacing.normal }} />
             </Grid>
-          </>
+          </Fragment>
         ))}
       </Grid>
 
@@ -191,6 +191,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
       {props.extraInfos && <Divider sx={withBottomSpacing} />}
 
+      {!props.hideStateActions && <MandatePersonCardStateActions {...props} />}
       {!props.expended && props.onExpend && <ExpandButton onExpand={() => props.onExpend?.(props.id)} />}
 
       {props.expended && (
@@ -198,8 +199,6 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
 
           {props.onNarrow && <Divider sx={withBottomSpacing} />}
-
-          {!props.hideStateActions && <MandatePersonCardStateActions {...props} />}
 
           {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
