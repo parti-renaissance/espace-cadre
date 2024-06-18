@@ -31,7 +31,12 @@ describe('Mandate person card', () => {
   }
 
   it('Should expand card', async () => {
-    const tree = render(<MandatePersonCard {...payload} expended={false} />)
+    const queryClient = new QueryClient()
+    const tree = render(
+      <QueryClientProvider client={queryClient}>
+        <MandatePersonCard {...payload} expended={false} />
+      </QueryClientProvider>
+    )
 
     const moreButton = await tree.findByTestId('moreButton')
 

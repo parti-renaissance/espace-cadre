@@ -54,8 +54,8 @@ const Content = styled(
 `
 )
 
-const UISnackBar = forwardRef(({ id, message, variant, dismissResolve, children }, ref) => {
-  const [expanded, setExpanded] = useState(false)
+const UISnackBar = forwardRef(({ id, message, variant, dismissResolve, expend = false, children }, ref) => {
+  const [expanded, setExpanded] = useState(expend)
   const { closeSnackbar } = useCustomSnackbar()
 
   const handleExpandToggle = useCallback(() => {
@@ -100,6 +100,7 @@ UISnackBar.defaultProps = {
   content: null,
   dismissResolve: null,
   children: null,
+  expend: false,
 }
 UISnackBar.propTypes = {
   id: PropTypes.string.isRequired,
@@ -107,6 +108,7 @@ UISnackBar.propTypes = {
   variant: PropTypes.string.isRequired,
   children: PropTypes.node,
   dismissResolve: PropTypes.func,
+  expend: PropTypes.bool,
 }
 
 export default UISnackBar
