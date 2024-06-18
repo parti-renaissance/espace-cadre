@@ -89,6 +89,7 @@ export default function ProxyTab({ done }: Props) {
               onFilter={setCustomFilers}
               onToggleMore={onToggleMore}
               status={done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING}
+              advanced={done}
               isProxy
             />
           </Grid>
