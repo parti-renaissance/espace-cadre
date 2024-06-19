@@ -35,7 +35,6 @@ function MandateFilters({
   }, [moreState, onToggleMore])
 
   const registeredSearch = register('search')
-  const registeredStatus = register('status')
   const demandStateOptions = isRequest ? requestStatuses : defaultStatuses
   const onSubmit = handleSubmit(onFilter)
 
