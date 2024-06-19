@@ -81,6 +81,7 @@ export interface SlotModel {
   uuid: string
   created_at: string
   round: RoundModel
+  manual: boolean
   request: null | ProcurationProxyDetailModel
   proxy: null | ProcurationProxyDetailModel
 }
