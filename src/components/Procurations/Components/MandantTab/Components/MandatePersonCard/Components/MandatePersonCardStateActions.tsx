@@ -45,17 +45,15 @@ export function MandatePersonCardStateManual({
 
   return (
     <>
-      {!isProxy && (
-        <Button
-          variant={'soft'}
-          fullWidth
-          color={currentSlot.manual ? 'warning' : 'inherit'}
-          disabled={isLoading || shouldConfirmManual}
-          onClick={onManual}
-        >
-          {currentSlot.manual ? 'Retirer le traitement manuel' : 'Traité manuellement'}
-        </Button>
-      )}
+      <Button
+        variant={'soft'}
+        fullWidth
+        color={currentSlot.manual ? 'warning' : 'inherit'}
+        disabled={isLoading || shouldConfirmManual}
+        onClick={onManual}
+      >
+        {currentSlot.manual ? 'Retirer le traitement manuel' : 'Traité manuellement'}
+      </Button>
 
       {shouldConfirmManual && (
         <ConfirmationModal
