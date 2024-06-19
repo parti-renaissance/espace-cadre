@@ -13,7 +13,10 @@ import { grey, success, tagsColor } from '~/theme/palette'
 import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
-import MandatePersonCardStateActions from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardStateActions'
+import {
+  MandatePersonCardStateManual,
+  MandatePersonCardStateExclude,
+} from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardStateActions'
 import MandatePersonCardButtonGroup from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardButtonGroup'
 import { SlotModel } from '~/api/Procuration/procuration.model'
 import { getFormattedDate } from '~/utils/date'
@@ -67,6 +70,9 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         <Grid item xs={6} md={8} lg={6}>
           <PersonWithAvatar firstName={props.firstName} lastName={props.lastName} src={props.avatarUrl} id={props.id} />
         </Grid>
+        <Grid item xs={6} md={8} lg={6}>
+          {!props.hideStateActions && <MandatePersonCardStateExclude {...props} />}
+        </Grid>
 
         <Grid item container gap={0.5} xs={12}>
           {[
@@ -103,20 +109,31 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
               </Typography>
             </Grid>
 
-            {props.type === MandatePersonCardType.FIND || props.roundId === x.round.uuid ? (
-              <Grid key={x.uuid} item xs={12} pb={2}>
-                {x.proxy.length < 1 && (
-                  <>
-                    <MandatePersonCardButtonGroup
-                      fullWidth
-                      {...props}
-                      onSelect={() => props.onSelect?.(x.round.uuid)}
-                      extraText={x.round.name}
-                    />
-                  </>
-                )}
+            <Grid container justifyItems="center">
+              {props.type === MandatePersonCardType.FIND || props.roundId === x.round.uuid ? (
+                <>
+                  <Grid item xs={8} pb={2} pr={MuiSpacing.normal}>
+                    {x.proxy.length < 1 && (
+                      <MandatePersonCardButtonGroup
+                        fullWidth
+                        {...props}
+                        disabled={x.manual}
+                        onSelect={() => props.onSelect?.(x.round.uuid)}
+                        extraText={x.round.name}
+                      />
+                    )}
+                  </Grid>
+                  <Grid item xs={4}>
+                    <MandatePersonCardStateManual {...props} currentSlot={x} />
+                  </Grid>
+                </>
+              ) : null}
+            </Grid>
+            {[MandatePersonCardType.MATCHED_MANDANT].includes(props.type) && x.manual && (
+              <Grid item xs={12}>
+                <MandatePersonCardStateManual {...props} currentSlot={x} />
               </Grid>
-            ) : null}
+            )}
 
             {x.proxy !== undefined &&
               [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) && (
@@ -191,7 +208,6 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
       {props.extraInfos && <Divider sx={withBottomSpacing} />}
 
-      {!props.hideStateActions && <MandatePersonCardStateActions {...props} />}
       {!props.expended && props.onExpend && <ExpandButton onExpand={() => props.onExpend?.(props.id)} />}
 
       {props.expended && (

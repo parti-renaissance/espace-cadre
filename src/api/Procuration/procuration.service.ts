@@ -15,6 +15,8 @@ export const ProcurationServiceKey = {
 
 const base = 'v3/procuration/requests'
 const proxyBase = 'v3/procuration/proxies'
+const slotBase = 'v3/procuration/request_slots'
+const proxySlotBase = 'v3/procuration/proxy_slots'
 
 export const ProcurationService = {
   listRequests: ({ params, signal }: PaginatedApiQueryBaseModel): Promise<PaginatedDataModel<ProcurationModel>> =>
@@ -51,6 +53,11 @@ export const ProcurationService = {
     }),
   update: ({ uuid, status }: { uuid: string; status: ProcurationStatusEnum }) =>
     apiClient.patch(`${base}/${uuid}`, { status }),
+  updateProxySlot: ({ uuid, payload }: { uuid: string; payload: { manual: boolean } }) =>
+    apiClient.put(`${proxySlotBase}/${uuid}`, payload),
+
+  updateRequestSlot: ({ uuid, payload }: { uuid: string; payload: { manual: boolean } }) =>
+    apiClient.put(`${slotBase}/${uuid}`, payload),
   updateProxy: ({ uuid, status }: { uuid: string; status: ProcurationStatusEnum }) =>
     apiClient.patch(`${proxyBase}/${uuid}`, { status }),
 }
