@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material'
-import { useIntersectionObserver } from '@uidotdev/usehooks'
+import { useDebounce, useIntersectionObserver } from '@uidotdev/usehooks'
 import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
 import useProcurationProxies from '~/api/Procuration/Hooks/useProcurationProxies'
 import { AvailableProxyModel, ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
@@ -28,9 +28,19 @@ interface Props {
   done?: boolean
 }
 
+interface IFilters {
+  status: ProcurationStatusEnum[]
+  search?: string
+}
+
 export default function ProxyTab({ done }: Props) {
   const [expended, setExpended] = useState<Record<string, boolean>>({})
-  const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
+  const [customFilters, setCustomFilers] = useState<IFilters>({
+    status: done
+      ? [ProcurationStatusEnum.COMPLETED, ProcurationStatusEnum.DUPLICATE, ProcurationStatusEnum.EXCLUDED]
+      : [ProcurationStatusEnum.PENDING],
+  })
+  const debouncedFilters = useDebounce(customFilters, 400)
 
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
     useProcurationProxies({
@@ -38,8 +48,7 @@ export default function ProxyTab({ done }: Props) {
         order: {
           createdAt: 'asc',
         },
-        status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
-        ...customFilters,
+        ...debouncedFilters,
       },
     })
 
@@ -87,8 +96,8 @@ export default function ProxyTab({ done }: Props) {
           <Grid item xs sx={{ mb: MuiSpacing.normal }}>
             <MandateFilters
               onFilter={setCustomFilers}
+              status={debouncedFilters.status}
               onToggleMore={onToggleMore}
-              status={done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING}
               advanced={done}
             />
           </Grid>
@@ -175,6 +184,7 @@ const ProxyItemComponent = ({
       uuid={item.uuid}
       firstName={item.first_names}
       lastName={item.last_name}
+      status={item.status}
       votePlace={item.vote_place_name}
       location={item.vote_zone?.name}
       peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}

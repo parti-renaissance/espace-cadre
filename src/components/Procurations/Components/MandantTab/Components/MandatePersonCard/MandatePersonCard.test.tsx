@@ -6,6 +6,7 @@ import { fireEvent, render } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
 import { beforeAll, expect, vitest } from 'vitest'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
 
 describe('Mandate person card', () => {
   beforeAll(() => {
@@ -17,6 +18,7 @@ describe('Mandate person card', () => {
     avatarUrl: faker.image.url(),
     extraInfos: [],
     firstName: faker.person.firstName(),
+    status: ProcurationStatusEnum.PENDING,
     id: faker.string.uuid(),
     lastName: faker.person.lastName(),
     location: faker.person.jobArea(),

@@ -175,6 +175,7 @@ export default function MandateValidationPage() {
               <MandatePersonCard
                 firstName={data.first_names}
                 lastName={data.last_name}
+                status={data.status}
                 id={data.id}
                 location={data.vote_zone.name}
                 tags={data.tags ?? []}
@@ -195,6 +196,7 @@ export default function MandateValidationPage() {
               <MandatePersonCard
                 firstName={proxy.first_names}
                 lastName={proxy.last_name}
+                status={proxy.status}
                 id={proxy.id}
                 location={proxy.vote_zone.name}
                 tags={proxy.tags ?? []}

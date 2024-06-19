@@ -15,12 +15,13 @@ import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
 import MandatePersonCardStateActions from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardStateActions'
 import MandatePersonCardButtonGroup from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardButtonGroup'
-import { SlotModel } from '~/api/Procuration/procuration.model'
+import { PROCURATION_STATUS_LABELS, ProcurationStatusEnum, SlotModel } from '~/api/Procuration/procuration.model'
 import { getFormattedDate } from '~/utils/date'
 
 export interface MandatePersonCardProps {
   firstName: string
   lastName: string
+  status: string
   avatarUrl?: string
   tags: LabelTypeModel[]
   peopleInSameVotePlace?: number
@@ -73,11 +74,21 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
             MandatePersonCardType.MATCH_MANDANT,
             MandatePersonCardType.FIND,
             MandatePersonCardType.MATCHED_MANDANT,
-          ].includes(props.type) && <MandateTag done={props.type === MandatePersonCardType.MATCHED_MANDANT} />}
+          ].includes(props.type) &&
+            ((props.status !== ProcurationStatusEnum.PENDING && (
+              <>
+                <MandateTag status={'Mandant'} />
+                <MandateTag status={props.status} />
+              </>
+            )) || <MandateTag status={'Mandant'} />)}
 
-          {[MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) && (
-            <ProxyTag done={props.type === MandatePersonCardType.MATCHED_PROXY} />
-          )}
+          {[MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type) &&
+            ((props.status !== ProcurationStatusEnum.PENDING && (
+              <>
+                <ProxyTag status={'Mandataire'} />
+                <ProxyTag status={props.status} />
+              </>
+            )) || <ProxyTag status={'Mandataire'} />)}
 
           {props.tags.map(tag => (
             <UIChip
@@ -233,9 +244,9 @@ const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (
   </Grid>
 )
 
-const MandateTag = ({ done }: { done?: boolean }) => (
+const MandateTag = ({ status }: { status: string }) => (
   <UIChip
-    label={done ? 'Mandant traité' : 'Mandant'}
+    label={PROCURATION_STATUS_LABELS[status] ?? status}
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
@@ -243,9 +254,9 @@ const MandateTag = ({ done }: { done?: boolean }) => (
   />
 )
 
-const ProxyTag = ({ done }: { done?: boolean }) => (
+const ProxyTag = ({ status }: { status: string }) => (
   <UIChip
-    label={done ? 'Mandataire traité' : 'Mandataire'}
+    label={PROCURATION_STATUS_LABELS[status] ?? status}
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}

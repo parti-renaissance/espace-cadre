@@ -32,9 +32,23 @@ interface Props {
   done?: boolean
 }
 
+interface IFilters {
+  status: ProcurationStatusEnum[]
+  search?: string
+}
+
 export default function MandantTab({ done = false }: Props) {
   const [expended, setExpended] = useState<Record<string, boolean>>({})
-  const [customFilters, setCustomFilers] = useState<Record<string, string>>({})
+  const [customFilters, setCustomFilers] = useState<IFilters>({
+    status: done
+      ? [
+          ProcurationStatusEnum.COMPLETED,
+          ProcurationStatusEnum.DUPLICATE,
+          ProcurationStatusEnum.EXCLUDED,
+          ProcurationStatusEnum.MANUAL,
+        ]
+      : [ProcurationStatusEnum.PENDING],
+  })
   const debouncedFilters = useDebounce(customFilters, 400)
 
   const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
@@ -42,7 +56,6 @@ export default function MandantTab({ done = false }: Props) {
       order: {
         createdAt: 'asc',
       },
-      status: done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING,
       ...debouncedFilters,
     })
 
@@ -97,7 +110,7 @@ export default function MandantTab({ done = false }: Props) {
           <Grid item xs sx={{ mb: MuiSpacing.normal }}>
             <MandateFilters
               onFilter={setCustomFilers}
-              status={done ? ProcurationStatusEnum.COMPLETED : ProcurationStatusEnum.PENDING}
+              status={debouncedFilters.status}
               onToggleMore={onToggleMore}
               advanced={done}
               isRequest
@@ -193,6 +206,7 @@ const MandateItemComponent = ({
     <MandatePersonCard
       hideActions={done}
       uuid={item.uuid}
+      status={item.status}
       firstName={item.first_names}
       lastName={item.last_name}
       votePlace={item.vote_place_name}

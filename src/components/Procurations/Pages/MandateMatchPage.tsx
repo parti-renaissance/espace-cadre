@@ -169,6 +169,7 @@ const MandateInfo = memo((data: ProcurationDetailsModel) => {
     <MandatePersonCard
       firstName={data.first_names}
       lastName={data.last_name}
+      status={data.status}
       id={data.id}
       uuid={data.uuid}
       location={data.vote_zone.name}
@@ -206,6 +207,7 @@ const Proxy = memo(
         key={el.uuid}
         firstName={el.first_names}
         lastName={el?.last_name}
+        status={el?.status}
         id={el.id}
         location={el.vote_zone.name}
         tags={el.tags ?? []}

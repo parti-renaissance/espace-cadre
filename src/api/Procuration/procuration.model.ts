@@ -53,6 +53,7 @@ export interface ProcurationProxyDetailModel extends EmailPhoneModel {
   first_names: string
   last_name: string
   uuid: string
+  status: ProcurationStatusEnum
   id: string
   vote_place_name: string
   vote_zone: VoteZoneModel
@@ -108,6 +109,14 @@ export enum ProcurationStatusEnum {
   COMPLETED = 'completed',
   EXCLUDED = 'excluded',
   DUPLICATE = 'duplicate',
+}
+
+export const PROCURATION_STATUS_LABELS = {
+  [ProcurationStatusEnum.PENDING]: 'En attente',
+  [ProcurationStatusEnum.DUPLICATE]: 'Doublon',
+  [ProcurationStatusEnum.EXCLUDED]: 'Exclu',
+  [ProcurationStatusEnum.MANUAL]: 'Traité',
+  [ProcurationStatusEnum.COMPLETED]: 'Traité',
 }
 
 export interface AvailableProxyModel extends ProcurationModel {
