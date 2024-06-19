@@ -1,25 +1,23 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { grey } from '~/theme/palette'
 import Iconify from '~/mui/iconify'
 import { Controller, useForm } from 'react-hook-form'
 import { MuiSpacing } from '~/theme/spacing'
-import ModalBase from '~/components/ModalBase/ModalBase'
 import { memo, useCallback, useState } from 'react'
 import { ProcurationStatusEnum } from '~/api/Procuration/procuration.model'
-import { fontWeight } from '~/theme/typography'
 
 interface MandateFiltersProps {
-  onFilter: (data: Record<string, string>) => void
+  onFilter: (data: { status: ProcurationStatusEnum[]; search: string }) => void
   onToggleMore: (newValue: boolean) => void
+  status: ProcurationStatusEnum[]
   isRequest?: boolean
   advanced?: boolean
-  status?: ProcurationStatusEnum
 }
 
 function MandateFilters({
   onFilter,
   onToggleMore,
-  status = ProcurationStatusEnum.PENDING,
+  status,
   isRequest = false,
   advanced = false,
 }: Readonly<MandateFiltersProps>) {
@@ -29,15 +27,7 @@ function MandateFilters({
       search: '',
     },
   })
-  const [showModal, setShowModal] = useState(false)
   const [moreState, setMoreState] = useState(false)
-
-  const toggleModal = useCallback(() => setShowModal(v => !v), [])
-
-  const filterThenClose = useCallback(() => {
-    handleSubmit(onFilter)()
-    setShowModal(false)
-  }, [handleSubmit, onFilter])
 
   const onToggleClick = useCallback(() => {
     onToggleMore(!moreState)
@@ -46,35 +36,62 @@ function MandateFilters({
 
   const registeredSearch = register('search')
   const demandStateOptions = isRequest ? requestStatuses : defaultStatuses
+  const onSubmit = handleSubmit(onFilter)
 
   return (
-    <form onSubmit={handleSubmit(onFilter)}>
+    <form onSubmit={onSubmit}>
       <Grid container spacing={MuiSpacing.normal}>
-        <Grid item xs={12} sm={12} md={12} lg={6}>
+        <Grid item xs={12} sm={12} md={12} lg={4}>
           <TextField
             fullWidth
             variant="outlined"
-            placeholder="Rechercher par prénom, nom, commune"
+            placeholder="Prénom, nom, commune, bureau de vote"
             size="small"
+            label="Rechercher"
             InputProps={{
               startAdornment: <Iconify icon="eva:search-fill" color={grey[500]} sx={{ mr: 1 }} />,
             }}
             {...register('search')}
             onChange={ev => {
-              onFilter({ search: ev.target.value })
               registeredSearch.onChange(ev)
+              onSubmit()
             }}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg container spacing={MuiSpacing.normal}>
           {advanced && (
-            <Grid item xs={6} lg={4}>
-              <Button variant="outlined" onClick={toggleModal} fullWidth>
-                Filtres
-              </Button>
+            <Grid item xs={6} lg={6}>
+              <FormControl fullWidth>
+                <InputLabel id="statuts-label" sx={{ bgcolor: 'white', px: MuiSpacing.smaller }}>
+                  Statut
+                </InputLabel>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      fullWidth
+                      size="small"
+                      labelId="statuts-label"
+                      onChange={ev => {
+                        onChange(ev)
+                        onSubmit()
+                      }}
+                      value={value}
+                      multiple={true}
+                    >
+                      {demandStateOptions.map(el => (
+                        <MenuItem key={el.label} value={el.value}>
+                          {el.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
             </Grid>
           )}
-          <Grid item xs={6} lg={8}>
+          <Grid item xs={6} lg={6}>
             <Button
               variant="outlined"
               onClick={onToggleClick}
@@ -91,59 +108,6 @@ function MandateFilters({
           </Grid>
         </Grid>
       </Grid>
-
-      {showModal && (
-        <ModalBase pageOnMobile>
-          <Grid container spacing={MuiSpacing.normal}>
-            <Grid item sx={{ display: { xs: 'block', sm: 'none' } }}>
-              <Button startIcon={<Iconify icon="eva:arrow-ios-back-fill" />} onClick={toggleModal}>
-                Retour
-              </Button>
-            </Grid>
-
-            <Grid item xs>
-              <Typography fontSize={14} fontWeight={fontWeight.medium}>
-                Statut
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="statuts-label" sx={{ bgcolor: 'white', px: MuiSpacing.smaller }}>
-                  Statut
-                </InputLabel>
-                <Controller
-                  name="status"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Select fullWidth labelId="statuts-label" onChange={onChange} value={value}>
-                      <MenuItem value={undefined}>Tous</MenuItem>
-                      {demandStateOptions.map(el => (
-                        <MenuItem key={el.label} value={el.value}>
-                          {el.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} container spacing={MuiSpacing.small} justifyContent="flex-end">
-              <Grid item>
-                <Button onClick={toggleModal} fullWidth>
-                  Annuler
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" onClick={filterThenClose} fullWidth>
-                  Filtrer
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </ModalBase>
-      )}
     </form>
   )
 }
@@ -154,15 +118,15 @@ const defaultStatuses: { label: string; value: ProcurationStatusEnum }[] = [
     label: 'Terminé',
   },
   {
+    value: ProcurationStatusEnum.EXCLUDED,
+    label: 'Exclus',
+  },
+  {
     value: ProcurationStatusEnum.DUPLICATE,
     label: 'Doublon',
   },
 ]
 
-const requestStatuses = [
-  ...defaultStatuses,
-  { value: ProcurationStatusEnum.EXCLUDED, label: 'Exclus' },
-  { value: ProcurationStatusEnum.MANUAL, label: 'Manuel' },
-]
+const requestStatuses = [...defaultStatuses, { value: ProcurationStatusEnum.MANUAL, label: 'Manuel' }]
 
 export default memo(MandateFilters)
