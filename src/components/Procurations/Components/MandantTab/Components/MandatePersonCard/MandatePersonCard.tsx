@@ -121,29 +121,30 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
             </Grid>
 
             <Grid container justifyItems="center">
-              {[MandatePersonCardType.FIND].includes(props.type) || props.roundId === x.round.uuid
-                ? x.proxy.length < 1 && (
-                    <>
-                      <Grid item xs={8} pb={2} pr={MuiSpacing.normal}>
-                        <MandatePersonCardButtonGroup
-                          fullWidth
-                          {...props}
-                          disabled={x.manual}
-                          onSelect={() => props.onSelect?.(x.round.uuid)}
-                          extraText={x.round.name}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <MandatePersonCardStateManual {...props} currentSlot={x} />
-                      </Grid>
-                    </>
-                  )
-                : null}
+              <>
+                {([MandatePersonCardType.FIND].includes(props.type) || props.roundId === x.round.uuid) &&
+                  x.proxy.length < 1 && (
+                    <Grid item xs={8} py={2} pr={MuiSpacing.normal}>
+                      <MandatePersonCardButtonGroup
+                        fullWidth
+                        {...props}
+                        disabled={x.manual}
+                        onSelect={() => props.onSelect?.(x.round.uuid)}
+                        extraText={x.round.name}
+                      />
+                    </Grid>
+                  )}
+                {[MandatePersonCardType.FIND].includes(props.type) && x.proxy.length < 1 && (
+                  <Grid item xs={4} py={2}>
+                    <MandatePersonCardStateManual {...props} currentSlot={x} />
+                  </Grid>
+                )}
+              </>
             </Grid>
             {(([MandatePersonCardType.MATCHED_MANDANT, MandatePersonCardType.MATCHED_PROXY].includes(props.type) &&
               x.manual) ||
-              [MandatePersonCardType.MATCH_PROXY].includes(props.type)) && (
-              <Grid item xs={12}>
+              ([MandatePersonCardType.MATCH_PROXY].includes(props.type) && !props.roundId)) && (
+              <Grid item xs={12} pb={4}>
                 <MandatePersonCardStateManual {...props} currentSlot={x} />
               </Grid>
             )}
