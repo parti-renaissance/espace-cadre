@@ -41,12 +41,7 @@ export default function MandantTab({ done = false }: Props) {
   const [expended, setExpended] = useState<Record<string, boolean>>({})
   const [customFilters, setCustomFilers] = useState<IFilters>({
     status: done
-      ? [
-          ProcurationStatusEnum.COMPLETED,
-          ProcurationStatusEnum.DUPLICATE,
-          ProcurationStatusEnum.EXCLUDED,
-          ProcurationStatusEnum.MANUAL,
-        ]
+      ? [ProcurationStatusEnum.COMPLETED, ProcurationStatusEnum.DUPLICATE, ProcurationStatusEnum.EXCLUDED]
       : [ProcurationStatusEnum.PENDING],
   })
   const debouncedFilters = useDebounce(customFilters, 400)
@@ -113,7 +108,6 @@ export default function MandantTab({ done = false }: Props) {
               status={debouncedFilters.status}
               onToggleMore={onToggleMore}
               advanced={done}
-              isRequest
             />
           </Grid>
 
@@ -125,10 +119,10 @@ export default function MandantTab({ done = false }: Props) {
                 <p>
                   <Typography fontWeight={fontWeight.medium}>
                     {sprintf(
-                      '%i %s %s',
+                      '%s %s %s',
                       formatToFrenchNumberString(total),
                       pluralize(total, 'Mandant'),
-                      done ? pluralize(total, 'Traité') : ''
+                      done ? pluralize(total, 'traité') : ''
                     )}
                   </Typography>
                 </p>

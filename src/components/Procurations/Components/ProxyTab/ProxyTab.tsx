@@ -110,7 +110,7 @@ export default function ProxyTab({ done }: Props) {
                 <p>
                   <Typography fontWeight={fontWeight.medium}>
                     {sprintf(
-                      '%i %s %s',
+                      '%s %s %s',
                       formatToFrenchNumberString(total),
                       pluralize(total, 'Mandataire'),
                       done ? pluralize(total, 'traité') : ''
