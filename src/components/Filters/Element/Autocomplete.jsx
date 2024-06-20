@@ -23,6 +23,7 @@ const Autocomplete = ({
   renderOption,
   defaultValue,
   value,
+  ...rest
 }) => {
   const [inputValue, setInputValue] = useState(defaultValue[labelParam])
   const [open, setOpen] = useState(false)
@@ -74,6 +75,7 @@ const Autocomplete = ({
       renderOption={renderOption || defaultRenderOptions}
       isOptionEqualToValue={(option, selectedValue) => option[valueParam] === selectedValue[valueParam]}
       autoComplete
+      size={rest.size ?? 'medium'}
     />
   )
 }
