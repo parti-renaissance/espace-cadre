@@ -27,7 +27,7 @@
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.1",
     "file-saver": "^2.0.5",
-    "filepond": "^4.30.6",
+    "filepond": "^4.31.1",
     "formik": "^2.4.6",
     "jme-ckeditor5": "EnMarche/ckeditor5#master",
     "libphonenumber-js": "^1.10.54",
