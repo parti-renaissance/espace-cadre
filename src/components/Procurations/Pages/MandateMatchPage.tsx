@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import Page from '~/components/Page/Page'
-import { Grid, Typography } from '@mui/material'
+import { Grid, TextField, Typography } from '@mui/material'
 import { gridStandardLayout, MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import useProcurationRequest from '~/api/Procuration/Hooks/useProcurationRequest'
 import MandatePersonCard, {
@@ -13,19 +13,27 @@ import { fontWeight } from '~/theme/typography'
 import Divider from '@mui/material/Divider'
 import { grey } from '~/theme/palette'
 import useProcurationAvailableProxies from '~/api/Procuration/Hooks/useProcurationAvailableProxies'
-import { useIntersectionObserver } from '@uidotdev/usehooks'
+import { useDebounce, useIntersectionObserver } from '@uidotdev/usehooks'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
 import buildExtraData from '~/components/Procurations/Utils/buildExtraData'
+import Iconify from '~/mui/iconify'
+import ZoneAutocomplete from '~/components/Filters/Element/ZoneAutocomplete'
+import Loader from '~/ui/Loader'
 
 export default function MandateMatchPage() {
   const params = useParams()
   const navigate = useNavigate()
+  const [filters, setFilters] = useState<Record<string, any>>({
+    search: '',
+    zone: null,
+  })
+  const debouncedFilters = useDebounce(filters, 500)
 
   const { isError: procurationError, data, isLoading } = useProcurationRequest({ uuid: params.id })
-  const { aggregate, hasNextPage, fetchNextPage, isInitialLoading } = useProcurationAvailableProxies({
+  const { aggregate, hasNextPage, fetchNextPage, isInitialLoading, isFetching } = useProcurationAvailableProxies({
     uuid: params.id,
-    params: { round: params.round },
+    params: { round: params.round, search: debouncedFilters.search, zone: debouncedFilters.zone?.uuid },
   })
 
   const [ref, entry] = useIntersectionObserver({
@@ -110,25 +118,55 @@ export default function MandateMatchPage() {
             </Typography>
           </Grid>
 
-          {aggregate?.map((el, index) => (
-            <Fragment key={el.uuid}>
-              {el.matching_level && (index === 0 || el.matching_level !== aggregate[index - 1].matching_level) && (
-                <Grid item {...withBottomSpacing}>
-                  <Typography color={'success.main'} fontSize={14}>
-                    {getSectionName(el.matching_level)}
-                  </Typography>
-                </Grid>
-              )}
-
-              <Proxy
-                expended={expended[el.id]}
-                setExpended={setExpendedMemo}
-                el={el}
-                onSelect={onSelect(el)}
-                roundId={params.round}
+          <Grid container sx={{ my: MuiSpacing.normal }} spacing={MuiSpacing.normal}>
+            <Grid item lg={6}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Prénom, nom, email"
+                size="small"
+                label="Rechercher"
+                InputProps={{
+                  startAdornment: <Iconify icon="eva:search-fill" color={grey[500]} sx={{ mr: 1 }} />,
+                }}
+                onChange={ev => setFilters(prevState => ({ ...prevState, search: ev.target.value }))}
               />
-            </Fragment>
-          ))}
+            </Grid>
+            <Grid item lg={6}>
+              <ZoneAutocomplete
+                placeholder="Zone géographique"
+                value={filters.zone}
+                onChange={ev => setFilters(prevState => ({ ...prevState, zone: ev }))}
+                size="small"
+              />
+            </Grid>
+          </Grid>
+
+          {isFetching ? (
+            <Loader isCenter />
+          ) : aggregate.length === 0 ? (
+            <Typography>Aucun résultat</Typography>
+          ) : (
+            aggregate?.map((el, index) => (
+              <Fragment key={el.uuid}>
+                {el.matching_level && (index === 0 || el.matching_level !== aggregate[index - 1].matching_level) && (
+                  <Grid item {...withBottomSpacing}>
+                    <Typography color={'success.main'} fontSize={14}>
+                      {getSectionName(el.matching_level)}
+                    </Typography>
+                  </Grid>
+                )}
+
+                <Proxy
+                  expended={expended[el.id]}
+                  setExpended={setExpendedMemo}
+                  el={el}
+                  onSelect={onSelect(el)}
+                  roundId={params.round}
+                />
+              </Fragment>
+            ))
+          )}
 
           {/* Intersection observer for infinite scroll, do not remove. */}
           {!isInitialLoading && (

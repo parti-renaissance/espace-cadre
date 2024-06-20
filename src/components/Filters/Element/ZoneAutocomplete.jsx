@@ -7,7 +7,7 @@ import { UIChip } from '~/ui/Card'
 
 export const ZONE_AUTOCOMPLETE_URI = '/api/v3/zone/autocomplete'
 
-const ZoneAutocomplete = ({ onChange, value, customStyle, initialParams = {}, ...props }) => {
+const ZoneAutocomplete = ({ onChange, value, initialParams = {}, ...props }) => {
   const fullUri = `${ZONE_AUTOCOMPLETE_URI}?${qs.stringify(initialParams)}`
 
   return (
@@ -40,6 +40,5 @@ export default ZoneAutocomplete
 ZoneAutocomplete.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  customStyle: PropTypes.object,
   initialParams: PropTypes.object,
 }
