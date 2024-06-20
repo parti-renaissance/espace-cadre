@@ -10,17 +10,10 @@ interface MandateFiltersProps {
   onFilter: (data: { status: ProcurationStatusEnum[]; search: string }) => void
   onToggleMore: (newValue: boolean) => void
   status: ProcurationStatusEnum[]
-  isRequest?: boolean
   advanced?: boolean
 }
 
-function MandateFilters({
-  onFilter,
-  onToggleMore,
-  status,
-  isRequest = false,
-  advanced = false,
-}: Readonly<MandateFiltersProps>) {
+function MandateFilters({ onFilter, onToggleMore, status, advanced = false }: Readonly<MandateFiltersProps>) {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       status,
@@ -35,7 +28,6 @@ function MandateFilters({
   }, [moreState, onToggleMore])
 
   const registeredSearch = register('search')
-  const demandStateOptions = isRequest ? requestStatuses : defaultStatuses
   const onSubmit = handleSubmit(onFilter)
 
   return (
@@ -74,13 +66,15 @@ function MandateFilters({
                       size="small"
                       labelId="statuts-label"
                       onChange={ev => {
-                        onChange(ev)
+                        onChange(
+                          ev.target.value.length ? ev : { target: { value: defaultStatuses.map(({ value }) => value) } }
+                        )
                         onSubmit()
                       }}
                       value={value}
                       multiple={true}
                     >
-                      {demandStateOptions.map(el => (
+                      {defaultStatuses.map(el => (
                         <MenuItem key={el.label} value={el.value}>
                           {el.label}
                         </MenuItem>
@@ -115,7 +109,7 @@ function MandateFilters({
 const defaultStatuses: { label: string; value: ProcurationStatusEnum }[] = [
   {
     value: ProcurationStatusEnum.COMPLETED,
-    label: 'Terminé',
+    label: 'Traité',
   },
   {
     value: ProcurationStatusEnum.EXCLUDED,
@@ -126,7 +120,5 @@ const defaultStatuses: { label: string; value: ProcurationStatusEnum }[] = [
     label: 'Doublon',
   },
 ]
-
-const requestStatuses = [...defaultStatuses, { value: ProcurationStatusEnum.MANUAL, label: 'Manuel' }]
 
 export default memo(MandateFilters)
