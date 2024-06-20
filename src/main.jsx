@@ -2,6 +2,8 @@ import { createRoot } from 'react-dom/client'
 import * as Sentry from '@sentry/react'
 import App from './App'
 import { APP_ENVIRONMENT, APP_VERSION, SENTRY_DSN, NODE_ENV } from '~/shared/environments'
+import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom'
+import { useEffect } from 'react'
 
 if (NODE_ENV === 'production' || SENTRY_DSN) {
   const shouldSendError = hint => {
@@ -14,7 +16,15 @@ if (NODE_ENV === 'production' || SENTRY_DSN) {
     dsn: SENTRY_DSN,
     release: APP_VERSION,
     environment: APP_ENVIRONMENT,
-    integrations: [new Sentry.BrowserTracing()],
+    integrations: [
+      Sentry.reactRouterV6BrowserTracingIntegration({
+        useEffect: useEffect,
+        useLocation: useLocation,
+        useNavigationType: useNavigationType,
+        createRoutesFromChildren: createRoutesFromChildren,
+        matchRoutes: matchRoutes,
+      }),
+    ],
     tracesSampleRate: APP_ENVIRONMENT === 'production' ? 0.05 : 0,
     ignoreErrors: [
       'ResizeObserver loop limit exceeded', // https://forum.sentry.io/t/resizeobserver-loop-limit-exceeded/8402/5

@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Route, useLocation, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { Route, useLocation, createBrowserRouter, createRoutesFromElements, useRouteError } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { getCurrentUser, getUserScopes, isUserLogged } from '../../redux/user/selectors'
-import { useGetUserData, useInitializeAuth } from '../../redux/auth/hooks'
-import { useUserScope } from '../../redux/user/hooks'
+import { getCurrentUser, getUserScopes, isUserLogged } from '~/redux/user/selectors'
+import { useGetUserData, useInitializeAuth } from '~/redux/auth/hooks'
+import { useUserScope } from '~/redux/user/hooks'
 import ScopesPage from '~/components/Scopes/ScopesPage'
 import BootPage from '~/components/BootPage'
 import Auth from '~/components/Auth'
@@ -15,6 +15,9 @@ import LegalContainer from '../Signup/components/LegalContainer'
 import { CGUMobile, CGUWeb, CookiesMobile, CookiesWeb, Ppd } from '../Signup/constants'
 import Sidebar from '~/components/Layout/Sidebar'
 import Logout from '../Logout/Logout'
+import * as Sentry from '@sentry/react'
+import ErrorComponent from '~/components/ErrorComponent'
+
 const publicPathsArray = [
   publicPaths.signup,
   publicPaths.auth,
@@ -58,10 +61,12 @@ PrivatePages.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter)
+
 const AppRoutes = ({ children }) =>
-  createBrowserRouter(
+  sentryCreateBrowserRouter(
     createRoutesFromElements(
-      <Route>
+      <Route errorElement={<SentryRouteErrorFallback />}>
         <Route path={publicPaths.signup} element={<Signup />} />
         <Route path={publicPaths.signupConfirm} element={<SignupConfirm />} />
         <Route path={publicPaths.auth} element={<Auth />} />
@@ -75,6 +80,15 @@ const AppRoutes = ({ children }) =>
       </Route>
     )
   )
+
+function SentryRouteErrorFallback() {
+  const routeError = useRouteError()
+
+  useEffect(() => Sentry.captureException(routeError), [routeError])
+
+  return <ErrorComponent errorMessage={{ message: "Une erreur est survenue, merci de relancer l'application." }} />
+}
+
 AppRoutes.propTypes = {
   children: PropTypes.node.isRequired,
 }
