@@ -183,21 +183,17 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
                             )
                           }
                         />
-                        {/*@ts-expect-error fefwf */}
-                        {el.matched_at && (
-                          <Grid item mt={MuiSpacing.small}>
-                            <Typography fontSize={14} color={'text.secondary'}>
-                              {/*@ts-expect-error fefwf */}
-                              Lié le {getFormattedDate(el.matched_at)} par {el.matcher?.first_name}{' '}
-                              {/*@ts-expect-error fefwf */}
-                              {el.matcher?.last_name}
-                            </Typography>
-                          </Grid>
-                        )}
                       </Grid>
                     ) : null
                   )}
                 </GroupContainer>
+                {x.matched_at && (
+                  <Grid item mt={MuiSpacing.small}>
+                    <Typography fontSize={14} color={'text.secondary'}>
+                      Lié le {getFormattedDate(x.matched_at)} par {x.matcher?.first_name} {x.matcher?.last_name}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             )}
             <Grid item xs={12}>
@@ -206,14 +202,6 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           </Fragment>
         ))}
       </Grid>
-
-      {/* {typeof props.peopleInSameVotePlace === 'number' ? (
-        <Grid container sx={{ mb: MuiSpacing.normal }}>
-          <Grid item xs={12}>
-            <MandatePeopleNumber count={props.peopleInSameVotePlace} />
-          </Grid>
-        </Grid>
-      ) : null} */}
 
       <MandateCardEntry title={'Bureau de vote'} value={props.votePlace} />
       <MandateCardEntry title={'Commune, pays...'} value={props.location} />

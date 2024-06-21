@@ -10,6 +10,7 @@ import {
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import useProcurationRequestSlotState from '~/api/Procuration/Hooks/useProcurationRequestSlotState'
 import useProcurationProxySlotState from '~/api/Procuration/Hooks/useProcurationProxySlotState'
+import { is } from 'cypress/types/bluebird'
 
 export function MandatePersonCardStateManual({
   currentSlot,
@@ -72,6 +73,10 @@ export function MandatePersonCardStateExclude(props: MandatePersonCardProps) {
   const [shouldConfirmExclude, setShouldConfirmExclude] = useState(false)
   const isProxy = [MandatePersonCardType.MATCH_PROXY, MandatePersonCardType.MATCHED_PROXY].includes(props.type)
   const { mutateAsync, isLoading } = isProxy ? useProcurationProxyState() : useProcurationState()
+  const isExcluded = props.status === ProcurationStatusEnum.EXCLUDED
+  const modalDescription = isExcluded
+    ? `Êtes-vous sûr de vouloir annuler l'exclusion de ${props.firstName} ?`
+    : `Êtes-vous sûr de vouloir exlure ${props.firstName} ?`
 
   const onExclude = useCallback(() => {
     if (!props.uuid) {
@@ -80,7 +85,7 @@ export function MandatePersonCardStateExclude(props: MandatePersonCardProps) {
 
     if (shouldConfirmExclude) {
       mutateAsync({
-        status: ProcurationStatusEnum.EXCLUDED,
+        status: isExcluded ? ProcurationStatusEnum.PENDING : ProcurationStatusEnum.EXCLUDED,
         uuid: props.uuid,
       }).then(() => {
         setShouldConfirmExclude(false)
@@ -88,24 +93,29 @@ export function MandatePersonCardStateExclude(props: MandatePersonCardProps) {
     } else {
       setShouldConfirmExclude(true)
     }
-  }, [mutateAsync, props.uuid, shouldConfirmExclude])
+  }, [mutateAsync, props.uuid, shouldConfirmExclude, isExcluded])
   const onCancelExclude = useCallback(() => setShouldConfirmExclude(false), [])
 
   return (
     <>
       <Grid item textAlign="right">
-        <Button variant="soft" color="error" disabled={isLoading || shouldConfirmExclude} onClick={onExclude}>
-          Exclure
+        <Button
+          variant="soft"
+          color={isExcluded ? 'warning' : 'error'}
+          disabled={isLoading || shouldConfirmExclude}
+          onClick={onExclude}
+        >
+          {isExcluded ? "Annuler l'exclusion" : 'Exclure'}
         </Button>
       </Grid>
 
       {shouldConfirmExclude && (
         <ConfirmationModal
-          title={'Exclusion'}
-          description={`Êtes-vous sûr de vouloir exclure ${props.firstName} ?`}
+          title={isExcluded ? "Annuler l'exclusion" : 'Exclusion'}
+          description={modalDescription}
           onConfirm={onExclude}
           onCancel={onCancelExclude}
-          okButtonTitle={'Exclure'}
+          okButtonTitle={isExcluded ? "Annuler l'exclusion" : 'Exclure'}
           isLoading={isLoading}
         />
       )}

@@ -85,6 +85,8 @@ export interface SlotModel {
   manual: boolean
   request: null | ProcurationProxyDetailModel
   proxy: null | ProcurationProxyDetailModel
+  matched_at: string | null
+  matcher: ReadableLightUserModelWithSingleFirstName | null
 }
 
 export interface PostAddressModel {
