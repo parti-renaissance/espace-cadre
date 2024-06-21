@@ -17,6 +17,7 @@ import Sidebar from '~/components/Layout/Sidebar'
 import Logout from '../Logout/Logout'
 import * as Sentry from '@sentry/react'
 import ErrorComponent from '~/components/ErrorComponent'
+import { useLocalStorage } from 'react-use'
 
 const publicPathsArray = [
   publicPaths.signup,
@@ -30,14 +31,41 @@ const publicPathsArray = [
 
 const PrivatePages = ({ children }) => {
   const initializeAuth = useInitializeAuth()
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   const isUserLoggedIn = useSelector(isUserLogged)
   const currentUser = useSelector(getCurrentUser)
-  const [currentScope] = useUserScope()
+  const [currentScope, updateCurrentScope] = useUserScope()
   const userScopes = useSelector(getUserScopes)
   const [, updateUserData] = useGetUserData()
+  const forceScope = new URLSearchParams(search).get('scope')
+  const redirect = new URLSearchParams(search).get('redirect')
+  const [localCurrentScope, setLocalCurrentScope] = useLocalStorage('forceScope')
+  const [tempRedirect, setTempRedirect] = useLocalStorage('tempRedirect')
 
   useEffect(() => {
+    if (forceScope) {
+      setLocalCurrentScope(forceScope)
+    }
+
+    if (redirect && !isUserLoggedIn) {
+      setTempRedirect(redirect)
+    }
+
+    if ((tempRedirect || redirect) && isUserLoggedIn && currentScope !== null) {
+      const tr = tempRedirect ?? redirect
+      setTempRedirect(null)
+      if (tr) {
+        window.location.href = window.location.origin + tr
+      }
+    }
+
+    if (localCurrentScope && userScopes.length > 0) {
+      const forcedCurrentScope = userScopes.find(scope => scope.code === localCurrentScope)
+      if (forcedCurrentScope) {
+        updateCurrentScope(forcedCurrentScope.code).then(() => setLocalCurrentScope(null))
+      }
+    }
+
     if (isUserLoggedIn) {
       if (currentUser === null) {
         updateUserData()
@@ -45,7 +73,22 @@ const PrivatePages = ({ children }) => {
     } else if (!publicPathsArray.includes(pathname)) {
       initializeAuth()
     }
-  }, [currentUser, initializeAuth, isUserLoggedIn, pathname, updateUserData])
+  }, [
+    currentUser,
+    initializeAuth,
+    isUserLoggedIn,
+    pathname,
+    updateUserData,
+    forceScope,
+    localCurrentScope,
+    userScopes,
+    updateCurrentScope,
+    setLocalCurrentScope,
+    redirect,
+    setTempRedirect,
+    tempRedirect,
+    currentScope,
+  ])
 
   if (!currentUser || userScopes.length === 0) {
     return <BootPage />
