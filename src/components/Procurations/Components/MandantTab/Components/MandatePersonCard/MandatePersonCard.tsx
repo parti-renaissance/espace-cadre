@@ -203,14 +203,6 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         ))}
       </Grid>
 
-      {/* {typeof props.peopleInSameVotePlace === 'number' ? (
-        <Grid container sx={{ mb: MuiSpacing.normal }}>
-          <Grid item xs={12}>
-            <MandatePeopleNumber count={props.peopleInSameVotePlace} />
-          </Grid>
-        </Grid>
-      ) : null} */}
-
       <MandateCardEntry title={'Bureau de vote'} value={props.votePlace} />
       <MandateCardEntry title={'Commune, pays...'} value={props.location} />
 
