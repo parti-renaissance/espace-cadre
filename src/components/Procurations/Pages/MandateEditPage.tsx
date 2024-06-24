@@ -142,7 +142,7 @@ export default function MandateEditPage() {
           <Grid item xs={12} sm={12} md={6}>
             {proxy ? (
               <MandatePersonCard
-                history={data.actions}
+                history={proxy.actions}
                 firstName={proxy.first_names}
                 lastName={proxy.last_name}
                 status={proxy.status}
