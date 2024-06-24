@@ -24,6 +24,7 @@ describe('Mandate person card', () => {
     location: faker.person.jobArea(),
     onExpend: vitest.fn(),
     onNarrow: vitest.fn(),
+    history: null,
     peopleInSameVotePlace: faker.number.int({
       min: 0,
       max: 10,

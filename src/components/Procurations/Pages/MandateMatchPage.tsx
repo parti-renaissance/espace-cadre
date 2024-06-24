@@ -205,6 +205,7 @@ const MandateInfo = memo((data: ProcurationDetailsModel) => {
   const navigate = useNavigate()
   return (
     <MandatePersonCard
+      history={data.actions}
       firstName={data.first_names}
       lastName={data.last_name}
       status={data.status}
@@ -243,6 +244,7 @@ const Proxy = memo(
     return (
       <MandatePersonCard
         key={el.uuid}
+        history={el.actions}
         firstName={el.first_names}
         lastName={el?.last_name}
         status={el?.status}
