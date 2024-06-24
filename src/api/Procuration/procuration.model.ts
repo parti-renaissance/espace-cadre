@@ -23,6 +23,7 @@ export interface ProcurationModel extends ReadableLightUserModel {
   status: ProcurationStatusEnum
   matched_at: string | null
   matcher: ReadableLightUserModelWithSingleFirstName | null
+  actions: ActionModel[] | null
   // Indicate if mandate will sign procuration in French soil
   from_france: boolean
 }
@@ -78,6 +79,15 @@ export interface RoundModel {
   date: string
 }
 
+export interface ActionModel {
+  uuid: string
+  status: 'match' | 'unmatch' | 'status_update'
+  date: string
+  author: ReadableLightUserModelWithSingleFirstName | null
+  author_scope: string | null
+  context: Record<string, string>
+}
+
 export interface SlotModel {
   uuid: string
   created_at: string
@@ -87,6 +97,7 @@ export interface SlotModel {
   proxy: null | ProcurationProxyDetailModel
   matched_at: string | null
   matcher: ReadableLightUserModelWithSingleFirstName | null
+  actions: ActionModel[] | null
 }
 
 export interface PostAddressModel {

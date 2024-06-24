@@ -198,6 +198,7 @@ const MandateItemComponent = ({
 
   return (
     <MandatePersonCard
+      history={item.actions}
       hideActions={done}
       uuid={item.uuid}
       status={item.status}
