@@ -53,7 +53,7 @@ export function MandatePersonCardStateManual({
         disabled={isLoading || shouldConfirmManual}
         onClick={onManual}
       >
-        {currentSlot.manual ? 'Retirer le traitement manuel' : 'Traité manuellement'}
+        {currentSlot.manual ? 'Retirer le traitement manuel' : 'Marquer comme traité manuellement'}
       </Button>
 
       {shouldConfirmManual && (
