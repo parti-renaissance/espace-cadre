@@ -18,8 +18,13 @@ import {
   MandatePersonCardStateExclude,
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardStateActions'
 import MandatePersonCardButtonGroup from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/Components/MandatePersonCardButtonGroup'
-import { PROCURATION_STATUS_LABELS, ProcurationStatusEnum, SlotModel } from '~/api/Procuration/procuration.model'
-import { getFormattedDate } from '~/utils/date'
+import {
+  ActionModel,
+  PROCURATION_STATUS_LABELS,
+  ProcurationStatusEnum,
+  SlotModel,
+} from '~/api/Procuration/procuration.model'
+import { getHumanFormattedDate, getHumanFormattedTime } from '~/utils/date'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -50,6 +55,7 @@ export interface MandatePersonCardProps {
   onPersonView?: (id: string, roundId: string) => void
   // Will deposit mandate in France
   inFrenchSoil?: boolean
+  history: ActionModel[] | null
 }
 
 export enum MandatePersonCardType {
@@ -115,36 +121,34 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
         {linkedPeople?.map(x => (
           <Fragment key={x.uuid + props.id}>
             <Grid item xs={12}>
-              <Typography variant="h6" sx={{ mt: MuiSpacing.normal }}>
+              <Typography variant="h6" sx={{ mt: MuiSpacing.normal, mb: MuiSpacing.normal }}>
                 {x.round.name}
               </Typography>
             </Grid>
 
             <Grid container justifyItems="center">
-              <>
-                {([MandatePersonCardType.FIND].includes(props.type) || props.roundId === x.round.uuid) &&
-                  x.proxy.length < 1 && (
-                    <Grid item xs={8} py={2} pr={MuiSpacing.normal}>
-                      <MandatePersonCardButtonGroup
-                        fullWidth
-                        {...props}
-                        disabled={x.manual}
-                        onSelect={() => props.onSelect?.(x.round.uuid)}
-                        extraText={x.round.name}
-                      />
-                    </Grid>
-                  )}
-                {[MandatePersonCardType.FIND].includes(props.type) && x.proxy.length < 1 && (
-                  <Grid item xs={4} py={2}>
-                    <MandatePersonCardStateManual {...props} currentSlot={x} />
+              {([MandatePersonCardType.FIND].includes(props.type) || props.roundId === x.round.uuid) &&
+                x.proxy.length < 1 && (
+                  <Grid item xs={8} pr={MuiSpacing.normal} sx={{ my: 2 }}>
+                    <MandatePersonCardButtonGroup
+                      fullWidth
+                      {...props}
+                      disabled={x.manual}
+                      onSelect={() => props.onSelect?.(x.round.uuid)}
+                      extraText={x.round.name}
+                    />
                   </Grid>
                 )}
-              </>
+              {[MandatePersonCardType.FIND].includes(props.type) && x.proxy.length < 1 && (
+                <Grid item xs={4} sx={{ my: 2 }}>
+                  <MandatePersonCardStateManual {...props} currentSlot={x} />
+                </Grid>
+              )}
             </Grid>
             {(([MandatePersonCardType.MATCHED_MANDANT, MandatePersonCardType.MATCHED_PROXY].includes(props.type) &&
               x.manual) ||
               ([MandatePersonCardType.MATCH_PROXY].includes(props.type) && !props.roundId && !x.proxy?.length)) && (
-              <Grid item xs={12} pb={4}>
+              <Grid item xs={12} sx={{ mb: 2 }}>
                 <MandatePersonCardStateManual {...props} currentSlot={x} />
               </Grid>
             )}
@@ -158,7 +162,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
               )}
 
             {x.proxy && x.proxy.length > 0 && (
-              <Grid item sx={{ mb: MuiSpacing.large }}>
+              <Grid item xs={12}>
                 <GroupContainer>
                   <legend>
                     <Typography color={'success.main'} fontSize={12}>
@@ -187,17 +191,11 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
                     ) : null
                   )}
                 </GroupContainer>
-                {x.matched_at && (
-                  <Grid item mt={MuiSpacing.small}>
-                    <Typography fontSize={14} color={'text.secondary'}>
-                      Lié le {getFormattedDate(x.matched_at)} par {x.matcher?.first_name} {x.matcher?.last_name}
-                    </Typography>
-                  </Grid>
-                )}
               </Grid>
             )}
             <Grid item xs={12}>
-              <Divider sx={{ mt: MuiSpacing.normal }} />
+              <HistoDetail data={x.actions} />
+              <Divider sx={{ mt: MuiSpacing.normal, backgroundColor: 'black' }} />
             </Grid>
           </Fragment>
         ))}
@@ -218,6 +216,10 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
           {props.onNarrow && <Divider sx={withBottomSpacing} />}
 
+          {props.history && <HistoDetail data={props.history} />}
+
+          {props.history && props.history.length > 0 && <Divider sx={withBottomSpacing} />}
+
           {props.onNarrow && <NarrowButton onNarrow={() => props.onNarrow?.(props.id)} />}
         </>
       )}
@@ -225,7 +227,54 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
   )
 }
 
-const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
+const HistoDetail = ({ data }: { data: SlotModel['actions'] }) => {
+  const mapStatusReadable = (
+    status: NonNullable<SlotModel['actions']>[0]['status'],
+    ctx: NonNullable<SlotModel['actions']>[0]['context']
+  ) => {
+    switch (status) {
+      case 'match':
+        return 'Lié'
+      case 'unmatch':
+        return 'Délié'
+      case 'status_update':
+        if (ctx.new_status === 'pending') {
+          return 'Passé en attente'
+        }
+        if (ctx.new_status === 'excluded') {
+          return 'Exclu'
+        }
+
+        if (ctx.new_status === 'manual') {
+          return 'Traité manuellement'
+        }
+        return 'Statut mis à jour'
+      default:
+        return status
+    }
+  }
+
+  return data && data.length > 0 ? (
+    <Grid item xs={12} pb={2}>
+      <Typography variant="body2" color="textSecondary">
+        Historique
+      </Typography>
+      {data.map(({ status, date, author, author_scope, context }) => (
+        <Grid key={date} item xs={12} sx={{ paddingX: 2 }}>
+          <Divider sx={{ mt: MuiSpacing.normal }} />
+          <Typography variant="body2" color="textSecondary">
+            {mapStatusReadable(status, context)} le {getHumanFormattedDate(date)} à {getHumanFormattedTime(date)}
+            {author ? ` par ${author?.first_name} ${author?.last_name}` : ''}
+            {author_scope ? ` (${author_scope})` : ''}
+          </Typography>
+          {/* <Divider sx={withBottomSpacing} /> */}
+        </Grid>
+      ))}
+    </Grid>
+  ) : null
+}
+
+const NarrowButton = ({ onNarrow, text }: { onNarrow?: () => void; text?: string }) => (
   <Grid item textAlign={'center'}>
     <Button
       variant={'text'}
@@ -233,12 +282,12 @@ const NarrowButton = ({ onNarrow }: { onNarrow?: () => void }) => (
       onClick={onNarrow}
       data-testid="lessButton"
     >
-      Afficher moins
+      {text ?? 'Afficher moins'}
     </Button>
   </Grid>
 )
 
-const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (
+const ExpandButton = ({ onExpand, text }: { onExpand?: () => void; text?: string }) => (
   <Grid item textAlign={'center'}>
     <Button
       variant={'text'}
@@ -246,10 +295,21 @@ const ExpandButton = ({ onExpand }: { onExpand?: () => void }) => (
       onClick={onExpand}
       data-testid="moreButton"
     >
-      Afficher plus
+      {text ?? 'Afficher plus'}
     </Button>
   </Grid>
 )
+
+const mapColor = (status: string, defaultColor: string) => {
+  switch (status) {
+    case 'excluded':
+      return 'red'
+    case 'completed':
+      return 'green'
+    default:
+      return defaultColor
+  }
+}
 
 const MandateTag = ({ status }: { status: string }) => (
   <UIChip
@@ -257,7 +317,7 @@ const MandateTag = ({ status }: { status: string }) => (
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
-    bgcolor={'#00B8D9'}
+    bgcolor={mapColor(status, '#00B8D9')}
   />
 )
 
@@ -267,7 +327,7 @@ const ProxyTag = ({ status }: { status: string }) => (
     labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
     color={'white'}
     variant={'contained'}
-    bgcolor={'#FF8438'}
+    bgcolor={mapColor(status, '#FF8438')}
   />
 )
 

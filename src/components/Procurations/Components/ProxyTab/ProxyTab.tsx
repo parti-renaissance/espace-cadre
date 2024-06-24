@@ -180,6 +180,7 @@ const ProxyItemComponent = ({
 
   return (
     <MandatePersonCard
+      history={item.actions}
       hideActions
       uuid={item.uuid}
       firstName={item.first_names}

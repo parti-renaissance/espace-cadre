@@ -111,6 +111,8 @@ export const tagsColor = {
   variant2Background: '#FFF0DE',
   variant3Text: '#762BD8',
   variant3Background: '#EEE2FF',
+  variant4Text: '#D80000',
+  variant4Background: '#FFD6D6',
 }
 
 export const action = {

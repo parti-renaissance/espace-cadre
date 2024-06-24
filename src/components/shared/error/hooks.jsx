@@ -4,6 +4,7 @@ import { getFormattedErrorMessages, handleGenericHttpErrors } from './helpers'
 import * as Sentry from '@sentry/react'
 
 const hasErrorDetail = x => typeof x === 'object' && x !== null && 'detail' in x
+const hasErrorMessage = x => typeof x === 'object' && x !== null && 'message' in x
 
 export const useErrorHandler = () => {
   const [errorMessages, setErrorMessages] = useState([])
@@ -22,13 +23,21 @@ export const useErrorHandler = () => {
 
   const handleError = useCallback(
     error => {
-      const { response = { data }, stack, message } = error
+      const { response, stack, message } = error
       const { status, data } = response
-      const errorMessage = hasErrorDetail(data) ? data.detail : message
-      handleGenericHttpErrors(snackBarWithOptions, status, stack, errorMessage)
+      let mess = message
+      if (hasErrorMessage(data)) {
+        mess = data.message
+      }
+
+      if (hasErrorDetail(data)) {
+        mess = data.detail
+      }
+
+      handleGenericHttpErrors(snackBarWithOptions, status, stack, mess)
       const formattedErrorMessages = getFormattedErrorMessages(data)
       setErrorMessages(formattedErrorMessages)
-      setErrorRawMessage(errorMessage)
+      setErrorRawMessage(mess)
       Sentry.addBreadcrumb({
         category: 'request',
         message: Object.keys(data).length ? JSON.stringify(data) : message,
