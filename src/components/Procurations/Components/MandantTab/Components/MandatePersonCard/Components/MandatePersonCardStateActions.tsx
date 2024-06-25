@@ -10,7 +10,6 @@ import {
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
 import useProcurationRequestSlotState from '~/api/Procuration/Hooks/useProcurationRequestSlotState'
 import useProcurationProxySlotState from '~/api/Procuration/Hooks/useProcurationProxySlotState'
-import { is } from 'cypress/types/bluebird'
 
 export function MandatePersonCardStateManual({
   currentSlot,
