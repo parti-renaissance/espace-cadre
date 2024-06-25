@@ -9,7 +9,8 @@ function MandateDoneIntroduction() {
         <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
           Mandants traités
         </Typography>
-        <br />
+      </p>
+      <p>
         <Typography color={'text.secondary'} fontSize={14}>
           Retrouvez dans cet onglet l’ensemble des mandants déjà traités.
         </Typography>

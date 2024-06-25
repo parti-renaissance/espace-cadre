@@ -1,6 +1,6 @@
-import { Grid, Typography } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import { useDebounce, useIntersectionObserver } from '@uidotdev/usehooks'
-import { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSessionStorage } from 'react-use'
 import { sprintf } from 'sprintf-js'
@@ -17,7 +17,7 @@ import Loader from '~/ui/Loader'
 import { buildAddress } from '~/utils/address'
 import { dateFormat } from '~/utils/date'
 import { formatToFrenchNumberString } from '~/utils/numbers'
-import MandateFilters from '~/components/Procurations/Components/MandateFilters/MandateFilters'
+import MandateFilters, { IFilters } from '~/components/Procurations/Components/MandateFilters/MandateFilters'
 import MandatePersonCard, {
   MandatePersonCardType,
 } from '~/components/Procurations/Components/MandantTab/Components/MandatePersonCard/MandatePersonCard'
@@ -26,19 +26,15 @@ import MandateSuccessModal from '~/components/Procurations/Components/MandateSuc
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { secondsToMilliseconds } from 'date-fns'
 import AGrid from '~/components/AGrid/AGrid'
+import Iconify from '~/mui/iconify'
 
 interface Props {
   // Switch to "Mandants traités" render
   done?: boolean
 }
 
-interface IFilters {
-  status: ProcurationStatusEnum[]
-  search?: string
-}
-
 export default function MandantTab({ done = false }: Props) {
-  const [expended, setExpended] = useState<Record<string, boolean>>({})
+  const [expended, setExpended] = useState(false)
   const [customFilters, setCustomFilers] = useState<IFilters>({
     status: done
       ? [ProcurationStatusEnum.COMPLETED, ProcurationStatusEnum.DUPLICATE, ProcurationStatusEnum.EXCLUDED]
@@ -46,13 +42,23 @@ export default function MandantTab({ done = false }: Props) {
   })
   const debouncedFilters = useDebounce(customFilters, 400)
 
-  const { aggregate, total, isFetchingPreviousPage, isFetchingNextPage, hasNextPage, fetchNextPage, isInitialLoading } =
-    useProcurationRequestList({
-      order: {
-        createdAt: 'asc',
-      },
-      ...debouncedFilters,
-    })
+  const {
+    aggregate,
+    total,
+    isFetchingPreviousPage,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    isFetching,
+    isInitialLoading,
+  } = useProcurationRequestList({
+    order: {
+      createdAt: 'asc',
+    },
+    search: debouncedFilters.search,
+    zone: debouncedFilters.zone?.uuid,
+    status: debouncedFilters.status,
+  })
 
   const [procurationSuccessFlash, setProcurationSuccessFlash] = useSessionStorage<
     { mandate: string; proxy: string } | false
@@ -63,32 +69,11 @@ export default function MandantTab({ done = false }: Props) {
     rootMargin: '5px',
   })
 
-  const onToggleMore = useCallback(
-    (newState: boolean) => {
-      setExpended(
-        aggregate
-          ? aggregate.reduce(
-              (prev, curr) => ({
-                ...prev,
-                [curr.id]: newState,
-              }),
-              {}
-            )
-          : {}
-      )
-    },
-    [aggregate]
-  )
-
   useEffect(() => {
     if (entry?.isIntersecting && hasNextPage) {
       fetchNextPage()
     }
   }, [entry?.isIntersecting, fetchNextPage, hasNextPage])
-
-  const setExpendedHandler = useCallback((el: SetStateAction<Record<string, boolean>>) => {
-    setExpended(el)
-  }, [])
 
   const onCloseModal = useCallback(() => {
     setProcurationSuccessFlash(false)
@@ -98,20 +83,16 @@ export default function MandantTab({ done = false }: Props) {
     <>
       <Grid container {...withBottomSpacing} spacing={MuiSpacing.large}>
         <Grid item {...gridStandardLayout.oneThird}>
-          {done ? <MandateDoneIntroduction /> : <MandateIntroduction />}
+          <MandateFilters
+            onFilter={value => setCustomFilers(prevState => ({ ...prevState, ...value }))}
+            filter={customFilters}
+            advanced={done}
+          />
+          <Grid item>{done ? <MandateDoneIntroduction /> : <MandateIntroduction />}</Grid>
         </Grid>
 
         <Grid item {...gridStandardLayout.twoThirds}>
-          <Grid item xs sx={{ mb: MuiSpacing.normal }}>
-            <MandateFilters
-              onFilter={setCustomFilers}
-              status={debouncedFilters.status}
-              onToggleMore={onToggleMore}
-              advanced={done}
-            />
-          </Grid>
-
-          {isInitialLoading ? (
+          {isInitialLoading || (isFetching && !isFetchingNextPage && !isFetchingPreviousPage) ? (
             <MandateSkeleton />
           ) : (
             <>
@@ -127,6 +108,21 @@ export default function MandantTab({ done = false }: Props) {
                   </Typography>
                 </p>
               </Grid>
+              <Grid item sx={{ mb: MuiSpacing.normal }}>
+                <Button
+                  variant="outlined"
+                  onClick={() => setExpended(prevState => !prevState)}
+                  fullWidth
+                  startIcon={
+                    <Iconify
+                      icon={expended ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+                      sx={{ mr: 1 }}
+                    />
+                  }
+                >
+                  {!expended ? 'Ouvrir tous les volets' : 'Fermer tous les volets'}
+                </Button>
+              </Grid>
 
               {isFetchingPreviousPage && (
                 <Grid item textAlign={'center'} {...withBottomSpacing}>
@@ -138,12 +134,7 @@ export default function MandantTab({ done = false }: Props) {
                 <TransitionGroup component={null}>
                   {aggregate.map(entry => (
                     <CSSTransition timeout={secondsToMilliseconds(1)} classNames="item" key={entry.uuid}>
-                      <MandateItem
-                        done={done}
-                        item={entry}
-                        expended={Boolean(expended[entry.id])}
-                        setExpended={setExpendedHandler}
-                      />
+                      <MandateItem done={done} item={entry} globalExpended={expended} />
                     </CSSTransition>
                   ))}
                 </TransitionGroup>
@@ -185,16 +176,15 @@ export default function MandantTab({ done = false }: Props) {
 
 const MandateItemComponent = ({
   item,
-  expended,
-  setExpended,
+  globalExpended,
   done = false,
 }: {
   item: ProcurationModel
-  expended: boolean
-  setExpended: Dispatch<SetStateAction<Record<string, boolean>>>
+  globalExpended: boolean
   done?: boolean
 }) => {
   const navigate = useNavigate()
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <MandatePersonCard
@@ -209,7 +199,7 @@ const MandateItemComponent = ({
       peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}
       tags={item.tags ?? []}
       id={item.id}
-      expended={expended}
+      expended={globalExpended ? globalExpended : expanded}
       linkedPeople={item.proxy_slots ?? item.request_slots ?? undefined}
       extraInfos={[
         {
@@ -225,18 +215,8 @@ const MandateItemComponent = ({
           value: formatDate(item.created_at, dateFormat),
         },
       ]}
-      onExpend={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: true,
-        }))
-      }
-      onNarrow={id =>
-        setExpended(v => ({
-          ...v,
-          [id]: false,
-        }))
-      }
+      onExpend={() => setExpanded(true)}
+      onNarrow={() => setExpanded(false)}
       type={done ? MandatePersonCardType.MATCHED_MANDANT : MandatePersonCardType.FIND}
       onSelect={round => navigate(`${paths.procurations}/request/${item.uuid}/${round}`)}
       onPersonView={(id, round) => navigate(`${paths.procurations}/request/${item.uuid}/${round}/edit`)}

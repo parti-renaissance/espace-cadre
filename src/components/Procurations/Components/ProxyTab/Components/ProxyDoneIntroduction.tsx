@@ -9,7 +9,8 @@ function ProxyDoneIntroduction() {
         <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
           Mandataires traités
         </Typography>
-        <br />
+      </p>
+      <p>
         <Typography color={'text.secondary'} fontSize={14}>
           Ces mandataires ne peuvent plus être liés à un mandant.
         </Typography>
