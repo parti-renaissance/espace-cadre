@@ -181,6 +181,7 @@ export default function MandateValidationPage() {
                 location={data.vote_zone.name}
                 tags={data.tags ?? []}
                 votePlace={data.vote_place_name}
+                district={data.district}
                 type={MandatePersonCardType.MATCH_MANDANT}
                 extraInfos={buildExtraData(data)}
                 inFrenchSoil={data.from_france}
@@ -203,6 +204,7 @@ export default function MandateValidationPage() {
                 location={proxy.vote_zone.name}
                 tags={proxy.tags ?? []}
                 votePlace={proxy.vote_place_name}
+                district={proxy.district}
                 type={MandatePersonCardType.MATCH_PROXY}
                 extraInfos={buildExtraData(proxy)}
                 expended

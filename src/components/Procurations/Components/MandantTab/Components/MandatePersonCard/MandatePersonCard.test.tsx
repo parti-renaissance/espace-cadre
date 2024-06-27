@@ -31,6 +31,7 @@ describe('Mandate person card', () => {
     }),
     tags: [],
     votePlace: faker.person.jobArea(),
+    district: null,
   }
 
   it('Should expand card', async () => {
