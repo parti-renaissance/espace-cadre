@@ -23,6 +23,7 @@ import {
   PROCURATION_STATUS_LABELS,
   ProcurationStatusEnum,
   SlotModel,
+  VoteZoneModel,
 } from '~/api/Procuration/procuration.model'
 import { getHumanFormattedDate, getHumanFormattedTime } from '~/utils/date'
 
@@ -34,6 +35,7 @@ export interface MandatePersonCardProps {
   tags: LabelTypeModel[]
   peopleInSameVotePlace?: number
   votePlace: string
+  district: null | VoteZoneModel
   location: string
   uuid?: string
   id: string
@@ -202,6 +204,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
       </Grid>
 
       <MandateCardEntry title={'Bureau de vote'} value={props.votePlace} />
+      {props.district && <MandateCardEntry title={'Circonscription'} value={props.district.name} />}
       <MandateCardEntry title={'Commune, pays...'} value={props.location} />
 
       {props.inFrenchSoil && <MandateCardEntry title={'Lieu de dépôt'} value={'Procuration en France'} />}

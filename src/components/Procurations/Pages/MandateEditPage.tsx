@@ -84,12 +84,12 @@ export default function MandateEditPage() {
                   <InfoLine label={'Bureau de vote'} value={data?.vote_place_name}></InfoLine>
                   <InfoLine
                     label={'Date de l’association'}
-                    value={data?.matched_at ? getFormattedDate(data?.matched_at) : ''}
+                    value={slot?.matched_at ? getFormattedDate(slot?.matched_at) : ''}
                     color={'text.primary'}
                   ></InfoLine>
                   <InfoLine
                     label={'Auteur'}
-                    value={data?.matcher ? fullName(data.matcher) : ''}
+                    value={slot?.matcher ? fullName(slot.matcher) : ''}
                     color={'text.primary'}
                   ></InfoLine>
 
@@ -128,6 +128,7 @@ export default function MandateEditPage() {
                 location={data.vote_zone.name}
                 tags={data.tags ?? []}
                 votePlace={data.vote_place_name}
+                district={data.district}
                 type={MandatePersonCardType.MATCH_MANDANT}
                 extraInfos={buildExtraData(data)}
                 expended
@@ -150,6 +151,7 @@ export default function MandateEditPage() {
                 location={proxy.vote_zone.name}
                 tags={proxy.tags ?? []}
                 votePlace={proxy.vote_place_name}
+                district={proxy.district}
                 type={MandatePersonCardType.MATCH_PROXY}
                 extraInfos={buildExtraData(proxy)}
                 expended

@@ -13,6 +13,7 @@ export interface ProcurationModel extends ReadableLightUserModel {
   gender: GenderEnum
   birthdate: string
   vote_zone: VoteZoneModel
+  district: null | VoteZoneModel
   created_at: string
   post_address: PostAddressModel
   tags: null | LabelTypeModel[]
@@ -34,6 +35,7 @@ export interface ProcurationDetailsModel extends ReadableLightUserModel {
   gender: GenderEnum
   birthdate: string
   vote_zone: VoteZoneModel
+  district: null | VoteZoneModel
   created_at: string
   post_address: PostAddressModel
   actions: ActionModel[] | null
@@ -60,6 +62,7 @@ export interface ProcurationProxyDetailModel extends EmailPhoneModel {
   id: string
   vote_place_name: string
   vote_zone: VoteZoneModel
+  district: null | VoteZoneModel
   age: number
   post_address: PostAddressModel
   created_at: string
