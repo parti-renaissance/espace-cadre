@@ -26,6 +26,7 @@ import {
   VoteZoneModel,
 } from '~/api/Procuration/procuration.model'
 import { getHumanFormattedDate, getHumanFormattedTime } from '~/utils/date'
+import { isPast } from 'date-fns'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -70,7 +71,9 @@ export enum MandatePersonCardType {
 
 export default function MandatePersonCard(props: MandatePersonCardProps) {
   const linkedPeople = props.linkedPeople
-    ? props.linkedPeople.map(x => ({ ...x, proxy: x.proxy ?? x.request ? [x.proxy ?? x.request] : [] }))
+    ? props.linkedPeople
+        .filter(x => (x.round?.date ? !isPast(new Date(x.round?.date)) : true))
+        .map(x => ({ ...x, proxy: x.proxy ?? x.request ? [x.proxy ?? x.request] : [] }))
     : undefined
 
   return (
