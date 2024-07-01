@@ -20,6 +20,8 @@ import { getFormattedDate } from '~/utils/date'
 import { fullName } from '~/utils/names'
 import Divider from '@mui/material/Divider'
 import { grey } from '~/theme/palette'
+import { isPast } from 'date-fns'
+import { RoundModel } from '~/api/Procuration/procuration.model'
 
 export default function MandateEditPage() {
   const params = useParams()
@@ -32,6 +34,10 @@ export default function MandateEditPage() {
 
   const slot = data?.request_slots?.find(slot => slot.round.uuid === params.round)
   const proxy = slot?.proxy
+
+  const isRoundPast = (x?: RoundModel) => (x ? isPast(new Date(x.date)) : false)
+
+  const pastStyle = (x?: RoundModel) => (isRoundPast(x) ? { display: 'none' } : {})
 
   const onToggle = useCallback(() => {
     setNoEmailCopy(v => !v)
@@ -80,7 +86,10 @@ export default function MandateEditPage() {
             <Paper sx={{ p: MuiSpacing.normal }}>
               <Grid container>
                 <Grid container sx={{ mb: MuiSpacing.small }} spacing={MuiSpacing.normal}>
-                  <InfoLine label={'Tour'} value={slot?.round.name}></InfoLine>
+                  <InfoLine
+                    label={'Tour'}
+                    value={`${slot?.round.name ?? ''} ${isRoundPast(slot?.round) && '(🚫 Passé)'}`}
+                  ></InfoLine>
                   <InfoLine label={'Bureau de vote'} value={data?.vote_place_name}></InfoLine>
                   <InfoLine
                     label={'Date de l’association'}
@@ -97,7 +106,7 @@ export default function MandateEditPage() {
                     <Divider />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid item xs={12} sx={pastStyle(slot?.round)}>
                     <FormGroup>
                       <FormControlLabel
                         control={<Checkbox checked={noEmailCopy} onChange={onToggle} />}
@@ -108,7 +117,7 @@ export default function MandateEditPage() {
                   </Grid>
                 </Grid>
 
-                <Grid item xs={12} textAlign={'right'}>
+                <Grid item xs={12} textAlign={'right'} sx={pastStyle(slot?.round)}>
                   <Button variant={'outlined'} disabled={isUnmatching} onClick={onUnmatch}>
                     Dissocier
                   </Button>

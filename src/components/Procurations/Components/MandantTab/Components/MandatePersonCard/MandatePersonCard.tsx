@@ -22,6 +22,7 @@ import {
   ActionModel,
   PROCURATION_STATUS_LABELS,
   ProcurationStatusEnum,
+  RoundModel,
   SlotModel,
   VoteZoneModel,
 } from '~/api/Procuration/procuration.model'
@@ -70,10 +71,11 @@ export enum MandatePersonCardType {
 }
 
 export default function MandatePersonCard(props: MandatePersonCardProps) {
+  const isRoundPast = (x: RoundModel) => isPast(new Date(x.date))
+
+  const pastStyle = (x: RoundModel) => (isRoundPast(x) ? { display: 'none' } : {})
   const linkedPeople = props.linkedPeople
-    ? props.linkedPeople
-        .filter(x => (x.round?.date ? !isPast(new Date(x.round?.date)) : true))
-        .map(x => ({ ...x, proxy: x.proxy ?? x.request ? [x.proxy ?? x.request] : [] }))
+    ? props.linkedPeople.map(x => ({ ...x, proxy: x.proxy ?? x.request ? [x.proxy ?? x.request] : [] }))
     : undefined
 
   return (
@@ -127,14 +129,14 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
           <Fragment key={x.uuid + props.id}>
             <Grid item xs={12}>
               <Typography variant="h6" sx={{ mt: MuiSpacing.normal, mb: MuiSpacing.normal }}>
-                {x.round.name}
+                {x.round.name} {isRoundPast(x.round) && '(🚫 Passé)'}
               </Typography>
             </Grid>
 
             <Grid container justifyItems="center">
               {([MandatePersonCardType.FIND].includes(props.type) || props.roundId === x.round.uuid) &&
                 x.proxy.length < 1 && (
-                  <Grid item xs={8} pr={MuiSpacing.normal} sx={{ my: 2 }}>
+                  <Grid item xs={8} pr={MuiSpacing.normal} sx={{ my: 2, ...pastStyle(x.round) }}>
                     <MandatePersonCardButtonGroup
                       fullWidth
                       {...props}
@@ -145,7 +147,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
                   </Grid>
                 )}
               {[MandatePersonCardType.FIND].includes(props.type) && x.proxy.length < 1 && (
-                <Grid item xs={4} sx={{ my: 2 }}>
+                <Grid item xs={4} sx={{ my: 2, ...pastStyle(x.round) }}>
                   <MandatePersonCardStateManual {...props} currentSlot={x} />
                 </Grid>
               )}
