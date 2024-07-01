@@ -155,7 +155,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
             {(([MandatePersonCardType.MATCHED_MANDANT, MandatePersonCardType.MATCHED_PROXY].includes(props.type) &&
               x.manual) ||
               ([MandatePersonCardType.MATCH_PROXY].includes(props.type) && !props.roundId && !x.proxy?.length)) && (
-              <Grid item xs={12} sx={{ mb: 2 }}>
+              <Grid item xs={12} sx={{ mb: 2, ...pastStyle(x.round) }}>
                 <MandatePersonCardStateManual {...props} currentSlot={x} />
               </Grid>
             )}
