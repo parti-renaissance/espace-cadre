@@ -215,6 +215,7 @@ const MandateInfo = memo((data: ProcurationDetailsModel) => {
       tags={data.tags ?? []}
       votePlace={data.vote_place_name}
       district={data.district}
+      acceptVoteNearby={data.accept_vote_nearby}
       type={MandatePersonCardType.MATCH_MANDANT}
       extraInfos={buildExtraData(data)}
       linkedPeople={data.request_slots ?? data.proxy_slots ?? undefined}
@@ -255,6 +256,7 @@ const Proxy = memo(
         roundId={roundId}
         votePlace={el.vote_place_name}
         district={el.district}
+        acceptVoteNearby={el.accept_vote_nearby}
         type={MandatePersonCardType.MATCH_PROXY}
         extraInfos={buildExtraData(el)}
         onExpend={setExpended}

@@ -18,6 +18,7 @@ export const initialize = () => {
   mock('GET', '/api/v3/profile/me/scope/president_departmental_assembly', 'scope/president_departmental_assembly')
   mock('POST', '/api/v3/adherents/count?scope=*', 'internal/adherents')
   mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
+  mock('GET', '/api/v3/hub-items?scope=*', 'internal/hubItems')
 
   cy.visit('/auth?code=fake_authorization_code')
   cy.url().should('eq', 'http://localhost:3000/')
