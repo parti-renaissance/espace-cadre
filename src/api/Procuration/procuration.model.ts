@@ -19,6 +19,7 @@ export interface ProcurationModel extends ReadableLightUserModel {
   tags: null | LabelTypeModel[]
   age: number
   vote_place_name: string
+  accept_vote_nearby: boolean
   available_proxies_count: number
   id: string
   status: ProcurationStatusEnum
@@ -42,6 +43,7 @@ export interface ProcurationDetailsModel extends ReadableLightUserModel {
   tags: null | LabelTypeModel[]
   age: number
   vote_place_name: string
+  accept_vote_nearby: boolean
   available_proxies_count: number
   id: string
   status: ProcurationStatusEnum
@@ -63,6 +65,7 @@ export interface ProcurationProxyDetailModel extends EmailPhoneModel {
   vote_place_name: string
   vote_zone: VoteZoneModel
   district: null | VoteZoneModel
+  accept_vote_nearby: boolean
   age: number
   post_address: PostAddressModel
   created_at: string

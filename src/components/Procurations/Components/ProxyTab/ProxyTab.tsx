@@ -179,6 +179,7 @@ const ProxyItemComponent = ({
       status={item.status}
       votePlace={item.vote_place_name}
       district={item.district}
+      acceptVoteNearby={item.accept_vote_nearby}
       location={item.vote_zone?.name}
       peopleInSameVotePlace={!done ? item.available_proxies_count : undefined}
       tags={item.tags ?? []}

@@ -39,6 +39,7 @@ export interface MandatePersonCardProps {
   votePlace: string
   district: null | VoteZoneModel
   location: string
+  acceptVoteNearby: boolean
   uuid?: string
   id: string
   expended?: boolean
@@ -211,6 +212,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
       <MandateCardEntry title={'Bureau de vote'} value={props.votePlace} />
       {props.district && <MandateCardEntry title={'Circonscription'} value={props.district.name} />}
       <MandateCardEntry title={'Commune, pays...'} value={props.location} />
+      <MandateCardEntry title={'Accepte voter dans une autre circo.'} value={props.acceptVoteNearby ? 'Oui' : 'Non'} />
 
       {props.inFrenchSoil && <MandateCardEntry title={'Lieu de dépôt'} value={'Procuration en France'} />}
 
