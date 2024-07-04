@@ -32,7 +32,7 @@
     "jme-ckeditor5": "EnMarche/ckeditor5#master",
     "libphonenumber-js": "^1.10.54",
     "lodash": "^4.17.21",
-    "mapbox-gl": "^2.15",
+    "mapbox-gl": "^3.5",
     "notistack": "^3.0.1",
     "prop-types": "^15.8.1",
     "qs": "^6.11.2",
