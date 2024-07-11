@@ -10,7 +10,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@iconify/react": "^4.1.1",
     "@mui/icons-material": "^5.15.6",
-    "@mui/lab": "^5.0.0-alpha.161",
+    "@mui/lab": "^5.0.0-alpha.172",
     "@mui/material": "^5.15.9",
     "@mui/styles": "^5.15.5",
     "@mui/system": "^5.14.18",
