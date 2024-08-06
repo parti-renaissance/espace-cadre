@@ -90,7 +90,7 @@
     "@sentry/vite-plugin": "^2.19.0",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/react": "^14.2.2",
-    "@types/google.maps": "^3.55.9",
+    "@types/google.maps": "^3.55.12",
     "@types/lodash": "^4.14.202",
     "@types/mapbox-gl": "^3.1.0",
     "@types/qs": "^6.9.12",
