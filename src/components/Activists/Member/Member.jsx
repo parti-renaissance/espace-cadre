@@ -76,6 +76,7 @@ const Member = ({ enableElectTab, member, handleClose }) => {
         <Box sx={{ position: 'relative', px: 3, pt: 7, zIndex: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }} className="space-x-2">
             <Avatar
+              src={member.imageUrl}
               sx={{
                 width: 60,
                 height: 60,

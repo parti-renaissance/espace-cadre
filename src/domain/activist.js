@@ -6,6 +6,7 @@ export default class Activist {
     firstname,
     lastname,
     gender,
+    imageUrl,
     country,
     cityId,
     city,
@@ -23,6 +24,7 @@ export default class Activist {
     this.firstname = firstname
     this.lastname = lastname
     this.gender = gender
+    this.imageUrl = imageUrl
     this.country = country
     this.cityId = cityId
     this.city = city
@@ -41,6 +43,7 @@ Activist.propTypes = PropTypes.shape({
   firstname: PropTypes.string.isRequired,
   lastname: PropTypes.string.isRequired,
   gender: PropTypes.string,
+  imageUrl: PropTypes.string,
   country: PropTypes.string.isRequired,
   cityId: PropTypes.string,
   city: PropTypes.string.isRequired,

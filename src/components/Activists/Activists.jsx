@@ -53,6 +53,7 @@ const Activists = () => {
         line.first_name,
         line.last_name,
         line.gender,
+        line.image_url,
         line.country,
         line.city_code,
         line.city,
