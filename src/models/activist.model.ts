@@ -3,6 +3,7 @@ import { CountryEnum } from '~/models/country.model'
 
 export interface ActivistModel {
   adherent_uuid: string
+  image_url: string | null
   email: string
   address: string
   postal_code: string
