@@ -12,10 +12,12 @@ import { styled } from '@mui/material/styles'
 const VoxButton = styled(Button)({
   variant: 'outlined',
   backgroundColor: 'rgb(248, 240, 255)',
-  border: '1px solid #E9D1F8',
   color: '#9f60f0',
   '&:hover': {
     backgroundColor: '#f0eafa',
+    color: '#9f60f0',
+  },
+  '&:visited': {
     color: '#9f60f0',
   },
 })
@@ -78,7 +80,7 @@ const Navigation = ({ drawerWidth }) => {
             </svg>
           }
         >
-          VOX
+          Espace militant
         </VoxButton>
       </Stack>
       <Box
