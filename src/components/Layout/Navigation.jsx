@@ -1,11 +1,24 @@
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Box } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import { featuresGroup } from '~/shared/features'
 import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
 import { useUserScope } from '~/redux/user/hooks'
+import { OAUTH_HOST } from '~/shared/environments'
+import { styled } from '@mui/material/styles'
+
+const VoxButton = styled(Button)({
+  variant: 'outlined',
+  backgroundColor: 'rgb(248, 240, 255)',
+  border: '1px solid #E9D1F8',
+  color: '#9f60f0',
+  '&:hover': {
+    backgroundColor: '#f0eafa',
+    color: '#9f60f0',
+  },
+})
 
 const Navigation = ({ drawerWidth }) => {
   const [currentScope] = useUserScope()
@@ -40,10 +53,34 @@ const Navigation = ({ drawerWidth }) => {
         overflow: 'hidden',
       }}
     >
-      <div>
+      <Stack spacing={{ xs: 1, sm: 2 }}>
         <div className="app-name">Espace cadre</div>
         <Scopes />
-      </div>
+        <VoxButton
+          href={`${OAUTH_HOST}/app`}
+          startIcon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#9f60f0"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="font_unset "
+              style={{ color: '#9f60f0' }}
+            >
+              <path d="m17 2 4 4-4 4" stroke="#9f60f0"></path>
+              <path d="M3 11v-1a4 4 0 0 1 4-4h14" stroke="#9f60f0"></path>
+              <path d="m7 22-4-4 4-4" stroke="#9f60f0"></path>
+              <path d="M21 13v1a4 4 0 0 1-4 4H3" stroke="#9f60f0"></path>
+            </svg>
+          }
+        >
+          VOX
+        </VoxButton>
+      </Stack>
       <Box
         sx={{ mt: 1.5, pb: 2, flex: '1 1 0%', height: '100%', overflowY: 'scroll' }}
         className="space-y-4 sidebar-content"
