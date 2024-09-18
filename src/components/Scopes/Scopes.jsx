@@ -118,7 +118,7 @@ function Scopes() {
   }
 
   return (
-    <Box mt={1}>
+    <Box>
       {currentUser && filteredScopes?.length > 0 && (
         <>
           <Button
