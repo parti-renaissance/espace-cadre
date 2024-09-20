@@ -49,8 +49,7 @@ const Editor = ({ messageContent, readOnly = false }) => {
           '.blockbuilder-page-layout {display: none}',
           '.preview-header {display: none}',
           '.actions-container {display: none}',
-          '.ReactModal__Overlay--after-open {position: inherit !important}',
-          '.ReactModal__Content--after-open {inset: 0 !important}',
+          '.toolbar-right button {display: none !important}',
         ],
       }
     : {}
