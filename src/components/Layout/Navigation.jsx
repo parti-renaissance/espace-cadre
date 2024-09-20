@@ -6,8 +6,10 @@ import Scopes from '../Scopes'
 import NavMenu from './NavMenu'
 import Footer from './Footer'
 import { useUserScope } from '~/redux/user/hooks'
-import { OAUTH_HOST } from '~/shared/environments'
+import { ADMIN_HOST, OAUTH_HOST } from '~/shared/environments'
 import { styled } from '@mui/material/styles'
+import { useSelector } from 'react-redux'
+import { isSwitchUser } from '~/redux/user/selectors'
 
 const VoxButton = styled(Button)({
   variant: 'outlined',
@@ -24,6 +26,7 @@ const VoxButton = styled(Button)({
 
 const Navigation = ({ drawerWidth }) => {
   const [currentScope] = useUserScope()
+  const isSwitchedUser = useSelector(isSwitchUser)
 
   const authorizedFeaturesGroup = useMemo(
     () =>
@@ -59,7 +62,7 @@ const Navigation = ({ drawerWidth }) => {
         <div className="app-name">Espace cadre</div>
         <Scopes />
         <VoxButton
-          href={`${OAUTH_HOST}/app`}
+          href={isSwitchedUser ? `${ADMIN_HOST}/vox` : `${OAUTH_HOST}/app`}
           startIcon={
             <svg
               width="16"
