@@ -11,7 +11,7 @@ import Templates from '../Templates'
 import Iconify from '~/mui/iconify/'
 
 const messages = {
-  title: 'Echange',
+  title: 'Échange',
   sendEmail: 'Écrire un email',
 }
 

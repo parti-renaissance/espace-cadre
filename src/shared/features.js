@@ -47,6 +47,7 @@ export const featuresGroup = [
       FeatureEnum.GENERAL_MEETING_REPORTS,
       FeatureEnum.MY_TEAM,
       FeatureEnum.STATUTORY_MESSAGE,
+      FeatureEnum.CONSULTATIONS,
     ],
   },
 ]
@@ -76,4 +77,5 @@ export const featuresLabels = {
   [FeatureEnum.STATUTORY_MESSAGE]: 'Emails statutaires',
   [FeatureEnum.PROCURATIONS]: 'Procurations',
   [FeatureEnum.ACTIONS]: 'Actions',
+  [FeatureEnum.CONSULTATIONS]: 'Votes et consultations',
 }
