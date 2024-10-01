@@ -10,8 +10,12 @@ import { FeatureEnum } from '~/models/feature.enum'
 import UICard, { Title } from '~/ui/Card'
 import EmptyContent from '~/ui/EmptyContent'
 import { Designation } from '~/domain/designation'
+import { useNavigate } from 'react-router-dom'
+import { paths as componentPaths } from '~/components/Consultations/paths'
+import paths from '~/shared/paths'
 
 const List = () => {
+  const navigate = useNavigate()
   const { handleError } = useErrorHandler()
   const { isMobile } = useCurrentDeviceType()
   const { data, isFetching } = useQueryWithScope(
@@ -33,7 +37,11 @@ const List = () => {
                 <Button variant="contained" color="inherit" size="medium" onClick={() => {}}>
                   {"Nouveau vote d'AG"}
                 </Button>
-                <Button variant="contained" color="inherit" onClick={() => ''}>
+                <Button
+                  variant="contained"
+                  color="inherit"
+                  onClick={() => navigate(paths[FeatureEnum.CONSULTATIONS] + componentPaths.new_consultation)}
+                >
                   Nouvelle consultation
                 </Button>
               </Stack>
