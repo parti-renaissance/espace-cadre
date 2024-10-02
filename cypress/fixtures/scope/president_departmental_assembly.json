@@ -32,7 +32,8 @@
     "contacts_export",
     "statutory_message",
     "phoning_campaign",
-    "procurations"
+    "procurations",
+    "consultations"
   ],
   "delegated_access": null,
   "attributes": null

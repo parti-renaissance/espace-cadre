@@ -9,7 +9,7 @@ import { cancelDesignation, getDesignation, resultsDesignation } from '~/api/des
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
-import { CommitteeElection, Designation } from '~/domain/committee_election'
+import { CommitteeElection } from '~/domain/committee_election'
 import Loader from '~/ui/Loader'
 import EmptyContent from '~/ui/EmptyContent'
 import Button from '~/ui/Button'
@@ -20,6 +20,7 @@ import CreateEditModal from '../Elections/CreateEditModal'
 import { electionStatus } from '../constants'
 import { Tab, TabLabel } from '../styles'
 import Participants from '../Participants'
+import { Designation } from '~/domain/designation'
 
 const messages = {
   create: 'Créer une élection',

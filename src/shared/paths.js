@@ -23,6 +23,7 @@ export default {
   [FeatureEnum.STATUTORY_MESSAGE]: '/mails-statutaires',
   [FeatureEnum.PROCURATIONS]: '/procurations',
   [FeatureEnum.ACTIONS]: '/actions',
+  [FeatureEnum.DESIGNATION]: '/votes-et-consultations',
 }
 
 export const publicPaths = {

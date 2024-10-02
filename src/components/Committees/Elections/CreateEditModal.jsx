@@ -11,10 +11,11 @@ import { FormError } from '~/components/shared/error/components'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { notifyVariants } from '~/components/shared/notification/constants'
-import { CommitteeElection, Designation } from '~/domain/committee_election'
+import { CommitteeElection } from '~/domain/committee_election'
 import Input from '~/ui/Input/Input'
 import UIInputLabel from '~/ui/InputLabel/InputLabel'
 import { ModalForm } from '~/ui/Dialog'
+import { Designation, DesignationTypeEnum } from '~/domain/designation'
 
 const messages = {
   create: 'Créer',
@@ -65,9 +66,11 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
   })
 
   const prepareCreateOrUpdate = () => {
-    const { customTitle, description, voteStartDate, voteEndDate } = getValues()
+    const designationFromForm = Designation.fromFormData(DesignationTypeEnum.CommitteeSupervisor, getValues())
+    designationFromForm.electionEntityIdentifier = committeeUuid
+    designationFromForm.id = designation.id || null
 
-    return new Designation(null, customTitle, description, null, voteStartDate, voteEndDate)
+    return designationFromForm
   }
 
   const createOrEdit = () => {
@@ -77,15 +80,7 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
       return
     }
 
-    if (!designation.id) {
-      createOrUpdate({ ...prepareCreateOrUpdate(), committeeUuid })
-    } else {
-      createOrUpdate({
-        ...getValues(),
-        committeeUuid,
-        id: designation.id,
-      })
-    }
+    createOrUpdate(prepareCreateOrUpdate())
   }
 
   return (
@@ -170,7 +165,7 @@ const CreateEditModal = ({ designation, committeeUuid, election, handleClose, on
 export default CreateEditModal
 
 CreateEditModal.propTypes = {
-  designation: Designation.propTypes,
+  designation: PropTypes.instanceOf(Designation),
   committeeUuid: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
   election: CommitteeElection.propTypes,

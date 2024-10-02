@@ -31,7 +31,7 @@ import {
   updateEvent as updateEventApi,
   uploadImage as imageUploadApi,
 } from '~/api/events'
-import BlockForm from '~/components/Events/pages/createOrEdit/components/BlockForm/BlockForm'
+import BlockForm from '~/ui/Form/BlockForm'
 import { CreateEventForm, CreateEventSchema, Event, VisibilityEvent } from '~/domain/event'
 import Category from '~/components/Events/pages/createOrEdit/components/forms/category'
 import Visibility from '~/components/Events/pages/createOrEdit/components/forms/visibility'

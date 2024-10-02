@@ -1,28 +1,6 @@
 import PropTypes from 'prop-types'
-import { add } from 'date-fns'
 import { electionStatus } from '~/components/Committees/constants'
-
-export class Designation {
-  constructor(id, customTitle, description, electionDate, voteStartDate, voteEndDate) {
-    this.id = id
-    this.customTitle = customTitle
-    this.description = description
-    this.electionDate = electionDate ? electionDate : null
-    this.voteStartDate = voteStartDate
-    this.voteEndDate = voteEndDate
-  }
-
-  static NULL = new Designation(null, '', '', null, add(new Date(), { days: 16 }), add(new Date(), { days: 17 }))
-}
-
-Designation.propTypes = PropTypes.shape({
-  id: PropTypes.string,
-  customTitle: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  electionDate: PropTypes.object,
-  voteStartDate: PropTypes.object.isRequired,
-  voteEndDate: PropTypes.object.isRequired,
-})
+import { Designation } from '~/domain/designation'
 
 export class CommitteeElection {
   constructor(id, designation, groups, status, votersCount, voteCount, committeeId) {
@@ -56,7 +34,7 @@ export class CommitteeElection {
 
 CommitteeElection.propTypes = PropTypes.shape({
   id: PropTypes.string,
-  designation: Designation.propTypes.isRequired,
+  designation: PropTypes.instanceOf(Designation).isRequired,
   groups: PropTypes.array.isRequired,
   status: PropTypes.string,
   votersCount: PropTypes.number,

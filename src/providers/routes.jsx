@@ -31,6 +31,7 @@ import MandateMatchPage from '~/components/Procurations/Pages/MandateMatchPage'
 import MandateValidationPage from '~/components/Procurations/Pages/MandateValidationPage'
 import MandateEditPage from '~/components/Procurations/Pages/MandateEditPage'
 import { FeatureEnum } from '~/models/feature.enum'
+import Consultations from '~/components/Consultations'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -59,6 +60,10 @@ const AppPrivateRoutes = () => {
         <Route
           path={`${paths.general_meeting_reports}/*`}
           element={currentScope.hasFeature(FeatureEnum.GENERAL_MEETING_REPORTS) && <GeneralReports />}
+        />
+        <Route
+          path={`${paths.designation}/*`}
+          element={currentScope.hasFeature(FeatureEnum.DESIGNATION) && <Consultations />}
         />
         <Route
           path={`${paths.committee}/*`}

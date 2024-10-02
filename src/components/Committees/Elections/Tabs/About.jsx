@@ -9,11 +9,11 @@ import Status from '~/components/Committees/Status'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { electionStatus } from '~/components/Committees/constants'
 import { nl2br } from '~/components/shared/helpers'
-import { Designation } from '~/domain/committee_election'
 import UICard from '~/ui/Card'
 import { LineContent, ResultCard } from '../../styles'
 import ConfirmButton from '~/ui/Button/ConfirmButton'
 import { formatDate } from '~/shared/helpers'
+import { Designation } from '~/domain/designation'
 
 const About = ({ status, votersCount, voteCount, designation, adherentCount, results, cancelElection }) => (
   <Box>
@@ -131,7 +131,7 @@ About.propTypes = {
   status: PropTypes.string,
   votersCount: PropTypes.number,
   voteCount: PropTypes.number,
-  designation: Designation.propTypes.isRequired,
+  designation: PropTypes.instanceOf(Designation).isRequired,
   adherentCount: PropTypes.number,
   results: PropTypes.object,
   cancelElection: PropTypes.func,

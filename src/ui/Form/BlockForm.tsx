@@ -42,11 +42,7 @@ const BlockForm = ({ children, helpers, title, subtitle }: BlockFormProps) => (
     </Grid>
 
     <Grid item xs={12} md={8}>
-      <Card
-        sx={{
-          p: 4,
-        }}
-      >
+      <Card sx={{ p: 4 }}>
         <Stack spacing={4}>{children}</Stack>
       </Card>
     </Grid>
