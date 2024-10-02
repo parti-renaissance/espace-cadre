@@ -9,13 +9,11 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
-  SelectChangeEvent,
   Stack,
   TextField,
 } from '@mui/material'
 import BlockForm from '~/ui/Form/BlockForm'
 import { DateTimePicker } from '@mui/x-date-pickers'
-import { useEffect, useMemo } from 'react'
 import { Controller } from 'react-hook-form'
 import { add } from 'date-fns'
 import { find } from 'lodash'
@@ -24,11 +22,10 @@ import Questions from '~/components/Consultations/FormComponent/Questions'
 import { DesignationType } from '~/domain/designation'
 
 type MainFormProps = {
-  formData: DesignationType
   onSubmit: (data: DesignationType) => void
 }
 
-const MainForm = ({ formData, onSubmit }: MainFormProps) => {
+const MainForm = ({ onSubmit }: MainFormProps) => {
   const targetChoices = useTargetChoices()
 
   const {
@@ -37,10 +34,7 @@ const MainForm = ({ formData, onSubmit }: MainFormProps) => {
     setError,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useFormContextCreateDesignation()
-
-  useEffect(() => reset(formData), [reset, formData])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,7 +43,6 @@ const MainForm = ({ formData, onSubmit }: MainFormProps) => {
           <Controller
             control={control}
             name="customTitle"
-            defaultValue={''}
             render={({ field }) => (
               <TextField
                 label="Titre"
@@ -65,7 +58,6 @@ const MainForm = ({ formData, onSubmit }: MainFormProps) => {
             <Controller
               control={control}
               name="description"
-              defaultValue={''}
               render={({ field }) => (
                 <TextField
                   label="Description"

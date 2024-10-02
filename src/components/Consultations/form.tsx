@@ -3,16 +3,20 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ReactNode, useMemo } from 'react'
 import { DesignationType, schemaCreateDesignation } from '~/domain/designation'
 
-const useFormCreateDesignation = () =>
+const useFormCreateDesignation = (defaultValues: DesignationType) =>
   useForm<DesignationType>({
     mode: 'onBlur',
+    defaultValues,
     resolver: zodResolver(schemaCreateDesignation),
   })
 
-export const FormProviderCreateDesignation = ({ children }: { children: ReactNode }) => {
-  const methods = useFormCreateDesignation()
-  return <FormProvider {...methods}>{children}</FormProvider>
-}
+export const FormProviderCreateDesignation = ({
+  defaultValues,
+  children,
+}: {
+  defaultValues: DesignationType
+  children: ReactNode
+}) => <FormProvider {...useFormCreateDesignation(defaultValues)}>{children}</FormProvider>
 
 export const useFormContextCreateDesignation = () => useFormContext<DesignationType>()
 

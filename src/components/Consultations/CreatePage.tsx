@@ -58,7 +58,17 @@ const CreatePage = () => {
   return (
     <Container maxWidth={false}>
       <Box>
-        <PageHeader title={featuresLabels[FeatureEnum.DESIGNATION]} />
+        <PageHeader
+          title={featuresLabels[FeatureEnum.DESIGNATION]}
+          startButton={
+            <Button
+              startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
+              onClick={() => navigate(paths[FeatureEnum.DESIGNATION])}
+            >
+              Retour
+            </Button>
+          }
+        />
 
         <Box sx={{ width: '100%' }}>
           <Stepper activeStep={previewMode ? 1 : 0} alternativeLabel>
@@ -89,14 +99,13 @@ const CreatePage = () => {
                 onClick={() => mutate(formData)}
                 startIcon={<Iconify icon={'eva:checkmark-circle-outline'} />}
               >
-                Créer
+                Programmer le vote
               </LoadingButton>
             </Stack>
           </>
         ) : (
-          <FormProviderCreateDesignation>
+          <FormProviderCreateDesignation defaultValues={formData}>
             <MainForm
-              formData={formData}
               onSubmit={data => {
                 setFormData(data)
                 setPreviewMode(true)
