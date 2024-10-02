@@ -47,7 +47,7 @@ export const featuresGroup = [
       FeatureEnum.GENERAL_MEETING_REPORTS,
       FeatureEnum.MY_TEAM,
       FeatureEnum.STATUTORY_MESSAGE,
-      FeatureEnum.CONSULTATIONS,
+      FeatureEnum.DESIGNATION,
     ],
   },
 ]
@@ -73,9 +73,8 @@ export const featuresLabels = {
   [FeatureEnum.GENERAL_MEETING_REPORTS]: "Centre d'archives",
   [FeatureEnum.COMMITTEE]: 'Comités locaux',
   [FeatureEnum.DOCUMENTS]: 'Documents',
-  [FeatureEnum.DESIGNATION]: 'Élections CL',
+  [FeatureEnum.DESIGNATION]: 'Votes et consultations',
   [FeatureEnum.STATUTORY_MESSAGE]: 'Emails statutaires',
   [FeatureEnum.PROCURATIONS]: 'Procurations',
   [FeatureEnum.ACTIONS]: 'Actions',
-  [FeatureEnum.CONSULTATIONS]: 'Votes et consultations',
 }

@@ -21,7 +21,6 @@ export enum FeatureEnum {
   PROCURATIONS = 'procurations',
   RIPOSTES = 'ripostes',
   STATUTORY_MESSAGE = 'statutory_message',
-  CONSULTATIONS = 'consultations',
   SURVEY = 'survey',
   TEAM = 'team',
 }

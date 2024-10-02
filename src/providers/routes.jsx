@@ -62,8 +62,8 @@ const AppPrivateRoutes = () => {
           element={currentScope.hasFeature(FeatureEnum.GENERAL_MEETING_REPORTS) && <GeneralReports />}
         />
         <Route
-          path={`${paths.consultations}/*`}
-          element={currentScope.hasFeature(FeatureEnum.CONSULTATIONS) && <Consultations />}
+          path={`${paths.designation}/*`}
+          element={currentScope.hasFeature(FeatureEnum.DESIGNATION) && <Consultations />}
         />
         <Route
           path={`${paths.committee}/*`}

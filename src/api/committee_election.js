@@ -1,22 +1,13 @@
 import { apiClient } from '~/services/networking/client'
 import { CommitteeElection } from '~/domain/committee_election'
-import { parseDate } from '~/shared/helpers'
 import { Designation } from '~/domain/designation'
 
 export const getCommitteeElection = async committeeElectionId => {
   const committeeElection = await apiClient.get(`/v3/committee_elections/${committeeElectionId}`)
-  const designation = new Designation(
-    committeeElection.designation.uuid,
-    committeeElection.designation.custom_title,
-    committeeElection.designation.description,
-    parseDate(committeeElection.designation.election_creation_date),
-    parseDate(committeeElection.designation.vote_start_date),
-    parseDate(committeeElection.designation.vote_end_date)
-  )
 
   return new CommitteeElection(
     committeeElection.uuid,
-    designation,
+    Designation.fromApi(committeeElection.designation),
     committeeElection.candidacies_groups,
     committeeElection.status,
     committeeElection.voters_count,

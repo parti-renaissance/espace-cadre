@@ -131,7 +131,7 @@ About.propTypes = {
   status: PropTypes.string,
   votersCount: PropTypes.number,
   voteCount: PropTypes.number,
-  designation: PropTypes.objectOf(Designation).isRequired,
+  designation: PropTypes.instanceOf(Designation).isRequired,
   adherentCount: PropTypes.number,
   results: PropTypes.object,
   cancelElection: PropTypes.func,

@@ -1,5 +1,11 @@
 import { add } from 'date-fns'
 import { z } from 'zod'
+import { parseDate } from '~/shared/helpers'
+
+export enum DesignationTypeEnum {
+  Consultation = 'consultation',
+  CommitteeSupervisor = 'committee_supervisor',
+}
 
 export class Designation {
   constructor(
@@ -7,19 +13,24 @@ export class Designation {
     public customTitle: string = '',
     public description: string | null = '',
     public electionDate: Date | null = null,
+    public type: DesignationTypeEnum | null = null,
+    public electionEntityIdentifier: string | null = null,
     public voteStartDate: Date = add(new Date(), { days: 16 }),
     public voteEndDate: Date = add(new Date(), { days: 17 }),
     public target: string[] = [],
-    public questions: Question[] = []
+    public questions: Question[] = [],
+    public createdAt: Date | null = null
   ) {}
 
   static NULL = new Designation()
 
-  static fromFormData(formData: DesignationType): Designation {
+  static fromFormData(type: DesignationTypeEnum, formData: DesignationType): Designation {
     return new Designation(
       null,
       formData.customTitle,
       formData.description,
+      null,
+      type,
       null,
       formData.voteStartDate,
       formData.voteEndDate,
@@ -32,6 +43,38 @@ export class Designation {
           )
       )
     )
+  }
+
+  static fromApi(data: any): Designation {
+    return new Designation(
+      data.uuid,
+      data.custom_title,
+      data.description,
+      data.election_date ? parseDate(data.election_date) : null,
+      data.type as DesignationTypeEnum,
+      data.election_entity_identifier,
+      parseDate(data.vote_start_date),
+      parseDate(data.vote_end_date),
+      data.target,
+      [],
+      parseDate(data.created_at)
+    )
+  }
+
+  toJson() {
+    return {
+      type: this.type,
+      custom_title: this.customTitle,
+      description: this.description,
+      vote_start_date: this.voteStartDate,
+      vote_end_date: this.voteEndDate,
+      target: this.target,
+      election_entity_identifier: this.electionEntityIdentifier,
+      questions: this.questions.map(q => ({
+        content: q.content,
+        choices: q.choices.map(c => c.content),
+      })),
+    }
   }
 }
 

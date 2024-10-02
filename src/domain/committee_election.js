@@ -34,7 +34,7 @@ export class CommitteeElection {
 
 CommitteeElection.propTypes = PropTypes.shape({
   id: PropTypes.string,
-  designation: PropTypes.objectOf(Designation).isRequired,
+  designation: PropTypes.instanceOf(Designation).isRequired,
   groups: PropTypes.array.isRequired,
   status: PropTypes.string,
   votersCount: PropTypes.number,
