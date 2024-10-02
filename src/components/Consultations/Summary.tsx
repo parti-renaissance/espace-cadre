@@ -1,5 +1,6 @@
 import { DesignationType } from '~/domain/designation'
 import {
+  Alert,
   Box,
   Chip,
   Grid,
@@ -26,7 +27,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
         Récapitulatif
       </Typography>
 
-      <Stack spacing={2} mt={2} marginLeft={2}>
+      <Stack spacing={2} mt={2} marginLeft={2} marginY={2}>
         <Grid container>
           <Grid item xs={2}>
             <Typography variant="h6">Titre :</Typography>
@@ -109,7 +110,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
           Calendrier prévisionnel
         </Typography>
 
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ border: '1px solid #ccc' }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -177,6 +178,12 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <Alert severity="error">
+          Une fois programmé, vous aurez jusqu’à J-3 - le{' '}
+          {format(sub(designation.voteStartDate, { days: 3 }), 'dd/MM/yyyy, HH:mm')}, - pour modifier les paramètres de
+          vote. Après cette date, seuls le titre et la description resteront éditables.
+        </Alert>
       </Stack>
     </Box>
   )
