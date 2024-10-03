@@ -1,22 +1,24 @@
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ReactNode, useMemo } from 'react'
-import { DesignationType, schemaCreateDesignation } from '~/domain/designation'
+import { DesignationType, schemaCreateDesignation, schemaPartialDesignation } from '~/domain/designation'
 
-const useFormCreateDesignation = (defaultValues: DesignationType) =>
+const useFormCreateDesignation = (isFullyEditable: boolean, defaultValues: DesignationType) =>
   useForm<DesignationType>({
     mode: 'onBlur',
     defaultValues,
-    resolver: zodResolver(schemaCreateDesignation),
+    resolver: zodResolver(isFullyEditable ? schemaCreateDesignation : schemaPartialDesignation),
   })
 
 export const FormProviderCreateDesignation = ({
+  isFullyEditable,
   defaultValues,
   children,
 }: {
+  isFullyEditable: boolean
   defaultValues: DesignationType
   children: ReactNode
-}) => <FormProvider {...useFormCreateDesignation(defaultValues)}>{children}</FormProvider>
+}) => <FormProvider {...useFormCreateDesignation(isFullyEditable, defaultValues)}>{children}</FormProvider>
 
 export const useFormContextCreateDesignation = () => useFormContext<DesignationType>()
 

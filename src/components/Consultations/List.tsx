@@ -89,7 +89,11 @@ const List = () => {
                   }
                   actions={
                     <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>
-                      <Button variant={'contained'} startIcon={<Iconify icon={'eva:edit-outline'} />}>
+                      <Button
+                        variant={'contained'}
+                        onClick={() => navigate(paths[FeatureEnum.DESIGNATION] + '/' + consultation.id + '/modifier')}
+                        startIcon={<Iconify icon={'eva:edit-outline'} />}
+                      >
                         Éditer
                       </Button>
                     </Box>

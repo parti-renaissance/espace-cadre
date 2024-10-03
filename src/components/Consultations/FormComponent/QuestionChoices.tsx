@@ -23,9 +23,9 @@ const QuestionChoices = ({ questionIndex }: { questionIndex: number }) => {
               label={`Bulletin ${index + 1}`}
               variant="outlined"
               fullWidth
-              {...register(`questions.${questionIndex}.choices.${index}.content`)}
-              error={!!errors.questions?.[questionIndex]?.choices?.[index]?.content}
-              helperText={errors.questions?.[questionIndex]?.choices?.[index]?.content?.message}
+              {...register(`questions.${questionIndex}.choices.${index}.label`)}
+              error={!!errors.questions?.[questionIndex]?.choices?.[index]?.label}
+              helperText={errors.questions?.[questionIndex]?.choices?.[index]?.label?.message}
             />
           </Grid>
           {index > 1 && (
@@ -46,7 +46,7 @@ const QuestionChoices = ({ questionIndex }: { questionIndex: number }) => {
         variant="outlined"
         startIcon={<Iconify icon="eva:plus-outline" />}
         sx={{ width: 'fit-content' }}
-        onClick={() => append({ content: '' })}
+        onClick={() => append({ label: '' })}
       >
         Ajouter un bulletin
       </Button>

@@ -77,7 +77,7 @@ const Questions = () => {
           startIcon={<Iconify icon="eva:plus-outline" />}
           sx={{ width: 'fit-content' }}
           onClick={event => {
-            append({ content: '', choices: [{ content: '' }, { content: '' }] })
+            append({ content: '', choices: [{ label: '' }, { label: '' }] })
             const target = event.target as HTMLElement
             setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 100)
           }}

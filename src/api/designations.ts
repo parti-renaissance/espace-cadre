@@ -11,14 +11,9 @@ export const getDesignation = async (uuid: string) => {
   return Designation.fromApi(data)
 }
 
-export const createDesignation = async (designation: Designation) => {
-  const data = await apiClient.post('/v3/designations', designation.toJson())
-  return data.uuid
-}
-export const updateDesignation = async (designation: Designation) => {
-  const data = await apiClient.put(`/v3/designations/${designation.id}`, designation.toJson())
-  return data.uuid
-}
+export const createDesignation = (designation: Designation) => apiClient.post('/v3/designations', designation.toJson())
+export const updateDesignation = (designation: Designation) =>
+  apiClient.put(`/v3/designations/${designation.id}`, designation.toJson())
 export const cancelDesignation = async (uuid: string) => await apiClient.put(`/v3/designations/${uuid}/cancel`)
 export const resultsDesignation = async (uuid: string) => await apiClient.get(`/v3/designations/${uuid}/results`)
 export const getVoters = async (uuid: string) => await apiClient.get(`/v3/designations/${uuid}/voters`)

@@ -11,9 +11,8 @@ import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Iconify from '~/mui/iconify'
-import { add } from 'date-fns'
 import { useMutation } from '@tanstack/react-query'
-import { createDesignation } from '~/api/designations'
+import { createDesignation, updateDesignation } from '~/api/designations'
 import { useNavigate } from 'react-router-dom'
 import paths from '~/shared/paths'
 import { LoadingButton } from '@mui/lab'
@@ -25,31 +24,30 @@ const steps = [
   { name: 'Récapitulatif', route: '' },
 ]
 
-const CreatePage = () => {
+const EditPage = ({ designation = Designation.NULL }: { designation?: Designation }) => {
   const [previewMode, setPreviewMode] = useState<boolean>(false)
-  const [formData, setFormData] = useState<DesignationType>({
-    customTitle: '',
-    description: '',
-    target: [],
-    questions: [
-      {
-        content: '',
-        choices: [{ content: '' }, { content: '' }],
-      },
-    ],
-    voteStartDate: add(new Date(), { days: 3, hours: 1 }),
-    voteEndDate: add(new Date(), { days: 4, hours: 1 }),
-  })
+  const [formData, setFormData] = useState<DesignationType>(designation.toFormData())
 
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
 
   const { mutate, isLoading } = useMutation(
     ['create-designation'],
-    (data: DesignationType) => createDesignation(Designation.fromFormData(DesignationTypeEnum.Consultation, data)),
+    (data: DesignationType) => {
+      const designationFromForm = Designation.fromFormData(DesignationTypeEnum.Consultation, data, designation.id)
+
+      if (designation.id) {
+        return updateDesignation(designationFromForm)
+      }
+
+      return createDesignation(designationFromForm)
+    },
     {
       onSuccess: () => {
-        enqueueSnackbar('La consultation a bien été créée', notifyVariants.success)
+        enqueueSnackbar(
+          designation.id ? 'La consultation a bien été modifiée' : 'La consultation a bien été créée',
+          notifyVariants.success
+        )
         navigate(paths[FeatureEnum.DESIGNATION])
       },
     }
@@ -86,7 +84,11 @@ const CreatePage = () => {
             <Stack direction="row" spacing={2} justifyContent={'end'}>
               <Button
                 variant={'contained'}
-                onClick={() => setPreviewMode(false)}
+                disabled={isLoading}
+                onClick={() => {
+                  setPreviewMode(false)
+                  setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100)
+                }}
                 startIcon={<Iconify icon={'eva:edit-outline'} />}
               >
                 Éditer
@@ -99,16 +101,19 @@ const CreatePage = () => {
                 onClick={() => mutate(formData)}
                 startIcon={<Iconify icon={'eva:checkmark-circle-outline'} />}
               >
-                Programmer le vote
+                {designation.isFullyEditable ? 'Programmer le vote' : 'Sauvegarder'}
               </LoadingButton>
             </Stack>
           </>
         ) : (
-          <FormProviderCreateDesignation defaultValues={formData}>
+          <FormProviderCreateDesignation defaultValues={formData} isFullyEditable={designation.isFullyEditable}>
             <MainForm
+              isEdition={!!designation.id}
+              isFullyEditable={designation.isFullyEditable}
               onSubmit={data => {
                 setFormData(data)
                 setPreviewMode(true)
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100)
               }}
             />
           </FormProviderCreateDesignation>
@@ -118,4 +123,4 @@ const CreatePage = () => {
   )
 }
 
-export default CreatePage
+export default EditPage
