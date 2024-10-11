@@ -23,4 +23,5 @@ export enum FeatureEnum {
   STATUTORY_MESSAGE = 'statutory_message',
   SURVEY = 'survey',
   TEAM = 'team',
+  FEATUREBASE = 'featurebase',
 }
