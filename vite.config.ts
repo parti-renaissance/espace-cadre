@@ -60,6 +60,13 @@ export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => 
     },
     dir: 'src',
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
 })
 
 export default defineConfig(generateConfig)
