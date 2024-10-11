@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import { OAUTH_HOST, OAUTH_CLIENT_ID } from '~/shared/environments'
+import { publicPaths } from '~/shared/paths'
 
 const authCall = async payload => {
   const result = await axios.post(`${OAUTH_HOST}/oauth/v2/token`, qs.stringify(payload), {
@@ -11,6 +12,7 @@ const authCall = async payload => {
 
 const login = async (fromRefreshToken = false, params) => {
   let authPayload = {
+    redirect_uri: window.location.origin + publicPaths.auth,
     client_id: OAUTH_CLIENT_ID,
   }
   if (fromRefreshToken) {
