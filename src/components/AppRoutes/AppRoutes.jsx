@@ -1,6 +1,13 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { Route, useLocation, createBrowserRouter, createRoutesFromElements, useRouteError } from 'react-router-dom'
+import {
+  Route,
+  useLocation,
+  createBrowserRouter,
+  createRoutesFromElements,
+  useRouteError,
+  useNavigate,
+} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { getCurrentUser, getUserScopes, isUserLogged } from '~/redux/user/selectors'
 import { useGetUserData, useInitializeAuth } from '~/redux/auth/hooks'
@@ -17,7 +24,6 @@ import Sidebar from '~/components/Layout/Sidebar'
 import Logout from '../Logout/Logout'
 import * as Sentry from '@sentry/react'
 import ErrorComponent from '~/components/ErrorComponent'
-import { useLocalStorage } from 'react-use'
 
 const publicPathsArray = [
   publicPaths.signup,
@@ -30,48 +36,51 @@ const publicPathsArray = [
 ]
 
 const PrivatePages = ({ children }) => {
-  const initializeAuth = useInitializeAuth()
+  const navigate = useNavigate()
   const { pathname, search } = useLocation()
+
+  const searchParams = useMemo(() => new URLSearchParams(search), [search])
+  const forceScope = searchParams.get('scope')
+  const redirect = searchParams.get('redirect')
+
+  const initializeAuth = useInitializeAuth()
   const isUserLoggedIn = useSelector(isUserLogged)
   const currentUser = useSelector(getCurrentUser)
   const [currentScope, updateCurrentScope] = useUserScope()
   const userScopes = useSelector(getUserScopes)
   const [, updateUserData] = useGetUserData()
-  const forceScope = new URLSearchParams(search).get('scope')
-  const redirect = new URLSearchParams(search).get('redirect')
-  const [localCurrentScope, setLocalCurrentScope] = useLocalStorage('forceScope')
-  const [tempRedirect, setTempRedirect] = useLocalStorage('tempRedirect')
+
+  const redirectCallback = useCallback(() => {
+    searchParams.delete('scope')
+    navigate({ pathname: redirect ?? pathname, search: searchParams.toString() }, { replace: true })
+  }, [navigate, pathname, redirect, searchParams])
 
   useEffect(() => {
+    if (!isUserLoggedIn) {
+      if (!publicPathsArray.includes(pathname)) {
+        initializeAuth()
+      }
+      return
+    }
+
+    if (currentUser === null) {
+      updateUserData()
+      return
+    }
+
+    if (userScopes.length === 0) {
+      return
+    }
+
+    const scopeToSelect = userScopes.length === 1 ? userScopes[0].code : forceScope
+
+    const forcedCurrentScope = userScopes.find(scope => scope.code === scopeToSelect)
+    if (forcedCurrentScope && (currentScope === null || currentScope.code !== forcedCurrentScope.code)) {
+      updateCurrentScope(forcedCurrentScope.code)
+    }
+
     if (forceScope) {
-      setLocalCurrentScope(forceScope)
-    }
-
-    if (redirect && !isUserLoggedIn) {
-      setTempRedirect(redirect)
-    }
-
-    if ((tempRedirect || redirect) && isUserLoggedIn && currentScope !== null) {
-      const tr = tempRedirect ?? redirect
-      setTempRedirect(null)
-      if (tr) {
-        window.location.href = window.location.origin + tr
-      }
-    }
-
-    if (localCurrentScope && userScopes.length > 0) {
-      const forcedCurrentScope = userScopes.find(scope => scope.code === localCurrentScope)
-      if (forcedCurrentScope) {
-        updateCurrentScope(forcedCurrentScope.code).then(() => setLocalCurrentScope(null))
-      }
-    }
-
-    if (isUserLoggedIn) {
-      if (currentUser === null) {
-        updateUserData()
-      }
-    } else if (!publicPathsArray.includes(pathname)) {
-      initializeAuth()
+      redirectCallback()
     }
   }, [
     currentUser,
@@ -80,19 +89,17 @@ const PrivatePages = ({ children }) => {
     pathname,
     updateUserData,
     forceScope,
-    localCurrentScope,
     userScopes,
     updateCurrentScope,
-    setLocalCurrentScope,
     redirect,
-    setTempRedirect,
-    tempRedirect,
     currentScope,
+    redirectCallback,
   ])
 
-  if (!currentUser || userScopes.length === 0) {
+  if (!currentUser || userScopes.length === 0 || (currentScope === null && userScopes.length === 1)) {
     return <BootPage />
   }
+
   if (userScopes && currentScope === null) {
     return <ScopesPage />
   }
@@ -127,7 +134,9 @@ const AppRoutes = ({ children }) =>
 function SentryRouteErrorFallback() {
   const routeError = useRouteError()
 
-  useEffect(() => Sentry.captureException(routeError), [routeError])
+  useEffect(() => {
+    Sentry.captureException(routeError)
+  }, [routeError])
 
   return <ErrorComponent errorMessage={{ message: "Une erreur est survenue, merci de relancer l'application." }} />
 }
