@@ -77,4 +77,5 @@ export const featuresLabels = {
   [FeatureEnum.STATUTORY_MESSAGE]: 'Emails statutaires',
   [FeatureEnum.PROCURATIONS]: 'Procurations',
   [FeatureEnum.ACTIONS]: 'Actions',
+  [FeatureEnum.FEATUREBASE]: 'Featurebase',
 }

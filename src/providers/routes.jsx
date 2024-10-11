@@ -33,7 +33,6 @@ import MandateEditPage from '~/components/Procurations/Pages/MandateEditPage'
 import { FeatureEnum } from '~/models/feature.enum'
 import Consultations from '~/components/Consultations'
 import Featurebase from '~/components/Featurebase'
-import { NODE_ENV } from '~/shared/environments'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -119,7 +118,7 @@ const AppPrivateRoutes = () => {
           />
         </Routes>
       </Suspense>
-      {NODE_ENV === 'production' && <Featurebase />}
+      {!!currentScope && currentScope.hasFeature(FeatureEnum.FEATUREBASE) && <Featurebase />}
     </>
   )
 }
