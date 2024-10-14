@@ -18,7 +18,8 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:cypress/recommended",
-    "plugin:vitest-globals/recommended"
+    "plugin:vitest-globals/recommended",
+    "prettier"
   ],
   "parserOptions": {
     "ecmaFeatures": {

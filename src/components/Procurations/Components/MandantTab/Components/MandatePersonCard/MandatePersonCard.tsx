@@ -76,7 +76,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
   const pastStyle = (x: RoundModel) => (isRoundPast(x) ? { display: 'none' } : {})
   const linkedPeople = props.linkedPeople
-    ? props.linkedPeople.map(x => ({ ...x, proxy: x.proxy ?? x.request ? [x.proxy ?? x.request] : [] }))
+    ? props.linkedPeople.map(x => ({ ...x, proxy: (x.proxy ?? x.request) ? [x.proxy ?? x.request] : [] }))
     : undefined
 
   return (
