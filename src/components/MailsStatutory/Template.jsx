@@ -113,7 +113,7 @@ const Template = () => {
 
   useEffect(() => {
     if (messageContent) {
-      setMessageSubject(mergeContent(messageSubject ? messageSubject : messageContent.subject ?? '', templateValues))
+      setMessageSubject(mergeContent(messageSubject ? messageSubject : (messageContent.subject ?? ''), templateValues))
     }
   }, [messageContent, templateValues, messageSubject])
 
