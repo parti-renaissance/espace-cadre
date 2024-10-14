@@ -13,21 +13,22 @@ import {
   TextField,
 } from '@mui/material'
 import BlockForm from '~/ui/Form/BlockForm'
-import { DateTimePicker } from '@mui/x-date-pickers'
 import { Controller } from 'react-hook-form'
-import { add } from 'date-fns'
 import { find } from 'lodash'
 import { useFormContextCreateDesignation, useTargetChoices } from '~/components/Consultations/form'
 import Questions from '~/components/Consultations/FormComponent/Questions'
 import { DesignationType } from '~/domain/designation'
+import DateTimePicker from '~/components/Consultations/FormComponent/DateTimePicker'
+import { useEffect } from 'react'
 
 type MainFormProps = {
   onSubmit: (data: DesignationType) => void
   isFullyEditable: boolean
   isEdition: boolean
+  apiErrors: { field: string; message: string }[]
 }
 
-const MainForm = ({ onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
+const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
   const targetChoices = useTargetChoices()
 
   const {
@@ -36,7 +37,18 @@ const MainForm = ({ onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
     setError,
     formState: { errors },
     handleSubmit,
+    register,
   } = useFormContextCreateDesignation()
+
+  useEffect(() => {
+    apiErrors.forEach(({ field, message }) => {
+      let fieldName = field
+      if (field.startsWith('poll.')) {
+        fieldName = field.replace('poll.', '')
+      }
+      setError(fieldName as keyof DesignationType, { message })
+    })
+  }, [apiErrors, setError])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -50,6 +62,7 @@ const MainForm = ({ onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
                 label="Titre"
                 variant="outlined"
                 {...field}
+                ref={register(field.name).ref}
                 error={!!errors.customTitle}
                 helperText={errors.customTitle ? <>{errors.customTitle?.message}</> : null}
               />
@@ -64,9 +77,10 @@ const MainForm = ({ onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
                 <TextField
                   label="Description"
                   variant="outlined"
+                  {...field}
+                  ref={register(field.name).ref}
                   multiline
                   rows={4}
-                  {...field}
                   error={!!errors.description}
                   helperText={errors.description ? <>{errors.description?.message}</> : null}
                 />
@@ -84,53 +98,25 @@ const MainForm = ({ onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
             <BlockForm title="2. Date, heure">
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <Controller
+                  <DateTimePicker
+                    register={register}
+                    setError={setError}
                     control={control}
                     name="voteStartDate"
-                    render={({ field }) => (
-                      <DateTimePicker
-                        value={field.value ?? add(new Date(), { days: 3 })}
-                        inputRef={field.ref}
-                        onChange={field.onChange}
-                        label="Du début"
-                        sx={{ width: '100%' }}
-                        minDateTime={add(new Date(), { days: 3 })}
-                        slotProps={{
-                          textField: {
-                            helperText: errors.voteStartDate ? <>{errors.voteStartDate?.message}</> : null,
-                          },
-                        }}
-                      />
-                    )}
+                    label="Du début"
                   />
-
                   <FormHelperText>
                     Dans minimum 3 jours pour une durée minimum de 1h et un maximum 7 jours.
                   </FormHelperText>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Controller
+                  <DateTimePicker
+                    setError={setError}
+                    register={register}
                     control={control}
                     name="voteEndDate"
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <DateTimePicker
-                        value={field.value ?? add(new Date(), { days: 4, hours: 1 })}
-                        inputRef={field.ref}
-                        onChange={field.onChange}
-                        label="De fin"
-                        sx={{ width: '100%' }}
-                        minDateTime={add(watch('voteStartDate'), { hours: 3 })}
-                        disabled={!watch('voteStartDate')}
-                        onError={error => setError('voteEndDate', { message: error ?? undefined })}
-                        slotProps={{
-                          textField: {
-                            error: !!errors.voteEndDate,
-                            helperText: errors.voteEndDate ? <>{errors.voteEndDate?.message}</> : null,
-                          },
-                        }}
-                      />
-                    )}
+                    label="De fin"
+                    disabled={!watch('voteStartDate')}
                   />
                 </Grid>
               </Grid>
@@ -146,6 +132,7 @@ const MainForm = ({ onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
                   render={({ field }) => (
                     <Select
                       {...field}
+                      ref={register(field.name).ref}
                       multiple
                       input={<OutlinedInput id="select-multiple-chip" label="Participants" />}
                       labelId={'participants-label'}

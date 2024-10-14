@@ -17,6 +17,7 @@ import {
 import { add, format, sub } from 'date-fns'
 import { useTargetChoices } from '~/components/Consultations/form'
 import { find } from 'lodash'
+import { nl2br } from '~/components/shared/helpers'
 
 const Summary = ({ designation }: { designation: DesignationType }) => {
   const targetChoices = useTargetChoices()
@@ -29,58 +30,58 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
 
       <Stack spacing={2} mt={2} marginLeft={2} marginY={2}>
         <Grid container>
-          <Grid item xs={2}>
+          <Grid item xs>
             <Typography variant="h6">Titre :</Typography>
           </Grid>
-          <Grid item xs>
+          <Grid item xs={9}>
             <Typography>{designation.customTitle}</Typography>
           </Grid>
         </Grid>
 
         <Grid container>
-          <Grid item xs={2}>
+          <Grid item xs>
             <Typography variant="h6" sx={{ textWrap: 'nowrap' }}>
               Description :
             </Typography>
           </Grid>
-          <Grid item xs>
-            <Typography>{designation.description}</Typography>
+          <Grid item xs={9}>
+            <Typography>{nl2br(designation.description)}</Typography>
           </Grid>
         </Grid>
 
         {designation.voteStartDate && (
           <>
             <Grid container spacing={2}>
-              <Grid item xs={2}>
+              <Grid item xs>
                 <Typography variant="h6" sx={{ textWrap: 'nowrap' }}>
                   Date, heure du début :
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={9}>
                 <Typography>{format(designation.voteStartDate, 'dd/MM/yyyy à HH:mm')}</Typography>
               </Grid>
             </Grid>
 
             <Grid container>
-              <Grid item xs={2}>
+              <Grid item xs>
                 <Typography variant="h6" sx={{ textWrap: 'nowrap' }}>
                   Date, heure de fin :
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={9}>
                 <Typography>{format(designation.voteEndDate, 'dd/MM/yyyy à HH:mm')}</Typography>
               </Grid>
             </Grid>
 
-            <Grid container spacing={2}>
-              <Grid item xs={2}>
+            <Grid container>
+              <Grid item xs>
                 <Typography variant="h6" sx={{ textWrap: 'nowrap' }}>
                   Personnes concernées :
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={9}>
                 {designation.target.map(target => (
-                  <Chip key={target} label={find(targetChoices, { value: target })?.label}></Chip>
+                  <Chip key={target} label={find(targetChoices, { value: target })?.label} sx={{ marginRight: 1 }} />
                 ))}
               </Grid>
             </Grid>
@@ -100,8 +101,16 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
                 <Stack spacing={1}>
                   {question.choices.map((choice, choiceIndex) => (
                     <Stack direction={'row'} key={`question-choice-${choiceIndex}`} spacing={1}>
-                      <Typography variant={'h6'}>Bulletin {choiceIndex + 1} :</Typography>
-                      <Typography>{choice.label}</Typography>
+                      <Grid container spacing={2}>
+                        <Grid item xs>
+                          <Typography variant={'h6'} noWrap>
+                            Bulletin {choiceIndex + 1} :
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={9}>
+                          <Typography>{choice.label}</Typography>
+                        </Grid>
+                      </Grid>
                     </Stack>
                   ))}
                 </Stack>
