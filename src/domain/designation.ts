@@ -1,6 +1,6 @@
 import { add } from 'date-fns'
 import { z } from 'zod'
-import { parseDate } from '~/shared/helpers'
+import { getRoundedDate, parseDate } from '~/shared/helpers'
 
 export enum DesignationTypeEnum {
   Consultation = 'consultation',
@@ -15,13 +15,21 @@ export class Designation {
     public electionDate: Date | null = null,
     public type: DesignationTypeEnum | null = null,
     public electionEntityIdentifier: string | null = null,
-    public voteStartDate: Date = add(new Date(), { days: 16 }),
-    public voteEndDate: Date = add(new Date(), { days: 17 }),
+    public voteStartDate: Date = Designation.minVoteStartDate(),
+    public voteEndDate: Date = Designation.minVoteEndDate(),
     public target: string[] = [],
     public questions: Question[] = [],
     public createdAt: Date | null = null,
     public isFullyEditable: boolean = true
   ) {}
+
+  static minVoteStartDate() {
+    return getRoundedDate(add(new Date(), { days: 3 }))
+  }
+
+  static minVoteEndDate() {
+    return getRoundedDate(add(new Date(), { days: 3, hours: 1 }))
+  }
 
   static NULL = new Designation()
 
@@ -53,7 +61,10 @@ export class Designation {
       voteStartDate: this.voteStartDate,
       voteEndDate: this.voteEndDate,
       target: this.target,
-      questions: this.questions,
+      questions:
+        this.questions.length > 0
+          ? this.questions
+          : [new Question('', [new QuestionChoice(''), new QuestionChoice('')])],
     }
   }
 
@@ -106,11 +117,17 @@ class QuestionChoice {
 }
 
 const schemaCreateQuestionChoice = z.object({
-  label: z.string().min(2, 'Le contenu doit contenir au moins 2 caractères.'),
+  label: z
+    .string()
+    .min(2, 'Le contenu doit contenir au moins 2 caractères.')
+    .max(255, 'Le contenu doit contenir moins de 255 caractères.'),
 })
 
 const schemaCreateQuestion = z.object({
-  content: z.string().min(2, 'Le contenu doit contenir au moins 2 caractères.'),
+  content: z
+    .string()
+    .min(2, 'Le contenu doit contenir au moins 2 caractères.')
+    .max(500, 'Le contenu doit contenir moins de 500 caractères.'),
   choices: z.array(schemaCreateQuestionChoice).nonempty('Veuillez ajouter au moins un bulletin.'),
 })
 
@@ -118,7 +135,7 @@ export const schemaPartialDesignation = z.object({
   customTitle: z
     .string()
     .min(5, 'Le titre doit contenir au moins 5 caractères')
-    .max(255, "Le titre de l'événement doit contenir au moins 5 caractères"),
+    .max(255, "Le titre de l'événement doit contenir moins de 255 caractères"),
   description: z
     .string()
     .min(50, 'La description doit contenir au moins 50 caractères.')
@@ -132,13 +149,13 @@ export const schemaCreateDesignation = schemaPartialDesignation
         invalid_type_error: 'La date de début doit être une date',
         required_error: 'La date de début est obligatoire',
       })
-      .min(add(new Date(), { days: 3 }), 'La date de début ne peut pas être inférieure à la date du jour + 3 jours.'),
+      .min(Designation.minVoteStartDate(), 'La date de début ne peut pas être inférieure à la date du jour + 3 jours.'),
     voteEndDate: z
       .date({
         invalid_type_error: 'La date de fin doit être une date',
         required_error: 'La date de fin est obligatoire',
       })
-      .min(add(new Date(), { days: 3, hours: 1 }), 'La date de fin ne peut pas être inférieure à la date du début.'),
+      .min(Designation.minVoteEndDate(), 'La date de fin ne peut pas être inférieure à la date du début.'),
     target: z.array(z.string()).min(1, 'Veuillez sélectionner au moins un choix.'),
     questions: z.array(schemaCreateQuestion).min(1, 'Veuillez ajouter au moins une question.'),
   })

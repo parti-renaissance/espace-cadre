@@ -18,6 +18,7 @@ import paths from '~/shared/paths'
 import { LoadingButton } from '@mui/lab'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
+import { useErrorHandler } from '~/components/shared/error/hooks'
 
 const steps = [
   { name: 'Formulaire', route: '' },
@@ -30,6 +31,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
 
   const navigate = useNavigate()
   const { enqueueSnackbar } = useCustomSnackbar()
+  const { handleError, errorMessages } = useErrorHandler()
 
   const { mutate, isLoading } = useMutation(
     ['create-designation'],
@@ -50,6 +52,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
         )
         navigate(paths[FeatureEnum.DESIGNATION])
       },
+      onError: handleError,
     }
   )
 
@@ -61,7 +64,13 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
           startButton={
             <Button
               startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
-              onClick={() => navigate(paths[FeatureEnum.DESIGNATION])}
+              onClick={() => {
+                if (previewMode) {
+                  setPreviewMode(false)
+                } else {
+                  navigate(paths[FeatureEnum.DESIGNATION])
+                }
+              }}
             >
               Retour
             </Button>
@@ -78,7 +87,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
           </Stepper>
         </Box>
 
-        {previewMode ? (
+        {previewMode && errorMessages.length === 0 ? (
           <>
             <Summary designation={formData} />
             <Stack direction="row" spacing={2} justifyContent={'end'}>
@@ -108,6 +117,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
         ) : (
           <FormProviderCreateDesignation defaultValues={formData} isFullyEditable={designation.isFullyEditable}>
             <MainForm
+              apiErrors={errorMessages}
               isEdition={!!designation.id}
               isFullyEditable={designation.isFullyEditable}
               onSubmit={data => {

@@ -1,10 +1,15 @@
 import { useEffect } from 'react'
 import useScript from 'react-script-hook'
+import { APP_ENVIRONMENT } from '~/shared/environments'
 
 /**
  * @see https://help.featurebase.app/en/articles/1127499-install-the-all-in-one-widget
  */
 const Featurebase = () => {
+  if (APP_ENVIRONMENT === 'dev') {
+    return null
+  }
+
   useEffect(() => {
     const win = window as any
 
