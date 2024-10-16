@@ -18,13 +18,13 @@ import { formatDate } from '~/shared/helpers'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import Badge from '~/ui/Badge/Badge'
 import { find } from 'lodash'
-import { useTargetChoices } from '~/components/Consultations/Edit/form'
+import { useTargetYearChoices } from '~/components/Consultations/Edit/form'
 
 const Show = () => {
   const { isMobile } = useCurrentDeviceType()
   const { enqueueSnackbar } = useCustomSnackbar()
   const { handleError } = useErrorHandler()
-  const targetChoices = useTargetChoices()
+  const targetChoices = useTargetYearChoices()
   const navigate = useNavigate()
   const { uuid } = useParams()
   const {
@@ -135,8 +135,8 @@ const Show = () => {
                   <Stack direction="row" spacing={2} alignItems="center">
                     <Typography sx={{ textWrap: 'nowrap' }}>Personnes concernées :</Typography>
                     <Chip
-                      key={designation.target}
-                      label={find(targetChoices, { value: designation.target })?.label}
+                      key={designation.targetYear}
+                      label={find(targetChoices, { value: designation.targetYear })?.label}
                       sx={{ marginRight: 1 }}
                     />
                   </Stack>

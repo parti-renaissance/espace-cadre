@@ -15,12 +15,12 @@ import {
   Typography,
 } from '@mui/material'
 import { add, format, sub } from 'date-fns'
-import { useTargetChoices } from '~/components/Consultations/Edit/form'
+import { useTargetYearChoices } from '~/components/Consultations/Edit/form'
 import { find } from 'lodash'
 import { nl2br } from '~/components/shared/helpers'
 
 const Summary = ({ designation }: { designation: DesignationType }) => {
-  const targetChoices = useTargetChoices()
+  const targetChoices = useTargetYearChoices()
 
   return (
     <Box>
@@ -81,8 +81,8 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
               </Grid>
               <Grid item xs={9}>
                 <Chip
-                  key={designation.target}
-                  label={find(targetChoices, { value: designation.target })?.label}
+                  key={designation.targetYear}
+                  label={find(targetChoices, { value: designation.targetYear })?.label}
                   sx={{ marginRight: 1 }}
                 />
               </Grid>

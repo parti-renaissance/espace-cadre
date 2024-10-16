@@ -22,11 +22,11 @@ export const FormProviderCreateDesignation = ({
 
 export const useFormContextCreateDesignation = () => useFormContext<DesignationType>()
 
-export const useTargetChoices = () =>
+export const useTargetYearChoices = () =>
   useMemo(
     () =>
       Array.from({ length: 3 }, (_, i) => new Date().getFullYear() - i).map(year => ({
-        value: `adherent:a_jour_${year}`,
+        value: year,
         label: `À partir des adhérents à jour ${year}`,
       })),
     []
