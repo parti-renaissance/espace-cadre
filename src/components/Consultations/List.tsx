@@ -16,6 +16,7 @@ import paths from '~/shared/paths'
 import { AccessTime, DateRange } from '@mui/icons-material'
 import { formatDate } from '~/shared/helpers'
 import Iconify from '~/mui/iconify'
+import Badge from '~/ui/Badge/Badge'
 
 const List = () => {
   const navigate = useNavigate()
@@ -57,11 +58,19 @@ const List = () => {
                 <UICard
                   rootProps={{ sx: { pt: 2 } }}
                   header={
-                    <>
+                    <Stack direction="row" spacing={2} alignItems="center">
                       <Typography component="h2" sx={{ fontWeight: '500', color: 'colors.gray.900', fontSize: '16px' }}>
                         {consultation.customTitle}
                       </Typography>
-                    </>
+                      {consultation.isCanceled && (
+                        <Badge
+                          badge={{
+                            label: 'Annulée',
+                            badgeOptions: { color: 'colors.red.400', bgcolor: 'colors.red.100' },
+                          }}
+                        />
+                      )}
+                    </Stack>
                   }
                   content={
                     <Stack className="space-y-3">
@@ -91,10 +100,10 @@ const List = () => {
                     <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>
                       <Button
                         variant={'contained'}
-                        onClick={() => navigate(paths[FeatureEnum.DESIGNATION] + '/' + consultation.id + '/modifier')}
-                        startIcon={<Iconify icon={'eva:edit-outline'} />}
+                        onClick={() => navigate(paths[FeatureEnum.DESIGNATION] + '/' + consultation.id)}
+                        startIcon={<Iconify icon={'eva:eye-outline'} />}
                       >
-                        Éditer
+                        Voir
                       </Button>
                     </Box>
                   }

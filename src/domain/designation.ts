@@ -17,10 +17,11 @@ export class Designation {
     public electionEntityIdentifier: string | null = null,
     public voteStartDate: Date = Designation.minVoteStartDate(),
     public voteEndDate: Date = Designation.minVoteEndDate(),
-    public target: string[] = [],
+    public target: string = '',
     public questions: Question[] = [],
     public createdAt: Date | null = null,
-    public isFullyEditable: boolean = true
+    public isFullyEditable: boolean = true,
+    public isCanceled: boolean = false
   ) {}
 
   static minVoteStartDate() {
@@ -78,7 +79,7 @@ export class Designation {
       data.election_entity_identifier,
       parseDate(data.vote_start_date),
       parseDate(data.vote_end_date),
-      data.target,
+      data.target?.length > 0 ? data.target[0] : '',
       data.questions?.map(
         (q: any) =>
           new Question(
@@ -87,7 +88,8 @@ export class Designation {
           )
       ),
       parseDate(data.created_at),
-      data.fully_editable
+      data.fully_editable,
+      data.is_canceled
     )
   }
 
@@ -98,7 +100,7 @@ export class Designation {
       description: this.description,
       vote_start_date: this.voteStartDate,
       vote_end_date: this.voteEndDate,
-      target: this.target,
+      target: [this.target],
       election_entity_identifier: this.electionEntityIdentifier,
       questions: this.questions,
     }
@@ -156,7 +158,7 @@ export const schemaCreateDesignation = schemaPartialDesignation
         required_error: 'La date de fin est obligatoire',
       })
       .min(Designation.minVoteEndDate(), 'La date de fin ne peut pas être inférieure à la date du début.'),
-    target: z.array(z.string()).min(1, 'Veuillez sélectionner au moins un choix.'),
+    target: z.string().min(1, 'Veuillez sélectionner au moins un choix.'),
     questions: z.array(schemaCreateQuestion).min(1, 'Veuillez ajouter au moins une question.'),
   })
   .superRefine((data, ctx) => {

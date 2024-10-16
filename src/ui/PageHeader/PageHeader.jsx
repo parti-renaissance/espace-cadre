@@ -20,7 +20,7 @@ PageHeaderButton.propTypes = {
   isMainButton: PropTypes.bool,
 }
 
-const PageHeader = ({ title, titleLink, titleSuffix, button, badge = null, startButton }) => (
+const PageHeader = ({ title, titleLink, titleSuffix, button, badge, startButton }) => (
   <>
     <Grid item data-cy="ui-page-header" sx={{ mb: 2.5, display: 'flex', alignItems: 'center' }} className="space-x-2">
       {startButton}

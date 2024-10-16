@@ -1,12 +1,12 @@
-import { FormProviderCreateDesignation } from '~/components/Consultations/form'
-import MainForm from '~/components/Consultations/FormComponent/MainForm'
+import { FormProviderCreateDesignation } from '~/components/Consultations/Edit/form'
+import MainForm from '~/components/Consultations/Edit/FormComponent/MainForm'
 import PageHeader from '~/ui/PageHeader'
 import { featuresLabels } from '~/shared/features'
 import { FeatureEnum } from '~/models/feature.enum'
 import { Box, Button, Container, Stack } from '@mui/material'
 import { useState } from 'react'
 import { Designation, DesignationType, DesignationTypeEnum } from '~/domain/designation'
-import Summary from '~/components/Consultations/Summary'
+import Summary from '~/components/Consultations/Edit/Summary'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
@@ -45,12 +45,12 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
       return createDesignation(designationFromForm)
     },
     {
-      onSuccess: () => {
+      onSuccess: ({ uuid }) => {
         enqueueSnackbar(
           designation.id ? 'La consultation a bien été modifiée' : 'La consultation a bien été créée',
           notifyVariants.success
         )
-        navigate(paths[FeatureEnum.DESIGNATION])
+        navigate(`${paths[FeatureEnum.DESIGNATION]}/${uuid}`)
       },
       onError: handleError,
     }
@@ -68,7 +68,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
                 if (previewMode) {
                   setPreviewMode(false)
                 } else {
-                  navigate(paths[FeatureEnum.DESIGNATION])
+                  navigate(`${paths[FeatureEnum.DESIGNATION]}${designation.id ? `/${designation.id}` : ''}`)
                 }
               }}
             >

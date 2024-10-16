@@ -1,6 +1,6 @@
-import { useFormContextCreateDesignation } from '~/components/Consultations/form'
+import { useFormContextCreateDesignation } from '~/components/Consultations/Edit/form'
 import { useFieldArray } from 'react-hook-form'
-import { QuestionTextField } from '~/components/Consultations/FormComponent/Questions'
+import { QuestionTextField } from '~/components/Consultations/Edit/FormComponent/Questions'
 import Iconify from '~/mui/iconify'
 import { Button, FormHelperText, Grid } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
