@@ -15,7 +15,7 @@ import {
 import BlockForm from '~/ui/Form/BlockForm'
 import { Controller } from 'react-hook-form'
 import { find } from 'lodash'
-import { useFormContextCreateDesignation, useTargetChoices } from '~/components/Consultations/Edit/form'
+import { useFormContextCreateDesignation, useTargetYearChoices } from '~/components/Consultations/Edit/form'
 import Questions from '~/components/Consultations/Edit/FormComponent/Questions'
 import { DesignationType } from '~/domain/designation'
 import DateTimePicker from '~/components/Consultations/Edit/FormComponent/DateTimePicker'
@@ -29,7 +29,7 @@ type MainFormProps = {
 }
 
 const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
-  const targetChoices = useTargetChoices()
+  const targetChoices = useTargetYearChoices()
 
   const {
     control,
@@ -123,11 +123,11 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
             </BlockForm>
 
             <BlockForm title="3. Personnes concernées">
-              <FormControl error={!!errors.target}>
+              <FormControl error={!!errors.targetYear}>
                 <InputLabel id="participants-label">Participants</InputLabel>
                 <Controller
                   control={control}
-                  name="target"
+                  name="targetYear"
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -149,8 +149,8 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
                   )}
                 />
                 <FormHelperText>
-                  {errors.target ? (
-                    <>{errors.target?.message}</>
+                  {errors.targetYear ? (
+                    <>{errors.targetYear?.message}</>
                   ) : (
                     <>
                       Le vote peut être ouvert aux adhérents à jour N ou N-1. Les adhérents non à jour seront notifiés
