@@ -13,7 +13,7 @@ const ConfirmButton = ({ title, description, children, onClick, disabled = false
         <DangerButton
           disabled={disabled}
           onClick={() => setOpen(true)}
-          rootProps={{ sx: { fontSize: '12px', px: 1, py: 0 } }}
+          rootProps={{ sx: { fontSize: '12px', px: 1.5, py: 0, gap: 1 } }}
         >
           {children}
         </DangerButton>

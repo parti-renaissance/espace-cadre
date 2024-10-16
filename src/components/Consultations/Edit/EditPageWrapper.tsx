@@ -1,7 +1,7 @@
 import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { getDesignation } from '~/api/designations'
-import EditPage from '~/components/Consultations/EditPage'
+import EditPage from '~/components/Consultations/Edit/EditPage'
 import Loader from '~/ui/Loader'
 
 const EditPageWrapper = () => {

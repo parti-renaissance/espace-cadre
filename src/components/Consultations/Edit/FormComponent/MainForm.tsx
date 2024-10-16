@@ -15,10 +15,10 @@ import {
 import BlockForm from '~/ui/Form/BlockForm'
 import { Controller } from 'react-hook-form'
 import { find } from 'lodash'
-import { useFormContextCreateDesignation, useTargetChoices } from '~/components/Consultations/form'
-import Questions from '~/components/Consultations/FormComponent/Questions'
+import { useFormContextCreateDesignation, useTargetChoices } from '~/components/Consultations/Edit/form'
+import Questions from '~/components/Consultations/Edit/FormComponent/Questions'
 import { DesignationType } from '~/domain/designation'
-import DateTimePicker from '~/components/Consultations/FormComponent/DateTimePicker'
+import DateTimePicker from '~/components/Consultations/Edit/FormComponent/DateTimePicker'
 import { useEffect } from 'react'
 
 type MainFormProps = {
@@ -128,19 +128,15 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
                 <Controller
                   control={control}
                   name="target"
-                  defaultValue={[]}
                   render={({ field }) => (
                     <Select
                       {...field}
                       ref={register(field.name).ref}
-                      multiple
                       input={<OutlinedInput id="select-multiple-chip" label="Participants" />}
                       labelId={'participants-label'}
                       renderValue={selected => (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                          {selected.map(value => (
-                            <Chip key={value} label={find(targetChoices, { value })?.label} />
-                          ))}
+                          <Chip key={selected} label={find(targetChoices, { value: selected })?.label} />
                         </Box>
                       )}
                     >

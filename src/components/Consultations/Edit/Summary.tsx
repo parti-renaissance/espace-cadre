@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import { add, format, sub } from 'date-fns'
-import { useTargetChoices } from '~/components/Consultations/form'
+import { useTargetChoices } from '~/components/Consultations/Edit/form'
 import { find } from 'lodash'
 import { nl2br } from '~/components/shared/helpers'
 
@@ -80,9 +80,11 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
                 </Typography>
               </Grid>
               <Grid item xs={9}>
-                {designation.target.map(target => (
-                  <Chip key={target} label={find(targetChoices, { value: target })?.label} sx={{ marginRight: 1 }} />
-                ))}
+                <Chip
+                  key={designation.target}
+                  label={find(targetChoices, { value: designation.target })?.label}
+                  sx={{ marginRight: 1 }}
+                />
               </Grid>
             </Grid>
 
@@ -190,15 +192,25 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
                       <Typography>Fin de l’affichage dans l’espace militant.</Typography>
                     </TableCell>
                   </TableRow>
+
+                  <TableRow>
+                    <TableCell>Fin du vote J+30</TableCell>
+                    <TableCell>{format(add(designation.voteEndDate, { days: 30 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
+                    <TableCell>
+                      <Typography>Fin de l’accès public aux résultats.</Typography>
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
 
             <Alert severity="error">
-              Une fois programmé, vous aurez jusqu’à J-3 - le{' '}
-              {format(sub(designation.voteStartDate, { days: 3 }), 'dd/MM/yyyy, HH:mm')}, - pour modifier les paramètres
+              Une fois programmé, vous aurez jusqu’à J-2 - le{' '}
+              {format(sub(designation.voteStartDate, { days: 2 }), 'dd/MM/yyyy, HH:mm')}, - pour modifier les paramètres
               de vote. Après cette date, seuls le titre et la description resteront éditables.
             </Alert>
+
+            <Alert severity="error">Le vote ne se substitue pas à l’envoi du mail statutaire.</Alert>
           </>
         )}
       </Stack>

@@ -36,8 +36,7 @@ const MainDangerButton = styled(
     background: ${theme.palette.red600};
   }
   &.Mui-disabled {
-    color: ${theme.palette.colors.white};
-    background-color: ${theme.palette.red600};
+    background-color: ${theme.palette.gray300};
   }
 `
 )
@@ -62,7 +61,7 @@ export const ActionButton = ({ children, handleSubmit, isLoading = false, disabl
 
 export const DangerButton = ({ children, onClick, rootProps, disabled = false, isLoading = false }) => (
   <MainDangerButton variant="contained" onClick={onClick} {...rootProps} disabled={isLoading || disabled}>
-    {isLoading && <Loader />}&nbsp;
+    {isLoading && <Loader />}
     {children}
   </MainDangerButton>
 )

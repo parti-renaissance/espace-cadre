@@ -3,10 +3,10 @@ import { MuiSpacing } from '~/theme/spacing'
 import IconButton from '@mui/material/IconButton'
 import Iconify from '~/mui/iconify'
 import BlockForm from '~/ui/Form/BlockForm'
-import { useFormContextCreateDesignation } from '~/components/Consultations/form'
+import { useFormContextCreateDesignation } from '~/components/Consultations/Edit/form'
 import { useFieldArray } from 'react-hook-form'
 import { styled } from '@mui/material/styles'
-import QuestionChoices from '~/components/Consultations/FormComponent/QuestionChoices'
+import QuestionChoices from '~/components/Consultations/Edit/FormComponent/QuestionChoices'
 
 export const QuestionTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
