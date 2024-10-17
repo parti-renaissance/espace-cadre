@@ -35,6 +35,9 @@ inputs:
   react_app_oauth_client_id:
     description: The OAuth client id used by the app
     required: true
+  react_app_featurebase_client_id:
+    description: The Featurebase OAuth client id used by the app
+    required: true
   react_app_internal_app_id:
     description: The Internal app id used by the app
     required: true
@@ -67,6 +70,7 @@ runs:
         echo "REACT_APP_ADMIN_HOST=${{ inputs.react_app_admin_host }}" >> .env.production
         echo "REACT_APP_OAUTH_HOST=${{ inputs.react_app_oauth_host }}" >> .env.production
         echo "REACT_APP_OAUTH_CLIENT_ID=${{ inputs.react_app_oauth_client_id }}" >> .env.production
+        echo "REACT_APP_FEATUREBASE_CLIENT_ID=${{ inputs.react_app_featurebase_client_id }}" >> .env.production
         echo "REACT_APP_INTERNAL_APP_ID=${{ inputs.react_app_internal_app_id }}" >> .env.production
         echo "REACT_APP_SENTRY_DSN=${{ inputs.react_app_sentry_dsn }}" >> .env.production
         echo "REACT_APP_GMAPS_API_KEY=${{ inputs.gmaps_api_key }}" >> .env.production
