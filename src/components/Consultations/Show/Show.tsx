@@ -136,7 +136,9 @@ const Show = () => {
                     <Typography sx={{ textWrap: 'nowrap' }}>Personnes concernées :</Typography>
                     <Chip
                       key={designation.targetYear}
-                      label={find(targetChoices, { value: designation.targetYear })?.label}
+                      label={
+                        (find(targetChoices, { value: designation.targetYear }) as { label: string } | undefined)?.label
+                      }
                       sx={{ marginRight: 1 }}
                     />
                   </Stack>
