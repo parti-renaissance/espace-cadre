@@ -39,6 +39,7 @@ const Featurebase = () => {
       organization: 'partirenaissance', // Replace this with your organization name, copy-paste the subdomain part from your Featurebase workspace url (e.g. https://*yourorg*.featurebase.app)
       placement: 'right', // optional
       fullScreen: false, // optional
+      fullscreenPopup: true,
       initialPage: 'MainView', // optional (MainView, RoadmapView, CreatePost, PostsView, ChangelogView, HelpView)
       locale: 'fr', // Change the language, view all available languages from https://help.featurebase.app/en/articles/8879098-using-featurebase-in-my-language
       metadata: null, // Attach session-specific metadata to feedback. Refer to the advanced section for the details: https://help.featurebase.app/en/articles/3774671-advanced#7k8iriyap66
