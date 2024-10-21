@@ -19,6 +19,8 @@ import { useErrorHandler } from '~/components/shared/error/hooks'
 import Badge from '~/ui/Badge/Badge'
 import { find } from 'lodash'
 import { useTargetYearChoices } from '~/components/Consultations/Edit/form'
+import { messages } from '~/components/Consultations/messages'
+import { DesignationTypeEnum } from '~/domain/designation'
 
 const Show = () => {
   const { isMobile } = useCurrentDeviceType()
@@ -35,7 +37,10 @@ const Show = () => {
 
   const { mutate, isLoading } = useMutation((id: string) => cancelDesignation(id), {
     onSuccess: () => {
-      enqueueSnackbar('La consultation a été annulée', notifyVariants.success)
+      enqueueSnackbar(
+        messages[designation?.type as DesignationTypeEnum].notification.cancel_success,
+        notifyVariants.success
+      )
       refetch()
     },
     onError: handleError,
@@ -46,7 +51,7 @@ const Show = () => {
   }
 
   if (!designation) {
-    enqueueSnackbar("La consultation n'existe pas 🤷", notifyVariants.error)
+    enqueueSnackbar(messages.notification.not_found, notifyVariants.error)
     navigate(paths[FeatureEnum.DESIGNATION])
     return null
   }
@@ -67,9 +72,7 @@ const Show = () => {
             startButton={
               <Button
                 startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
-                onClick={() => {
-                  navigate(paths[FeatureEnum.DESIGNATION])
-                }}
+                onClick={() => navigate(paths[FeatureEnum.DESIGNATION])}
               >
                 Retour
               </Button>
@@ -90,8 +93,8 @@ const Show = () => {
                   <ConfirmButton
                     disabled={!designation.isFullyEditable || isLoading}
                     isDangerButton
-                    title={'Annulation de la consultation'}
-                    description={'Êtes-vous sûr de vouloir annuler la consultation ?'}
+                    title={messages[designation.type as DesignationTypeEnum].modal.cancel.title}
+                    description={messages[designation.type as DesignationTypeEnum].modal.cancel.content}
                     onClick={() => mutate(designation.id as string)}
                   >
                     <Iconify icon={'eva:close-circle-outline'} />
@@ -108,7 +111,7 @@ const Show = () => {
           {isFetching ? (
             <Loader isCenter />
           ) : (
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12}>
               <Box>
                 <Stack spacing={2} mt={2} marginLeft={2} marginY={2}>
                   <Stack direction={'row'} alignItems={'center'}>

@@ -1,4 +1,4 @@
-import { DesignationType } from '~/domain/designation'
+import { Designation, DesignationType } from '~/domain/designation'
 import {
   Alert,
   Box,
@@ -14,13 +14,15 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import { add, format, sub } from 'date-fns'
+import { add, differenceInDays, differenceInHours, format, sub } from 'date-fns'
 import { useTargetYearChoices } from '~/components/Consultations/Edit/form'
 import { find } from 'lodash'
 import { nl2br } from '~/components/shared/helpers'
+import { messages } from '~/components/Consultations/messages'
 
-const Summary = ({ designation }: { designation: DesignationType }) => {
+const Summary = ({ formData, designation }: { formData: DesignationType; designation: Designation }) => {
   const targetChoices = useTargetYearChoices()
+  const term = messages[designation.type].item
 
   return (
     <Box>
@@ -34,7 +36,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
             <Typography variant="h6">Titre :</Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>{designation.customTitle}</Typography>
+            <Typography>{formData.customTitle}</Typography>
           </Grid>
         </Grid>
 
@@ -45,20 +47,20 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
             </Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography>{nl2br(designation.description)}</Typography>
+            <Typography>{nl2br(formData.description)}</Typography>
           </Grid>
         </Grid>
 
-        {designation.voteStartDate && (
+        {formData.voteStartDate && (
           <>
-            <Grid container spacing={2}>
+            <Grid container>
               <Grid item xs>
                 <Typography variant="h6" sx={{ textWrap: 'nowrap' }}>
                   Date, heure du début :
                 </Typography>
               </Grid>
               <Grid item xs={9}>
-                <Typography>{format(designation.voteStartDate, 'dd/MM/yyyy à HH:mm')}</Typography>
+                <Typography>{format(formData.voteStartDate, 'dd/MM/yyyy à HH:mm')}</Typography>
               </Grid>
             </Grid>
 
@@ -69,7 +71,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
                 </Typography>
               </Grid>
               <Grid item xs={9}>
-                <Typography>{format(designation.voteEndDate, 'dd/MM/yyyy à HH:mm')}</Typography>
+                <Typography>{format(formData.voteEndDate, 'dd/MM/yyyy à HH:mm')}</Typography>
               </Grid>
             </Grid>
 
@@ -81,14 +83,14 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
               </Grid>
               <Grid item xs={9}>
                 <Chip
-                  key={designation.targetYear}
-                  label={find(targetChoices, { value: designation.targetYear })?.label}
+                  key={formData.targetYear}
+                  label={find(targetChoices, { value: formData.targetYear })?.label}
                   sx={{ marginRight: 1 }}
                 />
               </Grid>
             </Grid>
 
-            {designation.questions.map((question, questionIndex) => (
+            {formData.questions.map((question, questionIndex) => (
               <Stack
                 key={`question-${questionIndex}`}
                 spacing={2}
@@ -97,7 +99,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
               >
                 <Typography variant="h6">
                   {questionIndex + 1}
-                  {questionIndex + 1 === 1 ? 'ère' : 'ème'} question
+                  {questionIndex + 1 === 1 ? 'ère' : 'ème'} {term}
                 </Typography>
                 <Typography>{question.content}</Typography>
                 <Stack spacing={1}>
@@ -115,6 +117,13 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
                       </Grid>
                     </Stack>
                   ))}
+                  <Grid container spacing={2}>
+                    <Grid item xs>
+                      <Typography variant={'h6'} noWrap>
+                        Bulletin blanc
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Stack>
               </Stack>
             ))}
@@ -135,7 +144,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
                 <TableBody>
                   <TableRow>
                     <TableCell>Ouverture du vote J-2</TableCell>
-                    <TableCell>{format(sub(designation.voteStartDate, { days: 2 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
+                    <TableCell>{format(sub(formData.voteStartDate, { days: 2 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
                     <TableCell>
                       <Stack spacing={2}>
                         <Typography>Notification des adhérents par email et push qu’un vote aura lieu.</Typography>
@@ -149,35 +158,39 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
 
                   <TableRow>
                     <TableCell>Ouverture du vote</TableCell>
-                    <TableCell>{format(designation.voteStartDate, 'dd/MM/yyyy, HH:mm')}</TableCell>
+                    <TableCell>{format(formData.voteStartDate, 'dd/MM/yyyy, HH:mm')}</TableCell>
                     <TableCell>
                       <Typography>Notification des adhérents par email et push que le vote est ouvert.</Typography>
                     </TableCell>
                   </TableRow>
 
-                  <TableRow>
-                    <TableCell>Fin du vote J-1 si durée du vote ≥ 2j</TableCell>
-                    <TableCell>N/A</TableCell>
-                    <TableCell>
-                      <Typography>
-                        Notification des non-votants par email et push que le vote termine dans 1j.
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
+                  {differenceInDays(formData.voteEndDate, formData.voteStartDate) >= 2 && (
+                    <TableRow>
+                      <TableCell>Fin du vote J-1 si durée du vote ≥ 2j</TableCell>
+                      <TableCell>{format(sub(formData.voteEndDate, { days: 1 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
+                      <TableCell>
+                        <Typography>
+                          Notification des non-votants par email et push que le vote termine dans 1j.
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
 
-                  <TableRow>
-                    <TableCell>Fin du vote H-1h si durée du vote ≥ 2h</TableCell>
-                    <TableCell>{format(sub(designation.voteEndDate, { hours: 1 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
-                    <TableCell>
-                      <Typography>
-                        Notification des non-votants par email et push que le vote termine dans 1h.
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
+                  {differenceInHours(formData.voteEndDate, formData.voteStartDate) >= 2 && (
+                    <TableRow>
+                      <TableCell>Fin du vote H-1h si durée du vote ≥ 2h</TableCell>
+                      <TableCell>{format(sub(formData.voteEndDate, { hours: 1 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
+                      <TableCell>
+                        <Typography>
+                          Notification des non-votants par email et push que le vote termine dans 1h.
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
 
                   <TableRow>
                     <TableCell>Fin du vote</TableCell>
-                    <TableCell>{format(designation.voteEndDate, 'dd/MM/yyyy, HH:mm')}</TableCell>
+                    <TableCell>{format(formData.voteEndDate, 'dd/MM/yyyy, HH:mm')}</TableCell>
                     <TableCell>
                       <Typography>
                         Notification des adhérents par email et push que les résultats sont disponibles.
@@ -187,7 +200,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
 
                   <TableRow>
                     <TableCell>Fin du vote J+3</TableCell>
-                    <TableCell>{format(add(designation.voteEndDate, { days: 3 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
+                    <TableCell>{format(add(formData.voteEndDate, { days: 3 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
                     <TableCell>
                       <Typography>Fin de l’affichage dans l’espace militant.</Typography>
                     </TableCell>
@@ -195,7 +208,7 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
 
                   <TableRow>
                     <TableCell>Fin du vote J+30</TableCell>
-                    <TableCell>{format(add(designation.voteEndDate, { days: 30 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
+                    <TableCell>{format(add(formData.voteEndDate, { days: 30 }), 'dd/MM/yyyy, HH:mm')}</TableCell>
                     <TableCell>
                       <Typography>Fin de l’accès public aux résultats.</Typography>
                     </TableCell>
@@ -206,8 +219,10 @@ const Summary = ({ designation }: { designation: DesignationType }) => {
 
             <Alert severity="error">
               Une fois programmé, vous aurez jusqu’à J-2 - le{' '}
-              {format(sub(designation.voteStartDate, { days: 2 }), 'dd/MM/yyyy, HH:mm')}, - pour modifier les paramètres
-              de vote. Après cette date, seuls le titre et la description resteront éditables.
+              {format(sub(formData.voteStartDate, { days: 2 }), 'dd/MM/yyyy, HH:mm')}, - pour modifier les paramètres de
+              vote.
+              <br />
+              Après cette date, seuls le titre et la description resteront éditables.
             </Alert>
 
             <Alert severity="error">Le vote ne se substitue pas à l’envoi du mail statutaire.</Alert>

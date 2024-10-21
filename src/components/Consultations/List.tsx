@@ -40,6 +40,13 @@ const List = () => {
               <Stack alignItems="center" direction="row" spacing={2}>
                 <Button
                   variant="contained"
+                  color="primary"
+                  onClick={() => navigate(paths[FeatureEnum.DESIGNATION] + componentPaths.new_ag_vote)}
+                >
+                  Nouveau vote AG
+                </Button>
+                <Button
+                  variant="contained"
                   color="inherit"
                   onClick={() => navigate(paths[FeatureEnum.DESIGNATION] + componentPaths.new_consultation)}
                 >

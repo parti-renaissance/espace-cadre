@@ -19,13 +19,14 @@ import { LoadingButton } from '@mui/lab'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useErrorHandler } from '~/components/shared/error/hooks'
+import { messages } from '~/components/Consultations/messages'
 
 const steps = [
   { name: 'Formulaire', route: '' },
   { name: 'Récapitulatif', route: '' },
 ]
 
-const EditPage = ({ designation = Designation.NULL }: { designation?: Designation }) => {
+const EditPage = ({ designation }: { designation: Designation }) => {
   const [previewMode, setPreviewMode] = useState<boolean>(false)
   const [formData, setFormData] = useState<DesignationType>(designation.toFormData())
 
@@ -36,7 +37,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
   const { mutate, isLoading } = useMutation(
     ['create-designation'],
     (data: DesignationType) => {
-      const designationFromForm = Designation.fromFormData(DesignationTypeEnum.Consultation, data, designation.id)
+      const designationFromForm = Designation.fromFormData(designation.type, data, designation.id)
 
       if (designation.id) {
         return updateDesignation(designationFromForm)
@@ -46,10 +47,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
     },
     {
       onSuccess: ({ uuid }) => {
-        enqueueSnackbar(
-          designation.id ? 'La consultation a bien été modifiée' : 'La consultation a bien été créée',
-          notifyVariants.success
-        )
+        enqueueSnackbar(messages[designation.type].notification.save_success, notifyVariants.success)
         navigate(`${paths[FeatureEnum.DESIGNATION]}/${uuid}`)
       },
       onError: handleError,
@@ -87,9 +85,9 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
           </Stepper>
         </Box>
 
-        {previewMode && errorMessages.length === 0 ? (
+        {previewMode ? (
           <>
-            <Summary designation={formData} />
+            <Summary designation={designation} formData={formData} />
             <Stack direction="row" spacing={2} justifyContent={'end'}>
               <Button
                 variant={'contained'}
@@ -118,8 +116,7 @@ const EditPage = ({ designation = Designation.NULL }: { designation?: Designatio
           <FormProviderCreateDesignation defaultValues={formData} isFullyEditable={designation.isFullyEditable}>
             <MainForm
               apiErrors={errorMessages}
-              isEdition={!!designation.id}
-              isFullyEditable={designation.isFullyEditable}
+              designation={designation}
               onSubmit={data => {
                 setFormData(data)
                 setPreviewMode(true)

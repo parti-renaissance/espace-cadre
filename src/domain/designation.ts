@@ -1,9 +1,10 @@
 import { add } from 'date-fns'
 import { z } from 'zod'
-import { getRoundedDate, parseDate } from '~/shared/helpers'
+import { formatDate, getRoundedDate, parseDate } from '~/shared/helpers'
 
 export enum DesignationTypeEnum {
   Consultation = 'consultation',
+  Vote = 'vote',
   CommitteeSupervisor = 'committee_supervisor',
 }
 
@@ -13,7 +14,7 @@ export class Designation {
     public customTitle: string = '',
     public description: string = '',
     public electionDate: Date | null = null,
-    public type: DesignationTypeEnum | null = null,
+    public type: DesignationTypeEnum = DesignationTypeEnum.Consultation,
     public electionEntityIdentifier: string | null = null,
     public voteStartDate: Date = Designation.minVoteStartDate(),
     public voteEndDate: Date = Designation.minVoteEndDate(),
@@ -24,6 +25,10 @@ export class Designation {
     public isCanceled: boolean = false
   ) {}
 
+  isVote() {
+    return this.type === DesignationTypeEnum.Vote
+  }
+
   static minVoteStartDate() {
     return getRoundedDate(add(new Date(), { days: 3 }))
   }
@@ -33,6 +38,10 @@ export class Designation {
   }
 
   static NULL = new Designation()
+
+  static createForType(type: DesignationTypeEnum): Designation {
+    return new Designation(null, '', '', null, type)
+  }
 
   static fromFormData(type: DesignationTypeEnum, formData: DesignationType, id?: string | null): Designation {
     return new Designation(
@@ -98,12 +107,28 @@ export class Designation {
       type: this.type,
       custom_title: this.customTitle,
       description: this.description,
-      vote_start_date: this.voteStartDate,
-      vote_end_date: this.voteEndDate,
+      vote_start_date: formatDate(this.voteStartDate, 'yyyy-MM-dd HH:mm:ss'),
+      vote_end_date: formatDate(this.voteEndDate, 'yyyy-MM-dd HH:mm:ss'),
       targetYear: this.targetYear,
       election_entity_identifier: this.electionEntityIdentifier,
       questions: this.questions,
     }
+  }
+
+  fillDefaultVoteState() {
+    this.targetYear = 2023
+    this.questions.push(
+      ...[
+        new Question('1. Approbation de la modification des statuts', [
+          new QuestionChoice('Oui'),
+          new QuestionChoice('Non'),
+        ]),
+        new Question('2. Approbation du bilan annuel de l’association', [
+          new QuestionChoice('Oui'),
+          new QuestionChoice('Non'),
+        ]),
+      ]
+    )
   }
 }
 
@@ -161,7 +186,10 @@ export const schemaCreateDesignation = schemaPartialDesignation
     targetYear: z.number({
       required_error: 'Veuillez sélectionner au moins un choix.',
     }),
-    questions: z.array(schemaCreateQuestion).min(1, 'Veuillez ajouter au moins une question.'),
+    questions: z
+      .array(schemaCreateQuestion)
+      .min(1, 'Veuillez ajouter au moins une question.')
+      .max(5, 'Vous ne pouvez pas ajouter plus de 5 questions.'),
   })
   .superRefine((data, ctx) => {
     if (!data.voteEndDate || !data.voteStartDate) {

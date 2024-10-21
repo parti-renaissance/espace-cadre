@@ -9,8 +9,8 @@ export const nl2br = (text, sx, limit = null) => {
   }
 
   return displayableParagraphs.map((str, idx) => (
-    <Typography component="p" key={idx} sx={{ mb: 1, ...sx }}>
-      {str}
+    <Typography component="p" key={idx} sx={sx}>
+      {str || '\u00A0'}
     </Typography>
   ))
 }

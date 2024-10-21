@@ -17,18 +17,17 @@ import { Controller } from 'react-hook-form'
 import { find } from 'lodash'
 import { useFormContextCreateDesignation, useTargetYearChoices } from '~/components/Consultations/Edit/form'
 import Questions from '~/components/Consultations/Edit/FormComponent/Questions'
-import { DesignationType } from '~/domain/designation'
+import { Designation, DesignationType } from '~/domain/designation'
 import DateTimePicker from '~/components/Consultations/Edit/FormComponent/DateTimePicker'
 import { useEffect } from 'react'
 
 type MainFormProps = {
   onSubmit: (data: DesignationType) => void
-  isFullyEditable: boolean
-  isEdition: boolean
+  designation: Designation
   apiErrors: { field: string; message: string }[]
 }
 
-const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormProps) => {
+const MainForm = ({ apiErrors, onSubmit, designation }: MainFormProps) => {
   const targetChoices = useTargetYearChoices()
 
   const {
@@ -46,14 +45,25 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
       if (field.startsWith('poll.')) {
         fieldName = field.replace('poll.', '')
       }
-      setError(fieldName as keyof DesignationType, { message })
+
+      if (fieldName in ({} as DesignationType)) {
+        setError(fieldName as keyof DesignationType, { message })
+      }
     })
   }, [apiErrors, setError])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack mt={4} spacing={5}>
-        <BlockForm title={isEdition ? '' : "1. Création d'une nouvelle consultation"}>
+        <BlockForm
+          title={
+            designation.id
+              ? ''
+              : designation.isVote()
+                ? "1. Création d'un nouveau vote"
+                : "1. Création d'une nouvelle consultation"
+          }
+        >
           <Controller
             control={control}
             name="customTitle"
@@ -80,7 +90,8 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
                   {...field}
                   ref={register(field.name).ref}
                   multiline
-                  rows={4}
+                  minRows={4}
+                  maxRows={20}
                   error={!!errors.description}
                   helperText={errors.description ? <>{errors.description?.message}</> : null}
                 />
@@ -93,7 +104,7 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
           </FormControl>
         </BlockForm>
 
-        {isFullyEditable && (
+        {designation.isFullyEditable && (
           <>
             <BlockForm title="2. Date, heure">
               <Grid container spacing={2}>
@@ -134,6 +145,7 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
                       ref={register(field.name).ref}
                       input={<OutlinedInput id="select-multiple-chip" label="Participants" />}
                       labelId={'participants-label'}
+                      disabled={designation.isVote()}
                       renderValue={selected => (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                           <Chip key={selected} label={find(targetChoices, { value: selected })?.label} />
@@ -161,7 +173,7 @@ const MainForm = ({ apiErrors, onSubmit, isFullyEditable, isEdition }: MainFormP
               </FormControl>
             </BlockForm>
 
-            <Questions />
+            <Questions designation={designation} />
           </>
         )}
 
