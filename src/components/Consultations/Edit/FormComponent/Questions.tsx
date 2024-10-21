@@ -7,6 +7,8 @@ import { useFormContextCreateDesignation } from '~/components/Consultations/Edit
 import { useFieldArray } from 'react-hook-form'
 import { styled } from '@mui/material/styles'
 import QuestionChoices from '~/components/Consultations/Edit/FormComponent/QuestionChoices'
+import { Designation } from '~/domain/designation'
+import { messages } from '~/components/Consultations/messages'
 
 export const QuestionTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
@@ -14,7 +16,7 @@ export const QuestionTextField = styled(TextField)({
   },
 })
 
-const Questions = () => {
+const Questions = ({ designation }: { designation: Designation }) => {
   const {
     control,
     register,
@@ -23,12 +25,14 @@ const Questions = () => {
 
   const { fields, append, remove } = useFieldArray({ control, name: 'questions' })
 
+  const term = messages[designation.type].item
+
   return (
-    <BlockForm title="4. Questions">
+    <BlockForm title={`4. ${term.charAt(0).toUpperCase() + term.slice(1)}s`}>
       <Stack spacing={MuiSpacing.normal}>
         <FormHelperText sx={{ mt: 0 }}>
-          Ajoutez jusqu’à 5 questions avec chacune jusqu’à 5 bulletins de réponse. Les réponses libres ne sont pas
-          permises. Toutes vos questions seront posées à la suite à vos adhérents et devront toutes obtenir une réponse.
+          Ajoutez jusqu’à 5 {term}s avec chacune jusqu’à 5 bulletins de réponse. Les réponses libres ne sont pas
+          permises. Toutes vos {term}s seront posées à la suite à vos adhérents et devront toutes obtenir une réponse.
         </FormHelperText>
 
         {fields.map((field, index) => (
@@ -45,7 +49,7 @@ const Questions = () => {
               <Grid item>
                 <Typography variant="h6" gutterBottom={false}>
                   {index + 1}
-                  {index + 1 === 1 ? 'ère' : 'ème'} question
+                  {index + 1 === 1 ? 'ère' : 'ème'} {term}
                 </Typography>
               </Grid>
               {index !== 0 && (
@@ -57,7 +61,7 @@ const Questions = () => {
               )}
             </Grid>
             <QuestionTextField
-              label="Titre de la question"
+              label={`Titre de la ${term}`}
               variant="outlined"
               {...register(`questions.${index}.content`)}
               fullWidth
@@ -82,7 +86,7 @@ const Questions = () => {
             setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 100)
           }}
         >
-          Ajouter une question
+          Ajouter une {term}
         </Button>
       </Stack>
     </BlockForm>
