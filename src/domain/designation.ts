@@ -119,11 +119,11 @@ export class Designation {
     this.targetYear = 2023
     this.questions.push(
       ...[
-        new Question('1. Approbation de la modification des statuts', [
+        new Question('Approbation de la modification des statuts', [
           new QuestionChoice('Oui'),
           new QuestionChoice('Non'),
         ]),
-        new Question('2. Approbation du bilan annuel de l’association', [
+        new Question('Approbation du bilan annuel de l’association', [
           new QuestionChoice('Oui'),
           new QuestionChoice('Non'),
         ]),
