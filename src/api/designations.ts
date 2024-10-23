@@ -1,8 +1,8 @@
 import { apiClient } from '~/services/networking/client'
 import { Designation, DesignationTypeEnum } from '~/domain/designation'
 
-export const getDesignations = async (type: DesignationTypeEnum): Promise<Designation[]> => {
-  const data = await apiClient.get(`/v3/designations?type=${type}`)
+export const getDesignations = async (types: DesignationTypeEnum[]): Promise<Designation[]> => {
+  const data = await apiClient.get(`/v3/designations?${types.map(type => `type[]=${type}`).join('&')}`)
   return data.items.map((designation: any) => Designation.fromApi(designation))
 }
 

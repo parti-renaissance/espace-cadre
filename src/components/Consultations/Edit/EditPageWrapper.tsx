@@ -12,10 +12,6 @@ const EditPageWrapper = ({ type }: { type?: DesignationTypeEnum }) => {
     enabled: !!uuid,
   })
 
-  if (isFetching) {
-    return <Loader isCenter />
-  }
-
   const designationForm = useMemo(() => {
     if (designation) {
       return designation
@@ -29,6 +25,10 @@ const EditPageWrapper = ({ type }: { type?: DesignationTypeEnum }) => {
 
     return newDesignation
   }, [designation, type])
+
+  if (isFetching) {
+    return <Loader isCenter />
+  }
 
   return <EditPage designation={designationForm} />
 }

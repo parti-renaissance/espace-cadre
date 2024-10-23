@@ -24,7 +24,7 @@ const List = () => {
   const { isMobile } = useCurrentDeviceType()
   const { data, isFetching } = useQueryWithScope(
     ['consultations-list', { feature: 'consultations' }],
-    () => getDesignations(DesignationTypeEnum.Consultation),
+    () => getDesignations([DesignationTypeEnum.Consultation, DesignationTypeEnum.Vote]),
     { onError: handleError }
   )
 
