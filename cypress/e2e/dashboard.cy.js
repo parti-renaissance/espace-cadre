@@ -3,7 +3,7 @@ import { initialize, mock } from './main.cy'
 describe('Dashboard', () => {
   beforeEach(() => {
     initialize()
-    mock('GET', '/api/v3/adherents/count?scope=*', 'internal/adherents')
+    mock('GET', '/api/v3/adherents/count?since=&scope=*', 'internal/adherents')
     mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
   })
 

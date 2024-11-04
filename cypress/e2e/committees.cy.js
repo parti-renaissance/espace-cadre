@@ -37,7 +37,7 @@ describe('Committees', () => {
       '/api/v3/committees/5e00c264-1d4b-43b8-862e-29edc38389b3/animator?scope=referent',
       'committees/committeeDetail/animator'
     )
-    mock('POST', '/api/v3/adherents/count?scope=referent', 'activists/counts')
+    mock('POST', '/api/v3/adherents/count?since=&scope=referent', 'activists/counts')
     mock(
       'GET',
       '/api/v3/designations/5eeda2a3-71a4-499b-a7d1-cf52ff2a7604?scope=referent',

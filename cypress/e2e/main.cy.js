@@ -16,7 +16,7 @@ export const initialize = () => {
   mock('GET', '/api/v3/profile/me/scope/phoning_national_manager', 'scope/phoning_national_manager')
   mock('GET', '/api/v3/profile/me/scope/pap_national_manager', 'scope/pap_national_manager')
   mock('GET', '/api/v3/profile/me/scope/president_departmental_assembly', 'scope/president_departmental_assembly')
-  mock('POST', '/api/v3/adherents/count?scope=*', 'internal/adherents')
+  mock('POST', '/api/v3/adherents/count?since=&scope=*', 'internal/adherents')
   mock('GET', '/api/v3/adherent_messages/kpi?scope=*', 'internal/reportsRatio')
   mock('GET', '/api/v3/hub-items?scope=*', 'internal/hubItems')
 
