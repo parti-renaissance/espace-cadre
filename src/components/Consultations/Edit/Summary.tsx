@@ -19,10 +19,24 @@ import { useTargetYearChoices } from '~/components/Consultations/Edit/form'
 import { find } from 'lodash'
 import { nl2br } from '~/components/shared/helpers'
 import { messages } from '~/components/Consultations/messages'
+import { useQueryWithScope } from '~/api/useQueryWithScope'
+import { countAdherents } from '~/api/activist'
+import Loader from '~/ui/Loader'
+
+type AdherentCountData = {
+  adherent: number
+  adherent_since: number
+}
 
 const Summary = ({ formData, designation }: { formData: DesignationType; designation: Designation }) => {
   const targetChoices = useTargetYearChoices()
   const term = messages[designation.type].item
+
+  const { data, isFetching } = useQueryWithScope(['consultation-voters-count'], () =>
+    countAdherents([], formData.targetYear as any)
+  )
+
+  const adherentCount = data as AdherentCountData | undefined
 
   return (
     <Box>
@@ -213,6 +227,64 @@ const Summary = ({ formData, designation }: { formData: DesignationType; designa
                       <Typography>Fin de l’accès public aux résultats.</Typography>
                     </TableCell>
                   </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            <TableContainer component={Paper} sx={{ border: '1px solid #ccc' }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Catégorie</TableCell>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell>Description</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {isFetching ? (
+                    <TableRow>
+                      <TableCell colSpan={3}>
+                        <Loader isCenter />
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    <>
+                      <TableRow>
+                        <TableCell>Potentiel électoral</TableCell>
+                        <TableCell>{adherentCount?.adherent || 0}</TableCell>
+                        <TableCell>
+                          <Typography>
+                            Adhérents à J-2, {format(formData.voteStartDate, 'HH')}h (ce chiffre varie jusqu’au{' '}
+                            {format(sub(formData.voteStartDate, { days: 2 }), 'dd/MM/yyyy, HH:mm')})
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Collège électoral</TableCell>
+                        <TableCell>{adherentCount?.adherent_since || 0}</TableCell>
+                        <TableCell>
+                          <Typography>
+                            À partir des adhérents à jour {formData.targetYear} (ce chiffre varie jusqu’au{' '}
+                            {format(formData.voteEndDate, 'dd/MM/yyyy, HH:mm')})
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Participants</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell>
+                          <Typography>(ce chiffre varie jusqu’à la fin du vote)</Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Taux de participation</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell>
+                          <Typography>C’est le seul chiffre affiché à vos adhérents dans les résultats</Typography>
+                        </TableCell>
+                      </TableRow>
+                    </>
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

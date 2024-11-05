@@ -8,7 +8,8 @@ export const exportActivists = async filter =>
     `v3/adherents.xls?${qs.stringify(filter)}`,
     `Adherents Export - ${formatDate(new Date(), 'dd.MM.yyyy')}.xls`
   )
-export const countAdherents = zoneUuids => apiClient.post('/v3/adherents/count', zoneUuids)
+export const countAdherents = (zoneUuids, since = null) =>
+  apiClient.post(`/v3/adherents/count?since=${since ?? ''}`, zoneUuids)
 
 export const getAdherentElect = async uuid => await apiClient.get(`v3/adherents/${uuid}/elect`)
 export const updateAdherentElect = async ({ data, uuid }) => await apiClient.put(`v3/adherents/${uuid}/elect`, data)
