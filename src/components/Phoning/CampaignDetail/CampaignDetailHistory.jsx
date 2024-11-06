@@ -68,7 +68,7 @@ const CampaignDetailHistory = ({ status, startDate, adherent, caller }) => {
               <Author sx={{ pb: 0.5 }}>
                 {caller.firstName} {caller.lastName}
               </Author>
-              <UpdateTime>{formatDate(startDate, 'dd/MM/yyyy hh:mm')}</UpdateTime>
+              <UpdateTime>{formatDate(startDate, 'dd/MM/yyyy HH:mm')}</UpdateTime>
             </VerticalContainer>
           </>
         }

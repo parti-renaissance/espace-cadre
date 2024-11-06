@@ -159,7 +159,7 @@ const Participants = ({ designationId }) => {
                     </TableCell>
                     <TableCell key={uuid()}>
                       <Typography sx={{ color: 'colors.gray.500' }}>
-                        {voter.voted_at && formatDate(voter.voted_at, 'dd MMMM yyyy à hh:mm')}
+                        {voter.voted_at && formatDate(voter.voted_at, 'dd MMMM yyyy à HH:mm')}
                         {!voter.voted_at && '--'}
                       </Typography>
                     </TableCell>

@@ -21,6 +21,7 @@ import { TabContext, TabPanel } from '@mui/lab'
 import Main from '~/components/Consultations/Show/Tabs/Main'
 import Participants from '~/components/shared/election/Participants'
 import Calendar from '~/components/Consultations/Components/Calendar'
+import Statistics from '~/components/Consultations/Show/Tabs/Statistics'
 
 const Show = () => {
   const { isMobile } = useCurrentDeviceType()
@@ -115,6 +116,7 @@ const Show = () => {
                 <Tab label="Détails" value="election-tab-0" />
                 <Tab label="Émargement" value="election-tab-1" />
                 <Tab label="Calendrier" value="election-tab-2" />
+                <Tab label="Statistiques / Résultats" value="election-tab-3" />
               </Tabs>
 
               <TabPanel value="election-tab-0">
@@ -125,6 +127,9 @@ const Show = () => {
               </TabPanel>
               <TabPanel value="election-tab-2">
                 <Calendar designation={designation} />
+              </TabPanel>
+              <TabPanel value="election-tab-3">
+                <Statistics designation={designation} />
               </TabPanel>
             </Stack>
           </TabContext>

@@ -69,7 +69,7 @@ const CampaignDetailHistory = ({ status, address, questioner, startDate, duratio
                 {questioner.firstName} {questioner.lastName}
               </Questioner>
               <UpdateTime sx={{ color: 'gray600' }}>
-                {formatDate(startDate, 'dd/MM/yyyy hh:mm')}
+                {formatDate(startDate, 'dd/MM/yyyy HH:mm')}
                 {secondsToMinutes(duration) && ' • '}
                 {secondsToMinutes(duration)}
               </UpdateTime>
