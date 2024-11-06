@@ -98,7 +98,7 @@ const List = () => {
                       <Stack direction={'row'} alignItems={'center'}>
                         <AccessTime sx={{ mr: 0.5, color: 'colors.gray.400', fontSize: '15px' }} />
                         <Typography variant="subtitle2" sx={{ color: 'colors.gray.500' }}>
-                          Créé Le {formatDate(consultation.createdAt, 'dd/MM/yyyy à HH:mm')}
+                          Créé le {formatDate(consultation.createdAt, 'dd/MM/yyyy à HH:mm')}
                         </Typography>
                       </Stack>
                     </Stack>

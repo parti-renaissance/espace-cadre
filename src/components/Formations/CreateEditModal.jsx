@@ -82,9 +82,7 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
   })
 
   const { mutate: uploadFormationFile } = useMutation(uploadFile, {
-    onSuccess: () => {
-      setAction('')
-    },
+    onSuccess: () => setAction(''),
     onError: handleError,
   })
 
@@ -94,7 +92,12 @@ const CreateEditModal = ({ formation, onCreateResolve, onUpdateResolve, handleCl
     setAction(messages.createAction)
 
     try {
-      response = await createOrUpdate({ ...values, position: parseInt(position), zone })
+      response = await createOrUpdate({
+        ...values,
+        description: values.description ? values.description : null,
+        position: parseInt(position),
+        zone,
+      })
     } catch (error) {
       handleError(error)
     } finally {

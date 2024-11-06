@@ -19,7 +19,7 @@ import Lists from '../Elections/Tabs/Lists'
 import CreateEditModal from '../Elections/CreateEditModal'
 import { electionStatus } from '../constants'
 import { Tab, TabLabel } from '../styles'
-import Participants from '../Participants'
+import Participants from '~/components/shared/election/Participants'
 import { Designation } from '~/domain/designation'
 
 const messages = {
