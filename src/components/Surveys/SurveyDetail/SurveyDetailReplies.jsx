@@ -156,7 +156,7 @@ const SurveyDetailReplies = ({ survey, replies }) => {
                     </TableCell>
 
                     <TableCell key={uuid()} isOdd={!!(index % 2)} sx={{ width: '150px' }}>
-                      <Description>{formatDate(startDate, 'dd/MM/yyyy hh:mm')}</Description>
+                      <Description>{formatDate(startDate, 'dd/MM/yyyy HH:mm')}</Description>
                       {timeDifferenceToString(startDate, endDate) && (
                         <SubDescription>{timeDifferenceToString(startDate, endDate)}</SubDescription>
                       )}

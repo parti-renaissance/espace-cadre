@@ -79,21 +79,23 @@ const Participants = ({ designationId }) => {
   return (
     <Box>
       <Paper sx={{ borderRadius: 3 }}>
-        <Box sx={{ mb: 1.5, p: 2, borderBottom: '1px solid', borderBottomColor: 'colors.gray.200' }}>
-          <UIInputLabel>Rechercher par nom</UIInputLabel>
-          <Input
-            name="search"
-            onChange={event =>
-              setPageConfig(prevState => ({
-                ...prevState,
-                search: event.target.value,
-              }))
-            }
-            value={pageConfig.search}
-            autoFocus
-            sx={{ maxWidth: '32rem' }}
-          />
-        </Box>
+        {sortedVoters.length > 0 && (
+          <Box sx={{ mb: 1.5, p: 2, borderBottom: '1px solid', borderBottomColor: 'colors.gray.200' }}>
+            <UIInputLabel>Rechercher par nom</UIInputLabel>
+            <Input
+              name="search"
+              onChange={event =>
+                setPageConfig(prevState => ({
+                  ...prevState,
+                  search: event.target.value,
+                }))
+              }
+              value={pageConfig.search}
+              autoFocus
+              sx={{ maxWidth: '32rem' }}
+            />
+          </Box>
+        )}
         <TableContainer sx={{ borderRadius: 3 }}>
           <Table sx={{ borderCollapse: 'separate' }} stickyHeader>
             <TableHead>
@@ -146,25 +148,33 @@ const Participants = ({ designationId }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedVoters.map(voter => (
-                <TableRow key={uuid()}>
-                  <TableCell key={uuid()}>
-                    <Typography sx={{ display: 'flex', alignItems: 'center' }} className="space-x-2">
-                      <span>{voter.first_name}</span>
-                      <span className="font-bold">{voter.last_name}</span>
-                    </Typography>
-                  </TableCell>
-                  <TableCell key={uuid()}>
-                    <Typography sx={{ color: 'colors.gray.500' }}>
-                      {voter.voted_at && formatDate(voter.voted_at, 'dd MMMM yyyy à hh:mm')}
-                      {!voter.voted_at && '--'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell key={uuid()}>
-                    <Typography sx={{ color: 'colors.gray.500' }}>{voter.postal_code}</Typography>
-                  </TableCell>
+              {sortedVoters.length > 0 ? (
+                sortedVoters.map(voter => (
+                  <TableRow key={uuid()}>
+                    <TableCell key={uuid()}>
+                      <Typography sx={{ display: 'flex', alignItems: 'center' }} className="space-x-2">
+                        <span>{voter.first_name}</span>
+                        <span className="font-bold">{voter.last_name}</span>
+                      </Typography>
+                    </TableCell>
+                    <TableCell key={uuid()}>
+                      <Typography sx={{ color: 'colors.gray.500' }}>
+                        {voter.voted_at && formatDate(voter.voted_at, 'dd MMMM yyyy à HH:mm')}
+                        {!voter.voted_at && '--'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell key={uuid()}>
+                      <Typography sx={{ color: 'colors.gray.500' }}>{voter.postal_code}</Typography>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3} align={'center'}>
+                    <Typography sx={{ color: 'colors.gray.500' }}>Aucun élément</Typography>
+                  </TableCell>{' '}
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>

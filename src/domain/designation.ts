@@ -132,7 +132,7 @@ export class Designation {
   }
 }
 
-class Question {
+export class Question {
   constructor(
     public content: string,
     public choices: QuestionChoice[] = []
