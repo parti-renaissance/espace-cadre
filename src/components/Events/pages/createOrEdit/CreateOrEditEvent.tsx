@@ -412,7 +412,8 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
               error={!!errors.description}
               helperText={errors.description?.message}
               multiline
-              rows={4}
+              minRows={4}
+              inputProps={{ style: { resize: 'vertical' } }}
             />
           </FormGroup>
 
