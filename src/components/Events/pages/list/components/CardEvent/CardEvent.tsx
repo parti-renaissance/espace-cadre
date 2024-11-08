@@ -112,13 +112,13 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
       ),
     },
     {
-      enabled: !!event?.category?.name,
+      enabled: !!event?.category,
       id: 'category',
       label: 'Catégorie',
       icon: 'solar:tag-horizontal-bold',
       children: (
         <Typography variant="caption" noWrap color="text.secondary">
-          {event.category.name}
+          {event.category?.name}
         </Typography>
       ),
     },

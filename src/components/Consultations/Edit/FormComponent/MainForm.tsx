@@ -91,8 +91,8 @@ const MainForm = ({ apiErrors, onSubmit, designation }: MainFormProps) => {
                   ref={register(field.name).ref}
                   multiline
                   minRows={4}
-                  maxRows={20}
                   error={!!errors.description}
+                  inputProps={{ style: { resize: 'vertical' } }}
                   helperText={errors.description ? <>{errors.description?.message}</> : null}
                 />
               )}

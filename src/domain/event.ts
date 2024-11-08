@@ -194,13 +194,11 @@ export const CreateEventSchema = z
     name: z
       .string()
       .min(5, "Le titre de l'événement doit contenir au moins 5 caractères")
-      .min(1, "Le titre de l'événement est obligatoire")
       .max(80, "Le titre de l'événement ne peut pas dépasser 80 caractères"),
     description: z
       .string()
       .min(10, 'La description doit contenir au moins 10 caractères')
-      .min(1, 'La description est obligatoire')
-      .max(380, 'La description ne peut pas dépasser 380 caractères'),
+      .max(10000, 'La description ne peut pas dépasser 10000 caractères'),
     timeZone: z.string().min(1, 'Vous devez choisir un fuseau horaire'),
     private: z.boolean().optional(),
     categoryId: z.string({
