@@ -1,7 +1,10 @@
 import MentionsLegales from './MentionsLegales'
 import { styled } from '@mui/system'
-import { Grid } from '@mui/material'
+import { Button, Grid, Stack } from '@mui/material'
 import { APP_VERSION } from '~/shared/environments'
+import Iconify from '~/mui/iconify'
+import { useSelector } from 'react-redux'
+import { getFeaturebaseToken } from '~/redux/user/selectors.js'
 
 const FooterWrapper = styled('div')`
   padding: ${({ theme }) => theme.spacing(1, 2)};
@@ -30,16 +33,30 @@ const messages = {
   signature: 'Designé et assemblé par le Pôle Tech & Innovation',
 }
 
-const Footer = () => (
-  <FooterWrapper>
-    <Grid container alignItems="center">
-      <MentionsLegales />
-      <ReleaseVersion>
-        {messages.title}@{APP_VERSION}
-      </ReleaseVersion>
-    </Grid>
-    <Signature>{messages.signature}</Signature>
-  </FooterWrapper>
-)
+const Footer = () => {
+  const featurebaseToken = useSelector(getFeaturebaseToken)
+
+  return (
+    <FooterWrapper>
+      <Grid container alignItems="center" sx={{ color: 'mentionsLegales' }}>
+        <MentionsLegales />
+        <ReleaseVersion>
+          {messages.title}@{APP_VERSION}
+        </ReleaseVersion>
+        {featurebaseToken && (
+          <Stack spacing={1}>
+            <Button color="secondary" variant="outlined" data-featurebase-changelog size="small">
+              📣 Dernières nouveautés
+            </Button>
+            <Button color="primary" variant="outlined" data-featurebase-feedback size="small">
+              🪃 Nous faire un retour
+            </Button>
+          </Stack>
+        )}
+      </Grid>
+      <Signature>{messages.signature}</Signature>
+    </FooterWrapper>
+  )
+}
 
 export default Footer

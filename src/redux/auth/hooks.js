@@ -1,13 +1,14 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
 import { useCallback } from 'react'
 import login from '../../services/networking/auth'
 import { apiClient } from '~/services/networking/client'
-import { userLoggedIn, userUpdateData, userUpdateScopes } from './slice'
+import { updateFeaturebaseToken, userLoggedIn, userUpdateData, userUpdateScopes } from './slice'
 import { useUserScope } from '../user/hooks'
 import paths, { publicPaths } from '~/shared/paths'
-import { OAUTH_HOST, OAUTH_CLIENT_ID, NODE_ENV } from '~/shared/environments'
+import { OAUTH_HOST, OAUTH_CLIENT_ID, NODE_ENV, FEATUREBASE_CLIENT_ID } from '~/shared/environments'
+import { getFeaturebaseToken } from '~/redux/user/selectors.js'
 
 export const useInitializeAuth = () => {
   const dispatch = useDispatch()
@@ -33,6 +34,23 @@ export const useRequestAccessToken = () => {
     dispatch(userLoggedIn({ tokens: data, isSwitchUser }))
     navigate(redirectPath ?? paths.dashboard)
   }, [])
+}
+
+export const useFeaturebaseToken = () => {
+  const dispatch = useDispatch()
+
+  return [
+    useSelector(getFeaturebaseToken),
+    useCallback(async () => {
+      const data = await apiClient.get('/v3/sso/jwt/' + FEATUREBASE_CLIENT_ID)
+
+      if (!data?.token) {
+        return
+      }
+
+      dispatch(updateFeaturebaseToken(data.token))
+    }, [dispatch]),
+  ]
 }
 
 export const useGetUserData = () => {

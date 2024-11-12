@@ -12,6 +12,7 @@ export const getCurrentScope = createSelector(
 )
 
 export const isUserLogged = state => state.auth.isUserLogged && state.auth.appVersion === APP_VERSION
+export const getFeaturebaseToken = state => state.auth.featurebaseToken
 
 export const isSwitchUser = state => state.auth.isSwitchUser || false
 
