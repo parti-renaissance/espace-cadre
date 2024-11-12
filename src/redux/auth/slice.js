@@ -5,6 +5,7 @@ const initialState = {
   isUserLogged: false,
   isSwitchUser: false,
   user: null,
+  featurebaseToken: null,
   scopes: [],
   currentScope: null,
   tokens: null,
@@ -27,6 +28,9 @@ const authSlice = createSlice({
     userUpdateData(state, action) {
       state.user = action.payload
     },
+    updateFeaturebaseToken(state, action) {
+      state.featurebaseToken = action.payload
+    },
     userUpdateScopes(state, action) {
       state.scopes = action.payload
     },
@@ -42,6 +46,13 @@ const authSlice = createSlice({
   },
 })
 
-export const { userLoggedIn, userUpdateData, userLogout, userUpdateScopes, updateCurrentScope, updateRefreshToken } =
-  authSlice.actions
+export const {
+  userLoggedIn,
+  userUpdateData,
+  userLogout,
+  userUpdateScopes,
+  updateCurrentScope,
+  updateRefreshToken,
+  updateFeaturebaseToken,
+} = authSlice.actions
 export default authSlice.reducer
