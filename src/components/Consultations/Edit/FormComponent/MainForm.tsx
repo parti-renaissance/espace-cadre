@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -20,6 +21,7 @@ import Questions from '~/components/Consultations/Edit/FormComponent/Questions'
 import { Designation, DesignationType } from '~/domain/designation'
 import DateTimePicker from '~/components/Consultations/Edit/FormComponent/DateTimePicker'
 import { useEffect } from 'react'
+import { messages } from '~/components/Consultations/messages'
 
 type MainFormProps = {
   onSubmit: (data: DesignationType) => void
@@ -55,15 +57,13 @@ const MainForm = ({ apiErrors, onSubmit, designation }: MainFormProps) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack mt={4} spacing={5}>
-        <BlockForm
-          title={
-            designation.id
-              ? ''
-              : designation.isVote()
-                ? "1. Création d'un nouveau vote"
-                : "1. Création d'une nouvelle consultation"
-          }
-        >
+        {!designation.isFullyEditable && (
+          <Alert severity="info">
+            Vous ne pouvez plus modifier les paramètres {designation.isVote() ? 'du vote' : 'de la consultation'} car
+            vos adhérents ont déjà été notifiés.
+          </Alert>
+        )}
+        <BlockForm title={designation.id ? '' : messages[designation.type].step1}>
           <Controller
             control={control}
             name="customTitle"
