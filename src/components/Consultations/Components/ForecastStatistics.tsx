@@ -45,7 +45,7 @@ const ForecastStatistics = ({ designation }: { designation: Designation | Design
     return {
       count: voters.length,
       participants: participants,
-      participationRate: (participants * 100.0) / voters.length,
+      participationRate: ((participants * 100.0) / voters.length).toFixed(2),
     }
   }, [voters])
 
@@ -76,7 +76,7 @@ const ForecastStatistics = ({ designation }: { designation: Designation | Design
                   <TableCell>{adherentCount?.adherent || 0}</TableCell>
                   <TableCell>
                     <Typography>
-                      Adhérents à J-2, {format(designation.voteStartDate, 'HH')}h (ce chiffre varie jusqu’au{' '}
+                      Adhérents à J-2, {format(designation.voteStartDate, 'HH:mm')}h (ce chiffre varie jusqu’au{' '}
                       {format(sub(designation.voteStartDate, { days: 2 }), 'dd/MM/yyyy, HH:mm')})
                     </Typography>
                   </TableCell>

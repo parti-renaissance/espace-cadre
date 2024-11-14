@@ -79,23 +79,21 @@ const Participants = ({ designationId }) => {
   return (
     <Box>
       <Paper sx={{ borderRadius: 3 }}>
-        {sortedVoters.length > 0 && (
-          <Box sx={{ mb: 1.5, p: 2, borderBottom: '1px solid', borderBottomColor: 'colors.gray.200' }}>
-            <UIInputLabel>Rechercher par nom</UIInputLabel>
-            <Input
-              name="search"
-              onChange={event =>
-                setPageConfig(prevState => ({
-                  ...prevState,
-                  search: event.target.value,
-                }))
-              }
-              value={pageConfig.search}
-              autoFocus
-              sx={{ maxWidth: '32rem' }}
-            />
-          </Box>
-        )}
+        <Box sx={{ mb: 1.5, p: 2, borderBottom: '1px solid', borderBottomColor: 'colors.gray.200' }}>
+          <UIInputLabel>Rechercher par nom</UIInputLabel>
+          <Input
+            name="search"
+            onChange={event =>
+              setPageConfig(prevState => ({
+                ...prevState,
+                search: event.target.value,
+              }))
+            }
+            value={pageConfig.search}
+            autoFocus
+            sx={{ maxWidth: '32rem' }}
+          />
+        </Box>
         <TableContainer sx={{ borderRadius: 3 }}>
           <Table sx={{ borderCollapse: 'separate' }} stickyHeader>
             <TableHead>
@@ -172,7 +170,7 @@ const Participants = ({ designationId }) => {
                 <TableRow>
                   <TableCell colSpan={3} align={'center'}>
                     <Typography sx={{ color: 'colors.gray.500' }}>Aucun élément</Typography>
-                  </TableCell>{' '}
+                  </TableCell>
                 </TableRow>
               )}
             </TableBody>

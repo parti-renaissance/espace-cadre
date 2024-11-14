@@ -22,6 +22,7 @@ import Main from '~/components/Consultations/Show/Tabs/Main'
 import Participants from '~/components/shared/election/Participants'
 import Calendar from '~/components/Consultations/Components/Calendar'
 import Statistics from '~/components/Consultations/Show/Tabs/Statistics'
+import { OAUTH_HOST } from '~/shared/environments'
 
 const Show = () => {
   const { isMobile } = useCurrentDeviceType()
@@ -81,6 +82,16 @@ const Show = () => {
             !designation.isCanceled && (
               <Stack alignItems="center" direction="row" spacing={2}>
                 <Button
+                  startIcon={<Iconify icon={'eva:external-link-outline'} />}
+                  variant="contained"
+                  color="primary"
+                  href={`${OAUTH_HOST}/election-sas/${designation.id}`}
+                  target="_blank"
+                >
+                  Voir
+                </Button>
+
+                <Button
                   startIcon={<Iconify icon={'eva:edit-outline'} />}
                   variant="contained"
                   color="inherit"
@@ -114,22 +125,22 @@ const Show = () => {
             <Stack>
               <Tabs value={selectedTab} onChange={(event, newValue) => setSelectedTab(newValue)}>
                 <Tab label="Détails" value="election-tab-0" />
-                <Tab label="Émargement" value="election-tab-1" />
-                <Tab label="Calendrier" value="election-tab-2" />
-                <Tab label="Statistiques / Résultats" value="election-tab-3" />
+                <Tab label="Calendrier" value="election-tab-1" />
+                <Tab label="Statistiques / Résultats" value="election-tab-2" />
+                <Tab label="Émargements" value="election-tab-3" />
               </Tabs>
 
               <TabPanel value="election-tab-0">
                 <Main designation={designation} />
               </TabPanel>
               <TabPanel value="election-tab-1">
-                <Participants designationId={designation.id} />
-              </TabPanel>
-              <TabPanel value="election-tab-2">
                 <Calendar designation={designation} />
               </TabPanel>
-              <TabPanel value="election-tab-3">
+              <TabPanel value="election-tab-2">
                 <Statistics designation={designation} />
+              </TabPanel>
+              <TabPanel value="election-tab-3">
+                <Participants designationId={designation.id} />
               </TabPanel>
             </Stack>
           </TabContext>

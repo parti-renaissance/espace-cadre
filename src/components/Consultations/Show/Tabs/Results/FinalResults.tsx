@@ -28,7 +28,7 @@ const FinalResults = ({ designation }: { designation: Designation }) => {
 
       {isFetching ? (
         <Loader isCenter />
-      ) : (
+      ) : rows.length ? (
         rows.map(row => (
           <Stack key={row.code} spacing={2}>
             <Typography variant="h6">{row.code}</Typography>
@@ -45,7 +45,10 @@ const FinalResults = ({ designation }: { designation: Designation }) => {
                 <TableBody>
                   {row.candidate_group_results.map(candidateGroupResult => (
                     <TableRow key={uuid()}>
-                      <TableCell>{candidateGroupResult.candidate_group.title}</TableCell>
+                      <TableCell>
+                        {candidateGroupResult.candidate_group.title}
+                        {candidateGroupResult.candidate_group.elected && ' ⭐'}
+                      </TableCell>
                       <TableCell>{candidateGroupResult.total}</TableCell>
                       <TableCell>{candidateGroupResult.rate} %</TableCell>
                     </TableRow>
@@ -60,6 +63,8 @@ const FinalResults = ({ designation }: { designation: Designation }) => {
             </TableContainer>
           </Stack>
         ))
+      ) : (
+        <Typography>Les résultats ne sont pas encore prêts</Typography>
       )}
     </>
   )
