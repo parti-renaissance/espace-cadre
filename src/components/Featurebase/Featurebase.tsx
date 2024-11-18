@@ -55,7 +55,6 @@ const Featurebase = () => {
     // Initialize Feedback widget
     win.Featurebase('initialize_feedback_widget', {
       ...mainConfig,
-      defaultBoard: '✨ Espace cadre',
     })
   }, [currentUser, enableFeaturebase, featurebaseToken])
 
