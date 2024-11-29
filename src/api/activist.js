@@ -17,3 +17,5 @@ export const createMandate = async ({ data }) => await apiClient.post('/api/v3/e
 export const updateMandate = async ({ data, uuid }) =>
   await apiClient.put(`/api/v3/elected_adherent_mandates/${uuid}`, data)
 export const deleteMandate = async uuid => await apiClient.delete(`/api/v3/elected_adherent_mandates/${uuid}`)
+export const sendResubscribeEmail = async uuid =>
+  await apiClient.post(`/api/v3/adherents/${uuid}/send-resubscribe-email`, {})

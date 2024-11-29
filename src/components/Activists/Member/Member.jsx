@@ -10,9 +10,22 @@ import { useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import AdherentTab from '~/components/Activists/Member/Tabs/Adherent/AdherentTab'
 import ElectedTab from '~/components/Activists/Member/Tabs/Elected/ElectedTab'
+import ConfirmButton from '~/ui/Button/ConfirmButton.jsx'
+import { useMutation } from '@tanstack/react-query'
+import { notifyVariants } from '~/components/shared/notification/constants.js'
+import { useErrorHandler } from '~/components/shared/error/hooks.jsx'
+import { useCustomSnackbar } from '~/components/shared/notification/hooks.jsx'
+import { sendResubscribeEmail } from '~/api/activist.js'
 
 const Member = ({ enableElectTab, member, handleClose }) => {
   const [currentTab, setCurrentTab] = useState('1')
+  const { handleError } = useErrorHandler()
+  const { enqueueSnackbar } = useCustomSnackbar()
+
+  const { mutate: sendEmail, isLoading } = useMutation(sendResubscribeEmail, {
+    onSuccess: () => enqueueSnackbar('Email envoyé', notifyVariants.success),
+    onError: handleError,
+  })
 
   if (!member) {
     return null
@@ -118,8 +131,42 @@ const Member = ({ enableElectTab, member, handleClose }) => {
             </Box>
           </Box>
 
+          {member.raw.is_available_for_resubscribe_email && (
+            <Box sx={{ mt: 2 }}>
+              <ConfirmButton
+                title="Email de réabonnement"
+                disabled={isLoading}
+                color="secondary"
+                variant="contained"
+                description={
+                  <Typography component="p">
+                    Cette action va envoyer un email de réabonnement à l&apos;adresse {member.raw.email}. Cet email
+                    contiendra un bouton permettant le réabonnement en 1 clic.
+                    <br />
+                    <br />
+                    L&apos;email de réabonnement n&apos;est à utiliser que dans le cas où un militant vous dit ne plus
+                    recevoir les emails et qu&apos;il souhaite se réabonner. Il ne doit pas être utilisé pour inciter au
+                    réabonnement.
+                    <br />
+                    <br />
+                    Le réabonnement est possible à tout moment depuis Profil &gt; Communications pour tous les
+                    militants, cependant, il peut être plus simple de recevoir un email pour le faire.
+                    <br />
+                    <br />
+                    Afin d&apos;éviter tout abus, il n&apos;est pas possible d&apos;envoyer plus d&apos;un email de
+                    réabonnement par an et par militant. Cet unique envoi est partagé entre tous les cadres.
+                  </Typography>
+                }
+                onClick={() => sendEmail(member.adherentUuid)}
+                okButtonTitle="Envoyer l'email"
+              >
+                Envoyer un email de réabonnement
+              </ConfirmButton>
+            </Box>
+          )}
+
           <TabContext value={currentTab}>
-            <Box sx={{ mt: 3 }}>
+            <Box sx={{ mt: 2 }}>
               <TabList onChange={(event, newValue) => setCurrentTab(newValue)}>
                 <Tab sx={{ textTransform: 'none' }} label={'Adhérent'} value={'1'} />
                 {enableElectTab && (

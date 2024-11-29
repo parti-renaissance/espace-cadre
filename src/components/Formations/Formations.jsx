@@ -192,6 +192,7 @@ const Formations = () => {
                         title={messages.confirmDeleteTitle}
                         description={messages.confirmDeleteDescription}
                         onClick={() => remove(formation.uuid)}
+                        isIcon
                       >
                         <DeleteIcon sx={{ color: 'form.error..olo', fontSize: '20px' }} />
                       </ConfirmButton>
