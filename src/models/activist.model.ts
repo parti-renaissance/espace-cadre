@@ -29,6 +29,7 @@ export interface ActivistModel {
   city_code: string
   sms_subscription: boolean
   email_subscription: boolean
+  is_available_for_resubscribe_email: boolean
   tags: LabelTypeModel[]
   zones: AddressZoneModel[]
   age: string

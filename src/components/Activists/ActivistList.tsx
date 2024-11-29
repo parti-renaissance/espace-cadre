@@ -17,6 +17,7 @@ import { tagsColor } from '~/theme/palette'
 import { fontWeight } from '~/theme/typography'
 import ActivistZoneCell from '~/components/Activists/TableComponents/ActivistZoneCell'
 import { MuiSpacing } from '~/theme/spacing'
+import { v1 as uuid } from 'uuid'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -107,7 +108,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
       <>
         {line.tags.map(tag => (
           <UIChip
-            key={tag.label}
+            key={uuid()}
             label={tag.label}
             sx={{ mb: line.tags.length > 1 ? 1 : 0 }}
             labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}

@@ -133,6 +133,7 @@ const DetailCommittee = () => {
                   title="Suppression du comité"
                   description="Êtes-vous sûr de vouloir supprimer ce comité ? Cette action est irréversible"
                   onClick={() => mutate(committee.uuid)}
+                  isIcon
                 >
                   <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
                 </ConfirmButton>

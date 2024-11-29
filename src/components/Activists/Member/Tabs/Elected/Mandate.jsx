@@ -27,6 +27,7 @@ const Mandate = ({ mandate, removeAction, editAction }) => (
             title={'Suppression du mandat'}
             description={'Êtes-vous sûr de vouloir supprimer ce mandat ?'}
             onClick={() => removeAction(mandate.uuid)}
+            isIcon
           >
             <DeleteIcon sx={{ color: 'form.error.color', fontSize: '20px' }} />
           </ConfirmButton>
