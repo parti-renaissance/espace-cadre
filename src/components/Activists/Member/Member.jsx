@@ -131,7 +131,7 @@ const Member = ({ enableElectTab, member, handleClose }) => {
             </Box>
           </Box>
 
-          {member.raw.is_available_for_resubscribe_email && (
+          {member.raw.available_for_resubscribe_email && (
             <Box sx={{ mt: 2 }}>
               <ConfirmButton
                 title="Email de réabonnement"
