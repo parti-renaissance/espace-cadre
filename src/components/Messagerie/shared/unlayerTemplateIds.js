@@ -6,7 +6,7 @@ export const unlayerTemplateIds = {
   [scopes.senator]: 60355,
   [scopes.animator]: 329570,
   [scopes.correspondent]: 123148,
-  [scopes.legislative_candidate]: 165090,
+  [scopes.legislative_candidate]: 574028,
   [scopes.regional_coordinator]: 276759,
   [scopes.regional_delegate]: 401163,
   [scopes.president_departmental_assembly]: 293625,
