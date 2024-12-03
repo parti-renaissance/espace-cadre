@@ -3,7 +3,7 @@ import scopes from '~/shared/scopes'
 export const unlayerTemplateIds = {
   [scopes.referent]: 228742,
   [scopes.deputy]: 228747,
-  [scopes.senator]: 60355,
+  [scopes.senator]: 574192,
   [scopes.animator]: 329570,
   [scopes.correspondent]: 123148,
   [scopes.legislative_candidate]: 574028,
