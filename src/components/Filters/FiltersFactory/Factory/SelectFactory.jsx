@@ -2,7 +2,6 @@ import { ListItemText, MenuItem, Select, InputLabel, FormControl } from '@mui/ma
 import { Checkbox } from '~/ui/Checkbox/Checkbox'
 import EqualNotEqualSelect from '~/components/Filters/Element/EqualNotEqualSelect.jsx'
 import InputRow from '~/components/Filters/Element/InputRow.jsx'
-import { useMemo } from 'react'
 
 const filterValue = value => {
   if (Array.isArray(value)) {
@@ -20,16 +19,11 @@ class SelectFactory {
     const multiple = filter.options && !!filter.options.multiple
     const selectValue = multiple && !Array.isArray(value) ? [value].filter(element => element !== '') : value
 
-    const equalNotEqualValue = useMemo(
-      () => ((Array.isArray(selectValue) ? (selectValue[0] ?? '') : selectValue).startsWith('!') ? '0' : '1'),
-      [selectValue]
-    )
-
     return (
       <InputRow>
         {!!filter.options.advanced && (
           <EqualNotEqualSelect
-            value={equalNotEqualValue}
+            value={(Array.isArray(selectValue) ? (selectValue[0] ?? '') : selectValue).startsWith('!') ? '0' : '1'}
             onChange={event => {
               let newValue = filterValue(selectValue)
 
@@ -56,7 +50,7 @@ class SelectFactory {
 
           <Select
             labelId="simple-select"
-            onChange={e => onChange(e.target.value)}
+            onChange={e => onChange(`${selectValue.startsWith('!') ? '!' : ''}${e.target.value}`)}
             required={filter.options.required || false}
             value={filterValue(selectValue)}
             name={filter.code}
@@ -71,7 +65,7 @@ class SelectFactory {
           >
             {!multiple && (
               <MenuItem value={null}>
-                <ListItemText primary="Tous" />
+                <ListItemText primary={filter.options.placeholder ?? 'Tous'} />
               </MenuItem>
             )}
             {Object.entries(filter.options.choices).map(([option1, option2]) => (

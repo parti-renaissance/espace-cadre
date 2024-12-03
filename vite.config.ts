@@ -4,6 +4,7 @@ import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import react from '@vitejs/plugin-react-swc'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import path from 'path'
+import svgr from 'vite-plugin-svgr'
 
 export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => ({
   resolve: {
@@ -13,6 +14,7 @@ export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => 
   },
   plugins: [
     react(),
+    svgr(),
     VitePluginHtmlEnv({
       envPrefixes: ['REACT_APP_'],
     }),

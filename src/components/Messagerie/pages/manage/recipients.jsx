@@ -165,20 +165,12 @@ const Filters = () => {
           </CardContent>
         </Card>
         <Card variant="outlined">
-          <Stack
-            item
-            xs={12}
-            sx={{ p: 2 }}
-            bgcolor={grey[200]}
-            minHeight="80px"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Stack xs={12} sx={{ p: 2 }} bgcolor={grey[200]} minHeight="80px" justifyContent="center" alignItems="center">
             {message && (
               <>
                 <Typography variant="h3">{message.recipientCount || 0} </Typography>
                 <Typography variant="subtitle1">
-                  {pluralize(message.recipientCount, 'Contact')} {pluralize(message.recipientCount, 'selectionné')}
+                  {pluralize(message.recipientCount, 'Contact')} {pluralize(message.recipientCount, 'sélectionné')}
                 </Typography>
               </>
             )}
