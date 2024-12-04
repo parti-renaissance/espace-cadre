@@ -66,7 +66,7 @@
     "yet-another-react-lightbox": "^3.21.6",
     "yup": "^1.4.0",
     "zod": "^3.22.4",
-    "zustand": "^4.5.0"
+    "zustand": "^5.0.1"
   },
   "scripts": {
     "start": "vite",
