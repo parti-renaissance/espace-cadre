@@ -3,6 +3,7 @@ import { Stack } from '@mui/material'
 import PropTypes from 'prop-types'
 
 const CustomStack = styled(Stack)`
+  align-items: center;
   & > *:not(:only-child):first-of-type,
   & > *:not(:only-child):first-of-type .MuiOutlinedInput-notchedOutline {
     border-top-right-radius: 0;
