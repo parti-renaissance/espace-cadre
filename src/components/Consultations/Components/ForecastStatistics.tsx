@@ -30,7 +30,7 @@ const ForecastStatistics = ({
   withDownload = false,
 }: {
   designation: Designation | DesignationType
-  withDownload: boolean
+  withDownload?: boolean
 }) => {
   const { handleError } = useErrorHandler()
 
