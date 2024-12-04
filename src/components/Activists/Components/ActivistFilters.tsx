@@ -7,7 +7,7 @@ import useApiFilters from '~/api/Filters/Hooks/useApiFilters'
 import { FeatureEnum } from '~/models/feature.enum'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ActivistDefaultFilters } from '~/components/Activists/Activists'
-import Iconify from "~/mui/iconify";
+import Iconify from '~/mui/iconify'
 
 interface Props {
   filters: Record<string, unknown>

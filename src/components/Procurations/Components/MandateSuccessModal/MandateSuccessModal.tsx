@@ -26,7 +26,7 @@ function MandateSuccessModal({ onClose, mandate, proxy }: MandateSuccessModalPro
 
         <Grid item xs={12}>
           <SuccessContainer>
-            <Iconify height={20} icon="eva:info-fill" color={success.main} style={{ paddingRight: CssSpacing.small }}/>
+            <Iconify height={20} icon="eva:info-fill" color={success.main} style={{ paddingRight: CssSpacing.small }} />
             <Typography color={'success.main'} fontSize={14}>
               Mandataire traité avec succès
             </Typography>
