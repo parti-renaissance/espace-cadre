@@ -1,19 +1,37 @@
 import { Designation, DesignationType } from '~/domain/designation'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import {
+  Button,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material'
 import Loader from '~/ui/Loader'
 import { format, sub } from 'date-fns'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { countAdherents } from '~/api/activist'
-import { getVoters } from '~/api/designations'
+import { downloadBallots, getVoters } from '~/api/designations'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useMemo } from 'react'
+import Iconify from '~/mui/iconify'
 
 type AdherentCountData = {
   adherent: number
   adherent_since: number
 }
 
-const ForecastStatistics = ({ designation }: { designation: Designation | DesignationType }) => {
+const ForecastStatistics = ({
+  designation,
+  withDownload = false,
+}: {
+  designation: Designation | DesignationType
+  withDownload: boolean
+}) => {
   const { handleError } = useErrorHandler()
 
   const { data: adherentFetchedCount, isFetching } = useQueryWithScope(['consultation-voters-count'], () =>
@@ -21,10 +39,11 @@ const ForecastStatistics = ({ designation }: { designation: Designation | Design
   )
 
   const adherentCount = adherentFetchedCount as AdherentCountData | undefined
+  const designationId = (designation as Designation)?.id as string
 
   const { data: voters, isFetching: votersFetching } = useQueryWithScope(
     ['designation-voters', { feature: 'Consultation', view: 'DetailVoters' }, { id: (designation as Designation)?.id }],
-    () => getVoters((designation as Designation)?.id as string),
+    () => getVoters(designationId),
     {
       onError: handleError,
       enabled: !!(designation as Designation)?.id,
@@ -51,7 +70,18 @@ const ForecastStatistics = ({ designation }: { designation: Designation | Design
 
   return (
     <>
-      <Typography variant="h6">Statistiques prévisionnelles</Typography>
+      <Stack direction="row" justifyContent={'space-between'} alignItems={'center'}>
+        <Typography variant="h6">Statistiques prévisionnelles</Typography>
+        {withDownload && (
+          <Button
+            startIcon={<Iconify icon="eva:download-outline" />}
+            variant="outlined"
+            onClick={() => downloadBallots(designationId)}
+          >
+            Bulletins
+          </Button>
+        )}
+      </Stack>
 
       <TableContainer component={Paper} sx={{ border: '1px solid #ccc' }}>
         <Table>
