@@ -12,6 +12,8 @@ import {
   TableRow,
   Typography,
   TablePagination,
+  Stack,
+  Button,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { v1 as uuid } from 'uuid'
@@ -25,6 +27,7 @@ import Loader from '~/ui/Loader/Loader'
 import UIInputLabel from '~/ui/InputLabel/InputLabel'
 import Input from '~/ui/Input/Input'
 import { formatDate } from '~/shared/helpers'
+import Iconify from '~/mui/iconify'
 
 const ColumnLabel = styled(({ isTruncated = false, ...props }) =>
   isTruncated ? <TruncatedText variant="subtitle2" {...props} /> : <Typography variant="subtitle2" {...props} />
@@ -39,7 +42,7 @@ const DEFAULT_SORT = 'voted_at'
 const DEFAULT_ORDER = 'asc'
 const DEFAULT_ROWS_PER_PAGE = 25
 
-const Participants = ({ designationId }) => {
+const Participants = ({ designationId, onDownloadCallback }) => {
   const { handleError } = useErrorHandler()
   const [pageConfig, setPageConfig] = useState({
     search: '',
@@ -79,21 +82,36 @@ const Participants = ({ designationId }) => {
   return (
     <Box>
       <Paper sx={{ borderRadius: 3 }}>
-        <Box sx={{ mb: 1.5, p: 2, borderBottom: '1px solid', borderBottomColor: 'colors.gray.200' }}>
-          <UIInputLabel>Rechercher par nom</UIInputLabel>
-          <Input
-            name="search"
-            onChange={event =>
-              setPageConfig(prevState => ({
-                ...prevState,
-                search: event.target.value,
-              }))
-            }
-            value={pageConfig.search}
-            autoFocus
-            sx={{ maxWidth: '32rem' }}
-          />
-        </Box>
+        <Stack direction="row" justifyContent={'space-between'} alignItems={'center'}>
+          <Box sx={{ mb: 1.5 }}>
+            <UIInputLabel>Rechercher par nom</UIInputLabel>
+            <Input
+              name="search"
+              onChange={event =>
+                setPageConfig(prevState => ({
+                  ...prevState,
+                  search: event.target.value,
+                }))
+              }
+              value={pageConfig.search}
+              autoFocus
+              sx={{ width: '32rem' }}
+            />
+          </Box>
+
+          {onDownloadCallback && (
+            <Box>
+              <Button
+                variant="outlined"
+                startIcon={<Iconify icon="eva:download-outline" />}
+                onClick={onDownloadCallback}
+              >
+                Télécharger
+              </Button>
+            </Box>
+          )}
+        </Stack>
+
         <TableContainer sx={{ borderRadius: 3 }}>
           <Table sx={{ borderCollapse: 'separate' }} stickyHeader>
             <TableHead>
@@ -196,4 +214,5 @@ export default Participants
 
 Participants.propTypes = {
   designationId: PropTypes.string.isRequired,
+  onDownloadCallback: PropTypes.func,
 }

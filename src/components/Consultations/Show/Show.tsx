@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { cancelDesignation, getDesignation } from '~/api/designations'
+import { cancelDesignation, downloadVoters, getDesignation } from '~/api/designations'
 import Loader from '~/ui/Loader'
 import { Button, Container, Grid, Stack, Tab, Tabs, Typography } from '@mui/material'
 import PageHeader from '~/ui/PageHeader'
@@ -140,7 +140,10 @@ const Show = () => {
                 <Statistics designation={designation} />
               </TabPanel>
               <TabPanel value="election-tab-3">
-                <Participants designationId={designation.id} />
+                <Participants
+                  designationId={designation.id}
+                  onDownloadCallback={() => downloadVoters(designation.id)}
+                />
               </TabPanel>
             </Stack>
           </TabContext>

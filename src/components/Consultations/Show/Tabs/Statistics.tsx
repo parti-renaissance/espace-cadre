@@ -5,7 +5,7 @@ import { Stack } from '@mui/material'
 
 const Statistics = ({ designation }: { designation: Designation }) => (
   <Stack spacing={2}>
-    <ForecastStatistics designation={designation} />
+    <ForecastStatistics designation={designation} withDownload />
     <FinalResults designation={designation} />
   </Stack>
 )
