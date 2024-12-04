@@ -3,14 +3,15 @@ import { Stack } from '@mui/material'
 import PropTypes from 'prop-types'
 
 const CustomStack = styled(Stack)`
-  & > *:not(:only-child):first-child,
-  & > *:not(:only-child):first-child .MuiOutlinedInput-notchedOutline {
+  align-items: center;
+  & > *:not(:only-child):first-of-type,
+  & > *:not(:only-child):first-of-type .MuiOutlinedInput-notchedOutline {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  & > *:not(:only-child):not(:first-child),
-  & > *:not(:only-child):not(:first-child) .MuiInputBase-formControl {
+  & > *:not(:only-child):not(:first-of-type),
+  & > *:not(:only-child):not(:first-of-type) .MuiInputBase-formControl {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
