@@ -33,7 +33,7 @@ const EqualNotEqualSelect = ({ value, onChange }) => (
         <MenuItem value={1}>
           <MyItem>
             <SvgIcon component={EqualSvg} />
-            <Typography className={'equal'} secondary letterSpacing={0} fontSize={14} fontWeight={500}>
+            <Typography className="equal" color="secondary" letterSpacing={0} fontSize={14} fontWeight={500}>
               Est égal
             </Typography>
           </MyItem>
@@ -41,7 +41,7 @@ const EqualNotEqualSelect = ({ value, onChange }) => (
         <MenuItem value={0}>
           <MyItem>
             <SvgIcon component={NotEqualSvg} sx={{ color: '#EE2C17' }} />
-            <Typography sx={{ color: '#EE2C17' }} secondary letterSpacing={0} fontSize={14} fontWeight={500}>
+            <Typography sx={{ color: '#EE2C17' }} color="secondary" letterSpacing={0} fontSize={14} fontWeight={500}>
               Est différent
             </Typography>
           </MyItem>

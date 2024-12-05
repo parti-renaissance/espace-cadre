@@ -25,6 +25,10 @@ class SelectFactory {
           <EqualNotEqualSelect
             value={(Array.isArray(selectValue) ? (selectValue[0] ?? '') : selectValue).startsWith('!') ? '0' : '1'}
             onChange={event => {
+              if (!selectValue) {
+                return
+              }
+
               let newValue = filterValue(selectValue)
 
               if (Array.isArray(newValue)) {
@@ -50,7 +54,28 @@ class SelectFactory {
 
           <Select
             labelId="simple-select"
-            onChange={e => onChange(`${selectValue.startsWith('!') ? '!' : ''}${e.target.value}`)}
+            onChange={e => {
+              if (!filter.options.advanced) {
+                onChange(e.target.value)
+                return
+              }
+
+              const newValue = e.target.value
+              if ((Array.isArray(newValue) && newValue.length === 0) || !newValue) {
+                onChange(newValue)
+                return
+              }
+
+              const notEqualIsEnabled = Array.isArray(selectValue)
+                ? selectValue[0].startsWith('!')
+                : selectValue.startsWith('!')
+
+              if (Array.isArray(newValue)) {
+                onChange(newValue.map(v => (notEqualIsEnabled ? `!${v}` : v)))
+              } else {
+                onChange(notEqualIsEnabled ? `!${newValue}` : newValue)
+              }
+            }}
             required={filter.options.required || false}
             value={filterValue(selectValue)}
             name={filter.code}

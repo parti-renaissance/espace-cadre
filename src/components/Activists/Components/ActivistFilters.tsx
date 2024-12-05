@@ -33,7 +33,11 @@ export default function ActivistFilters({ filters, setFilters, resetPage }: Prop
       <Grid sx={{ mx: MuiSpacing.normal, mt: MuiSpacing.normal }}>
         <Grid container>
           <Grid item xs={6} sx={{ mb: MuiSpacing.normal }}>
-            <Button variant="text" startIcon={<Iconify icon="ion:filter" />} onClick={() => setFiltersModalOpen(true)}>
+            <Button
+              variant={'outlined'}
+              startIcon={<Iconify icon="ion:filter" />}
+              onClick={() => setFiltersModalOpen(true)}
+            >
               Filtres
             </Button>
           </Grid>
