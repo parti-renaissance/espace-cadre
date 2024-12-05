@@ -78,7 +78,7 @@ const ForecastStatistics = ({
             variant="outlined"
             onClick={() => downloadBallots(designationId)}
           >
-            Bulletins
+            Télécharger
           </Button>
         )}
       </Stack>

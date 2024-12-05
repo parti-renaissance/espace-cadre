@@ -14,6 +14,7 @@ import {
   TablePagination,
   Stack,
   Button,
+  TextField,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { v1 as uuid } from 'uuid'
@@ -24,8 +25,6 @@ import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { TruncatedText } from '~/components/shared/styled'
 import Loader from '~/ui/Loader/Loader'
-import UIInputLabel from '~/ui/InputLabel/InputLabel'
-import Input from '~/ui/Input/Input'
 import { formatDate } from '~/shared/helpers'
 import Iconify from '~/mui/iconify'
 
@@ -82,11 +81,12 @@ const Participants = ({ designationId, onDownloadCallback }) => {
   return (
     <Box>
       <Paper sx={{ borderRadius: 3 }}>
-        <Stack direction="row" justifyContent={'space-between'} alignItems={'center'}>
-          <Box sx={{ mb: 1.5 }}>
-            <UIInputLabel>Rechercher par nom</UIInputLabel>
-            <Input
+        <Stack direction="row" justifyContent={'space-between'} alignItems={'center'} spacing={1.5} sx={{ mb: 1.5 }}>
+          <Box>
+            <TextField
               name="search"
+              size="small"
+              label="Rechercher par nom"
               onChange={event =>
                 setPageConfig(prevState => ({
                   ...prevState,
@@ -94,7 +94,6 @@ const Participants = ({ designationId, onDownloadCallback }) => {
                 }))
               }
               value={pageConfig.search}
-              autoFocus
               sx={{ width: '32rem' }}
             />
           </Box>
