@@ -20,7 +20,6 @@ import MyTeam from '~/components/MyTeam'
 import NoMatch from '~/components/NoMatch'
 import Events from '~/components/Events'
 import Site from '~/components/Site'
-import ElectedRepresentative from '~/components/ElectedRepresentative'
 import Formations from '~/components/Formations'
 import GeneralReports from '~/components/GeneralReports'
 import Committees from '~/components/Committees'
@@ -54,10 +53,6 @@ const AppPrivateRoutes = () => {
           <Route
             path={`${paths.statutory_message}/*`}
             element={currentScope.hasFeature(FeatureEnum.STATUTORY_MESSAGE) && <MailsStatutory />}
-          />
-          <Route
-            path={`${paths.elected_representative}/*`}
-            element={currentScope.hasFeature(FeatureEnum.ELECTED_REPRESENTATIVE) && <ElectedRepresentative />}
           />
           <Route
             path={`${paths.adherent_formations}/*`}
