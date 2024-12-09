@@ -68,7 +68,7 @@ export const featuresLabels = {
   [FeatureEnum.MY_TEAM]: 'Mon équipe',
   [FeatureEnum.EVENTS]: 'Événements',
   [FeatureEnum.DEPARTMENT_SITE]: 'Site départemental',
-  [FeatureEnum.ELECTED_REPRESENTATIVE]: 'Registre des élus',
+  [FeatureEnum.ELECTED_REPRESENTATIVE]: 'Gestion des élus',
   [FeatureEnum.ADHERENT_FORMATIONS]: 'Formations',
   [FeatureEnum.GENERAL_MEETING_REPORTS]: "Centre d'archives",
   [FeatureEnum.COMMITTEE]: 'Comités locaux',

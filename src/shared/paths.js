@@ -15,7 +15,6 @@ export default {
   [FeatureEnum.MY_TEAM]: '/mon-equipe',
   [FeatureEnum.EVENTS]: '/evenements',
   [FeatureEnum.DEPARTMENT_SITE]: '/site-departemental',
-  [FeatureEnum.ELECTED_REPRESENTATIVE]: '/registre-elus',
   [FeatureEnum.ADHERENT_FORMATIONS]: '/formations',
   [FeatureEnum.GENERAL_MEETING_REPORTS]: '/proces-verbal',
   [FeatureEnum.COMMITTEE]: '/comites',
