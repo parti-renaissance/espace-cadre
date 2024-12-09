@@ -8,6 +8,7 @@ import { shouldForwardProps } from '~/components/shared/shouldForwardProps'
 import { MyTeamMember as DomainMyTeamMember } from '~/domain/my-team'
 import Feature from './shared/components/Feature'
 import { useUserScope } from '~/redux/user/hooks'
+import { FeatureEnum } from '~/models/feature.enum'
 
 const Title = styled(
   Typography,
@@ -46,7 +47,7 @@ const messages = {
     'En déléguant vos accès, ce membre de votre équipe agira en votre nom depuis cet espace d’administration.',
 }
 
-const skippedFeatures = ['mobile_app']
+const skippedFeatures = ['mobile_app', FeatureEnum.FEATUREBASE]
 
 const CreateEditDelegatedAccess = ({ delegatedFeatures = [], updateDelegatedFeatures }) => {
   const [currentScope] = useUserScope()
