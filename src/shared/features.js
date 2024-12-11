@@ -42,7 +42,6 @@ export const featuresGroup = [
     slug: 'gestion_territoriale',
     features: [
       FeatureEnum.ELECTIONS,
-      FeatureEnum.ELECTED_REPRESENTATIVE,
       FeatureEnum.COMMITTEE,
       FeatureEnum.GENERAL_MEETING_REPORTS,
       FeatureEnum.MY_TEAM,
