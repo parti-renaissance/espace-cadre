@@ -18,7 +18,12 @@ const NewsList = ({ data, toggleNewsStatus, toggleNewsPinned, handleEdit, handle
             header={
               <>
                 <Header {...n} />
-                <Title subject={n.title} author={n.creator} sx={{ pt: 1 }} dateTime={n.createdAt} />
+                <Title
+                  subject={n.title}
+                  author={`${n.creator.first_name} ${n.creator.last_name}`}
+                  sx={{ pt: 1 }}
+                  dateTime={n.createdAt}
+                />
               </>
             }
             actionsProps={{ sx: { pt: 3 } }}
