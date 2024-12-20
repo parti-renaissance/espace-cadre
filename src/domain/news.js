@@ -1,6 +1,20 @@
 import PropTypes from 'prop-types'
+
 export default class News {
-  constructor(id, title, body, url, urlLabel, creator, createdAt, withNotification, status, pinned, zoneId) {
+  constructor(
+    id,
+    title,
+    body,
+    url,
+    urlLabel,
+    creator,
+    createdAt,
+    withNotification,
+    status,
+    pinned,
+    zoneId,
+    committeeUuid
+  ) {
     this.id = id
     this.title = title
     this.body = body
@@ -12,9 +26,10 @@ export default class News {
     this.status = status
     this.pinned = pinned
     this.zoneId = zoneId
+    this.committeeUuid = committeeUuid
   }
 
-  static NULL = new News(null, '', '', '', '', '', new Date(), false, false, false, '')
+  static NULL = new News(null, '', '', '', '', null, new Date(), false, false, false, '', null)
 
   withTitle(newTitle) {
     return new News(
@@ -28,7 +43,8 @@ export default class News {
       this.withNotification,
       this.status,
       this.pinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -44,7 +60,8 @@ export default class News {
       this.withNotification,
       this.status,
       this.pinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -60,7 +77,8 @@ export default class News {
       this.withNotification,
       this.status,
       this.pinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -76,7 +94,8 @@ export default class News {
       this.withNotification,
       this.status,
       this.pinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -92,7 +111,8 @@ export default class News {
       newWithNotification,
       this.status,
       this.pinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -108,23 +128,8 @@ export default class News {
       this.withNotification,
       newStatus,
       this.pinned,
-      this.zoneId
-    )
-  }
-
-  withPinned(newPinned) {
-    return new News(
-      this.id,
-      this.title,
-      this.body,
-      this.url,
-      this.urlLabel,
-      this.creator,
-      this.createdAt,
-      this.withNotification,
-      this.status,
-      newPinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -140,7 +145,8 @@ export default class News {
       this.withNotification,
       !this.status,
       this.pinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -156,7 +162,8 @@ export default class News {
       this.withNotification,
       this.status,
       !this.pinned,
-      this.zoneId
+      this.zoneId,
+      this.committeeUuid
     )
   }
 
@@ -172,7 +179,25 @@ export default class News {
       this.withNotification,
       this.status,
       this.pinned,
-      newZoneId
+      newZoneId,
+      this.committeeUuid
+    )
+  }
+
+  withCommitteeUuid(committeeUuid) {
+    return new News(
+      this.id,
+      this.title,
+      this.body,
+      this.url,
+      this.urlLabel,
+      this.creator,
+      this.createdAt,
+      this.withNotification,
+      this.status,
+      this.pinned,
+      this.zoneId,
+      committeeUuid
     )
   }
 }
@@ -183,10 +208,11 @@ News.propTypes = PropTypes.shape({
   body: PropTypes.string.isRequired,
   url: PropTypes.string,
   urlLabel: PropTypes.string,
-  creator: PropTypes.string,
+  creator: PropTypes.object,
   createdAt: PropTypes.object.isRequired,
   withNotification: PropTypes.bool,
   status: PropTypes.bool.isRequired,
   pinned: PropTypes.bool.isRequired,
   zoneId: PropTypes.string,
+  committeeUuid: PropTypes.string,
 })
