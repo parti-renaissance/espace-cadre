@@ -20,7 +20,7 @@ const NewsList = ({ data, toggleNewsStatus, toggleNewsPinned, handleEdit, handle
                 <Header {...n} />
                 <Title
                   subject={n.title}
-                  author={`${n.creator.first_name} ${n.creator.last_name}`}
+                  author={n.creator ? `${n.creator.first_name} ${n.creator.last_name}` : null}
                   sx={{ pt: 1 }}
                   dateTime={n.createdAt}
                 />
