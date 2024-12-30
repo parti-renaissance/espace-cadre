@@ -2,7 +2,6 @@ import MentionsLegales from './MentionsLegales'
 import { styled } from '@mui/system'
 import { Button, Grid, Stack } from '@mui/material'
 import { APP_VERSION } from '~/shared/environments'
-import Iconify from '~/mui/iconify'
 import { useSelector } from 'react-redux'
 import { getFeaturebaseToken } from '~/redux/user/selectors.js'
 

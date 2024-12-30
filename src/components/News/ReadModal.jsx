@@ -128,9 +128,13 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
       </Grid>
       <Title title={news?.title}>{news?.title}</Title>
       <UserTimeContainer>
-        <PersonIcon sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
-        <Author>{`${news?.creator?.first_name} ${news?.creator?.last_name}`}</Author>
-        <AccessTimeIcon sx={{ mr: 0.5, ml: 2, color: 'gray600', fontSize: '12px' }} />
+        {news?.creator && (
+          <>
+            <PersonIcon sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
+            <Author>{`${news?.creator?.first_name} ${news?.creator?.last_name}`}</Author>
+          </>
+        )}
+        <AccessTimeIcon sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
         <DateItem>
           {news?.createdAt && `Le ${formatDate(news.createdAt, 'dd/MM/yyyy')} à ${formatDate(news.createdAt, 'HH:mm')}`}
         </DateItem>

@@ -11,12 +11,14 @@ export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
     <TruncatedText variant="subtitle1" sx={{ color: 'gray900', height: '45px', mb: 0.5 }} lines={lines} title={subject}>
       {subject}
     </TruncatedText>
-    <HorizontalContainer>
-      <Person sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
-      <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
-        {author}
-      </Typography>
-    </HorizontalContainer>
+    {author && (
+      <HorizontalContainer>
+        <Person sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
+        <Typography variant="subtitle2" sx={{ color: 'gray600' }}>
+          {author}
+        </Typography>
+      </HorizontalContainer>
+    )}
     {dateTime && (
       <HorizontalContainer>
         <AccessTime sx={{ mr: 0.5, color: 'gray600', fontSize: '12px' }} />
@@ -31,6 +33,6 @@ export const Title = ({ subject, author, dateTime, lines = 1, ...props }) => (
 Title.propTypes = {
   subject: PropTypes.string.isRequired,
   lines: PropTypes.number,
-  author: PropTypes.string.isRequired,
+  author: PropTypes.string,
   dateTime: PropTypes.object,
 }
