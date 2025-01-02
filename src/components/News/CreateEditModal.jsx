@@ -95,7 +95,11 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           .withWithNotification(values.withNotification)
           .withStatus(values.status)
           .withZoneId(currentScope.zones.length ? currentScope.zones[0].uuid : null)
-          .withCommitteeUuid(currentScope.getCommittees()[0]?.uuid ?? null)
+          .withCommitteeUuid(
+            currentScope.getCommittees() && currentScope.getCommittees().length
+              ? currentScope.getCommittees()[0].uuid
+              : null
+          )
       )
     },
   })
