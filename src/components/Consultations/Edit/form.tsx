@@ -25,7 +25,7 @@ export const useFormContextCreateDesignation = () => useFormContext<DesignationT
 export const useTargetYearChoices = () =>
   useMemo(
     () =>
-      Array.from({ length: 3 }, (_, i) => new Date().getFullYear() - i).map(year => ({
+      Array.from({ length: new Date().getFullYear() - 2022 + 1 }, (_, i) => new Date().getFullYear() - i).map(year => ({
         value: year,
         label: `À partir des adhérents à jour ${year}`,
       })),

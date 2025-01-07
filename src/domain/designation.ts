@@ -116,7 +116,7 @@ export class Designation {
   }
 
   fillDefaultVoteState() {
-    this.targetYear = 2023
+    this.targetYear = new Date().getFullYear() - 1
     this.questions.push(
       ...[
         new Question('Approbation de la modification des statuts', [
