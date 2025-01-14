@@ -76,11 +76,7 @@ const PrivatePages = ({ children }) => {
 
     const forcedCurrentScope = userScopes.find(scope => scope.code === scopeToSelect)
     if (forcedCurrentScope && (currentScope === null || currentScope.code !== forcedCurrentScope.code)) {
-      updateCurrentScope(forcedCurrentScope.code)
-    }
-
-    if (forceScope) {
-      redirectCallback()
+      updateCurrentScope(forcedCurrentScope.code).then(redirectCallback)
     }
   }, [
     currentUser,
@@ -96,7 +92,7 @@ const PrivatePages = ({ children }) => {
     redirectCallback,
   ])
 
-  if (!currentUser || userScopes.length === 0 || (currentScope === null && userScopes.length === 1)) {
+  if (!currentUser || userScopes.length === 0 || (currentScope === null && userScopes.length === 1) || forceScope) {
     return <BootPage />
   }
 
