@@ -3,24 +3,18 @@ import { Grid, Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'
 import { useQuery } from '@tanstack/react-query'
 import { getCategories } from '~/api/events'
-
-type Category = {
-  id: number
-  name: string
-  slug: string
-  description: string
-}
+import { Category } from '~/components/Events/shared/types'
 
 interface CategoryProps {
-  category: string
-  onClick: (e: React.MouseEvent<HTMLDivElement>, category: string) => void
+  category: Category
+  onClick: (e: React.MouseEvent<HTMLDivElement>, category: Category) => void
   register: any
 }
 
 const Category = ({ category, onClick, register }: CategoryProps) => {
-  const [categorySelected, setCategorySelected] = useState<string>(category)
+  const [categorySelected, setCategorySelected] = useState<Category>(category)
 
-  const { data: categories, isLoading } = useQuery(['categories'], () => getCategories())
+  const { data: categories, isLoading } = useQuery(['categories'], getCategories)
 
   useEffect(() => {
     if (category) {
@@ -28,8 +22,8 @@ const Category = ({ category, onClick, register }: CategoryProps) => {
     }
   }, [category])
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>, category: string) => {
-    register('categoryId').onChange(e)
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>, category: Category) => {
+    register('category').onChange(e)
 
     setCategorySelected(category)
     onClick(e, category)
@@ -48,14 +42,14 @@ const Category = ({ category, onClick, register }: CategoryProps) => {
               p: 2,
               borderRadius: 1,
               border: 1,
-              borderColor: categorySelected === category.slug ? 'primary.main' : 'grey.300',
+              borderColor: categorySelected && categorySelected.slug === category.slug ? 'primary.main' : 'grey.300',
               cursor: 'pointer',
               transition: 'all 0.2s',
               '&:hover': {
                 borderColor: 'primary.main',
               },
             }}
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => handleClick(e, category.slug)}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => handleClick(e, category)}
           >
             <Stack spacing={1}>
               <Typography variant="h6" fontWeight={600}>

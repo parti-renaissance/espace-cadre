@@ -74,7 +74,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
     mode: 'onChange',
     defaultValues: {
       name: event?.name ?? '',
-      categoryId: event?.category.slug,
+      category: event?.category,
       visibility: (event?.visibility ?? 'public') as VisibilityEvent,
       beginAt: event ? event.localBeginAt : new Date(),
       finishAt: event ? event.localFinishAt : new Date(),
@@ -204,7 +204,7 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   }
 
   const onSubmit: SubmitHandler<CreateEventForm> = data => {
-    const { beginAt, finishAt, timeBeginAt, timeFinishAt, categoryId, isVirtual, severalDays, address, ...rest } = data
+    const { beginAt, finishAt, timeBeginAt, timeFinishAt, category, isVirtual, severalDays, address, ...rest } = data
 
     const convertFinishAt = new Date(finishAt ? finishAt : beginAt)
 
@@ -222,12 +222,14 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       capacity: data.capacity ? parseInt(data.capacity, 10) : undefined,
       post_address: !isVirtual ? objectToSnakeCase(address) : undefined,
       visio_url: isVirtual ? data.visioUrl : undefined,
-      category: categoryId,
+      category: category.slug,
       ...(committee ? { type: 'committee', committee } : {}),
     }
 
     return mutation({ event: payload })
   }
+
+  const category = watch('category')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -235,17 +237,21 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
         <BlockForm title="Un événement pour qui ?">
           <FormGroup label="Catégorie">
             <Category
-              category={watch('categoryId')}
-              onClick={(_, category) => {
-                setValue('categoryId', category, { shouldDirty: true })
-              }}
+              category={category}
+              onClick={(_, newCategory) => setValue('category', newCategory, { shouldDirty: true })}
               register={register}
             />
 
-            {errors.categoryId && <FormHelperText sx={{ color: 'red' }}>{errors.categoryId.message}</FormHelperText>}
+            {errors.category && <FormHelperText sx={{ color: 'red' }}>{errors.category.message}</FormHelperText>}
           </FormGroup>
 
           <FormGroup label="Visibilité">
+            {category && category.alert && (
+              <Alert severity="warning" sx={{ mb: 1 }}>
+                {category.alert}
+              </Alert>
+            )}
+
             <Visibility
               visibility={watch('visibility')}
               onClick={(_, visibility) => setValue('visibility', visibility)}
