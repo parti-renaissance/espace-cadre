@@ -176,13 +176,8 @@ export enum VisibilityEvent {
 export const EventCategorySchema = z.object({
   name: z.string(),
   slug: z.string(),
-  description: z.string(),
-  alert: z.string(),
-  event_group_category: z.object({
-    name: z.string(),
-    slug: z.string(),
-    description: z.string(),
-  }),
+  description: z.string().nullable(),
+  alert: z.string().nullable(),
 })
 
 export const CreateEventSchema = z
