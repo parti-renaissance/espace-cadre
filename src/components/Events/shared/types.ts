@@ -3,9 +3,9 @@ import { VisibilityEvent, EventGroupCategory } from '~/domain/event'
 export interface Category {
   slug: string
   name: string
-  description: string
-  event_group_category: EventGroupCategory
-  alert: string
+  description: string | null
+  event_group_category?: EventGroupCategory
+  alert: string | null
 }
 
 export interface Event {
