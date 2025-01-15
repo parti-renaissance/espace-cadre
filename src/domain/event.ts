@@ -3,33 +3,17 @@ import { parseDate, parseDateWithTZ } from '~/shared/helpers'
 import { z } from 'zod'
 import { Place } from '~/domain/place'
 
-export class EventCategory {
-  static propTypes = {
-    slug: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    groupSlug: PropTypes.string.isRequired,
-    groupName: PropTypes.string.isRequired,
-  }
-
-  constructor(
-    public slug: string,
-    public name: string,
-    public groupSlug: string,
-    public groupName: string
-  ) {}
-}
-
 export class EventGroupCategory {
   static propTypes = {
     slug: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.shape(EventCategory.propTypes)).isRequired,
+    description: PropTypes.string,
   }
 
   constructor(
     public slug: string,
     public name: string,
-    public categories: EventCategory[]
+    public description: string
   ) {}
 }
 
@@ -189,6 +173,18 @@ export enum VisibilityEvent {
   ADHERENT_DUES = 'adherent_dues',
 }
 
+export const EventCategorySchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  description: z.string(),
+  alert: z.string(),
+  event_group_category: z.object({
+    name: z.string(),
+    slug: z.string(),
+    description: z.string(),
+  }),
+})
+
 export const CreateEventSchema = z
   .object({
     name: z
@@ -201,10 +197,7 @@ export const CreateEventSchema = z
       .max(10000, 'La description ne peut pas dépasser 10000 caractères'),
     timeZone: z.string().min(1, 'Vous devez choisir un fuseau horaire'),
     private: z.boolean().optional(),
-    categoryId: z.string({
-      invalid_type_error: 'La catégorie doit être une chaîne de caractères',
-      required_error: 'La catégorie est obligatoire',
-    }),
+    category: EventCategorySchema,
     visibility: z.nativeEnum(VisibilityEvent, {
       required_error: "La visibilité de l'événement est obligatoire",
     }),
