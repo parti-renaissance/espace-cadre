@@ -52,7 +52,7 @@
     "react-router-dom": "^6.21.3",
     "react-script-hook": "^1.7.2",
     "react-transition-group": "^4.4.5",
-    "react-use": "^17.5.1",
+    "react-use": "^17.6.0",
     "react-window": "^1.8.10",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
