@@ -141,7 +141,7 @@ const Show = () => {
               </TabPanel>
               <TabPanel value="election-tab-3">
                 <Participants
-                  designationId={designation.id}
+                  designationId={designation.id as string}
                   onDownloadCallback={() => downloadVoters(designation.id)}
                 />
               </TabPanel>

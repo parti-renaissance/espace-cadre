@@ -138,7 +138,7 @@ export const KPIs = ({ children, isLoading = false, error = false }: KPIsProps) 
   if (error) {
     return (
       <LoaderContainer>
-        <ErrorComponent errorMessage={{ message: error }} />
+        <ErrorComponent errorMessage={{ message: error as string }} />
       </LoaderContainer>
     )
   }
