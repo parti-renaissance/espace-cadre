@@ -12,7 +12,6 @@ import { palette } from './palette'
 import { shadows } from './shadows'
 import { typography } from './typography'
 // options
-import RTL from './options/right-to-left'
 import { customShadows } from './custom-shadows'
 import { componentsOverrides } from './overrides'
 import { createPresets } from './options/presets'
@@ -61,10 +60,8 @@ export default function ThemeProvider({ children }: Props) {
 
   return (
     <MuiThemeProvider theme={themeWithLocale}>
-      <RTL themeDirection={settings.themeDirection}>
-        <CssBaseline />
-        {children}
-      </RTL>
+      <CssBaseline />
+      {children}
     </MuiThemeProvider>
   )
 }

@@ -1,4 +1,4 @@
-ARG NODE_VERSION=18.18
+ARG NODE_VERSION=20
 ARG NGINX_VERSION=1
 
 # Stage 1 - the build process
