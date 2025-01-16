@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Controller, SubmitHandler, useForm, UseFormRegister } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
+import { debounce } from 'lodash'
 import {
   Alert,
   Autocomplete,
@@ -228,11 +229,12 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
     return mutation({ event: payload })
   }
+  const debouncedOnSubmit = React.useRef(debounce(onSubmit, 1000)).current
 
   const category = watch('category')
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(debouncedOnSubmit)}>
       <Stack mt={4} spacing={5}>
         <BlockForm title="Un événement pour qui ?">
           <FormGroup label="Catégorie">
