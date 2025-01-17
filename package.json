@@ -89,7 +89,7 @@
     "@testing-library/cypress": "^10.0.2",
     "@testing-library/react": "^14.2.2",
     "@types/google.maps": "^3.58.1",
-    "@types/lodash": "^4.14.202",
+    "@types/lodash": "^4.17.14",
     "@types/mapbox-gl": "^3.1.0",
     "@types/qs": "^6.9.16",
     "@types/react": "^18.0",
