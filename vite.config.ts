@@ -29,9 +29,6 @@ export const generateConfig: Parameters<typeof defineConfig>[0] = ({ mode }) => 
         filesToDeleteAfterUpload: 'build/assets/*.js.map',
       },
       release: {
-        setCommits: {
-          auto: true,
-        },
         deploy: {
           env: process.env.APP_ENV || 'production',
         },
