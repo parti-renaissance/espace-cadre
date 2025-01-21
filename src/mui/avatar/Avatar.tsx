@@ -4,14 +4,14 @@ import { Avatar as MUIAvatar } from '@mui/material'
 
 interface Props {
   initials?: string
-  src?: string | null
+  imageUrl?: string | null
 }
 
-export default function Avatar({ initials, src }: Props) {
+export default function Avatar({ initials, imageUrl }: Props) {
   return (
     <MUIAvatar
       sx={{ bgcolor: grey[200], color: grey[600], fontSize: pxToRem(12), fontWeight: 'bold' }}
-      {...(src && { src })}
+      src={imageUrl || undefined}
     >
       {initials}
     </MUIAvatar>

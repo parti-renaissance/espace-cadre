@@ -16,7 +16,7 @@ export default function PersonWithAvatar({ src, firstName, lastName, id, onPerso
   return (
     <Grid container sx={{ alignItems: 'center' }} spacing={MuiSpacing.normal}>
       <Grid item>
-        <Avatar src={src} initials={getInitials({ first_name: firstName, last_name: lastName })} />
+        <Avatar imageUrl={src} initials={getInitials({ first_name: firstName, last_name: lastName })} />
       </Grid>
       <Grid item xs>
         <div>
