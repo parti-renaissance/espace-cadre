@@ -26,7 +26,8 @@ export const getEventAttendees = async (id, page) => {
     lastName: attendee.last_name,
     phone: attendee.phone,
     postalCode: attendee.postal_code,
-    subscriptionDate: attendee?.subscription_date,
+    subscriptionDate: attendee.created_at,
+    imageUrl: attendee.image_url,
     tags: attendee.tags,
     type: attendee.type,
   }))

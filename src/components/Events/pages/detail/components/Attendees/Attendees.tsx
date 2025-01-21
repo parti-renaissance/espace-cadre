@@ -4,23 +4,18 @@ import { getNextPageParam, PaginatedResult, usePaginatedData } from '~/api/pagin
 import { useParams } from 'react-router'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { Box, Stack } from '@mui/system'
-import {
-  Avatar,
-  Button,
-  Card,
-  CardHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material'
+import { Button, Card, CardHeader, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import Iconify from '~/mui/iconify'
 import Label from '~/mui/label'
 import { InfiniteData } from '@tanstack/react-query'
 import { useCallback } from 'react'
+import { getInitials } from '~/utils/names'
+import Avatar from '~/mui/avatar/Avatar'
+
+type Tag = {
+  label: string
+}
 
 type Attendee = {
   uuid: string
@@ -29,7 +24,8 @@ type Attendee = {
   emailAddress: string
   phone: string
   subscriptionDate: string
-  tags: string[]
+  imageUrl: string | null
+  tags: Tag[]
 }
 
 const Attendees = () => {
@@ -108,15 +104,9 @@ const Attendees = () => {
                 <TableCell>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <Avatar
-                      sx={{
-                        bgcolor: 'info.lighter',
-                      }}
-                    >
-                      <Typography color="grey.600" fontWeight="600">
-                        {`${attendee.firstName[0]}`.toUpperCase()}
-                      </Typography>
-                    </Avatar>
-
+                      imageUrl={attendee.imageUrl}
+                      initials={getInitials({ first_name: attendee.firstName, last_name: attendee.lastName })}
+                    />
                     <Stack direction="column">
                       <Typography variant="body2">{`${attendee.firstName} ${attendee.lastName}`.trim()}</Typography>
                       {attendee.emailAddress && (
@@ -129,9 +119,9 @@ const Attendees = () => {
                 </TableCell>
                 <TableCell>
                   <Stack direction="row" spacing={2}>
-                    {attendee?.tags?.map((label, i) => (
+                    {attendee?.tags?.map((tag, i) => (
                       <Label key={i} color={'success'}>
-                        {label}
+                        {tag?.label}
                       </Label>
                     ))}
                   </Stack>

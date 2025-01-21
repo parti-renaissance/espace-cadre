@@ -74,7 +74,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   {
     title: '',
     minWidth: 50,
-    render: line => <Avatar src={line.image_url} initials={getInitials(line)} />,
+    render: line => <Avatar imageUrl={line.image_url} initials={getInitials(line)} />,
   },
   {
     title: 'Militants',
