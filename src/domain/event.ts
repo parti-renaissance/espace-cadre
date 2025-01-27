@@ -177,7 +177,7 @@ export const EventCategorySchema = z.object({
   name: z.string(),
   slug: z.string(),
   description: z.string().nullable(),
-  alert: z.string().nullable(),
+  alert: z.string().nullish(),
 })
 
 export const CreateEventSchema = z
