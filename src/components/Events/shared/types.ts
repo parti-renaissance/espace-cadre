@@ -5,7 +5,7 @@ export interface Category {
   name: string
   description: string | null
   event_group_category?: EventGroupCategory
-  alert: string | null
+  alert?: string | null
 }
 
 export interface Event {
