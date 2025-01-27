@@ -11,13 +11,10 @@ import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
 import Avatar from '~/mui/avatar/Avatar'
 import SubscriptionBadge from '~/components/Activists/SubscriptionBadge'
 import pluralize from '~/components/shared/pluralize/pluralize'
-import { activistTagShape } from '~/shared/activistTagShape'
-import { UIChip } from '~/ui/Card'
-import { tagsColor } from '~/theme/palette'
 import { fontWeight } from '~/theme/typography'
 import ActivistZoneCell from '~/components/Activists/TableComponents/ActivistZoneCell'
 import { MuiSpacing } from '~/theme/spacing'
-import { v1 as uuid } from 'uuid'
+import TagsList from '~/components/Activists/Member/TagsList'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -104,21 +101,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: 'Labels',
-    render: line => (
-      <>
-        {line.tags.map(tag => (
-          <UIChip
-            key={uuid()}
-            label={tag.label}
-            sx={{ mb: line.tags.length > 1 ? 1 : 0 }}
-            labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
-            color={activistTagShape[tag.type]?.color ?? tagsColor.unknownText}
-            variant={activistTagShape[tag.type]?.variant ?? 'contained'}
-            bgcolor={activistTagShape[tag.type]?.bgColor ?? tagsColor.unknownBackground}
-          />
-        ))}
-      </>
-    ),
+    render: line => <TagsList tags={line.tags} />,
   },
   {
     title: 'Zone liée',

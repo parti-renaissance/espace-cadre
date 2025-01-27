@@ -3,11 +3,6 @@ export enum GenderEnum {
   FEMALE = 'female',
 }
 
-export enum RenaissanceMembershipEnum {
-  SYMPATHIZER = 'sympathizer_re',
-  ADHERENT = 'adherent_re',
-}
-
 export interface PaginatedDataModel<Item> {
   metadata: MetadataModel
   items: Item[]

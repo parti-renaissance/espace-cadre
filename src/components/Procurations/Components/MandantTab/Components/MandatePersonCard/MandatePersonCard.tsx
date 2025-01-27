@@ -8,8 +8,7 @@ import pluralize from '~/components/shared/pluralize/pluralize'
 import { LabelTypeModel } from '~/models/activist.model'
 import { KeyValueModel } from '~/models/common.model'
 import Iconify from '~/mui/iconify'
-import { activistTagShape } from '~/shared/activistTagShape'
-import { grey, success, tagsColor } from '~/theme/palette'
+import { grey, success } from '~/theme/palette'
 import { MuiSpacing, withBottomSpacing } from '~/theme/spacing'
 import { fontWeight } from '~/theme/typography'
 import { UIChip } from '~/ui/Card'
@@ -28,6 +27,7 @@ import {
 } from '~/api/Procuration/procuration.model'
 import { getHumanFormattedDate, getHumanFormattedTime } from '~/utils/date'
 import { isPast } from 'date-fns'
+import TagsList from '~/components/Activists/Member/TagsList'
 
 export interface MandatePersonCardProps {
   firstName: string
@@ -110,17 +110,7 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
               </>
             )) || <ProxyTag status={'Mandataire'} />)}
 
-          {props.tags.map(tag => (
-            <UIChip
-              key={tag.label}
-              label={tag.label}
-              sx={{ mb: props.tags.length > 1 ? 1 : 0 }}
-              labelStyle={{ fontSize: '14px', fontWeight: fontWeight.medium }}
-              color={activistTagShape[tag.type]?.color ?? tagsColor.unknownText}
-              variant={activistTagShape[tag.type]?.variant ?? 'contained'}
-              bgcolor={activistTagShape[tag.type]?.bgColor ?? tagsColor.unknownBackground}
-            />
-          ))}
+          <TagsList tags={props.tags} />
         </Grid>
         <Grid item xs={12}>
           <Divider sx={{ mt: MuiSpacing.normal }} />

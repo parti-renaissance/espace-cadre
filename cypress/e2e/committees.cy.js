@@ -51,7 +51,7 @@ describe('Committees', () => {
     beforeEach(() => {
       mock(
         'GET',
-        '/api/v3/adherents/autocomplete?committee=5e00c264-1d4b-43b8-862e-29edc38389b3&renaissance_membership=adherent_re&q=Dimitri&scope=referent',
+        '/api/v3/adherents/autocomplete?committee=5e00c264-1d4b-43b8-862e-29edc38389b3&q=Dimitri&scope=referent',
         'autocomplete/adherents'
       )
       mock(
