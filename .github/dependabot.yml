@@ -6,9 +6,10 @@
 version: 2
 updates:
   # Maintain dependencies for npm
-  - package-ecosystem: 'yarn'
+  - package-ecosystem: 'npm'
     directory: '/'
     open-pull-requests-limit: 10
+    versioning-strategy: increase-if-necessary
     schedule:
       interval: "daily"
 
