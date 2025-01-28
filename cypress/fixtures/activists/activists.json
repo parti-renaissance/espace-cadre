@@ -32,7 +32,6 @@
       "last_membership_donation": null,
       "committee": "Comit\u00e9 du 12e",
       "committee_uuid": "350ac258-9412-11ee-acfa-42010a7d001e",
-      "additional_tags": ["new_sympathizer"],
       "mandates": [],
       "declared_mandates": [],
       "cotisation_dates": [],
@@ -52,7 +51,6 @@
         }
       ],
       "certified": false,
-      "renaissance_membership": "sympathizer_re",
       "city_code": "75056",
       "sms_subscription": true,
       "email_subscription": false
@@ -82,7 +80,6 @@
       "last_membership_donation": "2024-02-22T00:00:00+01:00",
       "committee": "Paris Centre",
       "committee_uuid": "350aba66-9412-11ee-acfa-42010a7d001e",
-      "additional_tags": [],
       "mandates": [],
       "declared_mandates": [],
       "cotisation_dates": ["2022-01-16 17:29:00", "2023-01-16 00:00:00", "2023-12-22 21:13:48", "2024-02-22 00:00:00"],
@@ -96,7 +93,6 @@
         }
       ],
       "certified": false,
-      "renaissance_membership": "adherent_re",
       "city_code": "75056",
       "sms_subscription": true,
       "email_subscription": false
@@ -126,7 +122,6 @@
       "last_membership_donation": null,
       "committee": "Comit\u00e9 du 9e",
       "committee_uuid": "350abf63-9412-11ee-acfa-42010a7d001e",
-      "additional_tags": [],
       "mandates": [],
       "declared_mandates": [],
       "cotisation_dates": [],
@@ -140,7 +135,6 @@
         }
       ],
       "certified": false,
-      "renaissance_membership": "sympathizer_re",
       "city_code": "75056",
       "sms_subscription": false,
       "email_subscription": true

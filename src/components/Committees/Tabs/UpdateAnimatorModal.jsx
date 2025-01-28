@@ -46,7 +46,7 @@ const UpdateAnimatorModal = ({ committeeId, animatorId, handleClose }) => {
             customStyle={{ bgcolor: 'colors.gray.50' }}
             value={selectedAdherent}
             onChange={setSelectedAdherent}
-            initialParams={{ committee: committeeId, renaissance_membership: 'adherent_re' }}
+            initialParams={{ committee: committeeId }}
           />
         </Box>
       </Box>

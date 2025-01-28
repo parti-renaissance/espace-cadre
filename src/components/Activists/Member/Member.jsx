@@ -4,7 +4,6 @@ import { Close as CloseIcon } from '@mui/icons-material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import Activist from '~/domain/activist'
-import Badges from '../Badges'
 import Subscription from '~/components/Activists/Member/Tabs/Adherent/Subscription'
 import { useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -16,6 +15,7 @@ import { notifyVariants } from '~/components/shared/notification/constants.js'
 import { useErrorHandler } from '~/components/shared/error/hooks.jsx'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks.jsx'
 import { sendResubscribeEmail } from '~/api/activist.js'
+import TagsList from './TagsList'
 
 const Member = ({ enableElectTab, member, handleClose }) => {
   const [currentTab, setCurrentTab] = useState('1')
@@ -106,7 +106,7 @@ const Member = ({ enableElectTab, member, handleClose }) => {
             <Typography variant="h6" component="h4" sx={{ color: 'colors.gray.800' }}>
               {member.firstname} {member.lastname}
             </Typography>
-            {member.raw.additional_tags.length > 0 && <Badges tags={member.raw.additional_tags} />}
+            <TagsList tags={member.raw.tags} />
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', color: 'colors.gray.600' }}>
                 <EmailOutlinedIcon sx={{ color: 'colors.gray.400', fontSize: '18px', mr: 1 }} />
@@ -188,11 +188,11 @@ const Member = ({ enableElectTab, member, handleClose }) => {
               </TabList>
             </Box>
 
-            <TabPanel value={'1'}>
+            <TabPanel value={'1'} sx={{ p: 0, pt: 2 }}>
               <AdherentTab member={member} />
             </TabPanel>
             {enableElectTab && (
-              <TabPanel value={'2'}>
+              <TabPanel value={'2'} sx={{ p: 0, pt: 2 }}>
                 <ElectedTab adherentUuid={member.adherentUuid} />
               </TabPanel>
             )}

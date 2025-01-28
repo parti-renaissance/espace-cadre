@@ -12,10 +12,8 @@ import { InfiniteData } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { getInitials } from '~/utils/names'
 import Avatar from '~/mui/avatar/Avatar'
-
-type Tag = {
-  label: string
-}
+import TagsList from '~/components/Activists/Member/TagsList'
+import { LabelTypeModel } from '~/models/activist.model'
 
 type Attendee = {
   uuid: string
@@ -25,7 +23,7 @@ type Attendee = {
   phone: string
   subscriptionDate: string
   imageUrl: string | null
-  tags: Tag[]
+  tags: LabelTypeModel[]
 }
 
 const Attendees = () => {
@@ -118,13 +116,7 @@ const Attendees = () => {
                   </Stack>
                 </TableCell>
                 <TableCell>
-                  <Stack direction="row" spacing={2}>
-                    {attendee?.tags?.map((tag, i) => (
-                      <Label key={i} color={'success'}>
-                        {tag?.label}
-                      </Label>
-                    ))}
-                  </Stack>
+                  <TagsList tags={attendee?.tags || []} />
                 </TableCell>
                 <TableCell>
                   <Typography variant="body2">{attendee.phone || 'aucun numéro'}</Typography>

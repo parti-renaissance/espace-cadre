@@ -1,5 +1,4 @@
 import { Box, Grid, Typography } from '@mui/material'
-import { MemberBadge } from '~/components/Activists/Badges'
 import { UIChip } from '~/ui/Card'
 import CotisationHistory from '~/components/Activists/Member/Tabs/Adherent/CotisationHistory'
 import Activist from '~/domain/activist'
@@ -49,12 +48,6 @@ const AdherentTab = ({ member }) => (
       </Typography>
       {member.committee && <LineText label="Comité" value={member.committee} />}
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={7}>
-          <LineText
-            label="Renaissance"
-            value={<MemberBadge membership={member.raw.renaissance_membership} labelStyle={{ fontSize: '14px' }} />}
-          />
-        </Grid>
         <Grid item xs={12} sm={5}>
           <LineText label="Date d'inscription" value={formatDate(member.joinedDate, 'dd/MM/yyyy')} />
         </Grid>

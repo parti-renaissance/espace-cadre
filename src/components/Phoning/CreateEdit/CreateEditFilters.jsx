@@ -41,12 +41,6 @@ const messages = {
     zones: 'Lieu géographique',
   },
   options: {
-    renaissanceMembership: [
-      { label: 'Adhérent RE ou sympathisant RE', value: 'adherent_or_sympathizer_re' },
-      { label: 'Adhérent RE seulement', value: 'adherent_re' },
-      { label: 'Sympathisant RE seulement', value: 'sympathizer_re' },
-      { label: 'Ni adhérent RE ni sympathisant RE', value: 'others_adherent' },
-    ],
     gender: [
       { label: 'Homme', value: 'Male' },
       { label: 'Femme', value: 'Female' },

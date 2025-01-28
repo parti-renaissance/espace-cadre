@@ -106,7 +106,6 @@ export const getPhoningCampaignQuery = async campaignId => {
         data.audience.is_committee_member,
         data.audience.has_email_subscription,
         data.audience.has_sms_subscription,
-        data.audience.renaissance_membership,
         data.audience.zones.map(z => new PhoningCampaignCreateEditZone(z.uuid, z.name, z.code))
       )
     : null
