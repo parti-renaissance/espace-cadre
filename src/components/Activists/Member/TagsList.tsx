@@ -19,10 +19,10 @@ const chipShape = (tag: LabelTypeModel) => {
     }
   }
 
-  if (tag.type === 'elu') {
+  if (tag.type === 'elu' || tag.type === 'mandate') {
     return {
-      color: '#C85D3C',
-      bgcolor: '#FCE7E9',
+      color: '#FD6A3D',
+      bgcolor: '#FCEDE7',
     }
   }
 
