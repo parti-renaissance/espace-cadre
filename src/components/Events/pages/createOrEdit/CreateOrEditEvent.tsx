@@ -229,12 +229,12 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
     return mutation({ event: payload })
   }
-  const debouncedOnSubmit = React.useRef(debounce(onSubmit, 1000)).current
+  const debouncedOnSubmit = React.useRef(debounce(onSubmit, 1000))
 
   const category = watch('category')
 
   return (
-    <form onSubmit={handleSubmit(debouncedOnSubmit)}>
+    <form onSubmit={handleSubmit(debouncedOnSubmit.current)}>
       <Stack mt={4} spacing={5}>
         <BlockForm title="Un événement pour qui ?">
           <FormGroup label="Catégorie">
