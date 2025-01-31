@@ -90,6 +90,14 @@ const Navigation = ({ drawerWidth }) => {
         sx={{ mt: 1.5, pb: 2, flex: '1 1 0%', height: '100%', overflowY: 'scroll' }}
         className="space-y-4 sidebar-content"
       >
+        <NavMenu
+          key="featurebase"
+          group={{
+            label: 'Tableau de bord',
+            slug: 'dashboard1',
+            features: ['featurebase-changelog', 'featurebase-help-center', 'featurebase-requests'],
+          }}
+        />
         {authorizedFeaturesGroup.map((group, key) => (
           <NavMenu key={key} group={group} />
         ))}

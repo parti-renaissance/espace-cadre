@@ -9,9 +9,9 @@ import { useFeaturebaseToken } from '~/redux/auth/hooks'
  * @see https://help.featurebase.app/en/articles/1127499-install-the-all-in-one-widget
  */
 const Featurebase = () => {
-  if (APP_ENVIRONMENT === 'dev') {
-    return null
-  }
+  // if (APP_ENVIRONMENT === 'dev') {
+  //   return null
+  // }
 
   const currentUser = useSelector(getCurrentUser)
   const [featurebaseToken, enableFeaturebase] = useFeaturebaseToken()
@@ -56,6 +56,28 @@ const Featurebase = () => {
     win.Featurebase('initialize_feedback_widget', {
       ...mainConfig,
     })
+
+    console.log(window.location.pathname)
+
+    win.Featurebase(
+      'embed',
+      {
+        ...mainConfig,
+        initialPage: 'Changelog', // options: Board [default], Changelog, Roadmap, Help
+        hideMenu: true, // Hides the top navigation bar
+        hideLogo: true, // Hides the logo in the top navigation bar & leaves the Sign In button visible.
+      },
+      (err, callback) => {
+        if (callback?.action === 'widgetReady') {
+          const iframe = document.querySelector('div[data-featurebase-embed="true"] iframe')
+          if (!iframe) {
+            return
+          }
+
+          iframe.style.height = '100%'
+        }
+      }
+    )
   }, [currentUser, enableFeaturebase, featurebaseToken])
 
   // Use this hook instead of <script> tag as it is in canary mode : https://react.dev/reference/react-dom/components/script
