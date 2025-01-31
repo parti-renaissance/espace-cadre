@@ -25,7 +25,7 @@ export const NavMenu = ({ handleItemClick, group }) => {
         <nav className="menu-list__links">
           {group.features.map(
             featureKey =>
-              currentScope.hasFeature(featureKey) && (
+              (currentScope.hasFeature(featureKey) || featureKey.includes('featurebase-')) && (
                 <NavItem
                   key={featureKey}
                   path={paths[featureKey]}

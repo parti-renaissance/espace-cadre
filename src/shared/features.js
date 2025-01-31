@@ -2,11 +2,6 @@ import { FeatureEnum } from '~/models/feature.enum'
 
 export const featuresGroup = [
   {
-    label: 'Tableau de bord',
-    slug: 'dashboard',
-    features: [FeatureEnum.DASHBOARD],
-  },
-  {
     label: 'Communication',
     slug: 'communication',
     features: [
@@ -52,6 +47,9 @@ export const featuresGroup = [
 ]
 
 export const featuresLabels = {
+  ['featurebase-changelog']: 'Dernières mises à jour',
+  ['featurebase-help-center']: "Centre d'aide",
+  ['featurebase-requests']: 'Demandes et retours',
   [FeatureEnum.DASHBOARD]: 'Vue d’ensemble',
   [FeatureEnum.CONTACTS]: 'Militants',
   [FeatureEnum.CONTACTS_EXPORT]: 'Militants (export)',

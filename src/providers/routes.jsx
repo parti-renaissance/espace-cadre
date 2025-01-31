@@ -44,7 +44,26 @@ const AppPrivateRoutes = () => {
       <Suspense fallback={<Spinner />}>
         <Routes>
           <Route path="*" element={<NoMatch />} />
-          <Route path={paths.dashboard} element={currentScope.hasFeature(FeatureEnum.DASHBOARD) && <Dashboard />} />
+          <Route
+            path={paths['featurebase-changelog']}
+            element={
+              currentScope.hasFeature(FeatureEnum.DASHBOARD) && <Dashboard key={paths['featurebase-changelog']} />
+            }
+          />
+          <Route
+            key={paths['featurebase-requests']}
+            path={paths['featurebase-help-center']}
+            element={
+              currentScope.hasFeature(FeatureEnum.DASHBOARD) && <Dashboard key={paths['featurebase-changelog']} />
+            }
+          />
+          <Route
+            key={paths['featurebase-requests']}
+            path={paths['featurebase-requests']}
+            element={
+              currentScope.hasFeature(FeatureEnum.DASHBOARD) && <Dashboard key={paths['featurebase-changelog']} />
+            }
+          />
           <Route path={paths.contacts} element={currentScope.hasFeature(FeatureEnum.CONTACTS) && <Activists />} />
           <Route
             path={`${paths.messages}/*`}
