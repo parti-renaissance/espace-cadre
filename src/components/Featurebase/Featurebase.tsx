@@ -4,6 +4,9 @@ import { APP_ENVIRONMENT } from '~/shared/environments'
 import { useSelector } from 'react-redux'
 import { getCurrentUser } from '~/redux/user/selectors'
 import { useFeaturebaseToken } from '~/redux/auth/hooks'
+import paths from '~/shared/paths'
+import { useUserScope } from '~/redux/user/hooks'
+import { FeatureEnum } from '~/models/feature.enum'
 
 /**
  * @see https://help.featurebase.app/en/articles/1127499-install-the-all-in-one-widget
@@ -14,7 +17,14 @@ const Featurebase = () => {
   }
 
   const currentUser = useSelector(getCurrentUser)
+  const [currentScope] = useUserScope()
   const [featurebaseToken, enableFeaturebase] = useFeaturebaseToken()
+
+  const { pathname } = window.location
+
+  if (!currentScope.hasFeature(FeatureEnum.FEATUREBASE)) {
+    return null
+  }
 
   useEffect(() => {
     if (!currentUser || !featurebaseToken) {
@@ -56,7 +66,19 @@ const Featurebase = () => {
     win.Featurebase('initialize_feedback_widget', {
       ...mainConfig,
     })
-  }, [currentUser, enableFeaturebase, featurebaseToken])
+
+    win.Featurebase('embed', {
+      ...mainConfig,
+      initialPage:
+        pathname === paths['featurebase-requests']
+          ? 'Board'
+          : pathname === paths['featurebase-help-center']
+            ? 'Help'
+            : 'Changelog',
+      hideMenu: true,
+      hideLogo: true,
+    })
+  }, [currentUser, enableFeaturebase, featurebaseToken, pathname])
 
   // Use this hook instead of <script> tag as it is in canary mode : https://react.dev/reference/react-dom/components/script
   useScript({ src: 'https://do.featurebase.app/js/sdk.js', id: 'featurebase-sdk' })

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useInitializeAuth, useRequestAccessToken } from '../../redux/auth/hooks'
+import { useInitializeAuth, useRequestAccessToken } from '~/redux/auth/hooks'
 import BootPage from '../BootPage'
 
 const Auth = () => {

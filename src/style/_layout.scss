@@ -134,8 +134,10 @@
 }
 
 .app-content {
+  &:not(:has(.MuiContainer-disableGutters)) {
+    padding: 1.5rem 0;
+  }
   margin-top: 4rem;
-  padding: 1.5rem 0;
   //overflow: hidden; --> Disabled, causing bug, "sticky" positions are not rendered correctly when enabled.
   background-color: #fdfdfe;
   > div {
