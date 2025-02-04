@@ -23,17 +23,14 @@ export const NavMenu = ({ handleItemClick, group }) => {
       </button>
       {show && (
         <nav className="menu-list__links">
-          {group.features.map(
-            featureKey =>
-              currentScope.hasFeature(featureKey) && (
-                <NavItem
-                  key={featureKey}
-                  path={paths[featureKey]}
-                  label={featuresLabels[featureKey]}
-                  handleClick={handleItemClick}
-                />
-              )
-          )}
+          {group.features.map(featureKey => (
+            <NavItem
+              key={featureKey}
+              path={paths[featureKey]}
+              label={featuresLabels[featureKey]}
+              handleClick={handleItemClick}
+            />
+          ))}
         </nav>
       )}
     </div>

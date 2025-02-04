@@ -10,6 +10,7 @@ import { ADMIN_HOST, OAUTH_HOST } from '~/shared/environments'
 import { styled } from '@mui/material/styles'
 import { useSelector } from 'react-redux'
 import { isSwitchUser } from '~/redux/user/selectors'
+import { FeatureEnum } from '~/models/feature.enum'
 
 const VoxButton = styled(Button)({
   variant: 'outlined',
@@ -32,6 +33,10 @@ const Navigation = ({ drawerWidth }) => {
     () =>
       featuresGroup
         .map(group => {
+          if (group.slug === 'dashboard' && currentScope.hasFeature(FeatureEnum.FEATUREBASE)) {
+            return null
+          }
+
           let arrayFeatures = []
           group.features.forEach(featureKey => {
             if (currentScope.hasFeature(featureKey)) {
@@ -90,6 +95,16 @@ const Navigation = ({ drawerWidth }) => {
         sx={{ mt: 1.5, pb: 2, flex: '1 1 0%', height: '100%', overflowY: 'scroll' }}
         className="space-y-4 sidebar-content"
       >
+        {currentScope.hasFeature(FeatureEnum.FEATUREBASE) && (
+          <NavMenu
+            key="featurebase"
+            group={{
+              label: 'Tableau de bord',
+              slug: 'dashboard',
+              features: ['featurebase-changelog', 'featurebase-help-center', 'featurebase-requests'],
+            }}
+          />
+        )}
         {authorizedFeaturesGroup.map((group, key) => (
           <NavMenu key={key} group={group} />
         ))}

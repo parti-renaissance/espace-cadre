@@ -2,6 +2,9 @@ import { FeatureEnum } from '~/models/feature.enum'
 
 export default {
   [FeatureEnum.DASHBOARD]: '/',
+  'featurebase-changelog': '/',
+  'featurebase-help-center': '/centre-d-aide',
+  'featurebase-requests': '/demandes-et-retours',
   [FeatureEnum.CONTACTS]: '/militants',
   [FeatureEnum.MESSAGES]: '/messagerie',
   [FeatureEnum.ELECTIONS]: '/elections',
