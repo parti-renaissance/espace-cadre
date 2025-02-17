@@ -5,8 +5,8 @@ import { formatDate } from '~/shared/helpers'
 
 export const exportActivists = async filter =>
   await downloadFile(
-    `v3/adherents.xls?${qs.stringify(filter)}`,
-    `Adherents Export - ${formatDate(new Date(), 'dd.MM.yyyy')}.xls`
+    `v3/adherents.xlsx?${qs.stringify(filter)}`,
+    `Adherents Export - ${formatDate(new Date(), 'dd.MM.yyyy')}.xlsx`
   )
 export const countAdherents = (zoneUuids, since = null) =>
   apiClient.post(`/v3/adherents/count?since=${since ?? ''}`, zoneUuids)
