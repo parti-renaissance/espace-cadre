@@ -81,9 +81,12 @@ const DetailEvent = () => {
                   <Stack direction="column" spacing={2}>
                     <Typography variant="h6">Description</Typography>
 
-                    <Typography variant="body1" component="div" whiteSpace="pre-line">
-                      {event.description}
-                    </Typography>
+                    <div
+                      className="tiptap_html"
+                      dangerouslySetInnerHTML={{
+                        __html: event.description,
+                      }}
+                    ></div>
                   </Stack>
 
                   {event.createdAt && (
