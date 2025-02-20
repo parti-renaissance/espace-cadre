@@ -29,6 +29,7 @@ export class Event {
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
+    json_description: PropTypes.string,
     timeZone: PropTypes.string.isRequired,
     visibility: PropTypes.string.isRequired,
     createdAt: PropTypes.object,
@@ -67,6 +68,7 @@ export class Event {
       e.uuid,
       e.name,
       e.description,
+      e.json_description,
       e.time_zone,
       e.visibility,
       parseDate(e.created_at),
@@ -99,6 +101,7 @@ export class Event {
       this.id,
       newName,
       this.description,
+      this.json_description,
       this.timeZone,
       this.visibility,
       this.createdAt,
@@ -125,6 +128,7 @@ export class Event {
     public id: string,
     public name: string,
     public description: string,
+    public json_description: string,
     public timeZone: string,
     public visibility: string,
     public createdAt: Date,
@@ -187,9 +191,21 @@ export const CreateEventSchema = z
       .min(5, "Le titre de l'événement doit contenir au moins 5 caractères")
       .max(80, "Le titre de l'événement ne peut pas dépasser 80 caractères"),
     description: z
-      .string()
-      .min(10, 'La description doit contenir au moins 10 caractères')
-      .max(10000, 'La description ne peut pas dépasser 10000 caractères'),
+      .object({
+        pure: z
+          .string()
+          .optional()
+          .transform(x => x ?? ''),
+        html: z
+          .string()
+          .optional()
+          .transform(x => x ?? ''),
+        json: z
+          .string()
+          .optional()
+          .transform(x => x ?? ''),
+      })
+      .optional(),
     timeZone: z.string().min(1, 'Vous devez choisir un fuseau horaire'),
     private: z.boolean().optional(),
     category: EventCategorySchema,
@@ -256,6 +272,21 @@ export const CreateEventSchema = z
     }
   })
   .superRefine((values, context) => {
+    if (!values.description?.pure || values.description.pure.length < 10) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'La description doit contenir au moins 10 caractères.',
+        path: ['description'],
+      })
+    }
+
+    if (values.description?.pure && values.description.pure.length > 10000) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'La description ne peut pas dépasser 10000 caractères.',
+        path: ['description'],
+      })
+    }
     if (values.isVirtual && !values.visioUrl) {
       return context.addIssue({
         code: z.ZodIssueCode.custom,

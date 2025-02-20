@@ -8,6 +8,7 @@ import { Controller, SubmitHandler, useForm, UseFormRegister } from 'react-hook-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { messages } from '~/components/Events/shared/constants'
 import { debounce } from 'lodash'
+import TiptTapEditor from '~/components/Events/Components/Editor'
 import {
   Alert,
   Autocomplete,
@@ -82,7 +83,11 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
       timeBeginAt: event ? event.localBeginAt : new Date(),
       timeFinishAt: event ? event.localFinishAt : addHours(new Date(), 1),
       timeZone: event?.timeZone ?? 'Europe/Paris',
-      description: event?.description ?? '',
+      description: {
+        pure: event ? '12345678910' : '',
+        json: event?.json_description ?? '',
+        html: event?.description ?? '',
+      },
       visioUrl: event?.visioUrl ?? '',
       isVirtual: event ? event?.mode === 'online' : false,
       capacity: event?.capacity,
@@ -205,7 +210,18 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
   }
 
   const onSubmit: SubmitHandler<CreateEventForm> = data => {
-    const { beginAt, finishAt, timeBeginAt, timeFinishAt, category, isVirtual, severalDays, address, ...rest } = data
+    const {
+      beginAt,
+      finishAt,
+      timeBeginAt,
+      description,
+      timeFinishAt,
+      category,
+      isVirtual,
+      severalDays,
+      address,
+      ...rest
+    } = data
 
     const convertFinishAt = new Date(finishAt ? finishAt : beginAt)
 
@@ -216,6 +232,8 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
 
     const payload = {
       ...objectToSnakeCase(rest),
+      description: description?.html ?? '',
+      json_description: description?.json ?? '',
       id: event?.id,
       begin_at: joinDateTime(beginAt, timeBeginAt),
       finish_at: joinDateTime(severalDays ? convertFinishAt : beginAt, timeFinishAt),
@@ -412,16 +430,20 @@ const Form = ({ event, editable }: { event?: Event; editable: boolean }) => {
           </FormGroup>
 
           <FormGroup label="À propos">
-            <TextField
-              {...muiRegister('description')}
-              label="Décrivez ici votre événement"
-              variant="outlined"
-              fullWidth
-              error={!!errors.description}
-              helperText={errors.description?.message}
-              multiline
-              minRows={4}
-              inputProps={{ style: { resize: 'vertical' } }}
+            <Controller
+              name="description"
+              control={control}
+              render={({ field: { onChange, value, onBlur }, fieldState }) => (
+                <Stack>
+                  {/* @ts-expect-error wegwerg */}
+                  <TiptTapEditor onChange={onChange} value={value!} onBlur={onBlur} />
+                  <Box>
+                    {fieldState.error?.message ? (
+                      <FormHelperText sx={{ color: 'red' }}>{fieldState.error.message}</FormHelperText>
+                    ) : null}
+                  </Box>
+                </Stack>
+              )}
             />
           </FormGroup>
 
