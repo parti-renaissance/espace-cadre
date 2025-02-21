@@ -1,10 +1,16 @@
-// src/Tiptap.tsx
-import { useEditor, EditorContent, FloatingMenu, BubbleMenu, Editor } from '@tiptap/react'
+import { useEditor, EditorContent, Editor } from '@tiptap/react'
+import Link from '@tiptap/extension-link'
 import StarterKit from '@tiptap/starter-kit'
 import { useDebouncedCallback } from 'use-debounce'
+import { useState } from 'react'
 
 // define your extension array
-const extensions = [StarterKit]
+const extensions = [
+  StarterKit,
+  Link.configure({
+    openOnClick: false,
+  }),
+]
 
 const parseJsonEditorContent = (x: string) => {
   try {
@@ -21,6 +27,9 @@ type Payloads = {
 }
 
 const MyEditor = (props: { onChange: (x: Payloads) => void; onBlur: () => void; value: Payloads; label: string }) => {
+  const [linkUrl, setLinkUrl] = useState('')
+  const [isLinkMenuOpen, setIsLinkMenuOpen] = useState(false)
+
   const handleOnChange = useDebouncedCallback((x: { editor: Editor }) => {
     props?.onChange({
       html: x.editor.getHTML() ?? '',
@@ -33,16 +42,24 @@ const MyEditor = (props: { onChange: (x: Payloads) => void; onBlur: () => void; 
     extensions,
     content: parseJsonEditorContent(props.value.json),
     onUpdate: handleOnChange,
-    editorProps: {
-      attributes: {
-        class: '',
-      },
-    },
     onBlur: props?.onBlur,
   })
 
   if (editor === null) {
     return null
+  }
+
+  const setLink = () => {
+    if (linkUrl) {
+      editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run()
+    }
+    setLinkUrl('')
+    setIsLinkMenuOpen(false)
+  }
+
+  const unlink = () => {
+    editor.chain().focus().extendMarkRange('link').unsetLink().run()
+    setIsLinkMenuOpen(false)
   }
 
   return (
@@ -76,6 +93,32 @@ const MyEditor = (props: { onChange: (x: Payloads) => void; onBlur: () => void; 
         >
           <img src="/editor-icons/ol.png" alt="Ordered List" />
         </button>
+        <div className="link-controls">
+          <button
+            type="button"
+            onClick={() => {
+              const previousUrl = editor.getAttributes('link').href
+              setLinkUrl(previousUrl || '')
+              setIsLinkMenuOpen(!isLinkMenuOpen)
+            }}
+            className={`link-button ${isLinkMenuOpen ? 'is-active' : ''}`}
+          >
+            <img src="/editor-icons/link.png" alt="Link" />
+          </button>
+          {isLinkMenuOpen && (
+            <div className="link-menu">
+              <input type="text" value={linkUrl} onChange={e => setLinkUrl(e.target.value)} placeholder="Enter URL" />
+              <button type="button" onClick={setLink}>
+                Ajouter
+              </button>
+              {linkUrl ? (
+                <button type="button" onClick={unlink}>
+                  Supprimer
+                </button>
+              ) : null}
+            </div>
+          )}
+        </div>
       </div>
       <EditorContent editor={editor} />
     </div>
