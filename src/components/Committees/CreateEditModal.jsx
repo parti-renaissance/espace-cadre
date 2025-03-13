@@ -117,7 +117,7 @@ const CreateEditModal = ({ open, handleClose, committeeId, onCreateResolve, onUp
             </Grid>
             <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button
-                disabled={!adherentsCount || adherentsCount?.adherent < 10}
+                disabled={!adherentsCount}
                 type="submit"
                 rootProps={{ sx: { color: 'whiteCorner', mr: 4 } }}
                 onClick={createOrEdit}
