@@ -4038,7 +4038,7 @@
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
   integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
 
-"@types/geojson@^7946.0.15":
+"@types/geojson@^7946.0.16":
   version "7946.0.16"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.16.tgz#8ebe53d69efada7044454e3305c19017d97ced2a"
   integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
@@ -4518,11 +4518,11 @@
     pretty-format "^29.7.0"
 
 "@watergis/mapbox-gl-export@^3.5.0":
-  version "3.5.6"
-  resolved "https://registry.yarnpkg.com/@watergis/mapbox-gl-export/-/mapbox-gl-export-3.5.6.tgz#7264c6d4e1113f72d562c5e4f96b70057d71224b"
-  integrity sha512-IKGC2Xx4eMWM8bix2lEoluObOqPhnzpoWfaZyrssKt/VGCv9LCCAoh9GOlQAMGKjmGzS10vNKDtuKiPZEMHT8Q==
+  version "3.5.7"
+  resolved "https://registry.yarnpkg.com/@watergis/mapbox-gl-export/-/mapbox-gl-export-3.5.7.tgz#70c30a0e4c1aadf6f558f5dca1e8b97f11e8800b"
+  integrity sha512-ru5bHVFwo2twJJIohej8s+beF+Ls4QFfMXUMi6yFByhsY/IjTn/HVYtMkVXq8R2GTT/q02BOEIK5roJODJ4YFQ==
   dependencies:
-    mapbox-gl "^3.9.3"
+    mapbox-gl "^3.10.0"
 
 "@xobotyi/scrollbar-width@^1.9.5":
   version "1.9.5"
@@ -8509,10 +8509,10 @@ mapbox-gl@^2.15:
     tinyqueue "^2.0.3"
     vt-pbf "^3.1.3"
 
-mapbox-gl@^3.9.3:
-  version "3.9.4"
-  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-3.9.4.tgz#a80777d4f57267e021001337b712ac2c28cfd15e"
-  integrity sha512-IxfpdyNzjCMzkqj/q5OUamlF1QcS+IFEARteygEgao2B8l8+UF2ahpNRgHT2EpMSE8ma1bq4LKvr+EuJ6gqniw==
+mapbox-gl@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-3.10.0.tgz#9104a4e2f75fe2cf2a8ba015397be59f5179ba8c"
+  integrity sha512-YnQxjlthuv/tidcxGYU2C8nRDVXMlAHa3qFhuOJeX4AfRP72OMRBf9ApL+M+k5VWcAXi2fcNOUVgphknjLumjA==
   dependencies:
     "@mapbox/jsonlint-lines-primitives" "^2.0.2"
     "@mapbox/mapbox-gl-supported" "^3.0.0"
@@ -8521,7 +8521,7 @@ mapbox-gl@^3.9.3:
     "@mapbox/unitbezier" "^0.0.1"
     "@mapbox/vector-tile" "^1.3.1"
     "@mapbox/whoots-js" "^3.1.0"
-    "@types/geojson" "^7946.0.15"
+    "@types/geojson" "^7946.0.16"
     "@types/geojson-vt" "^3.2.5"
     "@types/mapbox__point-geometry" "^0.1.4"
     "@types/mapbox__vector-tile" "^1.3.4"
