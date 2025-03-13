@@ -5,10 +5,8 @@ import RemoveIcon from '@mui/icons-material/Remove'
 import paths from '~/shared/paths'
 import { featuresLabels } from '~/shared/features'
 import NavItem from '~/ui/NavItem/NavItem'
-import { useUserScope } from '~/redux/user/hooks'
 
 export const NavMenu = ({ handleItemClick, group }) => {
-  const [currentScope] = useUserScope()
   const [show, setShow] = useState(true)
 
   const onClick = useCallback(() => {

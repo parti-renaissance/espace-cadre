@@ -56,9 +56,9 @@ const About = ({ status, votersCount, voteCount, designation, adherentCount, res
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        {adherentCount < 10 && (
+        {adherentCount < 3 && (
           <Alert severity="warning" sx={{ mb: 2 }}>
-            Attention - Votre comité possède moins de 10 adhérents!
+            Attention - Votre comité possède moins de 3 adhérents!
           </Alert>
         )}
         <UICard
