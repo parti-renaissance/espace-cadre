@@ -52,9 +52,7 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
     () => getMyTeamActivists(inputValues.activist),
     {
       enabled: isActivistFetchable && (!!values.id || !areActivistInputAndValueEqual(inputValues, values)),
-      onSuccess: () => {
-        setIsActivistFetchable(false)
-      },
+      onSuccess: () => setIsActivistFetchable(false),
       onError: handleError,
     }
   )
@@ -76,9 +74,10 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
         onChange={(_, value) => {
           updateValues(fields.activist, value)
         }}
+        filterOptions={options => options}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={option =>
-          `${[option.firstName, option.lastName, option.emailAddress].filter(e => e).join(' ')}`
+          `${[option.firstName, option.lastName, option.pid, option.emailAddress].filter(e => e).join(' ')}`
         }
         renderOption={(props, option) => (
           <SelectOption
@@ -86,7 +85,7 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
             key={option.id}
             label={`${option.firstName} ${option.lastName}`}
             inputValue={inputValues.activist ?? ''}
-            detail={`(${option.postCode}, ${option.emailAddress})`}
+            detail={`(${option.pid}, ${option.postCode}, ${option.emailAddress})`}
           />
         )}
         renderInput={params => <Input name={fields.activist} placeholder={messages.placeholder.activist} {...params} />}
