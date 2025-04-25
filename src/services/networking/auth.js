@@ -10,15 +10,15 @@ const authCall = async payload => {
   return result.data
 }
 
-const login = async (fromRefreshToken = false, params) => {
+const login = async (fromRefreshToken = false, code, sessionId = null) => {
   let authPayload = {
     redirect_uri: window.location.origin + publicPaths.auth,
     client_id: OAUTH_CLIENT_ID,
   }
   if (fromRefreshToken) {
-    authPayload = { ...authPayload, refresh_token: params, grant_type: 'refresh_token' }
+    authPayload = { ...authPayload, refresh_token: code, grant_type: 'refresh_token' }
   } else {
-    authPayload = { ...authPayload, code: params, grant_type: 'authorization_code' }
+    authPayload = { ...authPayload, code, session_id: sessionId, grant_type: 'authorization_code' }
   }
 
   const result = await authCall(authPayload)
@@ -28,6 +28,7 @@ const login = async (fromRefreshToken = false, params) => {
       accessToken: result.access_token,
       refreshToken: result.refresh_token,
       expiresIn: result.expires_in,
+      sessionId: result.id_token,
     }
   }
 }
