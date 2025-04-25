@@ -17,5 +17,5 @@ export const getFeaturebaseToken = state => state.auth.featurebaseToken
 export const isSwitchUser = state => state.auth.isSwitchUser || false
 
 export const getAccessToken = state => state.auth.tokens && state.auth.tokens.accessToken
-
+export const getSessionId = state => state.auth.tokens && state.auth.tokens.sessionId
 export const getRefreshToken = state => state.auth.tokens && state.auth.tokens.refreshToken

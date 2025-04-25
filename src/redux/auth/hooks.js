@@ -8,7 +8,7 @@ import { updateFeaturebaseToken, userLoggedIn, userUpdateData, userUpdateScopes 
 import { useUserScope } from '../user/hooks'
 import paths, { publicPaths } from '~/shared/paths'
 import { OAUTH_HOST, OAUTH_CLIENT_ID, NODE_ENV, FEATUREBASE_CLIENT_ID } from '~/shared/environments'
-import { getFeaturebaseToken } from '~/redux/user/selectors.js'
+import { getFeaturebaseToken, getSessionId } from '~/redux/user/selectors.js'
 
 export const useInitializeAuth = () => {
   const dispatch = useDispatch()
@@ -28,9 +28,10 @@ export const useInitializeAuth = () => {
 export const useRequestAccessToken = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const sessionId = useSelector(getSessionId)
 
   return useAsyncFn(async (code, redirectPath, isSwitchUser) => {
-    const data = await login(false, code)
+    const data = await login(false, code, sessionId)
     dispatch(userLoggedIn({ tokens: data, isSwitchUser }))
     navigate(redirectPath ?? paths.dashboard)
   }, [])
