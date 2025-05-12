@@ -26,6 +26,7 @@ export default {
   [FeatureEnum.PROCURATIONS]: '/procurations',
   [FeatureEnum.ACTIONS]: '/actions',
   [FeatureEnum.DESIGNATION]: '/votes-et-consultations',
+  [FeatureEnum.REFERRALS]: '/parrainages',
 }
 
 export const publicPaths = {
