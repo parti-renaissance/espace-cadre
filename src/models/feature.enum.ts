@@ -19,6 +19,7 @@ export enum FeatureEnum {
   PAP_V2 = 'pap_v2',
   PHONING_CAMPAIGN = 'phoning_campaign',
   PROCURATIONS = 'procurations',
+  REFERRALS = 'referrals',
   RIPOSTES = 'ripostes',
   STATUTORY_MESSAGE = 'statutory_message',
   SURVEY = 'survey',

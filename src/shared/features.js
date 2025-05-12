@@ -30,6 +30,7 @@ export const featuresGroup = [
       FeatureEnum.SURVEY,
       FeatureEnum.ADHERENT_FORMATIONS,
       FeatureEnum.DOCUMENTS,
+      FeatureEnum.REFERRALS,
     ],
   },
   {
@@ -80,4 +81,5 @@ export const featuresLabels = {
   [FeatureEnum.PROCURATIONS]: 'Procurations',
   [FeatureEnum.ACTIONS]: 'Actions',
   [FeatureEnum.FEATUREBASE]: 'Featurebase',
+  [FeatureEnum.REFERRALS]: 'Parrainages',
 }

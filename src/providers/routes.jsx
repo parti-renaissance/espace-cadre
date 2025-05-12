@@ -32,6 +32,7 @@ import MandateEditPage from '~/components/Procurations/Pages/MandateEditPage'
 import { FeatureEnum } from '~/models/feature.enum'
 import Consultations from '~/components/Consultations'
 import Featurebase from '~/components/Featurebase'
+import ReferralsRoute from '~/components/Referrals/index.js'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -96,7 +97,10 @@ const AppPrivateRoutes = () => {
             element={currentScope.hasFeature(FeatureEnum.PAP_V2) && <DTDLegislatives />}
           />
           <Route path={`${paths.my_team}/*`} element={currentScope.hasFeature(FeatureEnum.MY_TEAM) && <MyTeam />} />
-
+          <Route
+            path={paths.referrals}
+            element={currentScope.hasFeature(FeatureEnum.REFERRALS) && <ReferralsRoute />}
+          />
           <Route
             path={paths.procurations}
             element={currentScope.hasFeature(FeatureEnum.PROCURATIONS) && <MandateListPage />}
