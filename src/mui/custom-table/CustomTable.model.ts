@@ -10,6 +10,7 @@ export interface CustomTableColumnModel<DataType extends RowWithIdModel> {
   width?: number
   minWidth?: number
   hidden?: boolean
+  sortable?: boolean
 }
 
 export enum OrderEnum {

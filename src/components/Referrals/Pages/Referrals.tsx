@@ -1,5 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material'
-import PageHeader from '~/ui/PageHeader/index.js'
+import { Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable.js'
 import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
 import { PaginatedResult } from '~/api/pagination'
@@ -87,11 +86,7 @@ const Referrals = () => {
   const paginatedData = referralsData as PaginatedResult<Referral[]>
 
   return (
-    <Container maxWidth={false} data-cy="contacts-container">
-      <Grid container justifyContent="space-between">
-        <PageHeader title={'Parrainages'} />
-      </Grid>
-
+    <>
       <ListFilter filter={filter} onFilterUpdate={setFilter} />
 
       <CustomTable
@@ -104,7 +99,7 @@ const Referrals = () => {
         rowsPerPageOptions={[]}
         rowsPerPage={paginatedData?.pageSize}
       />
-    </Container>
+    </>
   )
 }
 

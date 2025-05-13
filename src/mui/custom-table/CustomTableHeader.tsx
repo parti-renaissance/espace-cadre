@@ -44,10 +44,10 @@ export default function CustomTableHeader<DataType extends RowWithIdModel>({
             <TableCell
               key={String(headCell.index ?? headCell.title)}
               align={headCell.align ?? 'left'}
-              sortDirection={orderBy === headCell.index ? order : false}
+              sortDirection={headCell.sortable && orderBy === headCell.index ? order : false}
               sx={{ width: headCell.width, minWidth: headCell.minWidth, fontWeight: fontWeight.medium }}
             >
-              {onSort ? (
+              {headCell.sortable && onSort ? (
                 <TableSortLabel
                   hideSortIcon
                   active={orderBy === headCell.index}
