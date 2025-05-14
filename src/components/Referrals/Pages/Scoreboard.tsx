@@ -7,6 +7,8 @@ import { ScoreboardReferrer } from '~/domain/referral'
 import { CustomTableColumnModel, OrderEnum } from '~/mui/custom-table/CustomTable.model'
 import Profile from '~/components/shared/adherent/Profile'
 import { orderBy as _orderBy } from 'lodash'
+import { MuiSpacing } from '~/theme/spacing'
+import { Box, Card } from '@mui/material'
 
 const Scoreboard = () => {
   const [order, setOrder] = useState<OrderEnum>(OrderEnum.DESC)
@@ -29,23 +31,29 @@ const Scoreboard = () => {
   const tableData = useMemo(
     () =>
       _orderBy((data as ScoreboardReferrer[]) || [], [orderBy], [order]).map((referrer: ScoreboardReferrer) => ({
-        id: referrer.adherent.pid,
+        id: referrer.adherent.pid!,
         ...referrer,
       })),
     [order, orderBy, data]
   )
 
   return (
-    <CustomTable
-      data={tableData}
-      total={tableData.length}
-      isLoading={isFetching}
-      columns={columnDefinition}
-      rowsPerPageOptions={[]}
-      onSort={handleSort}
-      order={order}
-      orderBy={orderBy}
-    />
+    <Box sx={{ mt: MuiSpacing.large }} className="space-y-4">
+      <Card>
+        <CustomTable
+          headerSx={{ px: MuiSpacing.normal }}
+          footerSx={{ px: MuiSpacing.normal }}
+          data={tableData}
+          total={tableData.length}
+          isLoading={isFetching}
+          columns={columnDefinition}
+          rowsPerPageOptions={[]}
+          onSort={handleSort}
+          order={order}
+          orderBy={orderBy}
+        />
+      </Card>
+    </Box>
   )
 }
 
@@ -58,6 +66,7 @@ const columnDefinition: CustomTableColumnModel<ScoreboardReferrer & { id: string
   {
     index: 'adherent',
     title: 'Adhérent',
+    subTitle: 'PID',
     render: ({ adherent }: ScoreboardReferrer) => <Profile adherent={adherent} />,
   },
   {

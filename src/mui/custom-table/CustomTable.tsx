@@ -141,7 +141,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
           </Typography>
         </Grid>
         <Grid item xs={12} sm={9} md={6} lg={6}>
-          {!isLoading && <Pagination />}
+          <Pagination />
         </Grid>
       </Grid>
 

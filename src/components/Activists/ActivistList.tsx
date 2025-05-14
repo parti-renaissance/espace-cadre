@@ -1,20 +1,16 @@
 import { Grid, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { ActivistModel } from '~/models/activist.model'
-import { PaginatedDataModel } from '~/models/common.model'
+import { Adherent, PaginatedDataModel } from '~/models/common.model'
 import { useMemo } from 'react'
-import { fullName, getInitials, guessHumanReadableTitleBasedOnGender } from '~/utils/names'
 import { getFormattedDate } from '~/utils/date'
 import { parseISO } from 'date-fns'
-import { compact } from 'lodash'
 import { CustomTableColumnModel } from '~/mui/custom-table/CustomTable.model'
-import Avatar from '~/mui/avatar/Avatar'
 import SubscriptionBadge from '~/components/Activists/SubscriptionBadge'
-import pluralize from '~/components/shared/pluralize/pluralize'
-import { fontWeight } from '~/theme/typography'
 import ActivistZoneCell from '~/components/Activists/TableComponents/ActivistZoneCell'
 import { MuiSpacing } from '~/theme/spacing'
 import TagsList from '~/components/Activists/Member/TagsList'
+import Profile from '~/components/shared/adherent/Profile'
 
 interface ActivistListProps {
   paginatedData?: PaginatedDataModel<ActivistModel>
@@ -69,35 +65,22 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
     hidden: true,
   },
   {
-    title: '',
-    minWidth: 50,
-    render: line => <Avatar imageUrl={line.image_url} initials={getInitials(line)} />,
-  },
-  {
     title: 'Militants',
-    minWidth: 150,
-    subTitle: 'Âge, civilité',
-    render: line => {
-      const formattedText = compact([
-        line.birthdate !== null ? `${line.age} ${pluralize(line.age, 'an')}` : undefined,
-        guessHumanReadableTitleBasedOnGender(line.gender),
-      ])
-
-      return (
-        <>
-          <div>
-            <Typography variant="body2" fontWeight={fontWeight.medium}>
-              {fullName(line)}
-            </Typography>
-          </div>
-          <div>
-            <Typography variant="body2" color={'text.disabled'}>
-              {formattedText.join(', ')}
-            </Typography>
-          </div>
-        </>
-      )
-    },
+    subTitle: 'Âge, civilité, PID',
+    render: line => (
+      <Profile
+        adherent={
+          {
+            firstName: line.first_name,
+            lastName: line.last_name,
+            profileImage: line.image_url,
+            age: line.age,
+            gender: line.gender,
+            pid: line.public_id,
+          } as Adherent
+        }
+      />
+    ),
   },
   {
     title: 'Labels',

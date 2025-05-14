@@ -19,26 +19,24 @@ const ReferralsRoute = () => {
   }
 
   return (
-    <Box>
-      <Container maxWidth={false} data-cy="contacts-container">
-        <Grid container justifyContent="space-between">
-          <PageHeader title={'Parrainages'} />
-        </Grid>
+    <Container maxWidth={false} data-cy="contacts-container">
+      <Grid container justifyContent="space-between">
+        <PageHeader title={'Parrainages'} />
+      </Grid>
 
-        <Box sx={{ borderBottom: 1, marginBottom: 3, borderColor: 'divider' }}>
-          <Tabs value={tabValue} onChange={handleTabChange}>
-            <Tab label="Classement" />
-            <Tab label="Historique" />
-          </Tabs>
-        </Box>
+      <Box sx={{ borderBottom: 1, marginBottom: 3, borderColor: 'divider' }}>
+        <Tabs value={tabValue} onChange={handleTabChange}>
+          <Tab label="Classement" />
+          <Tab label="Historique" />
+        </Tabs>
+      </Box>
 
-        <Routes>
-          <Route path="/classement" element={<Scoreboard />} />
-          <Route path="/historique" element={<Referrals />} />
-          <Route path="*" element={<Scoreboard />} />
-        </Routes>
-      </Container>
-    </Box>
+      <Routes>
+        <Route path="/classement" element={<Scoreboard />} />
+        <Route path="/historique" element={<Referrals />} />
+        <Route path="*" element={<Scoreboard />} />
+      </Routes>
+    </Container>
   )
 }
 
