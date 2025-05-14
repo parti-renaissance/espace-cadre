@@ -42,12 +42,14 @@ export interface ReadableLightUserWithGenderModel extends ReadableLightUserModel
   gender: GenderEnum
 }
 
-export interface LightPersonModel {
-  id: string
+export type Adherent = {
+  uuid: string
+  pid: string
   firstName: string
   lastName: string
-  avatar?: string
-  gender: GenderEnum
+  profileImage: string | null
+  age?: number | null
+  gender?: GenderEnum | null
 }
 
 export interface PaginatedApiQueryBaseModel {

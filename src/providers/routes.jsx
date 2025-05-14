@@ -98,7 +98,7 @@ const AppPrivateRoutes = () => {
           />
           <Route path={`${paths.my_team}/*`} element={currentScope.hasFeature(FeatureEnum.MY_TEAM) && <MyTeam />} />
           <Route
-            path={paths.referrals}
+            path={`${paths.referrals}/*`}
             element={currentScope.hasFeature(FeatureEnum.REFERRALS) && <ReferralsRoute />}
           />
           <Route

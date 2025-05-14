@@ -16,7 +16,7 @@ import { SxProps } from '@mui/system'
 import generateFixedArray from '~/utils/generateFixedArray'
 import pluralize from '~/components/shared/pluralize/pluralize'
 import { useCallback } from 'react'
-import { CustomTableColumnModel, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
+import { CustomTableColumnModel, OrderEnum, RowWithIdModel } from '~/mui/custom-table/CustomTable.model'
 import CustomTableHeader from '~/mui/custom-table/CustomTableHeader'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Scrollbar from '~/mui/scrollbar'
@@ -39,6 +39,9 @@ export interface TableProps<DataType extends RowWithIdModel> extends TableContai
   total?: number
   hover?: boolean
   onLineClick?: (line: DataType) => void
+  onSort?: (property: string) => void
+  order?: OrderEnum
+  orderBy?: string
 }
 
 const LineSkeleton = ({ columns }: { columns: unknown[] }) => (
@@ -73,6 +76,9 @@ const skeletonArray = generateFixedArray(10)
  * @param page
  * @param hover enable hovering grey background
  * @param onLineClick line click handler, the cursor turn to pointer style when specified
+ * @param onSort
+ * @param order
+ * @param orderBy
  * @param rest @see MUI's TableContainer documentation
  * @constructor
  */
@@ -92,6 +98,9 @@ export default function CustomTable<DataType extends RowWithIdModel>({
   page = 1,
   hover = true,
   onLineClick,
+  onSort,
+  order,
+  orderBy,
   ...rest
 }: TableProps<DataType>) {
   const Pagination = useCallback(
@@ -138,7 +147,7 @@ export default function CustomTable<DataType extends RowWithIdModel>({
 
       <Scrollbar>
         <Table sx={tableSx}>
-          <CustomTableHeader headLabels={columns ?? []} />
+          <CustomTableHeader headLabels={columns ?? []} onSort={onSort} orderBy={orderBy} order={order} />
           <TableBody>
             {isLoading
               ? skeletonArray.map((_, index) => <LineSkeleton key={index} columns={columns} />)

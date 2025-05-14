@@ -1,7 +1,8 @@
+import qs from 'qs'
+import { z } from 'zod'
 import { apiClient } from '~/services/networking/client'
 import { newPaginatedResult, PaginatedResult } from '~/api/pagination'
-import { Referral, ReferralSchema } from '~/domain/referral'
-import qs from 'qs'
+import { Referral, ReferralSchema, ScoreboardReferrer, ScoreboardReferrerSchema } from '~/domain/referral'
 
 export async function getReferrals(queryParams: {
   page: number
@@ -10,8 +11,11 @@ export async function getReferrals(queryParams: {
 }): Promise<PaginatedResult<Referral[]>> {
   const data = await apiClient.get('/v3/referrals?' + qs.stringify(queryParams))
 
-  return newPaginatedResult<Referral[]>(
-    data.items.map((raw: unknown) => ReferralSchema.parse(raw)),
-    data.metadata
-  )
+  return newPaginatedResult<Referral[]>(z.array(ReferralSchema).parse(data.items), data.metadata)
+}
+
+export async function getReferralsScoreboard(): Promise<ScoreboardReferrer[]> {
+  const data = await apiClient.get('/v3/referrals/manager-scoreboard')
+
+  return z.array(ScoreboardReferrerSchema).parse(data)
 }

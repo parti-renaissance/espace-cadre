@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { Adherent } from '~/models/common.model'
 
 export enum ReferralStatus {
   AccountCreated = 'account_created',
@@ -73,3 +74,36 @@ export const ReferralSchema = RawReferralSchema.transform(raw => ({
 }))
 
 export type Referral = z.infer<typeof ReferralSchema>
+
+export const RawScoreboardReferrerSchema = z.object({
+  pid: z.string(),
+  uuid: z.string().uuid(),
+  first_name: z.string(),
+  last_name: z.string(),
+  profile_image: z.string().url().nullable(),
+  count_adhesion_finished: z.number(),
+  count_account_created: z.number(),
+  count_reported: z.number(),
+})
+
+export const ScoreboardReferrerSchema = RawScoreboardReferrerSchema.transform(
+  (raw): ScoreboardReferrer => ({
+    adherent: {
+      uuid: raw.uuid,
+      pid: raw.pid,
+      firstName: raw.first_name,
+      lastName: raw.last_name,
+      profileImage: raw.profile_image,
+    },
+    countAdhesionFinished: raw.count_adhesion_finished,
+    countAccountCreated: raw.count_account_created,
+    countReported: raw.count_reported,
+  })
+)
+
+export type ScoreboardReferrer = {
+  adherent: Adherent
+  countAdhesionFinished: number
+  countAccountCreated: number
+  countReported: number
+}
