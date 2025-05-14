@@ -2,6 +2,7 @@ import { GenderEnum } from '~/models/common.model'
 import { CountryEnum } from '~/models/country.model'
 
 export interface ActivistModel {
+  public_id: string
   adherent_uuid: string
   image_url: string | null
   email: string
@@ -29,7 +30,7 @@ export interface ActivistModel {
   email_subscription: boolean
   tags: LabelTypeModel[]
   zones: AddressZoneModel[]
-  age: string
+  age: number
 }
 
 export interface LabelTypeModel {
@@ -59,10 +60,4 @@ export enum ZoneEnum {
   CONSULAR_DISTRICT = 'consular_district',
   VOTE_PLACE = 'vote_place',
   FDE_CODE = 'FDE',
-}
-
-export enum ActivistTagEnum {
-  ADHERENT = 'adherent',
-  SYMPATHISANT = 'sympathisant',
-  ELU = 'elu',
 }

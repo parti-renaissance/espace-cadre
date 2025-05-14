@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { Adherent } from '~/models/common.model'
+import { Adherent, AdherentSchema } from '~/models/common.model'
 
-export enum ReferralStatus {
+export enum ReferralStatusEnum {
   AccountCreated = 'account_created',
   InvitationSent = 'invitation_sent',
   AdhesionFinished = 'adhesion_finished',
@@ -9,12 +9,12 @@ export enum ReferralStatus {
   Reported = 'reported',
 }
 
-export const ReferralStatusLabels: Record<ReferralStatus, string> = {
-  [ReferralStatus.AccountCreated]: 'Compte créé',
-  [ReferralStatus.InvitationSent]: 'Invitation envoyée',
-  [ReferralStatus.AdhesionFinished]: 'Adhésion finalisée',
-  [ReferralStatus.AdhesionViaOtherLink]: 'Adhésion via un autre moyen',
-  [ReferralStatus.Reported]: 'Signalé',
+export const ReferralStatusLabels: Record<ReferralStatusEnum, string> = {
+  [ReferralStatusEnum.AccountCreated]: 'Adhésion incomplète',
+  [ReferralStatusEnum.InvitationSent]: 'Invitation envoyée',
+  [ReferralStatusEnum.AdhesionFinished]: 'Adhésion finalisée',
+  [ReferralStatusEnum.AdhesionViaOtherLink]: 'Adhésion via un autre moyen',
+  [ReferralStatusEnum.Reported]: 'Signalé',
 }
 
 export enum ReferralType {
@@ -33,7 +33,7 @@ const RawReferralSchema = z.object({
   uuid: z.string(),
   identifier: z.string(),
   first_name: z.string(),
-  status_label: z.string(),
+  status: z.nativeEnum(ReferralStatusEnum),
   type_label: z.string(),
   created_at: z.coerce.string(),
   email_address: z.string().nullable(),
@@ -42,36 +42,50 @@ const RawReferralSchema = z.object({
   nationality: z.string().nullable(),
   phone: z.string().nullable(),
   birthdate: z.string().nullable(),
-  referrer: z
-    .object({
-      id: z.string(),
-      uuid: z.string(),
-      email_address: z.string(),
-      first_name: z.string(),
-      last_name: z.string(),
-    })
-    .nullable(),
+  referred: AdherentSchema.nullable(),
+  referrer: AdherentSchema.nullable(),
 })
 
-export const ReferralSchema = RawReferralSchema.transform(raw => ({
-  id: raw.uuid,
-  identifier: raw.identifier,
-  emailAddress: raw.email_address,
-  firstName: raw.first_name,
-  lastName: raw.last_name,
-  civility: raw.civility,
-  status: raw.status_label,
-  type: raw.type_label,
-  createdAt: new Date(raw.created_at),
-  referrer: raw.referrer
+export const ReferralSchema = RawReferralSchema.transform(raw => {
+  const referrer: Adherent | null = raw.referrer
     ? {
-        id: raw.referrer.id,
+        pid: raw.referrer.id,
+        uuid: raw.referrer.uuid,
         firstName: raw.referrer.first_name,
+        gender: raw.referrer.gender,
         lastName: raw.referrer.last_name,
         emailAddress: raw.referrer.email_address,
+        profileImage: raw.referrer.image_url,
       }
-    : null,
-}))
+    : null
+
+  const referred: Adherent | null = raw.referred
+    ? {
+        pid: raw.referred.id,
+        uuid: raw.referred.uuid,
+        firstName: raw.referred.first_name,
+        lastName: raw.referred.last_name,
+        gender: raw.referred.gender,
+        emailAddress: raw.referred.email_address,
+        profileImage: raw.referred.image_url,
+      }
+    : {
+        firstName: raw.first_name,
+        lastName: raw.last_name || '',
+        emailAddress: raw.email_address,
+      }
+
+  return {
+    id: raw.uuid,
+    identifier: raw.identifier,
+    civility: raw.civility,
+    status: raw.status,
+    type: raw.type_label,
+    createdAt: new Date(raw.created_at),
+    referrer: referrer,
+    referred: referred,
+  }
+})
 
 export type Referral = z.infer<typeof ReferralSchema>
 

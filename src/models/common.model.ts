@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export enum GenderEnum {
   MALE = 'male',
   FEMALE = 'female',
@@ -43,14 +45,25 @@ export interface ReadableLightUserWithGenderModel extends ReadableLightUserModel
 }
 
 export type Adherent = {
-  uuid: string
-  pid: string
   firstName: string
   lastName: string
-  profileImage: string | null
+  uuid?: string
+  pid?: string
+  profileImage?: string | null
+  emailAddress?: string | null
   age?: number | null
   gender?: GenderEnum | null
 }
+
+export const AdherentSchema = z.object({
+  id: z.string(),
+  uuid: z.string(),
+  email_address: z.string(),
+  first_name: z.string(),
+  gender: z.nativeEnum(GenderEnum),
+  last_name: z.string(),
+  image_url: z.string().url().nullable(),
+})
 
 export interface PaginatedApiQueryBaseModel {
   params: Record<string, unknown>

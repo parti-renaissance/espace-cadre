@@ -15,16 +15,16 @@ const Profile = ({ adherent }: { adherent: Adherent }) => {
   const profile = { first_name: adherent.firstName, last_name: adherent.lastName.toUpperCase() }
 
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
+    <Stack direction="row" spacing={1} alignItems="center" flexWrap="nowrap">
       <Avatar imageUrl={adherent.profileImage ?? undefined} initials={getInitials(profile)} />
 
       <Stack direction="column">
-        <Typography variant="body2" fontWeight="medium">
+        <Typography variant="body2" fontWeight="medium" noWrap>
           {fullName(profile)}
         </Typography>
 
         {formattedText.length > 0 && (
-          <Typography variant="body2" color="text.disabled">
+          <Typography variant="body2" color="text.disabled" noWrap>
             {formattedText.join(', ')}
           </Typography>
         )}
