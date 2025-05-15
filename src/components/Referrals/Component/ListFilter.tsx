@@ -12,16 +12,18 @@ const ListFilter = ({ filter, onFilterUpdate }: ListFilterProps) => (
     <Grid item xs={12} sm={6} md={3}>
       <TextField
         fullWidth
-        label="Rechercher un parrainé (email, prénom, nom)"
-        onChange={({ target }) => onFilterUpdate(prev => ({ ...prev, referred: target.value }))}
+        value={filter.referrer || ''}
+        label="Rechercher un parrain (email, prénom, nom)"
+        onChange={({ target }) => onFilterUpdate(prev => ({ ...prev, referrer: target.value }))}
       />
     </Grid>
 
     <Grid item xs={12} sm={6} md={3}>
       <TextField
         fullWidth
-        label="Rechercher un parrain (email, prénom, nom)"
-        onChange={({ target }) => onFilterUpdate(prev => ({ ...prev, referrer: target.value }))}
+        value={filter.referred || ''}
+        label="Rechercher un parrainé (email, prénom, nom)"
+        onChange={({ target }) => onFilterUpdate(prev => ({ ...prev, referred: target.value }))}
       />
     </Grid>
 
@@ -31,7 +33,12 @@ const ListFilter = ({ filter, onFilterUpdate }: ListFilterProps) => (
         <Select
           label="Statut"
           value={filter.status || ''}
-          onChange={({ target }) => onFilterUpdate(prev => ({ ...prev, status: target.value as ReferralStatusEnum }))}
+          onChange={({ target }) =>
+            onFilterUpdate(prev => ({
+              ...prev,
+              status: target.value ? (target.value as ReferralStatusEnum) : undefined,
+            }))
+          }
         >
           <MenuItem value="">Tous</MenuItem>
           {Object.values(ReferralStatusEnum).map(status => (
@@ -49,7 +56,9 @@ const ListFilter = ({ filter, onFilterUpdate }: ListFilterProps) => (
         <Select
           label="Type"
           value={filter.type || ''}
-          onChange={({ target }) => onFilterUpdate(prev => ({ ...prev, type: target.value as ReferralType }))}
+          onChange={({ target }) =>
+            onFilterUpdate(prev => ({ ...prev, type: target.value ? (target.value as ReferralType) : undefined }))
+          }
         >
           <MenuItem value="">Tous</MenuItem>
           {Object.values(ReferralType).map(type => (

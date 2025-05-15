@@ -66,7 +66,7 @@ const ActivistColumnDefinition: CustomTableColumnModel<ActivistModel & { id: str
   },
   {
     title: 'Militants',
-    subTitle: 'Âge, civilité, PID',
+    subTitle: 'Âge, civilité, numéro adhérent',
     render: line => (
       <Profile
         adherent={

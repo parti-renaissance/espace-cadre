@@ -66,7 +66,7 @@ const columnDefinition: CustomTableColumnModel<ScoreboardReferrer & { id: string
   {
     index: 'adherent',
     title: 'Adhérent',
-    subTitle: 'PID',
+    subTitle: 'Civilité - numéro adhérent',
     render: ({ adherent }: ScoreboardReferrer) => <Profile adherent={adherent} />,
   },
   {
@@ -75,8 +75,8 @@ const columnDefinition: CustomTableColumnModel<ScoreboardReferrer & { id: string
     sortable: true,
   },
   {
-    index: 'countAccountCreated',
-    title: "Nombre d'adhésions incomplètes",
+    index: 'countInvitations',
+    title: "Nombre d'invitations",
     sortable: true,
   },
   {
