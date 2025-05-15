@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { Adherent, AdherentSchema } from '~/models/common.model'
+import { Adherent, AdherentSchema, GenderEnum } from '~/models/common.model'
 
 export enum ReferralStatusEnum {
   AccountCreated = 'account_created',
@@ -94,9 +94,10 @@ export const RawScoreboardReferrerSchema = z.object({
   uuid: z.string().uuid(),
   first_name: z.string(),
   last_name: z.string(),
+  gender: z.nativeEnum(GenderEnum).nullable(),
   profile_image: z.string().url().nullable(),
   count_adhesion_finished: z.number(),
-  count_account_created: z.number(),
+  count_invitations: z.number(),
   count_reported: z.number(),
 })
 
@@ -107,10 +108,11 @@ export const ScoreboardReferrerSchema = RawScoreboardReferrerSchema.transform(
       pid: raw.pid,
       firstName: raw.first_name,
       lastName: raw.last_name,
+      gender: raw.gender,
       profileImage: raw.profile_image,
     },
     countAdhesionFinished: raw.count_adhesion_finished,
-    countAccountCreated: raw.count_account_created,
+    countInvitations: raw.count_invitations,
     countReported: raw.count_reported,
   })
 )
@@ -118,6 +120,6 @@ export const ScoreboardReferrerSchema = RawScoreboardReferrerSchema.transform(
 export type ScoreboardReferrer = {
   adherent: Adherent
   countAdhesionFinished: number
-  countAccountCreated: number
+  countInvitations: number
   countReported: number
 }

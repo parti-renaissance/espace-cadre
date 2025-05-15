@@ -69,12 +69,12 @@ const columnDefinition: CustomTableColumnModel<Referral>[] = [
   },
   {
     title: 'Parrain',
-    subTitle: 'Civilité - PID',
+    subTitle: 'Civilité - numéro adhérent',
     render: ({ referrer }: Referral) => (referrer ? <Profile adherent={referrer} /> : <></>),
   },
   {
     title: 'Parrainé',
-    subTitle: 'Civilité - PID',
+    subTitle: 'Civilité - numéro adhérent',
     render: ({ referred }: Referral) => <Profile adherent={referred} />,
   },
   {
