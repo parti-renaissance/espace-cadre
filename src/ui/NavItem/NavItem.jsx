@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { NavLink as MUINavLink } from 'react-router-dom'
-import { Typography } from '@mui/material'
+import { Box, Chip, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
 const NavLink = styled(MUINavLink)(
@@ -22,9 +22,24 @@ const NavLink = styled(MUINavLink)(
 `
 )
 
-const NavItem = ({ path, label, handleClick = null }) => (
+const NavItem = ({ path, label, handleClick = null, isNew = false }) => (
   <NavLink to={path} onClick={handleClick || (() => {})}>
-    <Typography variant="menu">{label}</Typography>
+    <Box display="flex" alignItems="center" gap={1}>
+      <Typography variant="menu">{label}</Typography>
+      {isNew && (
+        <Chip
+          label="Nouveau"
+          size="small"
+          sx={{
+            fontSize: '10px',
+            height: 16,
+            bgcolor: 'primary.main',
+            color: 'white',
+            fontWeight: 500,
+          }}
+        />
+      )}
+    </Box>
   </NavLink>
 )
 
@@ -32,6 +47,7 @@ NavItem.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   handleClick: PropTypes.func,
+  isNew: PropTypes.bool,
 }
 
 export default NavItem

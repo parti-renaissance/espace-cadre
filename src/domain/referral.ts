@@ -54,7 +54,6 @@ export const ReferralSchema = RawReferralSchema.transform(raw => {
         firstName: raw.referrer.first_name,
         gender: raw.referrer.gender,
         lastName: raw.referrer.last_name,
-        emailAddress: raw.referrer.email_address,
         profileImage: raw.referrer.image_url,
       }
     : null
@@ -66,13 +65,13 @@ export const ReferralSchema = RawReferralSchema.transform(raw => {
         firstName: raw.referred.first_name,
         lastName: raw.referred.last_name,
         gender: raw.referred.gender,
-        emailAddress: raw.referred.email_address,
         profileImage: raw.referred.image_url,
       }
     : {
         firstName: raw.first_name,
         lastName: raw.last_name || '',
         emailAddress: raw.email_address,
+        phone: raw.phone,
       }
 
   return {

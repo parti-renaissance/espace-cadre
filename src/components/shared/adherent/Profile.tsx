@@ -10,6 +10,8 @@ const Profile = ({ adherent }: { adherent: Adherent }) => {
     adherent.gender ? guessHumanReadableTitleBasedOnGender(adherent.gender) : null,
     adherent.age ? `${adherent.age} ${pluralize(adherent.age, 'an')}` : null,
     adherent.pid,
+    adherent.emailAddress,
+    adherent.phone,
   ])
 
   const profile = { first_name: adherent.firstName, last_name: adherent.lastName.toUpperCase() }
@@ -24,7 +26,7 @@ const Profile = ({ adherent }: { adherent: Adherent }) => {
         </Typography>
 
         {formattedText.length > 0 && (
-          <Typography variant="body2" color="text.disabled" noWrap>
+          <Typography variant="body2" color="text.disabled">
             {formattedText.join(', ')}
           </Typography>
         )}

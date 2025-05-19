@@ -26,3 +26,5 @@ export enum FeatureEnum {
   TEAM = 'team',
   FEATUREBASE = 'featurebase',
 }
+
+export const NewFeatures = [FeatureEnum.REFERRALS]
