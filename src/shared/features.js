@@ -22,6 +22,7 @@ export const featuresGroup = [
     slug: 'militantisme',
     features: [
       FeatureEnum.CONTACTS,
+      FeatureEnum.REFERRALS,
       FeatureEnum.EVENTS,
       FeatureEnum.ACTIONS,
       FeatureEnum.TEAM,
@@ -30,7 +31,6 @@ export const featuresGroup = [
       FeatureEnum.SURVEY,
       FeatureEnum.ADHERENT_FORMATIONS,
       FeatureEnum.DOCUMENTS,
-      FeatureEnum.REFERRALS,
     ],
   },
   {

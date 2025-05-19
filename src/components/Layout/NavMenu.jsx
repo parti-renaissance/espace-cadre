@@ -5,6 +5,7 @@ import RemoveIcon from '@mui/icons-material/Remove'
 import paths from '~/shared/paths'
 import { featuresLabels } from '~/shared/features'
 import NavItem from '~/ui/NavItem/NavItem'
+import { NewFeatures } from '~/models/feature.enum.js'
 
 export const NavMenu = ({ handleItemClick, group }) => {
   const [show, setShow] = useState(true)
@@ -27,6 +28,7 @@ export const NavMenu = ({ handleItemClick, group }) => {
               path={paths[featureKey]}
               label={featuresLabels[featureKey]}
               handleClick={handleItemClick}
+              isNew={NewFeatures.includes(featureKey)}
             />
           ))}
         </nav>

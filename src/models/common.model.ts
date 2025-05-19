@@ -51,6 +51,7 @@ export type Adherent = {
   pid?: string
   profileImage?: string | null
   emailAddress?: string | null
+  phone?: string | null
   age?: number | null
   gender?: GenderEnum | null
 }

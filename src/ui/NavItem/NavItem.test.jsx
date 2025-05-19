@@ -6,6 +6,8 @@ vi.mock('@mui/system', () => ({
 }))
 vi.mock('@mui/material', () => ({
   Typography: ({ children }) => <div className="mock-typography">{children}</div>,
+  Box: ({ children }) => <div className="mock-box">{children}</div>,
+  Chip: ({ children }) => <div className="mock-chip">{children}</div>,
 }))
 
 vi.mock('react-router-dom', () => ({
