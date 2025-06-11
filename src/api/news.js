@@ -11,14 +11,13 @@ export const getNewsQuery = async ({ pageParam: page = 1 }) => {
       new News(
         n.uuid,
         n.title,
-        n.text,
+        n.content,
         n.external_link,
         n.link_label,
         n.author,
         parseDate(n.created_at),
         n.notification,
         n.published,
-        n.pinned,
         n.zone?.uuid
       )
   )
@@ -32,30 +31,26 @@ export const getNewsQuery = async ({ pageParam: page = 1 }) => {
 export const updateNewsQuery = news =>
   apiClient.put(`api/v3/jecoute/news/${news.id}`, {
     title: news.title,
-    text: news.body,
+    content: news.body,
     external_link: news.url,
     link_label: news.urlLabel,
     notification: news.withNotification,
     published: news.status,
-    pinned: news.pinned,
-    enriched: true,
   })
 
-export const updateNewsPinnedStatusQuery = news =>
+export const updateNewsStatusQuery = news =>
   apiClient.put(`api/v3/jecoute/news/${news.id}`, {
     published: news.status,
-    pinned: news.pinned,
   })
 
 export const createNewsQuery = news =>
   apiClient.post('api/v3/jecoute/news', {
     title: news.title,
-    text: news.body,
+    content: news.body,
     external_link: news.url,
     link_label: news.urlLabel,
     notification: news.withNotification,
     published: true,
     zone: news.zoneId,
-    enriched: true,
     committee: news.committeeUuid,
   })

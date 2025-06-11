@@ -43,10 +43,11 @@ const StatusIcon = styled(
 
 const NotificationIcon = styled(MuiIcon)(
   ({ theme }) => `
-  font-size: 15px;
-  padding: ${theme.spacing(0.25, 1)};
-  margin-right: ${theme.spacing(1)};
+  font-size: 19px;
+  line-height: 1;
+  padding: ${theme.spacing(0, 1)};
   border: 1px solid ${theme.palette.gray300};
+  width: 30px;
   border-radius: 19px;
 `
 )
@@ -124,7 +125,9 @@ const ReadModal = ({ open, news, handleEdit, onCloseResolve }) => {
       </HeaderContainer>
       <Grid sx={{ mb: 1, display: 'flex', alignItems: 'center' }}>
         <StatusIcon active={isPublished}>{isPublished ? messages.published : messages.unpublished}</StatusIcon>
-        <NotificationIcon component={Icon} />
+        <NotificationIcon>
+          <Icon sx={{ fontSize: 12 }} />
+        </NotificationIcon>
       </Grid>
       <Title title={news?.title}>{news?.title}</Title>
       <UserTimeContainer>

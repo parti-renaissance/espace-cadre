@@ -4,15 +4,13 @@ import { Grid } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import PropTypes from 'prop-types'
-
-import { getNewsQuery, updateNewsPinnedStatusQuery } from '~/api/news'
+import { getNewsQuery, updateNewsStatusQuery } from '~/api/news'
 import { refetchUpdatedPage } from '~/api/pagination'
 import { notifyVariants } from '~/components/shared/notification/constants'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
-
 import { Body, Container, CTAButton, CTAButtonContainer, CTAButtonOutlined, SectionTitle } from './styles'
 import { CTA_MODE_PUBLICATION } from './constants'
 
@@ -38,7 +36,7 @@ const CallToActionContainer = ({ mode, news, handleClose }) => {
     }
   )
 
-  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsPinnedStatusQuery, {
+  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsStatusQuery, {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)

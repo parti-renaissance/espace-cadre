@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Container, Grid, Typography } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
-import { getNewsQuery, updateNewsPinnedStatusQuery } from '~/api/news'
+import { getNewsQuery, updateNewsStatusQuery } from '~/api/news'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import NewsDomain from '~/domain/news'
 import CreateEditModal from './CreateEditModal'
@@ -15,14 +14,11 @@ import { useCustomSnackbar } from '~/components/shared/notification/hooks'
 import { PageHeaderButton } from '~/ui/PageHeader/PageHeader'
 import PageHeader from '~/ui/PageHeader'
 import { useInfiniteQueryWithScope } from '~/api/useQueryWithScope'
-import NewsAlert from '../shared/alert/NewsAlert'
-import PinnedImage from '~/assets/pinned.svg'
 import NewsList from './NewsList'
 
 const messages = {
   title: 'Notifications',
   create: 'Nouvelle Notification',
-  pinnedSubtitle: 'Épinglée dans l’application mobile',
   defaultSubtitle: 'Dans votre territoire',
   toggleSuccess: 'La notification a bien été modifiée',
   alertTitle: '🎉 NOUVEAU',
@@ -51,7 +47,7 @@ const News = () => {
 
   const news = usePaginatedData(paginatedNews)
 
-  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsPinnedStatusQuery, {
+  const { mutateAsync: updateNewsStatus, isLoading: isToggleStatusLoading } = useMutation(updateNewsStatusQuery, {
     onSuccess: async (_, updatedNews) => {
       await refetchUpdatedPage(paginatedNews, refetch, updatedNews.id)
       enqueueSnackbar(messages.toggleSuccess, notifyVariants.success)
@@ -85,31 +81,10 @@ const News = () => {
     async id => {
       const currentNews = news.find(n => n.id === id)
       const toggledNews = currentNews.toggleStatus()
-      if (!toggledNews.status && toggledNews.pinned) {
-        toggledNews.pinned = false
-      }
       await updateNewsStatus(toggledNews)
     },
     [news, updateNewsStatus]
   )
-
-  const toggleNewsPinned = useCallback(
-    async id => {
-      const currentNews = news.find(n => n.id === id)
-      const toggledNews = currentNews.togglePinned()
-      if (!toggledNews.status && toggledNews.pinned) {
-        toggledNews.status = true
-      }
-      await updateNewsStatus(toggledNews)
-    },
-    [news, updateNewsStatus]
-  )
-
-  const pinnedNews = useMemo(() => news.filter(item => item.pinned), [news])
-  const unpinnedNews = useMemo(() => news.filter(item => !item.pinned), [news])
-
-  const shouldDisplayPinned = pinnedNews.length > 0
-  const shouldDisplayDefaultHeader = pinnedNews.length === 0
 
   return (
     <Container maxWidth={false} sx={{ mb: 3 }}>
@@ -123,38 +98,14 @@ const News = () => {
         <Loader isCenter />
       ) : (
         <InfiniteScroll dataLength={news.length} next={() => fetchNextPage()} hasMore={hasNextPage} loader={<Loader />}>
-          {shouldDisplayPinned && (
-            <Grid sx={{ mb: 2 }}>
-              <Typography sx={{ color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
-                {messages.pinnedSubtitle}
-              </Typography>
-              <NewsList
-                data={pinnedNews}
-                toggleNewsStatus={toggleNewsStatus}
-                toggleNewsPinned={toggleNewsPinned}
-                handleEdit={handleEdit}
-                handleView={handleView}
-                isToggleStatusLoading={isToggleStatusLoading}
-              />
-            </Grid>
-          )}
-          {shouldDisplayDefaultHeader && (
-            <Grid>
-              <Typography component="div" sx={{ mb: 2, color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
-                {messages.pinnedSubtitle}
-              </Typography>
-              <NewsAlert title={messages.alertTitle} content={messages.alertText} image={PinnedImage} />
-            </Grid>
-          )}
           <Grid>
             <Typography sx={{ color: 'gray800', fontSize: '18px', lineHeight: '27px' }}>
               {messages.defaultSubtitle}
             </Typography>
             {news.length ? (
               <NewsList
-                data={unpinnedNews}
+                data={news}
                 toggleNewsStatus={toggleNewsStatus}
-                toggleNewsPinned={toggleNewsPinned}
                 handleEdit={handleEdit}
                 handleView={handleView}
                 isToggleStatusLoading={isToggleStatusLoading}

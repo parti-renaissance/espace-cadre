@@ -4,10 +4,9 @@
     {
       "uuid": "11111111-1111-1111-1111-111111111111",
       "title": "Titre 1",
-      "text": "Texte 1",
+      "content": "Texte 1",
       "external_link": "https://www.avecvous.fr",
       "link_label": "AvecVous",
-      "enriched": true,
       "zone": {
         "uuid": "11111111-1111-1111-1111-111111111111",
         "code": "92",
@@ -20,16 +19,14 @@
       "author": {
         "first_name": "M",
         "last_name": "Creator 1"
-      },
-      "pinned": false
+      }
     },
     {
       "uuid": "22222222-2222-2222-2222-222222222222",
       "title": "Titre 2",
-      "text": "Texte 2",
+      "content": "Texte 2",
       "external_link": null,
       "link_label": "",
-      "enriched": false,
       "zone": {
         "uuid": "22222222-2222-2222-2222-222222222222",
         "code": "92",
@@ -42,16 +39,14 @@
       "author": {
         "first_name": "M",
         "last_name": "Creator 2"
-      },
-      "pinned": false
+      }
     },
     {
       "uuid": "33333333-3333-3333-3333-333333333333",
       "title": "Titre 3",
-      "text": "Texte 3",
+      "content": "Texte 3",
       "external_link": null,
       "link_label": "",
-      "enriched": false,
       "zone": {
         "uuid": "33333333-3333-3333-3333-333333333333",
         "code": "92",
@@ -64,8 +59,7 @@
       "author": {
         "first_name": "M",
         "last_name": "Creator 2"
-      },
-      "pinned": true
+      }
     }
   ]
 }
