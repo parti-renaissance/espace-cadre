@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
-
 import UICard, { Title } from '~/ui/Card'
 import Header from './Card/Header'
 import Actions from './Card/Actions'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 
-const NewsList = ({ data, toggleNewsStatus, toggleNewsPinned, handleEdit, handleView, isToggleStatusLoading }) => {
+const NewsList = ({ data, toggleNewsStatus, handleEdit, handleView, isToggleStatusLoading }) => {
   const { isMobile } = useCurrentDeviceType()
   return (
     <Grid container spacing={2} sx={{ mt: 0, ...(isMobile && { pt: 2 }) }}>
@@ -26,15 +25,12 @@ const NewsList = ({ data, toggleNewsStatus, toggleNewsPinned, handleEdit, handle
                 />
               </>
             }
-            actionsProps={{ sx: { pt: 3 } }}
             actions={
               <Actions
                 toggleStatus={() => toggleNewsStatus(n.id)}
-                togglePinned={() => toggleNewsPinned(n.id)}
                 handleEdit={handleEdit(n.id)}
                 onView={handleView(n.id)}
                 status={n.status}
-                pinned={n.pinned}
                 statusLoader={isToggleStatusLoading}
               />
             }
@@ -48,7 +44,6 @@ const NewsList = ({ data, toggleNewsStatus, toggleNewsPinned, handleEdit, handle
 NewsList.propTypes = {
   data: PropTypes.array.isRequired,
   toggleNewsStatus: PropTypes.func.isRequired,
-  toggleNewsPinned: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleView: PropTypes.func.isRequired,
   isToggleStatusLoading: PropTypes.bool.isRequired,

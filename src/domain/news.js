@@ -1,20 +1,7 @@
 import PropTypes from 'prop-types'
 
 export default class News {
-  constructor(
-    id,
-    title,
-    body,
-    url,
-    urlLabel,
-    creator,
-    createdAt,
-    withNotification,
-    status,
-    pinned,
-    zoneId,
-    committeeUuid
-  ) {
+  constructor(id, title, body, url, urlLabel, creator, createdAt, withNotification, status, zoneId, committeeUuid) {
     this.id = id
     this.title = title
     this.body = body
@@ -24,12 +11,11 @@ export default class News {
     this.createdAt = createdAt
     this.withNotification = withNotification
     this.status = status
-    this.pinned = pinned
     this.zoneId = zoneId
     this.committeeUuid = committeeUuid
   }
 
-  static NULL = new News(null, '', '', '', '', null, new Date(), false, false, false, '', null)
+  static NULL = new News(null, '', '', '', '', null, new Date(), false, false, null, null)
 
   withTitle(newTitle) {
     return new News(
@@ -42,7 +28,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       this.status,
-      this.pinned,
       this.zoneId,
       this.committeeUuid
     )
@@ -59,7 +44,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       this.status,
-      this.pinned,
       this.zoneId,
       this.committeeUuid
     )
@@ -76,7 +60,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       this.status,
-      this.pinned,
       this.zoneId,
       this.committeeUuid
     )
@@ -93,7 +76,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       this.status,
-      this.pinned,
       this.zoneId,
       this.committeeUuid
     )
@@ -110,7 +92,6 @@ export default class News {
       this.createdAt,
       newWithNotification,
       this.status,
-      this.pinned,
       this.zoneId,
       this.committeeUuid
     )
@@ -127,7 +108,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       newStatus,
-      this.pinned,
       this.zoneId,
       this.committeeUuid
     )
@@ -144,24 +124,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       !this.status,
-      this.pinned,
-      this.zoneId,
-      this.committeeUuid
-    )
-  }
-
-  togglePinned() {
-    return new News(
-      this.id,
-      this.title,
-      this.body,
-      this.url,
-      this.urlLabel,
-      this.creator,
-      this.createdAt,
-      this.withNotification,
-      this.status,
-      !this.pinned,
       this.zoneId,
       this.committeeUuid
     )
@@ -178,7 +140,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       this.status,
-      this.pinned,
       newZoneId,
       this.committeeUuid
     )
@@ -195,7 +156,6 @@ export default class News {
       this.createdAt,
       this.withNotification,
       this.status,
-      this.pinned,
       this.zoneId,
       committeeUuid
     )
@@ -212,7 +172,6 @@ News.propTypes = PropTypes.shape({
   createdAt: PropTypes.object.isRequired,
   withNotification: PropTypes.bool,
   status: PropTypes.bool.isRequired,
-  pinned: PropTypes.bool.isRequired,
   zoneId: PropTypes.string,
   committeeUuid: PropTypes.string,
 })
