@@ -11872,9 +11872,9 @@ yup@^1.4.0:
     type-fest "^2.19.0"
 
 zod@^3.24.1:
-  version "3.24.4"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.24.4.tgz#e2e2cca5faaa012d76e527d0d36622e0a90c315f"
-  integrity sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==
+  version "3.25.62"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.62.tgz#e959ff299b9e7a4f92d800bf476243ca13a7f6c5"
+  integrity sha512-YCxsr4DmhPcrKPC9R1oBHQNlQzlJEyPAId//qTau/vBee9uO8K6prmRq4eMkOyxvBfH4wDPIPdLx9HVMWIY3xA==
 
 zustand@^5.0.3:
   version "5.0.4"
