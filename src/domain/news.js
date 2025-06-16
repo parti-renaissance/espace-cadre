@@ -81,22 +81,6 @@ export default class News {
     )
   }
 
-  withWithNotification(newWithNotification) {
-    return new News(
-      this.id,
-      this.title,
-      this.body,
-      this.url,
-      this.urlLabel,
-      this.creator,
-      this.createdAt,
-      newWithNotification,
-      this.status,
-      this.zoneId,
-      this.committeeUuid
-    )
-  }
-
   withStatus(newStatus) {
     return new News(
       this.id,

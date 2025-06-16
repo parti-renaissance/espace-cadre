@@ -49,7 +49,7 @@ export const createNewsQuery = news =>
     content: news.body,
     external_link: news.url,
     link_label: news.urlLabel,
-    notification: news.withNotification,
+    notification: true,
     published: true,
     zone: news.zoneId,
     committee: news.committeeUuid,
