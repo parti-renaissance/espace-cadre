@@ -11,7 +11,6 @@ const closeIcon = '[data-testid="close-icon"]'
 const createNewsButton = '[data-cy="ui-page-header-button"]'
 const ckeditor = '.ck-editor'
 const callToActionContainer = '[data-testid="callToAction-container"]'
-const notificationContainer = '[data-testid="notification-container"]'
 
 const navigate = () => {
   cy.contains('Référent').click()
@@ -95,11 +94,6 @@ describe('News', () => {
         cy.get(callToActionContainer).contains('Bouton d’action')
         cy.get(callToActionContainer).find('input').eq(0).invoke('attr', 'placeholder').should('contain', 'https://')
         cy.get(callToActionContainer).find('input').eq(1).invoke('attr', 'placeholder').should('contain', 'Je m’engage')
-      })
-
-      it('contains a notification push block with a text and a checkbox', () => {
-        cy.get(notificationContainer).find('[name="withNotification"]').should('exist')
-        cy.get(notificationContainer).contains('Envoyer une notification push')
       })
 
       it('contains a submit button', () => {

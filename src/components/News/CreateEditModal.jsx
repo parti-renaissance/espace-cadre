@@ -15,11 +15,8 @@ import TextField from '~/ui/TextField'
 import UIFormMessage from '~/ui/FormMessage/FormMessage'
 import { useUserScope } from '~/redux/user/hooks'
 import Loader from '~/ui/Loader'
-import NotificationContainer from './NotificationContainer'
 import CallToActionContainer from './CallToActionContainer'
 import MarkdownEditor from '~/ui/MarkdownEditor'
-import NewsAlertImage from '~/assets/newsAlertImage.svg'
-import NewsAlert from '../shared/alert/NewsAlert'
 import { SubTitle, Title } from './styles'
 import Button from '~/ui/Button'
 import Dialog from '~/ui/Dialog'
@@ -44,8 +41,6 @@ const messages = {
   charactersLimit2: '(1000 caractères)',
   charactersLimit3: '(255 caractères)',
   titlePlaceholder: 'Donnez un titre à votre notification',
-  newsAlertTitle: '🎉 NOUVEAU',
-  newsAlertContent: 'Mettez en forme vos notifications, elles seront consultables dans l’application mobile.',
 }
 
 const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
@@ -80,7 +75,6 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
       body: news?.body,
       url: news?.url || '',
       urlLabel: news?.urlLabel || '',
-      withNotification: news?.withNotification,
       status: news?.status,
     },
     validationSchema: newsSchema,
@@ -92,7 +86,6 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
           .withBody(values.body)
           .withUrl(values.url)
           .withUrlLabel(values.urlLabel)
-          .withWithNotification(values.withNotification)
           .withStatus(values.status)
           .withZoneId(currentScope.zones.length ? currentScope.zones[0].uuid : null)
           .withCommitteeUuid(
@@ -143,7 +136,6 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
               </Grid>
             ))}
         </Grid>
-        <NewsAlert title={messages.newsAlertTitle} content={messages.newsAlertContent} image={NewsAlertImage} />
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12} sx={{ mb: 1 }}>
             <SubTitle>{messages.body}</SubTitle>
@@ -168,12 +160,6 @@ const CreateEditModal = ({ open, news, onCloseResolve, onSubmitResolve }) => {
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <CallToActionContainer formik={formik} isDisabled={isEditMode} />
-          </Grid>
-        </Grid>
-
-        <Grid container sx={{ mb: 2 }}>
-          <Grid item xs={12}>
-            <NotificationContainer formik={formik} isDisabled={isEditMode} />
           </Grid>
         </Grid>
 
