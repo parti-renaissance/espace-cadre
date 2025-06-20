@@ -2769,9 +2769,9 @@
   integrity sha512-r985bkQfG0HMpmCU0X0p/Xe7U1qgRm2mxvcp6iPCuts2FqxaCoyfNZ8YnMsgVK1mRhM7+CQ5SEg2NOmQNtHvPw==
 
 "@tiptap/extension-link@^2.11.5":
-  version "2.11.7"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-link/-/extension-link-2.11.7.tgz#315588c536a7effe0fa2470c458a9734021a0b88"
-  integrity sha512-qKIowE73aAUrnQCIifYP34xXOHOsZw46cT/LBDlb0T60knVfQoKVE4ku08fJzAV+s6zqgsaaZ4HVOXkQYLoW7g==
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-link/-/extension-link-2.22.0.tgz#70328599a5aa2acf5aadbd51f9b7cfe3ff99c278"
+  integrity sha512-/4kODZyf5DHFnzmeTVWwM6uTaSbriAdQYuZ6Q05fylZ0EY4hx/+eRUsdufwXxR01DmfN2kvD9wg1HyZTgmNPrw==
   dependencies:
     linkifyjs "^4.2.0"
 
