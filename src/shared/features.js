@@ -60,6 +60,7 @@ export const featuresLabels = {
   [FeatureEnum.CONTACTS]: 'Militants',
   [FeatureEnum.CONTACTS_EXPORT]: 'Militants (export)',
   [FeatureEnum.MESSAGES]: 'Messagerie',
+  [FeatureEnum.PUBLICATIONS]: 'Publications',
   [FeatureEnum.ELECTIONS]: 'Historique élections',
   [FeatureEnum.RIPOSTES]: 'Action numérique',
   [FeatureEnum.TEAM]: 'Groupes',
