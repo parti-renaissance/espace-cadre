@@ -13,6 +13,7 @@ export enum FeatureEnum {
   EVENTS = 'events',
   GENERAL_MEETING_REPORTS = 'general_meeting_reports',
   MESSAGES = 'messages',
+  PUBLICATIONS = 'publications',
   MY_TEAM = 'my_team',
   NEWS = 'news',
   PAP = 'pap',
