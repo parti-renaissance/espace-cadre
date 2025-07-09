@@ -56,7 +56,6 @@ export class Message {
 }
 
 export const CreateMessageContentSchema = z.object({
-  type: z.string(),
   label: z.string(),
   subject: z.string(),
   content: z.string(),

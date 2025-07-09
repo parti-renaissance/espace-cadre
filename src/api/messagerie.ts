@@ -60,7 +60,7 @@ const parseDataMessage = (data: DataMessage) => {
 
 type GetMessagesParams = {
   page?: number
-  statutory?: boolean
+  is_statutory?: boolean
   page_size?: number
   status?: string
   pagination?: boolean
@@ -71,7 +71,7 @@ export async function getMessages(params: GetMessagesParams & { pagination?: tru
 export async function getMessages(params: GetMessagesParams) {
   const parsedParams = {
     ...params,
-    statutory: params.statutory ? 1 : undefined,
+    is_statutory: params.is_statutory ? 1 : undefined,
   }
   const data = await apiClient.get(`/v3/adherent_messages?order[created_at]=desc&${qs.stringify(parsedParams)}`)
 
@@ -123,7 +123,7 @@ export const reportsRatio = async (): Promise<ReportRatio> => {
   )
 }
 export const getTemplates = async (isMailsStatutory: boolean) => {
-  const query = isMailsStatutory ? '?statutory=1' : ''
+  const query = isMailsStatutory ? '?is_statutory=1' : ''
   return await apiClient.get(`/v3/email_templates${query}`)
 }
 export const getTemplate = async (uuid: string) => await apiClient.get(`/v3/email_templates/${uuid}`)
