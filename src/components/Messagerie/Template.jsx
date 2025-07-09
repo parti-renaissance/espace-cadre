@@ -55,7 +55,6 @@ const Template = ({ modeUpdate = false }) => {
 
   const editEmail = () => {
     const body = {
-      type: currentScope.getMainCode(),
       label: `DataCorner: ${messageSubject}`,
       subject: messageSubject,
       content: clearBody(message.chunks.body),

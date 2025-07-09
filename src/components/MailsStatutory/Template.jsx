@@ -119,7 +119,7 @@ const Template = () => {
 
   const editEmail = () => {
     const body = {
-      type: 'statutory',
+      is_statutory: true,
       label: `DataCorner: ${messageSubject}`,
       subject: messageSubject,
       content: mergeContent(messageContent.content, templateValues),

@@ -79,7 +79,7 @@ const SearchBox = (props: SearchBoxProps) => {
   ])
   const { handleError } = useErrorHandler()
   const { data = [], isFetching } = useQuery({
-    queryFn: () => getMessages({ pagination: false, label: search, statutory: props.isMailsStatutory }),
+    queryFn: () => getMessages({ pagination: false, label: search, is_statutory: props.isMailsStatutory }),
     queryKey: queryKey,
     onError: handleError,
     enabled: debouncedSearch.length > 2,
@@ -132,7 +132,7 @@ const MessageDraftSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatu
     isInitialLoading,
     isFetched,
   } = useQuery({
-    queryFn: () => getMessages({ status: 'draft', pagination: false, statutory: props.isMailsStatutory }),
+    queryFn: () => getMessages({ status: 'draft', pagination: false, is_statutory: props.isMailsStatutory }),
     queryKey: queryKeyDrafts,
     onError: handleError,
   })
@@ -157,7 +157,7 @@ const MessageSentSection = (props: { onPopoverOpen: OnPopoverOpen; isMailsStatut
   const { data, fetchNextPage, hasNextPage, isFetched, isInitialLoading } = useInfiniteQuery({
     queryKey,
     queryFn: ({ pageParam: page = 1 }) =>
-      getMessages({ statutory: props.isMailsStatutory, page, page_size: 20, status: 'sent' }),
+      getMessages({ is_statutory: props.isMailsStatutory, page, page_size: 20, status: 'sent' }),
     getNextPageParam,
     onError: handleError,
   })

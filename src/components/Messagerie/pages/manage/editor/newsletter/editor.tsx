@@ -108,7 +108,6 @@ const Template = () => {
     try {
       const bodyPayload = {
         uuid: messageUuid,
-        type: currentScope.getMainCode(),
         label: dataMessage?.label || messageContent?.label || 'Sans titre',
         subject: dataMessage?.subject || messageContent?.label || 'Sans objet',
         ...editorData,
