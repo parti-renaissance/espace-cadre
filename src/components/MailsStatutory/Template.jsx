@@ -163,15 +163,17 @@ const Template = () => {
             </Grid>
           </Container>
           <Box sx={{ display: 'flex', bgcolor: 'whiteCorner' }} className="space-x-4">
-            <Editor
-              onMessageUpdate={() => {}}
-              messageContent={{
-                ...messageContent,
-                json_content: mergeContent(messageContent.json_content, templateValues),
-              }}
-              readOnly
-            />
-            <Box sx={{ pr: 1.5, flex: '1 1 0%' }} className="space-y-5">
+            <Box sx={{ flex: 2 }}>
+              <Editor
+                onMessageUpdate={() => {}}
+                messageContent={{
+                  ...messageContent,
+                  json_content: mergeContent(messageContent.json_content, templateValues),
+                }}
+                readOnly
+              />
+            </Box>
+            <Box sx={{ pr: 1.5, flex: 1 }} className="space-y-5">
               {templateVars
                 .filter(item => item.key.indexOf('_') !== 0)
                 .map((item, index) => (
