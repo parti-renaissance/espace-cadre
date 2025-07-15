@@ -212,7 +212,9 @@ export default function MandatePersonCard(props: MandatePersonCardProps) {
 
       {props.expended && (
         <>
-          {props.extraInfos?.map(({ key, value }) => <MandateCardEntry key={key} title={key} value={value} />)}
+          {props.extraInfos?.map(({ key, value }) => (
+            <MandateCardEntry key={key} title={key} value={value} />
+          ))}
 
           {props.onNarrow && <Divider sx={withBottomSpacing} />}
 
