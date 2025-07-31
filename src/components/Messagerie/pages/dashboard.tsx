@@ -31,36 +31,42 @@ const Dashboard = () => {
         <Card sx={{ backgroundColor: '#ECE2FF', border: '1px solid #D4C2FF' }}>
           <Grid container alignItems="flex-start" justifyContent="space-between" sx={{ padding: '24px' }}>
             <Grid item xs={12} sm={10} md={8}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                <Typography variant="caption" sx={{
-                  backgroundColor: '#F7F2FF',
-                  color: '#714991',
-                  padding: '4px 12px',
-                  borderRadius: '20px',
-                  fontWeight: 'bold',
-                  fontSize: '14px'
-                }}>
-                  Nouveau
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      backgroundColor: '#F7F2FF',
+                      color: '#714991',
+                      padding: '4px 12px',
+                      borderRadius: '20px',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                    }}
+                  >
+                    Nouveau
+                  </Typography>
+                </Box>
+                <Typography sx={{ color: '#714991', fontWeight: 500, fontSize: '16px' }}>
+                  Utilisez maintenant les publications plutôt que les emails classiques.
+                  Directement depuis l&apos;espace militant, elles sont plus faciles à
+                  concevoir et vos publications sont à la fois envoyées par email et
+                  visibles sur l&apos;accueil de l&apos;espace de vos militants !
                 </Typography>
-              </Box>
-              <Typography sx={{ color: '#714991', fontWeight: 500, fontSize: '16px' }}>
-                Utilisez maintenant les publications plutôt que les emails classiques. Directement depuis l'espace militant, elles sont plus faciles à concevoir et vos publications sont à la fois envoyées par email et visibles sur l'accueil de l'espace de vos militants !
-              </Typography>
               <Grid marginTop={2}>
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  size="medium"
-                  data-cy="ui-page-header-button"
-                  sx={{
-                    backgroundColor: '#714991',
-                    '&:hover': { backgroundColor: '#5A3B7A' }
-                  }}
-                  startIcon={<Iconify icon="solar:document-text-bold" />}
-                  onClick={() => window.open('https://app.parti-renaissance.fr/publications', '_blank')}
-                >
-                  J'essaye les publications
-                </Button>
+                                  <Button
+                    variant="contained"
+                    color="inherit"
+                    size="medium"
+                    data-cy="ui-page-header-button"
+                    sx={{
+                      backgroundColor: '#714991',
+                      '&:hover': { backgroundColor: '#5A3B7A' },
+                    }}
+                    startIcon={<Iconify icon="solar:document-text-bold" />}
+                    onClick={() => window.open('https://app.parti-renaissance.fr/publications', '_blank')}
+                  >
+                    J&apos;essaye les publications
+                  </Button>
               </Grid>
             </Grid>
 
