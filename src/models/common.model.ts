@@ -75,3 +75,9 @@ export interface EmailPhoneModel {
   email: string | null
   phone: string | null
 }
+
+export interface LabelTypeModel {
+  label: string
+  type: string
+  code?: string
+}

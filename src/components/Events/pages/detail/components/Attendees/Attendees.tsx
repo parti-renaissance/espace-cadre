@@ -13,7 +13,7 @@ import { useCallback } from 'react'
 import { getInitials } from '~/utils/names'
 import Avatar from '~/mui/avatar/Avatar'
 import TagsList from '~/components/Activists/Member/TagsList'
-import { LabelTypeModel } from '~/models/activist.model'
+import { LabelTypeModel } from '~/models/common.model'
 
 type Attendee = {
   uuid: string
@@ -60,17 +60,6 @@ const Attendees = () => {
           <Button variant="outlined" startIcon={<Iconify icon="eva:cloud-upload-fill" />} onClick={onDownload}>
             Télécharger la liste de mes participants
           </Button>
-
-          {/* <Button
-            variant="outlined"
-            startIcon={<Iconify icon="fluent:mail-24-filled" />}
-            disabled={true}
-            onClick={() => {
-              enqueueSnackbar('La fonctionnalité arrive bientôt...', { variant: 'info' })
-            }}
-          >
-            Envoyer un mail aux participants
-          </Button> */}
         </Stack>
       </Stack>
       <Card sx={{ width: 1 }}>

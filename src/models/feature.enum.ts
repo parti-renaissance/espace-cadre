@@ -26,6 +26,7 @@ export enum FeatureEnum {
   SURVEY = 'survey',
   TEAM = 'team',
   FEATUREBASE = 'featurebase',
+  RENTREE = 'rentree',
 }
 
-export const NewFeatures = [FeatureEnum.REFERRALS]
+export const NewFeatures = [FeatureEnum.REFERRALS, FeatureEnum.RENTREE]

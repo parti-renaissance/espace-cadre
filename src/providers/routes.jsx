@@ -32,7 +32,8 @@ import MandateEditPage from '~/components/Procurations/Pages/MandateEditPage'
 import { FeatureEnum } from '~/models/feature.enum'
 import Consultations from '~/components/Consultations'
 import Featurebase from '~/components/Featurebase'
-import ReferralsRoute from '~/components/Referrals/index.js'
+import ReferralsRoute from '~/components/Referrals'
+import Rentree from '~/components/Rentree'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -82,6 +83,7 @@ const AppPrivateRoutes = () => {
           <Route path={`${paths.team}/*`} element={currentScope.hasFeature(FeatureEnum.TEAM) && <Groups />} />
           <Route path={paths.news} element={currentScope.hasFeature(FeatureEnum.NEWS) && <News />} />
           <Route path={`${paths.events}/*`} element={currentScope.hasFeature(FeatureEnum.EVENTS) && <Events />} />
+          <Route path={`${paths.rentree}/*`} element={currentScope.hasFeature(FeatureEnum.RENTREE) && <Rentree />} />
           <Route path={`${paths.survey}/*`} element={currentScope.hasFeature(FeatureEnum.SURVEY) && <Surveys />} />
           <Route
             path={`${paths.phoning_campaign}/*`}
