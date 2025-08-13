@@ -23,6 +23,7 @@ export const featuresGroup = [
     features: [
       FeatureEnum.CONTACTS,
       FeatureEnum.REFERRALS,
+      FeatureEnum.RENTREE,
       FeatureEnum.EVENTS,
       FeatureEnum.ACTIONS,
       FeatureEnum.TEAM,
@@ -83,4 +84,5 @@ export const featuresLabels = {
   [FeatureEnum.ACTIONS]: 'Actions',
   [FeatureEnum.FEATUREBASE]: 'Featurebase',
   [FeatureEnum.REFERRALS]: 'Parrainages',
+  [FeatureEnum.RENTREE]: 'Rentrée 2025',
 }

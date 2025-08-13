@@ -1,11 +1,11 @@
 import {
   EmailPhoneModel,
   GenderEnum,
+  LabelTypeModel,
   ReadableLightUserModel,
   ReadableLightUserModelWithSingleFirstName,
   ReadableLightUserWithGenderModel,
 } from '~/models/common.model'
-import { LabelTypeModel } from '~/models/activist.model'
 
 export interface ProcurationModel extends ReadableLightUserModel {
   proxy_slots: SlotModel[] | null

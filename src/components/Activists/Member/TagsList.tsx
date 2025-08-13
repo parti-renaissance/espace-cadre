@@ -1,4 +1,4 @@
-import { LabelTypeModel } from '~/models/activist.model'
+import { LabelTypeModel } from '~/models/common.model'
 import { UIChip } from '~/ui/Card'
 import { fontWeight } from '~/theme/typography'
 import { Stack } from '@mui/material'

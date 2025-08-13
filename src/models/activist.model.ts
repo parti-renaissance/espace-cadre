@@ -1,4 +1,4 @@
-import { GenderEnum } from '~/models/common.model'
+import { GenderEnum, LabelTypeModel } from '~/models/common.model'
 import { CountryEnum } from '~/models/country.model'
 
 export interface ActivistModel {
@@ -31,12 +31,6 @@ export interface ActivistModel {
   tags: LabelTypeModel[]
   zones: AddressZoneModel[]
   age: number
-}
-
-export interface LabelTypeModel {
-  label: string
-  type: string
-  code?: string
 }
 
 export interface AddressZoneModel {
