@@ -1,9 +1,9 @@
 import { MuiSpacing } from '~/theme/spacing'
-import { Box, Card, Container, Grid, Stack, Typography } from '@mui/material'
+import { Box, Button, Card, Container, Grid, Stack, Typography } from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
-import { getMeetingInscriptions } from '~/api/rentree'
+import { downloadInscriptions, getMeetingInscriptions } from '~/api/rentree'
 import { useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { PaginatedResult } from '~/api/pagination'
@@ -14,6 +14,7 @@ import { Adherent } from '~/models/common.model'
 import { format } from 'date-fns'
 import PageHeader from '~/ui/PageHeader'
 import TagsList from '~/components/Activists/Member/TagsList'
+import Iconify from '~/mui/iconify'
 
 type ListFilter = {
   page: number
@@ -50,7 +51,18 @@ const List = () => {
   return (
     <Container maxWidth={false} data-cy="contacts-container">
       <Grid container justifyContent="space-between">
-        <PageHeader title="Rentrée 2025 • Inscriptions" />
+        <PageHeader
+          title="Rentrée 2025 • Inscriptions"
+          button={
+            <Button
+              variant="outlined"
+              startIcon={<Iconify icon="eva:download-outline" />}
+              onClick={() => downloadInscriptions()}
+            >
+              Télécharger la liste
+            </Button>
+          }
+        />
       </Grid>
 
       <Box className="space-y-4">
