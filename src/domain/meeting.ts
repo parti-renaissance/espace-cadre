@@ -9,6 +9,7 @@ export enum StatusEnum {
   Refused = 'refused',
   Duplicate = 'duplicate',
   Canceled = 'canceled',
+  InValidation = 'in_validation',
 }
 
 export const StatusLabels: Record<StatusEnum, string> = {
@@ -19,6 +20,7 @@ export const StatusLabels: Record<StatusEnum, string> = {
   [StatusEnum.Refused]: 'Refusé',
   [StatusEnum.Duplicate]: 'Doublon',
   [StatusEnum.Canceled]: 'Annulé',
+  [StatusEnum.InValidation]: 'En validation',
 }
 
 enum PaymentStatusEnum {
