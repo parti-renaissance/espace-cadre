@@ -1,5 +1,18 @@
 import { MuiSpacing } from '~/theme/spacing'
-import { Box, Button, Card, Container, Grid, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material'
 import CustomTable from '~/mui/custom-table/CustomTable'
 import { useErrorHandler } from '~/components/shared/error/hooks'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
@@ -15,8 +28,13 @@ import { format } from 'date-fns'
 import PageHeader from '~/ui/PageHeader'
 import TagsList from '~/components/Activists/Member/TagsList'
 import Iconify from '~/mui/iconify'
+import { fontWeight } from '~/theme/typography'
 
-type ListFilter = {
+export type ListFilter = {
+  search: string | null
+  exists: {
+    adherent: boolean | null
+  }
   page: number
 }
 
@@ -35,7 +53,7 @@ export const messages: Record<string, string> = {
 }
 
 const List = () => {
-  const [filter, setFilter] = useState<ListFilter>({ page: 1 })
+  const [filter, setFilter] = useState<ListFilter>({ search: null, exists: { adherent: null }, page: 1 })
   const debouncedFilter = useDebounce(filter, 500)
 
   const { handleError } = useErrorHandler()
@@ -57,7 +75,7 @@ const List = () => {
             <Button
               variant="outlined"
               startIcon={<Iconify icon="eva:download-outline" />}
-              onClick={() => downloadInscriptions()}
+              onClick={() => downloadInscriptions(debouncedFilter)}
             >
               Télécharger la liste
             </Button>
@@ -66,9 +84,53 @@ const List = () => {
       </Grid>
 
       <Box className="space-y-4">
-        <Card>
+        <Card sx={{ p: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography fontWeight={fontWeight.medium} color={'text.secondary'}>
+                Filtres
+              </Typography>
+            </Grid>
+            <Grid item>
+              <TextField
+                label="Recherche"
+                size="small"
+                variant="outlined"
+                onChange={ev => setFilter(prev => ({ ...prev, page: 1, search: ev.target.value }))}
+              />
+            </Grid>
+            <Grid item>
+              <FormControl size="small" variant="outlined" sx={{ width: '200px' }}>
+                <InputLabel id="inscription-type" sx={{ backgroundColor: 'white', px: 1 }}>
+                  Type d&apos;inscription
+                </InputLabel>
+
+                <Select
+                  placeholder="Type d'inscription"
+                  label="Type d'inscription"
+                  labelId="inscription-type"
+                  onChange={ev =>
+                    setFilter(prev => ({
+                      ...prev,
+                      page: 1,
+                      exists: { adherent: ev.target.value ? ev.target.value === 'adherent' : null },
+                    }))
+                  }
+                  value={filter.exists.adherent === null ? '' : filter.exists.adherent ? 'adherent' : 'externe'}
+                >
+                  <MenuItem value="">Tous</MenuItem>
+                  <MenuItem key="adherent" value="adherent">
+                    Adhérent
+                  </MenuItem>
+                  <MenuItem key="externe" value="externe">
+                    Externe
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
           <CustomTable
-            headerSx={{ px: MuiSpacing.normal }}
+            headerSx={{ px: MuiSpacing.small }}
             footerSx={{ px: MuiSpacing.normal }}
             data={paginatedData?.data || []}
             onPageChange={page => setFilter(prev => ({ ...prev, page }))}
