@@ -120,7 +120,7 @@ const List = () => {
                 >
                   <MenuItem value="">Tous</MenuItem>
                   <MenuItem key="adherent" value="adherent">
-                    Adhérent
+                    Militant
                   </MenuItem>
                   <MenuItem key="externe" value="externe">
                     Externe
