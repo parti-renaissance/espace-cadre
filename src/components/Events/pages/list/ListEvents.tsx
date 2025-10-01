@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, ButtonGroup, Container, Grid, Stack } from '@mui/material'
+import { Box, Button, ButtonGroup, Card, Container, Grid, Link, Stack, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { getEvents, getMyEvents } from '~/api/events'
 import PageHeader from '~/ui/PageHeader'
@@ -10,6 +10,7 @@ import TabsComponent, { TabProps } from '~/components/Events/Components/Tabs'
 import { TabPanel } from '~/components/Events/Components'
 import Iconify from '~/mui/iconify'
 import EventList from '~/components/Events/pages/list/components/EventList'
+import { OAUTH_HOST } from '~/shared/environments'
 
 const ListEvents = () => {
   const navigate = useNavigate()
@@ -60,6 +61,32 @@ const ListEvents = () => {
           }
         />
       </Grid>
+
+      <Card sx={{ backgroundColor: '#ECE2FF', border: '1px solid #D4C2FF' }}>
+        <Grid container alignItems="flex-start" justifyContent="space-between" sx={{ padding: '24px' }}>
+          <Grid item xs={12} sm={10} md={8}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  backgroundColor: '#F7F2FF',
+                  color: '#714991',
+                  padding: '4px 12px',
+                  borderRadius: '20px',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                }}
+              >
+                Nouveau
+              </Typography>
+            </Box>
+            <Typography sx={{ color: '#714991', fontWeight: 500, fontSize: '16px' }}>
+              Les événements sont maintenant gérés directement sur l&apos;espace militant depuis l&apos;onglet{' '}
+              <Link href={`${OAUTH_HOST}/app/evenements`}>&quot;Événements&ldquo;</Link>
+            </Typography>
+          </Grid>
+        </Grid>
+      </Card>
 
       <TabsComponent elements={tabs} value={selectedTab} onChangeTab={(_, index) => setSelectedTab(index)} />
 
