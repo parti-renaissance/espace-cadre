@@ -52,7 +52,7 @@ const ListEvents = () => {
                 <Button
                   data-cy="ui-page-header-button"
                   startIcon={<Iconify icon="eva:plus-fill" color="white" />}
-                  onClick={() => navigate(eventsPath.create)}
+                  disabled={true}
                 >
                   {messages.create}
                 </Button>
