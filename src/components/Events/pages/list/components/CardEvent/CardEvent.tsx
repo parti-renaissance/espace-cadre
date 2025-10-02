@@ -1,19 +1,11 @@
 import { generatePath, useNavigate } from 'react-router'
-import { Card, CardContent, Box, Typography, IconButton, Button } from '@mui/material'
+import { Card, CardContent, Box, Typography, Button } from '@mui/material'
 import Label from '~/mui/label'
 import Iconify from '~/mui/iconify'
 import { Stack } from '@mui/system'
-import { usePopover } from '~/mui/custom-popover'
 import { addressFormatted } from './helpers'
 import BadgeStatus from './components/badgeStatus'
-import ActionPopover from './components/actionPopOver'
 import { Event } from '~/domain/event'
-import type { Event as EventType } from '~/components/Events/shared/types'
-import { useMutation } from '@tanstack/react-query'
-import { notifyVariants } from '~/components/shared/notification/constants'
-import { deleteEvent as deleteEventQuery, cancelEvent as cancelEventQuery } from '~/api/events'
-import { useCustomSnackbar } from '~/components/shared/notification/hooks'
-import { useErrorHandler } from '~/components/shared/error/hooks'
 import EventImage from '~/components/Events/Components/EventImage'
 
 export type EventAction = 'detail' | 'edit' | 'delete' | 'cancel'
@@ -31,48 +23,8 @@ type CardEventProps = {
   refetchEvents: () => void
 }
 
-const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
-  const { enqueueSnackbar } = useCustomSnackbar()
-  const { handleError } = useErrorHandler()
-  const popover = usePopover()
+const CardEvent = ({ event }: CardEventProps) => {
   const navigate = useNavigate()
-
-  const { mutate: deleteEvent } = useMutation(deleteEventQuery, {
-    onSuccess: () => {
-      enqueueSnackbar("L'événement a été supprimé avec succès", notifyVariants.success)
-
-      popover.onClose()
-      refetchEvents()
-    },
-    onError: handleError,
-  })
-
-  const { mutate: cancelEvent } = useMutation(cancelEventQuery, {
-    onSuccess: () => {
-      enqueueSnackbar("L'événement a été annulé avec succès", notifyVariants.success)
-
-      popover.onClose()
-      refetchEvents()
-    },
-    onError: handleError,
-  })
-
-  const handleDefineAction = (action: EventAction) => {
-    switch (action) {
-      case 'detail':
-        navigate(generatePath('/evenements/:id', { id: event.id }))
-        break
-      case 'edit':
-        navigate(generatePath('/evenements/modifier/:id', { id: event.id }))
-        break
-      case 'delete':
-        deleteEvent(event.id)
-        break
-      case 'cancel':
-        cancelEvent(event.id)
-        break
-    }
-  }
 
   const listItems: ListItem[] = [
     {
@@ -187,15 +139,9 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
           .filter(Boolean)}
 
         <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2} data-cy="dot-action-menu">
-          {event.editable ? (
-            <IconButton aria-label="actions" aria-describedby={event.id} onClick={event => popover.onOpen(event)}>
-              <Iconify icon="eva:more-horizontal-fill" />
-            </IconButton>
-          ) : (
-            <Button color="primary" onClick={() => handleDefineAction?.('detail')}>
-              {"Voir l'événement"}
-            </Button>
-          )}
+          <Button color="primary" onClick={() => navigate(generatePath('/evenements/:id', { id: event.id }))}>
+            Voir l&apos;événement
+          </Button>
 
           <Stack display="flex" direction="row" spacing={1} alignItems="center">
             {event?.attendees > 0 && (
@@ -209,12 +155,6 @@ const CardEvent = ({ event, refetchEvents }: CardEventProps) => {
           </Stack>
         </Box>
       </CardContent>
-
-      <ActionPopover
-        popover={popover}
-        event={event as unknown as EventType}
-        onClick={action => handleDefineAction?.(action)}
-      />
     </Card>
   )
 }

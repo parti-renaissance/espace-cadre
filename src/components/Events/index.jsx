@@ -1,17 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
-import { ListEvents, CreateOrEditEvent, DetailEvent } from '~/components/Events/pages'
-import { paths } from '~/components/Events/shared/paths'
+import { ListEvents } from '~/components/Events/pages'
 
 const EventRoute = () => (
   <Routes>
     <Route path="*" element={<ListEvents />} />
-    <Route path="/:eventId" element={<DetailEvent />} />
-
-    {/* Create an event */}
-    <Route path={paths.create} element={<CreateOrEditEvent />} />
-
-    {/* Edit an event */}
-    <Route path={`${paths.update}/:eventId`} element={<CreateOrEditEvent />} />
   </Routes>
 )
 
