@@ -1,40 +1,71 @@
-import { Box, Card, Container, Grid, Link, Typography } from '@mui/material'
-import PageHeader from '~/ui/PageHeader'
-import { messages } from '~/components/Events/shared/constants'
+import { Button, Card, Container, Grid, SvgIcon, Typography } from '@mui/material'
 import { OAUTH_HOST } from '~/shared/environments'
+import eventFeatureImage from '~/assets/event_feature_desktop.png'
+import eventFeatureMobileImage from '~/assets/event_feature_mobile.png'
+import StartSvg from '~/assets/star.svg?react'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 
-const ListEvents = () => (
-  <Container maxWidth={'xl'} sx={{ mb: 3 }}>
-    <Grid container justifyContent="space-between">
-      <PageHeader title={messages.title} />
-    </Grid>
+const ListEvents = () => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
-    <Card sx={{ backgroundColor: '#ECE2FF', border: '1px solid #D4C2FF' }}>
-      <Grid container alignItems="flex-start" justifyContent="space-between" sx={{ padding: '24px' }}>
-        <Grid item xs={12} sm={10} md={8}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-            <Typography
-              variant="caption"
-              sx={{
-                backgroundColor: '#F7F2FF',
-                color: '#714991',
-                padding: '4px 12px',
-                borderRadius: '20px',
-                fontWeight: 'bold',
-                fontSize: '14px',
-              }}
-            >
-              Nouveau
-            </Typography>
-          </Box>
-          <Typography sx={{ color: '#714991', fontWeight: 500, fontSize: '16px' }}>
-            Les événements sont maintenant gérés directement sur l&apos;espace militant depuis l&apos;onglet{' '}
-            <Link href={`${OAUTH_HOST}/app/evenements`}>&quot;Événements&ldquo;</Link>
+  return (
+    <Container maxWidth={'xl'} sx={{ mb: 3 }}>
+      <Card
+        sx={{
+          background: 'linear-gradient(90deg, #E9EDFF 0%, #FFE2E2 100%)',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Grid
+          container
+          direction="column"
+          sx={{ padding: '32px', alignItems: 'center', gap: '24px', maxWidth: '800px' }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              backgroundColor: '#ffffff',
+              color: '#5E397C',
+              padding: '5px 12px',
+              borderRadius: '999px',
+              fontWeight: 'bold',
+              fontSize: '14px',
+            }}
+          >
+            Nouveau
           </Typography>
+
+          <Typography
+            variant="caption"
+            sx={{
+              textAlign: 'center',
+              fontWeight: 'medium',
+              fontSize: '20px',
+              color: '#674283',
+              maxWidth: '500px',
+            }}
+          >
+            Les événements sont maintenant gérés directement sur l&apos;espace militant depuis l&apos;onglet
+            &quot;Événements&quot;
+          </Typography>
+
+          <Button
+            href={`${OAUTH_HOST}/app/evenements`}
+            variant="outlined"
+            sx={{ background: '#9569BB', color: '#FFFFFF', width: 'fit-content' }}
+          >
+            {!isMobile && <SvgIcon component={StartSvg} />}
+            Gérer mes événements depuis l’espace militant
+          </Button>
+
+          <img src={isMobile ? eventFeatureMobileImage : eventFeatureImage} alt="Event Militant" />
         </Grid>
-      </Grid>
-    </Card>
-  </Container>
-)
+      </Card>
+    </Container>
+  )
+}
 
 export default ListEvents
