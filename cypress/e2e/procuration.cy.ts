@@ -10,25 +10,25 @@ describe('Procuration', () => {
 
     mock(
       'GET',
-      '/api/v3/procuration/requests?scope=president_departmental_assembly&order[createdAt]=asc&status[]=pending&page=1',
+      '/api/v3/procuration/requests?scope=president_departmental_assembly&order%5BcreatedAt%5D=asc&status%5B%5D=pending&page=1',
       'procurations/list-p1'
     )
 
     mock(
       'GET',
-      '/api/v3/procuration/requests?scope=president_departmental_assembly&order[createdAt]=asc&status[]=pending&page=2',
+      '/api/v3/procuration/requests?scope=president_departmental_assembly&order%5BcreatedAt%5D=asc&status%5B%5D=pending&page=2',
       'procurations/list-p2'
     )
 
     mock(
       'GET',
-      '/api/v3/procuration/proxies?scope=president_departmental_assembly&order[createdAt]=asc&status[]=pending&page=1',
+      '/api/v3/procuration/proxies?scope=president_departmental_assembly&order%5BcreatedAt%5D=asc&status%5B%5D=pending&page=1',
       'procurations/proxies-p2'
     )
 
     mock(
       'GET',
-      '/api/v3/procuration/proxies?scope=president_departmental_assembly&order[createdAt]=asc&status[]=pending&page=2',
+      '/api/v3/procuration/proxies?scope=president_departmental_assembly&order%5BcreatedAt%5D=asc&status%5B%5D=pending&page=2',
       'procurations/proxies-p2'
     )
 
