@@ -1,5 +1,18 @@
 import { useNavigate } from 'react-router-dom'
-import { Box, Button, Container, Grid, Stack, Typography, Card } from '@mui/material'
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+  Card,
+  DialogContent,
+  Dialog,
+  IconButton,
+  SvgIcon,
+  Chip,
+} from '@mui/material'
 import { useState } from 'react'
 import KpiEmailCampaign from '~/components/Dashboard/Charts/KpiEmailCampaign'
 import SentEmailCampaigns from '~/components/Dashboard/Charts/SentEmailCampaigns/SentEmailCampaigns'
@@ -8,9 +21,15 @@ import PageHeader from '~/ui/PageHeader'
 import { useCurrentDeviceType } from '~/components/shared/device/hooks'
 import Templates from '../Templates'
 import { FeatureEnum } from '~/models/feature.enum'
-
+import publicationFeatureImage from '~/assets/image_publication.png'
+import oldEmailingFeatureImage from '~/assets/image_emailing.png'
 import Iconify from '~/mui/iconify/'
 import { useUserScope } from '~/redux/user/hooks'
+import pluralize from '~/components/shared/pluralize/pluralize'
+import CloseIcon from '@mui/icons-material/Close'
+import CheckSvg from '~/assets/check.svg?react'
+import XSvg from '~/assets/x.svg?react'
+import Badge from '@mui/material/Badge'
 
 const messages = {
   title: 'Échange',
@@ -22,6 +41,7 @@ const Dashboard = () => {
   const [showTemplates, setShowTemplates] = useState(false)
   const { isMobile } = useCurrentDeviceType()
   const [currentScope] = useUserScope()
+  const [modalOpen, setModalOpen] = useState(false)
 
   const isPublicationsFeatureEnabled = currentScope.hasFeature(FeatureEnum.PUBLICATIONS)
 
@@ -83,10 +103,11 @@ const Dashboard = () => {
                   size="medium"
                   data-cy="ui-page-header-button"
                   startIcon={<Iconify icon="solar:pen-bold" color="white" />}
-                  onClick={() => navigate(`${messageriePaths.create}/${messageriePaths.createNewsletter}`)}
+                  onClick={() => setModalOpen(true)}
                 >
                   {messages.sendEmail}
                 </Button>
+
                 <Button
                   variant="outlined"
                   color="inherit"
@@ -100,6 +121,145 @@ const Dashboard = () => {
             }
           />
         </Grid>
+        <Dialog open={modalOpen} onClose={() => setModalOpen(false)} maxWidth={'xl'}>
+          <IconButton
+            aria-label="close"
+            onClick={() => setModalOpen(false)}
+            sx={theme => ({
+              position: 'absolute',
+              right: 24,
+              top: 24,
+              color: theme.palette.grey[500],
+            })}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent sx={{ padding: 4, maxWidth: '800px' }}>
+            <Grid container direction="column" gap={4} alignItems="center" justifyContent="center">
+              <Grid item>
+                <Typography>Choisissez votre méthode de publication</Typography>
+              </Grid>
+
+              <Grid item>
+                <Grid container direction="row" spacing={4} alignItems="stretch">
+                  <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
+                    <Grid container gap={2} sx={{ padding: 2, border: 1, borderColor: '#949EAA', borderRadius: 2 }}>
+                      <Grid container wrap="nowrap" justifyContent="space-between">
+                        <Grid item>
+                          <Typography fontWeight="bold">Nouveau système de publication</Typography>
+                        </Grid>
+                        <Grid item>
+                          <Chip
+                            label="Recommandé"
+                            variant="filled"
+                            size="small"
+                            sx={{
+                              fontWeight: 'bold',
+                              fontSize: 12,
+                              background: '#697AF7',
+                              borderRadius: '999px',
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+                      <img
+                        src={publicationFeatureImage}
+                        alt="Nouveau système de publication"
+                        style={{ borderRadius: 8 }}
+                      />
+                      <Grid container direction="column">
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={CheckSvg} />
+                          <Typography fontSize={14} color={'#232B35'}>
+                            Utilisation simplifiée
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={CheckSvg} />
+                          <Typography fontSize={14} color={'#232B35'}>
+                            Publication dans le fil de l’app
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={CheckSvg} />
+                          <Typography fontSize={14} color={'#232B35'}>
+                            Envoi par email
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={CheckSvg} />
+                          <Typography fontSize={14} color={'#232B35'}>
+                            Système de notifications
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={CheckSvg} />
+                          <Typography fontSize={14} color={'#232B35'}>
+                            Statistiques détaillées
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Button
+                        variant="contained"
+                        onClick={() => window.open('https://app.parti-renaissance.fr/publications')}
+                        fullWidth
+                        sx={{ background: '#6B4B8D', color: '#ffffff' }}
+                      >
+                        Créer une publication
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
+                    <Grid container gap={2} sx={{ padding: 2, border: 1, borderColor: '#949EAA', borderRadius: 2 }}>
+                      <Typography fontWeight="bold">Ancien système d’emailing</Typography>
+                      <img src={oldEmailingFeatureImage} alt="Ancien système d’emailing" style={{ borderRadius: 8 }} />
+                      <Grid container direction="column">
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={CheckSvg} />
+                          <Typography fontSize={14} color={'#232B35'}>
+                            Utilisation simplifiée
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={XSvg} />
+                          <Typography fontSize={14} color={'#949EAA'}>
+                            Publication dans le fil de l’app
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={CheckSvg} />
+                          <Typography fontSize={14} color={'#232B35'}>
+                            Envoi par email
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={XSvg} />
+                          <Typography fontSize={14} color={'#949EAA'}>
+                            Système de notifications
+                          </Typography>
+                        </Grid>
+                        <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
+                          <SvgIcon component={XSvg} />
+                          <Typography fontSize={14} color={'#949EAA'}>
+                            Statistiques détaillées
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Button
+                        variant="outlined"
+                        onClick={() => navigate(`${messageriePaths.create}/${messageriePaths.createNewsletter}`)}
+                        fullWidth
+                        sx={{ background: '#F7F0FE', color: '#6B4B8D', border: 0 }}
+                      >
+                        Utiliser l’ancien système
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </DialogContent>
+        </Dialog>
         <div>
           <KpiEmailCampaign />
         </div>
