@@ -141,12 +141,14 @@ const Dashboard = () => {
               </Grid>
 
               <Grid item>
-                <Grid container direction="row" spacing={4} alignItems="stretch">
+                <Grid container direction="row" spacing={3} alignItems="stretch">
                   <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
-                    <Grid container gap={2} sx={{ padding: 2, border: 1, borderColor: '#949EAA', borderRadius: 2 }}>
+                    <Grid container gap={2} sx={{ padding: 2, border: 1, borderColor: '#6B4B8D', borderRadius: 2 }}>
                       <Grid container wrap="nowrap" justifyContent="space-between">
                         <Grid item>
-                          <Typography fontWeight="bold">Nouveau système de publication</Typography>
+                          <Typography fontWeight="bold" fontSize={18}>
+                            Nouveau système de publication
+                          </Typography>
                         </Grid>
                         <Grid item>
                           <Chip
@@ -203,7 +205,7 @@ const Dashboard = () => {
                         variant="contained"
                         onClick={() => window.open('https://app.parti-renaissance.fr/publications')}
                         fullWidth
-                        sx={{ background: '#6B4B8D', color: '#ffffff' }}
+                        sx={{ background: '#6B4B8D', color: '#ffffff', padding: '8px 16px' }}
                       >
                         Créer une publication
                       </Button>
@@ -211,13 +213,17 @@ const Dashboard = () => {
                   </Grid>
                   <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
                     <Grid container gap={2} sx={{ padding: 2, border: 1, borderColor: '#949EAA', borderRadius: 2 }}>
-                      <Typography fontWeight="bold">Ancien système d’emailing</Typography>
+                      <Typography fontWeight="bold" fontSize={18}>
+                        Ancien système
+                        <br />
+                        d’emailing
+                      </Typography>
                       <img src={oldEmailingFeatureImage} alt="Ancien système d’emailing" style={{ borderRadius: 8 }} />
                       <Grid container direction="column">
                         <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
                           <SvgIcon component={CheckSvg} />
                           <Typography fontSize={14} color={'#232B35'}>
-                            Utilisation simplifiée
+                            Personnalisation complexe
                           </Typography>
                         </Grid>
                         <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
@@ -241,7 +247,7 @@ const Dashboard = () => {
                         <Grid item alignItems="center" gap={1} sx={{ display: 'flex' }}>
                           <SvgIcon component={XSvg} />
                           <Typography fontSize={14} color={'#949EAA'}>
-                            Statistiques détaillées
+                            Statistiques limitées
                           </Typography>
                         </Grid>
                       </Grid>
@@ -249,7 +255,7 @@ const Dashboard = () => {
                         variant="outlined"
                         onClick={() => navigate(`${messageriePaths.create}/${messageriePaths.createNewsletter}`)}
                         fullWidth
-                        sx={{ background: '#F7F0FE', color: '#6B4B8D', border: 0 }}
+                        sx={{ background: '#F7F0FE', color: '#6B4B8D', border: 0, padding: '8px 16px' }}
                       >
                         Utiliser l’ancien système
                       </Button>
