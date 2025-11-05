@@ -34,6 +34,7 @@ import Consultations from '~/components/Consultations'
 import Featurebase from '~/components/Featurebase'
 import ReferralsRoute from '~/components/Referrals'
 import Rentree from '~/components/Rentree'
+import RedirectToEaggle from '~/components/Elections/RedirectToEaggle.jsx'
 
 const AppPrivateRoutes = () => {
   const location = useLocation()
@@ -79,6 +80,7 @@ const AppPrivateRoutes = () => {
             element={currentScope.hasFeature(FeatureEnum.DOCUMENTS) && <Documents />}
           />
           <Route path={paths.elections} element={currentScope.hasFeature(FeatureEnum.ELECTIONS) && <Elections />} />
+          <Route path={paths.eaggle} element={currentScope.hasFeature(FeatureEnum.EAGGLE) && <RedirectToEaggle />} />
           <Route path={paths.ripostes} element={currentScope.hasFeature(FeatureEnum.RIPOSTES) && <Ripostes />} />
           <Route path={`${paths.team}/*`} element={currentScope.hasFeature(FeatureEnum.TEAM) && <Groups />} />
           <Route path={paths.news} element={currentScope.hasFeature(FeatureEnum.NEWS) && <News />} />
