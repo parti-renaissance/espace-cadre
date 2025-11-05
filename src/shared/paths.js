@@ -8,6 +8,7 @@ export default {
   [FeatureEnum.CONTACTS]: '/militants',
   [FeatureEnum.MESSAGES]: '/messagerie',
   [FeatureEnum.ELECTIONS]: '/elections',
+  [FeatureEnum.EAGGLE]: '/cartographie-electorale',
   [FeatureEnum.RIPOSTES]: '/ripostes',
   [FeatureEnum.TEAM]: '/groupes',
   [FeatureEnum.NEWS]: '/notifications',
