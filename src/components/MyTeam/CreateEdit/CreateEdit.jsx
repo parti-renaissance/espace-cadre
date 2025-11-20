@@ -4,7 +4,6 @@ import { useMutation } from '@tanstack/react-query'
 import { styled } from '@mui/system'
 import { Grid, Typography, IconButton } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-
 import { createOrUpdateTeamMemberQuery } from '~/api/my-team'
 import { MyTeamMember as DomainMyTeamMember } from '~/domain/my-team'
 import { useCustomSnackbar } from '~/components/shared/notification/hooks'
@@ -15,7 +14,8 @@ import CreateEditActivistsAndRoles from './CreateEditActivistsAndRoles'
 import CreateEditDelegatedAccess from './CreateEditDelegatedAccess'
 import CreateEditValidateAction from './CreateEditValidateAction'
 import Dialog from '~/ui/Dialog'
-import { useUserScope } from '../../../redux/user/hooks'
+import { useUserScope } from '~/redux/user/hooks.ts'
+import { roles } from '~/components/MyTeam/shared/constants.js'
 
 const Title = styled(Typography)`
   font-size: 24px;
@@ -52,7 +52,9 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
   const [currentScope] = useUserScope()
   const [values, setValues] = useState({
     ...teamMember,
-    ...{ features: teamMember?.features?.filter(feature => currentScope.hasFeature(feature)) },
+    features: teamMember?.features?.filter(feature => currentScope.hasFeature(feature)),
+    role: !teamMember?.role || roles[teamMember?.role] ? teamMember?.role : 'custom_role',
+    customRole: !teamMember?.role || roles[teamMember?.role] ? null : teamMember?.role,
   })
   const isValidForm = useMemo(() => validateForm(values), [values])
   const { isMobile, isDesktop } = useCurrentDeviceType()
@@ -80,7 +82,13 @@ const MyTeamCreateEdit = ({ teamId, teamMember, onCreateResolve, handleClose }) 
   )
 
   const handleSubmit = () => {
-    createOrUpdateTeamMember({ teamId, teamMember: values })
+    const memberValues = { ...values }
+    if (memberValues.role === 'custom_role' && memberValues.customRole) {
+      memberValues.role = memberValues.customRole
+      delete memberValues.customRole
+    }
+
+    createOrUpdateTeamMember({ teamId, teamMember: memberValues })
   }
 
   return (

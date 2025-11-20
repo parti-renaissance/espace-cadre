@@ -16,7 +16,7 @@ const HorizontalContainer = styled('div')`
 
 const messages = {
   edit: 'modifier',
-  delete: 'supprimer',
+  delete: 'Supprimer',
   delegatedAccess: 'accès délégué',
   noDelegatedAccess: 'Aucun accès délégué',
 }

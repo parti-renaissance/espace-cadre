@@ -114,7 +114,7 @@ const MyTeam = () => {
                 {myTeam.members.map(member => (
                   <MyTeamMember
                     key={member.id}
-                    role={roles[member.role]}
+                    role={roles[member.role] ?? member.role}
                     activist={member.activist}
                     accessCount={member.features.length}
                     handleUpdate={handleUpdate(member.id)}

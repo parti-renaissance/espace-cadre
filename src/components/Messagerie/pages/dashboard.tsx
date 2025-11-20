@@ -25,11 +25,9 @@ import publicationFeatureImage from '~/assets/image_publication.png'
 import oldEmailingFeatureImage from '~/assets/image_emailing.png'
 import Iconify from '~/mui/iconify/'
 import { useUserScope } from '~/redux/user/hooks'
-import pluralize from '~/components/shared/pluralize/pluralize'
 import CloseIcon from '@mui/icons-material/Close'
 import CheckSvg from '~/assets/check.svg?react'
 import XSvg from '~/assets/x.svg?react'
-import Badge from '@mui/material/Badge'
 
 const messages = {
   title: 'Échange',

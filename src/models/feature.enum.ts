@@ -15,6 +15,7 @@ export enum FeatureEnum {
   MESSAGES = 'messages',
   PUBLICATIONS = 'publications',
   MY_TEAM = 'my_team',
+  MY_TEAM_CUSTOM_ROLE = 'my_team_custom_role',
   NEWS = 'news',
   PAP = 'pap',
   PAP_V2 = 'pap_v2',

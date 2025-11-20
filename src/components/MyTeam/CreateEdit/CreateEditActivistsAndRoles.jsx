@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { useCallback, useState } from 'react'
 import { Autocomplete, Grid, Paper, Typography } from '@mui/material'
-
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { getMyTeamActivists } from '~/api/my-team'
 import { MyTeamMember as DomainMyTeamMember } from '~/domain/my-team'
@@ -15,11 +14,14 @@ import { fields } from './shared/constants'
 import UIFormMessage from '~/ui/FormMessage/FormMessage'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import Input from '~/ui/Input/Input'
+import { useUserScope } from '~/redux/user/hooks.ts'
+import { FeatureEnum } from '~/models/feature.enum.ts'
 
 const messages = {
   input: {
     activist: 'Militant',
     role: 'Poste',
+    custom_role: 'Rôle personnalisé',
   },
   placeholder: {
     activist: 'Rechercher parmi vos militants',
@@ -40,7 +42,9 @@ const areActivistInputAndValueEqual = (input, value) =>
 const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, errors = [] }) => {
   const [inputValues, setInputValues] = useState(initialValues)
   const [isActivistFetchable, setIsActivistFetchable] = useState(false)
+  // const [displayCustomRole, setDisplayCustomRole] = useState(false)
   const { handleError } = useErrorHandler()
+  const [currentScope] = useUserScope()
   const debounce = useDebounce()
 
   const updateInputValues = useCallback((key, value) => {
@@ -56,6 +60,9 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
       onError: handleError,
     }
   )
+
+  const withCustomRole = currentScope.hasFeature(FeatureEnum.MY_TEAM_CUSTOM_ROLE)
+  const availableRoleChoices = withCustomRole ? { ...roles, custom_role: 'Rôle personnalisé' } : roles
 
   return (
     <>
@@ -115,18 +122,14 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
         name={fields.role}
         inputProps={{ placeholder: messages.placeholder.role }}
         value={values.role || ''}
-        onChange={event => {
-          updateValues(fields.role, event.target.value)
-        }}
+        onChange={event => updateValues(fields.role, event.target.value)}
         renderValue={value =>
-          roles[value] || <Typography sx={{ opacity: 0.4 }}>{messages.placeholder.role}</Typography>
+          availableRoleChoices[value] || <Typography sx={{ opacity: 0.4 }}>{messages.placeholder.role}</Typography>
         }
         displayEmpty
       >
-        {Object.entries(roles).map(([value, label], index) => (
-          <SelectOption key={index} label={label} value={value} sx={{ py: 1 }}>
-            {label}
-          </SelectOption>
+        {Object.entries(availableRoleChoices).map(([value, label], index) => (
+          <SelectOption key={index} label={label} value={value} sx={{ py: 1 }} />
         ))}
       </Select>
       {errors
@@ -136,6 +139,16 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
             <UIFormMessage severity="error">{message}</UIFormMessage>
           </Grid>
         ))}
+      {withCustomRole && values.role === 'custom_role' && (
+        <>
+          <UIInputLabel sx={{ pt: 4, pb: 1 }}>{messages.input.custom_role}</UIInputLabel>
+          <Input
+            name={fields.customRole}
+            value={values.customRole}
+            onChange={event => updateValues(fields.customRole, event.target.value)}
+          />
+        </>
+      )}
     </>
   )
 }
