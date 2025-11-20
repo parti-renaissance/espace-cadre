@@ -24,7 +24,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-node-yarn
       - run: yarn lint
 
@@ -32,7 +32,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-node-yarn
       - run: yarn build
 
@@ -46,7 +46,7 @@ jobs:
       options: --user 1001
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-node-yarn
       - run: yarn test src
       - name: Cypress
@@ -70,7 +70,7 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Get short SHA
         id: git_short_ref
@@ -106,7 +106,7 @@ jobs:
     environment: production
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/deploy
         with:
           service_account_key_pusher: ${{ secrets.GCP_SA_KEY_GCR_PUSHER }}
