@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useCallback, useState } from 'react'
-import { Autocomplete, Grid, Paper, Typography } from '@mui/material'
+import { Autocomplete, FormHelperText, Grid, Paper, Typography } from '@mui/material'
 import { useQueryWithScope } from '~/api/useQueryWithScope'
 import { getMyTeamActivists } from '~/api/my-team'
 import { MyTeamMember as DomainMyTeamMember } from '~/domain/my-team'
@@ -143,10 +143,18 @@ const CreateEditActivistsAndRoles = ({ values = initialValues, updateValues, err
         <>
           <UIInputLabel sx={{ pt: 4, pb: 1 }}>{messages.input.custom_role}</UIInputLabel>
           <Input
+            inputProps={{ maxLength: 45 }}
             name={fields.customRole}
             value={values.customRole}
-            onChange={event => updateValues(fields.customRole, event.target.value)}
+            onChange={event => {
+              if (event.target.value.length <= 45) {
+                updateValues(fields.customRole, event.target.value)
+              }
+            }}
           />
+          <FormHelperText sx={{ textAlign: 'right', color: 'text.secondary' }}>
+            Max 45 caractères - {(values.customRole || '').length}/45
+          </FormHelperText>
         </>
       )}
     </>
