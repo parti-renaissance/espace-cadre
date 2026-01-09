@@ -6913,9 +6913,9 @@ filelist@^1.0.1:
     minimatch "^5.0.1"
 
 filepond@^4.31.4:
-  version "4.32.10"
-  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.32.10.tgz#7085b534480313c8d58a317dc0081bfd76743271"
-  integrity sha512-uflpIL+rfAgsYk7HgXugh7ELlHNHLTPtIHfvuq0gv3x2qNfVxdGA6T7RPxMh9Vji8ysXstXkDHVXQ4hY38MPTQ==
+  version "4.32.11"
+  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.32.11.tgz#a1a2902a9d54148b66f5baa76efc36aefa16f2ff"
+  integrity sha512-+uHkc/XNksMMy2S+x5MGxTuA97NqzBBwmoixn3tqGELa4BgqJ+PBiWL3YeRamqAoYguT7t/au3s7ams2jjMshA==
 
 fill-range@^7.1.1:
   version "7.1.1"
